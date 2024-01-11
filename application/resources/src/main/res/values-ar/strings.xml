@@ -40,7 +40,6 @@
     <string name="video_app_switch_summary">اختر سلوك VLC عند الانتقال من تشغيل الڤديو إلى تطبيق آخر</string>
     <string name="play_pip_title">شغّل الڤديوهات في وضع ”صورة داخل صورة“</string>
     <string name="play_as_audio_background">شغّل الڤديوهات في الخلفية</string>
-    <string name="append">ألحِق</string>
     <string name="insert_next">أدرِجه بعد الحالي</string>
     <string name="play_all">شغّل الكل</string>
     <string name="append_all">ألحِق الكل</string>
@@ -210,7 +209,6 @@
     <string name="sleep_in">النوم</string>
     <string name="jump_to_time">اقفز زمنيًا إلى</string>
     <string name="subtitle_select">اختر ملف ترجمة</string>
-
     <string name="server_add_title">أضِف خادوما جديدا إلى المفضلة</string>
     <string name="server_domain_hint">عنوان الخادوم (اسم النطاق أو IP)</string>
     <string name="server_share_hint">اسم مشاركة الشبكة (او عنوان آي بي IP )</string>
@@ -240,8 +238,6 @@
     <string name="playback_history_title">تأريخ التشغيل</string>
     <string name="playback_history_summary">احفظ كل الوسائط المشغّلة في قسم التأريخ</string>
     <string name="playback_speed_title">احفظ سرعة التشغيل</string>
-    <string name="playback_speed_summary">حافظ على سرعة التشغيل بين الوسائط</string>
-
     <string name="play_button">زر التشغيل</string>
 
     <!-- Tips -->
@@ -290,7 +286,6 @@
 
     <!-- Preferences -->
     <string name="preferences">الإعدادات</string>
-
     <string name="directories_summary">اختر أدلّة لضمّها إلى مكتبة الوسائط</string>
     <string name="add_custom_path">أضِف مسارًا مخصّصًا</string>
     <string name="add_custom_path_description">أدخِل دليلًا مخصّصًا إضافيًا لرؤيته:</string>
@@ -347,7 +342,6 @@
     <string name="popup_keepscreen_title">ضع الشاشة في وضع التشغل في نمط المنبثق</string>
     <string name="popup_keepscreen_summary">دائما احتفظ بالشاشة مفعّلة عندما يكون المنبثق معروض، حتى ولو كان الفيديو متوقف مؤقتًا.</string>
     <string name="browser_show_hidden_files_title">اظهر الملفات المخفية</string>
-
     <string name="subtitles_prefs_category">التّرجمات</string>
     <string name="subtitles_size_title">حجم التّرجمات</string>
     <string name="subtitles_size_small">صغير</string>
@@ -355,16 +349,9 @@
     <string name="subtitles_size_big">كبير</string>
     <string name="subtitles_size_huge">ضخم</string>
     <string name="subtitles_color_title">لون التّرجمات</string>
-    <string name="subtitles_color_white">أبيض</string>
-    <string name="subtitles_color_gray">رمادي</string>
-    <string name="subtitles_color_pink">وردي</string>
-    <string name="subtitles_color_blue">أزرق</string>
-    <string name="subtitles_color_yellow">أصفر</string>
-    <string name="subtitles_color_green">أخضر</string>
     <string name="subtitles_background_title">خلفية التّرجمات</string>
     <string name="subtitles_bold_title">ترجمات غامقة</string>
     <string name="subtitles_autoload_title">تحميل تلقائي للترجمات </string>
-
     <string name="audio_prefs_category">صوت</string>
     <string name="lockscreen_cover_title">غلاف الوسائط على شاشة القفل</string>
     <string name="lockscreen_cover_summary">عند توفرها ، قم بتعيين صورة غلاف الوسائط الحالية كخلفية لشاشة القفل</string>
@@ -399,7 +386,6 @@
     <string name="artists_show_all_title">اظهر كافة الفنانين</string>
     <string name="show_headers">إظهار الرؤوس</string>
     <string name="show_headers_summary">قسّم القوائم حسب الرؤوس بناءً على نوع الفرز</string>
-
     <string name="extensions_prefs_category">الامتدادات</string>
     <string name="extensions_empty">لم نعثر على أي امتداد</string>
     <string name="extension_permission_title">هل تريد تنشيط امتداد جديد \"%1$s\"؟</string>
@@ -521,7 +507,6 @@
     <string name="permission_expanation_allow">ستتمكن من تشغيل البث أو وسائط الشبكة فقط</string>
     <string name="exit_app">أغلق VLC</string>
     <string name="exit_app_msg">هل أنت متأكد من مغادرة VLC؟</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">مسار FastScroller</string>
     <string name="fastscroller_handle">مقبض FastScroller</string>
@@ -548,9 +533,6 @@
     <string name="browse_folder">تصفح المجلد</string>
     <string name="listen">استمع</string>
     <string name="apply_to_bt">تنطبق على جهاز بلوتوث</string>
-    <string name="episodes">الحلقات</string>
-    <string name="movies">أفلام</string>
-    <string name="videos">الفيديوهات</string>
     <string name="videos_all">كل الفيديوهات</string>
     <string name="clear_playback_history">امسح تاريخ التشغيل</string>
     <string name="ml_scanning">مسح من أجل العثور على ملفات الوسائط</string>
@@ -606,7 +588,6 @@
     <string name="ml_wizard_scan_checkbox">امسح الجهاز من أجل العثور على محتوى للوسائط</string>
     <string name="ml_wizard_description">لديك الاختيار بين بحث VLC في عتاد تخزينك لتنظيم مكتبة وسائطك و بين استخدامه كقاريء عادي للوسائط مع متصفحك المُدمَج.</string>
     <string name="tv_my_new_videos">فيديوهاتي الجديدة </string>
-    <string name="cast_option_title">إرسال الوسائط على شاشة أخرى</string>
     <string name="otg_device_title">وصلة خارجية</string>
     <string name="browser">متصفح</string>
     <string name="ab_repeat">كرر A-B</string>
@@ -835,11 +816,9 @@
     <string name="warning_stream_speed">قد تؤدي زيادة سرعة التشغيل إلى أكثر من 1 لعمليات البث إلى حدوث تقطع</string>
     <string name="go_to_folder">تصفح الوالدين</string>
     <string name="no_sub_renderer">لم يتم دعم الترجمات أثناء الإرسال</string>
-    <string name="enqueuing">تحميل الوسائط الخاصة بك</string>
     <string name="soundfont">خط الصوت \"SoundFont\" لـ وصلة بينيه رقمية للآلات الموسيقية \"MIDI\"</string>
     <string name="soundfont_summary">اختر ملف خط الصوت \"SoundFont\" لتشغيل مسارات الصوت لـ وصلة بينية رقمية للآلات الموسيقية \"MIDI\"</string>
     <string name="missing_media_snack">الوسائط مفقودة. إخفاء جميع الوسائط المفقودة؟</string>
-    <string name="browser_show_missing_media">إظهار الوسائط المفقودة</string>
     <string name="search_prefs">إعدادات البحث</string>
     <string name="preferred_resolution">دقة الفيديو المفضلة</string>
     <string name="preferred_resolution_summary">ستكون جودة الفيديو القصوى لعمليات البث ، عند الاقتضاء ، هي: %s</string>
@@ -855,7 +834,6 @@
     <string name="optional_features_summary">الميزات التجريبية التي يتم اختبارها حاليًا وقد لا تكون مستقرة</string>
     <string name="optional_features_warning">هذه الميزة في مرحلة تجريبية وقد تتسبب في حدوث أعطال وعدم استقرار</string>
     <string name="start_vlc">ابدأ تشغيل VLC</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">هل تريد إضافة عنصر (عناصر) مكررة؟</string>
     <string name="add_button">أضِف</string>
@@ -883,4 +861,4 @@
         <item quantity="many">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
         <item quantity="other">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
     </plurals>
-</resources>
+    </resources>

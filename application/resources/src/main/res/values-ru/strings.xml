@@ -40,7 +40,6 @@
     <string name="video_app_switch_summary">Выбор поведения VLC при переключении на другое приложение во время воспроизведения видео</string>
     <string name="play_pip_title">Воспроизводить видео в режиме «Картинка в картинке»</string>
     <string name="play_as_audio_background">Проигрывать видео в фоне</string>
-    <string name="append">Добавить</string>
     <string name="insert_next">Вставить следующим пунктом</string>
     <string name="play_all">Воспроизвести всё</string>
     <string name="append_all">Добавить всё</string>
@@ -194,7 +193,6 @@
     <string name="sleep_in">Уснуть через</string>
     <string name="jump_to_time">Перейти ко времени</string>
     <string name="subtitle_select">Выбрать файл субтитров</string>
-
     <string name="server_add_title">Добавление сервера в Избранное</string>
     <string name="server_domain_hint">Адрес сервера (доменное имя или IP)</string>
     <string name="server_share_hint">Имя сетевого ресурса (или IP-адрес)</string>
@@ -225,8 +223,6 @@
     <string name="playback_history_title">История воспроизведения</string>
     <string name="playback_history_summary">Сохранять всё воспроизведённое в Истории</string>
     <string name="playback_speed_title">Сохранять скорость воспроизведения</string>
-    <string name="playback_speed_summary">Сохранять скорость воспроизведения при смене медиаобъекта</string>
-
     <string name="play_button">Кнопка воспроизведения</string>
 
     <!-- Tips -->
@@ -284,7 +280,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Настройки</string>
-
     <string name="directories_summary">Выберите каталоги для составления медиатеки</string>
     <string name="add_custom_path">Добавить свой путь</string>
     <string name="add_custom_path_description">Включить в сканирование дополнительный каталог:</string>
@@ -350,11 +345,9 @@
     <string name="enable_double_tap_play_title">Двойное касание — пауза/продолжение</string>
     <string name="enable_double_tap_play_summary">Двойное касание в центре экрана приостанавливает/продолжает воспроизведение</string>
     <string name="enable_swipe_seek_title">Перематывать, проводя по экрану</string>
-    <string name="enable_swipe_seek_summary">Перемотка при проведении пальцем по экрану</string>
     <string name="popup_keepscreen_title">Не допускать отключения экрана со всплывающим окном</string>
     <string name="popup_keepscreen_summary">Всегда поддерживать экран включённым, когда отображается всплывающее окно, даже если видео на паузе.</string>
     <string name="browser_show_hidden_files_title">Показывать скрытые файлы</string>
-
     <string name="subtitles_prefs_category">Субтитры</string>
     <string name="subtitles_size_title">Размер субтитров</string>
     <string name="subtitles_size_small">маленький</string>
@@ -362,16 +355,9 @@
     <string name="subtitles_size_big">большой</string>
     <string name="subtitles_size_huge">огромный</string>
     <string name="subtitles_color_title">Цвет субтитров</string>
-    <string name="subtitles_color_white">белый</string>
-    <string name="subtitles_color_gray">cерый</string>
-    <string name="subtitles_color_pink">розовый</string>
-    <string name="subtitles_color_blue">синий</string>
-    <string name="subtitles_color_yellow">жёлтый</string>
-    <string name="subtitles_color_green">зелёный</string>
     <string name="subtitles_background_title">Фон субтитров</string>
     <string name="subtitles_bold_title">Полужирные субтитры</string>
     <string name="subtitles_autoload_title">Автоматически загружать субтитры</string>
-
     <string name="audio_prefs_category">Аудио</string>
     <string name="lockscreen_cover_title">Обложка медиа на экране блокировки</string>
     <string name="lockscreen_cover_summary">Если текущий медиаобъект имеет обложку, она будет установлена как фон экрана блокировки</string>
@@ -421,7 +407,6 @@
     <string name="artists_show_all_title">Показывать всех исполнителей</string>
     <string name="show_headers">Показать заголовки</string>
     <string name="show_headers_summary">Разбить списки по заголовкам в зависимости от типа сортировки</string>
-
     <string name="extensions_prefs_category">Расширения</string>
     <string name="extensions_empty">Расширения не найдены</string>
     <string name="extension_permission_title">Включить новое расширение \"%1$s\"?</string>
@@ -565,7 +550,6 @@
     <string name="permission_onboarding_perm_all">Будет возможно автообнаружение всех ваших файлов и, как следствие, воспроизведение всех медиаформатов, включая необычные, или сжатых файлов</string>
     <string name="exit_app">Закрыть VLC</string>
     <string name="exit_app_msg">Вы действительно хотите закрыть VLC?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">Быстрая прокрутка</string>
     <string name="fastscroller_handle">Быстрая прокрутка</string>
@@ -592,9 +576,6 @@
     <string name="browse_folder">Просмотр папки</string>
     <string name="listen">Прослушать</string>
     <string name="apply_to_bt">Применить к Bluetooth-устройству</string>
-    <string name="episodes">эпизоды</string>
-    <string name="movies">фильмы</string>
-    <string name="videos">видео</string>
     <string name="videos_all">Все видео</string>
     <string name="clear_playback_history">Очистить историю воспроизведения</string>
     <string name="ml_scanning">Поиск медиафайлов</string>
@@ -652,7 +633,6 @@
     <string name="ml_wizard_scan_checkbox">Искать медиаобъекты на устройстве</string>
     <string name="ml_wizard_description">Определите, должен ли VLC просканировать хранилище вашего устройства и организовать медиатеку, или вы будете использовать его как простой плеер со встроенным браузером.</string>
     <string name="tv_my_new_videos">Мои новые видеозаписи</string>
-    <string name="cast_option_title">Передавать медиапотоки на другой экран</string>
     <string name="otg_device_title">Устройство OTG</string>
     <string name="browser">Браузер</string>
     <string name="ab_repeat">Повторение A-B</string>
@@ -885,12 +865,9 @@
     <string name="go_to_folder">Перейти наверх</string>
     <string name="create_shortcut">Создать ярлык запуска</string>
     <string name="no_sub_renderer">Субтитры не поддерживаются во время трансляции</string>
-    <string name="enqueuing">Загрузка ваших медиафайлов</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Выберите файл SoundFont для проигрывания аудиофайлов  MIDI</string>
     <string name="missing_media_snack">Медиаобъект отсутствует. Скрыть все отсутствующие медиаобъекты?</string>
-    <string name="browser_show_missing_media">Показывать отсутствующие медиаобъекты</string>
-    <string name="browser_show_missing_media_summary">Показывать даже недоступные удалённые медиаобъекты</string>
     <string name="search_prefs">Настройки поиска</string>
     <string name="preferred_resolution">Предпочитаемое разрешение видео</string>
     <string name="preferred_resolution_summary">Максимальное качество видео для трансляций по возможности будет: %s</string>
@@ -932,7 +909,7 @@
     <string name="permission">Разрешение</string>
     <string name="customize">Настроить</string>
     <string name="selection_count">Выбрано: %d</string>
-    <string name="controls_setting">Настройка элементов управления</string>
+    <string name="controls_setting">Настройка элементов управления</string> <!-- Unused -->
     <string name="gestures">Жесты</string>
     <string name="player_controls">Управление плеером</string>
     <string name="video_double_tap_jump_delay">Интервал при двойном касании</string>
@@ -988,9 +965,6 @@
     <string name="disable_track">Отключённая дорожка</string>
     <string name="ascending">По возрастанию</string>
     <string name="descending">По убыванию</string>
-
-
-
     <!--    accessibility-->
     <string name="talkback_media_content_description">%s - название: %s - длительность: %s</string>
     <string name="talkback_genre">Жанр: %s</string>
@@ -1039,4 +1013,4 @@
     <string name="talkback_action_rewind">Назад на %s сек.</string>
     <string name="talkback_action_forward">Вперёд на %s сек.</string>
     <string name="talkback_display_settings">Показать настройки</string>
-</resources>
+    </resources>

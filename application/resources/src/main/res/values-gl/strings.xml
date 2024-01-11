@@ -36,7 +36,6 @@
     <string name="video_app_switch_summary">Seleccione o comportamento do VLC cando cambie a outra aplicación desde a reprodución de vídeo.</string>
     <string name="play_pip_title">Reproducir vídeos en modo pantalla sobre pantalla</string>
     <string name="play_as_audio_background">Reproducir os vídeos en segundo plano</string>
-    <string name="append">Anexar</string>
     <string name="insert_next">Inserir seguinte</string>
     <string name="play_all">Reproducir todos</string>
     <string name="append_all">Anexar todos</string>
@@ -170,7 +169,6 @@
     <string name="sleep_in">Temporizador</string>
     <string name="jump_to_time">Avanzar no tempo</string>
     <string name="subtitle_select">Seleccione o ficheiro de subtítulos</string>
-
     <string name="server_add_title">Engadir un novo servidor aos favoritos</string>
     <string name="server_domain_hint">Enderezo do servidor (nome do dominio ou IP)</string>
     <string name="server_share_hint">Nome de compartición de rede (ou enderezo IP)</string>
@@ -198,8 +196,6 @@
     <string name="playback_history_title">Historial de reprodución</string>
     <string name="playback_history_summary">Gardar todos os multimedia reproducidos na sección Historial</string>
     <string name="playback_speed_title">Gardar velocidade de reprodución</string>
-    <string name="playback_speed_summary">Manter a velocidade de reprodución entre multimedia</string>
-
     <string name="play_button">Botón de reprodución</string>
 
     <!-- Tips -->
@@ -248,7 +244,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
-
     <string name="directories_summary">Seleccione os cartafoles a incluír na biblioteca multimedia</string>
     <string name="add_custom_path">Engadir un camiño persoal</string>
     <string name="add_custom_path_description">Introduza un cartafol persoal adicional para escanear:</string>
@@ -304,7 +299,6 @@
     <string name="popup_keepscreen_title">Manter a pantalla activa no modo de xanela emerxente</string>
     <string name="popup_keepscreen_summary">Manter sempre a pantalla activa mentres estea a xanela emerxente, incluso se o vídeo esta detido.</string>
     <string name="browser_show_hidden_files_title">Mostrar os ficheiros ocultos</string>
-
     <string name="subtitles_prefs_category">Subtítulos</string>
     <string name="subtitles_size_title">Tamaño dos subtítulos</string>
     <string name="subtitles_size_small">Pequeno</string>
@@ -312,16 +306,9 @@
     <string name="subtitles_size_big">Grande</string>
     <string name="subtitles_size_huge">Enorme</string>
     <string name="subtitles_color_title">Cor dos subtítulos</string>
-    <string name="subtitles_color_white">Branco</string>
-    <string name="subtitles_color_gray">Gris</string>
-    <string name="subtitles_color_pink">Rosa</string>
-    <string name="subtitles_color_blue">Azul</string>
-    <string name="subtitles_color_yellow">Amarelo</string>
-    <string name="subtitles_color_green">Verde</string>
     <string name="subtitles_background_title">Fondo dos subtítulos</string>
     <string name="subtitles_bold_title">Subtítulos grosos</string>
     <string name="subtitles_autoload_title">Cargar subtítulos automaticamente</string>
-
     <string name="audio_prefs_category">Son</string>
     <string name="lockscreen_cover_title">Portada na pantalla de bloqueo</string>
     <string name="lockscreen_cover_summary">Cando estea dispoñíbel, estabelecer a portada do multimedia actual como fondo da pantalla de bloqueo</string>
@@ -356,7 +343,6 @@
     <string name="artists_show_all_title">Mostrar todos os artistas</string>
     <string name="show_headers">Mostrar cabeceiras</string>
     <string name="show_headers_summary">Dividir as listas por cabeceiras segundo o tipo de ordenación</string>
-
     <string name="extensions_prefs_category">Extensións</string>
     <string name="extensions_empty">Non se detectaron extensións</string>
     <string name="extension_permission_title">Desexa activar a nova extensión «%1$s»?</string>
@@ -478,7 +464,6 @@
     <string name="permission_expanation_allow">Só poderá reproducir fluxos ou multimedia da rede</string>
     <string name="exit_app">Pechar o VLC</string>
     <string name="exit_app_msg">Confirma que quere pechar o VLC?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">Barra de desprazamento rápido</string>
     <string name="fastscroller_handle">Manexador do desprazamento rápido</string>
@@ -505,9 +490,6 @@
     <string name="browse_folder">Explorar cartafol</string>
     <string name="listen">Escoitar</string>
     <string name="apply_to_bt">Aplicar ao dispositivo bluetooth</string>
-    <string name="episodes">episodios</string>
-    <string name="movies">películas</string>
-    <string name="videos">vídeos</string>
     <string name="videos_all">Todos os vídeos</string>
     <string name="clear_playback_history">Limpar o historial de reproducións</string>
     <string name="ml_scanning">Buscando ficheiros multimedia</string>
@@ -563,7 +545,6 @@
     <string name="ml_wizard_scan_checkbox">Buscar no dispositivo contidos multimedia</string>
     <string name="ml_wizard_description">Seleccione se o VLC debe analizar o dispositivo para organizar a biblioteca multimedia ou só funcionar como un reprodutor cun explorador integrado.</string>
     <string name="tv_my_new_videos">Vídeos novos meus</string>
-    <string name="cast_option_title">Reproducir multimedia noutra pantalla</string>
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Navegador</string>
     <string name="ab_repeat">Repetir A-B</string>
@@ -786,12 +767,9 @@
     <string name="warning_stream_speed">Incrementar a velocidade de reprodución dos fluxos por riba de 1 pode causar distorsións</string>
     <string name="go_to_folder">Explorar pai</string>
     <string name="no_sub_renderer">Os subtítulos durante as emisións aínda non son compatíbeis</string>
-    <string name="enqueuing">Cargando os multimedia</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Seleccione un ficheiro de SoundFont para reproducir as pistas de son midi</string>
     <string name="missing_media_snack">Faltan multimedia. Desexa ocultar todos os multimedia que faltan?</string>
-    <string name="browser_show_missing_media">Mostrar os multimedia que faltan</string>
-    <string name="browser_show_missing_media_summary">Mostrar multimedia distantes incluso se non están presentes</string>
     <string name="search_prefs">Axustes de busca</string>
     <string name="preferred_resolution">Resolución de vídeo preferida</string>
     <string name="preferred_resolution_summary">A calidade máxima de vídeo nos fluxos, se é aplicábel, será: %s</string>
@@ -807,7 +785,6 @@
     <string name="optional_features_summary">As caracterísiticas beta están en probas e pode que non sexan estábeis</string>
     <string name="optional_features_warning">Esta característica está en fase beta e pode causar incidencias e inestabilidade</string>
     <string name="start_vlc">Iniciar VLC</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Desexa engadir elementos duplicados?</string>
     <string name="add_button">Engadir</string>
@@ -827,4 +804,4 @@
         <item quantity="one">1 dos elementos seleccionados xa está na lista de reprodución.</item>
         <item quantity="other">%d dos elementos seleccionados xa están na lista de reprodución.</item>
     </plurals>
-</resources>
+    </resources>

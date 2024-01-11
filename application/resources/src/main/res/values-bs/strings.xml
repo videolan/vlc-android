@@ -22,7 +22,6 @@
     <string name="play_from_start">Produciraj od početka</string>
     <string name="play_as_audio">Produciraj kao zvuk</string>
     <string name="play_as_video">Produciraj kao video</string>
-    <string name="append">Prisvoji</string>
     <string name="play_all">Produciraj sve</string>
     <string name="append_all">Prisvoji sve</string>
     <string name="delete">Izbriši</string>
@@ -104,7 +103,6 @@
     <string name="sleep_title">Brojač za spavanje</string>
     <string name="jump_to_time">Skoči na Vrijeme</string>
     <string name="subtitle_select">Izaberi datoteku podtitla</string>
-
     <string name="encountered_error_title">Greška reproduciranja</string>
     <string name="encountered_error_message">VLC je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može producirati.</string>
@@ -179,4 +177,4 @@
 
     <string name="confirm_resume">Nastavi sa zadnje pozicije?</string>
     <string name="next">Sljedeće</string>
-</resources>
+    </resources>

@@ -15,10 +15,36 @@
     <string name="sortby_date">Дата</string>
     <string name="sortby_last_modified_date">Недавно додано</string>
     <string name="sortby_insertion">Дата вставляння</string>
+    <string name="sortby_date_last_modified">Нещодавно додано</string>
+    <string name="sortby_date_insertion">Дата вставляння</string>
+    <string name="sortby_date_release">Дата випуску</string>
     <string name="sortby_media_number">Кількість медіа</string>
     <string name="sortby_number">Доріжки Nb</string>
     <string name="searchable_hint">Триває пошук…</string>
     <string name="history">Історія</string>
+
+    <string name="sortby_name_asc">За назвою від A до Z</string>
+    <string name="sortby_name_desc">За назвою від Z до A</string>
+    <string name="sortby_artist_name_asc">За іменем виконавця від A до Z</string>
+    <string name="sortby_artist_name_desc">За іменем виконавця від Z до A</string>
+    <string name="sortby_album_name_asc">За назвою альбому від A до Z</string>
+    <string name="sortby_album_name_desc">За назвою альбому від Z до A</string>
+    <string name="sortby_filename_asc">За назвою файла від A до Z</string>
+    <string name="sortby_filename_desc">За назвою файла від Z до A</string>
+    <string name="sortby_length_asc">Найкоротші спершу</string>
+    <string name="sortby_length_desc">Найдовші спершу</string>
+    <string name="sortby_date_asc">Найстаріші спершу</string>
+    <string name="sortby_date_desc">Найновіші спершу</string>
+    <string name="sortby_last_modified_date_asc">Найстаріше додавання спершу</string>
+    <string name="sortby_last_modified_date_desc">Найновіше додавання спершу</string>
+    <string name="sortby_number_asc">Більше відео у групі спершу</string>
+    <string name="sortby_number_desc">Менше відео у групі спершу</string>
+    <string name="sortby_date_insertion_asc">Найстаріше вставляння спершу</string>
+    <string name="sortby_date_insertion_desc">Найновіше вставляння спершу</string>
+    <string name="sortby_date_last_modified_asc">Найстаріша дата зміни спершу</string>
+    <string name="sortby_date_last_modified_desc">Найновіша дата зміни спершу</string>
+    <string name="sortby_date_release_asc">Найстаріша дата випуску спершу</string>
+    <string name="sortby_date_release_desc">Найновіша дата випуску спершу</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">знайдено %d результат</item>
@@ -40,7 +66,7 @@
     <string name="video_app_switch_summary">Виберіть поводження VLC, коли ви перемикаєтеся на іншу програму при відтворенні відео</string>
     <string name="play_pip_title">Відтворювати відео у режимі Картинка в картинці</string>
     <string name="play_as_audio_background">Відтворювати відео у фоні</string>
-    <string name="append">Додати</string>
+    <string name="append">Додати до черги відтворення</string>
     <string name="insert_next">Вставити наступне</string>
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
@@ -136,6 +162,7 @@
     <string name="loading">Завантажується…</string>
     <string name="please_wait">Будь ласка, зачекайте…</string>
     <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть частину файлів на пристрій або змініть параметри.</string>
+    <string name="nofav">Не знайдено обраного.</string>
     <string name="empty_search">Не знайдено жодного елемента для пошуку %s</string>
     <string name="noplaylist">Не знайдено список відтворення.</string>
     <string name="nosubfolder">Без підтек</string>
@@ -194,6 +221,7 @@
     <string name="sleep_in">Обіспати</string>
     <string name="jump_to_time">Перейти до часу</string>
     <string name="subtitle_select">Обрати файл субтитрів</string>
+    <string name="wait_before_sleep">Зачекайте, поки завершиться поточне медіа</string>
 
     <string name="server_add_title">Додати новий сервер до обраного</string>
     <string name="server_domain_hint">Адреса сервера (назва домену чи IP)</string>
@@ -289,11 +317,16 @@
 
     <!-- Preferences -->
     <string name="preferences">Параметри</string>
+    <string name="more_preferences">Більше налаштувань</string>
+    <string name="prefs_opened_on_phone">Налаштування відкриті на телефоні</string>
+    <string name="open_on_phone">Відкрити на екрані телефону</string>
 
     <string name="directories_summary">Виберіть каталоги для включення у медіа бібліотеку</string>
     <string name="add_custom_path">Додати свій шлях</string>
     <string name="add_custom_path_description">Введіть свій каталог для сканування:</string>
     <string name="remove_custom_path">Видалити свій шлях</string>
+    <string name="group_ban_folder">Заборонити теку з бібліотеки медіа</string>
+
     <string name="hardware_acceleration">Апаратне прискорення</string>
     <string name="hardware_acceleration_summary">Вимкнено: краща стабільність.\nПрограмне: може поліпшити швидкодію.\nПовне: згодом може поліпшити швидкодію.</string>
     <string name="hardware_acceleration_disabled">Вимкнено</string>
@@ -305,8 +338,10 @@
     <string name="screen_orientation">Орієнтація екрану</string>
     <string name="screen_orientation_sensor">Автоматична (датчик)</string>
     <string name="screen_orientation_portrait">Книжкова</string>
+    <string name="screen_orientation_portrait_reverse">Обернена портретна</string>
     <string name="screen_orientation_landscape">Альбомна</string>
     <string name="screen_orientation_landscape_reverse">Обернути альбомну</string>
+    <string name="screen_orientation_landscape_sensor">Альбомна (сенсор)</string>
     <string name="screen_orientation_last_locked">Остання заблокована орієнтація</string>
     <string name="enable_black_theme">Чорна тема</string>
     <string name="theme_auto">Автоматична тема</string>
@@ -433,6 +468,27 @@
     <string name="audio_ducking_title">Нижча гучність VLC під час сповіщень</string>
     <string name="audio_ducking_summary">Допомагає почути звукові сповіщення, навігаційні вказівки та слова асистента</string>
     <string name="casting_category">Трансляція</string>
+    <string name="remote_access">Віддалений доступ</string>
+    <string name="remote_access_status">Стан сервера</string>
+    <string name="remote_access_status_summary">Торкніться, щоб побачити стан сервера</string>
+    <string name="remote_access_connections">З\'єднання</string>
+    <string name="remote_access_links">Посилання</string>
+    <string name="remote_access_active">Віддалений доступ активний</string>
+    <string name="remote_access_notification">Віддалений доступ активний на %s</string>
+    <string name="remote_access_notification_stopped">Віддалений доступ зупинено</string>
+    <string name="remote_access_notification_connecting">Віддалений доступ під\'єднується</string>
+    <string name="remote_access_notification_error">Помилка віддаленого доступу</string>
+    <string name="remote_access_notification_stopping">Віддалений доступ зупиняється</string>
+    <string name="remote_access_notification_not_init">Віддалений доступ започатковується</string>
+    <string name="enable_remote_access">Увімкнути віддалений доступ</string>
+    <string name="remote_access_info">Інформація про віддалений доступ</string>
+    <string name="remote_access_content">Вміст</string>
+    <string name="remote_access_medialibrary_content">Вміст бібліотеки медіа</string>
+    <string name="remote_access_medialibrary_content_summary">Увімкнено: %s\nВимкнено: %s</string>
+    <string name="remote_access_file_browser_content">Браузер файлів</string>
+    <string name="remote_access_network_browser_content">Мережевий браузер</string>
+    <string name="remote_access_playback_control">Управління відтворенням</string>
+    <string name="remote_access_logs">Поділитися файлами журналу</string>
     <string name="casting_switch_title">Безпровідна трансляція</string>
     <string name="casting_passthrough_title">Аудіо роз\'єм</string>
     <string name="casting_passthrough_summary">Дозвольте управляти відтворенням аудіо ТБ</string>
@@ -446,6 +502,10 @@
     <string name="artists_show_all_title">Показати всіх виконавців</string>
     <string name="show_headers">Показати заголовки</string>
     <string name="show_headers_summary">Розділити списки за заголовками залежно від типу сортування</string>
+    <string name="tv_folders_first">Показати теки спершу</string>
+    <string name="tv_folders_first_summary">Показати теки, а тоді файли у переглядачі файлів</string>
+    <string name="tv_show_hidden_files">Показати приховані файли</string>
+    <string name="tv_show_hidden_files_summary">Показати приховані файли в оглядачі файлів</string>
 
     <string name="extensions_prefs_category">Розширення</string>
     <string name="extensions_empty">Жодних розширень не виявлено</string>
@@ -553,6 +613,12 @@
     <string name="medialibrary">Медіа бібліотека</string>
     <string name="medialibrary_directories">Теки медіа бібліотеки</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">Що нового у VLC для Андроїд %s</string>
+    <string name="whats_new_36_webserver_text">З новою функцією віддаленого доступу ви можете керувати VLC для Android з будь-якого іншого пристрою.\nВідправляйте медіафайли в обидва боки, керуйте відтворенням і багато іншого!</string>
+    <string name="whats_new_36_favorites_text">Тепер ви можете додавати медіафайли, списки відтворення, виконавців або альбоми до улюблених.\nЗнаходьте потрібний вміст з першого погляду, відфільтрувавши його лише за обраним!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">Більше дій</string>
     <string name="back_quit_lock">Натисніть знову Назад для виходу із відео</string>
@@ -577,6 +643,7 @@
     <string name="partial_content">VLC не має доступу  до всіх ваших файлів</string>
     <string name="partial_content_description">Починаючи з Android 11, застосунки потребують особливого дозволу для доступу до всіх файлів вашого пристрою.\nn%s</string>
     <string name="never_ask_again">Ніколи не запитувати знову</string>
+    <string name="never_show_again">Ніколи не показувати знову</string>
     <string name="allow_settings_access_ringtone_title">Дозволити VLC задавати мелодію дзвінків</string>
     <string name="allow_settings_access_ringtone_description">VLC потрібно, що ви надали цей дозвіл для установки цієї пісні як вашої мелодії.</string>
     <string name="allow_settings_access_brightness_title">Дозволити VLC змінювати режим яскравості</string>
@@ -694,6 +761,10 @@
     <string name="ab_repeat_stop">Зупинити повторення А-Б</string>
     <string name="stop_after_this">Зупинитися після цієї доріжки</string>
     <string name="time_category_new">Нові медіа</string>
+    <string name="time_category_today">Сьогодні</string>
+    <string name="time_category_yesterday">Вчора</string>
+    <string name="time_category_current_week">Цього тижня</string>
+    <string name="time_category_last_week">Минулого тижня</string>
     <string name="time_category_current_month">Цього місяця</string>
     <string name="time_category_current_year">Цьогоріч</string>
     <string name="time_category_last_year">Торік</string>
@@ -745,6 +816,8 @@
     <string name="misc">Різне</string>
     <string name="popup_force_legacy_title">Використовувати особливий  вигульк картинка-в-картинці </string>
     <string name="popup_force_legacy_summary">Використовувати особливий вигульк картинка-в-картинці зі змінним розміром</string>
+    <string name="restore_background_video_title">Відновити відео зі тла</string>
+    <string name="restore_background_video_summary">Відновлення відео з фону при повторному відкритті vlc-android</string>
     <string name="device_default">Типовий пристрій</string>
     <string name="track_number">%dдоріжок</string>
     <string name="jump_to">Перейти до</string>
@@ -770,6 +843,8 @@
     <string name="remove_current">Вилучити поточне</string>
     <string name="validation_delete_playlist">Ви справді хочете вилучити цей список відтворення?</string>
     <string name="validation_delete_playlist_text">Цю дію не можна скасувати.</string>
+    <string name="display_settings">Параметри дисплею</string>
+    <string name="incognito_mode">Режим інкогніто</string>
     <string name="display_in_list">Показувати списком</string>
     <string name="display_in_grid">Показувати сіткою</string>
     <string name="dump_db_succes">База даних викинута на корінь внутрішнього носія</string>
@@ -919,12 +994,34 @@
     <string name="go_to_folder">Огляд батьківської теки</string>
     <string name="create_shortcut">Створити ярлик на запуск</string>
     <string name="no_sub_renderer">Субтитри досі не підтримуються під час трансляції</string>
-    <string name="enqueuing">Завантаження ваших медіафайлів</string>
+    <string name="enqueuing">Завантаження вашого медіа</string>
     <string name="soundfont">Звуковий шрифт MIDI</string>
     <string name="soundfont_summary">Підберіть файл звукового шрифту для відтворення аудіо доріжок midi</string>
     <string name="missing_media_snack">Медіа відсутнє. Приховати усі відсутні медіа?</string>
-    <string name="browser_show_missing_media">Показати відсутні медіа</string>
+    <string name="browser_show_missing_media">Показати відсутнє медіа</string>
     <string name="browser_show_missing_media_summary">Показувати віддалені медіа навіть якщо вони не присутні</string>
+    <string name="parental_control">Батьківський контроль</string>
+    <string name="safe_mode">Безпечний режим</string>
+    <string name="safe_mode_summary">Після активації, файли не можна видалити або змінити список відтворення без введення пін-коду</string>
+    <string name="safe_mode_pin">Введіть ваш PIN</string>
+    <string name="pin_unlock_success">Успішно розблоковано. Щоб повторно активувати безпечний режим, торкніться цієї піктограми в застосунку:</string>
+    <string name="safe_mode_new_pin">Введіть ваш новий PIN</string>
+    <string name="safe_mode_re_pin">Повторно введіть ваш PIN</string>
+    <string name="safe_mode_no_match">PINи не збігаються</string>
+    <string name="safe_mode_invalid_pin">Помилковий PIN</string>
+    <string name="safe_mode_pin_error">Ваш пін-код має містити лише цифри</string>
+    <string name="pin_code_reason_create">Спершу створіть власний пін-код</string>
+    <string name="pin_code_reason_modify">Змініть свій пін-код</string>
+    <string name="pin_code_modified">Пін-код успішно змінено</string>
+    <string name="pin_code_reason_check">Доступ обмежено. Будь ласка, введіть свій пін-код</string>
+    <string name="pin_code_access_granted">Доступ надано. Ви можете повторно заблокувати на головному екрані</string>
+    <string name="safe_mode_enabled">Безпечний режим увімкнено</string>
+    <string name="restricted_access">Доступ обмежено</string>
+    <string name="unlock">Розблокувати</string>
+    <string name="lock_with_pin">Повторно увімкнути блокування PIN-кодом</string>
+    <string name="unlock_with_pin">Розблокувати безпечний режим</string>
+    <string name="lock_with_pin_short">Пін-код</string>
+    <string name="restrict_settings">Обмежити доступ до налаштувань</string>
     <string name="search_prefs">Налаштування пошуку</string>
     <string name="video_match_frame_rate_title">Збіг частоти оновлення кадрів дисплею</string>
     <string name="video_match_frame_rate_summary">Збіг частоти оновлення кадрів дисплею з частотою оновлення кадрів медіафайлу. Наприклад,  фільм з 24 кадрами буде відтворюватися зі швидкістю 24 кадри.</string>
@@ -965,10 +1062,13 @@
     <string name="lock_use_sensor_title">Заблокувати з сенсором</string>
     <string name="lock_use_sensor_summary">Коло орієнтація заблокована, використовується сенсор, щоб дозволити повернути орієнтацію</string>
     <string name="start">Запустити</string>
+    <string name="notification_permission">Дозвіл на сповіщення</string>
+    <string name="notification_permission_explanation">VLC потребує вашого дозволу, щоб надсилати сповіщення.\nЦей застосунок буде тільки сповіщати під час сканування вашого медіа або використання власний режим відео Картинка в картинці.\nВідмова від нього не завадить роботі VLC, однак сповіщення будуть приховані.</string>
     <string name="permission">Дозвіл</string>
     <string name="customize">Налаштувати</string>
     <string name="selection_count">%dвибрано </string>
-    <string name="controls_setting">Параметри управління</string>
+    <string name="control_setting">Параметри управління</string>
+    <string name="controls_setting">Параметри управління</string> <!-- Unused -->
     <string name="gestures">Жести</string>
     <string name="player_controls">Управління програвачем</string>
     <string name="video_double_tap_jump_delay">Затримка у часі для подвійного дотику</string>
@@ -1009,6 +1109,12 @@
     <string name="material_you">Ваш матеріал (просуває кольори зі шпалери)</string>
     <string name="palette">Палітра (просуває кольори з обкладинки медіа)</string>
     <string name="custom">Особливе</string>
+    <string name="widget_type">Тип віджету</string>
+    <string name="widget_type_pill">Пігулка</string>
+    <string name="widget_type_normal">Звичайний</string>
+    <string name="widget_type_circle">Коло</string>
+    <string name="widget_type_large">Великий</string>
+    <string name="widget_type_error">Цей тип віджету занадто великий для розміру віджету. Це може призвести до візуальних проблем</string>
     <string name="opacity">Прозорість</string>
     <string name="widget_background">Тло</string>
     <string name="widget_foreground">Передній план</string>
@@ -1084,6 +1190,68 @@
     <string name="talkback_action_forward">Перейти вперед на %s секунд</string>
     <string name="talkback_display_settings">Налаштування зображення</string>
     <string name="talkback_already_played">Вже відтворено</string>
+    <string name="show_only_favs">Показувати лише обране</string>
+    <string name="ignore_headset_media_button_presses">Нехтувати натисканням мультимедійних кнопок гарнітури</string>
+    <string name="ignore_headset_media_button_presses_summary">Корисно, наприклад, якщо ви користуєтеся гарнітурою з пошкодженими фізичними клавішами. </string>
+    <string name="replace_playlist">Замінити список відтворення</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">Віддалений доступ активний</string>
+    <string name="ra_remote_access">Віддалений доступ</string>
+    <string name="ra_remote_access_description">Сповіщення про стан віддаленого доступу</string>
+    <string name="ra_log_file">Файли журналу</string>
+    <string name="ra_log_type">Тип журналу</string>
+    <string name="ra_send_files">Надіслати файли</string>
+    <string name="ra_not_in_foreground">Додаток не на передньому плані. Не вдається запустити відео.</string>
+    <string name="ra_disconnected">Від\'єднано від пристрою</string>
+    <string name="ra_file">Файл</string>
+    <string name="ra_upload_remaining">Вивантажуються %s файли</string>
+    <string name="ra_upload_all">Вивантажити усе</string>
+    <string name="ra_drop_files_tip">Залишайте файли будь-де, щоб надіслати їх на свій пристрій</string>
+    <string name="ra_prepare_download">Підготовлюється ваше завантаження</string>
+    <string name="ra_forbidden">Вміст вимкнено у налаштуваннях</string>
+    <string name="ra_playback_forbidden">Управління відтворенням вимкнено у налаштуваннях</string>
+    <string name="ra_code_requested_explanation">Щоб захистити ваш сервер, доступ захищено.\nПеревірте код, що зображається у ваших сповіщеннях</string>
+    <string name="ra_ssl_explanation_title">Небезпечне з\'єднання</string>
+    <string name="ra_ssl_explanation">Ваше з\'єднання не безпечне.</string>
+    <string name="ra_ssl_explanation_browser">У зв\'язку зі втіленням безпеки браузера, на наступній сторінці ви отримаєте попередження про безпеку.</string>
+    <string name="ra_ssl_explanation_accept">Переконайтеся, що ви прийняли сертифікат, щоб мати змогу користуватися віддаленим доступом</string>
+    <string name="ra_ssl_button">Використовуйте безпечне з\'єднання</string>
+    <string name="ra_new_code">Надіслати новий код</string>
+    <string name="home">Головна</string>
+    <string name="ra_code">Введіть цей код: %s</string>
+    <string name="ra_send_logs">Зберігати журнали віддаленого доступу на пристрої</string>
+    <string name="ra_otp">Одноразовий пароль для віддаленого доступу</string>
+    <string name="ra_otp_description">Запити на доступ для віддаленого доступу</string>
+    <string name="ra_otp_title">Спроба входу до віддаленого доступу</string>
+    <string name="ra_otp_subtitle">Якщо це ви, введіть цей код на іншому пристрої</string>
+    <string name="ra_otp_not_me">Це не я</string>
 
+    <string name="ra_onboarding_welcome_desc">Ласкаво просимо до віддаленого доступу VLC для Android\nУвімкнувши його, ви зможете керувати відтворенням на цьому пристрої тощо.</string>
+    <string name="ra_onboarding_how_title">Керуйте своїм пристроєм</string>
+    <string name="ra_onboarding_how_desc">Керуйте відтворенням на своєму пристрої, надсилайте та отримуйте файли тощо</string>
+    <string name="ra_onboarding_ssl_title">Шифрування даних</string>
+    <string name="ra_onboarding_ssl_desc">Віддалений доступ зашифровано, щоб запобігти витоку ваших даних</string>
+    <string name="ra_onboarding_otp_title">Автентифікація</string>
+    <string name="ra_onboarding_otp_desc">Автентифікація за допомогою одноразового пароля запобігає небажаному доступу до ваших даних</string>
+    <string name="ra_onboarding_content_title">Доступ до вмісту</string>
+    <string name="ra_onboarding_content_desc">Вибирайте, до чого можна отримати доступ, а до чого ні</string>
+    <string name="ra_onboarding_content_ml">Доступ до вмісту медіатеки</string>
+    <string name="ra_onboarding_content_files">Браузер файлів</string>
+    <string name="ra_onboarding_content_playback">Керування відтворенням</string>
+    <string name="ra_disable">Вимкнути</string>
+    <string name="ra_log_web">Журнал віддаленого доступу</string>
+    <string name="ra_log_crash">Журнал збоїв</string>
+    <string name="ra_log_mobile">Журнал пристрою</string>
+    <string name="ra_log_current">Поточні локальні журнали</string>
+    <string name="ra_invalid_login">Вам необхідно увійти на вашому пристрої</string>
+    <string name="ra_invalid_otp">Нечинний код надано</string>
+    <string name="learn_more">Дізнатися більше</string>
+
+    <!-- car screens -->
+    <string name="help">Довідка</string>
+    <string name="podcast_mode">Режим подкасту</string>
+    <string name="podcast_mode_help">Елементи керування подкастом з\'являються під час відтворення однієї доріжки, яка відповідає одному з таких критеріїв:\n\t- Тривалість більше 60 хв\n\t- Тривалість більше 15 хв без назви альбому\n\t- Жанр %s</string>
+    <string name="voice_control">Голосове управління</string>
+    <string name="voice_control_help">VLC може керуватися через Google Assistant шляхом таких голосових команд:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 </resources>

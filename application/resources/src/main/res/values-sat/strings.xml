@@ -14,6 +14,7 @@
     <string name="sortby_length">ᱡᱤᱞᱤᱧ</string>
     <string name="sortby_date">ᱢᱟᱹᱦᱤᱛ</string>
     <string name="sortby_last_modified_date">ᱱᱤᱛᱚᱜ ᱥᱮᱞᱮᱫᱟᱜ</string>
+    <string name="sortby_insertion">ᱢᱟᱦᱟᱸ ᱠᱷᱚᱧᱡᱟᱭ ᱢᱮ</string>
     <string name="sortby_media_number">ᱢᱤᱰᱤᱭᱟ ᱱᱚᱢᱵᱚᱨ</string>
     <string name="sortby_number">Nb ᱴᱨᱮᱠ ᱠᱚ</string>
     <string name="searchable_hint">ᱥᱮᱸᱫᱽᱨᱟ…</string>
@@ -37,7 +38,6 @@
     <string name="video_app_switch_summary">ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮᱵᱮᱠ ᱠᱷᱚᱱ ᱚᱞᱜᱟ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱛᱮ ᱪᱟᱞᱟᱜ ᱡᱷᱚᱜ VLC ᱵᱮᱵᱷᱟᱨ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
     <string name="play_pip_title">ᱪᱤᱛᱟᱹᱨᱼᱟᱨᱼᱪᱤᱛᱟᱹ ᱢᱳᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮ</string>
     <string name="play_as_audio_background">ᱵᱮᱠᱜᱽᱨᱟᱩᱱᱰ ᱨᱮ ᱣᱤᱰᱤᱭᱚ ᱯᱞᱮ ᱢᱮ</string>
-    <string name="append">ᱟᱯᱮᱱᱰ</string>
     <string name="insert_next">ᱤᱱᱟᱹ ᱛᱟᱭᱚᱢ ᱛᱚᱵᱮᱫᱽ ᱢᱮ</string>
     <string name="play_all">ᱡᱷᱚᱛᱚ ᱯᱞᱮ ᱢᱮ</string>
     <string name="append_all">ᱡᱷᱚᱛᱚ ᱟᱯᱮᱱᱰ ᱢᱮ</string>
@@ -180,7 +180,6 @@
     <string name="sleep_in">ᱨᱮ ᱜᱤᱛᱤᱡᱽ</string>
     <string name="jump_to_time">ᱚᱠᱛᱚ ᱛᱮ ᱫᱚᱱ ᱢᱮ</string>
     <string name="subtitle_select">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱨᱮᱫᱽ ᱪᱚᱭᱚᱱ ᱢᱮ</string>
-
     <string name="server_add_title">ᱱᱟᱶᱟ ᱥᱟᱹᱨᱣᱟᱹᱨ ᱠᱚ ᱠᱩᱥᱤᱠᱚ ᱥᱮᱫᱽ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="server_domain_hint">ᱥᱟᱹᱨᱣᱟᱹᱨ ᱴᱷᱤᱠᱬᱟᱹ (ᱰᱚᱢᱮᱱ ᱧᱩᱛᱩᱢ ᱟᱨ ᱵᱟᱝ IP)</string>
     <string name="server_share_hint">ᱱᱮᱴᱣᱟᱨᱠ ᱦᱟᱹᱴᱤᱧ ᱧᱩᱛᱩᱢ (ᱟᱨ ᱵᱟᱝ IP ᱴᱷᱤᱠᱬᱟᱹ)</string>
@@ -211,8 +210,6 @@
     <string name="playback_history_title">ᱯᱞᱮᱵᱮᱠ ᱡᱤᱛᱟᱹᱞ</string>
     <string name="playback_history_summary">ᱱᱟᱜᱟᱢ ᱥᱮᱠᱥᱚᱱ ᱨᱮ ᱡᱷᱚᱛᱚ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱟᱠᱟᱱ ᱠᱚ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
     <string name="playback_speed_title">ᱯᱞᱮᱵᱮᱠ ᱥᱯᱤᱻᱰ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
-    <string name="playback_speed_summary">ᱵᱟᱨᱭᱟ ᱢᱮᱰᱤᱭᱟ ᱠᱚ ᱵᱷᱤᱛᱨᱤ ᱨᱮ ᱯᱞᱮᱵᱮᱠ ᱥᱯᱤᱻᱰ ᱫᱚᱦᱚ ᱠᱟᱜᱽ ᱢᱮ</string>
-
     <string name="play_button">ᱯᱞᱮ ᱵᱩᱛᱟᱹᱢ</string>
 
     <!-- Tips -->
@@ -255,7 +252,6 @@
 
     <!-- Preferences -->
     <string name="preferences">ᱥᱟᱡᱟᱣ ᱠᱚ</string>
-
     <string name="directories_summary">ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱛᱮ ᱢᱮᱥᱟ ᱞᱟᱹᱜᱤᱫ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱪᱚᱭᱚᱱ ᱢᱮ</string>
     <string name="add_custom_path">ᱠᱚᱥᱴᱚᱢ ᱡᱟᱭᱜᱟ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="add_custom_path_description">ᱥᱠᱟᱱ ᱞᱟᱹᱜᱤᱫ ᱵᱟᱹᱲᱛᱤᱭᱟᱜ ᱠᱚᱥᱴᱚᱢ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱟᱫᱮᱨ ᱢᱮ:</string>
@@ -311,7 +307,6 @@
     <string name="popup_keepscreen_title">ᱯᱳᱯᱼᱟᱹᱯ ᱢᱳᱰ ᱨᱮ ᱥᱠᱨᱤᱻᱱ ᱢᱳᱰ ᱮᱢ ᱢᱮ</string>
     <string name="popup_keepscreen_summary">ᱣᱤᱰᱤᱭᱚ ᱠᱚ ᱯᱚᱡᱽ ᱛᱟᱦᱮᱸ ᱠᱟᱛᱮ ᱨᱮ ᱦᱚᱸ, ᱯᱳᱯᱼᱟᱹᱯ ᱫᱮᱠᱷᱟᱣ ᱠᱟᱛᱮ ᱨᱮ ᱦᱚᱸ ᱥᱠᱨᱤᱻᱱ ᱫᱮᱠᱷᱟᱣ ᱪᱷᱚᱭ ᱢᱮ</string>
     <string name="browser_show_hidden_files_title">ᱩᱠᱩ ᱨᱮᱫᱽ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
-
     <string name="subtitles_prefs_category">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱠᱚ</string>
     <string name="subtitles_size_title">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱢᱟᱯ</string>
     <string name="subtitles_size_small">ᱦᱚᱯᱚᱱ</string>
@@ -319,16 +314,9 @@
     <string name="subtitles_size_big">ᱞᱟᱹᱴᱷᱩ</string>
     <string name="subtitles_size_huge">ᱢᱟᱨᱟᱝ</string>
     <string name="subtitles_color_title">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹ ᱨᱚᱝ</string>
-    <string name="subtitles_color_white">ᱦᱮᱸᱫᱮ</string>
-    <string name="subtitles_color_gray">ᱜᱨᱮᱭ</string>
-    <string name="subtitles_color_pink">ᱯᱤᱸᱠ</string>
-    <string name="subtitles_color_blue">ᱞᱤᱞ</string>
-    <string name="subtitles_color_yellow">ᱥᱟᱥᱟᱝ</string>
-    <string name="subtitles_color_green">ᱦᱟ.ᱨᱭᱟ.ᱲ</string>
     <string name="subtitles_background_title">ᱥᱟᱹᱴᱟᱭᱴᱟᱹᱞ ᱵᱮᱠᱜᱨᱟᱩᱸᱰ</string>
     <string name="subtitles_bold_title">ᱵᱚᱞᱼᱰ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ</string>
     <string name="subtitles_autoload_title">ᱟᱡᱽ ᱛᱮ ᱞᱳᱰ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹ</string>
-
     <string name="audio_prefs_category">ᱚᱰᱤᱭᱚ</string>
     <string name="lockscreen_cover_title">ᱞᱩᱞᱩᱯᱥᱠᱨᱤᱻᱱ ᱨᱮ ᱢᱮᱰᱤᱭᱟ ᱠᱳᱵᱷᱟᱹᱨ</string>
     <string name="lockscreen_cover_summary">ᱚᱠᱟ ᱡᱷᱚᱜ ᱧᱟᱢᱚᱜᱼᱟ, ᱱᱤᱛᱚᱜᱼᱟᱜ ᱢᱮᱰᱤᱭᱟ ᱠᱚᱵᱷᱟᱹᱨ ᱟᱨᱴ ᱫᱚ ᱠᱩᱞᱩᱯᱥᱠᱨᱤᱻᱱ ᱣᱟᱞᱯᱮᱯᱟᱹᱨ ᱨᱮ ᱥᱮᱴ ᱢᱮ</string>
@@ -479,7 +467,6 @@
     <string name="permission_ask_again">ᱚᱱᱩᱢᱚᱛᱤ ᱮᱢ</string>
     <string name="exit_app">VLC ᱵᱚᱸᱫᱚᱭ ᱢᱮ</string>
     <string name="exit_app_msg">ᱪᱮᱫ ᱟᱢ ᱜᱚᱴᱟ ᱢᱮᱱᱟᱢ-ᱟ VLC ᱟᱱᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱛᱮ?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">ᱞᱚᱜᱚᱱᱥᱠᱨᱚᱞᱟᱹᱨ ᱴᱨᱟᱠ</string>
     <string name="fastscroller_handle">ᱞᱚᱜᱚᱱᱥᱠᱨᱚᱞᱟᱹᱨ ᱦᱮᱸᱰᱟᱹᱞ</string>
@@ -505,9 +492,6 @@
     <string name="download_subtitles">ᱪᱟᱸᱜᱟ ᱧᱩᱛᱩᱢ ᱠᱚ ᱰᱟᱩᱱᱞᱳᱰ ᱢᱮ</string>
     <string name="browse_folder">ᱯᱚᱴᱚᱢ ᱵᱨᱟᱩᱡ ᱢᱮ</string>
     <string name="listen">ᱟᱧᱡᱚᱢ ᱢᱮ</string>
-    <string name="episodes">ᱮᱯᱤᱥᱚᱰᱠᱚ</string>
-    <string name="movies">ᱥᱤᱱᱮᱢᱟ ᱠᱚ</string>
-    <string name="videos">ᱣᱤᱰᱤᱭᱚ ᱠᱚ</string>
     <string name="videos_all">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚ ᱠᱚ</string>
     <string name="clear_playback_history">ᱯᱞᱮᱵᱮᱠ ᱱᱟᱜᱟᱢ ᱥᱟᱯᱷᱟ</string>
     <string name="ml_scanning">ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱥᱠᱮᱱᱚᱜ ᱠᱟᱱᱟ</string>
@@ -552,7 +536,6 @@
     <string name="playback_forward">ᱞᱟᱜᱮ ᱞᱟᱦᱟᱜ</string>
     <string name="ml_wizard_scan_checkbox">ᱢᱤᱰᱤᱭᱟ ᱠᱚᱱᱴᱮᱱᱴ ᱞᱟᱹᱜᱤᱫ ᱰᱤᱵᱷᱟᱭᱤᱥ ᱥᱠᱮᱭᱱ ᱢᱮ</string>
     <string name="tv_my_new_videos">ᱤᱧᱭᱟᱜ ᱱᱟᱶᱟ ᱣᱤᱰᱤᱭᱚ ᱠᱚ</string>
-    <string name="cast_option_title">ᱠᱮᱥᱴ ᱢᱤᱰᱤᱭᱟᱡᱽ ᱮᱴᱟᱜ ᱥᱠᱨᱤᱱ ᱨᱮ</string>
     <string name="otg_device_title">OTG ᱥᱟᱫᱷᱚᱱ</string>
     <string name="browser">ᱵᱨᱟᱩᱡᱟᱹᱨ</string>
     <string name="ab_repeat">ᱟ-ᱵ ᱫᱚᱦᱲᱟ</string>
@@ -709,7 +692,6 @@
     <string name="warning_stream_speed">ᱥᱟᱹᱴᱨᱤᱝᱼᱚᱜ ᱠᱟᱱ ᱥᱴᱨᱤᱢ ᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱑ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱬᱮ ᱨᱟᱠᱟᱵ ᱮᱱᱟ</string>
     <string name="go_to_folder">ᱯᱮᱨᱮᱸᱴ ᱵᱨᱟᱩᱡᱽ </string>
     <string name="no_sub_renderer">ᱠᱟᱥᱴᱤᱝ ᱡᱷᱚᱜ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱠᱚ ᱵᱟᱭ ᱥᱟᱹᱯᱚᱴᱟᱭ</string>
-    <string name="enqueuing">ᱟᱢᱟᱜ ᱢᱤᱰᱤᱭᱟ ᱠᱚ ᱞᱟᱫᱮ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ</string>
     <string name="soundfont">MIDI ᱥᱟᱲᱮᱯᱷᱚᱸᱴ</string>
     <string name="soundfont_summary">midi ᱥᱟᱲᱮ ᱴᱨᱟᱠ ᱠᱚ ᱯᱞᱮ ᱞᱟᱹᱜᱤᱫ ᱥᱟᱲᱮᱯᱷᱚᱸᱴ ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
     <string name="search_prefs">ᱥᱮᱸᱫᱽᱨᱟᱣᱟ ᱥᱟᱡᱟᱣᱠᱚ</string>
@@ -719,6 +701,5 @@
     <string name="add_new_only_button">ᱱᱟᱶᱟᱱᱟᱜ ᱠᱷᱟᱹᱞᱤ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
     <string name="start">ᱮᱦᱚᱵ</string>
     <string name="customize">ᱠᱩᱥᱤᱭᱟᱜ</string>
-    <string name="controls_setting">ᱠᱚᱵᱡᱟ ᱨᱮᱭᱟᱜ ᱥᱟᱡᱟᱣ ᱠᱚ</string>
-    <string name="view_online">ᱚᱱᱞᱟᱭᱤᱱ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
-</resources>
+    <string name="controls_setting">ᱠᱚᱵᱡᱟ ᱨᱮᱭᱟᱜ ᱥᱟᱡᱟᱣ ᱠᱚ</string> <string name="view_online">ᱚᱱᱞᱟᱭᱤᱱ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
+    </resources>

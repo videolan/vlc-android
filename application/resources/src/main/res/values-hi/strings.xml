@@ -38,7 +38,6 @@
     <string name="video_app_switch_summary">वीएलसी व्यवहार का चयन करें जब आप वीडियो प्लेबैक से अन्य एप्लिकेशन पर स्विच करते हैं</string>
     <string name="play_pip_title">वीडियो को चित्र के अंदर चित्र मोड में चलाये</string>
     <string name="play_as_audio_background">वीडियो को पृष्ठभूमि में चलाये</string>
-    <string name="append">संलग्न करें</string>
     <string name="insert_next">अगला जोड़ें</string>
     <string name="play_all">सभी को चलायें</string>
     <string name="append_all">सभी को संलग्न करें</string>
@@ -142,6 +141,7 @@
     <string name="surface_fit_screen">पटल पर जमाओ </string>
     <string name="surface_fill">पूर्ण</string>
     <string name="surface_original">मध्य</string>
+    <string name="resize_tip">ज़्यादा विकल्पों के लिए लंबा टैप करें</string>
     <string name="unseekable_stream">अन्सीकेबल धारा</string>
     <string name="refresh">तरोताज़ा करें</string>
     <string name="track_audio">ऑडीओ रील</string>
@@ -172,12 +172,12 @@
     <string name="sleep_in">निद्रा घड़ी</string>
     <string name="jump_to_time"> समय पर कूदें</string>
     <string name="subtitle_select">उपशीर्षक फ़ाइल का चयन करें</string>
-
     <string name="server_add_title">पसंदीदा में एक नया सर्वर जोड़ें</string>
     <string name="server_domain_hint">सर्वर का पता (डोमेन नाम या आईपी)</string>
     <string name="server_share_hint">नेटवर्क शेयर नाम (या आईपी पता)</string>
     <string name="server_folder_hint">फ़ोल्डर पथ (वैकल्पिक)</string>
     <string name="server_username_hint">प्रयोक्ता नाम</string>
+    <string name="server_servername_hint">सर्वर का नाम, सुविधा के लिए</string>
     <string name="server_port">द्वार :</string>
     <string name="login">लॉगिन </string>
     <string name="password">पासवर्ड</string>
@@ -194,19 +194,26 @@
     <string name="encountered_error_title">प्लेबैक में त्रुटि</string>
     <string name="encountered_error_message">VLC को इस मीडिया के साथ एक त्रुटि का सामना करना पड़ा.\nकृपया मीडिया लाइब्रेरी को ताजा करें.</string>
     <string name="invalid_location">फाइल \'%1$s\' को नहीं चलाया जा सकता।</string>
+    <string name="missing_location">यह मीडिया अनुपलब्ध संग्रहण से है और इसे चलाया नहीं जा सकता।</string>
+
     <string name="search">ढूंढे</string>
 
 
     <string name="playback_history_title">प्लेबैक इतिहास</string>
     <string name="playback_history_summary">Save all media played in History section</string>
     <string name="playback_speed_title">प्लेबैक गति को सहेजें</string>
-    <string name="playback_speed_summary">विभिन्न मिडिया को चलाते समय प्लेबैक गति को एक समान रखें</string>
-
     <string name="play_button">चलाने का बटन</string>
 
+    <!-- Tips -->
+    <string name="tips_title">वीडियो प्लेयर टिप्स</string>
     <string name="seek">ढूंढना</string>
     <string name="subtitles">उपशीर्षक</string>
+    <string name="tips_player_controls">प्लेयर नियंत्रण</string>
+    <string name="tips_player_controls_description">उनका उपयोग किस लिए किया जाता है, यह जानने के लिए नीचे प्लेयर नियंत्रण पर टैप करें</string>
+    <string name="tips_audio_sub">ऑडियो ट्रैक और उपशीर्षक</string>
+    <string name="tips_play_description">वीडियो चलाने के लिए टैप करें</string>
     <string name="lock">ताला</string>
+    <string name="tap">देखने के लिए टैप करें</string>
     <string name="playlist_tips">प्लेलिस्ट सुझाव</string>
     <string name="remove_song">गाना हटाएं</string>
     <string name="remove_playlist_item">प्लेलिस्ट से %1$s को हटा दिया गया है</string>
@@ -227,7 +234,6 @@
 
     <!-- Preferences -->
     <string name="preferences">पसंद</string>
-
     <string name="directories_summary">मीडिया लाइब्रेरी में शामिल करने के लिए निर्देशिका का चयन करें</string>
     <string name="add_custom_path">एक कस्टम पथ जोड़ें</string>
     <string name="add_custom_path_description">स्कैन करने के लिए अतिरिक्त कस्टम निर्देशिका दर्ज करें:</string>
@@ -270,17 +276,11 @@
     <string name="enable_brightness_gesture_summary">वीडियो प्लेबैक के दौरान चमक इशारे से बदलें</string>
     <string name="enable_volume_gesture_summary">वीडियो प्लेबैक के दौरान आवाज इशारे से बदलें</string>
     <string name="browser_show_hidden_files_title">छुपी हुई फाइलें दिखायें</string>
-
     <string name="subtitles_prefs_category">उपशीर्षक</string>
     <string name="subtitles_size_small">छोटा</string>
     <string name="subtitles_size_normal">सामान्य</string>
     <string name="subtitles_size_big">बड़ा</string>
     <string name="subtitles_size_huge">बृहद</string>
-    <string name="subtitles_color_white">सफेद</string>
-    <string name="subtitles_color_pink">गुलाबी</string>
-    <string name="subtitles_color_blue">नीला</string>
-    <string name="subtitles_color_yellow">पीला</string>
-    <string name="subtitles_color_green">हरा</string>
     <string name="audio_prefs_category">ऑडियो</string>
     <string name="list_title_ellipsize_left">बाएँ</string>
     <string name="list_title_ellipsize_right">दाएँ</string>
@@ -350,7 +350,6 @@
     <string name="permission_ask_again">अनुमति प्रदान करें</string>
     <string name="permission_not_granted">अनुमति नहीं मिली</string>
     <string name="exit_app">VLC बन्द करें</string>
-
     <!-- Plugins -->
     <string name="plugins">प्लग-इन्स</string>
     <string name="download_on_device">डाउनलोड करें</string>
@@ -359,9 +358,6 @@
     <string name="store_password">गुप्तवचन प्रत्यास्मरण.</string>
     <string name="add_to_playlist">प्लेलिस्ट में जोड़ें</string>
     <string name="listen">सुनें</string>
-    <string name="episodes">एपिसोड</string>
-    <string name="movies">फिल्में</string>
-    <string name="videos">वीडियो</string>
     <string name="videos_all">सभी वीडियो</string>
     <string name="clear_playback_history">प्लेबैक इतिहास को मिटायें</string>
     <string name="ml_discovering">खोज रहा है</string>
@@ -471,4 +467,4 @@
         <item quantity="one">ये आइटम पहले से ही प्लेलिस्ट में है।</item>
         <item quantity="other">ये आइटम पहले से ही प्लेलिस्ट में हैं।</item>
     </plurals>
-</resources>
+    </resources>

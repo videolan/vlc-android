@@ -14,11 +14,26 @@
     <string name="sortby_length">ხანგრძლივობა</string>
     <string name="sortby_date">თარიღი</string>
     <string name="sortby_last_modified_date">ბოლოს დამატებული</string>
+    <string name="sortby_insertion">ჩამატების თარიღი</string>
     <string name="sortby_media_number">მედიაფაილის ნომერი</string>
     <string name="sortby_number">ჩანაწერის ნომერი</string>
     <string name="searchable_hint">ძიება…</string>
     <string name="history">ისტორია</string>
 
+    <string name="sortby_name_asc">სახელი ა → ჰ</string>
+    <string name="sortby_name_desc">სახელი ა → ჰ</string>
+    <string name="sortby_artist_name_asc">შემსრულებელი ა → ჰ</string>
+    <string name="sortby_artist_name_desc">შემსრულებელი ჰ → ა</string>
+    <string name="sortby_album_name_asc">ალბომი ა → ჰ</string>
+    <string name="sortby_album_name_desc">ალბომი ჰ → ა</string>
+    <string name="sortby_filename_asc">ფაილი ა → ჰ</string>
+    <string name="sortby_filename_desc">ფაილი ჰ → ა</string>
+    <string name="sortby_length_asc">ხანმოკლე ჯერ</string>
+    <string name="sortby_length_desc">ხანგრძლივი ჯერ</string>
+    <string name="sortby_date_asc">ადრინდელი ჯერ</string>
+    <string name="sortby_date_desc">უახლესი ჯერ</string>
+    <string name="sortby_last_modified_date_asc">ადრე დამატებული ჯერ</string>
+    <string name="sortby_last_modified_date_desc">ახლად დამატებული ჯერ</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d შედეგია ნაპოვნი</item>
         <item quantity="other">%d შედეგია ნაპოვნი</item>
@@ -32,16 +47,16 @@
     <string name="play_from_start">დასაწყისიდან გაშვება</string>
     <string name="play_as_audio">ხმოვან ფაილად გაშვება</string>
     <string name="play_as_video">ვიდეოფაილად გაშვება</string>
+    <string name="return_to_video">დიდხანს შეეხეთ გარეკანზე ვიდეოს აღსადგენად</string>
     <string name="video_app_switch_title">ფონური/ეკრანი-ეკრანში</string>
     <string name="video_app_switch_summary">აირჩიეთ, როგორ მოიქცეს VLC, გაშვებული ვიდეოდან სხვა პროგრამაზე გადასვლისას</string>
     <string name="play_pip_title">გაეშვას ვიდეო ეკრანი-ეკრანში</string>
     <string name="play_as_audio_background">გაეშვას ვიდეო ფონურად</string>
-    <string name="append">ჩამატება</string>
     <string name="insert_next">ჩაემატოს მომდევნოდ</string>
     <string name="play_all">ყველას გაშვება</string>
     <string name="append_all">ყველას ჩამატება</string>
     <string name="resume_playback_short_title">დაკვრის გაგრძელება</string>
-    <string name="resume_playback_long_title">გაგრძელება, ბოლოს გაშვებული სიიდან</string>
+    <string name="resume_playback_long_title">გაგრძელება ბოლოს გაშვებული სიიდან</string>
     <string name="resume_playback_error">არაფერია გასაგრძელებლად</string>
     <string name="delete">წაშლა</string>
     <string name="remove">მოცილება</string>
@@ -104,7 +119,7 @@
     </plurals>
 
     <string name="internal_memory">შიდა მეხსიერება</string>
-    <string name="audio">ხმოვანი</string>
+    <string name="audio">ხმოვანება</string>
     <string name="video">ვიდეო</string>
     <string name="bookmarks">სანიშნები</string>
     <string name="equalizer">მათანაბრებელი</string>
@@ -115,7 +130,8 @@
     <string name="directories">საქაღალდეები</string>
     <string name="loading">იტვირთება</string>
     <string name="please_wait">გთხოვთ, მოითმინოთ...</string>
-    <string name="nomedia">მედიაფაილები არაა, გთხოვთ, განათავსოთ ფაილები ამ მოწყობილობაზე ან შეასწოროთ პარამეტრები.</string>
+    <string name="nomedia">მედიაფაილები ვერ მოინახა, გთხოვთ, განათავსოთ ფაილები ამ მოწყობილობაზე ან შეცვალოთ პარამეტრები.</string>
+    <string name="empty_search">არაფერია ნაპოვნი %s ძიებისას</string>
     <string name="noplaylist">დასაკრავი სია არაა</string>
     <string name="nosubfolder">ქვესაქაღალდე არაა</string>
     <string name="directorynotfound">საქაღალდე „%1$s“ მისამართით, არაა.</string>
@@ -132,7 +148,7 @@
     <string name="repeat_single">ერთის გამეორება</string>
     <string name="repeat_all">ყველას გამეორება</string>
     <string name="previous">წინა</string>
-    <string name="stop">გაჩერდეს</string>
+    <string name="stop">შეწყვეტა</string>
     <string name="firstsong">დასაკრავი სიიდან პირველი</string>
     <string name="lastsong">დასაკრავი სიიდან ბოლო</string>
 
@@ -140,14 +156,15 @@
     <string name="surface_fit_screen">ეკრანზე მორგება</string>
     <string name="surface_fill">შევსება</string>
     <string name="surface_original">შუაში</string>
+    <string name="resize_tip">დიდხანს შეეხეთ სხვა პარამეტრებისთვის</string>
     <string name="unseekable_stream">გადახვევის არმქონე ნაკადი</string>
     <string name="refresh">გაახლება</string>
     <string name="track_audio">ხმოვანი ჩანაწერი</string>
     <string name="track_video">ვიდეოჩანაწერი</string>
-    <string name="track_text">სუბტიტრების ჩანაწერი</string>
+    <string name="track_text">ქვეწარწერების ჩანაწერი</string>
     <string name="track_unknown">უცნობი ჩანაწერი</string>
     <string name="track_bitrate_info">ბიტსიხშირე: %1$s/s\n</string>
-    <string name="track_codec_info">დამშიფრავი: %1$s\n</string>
+    <string name="track_codec_info">მშიფრავი: %1$s\n</string>
     <string name="track_language_info">ენა: %1$s\n</string>
     <string name="volume">ხმის დონე</string>
     <string name="sound_on">ხმა ჩართულია</string>
@@ -161,7 +178,7 @@
         <item quantity="other">%1$dარხი\n</item>
     </plurals>
 
-    <string name="track_samplerate_info">შერჩევის სიხშირე:%1$d ჰრც\n</string>
+    <string name="track_samplerate_info">შერჩევის სიხშირე: %1$d ჰრც\n</string>
     <string name="track_resolution_info">გარჩევადობა: %1$dx%2$d\n</string>
     <string name="track_framerate_info">კადრის სიხშირე: %1$.3f\n</string>
 
@@ -169,13 +186,15 @@
     <string name="sleep_title">ძილის უკუთვლა</string>
     <string name="sleep_in">დაიძინოს</string>
     <string name="jump_to_time">გადასვლა დროზე</string>
-    <string name="subtitle_select">აირჩიეთ სუბტიტრების ფაილი</string>
+    <string name="subtitle_select">აირჩიეთ ქვეწარწერების ფაილი</string>
+    <string name="wait_before_sleep">გაშვებული ფაილის დასრულებამდე მოცდა</string>
 
     <string name="server_add_title">ახალი სერვერის დამატება რჩეულებში</string>
     <string name="server_domain_hint">სერვერის მისამართი (დომენის სახელი ან IP)</string>
     <string name="server_share_hint">ქსელის გაზიარების სახელი (ან IP მისამართი)</string>
     <string name="server_folder_hint">საქაღალდის მდებარეობა (არასავალდებულო)</string>
     <string name="server_username_hint">მომხმარებლის სახელი</string>
+    <string name="server_servername_hint">სერვერის სახელი სიმარტივისთვის</string>
     <string name="server_port">პორტი:</string>
     <string name="login">ანგარიში</string>
     <string name="password">პაროლი</string>
@@ -192,40 +211,78 @@
     <string name="encountered_error_title">დაკვრის შეცდომა</string>
     <string name="encountered_error_message">VLC წააწყდა ხარვეზს ამ ფაილზე.\nგთხოვთ, ცადოთ მედიათეკის განახლება.</string>
     <string name="invalid_location">%1$s მისამართიდან ვერ ეშვება.</string>
+    <string name="missing_location">ფაილი მიუწვდომელი მეხსიერებიდანაა და ვერ გაეშვება.</string>
+
     <string name="search">ძიება</string>
 
 
     <string name="playback_history_title">დაკვრის ისტორია</string>
     <string name="playback_history_summary">ყველა გაშვებული ფაილის ისტორიაში შენახვა</string>
+    <string name="video_resume_playback_title">გასაშვები ვიდეოების რიგის დახსომება</string>
+    <string name="video_resume_playback_summary">ნებართვა გასაშვები ვიდეოების რიგის შესანახად მოგვიანებით გაგრძელებისთვის</string>
+    <string name="audio_resume_playback_title">გასაშვები ხმოვანი ჩანაწერების რიგის დახსომება</string>
+    <string name="audio_resume_playback_warning">ხმოვანი ჩანაწერების რიგის დახსომების გათიშვამ შეიძლება ხარვეზები წარმოშვას.\nშედეგად, ვერ შეძლებთ განაგრძოთ დაკვრა:\n\n\t- Bluetooth-მოწყობილობიდან\n\t- ვიჯეტიდან\n\t- შეტყობინების არედან</string>
+    <string name="audio_resume_playback_summary">ნებართვა გასაშვები ხმოვანი ჩანაწერების რიგის შესანახად მოგვიანებით გაგრძელებისთვის</string>
     <string name="playback_speed_title">დაკვრის სიჩქარის დამახსოვრება</string>
     <string name="playback_speed_summary">დაკვრის სიჩქარის შენარჩუნება სხვადასხვა ფაილზე</string>
 
     <string name="play_button">გაშვების ღილაკი</string>
 
+    <!-- Tips -->
+    <string name="tips_title">ვიდეოდამკვრელის მინიშნებები:</string>
     <string name="seek">გადახვევა</string>
-    <string name="subtitles">სუბტიტრები</string>
+    <string name="subtitles">ქვეწარწერები</string>
+    <string name="tips_player_controls">დამკვრელის სამართავი</string>
+    <string name="tips_player_controls_description">შეეხეთ დამკვრელის სამართავ ღილაკებს ქვემოთ, რომ გაარკვიოთ რისთვისაა</string>
+    <string name="tips_audio_sub">ხმოვანი ჩანაწერები და ქვეწარწერები</string>
+    <string name="tips_play_description">შეეხეთ ვიდეოს გასაშვებად</string>
     <string name="lock">ჩაკეტვა</string>
+    <string name="tap">შეეხეთ სანახავად</string>
+    <string name="tap_to_remove">შეეხეთ მოსაცილებლად</string>
+    <string name="tap_to_rearrange">შეეხეთ გადასალაგებლად</string>
+    <string name="tap_to_previous_next">შეეხეთ წინა/შემდეგზე გადასასვლელად</string>
+    <string name="lock_orientation">განლაგება</string>
+    <string name="lock_orientation_description">შეეხეთ განლაგების ჩაკეტვა/გახსნისთვის</string>
+    <string name="aspect_ratio">გვერდების ფარდობა</string>
+    <string name="aspect_ratio_description">შეეხეთ ვიდეოს გვერდების თანაფარდობის შესაცვლელად</string>
+    <string name="advanced_options">გაფართოებული პარამეტრები</string>
+    <string name="advanced_options_description">როგორიცაა დაკვრის სიჩქარე, გამეორების რეჟიმები, ...</string>
+    <string name="tips_swipe">აუსვით ან ჩამოუსვით</string>
+    <string name="tips_swipe_horizontal">გადაუსვით მარცხნივ ან მარჯვნივ</string>
+    <string name="tips_playlist">დასაკრავი სია</string>
+    <string name="tips_hold_seek">დააჭირეთ გადასახვევად</string>
+    <string name="tips_long_drop">დიდხანს შეეხეთ და აუშვით</string>
+    <string name="pause_description">ორმაგი შეხება შეჩერებისთვის</string>
+    <string name="seek_tap">+/- 10 წმ</string>
+    <string name="seek_tap_description">ორმაგი შეხება 10 წამით გადასახვევად</string>
+    <string name="close">დახურვა</string>
+
     <string name="playlist_tips">დასაკრავი სიის მინიშნებები</string>
     <string name="remove_song">სიმღერის მოცილება</string>
     <string name="remove_playlist_item">%1$s მოცილებულია სიიდან</string>
     <string name="rearrange_order">რიგის გადალაგება</string>
-    <string name="hold_to_seek">დაჭერით გადახვევა</string>
+    <string name="hold_to_seek">დააჭირეთ გადასახვევად</string>
 
     <string name="audio_player_tips">ხმოვანი დამკვრელის მინიშნებები</string>
     <string name="previous_next_song">წინა/შემდეგი სიმღერა</string>
     <string name="show_playlist">დასაკრავი სიის გამოჩენა</string>
-    <string name="hold_to_stop">დაჭერით შეწყვეტა</string>
+    <string name="hide_playlist">დასაკრავი სიის დამალვა</string>
+    <string name="hold_to_stop">დააჭირეთ შესაწყვეტად</string>
 
     <!-- About -->
     <string name="app_name_full">VLC Android-ზე</string>
     <string name="revision">გამოცემა</string>
     <string name="about">შესახებ</string>
+    <string name="about_vlc_text">VLC Android™ არის ამ სისტემისთვის მორგებული ცნობილი და ღია წყაროს მქონე, მედიაფაილების დამკვრელი VLC media player. მოცემულ Android™-ვერსიას შეუძლია ყველა სახის ფაილისა და ქსელური ნაკადის გაშვება.</string>
+    <string name="authors">შემქმნელები</string>
     <string name="vlc_authors">და VLC-ს ავტორები.</string>
+    <string name="is_compiled_by">გარდამქმნელი</string>
+    <string name="sources">პირველწყარო კოდი</string>
+    <string name="libraries">ბიბლიოთეკები</string>
     <string name="feedback_forum">უკუკავშირის ფორუმი</string>
 
     <!-- Preferences -->
     <string name="preferences">პარამეტრები</string>
-
     <string name="directories_summary">აირჩიეთ საქაღალდეები მედიათეკისთვის</string>
     <string name="add_custom_path">მითითებული მდებარეობის დამატება</string>
     <string name="add_custom_path_description">დამატებით შეიყვანეთ სასურველი საქაღალდე, მოსაძიებლად:</string>
@@ -238,16 +295,21 @@
     <string name="dev_hardware_decoder">გაუმჯობესებული აპარატული გამშიფრავი</string>
     <string name="dev_hardware_decoder_summary">იძულებითი აპარატული გაშიფვრა, გამოცდილი მომხმარებელთათვის, მხოლოდ.</string>
     <string name="automatic">ავტომატური</string>
-    <string name="screen_orientation">ვიდეო ეკრანზე განლაგება</string>
+    <string name="screen_orientation">ვიდეოს ეკრანზე განლაგება</string>
     <string name="screen_orientation_sensor">ავტომატური (გადამწოდით)</string>
     <string name="screen_orientation_portrait">შვეული</string>
     <string name="screen_orientation_landscape">თარაზული</string>
     <string name="screen_orientation_landscape_reverse">თარაზული შებრუნებით</string>
-    <string name="screen_orientation_last_locked">ბოლოს ჩაკეტილი განლაგება</string>
-    <string name="enable_black_theme">შავი იერსახე</string>
-    <string name="subtitle_text_encoding">სუბტიტრების ტექსტის კოდირება</string>
+    <string name="screen_orientation_last_locked">ბოლოს შენარჩუნებული განლაგება</string>
+    <string name="enable_black_theme">მუქი იერსახე</string>
+    <string name="theme_auto">იერსახის თვითშერჩევა</string>
+    <string name="subtitle_text_encoding">ქვეწარწერების ტექსტის კოდირება</string>
+    <string name="subtitle_preferred_language">ქვეწარწერების სასურველი ენა</string>
     <string name="daynight_title">დღეღამე რეჟიმი</string>
     <string name="daynight_follow_system_title">სისტემის მიხედვით</string>
+    <string name="no_track_preference">ენის პარამეტრები არაა</string>
+    <string name="track_preference">ჩანაწერის პარამეტრები: %s</string>
+
     <string name="extra_prefs_category">გაფართოებული პარამეტრები</string>
 
     <string name="interface_prefs_screen">გარსი</string>
@@ -265,43 +327,73 @@
     <string name="video_transition_summary">ახალი ვიდეოს სათაურის გამოჩენა, გადასვლისას</string>
     <string name="media_seen">ნანახი ვიდეოს მონიშვნა</string>
     <string name="media_seen_summary">მოინიშნოს ვიდეო ნანახად, თავიდან ბოლომდე ნახვისას</string>
-    <string name="force_play_all_summary">გაეშვება ყველა ვიდეო, დაწყებული თქვენ მიერ შერჩეულიდან</string>
-    <string name="force_play_all_title">ვიდეოს სიის რეჟიმი</string>
+    <string name="force_play_all_summary">გაეშვება ყველა ვიდეო თქვენ მიერ შერჩეულიდან დაწყებული</string>
+    <string name="force_play_all_audio_summary">გაეშვება ყველა ხმოვანი ჩანაწერი თქვენ მიერ შერჩეულიდან დაწყებული</string>
+    <string name="force_play_all_title">ვიდეოს სიით გაშვება</string>
+    <string name="force_play_all_audio_title">ხმოვანი ჩანაწერების სიით გაშვება</string>
     <string name="save_brightness_summary">სიკაშკაშის დონის შენარჩუნება სხვადასხვა ფაილზე</string>
     <string name="save_brightness_title">სიკაშკაშის დონის დამახსოვრება</string>
-    <string name="save_audiodelay_summary">ცალკეული ხმოვანი ჩანაწერების დაყოვნების დამახსოვრება, თითოეული ვიდეოსთვის</string>
+    <string name="save_audiodelay_summary">ხმის დაყოვნების დამახსოვრება თითოეული ვიდეოსთვის ცალ-ცალკე</string>
     <string name="save_audiodelay_title">ხმის დაყოვნების დამახსოვრება</string>
     <string name="enable_brightness_gesture_title">სიკაშკაშის ჟესტი</string>
     <string name="enable_brightness_gesture_summary">სიკაშკაშის ჟესტებით მართვა, გაშვებულ ვიდეოზე</string>
     <string name="enable_volume_gesture_title">ხმის დონის ჟესტი</string>
     <string name="enable_volume_gesture_summary">ხმის დონის ჟესტით მართვა, გაშვებულ ვიდეოზე</string>
     <string name="enable_seek_buttons">გადახვევის ღილაკები</string>
-    <string name="enable_double_tap_seek_title">ორჯერ შეხებით გადახვევა</string>
-    <string name="enable_double_tap_seek_summary">ორჯერ შეხება ეკრანის კიდეებზე, 10 წამით გადახვევისთვის</string>
+    <string name="enable_seek_buttons_summary">წინ და უკან გადახვევის ღილაკების გამოჩენა ვიდეოს გარსზე</string>
+    <string name="enable_android_auto_speed_buttons">Android-ზე თვითგაშვების სიჩქარე</string>
+    <string name="enable_android_auto_speed_buttons_summary">სიჩქარის მართვა ჩამოსაშლელი მენიუდან</string>
+    <string name="enable_android_auto_seek_buttons">Android-ზე თვითგადახვევის ღილაკები</string>
+    <string name="enable_android_auto_seek_buttons_summary">წინ და უკან გადახვევის ღილაკების გამოჩენა ჩამოსაშლელ მენიუში.</string>
+    <string name="enable_double_tap_seek_title">ორმაგი შეხება გადასახვევად</string>
+    <string name="enable_double_tap_seek_summary">ორმაგი შეხება ეკრანის კიდეებზე 10 წამით გადასახვევად</string>
+    <string name="enable_double_tap_play_title">ორმაგი შეხება გაშვება/შეჩერებისთვის</string>
+    <string name="enable_double_tap_play_summary">ორმაგი შეხება ეკრანის შუაში გაშვება/შეჩერებისთვის</string>
+    <string name="enable_swipe_seek_title">გადაუსვით გადახვევისთვის</string>
+    <string name="enable_scale_gesture_title">ორი თითით მოახლოება</string>
+    <string name="enable_scale_gesture_summary">ორი თითით მოახლოება ან დაშორება</string>
     <string name="popup_keepscreen_title">დარჩეს ეკრანი ჩართული, ამომხტარი რეჟიმისას</string>
     <string name="popup_keepscreen_summary">ყოველთვის დარჩეს ეკრანი ჩართული, როცა ამომხტარია, ვიდეოს შეჩერების შემთხვევაშიც.</string>
     <string name="browser_show_hidden_files_title">დამალული ფაილების გამოჩენა</string>
+    <string name="albums_show_track_numbers">ჩანაწერის ნომრების ჩვენება</string>
+    <string name="enable_video_screenshot">ეკრანის სურათი</string>
 
-    <string name="subtitles_prefs_category">სუბტიტრები</string>
-    <string name="subtitles_size_title">სუბტიტრის ზომა</string>
+    <string name="subtitles_prefs_category">ქვეწარწერები</string>
+    <string name="subtitles_size_title">ქვეწარწერის ზომა</string>
+    <string name="subtitles_presets_title">ქვეწარწერების მზა პარამეტრები</string>
     <string name="subtitles_size_small">პატარა</string>
     <string name="subtitles_size_normal">საშუალო</string>
     <string name="subtitles_size_big">დიდი</string>
     <string name="subtitles_size_huge">უზარმაზარი</string>
-    <string name="subtitles_color_title">სუბტიტრის ფერი</string>
-    <string name="subtitles_color_white">თეთრი</string>
-    <string name="subtitles_color_gray">ნაცრისფერი</string>
-    <string name="subtitles_color_pink">ვარდისფერი</string>
-    <string name="subtitles_color_blue">ლურჯი</string>
-    <string name="subtitles_color_yellow">ყვითელი</string>
-    <string name="subtitles_color_green">მწვანე</string>
-    <string name="subtitles_background_title">სუბტიტრის ფონი</string>
-    <string name="subtitles_bold_title">მუქი სუბტიტრი</string>
-    <string name="subtitles_autoload_title">სუბტიტრების თვითჩატვირთვა</string>
+    <string name="subtitles_font_style">ქვეწარწერების შრიფტის სტილი</string>
+    <string name="subtitles_color_title">ქვეწარწერის ფერი</string>
+    <string name="subtitles_opacity">გაუმჭვირვალობა</string>
+    <string name="subtitles_color">ფერი</string>
+    <string name="subtitles_size">ზომა</string>
+    <string name="subtitles_background_color_title">ქვეწარწერების ფონი</string>
+    <string name="subtitles_background_title">ქვეწარწერის ფონი</string>
+    <string name="subtitles_outline_title">ქვეწარწერების გარემოხაზულობა</string>
+    <string name="subtitles_shadow_title">ქვეწარწერების ჩრდილი</string>
+    <string name="subtitles_decoration_title">ქვეწარწერების გაფორმება</string>
+    <string name="subtitle_decoration_none">არცერთი</string>
+    <string name="subtitle_decoration_shadow">ჩრდილი</string>
+    <string name="subtitle_decoration_outline">გარემოხაზულობა</string>
+    <string name="subtitles_bold_title">მუქი ქვეწარწერა</string>
+    <string name="subtitles_autoload_title">ქვეწარწერების თვითჩატვირთვა</string>
+    <string name="previous_color">წინა ფერი</string>
+    <string name="new_color">ახალი ფერი</string>
+    <string name="subtitles_preset_default">ნაგულისხმევი</string>
+    <string name="subtitles_preset_default_large">მოზრდილი ტექსტი</string>
+    <string name="subtitles_preset_default_largest">მოზრდილი და გამოკვეთილი ტექსტი </string>
+    <string name="subtitles_preset_white_background">ფონით</string>
+    <string name="subtitles_yellow">ყვითელი</string>
+    <string name="subtitles_yellow_background">ყვითლად ფონით</string>
 
     <string name="audio_prefs_category">ხმა</string>
     <string name="lockscreen_cover_title">გარეკანის ჩვენება ჩაკეტილ ეკრანზე</string>
     <string name="lockscreen_cover_summary">როცა შესაძლებელია, გაშვებული ფაილის გარეკანი გამოჩნდება ჩაკეტილი ეკრანის ფონად</string>
+    <string name="show_seek_in_compact_notif_title">გადახვევის ღილაკები შეტყობინებათა არეში</string>
+    <string name="show_seek_in_compact_notif_summary">წინ და უკან გადახვევის ღილაკების გამოყენება ფაილის მართვის სწრაფი არედან</string>
     <string name="list_title_ellipsize">სიის სათაურის ცალ ხაზზე შემოკლება</string>
     <string name="list_title_ellipsize_default">ნაგულისხმევი</string>
     <string name="list_title_ellipsize_left">მარცხენა</string>
@@ -315,6 +407,19 @@
     <string name="enable_headset_detection_summary">ყურსასმენების შეერთებისა და გამოერთების დადგენა</string>
     <string name="enable_play_on_headset_insertion">განაგრძოს ყურსასმენების შეერთებისას</string>
     <string name="enable_play_on_headset_insertion_summary">თუ არადა შეჩერდეს</string>
+    <string name="replaygain_prefs_category">ხმის სიმაღლის მდგრადობა</string>
+    <string name="replaygain_enable">ხმის მდგრადობის შენარჩუნება</string>
+    <string name="replaygain_enable_summary">ხმის სიმაღლის მდგრადობის გარეშე ნაკადი შესაძლოა, მეტად ჩაჩუმებული იყოს</string>
+    <string name="replaygain_mode">ხმის მდგრადობის რეჟიმი</string>
+    <string name="replaygain_mode_summary">ჩანაწერის რეჟიმით გაშვებისას ხმის მდგრადობა ერთ სიმაღლეზე შენარჩუნდება. ალბომის რეჟიმში გაშვებისას კი ალბომში ხმის საერთო სიმაღლეს გაითვალისწინებს.</string>
+    <string name="replaygain_preamp">მდგრადობის წინამაძლიერებელი</string>
+    <string name="replaygain_preamp_summary">ცვლის ნაგულისხმევ სამიზნე დონეს (89დბ) იმ ნაკადებისთვის, რომელთაც ახლავს ხმის მდგრადობის მონაცემები.</string>
+    <string name="replaygain_default">ხმის ნაგულისხმევი მდგრადობა</string>
+    <string name="replaygain_default_summary">იმ ნაკადებისთვის, რომელთაც არ ახლავს ხმის მდგრადობის მონაცემები\nმიუთითეთ 0 გასათიშად</string>
+    <string name="replaygain_peak_protection">უკიდურესი გადახრისგან დაცვა</string>
+    <string name="replaygain_peak_protection_summary">ხმის გამრუდების არიდება</string>
+    <string name="replaygain_track">ჩანაწერი</string>
+    <string name="replaygain_album">ალბომი</string>
     <string name="aout">ხმის გამოტანა</string>
     <string name="aout_summary">სისტემის შეცვლა, რომელსაც VLC იყენებს ხმის გამოტანისთვის.</string>
     <string name="audio_ducking_title">VLC-ის ხმის დადაბლება, შეტყობინების მიღებისას</string>
@@ -333,7 +438,8 @@
     <string name="artists_show_all_title">ყველა შემსრულებლის ჩვენება</string>
     <string name="show_headers">თავსართების ჩვენება</string>
     <string name="show_headers_summary">სიების დაყოფა თავსართებით, დალაგების სახეობის მიხედვით</string>
-
+    <string name="tv_folders_first">ჯერ საქაღალდეების ჩვენება</string>
+    <string name="tv_folders_first_summary">ასარჩევში ჯერ საქაღალდეებისა და შემდეგ ფაილების ჩვენება</string>
     <string name="extensions_prefs_category">გაფართოებები</string>
     <string name="extensions_empty">გაფართოებები არ აღმოჩენილა</string>
     <string name="extension_permission_title">ამოქმედდეს ახალი გაფართოება „%1$s“?</string>
@@ -359,18 +465,24 @@
     <string name="auto_rescan">თვითმოძიება</string>
     <string name="auto_rescan_summary">ავტომატური მოძიება მოწყობილობაზე დამატებული ან წაშლილი ფაილებს, პროგრამის გაშვებისას.</string>
     <string name="dump_media_db">ფაილების მონაცემთა კრებულის გადატანა</string>
+    <string name="dump_app_db">აღრიცხვების პროგრამის მონაცემთა კრებული</string>
     <string name="dump_media_db_summary">მონაცემთა კრებულის ასლი შექმნა, შიდა მეხსიერების ძირეულ საქაღალდეში</string>
     <string name="clear_media_db">ფაილების მონაცემთა კრებულის გასუფთავება</string>
     <string name="clear_media_database_summary">გასუფთავდება მონაცემთა კრებული, ახლიდან დასაწყებად</string>
     <string name="clear_app_data">პროგრამის მონაცემების გასუფთავება</string>
     <string name="clear_app_data_summary">გასუფთავდება VLC Android-ის მონაცემები</string>
     <string name="clear_history">ისტორიის გასუფთავება</string>
+    <string name="clear_history_message">დაკარგავთ ისტორიას, მიმდინარე სიებსა და დამახსოვრებულ წერტილებს</string>
     <string name="set_locale">ენის მითითება</string>
     <string name="network_caching">ქსელური მომარაგების მნიშვნელობა</string>
+    <string name="network_caching_summary">დრო (მწმ), რომელიც საჭიროა ქსელიდან მიღებული ფაილის მოსამარაგებლად პროგრამული გაშიფვრისთვის\nმიუთითეთ 0 გასათიშად</string>
     <string name="resume_playback_title">განაგრძოს დაკვრა ზარის შემდგომ</string>
     <string name="resume_playback_summary">თუ არადა დარჩეს შეჩერებული</string>
     <string name="blurred_cover_background_title">დაბურული გარეკანი ფონად</string>
     <string name="blurred_cover_background_summary">დაბურული გარეკანი, ხმოვანი დამკვრელის ფონად</string>
+    <string name="force_shuffle_title">იძულებით არევა</string>
+    <string name="force_shuffle_summary">ხელოვნურად არევა გაშვების დაწყებისას</string>
+    <string name="network_caching_popup">მნიშვნელობის ზღვრებია 0 და 60000 მწმ</string>
     <string name="quit">გამოსვლა და კვლავ გაშვება</string>
     <string name="restart_message">ცვლილებები აისახება ხელახლა გაშვების შემდგომ.\n\nახლავე გაეშვას?</string>
     <string name="restart_message_OK">კარგი</string>
@@ -388,6 +500,7 @@
     <string name="log_service_text">აღრიცხვების ველის გახსნა</string>
     <string name="copy_to_clipboard">ასლის აღება</string>
     <string name="copied_to_clipboard">აღრიცხვების ასლი აღებულია.</string>
+    <string name="copied_from_clipboard">მისამართის აღებული ასლი ჩასმულია</string>
     <string name="dump_logcat">აღრიცხვების გადატანა</string>
     <string name="dump_logcat_success">Logcat წარმატებითაა გადატანილი %1$s-ში!</string>
     <string name="dump_logcat_failure">ვერ მოხერხდა აღრიცხვების გადატანა</string>
@@ -400,21 +513,22 @@
     <string name="send_log">აღრიცხვების გაგზავნა</string>
     <string name="sending_log">იგზავნება აღრიცხული ჩანაწერები...</string>
 
-    <string name="delete_sub_title">სუბტიტრების წაშლა</string>
-    <string name="delete_sub_message">გსურთ ამ სუბტიტრების წაშლა?</string>
-    <string name="download_subtitle_title">სუბტიტრების ჩამოტვირთვა</string>
+    <string name="delete_sub_title">ქვეწარწერების წაშლა</string>
+    <string name="delete_sub_message">გსურთ ამ ქვეწარწერების წაშლა?</string>
+    <string name="download_subtitle_title">ქვეწარწერების ჩამოტვირთვა</string>
 
     <string name="no_result">შედეგები არაა</string>
     <string name="no_internet_connection">შეამოწმეთ ქსელთან კავშირი</string>
+    <string name="retry">გამეორება</string>
     <string name="subs_download_error">მომსახურება მიუწვდომელია. გთხოვთ ცადოთ მოგვიანებით</string>
 
     <string name="network_browsing">ადგილობრივი ქსელი</string>
-    <string name="browsing">ამორჩევა</string>
+    <string name="browsing">არჩევა</string>
 
     <string name="file_size">ფაილის ზომა</string>
 
     <string name="audio_delay">ხმის დაყოვნება</string>
-    <string name="spu_delay">სუბტიტრების დაყოვნება</string>
+    <string name="spu_delay">ქვეწარწერების დაყოვნება</string>
     <string name="network_shares_discovery">ქსელში გაზიარებების მონახვა</string>
     <string name="network_empty">ეს საქაღალდე ცარიელია.</string>
     <string name="network_connection_needed">არაა კავშირი ადგილობრივ ქსელთან.</string>
@@ -424,6 +538,7 @@
     <string name="playlist_save">დასაკრავი სიის შენახვა</string>
     <string name="playlist_name_hint">დასაკრავი სიის სახელი</string>
     <string name="go_to_chapter">თავზე გადასვლა...</string>
+    <string name="current_chapter">თავი: %s</string>
     <string name="confirm_resume">განაგრძოს ბოლო მდებარეობიდან?</string>
     <string name="confirm_resume_title">დაკრული ვიდეოების გაგრძელება</string>
     <string name="tv_ui_title">Android TV-ის გარსი</string>
@@ -435,23 +550,48 @@
     <string name="more_actions">სხვა მოქმედებები</string>
     <string name="back_quit_lock">კვლავ დააჭირეთ უკან, ვიდეოდან გამოსვლისთვის</string>
     <string name="stream_deleted">ნაკადი წაშლილია</string>
-    <string name="no_subs_found">სუბტიტრები არაა ამ საქაღალდეში</string>
+    <string name="no_subs_found">ქვეწარწერები არაა ამ საქაღალდეში</string>
     <string name="music_now_playing">ახლა გაშვებულია</string>
 
     <!-- Widget -->
     <string name="widget_name_w">ნათელი VLC-ვიჯეტი</string>
     <string name="widget_name_b">მუქი VLC-ვიჯეტი</string>
+    <string name="widget_name_mini_player">VLC მინიდამკვრელი</string>
+    <string name="widget_old_text">ვიჯეტები განახლებულია!</string>
+    <string name="widget_old_description_start">სასიამოვნო სიახლე! გამოვუშვით გაუმჯობესებული ვიჯეტები.\nმეტად მგრძნობიარე და ადვილად მოსარგები გახდა</string>
+    <string name="whats_next">რა იქნება შემდეგ?</string>
+    <string name="widget_old_description_end">ჩანს, უკვე დამატებული გაქვთ ვიჯეტები. სამწუხაროდ, ისინი შეუთავსებელია ახლებთან.\nზოგ გამშვებზე შეიძლება დაგჭირდეთ ძველის მოცილება ახლით ჩანაცვლებისთვის.</string>
+    <string name="click_here">ვრცლად იხილეთ აქ.</string>
     <string name="allow_storage_access_title">დართეთ ნება VLC-ს, ხმოვან და ვიდეოფაილებთან წვდომის</string>
-    <string name="allow_storage_access_description">VLC საჭიროებს ამ ნებართვას, მოწყობილობაზე ფაილებთან წვდომისთვის.</string>
+    <string name="allow_storage_access_description">VLC საჭიროებს ამ ნებართვას მოწყობილობის ფაილებთან წვდომისთვის.</string>
+    <string name="allow_storage_manager_title">დართეთ ნება VLC-ს ყველა ფაილთან წვდომის</string>
+    <string name="allow_storage_manager_description">%s\n\nრთავთ ნებას?</string>
+    <string name="allow_storage_manager_explanation">VLC-ს სრულყოფილად გამოსაყენებლად და ყველა სახის ფაილის გასაშვებად დაჟინებით გირჩევთ, მისცეთ ნებართვა.</string>
+    <string name="partial_content">VLC ვერ ახერხებს ყველა ფაილთან წვდომას.</string>
+    <string name="partial_content_description">Android 11-იდან მოყოლებული, აპები საჭიროებს საგანგებო ნებართვებს მოწყობილობის ყველა ფაილთან წვდომისთვის.\n\n%s</string>
+    <string name="never_ask_again">მომავალში შეკითხვის გარეშე</string>
     <string name="allow_settings_access_ringtone_title">დართეთ ნება VLC-ს, ზარის დაყენების</string>
     <string name="allow_settings_access_ringtone_description">VLC საჭიროებს ამ ნებართვას, მოცემული სიმღერის ზარად დაყენებისთვის.</string>
     <string name="allow_settings_access_brightness_title">დართეთ ნება VLC-ს, სიკაშკაშის დონის შეცვლის</string>
     <string name="allow_settings_access_brightness_description">VLC საჭიროებს ამ ნებართვას, სიკაშკაშის დონის ცვლილებისთვის.</string>
     <string name="allow_draw_overlays_title">დართეთ ნება VLC-ს, სხვა აპებზე ზემოდან გადაფარვის</string>
     <string name="allow_sdraw_overlays_description">VLC საჭიროებს ამ ნებართვას, ამომხტარი ვიდეოების გამოსაჩენად, სხვა პროგრამების ზემოდან.</string>
+    <string name="allow_pip">დართეთ ნება VLC-ს, გახსნას ეკრანი-ეკრანში</string>
+    <string name="allow_pip_description">VLC საჭიროებს ამ ნებართვას ვიდეოების გამოსაჩენად ეკრანი-ეკრანში რეჟიმით.</string>
     <string name="permission_ask_again">ნების დართვა</string>
+    <string name="pick_file">ფაილის არჩევა</string>
+    <string name="permission_not_granted">არაა ნებადართული</string>
+    <string name="permission_expanation_no_allow">არ შეეძლება ფაილების თვითმოძიება და ქვეწარწერების ფაილის გახსნა</string>
+    <string name="permission_expanation_allow">მხოლოდ პირდაპირი ეთერებისა და ქსელიდან ფაილების გაშვების ნებართვა აქვს</string>
+    <string name="permission_onboarding_no_perm">არ შეეძლება თქვენი ფაილების თვითმოძიება.\nმხოლოდ პირდაპირი ეთერებისა და ქსელიდან ფაილების გაშვების ნებართვა აქვს.</string>
+    <string name="permission_onboarding_perm_media">მხოლოდ ჩვეულებრივი ფაილების გაშვება შეეძლება</string>
+    <string name="permission_onboarding_perm_all">შეეძლება ნებისმიერი სახეობის ფაილის თვითმოძიება და გაშვება, როგორი უცნაური ან შეკუმშული სახითაც არ უნდა იყოს</string>
     <string name="exit_app">VLC-ს დახურვა</string>
     <string name="exit_app_msg">ნამდვილად გსურთ გამორთოთ VLC?</string>
+    <string name="widget_explanation_title">VLC-ვიჯეტები</string>
+    <string name="widget_explanation_size">ორი ვიჯეტი სხვადასხვა ზომითა და იერსახით</string>
+    <string name="widget_explanation_resize">ვიჯეტის სახეობის შესაცვლელად დააჭირეთ ხანგრძლივად და ჩასავლები წერტილებით მოარგეთ ზომა სურვილისამებრ.</string>
+    <string name="widget_explanation_end">ვიჯეტების ყოველმხრივ მორგებაა შესაძლებელი. მიეცით გასაქანი თქვენს წარმოსახვას და მოაწყვეთ საკუთარი გემოვნებით!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller ჩანაწერი</string>
@@ -475,7 +615,7 @@
     <string name="popup_playback_title">ვიდეოს გაშვება ამომხტარ ფანჯარაში</string>
     <string name="popup_playback">გაშვებულია ამომხტარ ფანჯარაში</string>
     <string name="popup_expand">ვიდეოს გაშლა</string>
-    <string name="download_subtitles">სუბტიტრების ჩამოტვირთვა</string>
+    <string name="download_subtitles">ქვეწარწერების ჩამოტვირთვა</string>
     <string name="browse_folder">საქაღალდის ამორჩევა</string>
     <string name="listen">მოსმენა</string>
     <string name="apply_to_bt">მიღება Bluetooth-მოწყობილობისთვის</string>
@@ -506,6 +646,7 @@
     <string name="existing_custom_set_save_message">მათანაბრებლის კრებულის შენახვა, როგორც...</string>
     <string name="new_custom_set_save_message">მათანაბრებლის ახალი კრებულის შენახვა, როგორც...</string>
     <string name="save">შენახვა</string>
+    <string name="saved">შენახულია %s</string>
     <string name="do_not_save">შენახვის გარეშე</string>
     <string name="custom_set_deleted_message">მათანაბრებლის მორგებული კრებული „%1$s“ წაშლილია.</string>
     <string name="custom_set_wrong_input">არასწორი სახელი</string>
@@ -527,11 +668,12 @@
     <string name="audio_digital_failed">ვერ მოხერხდა ციფრული ხმის გამოტანის მდგომარეობის შეცვლა</string>
     <string name="audio_digital_output_enabled">ციფრული ხმის გამოტანა ჩართულია</string>
     <string name="audio_digital_output_disabled">ციფრული ხმის გამოტანა გამორთულია</string>
+    <string name="audio_preferred_language">ხმის სასურველი ენა</string>
     <string name="audio_digital_title">ციფრული ხმის გამოტანა (გატარება)</string>
     <string name="audio_task_cleared_title">გაჩერება, პროგრამაზე გადასმით</string>
     <string name="audio_task_cleared_summary">გაშვების შეჩერება დახურვისას</string>
-    <string name="audio_resume_card_title">ბოლო მინიშნების ჩვენება დასაკრავ სიაზე</string>
-    <string name="audio_resume_card_summary">გამოაჩენს მინიშნებას, ბოლოს დაკრული ხმოვანი ფაილის გაშვების გასაგრძელებლად, პროგრამის ჩართვისას.</string>
+    <string name="audio_resume_card_title">დასაკრავი სიის ბოლო მინიშნება</string>
+    <string name="audio_resume_card_summary">გამოაჩენს მინიშნებას, რომ განაგრძოთ ადრე გაშვებული ხმოვანი ფაილის პროგრამის ჩართვისას.</string>
     <string name="playback_rewind">გადახვევა</string>
     <string name="playback_forward">სწრაფი გადახვევა წინ</string>
     <string name="ml_wizard_scan_checkbox">მოწყობილობაზე ფაილების მოძიება</string>
@@ -541,7 +683,9 @@
     <string name="otg_device_title">OTG მოწყობილობა</string>
     <string name="browser">ბრაუზერი</string>
     <string name="ab_repeat">A-B გამეორება</string>
-    <string name="stop_after_this">ამ ჩანაწერის შემდგომ გაჩერება</string>
+    <string name="ab_repeat_reset">A-B გამეორების განულება</string>
+    <string name="ab_repeat_stop">A-B გამეორების შეწყვეტა</string>
+    <string name="stop_after_this">გაჩერდეს ამის შემდგომ</string>
     <string name="time_category_new">ახალი ფაილი</string>
     <string name="time_category_current_month">ამ თვის</string>
     <string name="time_category_current_year">ამ წლის</string>
@@ -553,14 +697,17 @@
     <string name="subtitle_search_name_hint">სახელი</string>
     <string name="subtitle_search_episode_hint">სერია</string>
     <string name="subtitle_search_season_hint">სეზონი</string>
+    <string name="subtitles_download_failed">ვერ ჩამოიტვირთა</string>
     <string name="language_to_download">ენა</string>
     <string name="delete_the_selected">შერჩეულის წაშლა</string>
     <string name="download_the_selected">შერჩეულის ჩამოტვირთვა</string>
     <string name="next">შემდეგი</string>
+    <string name="skip">გამოტოვება</string>
+    <string name="next_step">შემდეგი</string>
     <string name="download">ჩამოტვირთვა</string>
     <string name="ctx_player_video_track">აირჩიეთ ვიდეოჩანაწერი</string>
     <string name="ctx_player_audio_track">ხმოვანი ჩანაწერი</string>
-    <string name="ctx_player_subs_track">სუბტიტრების ჩანაწერი</string>
+    <string name="ctx_player_subs_track">ქვეწარწერების ჩანაწერი</string>
     <string name="ctx_pip_title">ამომხტომი დამკვრელი</string>
     <string name="device_dialog_title">მიერთებულია გარე მოწყობილობა</string>
     <string name="device_dialog_message">შეერთებულია ახალი მეხსიერება სატელევიზიო მიმღებში, გსურთ გაიხსნას VLC-ით?</string>
@@ -572,14 +719,16 @@
     <string name="removed_from_playlist_anonymous">მოცილებულია დასაკრავი სიიდან</string>
     <string name="welcome_title">მოგესალმებათ VLC!</string>
     <string name="welcome_subtitle">უფასო და ღია წყაროს მქონე მედიადამკვრელი</string>
-    <string name="permission_media">VLC საჭიროებს თქვენს ნებართვას, მოწყობილობაზე ფაილებთან წვდომისთვის</string>
-    <string name="medialibrary_scan_explanation">VLC-ს შეუძლია მოწყობილობაზე ავტომატური მოძიება, ფაილების კრებულის დასალაგებლად.</string>
-    <string name="onboarding_theme_title">თავი იგრძენით, საკუთარ სახლში</string>
+    <string name="permission_media">VLC საჭიროებს თქვენს ნებართვას მოწყობილობის ფაილებთან წვდომისთვის</string>
+    <string name="medialibrary_scan_explanation">VLC-ს შეუძლია მოიძიოს მოწყობილობაზე არსებული ფაილები და დაალაგოს კრებულის სახით.</string>
+    <string name="onboarding_theme_title">თავი ისე იგრძენით, როგორც შინ</string>
     <string name="done">მზადაა</string>
     <string name="onboarding_scan_title">ფაილების თვითაღმოჩენა</string>
-    <string name="daynight_system_explanation">VLC თავად გადავა მუქ რეჟიმში, სისტემის პარამეტრების შესაბამისად.</string>
-    <string name="daynight_legacy_explanation">VLC თავად გადავა მუქ რეჟიმში, შესაბამის დროს</string>
-    <string name="onboarding_scanning_enable">დართეთ ნება VLC-ს, მედიაფაილების მოძიების</string>
+    <string name="onboarding_all_set">VLC გამართულია!</string>
+    <string name="onboarding_permission_given">შეგეძლებათ ფაილების თვითმოძიება, ქვეწარწერების ფაილის გახსნა და პირდაპირი ეთერების ნახვა ან ქსელიდან ფაილების გაშვება</string>
+    <string name="daynight_system_explanation">VLC თავად გადავა მუქ რეჟიმში სისტემის პარამეტრების შესაბამისად.</string>
+    <string name="daynight_legacy_explanation">VLC თავად გადავა მუქ რეჟიმში შესაბამის დროს</string>
+    <string name="onboarding_scanning_enable">დართეთ ნება VLC-ს, მოიძიოს მედიაფაილები</string>
     <string name="onboarding_scan_customize">ხელით მითითება, რომელ საქაღალდებში მოიძიოს VLC-მ</string>
     <string name="button_medialibrary_preferences">მედიათეკის პარამეტრებში გადასვლა</string>
     <string name="light_theme">ნათელი იერსახე</string>
@@ -610,6 +759,7 @@
     <string name="remove_current">მიმდინარეს მოცილება</string>
     <string name="validation_delete_playlist">ნამდვილად გსურთ, ამ სიის წაშლა?</string>
     <string name="validation_delete_playlist_text">ეს ქმედება შეუქცევადია.</string>
+    <string name="display_settings">ჩვენების პარამეტრები</string>
     <string name="display_in_list">სიაში ჩვენება</string>
     <string name="display_in_grid">ცხრილურად ჩვენება</string>
     <string name="dump_db_succes">მონაცემთა კრებული გადატანილია შიდა მეხსიერების ძირეულ საქაღალდეში.</string>
@@ -666,7 +816,7 @@
     <string name="clear">გასუფთავება</string>
     <string name="abrepeat_add_first_marker">საწყისის მითითება</string>
     <string name="abrepeat_add_second_marker">საბოლოოს მითითება</string>
-    <string name="demux_bitrate">გაშიფრვრის ბიტსიხშირე</string>
+    <string name="demux_bitrate">გაშიფვრის ბიტსიხშირე</string>
     <string name="input_bitrate">შეტანის ბიტსიხშირე</string>
     <string name="video_information">ვიდეოს შესახებ</string>
 
@@ -680,7 +830,7 @@
     <string name="track_samplerate">შერჩევის სიხშირე</string>
     <string name="track_samplerate_value">%1$d ჰრც\n</string>
     <string name="bitrate">ბიტური სიხშირე</string>
-    <string name="codec">დამშიფრავი</string>
+    <string name="codec">მშიფრავი</string>
     <string name="text">ტექსტი</string>
     <string name="unknown">უცნობი</string>
     <string name="audio_delay_start">ხმა გაისმა</string>
@@ -693,18 +843,19 @@
     <string name="audio_queue_progress_finished">დასრულდება: %s</string>
     <string name="sortby_track">ჩანაწერი</string>
     <string name="this_folder">ამ საქაღალდის დამატება</string>
-    <string name="all_subfolders">ამ საქაღალდის ქვესაქაღალდეებინაად დამატება</string>
+    <string name="all_subfolders">ამ საქაღალდის სრულად დამატება</string>
     <string name="playlist_existing">დასაკრავი სია %s უკვე არსებობს</string>
     <string name="new_title">ახალი სათაური</string>
-    <string name="browse">ამორჩევა...</string>
+    <string name="browse">არჩევა</string>
     <string name="more">სხვა</string>
     <string name="favorites">რჩეულები</string>
-    <string name="new_stream">ახალი ნაკადი</string>
+    <string name="new_stream">ნაკადი ქსელიდან</string>
     <string name="add_to_group">ვიდეოს ჯგუფში დამატება</string>
     <string name="remove_from_group">ვიდეოს ჯგუფიდან მოცილება</string>
     <string name="rename_group">ვიდეოს ჯგუფის გადარქმევა</string>
     <string name="ungroup">განჯგუფება</string>
     <string name="group_similar">თვითგადაჯგუფება</string>
+    <string name="no_group_found">ვიდეოჯგუფი ვერ მოიძებნა</string>
     <string name="no_favorite">რჩეული არაა</string>
     <string name="empty_directory">ცარიელი</string>
     <string name="no_track">ჩანაწერი არაა</string>
@@ -747,6 +898,7 @@
     <string name="allow_otg_description">გთხოვთ, აირჩიოთ თქვენი OTG-მეხსიერება, მასზე წვდომის ნების მისაცემად, VLC-სთვის.</string>
     <string name="timeout_infinite">განუსაზღვრელი</string>
     <string name="video_hud_timeout">ვიდეოდამკვრელის სამართავის დამალვის დაყოვნება</string>
+    <string name="video_hud_timeout_summary">%sწმ</string>
     <string name="remove_from_history">ისტორიიდან მოცილება</string>
     <string name="prefersmbv1">ამჯობინოს SMB 1</string>
     <string name="prefersmbv1_summary">მოხსენით მონიშვნა ამ პარამეტრზე თუ გაქვთ შეფერხებები SMB-სერვერის მოძიებისას.</string>
@@ -755,13 +907,17 @@
     <string name="audio_delay_bt">ხმის დაყოვნებად მითითებულია %s მწმ Bluetooth-მოწყობილობისთვის</string>
     <string name="warning_stream_speed">სიჩქარის 1-ზე მეტად გაზრდამ ნაკადისთვის, შეიძლება შეფერხებები წარმოშვას</string>
     <string name="go_to_folder">ამორჩევა ზედა საქაღალდეში</string>
-    <string name="no_sub_renderer">სუბტიტრები ჯერ არაა მხარდაჭერილი, გადაცემისას</string>
+    <string name="create_shortcut">მალსახმობის შექმნა</string>
+    <string name="no_sub_renderer">ქვეწარწერები ჯერ არაა მხარდაჭერილი, გადაცემისას</string>
     <string name="enqueuing">იტვირთება თქვენი ფაილები</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">აირჩიეთ SoundFont-ის ფაილი, MIDI-ჩანაწერების დასაკრავად</string>
     <string name="missing_media_snack">ფაილი აკლია. დაიმალოს ყველა ნაკლული ფაილი?</string>
-    <string name="browser_show_missing_media">ნაკლული ფაილების ჩვენება</string>
+    <string name="browser_show_missing_media">ნაკლული ფაილის ჩვენება</string>
+    <string name="browser_show_missing_media_summary">დაშორებული ფაილის ჩვენება მაშინაც კი, თუ არაა წარმოდგენილი</string>
     <string name="search_prefs">ძიების პარამეტრები</string>
+    <string name="video_match_frame_rate_title">კადრის სიხშირესთან თანხვედრა</string>
+    <string name="video_match_frame_rate_summary">ეკრანის განახლების სიხშირის დამთხვევა ფაილის ჩვენების სიხშირეზე. მაგალითად, ფილმი 24 კადრის სიხშირით გამოჩნდება 24 კადრით წამში.</string>
     <string name="preferred_resolution">ვიდეოს სასურველი გარჩევადობა</string>
     <string name="preferred_resolution_summary">ვიდეოს უმაღლეს ხარისხად ნაკადებისთვის, თუ დასაშვებია, მიეთითება: %s</string>
     <string name="pref_resolution_best_available">შესაძლო საუკეთესო</string>
@@ -771,10 +927,24 @@
     <string name="add_to_existing_playlist">არსებულ დასაკრავ სიაში დამატება</string>
     <string name="bookmarks_title">სანიშნები</string>
     <string name="no_bookmark">სანიშნები არაა</string>
+    <string name="bookmark_default_name">სანიშნი %s</string>
     <string name="bookmark_name">სანიშნი %s</string>
+    <string name="add_bookmark">სანიშნის დამატება</string>
+    <string name="bookmark_added">ჩანიშნულია</string>
+    <string name="show">ჩვენება</string>
     <string name="optional_features">დამატებითი შესაძლებლობები</string>
     <string name="optional_features_summary">საცდელი შესაძლებლობები, რომლებიც ჯერ მოწმდება და არამდგრადია</string>
     <string name="optional_features_warning">ეს შესაძლებლობა ჯერ საცდელია და შეიძლება იწვევდეს არამდგრადობასა და უეცარ გათიშვებს. </string>
+    <string name="network_indexing">ქსელით აღნუსხვა</string>
+    <string name="network_indexing_warning">ქსელით აღნუსხვა ჯერ საცდელია.\nგამოვლენილი ხარვეზებია:\nშენელებული მუშაობა\n\nთუ სხვა ხარვეზსაც წააწყდებით, გთხოვთ გვაცნობოთ ფორუმზე.</string>
+    <string name="start_vlc">ჩართეთ VLC</string>
+    <string name="jump_delay">წინ/უკან გადახვევის დაყოვნება</string>
+    <string name="long_jump_delay">დიდხანს შეხებით წინ/უკან გადახვევის დაყოვნება</string>
+    <string name="jump_delay_summary">%s წამი</string>
+    <string name="move_up">აწევა</string>
+    <string name="move_down">ჩამოწევა</string>
+    <string name="remove_from_playlist">დასაკრავი სიიდან მოცილება</string>
+    <string name="play_media">გაეშვას %s</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">დაემატოს ერთნაირ(ებ)ი?</string>
@@ -783,7 +953,21 @@
     <string name="add_new_only_button">მხოლოდ ახლის დამატება</string>
     <string name="discovery_failed">აღმოჩენა ვერ მოხერხდა: %s</string>
     <string name="lock_use_sensor_title">ჩაკეტვა გადამწოდით</string>
-    <string name="lock_use_sensor_summary">როცა განლაგება ჩაკეტილია, გამოიყენებს გადამწოდს, საპირისპიროდ შებრუნებისთვის</string>
+    <string name="lock_use_sensor_summary">განლაგების შენარჩუნებისას, საპირისპიროდ შებრუნება აღმქმელის მეშვეობით</string>
+    <string name="start">წინ</string>
+    <string name="notification_permission">შეტყობინების ნებართვა</string>
+    <string name="notification_permission_explanation">VLC საჭიროებს თქვენგან ნებართვას, რომ გიჩვენოთ შეტყობინებები.\nმხოლოდ ფაილების აღრიცხვა გეცნობებათ ან ეკრანი-ეკრანში გაშვება.\nუარყოფისას VLC მაინც განაგრძობს მუშაობას, მაგრამ შეტყობინებები იქნება დაფარული.</string>
+    <string name="permission">ნებართვა</string>
+    <string name="customize">მითითება</string>
+    <string name="selection_count">%d შერჩეულია</string>
+    <string name="controls_setting">მართვის პარამეტრები</string> <!-- Unused -->
+    <string name="gestures">ჟესტები</string>
+    <string name="player_controls">დამკვრელის სამართავი</string>
+    <string name="video_double_tap_jump_delay">ორმაგი შეხება დროის დაყოვნებისთვის</string>
+    <string name="video_key_jump_delay">სამოძრაო ღილაკების დაყოვნება</string>
+    <string name="banned">შეზღუდული საქაღალდე (შეცვლა დიდხანს დაჭერით)</string>
+    <string name="banned_tv">შეზღუდული საქაღალდე</string>
+    <string name="banned_parent">შეზღუდული ზედა საქაღალდით</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">ეს ჩანაწერი უკვე დასაკრავ სიაშია.</item>
         <item quantity="other">ეს ჩანაწერები უკვე დასაკრავ სიაშია.</item>
@@ -792,4 +976,103 @@
         <item quantity="one">1 შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
         <item quantity="other">%d შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
     </plurals>
-</resources>
+    <string name="official_website">მთავარი ვებსაიტი</string>
+    <string name="view_online">ინტერნეტში ნახვა</string>
+    <string name="player_under_notch">ვიდეოს ჩვენება კამერის ჭრილის ქვეშ</string>
+    <string name="notch">ჭრილი</string>
+    <string name="always_fast_seek">ყოველთვის სწრაფი გადახვევა</string>
+    <string name="always_fast_seek_summary">მეტად სწრაფად ახვევს, მაგრამ ნაკლები სიზუსტით</string>
+    <string name="touch_only">მხოლოდ შეხებით</string>
+    <string name="touch_only_description">მობილურ გარსზე გადასვლა შეიძლება მხოლოდ შეხებითი ეკრანის ან მიმთითებელი მოწყობილობის გამოყენებისას.\nგთხოვთ ჩაუყვეთ ქვემოთ ამ შესაძლებლობის შეცვლის დასადასტურებლად.</string>
+    <string name="no_web_browser">ბრაუზერი ვერ მოიძებნა</string>
+    <string name="no_web_browser_message">შეგიძლიათ წააკითხოთ ტელეფონის კამერას.\nბმულია %s</string>
+    <string name="no_video">ვიდეო არაა</string>
+    <string name="fold_optimized">მორგებულია თქვენს დასაკეც ეკრანზე</string>
+    <string name="fold_optimize">დასაკეც ეკრანზე მორგება</string>
+    <string name="foldable">დასაკეცი ეკრანი</string>
+    <string name="undo">გაუქმება</string>
+    <string name="add_server_favorite">სერვერის დამატება რჩეულებში</string>
+    <string name="widget_theme">ვიჯეტის იერსახე</string>
+    <string name="widget_preferences">ვიჯეტის მორგება</string>
+    <string name="material_you">Material You (ფონის ფერთა მიხედვით)</string>
+    <string name="palette">Palette (გარეკანის ფერთა მიხედვით)</string>
+    <string name="custom">მითითებული</string>
+    <string name="opacity">გაუმჭვირვალობა</string>
+    <string name="widget_background">ფონი</string>
+    <string name="widget_foreground">წინა</string>
+    <string name="configure_widget">ვიჯეტის მოწყობა</string>
+    <string name="widget_preview">ვიჯეტის შეთვალიერება</string>
+    <string name="widget_forward_delay">წინ გადახვევის დაყოვნება</string>
+    <string name="widget_show_seek">გადახვევის ღილაკების გამოჩენა</string>
+    <string name="widget_show_cover">გარეკანის ჩვენება</string>
+    <string name="widget_rewind_delay">უკან გადახვევის დაყოვნება</string>
+    <string name="widget_show_configure">გამართვის ხატულას ჩვენება</string>
+    <string name="widget_show_configure_summary">როცა არ ჩანს, მაშინაც შეგიძლიათ ზედა მარჯვენა კუთხეში შეეხოთ და გახსნათ </string>
+    <string name="seek_backward_content_description">%s წამით უკან გადახვევა</string>
+    <string name="seek_forward_content_description">%s წამით წინ გადახვევა</string>
+    <string name="open_vlc">გაიხსნას VLC</string>
+    <string name="playing">გაშვებულია</string>
+    <string name="disable_track">ჩანაწერის გამორთვა</string>
+    <string name="ascending">აღმავალი</string>
+    <string name="descending">დაღმავალი</string>
+    <string name="screenshot_error">შეცდომა ეკრანის სურათის გადაღებისას</string>
+    <string name="disabled">გამორთული</string>
+    <string name="enable_screenshot_gesture">3 თითით შეხება</string>
+    <string name="enable_screenshot_button">ეკრანის გადასაღები ღილაკის ჩვენება</string>
+    <string name="enable_screenshot_button_and_gesture">ღილაკი და ჟესტი</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - სათაური: %s - ხანგრძლივობა: %s</string>
+    <string name="talkback_genre">ჟანრი: %s</string>
+    <string name="talkback_history_item">ისტორიის ჩანაწერი</string>
+    <string name="talkback_playlist">დასაკრავი სია: %s</string>
+    <string name="talkback_folder">საქაღალდე: %s</string>
+    <string name="talkback_file">ფაილი: %s</string>
+    <string name="talkback_favorite">რჩეული: %s</string>
+    <string name="talkback_track_number">ჩანაწერის ნომერი %s</string>
+    <string name="talkback_duration">ხანგრძლივობა: %s</string>
+    <string name="talkback_album">ალბომი: %s</string>
+    <string name="talkback_artist">შემსრულებელი: %s</string>
+    <string name="talkback_release_date">გამოშვებული: %s</string>
+    <string name="talkback_video">ვიდეო: %s</string>
+    <string name="talkback_stream">ნაკადი: %s</string>
+    <string name="talkback_audio_track">ხმოვანი ჩანაწერი: %s</string>
+    <string name="talkback_video_group">ვიდეოჯგუფი: %s</string>
+    <string name="talkback_hours">საათი</string>
+    <string name="talkback_minutes">წუთი</string>
+    <string name="talkback_seconds">წამი</string>
+    <string name="talkback_list_section">თავსართი: %s</string>
+    <string name="talkback_enter_screen">გადასვლა – %s</string>
+    <string name="talkback_file_size">ფაილის ზომა: %s</string>
+    <string name="talkback_open_in_browser">ბრაუზერში გახსნა</string>
+    <string name="talkback_video_player">ვიდეოდამკვრელი. შეეხეთ სამართავის გამოსაჩენად. დააჭირეთ უკუსვლის ღილაკს მის დასამალად.</string>
+    <string name="talkback_video_tracks">ვიდეოჩანაწერები</string>
+    <string name="talkback_audio_tracks">ხმოვანი ჩანაწერები</string>
+    <string name="talkback_subtitle_tracks">ქვეწარწერების ჩანაწერი</string>
+    <string name="talkback_subtitle_dowload_item">ენა: %s. %s. სახელი: %s</string>
+    <string name="selected">შერჩეული</string>
+    <string name="talkback_increase_delay">დაყოვნების გაზრდა</string>
+    <string name="talkback_decrease_delay">დაყოვნების შემცირება</string>
+    <string name="talkback_increase_speed">სიჩქარის გაზრდა</string>
+    <string name="talkback_decrease_speed">სიჩქარის შემცირება</string>
+    <string name="talkback_subtitle_history">ქვეწარწერების ისტორია</string>
+    <string name="talkback_language_selection">%s შერჩეული ენა</string>
+    <string name="talkback_audio_player_opened">ხმოვანი დამკვრელი გახსნილია</string>
+    <string name="talkback_audio_player_collapsed">ხმოვანი დამკვრელი ჩაკეცილია</string>
+    <string name="talkback_audio_player_closed">ხმოვანი დამკვრელი დახურულია</string>
+    <string name="talkback_audio_player">ხმოვანი დამკვრელი. ახლა გაშვებულია: %s</string>
+    <string name="talkback_out_of">%s, სულ %s</string>
+    <string name="talkback_track_index">%s ჩანაწერი, სულ %s</string>
+    <string name="downloaded">ჩამოტვირთულია</string>
+    <string name="not_downloaded">არაა ჩამოტვირთული</string>
+    <string name="downloading">ჩამოიტვირთება</string>
+    <string name="talkback_action_rewind">%s წამით უკან</string>
+    <string name="talkback_action_forward">%s წამით წინ გადახვევა</string>
+    <string name="talkback_display_settings">ჩვენების პარამეტრები</string>
+    <string name="talkback_already_played">უკვე დაკრულია</string>
+    <string name="show_only_favs">მხოლოდ რჩეულების ჩვენება</string>
+    <string name="ignore_headset_media_button_presses">ყურსასმენების ღილაკებზე დაწოლის უგულებელყოფა</string>
+    <string name="ignore_headset_media_button_presses_summary">გამოსადეგია, მაგალითად, დაზიანებული ღილაკების მქონე ყურსასმენების შემთხვევაში</string>
+    </resources>

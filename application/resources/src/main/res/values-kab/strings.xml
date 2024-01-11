@@ -35,7 +35,6 @@
     <string name="video_app_switch_summary">Fren tikli ara yeḍfer VLC mi ara tɛeddiḍ ɣer usnas-nniḍen ticki tetteddu tvidyut.</string>
     <string name="play_pip_title">Ɣer tividyutin s uskar n tugna ɣef tugna</string>
     <string name="play_as_audio_background">Ɣer tividyutin deg ugilal</string>
-    <string name="append">Lire à la suite</string>
     <string name="insert_next">Ger uḍfir</string>
     <string name="play_all">Urar kulec</string>
     <string name="append_all">Lire tout à la suite</string>
@@ -157,7 +156,6 @@
     <string name="sleep_title">Aqaraɛ</string>
     <string name="jump_to_time">Akud</string>
     <string name="subtitle_select">Fren afaylu n iduzwilen</string>
-
     <string name="server_add_title">Rnu aqeddac amaynut s inurifen</string>
     <string name="server_domain_hint">Tansiwin n uqeddac (ismawen n taɣult neɣ IP)</string>
     <string name="server_share_hint">Isem n beḍḍu n uzeḍḍa (neɣ tansa IP)</string>
@@ -185,8 +183,6 @@
     <string name="playback_history_title">Azray n tɣuri</string>
     <string name="playback_history_summary">Sekles akk imidyaten yettwaɣren di tgezmi Azray</string>
     <string name="playback_speed_title">Sekles arured n tɣuri</string>
-    <string name="playback_speed_summary">Hṛez arured n tɣuri gar imidyaten</string>
-
     <string name="play_button">Taqeffalt n tɣuri</string>
 
     <string name="seek">Inig</string>
@@ -210,15 +206,12 @@
     <string name="audio_player_tips">Tixidas n umeɣri n umeslaw</string>
     <string name="previous_next_song">Tizlit ɣer sdat/ɣer deffir</string>
     <string name="show_playlist">Beqqeḍ tabdart n tɣuri</string>
-
     <!-- About -->
     <string name="app_name_full">VLC i Android</string>
     <string name="revision">Aceggeṛ</string>
     <string name="about">Ɣef</string>
-
     <!-- Preferences -->
     <string name="preferences">Iɣewwaren</string>
-
     <string name="directories_summary">Fren  ikaramen ara ternuḍ ɣer temkarḍit n imidyaten</string>
     <string name="add_custom_path">Rnu akaram</string>
     <string name="add_custom_path_description">Sekcem karam-nniḍe ara yettwaselḍen:</string>
@@ -258,7 +251,6 @@
     <string name="enable_brightness_gesture_summary">Senqed tafat s tnalit mi ara tetteddu tɣuri n vidyu</string>
     <string name="enable_seek_buttons">Tiqeffalin n umutti</string>
     <string name="browser_show_hidden_files_title">Beqqeḍ ifuyla yeffren</string>
-
     <string name="subtitles_prefs_category">Iduzwilen</string>
     <string name="subtitles_size_title">Tiddi n iduzwilen</string>
     <string name="subtitles_size_small">Ameẓyan</string>
@@ -266,16 +258,9 @@
     <string name="subtitles_size_big">Ameqran</string>
     <string name="subtitles_size_huge">Meqqer aṭas</string>
     <string name="subtitles_color_title">Ini n iduzwilen</string>
-    <string name="subtitles_color_white">Amellal</string>
-    <string name="subtitles_color_gray">Amelliɣdi</string>
-    <string name="subtitles_color_pink">Axuxi</string>
-    <string name="subtitles_color_blue">Anili</string>
-    <string name="subtitles_color_yellow">Awraɣ</string>
-    <string name="subtitles_color_green">Azegzaw</string>
     <string name="subtitles_background_title">Agilal n iduzwilen</string>
     <string name="subtitles_bold_title">Iduzwilen izuranen</string>
     <string name="subtitles_autoload_title">Asali awurman n iduzwilen</string>
-
     <string name="audio_prefs_category">Ameslaw</string>
     <string name="list_title_ellipsize_default">Amezwar</string>
     <string name="list_title_ellipsize_left">Azelmaḍ</string>
@@ -391,7 +376,6 @@
     <string name="permission_ask_again">Efk turagt</string>
     <string name="exit_app">Mdel VLC</string>
     <string name="exit_app_msg">D tidet tebɣiḍ ad teffɣeḍ si VLC?</string>
-
     <string name="fastscroller_handle">Taḥnaccaḍt n udrurem arurad</string>
 
     <!-- Plugins -->
@@ -409,8 +393,6 @@
     <string name="download_subtitles">Sader iduzwilen</string>
     <string name="browse_folder">Ldi akaram</string>
     <string name="listen">Ssel</string>
-    <string name="movies">isura</string>
-    <string name="videos">tividyutin</string>
     <string name="videos_all">Akk tividyutin</string>
     <string name="clear_playback_history">Sfeḍ azray n tɣuri</string>
     <string name="ml_scanning">Anadi n yifuyla imidyaten</string>
@@ -437,7 +419,6 @@
     <string name="playback_rewind">Tuɣalin</string>
     <string name="playback_forward">Tikli s tɣawla</string>
     <string name="tv_my_new_videos">Tividyutin-iw timaynutin</string>
-    <string name="cast_option_title">Snezwi amidya ɣef ugdil-nniḍen</string>
     <string name="otg_device_title">Ibenk OTG</string>
     <string name="browser">Iminig</string>
     <string name="ab_repeat">Tulsa A-B</string>
@@ -514,4 +495,4 @@
     <string name="channels">Ibuda</string>
     <string name="resolution">Tabadut</string>
     <string name="resolution_value">%1$dx%2$d</string>
-</resources>
+    </resources>

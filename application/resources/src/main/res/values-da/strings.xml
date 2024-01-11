@@ -20,6 +20,20 @@
     <string name="searchable_hint">Søg …</string>
     <string name="history">Historik</string>
 
+    <string name="sortby_name_asc">Navn A → Å</string>
+    <string name="sortby_name_desc">Navn Å → A</string>
+    <string name="sortby_artist_name_asc">Kunstnernavn A → Å</string>
+    <string name="sortby_artist_name_desc">Kunstnernavn Å → A</string>
+    <string name="sortby_album_name_asc">Albumnavn A → Å</string>
+    <string name="sortby_album_name_desc">Albumnavn Å → A</string>
+    <string name="sortby_filename_asc">Filnavn A → Å</string>
+    <string name="sortby_filename_desc">Filnavn Å → A</string>
+    <string name="sortby_length_asc">Korteste først</string>
+    <string name="sortby_length_desc">Længste først</string>
+    <string name="sortby_date_asc">Ældste dato først</string>
+    <string name="sortby_date_desc">Nyeste dato først</string>
+    <string name="sortby_last_modified_date_asc">Ældste tilføjelse først</string>
+    <string name="sortby_last_modified_date_desc">Nyeste tilføjelse først</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Fandt %d forekomst</item>
         <item quantity="other">Fandt %d forekomster</item>
@@ -38,7 +52,6 @@
     <string name="video_app_switch_summary">Vælg VLC opførsel når du skifter til et andet program fra videoafspilning</string>
     <string name="play_pip_title">Afspil videoer i billede-i-billede-tilstand</string>
     <string name="play_as_audio_background">Afspil videoer i baggrunden</string>
-    <string name="append">Tilføj</string>
     <string name="insert_next">Indsæt næste</string>
     <string name="play_all">Afspil alle</string>
     <string name="append_all">Tilføj alle</string>
@@ -174,6 +187,7 @@
     <string name="sleep_in">Slumre om</string>
     <string name="jump_to_time">Spring til tidspunkt</string>
     <string name="subtitle_select">Vælg fil med undertekster</string>
+    <string name="wait_before_sleep">Vent først på afslutning af nuværende medie</string>
 
     <string name="server_add_title">Tilføj en ny server til favoritter</string>
     <string name="server_domain_hint">Serveradresse (domænenavn eller IP)</string>
@@ -256,7 +270,7 @@
     <string name="hold_to_stop">Hold nede for stop</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC for Android</string>
+    <string name="app_name_full">VLC til Android</string>
     <string name="revision">Revision</string>
     <string name="about">Om</string>
     <string name="about_vlc_text">VLC til Android™ er afledt af medieafspilleren VLC, den populære open source-medieafspiller. Versionen til Android™ kan læse alle filer og netværksstrømme.</string>
@@ -269,7 +283,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Indstillinger</string>
-
     <string name="directories_summary">Vælg mapper som skal indgå i mediebiblioteket</string>
     <string name="add_custom_path">Tilføj en brugerdefineret sti</string>
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
@@ -337,7 +350,6 @@
     <string name="enable_double_tap_play_title">Dobbelttryk for at afspille/pause</string>
     <string name="enable_double_tap_play_summary">Dobbelttryk på skærmcentrum for at afspille eller sætte på pause</string>
     <string name="enable_swipe_seek_title">Swipe for at søge</string>
-    <string name="enable_swipe_seek_summary">Swipe din finger på tværs af skærmen for at søge</string>
     <string name="enable_scale_gesture_title">Tofingerzoom</string>
     <string name="enable_scale_gesture_summary">Zoom ind og ud med to fingre</string>
     <string name="popup_keepscreen_title">Hold skærmen TÆNDT i pop op-tilstand</string>
@@ -426,7 +438,8 @@
     <string name="artists_show_all_title">Vis alle kunstnere</string>
     <string name="show_headers">Vis overskrifter</string>
     <string name="show_headers_summary">Opdel lister ud fra overskrifter afhængig af sorteringstypen</string>
-
+    <string name="tv_folders_first">Vis mapper først</string>
+    <string name="tv_folders_first_summary">Vis mapper og dernæst filer i filbrowseren</string>
     <string name="extensions_prefs_category">Udvidelser</string>
     <string name="extensions_empty">Ingen udvidelse registreret</string>
     <string name="extension_permission_title">Aktivér ny udvidelse \"%1$s\"?</string>
@@ -607,7 +620,7 @@
     <string name="listen">Lyt</string>
     <string name="apply_to_bt">Tilføj til bluetooth enhed</string>
     <string name="episodes">episoder</string>
-    <string name="movies">vidoer</string>
+    <string name="movies">film</string>
     <string name="videos">videoer</string>
     <string name="videos_all">Alle videoer</string>
     <string name="clear_playback_history">Ryd afspilningshistorik</string>
@@ -666,7 +679,6 @@
     <string name="ml_wizard_scan_checkbox">Skan enhed for medieindhold</string>
     <string name="ml_wizard_description">Vælg om VLC skal skanne din enheds lager for at organisere dit mediebibliotek, eller bare bruge det som en simpel afspiller med en integreret browser.</string>
     <string name="tv_my_new_videos">Mine nye videoer</string>
-    <string name="cast_option_title">Udsend medier på en anden skærm</string>
     <string name="otg_device_title">OTG-enhed</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">A-B-gentag</string>
@@ -746,6 +758,7 @@
     <string name="remove_current">Fjern nuværende</string>
     <string name="validation_delete_playlist">Er du sikker på, at du vil slette spillelisten?</string>
     <string name="validation_delete_playlist_text">Handlingen kan ikke fortrydes.</string>
+    <string name="display_settings">Skærmindstillinger</string>
     <string name="display_in_list">Vis som liste</string>
     <string name="display_in_grid">Vis som gitter</string>
     <string name="dump_db_succes">Databasen blev lagt i roden af det interne lager</string>
@@ -895,12 +908,11 @@
     <string name="go_to_folder">Gennemse forrige</string>
     <string name="create_shortcut">Skab en startgenvej</string>
     <string name="no_sub_renderer">Undertekster understøttes endnu ikke under casting</string>
-    <string name="enqueuing">Indlæser medier</string>
+    <string name="enqueuing">Indlæser dine medier</string>
     <string name="soundfont">MIDI lydskrifttype</string>
     <string name="soundfont_summary">Vælg en lydskrifttype fil for at afspille MIDI lydspor</string>
     <string name="missing_media_snack">Medie mangler. Skjul alle manglende medier?</string>
     <string name="browser_show_missing_media">Vis manglende medier</string>
-    <string name="browser_show_missing_media_summary">Vis fjernmedier selvom de ikke er til stede</string>
     <string name="search_prefs">Indstillinger for søgning</string>
     <string name="video_match_frame_rate_title">Match displaybilledfrekvens</string>
     <string name="video_match_frame_rate_summary">Match displayopdateringsfrekvens til displaybilledfrekvens. For eksempel bør en 24p film afspilles med 24p</string>
@@ -941,16 +953,18 @@
     <string name="lock_use_sensor_title">Lås med sensor</string>
     <string name="lock_use_sensor_summary">Når orienteringen er låst, kan sensoren bruges til at tillade at vende orienteringen.</string>
     <string name="start">Start</string>
+    <string name="notification_permission">Notifikationstilladelse</string>
+    <string name="notification_permission_explanation">VLC har brug for din tilladelse til at sende notifikationer.\nApp\'en vil kun notificere dig, når dine medier skannes eller under anvendelse af den brugertilpassede video Billede i Billede.\nSiger du nej, vil VLC fortsat fungere, men notifikationer vil være skjult.</string>
     <string name="permission">Tilladelse</string>
     <string name="customize">Tilpas</string>
     <string name="selection_count">%d markeret</string>
-    <string name="controls_setting">Kontrolindstillinger</string>
+    <string name="controls_setting">Kontrolindstillinger</string> <!-- Unused -->
     <string name="gestures">Gestusser</string>
     <string name="player_controls">Afspilningskontroller</string>
     <string name="video_double_tap_jump_delay">Dobbeltklik tidsforsinkelse</string>
     <string name="video_key_jump_delay">Navigationstasters tidsforsinkelse</string>
     <string name="banned">Udeladte mapper (hold finger nede for at ændre)</string>
-    <string name="banned_tv">Forbudt folder</string>
+    <string name="banned_tv">Forbudt mappe</string>
     <string name="banned_parent">Udeladt af overordnet mappe</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Dette element er allerede på denne afspilningsliste.</item>
@@ -1012,7 +1026,7 @@
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Element fra historik</string>
     <string name="talkback_playlist">Afspilningsliste: %s</string>
-    <string name="talkback_folder">Folder: %s</string>
+    <string name="talkback_folder">Mappe: %s</string>
     <string name="talkback_file">Fil: %s</string>
     <string name="talkback_favorite">Favorit: %s</string>
     <string name="talkback_track_number">Spornummer %s</string>
@@ -1056,6 +1070,5 @@
     <string name="talkback_action_forward">Søg %s sekunder frem</string>
     <string name="talkback_display_settings">Skærmindstillinger</string>
     <string name="talkback_already_played">Allerede afspillet</string>
-
-
-</resources>
+    <string name="show_only_favs">Vis kun favoritter</string>
+    </resources>

@@ -15,10 +15,36 @@
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Recent adăugate</string>
     <string name="sortby_insertion">Data introducerii</string>
+    <string name="sortby_date_last_modified">Adăugat(e) recent</string>
+    <string name="sortby_date_insertion">Data introducerii</string>
+    <string name="sortby_date_release">Data lansării</string>
     <string name="sortby_media_number">Numărul media</string>
     <string name="sortby_number">Piste Nb</string>
     <string name="searchable_hint">Căutare…</string>
     <string name="history">Istoric</string>
+
+    <string name="sortby_name_asc">Nume A → Z</string>
+    <string name="sortby_name_desc">Nume Z → A</string>
+    <string name="sortby_artist_name_asc">Numele artistului A → Z</string>
+    <string name="sortby_artist_name_desc">Numele artistului Z → A</string>
+    <string name="sortby_album_name_asc">Numele albumului A → Z</string>
+    <string name="sortby_album_name_desc">Numele albumului Z → A</string>
+    <string name="sortby_filename_asc">Numele fișierului A → Z</string>
+    <string name="sortby_filename_desc">Numele fișierului Z → A</string>
+    <string name="sortby_length_asc">Întâi cel mai scurt</string>
+    <string name="sortby_length_desc">Întâi cel mai lung</string>
+    <string name="sortby_date_asc">Întâi cea mai veche dată</string>
+    <string name="sortby_date_desc">Întâi cea mai nouă dată</string>
+    <string name="sortby_last_modified_date_asc">Mai întâi cea mai veche adăugare</string>
+    <string name="sortby_last_modified_date_desc">Mai întâi cea mai nouă adăugare</string>
+    <string name="sortby_number_asc">Mai multe videoclipuri în grup mai întâi</string>
+    <string name="sortby_number_desc">Mai puține videoclipuri în grup mai întâi</string>
+    <string name="sortby_date_insertion_asc">Întâi data inserării cea mai veche</string>
+    <string name="sortby_date_insertion_desc">Întâi data inserării cea mai nouă</string>
+    <string name="sortby_date_last_modified_asc">Întâi data modificării cea mai veche</string>
+    <string name="sortby_date_last_modified_desc">Întâi data modificării cea mai nouă</string>
+    <string name="sortby_date_release_asc">Întâi data lansării cea mai veche</string>
+    <string name="sortby_date_release_desc">Întâi data lansării cea mai nouă</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d rezultat găsit</item>
@@ -39,7 +65,7 @@
     <string name="video_app_switch_summary">Selectați comportamentul VLC atunci când comutați la altă aplicație din redarea video</string>
     <string name="play_pip_title">Redați videoclipuri în modul Imagine în imagine</string>
     <string name="play_as_audio_background">Redați videoclipuri în fundal</string>
-    <string name="append">Atașează</string>
+    <string name="append">Adaugă la coada de redare</string>
     <string name="insert_next">Introduceți următorul</string>
     <string name="play_all">Redați toate</string>
     <string name="append_all">Adăugați toate</string>
@@ -127,6 +153,7 @@
     <string name="loading">Se încarcă</string>
     <string name="please_wait">Vă rugăm așteptați…</string>
     <string name="nomedia">Nici-un fișier media găsit, vă rugăm să transferați câteva fișiere, pe dispozitivul dumneavoastră sau să ajustați preferințele.</string>
+    <string name="nofav">Nu s-au găsit lucruri favorite.</string>
     <string name="empty_search">Nu a fost găsit niciun articol pentru căutare %s</string>
     <string name="noplaylist">Nu a fost găsit nici un playlist.</string>
     <string name="nosubfolder">Fișier secundar inexistent</string>
@@ -184,6 +211,7 @@
     <string name="sleep_in">Adormire in</string>
     <string name="jump_to_time">Sări la timpul</string>
     <string name="subtitle_select">Selectează fișierul subtitlu</string>
+    <string name="wait_before_sleep">Așteaptă ca elementul media actual să se termine primul</string>
 
     <string name="server_add_title">Adaugă un server nou la favorite</string>
     <string name="server_domain_hint">Adresa serverului (nume domeniu sau IP)</string>
@@ -220,7 +248,7 @@
     <string name="audio_resume_playback_warning">Dezactivarea istoricului cozii de redare audio poate duce la unele probleme de comportament.\nDupă dezactivarea acestuia, este posibil să nu poți relua redarea de pe:\n\n\t- un dispozitiv Bluetooth\n\t- widget-ul\n\t- notificarea media</string>
     <string name="audio_resume_playback_summary">Permite salvarea cozii de redare audio pentru a o relua mai târziu</string>
     <string name="playback_speed_title">Salvați viteza de redare</string>
-    <string name="playback_speed_summary">Reține viteza redării între fișiere media</string>
+    <string name="playback_speed_summary">Păstrează viteza de redare între fișierele media</string>
 
     <string name="play_button">Buton de redare</string>
 
@@ -279,11 +307,16 @@
 
     <!-- Preferences -->
     <string name="preferences">Setari</string>
+    <string name="more_preferences">Mai multe setări</string>
+    <string name="prefs_opened_on_phone">Setări deschise pe telefon</string>
+    <string name="open_on_phone">Deschide ecranul telefonului</string>
 
     <string name="directories_summary">Alege dosarele ce vor fi incluse în biblioteca media</string>
     <string name="add_custom_path">Adăugare cale personalizată</string>
     <string name="add_custom_path_description">Introduceţi un alt dosar pentru a fi scanat:</string>
     <string name="remove_custom_path">Eliminare cale personalizată</string>
+    <string name="group_ban_folder">Interzice folderul din biblioteca media</string>
+
     <string name="hardware_acceleration">Accelerare hardware</string>
     <string name="hardware_acceleration_summary">Dezactivat: o mai bună stabilitate\nDecodare: poate îmbunătăți performanța\nComplet: poate îmbunătăți și mai mult performanța.</string>
     <string name="hardware_acceleration_disabled">Dezactivat</string>
@@ -295,8 +328,10 @@
     <string name="screen_orientation">Orientarea ecranului</string>
     <string name="screen_orientation_sensor">Automat (senzor)</string>
     <string name="screen_orientation_portrait">Portret</string>
+    <string name="screen_orientation_portrait_reverse">Portret invers</string>
     <string name="screen_orientation_landscape">Peisaj</string>
     <string name="screen_orientation_landscape_reverse">Peisaj invers</string>
+    <string name="screen_orientation_landscape_sensor">Peisaj (senzor)</string>
     <string name="screen_orientation_last_locked">Ultima orientare blocată</string>
     <string name="enable_black_theme">Tematica neagră</string>
     <string name="theme_auto">Temă automată</string>
@@ -347,7 +382,7 @@
     <string name="enable_double_tap_play_title">Atingeți de două ori pentru a reda/opri</string>
     <string name="enable_double_tap_play_summary">Atingeți de două ori în centrul ecranului pentru a reda sau a pune pe pauză</string>
     <string name="enable_swipe_seek_title">Glisați pentru a derula</string>
-    <string name="enable_swipe_seek_summary">Glisați degetele pe ecran pentru a derula</string>
+    <string name="enable_swipe_seek_summary">Glisează cu degetul pe ecran pentru a căuta</string>
     <string name="enable_scale_gesture_title">Redimensionare cu două degete</string>
     <string name="enable_scale_gesture_summary">Mărește sau micșorează cu două degete</string>
     <string name="popup_keepscreen_title">Mențineți ecranul activat în modul Pop-Up</string>
@@ -423,6 +458,27 @@
     <string name="audio_ducking_title">Redu volumul VLC la notificări</string>
     <string name="audio_ducking_summary">Ajutor prin redarea notificărilor audio, a instrucțiunilor de navigare sau a asistentului care vorbește</string>
     <string name="casting_category">Redare</string>
+    <string name="remote_access">Acces de la distanță</string>
+    <string name="remote_access_status">Starea serverului</string>
+    <string name="remote_access_status_summary">Atinge pentru a vedea starea serverului</string>
+    <string name="remote_access_connections">Conexiuni</string>
+    <string name="remote_access_links">Legături</string>
+    <string name="remote_access_active">Accesul de la distanță e activ</string>
+    <string name="remote_access_notification">Accesul de la distanță e activ pe %s</string>
+    <string name="remote_access_notification_stopped">S-a oprit accesul de la distanță</string>
+    <string name="remote_access_notification_connecting">Se conectează accesul de la distanță</string>
+    <string name="remote_access_notification_error">Eroare pentru accesul de la distanță</string>
+    <string name="remote_access_notification_stopping">Se oprește accesul de la distanță</string>
+    <string name="remote_access_notification_not_init">Se inițializează accesul de la distanță</string>
+    <string name="enable_remote_access">Se activează accesul de la distanță</string>
+    <string name="remote_access_info">Informații despre accesul de la distanță</string>
+    <string name="remote_access_content">Conținut</string>
+    <string name="remote_access_medialibrary_content">Conținutul bibliotecii media</string>
+    <string name="remote_access_medialibrary_content_summary">Activat: %s\nDezactivat: %s</string>
+    <string name="remote_access_file_browser_content">Navigatorul de fișiere</string>
+    <string name="remote_access_network_browser_content">Navigatorul de rețea</string>
+    <string name="remote_access_playback_control">Controlează redarea</string>
+    <string name="remote_access_logs">Distribuie fișierele de jurnal</string>
     <string name="casting_switch_title">Transmisie wireless</string>
     <string name="casting_passthrough_title">Redare audio la distanță</string>
     <string name="casting_passthrough_summary">Permite televizorului să gestioneze redarea audio</string>
@@ -436,6 +492,10 @@
     <string name="artists_show_all_title">Afișează toți artiștii</string>
     <string name="show_headers">Afișați anteturile</string>
     <string name="show_headers_summary">Împărțiți listele după anteturi în funcție de tipul de sortare</string>
+    <string name="tv_folders_first">Arată întâi dosarele</string>
+    <string name="tv_folders_first_summary">Arată întâi dosarele, apoi fișierele din navigatorul de fișiere</string>
+    <string name="tv_show_hidden_files">Arată fișierele ascunse</string>
+    <string name="tv_show_hidden_files_summary">Arată fișierele ascunse în browserul de fișiere</string>
 
     <string name="extensions_prefs_category">Extensii</string>
     <string name="extensions_empty">Nu a fost detectată nicio extensie</string>
@@ -543,6 +603,12 @@
     <string name="medialibrary">Biblioteca media</string>
     <string name="medialibrary_directories">Directoarele bibliotecii media</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">Ce e nou în VLC pentru Android %s</string>
+    <string name="whats_new_36_webserver_text">Cu această nouă funcție de acces la distanță, preia controlul lui VLC pentru Android de pe orice al dispozitiv.\nTrimite-ți fișierele media în ambele direcții, controlează-ți lista de redare și multe altele!</string>
+    <string name="whats_new_36_favorites_text">De acum îți poți adăuga fișierele media, listele de redare, artiștii și albumele la favorite.\nGăsește-ți conținutul preferat dintr-o privire prin filtrarea conținutului numai după favorite!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">Mai multe actiuni</string>
     <string name="back_quit_lock">Apasă din nou butonul Înapoi pentru a închide videoclipul</string>
@@ -567,6 +633,7 @@
     <string name="partial_content">VLC nu poate accesa toate fișierele dumneavoastră</string>
     <string name="partial_content_description">Începând cu Android 11, aplicațiile au nevoie de o permisiune specială pentru a accesa toate fișierele dispozitivului.\n\n\n%s</string>
     <string name="never_ask_again">Să nu mai întrebi niciodată</string>
+    <string name="never_show_again">Nu mai afișa niciodată</string>
     <string name="allow_settings_access_ringtone_title">Permite programului VLC să stabilească tonul de apel</string>
     <string name="allow_settings_access_ringtone_description">VLC are nevoie de permisiune pentru a configura acest cântec ca ton de sonerie.</string>
     <string name="allow_settings_access_brightness_title">Permite programului VLC să modifice modul de luminozitate</string>
@@ -617,8 +684,8 @@
     <string name="listen">Asculta</string>
     <string name="apply_to_bt">Aplică la dispozitivul  bluetooth</string>
     <string name="episodes">episoade</string>
-    <string name="movies">Filme</string>
-    <string name="videos">videouri</string>
+    <string name="movies">filme</string>
+    <string name="videos">videoclipuri</string>
     <string name="videos_all">Toate videoclipurile</string>
     <string name="clear_playback_history">Șterge istoricul listei de redăare</string>
     <string name="ml_scanning">Scanare fișiere de tip media</string>
@@ -676,7 +743,7 @@
     <string name="ml_wizard_scan_checkbox">Scanare dispozitiv pentru conținutul media</string>
     <string name="ml_wizard_description">Alegeți dacă VLC va scana spațiul de stocare al dispozitivului pentru a vă organiza biblioteca media sau pur și simplu doriți să îl utilizați ca un simplu player cu un browser integrat.</string>
     <string name="tv_my_new_videos">Noile mele videoclipuri</string>
-    <string name="cast_option_title">Media de distribuție pe un alt ecran</string>
+    <string name="cast_option_title">Transmite conținut media pe alt ecran</string>
     <string name="otg_device_title">dispozitiv OTG</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">Repetare A-B</string>
@@ -684,6 +751,10 @@
     <string name="ab_repeat_stop">Oprește repetarea de la A la B</string>
     <string name="stop_after_this">Opriți după această pistă</string>
     <string name="time_category_new">Fișier media nou</string>
+    <string name="time_category_today">Astăzi</string>
+    <string name="time_category_yesterday">Ieri</string>
+    <string name="time_category_current_week">Săptămâna asta</string>
+    <string name="time_category_last_week">Săptămâna trecută</string>
     <string name="time_category_current_month">Această lună</string>
     <string name="time_category_current_year">Acest an</string>
     <string name="time_category_last_year">Anul trecut</string>
@@ -735,6 +806,8 @@
     <string name="misc">Redare aleatorie</string>
     <string name="popup_force_legacy_title">Utilizați fereastra pop-up personalizată Picture-in-Picture</string>
     <string name="popup_force_legacy_summary">Utilizați ferestre pop-up redimensionabile personalizate Picture-in-Picture</string>
+    <string name="restore_background_video_title">Restaurează videoclipul din fundal</string>
+    <string name="restore_background_video_summary">Restaurează videoclipul din fundal când se redeschide vlc-android</string>
     <string name="device_default">Setarea implicită a dispozitivului</string>
     <string name="track_number">%d piste</string>
     <string name="jump_to">Sari la</string>
@@ -758,6 +831,8 @@
     <string name="remove_current">Eliminați curentul</string>
     <string name="validation_delete_playlist">Sigur doriți să ștergeți această listă de redare?</string>
     <string name="validation_delete_playlist_text">Această acțiune nu poate fi anulată.</string>
+    <string name="display_settings">Setări de afișaj</string>
+    <string name="incognito_mode">Modul incognito</string>
     <string name="display_in_list">Afișare sub formă de listă</string>
     <string name="display_in_grid">Afișare sub formă de grilă</string>
     <string name="dump_db_succes">Baza de date descărcată pe rădăcina de stocare internă</string>
@@ -907,12 +982,34 @@
     <string name="go_to_folder">Răsfoiți părintele</string>
     <string name="create_shortcut">Crează o comandă rapidă pentru lansare</string>
     <string name="no_sub_renderer">Subtitrările nu sunt încă acceptate în timpul turnării</string>
-    <string name="enqueuing">Încărcarea mediilor dvs.</string>
+    <string name="enqueuing">Se încarcă fișierele tale media</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Alegeți un fișier SoundFont pentru a reda piese audio midi</string>
     <string name="missing_media_snack">Mass-media lipsește. Ascundeți toate mediile lipsă?</string>
-    <string name="browser_show_missing_media">Afișați mediile lipsă</string>
-    <string name="browser_show_missing_media_summary">Afișați mediile îndepărtate chiar dacă acestea nu sunt prezente</string>
+    <string name="browser_show_missing_media">Arată fișierele media lipsă</string>
+    <string name="browser_show_missing_media_summary">Arată fișierele media distante chiar dacă nu sunt prezente</string>
+    <string name="parental_control">Control parental</string>
+    <string name="safe_mode">Modul sigur</string>
+    <string name="safe_mode_summary">Când e activat, fișierele nu pot fi șterse sau lista de redare nu poate fi modificată fără să introduci PIN-ul</string>
+    <string name="safe_mode_pin">Introdu-ți PIN-ul</string>
+    <string name="pin_unlock_success">S-a deblocat cu succes. Pentru a reactiva modul sigur, te rugăm să atingi această pictogramă în aplicație:</string>
+    <string name="safe_mode_new_pin">Introdu-ți PIN-ul nou</string>
+    <string name="safe_mode_re_pin">Reintrodu-ți PIN-ul</string>
+    <string name="safe_mode_no_match">PIN-ul nu se potrivește</string>
+    <string name="safe_mode_invalid_pin">PIN greșit</string>
+    <string name="safe_mode_pin_error">Codul tău PIN trebuie să conțină cifre</string>
+    <string name="pin_code_reason_create">Mai întâi, să-ți creăm codul PIN</string>
+    <string name="pin_code_reason_modify">Schimbă-ți codul PIN</string>
+    <string name="pin_code_modified">Codul PIN a fost modificat cu succes</string>
+    <string name="pin_code_reason_check">Acces restricționat. Te rugăm să-ți introduci codul PIN</string>
+    <string name="pin_code_access_granted">Acces permis. Îl poți rebloca în ecranul principal</string>
+    <string name="safe_mode_enabled">Modul sigur este acum activat</string>
+    <string name="restricted_access">Acces restricționat</string>
+    <string name="unlock">Deblochează</string>
+    <string name="lock_with_pin">Reactivează blocarea cu codul PIN</string>
+    <string name="unlock_with_pin">Deblochează modul sigur</string>
+    <string name="lock_with_pin_short">Blochează cu PIN</string>
+    <string name="restrict_settings">Restricționează accesul la setări</string>
     <string name="search_prefs">Setări de căutare</string>
     <string name="video_match_frame_rate_title">Potrivește rata de cadre de afișare</string>
     <string name="video_match_frame_rate_summary">Potrivește rata de reîmprospătare a afișajului cu rata de cadre media. De exemplu, un film de 24p ar trebui să fie redat la 24p</string>
@@ -953,10 +1050,13 @@
     <string name="lock_use_sensor_title">Blocaj cu senzor</string>
     <string name="lock_use_sensor_summary">Când orientarea este blocată, utilizați senzorul pentru a permite orientarea inversă.</string>
     <string name="start">Start</string>
+    <string name="notification_permission">Permisiune de notificare</string>
+    <string name="notification_permission_explanation">VLC are nevoie de permisiunea ta pentru a trimite notificări.\nAplicația te va notifica numai când îți vei scana fișierele media sau când vei folosi videoclipuri personalizate de tip Imagine în imagine.\nRefuzul acesteia nu va împiedica funcționarea VLC, dar notificările vor fi ascunse.</string>
     <string name="permission">Permisiune</string>
     <string name="customize">Personalizați</string>
     <string name="selection_count"> %d selectat</string>
-    <string name="controls_setting">Setările de control</string>
+    <string name="control_setting">Setări de control</string>
+    <string name="controls_setting">Setările de control</string> <!-- Unused -->
     <string name="gestures">Gesturi</string>
     <string name="player_controls">Controlul player-ului</string>
     <string name="video_double_tap_jump_delay">Întarzierea pentru funcţia de dublu apăsare</string>
@@ -995,6 +1095,12 @@
     <string name="material_you">Materializează-te (trage culori de pe tapet)</string>
     <string name="palette">Paletă (trage culori de pe coperta media)</string>
     <string name="custom">Personalizat</string>
+    <string name="widget_type">Tip de widget</string>
+    <string name="widget_type_pill">Pilulă</string>
+    <string name="widget_type_normal">Normal</string>
+    <string name="widget_type_circle">Cerc</string>
+    <string name="widget_type_large">Mare</string>
+    <string name="widget_type_error">Tipul widget-ului este prea mare pentru mărimea sa. Poate duce la probleme vizuale</string>
     <string name="opacity">Opacitate</string>
     <string name="widget_background">Fundal</string>
     <string name="widget_foreground">Față</string>
@@ -1070,6 +1176,68 @@
     <string name="talkback_action_forward">Caută înainte %s secunde</string>
     <string name="talkback_display_settings">Setări de afișare</string>
     <string name="talkback_already_played">Deja redat</string>
+    <string name="show_only_favs">Arată numai favoritele</string>
+    <string name="ignore_headset_media_button_presses">Ignoră apăsările butoanelor media pentru căști</string>
+    <string name="ignore_headset_media_button_presses_summary">Util, de exemplu, dacă folosești căști cu butoane fizice stricate</string>
+    <string name="replace_playlist">Înlocuiește lista de redare</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">Accesul la distanță e activ</string>
+    <string name="ra_remote_access">Acces la distanță</string>
+    <string name="ra_remote_access_description">Notificare privind starea accesului la distanță</string>
+    <string name="ra_log_file">Fișiere jurnal</string>
+    <string name="ra_log_type">Tip de jurnal</string>
+    <string name="ra_send_files">Trimite fișiere</string>
+    <string name="ra_not_in_foreground">Aplicația nu este în prim plan. Nu se poate lansa videoclipul.</string>
+    <string name="ra_disconnected">Deconectat de la dispozitiv</string>
+    <string name="ra_file">Fișier</string>
+    <string name="ra_upload_remaining">Se încarcă fișierele %s</string>
+    <string name="ra_upload_all">Încarcă tot</string>
+    <string name="ra_drop_files_tip">Plasează fișiere oriunde pentru a le trimite pe dispozitiv</string>
+    <string name="ra_prepare_download">Se pregătește descărcarea ta</string>
+    <string name="ra_forbidden">Conținutul e dezactivat din setări</string>
+    <string name="ra_playback_forbidden">Controlul de redare e dezactivat din setări</string>
+    <string name="ra_code_requested_explanation">Pentru a-ți proteja serverul accesul e protejat.\nTe rugăm să introduci codul afișat în notificările tale</string>
+    <string name="ra_ssl_explanation_title">Desecurizează conexiunea</string>
+    <string name="ra_ssl_explanation">Conexiunea ta nu e sigură.</string>
+    <string name="ra_ssl_explanation_browser">Din cauza implementării de securitate a browser-ului, vei primi o alertă de securitate pe pagina următoare.</string>
+    <string name="ra_ssl_explanation_accept">Fii sigur că accepți certificatul pentru a putea folosi accesul la distanță</string>
+    <string name="ra_ssl_button">Folosește o conexiune securizată</string>
+    <string name="ra_new_code">Trimite un cod nou</string>
+    <string name="home">Acasă</string>
+    <string name="ra_code">Introdu acest cod: %s</string>
+    <string name="ra_send_logs">Salvează jurnalele pentru accesul la distanță pe dispozitiv</string>
+    <string name="ra_otp">Parolă de unică folosință pentru accesul la distanță</string>
+    <string name="ra_otp_description">Solicitare de acces pentru accesul la distanță</string>
+    <string name="ra_otp_title">Încercare de logare pentru accesul la distanță</string>
+    <string name="ra_otp_subtitle">Dacă ești tu, introdu codul pe alt dispozitiv</string>
+    <string name="ra_otp_not_me">Nu sunt eu</string>
 
+    <string name="ra_onboarding_welcome_desc">Bun venit la accesul la distanță al lui VLC pentru Android\nPrin activarea acestuia, veți putea controla redarea acestui dispozitiv și multe altele</string>
+    <string name="ra_onboarding_how_title">Controlează-ți dispozitivul</string>
+    <string name="ra_onboarding_how_desc">Controlează redarea, trimiterea sau primirea de fișiere și mai multe funcții pe dispozitivul tău</string>
+    <string name="ra_onboarding_ssl_title">Criptare de date</string>
+    <string name="ra_onboarding_ssl_desc">Accesul de la distanță este criptat pentru a preveni scurgerea de datelor tale</string>
+    <string name="ra_onboarding_otp_title">Autentificare</string>
+    <string name="ra_onboarding_otp_desc">Cu autentificarea folosind o parolă de unică folosință, previne accesul nedorit la datele tale</string>
+    <string name="ra_onboarding_content_title">Acces la conținut</string>
+    <string name="ra_onboarding_content_desc">Alege ce poate fi accesat și ce nu</string>
+    <string name="ra_onboarding_content_ml">Accesul conținutului bibliotecii media</string>
+    <string name="ra_onboarding_content_files">Browser de fișiere</string>
+    <string name="ra_onboarding_content_playback">Controlează redarea</string>
+    <string name="ra_disable">Dezactivează</string>
+    <string name="ra_log_web">Jurnal de acces la distanță</string>
+    <string name="ra_log_crash">Jurnal de blocare</string>
+    <string name="ra_log_mobile">Jurnal de dispozitiv</string>
+    <string name="ra_log_current">Jurnale locale curente</string>
+    <string name="ra_invalid_login">Trebuie să te loghezi pe dispozitivul tău</string>
+    <string name="ra_invalid_otp">Codul furnizat e invalid</string>
+    <string name="learn_more">Află mai multe</string>
+
+    <!-- car screens -->
+    <string name="help">Ajutor</string>
+    <string name="podcast_mode">Modul Podcast</string>
+    <string name="podcast_mode_help">Comenzile podcastului apar la redarea unei singure piese care îndeplinește unul dintre următoarele criterii:\n\t• Durată mai mare de 60 de minute\n\t• Durată mai mare de 15 minute fără nume de album\n\t• Genul este %s</string>
+    <string name="voice_control">Control vocal</string>
+    <string name="voice_control_help">VLC poate fi controlat prin Asistentul Google rostind următoarele comenzi:\n\t• Redare, Pauză, Oprire, Anterior, Următorul\n\t• Derulare înapoi, Derulare rapidă înainte, Repetare &lt;toate|una|oprit&gt;\n\t • Salt la &lt;timp&gt;, Omite &lt;durata&gt;\n\t• Ce este acest &lt;artist|album|melodie&gt;\n\t• Redare [artist|album|cântec|gen|listă de redare] &lt;nume&gt;</string>
 </resources>

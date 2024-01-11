@@ -33,7 +33,6 @@
     <string name="video_app_switch_summary">Видео уйнату вакытында башка кушымтага күчкәндә VLC-ның үзен тотышын сайлау</string>
     <string name="play_pip_title">Видеоларны Рәсемдә-рәсем режимында уйнату</string>
     <string name="play_as_audio_background">Видеоны фонда уйнату</string>
-    <string name="append">Өстәү</string>
     <string name="insert_next">Киләсене куегыз</string>
     <string name="play_all">Барысын уйнату</string>
     <string name="append_all">Барысын өстәү</string>
@@ -128,7 +127,6 @@
     <string name="sleep_in">Йоклату</string>
     <string name="jump_to_time">Вакытка күчерү</string>
     <string name="subtitle_select">Субтитрлар файлын сайлагыз</string>
-
     <string name="server_add_title">Сайланмаларга яңа сервер өстәү</string>
     <string name="server_domain_hint">Сервер адресы (домен исеме яисә IP)</string>
     <string name="server_share_hint">Челтәр ресурсының исеме (яисә IP адресы)</string>
@@ -177,10 +175,8 @@
     <string name="revision">Ревизия</string>
     <string name="about">Кушымта турында</string>
     <string name="vlc_authors">һәм VLC ясаучылары.</string>
-
     <!-- Preferences -->
     <string name="preferences">Көйләүләр</string>
-
     <string name="directories_summary">Медиаханәне ясау өчен каталоглар сайлагыз</string>
     <string name="add_custom_path">Юлны өстәү</string>
     <string name="add_custom_path_description">Өстәмә каталог тикшерүен кабызу:</string>
@@ -218,7 +214,6 @@
     <string name="enable_double_tap_seek_title">Чорнау өчен ике тапкыр басыгыз</string>
     <string name="enable_double_tap_seek_summary">10 секундка чорнау өчен экран кырыена ике тапкыр басыгыз</string>
     <string name="browser_show_hidden_files_title">Яшерен файлларны күрсәтергә</string>
-
     <string name="subtitles_prefs_category">Субтитрлар</string>
     <string name="subtitles_size_title">Субтитрлар зурлыгы</string>
     <string name="subtitles_size_small">Кечкенә</string>
@@ -226,16 +221,9 @@
     <string name="subtitles_size_big">Зур</string>
     <string name="subtitles_size_huge">Бик зур</string>
     <string name="subtitles_color_title">Субтитрлар төсе</string>
-    <string name="subtitles_color_white">Ак</string>
-    <string name="subtitles_color_gray">Соры</string>
-    <string name="subtitles_color_pink">Ал</string>
-    <string name="subtitles_color_blue">Зәңгәр</string>
-    <string name="subtitles_color_yellow">Сары</string>
-    <string name="subtitles_color_green">Яшел</string>
     <string name="subtitles_background_title">Субтитрлар фоны</string>
     <string name="subtitles_bold_title">Калын субтитрлар</string>
     <string name="subtitles_autoload_title">Субтитрларны автоматик йөкләргә</string>
-
     <string name="audio_prefs_category">Аудио</string>
     <string name="lockscreen_cover_title">Бикләү экранында медиа тышлыгы</string>
     <string name="lockscreen_cover_summary">Әгәр дә гамәлдәге медианың тышлыгы блса, ул бикләү экранына фон буларак урнаштырылачак</string>
@@ -337,7 +325,6 @@
     <string name="permission_ask_again">Рөхсәт итү</string>
     <string name="exit_app">VLC-ны ябарга</string>
     <string name="exit_app_msg">Чыннан да VLC-ны ябаргамы?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">Язманы тиз әйләндерү</string>
     <string name="fastscroller_handle">Тиз әйләндерү</string>
@@ -362,9 +349,6 @@
     <string name="download_subtitles">Субтитрларны йөкләү</string>
     <string name="browse_folder">Папканы карау</string>
     <string name="listen">Тыңлау</string>
-    <string name="episodes">эпизодлар</string>
-    <string name="movies">фильмнар</string>
-    <string name="videos">видеолар</string>
     <string name="videos_all">Бөтен видеолар</string>
     <string name="clear_playback_history">Уйнату тарихын чистарту</string>
     <string name="ml_scanning">Медиафайлларны сканерлау</string>
@@ -410,4 +394,4 @@
     <string name="language_to_download">Тел</string>
     <string name="next">&amp;Чираттагы</string>
     <string name="download">Йөкләү</string>
-</resources>
+    </resources>

@@ -19,6 +19,20 @@
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
 
+    <string name="sortby_name_asc">Nombre A → Z</string>
+    <string name="sortby_name_desc">Nombre Z → A</string>
+    <string name="sortby_artist_name_asc">Artista A → Z</string>
+    <string name="sortby_artist_name_desc">Artista Z → A</string>
+    <string name="sortby_album_name_asc">Álbum A → Z</string>
+    <string name="sortby_album_name_desc">Álbum Z → A</string>
+    <string name="sortby_filename_asc">Nombre del archivo A → Z</string>
+    <string name="sortby_filename_desc">Nombre del archivo Z → A</string>
+    <string name="sortby_length_asc">Más corto primero</string>
+    <string name="sortby_length_desc">Más largo primero</string>
+    <string name="sortby_date_asc">Más antiguo primero</string>
+    <string name="sortby_date_desc">Más reciente primero</string>
+    <string name="sortby_last_modified_date_asc">Adición más antigua primero</string>
+    <string name="sortby_last_modified_date_desc">Adición más reciente primero</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
         <item quantity="many">%d resultados encontrados</item>
@@ -33,11 +47,11 @@
     <string name="play_from_start">Reproducir desde el inicio</string>
     <string name="play_as_audio">Reproducir como audio</string>
     <string name="play_as_video">Reproducir como vídeo</string>
+    <string name="return_to_video">Mantener presionado en la portada para restaurar el vídeo</string>
     <string name="video_app_switch_title">Modo fondo o superposición(PIP)</string>
     <string name="video_app_switch_summary">Elegir comportamiendo al cambiar a otra aplicación durante un vídeo </string>
     <string name="play_pip_title">Superposición en miniatura</string>
     <string name="play_as_audio_background">Reproducir en segundo plano</string>
-    <string name="append">Adjuntar al final</string>
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Adjuntar todo al final</string>
@@ -103,6 +117,12 @@
         <item quantity="many">%d programas de TV</item>
         <item quantity="other">%d programas de TV</item>
     </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 pista</item>
+        <item quantity="many">%d pistas</item>
+        <item quantity="other">%d pistas</item>
+    </plurals>
+
     <string name="internal_memory">Memoria interna</string>
     <string name="audio">Audio</string>
     <string name="video">Vídeo</string>
@@ -139,6 +159,7 @@
     <string name="surface_fit_screen">Ajustar a pantalla</string>
     <string name="surface_fill">Rellenar</string>
     <string name="surface_original">Centrar</string>
+    <string name="resize_tip">Mantener presionado para más opciones</string>
     <string name="unseekable_stream">Transmisión no rebobinable</string>
     <string name="refresh">Actualizar</string>
     <string name="track_audio">Pista de audio</string>
@@ -170,7 +191,6 @@
     <string name="sleep_in">Apagar en</string>
     <string name="jump_to_time">Ir al tiempo</string>
     <string name="subtitle_select">Seleccionar subtítulo</string>
-
     <string name="server_add_title">Agregar un nuevo servidor a favoritos</string>
     <string name="server_domain_hint"> Dirección del servidor (nombre del dominio o IP)</string>
     <string name="server_share_hint">Nombre de red compartida (o dirección IP)</string>
@@ -198,13 +218,33 @@
     <string name="playback_history_title">Historial de reproducción</string>
     <string name="playback_history_summary">Guardar todos los medios reproducidos en la sección Historial</string>
     <string name="playback_speed_title">Guardar Velocidad de Reproducción</string>
-    <string name="playback_speed_summary">Mantener velocidad de reproducción entre otros medios</string>
+    <string name="playback_speed_summary">Mantener velocidad de reproducción en otros medios</string>
 
     <string name="play_button">Botón reproducir</string>
 
+    <!-- Tips -->
+    <string name="tips_title">Ayuda de reproductor de vídeo</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Subtitulos</string>
+    <string name="tips_player_controls">Control de reproducción</string>
+    <string name="tips_player_controls_description">Toca los controles siguientes para mostrar que hacen</string>
+    <string name="tips_audio_sub">Pista de audio y subtítulos</string>
+    <string name="tips_play_description">Toca para reproducir vídeo</string>
     <string name="lock">Bloquear</string>
+    <string name="tap">Toca para vista</string>
+    <string name="tap_to_remove">Toca para remover</string>
+    <string name="tap_to_rearrange">Toca para reorganizar</string>
+    <string name="tap_to_previous_next">Toca para ir a anterior/siguiente</string>
+    <string name="lock_orientation">Orientación</string>
+    <string name="lock_orientation_description">Toca para bloquear/desbloquear orientación</string>
+    <string name="aspect_ratio">Relación al aspecto</string>
+    <string name="aspect_ratio_description">Toca para cambiar relación al aspecto del vídeo</string>
+    <string name="tips_hold_seek">Mantener para adelantar/rebobinar</string>
+    <string name="pause_description">Doble toque para pausar</string>
+    <string name="seek_tap">+/- 10 seg.</string>
+    <string name="seek_tap_description">Doble toque para adelantar o rebobinar 10 seg.</string>
+    <string name="close">Cerrar</string>
+
     <string name="playlist_tips">Consejos de la lista de reproducción</string>
     <string name="remove_song">Quitar canción</string>
     <string name="remove_playlist_item">%1$s ha sido descartado de la lista</string>
@@ -214,19 +254,23 @@
     <string name="audio_player_tips">Consejos acerca del reproductor de audio</string>
     <string name="previous_next_song">Anterior/Siguiente canción</string>
     <string name="show_playlist">Mostrar lista de reproducción</string>
+    <string name="hide_playlist">Ocultar lista de reproducción</string>
     <string name="hold_to_stop">Mantener para detener</string>
 
     <!-- About -->
     <string name="app_name_full">VLC para Android</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
+    <string name="about_vlc_text">VLC para Android™ es un port de VLC reproductor multimedia, el popular reproductor de medios de código abierto. La versión de Android™ puede leer todos los archivos y trasmisiones de red.</string>
     <string name="authors">Autores</string>
     <string name="vlc_authors">y Autores de VLC.</string>
+    <string name="is_compiled_by">Compilado por</string>
+    <string name="sources">Código fuente</string>
+    <string name="libraries">Librerias</string>
     <string name="feedback_forum">Foro de comentarios</string>
 
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
-
     <string name="directories_summary">Seleccionar directorios a incluir en la biblioteca</string>
     <string name="add_custom_path">Añadir una ruta personalizada</string>
     <string name="add_custom_path_description">Introducir carpetas personales adicionales a examinar:</string>
@@ -243,10 +287,17 @@
     <string name="screen_orientation_sensor">Automático (sensor)</string>
     <string name="screen_orientation_portrait">Vertical</string>
     <string name="screen_orientation_landscape">Horizontal</string>
+    <string name="screen_orientation_landscape_reverse">Orientación horizontal invertida</string>
+    <string name="screen_orientation_last_locked">Última orientación bloqueada</string>
     <string name="enable_black_theme">Tema negro</string>
+    <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificador textual de subtítulos</string>
+    <string name="subtitle_preferred_language">Idioma preferido para subtítulos </string>
     <string name="daynight_title">Modo Noche</string>
     <string name="daynight_follow_system_title">Coincidir con el sistema</string>
+    <string name="no_track_preference">Sin preferencia de idioma</string>
+    <string name="track_preference">Pista preferida: %s</string>
+
     <string name="extra_prefs_category">Ajustes extras</string>
 
     <string name="interface_prefs_screen">Interfaz</string>
@@ -280,7 +331,6 @@
     <string name="popup_keepscreen_title">Mantener pantalla encendida en modo miniatura</string>
     <string name="popup_keepscreen_summary">Pantalla siempre encendida cuando se muestra miniatura, si no está pausado.</string>
     <string name="browser_show_hidden_files_title">Mostrar archivos ocultos</string>
-
     <string name="subtitles_prefs_category">Subtítulos</string>
     <string name="subtitles_size_title">Tamaño de Subtítulos</string>
     <string name="subtitles_size_small">Pequeño</string>
@@ -288,19 +338,29 @@
     <string name="subtitles_size_big">Grande</string>
     <string name="subtitles_size_huge">Enorme</string>
     <string name="subtitles_color_title">Color de Subtítulos</string>
-    <string name="subtitles_color_white">Blanco</string>
-    <string name="subtitles_color_gray">Gris</string>
-    <string name="subtitles_color_pink">Rosa</string>
-    <string name="subtitles_color_blue">Azul</string>
-    <string name="subtitles_color_yellow">Amarillo</string>
-    <string name="subtitles_color_green">Verde</string>
+    <string name="subtitles_opacity">Opacidad</string>
+    <string name="subtitles_color">Color</string>
+    <string name="subtitles_size">Tamaño</string>
     <string name="subtitles_background_title">Fondo de subtítulos</string>
+    <string name="subtitle_decoration_none">Ninguno</string>
+    <string name="subtitle_decoration_shadow">Sombra</string>
+    <string name="subtitle_decoration_outline">Borde</string>
     <string name="subtitles_bold_title">Subtítulos en negritas</string>
     <string name="subtitles_autoload_title">Autocargar subtítulos</string>
+    <string name="previous_color">Color anterior</string>
+    <string name="new_color">Color nuevo</string>
+    <string name="subtitles_preset_default">Predeterminado</string>
+    <string name="subtitles_preset_default_large">Texto grande</string>
+    <string name="subtitles_preset_default_largest">Texto grande y contraste</string>
+    <string name="subtitles_preset_white_background">Con fondo</string>
+    <string name="subtitles_yellow">Amarillo</string>
+    <string name="subtitles_yellow_background">Amarillo con fondo</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Portada de medio en pantalla de bloqueo</string>
     <string name="lockscreen_cover_summary">Mostrar portada del medio reproducido actualemente en pantalla de bloqueo, si está disponible</string>
+    <string name="show_seek_in_compact_notif_title">Adelantar y rebobinar en panel de notificaciones</string>
+    <string name="show_seek_in_compact_notif_summary">Mostrar botones para adelantar y rebobinar en controles de medios compactos</string>
     <string name="list_title_ellipsize">Alinear títulos de un renglón</string>
     <string name="list_title_ellipsize_default">Predeterminado</string>
     <string name="list_title_ellipsize_left">Izquierda</string>
@@ -314,6 +374,19 @@
     <string name="enable_headset_detection_summary">Detectar conexión y extracción de auriculares</string>
     <string name="enable_play_on_headset_insertion">Reaundar al conectar auriculares</string>
     <string name="enable_play_on_headset_insertion_summary">Si no, pausar</string>
+    <string name="replaygain_prefs_category">Ganancia de reproducción</string>
+    <string name="replaygain_enable">Habilitar ganancia de reproducción</string>
+    <string name="replaygain_enable_summary">Las transmisiones sin datos de ganancia pueden ser algo silenciosos debido a la ganancia predeterminada</string>
+    <string name="replaygain_mode">Modo de ganancia de reproducción</string>
+    <string name="replaygain_mode_summary">El modo de pista reproduce transmisiones con datos de ganancia al mismo volumen. El modo álbum conserva el volumen relativo de la transmisión en el mismo álbum.</string>
+    <string name="replaygain_preamp">Reproducir preamplificación</string>
+    <string name="replaygain_preamp_summary">Edita el valor predeterminado (89 dB) para trasmisiones con datos de ganancia de reproducción</string>
+    <string name="replaygain_default">Ganancia de reproducción predeterminada</string>
+    <string name="replaygain_default_summary">Para trasmisiones sin datos de ganancia de reproducción\nEstablecer 0 para desactivar</string>
+    <string name="replaygain_peak_protection">Protección de picos</string>
+    <string name="replaygain_peak_protection_summary">Protege contra distorsión de sonidos</string>
+    <string name="replaygain_track">Pista</string>
+    <string name="replaygain_album">Álbum</string>
     <string name="aout">Salida de audio</string>
     <string name="aout_summary">Cambiar el método que usa VLC para la salida de audio</string>
     <string name="audio_ducking_title">Reducir volumen en notificaciones</string>
@@ -330,6 +403,7 @@
     <string name="casting_quality_lowcpu">Muy baja</string>
     <string name="casting_connected_renderer">Conectado al visualizador \'%1$s\'</string>
     <string name="artists_show_all_title">Mostrar todos los artistas</string>
+    <string name="show_headers">Mostrar encabezado</string>
     <string name="extensions_prefs_category">Extensiones</string>
     <string name="extensions_empty">Extension no detectada</string>
     <string name="extension_permission_title">¿Activar nueva extensión \"%1$s\"?</string>
@@ -355,10 +429,14 @@
     <string name="auto_rescan">Auto reescanear</string>
     <string name="auto_rescan_summary">Escanear el disposiivo al iniciar VLC en busca de archivos nuevos o eliminados</string>
     <string name="dump_media_db">Exportar base de datos de medios</string>
+    <string name="dump_app_db">Volcar base de datos de la aplicación</string>
     <string name="dump_media_db_summary">Copiar base de datos al almacenamiento interno</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
     <string name="clear_media_database_summary">Borra base de datos para empezar de nuevo</string>
+    <string name="clear_app_data">Borrar datos de la aplicación</string>
+    <string name="clear_app_data_summary">Borra los datos de VLC para Android</string>
     <string name="clear_history">Limpiar historial</string>
+    <string name="clear_history_message">Perderás tu historial, lista de reproducción actual y tu progreso</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="network_caching">Valor de cache de red</string>
     <string name="resume_playback_title">Reanudar reproducción al fin de llamada</string>
@@ -446,7 +524,6 @@
     <string name="permission_ask_again">Conceder permiso</string>
     <string name="exit_app">Cerrar VLC</string>
     <string name="exit_app_msg">¿Realmente desea cerrar VLC?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">Desplazador Rápido de pista</string>
     <string name="fastscroller_handle">Manejo de Desplazador Rápido</string>
@@ -472,9 +549,6 @@
     <string name="download_subtitles">Descargar subtítulos</string>
     <string name="browse_folder">Examinar carpeta</string>
     <string name="listen">Escuchar</string>
-    <string name="episodes">episodios</string>
-    <string name="movies">películas</string>
-    <string name="videos">vídeos</string>
     <string name="videos_all">Todos los videos</string>
     <string name="clear_playback_history">Borar historial de reproducción</string>
     <string name="ml_scanning">Escanear archivos multimedia</string>
@@ -530,7 +604,6 @@
     <string name="ml_wizard_scan_checkbox">Escanear medios de dispositivo</string>
     <string name="ml_wizard_description">Elija como VLC analizará su dispositivo, como organizador de biblioteca o un simple reproductor integrado al explorador.</string>
     <string name="tv_my_new_videos">Mis nuevo vídeos</string>
-    <string name="cast_option_title">Emitir medio en otra pantalla</string>
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Explorar</string>
     <string name="ab_repeat">Repetir A-B</string>
@@ -745,5 +818,4 @@
     <string name="warning_stream_speed">Velocidad de reproducción mayor a 1 en Transmisiones puede ocasionar pausas</string>
     <string name="go_to_folder">Explorar padre</string>
     <string name="no_sub_renderer">Los subtítulos aún no son compatibles durante la transmisión</string>
-    <string name="enqueuing">carga de los medios</string>
-</resources>
+    </resources>

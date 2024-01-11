@@ -15,10 +15,36 @@
     <string name="sortby_date">日期</string>
     <string name="sortby_last_modified_date">最近新增</string>
     <string name="sortby_insertion">插入日期</string>
+    <string name="sortby_date_last_modified">最近新增</string>
+    <string name="sortby_date_insertion">插入日期</string>
+    <string name="sortby_date_release">發行日期</string>
     <string name="sortby_media_number">媒體數</string>
     <string name="sortby_number">曲目編號</string>
     <string name="searchable_hint">搜尋…</string>
     <string name="history">歷史記錄</string>
+
+    <string name="sortby_name_asc">名稱由 A 到 Z</string>
+    <string name="sortby_name_desc">名稱由 Z 到 A</string>
+    <string name="sortby_artist_name_asc">藝人名稱由 A 到 Z</string>
+    <string name="sortby_artist_name_desc">藝人名稱由 Z 到 A</string>
+    <string name="sortby_album_name_asc">專輯名稱由 A 到 Z</string>
+    <string name="sortby_album_name_desc">專輯名稱由 Z 到 A</string>
+    <string name="sortby_filename_asc">檔案名稱由 A 到 Z</string>
+    <string name="sortby_filename_desc">檔案名稱由 Z 到 A</string>
+    <string name="sortby_length_asc">最短優先</string>
+    <string name="sortby_length_desc">最長優先</string>
+    <string name="sortby_date_asc">最舊日期優先</string>
+    <string name="sortby_date_desc">最新日期優先</string>
+    <string name="sortby_last_modified_date_asc">最舊新增優先</string>
+    <string name="sortby_last_modified_date_desc">最新新增優先</string>
+    <string name="sortby_number_asc">較多影片在群組內優先</string>
+    <string name="sortby_number_desc">較少影片在群組內優先</string>
+    <string name="sortby_date_insertion_asc">最舊插入日期優先</string>
+    <string name="sortby_date_insertion_desc">最新插入日期優先</string>
+    <string name="sortby_date_last_modified_asc">最舊修改日期優先</string>
+    <string name="sortby_date_last_modified_desc">最新修改日期優先</string>
+    <string name="sortby_date_release_asc">最舊發行日期優先</string>
+    <string name="sortby_date_release_desc">最新發行日期優先</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="other">找到 %d 個結果</item>
@@ -37,7 +63,7 @@
     <string name="video_app_switch_summary">選擇當您在播放影片時切換到其他應用程式時，VLC 的行為</string>
     <string name="play_pip_title">以子母畫面模式播放影片</string>
     <string name="play_as_audio_background">在背景播放影片</string>
-    <string name="append">附加</string>
+    <string name="append">新增至播放佇列</string>
     <string name="insert_next">插入為下一個</string>
     <string name="play_all">全部播放</string>
     <string name="append_all">全部附加</string>
@@ -109,6 +135,7 @@
     <string name="loading">載入中</string>
     <string name="please_wait">請稍候…</string>
     <string name="nomedia">找不到媒體檔案，請將檔案傳輸至您的裝置中或是調整偏好設定。</string>
+    <string name="nofav">找不到最愛。</string>
     <string name="empty_search">搜尋 %s 時找不到項目</string>
     <string name="noplaylist">找不到播放清單。</string>
     <string name="nosubfolder">沒有子目錄</string>
@@ -164,6 +191,7 @@
     <string name="sleep_in">睡眠倒數</string>
     <string name="jump_to_time">跳至時間</string>
     <string name="subtitle_select">選擇字幕檔</string>
+    <string name="wait_before_sleep">等待目前媒體項目先完成</string>
 
     <string name="server_add_title">新增伺服器至收藏</string>
     <string name="server_domain_hint">伺服器地址（網域名稱或 IP 位址）</string>
@@ -200,7 +228,7 @@
     <string name="audio_resume_playback_warning">停用音訊播放佇列可能會導致一些奇怪的行為。\n在停用後，您將無法在以下位置執行繼續播放動作：\n\n\t- 藍牙裝置\n\t- 小工具\n\t- 媒體通知</string>
     <string name="audio_resume_playback_summary">允許儲存音訊播放佇列內容，以便在稍後繼續播放</string>
     <string name="playback_speed_title">儲存播放速度</string>
-    <string name="playback_speed_summary">在不同媒體間保持播放速度</string>
+    <string name="playback_speed_summary">保持媒體之間的播放速度</string>
 
     <string name="play_button">播放按鈕</string>
 
@@ -259,11 +287,16 @@
 
     <!-- Preferences -->
     <string name="preferences">設定</string>
+    <string name="more_preferences">更多設定</string>
+    <string name="prefs_opened_on_phone">已在手機上開啟設定</string>
+    <string name="open_on_phone">在手機畫面上開啟</string>
 
     <string name="directories_summary">選擇要加到媒體櫃的目錄</string>
     <string name="add_custom_path">加入自訂路徑</string>
     <string name="add_custom_path_description">輸入額外的自訂目錄以掃瞄:</string>
     <string name="remove_custom_path">移除自訂路徑</string>
+    <string name="group_ban_folder">從媒體庫封鎖資料夾</string>
+
     <string name="hardware_acceleration">硬體加速</string>
     <string name="hardware_acceleration_summary">停用：較為穩定\n解碼：可提升性能\n全開：可進一步提升性能</string>
     <string name="hardware_acceleration_disabled">停用</string>
@@ -275,8 +308,10 @@
     <string name="screen_orientation">畫面方向</string>
     <string name="screen_orientation_sensor">自動（感應）</string>
     <string name="screen_orientation_portrait">直向</string>
+    <string name="screen_orientation_portrait_reverse">縱向反轉</string>
     <string name="screen_orientation_landscape">橫向</string>
     <string name="screen_orientation_landscape_reverse">橫向反轉</string>
+    <string name="screen_orientation_landscape_sensor">橫向（感應器）</string>
     <string name="screen_orientation_last_locked">最後鎖定方向</string>
     <string name="enable_black_theme">黑色主題</string>
     <string name="theme_auto">自動佈景主題</string>
@@ -403,6 +438,27 @@
     <string name="audio_ducking_title">有通知時降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助於聽到音訊通知、導航指示或助理說話</string>
     <string name="casting_category">投放</string>
+    <string name="remote_access">遠端存取</string>
+    <string name="remote_access_status">伺服器狀態</string>
+    <string name="remote_access_status_summary">輕點以檢視伺服器狀態</string>
+    <string name="remote_access_connections">連線</string>
+    <string name="remote_access_links">連結</string>
+    <string name="remote_access_active">遠端存取作用中</string>
+    <string name="remote_access_notification">遠端存取正於 %s 作用中</string>
+    <string name="remote_access_notification_stopped">遠端存取已停止</string>
+    <string name="remote_access_notification_connecting">遠端存取正在連線</string>
+    <string name="remote_access_notification_error">遠端存取錯誤</string>
+    <string name="remote_access_notification_stopping">遠端存取正在停止</string>
+    <string name="remote_access_notification_not_init">遠端存取正在初始化</string>
+    <string name="enable_remote_access">啟用遠端存取</string>
+    <string name="remote_access_info">遠端存取資訊</string>
+    <string name="remote_access_content">內容</string>
+    <string name="remote_access_medialibrary_content">媒體庫內容</string>
+    <string name="remote_access_medialibrary_content_summary">已啟用：%s\n已停用：%s</string>
+    <string name="remote_access_file_browser_content">檔案瀏覽器</string>
+    <string name="remote_access_network_browser_content">網路瀏覽器</string>
+    <string name="remote_access_playback_control">控制播放</string>
+    <string name="remote_access_logs">分享紀錄檔</string>
     <string name="casting_switch_title">無線投放</string>
     <string name="casting_passthrough_title">音訊傳遞(Passthrough)</string>
     <string name="casting_passthrough_summary">讓您的電視管理音訊繪製</string>
@@ -416,6 +472,10 @@
     <string name="artists_show_all_title">顯示所有藝人</string>
     <string name="show_headers">顯示標題</string>
     <string name="show_headers_summary">根據標題將列表拆開，取決於排序類型</string>
+    <string name="tv_folders_first">首先顯示資料夾</string>
+    <string name="tv_folders_first_summary">在檔案瀏覽器中將資料夾顯示在前面，然後才顯示檔案</string>
+    <string name="tv_show_hidden_files">顯示隱藏的檔案</string>
+    <string name="tv_show_hidden_files_summary">在檔案瀏覽器中顯示隱藏的檔案</string>
 
     <string name="extensions_prefs_category">擴充套件</string>
     <string name="extensions_empty">沒有偵測到擴充套件</string>
@@ -523,6 +583,12 @@
     <string name="medialibrary">媒體櫃</string>
     <string name="medialibrary_directories">媒體櫃資料夾</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">Android 版 VLC %s 中有什麼新功能</string>
+    <string name="whats_new_36_webserver_text">使用新的遠端存取功能，可以從任何其他裝置控制 Android 版 VLC。\n雙向傳送媒體、控制播放等等！</string>
+    <string name="whats_new_36_favorites_text">您現在可以收藏您的媒體、播放清單、藝人或專輯。\n僅按收藏過濾內容，一目了然地找到您喜歡的內容！</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">更多動作</string>
     <string name="back_quit_lock">再次按下返回鍵關閉影片播放</string>
@@ -547,6 +613,7 @@
     <string name="partial_content">VLC 無法存取您所有的檔案</string>
     <string name="partial_content_description">從 Android 11 開始，應用程式需要特別權限才能存取裝置上所有的檔案。\n\n%s</string>
     <string name="never_ask_again">不再詢問</string>
+    <string name="never_show_again">不要再次顯示</string>
     <string name="allow_settings_access_ringtone_title">允許 VLC 設定鈴聲</string>
     <string name="allow_settings_access_ringtone_description">VLC 需要您的授權才能將這首歌設定為鈴聲。</string>
     <string name="allow_settings_access_brightness_title">允許 VLC 改變亮度模式</string>
@@ -596,9 +663,9 @@
     <string name="browse_folder">瀏覽資料夾</string>
     <string name="listen">聽</string>
     <string name="apply_to_bt">套用至藍牙裝置</string>
-    <string name="episodes">插曲</string>
+    <string name="episodes">劇集</string>
     <string name="movies">電影</string>
-    <string name="videos">視訊</string>
+    <string name="videos">影片</string>
     <string name="videos_all">所有視訊</string>
     <string name="clear_playback_history">清除播放記錄</string>
     <string name="ml_scanning">正在掃描媒體檔案</string>
@@ -656,7 +723,7 @@
     <string name="ml_wizard_scan_checkbox">掃描裝置中的媒體內容</string>
     <string name="ml_wizard_description">選擇 VLC 是掃描裝置儲存空間來組織您的媒體櫃，還是只作為簡易的、具有內建瀏覽器的播放器來使用。</string>
     <string name="tv_my_new_videos">我新的影片</string>
-    <string name="cast_option_title">投放媒體到另一個螢幕</string>
+    <string name="cast_option_title">將媒體投放到另一個螢幕</string>
     <string name="otg_device_title">OTG 裝置</string>
     <string name="browser">瀏覽器</string>
     <string name="ab_repeat">A-B 重覆</string>
@@ -664,6 +731,10 @@
     <string name="ab_repeat_stop">停止 A-B 重複</string>
     <string name="stop_after_this">在此軌後停止</string>
     <string name="time_category_new">新媒體</string>
+    <string name="time_category_today">今天</string>
+    <string name="time_category_yesterday">昨天</string>
+    <string name="time_category_current_week">本週</string>
+    <string name="time_category_last_week">上週</string>
     <string name="time_category_current_month">本月</string>
     <string name="time_category_current_year">今年</string>
     <string name="time_category_last_year">去年</string>
@@ -715,6 +786,8 @@
     <string name="misc">雜項</string>
     <string name="popup_force_legacy_title">使用自訂子母畫面彈出</string>
     <string name="popup_force_legacy_summary">使用自訂子母畫面可調整大小彈出</string>
+    <string name="restore_background_video_title">從背景還原影片</string>
+    <string name="restore_background_video_summary">在重新開啟 vlc-android 時從背景還原影片</string>
     <string name="device_default">裝置預設值</string>
     <string name="track_number">%d 個軌道</string>
     <string name="jump_to">跳至</string>
@@ -734,6 +807,8 @@
     <string name="remove_current">移除目前的</string>
     <string name="validation_delete_playlist">您確定要刪除這個播放清單嗎？</string>
     <string name="validation_delete_playlist_text">這個動作無法復原。</string>
+    <string name="display_settings">顯示設定</string>
+    <string name="incognito_mode">無痕模式</string>
     <string name="display_in_list">以清單顯示</string>
     <string name="display_in_grid">以方格顯示</string>
     <string name="dump_db_succes">資料庫已傾印到內部儲存空間根目錄</string>
@@ -887,8 +962,30 @@
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">挑選 SoundFont 檔案來播放 midi 音訊軌</string>
     <string name="missing_media_snack">媒體遺失。隱藏所有遺失的媒體嗎？</string>
-    <string name="browser_show_missing_media">顯示遺失的媒體</string>
+    <string name="browser_show_missing_media">顯示缺少的媒體</string>
     <string name="browser_show_missing_media_summary">即便不存在也要顯示遠端媒體</string>
+    <string name="parental_control">家長控制</string>
+    <string name="safe_mode">安全模式</string>
+    <string name="safe_mode_summary">啟用時，若不輸入 PIN 碼則無法刪除檔案或修改播放清單</string>
+    <string name="safe_mode_pin">輸入您的 PIN 碼</string>
+    <string name="pin_unlock_success">解鎖成功。若要重新啟用安全模式，請輕點應用程式中的此圖示：</string>
+    <string name="safe_mode_new_pin">輸入您的新 PIN 碼</string>
+    <string name="safe_mode_re_pin">重新輸入您的 PIN 碼</string>
+    <string name="safe_mode_no_match">PIN 碼不相符</string>
+    <string name="safe_mode_invalid_pin">錯誤的 PIN 碼</string>
+    <string name="safe_mode_pin_error">您的 PIN 碼應僅包含數字</string>
+    <string name="pin_code_reason_create">首先，請建立您的 PIN 碼</string>
+    <string name="pin_code_reason_modify">變更您的 PIN 碼</string>
+    <string name="pin_code_modified">已成功修改 PIN 碼</string>
+    <string name="pin_code_reason_check">存取受限。請輸入您的 PIN 碼</string>
+    <string name="pin_code_access_granted">授予存取權限。您可以在主畫面中重新鎖定</string>
+    <string name="safe_mode_enabled">目前已啟用安全模式</string>
+    <string name="restricted_access">存取受限</string>
+    <string name="unlock">解鎖</string>
+    <string name="lock_with_pin">重新啟用 PIN 碼鎖定</string>
+    <string name="unlock_with_pin">解鎖安全模式</string>
+    <string name="lock_with_pin_short">PIN 碼鎖定</string>
+    <string name="restrict_settings">受限設定存取</string>
     <string name="search_prefs">搜尋設定</string>
     <string name="video_match_frame_rate_title">符合顯示影格率</string>
     <string name="video_match_frame_rate_summary">讓顯示更新速率與媒體影格率相符。舉例來說，一部 24p 的電影應該以 24p 播放</string>
@@ -929,10 +1026,13 @@
     <string name="lock_use_sensor_title">使用偵測器鎖定</string>
     <string name="lock_use_sensor_summary">當方向鎖定時，使用偵測器允許反向</string>
     <string name="start">開始</string>
+    <string name="notification_permission">通知權限</string>
+    <string name="notification_permission_explanation">VLC 需您的授權才能傳送通知。\n應用程式只會在為您掃描媒體或使用自訂的「字母畫面」視訊模式時向您傳送通知。\n拒絕該權限不會影響 VLC 正常運作，只是不會顯示通知而已。</string>
     <string name="permission">權限</string>
     <string name="customize">自訂</string>
     <string name="selection_count">已選取 %d</string>
-    <string name="controls_setting">控制設定</string>
+    <string name="control_setting">控制設定</string>
+    <string name="controls_setting">控制設定</string> <!-- Unused -->
     <string name="gestures">手勢</string>
     <string name="player_controls">播放器控制</string>
     <string name="video_double_tap_jump_delay">雙擊時間延遲</string>
@@ -967,6 +1067,12 @@
     <string name="material_you">Material You（從桌布中擷取顏色）</string>
     <string name="palette">調色盤（從媒體封面中擷取顏色）</string>
     <string name="custom">自訂</string>
+    <string name="widget_type">小工具類型</string>
+    <string name="widget_type_pill">膠囊</string>
+    <string name="widget_type_normal">一般</string>
+    <string name="widget_type_circle">圓圈</string>
+    <string name="widget_type_large">大</string>
+    <string name="widget_type_error">這個小工具類型對小工具大小來說太大了。可能會導致視覺上的問題</string>
     <string name="opacity">不透明度</string>
     <string name="widget_background">背景</string>
     <string name="widget_foreground">前景</string>
@@ -1042,6 +1148,68 @@
     <string name="talkback_action_forward">快轉%s秒</string>
     <string name="talkback_display_settings">顯示設定</string>
     <string name="talkback_already_played">已播放</string>
+    <string name="show_only_favs">僅顯示最愛</string>
+    <string name="ignore_headset_media_button_presses">忽略按下耳機媒體按鈕</string>
+    <string name="ignore_headset_media_button_presses_summary">如果您正使用物理按鈕壞掉的耳機，這會很有用</string>
+    <string name="replace_playlist">取代播放清單</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">遠端存取作用中</string>
+    <string name="ra_remote_access">遠端存取</string>
+    <string name="ra_remote_access_description">遠端存取狀態通知</string>
+    <string name="ra_log_file">紀錄檔</string>
+    <string name="ra_log_type">紀錄類型</string>
+    <string name="ra_send_files">傳送檔案</string>
+    <string name="ra_not_in_foreground">應用程式不在前景。無法啟動影片。</string>
+    <string name="ra_disconnected">與裝置斷開連線</string>
+    <string name="ra_file">檔案</string>
+    <string name="ra_upload_remaining">正在上傳 %s 個檔案</string>
+    <string name="ra_upload_all">上傳全部</string>
+    <string name="ra_drop_files_tip">將檔案拖曳到任意位置以傳送到您的裝置</string>
+    <string name="ra_prepare_download">正在準備您的下載</string>
+    <string name="ra_forbidden">內容已在設定中停用</string>
+    <string name="ra_playback_forbidden">播放控制已在設定中停用</string>
+    <string name="ra_code_requested_explanation">為了保護您的伺服器，已保護存取。\n請輸入通知中顯示的代碼</string>
+    <string name="ra_ssl_explanation_title">不安全的連線</string>
+    <string name="ra_ssl_explanation">您的連線並不安全。</string>
+    <string name="ra_ssl_explanation_browser">因為瀏覽器安全實作的關係，您將會在下一頁收到安全性警告。</string>
+    <string name="ra_ssl_explanation_accept">確保接受憑證才能使用遠端存取</string>
+    <string name="ra_ssl_button">使用安全連線</string>
+    <string name="ra_new_code">傳送新代碼</string>
+    <string name="home">主畫面</string>
+    <string name="ra_code">輸入此代碼：%s</string>
+    <string name="ra_send_logs">在裝置上儲存遠端存取紀錄檔</string>
+    <string name="ra_otp">遠端存取拋棄式密碼</string>
+    <string name="ra_otp_description">遠端存取的存取請求</string>
+    <string name="ra_otp_title">遠端存取登入嘗試</string>
+    <string name="ra_otp_subtitle">如果是您本人，請在其他裝置上輸入此代碼</string>
+    <string name="ra_otp_not_me">這不是我</string>
 
+    <string name="ra_onboarding_welcome_desc">歡迎使用 Android 版 VLC 的遠端存取\n啟用此功能，您將可以控制此裝置的播放等功能</string>
+    <string name="ra_onboarding_how_title">控制您的裝置</string>
+    <string name="ra_onboarding_how_desc">控制您的裝置播放，傳送或擷取檔案等</string>
+    <string name="ra_onboarding_ssl_title">資料加密</string>
+    <string name="ra_onboarding_ssl_desc">遠端存取經過加密，可防止您的資料遭到洩漏</string>
+    <string name="ra_onboarding_otp_title">認證</string>
+    <string name="ra_onboarding_otp_desc">透過拋棄式密碼身份認證，防止對您的資料進行不必要的存取</string>
+    <string name="ra_onboarding_content_title">內容存取</string>
+    <string name="ra_onboarding_content_desc">選擇可以存取的內容與無法存取的內容</string>
+    <string name="ra_onboarding_content_ml">媒體庫內容存取</string>
+    <string name="ra_onboarding_content_files">檔案瀏覽器</string>
+    <string name="ra_onboarding_content_playback">播放控制</string>
+    <string name="ra_disable">停用</string>
+    <string name="ra_log_web">遠端存取紀錄</string>
+    <string name="ra_log_crash">當機紀錄</string>
+    <string name="ra_log_mobile">裝置紀錄</string>
+    <string name="ra_log_current">目前本機紀錄</string>
+    <string name="ra_invalid_login">您必須在您的裝置上登入</string>
+    <string name="ra_invalid_otp">提供了無效的代碼</string>
+    <string name="learn_more">取得更多資訊</string>
+
+    <!-- car screens -->
+    <string name="help">說明</string>
+    <string name="podcast_mode">Podcast 模式</string>
+    <string name="podcast_mode_help">播放符合以下條件之一的單一曲目時會出現 podcast 控制：\n\t• 長度大於 60 分鐘\n\t• 長度大於 15 分鐘，無專輯名稱\n\t• 類型為 %s</string>
+    <string name="voice_control">語音控制</string>
+    <string name="voice_control_help">可以透過 Google 助理透過說出以下命令來控制VLC：\n\t• 播放、暫停、停止、上一個、下一個\n\t• 快退、快轉、重複&lt;全部|一個|關閉&gt;\n \t • 跳至&lt;時間&gt;，跳過&lt;持續時間&gt;\n\t• 這是什麼&lt;藝人|專輯|歌曲&gt;\n\t• 播放[藝人|專輯|歌曲|類型|播放清單] &lt;名稱&gt;</string>
 </resources>

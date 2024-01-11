@@ -14,11 +14,24 @@
     <string name="sortby_length">लम्बाइ</string>
     <string name="sortby_date">मिति</string>
     <string name="sortby_last_modified_date">हालै थपिएको</string>
+    <string name="sortby_insertion">सम्मिलित मिति</string>
     <string name="sortby_media_number">मिडिया नम्बर</string>
     <string name="sortby_number">Nb ट्र्याकहरू</string>
     <string name="searchable_hint">खोज्नुहोस…</string>
     <string name="history">इतिहास</string>
 
+    <string name="sortby_name_asc">नाम A → Z</string>
+    <string name="sortby_name_desc">नाम Z → A</string>
+    <string name="sortby_artist_name_asc">कलाकारको नाम A → Z</string>
+    <string name="sortby_artist_name_desc">कलाकारको नाम Z → A</string>
+    <string name="sortby_album_name_asc">एल्बमको नाम A → Z</string>
+    <string name="sortby_album_name_desc">एल्बमको नाम Z → A</string>
+    <string name="sortby_filename_asc">फाइलको नाम A → Z</string>
+    <string name="sortby_filename_desc">फाइल नाम Z → A</string>
+    <string name="sortby_length_asc">सबैभन्दा छोटो पहिले</string>
+    <string name="sortby_length_desc">सबैभन्दा लामो पहिले</string>
+    <string name="sortby_date_asc">सबैभन्दा पुरानो मिति पहिले</string>
+    <string name="sortby_date_desc">सबैभन्दा नयाँ मिति पहिले</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d नतिजा भेटियो</item>
         <item quantity="other">%d नतिजाहरु भेटिए</item>
@@ -32,11 +45,11 @@
     <string name="play_from_start">सुरुबाट बजाउनुहोस</string>
     <string name="play_as_audio">अडियो सरी बजाउनुहोस</string>
     <string name="play_as_video">भिडियो सरी बजाउनुहोस</string>
+    <string name="return_to_video">भिडियो रिस्टोर गर्न कभरमा लामो ट्याप गर्नुहोस्</string>
     <string name="video_app_switch_title">पृष्ठभूमि/PiP ढाँचा</string>
     <string name="video_app_switch_summary">VLC व्यवहार चयन गर्नुहोस् जब तपाईं भिडियो प्लेब्याकबाट अन्य अनुप्रयोगमा स्विच गर्नुहुन्छ</string>
     <string name="play_pip_title">तस्वीर-मा-तस्वीर प्रणालीमा चलदृश्य बजाउनुहोस्</string>
     <string name="play_as_audio_background">भिडियोहरू पृष्ठभूमिमा बजाउनुहोस्</string>
-    <string name="append">थप्नुहोस</string>
     <string name="insert_next">अर्को घुसाउनुहोस्</string>
     <string name="play_all">सबै बजाउनुहोस्</string>
     <string name="append_all">सबै थप्नुहोस्</string>
@@ -72,7 +85,7 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">१ सङग्रह</item>
-        <item quantity="other">%dएल्बमहरू </item>
+        <item quantity="other">%d एल्बमहरू </item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">१ सहफोल्डर</item>
@@ -111,6 +124,7 @@
     <string name="loading">लोड हुदैछ</string>
     <string name="please_wait">कृपया प्रतिक्ष्य गर्नुहोस …</string>
     <string name="nomedia">कुनै पनि सामग्री फाइल भेटिएन , कृपया केही फाइलहरू तपाईको डिभाइसमा सार्नुहोस् या अभिरुचीहरू मिलाउनुहोस् ।</string>
+    <string name="empty_search">%sखोजेको बस्तु फेला परेन</string>
     <string name="noplaylist">कुनै पनि बजाउने भेटिएन।</string>
     <string name="nosubfolder">कुनै सबफोल्डर छैन</string>
     <string name="directorynotfound">डाइरेक्टरी पाथ \'%1$s\' भेटिएन।</string>
@@ -121,6 +135,7 @@
     <string name="shuffle_title">फेरबदल मोड</string>
     <string name="shuffle">फेरबदल बन्द गर्नुहोस्</string>
     <string name="shuffle_on">फेरबदल सुरु गर्नुहोस्</string>
+    <string name="shuffle_play">फेरबदल</string>
     <string name="repeat_title">दोहोर्याउने रीत</string>
     <string name="repeat">कुनै पनि नदोहोर्‍याउने</string>
     <string name="repeat_single">एउटैलाई दोहोर्याउनुहोस्</string>
@@ -134,6 +149,7 @@
     <string name="surface_fit_screen">पर्दामा अटाउनुहोस्</string>
     <string name="surface_fill">भरी भर्नुहोस</string>
     <string name="surface_original">बिच</string>
+    <string name="resize_tip">थप विकल्पहरूको लागि लामो ट्याप गर्नुहोस्</string>
     <string name="unseekable_stream">खोज्न नमिल्ने प्रवाह</string>
     <string name="refresh">ताजा गर्नुहोस</string>
     <string name="track_audio">अडियो ट्रयाक</string>
@@ -164,12 +180,14 @@
     <string name="sleep_in">बन्दहुने</string>
     <string name="jump_to_time">समयमा जानुहोस्</string>
     <string name="subtitle_select">उपशीर्षक फाइल छान्नुहोस्</string>
+    <string name="wait_before_sleep">हालको मिडिया वस्तु पहिले समाप्त हुनको लागि पर्खनुहोस्</string>
 
     <string name="server_add_title">नयाँ सर्वर मनपर्ने सूचीमा थप्नुहोस्</string>
     <string name="server_domain_hint">सर्भर ठेगाना (डोमेन नाम वा आईपी)</string>
     <string name="server_share_hint">नेटवर्क शेयर नाम (वा आईपी ठेगाना)</string>
     <string name="server_folder_hint">फोल्डर पाथ (ऐच्छिक)</string>
     <string name="server_username_hint">प्रयोगकर्ता नाम</string>
+    <string name="server_servername_hint">असुविधाको लागि सर्भरको नाम</string>
     <string name="server_port">पोर्ट: </string>
     <string name="login">लग इन</string>
     <string name="password">पासवर्ड</string>
@@ -186,27 +204,44 @@
     <string name="encountered_error_title">बजाउँदा त्रुटि</string>
     <string name="encountered_error_message">VLC ले यो मिडियाको साथ एक त्रुटिको सामना गर्यो।\nकृपया मिडिया लाइब्रेरीलाई ताजा गर्ने प्रयास गर्नुहोस्। </string>
     <string name="invalid_location">स्थान %1$sबजाउन सकिएन।</string>
+    <string name="missing_location">यो मिडिया अनुपलब्ध भण्डारणबाट हो र प्ले गर्न सकिँदैन।</string>
+
     <string name="search">खोज्नुहोस</string>
 
 
     <string name="playback_history_title">बजाउने इतिहास</string>
     <string name="playback_history_summary">बजाइसकेका सबै मिडियाहरूलाइ इतिहास खण्डमा साँच्नुहोस्</string>
+    <string name="video_resume_playback_title">भिडियो प्ले लाइन इतिहास</string>
+    <string name="video_resume_playback_summary">पछि पुन: सुरु गर्न भिडियो प्ले लाइन बचत गर्न अनुमति दिनुहोस्</string>
+    <string name="audio_resume_playback_title">अडियो प्ले लाइन इतिहास</string>
+    <string name="audio_resume_playback_summary">अडियो प्ले लाइन बचत गर्न पछि पुन: सुरु गर्न अनुमति दिनुहोस्</string>
     <string name="playback_speed_title">प्लेब्याक गति बचत गर्नुहोस्</string>
-    <string name="playback_speed_summary">मिडियाको बिच प्लेब्याक गति राख्नुहोस्</string>
-
     <string name="play_button">प्ले बटन</string>
 
+    <!-- Tips -->
+    <string name="tips_title">भिडियो प्लेयर सुझावहरू</string>
     <string name="seek">खोज्नुहोस्</string>
     <string name="subtitles">उपशिर्षकहरु</string>
+    <string name="tips_player_controls">प्लेयर नियन्त्रणहरू</string>
     <string name="tips_audio_sub">अडियो ट्रयाक र उपशीर्षकहरू</string>
     <string name="tips_play_description">भिडियो प्ले गर्न ट्याप गर्नुहोस्</string>
     <string name="lock">लक गर्नुहोस्</string>
     <string name="tap">हेर्नको लागि ट्यटप गर्नुहोस्</string>
+    <string name="tap_to_remove">हटाउनको लागि थिच्नुहोस्</string>
+    <string name="tap_to_rearrange">पुनः व्यवस्थित गर्नको लागि थिच्नुहोस्</string>
+    <string name="tap_to_previous_next">अघि वा पछि जानको लागि थिच्नुहोस्</string>
+    <string name="lock_orientation">अभिमुखीकरण</string>
+    <string name="lock_orientation_description">अभिमुखीकरण लक/अनलक गर्न ट्याप गर्नुहोस्</string>
     <string name="aspect_ratio">आकार अनुपात</string>
     <string name="aspect_ratio_description">भिडियोको आकार अनुपात परिवर्तन गर्न ट्याप गर्नुहोस्</string>
     <string name="advanced_options">उन्नत विकल्पहरू</string>
+    <string name="tips_swipe">माथि वा तल स्वाइप गर्नुहोस्</string>
+    <string name="tips_swipe_horizontal">बायाँ वा दायाँ स्वाइप गर्नुहोस्</string>
     <string name="tips_playlist">प्लेसूची</string>
+    <string name="tips_hold_seek">खोज्न होल्ड गर्नुहोस्</string>
+    <string name="pause_description">रोक्नको लागि दुइ पटक थिच्नुहोस्</string>
     <string name="seek_tap">+/- 10 sec.</string>
+    <string name="seek_tap_description">डबल ट्याप गरि १० सेकन्ड अगाडी वा पछाडी जानुहोस्</string>
     <string name="close">बन्द गर्नुहोस्</string>
 
     <string name="playlist_tips">प्लेलिस्ट जानकारीहरू</string>
@@ -218,18 +253,20 @@
     <string name="audio_player_tips">अडियो प्लेयर सुझावहरु</string>
     <string name="previous_next_song">पछिल्लो/अघिल्लो गीत</string>
     <string name="show_playlist">वाद्यसूची देखाउनुहोस्</string>
+    <string name="hide_playlist">सूचि लुकाउनुहोस्</string>
     <string name="hold_to_stop">रोक्नको लागि थाम्नुहोस्</string>
 
     <!-- About -->
     <string name="app_name_full">एन्ड्रोइडका लागि भिएलसी</string>
     <string name="revision">संशोधन</string>
     <string name="about">बारे</string>
+    <string name="authors">निर्माताहरू</string>
     <string name="vlc_authors">र VLC लेखकहरु</string>
+    <string name="sources">श्रोत कोडहरू</string>
     <string name="feedback_forum">पृष्टपोषण फोरुम</string>
 
     <!-- Preferences -->
     <string name="preferences">सेटिङहरू</string>
-
     <string name="directories_summary">मिडिया पुस्तकालयमा थप्नको लागि डाइरेक्ट्रीहरु छनौट गर्नुहोस्</string>
     <string name="add_custom_path">एउटा अनुकुलित बाटो छनौट गर्नुहोस्</string>
     <string name="add_custom_path_description">स्कान गर्नको लागि थप अनुकुलित डाइरेक्ट्री प्रविष्ट गर्नुहोस्:</string>
@@ -288,6 +325,7 @@
     <string name="popup_keepscreen_title">पप-अप मोडमा स्क्रिन अन राख्नुहोस्</string>
     <string name="popup_keepscreen_summary">भिडियो पज हुँदा समेत पप-अप प्रदर्शित हुँदा स्क्रिन सधैँ अन राख्नुहोस्</string>
     <string name="browser_show_hidden_files_title">लुकेका फाइलहरू देखाउनुहोस्</string>
+    <string name="enable_video_screenshot">स्क्रिशट लिनुहोस्</string>
 
     <string name="subtitles_prefs_category">उपशीर्षकहरू</string>
     <string name="subtitles_size_title">उपशीर्षकको आकार</string>
@@ -296,16 +334,9 @@
     <string name="subtitles_size_big">ठूलो</string>
     <string name="subtitles_size_huge">धेरै ठूलो</string>
     <string name="subtitles_color_title">उपशीर्षकको रङ</string>
-    <string name="subtitles_color_white">सेतो</string>
-    <string name="subtitles_color_gray">खैरो</string>
-    <string name="subtitles_color_pink">गुलाबी</string>
-    <string name="subtitles_color_blue">निलो</string>
-    <string name="subtitles_color_yellow">पहेँलो</string>
-    <string name="subtitles_color_green">हरियो</string>
     <string name="subtitles_background_title">उपशीर्षकको पृष्ठभूमि</string>
     <string name="subtitles_bold_title">बोल्ड उपशीर्षक</string>
     <string name="subtitles_autoload_title">उपशीर्षकहरू स्वत: लोड गर्नुहोस्</string>
-
     <string name="audio_prefs_category">अडियो</string>
     <string name="lockscreen_cover_title">लकस्क्रिनमा मिडिया कभर</string>
     <string name="lockscreen_cover_summary">उपलब्ध हुँदा, लकस्क्रिन वालपेपरको रूपमा वर्तमान मिडिया कभर आर्ट सेट गर्नुहोस्</string>
@@ -315,12 +346,14 @@
     <string name="list_title_ellipsize_right">दायाँ</string>
     <string name="list_title_ellipsize_middle">मध्यम</string>
     <string name="list_title_ellipsize_marquee">मार्क्यु</string>
+    <string name="audio_boost_title">आवाज ठूलो पार्नुहोस्</string>
     <string name="audio_boost_summary">आवाज 200% सम्म बढाउन अनुमति दिनुहोस्</string>
     <string name="headset_prefs_category">हेडसेट</string>
     <string name="enable_headset_detection">हेडसेट पत्तालगानुहोस</string>
     <string name="enable_headset_detection_summary">हेडफोन जडान र निस्कासन पत्ता लगाउनुहोस्</string>
     <string name="enable_play_on_headset_insertion">हेडफोन जडान गर्दा पुनःसुरु गर्नुहोस्</string>
     <string name="enable_play_on_headset_insertion_summary">अन्यथा पज गर्नुहोस्</string>
+    <string name="replaygain_album">एल्बम</string>
     <string name="aout">अडियो आउटपुट</string>
     <string name="aout_summary">VLC  ले अडियो आउटपुट गर्न प्रयोग गर्ने विधि परिवर्तन गर्नुहोस्</string>
     <string name="audio_ducking_title">सूचनाहरू आउँदा VLC को भोल्युम कम गर्नुहोस्</string>
@@ -381,6 +414,7 @@
 
     <string name="no_result">कुनै नतिजा फेला परेन</string>
     <string name="no_internet_connection">तपाईँको इन्टरनेट जडान जाँच गर्नुहोस्</string>
+    <string name="retry">पुनः प्रयास गर्नुहोस्</string>
     <string name="subs_download_error">सेवा उपलब्ध छैन। कृपया केही समयपछि प्रयास गर्नुहोस्</string>
 
     <string name="network_browsing">लोकल नेटवर्क</string>
@@ -399,6 +433,7 @@
     <string name="playlist_save">प्लेलिस्ट सङ्ग्रह गर्नुहोस्</string>
     <string name="playlist_name_hint">प्लेसूचीको नाम</string>
     <string name="go_to_chapter">च्याप्टरमा जानुहोस्</string>
+    <string name="current_chapter">अध्याय: %s</string>
     <string name="tv_ui_title">Android टिभी इन्टर्फेस</string>
     <string name="medialibrary">मेडिया लाइब्रेरी</string>
     <string name="medialibrary_directories">मेडिया लाइब्रेरी फोल्डरहरू</string>
@@ -413,8 +448,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC व्हाइट विजेट</string>
     <string name="widget_name_b">VLC डार्क विजेट</string>
+    <string name="whats_next">अब कुन?</string>
+    <string name="click_here">विस्तृत जानकारीको लागि यहाँ थिच्नुहोस्</string>
     <string name="allow_storage_access_title">VLC लाई भिडियो र अडियो फाइलहरू पहुँच गर्न अनुमति दिनुहोस्</string>
     <string name="allow_storage_access_description">VLC लाई यो यन्त्रमा मिडिया फाइलहरू पहुँच गर्न तपाईंले अनुमति दिनु आवश्यक पर्दछ।</string>
+    <string name="partial_content">VLCले हजुरका फाइलहरू पाउन सकेन</string>
+    <string name="never_ask_again">अब फेरी नसोध्नुहोस्</string>
     <string name="allow_settings_access_ringtone_title">रिङटोन सेट गर्न VLC लाई अनुमति दिनुहोस्</string>
     <string name="allow_settings_access_ringtone_description">VLC ले यस गीतलाई तपाईँको रिङटोनको रूपमा सेट गर्न तपाईंले यसलाई अनुमति दिनु आवश्यक पर्दछ।</string>
     <string name="allow_settings_access_brightness_title">VLC लाई चमक मोड परिवर्तन गर्न अनुमति दिनुहोस्</string>
@@ -422,12 +461,12 @@
     <string name="allow_draw_overlays_title">VLC प्लेयरलाई अन्य एपहरूमा पपअपको अनुमति दिनुहोस्</string>
     <string name="allow_sdraw_overlays_description">VLC लाई अन्य अनुप्रयोगहरूको पपअपमा तपाईँको भिडियो प्रदर्शन अनुमति दिन आवश्यक पर्दछ।</string>
     <string name="permission_ask_again">अनुमति दिनुहोस्</string>
+    <string name="pick_file">फाइल छान्नुहोस्</string>
     <string name="permission_not_granted">अनुमति स्वीकृत छैन</string>
     <string name="permission_expanation_no_allow">तपाईँ आफ्नो मिडिया स्वत: पत्ता लगाउन वा बाह्य उपशीर्षकहरू प्रयोग गर्न सक्षम हुनुहुने छैन</string>
     <string name="permission_expanation_allow">तपाईंले केवल स्ट्रिम्स वा नेटवर्क मिडिया प्ले गर्न सक्षम हुनुहुने छ</string>
     <string name="exit_app">VLC बन्द गर्नुहोस्</string>
     <string name="exit_app_msg">के तपाईँ VLC छोड्न निश्चित हुनुहुन्छ?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller ट्रयाक</string>
     <string name="fastscroller_handle">FastScroller ह्यान्डल</string>
@@ -454,12 +493,10 @@
     <string name="browse_folder">फोल्डर अन्वेषण गर्नुहोस्</string>
     <string name="listen">सुन्नुहोस्</string>
     <string name="apply_to_bt">ब्लुटुथ यन्त्रमा लागू गर्नुहोस्</string>
-    <string name="episodes">भागहरू</string>
-    <string name="movies">चलचित्रहरू</string>
-    <string name="videos">भिडियोहरू</string>
     <string name="videos_all">सबै भिडियोहरू</string>
     <string name="clear_playback_history">प्लेब्याक इतिहास मेटाउनुहोस्</string>
     <string name="ml_scanning">मिडिया फाइलहरूको लागि स्क्यान गर्दै</string>
+    <string name="ml_discovering">खोजि जारी छ</string>
     <string name="resume">पुनः चालू गर्नुहोस्</string>
     <string name="length">लम्बाइ</string>
     <string name="tv_settings_hint">निर्देशिका चेक/अनचेक गर्न  OK बटन लामो समय थिच्नुहोस्</string>
@@ -478,6 +515,7 @@
     <string name="custom_set_save_warning">चेतावनी: परिवर्तन बचत भएका छैनन्</string>
     <string name="existing_custom_set_save_message">इक्वेलाइजर-सेट यस अनुसार बचत गर्नुहोस् ...</string>
     <string name="save">सङ्ग्रह गर्नुहोस्</string>
+    <string name="saved">सञ्चय भइसक्यो %s</string>
     <string name="do_not_save">सङ्ग्रह नगर्नुहोस्</string>
     <string name="custom_set_wrong_input">अमान्य नाम।</string>
     <string name="custom_set_already_exist">यो नामको इक्वलाइजर-सेट पहिले देखि नै अवस्थित छ</string>
@@ -491,7 +529,6 @@
     <string name="renderers_disconnect">विच्छेद गर्नुहोस्</string>
     <string name="audio_digital_output_enabled">अडियो डिजिटल आउटपुट सक्षम पारियो</string>
     <string name="tv_my_new_videos">मेरो नयाँ भिडियोहरू</string>
-    <string name="cast_option_title">अर्को स्क्रिनमा मिडिया कास्ट गर्नुहोस्</string>
     <string name="otg_device_title">OTG डिभाइस</string>
     <string name="browser">ब्राउजर</string>
     <string name="ab_repeat">A-B दोहोर्‍याउनुहोस्</string>
@@ -511,6 +548,7 @@
     <string name="delete_the_selected">छनौट मेटाउनुहोस्</string>
     <string name="download_the_selected">छनौट डाउनलोड गर्नुहोस्</string>
     <string name="next">पछिल्लो</string>
+    <string name="next_step">अर्को</string>
     <string name="download">डाउनलोड</string>
     <string name="ctx_player_video_track">भिडियो ट्रायाक चयन गर्नुहोस्</string>
     <string name="ctx_player_audio_track">अडियो ट्र्याक</string>
@@ -649,7 +687,6 @@
     <string name="warning_stream_speed">स्ट्रिमहरूको लागि 1 भन्दा बढी प्लेब्याक गति बढाउँदा अड्किने हुन सक्छ</string>
     <string name="go_to_folder">प्यारेन्ट ब्राउज गर्नुहोस्</string>
     <string name="no_sub_renderer">कास्टिङ गर्ने समयमा उपशीर्षकहरू अझै समर्थित छैनन्</string>
-    <string name="enqueuing">तपाईँको मिडियाहरू लोड गर्ने</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">मिडी अडियो ट्रयाक प्ले गर्न SoundFont फाइल रोज्नुहोस्</string>
     <string name="search_prefs">खोजी सेटिङहरू</string>
@@ -657,4 +694,4 @@
     <string name="preferred_resolution_summary">लागू हुने समयमा स्ट्रिमहरूको लागि अधिकतम भिडियो गुणस्तर %s हुनेछ</string>
     <string name="pref_resolution_best_available">उत्तम उपलब्ध</string>
     <string name="pref_resolution_very_low">धैरै कम स्पष्टता (240p)</string>
-</resources>
+    </resources>

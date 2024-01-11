@@ -20,6 +20,20 @@
     <string name="searchable_hint">Hledat…</string>
     <string name="history">Historie</string>
 
+    <string name="sortby_name_asc">Název A → Z</string>
+    <string name="sortby_name_desc">Název Z → A</string>
+    <string name="sortby_artist_name_asc">Jméno umělce A → Z</string>
+    <string name="sortby_artist_name_desc">Jméno umělce Z → A</string>
+    <string name="sortby_album_name_asc">Název alba A → Z</string>
+    <string name="sortby_album_name_desc">Název alba Z → A</string>
+    <string name="sortby_filename_asc">Název souboru A → Z</string>
+    <string name="sortby_filename_desc">Název souboru Z → A</string>
+    <string name="sortby_length_asc">Od nejkratšího</string>
+    <string name="sortby_length_desc">Od nejdelšího</string>
+    <string name="sortby_date_asc">Od nejstaršího datumu</string>
+    <string name="sortby_date_desc">Od nejnovějšího datumu</string>
+    <string name="sortby_last_modified_date_asc">Od nejstaršího přidaného</string>
+    <string name="sortby_last_modified_date_desc">Od nejnovějšího přidaného</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">1 nalezený výsledek</item>
         <item quantity="few">%d nalezené výsledky</item>
@@ -40,7 +54,6 @@
     <string name="video_app_switch_summary">Vybrat režim přehrávání v případě přepnutí z přehrávání videa v aplikaci VLC do jiné aplikace.</string>
     <string name="play_pip_title">Přehrát v režimu Obraz v obraze</string>
     <string name="play_as_audio_background">Přehrát v režimu Na pozadí</string>
-    <string name="append">Připojit</string>
     <string name="insert_next">Vložit další</string>
     <string name="play_all">Přehrát vše</string>
     <string name="append_all">Připojit vše</string>
@@ -194,6 +207,7 @@
     <string name="sleep_in">Vypnout za…</string>
     <string name="jump_to_time">Přejít na pozici</string>
     <string name="subtitle_select">Vybrat soubor s titulky</string>
+    <string name="wait_before_sleep">Počkejte na skončení aktuální mediální položky</string>
 
     <string name="server_add_title">Přidat nový server do Oblíbené</string>
     <string name="server_domain_hint">Adresa serveru (název domény nebo IP adresa)</string>
@@ -225,10 +239,10 @@
     <string name="playback_history_title">Historie přehrávání</string>
     <string name="playback_history_summary">Uložit všechna přehraná média v Historii.</string>
     <string name="video_resume_playback_title">Historie fronty přehrávání videa</string>
-    <string name="video_resume_playback_summary">Povolit ukládání fronty přehrávání videa, aby bylo možné později pokračovat</string>
+    <string name="video_resume_playback_summary">Povolit ukládání fronty přehrávání videa pro pozdější pokračování</string>
     <string name="audio_resume_playback_title">Historie fronty přehrávání zvuku</string>
-    <string name="audio_resume_playback_warning">Zakázáním historie fronty přehrávání zvuku může vést k určitým problémům s chováním.\nPo zakázání nemusí být možné obnovit přehrávání z:\n\n\t- a  bluetooth zařízení\n\t- widgetu\n\t- oznámení médií</string>
-    <string name="audio_resume_playback_summary">Povolit ukládání fronty přehrávání zvuku, aby bylo možné později pokračovat</string>
+    <string name="audio_resume_playback_warning">Zakázáním historie fronty přehrávání zvuku může vést k funkčním problémům.\nPo zakázání pravděpodobně nebude možné obnovení přehrávání z:\n\n\t- a  bluetooth zařízení\n\t- widgetu\n\t- oznámení médií</string>
+    <string name="audio_resume_playback_summary">Povolit ukládání fronty přehrávání zvuku pro pozdější pokračování</string>
     <string name="playback_speed_title">Uložit rychlost přehrávání</string>
     <string name="playback_speed_summary">Uložit nastavenou rychlost přehrávání.</string>
 
@@ -289,7 +303,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Nastavení</string>
-
     <string name="directories_summary">Vybrat adresáře zahrnuté do Knihovny médií.</string>
     <string name="add_custom_path">Přidat vlastní umístění</string>
     <string name="add_custom_path_description">Zadejte umístění adresáře pro prohledání:</string>
@@ -335,9 +348,9 @@
     <string name="media_seen">Zobrazit značku videa \'Zhlédnuto\'</string>
     <string name="media_seen_summary">Označit video, které bylo přehrané až do konce, jako zhlédnuté.</string>
     <string name="force_play_all_summary">Přehrát všechna videa, včetně videa, které bylo zakliknuto.</string>
-    <string name="force_play_all_audio_summary">Přehrát všechen zvuk, včetně toho, které bylo zakliknuto.</string>
+    <string name="force_play_all_audio_summary">Přehrát veškerý zvuk včetně zakliknutého</string>
     <string name="force_play_all_title">Režim Seznam videa</string>
-    <string name="force_play_all_audio_title">Režim Seznam zvuku</string>
+    <string name="force_play_all_audio_title">Režim Seznam skladeb</string>
     <string name="save_brightness_summary">Uložit úroveň jasu pro přehrávání videa.</string>
     <string name="save_brightness_title">Uložit úroveň jasu videa</string>
     <string name="save_audiodelay_summary">Uložit zpoždění zvuku pro každé video.</string>
@@ -357,13 +370,12 @@
     <string name="enable_double_tap_play_title">Dvakrát klikněte pro přehrávání/pozastavení</string>
     <string name="enable_double_tap_play_summary">Dvakrát klikněte na střed obrazovky pro přehrávání/pozastavení</string>
     <string name="enable_swipe_seek_title">Přejeďte prstem pro posunutí</string>
-    <string name="enable_swipe_seek_summary">Přejeďte prstem po obrazovce pro posunutí</string>
     <string name="enable_scale_gesture_title">Zoom dvěma prsty</string>
     <string name="enable_scale_gesture_summary">Zvětšení a zmenšení dvěma prsty</string>
     <string name="popup_keepscreen_title">Ponechat obrazovku zapnutou v režimu Obraz v obraze</string>
     <string name="popup_keepscreen_summary">Vždy ponechat obrazovku zapnutou v režimu Obraz v obraze (PiP), i pokud je video pozastaveno.</string>
     <string name="browser_show_hidden_files_title">Zobrazit skryté soubory</string>
-    <string name="albums_show_track_numbers">Zobrazit pořadí stopy</string>
+    <string name="albums_show_track_numbers">Zobrazit pořadí skladeb</string>
     <string name="enable_video_screenshot">Pořídit snímek obrazovky</string>
 
     <string name="subtitles_prefs_category">Titulky</string>
@@ -383,7 +395,7 @@
     <string name="subtitles_outline_title">Obrys titulků</string>
     <string name="subtitles_shadow_title">Stín titulků</string>
     <string name="subtitles_decoration_title">Dekorace titulků</string>
-    <string name="subtitle_decoration_none">Žádný</string>
+    <string name="subtitle_decoration_none">Žádná</string>
     <string name="subtitle_decoration_shadow">Stín</string>
     <string name="subtitle_decoration_outline">Obrys</string>
     <string name="subtitles_bold_title">Tučné titulky</string>
@@ -446,7 +458,8 @@
     <string name="artists_show_all_title">Zobrazit všechny umělce</string>
     <string name="show_headers">Zobrazit záhlaví </string>
     <string name="show_headers_summary">Rozdělit seznamy podle záhlaví v závislosti na typu seřazení.</string>
-
+    <string name="tv_folders_first">Nejprve zobrazit složky</string>
+    <string name="tv_folders_first_summary">Zobrazit složky a poté soubory v průzkumníkovi souborů</string>
     <string name="extensions_prefs_category">Rozšíření</string>
     <string name="extensions_empty">Žádné rozšíření</string>
     <string name="extension_permission_title">Chcete povolit nové rozšíření \'%1$s\'?</string>
@@ -487,8 +500,8 @@
     <string name="resume_playback_summary">Pokračovat v přehrávání (po ukončení hovoru), které bylo pozastaveno.</string>
     <string name="blurred_cover_background_title">Rozmazat obal na pozadí</string>
     <string name="blurred_cover_background_summary">Rozmazat obal alba na pozadí při přehrávaní hudby.</string>
-    <string name="force_shuffle_title">Vynutit zamíchání</string>
-    <string name="force_shuffle_summary">Vynutit zamíchání běhen spuštění přehrávání</string>
+    <string name="force_shuffle_title">Vynutit náhodné přehrávání</string>
+    <string name="force_shuffle_summary">Vynutit náhodné přehrávání při spuštění přehrávání.</string>
     <string name="network_caching_popup">Hodnota musí být v rozsahu od 0 ms do 60000 ms.</string>
     <string name="quit">Ukončit a restartovat aplikaci</string>
     <string name="restart_message">Změny se projeví po restartu aplikace.\n\nChcete restartovat nyní?</string>
@@ -570,7 +583,7 @@
     <string name="widget_old_description_end">Zjistili jsme, že na Vaší domovské obrazovce se používají widgety. Bohužel nejsou kompatibilní s vylepšenými widgety.\nV závislosti na konkrétní domovské obrazovce můžete staré widgety odstranit a nahradit je novými.</string>
     <string name="click_here">Klikněte zde pro více informací.</string>
     <string name="allow_storage_access_title">Povolit aplikaci VLC přístup k video a zvukovým souborům</string>
-    <string name="allow_storage_access_description">Aplikace VLC vyžaduje oprávnění přistupovat k multimediálním souborům na tomto zařízení.</string>
+    <string name="allow_storage_access_description">Aplikace VLC vyžaduje oprávnění pro přístup k multimediálním souborům na tomto zařízení.</string>
     <string name="allow_storage_manager_title">Povolit aplikaci VLC přístup k souborům</string>
     <string name="allow_storage_manager_description">%s\n\nChcete povolit oprávnění?</string>
     <string name="allow_storage_manager_explanation">Doporučujeme povolit toto oprávnění pro získání všech možnosti VLC a pro podporu všech typů mediálních souborů.</string>
@@ -578,9 +591,9 @@
     <string name="partial_content_description">Od Androidu 11 potřebují aplikace pro přístup k souborům v zařízení speciální oprávnění.\n\n%s</string>
     <string name="never_ask_again">Znovu se nedotazovat</string>
     <string name="allow_settings_access_ringtone_title">Povolit aplikaci VLC nastavit vyzváněcí melodii</string>
-    <string name="allow_settings_access_ringtone_description">Aplikace VLC vyžaduje oprávnění nastavit tuto skladbu jako vyzváněcí melodii.</string>
+    <string name="allow_settings_access_ringtone_description">Aplikace VLC vyžaduje oprávnění pro nastavení této skladby jako vyzváněcí melodie.</string>
     <string name="allow_settings_access_brightness_title">Povolit aplikaci VLC změnit jas</string>
-    <string name="allow_settings_access_brightness_description">Aplikace VLC vyžaduje oprávnění nastavit tuto skladbu jako vyzváněcí melodii.</string>
+    <string name="allow_settings_access_brightness_description">Aplikace VLC vyžaduje oprávnění pro nastavení změny režimu jasu.</string>
     <string name="allow_draw_overlays_title">Povolit přehrávači VLC zobrazení v popředí</string>
     <string name="allow_sdraw_overlays_description">Aplikace VLC vyžaduje oprávnění pro zobrazení v popředí.</string>
     <string name="allow_pip">Povolit přehrávači VLC režim obraz v obraze (PiP)</string>
@@ -626,9 +639,9 @@
     <string name="browse_folder">Procházet složku</string>
     <string name="listen">Poslouchat</string>
     <string name="apply_to_bt">Použít v zařízení Bluetooth</string>
-    <string name="episodes">Epizody</string>
-    <string name="movies">Filmy</string>
-    <string name="videos">Videa</string>
+    <string name="episodes">epizody</string>
+    <string name="movies">filmy</string>
+    <string name="videos">videa</string>
     <string name="videos_all">Všechna videa</string>
     <string name="clear_playback_history">Smazat historii přehrávání</string>
     <string name="ml_scanning">Prohledávání složek s médii…</string>
@@ -726,7 +739,7 @@
     <string name="removed_from_playlist_anonymous">Položky odstraněny ze seznamu skladeb</string>
     <string name="welcome_title">Vítejte v aplikaci VLC</string>
     <string name="welcome_subtitle">Bezplatný multimediální přehrávač\ns licencí Open source</string>
-    <string name="permission_media">Aplikace VLC požaduje Vaše povolení pro přístup k médiím na Vašem zařízení.</string>
+    <string name="permission_media">Aplikace VLC vyžaduje oprávnění pro přístup k médiím na Vašem zařízení.</string>
     <string name="medialibrary_scan_explanation">Aplikace VLC umí automaticky prohledat zařízení a najít mediální soubory.</string>
     <string name="onboarding_theme_title">Vybrat téma prostředí</string>
     <string name="done">Hotovo</string>
@@ -770,6 +783,7 @@
     <string name="remove_current">Odstranit aktuální</string>
     <string name="validation_delete_playlist">Chcete smazat tento seznam skladeb?</string>
     <string name="validation_delete_playlist_text">Tuto akci nelze vrátit zpět.</string>
+    <string name="display_settings">Nastavení zobrazení</string>
     <string name="display_in_list">Zobrazit jako seznam</string>
     <string name="display_in_grid">Zobrazit jako mřížku</string>
     <string name="dump_db_succes">Protokol databáze uložen do kořenového adresáře interního úložiště.</string>
@@ -919,13 +933,13 @@
     <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
     <string name="go_to_folder">Procházet zdrojové složky</string>
     <string name="create_shortcut">Vytvořit odkaz na domovské obrazovce</string>
-    <string name="no_sub_renderer">Titulky nejsou podporovány během odesílání.</string>
-    <string name="enqueuing">Načítání médií...</string>
+    <string name="no_sub_renderer">Titulky nejsou podporovány během přenosu.</string>
+    <string name="enqueuing">Načítání média...</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Vybrat soubor SoundFont pro přehrávání zvukových stop MIDI.</string>
     <string name="missing_media_snack">Chybí médium. Chcete skrýt všechna chybějící média? </string>
-    <string name="browser_show_missing_media">Zobrazit chybějící média</string>
-    <string name="browser_show_missing_media_summary">Zobrazit vzdálená média, i když nejsou přítomna.</string>
+    <string name="browser_show_missing_media">Zobrazit chybějící médium</string>
+    <string name="browser_show_missing_media_summary">Zobrazit vzdálené médium, i když není přítomné.</string>
     <string name="search_prefs">Nastavení vyhledávání</string>
     <string name="video_match_frame_rate_title">Přizpůsobit počet snímků</string>
     <string name="video_match_frame_rate_summary">Přizpůsobte zobrazení počtu snímků média. Například film s počtem snímků 24p by se měl přehrávat s počtem snímků 24p</string>
@@ -966,10 +980,12 @@
     <string name="lock_use_sensor_title">Zámek se senzorem </string>
     <string name="lock_use_sensor_summary">Použít senzor k umožnění zpětné orientace, když je orientace uzamčena.</string>
     <string name="start">Spustit</string>
+    <string name="notification_permission">Oprávnění pro oznámení</string>
+    <string name="notification_permission_explanation">Aplikace VLC vyžaduje oprávnění pro zasílání oznámení.\nAplikace Vás upozorní pouze při skenování Vašich médií nebo při použití vlastního videa v režimu obraz v obraze.\nOdmítnutím oprávnění zůstanou oznámení skrytá. Na funkčnost aplikace VLC odmítnutí oprávnění nemá vliv.</string>
     <string name="permission">Oprávnění</string>
     <string name="customize">Přizpůsobit</string>
     <string name="selection_count">Vybráno: %d</string>
-    <string name="controls_setting">Nastavení ovládání</string>
+    <string name="controls_setting">Nastavení ovládání</string> <!-- Unused -->
     <string name="gestures">Gesta</string>
     <string name="player_controls">Ovládání přehrávače</string>
     <string name="video_double_tap_jump_delay">Časový posun při dvojitém kliknutí</string>
@@ -1030,7 +1046,7 @@
     <string name="descending">Sestupně</string>
     <string name="screenshot_error">Chyba při pořizování snímku obrazovky</string>
     <string name="disabled">Zakázáno</string>
-    <string name="enable_screenshot_gesture">Klepněte 3 prsty</string>
+    <string name="enable_screenshot_gesture">Klikněte 3 prsty</string>
     <string name="enable_screenshot_button">Zobrazit tlačítko snímku obrazovky</string>
     <string name="enable_screenshot_button_and_gesture">Tlačítko a gesto</string>
 
@@ -1085,6 +1101,7 @@
     <string name="talkback_action_forward">Posunout o %s sek. dopředu</string>
     <string name="talkback_display_settings">Nastavení zobrazení</string>
     <string name="talkback_already_played">Již přehrané</string>
-
-
-</resources>
+    <string name="show_only_favs">Zobrazit pouze oblíbené</string>
+    <string name="ignore_headset_media_button_presses">Ignorovat stisknutí tlačítka sluchátek pro médium</string>
+    <string name="ignore_headset_media_button_presses_summary">Vhodné pro případ, že používáte sluchátka s poškozenými fyzickými tlačítky</string>
+    </resources>

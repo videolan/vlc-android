@@ -20,6 +20,20 @@
     <string name="searchable_hint">Otsi…</string>
     <string name="history">Ajalugu</string>
 
+    <string name="sortby_name_asc">Nimi A → Z</string>
+    <string name="sortby_name_desc">Nimi Z → A</string>
+    <string name="sortby_artist_name_asc">Esitaja nimi A → Z</string>
+    <string name="sortby_artist_name_desc">Esitaja nimi Z → A</string>
+    <string name="sortby_album_name_asc">Albumi nimi A → Z</string>
+    <string name="sortby_album_name_desc">Albumi nimi Z → A</string>
+    <string name="sortby_filename_asc">Faili nimi A → Z</string>
+    <string name="sortby_filename_desc">Faili nimi Z → A</string>
+    <string name="sortby_length_asc">Esmalt lühimad</string>
+    <string name="sortby_length_desc">Esmalt pikimad</string>
+    <string name="sortby_date_asc">Esmalt vanimad</string>
+    <string name="sortby_date_desc">Esmalt uusimad</string>
+    <string name="sortby_last_modified_date_asc">Esmalt varemlisatud</string>
+    <string name="sortby_last_modified_date_desc">Esmalt viimatilisatud</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Leidsin %d vaste</item>
         <item quantity="other">Leidsin %d vastet</item>
@@ -37,12 +51,11 @@
     <string name="video_app_switch_summary">Vali VLC käitumine kui valid video esitamiseks muu rakenduse </string>
     <string name="play_pip_title">Mängi videod pilt pildis, PIP kujul</string>
     <string name="play_as_audio_background">Esita videosid taustal</string>
-    <string name="append">Lisa</string>
     <string name="insert_next">Siseta järgmine</string>
     <string name="play_all">Esita kõik</string>
     <string name="append_all">Lisa kõik</string>
     <string name="resume_playback_short_title">Taasesituse jätkamine</string>
-    <string name="resume_playback_long_title">Jätka viimase esitusnimekirjaga</string>
+    <string name="resume_playback_long_title">Jätka viimase esitusloendiga</string>
     <string name="resume_playback_error">Pole meediat, mille esitus saaksin jätkata</string>
     <string name="delete">Kustuta</string>
     <string name="remove">Eemalda</string>
@@ -57,7 +70,7 @@
     <string name="confirm_delete_folders">Kas kustutame need %1$s kaustad koos oma sisuga?</string>
     <string name="confirm_delete_files">Kas kustutame need %1$s failid?</string>
     <string name="confirm_delete_folders_and_files">Kas kustutame need %1$s kaustad ja %2$s failid?</string>
-    <string name="confirm_delete_playlist">Kas kustutada esitusloend \'%1$s\'?</string>
+    <string name="confirm_delete_playlist">Kas kustutame esitusloendi „%1$s“?</string>
     <string name="ringtone_set">Fail \'%1$s\' määrati helinaks.</string>
     <string name="ringtone_error">Tekkis tõrge helina määramisel.</string>
     <string name="pause">Paus</string>
@@ -89,7 +102,7 @@
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 video</item>
-        <item quantity="other">%d videod</item>
+        <item quantity="other">%d videot</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 film</item>
@@ -104,11 +117,11 @@
         <item quantity="other">%d rada</item>
     </plurals>
 
-    <string name="internal_memory">Sisemine mälu</string>
+    <string name="internal_memory">Sisemälu</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Lemmikud</string>
-    <string name="equalizer">Ekvalaiser…</string>
+    <string name="equalizer">Ekvalaiser</string>
     <string name="all_albums">Kõik albumid</string>
     <string name="genres">Stiilid</string>
     <string name="playlists">Esitusloendid</string>
@@ -117,6 +130,7 @@
     <string name="loading">Laadimine…</string>
     <string name="please_wait">Palun oota…</string>
     <string name="nomedia">Ühtegi meediafaili ei leitud. Palun kanna failid oma seadmesse või kohanda oma eelistusi.</string>
+    <string name="empty_search">Otsingul „%s“ pole vastuseid</string>
     <string name="noplaylist">Esitusloendit ei leitud.</string>
     <string name="nosubfolder">Alamkataloogi pole</string>
     <string name="directorynotfound">Kataloogi \'%1$s\' ei leitud.</string>
@@ -171,7 +185,6 @@
     <string name="sleep_in">Maga sisse</string>
     <string name="jump_to_time">Hüppa ajale</string>
     <string name="subtitle_select">Vali subtiitrite fail</string>
-
     <string name="server_add_title">Lisa uus server lemmikutesse</string>
     <string name="server_domain_hint">Serveri aadress (domeeni nimi või IP)</string>
     <string name="server_share_hint">Jagatud võrgu nimi (või IP aadress)</string>
@@ -194,14 +207,18 @@
     <string name="encountered_error_title">Tõrge taasesitamisel</string>
     <string name="encountered_error_message">VLC põrkus takistusele selle meedia juures.\nPalun värskenda meediakogu.</string>
     <string name="invalid_location">Asukohta %1$s ei saa esitada.</string>
+    <string name="missing_location">See meedia asub andmekandjal, mida hetkel ei leidu ja tema esitamine pole seega võimalik.</string>
+
     <string name="search">Otsing</string>
 
 
     <string name="playback_history_title">Esitamise ajalugu</string>
     <string name="playback_history_summary">Salvesta kogu meedia Ajaloo lõikes</string>
+    <string name="video_resume_playback_title">Videoesituste ajalugu</string>
+    <string name="video_resume_playback_summary">Et esitusi oleks lihtsam korrata, salvesta videoesituste ajalugu</string>
+    <string name="audio_resume_playback_title">Helifailide esituste ajalugu</string>
+    <string name="audio_resume_playback_summary">Et esitusi oleks lihtsam korrata, salvesta helifailide esituste ajalugu</string>
     <string name="playback_speed_title">Salvesta esitamise kiirus</string>
-    <string name="playback_speed_summary">Hoia meediate vahel sama taasesituse tempot  </string>
-
     <string name="play_button">Esitamise nupp</string>
 
     <!-- Tips -->
@@ -211,18 +228,25 @@
     <string name="tips_player_controls">Mängija juhtnupud</string>
     <string name="tips_player_controls_description">Puudutage allolevaid mängija juhtnuppe, et teada saada, milleks neid kasutatakse</string>
     <string name="tips_audio_sub">Helirajad ja subtiitrid</string>
-    <string name="tips_play_description">Puudutage video esitamiseks</string>
+    <string name="tips_play_description">Video esitamiseks puuduta</string>
     <string name="lock">Lukusta</string>
-    <string name="tap">Puudutage vaatamiseks</string>
+    <string name="tap">Vaatamiseks puuduta</string>
+    <string name="tap_to_remove">Eemaldamiseks puuduta</string>
+    <string name="tap_to_rearrange">Ümberpaigutamiseks puuduta</string>
+    <string name="tap_to_previous_next">Eelmisele/järgmisele liikumiseks puuduta</string>
     <string name="lock_orientation">Orientatsioon</string>
-    <string name="lock_orientation_description">Puudutage orientatsiooni lukustamiseks/avamiseks</string>
+    <string name="lock_orientation_description">Orientatsiooni lukustamiseks/avamiseks puuduta</string>
     <string name="aspect_ratio">Kuvasuhe</string>
+    <string name="aspect_ratio_description">Kuvasuhte muutmiseks puuduta</string>
     <string name="advanced_options">Täpsemad valikud</string>
+    <string name="advanced_options_description">Nagu näiteks esituse kiitus, korduse valikud, jne</string>
     <string name="tips_swipe">Libista üles või alla</string>
     <string name="tips_swipe_horizontal">Libista vasakule või paremale</string>
     <string name="tips_playlist">Esitusloend</string>
     <string name="tips_hold_seek">Kerimiseks hoia</string>
+    <string name="pause_description">Topeltklõps peatab</string>
     <string name="seek_tap">+/- 10 sek.</string>
+    <string name="seek_tap_description">10 sekundi võrra edasi või tagasi kerimiseks topeltklõpsa</string>
     <string name="close">Sulge</string>
 
     <string name="playlist_tips">Esitusloendi vihjed</string>
@@ -241,16 +265,17 @@
     <string name="app_name_full">VLC Androidile</string>
     <string name="revision">Revisjon</string>
     <string name="about">Programmist</string>
+    <string name="about_vlc_text">VLC Androidile™ on avatud lähtekoodiga populaarse VLC meediaesitaja üks areendusi. Androidi™ versioon suudab avada enamikke meediafaile ja voogedastusvorminguid.</string>
     <string name="authors">Autorid</string>
     <string name="vlc_authors">ja VLC autorid.</string>
     <string name="is_compiled_by">Kompilaator: </string>
-    <string name="sources">Lähtekoodi</string>
+    <string name="sources">Lähtekood</string>
+    <string name="libraries">Teegid</string>
     <string name="feedback_forum">Tagasiside foorum</string>
 
     <!-- Preferences -->
     <string name="preferences">Sätted</string>
-
-    <string name="directories_summary">Vali katalooge, mida lisada meediakogusse</string>
+    <string name="directories_summary">Vali katalooge, mida lisame meediakogusse</string>
     <string name="add_custom_path">Kohandatud raja lisamine</string>
     <string name="add_custom_path_description">Sisesta läbivaatuseks kohandatud lisakataloog:</string>
     <string name="remove_custom_path">Kohandatud raja eemaldamine</string>
@@ -259,7 +284,7 @@
     <string name="hardware_acceleration_disabled">Väljalülitatud</string>
     <string name="hardware_acceleration_decoding">Dekodeerimise kiirendus</string>
     <string name="hardware_acceleration_full">Täiskiirendus</string>
-    <string name="dev_hardware_decoder">Edasijõudnud riistvaraline dekooder</string>
+    <string name="dev_hardware_decoder">Võimekas riistvaraline dekooder</string>
     <string name="dev_hardware_decoder_summary">Käivita jõuga riistvaraline dekooder, vaid edasijõudnud kasutajatele</string>
     <string name="automatic">Automaatne</string>
     <string name="screen_orientation">Ekraani asetus</string>
@@ -272,9 +297,11 @@
     <string name="theme_auto">Automaatne teema</string>
     <string name="subtitle_text_encoding">Subtiitrite teksti kodeering</string>
     <string name="subtitle_preferred_language">Subtiitrite eelistatud keel</string>
-    <string name="daynight_title">Päeva/Öö režiim</string>
+    <string name="daynight_title">Päeva/öö režiim</string>
     <string name="daynight_follow_system_title">Järgi süsteemi sätteid</string>
     <string name="no_track_preference">Ilma keele eelistuseta</string>
+    <string name="track_preference">Raja eelistus: %s</string>
+
     <string name="extra_prefs_category">Lisaseaded</string>
 
     <string name="interface_prefs_screen">Kasutajaliides</string>
@@ -296,18 +323,22 @@
     <string name="force_play_all_title">Video esitusloendi režiim</string>
     <string name="save_brightness_summary">Hoia meediatel sama heleduse astet </string>
     <string name="save_brightness_title">Salvesta heleduse tase</string>
-    <string name="save_audiodelay_summary">Salvesta igale videole oma audio hilistus</string>
-    <string name="save_audiodelay_title">Salvesta audio hilistus</string>
+    <string name="save_audiodelay_summary">Salvesta igale videole oma heli viivitus</string>
+    <string name="save_audiodelay_title">Salvesta heli viivitus</string>
     <string name="enable_brightness_gesture_title">Heleduse žest</string>
     <string name="enable_brightness_gesture_summary">Halda heledust video taasesitamise ajal žestide abil</string>
     <string name="enable_volume_gesture_title">Helitugevuse žest</string>
     <string name="enable_volume_gesture_summary">Muuda helivaljust žestiga video mängimise ajal</string>
-    <string name="enable_seek_buttons">Kerimise nupud</string>
-    <string name="enable_double_tap_seek_title">Topeltklõps otsib</string>
-    <string name="enable_double_tap_seek_summary">Toperltvajutus ekraani servadel liigutab videot 10 sekundi võrra</string>
+    <string name="enable_seek_buttons">Kerimisnupud</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto kerimisnupud</string>
+    <string name="enable_double_tap_seek_title">Topeltklõps kerib</string>
+    <string name="enable_double_tap_seek_summary">Topeltvajutus ekraani servadel kerib videot 10 sekundi võrra</string>
+    <string name="enable_swipe_seek_title">Kerimiseks viipa</string>
     <string name="popup_keepscreen_title">Hoia Pop-Up rezhiimis ekraan sees</string>
     <string name="popup_keepscreen_summary">Hoia alati Pop-Up rezhiimis ekraan sees. Isegi kui video on pausil.</string>
     <string name="browser_show_hidden_files_title">Näita peidetud faile</string>
+    <string name="albums_show_track_numbers">Näita radade arvu</string>
+    <string name="enable_video_screenshot">Tee kuvatõmmis</string>
 
     <string name="subtitles_prefs_category">Subtiitrid</string>
     <string name="subtitles_size_title">Subtiitrite suurus</string>
@@ -316,19 +347,13 @@
     <string name="subtitles_size_big">Suur</string>
     <string name="subtitles_size_huge">Väga suur</string>
     <string name="subtitles_color_title">Subtiitrite värv</string>
-    <string name="subtitles_color_white">Valge</string>
-    <string name="subtitles_color_gray">Hall</string>
-    <string name="subtitles_color_pink">Roosa</string>
-    <string name="subtitles_color_blue">Sinine</string>
-    <string name="subtitles_color_yellow">Kollane</string>
-    <string name="subtitles_color_green">Roheline</string>
     <string name="subtitles_background_title">Subtiitrite taust</string>
     <string name="subtitles_bold_title">Rasvases kirjas subtiitrid</string>
     <string name="subtitles_autoload_title">Laadi subtiitrid automaatselt</string>
-
     <string name="audio_prefs_category">Heli</string>
     <string name="lockscreen_cover_title">Kaanepilt lukustusekraanil</string>
     <string name="lockscreen_cover_summary">Kui kaanepilt on saadaval, siis näidatakse lukustusekraanil esitatava meedia kaanepilti</string>
+    <string name="show_seek_in_compact_notif_title">Kerimisnupud teavituste ribal</string>
     <string name="list_title_ellipsize">Üksiku rea pealkirja ellips</string>
     <string name="list_title_ellipsize_default">Vaikimisi</string>
     <string name="list_title_ellipsize_left">Vasakule</string>
@@ -394,13 +419,17 @@
     <string name="dump_media_db_summary">Kopeeri andmebaas sisemisse juurmällu </string>
     <string name="clear_media_db">Puhasta meedia andmebaas</string>
     <string name="clear_media_database_summary">Vabastab andmebaasi uuesti alustamiseks</string>
+    <string name="clear_app_data">Kustuta rakenduse andmed</string>
+    <string name="clear_app_data_summary">Sellega kustutad kõik VLC salvestatud andmed</string>
     <string name="clear_history">Tühjenda ajalugu</string>
+    <string name="clear_history_message">Sellega kustuvad sinu tegevuste ajalugu, praegused esitusloendid ning kõik pooleliolevad tegevused</string>
     <string name="set_locale">Määra lokaat</string>
     <string name="network_caching">Võrgu vahemälu väärtus</string>
     <string name="resume_playback_title">Naase mahamängimisse peale kõnet</string>
     <string name="resume_playback_summary">Jäta muul juhul pausile</string>
     <string name="blurred_cover_background_title">Häguskatte taust</string>
     <string name="blurred_cover_background_summary">Häguskate audiopleieri taustal</string>
+    <string name="network_caching_popup">Väärtus jäägu vahemikku 0 ja 60000 ms</string>
     <string name="quit">Sulge ning taaskäivita rakendus</string>
     <string name="restart_message">Muutused jõustuvad peale rakenduse taaskäivitamist.\n\nTaaskäivita kohe?</string>
     <string name="restart_message_OK">OK</string>
@@ -418,6 +447,7 @@
     <string name="log_service_text">Ava logi konsool</string>
     <string name="copy_to_clipboard">Kopeeri lõikepuhvrisse</string>
     <string name="copied_to_clipboard">Logi lõikepuhvrisse kopeeritud.</string>
+    <string name="copied_from_clipboard">Aadress on asetatud lõikelaualt</string>
     <string name="dump_logcat">Viska logcat logi minema</string>
     <string name="dump_logcat_success">Logcat sai visatud sinna %1$s!</string>
     <string name="dump_logcat_failure">Ei õnnestunud logcat\'i minema visata</string>
@@ -436,14 +466,15 @@
 
     <string name="no_result">Tulemusi pole</string>
     <string name="no_internet_connection">Kontrolli oma internetiühendust</string>
+    <string name="retry">Proovi uuesti</string>
     <string name="subs_download_error">Teenus pole saadaval. Palun proovi hiljem uuesti</string>
 
-    <string name="network_browsing">ohalik võrk</string>
+    <string name="network_browsing">Kohalik võrk</string>
     <string name="browsing">Sirvimine</string>
 
     <string name="file_size">Faili suurus</string>
 
-    <string name="audio_delay">Audio viivitus</string>
+    <string name="audio_delay">Heli viivitus</string>
     <string name="spu_delay">Subtiitrite viivitus</string>
     <string name="network_shares_discovery">Püüan leida võrgujagamisi</string>
     <string name="network_empty">Kataloog on tühi.</string>
@@ -475,6 +506,16 @@
     <string name="widget_name_mini_player">VLC miniesitaja</string>
     <string name="allow_storage_access_title">Luba VLC\'l lugeda video- ja helifaile</string>
     <string name="allow_storage_access_description">VLC vajab, et sa annad ligipääsu sinu seadmes olevale meediale.</string>
+    <string name="allow_storage_manager_title">Luba VLC\'l lugeda kõiki faile</string>
+    <string name="allow_storage_manager_description">%s
+
+Kas sa lubad seda?</string>
+    <string name="allow_storage_manager_explanation">Kui soovid kasutada kõiki VLC võimalust ja suutlikkust laadida kõiki meediafaile, siis me kindlasti soovitame, et järgnevalt annad kõik vajalikud õigused.</string>
+    <string name="partial_content">VLC\'l puudub ligipääs sinu nutiseadmes olevatele failidele</string>
+    <string name="partial_content_description">Alates Androidi versioonist 11 rakendused vajavad eraldi õigusi kõikide seadmes olevate failide avamiseks.
+
+%s</string>
+    <string name="never_ask_again">Ära enam iialgi küsi uuesti</string>
     <string name="allow_settings_access_ringtone_title">Luba VLC\'l määrata helinat</string>
     <string name="allow_settings_access_ringtone_description">VLC vajab, et sa annad loa määrata see lugu helinaks.</string>
     <string name="allow_settings_access_brightness_title">Luba VLC\'l muuta heledust</string>
@@ -482,12 +523,13 @@
     <string name="allow_draw_overlays_title">Luba VLC\'d avada teiste rakenduste peal</string>
     <string name="allow_sdraw_overlays_description">VLC vajab, et sa annad loa esitada videot teiste rakenduste peal.</string>
     <string name="allow_pip_description">VLC vajab, et sa annad loa su video Pilt-Pildis reziimi näitamiseks.</string>
-    <string name="permission_ask_again">Anna õigus</string>
+    <string name="permission_ask_again">Anna õigused</string>
     <string name="pick_file">Vali fail</string>
     <string name="permission_not_granted">Luba pole antud</string>
     <string name="exit_app">Sulge VLC</string>
     <string name="exit_app_msg">Kas sa kindlasti soovid VLC sulgeda?</string>
-
+    <!-- fast scroller -->
+    <string name="fastscroller_track">Kiirkeritav rada</string>
     <!-- Plugins -->
     <string name="plugins">Pluginad</string>
     <string name="download_on_device">Laadi alla</string>
@@ -499,13 +541,12 @@
     <string name="network_shared_folders">Jagatud kaustad</string>
     <string name="store_password">Pea parooli meeles</string>
     <string name="add_to_playlist">Lisa esitusloendisse</string>
+    <string name="popup_playback_title">Esita videot hüpikaknas</string>
+    <string name="popup_playback">Video esitamine hüpikaknas</string>
     <string name="popup_expand">Laienda videot</string>
     <string name="download_subtitles">Laadi subtiitrid alla</string>
     <string name="browse_folder">Sirvi kausta</string>
     <string name="listen">Kuula</string>
-    <string name="episodes">episoodi</string>
-    <string name="movies">filmi</string>
-    <string name="videos">videot</string>
     <string name="videos_all">Kõik videod</string>
     <string name="clear_playback_history">Tühjenda esitamise ajalugu</string>
     <string name="ml_scanning">Otsin meediafaile</string>
@@ -543,6 +584,7 @@
     <string name="browser_storages">Andmekandjad</string>
     <string name="msg_delete_failed">Meedia %1$s tuvastamine ebaõnnestus</string>
     <string name="renderer_list_title">Kuvad</string>
+    <string name="sdcard_permission_dialog_title">Sa pead lubama VLC\'l salvestada andmeid SD-kaardile</string>
     <string name="dialog_sd_wizard">äita mind</string>
     <string name="renderers_disconnect">Ühenda lahti</string>
     <string name="audio_task_cleared_title">Peata rakenduse eemale viipamisel</string>
@@ -578,13 +620,18 @@
     <string name="ctx_player_subs_track">Subtiitrite rada</string>
     <string name="videos_folders_title">Videod kaustade järgi</string>
     <string name="videos_groups_title">Videote grupid</string>
-    <string name="welcome_title">Teretulemast VLC-sse!</string>
+    <string name="removed_from_playlist_anonymous">Kirje(d) on esitusloendist eemaldatud</string>
+    <string name="welcome_title">Tere tulemast VLC\'sse!</string>
     <string name="welcome_subtitle">Tasuta ja avatud koodiga meediamängija</string>
     <string name="permission_media">VLC vajab ligipääsu sinu seadmes olevale meediale</string>
-    <string name="medialibrary_scan_explanation">VLC suudab sinu seadet automaatselt skännida, et sinu meediakogu organiseerida.</string>
+    <string name="medialibrary_scan_explanation">Sinu meediakogu haldamiseks suudab VLC suudab sinu seadmes leiduvad meediafailid automaatselt tuvastada.</string>
     <string name="onboarding_theme_title">Tunne end nagu kodus</string>
     <string name="done">Valmis</string>
     <string name="onboarding_scan_title">Meedia automaatne avastamine</string>
+    <string name="daynight_system_explanation">VLC võtab automaatselt sinu nutiseadme üldisete seadistuste alusel kasutusele tumeda teema</string>
+    <string name="daynight_legacy_explanation">VLC võtab automaatselt õigel ajal kasutusele öörežiimi</string>
+    <string name="onboarding_scanning_enable">Luba VLC\'l otsida minu seadmest meediafaile</string>
+    <string name="onboarding_scan_customize">Lase mul valida kaustad, kust VLC otsib meediafaile</string>
     <string name="button_medialibrary_preferences">Ava meediakogu eelistused</string>
     <string name="light_theme">Hele teema</string>
     <string name="add">Lisa</string>
@@ -649,6 +696,8 @@
     <string name="recently_played">Hiljuti esitatud</string>
     <string name="recently_added">Hiljuti lisatud</string>
     <string name="playback_multiple_errors">Mitut meediafaili ei saa korraga esitada</string>
+    <string name="clear_media_db_message">Sellega kustuvad kõik pooleliolevad tegevused, järjehoidjad, esitusloendid, aga säilivad VLC seadistused</string>
+    <string name="clear_app_data_message">Sellega kustuvad kõik pooleliolevad tegevused, järjehoidjad, esitusloendid ja VLC seadistused</string>
     <string name="clear">Puhasta</string>
     <string name="abrepeat_add_first_marker">Määra alguspunktiks</string>
     <string name="abrepeat_add_second_marker">Määra lõpu punktiks</string>
@@ -722,11 +771,14 @@
     <string name="prefersmbv1">Eelista SMB 1 protokolli</string>
     <string name="prefersmbv1_summary">Kui sinu SMB serveri sirvimisel tekib vigu, siis eemalda see eelistus</string>
     <string name="apply_to_all">Rakenda kõigile videotele</string>
+    <string name="audio_delay_global">Heli viivitus kõikidel videotel: %s ms</string>
+    <string name="audio_delay_bt">Heli viivitus Bluetooth seadmel: %s ms</string>
     <string name="go_to_folder">Sirvi peamist</string>
-    <string name="enqueuing">Sinu meedia laadimine</string>
+    <string name="soundfont_summary">Midi helifailide esitamiseks vali SoundFont-vormingus fail</string>
     <string name="search_prefs">Otsingu sätted</string>
     <string name="preferred_resolution">Eelistatud video eraldusvõime</string>
     <string name="pref_resolution_best_available">Parim saadaval olev</string>
+    <string name="pref_resolution_very_low">Väga madal resolutsioon (240p)</string>
     <string name="stop_unpaubale">Selle meedia esitamist ei saa peatada. Kas lõpetame esituse?</string>
     <string name="delete_forever">Kustuta lõplikult</string>
     <string name="add_to_existing_playlist">Lisa olemasolevasse esitusloendisse</string>
@@ -743,6 +795,7 @@
     <string name="jump_delay_summary">%s sekundit</string>
     <string name="move_up">Liigu üles</string>
     <string name="move_down">Liigu alla</string>
+    <string name="remove_from_playlist">Eemalda esitusloendist</string>
     <string name="play_media">Mängi %s</string>
 
     <!-- Duplication Warning Dialog -->
@@ -751,10 +804,11 @@
     <string name="add_all_button">Lisa kõik</string>
     <string name="add_new_only_button">Lisa ainult uued</string>
     <string name="lock_use_sensor_title">Lukusta sensoriga</string>
-    <string name="start">Käivita</string>
-    <string name="permission">Õigus</string>
+    <string name="start">Alustame</string>
+    <string name="permission">Õigused</string>
     <string name="customize">Kohanda</string>
     <string name="selection_count">%d valitud</string>
+    <!-- Unused -->
     <string name="gestures">Viipekäsud</string>
     <string name="player_controls">Mängija juhtnupud</string>
     <plurals name="duplication_two_options_secondary">
@@ -766,12 +820,15 @@
         <item quantity="other">Valitud kirjetest %d on juba selles esitusloendis olemas.</item>
     </plurals>
     <string name="view_online">Vaata võrgus</string>
+    <string name="always_fast_seek">Alati kasuta kiirkerimist</string>
+    <string name="always_fast_seek_summary">Kerimine on kiirem, kuid võib olla vähem täpne</string>
     <string name="no_web_browser">Ei leia ühtegi installeritud veebilehitsejat</string>
     <string name="no_video">Video pole kättesaadav</string>
     <string name="fold_optimized">Optimiseeritud sinu volditava ekraani jaoks</string>
     <string name="fold_optimize">Optimiseeri volditavate ekraanide jaoks</string>
     <string name="foldable">Volditav ekraan</string>
     <string name="undo">Võta tagasi</string>
+    <string name="add_server_favorite">Lisa lemmikserver</string>
     <string name="widget_theme">Vidina teema</string>
     <string name="widget_preferences">Häälesta vidinat</string>
     <string name="opacity">Läbipaistmatus</string>
@@ -779,20 +836,22 @@
     <string name="widget_foreground">Esiplaan</string>
     <string name="configure_widget">Vidina häälestus</string>
     <string name="widget_preview">Vidina eelvaade</string>
+    <string name="widget_show_configure">Näida seadistuste ikooni</string>
+    <string name="seek_backward_content_description">Keri %s sekundit tagasi</string>
+    <string name="seek_forward_content_description">Keri %s sekundit edasi</string>
     <string name="open_vlc">Ava VLC</string>
     <string name="playing">Mängib</string>
     <string name="disable_track">Keela rada</string>
     <string name="ascending">Kasvav</string>
     <string name="descending">Kahanev</string>
-
-
-
+    <string name="screenshot_error">Kuvatõmmise tegemisel tekkis viga</string>
+    <string name="enable_screenshot_button">Näita kuvatõmmise nuppu</string>
     <string name="talkback_genre">Žanr: %s</string>
     <string name="talkback_playlist">Esitusloend: %s</string>
     <string name="talkback_folder">Kaust: %s</string>
     <string name="talkback_file">Fail: %s</string>
     <string name="talkback_favorite">Lemmik: %s</string>
-    <string name="talkback_track_number">Raja number %s</string>
+    <string name="talkback_track_number">Pala number %s</string>
     <string name="talkback_duration">Kestus: %s</string>
     <string name="talkback_album">Album: %s</string>
     <string name="talkback_artist">Artist: %s</string>
@@ -811,12 +870,20 @@
     <string name="talkback_video_tracks">Videorajad</string>
     <string name="talkback_audio_tracks">Audiorajad</string>
     <string name="talkback_subtitle_tracks">Subtiitrite rajad</string>
+    <string name="talkback_subtitle_dowload_item">Keel: %s. %s. Nimi: %s</string>
     <string name="selected">Valitud</string>
+    <string name="talkback_increase_delay">Suurenda viivitust</string>
+    <string name="talkback_decrease_delay">Vähenda viivitust</string>
+    <string name="talkback_increase_speed">Suurenda kiirust</string>
+    <string name="talkback_decrease_speed">Vähenda kiirust</string>
     <string name="talkback_subtitle_history">Subtiitrite ajalugu</string>
+    <string name="talkback_language_selection">%s valitud keelt</string>
+    <string name="talkback_track_index">Rada %s/%s</string>
     <string name="downloaded">Alla laetud</string>
     <string name="downloading">Allalaadimine</string>
+    <string name="talkback_action_rewind">Keri tagasi %s sekundit</string>
+    <string name="talkback_action_forward">Keri %s sekundit edasi</string>
     <string name="talkback_display_settings">Kuvasätted</string>
     <string name="talkback_already_played">Juba mängitud</string>
-
-
-</resources>
+    <string name="show_only_favs">Kuva ainult lemmikud</string>
+    </resources>
