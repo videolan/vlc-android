@@ -1,5 +1,18 @@
 # VLC for Android
 
+## About this branch: Lyrics
+I made the just work patch for adding lyrics function for audio.
+
+But I'm sorry about the "dirty" code, so It will not be merged to the original repo.
+But anyone need the lyrics is welcome to download the apk from the release section of this repo.
+
+* support .lrc external lyrics
+* support for remember play position for each audio is not work (why?)
+* small issue like lyrics not shown when pause is pressed
+
+Thanks
+
+------
 This is the official **Android** port of [VLC](https://videolan.org/vlc/).
 
 VLC on Android plays all the same files as the classical version of VLC, and features a media database
