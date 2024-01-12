@@ -118,6 +118,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
 }
 
 const val KEY_CURRENT_SETTINGS_VERSION = "current_settings_version"
+const val KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION = "current_settings_libvlc_version"
 const val KEY_CURRENT_MAJOR_VERSION = "key_current_major_version"
 
 // Keys

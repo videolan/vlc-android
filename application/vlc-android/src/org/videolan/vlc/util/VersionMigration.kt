@@ -32,12 +32,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_CURRENT_MAJOR_VERSION
+import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
@@ -47,6 +49,7 @@ import org.videolan.tools.KEY_SUBTITLES_COLOR
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
 import org.videolan.tools.PLAYLIST_MODE_AUDIO
 import org.videolan.tools.PLAYLIST_MODE_VIDEO
+import org.videolan.tools.Preferences
 import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_HUD_TIMEOUT
@@ -57,10 +60,15 @@ import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.isVLC4
+import org.videolan.vlc.mediadb.models.EqualizerBand
+import org.videolan.vlc.mediadb.models.EqualizerEntry
+import org.videolan.vlc.mediadb.models.EqualizerWithBands
+import org.videolan.vlc.repository.EqualizerRepository
 import java.io.File
 import java.io.IOException
 
 private const val CURRENT_VERSION = 16
+private const val CURRENT_VERSION_LIBVLC = 1
 
 object VersionMigration {
 
@@ -145,6 +153,21 @@ object VersionMigration {
 
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
         settings.putSingle(KEY_CURRENT_MAJOR_VERSION, currentMajorVersion)
+    }
+
+
+    /**
+     * Same migration as before but once the libvlc instance has been setup
+     *
+     * @param context The context used for the migration
+     */
+    fun migrateVersionAfterLibVLC(context: Context) {
+        val settings = Settings.getInstance(context)
+        val lastVersion = settings.getInt(KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION, 0)
+        if (lastVersion < 1) {
+            migrateToVersionLibvlc1(context, settings)
+        }
+        settings.putSingle(KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION, CURRENT_VERSION_LIBVLC)
     }
 
     private fun migrateToVersion1(settings: SharedPreferences) {
@@ -422,6 +445,45 @@ object VersionMigration {
                     ?: 20)
             }
         }
+    }
+
+    /**
+     * Migrate the equalizer to room
+     */
+    private fun migrateToVersionLibvlc1(context: Context, settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Libvlc migration to Version 1: Migrate the equalizer entries to Room DB")
+        val equalizerRepository = EqualizerRepository.getInstance(context)
+        val count = MediaPlayer.Equalizer.getPresetCount()
+        val bandCount = MediaPlayer.Equalizer.getBandCount()
+        for (i in 0 until count) {
+            val equalizer = MediaPlayer.Equalizer.createFromPreset(i)
+            val bands = buildList {
+                for (j in 0 until bandCount) {
+                    add(EqualizerBand(j,equalizer.getAmp(j)))
+                }
+            }
+            val eqEntity = EqualizerWithBands(EqualizerEntry(MediaPlayer.Equalizer.getPresetName(i), equalizer.preAmp, i), bands)
+            equalizerRepository.addOrUpdateEqualizer(eqEntity)
+        }
+
+        for ((key) in Settings.getInstance(context).all) {
+            if (key.startsWith("custom_equalizer_")) {
+                val bands = Preferences.getFloatArray(settings, key)
+                val bandCount = MediaPlayer.Equalizer.getBandCount()
+                if (bands!!.size == bandCount + 1) {
+                    val name = key.replace("custom_equalizer_", "").replace("_", " ")
+                    val bandList = buildList {
+                        for (j in 0 until bandCount) {
+                            add(EqualizerBand(j,bands[j+1]))
+                        }
+                    }
+                    val eqEntity = EqualizerWithBands(EqualizerEntry(name, bands[0]), bandList)
+                    equalizerRepository.addOrUpdateEqualizer(eqEntity)
+                }
+                settings.edit { remove(key) }
+            }
+        }
+
     }
 
     /**
