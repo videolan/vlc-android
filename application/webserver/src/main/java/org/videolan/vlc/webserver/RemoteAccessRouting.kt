@@ -862,7 +862,13 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
                 val unparsedDescription = descriptions.firstOrNull { it.first == index }?.second
                 val folders = unparsedDescription.getFolderNumber()
                 val files = unparsedDescription.getFilesNumber()
-                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                if (folders > 0 && files > 0) {
+                    "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                } else if (files > 0) {
+                    context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)
+                } else if (folders > 0) {
+                    context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)
+                } else mediaLibraryItem.description
             }
         } catch (e: Exception) {
             Log.e(RemoteAccessServer::class.java.simpleName, e.message, e)
