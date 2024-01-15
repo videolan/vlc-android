@@ -884,11 +884,21 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
                 && (provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
                 && mediaLibraryItem is MediaWrapper) mediaLibraryItem.fileName else mediaLibraryItem.title
         val isFolder = if (mediaLibraryItem is MediaWrapper) mediaLibraryItem.type == MediaWrapper.TYPE_DIR else true
+        var type = "folder"
+        if (!isFolder) {
+            type = when ((mediaLibraryItem as MediaWrapper).type) {
+                MediaWrapper.TYPE_AUDIO -> "audio"
+                MediaWrapper.TYPE_VIDEO -> "video"
+                MediaWrapper.TYPE_SUBTITLE -> "subtitle"
+                else -> "file"
+            }
+        }
         list.add(RemoteAccessServer.PlayQueueItem(idPrefix + index, title, description, 0, mediaLibraryItem.artworkMrl
-                ?: "", false, "", path, isFolder))
+                ?: "", false, "", path, isFolder, fileType = type))
     }
     return list
 }
+
 
 
 fun Album.toPlayQueueItem() = RemoteAccessServer.PlayQueueItem(id, title, albumArtist

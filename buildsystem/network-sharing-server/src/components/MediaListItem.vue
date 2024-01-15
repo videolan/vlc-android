@@ -1,7 +1,8 @@
 <template>
     <div class="d-flex clickable media-img-list-tr">
         <div v-on:click="manageClick" class="ratio media-img-container" v-bind:class="(mainImgClasses())">
-            <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
+            <img v-if="this.mediaType == 'file'" v-lazy="$getImageUrl(media, media.fileType)" class="media-img-list">
+            <img v-else v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div class="media-overlay" v-show="!isBrowse()">
                 <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="24" />
             </div>
