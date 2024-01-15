@@ -16,7 +16,7 @@
       </div>
         <div v-on:click="manageClick" class="card-body media-text flex1">
             <h6 class="card-title text-truncate">{{ media.title }}</h6>
-            <p class="card-text text-truncate" v-if="getDescription().length > 0">{{ getDescription() }}</p>
+            <p class="card-text text-truncate subtitle" v-if="getDescription().length > 0">{{ getDescription() }}</p>
 
         </div>
         <div class="dropdown dropstart overlay-more-container" v-show="!this.hideOverflow">

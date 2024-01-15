@@ -16,7 +16,7 @@
 
         <div class="card-body media-text flex1">
             <h6 class="card-title text-truncate">{{ media.title }}</h6>
-            <p class="card-text text-truncate">{{ (mediaType == 'video') ? $readableDuration(media.length) : media.artist }}
+            <p class="card-text text-truncate subtitle">{{ (mediaType == 'video') ? $readableDuration(media.length) : media.artist }}
             </p>
 
         </div>
