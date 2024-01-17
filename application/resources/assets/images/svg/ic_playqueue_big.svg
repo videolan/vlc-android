@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="96.0px"
+   height="96.0px"
+   viewBox="0 0 96.0 96.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_playqueue_big.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview10963"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="8"
+     inkscape:cx="33.625"
+     inkscape:cy="63.4375"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid11026" />
+  </sodipodi:namedview>
+  <defs
+     id="defs10958" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect2556"
+       style="overflow:visible;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;paint-order:markers fill stroke;stop-color:#000000"
+       d="M 15 24 C 13.338002 24 12 25.337996 12 27 C 12 28.662004 13.338002 30 15 30 L 57 30 C 58.661998 30 60 28.662004 60 27 C 60 25.337996 58.661998 24 57 24 L 15 24 z M 15 41 C 13.338002 41 12 42.337996 12 44 C 12 45.662004 13.338002 47 15 47 L 57 47 C 58.661998 47 60 45.662004 60 44 C 60 42.337996 58.661998 41 57 41 L 15 41 z M 57.992188 57.494141 C 56.945937 57.516641 56 58.349531 56 59.519531 L 56 76.439453 C 56 77.999453 57.679062 78.960156 59.039062 78.160156 L 73.160156 69.679688 C 74.440156 68.919687 74.440156 67.040234 73.160156 66.240234 L 59.039062 57.759766 C 58.699062 57.569766 58.340938 57.486641 57.992188 57.494141 z M 15 58 C 13.338002 58 12 59.338003 12 61 C 12 62.661996 13.338002 64 15 64 L 41 64 C 42.661998 64 44 62.661996 44 61 C 44 59.338003 42.661998 58 41 58 L 15 58 z " />
+  </g>
+</svg>
