@@ -2,67 +2,49 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48"
-   height="48"
-   id="svg4682"
+   width="96.0px"
+   height="96.0px"
+   viewBox="0 0 96.0 96.0"
    version="1.1"
-   inkscape:version="0.92.1 r15371"
+   id="SVGRoot"
    sodipodi:docname="ic_genre_big.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
-  <defs
-     id="defs4684" />
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
-     id="base"
+     id="namedview10963"
      pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="15.839192"
-     inkscape:cx="1.9178985"
-     inkscape:cy="23.632537"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
      showgrid="true"
+     inkscape:zoom="5.1241863"
+     inkscape:cx="65.181081"
+     inkscape:cy="38.152399"
      inkscape:window-width="1920"
-     inkscape:window-height="1027"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1">
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
     <inkscape:grid
        type="xygrid"
-       id="grid816" />
+       id="grid11026" />
   </sodipodi:namedview>
-  <metadata
-     id="metadata4687">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
+  <defs
+     id="defs10958" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-1004.3622)">
+     id="layer1">
     <path
-       inkscape:connector-curvature="0"
-       id="path6722"
-       d="M 18.75611,1010.3622 C 8.0188897,1026.1086 4.0288897,1040.0898 9.6551097,1044.8108 15.28133,1049.5318 28.35729,1043.1745 42,1029.8661 Z m 2.38772,11.906 c 1.60466,1.3464 1.81396,3.7388 0.4675,5.3434 l -5.81098,-4.8759 c 1.34648,-1.6047 3.73882,-1.814 5.34348,-0.4675 z m 8.71646,7.3139 c 1.60466,1.3465 1.81396,3.7388 0.4675,5.3435 l -5.81098,-4.876 c 1.34648,-1.6046 3.73884,-1.814 5.34348,-0.4675 z"
-       style="fill:#757575;fill-opacity:1;stroke:none;stroke-width:0.17999999" />
+       id="path19794"
+       style="color:#000000;fill:#000000;stroke-linecap:round;-inkscape-stroke:none;paint-order:markers fill stroke"
+       d="M 52 8 C 47.617253 8 44 11.617253 44 16 L 44 27 A 3 3 0 0 0 47 30 A 3 3 0 0 0 50 27 L 50 16 C 50 14.859953 50.859953 14 52 14 L 84 14 C 85.140047 14 86 14.859953 86 16 L 86 36 C 86 45.976676 77.976676 54 68 54 C 65.890925 54 63.877995 53.636643 62 52.972656 A 3 3 0 0 0 58.171875 54.800781 A 3 3 0 0 0 60 58.628906 C 62.502001 59.513518 65.19868 60 68 60 C 81.219301 60 92 49.219301 92 36 L 92 16 C 92 11.617253 88.382747 8 84 8 L 52 8 z M 56 24 L 56 26 A 4 4 0 0 0 60 30 A 4 4 0 0 0 64 26 L 64 24 L 56 24 z M 72 24 L 72 26 A 4 4 0 0 0 76 30 A 4 4 0 0 0 80 26 L 80 24 L 72 24 z M 12 36 C 7.6172529 36 4 39.617253 4 44 L 4 64 C 4 77.219301 14.780699 88 28 88 C 41.219301 88 52 77.219301 52 64 L 52 44 C 52 39.617253 48.382747 36 44 36 L 12 36 z M 68 36 C 63.6448 36 59.924391 37.990172 58.275391 40.826172 C 57.472091 42.265272 58.528066 44 60.134766 44 L 75.865234 44 C 77.471834 44 78.527909 42.265272 77.724609 40.826172 C 76.117909 37.990172 72.355 36 68 36 z M 12 42 L 44 42 C 45.140047 42 46 42.859953 46 44 L 46 64 C 46 73.976676 37.976676 82 28 82 C 18.023324 82 10 73.976676 10 64 L 10 44 C 10 42.859953 10.859953 42 12 42 z M 20 52 A 4 4 0 0 0 16 56 L 16 58 L 24 58 L 24 56 A 4 4 0 0 0 20 52 z M 36 52 A 4 4 0 0 0 32 56 L 32 58 L 40 58 L 40 56 A 4 4 0 0 0 36 52 z M 20.134766 64 C 18.528066 64 17.472091 65.734728 18.275391 67.173828 C 19.924391 70.009828 23.6448 72 28 72 C 32.355 72 36.117909 70.009828 37.724609 67.173828 C 38.527909 65.734728 37.471834 64 35.865234 64 L 20.134766 64 z " />
   </g>
 </svg>
