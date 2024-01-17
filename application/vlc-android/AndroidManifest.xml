@@ -158,6 +158,7 @@
                 <data android:scheme="file"/>
                 <data android:scheme="ftp"/>
                 <data android:scheme="ftps"/>
+                <data android:scheme="ftpes"/>
                 <data android:scheme="sftp"/>
                 <data android:scheme="content"/>
                 <data android:scheme="http"/>

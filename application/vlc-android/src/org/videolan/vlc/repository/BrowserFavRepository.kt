@@ -86,7 +86,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
             isEmpty() -> this
             !networkMonitor.connected -> emptyList()
             !NetworkMonitor.getInstance(AppContextProvider.appContext).lanAllowed -> {
-                val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
+                val schemes = Arrays.asList("ftp", "sftp", "ftps", "ftpes", "http", "https")
                 mutableListOf<MediaWrapper>().apply { this@filterNetworkFavs.filterTo(this) { schemes.contains(it.uri.scheme) } }
             }
             else -> this
