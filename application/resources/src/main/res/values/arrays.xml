@@ -3,6 +3,7 @@
     <string-array name="server_protocols">
         <item>FTP</item>
         <item>FTPS</item>
+        <item>FTPES</item>
         <item>SFTP</item>
         <!--<item>HTTP</item>-->
         <!--<item>HTTPS</item>-->

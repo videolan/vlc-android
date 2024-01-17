@@ -294,7 +294,7 @@ object FileUtils {
     fun canSave(mw: MediaWrapper?): Boolean {
         if (mw == null || mw.uri == null) return false
         val scheme = mw.uri.scheme
-        return scheme in arrayOf("file", "smb", "nfs", "ftp", "ftps", "sftp", "upnp")
+        return scheme in arrayOf("file", "smb", "nfs", "ftp", "ftps", "ftpes", "sftp", "upnp")
     }
 
     @WorkerThread
