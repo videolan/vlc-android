@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.icu.text.Transliterator
 import android.net.Uri
 import android.os.Build
 import android.text.Spannable
@@ -286,16 +287,22 @@ fun CharSequence?.getFilesNumber():Int {
 }
 
 /**
- * Slugify a string
+ * Slugify a string. Use the Unicode Transliterator to convert
+ * non-ASCII characters into a latin representation.
  *
  * @param replacement the replacement char
  * @return the slugified string
  */
-fun String.slugify(replacement: String = "-") = Normalizer
-        .normalize(this, Normalizer.Form.NFD)
-        .replace("[^\\p{ASCII}]".toRegex(), "")
-        .replace("[^a-zA-Z0-9\\s]+".toRegex(), "").trim()
-        .replace("\\s+".toRegex(), replacement)
+fun String.slugify(replacement: String = "-"): String {
+    val s = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        // NFD is included in Latin-ASCII
+        Transliterator.getInstance("Any-Latin; Lower; Latin-ASCII").transliterate(this)
+    } else {
+        Normalizer.normalize(this, Normalizer.Form.NFD)
+    }
+    return s.replace("[^a-zA-Z0-9\\s]+".toRegex(), "").trim()
+            .replace("\\s+".toRegex(), replacement)
+}
 
 const val presentReplacementMarker = "§*§"
 const val missingReplacementMarker = "*§*"
