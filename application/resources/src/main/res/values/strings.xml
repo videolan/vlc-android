@@ -1027,7 +1027,7 @@
     <string name="delete_forever">Delete forever</string>
     <string name="add_to_existing_playlist">Add to existing playlist</string>
     <string name="bookmarks_title">Bookmarks</string>
-    <string name="no_bookmark">No bookmark yet</string>
+    <string name="no_bookmark">No bookmark set</string>
     <string name="bookmark_default_name">Bookmark at %s</string>
     <string name="bookmark_name">Bookmark %s</string>
     <string name="add_bookmark">Add bookmark</string>
