@@ -156,7 +156,7 @@
     <string name="shuffle_on">Ammestura</string>
     <string name="shuffle_play">Ammistura</string>
     <string name="repeat_title">Modalidade de ripetitzione</string>
-    <string name="repeat">Peruna ripetitzione</string>
+    <string name="repeat_none">Peruna ripetitzione</string>
     <string name="repeat_single">Ripetitzione sìngula</string>
     <string name="repeat_all">Repite totu</string>
     <string name="previous">Antepostu</string>

@@ -137,7 +137,7 @@
     <string name="shuffle_on">फेरबदल सुरु गर्नुहोस्</string>
     <string name="shuffle_play">फेरबदल</string>
     <string name="repeat_title">दोहोर्याउने रीत</string>
-    <string name="repeat">कुनै पनि नदोहोर्‍याउने</string>
+    <string name="repeat_none">कुनै पनि नदोहोर्‍याउने</string>
     <string name="repeat_single">एउटैलाई दोहोर्याउनुहोस्</string>
     <string name="repeat_all">सबै दोहोर्याउनुहोस्</string>
     <string name="previous">अघिल्लो</string>

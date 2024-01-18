@@ -158,7 +158,7 @@
     <string name="shuffle_on">Satunnaistoisto Päällä</string>
     <string name="shuffle_play">Sekoita</string>
     <string name="repeat_title">Toisto</string>
-    <string name="repeat">Toisto ei käuytössä</string>
+    <string name="repeat_none">Toisto ei käuytössä</string>
     <string name="repeat_single">Toista kerran</string>
     <string name="repeat_all">Toista kaikki</string>
     <string name="previous">Edellinen</string>

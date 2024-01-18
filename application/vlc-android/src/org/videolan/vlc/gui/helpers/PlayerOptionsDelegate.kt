@@ -330,12 +330,12 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             } else {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat)
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat_none)
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat)
+                repeatBinding.root.contentDescription = repeatBinding.root.context.getString(R.string.repeat_none)
             }
         }
     }
@@ -364,7 +364,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             repeatBinding.root.contentDescription = repeatBinding.root.context.getString(when (service.repeatType) {
                 PlaybackStateCompat.REPEAT_MODE_ONE -> R.string.repeat_single
                 PlaybackStateCompat.REPEAT_MODE_ALL -> R.string.repeat_all
-                else -> R.string.repeat
+                else -> R.string.repeat_none
             })
         }
     }

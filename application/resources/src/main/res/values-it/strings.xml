@@ -167,7 +167,7 @@
     <string name="shuffle_on">Mescola</string>
     <string name="shuffle_play">Mescola</string>
     <string name="repeat_title">Ripeti</string>
-    <string name="repeat">Nessuna ripetizione</string>
+    <string name="repeat_none">Nessuna ripetizione</string>
     <string name="repeat_single">Ripetizione singola</string>
     <string name="repeat_all">Ripeti tutto</string>
     <string name="previous">Precedente</string>

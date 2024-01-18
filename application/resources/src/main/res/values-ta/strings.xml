@@ -97,7 +97,7 @@
     <string name="shuffle">கலக்கு இயக்க முறையை அணைக்க</string>
     <string name="shuffle_on">கலக்கு இயக்க முறையை ஏற்று</string>
     <string name="repeat_title">மீள் இயக்க முறை</string>
-    <string name="repeat">ஒன்றையும் மீள் இயக்காதே</string>
+    <string name="repeat_none">ஒன்றையும் மீள் இயக்காதே</string>
     <string name="repeat_single">ஒன்றை மீள் இயக்கு</string>
     <string name="repeat_all">அனைத்தையும் மீள் இயக்கு</string>
     <string name="previous">முந்தைய</string>

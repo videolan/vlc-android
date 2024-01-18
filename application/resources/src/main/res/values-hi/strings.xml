@@ -129,7 +129,7 @@
     <string name="shuffle_on">फेंटना चालू </string>
     <string name="shuffle_play">फेटें</string>
     <string name="repeat_title">आवृत्ति शैली </string>
-    <string name="repeat">पुनरावृत्ति नहीं</string>
+    <string name="repeat_none">पुनरावृत्ति नहीं</string>
     <string name="repeat_single">एकल पुनरावृत्ति</string>
     <string name="repeat_all">समग्र पुनरावृत्ति</string>
     <string name="previous">पिछला</string>

@@ -85,7 +85,7 @@
     <string name="shuffle">ປິດໂໝດສະຫຼັບເພງ</string>
     <string name="shuffle_on">ເປີດໂໝດສະຫຼັບເພງ</string>
     <string name="repeat_title">ໂໝດຫຼິ້ນຊ້ຳ</string>
-    <string name="repeat">ປິດການຫຼິ້ນຊ້ຳ</string>
+    <string name="repeat_none">ປິດການຫຼິ້ນຊ້ຳ</string>
     <string name="repeat_single">ຫຼິ້ນຊ້ຳລາຍການດຽວ</string>
     <string name="repeat_all">ຫຼິ້ນຊ້ຳທັງໝົດ</string>
     <string name="previous">ກ່ອນໜ້າ</string>

@@ -158,7 +158,7 @@
     <string name="shuffle_on">Engega aleatori</string>
     <string name="shuffle_play">Aleatori</string>
     <string name="repeat_title">Mode repetició</string>
-    <string name="repeat">No repetició</string>
+    <string name="repeat_none">No repetició</string>
     <string name="repeat_single">Repeteix-ne una</string>
     <string name="repeat_all">Repeteix-ho tot</string>
     <string name="previous">Previ</string>

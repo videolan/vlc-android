@@ -149,7 +149,7 @@
     <string name="shuffle_on">Véletlen sorrend be</string>
     <string name="shuffle_play">Véletlen sorrend</string>
     <string name="repeat_title">Ismétlés mód</string>
-    <string name="repeat">Nincs ismétlés</string>
+    <string name="repeat_none">Nincs ismétlés</string>
     <string name="repeat_single">Egy szám ismétlése</string>
     <string name="repeat_all">Összes ismétlése</string>
     <string name="previous">Előző</string>

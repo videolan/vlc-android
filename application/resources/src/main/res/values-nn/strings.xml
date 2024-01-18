@@ -141,7 +141,7 @@
     <string name="shuffle_on">Blanding på</string>
     <string name="shuffle_play">Bland</string>
     <string name="repeat_title">Repeteringsmodus</string>
-    <string name="repeat">Repeter ingen</string>
+    <string name="repeat_none">Repeter ingen</string>
     <string name="repeat_single">Repeter ein</string>
     <string name="repeat_all">Repeter alle</string>
     <string name="previous">Førre</string>

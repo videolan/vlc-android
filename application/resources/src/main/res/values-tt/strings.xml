@@ -86,7 +86,7 @@
     <string name="shuffle">Бутау сүнд.</string>
     <string name="shuffle_on">Бутау каб.</string>
     <string name="repeat_title">Кабатлау режимы</string>
-    <string name="repeat">Кабатламаска</string>
+    <string name="repeat_none">Кабатламаска</string>
     <string name="repeat_single">Әлегесен кабатлау</string>
     <string name="repeat_all">Бөтенесен кабатлау</string>
     <string name="previous">Алдагы</string>

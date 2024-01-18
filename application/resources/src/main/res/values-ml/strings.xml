@@ -140,7 +140,7 @@
     <string name="shuffle_on">ഷഫിൾ ഓൺ</string>
     <string name="shuffle_play">കലർത്തുക</string>
     <string name="repeat_title">ആവര്‍ത്തിതമായ രീതി</string>
-    <string name="repeat">ആവര്‍ത്തിക്കാതിരിക്കുക</string>
+    <string name="repeat_none">ആവര്‍ത്തിക്കാതിരിക്കുക</string>
     <string name="repeat_single">ഒന്നു മാത്രം ആവര്‍ത്തിക്കുക</string>
     <string name="repeat_all">എല്ലാം ആവര്‍ത്തിക്കുക</string>
     <string name="previous">മുന്‍പുള്ളത്</string>

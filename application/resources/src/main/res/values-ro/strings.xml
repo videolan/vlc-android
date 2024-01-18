@@ -167,7 +167,7 @@
     <string name="shuffle_on">Amestecare pornit</string>
     <string name="shuffle_play">Amestecă</string>
     <string name="repeat_title">Modul de repetare</string>
-    <string name="repeat">Fara repetare</string>
+    <string name="repeat_none">Fara repetare</string>
     <string name="repeat_single">Repetare unica</string>
     <string name="repeat_all">Repetare toate</string>
     <string name="previous">Precedenta</string>

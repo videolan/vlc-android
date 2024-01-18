@@ -144,7 +144,7 @@
     <string name="shuffle_on">Bland til</string>
     <string name="shuffle_play">Bland</string>
     <string name="repeat_title">Gentagelsestilstand</string>
-    <string name="repeat">Gentag ingen</string>
+    <string name="repeat_none">Gentag ingen</string>
     <string name="repeat_single">Gentag én</string>
     <string name="repeat_all">Gentag alle</string>
     <string name="previous">Forrige</string>

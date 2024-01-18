@@ -162,7 +162,7 @@
     <string name="shuffle_on">Maišyti</string>
     <string name="shuffle_play">Maišyti</string>
     <string name="repeat_title">Kartojimo veiksena</string>
-    <string name="repeat">Nekartoti</string>
+    <string name="repeat_none">Nekartoti</string>
     <string name="repeat_single">Kartoti vieną</string>
     <string name="repeat_all">Viską kartoti</string>
     <string name="previous">Ankstesnis</string>

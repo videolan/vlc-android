@@ -99,7 +99,7 @@
     <string name="shuffle">መበወዣ ማጥፊያ</string>
     <string name="shuffle_on">መበወዣ ማብሪያ</string>
     <string name="repeat_title">መድገሚያ ዘዴ</string>
-    <string name="repeat">ምንም አትድገም</string>
+    <string name="repeat_none">ምንም አትድገም</string>
     <string name="repeat_single">አንዴ መድገሚያ</string>
     <string name="repeat_all">ሁሉንም መድገሚያ</string>
     <string name="previous">ቀደም ያለው</string>

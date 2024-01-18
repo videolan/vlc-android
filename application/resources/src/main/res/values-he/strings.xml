@@ -176,7 +176,7 @@
     <string name="shuffle_on">הפעלת הערבול</string>
     <string name="shuffle_play">ערבוב</string>
     <string name="repeat_title">מצב חזרה</string>
-    <string name="repeat">לא לחזור</string>
+    <string name="repeat_none">לא לחזור</string>
     <string name="repeat_single">לחזור על בודד</string>
     <string name="repeat_all">לחזור על הכול</string>
     <string name="previous">הקודם</string>

@@ -162,7 +162,7 @@
     <string name="shuffle_on">Zapnout režim Náhodné přehrávání</string>
     <string name="shuffle_play">Náhodné přehrávání</string>
     <string name="repeat_title">Režim Opakování</string>
-    <string name="repeat">Žádné opakování</string>
+    <string name="repeat_none">Žádné opakování</string>
     <string name="repeat_single">Opakovat jednu položku</string>
     <string name="repeat_all">Opakovat vše</string>
     <string name="previous">Předchozí</string>

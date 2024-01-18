@@ -88,7 +88,7 @@
     <string name="shuffle">បិទបញ្ចូលគ្នា</string>
     <string name="shuffle_on">បើកបញ្ចូលគ្នា</string>
     <string name="repeat_title">មុខងារលេងត្រឡប់</string>
-    <string name="repeat">ការចាក់ឡើងវិញទទេរ</string>
+    <string name="repeat_none">ការចាក់ឡើងវិញទទេរ</string>
     <string name="repeat_single">លេងឡើងវិញម្ដងមួយ</string>
     <string name="repeat_all">លេងឡើងវិញទាំងអស់</string>
     <string name="previous">មុន</string>

@@ -144,7 +144,7 @@
     <string name="shuffle_on">پخش تصادفی روشن</string>
     <string name="shuffle_play">تصادفی</string>
     <string name="repeat_title">حالت تکرار</string>
-    <string name="repeat">تکرار نشود</string>
+    <string name="repeat_none">تکرار نشود</string>
     <string name="repeat_single">تکرار تکی</string>
     <string name="repeat_all">تکرار همه</string>
     <string name="previous">قبلی</string>

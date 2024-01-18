@@ -147,7 +147,7 @@
     <string name="shuffle_on">Kocok Hidup</string>
     <string name="shuffle_play">Kocok</string>
     <string name="repeat_title">Mod ulang</string>
-    <string name="repeat">Jangan ulang</string>
+    <string name="repeat_none">Jangan ulang</string>
     <string name="repeat_single">Ulang sekali</string>
     <string name="repeat_all">Ulang semua</string>
     <string name="previous">Terdahulu</string>

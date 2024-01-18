@@ -135,7 +135,7 @@
     <string name="shuffle_on">随机开启</string>
     <string name="shuffle_play">随机</string>
     <string name="repeat_title">循环模式</string>
-    <string name="repeat">循环关闭</string>
+    <string name="repeat_none">循环关闭</string>
     <string name="repeat_single">单曲循环</string>
     <string name="repeat_all">全部循环</string>
     <string name="previous">上一项</string>

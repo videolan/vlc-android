@@ -155,7 +155,7 @@
     <string name="shuffle_on">Stokkun á</string>
     <string name="shuffle_play">Stokka</string>
     <string name="repeat_title">Endurtekningarhamur</string>
-    <string name="repeat">Endurtaka ekkert</string>
+    <string name="repeat_none">Endurtaka ekkert</string>
     <string name="repeat_single">Endurtaka eitt</string>
     <string name="repeat_all">Endurtaka allt</string>
     <string name="previous">Fyrra</string>

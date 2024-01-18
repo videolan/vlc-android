@@ -156,7 +156,7 @@
     <string name="shuffle_on">Nahasketa piztuta</string>
     <string name="shuffle_play">Nahastu</string>
     <string name="repeat_title">Errepikatzeko modua</string>
-    <string name="repeat">Errepikatu bat ere ez</string>
+    <string name="repeat_none">Errepikatu bat ere ez</string>
     <string name="repeat_single">Errepikatu bat</string>
     <string name="repeat_all">Errepikatu denak</string>
     <string name="previous">Aurrekoa</string>

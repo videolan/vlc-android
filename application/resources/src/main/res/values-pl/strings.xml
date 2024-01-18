@@ -160,7 +160,7 @@
     <string name="shuffle_on">Losowo włączone</string>
     <string name="shuffle_play">Losowo</string>
     <string name="repeat_title">Tryb powtórz</string>
-    <string name="repeat">Nie powtarzaj żadnych</string>
+    <string name="repeat_none">Nie powtarzaj żadnych</string>
     <string name="repeat_single">Powtórz pojedynczy</string>
     <string name="repeat_all">Powtórz wszystkie</string>
     <string name="previous">Poprzedni</string>

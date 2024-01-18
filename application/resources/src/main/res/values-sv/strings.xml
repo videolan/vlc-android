@@ -158,7 +158,7 @@
     <string name="shuffle_on">Blanda på</string>
     <string name="shuffle_play">Blanda</string>
     <string name="repeat_title">Upprepningsläge</string>
-    <string name="repeat">Upprepa ingen</string>
+    <string name="repeat_none">Upprepa ingen</string>
     <string name="repeat_single">Upprepa en</string>
     <string name="repeat_all">Upprepa alla</string>
     <string name="previous">Föregående</string>

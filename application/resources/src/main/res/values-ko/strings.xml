@@ -143,7 +143,7 @@
     <string name="shuffle_on">순서섞기 켜기</string>
     <string name="shuffle_play">순서섞기</string>
     <string name="repeat_title">반복 모드</string>
-    <string name="repeat">반복 없음</string>
+    <string name="repeat_none">반복 없음</string>
     <string name="repeat_single">한 곡 반복</string>
     <string name="repeat_all">전체 반복</string>
     <string name="previous">이전</string>

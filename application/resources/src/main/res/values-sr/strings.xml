@@ -120,7 +120,7 @@
     <string name="shuffle">Мешање искључено</string>
     <string name="shuffle_on">Мешање укључено</string>
     <string name="repeat_title">Режим понављања</string>
-    <string name="repeat">Без понављања</string>
+    <string name="repeat_none">Без понављања</string>
     <string name="repeat_single">Понови једну</string>
     <string name="repeat_all">Понављај све</string>
     <string name="previous">Претходно</string>

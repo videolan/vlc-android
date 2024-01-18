@@ -117,7 +117,7 @@
     <string name="shuffle_on">Seinn go fánach</string>
     <string name="shuffle_play">Suathaigh</string>
     <string name="repeat_title">Mód athsheanma</string>
-    <string name="repeat">Ná athsheinn aon cheann</string>
+    <string name="repeat_none">Ná athsheinn aon cheann</string>
     <string name="repeat_single">Athsheinn an tsingil</string>
     <string name="repeat_all">Athsheinn uile</string>
     <string name="previous">Roimhe</string>

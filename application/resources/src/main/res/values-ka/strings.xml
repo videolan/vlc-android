@@ -144,7 +144,7 @@
     <string name="shuffle_on">არევა ჩართულია</string>
     <string name="shuffle_play">არეულად</string>
     <string name="repeat_title">გამეორების რეჟიმი</string>
-    <string name="repeat">გამეორების გარეშე</string>
+    <string name="repeat_none">გამეორების გარეშე</string>
     <string name="repeat_single">ერთის გამეორება</string>
     <string name="repeat_all">ყველას გამეორება</string>
     <string name="previous">წინა</string>

@@ -104,7 +104,7 @@
     <string name="shuffle">ရောနှောခြင်း ပိတ်</string>
     <string name="shuffle_on">ရောနှောခြင်း ဖွင့်</string>
     <string name="repeat_title">ထပ်တလဲလဲ စနစ်</string>
-    <string name="repeat">ထပ်တလဲလဲ မဖွင့်</string>
+    <string name="repeat_none">ထပ်တလဲလဲ မဖွင့်</string>
     <string name="repeat_single">ထပ်တလဲလဲ တစ်ကြိမ်</string>
     <string name="repeat_all">အားလုံး ထပ်တလဲလဲ ဖွင့်</string>
     <string name="previous">ယခင်သို့</string>

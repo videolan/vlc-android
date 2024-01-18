@@ -97,7 +97,7 @@
     <string name="shuffle">Përzierja Fikur</string>
     <string name="shuffle_on">Përzierja Ndezur</string>
     <string name="repeat_title">Mënyrë përsëritje</string>
-    <string name="repeat">Asnjë përsëritje</string>
+    <string name="repeat_none">Asnjë përsëritje</string>
     <string name="repeat_single">Përsërit një</string>
     <string name="repeat_all">Përsërit t\'gjitha</string>
     <string name="previous">Mëparshëm</string>

@@ -149,7 +149,7 @@
     <string name="shuffle_on">開啟隨機</string>
     <string name="shuffle_play">隨機</string>
     <string name="repeat_title">重複模式</string>
-    <string name="repeat">不重複</string>
+    <string name="repeat_none">不重複</string>
     <string name="repeat_single">單曲重複</string>
     <string name="repeat_all">全部重複</string>
     <string name="previous">上一個</string>

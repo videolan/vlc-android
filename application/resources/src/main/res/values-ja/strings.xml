@@ -149,7 +149,7 @@
     <string name="shuffle_on">シャッフルオン</string>
     <string name="shuffle_play">シャッフル</string>
     <string name="repeat_title">リピートモード</string>
-    <string name="repeat">リピートなし</string>
+    <string name="repeat_none">リピートなし</string>
     <string name="repeat_single">1項目をリピート</string>
     <string name="repeat_all">すべてをリピート</string>
     <string name="previous">前へ</string>

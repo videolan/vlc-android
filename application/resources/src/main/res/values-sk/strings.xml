@@ -176,7 +176,7 @@
     <string name="shuffle_on">Zapnúť náhodné prehrávanie</string>
     <string name="shuffle_play">Náhodne</string>
     <string name="repeat_title">Režim opakovania</string>
-    <string name="repeat">Žiadne opakovanie</string>
+    <string name="repeat_none">Žiadne opakovanie</string>
     <string name="repeat_single">Opakovať jednotlivé</string>
     <string name="repeat_all">Zopakovať všetko</string>
     <string name="previous">Dozadu</string>

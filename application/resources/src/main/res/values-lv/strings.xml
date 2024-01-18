@@ -111,7 +111,7 @@
     <string name="shuffle">Pēc kārtas</string>
     <string name="shuffle_on">Nejaušā secībā</string>
     <string name="repeat_title">Atkārtošanas režīms</string>
-    <string name="repeat">Neatkārtot</string>
+    <string name="repeat_none">Neatkārtot</string>
     <string name="repeat_single">Atkārtot vienu</string>
     <string name="repeat_all">Atkārtot visu</string>
     <string name="previous">Iepriekšējais</string>

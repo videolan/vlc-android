@@ -127,7 +127,7 @@
     <string name="shuffle_on">Modo aleatorio activado</string>
     <string name="shuffle_play">Aleatorio</string>
     <string name="repeat_title">Modo repetición</string>
-    <string name="repeat">Non repetir</string>
+    <string name="repeat_none">Non repetir</string>
     <string name="repeat_single">Repetir un</string>
     <string name="repeat_all">Repetir todo</string>
     <string name="previous">Anterior</string>

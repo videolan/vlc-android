@@ -147,7 +147,7 @@
     <string name="shuffle_on">Nyalakan Acak</string>
     <string name="shuffle_play">Acak</string>
     <string name="repeat_title">Mode perulangan</string>
-    <string name="repeat">Tidak ulangi</string>
+    <string name="repeat_none">Tidak ulangi</string>
     <string name="repeat_single">Ulangi satu</string>
     <string name="repeat_all">Ulangi semua</string>
     <string name="previous">Sebelumnya</string>

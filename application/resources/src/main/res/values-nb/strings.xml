@@ -141,7 +141,7 @@
     <string name="shuffle_on">Tilfeldig på</string>
     <string name="shuffle_play">Tilfeldig</string>
     <string name="repeat_title">Gjentagelsesmodus</string>
-    <string name="repeat">Ikke gjenta noen</string>
+    <string name="repeat_none">Ikke gjenta noen</string>
     <string name="repeat_single">Gjenta én</string>
     <string name="repeat_all">Gjenta alle</string>
     <string name="previous">Forrige</string>

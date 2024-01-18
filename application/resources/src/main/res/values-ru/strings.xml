@@ -148,7 +148,7 @@
     <string name="shuffle_on">Перемешивание вкл.</string>
     <string name="shuffle_play">Случайный порядок</string>
     <string name="repeat_title">Режим повтора</string>
-    <string name="repeat">Не повторять</string>
+    <string name="repeat_none">Не повторять</string>
     <string name="repeat_single">Повторять текущее</string>
     <string name="repeat_all">Повторять всё</string>
     <string name="previous">Предыдущий</string>

@@ -167,7 +167,7 @@
     <string name="shuffle_on">Lecture aléatoire activée</string>
     <string name="shuffle_play">Aléatoire</string>
     <string name="repeat_title">Mode de répétition</string>
-    <string name="repeat">Aucune répétition</string>
+    <string name="repeat_none">Aucune répétition</string>
     <string name="repeat_single">Répéter le morceau</string>
     <string name="repeat_all">Tout répéter</string>
     <string name="previous">Précédent</string>

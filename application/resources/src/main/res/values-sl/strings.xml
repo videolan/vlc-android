@@ -176,7 +176,7 @@
     <string name="shuffle_on">Premešani način je vključen</string>
     <string name="shuffle_play">Premešaj</string>
     <string name="repeat_title">Način ponavljanja</string>
-    <string name="repeat">Ne ponavljaj</string>
+    <string name="repeat_none">Ne ponavljaj</string>
     <string name="repeat_single">Ponovi eno</string>
     <string name="repeat_all">Ponovi vse</string>
     <string name="previous">Prejšnje</string>

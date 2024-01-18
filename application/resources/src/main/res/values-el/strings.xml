@@ -144,7 +144,7 @@
     <string name="shuffle_on">Ενεργοποίηση ανακατέματος</string>
     <string name="shuffle_play">Ανακάτεμα</string>
     <string name="repeat_title">Λειτουργία επανάληψης</string>
-    <string name="repeat">Επανάληψη κανενός</string>
+    <string name="repeat_none">Επανάληψη κανενός</string>
     <string name="repeat_single">Επανάληψη ενός</string>
     <string name="repeat_all">Επανάληψη όλων</string>
     <string name="previous">Προηγούμενο</string>

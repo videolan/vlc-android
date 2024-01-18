@@ -163,7 +163,7 @@
     <string name="shuffle_on">الخلط مفعّل</string>
     <string name="shuffle_play">عشوائي</string>
     <string name="repeat_title">وضع التكرار</string>
-    <string name="repeat">بلا تكرار</string>
+    <string name="repeat_none">بلا تكرار</string>
     <string name="repeat_single">تكرار مرة</string>
     <string name="repeat_all">تكرار الكل</string>
     <string name="previous">السابق</string>

@@ -116,7 +116,7 @@
     <string name="shuffle">Tevlihevkirin Girtî</string>
     <string name="shuffle_on">Tevlihevkirin Vekirî</string>
     <string name="repeat_title">Moda dubarekirinê</string>
-    <string name="repeat">Dubarekirin tune</string>
+    <string name="repeat_none">Dubarekirin tune</string>
     <string name="repeat_single">Stranê dubare bike</string>
     <string name="repeat_all">Gişî dubare bike</string>
     <string name="previous">Ya berî vê</string>

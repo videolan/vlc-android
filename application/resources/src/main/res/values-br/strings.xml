@@ -170,7 +170,7 @@
     <string name="shuffle_on">Dre zegouezh enaouet</string>
     <string name="shuffle_play">Dre zegouezh</string>
     <string name="repeat_title">Mod adlenn</string>
-    <string name="repeat">Adlenn ebet</string>
+    <string name="repeat_none">Adlenn ebet</string>
     <string name="repeat_single">Adlenn unan</string>
     <string name="repeat_all">Adlenn an holl</string>
     <string name="previous">Kent</string>

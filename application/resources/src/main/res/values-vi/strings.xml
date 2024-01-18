@@ -120,7 +120,7 @@
     <string name="shuffle_on">Bật xáo trộn</string>
     <string name="shuffle_play">Xáo trộn</string>
     <string name="repeat_title">Chế độ lặp</string>
-    <string name="repeat">Không lặp</string>
+    <string name="repeat_none">Không lặp</string>
     <string name="repeat_single">Lặp lại chỉ một mục</string>
     <string name="repeat_all">Lặp lại tất cả</string>
     <string name="previous">Trước đó</string>

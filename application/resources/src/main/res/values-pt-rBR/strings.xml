@@ -139,7 +139,7 @@
     <string name="shuffle_on">Habilitar o Aleatório</string>
     <string name="shuffle_play">Aleatório</string>
     <string name="repeat_title">Modo contínuo</string>
-    <string name="repeat">Não repetir</string>
+    <string name="repeat_none">Não repetir</string>
     <string name="repeat_single">Repetir uma</string>
     <string name="repeat_all">Repetir todas</string>
     <string name="previous">Anterior</string>

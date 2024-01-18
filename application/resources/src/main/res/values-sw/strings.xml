@@ -144,7 +144,7 @@
     <string name="shuffle_on">Kuchanganya kumewashwa</string>
     <string name="shuffle_play">Changanya</string>
     <string name="repeat_title">Nui Radidi</string>
-    <string name="repeat">Kisirudiwe chochote</string>
+    <string name="repeat_none">Kisirudiwe chochote</string>
     <string name="repeat_single">Rudia moja</string>
     <string name="repeat_all">Rudia zote</string>
     <string name="previous">Iliyotangulia</string>

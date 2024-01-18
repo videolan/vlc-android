@@ -156,7 +156,7 @@
     <string name="shuffle_on">Willekeurige volgorde aan</string>
     <string name="shuffle_play">Willekeurige volgorde</string>
     <string name="repeat_title">Modus herhalen</string>
-    <string name="repeat">Niet herhalen</string>
+    <string name="repeat_none">Niet herhalen</string>
     <string name="repeat_single">Een herhalen</string>
     <string name="repeat_all">Alles herhalen</string>
     <string name="previous">Vorige</string>

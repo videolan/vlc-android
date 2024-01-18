@@ -158,7 +158,7 @@
     <string name="shuffle_on">Zufallswiedergabe EIN</string>
     <string name="shuffle_play">Zufallswiedergabe</string>
     <string name="repeat_title">Wiederholmodus</string>
-    <string name="repeat">Nichts wiederholen</string>
+    <string name="repeat_none">Nichts wiederholen</string>
     <string name="repeat_single">Einzelstück wiederholen</string>
     <string name="repeat_all">Alle wiederholen</string>
     <string name="previous">Vorherige</string>
