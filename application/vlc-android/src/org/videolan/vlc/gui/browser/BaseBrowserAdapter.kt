@@ -61,6 +61,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
 
     private val folderDrawable: BitmapDrawable
+    private val folderDrawableBig: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_big)) }
     private val audioDrawable: BitmapDrawable
     private val videoDrawable: BitmapDrawable
     private val subtitleDrawable: BitmapDrawable
@@ -95,7 +96,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         specialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
         // Setup resources
         val res = browserContainer.containerActivity().resources
-        folderDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_menu_folder))
+        folderDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder))
         audioDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_audio_normal))
         videoDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_video_normal))
         subtitleDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_subtitle_normal))
@@ -328,7 +329,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI == uri)
                         return qaDownloadDrawable
                 }
-                return folderDrawable
+                return if (browserContainer.inCards) folderDrawableBig else folderDrawable
             }
             MediaWrapper.TYPE_VIDEO -> return videoDrawable
             MediaWrapper.TYPE_SUBTITLE -> return subtitleDrawable

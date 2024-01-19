@@ -93,7 +93,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             else -> AppContextProvider.appContext
         }
 
-        defaultCoverAudio = BitmapDrawable(ctx.resources, getBitmapFromDrawable(ctx, R.drawable.ic_no_song_background))
+        defaultCoverAudio = BitmapDrawable(ctx.resources, getBitmapFromDrawable(ctx, R.drawable.ic_song_background))
         defaultCoverVideo = UiTools.getDefaultVideoDrawable(ctx)
         scheduler =  LifecycleAwareScheduler(this)
     }

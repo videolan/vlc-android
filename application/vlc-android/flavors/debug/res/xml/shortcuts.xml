@@ -17,7 +17,7 @@
     <shortcut
         android:shortcutId="playlists"
         android:enabled="true"
-        android:icon="@drawable/ic_menu_playlist"
+        android:icon="@drawable/ic_playlist"
         android:shortcutShortLabel="@string/playlists"
         android:shortcutLongLabel="@string/playlists">
         <intent
@@ -29,7 +29,7 @@
     <shortcut
         android:shortcutId="browser"
         android:enabled="true"
-        android:icon="@drawable/ic_menu_folder"
+        android:icon="@drawable/ic_folder"
         android:shortcutShortLabel="@string/directories"
         android:shortcutLongLabel="@string/directories" >
         <intent
@@ -41,7 +41,7 @@
     <shortcut
         android:shortcutId="video"
         android:enabled="false"
-        android:icon="@drawable/ic_menu_video"
+        android:icon="@drawable/ic_video"
         android:shortcutShortLabel="@string/video"
         android:shortcutLongLabel="@string/video"
         tools:targetApi="n_mr1">

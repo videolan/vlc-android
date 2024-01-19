@@ -34,6 +34,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
@@ -65,7 +66,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
 
     if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST || item.itemType == MediaLibraryItem.TYPE_GENRE) {
         if (imageWidth != 0) {
-            loadPlaylistImageWithWidth(v as ImageView, item, imageWidth)
+            loadPlaylistImageWithWidth(v as ImageView, item, imageWidth, card)
         }
         return
     }
@@ -91,11 +92,11 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
     }
 }
 
-fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth: Int) {
+fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth: Int, card: Boolean) {
     if (imageWidth == 0) return
     if (item == null) return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    v.scope.takeIf { it.isActive }?.launch { getPlaylistOrGenreImage(v, item, binding, imageWidth) }
+    v.scope.takeIf { it.isActive }?.launch { getPlaylistOrGenreImage(v, item, binding, imageWidth, card) }
 }
 
 fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): BitmapDrawable? = context?.let {
@@ -103,6 +104,7 @@ fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): Bi
         MediaLibraryItem.TYPE_ALBUM -> if (big) UiTools.getDefaultAlbumDrawableBig(it) else UiTools.getDefaultAlbumDrawable(it)
         MediaLibraryItem.TYPE_ARTIST -> if (big) UiTools.getDefaultArtistDrawableBig(it) else UiTools.getDefaultArtistDrawable(it)
         MediaLibraryItem.TYPE_MEDIA -> if (big) UiTools.getDefaultAudioDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
+        MediaLibraryItem.TYPE_PLAYLIST -> if (big) UiTools.getDefaultPlaylistDrawableBig(it) else UiTools.getDefaultPlaylistDrawable(it)
         else -> null
     }
 }
@@ -260,7 +262,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
-private suspend fun getPlaylistOrGenreImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int) {
+private suspend fun getPlaylistOrGenreImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int, card: Boolean) {
     var bindChanged = false
     val rebindCallbacks = if (binding !== null) object : OnRebindCallback<ViewDataBinding>() {
         override fun onPreBind(binding: ViewDataBinding): Boolean {
@@ -277,7 +279,12 @@ private suspend fun getPlaylistOrGenreImage(v: View, item: MediaLibraryItem, bin
         val tracks = withContext(Dispatchers.IO) { item.tracks.toList() }
         ThumbnailsProvider.getPlaylistOrGenreImage("${if (item is MediaWrapper && item.type == MediaWrapper.TYPE_PLAYLIST)"playlist" else "genre"}:${item.id}_$width", tracks, width)
     } else null
-    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(AppContextProvider.appContext).bitmap
+    val defaultDrawable = if (item is Playlist || (item is MediaWrapper && item.type == MediaWrapper.TYPE_PLAYLIST))
+        if (card) UiTools.getDefaultPlaylistDrawableBig(AppContextProvider.appContext).bitmap else UiTools.getDefaultPlaylistDrawable(AppContextProvider.appContext).bitmap
+    else
+        if (card) UiTools.getDefaultGenreDrawableBig(AppContextProvider.appContext).bitmap else UiTools.getDefaultGenreDrawable(AppContextProvider.appContext).bitmap
+
+    if (!bindChanged && playlistImage == null) playlistImage = defaultDrawable
     if (!bindChanged && playlistImage == null) binding?.setVariable(BR.showProgress, false)
     if (!bindChanged) updateImageView(playlistImage, v, binding)
 

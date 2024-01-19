@@ -94,7 +94,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_no_song_vertical" />
+                        app:srcCompat="@drawable/ic_song_vertical" />
 
                 <ImageView
                         android:id="@+id/icon"

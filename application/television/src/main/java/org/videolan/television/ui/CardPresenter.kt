@@ -91,7 +91,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             when {
                 item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> {
                     cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                    loadPlaylistImageWithWidth(cardView.mainImageView, item, imageDefaultWidth.toInt())
+                    loadPlaylistImageWithWidth(cardView.mainImageView, item, imageDefaultWidth.toInt(), true)
                 }
                 noArt -> {
                     cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
@@ -106,7 +106,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             val res = cardView.resources
             picture = if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (mediaLibraryItem as MediaWrapper).type == MediaWrapper.TYPE_DIR) {
                 if (mediaLibraryItem.uri.scheme == "file")
-                    context.getBitmapFromDrawable(R.drawable.ic_menu_folder_big)
+                    context.getBitmapFromDrawable(R.drawable.ic_folder_big)
                 else
                     context.getBitmapFromDrawable(R.drawable.ic_menu_network_big)
             } else

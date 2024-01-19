@@ -730,7 +730,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         }
         // Get a media artwork
         get("/artwork") {
-            if (call.request.queryParameters["type"] in arrayOf("folder", "network")) {
+            var type = call.request.queryParameters["type"]
+            if (type in arrayOf("folder", "network", "folder_big", "network_big")) {
                 call.request.queryParameters["artwork"]?.let { artworkUrl ->
                     if (artworkUrl.startsWith("http")) {
                         val bmp = HttpImageLoader.downloadBitmap(artworkUrl)
@@ -742,18 +743,18 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         }
                     }
                 }
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_menu_folder, 256, 256), true)?.let {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
             }
-            if (call.request.queryParameters["type"] == "new-stream") {
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_remote_stream_add, 256, 256), true)?.let {
+            if (type == "new-stream" || type == "new-stream_big") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type?.endsWith("_big") == true) R.drawable.ic_remote_stream_add_big else R.drawable.ic_remote_stream_add, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
             }
-            if (call.request.queryParameters["type"] == "file") {
+            if (type == "file") {
                 BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_browser_unknown_normal, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
@@ -761,10 +762,16 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             try {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: RemoteAccessServer.getInstance(appContext).service?.coverArt
+
+                var bigVariant = "0"
+                if (type?.endsWith("_big") == true) {
+                    type = type.substring(0, type.length -4)
+                    bigVariant = "1"
+                }
                 //check by id and use the ArtworkProvider if provided
                 call.request.queryParameters["id"]?.let {
                     val cr = appContext.contentResolver
-                    val mediaType = when (call.request.queryParameters["type"]) {
+                    val mediaType = when (type) {
                         "video" -> ArtworkProvider.VIDEO
                         "album" -> ArtworkProvider.ALBUM
                         "artist" -> ArtworkProvider.ARTIST
@@ -772,7 +779,14 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         "playlist" -> ArtworkProvider.PLAYLIST
                         else -> ArtworkProvider.MEDIA
                     }
-                    cr.openInputStream(Uri.parse("content://${appContext.applicationContext.packageName}.artwork/$mediaType/1/$it"))?.let { inputStream ->
+                   val uri = ArtworkProvider.buildUri(appContext, Uri.Builder()
+                            .appendPath(mediaType)
+                            .appendPath("1")
+                            .appendPath(it)
+                           .appendQueryParameter(ArtworkProvider.BIG_VARIANT, bigVariant)
+                           .appendQueryParameter(ArtworkProvider.REMOTE_ACCESS, "1")
+                            .build())
+                    cr.openInputStream(uri)?.let { inputStream ->
                         call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
                         inputStream.close()
                         return@get

@@ -7,7 +7,7 @@
                 <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="24" />
             </div>
             <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
-        <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played)"/>
+        <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played && mediaType == 'video')"/>
 
         <div class="card-progress-container" v-show="(media.progress > 0)">
             <div class="card-progress full"></div>

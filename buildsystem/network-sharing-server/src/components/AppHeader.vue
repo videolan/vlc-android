@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-center">
       <RouterLink :to="{ name: 'VideoList' }">
         <button class="btn btn-lg nav-button medium">
-          <img v-bind:src="$getAppAsset('ic_menu_video')">
+          <img v-bind:src="$getAppAsset('ic_video')">
           <p v-t="'VIDEO'"></p>
         </button>
       </RouterLink>
@@ -18,13 +18,13 @@
       </RouterLink>
       <RouterLink :to="{ name: 'BrowseList' }">
         <button class="btn btn-lg nav-button medium">
-          <img v-bind:src="$getAppAsset('ic_menu_folder')">
+          <img v-bind:src="$getAppAsset('ic_folder')">
           <p v-t="'BROWSE'"></p>
         </button>
       </RouterLink>
       <RouterLink :to="{ name: 'PlaylistList' }">
         <button class="btn btn-lg nav-button medium">
-          <img v-bind:src="$getAppAsset('ic_menu_playlist')">
+          <img v-bind:src="$getAppAsset('ic_playlist')">
           <p v-t="'PLAYLISTS'"></p>
         </button>
       </RouterLink>

@@ -134,7 +134,7 @@
                     android:layout_height="0dp"
                     android:gravity="center"
                     android:text="@{protocol}"
-                    android:textColor="@color/whitetransparent"
+                    android:textColor="@color/grey700"
                     android:textSize="11sp"
                     android:visibility="@{ TextUtils.isEmpty(protocol) ? View.GONE : View.VISIBLE, default=gone}"
                     app:layout_constraintBottom_toBottomOf="@+id/item_icon"

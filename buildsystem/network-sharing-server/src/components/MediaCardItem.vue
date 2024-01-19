@@ -1,11 +1,11 @@
 <template>
     <div v-on:click="manageClick" class="ratio clickable" v-bind:class="(mainImgClasses())">
-        <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-top">
+        <img v-lazy="$getImageUrl(media, this.mediaType+'_big')" class="media-img-top">
         <div class="media-overlay" v-show="!isBrowse()">
             <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="48" />
         </div>
         <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
-        <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played)"/>
+        <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played && mediaType == 'video')"/>
 
         <div class="card-progress-container" v-show="(media.progress > 0)">
             <div class="card-progress full"></div>
@@ -48,7 +48,7 @@ export default {
     methods: {
         mainImgClasses() {
             if (this.mediaType == 'video') return 'ratio-16x9 video audio-img-container'
-            if (this.isBrowse() || this.mediaType == "file") return 'ratio-1x1'
+            if (this.isBrowse() || this.mediaType == "file") return 'ratio-1x1 audio-img-container'
             return 'ratio-1x1 audio-img-container'
         },
         getProgressStyle() {
