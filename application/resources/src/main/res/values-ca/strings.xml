@@ -158,7 +158,6 @@
     <string name="shuffle_on">Engega aleatori</string>
     <string name="shuffle_play">Aleatori</string>
     <string name="repeat_title">Mode repetició</string>
-    <string name="repeat_none">No repetició</string>
     <string name="repeat_single">Repeteix-ne una</string>
     <string name="repeat_all">Repeteix-ho tot</string>
     <string name="previous">Previ</string>
@@ -1009,7 +1008,6 @@
     <string name="delete_forever">Suprimir per sempre</string>
     <string name="add_to_existing_playlist">Afegeix a la llista de reproducció existent</string>
     <string name="bookmarks_title">Preferits</string>
-    <string name="no_bookmark">Encara no hi ha cap preferit</string>
     <string name="bookmark_default_name">Preferit a %s</string>
     <string name="bookmark_name">Preferit %s</string>
     <string name="add_bookmark">Afegir preferit</string>

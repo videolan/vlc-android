@@ -170,7 +170,6 @@
     <string name="shuffle_on">Dre zegouezh enaouet</string>
     <string name="shuffle_play">Dre zegouezh</string>
     <string name="repeat_title">Mod adlenn</string>
-    <string name="repeat_none">Adlenn ebet</string>
     <string name="repeat_single">Adlenn unan</string>
     <string name="repeat_all">Adlenn an holl</string>
     <string name="previous">Kent</string>
@@ -778,7 +777,6 @@
     <string name="stop_unpaubale">N\'hall ket bezañ ehanet ar media-mañ. Paouez anezhañ e-plas?</string>
     <string name="delete_forever">Dilemel da virviken</string>
     <string name="bookmarks_title">Sinedoù</string>
-    <string name="no_bookmark">Sined ebet evit poent</string>
     <string name="bookmark_name">Sined %s</string>
     <string name="optional_features">Arc\'hweladurioù ouzhpenn</string>
     <string name="start_vlc">Loc\'hañ VLC</string>

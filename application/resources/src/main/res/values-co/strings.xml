@@ -156,7 +156,6 @@
     <string name="shuffle_on">Lettura aleatoria attivata</string>
     <string name="shuffle_play">Aleatoriu</string>
     <string name="repeat_title">Modu di ripetizione</string>
-    <string name="repeat_none">Senza ripetizione </string>
     <string name="repeat_single">Ripete u pezzu</string>
     <string name="repeat_all">Ripete tutti</string>
     <string name="previous">Precedente</string>
@@ -1007,7 +1006,6 @@
     <string name="delete_forever">Squassà ab eternu</string>
     <string name="add_to_existing_playlist">Aghjunghje à a lista di lettura esistente</string>
     <string name="bookmarks_title">Indette</string>
-    <string name="no_bookmark">Alcuna indetta fin’avà</string>
     <string name="bookmark_default_name">Indettà à %s</string>
     <string name="bookmark_name">Indettà %s</string>
     <string name="add_bookmark">Aghjunghje un’indetta</string>

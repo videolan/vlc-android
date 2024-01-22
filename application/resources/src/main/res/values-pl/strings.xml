@@ -160,7 +160,6 @@
     <string name="shuffle_on">Losowo włączone</string>
     <string name="shuffle_play">Losowo</string>
     <string name="repeat_title">Tryb powtórz</string>
-    <string name="repeat_none">Nie powtarzaj żadnych</string>
     <string name="repeat_single">Powtórz pojedynczy</string>
     <string name="repeat_all">Powtórz wszystkie</string>
     <string name="previous">Poprzedni</string>
@@ -833,7 +832,6 @@
     <string name="delete_forever">Usuń na zawsze</string>
     <string name="add_to_existing_playlist">Dodaj do istniejącej listy odtwarzania</string>
     <string name="bookmarks_title">Zak‎ładki</string>
-    <string name="no_bookmark">Brak zakładek</string>
     <string name="bookmark_name">Zakładka %s</string>
     <string name="add_bookmark">Dodaj zakładkę</string>
     <string name="bookmark_added">Dodano zakładkę</string>

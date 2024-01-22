@@ -156,7 +156,6 @@
     <string name="shuffle_on">Willekeurige volgorde aan</string>
     <string name="shuffle_play">Willekeurige volgorde</string>
     <string name="repeat_title">Modus herhalen</string>
-    <string name="repeat_none">Niet herhalen</string>
     <string name="repeat_single">Een herhalen</string>
     <string name="repeat_all">Alles herhalen</string>
     <string name="previous">Vorige</string>
@@ -953,7 +952,6 @@
     <string name="delete_forever">Voor altijd verwijderen</string>
     <string name="add_to_existing_playlist">Aan bestaande afspeellijst toevoegen</string>
     <string name="bookmarks_title">Bladwijzers</string>
-    <string name="no_bookmark">Nog geen bladwijzers</string>
     <string name="bookmark_default_name">Bladwijzer op %s</string>
     <string name="bookmark_name">Bladwijzer %s</string>
     <string name="add_bookmark">Bladwijzer toevoegen</string>

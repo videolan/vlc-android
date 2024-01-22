@@ -167,7 +167,7 @@
     <string name="shuffle_on">Amestecare pornit</string>
     <string name="shuffle_play">Amestecă</string>
     <string name="repeat_title">Modul de repetare</string>
-    <string name="repeat_none">Fara repetare</string>
+    <string name="repeat_none">Nu repeta nimic</string>
     <string name="repeat_single">Repetare unica</string>
     <string name="repeat_all">Repetare toate</string>
     <string name="previous">Precedenta</string>
@@ -1021,7 +1021,7 @@
     <string name="delete_forever">Stergeti permanent</string>
     <string name="add_to_existing_playlist">Adaugati la un playlist existent</string>
     <string name="bookmarks_title">Semne de carte</string>
-    <string name="no_bookmark">Niciun semn de carte deocamdată</string>
+    <string name="no_bookmark">Niciun marcaj setat</string>
     <string name="bookmark_default_name">Marcați la %s</string>
     <string name="bookmark_name">Semnul de carte %s</string>
     <string name="add_bookmark">Adăugați un marcaj</string>

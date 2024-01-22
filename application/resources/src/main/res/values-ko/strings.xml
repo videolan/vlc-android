@@ -143,7 +143,6 @@
     <string name="shuffle_on">순서섞기 켜기</string>
     <string name="shuffle_play">순서섞기</string>
     <string name="repeat_title">반복 모드</string>
-    <string name="repeat_none">반복 없음</string>
     <string name="repeat_single">한 곡 반복</string>
     <string name="repeat_all">전체 반복</string>
     <string name="previous">이전</string>
@@ -945,7 +944,6 @@
     <string name="delete_forever">영구 삭제하기</string>
     <string name="add_to_existing_playlist">기존 재생목록에 추가하기</string>
     <string name="bookmarks_title">바로찾기</string>
-    <string name="no_bookmark">아직 바로찾기가 없습니다</string>
     <string name="bookmark_default_name">%s에서 바로찾기</string>
     <string name="bookmark_name">바로찾기 %s</string>
     <string name="add_bookmark">바로찾기 추가하기</string>

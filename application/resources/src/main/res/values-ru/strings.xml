@@ -148,7 +148,6 @@
     <string name="shuffle_on">Перемешивание вкл.</string>
     <string name="shuffle_play">Случайный порядок</string>
     <string name="repeat_title">Режим повтора</string>
-    <string name="repeat_none">Не повторять</string>
     <string name="repeat_single">Повторять текущее</string>
     <string name="repeat_all">Повторять всё</string>
     <string name="previous">Предыдущий</string>
@@ -877,7 +876,6 @@
     <string name="delete_forever">Удалить навсегда</string>
     <string name="add_to_existing_playlist">Добавить в существующий плейлист</string>
     <string name="bookmarks_title">Избранное</string>
-    <string name="no_bookmark">В избранном пока пусто</string>
     <string name="bookmark_default_name">Закладка в %s</string>
     <string name="bookmark_name">Избранное %s</string>
     <string name="add_bookmark">Добавить закладку</string>

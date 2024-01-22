@@ -140,7 +140,6 @@
     <string name="shuffle_on">ഷഫിൾ ഓൺ</string>
     <string name="shuffle_play">കലർത്തുക</string>
     <string name="repeat_title">ആവര്‍ത്തിതമായ രീതി</string>
-    <string name="repeat_none">ആവര്‍ത്തിക്കാതിരിക്കുക</string>
     <string name="repeat_single">ഒന്നു മാത്രം ആവര്‍ത്തിക്കുക</string>
     <string name="repeat_all">എല്ലാം ആവര്‍ത്തിക്കുക</string>
     <string name="previous">മുന്‍പുള്ളത്</string>
@@ -882,7 +881,6 @@
     <string name="delete_forever">എന്നെന്നേക്കുമായി മായ്ക്കുക</string>
     <string name="add_to_existing_playlist">നിലവിലുള്ള പ്ലേലിസ്റ്റിലേക്ക് ചേർക്കുക</string>
     <string name="bookmarks_title">അടയാളപ്പെടുത്തലുകൾ </string>
-    <string name="no_bookmark">ഇതു വരെ അടയാളപ്പെടുത്തലുകൾ ഒന്നുമില്ല </string>
     <string name="bookmark_default_name">%s ൽ  പുസ്തക അടയാളം</string>
     <string name="bookmark_name"> അടയാളപ്പെടുത്തലുകൾ %s</string>
     <string name="add_bookmark">പുസ്തക അടയാളം ചേർക്കുക</string>

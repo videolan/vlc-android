@@ -144,7 +144,6 @@
     <string name="shuffle_on">არევა ჩართულია</string>
     <string name="shuffle_play">არეულად</string>
     <string name="repeat_title">გამეორების რეჟიმი</string>
-    <string name="repeat_none">გამეორების გარეშე</string>
     <string name="repeat_single">ერთის გამეორება</string>
     <string name="repeat_all">ყველას გამეორება</string>
     <string name="previous">წინა</string>
@@ -926,7 +925,6 @@
     <string name="delete_forever">სამუდამოდ წაშლა</string>
     <string name="add_to_existing_playlist">არსებულ დასაკრავ სიაში დამატება</string>
     <string name="bookmarks_title">სანიშნები</string>
-    <string name="no_bookmark">სანიშნები არაა</string>
     <string name="bookmark_default_name">სანიშნი %s</string>
     <string name="bookmark_name">სანიშნი %s</string>
     <string name="add_bookmark">სანიშნის დამატება</string>

@@ -147,7 +147,6 @@
     <string name="shuffle">Aleatorio Apagado</string>
     <string name="shuffle_on">Aleatorio Encendido</string>
     <string name="repeat_title">Modo repetir</string>
-    <string name="repeat_none">No repetir</string>
     <string name="repeat_single">Repetir archivo actual</string>
     <string name="repeat_all">Repetir todo</string>
     <string name="previous">Anterior</string>

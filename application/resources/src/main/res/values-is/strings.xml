@@ -155,7 +155,6 @@
     <string name="shuffle_on">Stokkun á</string>
     <string name="shuffle_play">Stokka</string>
     <string name="repeat_title">Endurtekningarhamur</string>
-    <string name="repeat_none">Endurtaka ekkert</string>
     <string name="repeat_single">Endurtaka eitt</string>
     <string name="repeat_all">Endurtaka allt</string>
     <string name="previous">Fyrra</string>
@@ -900,7 +899,6 @@
     <string name="delete_forever">Eyða endanlega</string>
     <string name="add_to_existing_playlist">Bæta á fyrirliggjandi spilunarlista</string>
     <string name="bookmarks_title">Bókamerki</string>
-    <string name="no_bookmark">Ekkert bókamerki ennþá</string>
     <string name="bookmark_default_name">Bókamerki á %s</string>
     <string name="bookmark_name">Bókamerki %s</string>
     <string name="add_bookmark">Bæta við bókamerki</string>

@@ -1033,7 +1033,7 @@
     <string name="delete_forever">למחוק לצמיתות</string>
     <string name="add_to_existing_playlist">הוספה לרשימת נגינה קיימת</string>
     <string name="bookmarks_title">סימניות</string>
-    <string name="no_bookmark">אין סימניות עדיין</string>
+    <string name="no_bookmark">לא הוגדרו סימניות</string>
     <string name="bookmark_default_name">סימון במיקום %s</string>
     <string name="bookmark_name">לסמן את %s</string>
     <string name="add_bookmark">הוספת סימניה</string>

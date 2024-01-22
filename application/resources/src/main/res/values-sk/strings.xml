@@ -176,7 +176,7 @@
     <string name="shuffle_on">Zapnúť náhodné prehrávanie</string>
     <string name="shuffle_play">Náhodne</string>
     <string name="repeat_title">Režim opakovania</string>
-    <string name="repeat_none">Žiadne opakovanie</string>
+    <string name="repeat_none">Neopakovať nič</string>
     <string name="repeat_single">Opakovať jednotlivé</string>
     <string name="repeat_all">Zopakovať všetko</string>
     <string name="previous">Dozadu</string>
@@ -1033,7 +1033,7 @@
     <string name="delete_forever">Vymazať natrvalo</string>
     <string name="add_to_existing_playlist">Pridať do existujúceho playlistu</string>
     <string name="bookmarks_title">Záložky</string>
-    <string name="no_bookmark">Zatiaľ žiadna záložka</string>
+    <string name="no_bookmark">Nie je nastavená žiadna záložka</string>
     <string name="bookmark_default_name">Záložka na %s</string>
     <string name="bookmark_name">Záložka %s</string>
     <string name="add_bookmark">Pridať záložku</string>

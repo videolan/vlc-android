@@ -37,6 +37,8 @@
     <string name="sortby_date_desc">Tarikh terbaharu dahulu</string>
     <string name="sortby_last_modified_date_asc">Tambahan terlama dahulu</string>
     <string name="sortby_last_modified_date_desc">Tambahan terbaharu dahulu</string>
+    <string name="sortby_number_asc">Lagi video dalam kumpulan dahulu</string>
+    <string name="sortby_number_desc">Kurang video dalam kumpulan dahulu</string>
     <string name="sortby_date_insertion_asc">Tarikh sisipan terlama dahulu</string>
     <string name="sortby_date_insertion_desc">Tarikh sisipan terbaharu dahulu</string>
     <string name="sortby_date_last_modified_asc">Tarikh pengubahsuaian terlama dahulu</string>
@@ -147,7 +149,6 @@
     <string name="shuffle_on">Kocok Hidup</string>
     <string name="shuffle_play">Kocok</string>
     <string name="repeat_title">Mod ulang</string>
-    <string name="repeat_none">Jangan ulang</string>
     <string name="repeat_single">Ulang sekali</string>
     <string name="repeat_all">Ulang semua</string>
     <string name="previous">Terdahulu</string>
@@ -285,6 +286,10 @@
 
     <!-- Preferences -->
     <string name="preferences">Tetapan</string>
+    <string name="more_preferences">Lagi tetapan</string>
+    <string name="prefs_opened_on_phone">Tetapan dibuka melalui telefon</string>
+    <string name="open_on_phone">Buka dalam skrin telefon</string>
+
     <string name="directories_summary">Pilih direktori untuk dimasukkan ke dalam pustaka media</string>
     <string name="add_custom_path">Tambah satu laluan suai</string>
     <string name="add_custom_path_description">Masukkan direktori suai tambahan untuk diimbas</string>
@@ -356,6 +361,7 @@
     <string name="enable_double_tap_play_title">Ketik dua kali untuk main/jeda</string>
     <string name="enable_double_tap_play_summary">Ketik dua kali di tengah skrin untuk main atau jeda</string>
     <string name="enable_swipe_seek_title">Seret untuk jangkau</string>
+    <string name="enable_swipe_seek_summary">Leret jari anda merentasi skrin untuk menjangkau</string>
     <string name="enable_scale_gesture_title">Zum dua jari</string>
     <string name="enable_scale_gesture_summary">Zum masuk dan keluar dengan dua jari</string>
     <string name="popup_keepscreen_title">Kekalkan skrin HIDUP dalam mod Timbul</string>
@@ -990,7 +996,6 @@
     <string name="delete_forever">Padam selamanya</string>
     <string name="add_to_existing_playlist">Tambah ke senarai main sedia ada</string>
     <string name="bookmarks_title">Tanda buku</string>
-    <string name="no_bookmark">Tiada tanda buku lagi</string>
     <string name="bookmark_default_name">Tanda buku di %s</string>
     <string name="bookmark_name">Tanda buku %s</string>
     <string name="add_bookmark">Tambah tanda buku</string>
@@ -1171,4 +1176,38 @@
     <string name="ra_new_code">Hantar satu kod baharu</string>
     <string name="home">Rumah</string>
     <string name="ra_code">Masukkan kod ini: %s</string>
-    </resources>
+    <string name="ra_send_logs">Simpan log capaian jauh dalam peranti</string>
+    <string name="ra_otp">Kata laluan sekali capaian jauh</string>
+    <string name="ra_otp_description">Pinta capaian untuk capaian jauh</string>
+    <string name="ra_otp_title">Percubaan daftar masuk capaian jauh</string>
+    <string name="ra_otp_subtitle">Jika memang anda, masukkan kod ini dalam peranti lain</string>
+    <string name="ra_otp_not_me">Bukan saya</string>
+
+    <string name="ra_onboarding_welcome_desc">Selamat datang ke capaian jauh VLC untuk Android\nDengan mendayakannya, anda akan berupaya mengawal main balik peranti ini dan banyak lagi kelebihan lain</string>
+    <string name="ra_onboarding_how_title">Kawal peranti anda</string>
+    <string name="ra_onboarding_how_desc">Kawal main balik peranti anda, hantar atau terima fail dan banyak lagi</string>
+    <string name="ra_onboarding_ssl_title">Penyulitan data</string>
+    <string name="ra_onboarding_ssl_desc">Capaian jauh disulitkan untuk menghindari kebocoran data anda</string>
+    <string name="ra_onboarding_otp_title">Pengesahihan</string>
+    <string name="ra_onboarding_otp_desc">Dengan pengesahihan kata laluan sekali, dapat menghindari capaian ke atas data anda yang tidak diingini</string>
+    <string name="ra_onboarding_content_title">Capaian kandungan</string>
+    <string name="ra_onboarding_content_desc">Pilih apa yang hendak dicapai dan yang tidak boleh dicapai</string>
+    <string name="ra_onboarding_content_ml">Capaian kandungan pustaka media</string>
+    <string name="ra_onboarding_content_files">Pelayar fail</string>
+    <string name="ra_onboarding_content_playback">Kawalan main balik</string>
+    <string name="ra_disable">Dilumpuhkan</string>
+    <string name="ra_log_web">Log capaian jauh</string>
+    <string name="ra_log_crash">Log kerosakan</string>
+    <string name="ra_log_mobile">Log peranti</string>
+    <string name="ra_log_current">Log setempat semasa</string>
+    <string name="ra_invalid_login">Anda perlu mendaftar masuk peranti anda</string>
+    <string name="ra_invalid_otp">Kod tidak sah diberi</string>
+    <string name="learn_more">Ketahui lagi</string>
+
+    <!-- car screens -->
+    <string name="help">Bantuan</string>
+    <string name="podcast_mode">Mod podcast</string>
+    <string name="podcast_mode_help">Kawalan podcast muncul ketika trek tunggal dimainkan dengan memenuhi kriteria berikut:\n\t• Jangka masa lebih daripada 60 min\n\t• Jangka masa lebih daripada 15 min tanpa nama album\n\t• Genre ialah %s</string>
+    <string name="voice_control">Kawalan suara</string>
+    <string name="voice_control_help">VLC boleh dikawal menerusi Pembantu Google dengan menyebut perintah berikut:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+</resources>

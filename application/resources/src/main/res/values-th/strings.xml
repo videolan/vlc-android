@@ -108,7 +108,6 @@
     <string name="shuffle">โหมดสุ่มเล่นปิด</string>
     <string name="shuffle_on">โหมดสุ่มเล่นเปิด</string>
     <string name="repeat_title">โหมดเล่นซ้ำ</string>
-    <string name="repeat_none">ไม่ต้องเล่นซ้ำ</string>
     <string name="repeat_single">เล่นซ้ำรายการเดียว</string>
     <string name="repeat_all">เล่นซ้ำทั้งหมด</string>
     <string name="previous">ก่อนหน้า</string>

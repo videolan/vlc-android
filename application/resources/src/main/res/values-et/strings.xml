@@ -143,7 +143,6 @@
     <string name="shuffle_on">Juhuesitus sees</string>
     <string name="shuffle_play">Juhuesitus</string>
     <string name="repeat_title">Kordamise režiim</string>
-    <string name="repeat_none">Ära korda</string>
     <string name="repeat_single">Korda ühte</string>
     <string name="repeat_all">Korda kõiki</string>
     <string name="previous">Eelmine</string>
@@ -783,7 +782,6 @@ Kas sa lubad seda?</string>
     <string name="delete_forever">Kustuta lõplikult</string>
     <string name="add_to_existing_playlist">Lisa olemasolevasse esitusloendisse</string>
     <string name="bookmarks_title">Järjehoidjad</string>
-    <string name="no_bookmark">Järjehoidjaid pole</string>
     <string name="bookmark_name">Lisa %s järjehoidjaks</string>
     <string name="add_bookmark">Lisa järjehoidja</string>
     <string name="bookmark_added">Järjehoidja lisatud</string>

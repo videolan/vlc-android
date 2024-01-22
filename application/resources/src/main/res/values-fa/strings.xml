@@ -144,7 +144,6 @@
     <string name="shuffle_on">پخش تصادفی روشن</string>
     <string name="shuffle_play">تصادفی</string>
     <string name="repeat_title">حالت تکرار</string>
-    <string name="repeat_none">تکرار نشود</string>
     <string name="repeat_single">تکرار تکی</string>
     <string name="repeat_all">تکرار همه</string>
     <string name="previous">قبلی</string>
@@ -857,7 +856,6 @@
     <string name="delete_forever">حذف برای همیشه</string>
     <string name="add_to_existing_playlist">افزودن به فهرست پخش موجود</string>
     <string name="bookmarks_title">نشانک‌ها</string>
-    <string name="no_bookmark">هنوز نشانک‌ای نیست</string>
     <string name="bookmark_name">%s نشانک</string>
     <string name="show">نمایش</string>
     <string name="optional_features">امکانات اختیاری</string>

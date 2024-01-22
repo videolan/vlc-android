@@ -147,7 +147,6 @@
     <string name="shuffle_on">Nyalakan Acak</string>
     <string name="shuffle_play">Acak</string>
     <string name="repeat_title">Mode perulangan</string>
-    <string name="repeat_none">Tidak ulangi</string>
     <string name="repeat_single">Ulangi satu</string>
     <string name="repeat_all">Ulangi semua</string>
     <string name="previous">Sebelumnya</string>
@@ -953,7 +952,6 @@
     <string name="delete_forever">Hapus selamanya</string>
     <string name="add_to_existing_playlist">Tambahkan ke daftar putar yang telah ada</string>
     <string name="bookmarks_title">Bookmark</string>
-    <string name="no_bookmark">Belum ada bookmark</string>
     <string name="bookmark_default_name">Bookmark di %s</string>
     <string name="bookmark_name">Bookmark %s</string>
     <string name="add_bookmark">Tambah bookmark</string>

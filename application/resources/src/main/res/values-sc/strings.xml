@@ -156,7 +156,6 @@
     <string name="shuffle_on">Ammestura</string>
     <string name="shuffle_play">Ammistura</string>
     <string name="repeat_title">Modalidade de ripetitzione</string>
-    <string name="repeat_none">Peruna ripetitzione</string>
     <string name="repeat_single">Ripetitzione sìngula</string>
     <string name="repeat_all">Repite totu</string>
     <string name="previous">Antepostu</string>
@@ -939,6 +938,11 @@
     <string name="browser_show_missing_media_summary">Ammustra sos mèdios indedda fintzas si non sunt presentes</string>
     <string name="safe_mode">Modalidade segura</string>
     <string name="safe_mode_pin">Inserta su PIN tuo</string>
+    <string name="safe_mode_new_pin">Inserta su PIN nou tuo</string>
+    <string name="safe_mode_re_pin">Torra a insertare su PIN nou tuo</string>
+    <string name="safe_mode_no_match">Sos PIN non currispondent</string>
+    <string name="safe_mode_invalid_pin">PIN isballiadu</string>
+    <string name="safe_mode_pin_error">Su còdighe pin tuo diat dèpere cuntènnere petzi tzifras</string>
     <string name="unlock">Isbloca</string>
     <string name="search_prefs">Paràmetros de chirca</string>
     <string name="video_match_frame_rate_title">Faghe currispòndere sa frecuèntzia de fotogrammas de s\'ischermu</string>
@@ -951,7 +955,6 @@
     <string name="delete_forever">Iscantzella pro semper</string>
     <string name="add_to_existing_playlist">Annanghe a un\'iscalita chi esistit giai</string>
     <string name="bookmarks_title">Sinnalibros</string>
-    <string name="no_bookmark">Galu perunu sinnalibru</string>
     <string name="bookmark_default_name">Sinnalibru in %s</string>
     <string name="bookmark_name">Sinnalibru %s</string>
     <string name="add_bookmark">Annanghe unu sinnalibru</string>

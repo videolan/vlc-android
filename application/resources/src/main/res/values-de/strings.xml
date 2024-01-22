@@ -1009,7 +1009,7 @@
     <string name="delete_forever">Für immer löschen</string>
     <string name="add_to_existing_playlist">Zur vorhandenen Wiedergabeliste hinzufügen</string>
     <string name="bookmarks_title">Lesezeichen</string>
-    <string name="no_bookmark">Bisher kein Lesezeichen vorhanden</string>
+    <string name="no_bookmark">Kein Lesezeichen festgelegt</string>
     <string name="bookmark_default_name">Lesezeichen bei %s</string>
     <string name="bookmark_name">%s - Lesezeichen</string>
     <string name="add_bookmark">Lesezeichen hinzufügen</string>

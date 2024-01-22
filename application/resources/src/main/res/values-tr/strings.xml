@@ -156,7 +156,6 @@
     <string name="shuffle_on">Karıştırma açık</string>
     <string name="shuffle_play">Karışık</string>
     <string name="repeat_title">Yineleme kipi</string>
-    <string name="repeat_none">Yineleme yok</string>
     <string name="repeat_single">Parça yinelensin</string>
     <string name="repeat_all">Tümü yinelensin</string>
     <string name="previous">Önceki</string>
@@ -1007,7 +1006,6 @@
     <string name="delete_forever">Kalıcı olarak sil</string>
     <string name="add_to_existing_playlist">Var olan listeye ekle</string>
     <string name="bookmarks_title">Yer imleri</string>
-    <string name="no_bookmark">Henüz bir yer imi yok</string>
     <string name="bookmark_default_name">%s konumundaki yer imi</string>
     <string name="bookmark_name">%s yer imi</string>
     <string name="add_bookmark">Yer imi ekle</string>

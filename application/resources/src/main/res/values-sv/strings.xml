@@ -158,7 +158,7 @@
     <string name="shuffle_on">Blanda på</string>
     <string name="shuffle_play">Blanda</string>
     <string name="repeat_title">Upprepningsläge</string>
-    <string name="repeat_none">Upprepa ingen</string>
+    <string name="repeat_none">Upprepa ingenting</string>
     <string name="repeat_single">Upprepa en</string>
     <string name="repeat_all">Upprepa alla</string>
     <string name="previous">Föregående</string>
@@ -1009,7 +1009,7 @@
     <string name="delete_forever">Radera för alltid</string>
     <string name="add_to_existing_playlist">Lägg till i befintlig spellista</string>
     <string name="bookmarks_title">Bokmärken</string>
-    <string name="no_bookmark">Inga bokmärken ännu</string>
+    <string name="no_bookmark">Inga bokmärken</string>
     <string name="bookmark_default_name">Bokmärke vid %s</string>
     <string name="bookmark_name">Bokmärke %s</string>
     <string name="add_bookmark">Lägg till bokmärke</string>

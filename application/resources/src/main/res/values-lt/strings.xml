@@ -162,7 +162,6 @@
     <string name="shuffle_on">Maišyti</string>
     <string name="shuffle_play">Maišyti</string>
     <string name="repeat_title">Kartojimo veiksena</string>
-    <string name="repeat_none">Nekartoti</string>
     <string name="repeat_single">Kartoti vieną</string>
     <string name="repeat_all">Viską kartoti</string>
     <string name="previous">Ankstesnis</string>
@@ -950,7 +949,6 @@
     <string name="delete_forever">Pašalinti visam laikui</string>
     <string name="add_to_existing_playlist">Įtraukti į esamą grojaraštį</string>
     <string name="bookmarks_title">Žymelės</string>
-    <string name="no_bookmark">Žymelių nėra</string>
     <string name="bookmark_default_name">Žymelė ties %s</string>
     <string name="bookmark_name">Žymelė „%s“</string>
     <string name="add_bookmark">Pridėti žymelę</string>

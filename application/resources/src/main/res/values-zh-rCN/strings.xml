@@ -135,7 +135,6 @@
     <string name="shuffle_on">随机开启</string>
     <string name="shuffle_play">随机</string>
     <string name="repeat_title">循环模式</string>
-    <string name="repeat_none">循环关闭</string>
     <string name="repeat_single">单曲循环</string>
     <string name="repeat_all">全部循环</string>
     <string name="previous">上一项</string>
@@ -914,7 +913,6 @@
     <string name="delete_forever">永久删除</string>
     <string name="add_to_existing_playlist">添加到现有播放列表</string>
     <string name="bookmarks_title">书签</string>
-    <string name="no_bookmark">尚无书签</string>
     <string name="bookmark_default_name">位于 %s 的书签</string>
     <string name="bookmark_name">添加 %s 为书签</string>
     <string name="add_bookmark">添加书签</string>

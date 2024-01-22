@@ -144,7 +144,6 @@
     <string name="shuffle_on">Bland til</string>
     <string name="shuffle_play">Bland</string>
     <string name="repeat_title">Gentagelsestilstand</string>
-    <string name="repeat_none">Gentag ingen</string>
     <string name="repeat_single">Gentag én</string>
     <string name="repeat_all">Gentag alle</string>
     <string name="previous">Forrige</string>
@@ -924,7 +923,6 @@
     <string name="delete_forever">Slet for altid</string>
     <string name="add_to_existing_playlist">Tilføj til eksisterende spilleliste</string>
     <string name="bookmarks_title">Bogmærker</string>
-    <string name="no_bookmark">Endnu intet bogmærke</string>
     <string name="bookmark_default_name">Bogmærke ved %s</string>
     <string name="bookmark_name">Bogmærk %s</string>
     <string name="add_bookmark">Tilføj bogmærke</string>

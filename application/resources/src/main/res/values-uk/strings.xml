@@ -176,7 +176,6 @@
     <string name="shuffle_on">Перемішування увімк.</string>
     <string name="shuffle_play">Перемішати</string>
     <string name="repeat_title">Режим повторювання</string>
-    <string name="repeat_none">Не повторювати</string>
     <string name="repeat_single">Повторити раз</string>
     <string name="repeat_all">Повторити все</string>
     <string name="previous">Попередній</string>
@@ -1033,7 +1032,6 @@
     <string name="delete_forever">Вилучити назавжди</string>
     <string name="add_to_existing_playlist">Додати до наявного списку відтворення</string>
     <string name="bookmarks_title">Закладки</string>
-    <string name="no_bookmark">Ще нема закладок</string>
     <string name="bookmark_default_name">Закладка в %s</string>
     <string name="bookmark_name">Закладка %s</string>
     <string name="add_bookmark">Додати закладку</string>

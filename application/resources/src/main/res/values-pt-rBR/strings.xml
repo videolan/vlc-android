@@ -139,7 +139,6 @@
     <string name="shuffle_on">Habilitar o Aleatório</string>
     <string name="shuffle_play">Aleatório</string>
     <string name="repeat_title">Modo contínuo</string>
-    <string name="repeat_none">Não repetir</string>
     <string name="repeat_single">Repetir uma</string>
     <string name="repeat_all">Repetir todas</string>
     <string name="previous">Anterior</string>
@@ -858,7 +857,6 @@
     <string name="delete_forever">Excluir permanentemente</string>
     <string name="add_to_existing_playlist">Adicionar a lista de reprodução existente</string>
     <string name="bookmarks_title">Favoritos</string>
-    <string name="no_bookmark">Nenhum favorito ainda</string>
     <string name="bookmark_default_name">Favorito %s</string>
     <string name="bookmark_name">Favorito %s</string>
     <string name="add_bookmark">Adicionar aos favoritos</string>

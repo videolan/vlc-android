@@ -1021,7 +1021,7 @@
     <string name="delete_forever">Elimina per sempre</string>
     <string name="add_to_existing_playlist">Aggiungi a scaletta esistente</string>
     <string name="bookmarks_title">Segnalibri</string>
-    <string name="no_bookmark">Ancora nessun segnalibro</string>
+    <string name="no_bookmark">Nessun segnalibro impostato</string>
     <string name="bookmark_default_name">Segnalibro a %s</string>
     <string name="bookmark_name">Segnalibro %s</string>
     <string name="add_bookmark">Aggiungi segnalibri</string>

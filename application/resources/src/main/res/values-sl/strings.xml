@@ -176,7 +176,6 @@
     <string name="shuffle_on">Premešani način je vključen</string>
     <string name="shuffle_play">Premešaj</string>
     <string name="repeat_title">Način ponavljanja</string>
-    <string name="repeat_none">Ne ponavljaj</string>
     <string name="repeat_single">Ponovi eno</string>
     <string name="repeat_all">Ponovi vse</string>
     <string name="previous">Prejšnje</string>
@@ -1033,7 +1032,6 @@
     <string name="delete_forever">Izbriši za stalno</string>
     <string name="add_to_existing_playlist">Dodaj v obstoječ seznam predvajanja</string>
     <string name="bookmarks_title">Zaznamki</string>
-    <string name="no_bookmark">Ni zaznamkov</string>
     <string name="bookmark_default_name">Zaznamek na %s</string>
     <string name="bookmark_name">Zaznamek %s</string>
     <string name="add_bookmark">Dodaj zaznamek</string>

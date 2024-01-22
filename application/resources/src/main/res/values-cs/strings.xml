@@ -162,7 +162,6 @@
     <string name="shuffle_on">Zapnout režim Náhodné přehrávání</string>
     <string name="shuffle_play">Náhodné přehrávání</string>
     <string name="repeat_title">Režim Opakování</string>
-    <string name="repeat_none">Žádné opakování</string>
     <string name="repeat_single">Opakovat jednu položku</string>
     <string name="repeat_all">Opakovat vše</string>
     <string name="previous">Předchozí</string>
@@ -951,7 +950,6 @@
     <string name="delete_forever">Smazat trvale</string>
     <string name="add_to_existing_playlist">Přidat do existujícího seznamu skladeb</string>
     <string name="bookmarks_title">Záložky</string>
-    <string name="no_bookmark">Zatím žádná záložka</string>
     <string name="bookmark_default_name">Záložka na: %s</string>
     <string name="bookmark_name">Záložka %s</string>
     <string name="add_bookmark">Přidat záložku</string>

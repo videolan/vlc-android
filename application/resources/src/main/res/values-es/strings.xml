@@ -136,7 +136,6 @@
     <string name="shuffle_on">Modo aleatorio activado</string>
     <string name="shuffle_play">Aleatorio</string>
     <string name="repeat_title">Modo repetición</string>
-    <string name="repeat_none">No repetir</string>
     <string name="repeat_single">Repetir una</string>
     <string name="repeat_all">Repetir todo</string>
     <string name="previous">Anterior</string>
@@ -761,7 +760,6 @@
     <string name="delete_forever">Eliminar de forma permanente</string>
     <string name="add_to_existing_playlist">Añadir a lista de reproducción existente</string>
     <string name="bookmarks_title">Marcadores</string>
-    <string name="no_bookmark">Aún no hay marcadores</string>
     <string name="bookmark_name">Añadir %s a marcadores</string>
     <string name="optional_features">Características opcionales</string>
     <string name="optional_features_summary">Características beta que se están probando y puede que no sean estables</string>

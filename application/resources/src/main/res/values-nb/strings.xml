@@ -141,7 +141,6 @@
     <string name="shuffle_on">Tilfeldig på</string>
     <string name="shuffle_play">Tilfeldig</string>
     <string name="repeat_title">Gjentagelsesmodus</string>
-    <string name="repeat_none">Ikke gjenta noen</string>
     <string name="repeat_single">Gjenta én</string>
     <string name="repeat_all">Gjenta alle</string>
     <string name="previous">Forrige</string>
@@ -821,7 +820,6 @@
     <string name="delete_forever">Slett for alltid</string>
     <string name="add_to_existing_playlist">Legg til i eksisterende spilleliste</string>
     <string name="bookmarks_title">Bokmerker</string>
-    <string name="no_bookmark">Ingen bokmerker enda</string>
     <string name="bookmark_default_name">Bokmerke ved %s</string>
     <string name="bookmark_name">Bokmerke %s</string>
     <string name="add_bookmark">Legg til bokmerke</string>

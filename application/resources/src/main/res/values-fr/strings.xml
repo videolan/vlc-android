@@ -1021,7 +1021,7 @@
     <string name="delete_forever">Supprimer pour toujours</string>
     <string name="add_to_existing_playlist">Ajouter à une liste de lecture existante</string>
     <string name="bookmarks_title">Favoris</string>
-    <string name="no_bookmark">Pas encore de favori</string>
+    <string name="no_bookmark">Pas de favoris</string>
     <string name="bookmark_default_name">Favori à %s</string>
     <string name="bookmark_name">Favori %s</string>
     <string name="add_bookmark">Ajouter un favori</string>

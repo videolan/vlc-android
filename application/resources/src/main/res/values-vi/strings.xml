@@ -120,7 +120,6 @@
     <string name="shuffle_on">Bật xáo trộn</string>
     <string name="shuffle_play">Xáo trộn</string>
     <string name="repeat_title">Chế độ lặp</string>
-    <string name="repeat_none">Không lặp</string>
     <string name="repeat_single">Lặp lại chỉ một mục</string>
     <string name="repeat_all">Lặp lại tất cả</string>
     <string name="previous">Trước đó</string>
@@ -799,7 +798,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="delete_forever">Xoá vĩnh viễn</string>
     <string name="add_to_existing_playlist">Thêm vào trong danh sách hiện có</string>
     <string name="bookmarks_title">Đánh dấu</string>
-    <string name="no_bookmark">Chưa có đánh dấu</string>
     <string name="bookmark_default_name">Dấu trang tại %s</string>
     <string name="bookmark_name">Đánh dấu %s</string>
     <string name="add_bookmark">Thêm dấu trang</string>

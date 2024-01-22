@@ -997,7 +997,7 @@
     <string name="delete_forever">永遠刪除</string>
     <string name="add_to_existing_playlist">加入至現有播放清單</string>
     <string name="bookmarks_title">書籤</string>
-    <string name="no_bookmark">尚無書籤</string>
+    <string name="no_bookmark">尚未設定書籤</string>
     <string name="bookmark_default_name">新增書籤於 %s</string>
     <string name="bookmark_name">書籤 %s</string>
     <string name="add_bookmark">新增書籤</string>

@@ -156,7 +156,6 @@
     <string name="shuffle_on">Nahasketa piztuta</string>
     <string name="shuffle_play">Nahastu</string>
     <string name="repeat_title">Errepikatzeko modua</string>
-    <string name="repeat_none">Errepikatu bat ere ez</string>
     <string name="repeat_single">Errepikatu bat</string>
     <string name="repeat_all">Errepikatu denak</string>
     <string name="previous">Aurrekoa</string>
@@ -366,6 +365,7 @@
     <string name="enable_double_tap_play_title">Sakatu birritan erreproduzitzeko/pausa egiteko</string>
     <string name="enable_double_tap_play_summary">Sakatu birritan pantailaren erdian erreproduzitzeko/pausa egiteko</string>
     <string name="enable_swipe_seek_title">Irristatu hatza bilatzeko</string>
+    <string name="enable_swipe_seek_summary">Irristatu hatza pantailan zehar bilatzeko</string>
     <string name="enable_scale_gesture_title">Bi hatzen bidezko zooma</string>
     <string name="enable_scale_gesture_summary">Handitu eta txikiagotu bi hatzekin</string>
     <string name="popup_keepscreen_title">Mantendu pantaila piztuta laster-leihoko modua</string>
@@ -441,6 +441,21 @@
     <string name="audio_ducking_title">Jaitsi VLC bolumena jakinarazpenekin</string>
     <string name="audio_ducking_summary">Audio jakinarazpenak, nabigazio jarraibideak eta mintzodun morroiak entzuten laguntzen du</string>
     <string name="casting_category">Igortzea</string>
+    <string name="remote_access">Urruneko sarbidea</string>
+    <string name="remote_access_status">Zerbitzariaren egoera</string>
+    <string name="remote_access_status_summary">Ukitu zerbitzariaren egoera ikusteko</string>
+    <string name="remote_access_connections">Konexioak</string>
+    <string name="remote_access_links">Estekak</string>
+    <string name="remote_access_active">Urruneko sarbidea aktiboa</string>
+    <string name="remote_access_notification">Urruneko sarbidea aktiboa %s-n</string>
+    <string name="remote_access_notification_stopped">Urruneko sarbidea gelditu da</string>
+    <string name="remote_access_notification_connecting">Urruneko sarbidea konektatzen</string>
+    <string name="remote_access_notification_error">Urruneko sarbidearen errorea</string>
+    <string name="remote_access_notification_stopping">Urruneko sarbidea gelditzen</string>
+    <string name="remote_access_notification_not_init">Urruneko sarbidea hasieratzen</string>
+    <string name="enable_remote_access">Gaitu urruneko sarbidea</string>
+    <string name="remote_access_info">Urruneko sarbidearen informazioa</string>
+    <string name="remote_access_content">Edukia</string>
     <string name="casting_switch_title">Hari gabeko igortzea</string>
     <string name="casting_passthrough_title">Audio igarobidea</string>
     <string name="casting_passthrough_summary">Utzi zure telebistari audioa errendatzen</string>
@@ -942,7 +957,6 @@
     <string name="delete_forever">Betirako ezabatu</string>
     <string name="add_to_existing_playlist">Gehitu lehendik dagoen erreprodukzio zerrendan</string>
     <string name="bookmarks_title">Laster markak</string>
-    <string name="no_bookmark">Oraindik ez daude laster-markarik</string>
     <string name="bookmark_default_name">Latermarka %seam</string>
     <string name="bookmark_name">Laster-markatu %s</string>
     <string name="add_bookmark">Gehitu laster-marka</string>
