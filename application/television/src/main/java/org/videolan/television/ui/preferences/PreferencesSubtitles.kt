@@ -217,7 +217,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

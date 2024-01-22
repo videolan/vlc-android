@@ -56,7 +56,7 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
         if(!settings.getBoolean(REMOTE_ACCESS_ONBOARDING,  false)) {
             settings.putSingle(REMOTE_ACCESS_ONBOARDING, true)
             startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(requireActivity(), REMOTE_ACCESS_ONBOARDING) })
@@ -102,8 +102,8 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
         medialibraryContentPreference.summary = getString(R.string.remote_access_medialibrary_content_summary, currentString, currentDisabledString)
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        if (preference?.key == "remote_access_status") {
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == "remote_access_status") {
             requireActivity().startActivity(Intent(requireActivity(), StartActivity::class.java).apply { action = "vlc.remoteaccess.share" })
         }
         return super.onPreferenceTreeClick(preference)

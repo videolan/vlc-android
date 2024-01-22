@@ -58,26 +58,25 @@ class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnShared
             pref.title = getString(featureFlags.title)
             pref.key = featureFlags.getKey()
             parent?.addPreference(pref)
-            featureFlags.dependsOn?.let { pref.dependency = it.getKey()}
+            featureFlags.dependsOn?.let { pref.dependency = it.getKey() }
         }
     }
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences
-                .unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         val enabled = findPreference<CheckBoxPreference>(key)!!.isChecked
-        FeatureFlagManager.getByKey(key)?.let { FeatureFlagManager.enable(activity,it, enabled) }
+        FeatureFlagManager.getByKey(key)?.let { FeatureFlagManager.enable(activity, it, enabled) }
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {

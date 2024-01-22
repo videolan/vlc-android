@@ -61,7 +61,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     @Deprecated("Deprecated in Java")

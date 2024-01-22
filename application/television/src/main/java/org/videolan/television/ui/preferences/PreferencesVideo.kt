@@ -60,13 +60,12 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences
-                .unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -78,6 +77,7 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                     restartMediaPlayer()
                 }
             }
+
             KEY_PLAYBACK_SPEED_PERSIST_VIDEO -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE_VIDEO, 1.0f)
         }
     }

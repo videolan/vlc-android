@@ -37,12 +37,12 @@ class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnS
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences
+        preferenceScreen.sharedPreferences!!
                 .unregisterOnSharedPreferenceChangeListener(this)
     }
 

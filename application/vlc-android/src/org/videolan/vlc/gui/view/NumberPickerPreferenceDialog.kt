@@ -34,7 +34,7 @@ import org.videolan.vlc.R
 class NumberPickerPreferenceDialog : PreferenceDialogFragmentCompat() {
     private lateinit var numberPicker: NumberPicker
 
-    override fun onCreateDialogView(context: Context?): View {
+    override fun onCreateDialogView(context: Context): View {
         val container = layoutInflater.inflate(R.layout.pref_number_picker, null)
         numberPicker = container.findViewById(R.id.number_picker)
         numberPicker.minValue = NumberPickerPreference.MIN_VALUE
@@ -43,7 +43,7 @@ class NumberPickerPreferenceDialog : PreferenceDialogFragmentCompat() {
         return container
     }
 
-    override fun onBindDialogView(view: View?) {
+    override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         numberPicker.value = (preference as NumberPickerPreference).getPersistedInt()
     }

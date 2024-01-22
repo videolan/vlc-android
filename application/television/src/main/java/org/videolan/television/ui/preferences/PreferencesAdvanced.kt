@@ -90,13 +90,12 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences
-                .unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -108,25 +107,27 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 startActivity(intent)
                 return true
             }
+
             "clear_history" -> {
                 val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history))
                 dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
                 dialog.setListener {
                     Medialibrary.getInstance().clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
                     Settings.getInstance(activity).edit()
-                        .remove(KEY_AUDIO_LAST_PLAYLIST)
-                        .remove(KEY_MEDIA_LAST_PLAYLIST)
-                        .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
-                        .remove(KEY_CURRENT_AUDIO)
-                        .remove(KEY_CURRENT_MEDIA)
-                        .remove(KEY_CURRENT_MEDIA_RESUME)
-                        .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
-                        .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
-                        .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
-                        .apply()
+                            .remove(KEY_AUDIO_LAST_PLAYLIST)
+                            .remove(KEY_MEDIA_LAST_PLAYLIST)
+                            .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
+                            .remove(KEY_CURRENT_AUDIO)
+                            .remove(KEY_CURRENT_MEDIA)
+                            .remove(KEY_CURRENT_MEDIA_RESUME)
+                            .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
+                            .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
+                            .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
+                            .apply()
                 }
                 return true
             }
+
             "clear_app_data" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_app_data), description = getString(R.string.clear_app_data_message), buttonText = getString(R.string.clear))
@@ -140,25 +141,26 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 return true
             }
+
             "clear_media_db" -> {
                 val medialibrary = Medialibrary.getInstance()
                 if (medialibrary.isWorking) {
                     activity?.let {
                         Toast.makeText(
-                            it,
-                            R.string.settings_ml_block_scan,
-                            Toast.LENGTH_LONG
+                                it,
+                                R.string.settings_ml_block_scan,
+                                Toast.LENGTH_LONG
                         ).show()
                     }
                 } else {
                     val dialog = ConfirmDeleteDialog.newInstance(
-                        title = getString(R.string.clear_media_db),
-                        description = getString(R.string.clear_media_db_message),
-                        buttonText = getString(R.string.clear)
+                            title = getString(R.string.clear_media_db),
+                            description = getString(R.string.clear_media_db_message),
+                            buttonText = getString(R.string.clear)
                     )
                     dialog.show(
-                        (activity as FragmentActivity).supportFragmentManager,
-                        RenameDialog::class.simpleName
+                            (activity as FragmentActivity).supportFragmentManager,
+                            RenameDialog::class.simpleName
                     )
                     dialog.setListener {
                         launch {
@@ -170,7 +172,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                                 try {
                                     activity.getExternalFilesDir(null)?.let {
                                         val files =
-                                            File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
+                                                File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
                                         files?.forEach { file ->
                                             if (file.isFile) FileUtils.deleteFile(file)
                                         }
@@ -186,10 +188,12 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 return true
             }
+
             "quit_app" -> {
                 android.os.Process.killProcess(android.os.Process.myPid())
                 return true
             }
+
             "dump_media_db" -> {
                 if (Medialibrary.getInstance().isWorking)
                     activity?.let { Toast.makeText(it, R.string.settings_ml_block_scan, Toast.LENGTH_LONG).show() }
@@ -208,6 +212,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 return true
             }
+
             "dump_app_db" -> {
                 val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + ROOM_DATABASE)
                 launch {
@@ -249,6 +254,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 launch { restartLibVLC() }
             }
+
             "custom_libvlc_options" -> {
                 launch {
                     try {
@@ -262,6 +268,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     restartLibVLC()
                 }
             }
+
             "opengl", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode", "prefer_smbv1" -> {
                 launch { restartLibVLC() }
             }

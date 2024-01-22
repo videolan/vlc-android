@@ -80,13 +80,12 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences
-                .unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -96,9 +95,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 Settings.tvUI = sharedPreferences.getBoolean(PREF_TV_UI, false)
                 (activity as PreferencesActivity).setRestartApp()
             }
+
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
             TV_FOLDERS_FIRST -> Settings.tvFoldersFirst = sharedPreferences.getBoolean(TV_FOLDERS_FIRST, true)
-            BROWSER_SHOW_HIDDEN_FILES-> Settings.showHiddenFiles = sharedPreferences.getBoolean(BROWSER_SHOW_HIDDEN_FILES, false)
+            BROWSER_SHOW_HIDDEN_FILES -> Settings.showHiddenFiles = sharedPreferences.getBoolean(BROWSER_SHOW_HIDDEN_FILES, false)
         }
     }
 
@@ -115,11 +115,13 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                     return true
                 }
             }
+
             SHOW_VIDEO_THUMBNAILS -> {
                 Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+
             KEY_SHOW_HEADERS -> {
                 Settings.showHeaders = (preference as TwoStatePreference).isChecked
                 (activity as PreferencesActivity).setRestart()
