@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.android_plugin_version = '8.2.0'
-    ext.kotlin_version = '1.9.0'
-    ext.kotlinx_version = '1.6.0'
+    ext.kotlin_version = '1.9.22'
+    ext.kotlinx_version = '1.7.1'
     repositories {
         flatDir dirs: "gradle/plugins"
         google()
@@ -47,6 +47,7 @@ ext {
     minSdkVersion = 17
     targetSdkVersion = 34
     compileSdkVersion = 34
+    desugarLib = '2.0.4'
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.12.0'
     appCompatVersion = '1.6.1'
@@ -61,15 +62,15 @@ ext {
     constraintLayoutVersion = '2.1.4'
     viewPager2Version = "1.0.0"
     archVersion = '2.2.0'
-    roomVersion = '2.4.3'
-    pagingVersion = '3.1.1'
+    roomVersion = '2.6.1'
+    pagingVersion = '3.2.1'
     junitVersion = '4.13.2'
     junitExtVersion = '1.1.5'
     mockito = '2.25.0'
     //Retrofit 2.7 drops Android 5 support
     retrofit = '2.7.1'
     moshi = '1.8.0'
-    ktorVersion = '2.3.6'
+    ktorVersion = '2.3.7'
     powerMock = '2.0.2'
     espressoVersion = '3.5.1'
     livedataTest = '1.2.0'
