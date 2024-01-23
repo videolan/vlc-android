@@ -102,7 +102,7 @@ class MainActivity : ContentActivity(),
 
         if (!NotificationPermissionManager.launchIfNeeded(this)) {
             if (!WidgetMigration.launchIfNeeded(this)) {
-                WhatsNewManager.launchIfNeeded(this)
+               if (!Settings.firstRun)  WhatsNewManager.launchIfNeeded(this) else WhatsNewManager.markAsShown(settings)
             }
         }
     }

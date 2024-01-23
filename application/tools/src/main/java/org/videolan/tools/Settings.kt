@@ -14,6 +14,7 @@ import org.videolan.tools.Settings.init
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
 
+    var firstRun: Boolean = false
     var showVideoThumbs = true
     var tvUI = false
     var listTitleEllipsize = 0

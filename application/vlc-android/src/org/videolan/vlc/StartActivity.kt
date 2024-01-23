@@ -163,6 +163,7 @@ class StartActivity : FragmentActivity() {
         val savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1)
         /* Check if it's the first run */
         val firstRun = savedVersionNumber == -1
+        Settings.firstRun = firstRun
         val upgrade = firstRun || savedVersionNumber != currentVersionNumber
         val tv = showTvUi()
         if (upgrade && (tv || !firstRun)) settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
