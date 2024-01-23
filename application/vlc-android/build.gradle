@@ -170,12 +170,12 @@ dependencies {
     api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycleVersion"
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
-    api "androidx.window:window:1.0.0"
-    api "androidx.media:media:1.6.0"
+    api "androidx.window:window:$rootProject.ext.windowVersion"
+    api "androidx.media:media:$rootProject.ext.mediaVersion"
     api 'androidx.gridlayout:gridlayout:1.0.0'
     api "androidx.car.app:app:1.3.0-rc01"
 
-    kapt ('org.xerial:sqlite-jdbc:3.36.0')
+    kapt ("org.xerial:sqlite-jdbc:jdbcVersion")
     kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
 
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
