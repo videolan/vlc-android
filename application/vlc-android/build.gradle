@@ -217,10 +217,6 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$rootProject.ext.testCore"
     androidTestImplementation 'com.jraska:falcon:2.2.0'
     androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
-    implementation "io.ktor:ktor:2.1.2"
-    implementation "io.ktor:ktor-server-netty:2.1.2"
-    implementation "io.ktor:ktor-gson:1.6.8"
-    implementation "io.ktor:ktor-server-websockets:2.1.2"
 
     if (project.hasProperty('leakCanaryEnabled') && project.getProperty('leakCanaryEnabled')) {
         debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
