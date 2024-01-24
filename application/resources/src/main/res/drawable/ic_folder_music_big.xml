@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_browser_podcasts_normal.xml
+  ~  ic_folder_music_big.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,14 +23,12 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
   <path
-      android:pathData="m4.2222,4.2222c-1.2311,0 -2.0198,1.0079 -2.2222,2.2223v1.1111,10c0,1.2311 0.9911,2.2222 2.2222,2.2222L19.7778,19.7777C21.0089,19.7778 22,18.7867 22,17.5557v-8.8889c0,-1.2311 -0.9911,-2.2222 -2.2222,-2.2222L12,6.4446l-2.2222,-2.2223zM17.1736,7.5555 L17.5447,8.6038 14.2244,9.7777h4.4423c0.6156,0 1.1111,0.4956 1.1111,1.1111v5.5556c0,0.6155 -0.4956,1.1111 -1.1111,1.1111h-7.7778c-0.6156,0 -1.1111,-0.4956 -1.1111,-1.1111v-5.5556c0,-0.6155 0.4956,-1.1111 1.1111,-1.1111zM10.8889,10.8888v2.2222h5.5556v-1.1111h1.1111v1.1111h1.1111v-2.2222zM12,14.2222a1.1111,1.1111 0,0 0,-1.1111 1.1112A1.1111,1.1111 0,0 0,12 16.4445,1.1111 1.1111,0 0,0 13.1111,15.3334 1.1111,1.1111 0,0 0,12 14.2222Z"
-      android:strokeWidth="1.11111116"
-      android:fillColor="#757575"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"/>
+      android:pathData="M14,16C10.722,16 8,18.722 8,22L8,74C8,77.278 10.722,80 14,80L82,80C85.278,80 88,77.278 88,74L88,32C88,28.722 85.278,26 82,26L48.002,26L38.881,16.879A3,3 0,0 0,36.76 16L14,16zM14,22L35.518,22L44.639,31.121A3,3 0,0 0,46.76 32L82,32L82,74L14,74L14,22zM64,39.5C62.35,39.5 61,40.85 61,42.5L61,55.313C60.116,54.797 59.09,54.5 58,54.5C54.704,54.5 52,57.204 52,60.5C52,63.796 54.704,66.5 58,66.5C61.296,66.5 64,63.796 64,60.5L64,45.5L67,45.5C68.65,45.5 70,44.15 70,42.5L70,39.5L64,39.5zM58,57.5C59.675,57.5 61,58.825 61,60.5C61,62.175 59.675,63.5 58,63.5C56.325,63.5 55,62.175 55,60.5C55,58.825 56.325,57.5 58,57.5z"
+      android:strokeLineJoin="round"
+      android:fillColor="@color/grey700"/>
 </vector>

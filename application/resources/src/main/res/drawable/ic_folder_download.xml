@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_browser_movies_normal.xml
+  ~  ic_folder_download.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -25,12 +25,10 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:viewportWidth="48"
+    android:viewportHeight="48">
   <path
-      android:pathData="m4.2222,4.222c-1.2311,0 -2.0198,1.0079 -2.2222,2.2224v1.1111,10.0002c0,1.2312 0.9911,2.2223 2.2222,2.2223L19.7778,19.7781c1.2311,0 2.2222,-0.9911 2.2222,-2.2223v-8.8891c0,-1.2311 -0.9911,-2.2222 -2.2222,-2.2222L12,6.4445l-2.2222,-2.2224zM10.8889,9.7777h0.4167l0.9722,1.9445h1.6667l-0.9722,-1.9445h0.8333l0.9722,1.9445h1.6667l-0.9722,-1.9445h0.8333l0.9722,1.9445h1.6667l-0.9722,-1.9445h0.6944,1.1111v1.1112,5.5557c0,0.6155 -0.4956,1.1111 -1.1111,1.1111h-7.7778c-0.6156,0 -1.1111,-0.4956 -1.1111,-1.1111v-5.5557c0,-0.6155 0.4956,-1.1112 1.1111,-1.1112z"
-      android:strokeWidth="1.11112547"
-      android:fillColor="#757575"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"/>
+      android:pathData="M8,8C5.8,8 4.02,9.8 4.02,12L4,36C4,38.2 5.8,40 8,40L40,40C42.2,40 44,38.2 44,36L44,16C44,13.8 42.2,12 40,12L24,12L20,8L8,8zM8,12L18.34,12L22.34,16L40,16L40,36L8,36L8,12zM28.5,19.25C28.088,19.25 27.75,19.587 27.75,20L27.75,23.75L26.557,23.75C25.889,23.75 25.553,24.561 26.025,25.033L29.467,28.475C29.759,28.767 30.233,28.767 30.525,28.475L33.967,25.033C34.439,24.561 34.111,23.75 33.443,23.75L32.25,23.75L32.25,20C32.25,19.587 31.912,19.25 31.5,19.25L28.5,19.25zM25.5,30.5C25.088,30.5 24.75,30.837 24.75,31.25C24.75,31.663 25.088,32 25.5,32L34.5,32C34.912,32 35.25,31.663 35.25,31.25C35.25,30.837 34.912,30.5 34.5,30.5L25.5,30.5z"
+      android:strokeWidth="1"
+      android:fillColor="@color/grey700"/>
 </vector>

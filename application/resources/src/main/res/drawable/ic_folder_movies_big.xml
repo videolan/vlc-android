@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_browser_download_normal.xml
+  ~  ic_folder_movies_big.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,14 +23,12 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
   <path
-      android:pathData="m4.2222,4.222c-1.2311,0 -2.0198,1.0079 -2.2222,2.2224v1.1111,10.0002c0,1.2312 0.9911,2.2223 2.2222,2.2223L19.7778,19.7781c1.2311,0 2.2222,-0.9911 2.2222,-2.2223v-8.8891c0,-1.2311 -0.9911,-2.2222 -2.2222,-2.2222L12,6.4445l-2.2222,-2.2224zM13.1111,8.6666h3.3333v2.7779h2.2222l-3.8889,3.889 -3.8889,-3.889h2.2222zM10.8889,16.4446h7.7778v1.1111h-7.7778z"
-      android:strokeWidth="1.11112547"
-      android:fillColor="#757575"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"/>
+      android:pathData="M14,16C10.722,16 8,18.722 8,22L8,74C8,77.278 10.722,80 14,80L82,80C85.278,80 88,77.278 88,74L88,32C88,28.722 85.278,26 82,26L48.002,26L38.881,16.879A3,3 0,0 0,36.76 16L14,16zM14,22L35.518,22L44.639,31.121A3,3 0,0 0,46.76 32L82,32L82,74L14,74L14,22zM49,41C47.35,41 46,42.35 46,44L46,62C46,63.65 47.35,65 49,65L73,65C74.65,65 76,63.65 76,62L76,42.5C76,41.675 75.325,41 74.5,41L70,41L72.73,46.461C72.85,46.701 72.67,47 72.4,47L69.43,47C68.86,47 68.336,46.686 68.096,46.176L65.5,41L62.5,41L65.23,46.461C65.35,46.701 65.17,47 64.9,47L61.93,47C61.36,47 60.836,46.686 60.596,46.176L58,41L55,41L57.73,46.461C57.85,46.701 57.67,47 57.4,47L54.43,47C53.86,47 53.335,46.686 53.08,46.176L50.5,41L49,41z"
+      android:strokeLineJoin="round"
+      android:fillColor="@color/grey700"/>
 </vector>

@@ -60,16 +60,20 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
 
-    private val folderDrawable: BitmapDrawable
+    private val folderDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder)) }
     private val folderDrawableBig: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_big)) }
-    private val audioDrawable: BitmapDrawable
-    private val videoDrawable: BitmapDrawable
-    private val subtitleDrawable: BitmapDrawable
-    private val unknownDrawable: BitmapDrawable
-    private val qaMoviesDrawable: BitmapDrawable
-    private val qaMusicDrawable: BitmapDrawable
-    private val qaPodcastsDrawable: BitmapDrawable
-    private val qaDownloadDrawable: BitmapDrawable
+    private val audioDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_audio_normal)) }
+    private val videoDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_video_normal)) }
+    private val subtitleDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_subtitle_normal)) }
+    private val unknownDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_unknown_normal)) }
+    private val qaMoviesDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_movies)) }
+    private val qaMoviesDrawableBig: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_movies_big)) }
+    private val qaMusicDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_music)) }
+    private val qaMusicDrawableBig: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_music_big)) }
+    private val qaPodcastsDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_podcasts)) }
+    private val qaPodcastsDrawableBig: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_podcasts_big)) }
+    private val qaDownloadDrawable: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_download)) }
+    private val qaDownloadDrawableBig: BitmapDrawable by lazy { BitmapDrawable(browserContainer.containerActivity().resources, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder_download_big)) }
 
     internal var mediaCount = 0
     private var networkRoot = false
@@ -96,15 +100,6 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         specialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
         // Setup resources
         val res = browserContainer.containerActivity().resources
-        folderDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_folder))
-        audioDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_audio_normal))
-        videoDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_video_normal))
-        subtitleDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_subtitle_normal))
-        unknownDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_unknown_normal))
-        qaMoviesDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_movies_normal))
-        qaMusicDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_music_normal))
-        qaPodcastsDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_podcasts_normal))
-        qaDownloadDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_download_normal))
         diffCallback.oldSort = sort
         diffCallback.newSort = sort
         diffCallback.oldAsc = asc
@@ -321,13 +316,13 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
                 if (specialFolders) {
                     val uri = media.uri
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI == uri || AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI == uri)
-                        return qaMoviesDrawable
+                        return if (browserContainer.inCards) qaMoviesDrawableBig else qaMoviesDrawable
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI == uri)
-                        return qaMusicDrawable
+                        return if (browserContainer.inCards) qaMusicDrawableBig else  qaMusicDrawable
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI == uri)
-                        return qaPodcastsDrawable
+                        return if (browserContainer.inCards) qaPodcastsDrawableBig else  qaPodcastsDrawable
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI == uri)
-                        return qaDownloadDrawable
+                        return if (browserContainer.inCards) qaDownloadDrawableBig else  qaDownloadDrawable
                 }
                 return if (browserContainer.inCards) folderDrawableBig else folderDrawable
             }
