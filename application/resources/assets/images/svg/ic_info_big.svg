@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="96"
+   height="96"
+   viewBox="0 0 96 96"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_info_big.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17188"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="3.623347"
+     inkscape:cx="16.697269"
+     inkscape:cy="26.080858"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid17251"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs17183" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path53904"
+       style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none;paint-order:markers fill stroke"
+       d="M 48 8 C 25.944188 8 8 25.944188 8 48 C 8 70.055812 25.944188 88 48 88 C 70.055812 88 88 70.055812 88 48 C 88 25.944188 70.055812 8 48 8 z M 48 14 C 66.813178 14 82 29.186822 82 48 C 82 66.813178 66.813178 82 48 82 C 29.186822 82 14 66.813178 14 48 C 14 29.186822 29.186822 14 48 14 z M 48 27 A 4.5000019 4.5000019 0 0 0 43.5 31.5 A 4.5000019 4.5000019 0 0 0 48 36 A 4.5000019 4.5000019 0 0 0 52.5 31.5 A 4.5000019 4.5000019 0 0 0 48 27 z M 48 44 A 3 3 0 0 0 45 47 L 45 67 A 3 3 0 0 0 48 70 A 3 3 0 0 0 51 67 L 51 47 A 3 3 0 0 0 48 44 z " />
+  </g>
+</svg>
