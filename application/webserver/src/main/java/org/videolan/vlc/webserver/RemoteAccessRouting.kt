@@ -64,9 +64,11 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
@@ -101,10 +103,12 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.StorageProvider
+import org.videolan.vlc.providers.medialibrary.sanitizeGroups
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.RemoteAccessUtils
 import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getFilesNumber
 import org.videolan.vlc.util.getFolderNumber
@@ -382,11 +386,23 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
             }
-            val videos = appContext.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
+            val grouping = call.request.queryParameters["grouping"]?.toInt() ?: 0
+            val videos = appContext.getFromMl {
+                when (grouping) {
+                    0 -> getVideos(Medialibrary.SORT_DEFAULT, false, false, false)
+                    1 -> getFolders( Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0)
+                    else -> getVideoGroups( Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0).sanitizeGroups()
+                }
+            }
 
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
             videos.forEach { video ->
-                list.add(video.toPlayQueueItem())
+                when (video) {
+                    is MediaWrapper->list.add(video.toPlayQueueItem())
+                    is Folder -> list.add(video.toPlayQueueItem(appContext))
+                    is VideoGroup -> list.add(video.toPlayQueueItem(appContext))
+                }
+
             }
             val gson = Gson()
             call.respondText(gson.toJson(list))
@@ -642,6 +658,14 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         "artist" -> getArtist(id.toLong()).tracks
                         "genre" -> getGenre(id.toLong()).tracks
                         "playlist" -> getPlaylist(id.toLong(), false, false).tracks
+                        "video-group" -> {
+                            val group = getVideoGroup(id.toLong())
+                            group.media(Medialibrary.SORT_DEFAULT, false, false, false, group.mediaCount(), 0)
+                        }
+                        "video-folder" -> {
+                            val folder = getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
+                            folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                        }
                         else -> arrayOf(getMedia(id.toLong()))
                     }
                 }
@@ -744,6 +768,42 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     }
                 }
                 BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
+            if (call.request.queryParameters["type"] == "video-group") {
+                call.request.queryParameters["id"]?.let { id ->
+                    val group = appContext.getFromMl {
+                        getVideoGroup(id.toLong())
+                    }
+                        val bmp = ThumbnailsProvider.getVideoGroupThumbnail(group, 512)
+                        if (bmp != null) {
+                            BitmapUtil.encodeImage(bmp, true)?.let {
+                                call.respondBytes(ContentType.Image.PNG) { it }
+                                return@get
+                            }
+                        }
+                }
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
+            if (call.request.queryParameters["type"] == "video-folder") {
+                call.request.queryParameters["id"]?.let { id ->
+                    val folder = appContext.getFromMl {
+                        getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
+                    }
+                        val bmp = ThumbnailsProvider.getFolderThumbnail(folder, 512)
+                        if (bmp != null) {
+                            BitmapUtil.encodeImage(bmp, true)?.let {
+                                call.respondBytes(ContentType.Image.PNG) { it }
+                                return@get
+                            }
+                        }
+                }
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
@@ -931,3 +991,10 @@ fun Playlist.toPlayQueueItem(appContext: Context) = RemoteAccessServer.PlayQueue
 fun MediaWrapper.toPlayQueueItem() = RemoteAccessServer.PlayQueueItem(id, title, artist
         ?: "", length, artworkMrl
         ?: "", false, generateResolutionClass(width, height) ?: "", progress = time, played = seen > 0)
+
+fun Folder.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, mediaCount(Folder.TYPE_FOLDER_VIDEO), mediaCount(Folder.TYPE_FOLDER_VIDEO))
+        ?: "", 0, artworkMrl
+        ?: "", false,"", videoType = "video-folder")
+
+fun VideoGroup.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, if (this.mediaCount() > 1) context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, this.mediaCount(), this.mediaCount()) else "length", 0, artworkMrl
+        ?: "", false,"", videoType = "video-group", played = presentSeen == presentCount && presentCount != 0)

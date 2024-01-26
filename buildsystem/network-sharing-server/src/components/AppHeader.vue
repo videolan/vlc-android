@@ -98,6 +98,17 @@
       </div>
 
       <div class="flex1 d-flex justify-content-end align-items-center">
+        <div class="dropdown" v-show="this.$route.meta.showGrouping">
+          <button class="btn btn-lg image-button hidden-arrow" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <img class="image-button-image" v-bind:src="$getAppAsset('ic_group', 24)">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item cursor-pointer" v-bind:class=" isActive(0) ? 'active' : ''" v-t="'VIDEO_GROUP_NONE'" v-on:click="this.appStore.changeGrouping(0)"></a></li>
+            <li><a class="dropdown-item cursor-pointer" v-bind:class=" isActive(1) ? 'active' : ''" aria-current="true" v-t="'VIDEO_GROUP_BY_FOLDER'" v-on:click="this.appStore.changeGrouping(1)"></a></li>
+            <li><a class="dropdown-item cursor-pointer" v-bind:class=" isActive(2) ? 'active' : ''" v-t="'VIDEO_GROUP_BY_NAME'" v-on:click="this.appStore.changeGrouping(2)"></a></li>
+          </ul>
+        </div>
         <button class="btn btn-lg image-button" v-show="this.$route.meta.showResume"
           v-on:click.stop="$resumePlayback(this.$route.meta.isAudio)" data-bs-toggle="tooltip" data-bs-placement="bottom"
           :title="$t('RESUME_PLAYBACK')">
@@ -132,6 +143,9 @@ export default {
     },
     hasBreadcrumb() {
       return this.browserStore.breadcrumb.length != 0
+    },
+    isActive(mode) {
+      return this.appStore.videoGrouping == mode
     }
   },
   computed: {
@@ -207,5 +221,9 @@ export default {
   50% {
     opacity: 0;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>

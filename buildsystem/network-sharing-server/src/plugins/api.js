@@ -53,7 +53,9 @@ export const vlcApi = {
     /**
      * Retrieve the video list API URL
      */
-    videoList: `${API_URL}video-list`,
+    videoList: (grouping) => { 
+       return `${API_URL}video-list?grouping=${grouping}`
+    },
     /**
      * Retrieve the artist list API URL
      */

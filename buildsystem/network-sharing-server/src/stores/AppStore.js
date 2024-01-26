@@ -11,6 +11,7 @@ export const useAppStore = defineStore('app', {
     loading: false,
     wsTicket: "",
     displayType: reactive(useLocalStorage('displayType', {})),
+    videoGrouping: reactive(useLocalStorage('videoGrouping',0)),
     warning: Object,
     socketOpened: true,
     showAddStream: false,
@@ -21,6 +22,9 @@ export const useAppStore = defineStore('app', {
   actions: {
     toggleDisplayType(route) {
       this.displayType[route] = !this.displayType[route]
+    },
+    changeGrouping(mode) {
+      this.videoGrouping = mode
     },
   },
 })

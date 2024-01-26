@@ -2,12 +2,12 @@
     <div v-if="loaded && this.videos.length !== 0" class="container">
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
             <template v-for="video in videos" :key="video.id">
-                <MediaListItem :media="video" :downloadable="true" :mediaType="'video'" />
+                <MediaListItem :media="video" :downloadable="true" :mediaType="getMediaType(video)" />
             </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-sm-4 col-6" v-for="video in videos" :key="video.id">
-                <MediaCardItem :media="video" :downloadable="true" :mediaType="'video'" />
+                <MediaCardItem :media="video" :downloadable="true" :mediaType="getMediaType(video)" />
             </div>
         </div>
     </div>
@@ -40,13 +40,15 @@ export default {
             videos: [],
             loaded: false,
             forbidden: false,
+            videoGrouping: 0
         }
     },
     methods: {
         fetchVideos() {
             let component = this
             component.appStore.loading = true
-            http.get(vlcApi.videoList)
+            this.videoGrouping = this.appStore.videoGrouping
+            http.get(vlcApi.videoList(this.appStore.videoGrouping))
                 .catch(function (error) {
                     if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
@@ -64,14 +66,22 @@ export default {
         getEmptyText() {
             if (this.forbidden) return this.$t('FORBIDDEN')
             return this.$t('NO_MEDIA')
+        },
+        getMediaType(video) {
+            if (video.videoType) return video.videoType
+            return "video" 
         }
     },
     mounted: function () {
         this.appStore.$subscribe((mutation, state) => {
-            console.log(`Something changed in the app store: ${mutation} -> ${state}`)
+            this.$log.log(`Something changed in the app store: ${mutation.events.key} -> ${state}`)
             if (mutation.events.key == "needRefresh" && mutation.events.newValue === true) {
                 this.fetchVideos();
                 this.appStore.needRefresh = false
+            }
+            if (this.videoGrouping != this.appStore.videoGrouping) {
+                this.fetchVideos();
+                this.$log.log(`Grouping changed to : ${this.appStore.videoGrouping}`)
             }
         })
 

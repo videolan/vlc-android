@@ -45,12 +45,12 @@ export default {
     },
     methods: {
         mainImgClasses() {
-            if (this.mediaType == 'video') return 'ratio-16x9 video audio-img-container'
+            if (this.mediaType.startsWith('video')) return 'ratio-16x9 video audio-img-container'
             if (this.isBrowse() || this.mediaType == "file") return 'ratio-1x1'
             return 'ratio-1x1 audio-img-container'
         },
         getProgressStyle() {
-            if (this.mediaType == 'video' && this.media.progress > 0 && this.media.length > 0) {
+            if (this.mediaType.startsWith('video') && this.media.progress > 0 && this.media.length > 0) {
                 return `width: ${this.media.progress * 100 / this.media.length}%`
             }
             return ''

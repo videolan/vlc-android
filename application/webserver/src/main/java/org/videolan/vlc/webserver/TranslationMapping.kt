@@ -88,5 +88,8 @@ object TranslationMapping {
         NEW_STREAM(R.string.new_stream),
         ENTER_STREAM(R.string.open_mrl_dialog_msg),
         LEARN_MORE(R.string.learn_more),
+        VIDEO_GROUP_NONE(R.string.video_min_group_length_disable),
+        VIDEO_GROUP_BY_FOLDER(R.string.video_min_group_length_folder),
+        VIDEO_GROUP_BY_NAME(R.string.video_min_group_length_name),
     }
 }
