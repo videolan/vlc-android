@@ -38,6 +38,10 @@
             type="boolean" />
 
         <variable
+            name="showItemProgress"
+            type="boolean" />
+
+        <variable
                 name="inSelection"
                 type="boolean" />
 
@@ -302,7 +306,7 @@
                         android:progress="@{progress}"
                         android:progressDrawable="@drawable/gridview_progressbar"
                         android:secondaryProgress="0"
-                        android:visibility="@{progress == 0 ? View.GONE : View.VISIBLE}"
+                        android:visibility="@{progress == 0 || !showItemProgress ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintEnd_toEndOf="parent"
                         vlc:layout_constraintStart_toStartOf="parent" />
