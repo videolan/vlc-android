@@ -268,6 +268,11 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @Override
+    public VideoGroup getVideoGroup(long id) {
+        return mIsInitiated ? nativeGetGroup(id) : null;
+    }
+
+    @Override
     public boolean regroupAll() {
         return mIsInitiated && nativeRegroupAll();
     }
@@ -481,6 +486,11 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetFolders(type, sort, desc, includeMissing, onlyFavorites, nbItems, offset) : new Folder[0];
     }
 
+    @Override
+    public Folder getFolder(int type, long id) {
+        return mIsInitiated ? nativeGetFolder(type, id) : null;
+    }
+
     @WorkerThread
     public int getFoldersCount(int type) {
         return mIsInitiated ? nativeGetFoldersCount(type) : 0;
@@ -691,6 +701,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native VideoGroup nativeCreateGroupByName(String name);
 
     private native VideoGroup nativeCreateGroup(long[] ids);
+    private native VideoGroup nativeGetGroup(long id);
 
     private native boolean nativeRegroupAll();
 
@@ -713,6 +724,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native Playlist nativeGetPlaylist(long playlistId, boolean includeMissing, boolean onlyFavorites);
     private native Playlist nativePlaylistCreate(String name, boolean includeMissing, boolean onlyFavorites);
     private native Folder[] nativeGetFolders(int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
+    private native Folder nativeGetFolder(int type, long id);
     private native int nativeGetFoldersCount(int type);
     private native void nativePauseBackgroundOperations();
     private native void nativeResumeBackgroundOperations();

@@ -1848,6 +1848,17 @@ folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean des
     return foldersRefs;
 }
 
+jobject
+getFolder(JNIEnv* env, jobject thiz, jint type, jlong id) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::FolderPtr folder = aml->folder(id);
+    if (folder == nullptr) return nullptr;
+    const auto query = aml->mediaFromFolder(folder.get(), (medialibrary::IMedia::Type)type);
+    int count = (query != nullptr ? query->count() : 0);
+    return convertFolderObject(env, &ml_fields, folder, count).release();;
+}
+
+
 jint
 foldersCount(JNIEnv* env, jobject thiz, jint type) {
     const auto query = MediaLibrary_getInstance(env, thiz)->folders(nullptr, (medialibrary::IMedia::Type)type);
@@ -2063,6 +2074,14 @@ createMediaGroup(JNIEnv* env, jobject thiz, jlongArray mediaIds)
     if (!group)
         return nullptr;
     return convertVideoGroupObject(env, &ml_fields, group).release();
+}
+
+jobject
+getMediaGroup(JNIEnv* env, jobject thiz, jlong id) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::MediaGroupPtr media = aml->videoGroup(id);
+    if (media == nullptr) return nullptr;
+    return convertVideoGroupObject(env, &ml_fields, media).release();;
 }
 
 jboolean regroupAll(JNIEnv* env, jobject thiz)
@@ -2515,6 +2534,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPlaylist", "(JZZ)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylist },
     {"nativeGetFolders", "(IIZZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)folders },
     {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
+    {"nativeGetFolder", "(IJ)Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)getFolder },
     {"nativeSearchPagedFolders", "(Ljava/lang/String;IZZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)searchFolders },
     {"nativeGetSearchFoldersCount", "(Ljava/lang/String;)I", (void*)getSearchFoldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
@@ -2533,6 +2553,7 @@ static JNINativeMethod methods[] = {
     {"nativeCreateGroupByName", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroupByName },
     {"nativeSearchPagedGroups", "(Ljava/lang/String;IZZZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)searchMediaGroups },
     {"nativeCreateGroup", "([J)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroup },
+    {"nativeGetGroup", "(J)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)getMediaGroup },
     {"nativeRegroupAll", "()Z", (void*)regroupAll },
     {"nativeRegroup", "(J)Z", (void*)regroup },
     {"nativeGetService", "(I)Lorg/videolan/medialibrary/interfaces/media/MlService;", (void*)getService},

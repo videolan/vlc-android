@@ -187,6 +187,11 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
+    public VideoGroup getVideoGroup(long id) {
+        return null;
+    }
+
+    @Override
     public boolean regroupAll() {
         return false;
     }
@@ -488,6 +493,11 @@ public class StubMedialibrary extends Medialibrary {
             }
         }
         return folders.toArray(new Folder[0]);
+    }
+
+    @Override
+    public Folder getFolder(int type, long id) {
+        return null;
     }
 
     public int getFoldersCount(int type) {

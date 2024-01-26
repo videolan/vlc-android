@@ -770,6 +770,8 @@ abstract public class Medialibrary {
 
     abstract public VideoGroup createVideoGroup(long[] ids);
 
+    abstract public VideoGroup getVideoGroup(long id);
+
     abstract public boolean regroupAll();
 
     abstract public boolean regroup(long mediaId);
@@ -816,6 +818,7 @@ abstract public class Medialibrary {
     abstract public boolean flushUserProvidedThumbnails();
     abstract public MediaWrapper addStream(String mrl, String title);
     abstract public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
+    abstract public Folder getFolder(int type, long id);
     abstract public int getFoldersCount(int type);
     abstract public int setLastTime(long mediaId, long time);
     abstract public boolean setLastPosition(long mediaId, float position);
