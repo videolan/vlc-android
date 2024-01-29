@@ -306,7 +306,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 if ( !forceRestoreVideo && restoreVideoTipCount < 4) {
                     UiTools.snacker(requireActivity(), R.string.return_to_video)
                     settings.putSingle(PREF_RESTORE_VIDEO_TIPS_SHOWN, restoreVideoTipCount + 1)
-                } else if (forceRestoreVideo) {
+                } else if (forceRestoreVideo && !PlaylistManager.playingAsAudio) {
                     onResumeToVideoClick()
                 }
         }

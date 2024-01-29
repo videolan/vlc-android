@@ -110,6 +110,7 @@ import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.VideoResumeStatus
 import org.videolan.vlc.media.WaitConfirmation
 import org.videolan.vlc.repository.ExternalSubRepository
@@ -1598,6 +1599,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     fun switchToAudioMode(showUI: Boolean) {
         if (service == null) return
         switchingView = true
+        PlaylistManager.playingAsAudio = showUI
         // Show the MainActivity if it is not in background.
         if (showUI && intent.getBooleanExtra(FROM_EXTERNAL, false)) {
             val i = Intent().apply {

@@ -109,7 +109,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         private val mediaList = MediaWrapperList()
         fun hasMedia() = mediaList.size() != 0
         val repeating = MutableStateFlow(PlaybackStateCompat.REPEAT_MODE_NONE)
-
+        var playingAsAudio = false
     }
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
