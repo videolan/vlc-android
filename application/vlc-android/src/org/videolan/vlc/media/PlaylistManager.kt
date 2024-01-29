@@ -614,6 +614,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun saveMediaMeta(end:Boolean = false) = launch(start = CoroutineStart.UNDISPATCHED) outerLaunch@ {
+        if (!Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) return@outerLaunch
         if (endReachedFor != null && endReachedFor == getCurrentMedia()?.uri.toString() && !end) return@outerLaunch
         val titleIdx = player.getTitleIdx()
         val currentMedia = getCurrentMedia() ?: return@outerLaunch
