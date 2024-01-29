@@ -121,7 +121,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
         }
 
         fun updateCardViewImage(image: Uri?) {
-            cardView.mainImage = BitmapDrawable(cardView.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal))
+            cardView.mainImage = BitmapDrawable(cardView.resources, getBitmapFromDrawable(context, R.drawable.ic_video_big))
             cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
             downloadIcon(cardView.mainImageView, image)
         }

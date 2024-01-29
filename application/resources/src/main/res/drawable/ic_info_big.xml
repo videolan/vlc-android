@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_browser_subtitle_normal.xml
+  ~  ic_info_big.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,11 +23,13 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
   <path
-      android:fillColor="#757575"
-      android:pathData="M20,4L4,4c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2L22,6c0,-1.1 -0.9,-2 -2,-2zM4,12h4v2L4,14v-2zM14,18L4,18v-2h10v2zM20,18h-4v-2h4v2zM20,14L10,14v-2h10v2z"/>
+      android:pathData="M48,8C25.944,8 8,25.944 8,48C8,70.056 25.944,88 48,88C70.056,88 88,70.056 88,48C88,25.944 70.056,8 48,8zM48,14C66.813,14 82,29.187 82,48C82,66.813 66.813,82 48,82C29.187,82 14,66.813 14,48C14,29.187 29.187,14 48,14zM48,27A4.5,4.5 0,0 0,43.5 31.5A4.5,4.5 0,0 0,48 36A4.5,4.5 0,0 0,52.5 31.5A4.5,4.5 0,0 0,48 27zM48,44A3,3 0,0 0,45 47L45,67A3,3 0,0 0,48 70A3,3 0,0 0,51 67L51,47A3,3 0,0 0,48 44z"
+      android:strokeLineJoin="round"
+      android:fillColor="@color/white"
+      android:strokeLineCap="round"/>
 </vector>
