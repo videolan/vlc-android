@@ -494,7 +494,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
-            val start = if (forceRestart || videoResumeStatus == VideoResumeStatus.NEVER) 0L else getStartTime(mw)
+            val start = if (forceRestart
+                || videoResumeStatus == VideoResumeStatus.NEVER
+                || Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) 0L else getStartTime(mw)
             if (isVideoPlaying) {
                 if (!forceResume && videoResumeStatus == VideoResumeStatus.ASK && start > 0) {
                     waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
