@@ -48,7 +48,9 @@ export default {
             let component = this
             component.appStore.loading = true
             this.videoGrouping = this.appStore.videoGrouping
-            http.get(vlcApi.videoList(this.appStore.videoGrouping))
+            let groupId = this.$route.params.groupId
+            let folderId = this.$route.params.folderId
+            http.get(vlcApi.videoList(this.appStore.videoGrouping, groupId, folderId))
                 .catch(function (error) {
                     if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
@@ -58,9 +60,10 @@ export default {
                     this.loaded = true;
                     if (response) {
                         component.forbidden = false;
-                        this.videos = response.data
+                        this.videos = response.data.content
+                        component.appStore.loading = false
+                        component.appStore.title = response.data.item
                     }
-                    component.appStore.loading = false
                 });
         },
         getEmptyText() {
@@ -69,7 +72,13 @@ export default {
         },
         getMediaType(video) {
             if (video.videoType) return video.videoType
-            return "video" 
+            return "video"
+        }
+    },
+    watch: {
+        $route() {
+            this.loaded = false
+            this.fetchVideos()
         }
     },
     mounted: function () {
@@ -131,12 +140,14 @@ export default {
     border-radius: 6px;
     overflow: hidden;
 }
+
 .card-progress {
     height: 4px;
     background-color: $primary-color;
     position: absolute;
     bottom: 0;
 }
+
 .card-progress.full {
     width: 100%;
     background-color: $light-grey-transparent;

@@ -53,8 +53,12 @@ export const vlcApi = {
     /**
      * Retrieve the video list API URL
      */
-    videoList: (grouping) => { 
-       return `${API_URL}video-list?grouping=${grouping}`
+    videoList: (grouping, groupId, folderId) => { 
+        var group = ""
+        if (groupId) group = `&group=${groupId}`
+        var folder = ""
+        if (folderId) folder = `&folder=${folderId}`
+       return `${API_URL}video-list?grouping=${grouping}${group}${folder}`
     },
     /**
      * Retrieve the artist list API URL

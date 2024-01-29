@@ -15,7 +15,8 @@ export const useAppStore = defineStore('app', {
     warning: Object,
     socketOpened: true,
     showAddStream: false,
-    needRefresh: false
+    needRefresh: false,
+    title: ""
   }),
   getters: {
   },

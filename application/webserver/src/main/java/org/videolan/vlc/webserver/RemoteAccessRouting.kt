@@ -387,12 +387,31 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 return@get
             }
             val grouping = call.request.queryParameters["grouping"]?.toInt() ?: 0
+            val groupId = call.request.queryParameters["group"]?.toLong() ?: 0L
+            val folderId = call.request.queryParameters["folder"]?.toLong() ?: 0L
+            var groupTitle = ""
             val videos = appContext.getFromMl {
-                when (grouping) {
-                    0 -> getVideos(Medialibrary.SORT_DEFAULT, false, false, false)
-                    1 -> getFolders( Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0)
-                    else -> getVideoGroups( Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0).sanitizeGroups()
+                if (groupId != 0L) {
+                    val result = getVideoGroup(groupId)?.let { group ->
+                        groupTitle = group.title
+                        group.media(Medialibrary.SORT_DEFAULT, false, false, false, group.mediaCount(), 0)
+                    }
+                    result
+                } else if (folderId != 0L) {
+                val result = getFolder(Folder.TYPE_FOLDER_VIDEO, folderId)?.let { folder ->
+                    groupTitle = folder.title
+                    folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
                 }
+                result
+            } else when (grouping) {
+                    0 -> getVideos(Medialibrary.SORT_DEFAULT, false, false, false)
+                    1 -> getFolders(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0)
+                    else -> getVideoGroups(Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0).sanitizeGroups()
+                }
+            }
+            if (videos == null) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
             }
 
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
@@ -404,8 +423,9 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }
 
             }
+            val result = RemoteAccessServer.VideoListResult(list, groupTitle)
             val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondText(gson.toJson(result))
         }
         // List of all the albums
         get("/album-list") {
@@ -625,7 +645,6 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }.toMutableList().apply {
                     add(0, RemoteAccessServer.BreadcrumbItem(appContext.getString(R.string.home), "root"))
                 }
-
 
             val result = RemoteAccessServer.BrowsingResult(list, breadcrumbItems)
             val gson = Gson()

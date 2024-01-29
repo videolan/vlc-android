@@ -13,7 +13,14 @@ import SslPage from './pages/SslPage'
 
 const routes = [
   { path: '/', redirect: '/videos', name: 'Home' },
-  { path: '/videos', component: VideoList, name: 'VideoList', meta: { showDisplayBar: true, showResume: true, showGrouping: true } },
+  {
+    path: '/videos',
+    children: [
+      { path: '', component: VideoList, name: 'VideoList', meta: { showDisplayBar: true, showResume: true, showGrouping: true } },
+       { path: 'group/:groupId', component: VideoList, name: 'VideoGroupList', meta: { showDisplayBar: true } },
+       { path: 'folder/:folderId', component: VideoList, name: 'VideoFolderList', meta: { showDisplayBar: true } },
+    ]
+  },
   {
     path: '/audio', redirect: '/audio/artists', name: 'AudioArtists',
     children: [

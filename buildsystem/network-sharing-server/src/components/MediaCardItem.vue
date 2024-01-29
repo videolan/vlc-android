@@ -58,10 +58,14 @@ export default {
             return ''
         },
         isBrowse() {
-            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream')
+            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream' ||  this.mediaType == 'video-group' ||  this.mediaType == 'video-folder')
         },
         manageClick() {
-            if (['folder', 'storage', 'network'].includes(this.mediaType)) {
+            if (this.mediaType == 'video-group') {
+                this.$router.push({ name: 'VideoGroupList', params: { groupId: this.media.id } })
+            } else if (this.mediaType == 'video-folder') {
+                this.$router.push({ name: 'VideoFolderList', params: { folderId: this.media.id } })
+            } else if (['folder', 'storage', 'network'].includes(this.mediaType)) {
                 this.$router.push({ name: 'BrowseChild', params: { browseId: this.media.path } })
             } else {
                 this.$play(this.media, this.mediaType)

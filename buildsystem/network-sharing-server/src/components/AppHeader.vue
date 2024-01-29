@@ -96,6 +96,9 @@
         </nav>
 
       </div>
+      <div class="d-flex align-items-center"  v-else-if="this.getTitle()">
+        <p class="text-primary breadcrumb">{{this.getTitle()}}</p>
+      </div>
 
       <div class="flex1 d-flex justify-content-end align-items-center">
         <div class="dropdown" v-show="this.$route.meta.showGrouping">
@@ -143,6 +146,9 @@ export default {
     },
     hasBreadcrumb() {
       return this.browserStore.breadcrumb.length != 0
+    },
+    getTitle() {
+      return this.appStore.title
     },
     isActive(mode) {
       return this.appStore.videoGrouping == mode
