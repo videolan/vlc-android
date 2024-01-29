@@ -1249,7 +1249,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     private fun loadLastAudioPlaylist() {
-        if (!AndroidDevices.isAndroidTv) loadLastPlaylist(PLAYLIST_TYPE_AUDIO)
+        if (!AndroidDevices.isAndroidTv) {
+            // If playback in background is enabled it should load the last media of any type
+            // not only audio
+            val playlistType = if (settings.getString(KEY_VIDEO_APP_SWITCH, "0") == "1") PLAYLIST_TYPE_ALL else PLAYLIST_TYPE_AUDIO
+            loadLastPlaylist(playlistType)
+        }
     }
 
     fun loadLastPlaylist(type: Int) {
