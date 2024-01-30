@@ -4,7 +4,7 @@
             <img v-if="this.mediaType == 'file'" v-lazy="$getImageUrl(media, media.fileType)" class="media-img-list">
             <img v-else v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div class="media-overlay" v-show="!isBrowse()">
-                <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="24" />
+                <img class="overlay-play" :src="(isOpenable() ? `./icons/open.svg` : `./icons/play_circle_white.svg`)" width="24" />
             </div>
             <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
         <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played && mediaType == 'video')"/>
@@ -56,7 +56,10 @@ export default {
             return ''
         },
         isBrowse() {
-            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream' ||  this.mediaType == 'video-group' ||  this.mediaType == 'video-folder') 
+            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream') 
+        },
+        isOpenable() {
+            return ['video-group', 'video-folder'].includes(this.mediaType)
         },
         manageClick() {
             if (this.mediaType == 'video-group') {

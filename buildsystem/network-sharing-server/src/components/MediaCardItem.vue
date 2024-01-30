@@ -2,7 +2,7 @@
     <div v-on:click="manageClick" class="ratio clickable" v-bind:class="(mainImgClasses())">
         <img v-lazy="$getImageUrl(media, this.mediaType+'_big')" class="media-img-top">
         <div class="media-overlay" v-show="!isBrowse()">
-            <img class="overlay-play" :src="(`./icons/play_circle_white.svg`)" width="48" />
+            <img class="overlay-play" :src="(isOpenable() ? `./icons/open.svg` : `./icons/play_circle_white.svg`)" width="48" />
         </div>
         <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
         <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played && mediaType == 'video')"/>
@@ -58,7 +58,10 @@ export default {
             return ''
         },
         isBrowse() {
-            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream' ||  this.mediaType == 'video-group' ||  this.mediaType == 'video-folder')
+            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream')
+        },
+        isOpenable() {
+            return ['video-group', 'video-folder'].includes(this.mediaType)
         },
         manageClick() {
             if (this.mediaType == 'video-group') {
