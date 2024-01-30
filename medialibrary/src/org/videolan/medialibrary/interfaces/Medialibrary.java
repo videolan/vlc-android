@@ -94,6 +94,10 @@ abstract public class Medialibrary {
     public static final int ML_SET_TIME_AS_IS = 2;
     public static final int ML_SET_TIME_END = 3;
 
+    public static final int HISTORY_TYPE_GLOBAL = 0;
+    public static final int HISTORY_TYPE_LOCAL = 1;
+    public static final int HISTORY_TYPE_NETWORK = 2;
+
     public static final MediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
@@ -800,9 +804,8 @@ abstract public class Medialibrary {
     abstract public void reload(String entrypoint);
     abstract public void forceParserRetry();
     abstract public void forceRescan();
-    abstract public MediaWrapper[] lastMediaPlayed();
-    abstract public MediaWrapper[] lastStreamsPlayed();
-    abstract public boolean clearHistory();
+    abstract public MediaWrapper[] history(int type);
+    abstract public boolean clearHistory(int type);
     abstract public void clearDatabase(boolean restorePlaylist);
     abstract public boolean addToHistory(String mrl, String title);
     abstract public MediaWrapper getMedia(long id);

@@ -20,6 +20,20 @@
     <string name="searchable_hint">搜索…</string>
     <string name="history">历史</string>
 
+    <string name="sortby_name_asc">名称 A → Z 升序</string>
+    <string name="sortby_name_desc">名称 Z → A 降序</string>
+    <string name="sortby_artist_name_asc">艺人名称 A → Z 升序</string>
+    <string name="sortby_artist_name_desc">艺人名称 Z → A 降序</string>
+    <string name="sortby_album_name_asc">专辑名称 A → Z 升序</string>
+    <string name="sortby_album_name_desc">专辑名称 Z → A 降序</string>
+    <string name="sortby_filename_asc">文件名 A → Z 升序</string>
+    <string name="sortby_filename_desc">文件名 Z → A 降序</string>
+    <string name="sortby_length_asc">时长 短 → 长</string>
+    <string name="sortby_length_desc">时长 长 → 短</string>
+    <string name="sortby_date_asc">日期 旧 → 新</string>
+    <string name="sortby_date_desc">日期 新 → 旧</string>
+    <string name="sortby_last_modified_date_asc">修改时间 旧 → 新</string>
+    <string name="sortby_last_modified_date_desc">修改时间 新 → 旧</string>
     <plurals name="search_found_results_quantity">
         <item quantity="other">已找到 %d 条结果</item>
     </plurals>
@@ -37,7 +51,6 @@
     <string name="video_app_switch_summary">视频回放过程中切换到其他应用程序时 VLC 的行为</string>
     <string name="play_pip_title">以画中画模式播放视频</string>
     <string name="play_as_audio_background">在后台播放视频</string>
-    <string name="append">追加</string>
     <string name="insert_next">插入为下一项</string>
     <string name="play_all">播放全部</string>
     <string name="append_all">追加全部</string>
@@ -122,7 +135,6 @@
     <string name="shuffle_on">随机开启</string>
     <string name="shuffle_play">随机</string>
     <string name="repeat_title">循环模式</string>
-    <string name="repeat">循环关闭</string>
     <string name="repeat_single">单曲循环</string>
     <string name="repeat_all">全部循环</string>
     <string name="previous">上一项</string>
@@ -164,6 +176,7 @@
     <string name="sleep_in">睡眠倒计时</string>
     <string name="jump_to_time">转到时间</string>
     <string name="subtitle_select">选择字幕文件</string>
+    <string name="wait_before_sleep">先等待当前媒体项目播放结束</string>
 
     <string name="server_add_title">向收藏夹添加新的服务器</string>
     <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
@@ -187,7 +200,7 @@
     <string name="encountered_error_title">回放错误</string>
     <string name="encountered_error_message">VLC 处理该媒体时发生错误。\n请尝试刷新媒体库。</string>
     <string name="invalid_location">无法播放位置 %1$s。</string>
-    <string name="missing_location">此媒体来自不可用的存储，无法播放。</string>
+    <string name="missing_location">此媒体所存放的位置暂不可用，无法播放。</string>
 
     <string name="search">搜索</string>
 
@@ -200,7 +213,7 @@
     <string name="audio_resume_playback_warning">禁用音频播放队列历史可能会引发异常行为。\n禁用以后，您将无法在以下位置执行继续播放操作:\n\n\t- 蓝牙设备\n\t- 小工具\n\t- 媒体通知界面</string>
     <string name="audio_resume_playback_summary">允许储存音频播放队列内容，以便稍后继续播放</string>
     <string name="playback_speed_title">记住回放速度</string>
-    <string name="playback_speed_summary">切换媒体时保持回放速度不变</string>
+    <string name="playback_speed_summary">在不同媒体间保持播放速度不变</string>
 
     <string name="play_button">播放按钮</string>
 
@@ -259,7 +272,6 @@
 
     <!-- Preferences -->
     <string name="preferences">设置</string>
-
     <string name="directories_summary">选择要收录于媒体库的目录</string>
     <string name="add_custom_path">添加自定义路径</string>
     <string name="add_custom_path_description">输入要扫描的其他自定义目录:</string>
@@ -327,7 +339,6 @@
     <string name="enable_double_tap_play_title">轻按两下可播放／暂停</string>
     <string name="enable_double_tap_play_summary">在屏幕中央轻按两下可播放／暂停</string>
     <string name="enable_swipe_seek_title">滑动可进退</string>
-    <string name="enable_swipe_seek_summary">在屏幕上用手指滑动来控制进退</string>
     <string name="enable_scale_gesture_title">双指缩放</string>
     <string name="enable_scale_gesture_summary">用两根手指进行放大/缩小操作</string>
     <string name="popup_keepscreen_title">浮层模式保持屏幕常亮</string>
@@ -416,7 +427,8 @@
     <string name="artists_show_all_title">显示所有艺术家</string>
     <string name="show_headers">显示标题</string>
     <string name="show_headers_summary">根据排序类型按标题拆分列表 </string>
-
+    <string name="tv_folders_first">优先显示文件夹</string>
+    <string name="tv_folders_first_summary">在文件浏览器中，将文件夹显示在前面，文件显示在后面</string>
     <string name="extensions_prefs_category">扩展</string>
     <string name="extensions_empty">未侦测到扩展</string>
     <string name="extension_permission_title">激活新的扩展程序「%1$s」?</string>
@@ -656,7 +668,7 @@
     <string name="ml_wizard_scan_checkbox">扫描设备中的媒体内容</string>
     <string name="ml_wizard_description">选择 VLC 是扫描设备存储来汇总您的媒体库，还是只作为简易的播放器（内置有文件浏览器）使用。</string>
     <string name="tv_my_new_videos">我的新视频</string>
-    <string name="cast_option_title">将媒体投至其他屏幕</string>
+    <string name="cast_option_title">将媒体投放到其他屏幕</string>
     <string name="otg_device_title">OTG 设备</string>
     <string name="browser">浏览器</string>
     <string name="ab_repeat">A-B 循环</string>
@@ -734,6 +746,7 @@
     <string name="remove_current">移除当前项</string>
     <string name="validation_delete_playlist">是否确定要删除该播放列表?</string>
     <string name="validation_delete_playlist_text">此操作不可撤消。</string>
+    <string name="display_settings">显示设置</string>
     <string name="display_in_list">以列表形式显示</string>
     <string name="display_in_grid">以网格形式显示</string>
     <string name="dump_db_succes">数据库已转储到内部存储的根目录中</string>
@@ -785,8 +798,8 @@
     <string name="recently_played">最近播放</string>
     <string name="recently_added">最近添加</string>
     <string name="playback_multiple_errors">多个媒体无法播放</string>
-    <string name="clear_media_db_message">你将失去你的播放进度，书签和播放列表，但你将保留你的VLC for Android设置</string>
-    <string name="clear_app_data_message">你将失去你的播放进度，书签，播放列表和所有的VLC设置</string>
+    <string name="clear_media_db_message">您将失去播放进度、书签以及您创建的播放列表，但对 VLC for Android 的设置将得到保留</string>
+    <string name="clear_app_data_message">您将失去播放进度、书签、播放列表以及所有的 VLC 设置</string>
     <string name="clear">清除</string>
     <string name="abrepeat_add_first_marker">设置开始位置</string>
     <string name="abrepeat_add_second_marker">设置结束位置</string>
@@ -807,18 +820,18 @@
     <string name="codec">编码</string>
     <string name="text">文本</string>
     <string name="unknown">未知</string>
-    <string name="audio_delay_start">听到的声音</string>
-    <string name="subtitle_delay_first">听到的人声</string>
-    <string name="audio_delay_end">细小声音</string>
-    <string name="subtitle_delay_end">看见的文字</string>
+    <string name="audio_delay_start">听到声音</string>
+    <string name="subtitle_delay_first">听到对白</string>
+    <string name="audio_delay_end">画面有动静</string>
+    <string name="subtitle_delay_end">看到字幕</string>
     <string name="track_index">轨道: %s</string>
     <string name="audio_queue_progress">进度: %s</string>
-    <string name="audio_queue_progress_remaining">剩余时间: %s</string>
+    <string name="audio_queue_progress_remaining">剩余: %s</string>
     <string name="audio_queue_progress_finished">结束于: %s</string>
     <string name="sortby_track">轨道</string>
     <string name="this_folder">添加该文件夹</string>
     <string name="all_subfolders">添加该文件夹及其子文件夹</string>
-    <string name="playlist_existing">播放列表「%s 」已存在</string>
+    <string name="playlist_existing">播放列表 ｢%s｣ 已存在</string>
     <string name="new_title">新标题</string>
     <string name="browse">浏览</string>
     <string name="more">更多</string>
@@ -836,11 +849,11 @@
 
     <string name="swipe_unlock">滑动解锁</string>
     <string name="swipe_unlock_no_touch">长按解锁</string>
-    <string name="sub_result_by_name">结果为%s</string>
-    <string name="sub_result_by_name_season">第%s季</string>
-    <string name="sub_result_by_name_episode">第%s集</string>
+    <string name="sub_result_by_name">｢%s｣ 的结果</string>
+    <string name="sub_result_by_name_season">第 %s 季</string>
+    <string name="sub_result_by_name_episode">第 %s 集</string>
 
-    <string name="sub_result_by_file">文件结果</string>
+    <string name="sub_result_by_file">文件搜索结果</string>
     <string name="donate">帮助 VLC</string>
     <string name="donate_desc">支持 VLC 背后的志愿者们</string>
     <string name="donate_subscribtion">我希望每月都捐</string>
@@ -851,7 +864,7 @@
     <string name="subscription_cancel_tv">如何退订</string>
     <string name="donate_unsubscribe_tv">要取消订阅，请在手机或计算机上打开 %s 或扫描以下二维码:</string>
     <string name="tip_jar">帮助 VLC</string>
-    <string name="thank_you">谢谢您</string>
+    <string name="thank_you">谢谢</string>
     <string name="thank_you_desc">感谢您的赞助！\n这将帮助我们大大改善VLC！</string>
     <string name="donate_again">再次赞助该应用</string>
 
@@ -883,12 +896,12 @@
     <string name="go_to_folder">浏览所在目录</string>
     <string name="create_shortcut">创建启动器快捷方式</string>
     <string name="no_sub_renderer">暂未支持在投屏的同时投放字幕</string>
-    <string name="enqueuing">正在加载你的媒体文件</string>
+    <string name="enqueuing">正在加载媒体</string>
     <string name="soundfont">MIDI 音色库</string>
     <string name="soundfont_summary">选择用于播放 MIDI 音轨的 SoundFont 文件</string>
     <string name="missing_media_snack">媒体文件缺失。隐藏所有的媒体文件？</string>
-    <string name="browser_show_missing_media">显示缺失的媒体文件</string>
-    <string name="browser_show_missing_media_summary">显示远程媒体，即使它们不存在</string>
+    <string name="browser_show_missing_media">显示缺失的媒体</string>
+    <string name="browser_show_missing_media_summary">显示远程媒体，即使它们不在线</string>
     <string name="search_prefs">搜索设置</string>
     <string name="video_match_frame_rate_title">匹配显示器帧率</string>
     <string name="video_match_frame_rate_summary">使显示刷新率与媒体帧率相匹配。例如，24p (每秒24帧、逐行扫描) 的影片会以 24p 刷新率播放</string>
@@ -900,7 +913,6 @@
     <string name="delete_forever">永久删除</string>
     <string name="add_to_existing_playlist">添加到现有播放列表</string>
     <string name="bookmarks_title">书签</string>
-    <string name="no_bookmark">尚无书签</string>
     <string name="bookmark_default_name">位于 %s 的书签</string>
     <string name="bookmark_name">添加 %s 为书签</string>
     <string name="add_bookmark">添加书签</string>
@@ -930,14 +942,16 @@
     <string name="lock_use_sensor_title">锁定时接受传感器控制</string>
     <string name="lock_use_sensor_summary">屏幕方向已锁定时，允许根据传感器控制按 180° 旋转</string>
     <string name="start">启动</string>
+    <string name="notification_permission">通知权限</string>
+    <string name="notification_permission_explanation">VLC 需要您的授权，方可发送通知。\n应用只会在为您扫描媒体文件或者自定义 ｢画中画｣ 视频模式时向您发送通知。\n拒绝该权限不会影响 VLC 的正常运行，只是不显示通知信息而已。</string>
     <string name="permission">权限</string>
     <string name="customize">自定义</string>
     <string name="selection_count">选中了 %d 个</string>
-    <string name="controls_setting">控制及按钮设置</string>
+    <string name="controls_setting">控制及按钮设置</string> <!-- Unused -->
     <string name="gestures">手势</string>
     <string name="player_controls">播放器控制按钮</string>
     <string name="video_double_tap_jump_delay">轻按两下的时间延迟</string>
-    <string name="video_key_jump_delay">导航键时延</string>
+    <string name="video_key_jump_delay">导航键时间延迟</string>
     <string name="banned">已屏蔽文件夹 (长按可更改)</string>
     <string name="banned_tv">已屏蔽文件夹</string>
     <string name="banned_parent">被上级文件夹屏蔽</string>
@@ -949,7 +963,7 @@
     </plurals>
     <string name="official_website">官方网站</string>
     <string name="view_online">在线查看</string>
-    <string name="player_under_notch">在刘海屏下显示视频</string>
+    <string name="player_under_notch">在刘海下方显示视频</string>
     <string name="notch">刘海屏</string>
     <string name="always_fast_seek">总是使用快速定位</string>
     <string name="always_fast_seek_summary">定位速度更快，但可能不够精确</string>
@@ -1043,6 +1057,7 @@
     <string name="talkback_action_forward">前进 %s 秒</string>
     <string name="talkback_display_settings">显示设置</string>
     <string name="talkback_already_played">已经播放</string>
-
-
-</resources>
+    <string name="show_only_favs">只显示收藏</string>
+    <string name="ignore_headset_media_button_presses">忽略耳机媒体按钮的动作</string>
+    <string name="ignore_headset_media_button_presses_summary">例如正在使用的耳机物理按键损坏，这种情况下会用到该选项</string>
+    </resources>

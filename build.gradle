@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.android_plugin_version = '8.1.2'
-    ext.kotlin_version = '1.9.0'
-    ext.kotlinx_version = '1.6.0'
+    ext.android_plugin_version = '8.2.2'
+    ext.kotlin_version = '1.9.22'
+    ext.kotlinx_version = '1.7.1'
     repositories {
         flatDir dirs: "gradle/plugins"
         google()
@@ -39,39 +39,41 @@ allprojects {
 
 ext {
     appId = "org.videolan.vlc"
-    versionCode = 3050400
-    versionName = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? '4.0.0-preview - ' + versionCode : '3.5.4'
+    versionCode = 3050410
+    versionName = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? '4.0.0-preview - ' + versionCode : '3.6.0 Beta 1'
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
-    libvlcVersion = vlcMajorVersion == 3 ? '3.6.0-eap10' :'4.0.0-eap13'
-    medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc10' : '0.13.13-vlc4-rc10'
+    libvlcVersion = vlcMajorVersion == 3 ? '3.6.0-eap11' :'4.0.0-eap14'
+    medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc11' : '0.13.13-vlc4-rc11'
     minSdkVersion = 17
     targetSdkVersion = 34
     compileSdkVersion = 34
-    buildToolsVersion = '33.0.1'
+    desugarLib = '2.0.4'
     androidxLegacyVersion = '1.0.0'
-    androidxCoreVersion = '1.7.0'
-    appCompatVersion = '1.4.1'
+    androidxCoreVersion = '1.12.0'
+    appCompatVersion = '1.6.1'
     lifecycleVersion = '2.5.1'
-    androidxPreferencesVersion = '1.1.1'
-    androidxVersion = '1.1.0'
-    androidxActivityVersion = '1.6.0'
-    androidxFragmentVersion = '1.5.3'
-    androidxAnnotationVersion = '1.5.0'
-    androidxRecyclerviewVersion = '1.2.1'
-    androidxMediaVersion = '1.1.0'
+    androidxPreferencesVersion = '1.2.1'
+    androidxActivityVersion = '1.8.2'
+    androidxFragmentVersion = '1.6.2'
+    androidxAnnotationVersion = '1.7.1'
+    androidxRecyclerviewVersion = '1.3.2'
     androidxLeanbackVersion = '1.0.0'
-    androidxMaterialVersion = '1.7.0'
+    androidxMaterialVersion = '1.11.0'
     constraintLayoutVersion = '2.1.4'
+    windowVersion = '1.1.0'
+    mediaVersion = '1.6.0'
+    jdbcVersion =  '3.36.0'
     viewPager2Version = "1.0.0"
-    archVersion = '2.1.0'
-    roomVersion = '2.4.3'
-    pagingVersion = '3.1.1'
+    archVersion = '2.2.0'
+    roomVersion = '2.6.1'
+    pagingVersion = '3.2.1'
     junitVersion = '4.13.2'
     junitExtVersion = '1.1.5'
     mockito = '2.25.0'
     //Retrofit 2.7 drops Android 5 support
     retrofit = '2.7.1'
     moshi = '1.8.0'
+    ktorVersion = '2.3.7'
     powerMock = '2.0.2'
     espressoVersion = '3.5.1'
     livedataTest = '1.2.0'

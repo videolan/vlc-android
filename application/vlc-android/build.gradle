@@ -4,8 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     dataBinding {
         enabled = true
@@ -23,6 +21,7 @@ android {
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
         resValue "string", "changelog", changelog()
+        resValue "string", "dav1d_version", dav1dVersion()
         resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.tv"
         buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
         buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
@@ -40,6 +39,7 @@ android {
 
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        compileSdk rootProject.ext.compileSdkVersion
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -170,11 +170,12 @@ dependencies {
     api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycleVersion"
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
-    api "androidx.window:window:1.0.0"
-    api "androidx.media:media:1.6.0"
+    api "androidx.window:window:$rootProject.ext.windowVersion"
+    api "androidx.media:media:$rootProject.ext.mediaVersion"
     api 'androidx.gridlayout:gridlayout:1.0.0'
+    api "androidx.car.app:app:1.3.0-rc01"
 
-    kapt ('org.xerial:sqlite-jdbc:3.36.0')
+    kapt ("org.xerial:sqlite-jdbc:jdbcVersion")
     kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
 
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
@@ -240,6 +241,18 @@ def revision() {
         standardOutput = code
     }
     return code.toString()
+}
+
+def dav1dVersion() {
+    def code = new ByteArrayOutputStream()
+    if (file("../../libvlcjni/vlc/contrib/src/dav1d/rules.mak").exists()) {
+        exec {
+            commandLine 'bash', '-c', 'grep "DAV1D_VERSION := " ../../libvlcjni/vlc/contrib/src/dav1d/rules.mak | cut -d = -f2'
+            standardOutput = code
+        }
+        return code.toString().replaceAll(" ", "")
+    }
+    return "0.0.0"
 }
 
 /**

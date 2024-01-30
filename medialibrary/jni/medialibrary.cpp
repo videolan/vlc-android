@@ -313,10 +313,10 @@ removeMediaFromHistory(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
 }
 
 jobjectArray
-lastMediaPLayed(JNIEnv* env, jobject thiz)
+history(JNIEnv* env, jobject thiz, jint type)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::MediaPtr> mediaPlayed = aml->lastMediaPlayed();
+    std::vector<medialibrary::MediaPtr> mediaPlayed = aml->history((medialibrary::HistoryType)type);
     utils::jni::objectArray mediaRefs{ env, (jobjectArray) env->NewObjectArray(mediaPlayed.size(), ml_fields.MediaWrapper.clazz, NULL) };
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaPlayed) {
@@ -340,25 +340,9 @@ addToHistory(JNIEnv* env, jobject thiz, jstring mrl, jstring title)
     return ok;
 }
 
-jobjectArray
-lastStreamsPlayed(JNIEnv* env, jobject thiz)
+bool clearHistory(JNIEnv* env, jobject thiz, jint type)
 {
-    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::MediaPtr> streamsPlayed = aml->lastStreamsPlayed();
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(streamsPlayed.size(), ml_fields.MediaWrapper.clazz, NULL);
-    int index = -1, drops = 0;
-    for(medialibrary::MediaPtr const& media : streamsPlayed) {
-        auto item = mediaToMediaWrapper(env, &ml_fields, media);
-        env->SetObjectArrayElement(mediaRefs, ++index, item.get());
-        if (item == nullptr)
-            ++drops;
-    }
-    return mediaRefs;
-}
-
-bool clearHistory(JNIEnv* env, jobject thiz)
-{
-    return MediaLibrary_getInstance(env, thiz)->clearHistory();
+    return MediaLibrary_getInstance(env, thiz)->clearHistory((medialibrary::HistoryType) type);
 }
 
 static jobjectArray
@@ -2474,10 +2458,9 @@ static JNINativeMethod methods[] = {
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeUnbanFolder", "(Ljava/lang/String;)V", (void*)unbanFolder },
     {"nativeBannedFolders", "()[Ljava/lang/String;", (void*)bannedFolders },
-    {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)lastMediaPLayed },
-    {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)lastStreamsPlayed },
+    {"nativeHistory", "(I)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)history },
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
-    {"nativeClearHistory", "()Z", (void*)clearHistory },
+    {"nativeClearHistory", "(I)Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getVideos },
     {"nativeGetSortedVideos", "(IZZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSortedVideos },
     {"nativeGetSortedPagedVideos", "(IZZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedVideos },

@@ -104,7 +104,6 @@
     <string name="playback_speed_title">Guardar la velocidá de reproducción</string>
     <string name="subtitles">Sotítulos</string>
     <string name="lock">Bloquiar</string>
-
     <!-- About -->
     <string name="app_name_full">VLC p\'Android</string>
     <string name="revision">Revisión</string>
@@ -113,7 +112,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Axustes</string>
-
     <string name="directories_summary">Esbilla de direutorios a incluyir na biblioteca de medios</string>
     <string name="add_custom_path">Amestar un camín personalizáu</string>
     <string name="hardware_acceleration">Aceleración per hardware</string>
@@ -134,7 +132,6 @@
     <string name="video_min_group_length_disable">Nun lo facer</string>
     <string name="video_min_group_length_folder">Agrupalos pola carpeta</string>
     <string name="browser_show_hidden_files_title">Amosar ficheros anubríos</string>
-
     <string name="subtitles_prefs_category">Sotítulos</string>
     <string name="subtitles_size_title">Tamañu</string>
     <string name="subtitles_size_small">Pequeñu</string>
@@ -142,16 +139,9 @@
     <string name="subtitles_size_big">Grande</string>
     <string name="subtitles_size_huge">Escomanáu</string>
     <string name="subtitles_color_title">Color</string>
-    <string name="subtitles_color_white">Blancu</string>
-    <string name="subtitles_color_gray">Buxu</string>
-    <string name="subtitles_color_pink">Rosa</string>
-    <string name="subtitles_color_blue">Azul</string>
-    <string name="subtitles_color_yellow">Mariellu</string>
-    <string name="subtitles_color_green">Verde</string>
     <string name="subtitles_background_title">Fondu</string>
     <string name="subtitles_bold_title">En negrina</string>
     <string name="subtitles_autoload_title">Carga automática</string>
-
     <string name="audio_prefs_category">Audiu</string>
     <string name="headset_prefs_category">Auriculares</string>
     <string name="aout_summary">Camuda\'l métodu qu\'usa VLC pa la salida del audiu</string>
@@ -198,10 +188,8 @@
     <string name="confirm_resume">¿Siguir dende la última posición?</string>
     <string name="tv_ui_title">Interfaz d\'Android TV</string>
     <string name="medialibrary">Biblioteca multimedia</string>
-
     <!-- Accessibility -->
     <string name="more_actions">Más aiciones</string>
-
     <!-- Widget -->
     <string name="widget_name_w">Widget blancu de VLC</string>
     <string name="widget_name_b">Widget prietu de VLC</string>
@@ -213,7 +201,6 @@
     <string name="allow_sdraw_overlays_description">VLC precisa que-y deas laude p\'amosar vídeos nun ventanu enriba d\'otres aplicaciones.</string>
     <string name="permission_ask_again">Dar laude</string>
     <string name="exit_app_msg">¿De xuru que quies colar de VLC?</string>
-
     <!-- Plugins -->
     <string name="plugins">Plugins</string>
     <string name="opengl_title">Usu d\'OpenGL ES2</string>
@@ -222,9 +209,6 @@
     <string name="opengl_off">Forciar la desactivación</string>
     <string name="network_shared_folders">Carpetes compartíes</string>
     <string name="download_subtitles">Baxar sotítulos</string>
-    <string name="episodes">episodios</string>
-    <string name="movies">películes</string>
-    <string name="videos">vídeos</string>
     <string name="videos_all">Tolos vídeos</string>
     <string name="clear_playback_history">Llimpiar l\'historial de reproducciones</string>
     <string name="ml_scanning">Escanéu de ficheros</string>
@@ -312,4 +296,4 @@
     <string name="new_stream">Fluxu nuevu</string>
     <string name="thank_you">Gracies</string>
     <string name="new_group">Grupu nuevu</string>
-</resources>
+    </resources>

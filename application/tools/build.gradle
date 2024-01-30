@@ -2,12 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        compileSdk rootProject.ext.compileSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -25,7 +24,7 @@ android {
 dependencies {
     api "androidx.appcompat:appcompat:$rootProject.ext.appCompatVersion"
     implementation "androidx.lifecycle:lifecycle-process:$rootProject.ext.lifecycleVersion"
-    implementation "androidx.preference:preference:$androidxPreferencesVersion"
+    implementation "androidx.preference:preference-ktx:$androidxPreferencesVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"

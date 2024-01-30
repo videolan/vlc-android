@@ -43,9 +43,12 @@ import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AUDIO_DUCKING
+import org.videolan.tools.KEY_PLAYBACK_RATE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.EXTRA_MRL
@@ -88,7 +91,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         }
 
         updatePassThroughSummary()
-        val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
+        val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         for (key in arrayOf("audio-replay-gain-default", "audio-replay-gain-preamp")) {
             findPreference<EditTextPreference>(key)?.setOnBindEditTextListener {
@@ -111,18 +114,18 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     private fun updatePassThroughSummary() {
-        val pt = preferenceManager.sharedPreferences.getBoolean("audio_digital_output", false)
+        val pt = preferenceManager.sharedPreferences!!.getBoolean("audio_digital_output", false)
         findPreference<Preference>("audio_digital_output")?.setSummary(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
     }
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -161,7 +164,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         when (key) {
             "aout" -> {
                 lifecycleScope.launch { restartLibVLC() }
-                val opensles = "2" == preferenceManager.sharedPreferences.getString("aout", "0")
+                val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
@@ -186,6 +189,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                     } else lifecycleScope.launch { restartLibVLC() }
                 }
             }
+            KEY_PLAYBACK_SPEED_PERSIST -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE, 1.0f)
         }
     }
 

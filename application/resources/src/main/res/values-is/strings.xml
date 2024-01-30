@@ -15,10 +15,34 @@
     <string name="sortby_date">Dagsetning</string>
     <string name="sortby_last_modified_date">Nýlega bætt við</string>
     <string name="sortby_insertion">Dagsetning þegar sett inn</string>
+    <string name="sortby_date_last_modified">Nýlega bætt við</string>
+    <string name="sortby_date_insertion">Dagsetning þegar sett inn</string>
+    <string name="sortby_date_release">Útgáfudagsetning</string>
     <string name="sortby_media_number">Númer gagnamiðils</string>
     <string name="sortby_number">Fjöldi laga</string>
     <string name="searchable_hint">Leita…</string>
     <string name="history">Ferill</string>
+
+    <string name="sortby_name_asc">Nafn A → Ö</string>
+    <string name="sortby_name_desc">Nafn Ö → A</string>
+    <string name="sortby_artist_name_asc">Nafn flytjanda A → Ö</string>
+    <string name="sortby_artist_name_desc">Nafn flytjanda Ö → A</string>
+    <string name="sortby_album_name_asc">Nafn hljómplötu A → Ö</string>
+    <string name="sortby_album_name_desc">Nafn hljómplötu Ö → A</string>
+    <string name="sortby_filename_asc">Skráarheiti A → Ö</string>
+    <string name="sortby_filename_desc">Skráarheiti Ö → A</string>
+    <string name="sortby_length_asc">Stysta fyrst</string>
+    <string name="sortby_length_desc">Lengsta fyrst</string>
+    <string name="sortby_date_asc">Elsta fyrst</string>
+    <string name="sortby_date_desc">Nýjasta fyrst</string>
+    <string name="sortby_last_modified_date_asc">Elsta viðbætta fyrst</string>
+    <string name="sortby_last_modified_date_desc">Síðast viðbætt fyrst</string>
+    <string name="sortby_date_insertion_asc">Elsta sett inn fyrst</string>
+    <string name="sortby_date_insertion_desc">Nýjasta sett inn fyrst</string>
+    <string name="sortby_date_last_modified_asc">Elsta breytingadagsetning fyrst</string>
+    <string name="sortby_date_last_modified_desc">Nýjasta breytingadagsetning fyrst</string>
+    <string name="sortby_date_release_asc">Elsta útgáfudagsetning fyrst</string>
+    <string name="sortby_date_release_desc">Nýjasta útgáfudagsetning fyrst</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d niðurstaða fannst</item>
@@ -33,16 +57,18 @@
     <string name="play_from_start">Spila frá byrjun</string>
     <string name="play_as_audio">Spila sem hljóð</string>
     <string name="play_as_video">Spila sem myndskeið</string>
+    <string name="return_to_video">Ýttu lengi á kápu til að endurheimta myndskeiðið</string>
     <string name="video_app_switch_title">Bakgrunns/Mynd-í-mynd-hamur</string>
     <string name="video_app_switch_summary">Veldu hegðun VLC þegar skipt er í annað forrit úr afspilun myndskeiðs</string>
     <string name="play_pip_title">Spila myndskeið í mynd-í-mynd (PiP) ham</string>
     <string name="play_as_audio_background">Spila myndskeið í bakgrunni</string>
-    <string name="append">Bæta við</string>
+    <string name="append">Bæta við spilunarbiðröð</string>
     <string name="insert_next">Setja inn næsta</string>
     <string name="play_all">Spila allt</string>
     <string name="append_all">Bæta öllu við</string>
     <string name="resume_playback_short_title">Halda afspilun áfram</string>
     <string name="resume_playback_long_title">Halda áfram afspilun síðasta spilunarlista</string>
+    <string name="resume_playback_error">Ekkert til að halda áfram með</string>
     <string name="delete">Eyða</string>
     <string name="remove">Fjarlægja</string>
     <string name="set_song">Setja sem hringitón</string>
@@ -116,6 +142,7 @@
     <string name="loading">Hleð inn</string>
     <string name="please_wait">Bíddu aðeins…</string>
     <string name="nomedia">Engar margmiðlunarskrár fundust, færðu skrár yfir á tækið eða lagaðu stillingarnar þínar.</string>
+    <string name="nofav">Ekkert eftirlæti fannst.</string>
     <string name="noplaylist">Enginn spilunarlisti fannst.</string>
     <string name="nosubfolder">Engar undirmöppur</string>
     <string name="directorynotfound">Skráaslóðin \'%1$s\' fannst ekki.</string>
@@ -128,7 +155,6 @@
     <string name="shuffle_on">Stokkun á</string>
     <string name="shuffle_play">Stokka</string>
     <string name="repeat_title">Endurtekningarhamur</string>
-    <string name="repeat">Endurtaka ekkert</string>
     <string name="repeat_single">Endurtaka eitt</string>
     <string name="repeat_all">Endurtaka allt</string>
     <string name="previous">Fyrra</string>
@@ -140,6 +166,7 @@
     <string name="surface_fit_screen">Laga að skjá</string>
     <string name="surface_fill">Fylla</string>
     <string name="surface_original">Miðjað</string>
+    <string name="resize_tip">Ýttu lengi til að sjá fleiri valkosti</string>
     <string name="unseekable_stream">Streymi sem ekki er hægt að leita í</string>
     <string name="refresh">Hressa</string>
     <string name="track_audio">Hljóðspor</string>
@@ -170,7 +197,6 @@
     <string name="sleep_in">Sofa lengur</string>
     <string name="jump_to_time">Hoppa á tíma</string>
     <string name="subtitle_select">Veldu skjátextaskrá</string>
-
     <string name="server_add_title">Bæta nýjum þjóni í eftirlæti</string>
     <string name="server_domain_hint">Vistfang þjóns (heiti léns eða IP-tala)</string>
     <string name="server_share_hint">Nafn netsameignar (eða IP vistfang)</string>
@@ -199,8 +225,6 @@
     <string name="playback_history_title">Ferill afspilunar</string>
     <string name="playback_history_summary">Vista alla spilaða gagnamiðla í ferilskrá</string>
     <string name="playback_speed_title">Vista afspilunarhraða</string>
-    <string name="playback_speed_summary">Halda afspilunarhraða á milli gagnamiðla</string>
-
     <string name="play_button">Afspilunarhnappur</string>
 
     <!-- Tips -->
@@ -212,11 +236,22 @@
     <string name="tips_play_description">Ýttu til að spila myndskeið</string>
     <string name="lock">Læsa</string>
     <string name="tap">Ýttu til að skoða</string>
+    <string name="tap_to_remove">Ýttu til að fjarlægja</string>
+    <string name="tap_to_rearrange">Ýttu til að endurraða</string>
+    <string name="tap_to_previous_next">Ýttu til að fara á fyrra/næsta</string>
     <string name="lock_orientation">Stefna</string>
+    <string name="lock_orientation_description">Ýttu til að læsa/aflæsa stefnu</string>
     <string name="aspect_ratio">Stærðarhlutföll</string>
+    <string name="aspect_ratio_description">Ýttu til að breyta stærðarhlutföllum myndskeiðs</string>
     <string name="advanced_options">Ítarlegir valkostir</string>
+    <string name="advanced_options_description">Svo sem afspilunarhraða, endurtekningarham, …</string>
+    <string name="tips_swipe">Strjúka upp eða niður</string>
+    <string name="tips_swipe_horizontal">Strjúka til vinstri eða hægri</string>
     <string name="tips_playlist">Spilunarlisti</string>
+    <string name="tips_hold_seek">Halda til að leita</string>
+    <string name="pause_description">Banka tvisvar til að setja í bið</string>
     <string name="seek_tap">+/- 10 sek.</string>
+    <string name="seek_tap_description">Banka tvisvar til að fara 10 sek áfram eða afturábak</string>
     <string name="close">Loka</string>
 
     <string name="playlist_tips">Ábendingar spilunarlista</string>
@@ -228,6 +263,7 @@
     <string name="audio_player_tips">Ábendingar hljóðspilara</string>
     <string name="previous_next_song">Fyrra/Næsta lag</string>
     <string name="show_playlist">Birta spilunarlista</string>
+    <string name="hide_playlist">Fela spilunarlista</string>
     <string name="hold_to_stop">Halda til að stöðva</string>
 
     <!-- About -->
@@ -244,6 +280,9 @@
 
     <!-- Preferences -->
     <string name="preferences">Stillingar</string>
+    <string name="more_preferences">Fleiri stillingar</string>
+    <string name="prefs_opened_on_phone">Stillingar opnaðar á síma</string>
+    <string name="open_on_phone">Opna á símaskjá</string>
 
     <string name="directories_summary">Veldu möppur til að hafa með í margmiðlunarsafninu</string>
     <string name="add_custom_path">Bæta við sérsniðinni slóð</string>
@@ -262,10 +301,12 @@
     <string name="screen_orientation_portrait">Lóðrétt</string>
     <string name="screen_orientation_landscape">Lárétt</string>
     <string name="enable_black_theme">Svart þema</string>
+    <string name="theme_auto">Sjálfvirkt þema</string>
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="subtitle_preferred_language">Umbeðið tungumál skjátexta</string>
     <string name="daynight_title">DagsNætur-hamur</string>
     <string name="daynight_follow_system_title">Fylgja ham kerfisins</string>
+    <string name="no_track_preference">Ekkert kjörtungumál</string>
     <string name="extra_prefs_category">Aukastillingar</string>
 
     <string name="interface_prefs_screen">Viðmót</string>
@@ -300,26 +341,44 @@
     <string name="enable_double_tap_play_title">Banka tvisvar til að spila/setja í bið</string>
     <string name="enable_double_tap_play_summary">Banka tvisvar á miðju skjásins til að spila eða setja í bið</string>
     <string name="enable_swipe_seek_title">Strjúka til að leita</string>
+    <string name="enable_scale_gesture_title">Tveggja fingra aðdráttur</string>
+    <string name="enable_scale_gesture_summary">Renna að og frá með tveimur fingrum</string>
     <string name="popup_keepscreen_title">Halda skjá Á í sprettgluggaham</string>
     <string name="popup_keepscreen_summary">Alltaf halda skjá Á þegar sprettgluggi er birtur, jafnvel þó myndskeið sé í bið.</string>
     <string name="browser_show_hidden_files_title">Birta faldar skrár</string>
+    <string name="albums_show_track_numbers">Sýna spornúmer</string>
+    <string name="enable_video_screenshot">Taka skjámynd</string>
 
     <string name="subtitles_prefs_category">Skjátextar</string>
     <string name="subtitles_size_title">Stærð skjátexta</string>
+    <string name="subtitles_presets_title">Forstillingar skjátexta</string>
     <string name="subtitles_size_small">Litlir</string>
     <string name="subtitles_size_normal">Venjulegir</string>
     <string name="subtitles_size_big">Stórir</string>
     <string name="subtitles_size_huge">Risastórir</string>
+    <string name="subtitles_font_style">Leturstíll skjátexta</string>
     <string name="subtitles_color_title">Litur skjátexta</string>
-    <string name="subtitles_color_white">Hvítt</string>
-    <string name="subtitles_color_gray">Grátt</string>
-    <string name="subtitles_color_pink">Bleikt</string>
-    <string name="subtitles_color_blue">Blátt</string>
-    <string name="subtitles_color_yellow">Gult</string>
-    <string name="subtitles_color_green">Grænt</string>
+    <string name="subtitles_opacity">Ógegnsæi</string>
+    <string name="subtitles_color">Litur</string>
+    <string name="subtitles_size">Stærð</string>
+    <string name="subtitles_background_color_title">Bakgrunnur skjátexta</string>
     <string name="subtitles_background_title">Bakgrunnur skjátexta</string>
+    <string name="subtitles_outline_title">Útlínur skjátexta</string>
+    <string name="subtitles_shadow_title">Skuggi skjátexta</string>
+    <string name="subtitles_decoration_title">Skreyting skjátexta</string>
+    <string name="subtitle_decoration_none">Ekkert</string>
+    <string name="subtitle_decoration_shadow">Skuggi</string>
+    <string name="subtitle_decoration_outline">Útlínur</string>
     <string name="subtitles_bold_title">Feitletra skjátexta</string>
     <string name="subtitles_autoload_title">Hlaða sjálfvirkt inn skjátextum</string>
+    <string name="previous_color">Fyrri litur</string>
+    <string name="new_color">Nýr litur</string>
+    <string name="subtitles_preset_default">Sjálfgefið</string>
+    <string name="subtitles_preset_default_large">Stór texti</string>
+    <string name="subtitles_preset_default_largest">Stærsti texti og birtuskil</string>
+    <string name="subtitles_preset_white_background">Með bakgrunni</string>
+    <string name="subtitles_yellow">Gult</string>
+    <string name="subtitles_yellow_background">Gult með bakgrunn</string>
 
     <string name="audio_prefs_category">Hljóð</string>
     <string name="lockscreen_cover_title">Mynd á læsiskjá</string>
@@ -337,11 +396,39 @@
     <string name="enable_headset_detection_summary">Skynja þegar heyrnartól eru tengd eða aftengd</string>
     <string name="enable_play_on_headset_insertion">Halda áfram þegar heyrnartól eru tengd</string>
     <string name="enable_play_on_headset_insertion_summary">Annars setja í bið</string>
+    <string name="replaygain_prefs_category">Mögnun endurspilunar</string>
+    <string name="replaygain_enable">Virkja mögnun endurspilunar</string>
+    <string name="replaygain_mode">Mögnun endurspilunar</string>
+    <string name="replaygain_preamp">Formögnun endurspilunar</string>
+    <string name="replaygain_default">Sjálfgefin mögnun endurspilunar</string>
+    <string name="replaygain_peak_protection">Verja hljóðtoppa</string>
+    <string name="replaygain_peak_protection_summary">Verja gegn afklippingu hljóðtoppa</string>
+    <string name="replaygain_track">Spor</string>
+    <string name="replaygain_album">Albúm</string>
     <string name="aout">Hljóðúttak</string>
     <string name="aout_summary">Breyttu aðferðinni sem VLC notar til að senda út hljóð.</string>
     <string name="audio_ducking_title">Lækka hljóðstyrk VLC við tilkynningar</string>
     <string name="audio_ducking_summary">Gerir auðveldara að heyra raddtilkynningar, leiðbeiningar við leiðsögn eða aðra raddaðstoð</string>
     <string name="casting_category">Útvörpun (casting)</string>
+    <string name="remote_access">Fjaraðgangur</string>
+    <string name="remote_access_status">Ástand netþjóns</string>
+    <string name="remote_access_status_summary">Ýttu til að skoða ástand netþjóns</string>
+    <string name="remote_access_connections">Tengingar</string>
+    <string name="remote_access_links">Tenglar</string>
+    <string name="remote_access_active">Fjaraðgangur virkur</string>
+    <string name="remote_access_notification">Fjaraðgangur virkur á %s</string>
+    <string name="remote_access_notification_stopped">Fjaraðgangur stöðvaður</string>
+    <string name="remote_access_notification_connecting">Fjaraðgangur að tengjast</string>
+    <string name="remote_access_notification_error">Villa í fjaraðgangi</string>
+    <string name="remote_access_notification_stopping">Fjaraðgangur stöðvast</string>
+    <string name="remote_access_notification_not_init">Fjaraðgangur frumstillist</string>
+    <string name="enable_remote_access">Virkja fjaraðgang</string>
+    <string name="remote_access_info">Upplýsingar um fjaraðgang</string>
+    <string name="remote_access_content">Efni</string>
+    <string name="remote_access_medialibrary_content_summary">Virkt: %s\nÓvirkt: %s</string>
+    <string name="remote_access_file_browser_content">Skráavafri</string>
+    <string name="remote_access_network_browser_content">Netvafri</string>
+    <string name="remote_access_playback_control">Stýring afspilunar</string>
     <string name="casting_switch_title">Þráðlaus vörpun (casting)</string>
     <string name="casting_passthrough_title">Gegnumstreymi hljóðs</string>
     <string name="casting_passthrough_summary">Láttu sjónvarpið sjá um hljóðmeðhöndlun</string>
@@ -353,6 +440,8 @@
     <string name="casting_quality_lowcpu">Lægstu</string>
     <string name="casting_connected_renderer">Tengt við myndgerðarþjóninn \'%1$s\'</string>
     <string name="artists_show_all_title">Sýna alla flytjendur</string>
+    <string name="tv_folders_first">Birta möppur fyrst</string>
+    <string name="tv_show_hidden_files">Birta faldar skrár</string>
     <string name="extensions_prefs_category">Forritsaukar</string>
     <string name="extensions_empty">Engir forritsaukar fundust</string>
     <string name="extension_permission_title">Virkja nýja forritsaukann \"%1$s\"?</string>
@@ -381,6 +470,7 @@
     <string name="dump_media_db_summary">Afrita gagnagrunn á rót innri gagnageymslu</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
     <string name="clear_media_database_summary">Hreinsar gagnagrunninn til að byrja frá grunni</string>
+    <string name="clear_app_data">Hreinsa gögn forrits</string>
     <string name="clear_history">Hreinsa feril</string>
     <string name="set_locale">Setja staðfærslu</string>
     <string name="network_caching">Gildi skyndiminnis fyrir net</string>
@@ -460,10 +550,15 @@
     <!-- Widget -->
     <string name="widget_name_w">Hvítir VLC-viðmótshlutar</string>
     <string name="widget_name_b">Dökkir VLC-viðmótshlutar</string>
+    <string name="widget_name_mini_player">VLC smáspilari</string>
+    <string name="whats_next">Hvað næst?</string>
+    <string name="click_here">Smelltu hér til að sjá nánari upplýsingar.</string>
     <string name="allow_storage_access_title">Leyfa VLC að fá aðgang að hljóð- og myndskeiðaskrám</string>
     <string name="allow_storage_access_description">VLC þarf að fá þessa heimild hjá þér til að fá aðgang að margmiðlunarskrám á þessu tæki.</string>
+    <string name="allow_storage_manager_title">Leyfa VLC aðgang að öllum skrám</string>
     <string name="allow_storage_manager_description">%s\n\nVeita heimild?</string>
     <string name="never_ask_again">Ekki spyrja aftur</string>
+    <string name="never_show_again">Ekki birta þetta aftur</string>
     <string name="allow_settings_access_ringtone_title">Leyfa VLC að setja hringitón</string>
     <string name="allow_settings_access_ringtone_description">VLC þarf að fá þessa heimild hjá þér til að setja þetta lag upp sem hringitón.</string>
     <string name="allow_settings_access_brightness_title">Leyfa VLC að stilla birtustigsham</string>
@@ -471,10 +566,11 @@
     <string name="allow_draw_overlays_title">Leyfa VLC-spilaranum að spretta upp yfir aðra forritsglugga</string>
     <string name="allow_sdraw_overlays_description">VLC þarf að fá þessa heimild hjá þér til að birta myndskeið í sprettglugga ofan á öðrum forritum.</string>
     <string name="permission_ask_again">Gefa heimild</string>
+    <string name="pick_file">Veldu skrá</string>
     <string name="permission_not_granted">Heimild ekki veitt</string>
     <string name="exit_app">Loka VLC</string>
     <string name="exit_app_msg">Ertu viss um að þú viljir hætta í VLC?</string>
-
+    <string name="widget_explanation_title">VLC-viðmótshlutar</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller spor</string>
     <string name="fastscroller_handle">FastScroller haldfang</string>
@@ -561,12 +657,15 @@
     <string name="ml_wizard_scan_checkbox">Leita að margmiðlunarskrám á tækinu</string>
     <string name="ml_wizard_description">Veldu hvort VLC eigi að leita á öllu geymsluminni tækisins við skipulagningu margmiðlunarsafnsins eða hvort það eigi að hegða sér eins og einfaldur margmiðlunarspilari með innbyggðum vafra.</string>
     <string name="tv_my_new_videos">Ný myndskeið</string>
-    <string name="cast_option_title">Varpa margmiðlun á annan skjá</string>
     <string name="otg_device_title">OTG-tæki</string>
     <string name="browser">Vafri</string>
     <string name="ab_repeat">A-B endurtaka</string>
     <string name="stop_after_this">Stöðva eftir þetta spor</string>
     <string name="time_category_new">Nýr gagnamiðill</string>
+    <string name="time_category_today">Í dag</string>
+    <string name="time_category_yesterday">Í gær</string>
+    <string name="time_category_current_week">Í þessari viku</string>
+    <string name="time_category_last_week">Í síðustu viku</string>
     <string name="time_category_current_month">Í þessum mánuði</string>
     <string name="time_category_current_year">Á þessu ári</string>
     <string name="time_category_last_year">Á síðasta ári</string>
@@ -582,6 +681,7 @@
     <string name="delete_the_selected">Eyða völdu</string>
     <string name="download_the_selected">Sækja valið</string>
     <string name="next">Næsta</string>
+    <string name="skip">Sleppa</string>
     <string name="next_step">Næsta</string>
     <string name="download">Sækja</string>
     <string name="ctx_player_video_track">Veldu myndskeiðsspor</string>
@@ -616,6 +716,7 @@
     <string name="misc">Ýmislegt</string>
     <string name="popup_force_legacy_title">Nota sérsniðinn mynd-í-mynd (PiP) sprettglugga</string>
     <string name="popup_force_legacy_summary">Nota sérsniðinn mynd-í-mynd (PiP) sprettglugga með breytanlegri stærð</string>
+    <string name="restore_background_video_title">Endurheimta myndskeið úr bakgrunni</string>
     <string name="device_default">Sjálfgefið á tæki</string>
     <string name="track_number">%d hljóðspor </string>
     <string name="jump_to">Hoppa á</string>
@@ -637,6 +738,8 @@
     <string name="remove_current">Fjarlægja fyrirliggjandi</string>
     <string name="validation_delete_playlist">Ertu viss um að þú viljir eyða þessum spilunarlista?</string>
     <string name="validation_delete_playlist_text">Þessa aðgerð er ekki hægt að afturkalla.</string>
+    <string name="display_settings">Stillingar skjás</string>
+    <string name="incognito_mode">Nafnleysishamur</string>
     <string name="display_in_list">Birta í lista</string>
     <string name="display_in_grid">Birta í reitum</string>
     <string name="dump_db_succes">Dembdi gagnagrunni á rót innri gagnageymslu</string>
@@ -782,9 +885,11 @@
     <string name="warning_stream_speed">Ef hraði afspilunar er aukinn yfir 1 fyrir streymi gæti það valdið hökti (stuttering)</string>
     <string name="go_to_folder">Flakka í yfirmöppu</string>
     <string name="no_sub_renderer">Ekki er enn stuðningur við skjátexta við casting-sendingar</string>
-    <string name="enqueuing">Hleð inn margmiðlunargögnunum þínum</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Veldu SoundFont-skrá til að spila midi-hljóðspor</string>
+    <string name="safe_mode">Öryggishamur</string>
+    <string name="restricted_access">Aðgangur takmarkaður</string>
+    <string name="unlock">Aflæsa</string>
     <string name="search_prefs">Leitarstillingar</string>
     <string name="preferred_resolution">Kjörupplausn myndmerkis</string>
     <string name="preferred_resolution_summary">Hámarksgæði myndmerkis í streymi, ef slíkt er í boði: %s</string>
@@ -794,7 +899,6 @@
     <string name="delete_forever">Eyða endanlega</string>
     <string name="add_to_existing_playlist">Bæta á fyrirliggjandi spilunarlista</string>
     <string name="bookmarks_title">Bókamerki</string>
-    <string name="no_bookmark">Ekkert bókamerki ennþá</string>
     <string name="bookmark_default_name">Bókamerki á %s</string>
     <string name="bookmark_name">Bókamerki %s</string>
     <string name="add_bookmark">Bæta við bókamerki</string>
@@ -818,9 +922,12 @@
     <string name="permission">Heimild</string>
     <string name="customize">Sérsníða</string>
     <string name="selection_count">%d valið</string>
-    <string name="controls_setting">Stilingar stýringa</string>
+    <string name="controls_setting">Stilingar stýringa</string> <!-- Unused -->
     <string name="gestures">Bendingar</string>
     <string name="player_controls">Stýringar fyrir afspilun</string>
+    <string name="banned">Bönnuð mappa (ýttu lengi til að breyta)</string>
+    <string name="banned_tv">Bönnuð mappa</string>
+    <string name="banned_parent">Bannað af yfirmöppu</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Þetta atriði er þegar í þessum spilunarlista.</item>
         <item quantity="other">Þessi atriði eru þegar í þessum spilunarlista.</item>
@@ -831,4 +938,102 @@
     </plurals>
     <string name="official_website">Opinbert vefsvæði</string>
     <string name="view_online">Skoða á netinu</string>
-</resources>
+    <string name="no_web_browser">Enginn vafri uppsettur</string>
+    <string name="no_video">Ekkert myndskeið tiltækt</string>
+    <string name="foldable">Flettanlegur skjár</string>
+    <string name="undo">Afturkalla</string>
+    <string name="widget_theme">Þema viðmótshluta</string>
+    <string name="widget_preferences">Stilla viðmótshluta</string>
+    <string name="custom">Sérsniðið</string>
+    <string name="widget_type">Tegund viðmótshluta</string>
+    <string name="opacity">Ógegnsæi</string>
+    <string name="widget_background">Bakgrunnur</string>
+    <string name="widget_foreground">Forgrunnur</string>
+    <string name="configure_widget">Uppsetning viðmótshluta</string>
+    <string name="widget_preview">Forskoðun viðmótshluta</string>
+    <string name="widget_show_cover">Birta kápu</string>
+    <string name="seek_backward_content_description">Leita %s sekúndur afturábak</string>
+    <string name="seek_forward_content_description">Leita %s sekúndur áfram</string>
+    <string name="open_vlc">Opna VLC</string>
+    <string name="playing">Spilandi</string>
+    <string name="disable_track">Gera spor óvirkt</string>
+    <string name="ascending">Hækkandi</string>
+    <string name="descending">Lækkandi</string>
+    <string name="screenshot_error">Villa við að taka skjámyndina</string>
+    <string name="disabled">Óvirkt</string>
+    <string name="enable_screenshot_gesture">Ýttu með 3 fingrum</string>
+    <string name="enable_screenshot_button">Birta hnapp fyrir skjámyndatöku</string>
+    <string name="enable_screenshot_button_and_gesture">Hnappur og bending</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - titill: %s - tímalengd: %s</string>
+    <string name="talkback_genre">Stíltegund: %s</string>
+    <string name="talkback_history_item">Atriði í vinnsluferli</string>
+    <string name="talkback_playlist">Spilunarlisti: %s</string>
+    <string name="talkback_folder">Mappa: %s</string>
+    <string name="talkback_file">Skrá: %s</string>
+    <string name="talkback_favorite">Eftirlæti: %s</string>
+    <string name="talkback_track_number">Spor númer %s</string>
+    <string name="talkback_duration">Lengd: %s</string>
+    <string name="talkback_album">Albúm: %s</string>
+    <string name="talkback_artist">Flytjandi: %s</string>
+    <string name="talkback_release_date">Gefið út %s</string>
+    <string name="talkback_video">Myndskeið: %s</string>
+    <string name="talkback_stream">Streymi: %s</string>
+    <string name="talkback_audio_track">Hljóðspor: %s</string>
+    <string name="talkback_video_group">Hópur myndskeiðs: %s</string>
+    <string name="talkback_hours">klukkustundir</string>
+    <string name="talkback_minutes">mínútur</string>
+    <string name="talkback_seconds">sekúndur</string>
+    <string name="talkback_list_section">Haus: %s</string>
+    <string name="talkback_enter_screen">Fara á %s</string>
+    <string name="talkback_file_size">Skráarstærð: %s</string>
+    <string name="talkback_open_in_browser">Opna í vafra</string>
+    <string name="talkback_video_player">Myndspilari. Ýttu til að birta stýringar. Ýttu á til baka til að fela þær</string>
+    <string name="talkback_video_tracks">Myndspor</string>
+    <string name="talkback_audio_tracks">Hljóðspor</string>
+    <string name="talkback_subtitle_tracks">Skjátextaspor</string>
+    <string name="talkback_subtitle_dowload_item">Tungumál: %s. %s. Nafn: %s</string>
+    <string name="selected">Valið</string>
+    <string name="talkback_increase_delay">Auka töf</string>
+    <string name="talkback_decrease_delay">Minnka töf</string>
+    <string name="talkback_increase_speed">Auka hraða</string>
+    <string name="talkback_decrease_speed">Minnka hraða</string>
+    <string name="talkback_subtitle_history">Ferill skjátexta</string>
+    <string name="talkback_language_selection">%s valin tungumál</string>
+    <string name="talkback_audio_player_opened">Hljóðspilari opnaður</string>
+    <string name="talkback_audio_player_collapsed">Hljóðspilari felldur saman</string>
+    <string name="talkback_audio_player_closed">Hljóðspilara lokað</string>
+    <string name="talkback_audio_player">Hljóðspilari. Núna að spila: %s</string>
+    <string name="talkback_out_of">%s af %s</string>
+    <string name="talkback_track_index">Spor %s af %s</string>
+    <string name="downloaded">Sótt</string>
+    <string name="not_downloaded">Ekki sótt</string>
+    <string name="downloading">Sæki</string>
+    <string name="talkback_action_rewind">Spóla til baka um %s sekúndur</string>
+    <string name="talkback_action_forward">Spóla áfram um %s sekúndur</string>
+    <string name="talkback_display_settings">Stillingar skjás</string>
+    <string name="talkback_already_played">Þegar spilað</string>
+    <string name="show_only_favs">Sýna aðeins eftirlæti</string>
+    <string name="ra_send_files">Senda skrár</string>
+    <string name="ra_file">Skrá</string>
+    <string name="ra_upload_remaining">Sendi inn %s skrár</string>
+    <string name="ra_upload_all">Senda inn allt</string>
+    <string name="ra_ssl_explanation_title">Óörugg tenging</string>
+    <string name="ra_ssl_button">Nota örugga tengingu</string>
+    <string name="home">Heim</string>
+    <string name="ra_otp_not_me">Þetta er ekki ég</string>
+
+    <string name="ra_onboarding_ssl_title">Dulritun gagna</string>
+    <string name="ra_onboarding_otp_title">Auðkenning</string>
+    <string name="ra_onboarding_content_files">Skráavafri</string>
+    <string name="ra_onboarding_content_playback">Stýring afspilunar</string>
+    <string name="ra_disable">Gera óvirkt</string>
+    <string name="learn_more">Kanna nánar</string>
+
+    <!-- car screens -->
+    <string name="help">Hjálp</string>
+    <string name="voice_control">Raddstýring</string>
+    </resources>

@@ -38,8 +38,8 @@
     <string name="sortby_date_desc">Newest date first</string>
     <string name="sortby_last_modified_date_asc">Oldest addition first</string>
     <string name="sortby_last_modified_date_desc">Newest addition first</string>
-    <string name="sortby_number_asc">More videos</string>
-    <string name="sortby_number_desc">Less videos</string>
+    <string name="sortby_number_asc">More videos in group first</string>
+    <string name="sortby_number_desc">Less videos in group first </string>
     <string name="sortby_date_insertion_asc">Oldest insertion date first</string>
     <string name="sortby_date_insertion_desc">Newest insertion date first</string>
     <string name="sortby_date_last_modified_asc">Oldest modification date first</string>
@@ -159,7 +159,7 @@
     <string name="shuffle_on">Shuffle On</string>
     <string name="shuffle_play">Shuffle</string>
     <string name="repeat_title">Repeat mode</string>
-    <string name="repeat">Repeat none</string>
+    <string name="repeat_none">Repeat none</string>
     <string name="repeat_single">Repeat single</string>
     <string name="repeat_all">Repeat all</string>
     <string name="previous">Previous</string>
@@ -307,6 +307,9 @@
 
     <!-- Preferences -->
     <string name="preferences">Settings</string>
+    <string name="more_preferences">More settings</string>
+    <string name="prefs_opened_on_phone">Settings opened on phone</string>
+    <string name="open_on_phone">Open on phone screen</string>
 
     <string name="directories_summary">Select directories to include in the media library</string>
     <string name="add_custom_path">Add a custom path</string>
@@ -383,7 +386,7 @@
     <string name="enable_double_tap_play_title">Double tap to play/pause</string>
     <string name="enable_double_tap_play_summary">Double tap on screen center to play or pause</string>
     <string name="enable_swipe_seek_title">Swipe to seek</string>
-    <string name="enable_swipe_seek_summary">Swipe you finger across the screen to seek</string>
+    <string name="enable_swipe_seek_summary">Swipe your finger across the screen to seek</string>
     <string name="enable_scale_gesture_title">Two finger zoom</string>
     <string name="enable_scale_gesture_summary">Zoom in and out with two fingers</string>
     <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
@@ -462,6 +465,27 @@
     <string name="audio_ducking_title">Lower VLC volume on notifications</string>
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
     <string name="casting_category">Casting</string>
+    <string name="remote_access">Remote access</string>
+    <string name="remote_access_status">Server status</string>
+    <string name="remote_access_status_summary">Tap to see the server status</string>
+    <string name="remote_access_connections">Connections</string>
+    <string name="remote_access_links">Links</string>
+    <string name="remote_access_active">Remote access active</string>
+    <string name="remote_access_notification">Remote access active on %s</string>
+    <string name="remote_access_notification_stopped">Remote access stopped</string>
+    <string name="remote_access_notification_connecting">Remote access connecting</string>
+    <string name="remote_access_notification_error">Remote access error</string>
+    <string name="remote_access_notification_stopping">Remote access stopping</string>
+    <string name="remote_access_notification_not_init">Remote access initialising</string>
+    <string name="enable_remote_access">Enable remote access</string>
+    <string name="remote_access_info">Remote access info</string>
+    <string name="remote_access_content">Content</string>
+    <string name="remote_access_medialibrary_content">Media library content</string>
+    <string name="remote_access_medialibrary_content_summary">Enabled: %s\nDisabled: %s</string>
+    <string name="remote_access_file_browser_content">File browser</string>
+    <string name="remote_access_network_browser_content">Network browser</string>
+    <string name="remote_access_playback_control">Control playback</string>
+    <string name="remote_access_logs">Share log files</string>
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
     <string name="casting_passthrough_summary">Let your TV manage audio rendering</string>
@@ -586,6 +610,12 @@
     <string name="medialibrary">Media library</string>
     <string name="medialibrary_directories">Media library folders</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">What\'s new in VLC for Android %s</string>
+    <string name="whats_new_36_webserver_text">With the new remote access feature, take control of VLC for Android from any other device.\nSend your media both ways, control your playback and much more!</string>
+    <string name="whats_new_36_favorites_text">You can now favorite your media, playlists, artists or albums.\nFind your preferred content at a glance by filtering the content by favorites only!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">More Actions</string>
     <string name="back_quit_lock">Press Back again to quit video</string>
@@ -611,6 +641,7 @@
     <string name="partial_content">VLC cannot access all of your files</string>
     <string name="partial_content_description">Starting with Android 11, applications need a special permission to access all device\'s files.\n\n%s</string>
     <string name="never_ask_again">Never ask again</string>
+    <string name="never_show_again">Never show again</string>
     <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
     <string name="allow_settings_access_ringtone_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
     <string name="allow_settings_access_brightness_title">Allow VLC to change brightness mode</string>
@@ -996,7 +1027,7 @@
     <string name="delete_forever">Delete forever</string>
     <string name="add_to_existing_playlist">Add to existing playlist</string>
     <string name="bookmarks_title">Bookmarks</string>
-    <string name="no_bookmark">No bookmark yet</string>
+    <string name="no_bookmark">No bookmark set</string>
     <string name="bookmark_default_name">Bookmark at %s</string>
     <string name="bookmark_name">Bookmark %s</string>
     <string name="add_bookmark">Add bookmark</string>
@@ -1155,5 +1186,64 @@
     <string name="ignore_headset_media_button_presses_summary">Useful, for instance, if you are using a headset with broken physical buttons</string>
     <string name="replace_playlist">Replace playlist</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">Remote access active</string>
+    <string name="ra_remote_access">Remote access</string>
+    <string name="ra_remote_access_description">Remote access state notification</string>
+    <string name="ra_log_file">Log files</string>
+    <string name="ra_log_type">Log type</string>
+    <string name="ra_send_files">Send files</string>
+    <string name="ra_not_in_foreground">Application is not in foreground. Cannot launch video.</string>
+    <string name="ra_disconnected">Disconnected from device</string>
+    <string name="ra_file">File</string>
+    <string name="ra_upload_remaining">Uploading %s files</string>
+    <string name="ra_upload_all">Upload all</string>
+    <string name="ra_drop_files_tip">Drop files anywhere to send to your device</string>
+    <string name="ra_prepare_download">Preparing your download</string>
+    <string name="ra_forbidden">Content disabled in the settings</string>
+    <string name="ra_playback_forbidden">Playback control disabled in the settings</string>
+    <string name="ra_code_requested_explanation">To protect your server, the access is protected.\nPlease enter the code displayed in your notifications</string>
+    <string name="ra_ssl_explanation_title">Unsecure connection</string>
+    <string name="ra_ssl_explanation">Your connection is not secure.</string>
+    <string name="ra_ssl_explanation_browser">Due to the browser security implementation, you will receive a security warning in the next page.</string>
+    <string name="ra_ssl_explanation_accept">Make sure to accept the certificate to be able to use the remote access</string>
+    <string name="ra_ssl_button">Use a secure connection</string>
+    <string name="ra_new_code">Send a new code</string>
+    <string name="home">Home</string>
+    <string name="ra_code">Enter this code: %s</string>
+    <string name="ra_send_logs">Save remote access\' logs on the device</string>
+    <string name="ra_otp">Remote access one time password</string>
+    <string name="ra_otp_description">Access requests for the remote access</string>
+    <string name="ra_otp_title">Remote access login attempt</string>
+    <string name="ra_otp_subtitle">If it\'s you, enter this code on the other device</string>
+    <string name="ra_otp_not_me">It\'s not me</string>
 
+    <string name="ra_onboarding_welcome_desc">Welcome in VLC for Android\'s remote access\nBy enabling it you will be able to control this device\'s playback and more</string>
+    <string name="ra_onboarding_how_title">Control your device</string>
+    <string name="ra_onboarding_how_desc">Control your device playback, send or retrieve files and more</string>
+    <string name="ra_onboarding_ssl_title">Data encryption</string>
+    <string name="ra_onboarding_ssl_desc">The remote access is encrypted to prevent your data from leaking</string>
+    <string name="ra_onboarding_otp_title">Authentication</string>
+    <string name="ra_onboarding_otp_desc">With the one time password authentication, prevent unwanted access to your data</string>
+    <string name="ra_onboarding_content_title">Content access</string>
+    <string name="ra_onboarding_content_desc">Choose what can be accessed and what can\'t</string>
+    <string name="ra_onboarding_content_ml">Media library content access</string>
+    <string name="ra_onboarding_content_files">File browser</string>
+    <string name="ra_onboarding_content_playback">Playback control</string>
+    <string name="ra_disable">Disable</string>
+    <string name="ra_log_web">Remote access log</string>
+    <string name="ra_log_crash">Crash log</string>
+    <string name="ra_log_mobile">Device log</string>
+    <string name="ra_log_current">Current local logs</string>
+    <string name="ra_invalid_login">You need to log in on your device</string>
+    <string name="ra_invalid_otp">Invalid code provided</string>
+    <string name="learn_more">Learn more</string>
+
+    <!-- car screens -->
+    <string name="help">Help</string>
+    <string name="podcast_mode">Podcast mode</string>
+    <string name="podcast_mode_help">Podcast controls appear when playing a single track which meets one of the following criteria:\n\t• Length greater than 60 min\n\t• Length greater than 15 min with no album name\n\t• Genre is %s</string>
+    <string name="podcast_mode_genres" translatable="false">audiobook(s), podcast, speech, or vocal</string>
+    <string name="voice_control">Voice control</string>
+    <string name="voice_control_help">VLC can be controlled through Google Assistant by speaking the following commands:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 </resources>

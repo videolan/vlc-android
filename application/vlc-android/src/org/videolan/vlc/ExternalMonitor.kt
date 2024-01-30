@@ -36,12 +36,11 @@ import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
 import org.videolan.resources.AppContextProvider
@@ -79,7 +78,7 @@ object ExternalMonitor : BroadcastReceiver(), DefaultLifecycleObserver, Coroutin
                 delay(100L)
                 Log.i("ExternalMonitor", "Storage management: unmount: ${action.uuid} - ${action.path}")
                 Medialibrary.getInstance().removeDevice(action.uuid, action.path)
-                storageChannel.trySend(action)
+                storageChannel.tryEmit(action)
             }
         }
     }
@@ -113,10 +112,10 @@ object ExternalMonitor : BroadcastReceiver(), DefaultLifecycleObserver, Coroutin
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)
-    private val storageChannel = BroadcastChannel<DeviceAction>(BUFFERED)
+    private val storageChannel = MutableSharedFlow<DeviceAction>()
     @OptIn(ObsoleteCoroutinesApi::class)
     val storageEvents : Flow<DeviceAction>
-        get() = storageChannel.asFlow()
+        get() = storageChannel.asSharedFlow()
     private var storageObserver: WeakReference<Activity>? = null
 
     var devices = LiveDataset<UsbDevice>()
@@ -161,7 +160,7 @@ object ExternalMonitor : BroadcastReceiver(), DefaultLifecycleObserver, Coroutin
     private fun notifyNewStorage(mediaMounted: MediaMounted) {
         val activity = storageObserver?.get() ?: return
         UiTools.newStorageDetected(activity, mediaMounted.path)
-        storageChannel.trySend(mediaMounted)
+        storageChannel.tryEmit(mediaMounted)
     }
 
     @Synchronized

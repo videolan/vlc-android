@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.icu.text.Transliterator
 import android.net.Uri
 import android.os.Build
 import android.text.Spannable
@@ -60,6 +61,7 @@ import java.lang.ref.WeakReference
 import java.net.URI
 import java.net.URISyntaxException
 import java.security.SecureRandom
+import java.text.Normalizer
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -99,6 +101,16 @@ fun FragmentActivity.share(file: File) {
         intentShareFile.putExtra(Intent.EXTRA_SUBJECT, file.name)
         intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, file.name))
         startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file,file.name)))
+    }
+}
+
+fun FragmentActivity.share(title:String, content: String) {
+    val intentShareFile = Intent(Intent.ACTION_SEND)
+    if (isStarted()) {
+        intentShareFile.type = "*/*"
+        intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
+        intentShareFile.putExtra(Intent.EXTRA_TEXT, content)
+        startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file,title)))
     }
 }
 
@@ -272,6 +284,24 @@ fun CharSequence?.getFilesNumber():Int {
     if (!contains(fileReplacementMarker)) return 0
     val cutString = replace(Regex("[^0-9 ]"), "").trim().split(" ")
     return cutString[cutString.size -1].toInt()
+}
+
+/**
+ * Slugify a string. Use the Unicode Transliterator to convert
+ * non-ASCII characters into a latin representation.
+ *
+ * @param replacement the replacement char
+ * @return the slugified string
+ */
+fun String.slugify(replacement: String = "-"): String {
+    val s = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        // NFD is included in Latin-ASCII
+        Transliterator.getInstance("Any-Latin; Lower; Latin-ASCII").transliterate(this)
+    } else {
+        Normalizer.normalize(this, Normalizer.Form.NFD)
+    }
+    return s.replace("[^a-zA-Z0-9\\s]+".toRegex(), "").trim()
+            .replace("\\s+".toRegex(), replacement)
 }
 
 const val presentReplacementMarker = "§*§"

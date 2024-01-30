@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.Extensions
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.SubtitleItem
@@ -48,7 +49,7 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        AppContextProvider.appContext.applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        AppContextProvider.appContext.applicationContext.registerReceiverCompat(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), true)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

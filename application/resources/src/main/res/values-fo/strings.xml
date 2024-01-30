@@ -21,7 +21,6 @@
     <string name="play_from_start">Spæl frá byrjan</string>
     <string name="play_as_audio">Spæl sum ljóð</string>
     <string name="play_as_video">Spæl sum video</string>
-    <string name="append">Ískoyt</string>
     <string name="play_all">Spæl alt</string>
     <string name="append_all">Ískoyt alt</string>
     <string name="delete">Strika</string>
@@ -98,7 +97,6 @@
     <string name="sleep_title">Svøvnsur</string>
     <string name="jump_to_time">Hopp til tíð</string>
     <string name="subtitle_select">Vel undirtekstafílu</string>
-
     <string name="encountered_error_title">Avspælingarvilla</string>
     <string name="encountered_error_message">Ein villa er íkomin, tá ið VLC skuldi spæla henda miðil.\nRoyn og endurbyrja miðlasavnið.</string>
     <string name="invalid_location">Keldan %1$s kann ikki spælast.</string>
@@ -172,4 +170,4 @@
     <string name="sending_log">Sendir loggin…</string>
 
     <string name="next">Næsta</string>
-</resources>
+    </resources>

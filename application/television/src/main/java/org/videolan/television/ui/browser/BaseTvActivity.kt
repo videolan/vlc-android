@@ -31,20 +31,14 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
-import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.television.R
 import org.videolan.television.ui.SearchActivity
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
-import org.videolan.television.ui.registerTimeView
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
@@ -84,7 +78,6 @@ abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
         mediaLibrary = Medialibrary.getInstance()
         settings = Settings.getInstance(this)
         registerLiveData()
-        lifecycleScope.launch { findViewById<View>(R.id.tv_time)?.let { registerTimeView(it as TextView) } }
         dialogsDelegate.observeDialogs(this, this)
     }
 

@@ -36,7 +36,6 @@
     <string name="video_app_switch_summary">Dema ku tu ji lêdana vîdyoyê derbasî sepaneke din bû, bila VLC çi bike</string>
     <string name="play_pip_title">Bila vîdyoyan di moda ditbarî de bi dîtbarî lêde</string>
     <string name="play_as_audio_background">Bila vîdyo di paşxanê de bên lêdan</string>
-    <string name="append">Tevlî bike</string>
     <string name="insert_next">Ya din tevlî bike</string>
     <string name="play_all">Gişî lêde</string>
     <string name="append_all">Gişî tevlî bike</string>
@@ -117,7 +116,7 @@
     <string name="shuffle">Tevlihevkirin Girtî</string>
     <string name="shuffle_on">Tevlihevkirin Vekirî</string>
     <string name="repeat_title">Moda dubarekirinê</string>
-    <string name="repeat">Dubarekirin tune</string>
+    <string name="repeat_none">Dubarekirin tune</string>
     <string name="repeat_single">Stranê dubare bike</string>
     <string name="repeat_all">Gişî dubare bike</string>
     <string name="previous">Ya berî vê</string>
@@ -158,8 +157,7 @@
     <string name="sleep_title">Demjimêrê xewê</string>
     <string name="sleep_in">Di xew de</string>
     <string name="jump_to_time">Pêşve bibe</string>
-    <string name="subtitle_select">Dosyeya jêrnivîs hilbijêre</string>
-
+    <string name="subtitle_select">Dosyeya jêrnivîsê hilbijêre</string>
     <string name="server_add_title">Servereke nû tevlî favoriyan bike</string>
     <string name="server_domain_hint">Navnîşana serverê (navê domainê an jî IP)</string>
     <string name="server_share_hint">Navê parvekirina torê (an jî navnîşana IP\'ê)</string>
@@ -211,7 +209,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Sazkarî</string>
-
     <string name="add_custom_path">Peldanka taybet tevlî bike</string>
     <string name="remove_custom_path">Peldanka taybet jê bibe</string>
     <string name="hardware_acceleration_disabled">Neçalak</string>
@@ -238,16 +235,9 @@
     <string name="subtitles_size_big">Mezin</string>
     <string name="subtitles_size_huge">Pir mezin</string>
     <string name="subtitles_color_title">Rengê jêrnivîsê</string>
-    <string name="subtitles_color_white">Spî</string>
-    <string name="subtitles_color_gray">Gewr</string>
-    <string name="subtitles_color_pink">Pembe</string>
-    <string name="subtitles_color_blue">Şîn</string>
-    <string name="subtitles_color_yellow">Zer</string>
-    <string name="subtitles_color_green">Kesk</string>
     <string name="subtitles_background_title">Paşxana jêrnivîsê</string>
     <string name="subtitles_bold_title">Jêrnivîsên tarî</string>
     <string name="subtitles_autoload_title">Jêrnivîsan bixweber tevlî bike</string>
-
     <string name="audio_prefs_category">Deng</string>
     <string name="lockscreen_cover_title">Berga medyayê li ser ekrana kilîdê</string>
     <string name="list_title_ellipsize_default">Jixweber</string>
@@ -317,7 +307,7 @@
     <string name="playlist_save">Lîsteya lêdanê tomar bike</string>
     <string name="playlist_name_hint">Navê lîsteya lêdanê</string>
     <string name="go_to_chapter">Here beşê...</string>
-    <string name="confirm_resume">Bila ji ciyê berê ve were doamandin?</string>
+    <string name="confirm_resume">Bila ji ciyê berê ve were domandin?</string>
     <string name="confirm_resume_title">Vîdyoyên di lêdanê de bidomîne</string>
     <string name="tv_ui_title">Navrûya Android TV\'yê</string>
     <string name="medialibrary">Medyageh</string>
@@ -331,7 +321,6 @@
 
     <string name="permission_ask_again">Destûrê bide</string>
     <string name="exit_app">Bigire</string>
-
     <!-- Plugins -->
     <string name="plugins">Pêvek</string>
     <string name="download_on_device">Daxîne</string>
@@ -345,9 +334,6 @@
     <string name="download_subtitles">Jêrnivîsan daxîne</string>
     <string name="browse_folder">Peldankê bibîne</string>
     <string name="listen">Guhdarî bike</string>
-    <string name="episodes">beş</string>
-    <string name="movies">filîm</string>
-    <string name="videos">vîdyo</string>
     <string name="videos_all">Hemû vîdyo</string>
     <string name="clear_playback_history">Raboriya lêdanê paqij bike</string>
     <string name="resume">Bidomîne</string>
@@ -454,7 +440,7 @@
     <string name="add_to_group">Tevlî koma vîdyoyê bike</string>
     <string name="remove_from_group">Ji koma vîdyoyê rake</string>
     <string name="rename_group">Koma vîdyoyê dîsa bi nav bike</string>
-    <string name="group_similar">Bixwer bike kom</string>
+    <string name="group_similar">Bixweber bike kom</string>
     <string name="no_favorite">Favorî tune</string>
     <string name="empty_directory">Vala</string>
     <string name="air_action_rewind">10 saniye paşve bibe</string>
@@ -469,4 +455,4 @@
     <string name="remove_from_history">Ji raboriyê rake</string>
     <string name="prefersmbv1_summary">Heke hûn di lêgerîna pêşkêşkera SMB-ya xwe de zehmetiyê dikişînin vê mîhengê vebijêre</string>
     <string name="apply_to_all">Li hemû vîdyoyan bisepîne</string>
-</resources>
+    </resources>

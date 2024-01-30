@@ -35,7 +35,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 
-class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
+class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     override fun getXml() = R.xml.preferences_parental_control
@@ -52,13 +52,12 @@ class PreferencesParentalControl : BasePreferenceFragment(), SharedPreferences.O
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences
-                .unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {

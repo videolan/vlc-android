@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.preferences
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -75,12 +76,17 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onStart() {
         super.onStart()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        findPreference<Preference>("remote_access_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,6 +109,9 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                     arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
                 })
                 R.xml.preferences_casting -> loadFragment(PreferencesCasting().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+                R.xml.preferences_remote_access -> loadFragment(PreferencesRemoteAccess().apply {
                     arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
                 })
             }
@@ -138,6 +147,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                     pinCodeResult.launch(intent)
                 }
             }
+            "remote_access_category" -> loadFragment(PreferencesRemoteAccess())
             PLAYBACK_HISTORY -> {
                 val activity = activity
                 activity?.setResult(RESULT_RESTART)

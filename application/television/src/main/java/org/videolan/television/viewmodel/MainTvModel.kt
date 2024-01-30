@@ -145,7 +145,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     suspend fun updateHistory() {
         if (!showHistory) return
-        (history as MutableLiveData).value = context.getFromMl { lastMediaPlayed().toMutableList() }
+        (history as MutableLiveData).value = context.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL).toMutableList() }
     }
 
     private fun updateVideos() = viewModelScope.launch {
@@ -174,7 +174,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private fun updateRecentlyPlayed() = viewModelScope.launch {
-        val history = context.getFromMl { lastMediaPlayed().toMutableList() }
+        val history = context.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL).toMutableList() }
         recentlyPlayed.addSource(withContext(Dispatchers.IO) { mediaMetadataRepository.getByIds(history.map { it.id }) }) {
             recentlyPlayed.value = it.sortedBy { history.indexOf(history.find { media -> media.id == it.metadata.mlId }) }
         }

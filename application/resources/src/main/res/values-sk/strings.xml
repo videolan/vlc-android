@@ -15,10 +15,36 @@
     <string name="sortby_date">Dátum</string>
     <string name="sortby_last_modified_date">Naposledy pridané</string>
     <string name="sortby_insertion">Dátum vloženia</string>
+    <string name="sortby_date_last_modified">Naposledy pridané</string>
+    <string name="sortby_date_insertion">Dátum vloženia</string>
+    <string name="sortby_date_release">Dátum vydania</string>
     <string name="sortby_media_number">Číslo média</string>
     <string name="sortby_number">Čísel stôp</string>
     <string name="searchable_hint">Vyhľadávať…</string>
     <string name="history">História</string>
+
+    <string name="sortby_name_asc">Názov A → Z</string>
+    <string name="sortby_name_desc">Názov Z → A</string>
+    <string name="sortby_artist_name_asc">Meno umelca A → Z</string>
+    <string name="sortby_artist_name_desc">Meno umelca Z → A</string>
+    <string name="sortby_album_name_asc">Názov albumu A → Z</string>
+    <string name="sortby_album_name_desc">Názov albumu Z → A</string>
+    <string name="sortby_filename_asc">Názov súboru A → Z</string>
+    <string name="sortby_filename_desc">Názov súboru Z → A</string>
+    <string name="sortby_length_asc">Od najkratšieho</string>
+    <string name="sortby_length_desc">Od najdlhšieho</string>
+    <string name="sortby_date_asc">Od najstaršieho dátumu</string>
+    <string name="sortby_date_desc">Od najnovšieho dátumu</string>
+    <string name="sortby_last_modified_date_asc">Od najstaršieho pridaného</string>
+    <string name="sortby_last_modified_date_desc">Od najnovšieho pridaného</string>
+    <string name="sortby_number_asc">Najskôr viac videí v skupine</string>
+    <string name="sortby_number_desc">Najskôr menej videí v skupine</string>
+    <string name="sortby_date_insertion_asc">Od najstaršieho dátumu vloženia</string>
+    <string name="sortby_date_insertion_desc">Od najnovšieho dátumu vloženia</string>
+    <string name="sortby_date_last_modified_asc">Od najstaršieho dátumu úpravy</string>
+    <string name="sortby_date_last_modified_desc">Od najnovšieho dátumu úpravy</string>
+    <string name="sortby_date_release_asc">Od najstaršieho dátumu vydania</string>
+    <string name="sortby_date_release_desc">Od najnovšieho dátumu vydania</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">Nájdený %d výsledok</item>
@@ -40,7 +66,7 @@
     <string name="video_app_switch_summary">Vyberte si úkon VLC, ktorý prebehne pri prepnutí na inú aplikáciu počas prehrávania videa</string>
     <string name="play_pip_title">Prehrať videá v režime obrazu v obraze</string>
     <string name="play_as_audio_background">Prehrávať videá na pozadí</string>
-    <string name="append">Pripojiť</string>
+    <string name="append">Pridať do fronty prehrávania</string>
     <string name="insert_next">Vložiť ako ďalšie</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
@@ -136,6 +162,7 @@
     <string name="loading">Načítavanie</string>
     <string name="please_wait">Prosím čakajte…</string>
     <string name="nomedia">Nenašli sa žiadne médiá, prosím preneste do svojho zariadenia nejaké súbory alebo upravte nastavenia.</string>
+    <string name="nofav">Nenašla sa žiadna obľúbená položka.</string>
     <string name="empty_search">Nenašla sa žiadna položka pre vyhľadávanie %s</string>
     <string name="noplaylist">Nenašiel sa žiadny playlist.</string>
     <string name="nosubfolder">Žiadny podpriečinok</string>
@@ -149,7 +176,7 @@
     <string name="shuffle_on">Zapnúť náhodné prehrávanie</string>
     <string name="shuffle_play">Náhodne</string>
     <string name="repeat_title">Režim opakovania</string>
-    <string name="repeat">Žiadne opakovanie</string>
+    <string name="repeat_none">Neopakovať nič</string>
     <string name="repeat_single">Opakovať jednotlivé</string>
     <string name="repeat_all">Zopakovať všetko</string>
     <string name="previous">Dozadu</string>
@@ -194,6 +221,7 @@
     <string name="sleep_in">Uspať o</string>
     <string name="jump_to_time">Preskočiť na čas</string>
     <string name="subtitle_select">Vybrať súbor s titulkami</string>
+    <string name="wait_before_sleep">Počkajte na skončenie aktuálnej mediálnej položky</string>
 
     <string name="server_add_title">Pridať nový server do obľúbených</string>
     <string name="server_domain_hint">Adresa servera (názov domény alebo IP)</string>
@@ -289,11 +317,16 @@
 
     <!-- Preferences -->
     <string name="preferences">Nastavenia</string>
+    <string name="more_preferences">Viac nastavení</string>
+    <string name="prefs_opened_on_phone">Nastavenia otvorené na telefóne</string>
+    <string name="open_on_phone">Otvoriť na obrazovke telefónu</string>
 
     <string name="directories_summary">Vyberte priečinky, ktoré chcete zahrnúť do knižnice médií</string>
     <string name="add_custom_path">Pridať cestu nastavenú používateľom</string>
     <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavený priečinok</string>
     <string name="remove_custom_path">Odstrániť cestu nastavenú používateľom</string>
+    <string name="group_ban_folder">Vylúčiť priečinok z knižnice médií</string>
+
     <string name="hardware_acceleration">Hardvérová akcelerácia</string>
     <string name="hardware_acceleration_summary">Vypnuté: lepšia stabilita\nDekódovanie: môže zlepšiť výkon\nÚplné: môže ešte viac vylepšiť výkon</string>
     <string name="hardware_acceleration_disabled">Vypnuté</string>
@@ -305,8 +338,10 @@
     <string name="screen_orientation">Orientácia obrazovky s videom</string>
     <string name="screen_orientation_sensor">Automaticky (podľa senzora)</string>
     <string name="screen_orientation_portrait">Na výšku</string>
+    <string name="screen_orientation_portrait_reverse">Na výšku - obrátene</string>
     <string name="screen_orientation_landscape">Na šírku</string>
     <string name="screen_orientation_landscape_reverse">Formát na šírku, obrátene</string>
+    <string name="screen_orientation_landscape_sensor">Na šírku (senzor)</string>
     <string name="screen_orientation_last_locked">Posledná uzamknutá orientácia</string>
     <string name="enable_black_theme">Čierna téma</string>
     <string name="theme_auto">Téma automaticky</string>
@@ -357,7 +392,7 @@
     <string name="enable_double_tap_play_title">Dvojitým dotykom spustíte/pozastavíte prehrávanie</string>
     <string name="enable_double_tap_play_summary">Pre prehrávanie/pozastavenie dvakrát ťuknite na stred obrazovky</string>
     <string name="enable_swipe_seek_title">Vyhľadávanie spustíte potiahnutím</string>
-    <string name="enable_swipe_seek_summary">Pre vyhľadávanie potiahnite prst cez obrazovku</string>
+    <string name="enable_swipe_seek_summary">Vyhľadávanie aktivujete posúvaním prsta po obrazovke</string>
     <string name="enable_scale_gesture_title">Priblíženie dvomi prstami</string>
     <string name="enable_scale_gesture_summary">Priblížiť a oddialiť dvomi prstami</string>
     <string name="popup_keepscreen_title">V režime vyskakovacieho okna ponechať ZAPNUTÝ displej</string>
@@ -433,6 +468,27 @@
     <string name="audio_ducking_title">Stíšiť VLC pri notifikáciách</string>
     <string name="audio_ducking_summary">Umožní počuť zvukové notifikácie, navigačné pokyny alebo rozprávanie asistenta</string>
     <string name="casting_category">Streamovanie</string>
+    <string name="remote_access">Vzdialený prístup</string>
+    <string name="remote_access_status">Stav servera</string>
+    <string name="remote_access_status_summary">Stav servera zobrazíte dotykom</string>
+    <string name="remote_access_connections">Pripojenia</string>
+    <string name="remote_access_links">Odkazy</string>
+    <string name="remote_access_active">Vzdialený prístup aktívny</string>
+    <string name="remote_access_notification">Vzdialený prístup aktívny na %s</string>
+    <string name="remote_access_notification_stopped">Vzdialený prístup zastavený</string>
+    <string name="remote_access_notification_connecting">Pripája sa vzdialený prístup</string>
+    <string name="remote_access_notification_error">Chyba vzdialeného prístupu</string>
+    <string name="remote_access_notification_stopping">Zastavuje sa vzdialený prístup</string>
+    <string name="remote_access_notification_not_init">Inicializuje sa vzdialený prístup</string>
+    <string name="enable_remote_access">Zapnúť vzdialený prístup</string>
+    <string name="remote_access_info">Informácia o vzdialenom prístupe</string>
+    <string name="remote_access_content">Obsah</string>
+    <string name="remote_access_medialibrary_content">Obsah knižnice médií</string>
+    <string name="remote_access_medialibrary_content_summary">Zapnuté: %s\nVypnuté: %s</string>
+    <string name="remote_access_file_browser_content">Prehliadač súborov</string>
+    <string name="remote_access_network_browser_content">Prehliadač siete</string>
+    <string name="remote_access_playback_control">Ovládanie prehrávania</string>
+    <string name="remote_access_logs">Zdieľať súbory denníka</string>
     <string name="casting_switch_title">Bezdrôtový casting</string>
     <string name="casting_passthrough_title">Prechod zvuku</string>
     <string name="casting_passthrough_summary">Prenechať správu vykresľovania zvuku na TV</string>
@@ -446,6 +502,10 @@
     <string name="artists_show_all_title">Zobraziť všetkých umelcov</string>
     <string name="show_headers">Zobraziť hlavičky</string>
     <string name="show_headers_summary">Rozdeliť zoznamy podľa hlavičiek, v závislosti od druhu zoradenia</string>
+    <string name="tv_folders_first">Najskôr zobrazovať priečinky</string>
+    <string name="tv_folders_first_summary">V prehliadači súborov zobraziť najskôr priečinky a potom súbory</string>
+    <string name="tv_show_hidden_files">Zobraziť skryté súbory</string>
+    <string name="tv_show_hidden_files_summary">Zobraziť skryté súbory v prehliadači súborov</string>
 
     <string name="extensions_prefs_category">Rozšírenia</string>
     <string name="extensions_empty">Neboli detegované žiadne rozšírenia</string>
@@ -499,26 +559,26 @@
     <string name="developer_prefs_category">Vývojár</string>
     <string name="enable_verbose_mode">Komunikatívnosť</string>
     <string name="enable_verbose_mode_summary">Zvýšiť komunikatívnosť (logcat)</string>
-    <string name="debug_logs">Záznamy pre ladenie</string>
-    <string name="start_logging">Spustiť zaznamenávanie</string>
-    <string name="stop_logging">Zastaviť zaznamenávanie</string>
-    <string name="clear_log">Vyčistiť záznam</string>
-    <string name="log_service_title">Nahrávanie záznamov VLC</string>
-    <string name="log_service_text">Otvoriť konzolu pre záznamy</string>
+    <string name="debug_logs">Denníky ladenia</string>
+    <string name="start_logging">Spustiť zaznamenávanie do denníka</string>
+    <string name="stop_logging">Zastaviť zaznamenávanie do denníka</string>
+    <string name="clear_log">Vyčistiť denník</string>
+    <string name="log_service_title">Nahrávanie denníkov VLC</string>
+    <string name="log_service_text">Otvoriť konzolu pre denník</string>
     <string name="copy_to_clipboard">Kopírovať do schránky</string>
-    <string name="copied_to_clipboard">Záznam bol skopírovaný do schránky.</string>
+    <string name="copied_to_clipboard">Denník bol skopírovaný do schránky.</string>
     <string name="copied_from_clipboard">Adresa vložená zo schránky</string>
-    <string name="dump_logcat">Analyzovať záznam logcat</string>
-    <string name="dump_logcat_success">Záznam logcat bol úspešne analyzovaný a uložený do %1$s!</string>
-    <string name="dump_logcat_failure">Nepodarilo sa analyzovať záznam logcat.</string>
+    <string name="dump_logcat">Analyzovať denník logcat</string>
+    <string name="dump_logcat_success">Denník logcat bol úspešne analyzovaný a uložený do %1$s!</string>
+    <string name="dump_logcat_failure">Nepodarilo sa analyzovať denník logcat.</string>
     <string name="custom_libvlc_options">Používateľské nastavenia libVLC</string>
     <string name="custom_libvlc_options_invalid">Neplatné nastavenia libVLC!</string>
 
     <string name="serious_crash">Bohužiaľ nastala závažná chyba a VLC bolo nutné ukončiť.</string>
     <string name="help_us_send_log">Pomôžte nám zlepšiť aplikáciu VLC zaslaním nasledujúceho záznamu o zlyhaní:</string>
     <string name="restart_vlc">Reštartovať VLC</string>
-    <string name="send_log">Odoslať záznam</string>
-    <string name="sending_log">Odosiela sa záznam…</string>
+    <string name="send_log">Odoslať záznam/denník</string>
+    <string name="sending_log">Odosiela sa záznam/denník…</string>
 
     <string name="delete_sub_title">Vymazať titulok</string>
     <string name="delete_sub_message">Chcete vymazať tento titulok?</string>
@@ -553,6 +613,12 @@
     <string name="medialibrary">Knižnica médií</string>
     <string name="medialibrary_directories">Priečinky knižnice médií</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">Čo je nové vo VLC for Android %s</string>
+    <string name="whats_new_36_webserver_text">S novou funkciou pre vzdialený prístup prevezmete ovládanie aplikácie VLC for Android z akéhokoľvek iného zariadenia.\nOdosielajte médiá obidvomi smermi, ovládajte prehrávanie a mnoho iného!</string>
+    <string name="whats_new_36_favorites_text">Teraz môžete uprednostniť vaše médiá, playlisty, umelcov alebo albumy.\nNájdite preferovaný obsah ihneď, filtrovaním obsahu len podľa obľúbených položiek!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">Viac akcií</string>
     <string name="back_quit_lock">Video prerušíte opätovným stlačením tlačidla pre návrat</string>
@@ -577,6 +643,7 @@
     <string name="partial_content">VLC nemôže pristupovať ku všetkým vašim súborom</string>
     <string name="partial_content_description">Počínajúc systémom Android 11 vyžadujú aplikácie osobitné povolenie na prístup ku všetkým súborom zariadenia.\n\n%s</string>
     <string name="never_ask_again">Už sa nikdy nepýtať</string>
+    <string name="never_show_again">Už nezobrazovať</string>
     <string name="allow_settings_access_ringtone_title">Povoliť VLC nastavovať tón vyzváňania</string>
     <string name="allow_settings_access_ringtone_description">Na nastavenie tejto skladby ako tónu vyzváňania musí mať VLC udelené oprávnenie.</string>
     <string name="allow_settings_access_brightness_title">Povoliť VLC zmenu režimu jasu</string>
@@ -686,7 +753,7 @@
     <string name="ml_wizard_scan_checkbox">Skenovať mediálny obsah v zariadení</string>
     <string name="ml_wizard_description">Vyberte, či má VLC prehľadať úložisko zariadenia a zorganizovať vašu knižnicu médií alebo sa bude používať len ako prehrávač s integrovaným prehliadačom.</string>
     <string name="tv_my_new_videos">Moje nové videá</string>
-    <string name="cast_option_title">Odovzdanie médií na inú obrazovku</string>
+    <string name="cast_option_title">Streamovať médium na inej obrazovke</string>
     <string name="otg_device_title">Zariadenie OTG</string>
     <string name="browser">Prehliadač</string>
     <string name="ab_repeat">Opakovať A-B</string>
@@ -694,6 +761,10 @@
     <string name="ab_repeat_stop">Zastaviť opakovanie A-B</string>
     <string name="stop_after_this">Zastaviť po tejto stope</string>
     <string name="time_category_new">Nové médium</string>
+    <string name="time_category_today">Dnes</string>
+    <string name="time_category_yesterday">Včera</string>
+    <string name="time_category_current_week">Tento týždeň</string>
+    <string name="time_category_last_week">Posledný týždeň</string>
     <string name="time_category_current_month">Tento mesiac</string>
     <string name="time_category_current_year">Tento rok</string>
     <string name="time_category_last_year">Posledný rok</string>
@@ -745,6 +816,8 @@
     <string name="misc">Rôzne</string>
     <string name="popup_force_legacy_title">Použiť používateľské okno PiP</string>
     <string name="popup_force_legacy_summary">Použiť používateľské okno PiP s možnosťou zmeny veľkosti</string>
+    <string name="restore_background_video_title">Obnoviť video z pozadia</string>
+    <string name="restore_background_video_summary">Obnoviť video z pozadia pri opätovnom otvorení vlc-android</string>
     <string name="device_default">Predvolené zariadenie</string>
     <string name="track_number">stôp: %d</string>
     <string name="jump_to">Preskočiť na</string>
@@ -770,6 +843,8 @@
     <string name="remove_current">Odstrániť aktuálne</string>
     <string name="validation_delete_playlist">Naozaj chcete vymazať tento playlist?</string>
     <string name="validation_delete_playlist_text">Túto akciu nemožno vrátiť späť.</string>
+    <string name="display_settings">Nastavenia zobrazenia</string>
+    <string name="incognito_mode">Režim Inkognito</string>
     <string name="display_in_list">Zobraziť v zozname</string>
     <string name="display_in_grid">Zobraziť v mriežke</string>
     <string name="dump_db_succes">Výpis databázy bol uložený na hlavné interné úložisko</string>
@@ -919,12 +994,34 @@
     <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
     <string name="create_shortcut">Vytvoriť odkaz v spúšťači</string>
     <string name="no_sub_renderer">Počas streamovania (castingu) ešte nie sú podporované titulky</string>
-    <string name="enqueuing">Načítavanie médií</string>
+    <string name="enqueuing">Načítanie vášho média</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Vyberte súbor SoundFont na prehratie zvukových stôp MIDI</string>
     <string name="missing_media_snack">Médium chýba. Chcete skryť všetky chýbajúce médiá?</string>
-    <string name="browser_show_missing_media">Zobraziť chýbajúce médiá</string>
-    <string name="browser_show_missing_media_summary">Zobrazovať vzdialené médiá aj keď nie sú prítomné</string>
+    <string name="browser_show_missing_media">Zobraziť chýbajúce médium</string>
+    <string name="browser_show_missing_media_summary">Zobraziť vzdialené médium aj keď nie je prítomné</string>
+    <string name="parental_control">Rodičovská kontrola</string>
+    <string name="safe_mode">Bezpečný režim</string>
+    <string name="safe_mode_summary">Ak je aktivovaný, nie je možné vymazávať súbory alebo upravovať playlist bez zadania PIN</string>
+    <string name="safe_mode_pin">Zadajte kód PIN</string>
+    <string name="pin_unlock_success">Odomknutie bolo úspešné. Ak chcete opäť aktivovať bezpečný režim, prosím dotknite sa ikony v aplikácii:</string>
+    <string name="safe_mode_new_pin">Zadajte svoj nový kód PIN</string>
+    <string name="safe_mode_re_pin">Zadajte kód PIN ešte raz</string>
+    <string name="safe_mode_no_match">Kódy PIN sa nezhodujú</string>
+    <string name="safe_mode_invalid_pin">Nesprávny kód PIN</string>
+    <string name="safe_mode_pin_error">Váš kód PIN by mal obsahovať len číslice</string>
+    <string name="pin_code_reason_create">Najskôr si vytvorte kód PIN</string>
+    <string name="pin_code_reason_modify">Zmeniť váš kód PIN</string>
+    <string name="pin_code_modified">Kód PIN bol úspešne upravený</string>
+    <string name="pin_code_reason_check">Obmedzený prístup. Prosím zadajte svoj kód PIN</string>
+    <string name="pin_code_access_granted">Prístup povolený. Môžete znovu uzamknúť hlavnú obrazovku</string>
+    <string name="safe_mode_enabled">Bezpečný režim je teraz zapnutý</string>
+    <string name="restricted_access">Prístup bol obmedzený</string>
+    <string name="unlock">Odomknúť</string>
+    <string name="lock_with_pin">Opäť aktivujte zámok kódom PIN</string>
+    <string name="unlock_with_pin">Odomknúť bezpečný režim</string>
+    <string name="lock_with_pin_short">Zámok kódom PIN</string>
+    <string name="restrict_settings">Obmedziť prístup k nastaveniam</string>
     <string name="search_prefs">Nastavenia vyhľadávania</string>
     <string name="video_match_frame_rate_title">Zhoda s obnovovacou frekvenciou displeja</string>
     <string name="video_match_frame_rate_summary">Nastavte zhodu obnovovacej frekvencie displeja a média. Napríklad film s frekvenciou 24p by sa mal prehrávať na frekvencii 24p</string>
@@ -936,7 +1033,7 @@
     <string name="delete_forever">Vymazať natrvalo</string>
     <string name="add_to_existing_playlist">Pridať do existujúceho playlistu</string>
     <string name="bookmarks_title">Záložky</string>
-    <string name="no_bookmark">Zatiaľ žiadna záložka</string>
+    <string name="no_bookmark">Nie je nastavená žiadna záložka</string>
     <string name="bookmark_default_name">Záložka na %s</string>
     <string name="bookmark_name">Záložka %s</string>
     <string name="add_bookmark">Pridať záložku</string>
@@ -965,10 +1062,13 @@
     <string name="lock_use_sensor_title">Uzamknutie so snímačom</string>
     <string name="lock_use_sensor_summary">Ak je uzamknutá orientácia, používať snímač na umožnenie opačnej orientácie</string>
     <string name="start">Štart</string>
+    <string name="notification_permission">Oprávnenie pre notifikácie</string>
+    <string name="notification_permission_explanation">Aplikácia VLC potrebuje oprávnenie na zasielanie notifikácií.\nAplikácia vás upozorní iba pri skenovaní vašich médií alebo použití používateľského videa v režime obraz v obraze.\nOdmietnutie notifikácií nezabráni fungovaniu VLC, notifikácie však zostanú skryté.</string>
     <string name="permission">Oprávnenie</string>
     <string name="customize">Prispôsobiť</string>
     <string name="selection_count">vybrané: %d</string>
-    <string name="controls_setting">Nastavenia ovládacích prvkov</string>
+    <string name="control_setting">Nastavenia ovládania</string>
+    <string name="controls_setting">Nastavenia ovládacích prvkov</string> <!-- Unused -->
     <string name="gestures">Gestá</string>
     <string name="player_controls">Ovládacie prvky prehrávača</string>
     <string name="video_double_tap_jump_delay">Časový posun pri dvojitom ťuknutí</string>
@@ -1009,6 +1109,12 @@
     <string name="material_you">Material You (preberá farby z tapety)</string>
     <string name="palette">Paleta (preberá farby z obalu média)</string>
     <string name="custom">Používateľské</string>
+    <string name="widget_type">Typ widgetu</string>
+    <string name="widget_type_pill">Tvar tabletky</string>
+    <string name="widget_type_normal">Normálny</string>
+    <string name="widget_type_circle">Kruh</string>
+    <string name="widget_type_large">Veľký</string>
+    <string name="widget_type_error">Tento typ widgetu je príliš veľký pre veľkosť widgetu. Môže to viesť k problémom so zobrazením</string>
     <string name="opacity">Nepriehľadnosť</string>
     <string name="widget_background">Pozadie</string>
     <string name="widget_foreground">Popredie</string>
@@ -1084,6 +1190,68 @@
     <string name="talkback_action_forward">Vyhľadávať %s sekúnd dopredu</string>
     <string name="talkback_display_settings">Nastavenia zobrazovania</string>
     <string name="talkback_already_played">Už prehrané</string>
+    <string name="show_only_favs">Zobraziť len obľúbené</string>
+    <string name="ignore_headset_media_button_presses">Ignorovať stlačenia tlačidla pre médiá na headsete</string>
+    <string name="ignore_headset_media_button_presses_summary">Použiteľné napríklad v prípade, že používate s headset s poškodenými fyzickými tlačidlami</string>
+    <string name="replace_playlist">Nahradiť playlist</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">Vzdialený prístup aktívny</string>
+    <string name="ra_remote_access">Vzdialený prístup</string>
+    <string name="ra_remote_access_description">Notifikácia o stave vzdialeného prístupu</string>
+    <string name="ra_log_file">Súbory denníka</string>
+    <string name="ra_log_type">Typ záznamu/denníka</string>
+    <string name="ra_send_files">Odoslať súbory</string>
+    <string name="ra_not_in_foreground">Aplikácia nie je v popredí. Video nie je možné spustiť.</string>
+    <string name="ra_disconnected">Odpojené od zariadenia</string>
+    <string name="ra_file">Súbor</string>
+    <string name="ra_upload_remaining">Odosiela sa, počet súborov: %s</string>
+    <string name="ra_upload_all">Odoslať všetko</string>
+    <string name="ra_drop_files_tip">Pre odoslanie do zariadenia súbory kdekoľvek pustite</string>
+    <string name="ra_prepare_download">Pripravuje sa sťahovanie</string>
+    <string name="ra_forbidden">Obsah je zablokovaný v nastaveniach</string>
+    <string name="ra_playback_forbidden">Ovládanie prehrávania je zablokované v nastaveniach</string>
+    <string name="ra_code_requested_explanation">Pre ochranu vášho servera je prístup chránený.\nProsím, zadajte kód zobrazený vo vašich notifikáciách</string>
+    <string name="ra_ssl_explanation_title">Nezabezpečené pripojenie</string>
+    <string name="ra_ssl_explanation">Vaše pripojenie nie je zabezpečené.</string>
+    <string name="ra_ssl_explanation_browser">Z dôvodu implementácie zabezpečenia prehliadača, obdržíte na ďalšej strane upozornenie od systému zabezpečenia.</string>
+    <string name="ra_ssl_explanation_accept">Aby bolo možné využívať vzdialený prístup, musíte odsúhlasiť certifikát</string>
+    <string name="ra_ssl_button">Použiť zabezpečené pripojenie</string>
+    <string name="ra_new_code">Zaslať nový kód</string>
+    <string name="home">Domov</string>
+    <string name="ra_code">Zadajte tento kód: %s</string>
+    <string name="ra_send_logs">Ukladať denníky vzdialeného prístupu na zariadení</string>
+    <string name="ra_otp">Jednorazové heslo pre vzdialený prístup</string>
+    <string name="ra_otp_description">Požiadavky na prístup pre vzdialený prístup</string>
+    <string name="ra_otp_title">Pokus o prihlásenie pre vzdialený prístup</string>
+    <string name="ra_otp_subtitle">Ak je vaše, zadajte na inom zariadení tento kód</string>
+    <string name="ra_otp_not_me">Nie je moje</string>
 
+    <string name="ra_onboarding_welcome_desc">Vitajte v sekcii pre vzdialený prístup k VLC for Android\nPo zapnutí týchto volieb budete môcť ovládania prehrávania v zariadení a mnoho iného</string>
+    <string name="ra_onboarding_how_title">Ovládanie vášho zariadenia</string>
+    <string name="ra_onboarding_how_desc">Ovládanie prehrávania vo vašom zariadení, odosielanie alebo získavanie údajov a iné</string>
+    <string name="ra_onboarding_ssl_title">Šifrovanie údajov</string>
+    <string name="ra_onboarding_ssl_desc">Vzdialený prístup je šifrovaný, aby sa zabránilo úniku údajov</string>
+    <string name="ra_onboarding_otp_title">Overenie</string>
+    <string name="ra_onboarding_otp_desc">Pomocou overenia jednorazovým heslom zabránite nechcenému prístupu k vašim údajom</string>
+    <string name="ra_onboarding_content_title">Prístup k obsahu</string>
+    <string name="ra_onboarding_content_desc">Vyberte, k čomu povolíte/nepovolíte prístup</string>
+    <string name="ra_onboarding_content_ml">Prístup k obsahu v knižnici médií</string>
+    <string name="ra_onboarding_content_files">Prehiiadač súborov</string>
+    <string name="ra_onboarding_content_playback">Ovládanie prehrávania</string>
+    <string name="ra_disable">Vypnúť</string>
+    <string name="ra_log_web">Denník vzdialeného prístupu</string>
+    <string name="ra_log_crash">Záznam o páde</string>
+    <string name="ra_log_mobile">Denník zariadenia</string>
+    <string name="ra_log_current">Aktuálne lokálne denníky</string>
+    <string name="ra_invalid_login">Musíte sa prihlásiť do zariadenia</string>
+    <string name="ra_invalid_otp">Poskytli ste neplatný kód</string>
+    <string name="learn_more">Zistiť viac informácií</string>
+
+    <!-- car screens -->
+    <string name="help">Pomocník</string>
+    <string name="podcast_mode">Režim podcastov</string>
+    <string name="podcast_mode_help">Ovládacie prvky pre podcasty sa zobrazia vtedy, keď sa prehráva jedna stopa, spĺňajúca niektoré z nasledujúcich kritérií: \n\t• dĺžka viac ako 60 minút\n\t• dĺžka viac ako 15 minút, bez názvu albumu\n\t• Žánrom je %s</string>
+    <string name="voice_control">Hlasové ovládanie</string>
+    <string name="voice_control_help">VLC je možné ovládať pomocou Google Assistant, vyslovením týchto príkazov: \n\t• Prehrať, Pozastaviť, Stop, Predchádzajúce, Ďalej\n\t• Previnúť, Rýchlo dopredu, Zopakovať &lt;všetko|raz|vypnuté&gt;\n\t• Preskočiť na &lt;čas&gt;, Preskočiť &lt;trvanie&gt;\n\t• Čo je toto &lt;umelec|album|skladba&gt;\n\t• Prehrať [umelec|album|skladba|žáner|playlist] &lt;názov&gt;</string>
 </resources>

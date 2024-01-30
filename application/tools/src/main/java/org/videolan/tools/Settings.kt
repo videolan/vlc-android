@@ -8,11 +8,13 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
+import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import org.videolan.tools.Settings.init
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
 
+    var firstRun: Boolean = false
     var showVideoThumbs = true
     var tvUI = false
     var listTitleEllipsize = 0
@@ -31,6 +33,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var tvFoldersFirst = true
     var incognitoMode = false
     var safeMode = false
+    var remoteAccessEnabled = MutableLiveData(false)
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -55,6 +58,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
+        remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
         return prefs
     }
 
@@ -95,6 +99,8 @@ const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
 const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
 const val KEY_INCLUDE_MISSING = "include_missing"
 const val KEY_INCOGNITO = "incognito_mode"
+const val KEY_LAST_WHATS_NEW = "last_whats_new"
+const val KEY_SHOW_WHATS_NEW = "show_whats_new"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
@@ -120,6 +126,18 @@ const val KEY_MEDIALIBRARY_SCAN = "ml_scan"
 const val KEY_SHOW_TRACK_INFO = "show_track_info"
 const val ML_SCAN_ON = 0
 const val ML_SCAN_OFF = 1
+
+//Remote access
+const val KEY_ENABLE_REMOTE_ACCESS = "enable_remote_access"
+const val KEY_REMOTE_ACCESS_ML_CONTENT = "remote_access_medialibrary_content"
+const val REMOTE_ACCESS_FILE_BROWSER_CONTENT = "remote_access_file_browser_content"
+const val REMOTE_ACCESS_NETWORK_BROWSER_CONTENT = "remote_access_network_browser_content"
+const val REMOTE_ACCESS_PLAYBACK_CONTROL = "remote_access_playback_control"
+const val REMOTE_ACCESS_LOGS = "remote_access_logs"
+const val KEYSTORE_PASSWORD = "keystore_encrypted_password"
+const val KEYSTORE_PASSWORD_IV = "keystore_encrypted_password_iv"
+const val ENCRYPTED_KEY_NAME = "encryption_key"
+
 
 //Tips
 
@@ -215,6 +233,9 @@ const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
 const val KEY_SAFE_MODE_PIN = "safe_mode_pin"
 const val KEY_RESTRICT_SETTINGS = "restrict_settings"
 const val KEY_SAFE_MODE = "safe_mode"
+
+const val ENABLE_ANDROID_AUTO_SPEED_BUTTONS = "enable_android_auto_speed_buttons"
+const val ENABLE_ANDROID_AUTO_SEEK_BUTTONS = "enable_android_auto_seek_buttons"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

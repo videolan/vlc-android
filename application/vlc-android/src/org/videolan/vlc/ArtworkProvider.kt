@@ -33,6 +33,7 @@ import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.util.Log
 import android.util.LruCache
+import androidx.annotation.DrawableRes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.videolan.libvlc.FactoryManager
@@ -46,6 +47,7 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.AccessControl
@@ -53,7 +55,6 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import java.io.*
 import java.nio.ByteBuffer
 import java.security.SecureRandom
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.zip.CRC32
@@ -111,14 +112,21 @@ class ArtworkProvider : ContentProvider() {
                 Log.d(TAG, "openFile() Time: ${getTimestamp()} URI: $uri " +
                         "Thread: ${Thread.currentThread().name} Caller: $callingPackage")
             }
+            //retrieve thumbnails. If uriSegments[1] is "1" the asker is the web server's website
             when (uriSegments[0]) {
                 HISTORY -> getPFDFromByteArray(getHistory(ctx))
                 LAST_ADDED -> getPFDFromByteArray(getLastAdded(ctx))
                 SHUFFLE_ALL -> getPFDFromByteArray(getShuffleAll(ctx))
-                MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri))
+                VIDEO -> if (uriSegments[1] == "1")
+                    getMediaImage(ctx, ContentUris.parseId(uri), false, fallbackIcon = R.drawable.ic_web_video, isLarge = true)
+                else
+                    getMediaImage(ctx, ContentUris.parseId(uri), false)
+                MEDIA -> if (uriSegments[1] == "1") getMediaImage(ctx, ContentUris.parseId(uri), fallbackIcon = R.drawable.ic_web_audio) else getMediaImage(ctx, ContentUris.parseId(uri))
                 ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri))
                 ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri))
                 REMOTE -> getRemoteImage(ctx, uri.getQueryParameter(PATH))
+                GENRE -> if (uriSegments[1] == "1") getGenreImage(ctx, ContentUris.parseId(uri), fallbackIcon = R.drawable.ic_web_genre) else getGenreImage(ctx, ContentUris.parseId(uri))
+                PLAYLIST -> if (uriSegments[1] == "1") getPlaylistImage(ctx, ContentUris.parseId(uri), fallbackIcon = R.drawable.ic_web_playlist) else getPlaylistImage(ctx, ContentUris.parseId(uri))
                 PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri),
                         uri.getBooleanQueryParameter(SHUFFLE, false))
                 else -> throw FileNotFoundException("Uri is not supported: $uri")
@@ -141,7 +149,9 @@ class ArtworkProvider : ContentProvider() {
                 var bitmap = AudioUtil.readCoverBitmap(path, width)
                 if (bitmap != null) bitmap = padSquare(bitmap)
                 if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
-                return@runBlocking encodeImage(bitmap)
+                return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING){
+                    getTimestamp()
+                }
             }
         }
         return getPFDFromByteArray(image)
@@ -172,7 +182,9 @@ class ArtworkProvider : ContentProvider() {
             runBlocking(Dispatchers.IO) {
                 var bitmap = ThumbnailsProvider.obtainBitmap(mw, 256)
                 if (bitmap != null) bitmap = padSquare(bitmap)
-                return@runBlocking encodeImage(bitmap)
+                return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING) {
+                    getTimestamp()
+                }
             }?.let { return@getCategoryImage getPFDFromByteArray(it) }
         }
         val unknownIcon = when (category) {
@@ -197,9 +209,18 @@ class ArtworkProvider : ContentProvider() {
      * If the artwork is already square on disk, we simply return the file (png, jpg)
      * If the artwork is not square, pad it square based on the max size of the largest dimension (webp)
      * If the artwork is null, or mediaId is 0, return a 512x512 orange cone (webp)
+     *
+     * @param ctx the context used to retrieve drawables
+     * @param mediaId the media ID
+     * @param padSquare if true, make the image sqaure
+     * @param fallbackIcon if set, the fallback icon will use this resource
+     * @param isLarge if true, a 16:9 ratio will be used (540x960)
+     * @return
      */
-    private fun getMediaImage(ctx: Context, mediaId: Long): ParcelFileDescriptor {
+    private fun getMediaImage(ctx: Context, mediaId: Long, padSquare:Boolean = true, @DrawableRes fallbackIcon: Int? = null, isLarge:Boolean = false): ParcelFileDescriptor {
         val width = 512
+        val height169 = 540
+        val width169 = 960
         val mw: MediaLibraryItem? = runBlocking(Dispatchers.IO) { ctx.getFromMl { getMedia(mediaId) } }
         mw?.let {
             if (!mw.artworkMrl.isNullOrEmpty()) {
@@ -216,13 +237,61 @@ class ArtworkProvider : ContentProvider() {
             runBlocking(Dispatchers.IO) {
                 var bitmap = if (mw != null) ThumbnailsProvider.obtainBitmap(mw, width) else null
                 if (bitmap == null) bitmap = readEmbeddedArtwork(mw, width)
-                if (bitmap != null) bitmap = padSquare(bitmap)
-                if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(R.drawable.ic_no_media, width, width)
+                if (padSquare && bitmap != null) bitmap = padSquare(bitmap)
+                if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(fallbackIcon ?: R.drawable.ic_no_media, if (isLarge) width169 else width, if (isLarge) height169 else width)
                 if (nonTransparent) bitmap = removeTransparency(bitmap)
-                return@runBlocking encodeImage(bitmap)
+                return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING) {
+                    getTimestamp()
+                }
             }
         }
         return getPFDFromByteArray(image)
+    }
+
+    /**
+     * Get the genre image and cache it. Without overlay
+     *
+     * @param ctx the context
+     * @param id the genre id
+     * @param fallbackIcon if set, the fallback icon will use this resource
+     * @return a ParcelFileDescriptor containing the genre image
+     */
+    private fun getGenreImage(ctx: Context, id: Long, @DrawableRes fallbackIcon: Int? = null): ParcelFileDescriptor? {
+        val bitmap = runBlocking(Dispatchers.IO) {
+            val tracks = ctx.getFromMl { getGenre(id)?.albums?.flatMap { it.tracks.toList() } }
+            val cover = tracks?.let {
+
+                ThumbnailsProvider.getPlaylistOrGenreImage("genre:${id}_256", tracks, 256)
+            }
+            return@runBlocking when {
+                cover != null -> cover
+                else -> ctx.getBitmapFromDrawable(fallbackIcon ?: R.drawable.ic_auto_genre)
+            }
+        }
+        return getPFDFromBitmap(bitmap)
+    }
+
+    /**
+     * Get the playlist image and cache it. Without overlay
+     *
+     * @param ctx the context
+     * @param id the playlist id
+     * @param fallbackIcon if set, the fallback icon will use this resource
+     * @return a ParcelFileDescriptor containing the playlist image
+     */
+    private fun getPlaylistImage(ctx: Context, id: Long, @DrawableRes fallbackIcon: Int? = null): ParcelFileDescriptor? {
+        val bitmap = runBlocking(Dispatchers.IO) {
+            val tracks = ctx.getFromMl { getPlaylist(id, true, false)?.tracks?.toList() }
+            val cover = tracks?.let {
+
+                ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${id}_256", tracks, 256)
+            }
+            return@runBlocking when {
+                cover != null -> cover
+                else -> ctx.getBitmapFromDrawable(fallbackIcon ?: R.drawable.ic_auto_playlist)
+            }
+        }
+        return getPFDFromBitmap(bitmap)
     }
 
     private fun getPlayAllImage(ctx: Context, type: String, id: Long, shuffle: Boolean): ParcelFileDescriptor {
@@ -254,7 +323,7 @@ class ArtworkProvider : ContentProvider() {
     private fun getHistory(ctx: Context): ByteArray? {
         return runBlocking(Dispatchers.IO) {
             /* Last Played */
-            val lastMediaPlayed = ctx.getFromMl { lastMediaPlayed()?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
+            val lastMediaPlayed = ctx.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
             if (!lastMediaPlayed.isNullOrEmpty()) {
                 return@runBlocking getHomeImage(ctx, HISTORY, lastMediaPlayed.toTypedArray())
             }
@@ -305,7 +374,9 @@ class ArtworkProvider : ContentProvider() {
                 cover = ThumbnailsProvider.getPlaylistOrGenreImage("${key}_256", tracks, 256, iconAddition)
             }
         }
-        return encodeImage(cover ?: context.getBitmapFromDrawable(R.drawable.ic_auto_playall))
+        return BitmapUtil.encodeImage(cover ?: context.getBitmapFromDrawable(R.drawable.ic_auto_playall), ENABLE_TRACING){
+            getTimestamp()
+        }
     }
 
     /**
@@ -357,23 +428,6 @@ class ArtworkProvider : ContentProvider() {
         val c = Canvas(dst)
         c.drawBitmap(src, 0f, 0f, null)
         return dst
-    }
-
-    /**
-     * Encode bitmap in WEBP format.
-     */
-    @Suppress("DEPRECATION")
-    private fun encodeImage(bmp: Bitmap?): ByteArray? {
-        if (bmp == null) return null
-        val bos = ByteArrayOutputStream()
-        val startTime = if (ENABLE_TRACING) System.currentTimeMillis() else 0L
-        bmp.compress(CompressFormat.WEBP, 100, bos)
-        if (ENABLE_TRACING) {
-            val endTime = System.currentTimeMillis()
-            val ratio = DecimalFormat("###.#%").format((1 - (bos.size().toDouble() / bmp.byteCount.toDouble())))
-            Log.d(TAG, "encImage() Time: ${getTimestamp()} Duration: " + (endTime - startTime) + "ms Comp. Ratio: $ratio Thread: ${Thread.currentThread().name}")
-        }
-        return bos.toByteArray()
     }
 
     /**
@@ -460,6 +514,7 @@ class ArtworkProvider : ContentProvider() {
         const val PATH = "path"
         const val ALBUM = "album"
         const val GENRE = "genre"
+        const val VIDEO = "video"
         const val MEDIA = "media"
         const val ARTIST = "artist"
         const val REMOTE = "remote"

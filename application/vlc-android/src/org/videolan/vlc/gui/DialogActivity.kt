@@ -25,6 +25,7 @@ package org.videolan.vlc.gui
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.parcelable
@@ -54,6 +55,7 @@ class DialogActivity : BaseActivity() {
             KEY_DIALOG -> {
                 dialog?.run {
                     showVlcDialog(this)
+                    loginDialogShown.postValue(true)
                     dialog = null
                 } ?: finish()
             }
@@ -87,6 +89,7 @@ class DialogActivity : BaseActivity() {
     }
 
     override fun finish() {
+        loginDialogShown.postValue(false)
         if (preventFinish) {
             preventFinish = false
             return
@@ -101,6 +104,7 @@ class DialogActivity : BaseActivity() {
     companion object {
 
         var dialog : Dialog? = null
+        var loginDialogShown = MutableLiveData(false)
         const val KEY_SERVER = "serverDialog"
         const val KEY_SUBS_DL = "subsdlDialog"
         const val KEY_DEVICE = "deviceDialog"

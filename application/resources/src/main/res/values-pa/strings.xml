@@ -26,7 +26,6 @@
     <string name="play_from_start">ਸ਼ੁਰੂ ਤੋਂ ਚਲਾਓ</string>
     <string name="play_as_audio">ਆਡੀਓ ਵਜੋਂ ਚਲਾਓ</string>
     <string name="play_as_video">ਵੀਡੀਓ ਵਜੋਂ ਚਲਾਓ</string>
-    <string name="append">ਜੋੜੋ</string>
     <string name="play_all">ਸਭ ਚਲਾਓ</string>
     <string name="append_all">ਸਭ ਜੋੜੋ</string>
     <string name="delete">ਹਟਾਓ</string>
@@ -100,7 +99,6 @@
     <string name="sleep_title">ਸਲੀਪ ਟਾਈਮਰ</string>
     <string name="jump_to_time">ਸਮੇਂ ਉੱਤੇ ਜਾਓ</string>
     <string name="subtitle_select">ਸਬ-ਟਾਈਟਲ ਫਾਇਲ ਚੁਣੋ</string>
-
     <string name="encountered_error_title">ਪਲੇਅਬੈਕ ਗਲਤੀ</string>
     <string name="encountered_error_message">VLC ਨੂੰ ਇਸ ਮੀਡਿਆ ਨਾਲ ਸਮੱਸਿਆ ਆਈ ਹੈ।\nਕਿਰਪਾ ਕਰਕੇ ਮੀਡਿਆ ਲਾਇਬਰੇਰੀ ਨੂੰ ਤਾਜ਼ਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
     <string name="invalid_location">ਟਿਕਾਣਾ %1$s ਚਲਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।</string>
@@ -151,4 +149,4 @@
     <string name="restart_vlc">VLC ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
     <string name="send_log">ਲਾਗ ਭੇਜੋ</string>
     <string name="next">ਅੱਗੇ</string>
-</resources>
+    </resources>

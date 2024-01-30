@@ -45,7 +45,7 @@ object PreferenceParser {
      */
     fun parsePreferences(context: Context): ArrayList<PreferenceItem> {
         val result = ArrayList<PreferenceItem>()
-        arrayOf(R.xml.preferences, R.xml.preferences_adv, R.xml.preferences_audio, R.xml.preferences_casting, R.xml.preferences_subtitles, R.xml.preferences_ui, R.xml.preferences_video).forEach {
+        arrayOf(R.xml.preferences, R.xml.preferences_adv, R.xml.preferences_audio, R.xml.preferences_casting, R.xml.preferences_subtitles, R.xml.preferences_ui, R.xml.preferences_video, R.xml.preferences_remote_access).forEach {
             result.addAll(parsePreferences(context, it))
         }
         return result

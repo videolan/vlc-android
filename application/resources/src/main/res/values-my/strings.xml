@@ -35,7 +35,6 @@
     <string name="video_app_switch_summary">ဗီဒီယို ပြသခြင်း ပြုလုပ်နေစဥ် အခြား အပလီကေးရှင်း သို့ သင် ပြောင်း လိုက်သောအခါ VLC ၏ အပြုအမူ ကို ရွေးချယ်ရန်</string>
     <string name="play_pip_title">ရုပ်ပုံ−တွင်းမှ−ရုပ်ပုံ စနစ် ဖြင့် ဗီဒီယိုများ ပြသရန်</string>
     <string name="play_as_audio_background">နောက်ကွယ် တွင်သာ ဗီဒီယိုများ ပြသရန်</string>
-    <string name="append">ဖြည့်စွက်ရန်</string>
     <string name="insert_next">နောက် တွင် ထည့်ရန်</string>
     <string name="play_all">အားလုံး ဖွင့်ရန်</string>
     <string name="append_all">အားလုံး ဖြည့်စွက်ရန်</string>
@@ -105,7 +104,7 @@
     <string name="shuffle">ရောနှောခြင်း ပိတ်</string>
     <string name="shuffle_on">ရောနှောခြင်း ဖွင့်</string>
     <string name="repeat_title">ထပ်တလဲလဲ စနစ်</string>
-    <string name="repeat">ထပ်တလဲလဲ မဖွင့်</string>
+    <string name="repeat_none">ထပ်တလဲလဲ မဖွင့်</string>
     <string name="repeat_single">ထပ်တလဲလဲ တစ်ကြိမ်</string>
     <string name="repeat_all">အားလုံး ထပ်တလဲလဲ ဖွင့်</string>
     <string name="previous">ယခင်သို့</string>
@@ -135,7 +134,6 @@
     <string name="sleep_title">အိပ်ချိန် အချိန်မှတ်</string>
     <string name="sleep_in">အကြာတွင် အိပ်ရန်</string>
     <string name="subtitle_select">စာတမ်းထိုး ဖိုင် ရွေးချယ်ရန်</string>
-
     <string name="encountered_error_title">ပြသခြင်း အမှား</string>
     <string name="search">ရှာရန်</string>
 
@@ -150,16 +148,9 @@
     <string name="subtitles_size_big">အကြီး</string>
     <string name="subtitles_size_huge">အလွန်ကြီး</string>
     <string name="subtitles_color_title">စာတမ်းထိုး အရောင်</string>
-    <string name="subtitles_color_white">အဖြူ</string>
-    <string name="subtitles_color_gray">မီးခိုး</string>
-    <string name="subtitles_color_pink">ပန်းရောင်</string>
-    <string name="subtitles_color_blue">အပြာ</string>
-    <string name="subtitles_color_yellow">အဝါ</string>
-    <string name="subtitles_color_green">အစိမ်း</string>
     <string name="subtitles_background_title">စာတမ်းထိုး နောက်ခံ</string>
     <string name="subtitles_bold_title">စာတမ်းထိုး စာလုံးထူ</string>
     <string name="subtitles_autoload_title">စာတမ်းထိုး အလိုလျှောက် လုပ်ရန်</string>
-
     <string name="audio_prefs_category">အသံ</string>
     <string name="list_title_ellipsize_default">မူလ</string>
     <string name="list_title_ellipsize_left">ဘယ်</string>
@@ -173,9 +164,6 @@
 
     <string name="exit_app">VLC ကို ပိတ်</string>
     <string name="exit_app_msg">VLC မှ ထွက်လိုသည်မှာ သေခြာပါသလား?</string>
-
-    <string name="movies">ရုပ်ရှင်များ</string>
-    <string name="videos">ဗီဒီယိုများ</string>
     <string name="videos_all">ဗီဒီယို အားလုံး</string>
     <string name="otg_device_title">OTG ကိရိယာ</string>
     <string name="time_category_new">မီဒီယာ အသစ်</string>
@@ -234,4 +222,4 @@
     <string name="donate">VLC ကို ကူညီရန်</string>
     <string name="tip_jar">VLC ကို ကူညီရန်</string>
     <string name="thank_you">ကျေးဇူးတင်ပါသည်</string>
-</resources>
+    </resources>

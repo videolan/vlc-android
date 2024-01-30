@@ -37,7 +37,6 @@
     <string name="video_app_switch_summary">Selececcione el comportamiento al cambiar a otra aplicacion desde la reproducción de vídeo</string>
     <string name="play_pip_title">Reproducir vídeos en modo vídeo sobre vídeo</string>
     <string name="play_as_audio_background">Reproducir vídeos en segundo plano</string>
-    <string name="append">Añadir</string>
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
@@ -137,7 +136,6 @@
     <string name="shuffle_on">Modo aleatorio activado</string>
     <string name="shuffle_play">Aleatorio</string>
     <string name="repeat_title">Modo repetición</string>
-    <string name="repeat">No repetir</string>
     <string name="repeat_single">Repetir una</string>
     <string name="repeat_all">Repetir todo</string>
     <string name="previous">Anterior</string>
@@ -180,7 +178,6 @@
     <string name="sleep_in">Apagado</string>
     <string name="jump_to_time">Saltar a tiempo</string>
     <string name="subtitle_select">Seleccionar subtítulo</string>
-
     <string name="server_add_title">Añadir un nuevo servidor a favoritos</string>
     <string name="server_domain_hint">Dirección del servidor (nombre de dominio o IP)</string>
     <string name="server_share_hint">Nombre de compartición de red (o dirección IP)</string>
@@ -208,8 +205,6 @@
     <string name="playback_history_title">Historial de reproducción</string>
     <string name="playback_history_summary">Guardar los medios reproducidos en la sección de historial</string>
     <string name="playback_speed_title">Guardar velocidad de reproducción</string>
-    <string name="playback_speed_summary">Mantener velocidad de reproducción entre medios</string>
-
     <string name="play_button">Botón reproducir</string>
 
     <string name="seek">Buscar</string>
@@ -235,7 +230,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
-
     <string name="directories_summary">Seleccionar directorios a incluir en la librería de medios</string>
     <string name="add_custom_path">Añadir una ruta personalizada</string>
     <string name="add_custom_path_description">Introducir carpetas personales adicionales a examinar:</string>
@@ -291,7 +285,6 @@
     <string name="popup_keepscreen_title">Mantener pantalla encendida en modo emergente</string>
     <string name="popup_keepscreen_summary">Mantiene siempre la pantalla encendida cuando se muestra en modo emergente, incluso si el vídeo está pausado.</string>
     <string name="browser_show_hidden_files_title">Mostrar archivos ocultos</string>
-
     <string name="subtitles_prefs_category">Subtítulos</string>
     <string name="subtitles_size_title">Tamaño de subtítulos</string>
     <string name="subtitles_size_small">Pequeña</string>
@@ -299,16 +292,9 @@
     <string name="subtitles_size_big">Grande</string>
     <string name="subtitles_size_huge">Enorme</string>
     <string name="subtitles_color_title">Color de subtítulos</string>
-    <string name="subtitles_color_white">Blanco</string>
-    <string name="subtitles_color_gray">Gris</string>
-    <string name="subtitles_color_pink">Rosa</string>
-    <string name="subtitles_color_blue">Azul</string>
-    <string name="subtitles_color_yellow">Amarillo</string>
-    <string name="subtitles_color_green">Verde</string>
     <string name="subtitles_background_title">Fondo de subtítulos</string>
     <string name="subtitles_bold_title">Subtítulos en negrita</string>
     <string name="subtitles_autoload_title">Autocargar subtítulos</string>
-
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Cubierta en pantalla bloqueda</string>
     <string name="lockscreen_cover_summary">Si está disponible, establece la cubierta actual como fondo de pantalla de la pantalla de bloqueo</string>
@@ -343,7 +329,6 @@
     <string name="artists_show_all_title">Mostrar todos los artistas</string>
     <string name="show_headers">Mostrar cabeceras</string>
     <string name="show_headers_summary">Dividir listas por cabecerasdependiendo del tipo de orden</string>
-
     <string name="extensions_prefs_category">Extensiones</string>
     <string name="extensions_empty">No se han detectado extensiones</string>
     <string name="extension_permission_title">¿Activar nueva extensión «%1$s»?</string>
@@ -462,7 +447,6 @@
     <string name="permission_ask_again">Conceder permiso</string>
     <string name="exit_app">Salir de VLC</string>
     <string name="exit_app_msg">¿Desea salir de VLC?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">Seguimiento FastScroller</string>
     <string name="fastscroller_handle">Manejador FastScroller</string>
@@ -489,9 +473,6 @@
     <string name="browse_folder">Explorar carpeta</string>
     <string name="listen">Escuchar</string>
     <string name="apply_to_bt">Aplicar en dispositivo Bluetooth</string>
-    <string name="episodes">episodios</string>
-    <string name="movies">películas</string>
-    <string name="videos">vídeos</string>
     <string name="videos_all">Todos los vídeos</string>
     <string name="clear_playback_history">Limpiar historial de reproducción</string>
     <string name="ml_scanning">Buscando archivos de medios</string>
@@ -547,7 +528,6 @@
     <string name="ml_wizard_scan_checkbox">Buscar medios en el dispositivo</string>
     <string name="ml_wizard_description">Elija cuando VLC buscará medios en su dispositivo de almacenamiento para organizar su librería de medios o solo usarlo como simple reproductor con explorador integrado.</string>
     <string name="tv_my_new_videos">Mis nuevos vídeos</string>
-    <string name="cast_option_title">Emitir medios en otra pantalla</string>
     <string name="otg_device_title">Dispositivo OTG</string>
     <string name="browser">Explorador</string>
     <string name="ab_repeat">Repetir A-B</string>
@@ -768,11 +748,9 @@
     <string name="warning_stream_speed">Incrementar la velocidad de reproducción por encima de 1 para las emisiones puede causar intermitencias</string>
     <string name="go_to_folder">Explorar padre</string>
     <string name="no_sub_renderer">Los subtítulos no está soportados todavía al emitir</string>
-    <string name="enqueuing">Cargando sus medios</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Seleccione un archivo SoundFont para reproducir pistas de audio MIDI</string>
     <string name="missing_media_snack">Faltan medios. ¿Quieres ocultar todos los medios que falten?</string>
-    <string name="browser_show_missing_media">Mostrar medios que falten</string>
     <string name="search_prefs">Preferencias de búsqueda</string>
     <string name="preferred_resolution">Resolución de vídeo preferida</string>
     <string name="preferred_resolution_summary">La calidad máxima del vídeo para las emisiones (si corresponde) será de: %s</string>
@@ -782,12 +760,10 @@
     <string name="delete_forever">Eliminar de forma permanente</string>
     <string name="add_to_existing_playlist">Añadir a lista de reproducción existente</string>
     <string name="bookmarks_title">Marcadores</string>
-    <string name="no_bookmark">Aún no hay marcadores</string>
     <string name="bookmark_name">Añadir %s a marcadores</string>
     <string name="optional_features">Características opcionales</string>
     <string name="optional_features_summary">Características beta que se están probando y puede que no sean estables</string>
     <string name="optional_features_warning">Esta característica está en fase beta y puede causar bloqueos e inestabilidades</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">¿Añadir elementos duplicados?</string>
     <string name="add_button">Añadir</string>
@@ -806,4 +782,4 @@
         <item quantity="many">%d de los elementos seleccionados ya están en la lista de reproducción.</item>
         <item quantity="other">%d de los elementos seleccionados ya están en la lista de reproducción.</item>
     </plurals>
-</resources>
+    </resources>

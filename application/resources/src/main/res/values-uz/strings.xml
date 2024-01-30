@@ -20,7 +20,6 @@
     <string name="play_from_start">Boshidan ijro etish</string>
     <string name="play_as_audio">Audio sifatida ijro etish</string>
     <string name="play_as_video">Video sifatida ijro etish</string>
-    <string name="append">Qo‘shish</string>
     <string name="play_all">Barchasini ijro etish</string>
     <string name="append_all">Barchasini qo‘shish</string>
     <string name="delete">O‘chirish</string>
@@ -92,7 +91,6 @@
     <string name="sleep_title">Uyqu taymeri</string>
     <string name="jump_to_time">Vaqt bo‘yicha o‘tish</string>
     <string name="subtitle_select">Subtitr faylini tanlang</string>
-
     <string name="encountered_error_title">Ijro etishda xato</string>
     <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
     <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
@@ -166,4 +164,4 @@
     <string name="sending_log">Jurnal yuborilmoqda</string>
 
     <string name="next">Keyingi</string>
-</resources>
+    </resources>

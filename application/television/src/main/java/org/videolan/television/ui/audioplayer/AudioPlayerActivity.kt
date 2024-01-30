@@ -369,7 +369,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat_none)
             }
         }
     }
@@ -389,7 +389,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat)
+                binding.buttonRepeat.contentDescription = getString(R.string.repeat_none)
             }
         }
     }

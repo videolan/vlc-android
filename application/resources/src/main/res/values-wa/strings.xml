@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">OK</string>
+    <string name="cancel">Rinoncî</string>
+    <string name="other">Ôte</string>
+    <string name="sortby">Relére sol</string>
+    <string name="sortby_name">No</string>
+    <string name="sortby_length">Longueu</string>
+    <string name="searchable_hint">Cweri…</string>
+    <string name="history">Istorike</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d rizultat trové</item>
+        <item quantity="other">%d rizultats trovés</item>
+    </plurals>
+
+    <string name="play">Djouwer</string>
+    <string name="play_as_audio">Djouwer come odio</string>
+    <string name="play_as_video">Djouwer come videyo</string>
+    <string name="play_all">Djouwer tot</string>
+    <string name="append_all">Adjouter tot</string>
+    <string name="delete">Disfacer</string>
+    <string name="info">Informåcion</string>
+    <string name="pause">Djoker</string>
+    <string name="unknown_artist">Årtisse nén knoxhou</string>
+    <string name="unknown_album">Albom nén knoxhou</string>
+    <string name="unknown_genre">Djinre nén knoxhou</string>
+    <string name="artists">Årtisses</string>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albom</item>
+        <item quantity="other">%d alboms</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 sorridant</item>
+        <item quantity="other">%d sorridants</item>
+    </plurals>
+    <string name="audio">Odio</string>
+    <string name="video">Videyo</string>
+    <string name="bookmarks">Rimarkes</string>
+    <string name="equalizer">Ewalijheu</string>
+    <string name="all_albums">Tos les albums</string>
+    <string name="genres">Djinres</string>
+    <string name="playlists">Djivêyes a djouwer</string>
+    <string name="title">Tite</string>
+    <string name="directories">Ridants</string>
+    <string name="loading">Dji tchedje</string>
+    <string name="please_wait">Tårdjîz ene miete s\' i vs plait…</string>
+    <string name="cover_art">Potchete</string>
+    <string name="previous">Di dvant</string>
+    <string name="stop">Arester</string>
+    <string name="surface_best_fit">Meyeu adjustaedje</string>
+    <string name="surface_fill">Rimpli</string>
+    <string name="surface_original">Mitan</string>
+    <string name="refresh">Rafrister</string>
+    <string name="track_audio">Boket odio</string>
+    <string name="track_video">Boket videyo</string>
+    <string name="track_unknown">Boket nén knoxhou</string>
+    <string name="volume">Volume</string>
+    <string name="brightness">Rilujhance</string>
+    <string name="playback_speed">Raddisté do djouwaedje</string>
+    <string name="revision">Rivizion</string>
+    <string name="about">Åd fwait</string>
+    <string name="add_custom_path">Radjouter on tchimin da vosse</string>
+    <string name="remove_custom_path">Oister li tchimin da vosse</string>
+    <string name="automatic">Otomatike</string>
+    <string name="screen_orientation_portrait">Portrait</string>
+    <string name="screen_orientation_landscape">Payisaedje</string>
+    <string name="enable_headset_detection">Trover l\' casse odio</string>
+    <string name="aout">Rexhowe odio</string>
+    <string name="advanced_prefs_category">Sipepieus</string>
+    <string name="clear_media_db">Netyî l\' båze di dnêyes media</string>
+    <string name="enable_verbose_mode">Badjawe</string>
+    <string name="enable_verbose_mode_summary">Håssî l\' tchafiaedje (logcat)</string>
+    <string name="next">Shuvant</string>
+    </resources>

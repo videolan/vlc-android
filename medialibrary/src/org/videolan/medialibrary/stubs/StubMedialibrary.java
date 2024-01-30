@@ -372,7 +372,7 @@ public class StubMedialibrary extends Medialibrary {
     public void forceParserRetry() {}
     public void forceRescan() {}
 
-    public MediaWrapper[] lastMediaPlayed() {
+    public MediaWrapper[] history(int type) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mHistory) {
             if (media.getType() == MediaWrapper.TYPE_VIDEO ||
@@ -383,17 +383,7 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new MediaWrapper[0]);
     }
 
-    public MediaWrapper[] lastStreamsPlayed() {
-        ArrayList<MediaWrapper> results = new ArrayList<>();
-        for (MediaWrapper media : dt.mHistory) {
-            if (media.getType() == MediaWrapper.TYPE_STREAM) results.add(media);
-            // the native method specifies an nbItems of 100, offset 0
-            if (results.size() >= 100) break;
-        }
-        return results.toArray(new MediaWrapper[0]);
-    }
-
-    public boolean clearHistory() {
+    public boolean clearHistory(int type) {
         dt.mHistory.clear();
         return true;
     }

@@ -129,24 +129,29 @@ object FileUtils {
     }
 
     @WorkerThread
-    internal fun copyAssetFolder(assetManager: AssetManager, fromAssetPath: String, toPath: String, force: Boolean): Boolean {
+    fun copyAssetFolder(assetManager: AssetManager, fromAssetPath: String, toPath: String, force: Boolean): Boolean {
         try {
             val files = assetManager.list(fromAssetPath)
             if (files.isNullOrEmpty()) return false
             File(toPath).mkdirs()
             var res = true
-            for (file in files)
+            for (file in files) {
                 res = if (file.contains(".")) {
-                    res and copyAsset(assetManager,
-                            "$fromAssetPath/$file",
-                            "$toPath/$file",
-                            force)
+                    res and copyAsset(
+                        assetManager,
+                        "$fromAssetPath/$file",
+                        "$toPath/$file",
+                        force
+                    )
                 } else {
-                    res and copyAssetFolder(assetManager,
-                            "$fromAssetPath/$file",
-                            "$toPath/$file",
-                            force)
+                    res and copyAssetFolder(
+                        assetManager,
+                        "$fromAssetPath/$file",
+                        "$toPath/$file",
+                        force
+                    )
                 }
+            }
             return res
         } catch (e: Exception) {
             e.printStackTrace()
@@ -495,31 +500,52 @@ object FileUtils {
     const val BUFFER = 2048
     fun zip(files: Array<String>, zipFileName: String):Boolean {
         return try {
-            var origin: BufferedInputStream?
-            val dest = FileOutputStream(zipFileName)
-            val out = ZipOutputStream(BufferedOutputStream(
-                    dest))
-            val data = ByteArray(BUFFER)
+            ZipOutputStream(BufferedOutputStream(
+                    FileOutputStream(zipFileName))).use { out ->
+                val data = ByteArray(BUFFER)
+                for (i in files.indices) {
+                    val fi = FileInputStream(files[i])
+                    BufferedInputStream(fi, BUFFER).use { origin ->
+                        val entry = ZipEntry(files[i].substring(files[i].lastIndexOf("/") + 1))
+                        out.putNextEntry(entry)
+                        var count = origin.read(data, 0, BUFFER)
 
-            for (i in files.indices) {
-                val fi = FileInputStream(files[i])
-                origin = BufferedInputStream(fi, BUFFER)
-
-                val entry = ZipEntry(files[i].substring(files[i].lastIndexOf("/") + 1))
-                out.putNextEntry(entry)
-                var count = origin.read(data, 0, BUFFER)
-
-                while (count != -1) {
-                    out.write(data, 0, count)
-                    count = origin.read(data, 0, BUFFER)
+                        while (count != -1) {
+                            out.write(data, 0, count)
+                            count = origin.read(data, 0, BUFFER)
+                        }
+                    }
                 }
-                origin.close()
             }
-
-            out.close()
             true
         } catch (e: Exception) {
             e.printStackTrace()
+            false
+        }
+    }
+
+    fun zipWithName(files: Array<Pair<String, String>>, zipFileName: String): Boolean {
+        return try {
+            File(zipFileName).parentFile?.mkdirs()
+            ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFileName))).use { out ->
+                val data = ByteArray(BUFFER)
+                for (i in files.indices) {
+                    val fi = FileInputStream(files[i].first)
+                    BufferedInputStream(fi, BUFFER).use { origin ->
+                        val entry = ZipEntry(files[i].second)
+                        out.putNextEntry(entry)
+                        var count = origin.read(data, 0, BUFFER)
+
+                        while (count != -1) {
+                            out.write(data, 0, count)
+                            count = origin.read(data, 0, BUFFER)
+                        }
+                    }
+                }
+            }
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
             false
         }
     }
@@ -575,4 +601,17 @@ fun Uri?.isSoundFont():Boolean {
         }
     }
     return false
+}
+
+fun InputStream.toByteArray(): ByteArray {
+    val buffer = ByteArrayOutputStream()
+
+    var nRead: Int
+    val data = ByteArray(16384)
+
+    while (this.read(data, 0, data.size).also { nRead = it } != -1) {
+        buffer.write(data, 0, nRead)
+    }
+
+    return buffer.toByteArray()
 }

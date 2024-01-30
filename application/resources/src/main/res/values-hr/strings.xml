@@ -14,10 +14,22 @@
     <string name="sortby_length">trajanju</string>
     <string name="sortby_date">datumu</string>
     <string name="sortby_last_modified_date">Nedavno dodano</string>
+    <string name="sortby_insertion">Datum umetanja</string>
+    <string name="sortby_media_number">Broj medija</string>
     <string name="sortby_number">Broju pjesama</string>
     <string name="searchable_hint">Pretraži…</string>
     <string name="history">Povijest</string>
 
+    <string name="sortby_name_asc">Ime A → Z</string>
+    <string name="sortby_name_desc">Ime Z → A</string>
+    <string name="sortby_artist_name_asc">Ime izvođača A → Z</string>
+    <string name="sortby_artist_name_desc">Ime izvođača Z → A</string>
+    <string name="sortby_album_name_asc">Ime albuma A → Z</string>
+    <string name="sortby_album_name_desc">Ime albuma Z → A</string>
+    <string name="sortby_filename_asc">Ime datoteke A → Z</string>
+    <string name="sortby_filename_desc">Ime datoteke Z → A</string>
+    <string name="sortby_length_asc">Najprije najkraći</string>
+    <string name="sortby_length_desc">Najprije najduži</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Pronađen je %d rezultat</item>
         <item quantity="few">Pronađena su %d rezultata</item>
@@ -36,7 +48,6 @@
     <string name="video_app_switch_summary">Odaberite VLC ponašanje kada prebacite na drugu aplikaciju sa video repodukcije</string>
     <string name="play_pip_title">Reproduciraj video snimke u Slika-u-slici načinu rada</string>
     <string name="play_as_audio_background">Reproduciraj video snimke u pozadini</string>
-    <string name="append">Dodaj</string>
     <string name="insert_next">Umetni sljedeće</string>
     <string name="play_all">Reproduciraj sve</string>
     <string name="append_all">Dodaj sve</string>
@@ -124,7 +135,6 @@
     <string name="shuffle">Naizmjenično isključeno</string>
     <string name="shuffle_on">Naizmjenično uključeno</string>
     <string name="repeat_title">Način rada ponavljanja</string>
-    <string name="repeat">Ponavljanje isključeno</string>
     <string name="repeat_single">Ponovi jednom</string>
     <string name="repeat_all">Ponovi sve</string>
     <string name="previous">Prijašnje</string>
@@ -167,7 +177,6 @@
     <string name="sleep_in">Spavaj</string>
     <string name="jump_to_time">Premotaj na vrijeme</string>
     <string name="subtitle_select">Odaberi datoteku podnaslova</string>
-
     <string name="server_add_title">Dodaj novi poslužitelj u omiljene</string>
     <string name="server_domain_hint">Adresa poslužitelja (naziv domene ili IP adresa)</string>
     <string name="server_share_hint">Naziv mrežnog dijeljenja (ili IP adresa)</string>
@@ -195,8 +204,6 @@
     <string name="playback_history_title">Povijest reprodukcije</string>
     <string name="playback_history_summary">Spremi sve reproducirane medije u odjeljak povijesti</string>
     <string name="playback_speed_title">Spremi brzinu reprodukcije</string>
-    <string name="playback_speed_summary">Zadrži brzinu izvođenja između dva medija</string>
-
     <string name="play_button">Tipka reprodukcije</string>
 
     <string name="seek">Premotavanje</string>
@@ -222,7 +229,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Postavke</string>
-
     <string name="directories_summary">Odaberi direktorije za uključivanje u medijsku zbirku</string>
     <string name="add_custom_path">Dodaj prilagođenu putanju</string>
     <string name="add_custom_path_description">Upišite dodatni direktorij pretraživanja:</string>
@@ -275,7 +281,6 @@
     <string name="popup_keepscreen_title">Drži zaslon uključenim u skočnom načinu rada</string>
     <string name="popup_keepscreen_summary">Uvijek drži zaslon uključenim kada se skočni prozor pojavi, čak iako je video reprodukcija pauzirana.</string>
     <string name="browser_show_hidden_files_title">Prikaži skrivene datoteke</string>
-
     <string name="subtitles_prefs_category">Podnaslovi</string>
     <string name="subtitles_size_title">Veličina podnaslova</string>
     <string name="subtitles_size_small">Mala</string>
@@ -283,16 +288,9 @@
     <string name="subtitles_size_big">Velika</string>
     <string name="subtitles_size_huge">Vrlo velika</string>
     <string name="subtitles_color_title">Boja podnaslova</string>
-    <string name="subtitles_color_white">Bijela</string>
-    <string name="subtitles_color_gray">Siva</string>
-    <string name="subtitles_color_pink">Ružičasta</string>
-    <string name="subtitles_color_blue">Plava</string>
-    <string name="subtitles_color_yellow">Žuta</string>
-    <string name="subtitles_color_green">Zelena</string>
     <string name="subtitles_background_title">Pozadina podnaslova</string>
     <string name="subtitles_bold_title">Podebljani podnaslovi</string>
     <string name="subtitles_autoload_title">Automatski učitaj podnaslove</string>
-
     <string name="audio_prefs_category">Zvuk</string>
     <string name="lockscreen_cover_title">Omot medija na zaključanom zaslonu</string>
     <string name="lockscreen_cover_summary">Kada je dostupno, postavi trenutni omot albuma kao pozadinu zaključanog zaslona</string>
@@ -438,7 +436,6 @@
     <string name="permission_ask_again">Odobri dozvolu</string>
     <string name="exit_app">Zatvori VLC</string>
     <string name="exit_app_msg">Sigurno želite zatvoriti VLC?</string>
-
     <!-- Plugins -->
     <string name="plugins">Priključci</string>
     <string name="download_on_device">Preuzimanje</string>
@@ -460,9 +457,6 @@
     <string name="download_subtitles">Preuzmi podnaslov</string>
     <string name="browse_folder">Pregledaj mapu</string>
     <string name="listen">Osluškuj</string>
-    <string name="episodes">epizode</string>
-    <string name="movies">filmovi</string>
-    <string name="videos">video snimke</string>
     <string name="videos_all">Svi videozapisi</string>
     <string name="clear_playback_history">Obriši povijest reprodukcije</string>
     <string name="ml_scanning">Pretraživanje medijskih datoteka</string>
@@ -512,7 +506,9 @@
     <string name="tv_my_new_videos">Moji novi video zapisi</string>
     <string name="browser">Preglednik</string>
     <string name="ab_repeat">A-B ponavljanje</string>
-    <string name="stop_after_this">Zaustavi nakon ove trake</string>
+    <string name="ab_repeat_reset">Resetiraj A-B ponavljanje</string>
+    <string name="ab_repeat_stop">Prekini A-B ponavljanje</string>
+    <string name="stop_after_this">Prekini nakon ove trake</string>
     <string name="time_category_new">Novi medij</string>
     <string name="time_category_current_month">Ovaj mjesec</string>
     <string name="time_category_current_year">Ove godine</string>
@@ -547,5 +543,150 @@
     <string name="add_to_new_playlist">Dodaj na novi popis izvođenja</string>
     <string name="resume_card_message">Nastavi reprodukciju%1$s?</string>
     <string name="misc">Razno</string>
+    <string name="popup_force_legacy_title">Koristi prilagođen skočni prozor „slika u slici”</string>
+    <string name="popup_force_legacy_summary">Koristi prilagođen skočni prozor „slika u slici” čija se veličina može promijeniti</string>
+    <string name="device_default">Standardna postavka uređaja</string>
+    <string name="track_number">%d zapisa</string>
     <string name="jump_to">Skoči na</string>
-</resources>
+    <string name="show_video_thumbnails_summary">Prikaži sličice videa u popisima</string>
+    <string name="show_video_thumbnails">Sličice videa</string>
+    <string name="enable_equalizer">Aktiviraj</string>
+    <string name="presets">Postavljeno</string>
+    <string name="reset">Resetiraj</string>
+    <string name="display_settings">Postavke prikaza</string>
+    <string name="display_in_list">Prikaži kao popis</string>
+    <string name="display_in_grid">Prikaži kao matricu</string>
+    <string name="send">Pošalji</string>
+    <string name="send_crash_action_title">Što želiš uraditi?</string>
+    <string name="report_a_bug">Prijavi grešku</string>
+    <string name="report_a_crash">Prijavi prekid programa</string>
+    <string name="describe_crash">Opiši kako je došlo do ovog prekida programa</string>
+    <string name="always">Uvijek</string>
+    <string name="never">Nikada</string>
+    <string name="ask_confirmation">Zatraži potvrdu</string>
+    <string name="add_to_scanned">Pretraži ovu mapu</string>
+    <string name="directory_not_scanned">Ovaj direktorij nije pretražen</string>
+    <string name="url_copied_to_clipboard">URL je kopiran u međuspremnik</string>
+    <string name="share">Dijeli</string>
+    <string name="invalid_file">Neispravna datoteka. Ne može se dijeliti.</string>
+    <string name="share_file">Dijeli %s</string>
+    <string name="find_metadata">Pronađi metapodatke</string>
+    <string name="moviepedia_hint">Traži metapodatke</string>
+    <string name="moviepedia_result">Rezultati videa</string>
+    <string name="directed_by">Režija</string>
+    <string name="casting">Casting</string>
+    <string name="produced_by">Proizvodnja</string>
+    <string name="written_by">Tekst</string>
+    <string name="music_by">Glazba</string>
+    <string name="posters">Plakati</string>
+    <string name="header_tvshows">TV serije</string>
+    <string name="header_movies">Filmovi</string>
+    <string name="season_number">Sezona %s</string>
+    <string name="resume_episode">Nastavi (%s)</string>
+    <string name="start_over">Počni ponovo</string>
+    <string name="next_episode">Sljedeća epizoda</string>
+    <string name="recently_played">Nedavno reproducirano</string>
+    <string name="recently_added">Nedavno dodano</string>
+    <string name="video_information">Informacija o videu</string>
+
+    <string name="channels">Kanali</string>
+    <string name="resolution">Razlučivost</string>
+    <string name="resolution_value">%1$d×%2$d</string>
+    <string name="framerate">Broj kadrova u sekundi</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Jezik</string>
+    <string name="track_samplerate">Frekvencija</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Broj bitova u sekundi</string>
+    <string name="codec">Kodek</string>
+    <string name="text">Tekst</string>
+    <string name="unknown">Nepoznato</string>
+    <string name="audio_queue_progress">Napredak: %s</string>
+    <string name="audio_queue_progress_remaining">Preostalo: %s</string>
+    <string name="audio_queue_progress_finished">Završava pri: %s</string>
+    <string name="this_folder">Dodaj ovu mapu</string>
+    <string name="all_subfolders">Dodaj ovu mapu i podmape</string>
+    <string name="new_title">Novi naslov</string>
+    <string name="browse">Pregledaj</string>
+    <string name="more">Više</string>
+    <string name="favorites">Favoriti</string>
+    <string name="add_to_group">Dodaj u grupu videa</string>
+    <string name="remove_from_group">Ukloni iz grupe videa</string>
+    <string name="rename_group">Preimenuj grupu videa</string>
+    <string name="ungroup">Rastavi grupu</string>
+    <string name="group_similar">Pregrupiraj automaski</string>
+    <string name="no_group_found">Nije pronađena nijedna grupa videa</string>
+    <string name="no_favorite">Nema favorita</string>
+    <string name="empty_directory">Prazno</string>
+    <string name="swipe_unlock">Povuci prstom za otključavanje</string>
+    <string name="swipe_unlock_no_touch">Pritisni dugo za otključavanje</string>
+    <string name="sub_result_by_name">Rezultati za %s</string>
+    <string name="sub_result_by_name_season">Sezona %s</string>
+    <string name="sub_result_by_name_episode">Epizoda %s</string>
+
+    <string name="sub_result_by_file">Rezultati za tvoju datoteku</string>
+    <string name="donate">Pomogni VLC-u</string>
+    <string name="donate_desc">Podrži volontere koji grade VLC</string>
+    <string name="tip_jar">Pomogni VLC-u</string>
+    <string name="thank_you">Hvala</string>
+    <string name="air_action_rewind">Premotaj 10 s natrag</string>
+    <string name="air_action_forward">Premotaj 10 s naprijed</string>
+    <string name="air_action_play_pause">Zaustavi/Nastavi reprodukciju</string>
+    <string name="air_action_volume_up">Glasnije</string>
+    <string name="air_action_volume_down">Tiše</string>
+    <string name="air_action_next">Sljedeće u reprodukciji</string>
+    <string name="air_action_previous">Prethodno u reprodukciji</string>
+    <string name="timeout_infinite">Beskonačno</string>
+    <string name="video_hud_timeout_summary">%ss</string>
+    <string name="remove_from_history">Ukloni iz povijesti</string>
+    <string name="start_vlc">Pokreni VLC</string>
+    <string name="jump_delay_summary">%s s</string>
+    <string name="move_up">Pomakni prema gore</string>
+    <string name="move_down">Pomakni prema dolje</string>
+    <string name="play_media">Reproduciraj %s</string>
+
+    <!-- Duplication Warning Dialog -->
+    <string name="message_primary_default">Dodati duplikate?</string>
+    <string name="add_button">Dodaj</string>
+    <string name="add_all_button">Dodaj sve</string>
+    <string name="add_new_only_button">Dodaj samo nove</string>
+    <string name="custom">Prilagođeno</string>
+    <string name="opacity">Neprozirnost</string>
+    <string name="widget_background">Pozadina</string>
+    <string name="widget_foreground">Prednji plan</string>
+    <string name="open_vlc">Otvori VLC</string>
+    <string name="ascending">Uzlazno</string>
+    <string name="descending">Silazno</string>
+    <string name="screenshot_error">Greška tijekom snimanja snimke ekrana</string>
+    <string name="disabled">Deaktivirano</string>
+    <string name="enable_screenshot_gesture">Dodirni s tri prsta</string>
+    <string name="enable_screenshot_button">Prikaži gumb za snimku ekrana</string>
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s – naslov: %s – trajanje: %s</string>
+    <string name="talkback_genre">Žanr: %s</string>
+    <string name="talkback_folder">Mapa: %s</string>
+    <string name="talkback_file">Datoteka: %s</string>
+    <string name="talkback_favorite">Favorit: %s</string>
+    <string name="talkback_duration">Trajanje: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Izvođač: %s</string>
+    <string name="talkback_release_date">Objavljeno u %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_video_group">Grupa videa: %s</string>
+    <string name="talkback_list_section">Zaglavlje: %s</string>
+    <string name="talkback_file_size">Veličina datoteke: %s</string>
+    <string name="talkback_subtitle_dowload_item">Jezik: %s. %s. Ime: %s</string>
+    <string name="selected">Odabrano</string>
+    <string name="talkback_increase_speed">Povećaj brzinu</string>
+    <string name="talkback_decrease_speed">Smanji brzinu</string>
+    <string name="talkback_out_of">%s od %s</string>
+    <string name="downloaded">Preuzeto</string>
+    <string name="not_downloaded">Nije preuzeto</string>
+    <string name="downloading">Preuzimanje</string>
+    <string name="talkback_action_rewind">Premotaj %s s natrag</string>
+    <string name="talkback_action_forward">Premotaj %s s naprijed</string>
+    <string name="talkback_display_settings">Postavke prikaza</string>
+    <string name="talkback_already_played">Već reproducirano</string>
+    <string name="show_only_favs">Prikaži samo favorite</string>
+    </resources>

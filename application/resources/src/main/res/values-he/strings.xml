@@ -15,10 +15,36 @@
     <string name="sortby_date">תאריך</string>
     <string name="sortby_last_modified_date">נוספו לאחרונה</string>
     <string name="sortby_insertion">תאריך ההוספה</string>
+    <string name="sortby_date_last_modified">האחרונים שנוספו</string>
+    <string name="sortby_date_insertion">תאריך הוספה</string>
+    <string name="sortby_date_release">תאריך שחרור</string>
     <string name="sortby_media_number">מספר מדיה</string>
     <string name="sortby_number">מספר הרצועות</string>
     <string name="searchable_hint">חיפוש…</string>
     <string name="history">היסטוריה</string>
+
+    <string name="sortby_name_asc">שם א ← ת</string>
+    <string name="sortby_name_desc">שם ת ← א</string>
+    <string name="sortby_artist_name_asc">שם האמן א ← ת</string>
+    <string name="sortby_artist_name_desc">שם האמן ת ← א</string>
+    <string name="sortby_album_name_asc">שם האלבום א ← ת</string>
+    <string name="sortby_album_name_desc">שם האלבום ת ← א</string>
+    <string name="sortby_filename_asc">שם הקובץ א ← ת</string>
+    <string name="sortby_filename_desc">שם הקובץ ת ← א</string>
+    <string name="sortby_length_asc">הקצרים ביותר בהתחלה</string>
+    <string name="sortby_length_desc">הארוכים ביותר בהתחלה</string>
+    <string name="sortby_date_asc">התאריך הישן ביותר בהתחלה</string>
+    <string name="sortby_date_desc">התאריך החדש ביותר בהתחלה</string>
+    <string name="sortby_last_modified_date_asc">התוספת האחרונה בהתחלה</string>
+    <string name="sortby_last_modified_date_desc">התוספת העדכנית בהתחלה</string>
+    <string name="sortby_number_asc">עוד סרטונים בקבוצה קודם לכן</string>
+    <string name="sortby_number_desc">פחות סרטונים בקבוצה קודם לכן</string>
+    <string name="sortby_date_insertion_asc">תאריך הוספה קדום ראשון</string>
+    <string name="sortby_date_insertion_desc">תאריך הוספה עדכני ראשון</string>
+    <string name="sortby_date_last_modified_asc">תאריך שינוי קדום ראשון</string>
+    <string name="sortby_date_last_modified_desc">תאריך שינוי עדכני ראשון</string>
+    <string name="sortby_date_release_asc">תאריך שחרור קדום ראשון</string>
+    <string name="sortby_date_release_desc">תאריך שחרור עדכני ראשון</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">נמצאה תוצאה אחת</item>
@@ -40,7 +66,7 @@
     <string name="video_app_switch_summary">נא לבחור מה תהיה ההתנהגות של VLC בעת מעכבר ליישומון אחר במהלך נגינת וידאו</string>
     <string name="play_pip_title">לנגן וידאו במצב תמונה בתוך תמונה</string>
     <string name="play_as_audio_background">לנגן סרטוני וידאו ברקע</string>
-    <string name="append">להוסיף</string>
+    <string name="append">הוספה לתור הנגינה</string>
     <string name="insert_next">להכניס כבא בתור</string>
     <string name="play_all">לנגן הכול</string>
     <string name="append_all">להוסיף הכול</string>
@@ -136,6 +162,7 @@
     <string name="loading">בטעינה…</string>
     <string name="please_wait">נא להמתין</string>
     <string name="nomedia">לא נמצאו קובצי מדיה, נא להעביר כמה קבצים להתקן שלך או להתאים את הגדרותיך.</string>
+    <string name="nofav">לא נמצאו מועדפים.</string>
     <string name="empty_search">לא נמצאו פריטים בחיפוש אחר %s</string>
     <string name="noplaylist">לא נמצאה רשימת נגינה.</string>
     <string name="nosubfolder">אין תת־תיקיה</string>
@@ -149,7 +176,7 @@
     <string name="shuffle_on">הפעלת הערבול</string>
     <string name="shuffle_play">ערבוב</string>
     <string name="repeat_title">מצב חזרה</string>
-    <string name="repeat">לא לחזור</string>
+    <string name="repeat_none">לא לחזור</string>
     <string name="repeat_single">לחזור על בודד</string>
     <string name="repeat_all">לחזור על הכול</string>
     <string name="previous">הקודם</string>
@@ -194,6 +221,7 @@
     <string name="sleep_in">לישון בעוד</string>
     <string name="jump_to_time">קפיצה לזמן</string>
     <string name="subtitle_select">בחירת קובץ כתוביות</string>
+    <string name="wait_before_sleep">להמתין לסיום פריט המדיה הנוכחי</string>
 
     <string name="server_add_title">הוספת שרת חדש למועדפים</string>
     <string name="server_domain_hint">כתובת השרת (שם מתחם או IP)</string>
@@ -230,7 +258,7 @@
     <string name="audio_resume_playback_warning">השבתת היסטוריית תור ההשמעה עלולה לגרום לתקלות בהתנהלות.\nלאחר ההשבתה יכול להיות שאי אפשר יהיה להמשיך להשמיע מתוך:\n\n\t- התקן Bluetooth\n\t- התראת המדיה</string>
     <string name="audio_resume_playback_summary">לאפשר לשמור את תור ההשמעה כדי להמשיך מאוחר יותר</string>
     <string name="playback_speed_title">לשמור את מהירות הנגינה</string>
-    <string name="playback_speed_summary">לשמור על מהירות הנגינה בין ניגונים</string>
+    <string name="playback_speed_summary">לשמור על מהירות הנגינה בין סוגי מדיה שונים</string>
 
     <string name="play_button">כפתור נגינה</string>
 
@@ -289,11 +317,16 @@
 
     <!-- Preferences -->
     <string name="preferences">הגדרות</string>
+    <string name="more_preferences">הגדרות נוספות</string>
+    <string name="prefs_opened_on_phone">ההגדרות נפתחו בטלפון</string>
+    <string name="open_on_phone">פתיחה במסך הטלפון</string>
 
     <string name="directories_summary">נא לבחור את התיקיות שיכללו בספריית המדיה</string>
     <string name="add_custom_path">הוספת נתיב מותאם אישית</string>
     <string name="add_custom_path_description">נא להזין תיקיית מותאמת אישית נוספת לסריקה:</string>
     <string name="remove_custom_path">להסיר נתיב מותאם אישית</string>
+    <string name="group_ban_folder">חסימת תיקייה מספריית מדיה.</string>
+
     <string name="hardware_acceleration">האצת חומרה</string>
     <string name="hardware_acceleration_summary">מושבת: יציב יותר\nפענוח: עשוי לשפר ביצועים\nמלא: עשוי לשפר ביצועים אף יותר</string>
     <string name="hardware_acceleration_disabled">מושבת</string>
@@ -305,8 +338,10 @@
     <string name="screen_orientation">כיוון המסך</string>
     <string name="screen_orientation_sensor">אוטומטית (חיישן)</string>
     <string name="screen_orientation_portrait">לאורך</string>
+    <string name="screen_orientation_portrait_reverse">אנכי הפוך</string>
     <string name="screen_orientation_landscape">לרוחב</string>
     <string name="screen_orientation_landscape_reverse">לרוחב הפוך</string>
+    <string name="screen_orientation_landscape_sensor">אופקי (חיישן)</string>
     <string name="screen_orientation_last_locked">הכיוון האחרון שננעל</string>
     <string name="enable_black_theme">ערכת נושא שחורה</string>
     <string name="theme_auto">ערכת עיצוב אוטומטית</string>
@@ -357,7 +392,7 @@
     <string name="enable_double_tap_play_title">נגיעה כפולה לנגינה/השהיה</string>
     <string name="enable_double_tap_play_summary">נגיעה כפולה במסך תנגן או תשהה</string>
     <string name="enable_swipe_seek_title">החלקה מעבירה בציר הזמן</string>
-    <string name="enable_swipe_seek_summary">החלקת האצבע על גבי המסך שולטת במיקום הנגינה של הסרטון</string>
+    <string name="enable_swipe_seek_summary">יש להחליק את האצבע על גבי המסך כדי לעבור קדימה או אחורה</string>
     <string name="enable_scale_gesture_title">תקריב עם שתי אצבעות</string>
     <string name="enable_scale_gesture_summary">התקרבות והתרחקות עם שתי אצבעות</string>
     <string name="popup_keepscreen_title">להשאיר את המסך פעיל במצב חלונית</string>
@@ -433,6 +468,27 @@
     <string name="audio_ducking_title">הנמכת עצמת השמע של VLC כשמתקבלות התרעות</string>
     <string name="audio_ducking_summary">מסייע בהאזנה לצלילי התרעה, הנחיות ניווט או דיבור של יישומון סיוע</string>
     <string name="casting_category">שידור</string>
+    <string name="remote_access">גישה מרחוק</string>
+    <string name="remote_access_status">מצב שרת</string>
+    <string name="remote_access_status_summary">נא לגעת כדי לצפות במצב השרת</string>
+    <string name="remote_access_connections">חיבורים</string>
+    <string name="remote_access_links">קישורים</string>
+    <string name="remote_access_active">גישה מרחוק פעילה</string>
+    <string name="remote_access_notification">גישה מרחוק פעילה על %s</string>
+    <string name="remote_access_notification_stopped">גישה מרחוק נעצרה</string>
+    <string name="remote_access_notification_connecting">גישה מרחוק מתחברת</string>
+    <string name="remote_access_notification_error">שגיאת גישה מרחוק</string>
+    <string name="remote_access_notification_stopping">גישה מרחוק נעצרת</string>
+    <string name="remote_access_notification_not_init">גישה מרחוק מופעלת</string>
+    <string name="enable_remote_access">הפעלת גישה מרחוק</string>
+    <string name="remote_access_info">פרטי גישה מרחוק</string>
+    <string name="remote_access_content">תוכן</string>
+    <string name="remote_access_medialibrary_content">תוכן ספריית מדיה</string>
+    <string name="remote_access_medialibrary_content_summary">פעיל: %s\nמושבת: %s</string>
+    <string name="remote_access_file_browser_content">דפדפן קבצים</string>
+    <string name="remote_access_network_browser_content">דפדפן רשת</string>
+    <string name="remote_access_playback_control">שליטה בנגינה</string>
+    <string name="remote_access_logs">שיתוף קובצי יומנים</string>
     <string name="casting_switch_title">שידור אלחוטי</string>
     <string name="casting_passthrough_title">מעקף שמע</string>
     <string name="casting_passthrough_summary">לאפשר לטלוויזיה לנהל עיבוד שמע</string>
@@ -446,6 +502,10 @@
     <string name="artists_show_all_title">הצגת כל האומנים</string>
     <string name="show_headers">להציג כותרות</string>
     <string name="show_headers_summary">לפצל את הרשימות לפי כותרות בהתאם סוג המיון</string>
+    <string name="tv_folders_first">להציג קודם את התיקיות</string>
+    <string name="tv_folders_first_summary">להציג את התיקיות ורק אחריהן את הקבצים בסייר הקבצים</string>
+    <string name="tv_show_hidden_files">הצגת קבצים מוסתרים</string>
+    <string name="tv_show_hidden_files_summary">הצגת קבצים מוסתרים בדפדפן הקבצים</string>
 
     <string name="extensions_prefs_category">הרחבות</string>
     <string name="extensions_empty">לא זוהו הרחבות</string>
@@ -553,6 +613,12 @@
     <string name="medialibrary">ספריית מדיה</string>
     <string name="medialibrary_directories">תיקיות ספריית המדיה</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">מה חדש ב־VLC ל־Android %s</string>
+    <string name="whats_new_36_webserver_text">עם יכולת החדשה לגישה מרחוק, אפשר לשלוט ב־VLC ל־Android מכל מכשיר אחר.\nלשלוח את המדיה שלך בשני הכיוונים, לשלוט בנגינה ועוד המון יכולות חיוניות!</string>
+    <string name="whats_new_36_favorites_text">אפשר לסמן את המדיה, האומנים והאלבומים שלך כמועדפים.\nלאתר את התוכן המועדף עליך במבט חטוף על ידי סינון התוכן לפי מועדפים בלבד!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">פעולות נוספות</string>
     <string name="back_quit_lock">יש ללחוץ על אחורה פעם נוספת כדי לצאת מהסרטון</string>
@@ -577,6 +643,7 @@
     <string name="partial_content">ל־VLC אין גישה לכל הקבצים שלך</string>
     <string name="partial_content_description">החל מ־Android 11, יישומים זקוקים להרשאה מיוחדת כדי לגשת לכל הקבצים במכשיר.\n\n%s</string>
     <string name="never_ask_again">לעולם לא לשאול שוב</string>
+    <string name="never_show_again">לא להציג עוד</string>
     <string name="allow_settings_access_ringtone_title">לאפשר ל־VLC להגדיר את הצלצול</string>
     <string name="allow_settings_access_ringtone_description">ל־VLC נדרשת ההרשאה הזאת כדי להגדיר את השיר הזה בתור הצלצול שלך.</string>
     <string name="allow_settings_access_brightness_title">לאפשר ל־VLC לשנות את מצב הבהירות</string>
@@ -694,6 +761,10 @@
     <string name="ab_repeat_stop">עצירת חזרה א-ב</string>
     <string name="stop_after_this">לעצור לאחר הרצועה הזו</string>
     <string name="time_category_new">מדיה חדשה</string>
+    <string name="time_category_today">היום</string>
+    <string name="time_category_yesterday">אתמול</string>
+    <string name="time_category_current_week">השבוע</string>
+    <string name="time_category_last_week">שבוע שעבר</string>
     <string name="time_category_current_month">החודש</string>
     <string name="time_category_current_year">השנה</string>
     <string name="time_category_last_year">שנה שעברה</string>
@@ -745,6 +816,8 @@
     <string name="misc">שונות</string>
     <string name="popup_force_legacy_title">להשתמש בחלונית צפה מותאמת לתמונה בתוך תמונה</string>
     <string name="popup_force_legacy_summary">להשתמש בחלונית צפה גמישה מותאמת לתמונה בתוך תמונה</string>
+    <string name="restore_background_video_title">שחזור סרטון מהרקע</string>
+    <string name="restore_background_video_summary">שחזור סרטון מהרקע בעת פתיחה של vlc-android מחדש</string>
     <string name="device_default">בררת המחדל של המכשיר</string>
     <string name="track_number">%d רצועות</string>
     <string name="jump_to">קפיצה אל</string>
@@ -770,6 +843,8 @@
     <string name="remove_current">הסרת הנוכחית</string>
     <string name="validation_delete_playlist">למחוק את רשימת הנגינה הזו?</string>
     <string name="validation_delete_playlist_text">פעולה זו היא בלתי הפיכה.</string>
+    <string name="display_settings">הגדרות תצוגה</string>
+    <string name="incognito_mode">מצב אלמוני</string>
     <string name="display_in_list">הצגה ברשימה</string>
     <string name="display_in_grid">הצגה בטבלה</string>
     <string name="dump_db_succes">מסד הנתונים נלכד ונשמר בנתיב השורש של האחסון הפנימי</string>
@@ -919,12 +994,34 @@
     <string name="go_to_folder">עיון בהורה</string>
     <string name="create_shortcut">יצירת קיצור דרך למשגר</string>
     <string name="no_sub_renderer">עדיין אין תמיכה בכתוביות כחלק מתזרים</string>
-    <string name="enqueuing">פרטי המדיה שלך נטענים</string>
+    <string name="enqueuing">המדיה שלך נטענת</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">נא לבחור קובץ SoundFont כדי לנגן רצועות שמע מסוג MIDI</string>
     <string name="missing_media_snack">מדיה חסרה. להסתיר את כל המדיה החסרה?</string>
-    <string name="browser_show_missing_media">להציג פריטי מדיה חסרים</string>
-    <string name="browser_show_missing_media_summary">הצגת פריטי מדיה מרוחקים אפילו אם הם אינם</string>
+    <string name="browser_show_missing_media">הצגת מדיה חסרה</string>
+    <string name="browser_show_missing_media_summary">להציג מדיה מרוחקת אפילו אם אינה קיימת</string>
+    <string name="parental_control">בקרת הורים</string>
+    <string name="safe_mode">מצב בטוח</string>
+    <string name="safe_mode_summary">כשהמצב פעיל, אי אפשר למחוק קבצים או לערוך רשימות נגינה בלי להשתמש בקוד האישי</string>
+    <string name="safe_mode_pin">נא למלא את הקוד האישי שלך</string>
+    <string name="pin_unlock_success">נפתח בהצלחה. כדי להפעיל מחדש את המצב הבטוח, יש לגעת בסמל הזה ביישומון:</string>
+    <string name="safe_mode_new_pin">נא למלא את הקוד האישי החדש שלך</string>
+    <string name="safe_mode_re_pin">נא למלא את הקוד האישי שלך מחדש</string>
+    <string name="safe_mode_no_match">הקודים האישיים לא תואמים</string>
+    <string name="safe_mode_invalid_pin">קוד אישי שגוי</string>
+    <string name="safe_mode_pin_error">הקוד האישי שלך אמור להיות מורכב מספרות בלבד</string>
+    <string name="pin_code_reason_create">קודם כל, בוא ניצור לך קוד אישי</string>
+    <string name="pin_code_reason_modify">החלפת הקוד האישי שלך</string>
+    <string name="pin_code_modified">הקוד האישי הוחלף בהצלחה</string>
+    <string name="pin_code_reason_check">הגישה מוגבלת. נא למלא את הקוד האישי שלך</string>
+    <string name="pin_code_access_granted">יש גישה. אפשר לנעול מחדש במסך הראשי</string>
+    <string name="safe_mode_enabled">מצב בטוח פעיל כעת</string>
+    <string name="restricted_access">הגישה מוגבלת</string>
+    <string name="unlock">שחרור</string>
+    <string name="lock_with_pin">הפעלת נעילה קוד אישי מחדש</string>
+    <string name="unlock_with_pin">שחרור מצב בטוח</string>
+    <string name="lock_with_pin_short">נעילה בקוד אישי</string>
+    <string name="restrict_settings">הגבלת גישה להגדרות</string>
     <string name="search_prefs">חיפוש בהגדרות</string>
     <string name="video_match_frame_rate_title">התאמת קצב הרענון של התצוגה</string>
     <string name="video_match_frame_rate_summary">התאמת קצב רענון התצורה לקצב הרענון של המדיה. למשל, סרט של 24p אמור להתנגן ב־24p</string>
@@ -936,7 +1033,7 @@
     <string name="delete_forever">למחוק לצמיתות</string>
     <string name="add_to_existing_playlist">הוספה לרשימת נגינה קיימת</string>
     <string name="bookmarks_title">סימניות</string>
-    <string name="no_bookmark">אין סימניות עדיין</string>
+    <string name="no_bookmark">לא הוגדרו סימניות</string>
     <string name="bookmark_default_name">סימון במיקום %s</string>
     <string name="bookmark_name">לסמן את %s</string>
     <string name="add_bookmark">הוספת סימניה</string>
@@ -965,10 +1062,13 @@
     <string name="lock_use_sensor_title">נעילה עם חיישן</string>
     <string name="lock_use_sensor_summary">כאשר כיוון ההטיה נעול, יש להשתמש בחיישן כדי להפוך את הכיוון</string>
     <string name="start">הפעלה</string>
+    <string name="notification_permission">הרשאה להתראות</string>
+    <string name="notification_permission_explanation">ל־VLC דרושה הרשאתך לשלוח התראות.\nהיישומון יודיע לך רק כאשר המדיה שלך נסרקת או שנעשה שימוש בסרטון מותאם עם תמונה בתוך תמונה.\nסירוב להרשאה לא ימנע מ־VLC לעבוד אך ההתראות תוסתרנה.</string>
     <string name="permission">הרשאה</string>
     <string name="customize">התאמה אישית</string>
     <string name="selection_count">%d נבחרו</string>
-    <string name="controls_setting">הגדרות פקדים</string>
+    <string name="control_setting">בקרת הגדרות</string>
+    <string name="controls_setting">הגדרות פקדים</string> <!-- Unused -->
     <string name="gestures">מחוות</string>
     <string name="player_controls">פקדי נגן</string>
     <string name="video_double_tap_jump_delay">זמן השהיית נגיעה כפולה</string>
@@ -1009,6 +1109,12 @@
     <string name="material_you">Material You (מושכת צבעים מהרקע)</string>
     <string name="palette">פלטת צבעים (מושכת צבעים מהתמונה שקשורה במדיה)</string>
     <string name="custom">התאמה אישית</string>
+    <string name="widget_type">סוג וידג׳ט</string>
+    <string name="widget_type_pill">גלולה</string>
+    <string name="widget_type_normal">רגיל</string>
+    <string name="widget_type_circle">עיגול</string>
+    <string name="widget_type_large">גדול</string>
+    <string name="widget_type_error">סוג וידג׳ט זה גדול ביחס לגודל הווידג׳ט. זה יכול לשבש את התצוגה</string>
     <string name="opacity">אטימות</string>
     <string name="widget_background">רקע</string>
     <string name="widget_foreground">חזית</string>
@@ -1084,6 +1190,67 @@
     <string name="talkback_action_forward">להתקדם %s שניות</string>
     <string name="talkback_display_settings">הגדרות תצוגה</string>
     <string name="talkback_already_played">כבר התנגן</string>
+    <string name="show_only_favs">להציג מועדפים בלבד</string>
+    <string name="ignore_headset_media_button_presses">התעלמות מלחיצות על כפתור מדיה באוזניות</string>
+    <string name="ignore_headset_media_button_presses_summary">שימוש, למשל, אם יש לך אוזניות עם כפתורים פיזיים מקולקלים</string>
+    <string name="replace_playlist">החלפת רשימת נגינה</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">גישה מרחוק פעילה</string>
+    <string name="ra_remote_access">גישה מרחוק</string>
+    <string name="ra_remote_access_description">הודעה על מצב גישה מרחוק</string>
+    <string name="ra_log_file">קובצי יומנים</string>
+    <string name="ra_log_type">סוג יומן</string>
+    <string name="ra_send_files">שליחת קבצים</string>
+    <string name="ra_not_in_foreground">היישומון לא בחזית. אי אפשר לנגן סרטון.</string>
+    <string name="ra_disconnected">מנותק מהמכשיר</string>
+    <string name="ra_file">קובץ</string>
+    <string name="ra_upload_remaining">נשלחים %s קבצים</string>
+    <string name="ra_upload_all">להעלות הכול</string>
+    <string name="ra_drop_files_tip">יש להשליך קבצים בכל מקום כדי לשלוח אותם למכשיר שלך</string>
+    <string name="ra_prepare_download">ההורדה שלך בהכנה</string>
+    <string name="ra_forbidden">התוכן הושבת בהגדרות</string>
+    <string name="ra_playback_forbidden">בקרת נגינה מושבתת בהגדרות</string>
+    <string name="ra_code_requested_explanation">כדי להגן על השרת שלך, הגישה מוגנת.\nנא למלא את הקוד שמופיע בהתראות שלך</string>
+    <string name="ra_ssl_explanation_title">חיבור לא מאובטח</string>
+    <string name="ra_ssl_explanation">החיבור שלך לא מאובטח.</string>
+    <string name="ra_ssl_explanation_browser">עקב מימוש אבטחה בדפדפן שלך, תישלח אזהרת אבטחת מידע בעמוד הבא.</string>
+    <string name="ra_ssl_explanation_accept">נא לוודא שהסכמת לאישור כדי שתהיה לך אפשרות להשתמש בגישה מרחוק</string>
+    <string name="ra_ssl_button">להשתמש בחיבור מאובטח</string>
+    <string name="ra_new_code">שליחת קוד חדש</string>
+    <string name="home">בית</string>
+    <string name="ra_code">נא למלא את הקוד הזה: %s</string>
+    <string name="ra_send_logs">שמירת יומני גישה מרחוק במכשיר</string>
+    <string name="ra_otp">סיסמה חד־פעמית לגישה מרחוק</string>
+    <string name="ra_otp_description">בקשות גישה לגישה מרחוק</string>
+    <string name="ra_otp_title">ניסיון כניסה לגישה מרחוק</string>
+    <string name="ra_otp_subtitle">אם זה ניסיון שלך, נא למלא את הקוד הזה במכשיר השני</string>
+    <string name="ra_otp_not_me">זה לא אני</string>
 
-</resources>
+    <string name="ra_onboarding_welcome_desc">ברוך בואך לגישה המרוחקת ל־VLC ל־Android\nהפעלת היכולת תאפשר לך לשלוט בנגינה במכשיר הזה אך לא רק</string>
+    <string name="ra_onboarding_how_title">שליטה במכשיר שלך</string>
+    <string name="ra_onboarding_how_desc">שליטה בנגינה במכשיר שלך, שליחה או קבלת קבצים ועוד</string>
+    <string name="ra_onboarding_ssl_title">הצפנת נתונים</string>
+    <string name="ra_onboarding_ssl_desc">הגישה מרחוק מוצפנת כדי למנוע את דליפת הנתונים שלך</string>
+    <string name="ra_onboarding_otp_title">אימות</string>
+    <string name="ra_onboarding_otp_desc">עם אימות בעזרת סיסמה חד־פעמית, נמנעת גישה לא מורשית לנתונים שלך</string>
+    <string name="ra_onboarding_content_title">גישה לתוכן</string>
+    <string name="ra_onboarding_content_desc">ניתן לבחור למה אפשר לגשת ולמה לא</string>
+    <string name="ra_onboarding_content_ml">גישה לתוכן ספריית מדיה</string>
+    <string name="ra_onboarding_content_files">דפדפן קבצים</string>
+    <string name="ra_onboarding_content_playback">בקרת נגינה</string>
+    <string name="ra_disable">השבתה</string>
+    <string name="ra_log_web">יומן גישה מרחוק</string>
+    <string name="ra_log_crash">יומן קריסות</string>
+    <string name="ra_log_mobile">יומן מכשיר</string>
+    <string name="ra_log_current">יומנים מקומיים נוכחיים</string>
+    <string name="ra_invalid_login">עליך להיכנס למכשיר שלך</string>
+    <string name="ra_invalid_otp">הקוד שסופק שגוי</string>
+    <string name="learn_more">מידע נוסף</string>
+
+    <!-- car screens -->
+    <string name="help">עזרה</string>
+    <string name="podcast_mode">מצב הסכתים</string>
+    <string name="podcast_mode_help">פקדי הסתכים מופיעים בעת נגינה של רצועה בודדת שעונה על אחד מהתנאים הבאים:\n\t• האורך עולה על 60 דקות\n\t• האורך עולה על 15 דקות ואין שם אלבום\n\t• הסוגה היא %s</string>
+    <string name="voice_control">שליטה קולית</string>
+    </resources>

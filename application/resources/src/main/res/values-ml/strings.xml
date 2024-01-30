@@ -3,12 +3,12 @@
         tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
-    <string name="ok">ശരി </string>
+    <string name="ok">ശരി</string>
     <string name="cancel">ഉപേക്ഷിക്കുക</string>
     <string name="other">മറ്റുള്ളവ</string>
     <string name="sortby">ക്രമീകരിക്കുക…</string>
     <string name="sortby_name">പേര്</string>
-    <string name="sortby_filename">ഫയല്‍ നാമം</string>
+    <string name="sortby_filename">ഫയലിന്റെ പേര്</string>
     <string name="sortby_artist_name">കലാകാരന്‍റെ പേര്</string>
     <string name="sortby_album_name">ആൽബം</string>
     <string name="sortby_length">ദൈര്‍ഘ്യം</string>
@@ -20,6 +20,16 @@
     <string name="searchable_hint">തിരയുക…</string>
     <string name="history">ചരിത്രം</string>
 
+    <string name="sortby_name_asc">നാമം A → Z</string>
+    <string name="sortby_name_desc">നാമം Z→ A</string>
+    <string name="sortby_artist_name_asc">ആർട്ടിസ്റ്റ് നാമം A → Z</string>
+    <string name="sortby_artist_name_desc">ആർട്ടിസ്റ്റ് നാമം Z → A</string>
+    <string name="sortby_album_name_asc">ആൽബം നാമം A → Z</string>
+    <string name="sortby_album_name_desc">ആൽബം നാമം Z → A</string>
+    <string name="sortby_filename_asc">ഫയൽ നാമം A → Z</string>
+    <string name="sortby_filename_desc">ഫയൽ നാമം Z → A</string>
+    <string name="sortby_length_asc">ഏറ്റവും ചെറുത് ആദ്യം</string>
+    <string name="sortby_length_desc">ദൈർഘ്യമേറിയത് ആദ്യം</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d ഫലം ലഭിച്ചു</item>
         <item quantity="other">%d ഫലങ്ങള്‍ ലഭിച്ചു</item>
@@ -38,7 +48,6 @@
     <string name="video_app_switch_summary">വീഡിയോ കാണിച്ചുകൊണ്ടിരിക്കുമ്പോള്‍ മറ്റൊരു പ്രോഗ്രാമിലേക്ക് നിങ്ങള്‍ മാറിയാല്‍ VLC എങ്ങനെ പെരുമാറണം എന്ന് തിരഞ്ഞെടുക്കുക</string>
     <string name="play_pip_title">വീഡിയോകള്‍ ഒന്നില്‍ മറ്റൊന്ന് ഒരു ചെറുകളത്തിനുള്ളില്‍ കാണിക്കുക</string>
     <string name="play_as_audio_background">വീഡിയോകൾ പശ്ചാത്തലത്തിൽ പ്ലേ ചെയ്യുക</string>
-    <string name="append">കൂട്ടിച്ചേര്‍ക്കുക</string>
     <string name="insert_next">അടുത്തതായി കൂട്ടിച്ചേര്‍ക്കുക</string>
     <string name="play_all">എല്ലാം തുടങ്ങുക</string>
     <string name="append_all">എല്ലാം കൂട്ടിച്ചേര്‍ക്കുക</string>
@@ -131,7 +140,6 @@
     <string name="shuffle_on">ഷഫിൾ ഓൺ</string>
     <string name="shuffle_play">കലർത്തുക</string>
     <string name="repeat_title">ആവര്‍ത്തിതമായ രീതി</string>
-    <string name="repeat">ആവര്‍ത്തിക്കാതിരിക്കുക</string>
     <string name="repeat_single">ഒന്നു മാത്രം ആവര്‍ത്തിക്കുക</string>
     <string name="repeat_all">എല്ലാം ആവര്‍ത്തിക്കുക</string>
     <string name="previous">മുന്‍പുള്ളത്</string>
@@ -174,7 +182,6 @@
     <string name="sleep_in">ഇത്ര സമയത്തിനുള്ളില്‍ ഉറങ്ങുക</string>
     <string name="jump_to_time">സമയത്തിലേക്ക് ചാടുക</string>
     <string name="subtitle_select">സബ്ടൈറ്റില്‍ ഫയല്‍ തിരഞ്ഞെടുക്കുക</string>
-
     <string name="server_add_title">പുതിയ സര്‍വര്‍ ഇഷ്ടപ്പെട്ടതിലേക്ക് ചേര്‍ക്കുക</string>
     <string name="server_domain_hint">സെര്‍വര്‍ വിലാസം (ഡൊമൈന്‍ നാമം അല്ലെങ്കില്‍ ഐപി)</string>
     <string name="server_share_hint">ശ്രിന്ഘല ഷെയറിന്റെ പേര് ( അല്ലെങ്കിൽ ഐപി അഡ്രസ് ) </string>
@@ -205,8 +212,6 @@
     <string name="playback_history_title">മുൻപ് കണ്ടതിന്റെ വിവരങ്ങൾ </string>
     <string name="playback_history_summary">കണ്ട മീഡിയയുടെ ചരിത്രം  സൂക്ഷിക്കുക </string>
     <string name="playback_speed_title">കാഴ്ചയുടെ വേഗം സൂക്ഷിക്കുക </string>
-    <string name="playback_speed_summary">മീഡിയകൾക്കിടയിൽ പ്ലേബാക്ക് വേഗത നിലനിർത്തുക</string>
-
     <string name="play_button">പ്ളേ ബട്ടൺ </string>
 
     <!-- Tips -->
@@ -263,7 +268,6 @@
 
     <!-- Preferences -->
     <string name="preferences">ക്രമീകരണങ്ങൾ</string>
-
     <string name="directories_summary">മീഡിയ ലൈബ്രറിയിൽ ഉൾപ്പെടുത്തേണ്ട ഡയറക്റ്ററികൾ തിരഞ്ഞെടുക്കുക </string>
     <string name="add_custom_path">താത്പര്യത്തിനനുസരിച്ചുള്ള ഒരു പാത തിരഞ്ഞെടുക്കുക</string>
     <string name="add_custom_path_description">സ്കാൻ ചെയ്യാനായി നിങ്ങൾക്ക് താത്പര്യമുള്ള മറ്റൊരു ഡയറക്റ്ററി കൂടെ ചേർക്കുക </string>
@@ -328,10 +332,10 @@
     <string name="enable_double_tap_play_title">ചലിപ്പിക്കാൻ/താൽക്കാലികമായി നിർത്താൻ ഇരട്ട തൊടുക</string>
     <string name="enable_double_tap_play_summary">ചലിപ്പിക്കാനോ താൽക്കാലികമായി നിർത്താനോ സ്‌ക്രീൻ ന് നടുവിൽ ഇരട്ട തൊടുക</string>
     <string name="enable_swipe_seek_title">നീക്കാൻ തൊട്ടു വലിക്കുക</string>
-    <string name="enable_swipe_seek_summary">നീക്കാൻ സ്‌ക്രീനിന് കുറുകെ തൊട്ടു വലിക്കുക </string>
     <string name="popup_keepscreen_title">പോപ്പ് അപ്പ് മോഡിൽ സ്‌ക്രീൻ ഓൺ ചെയ്തു വയ്ക്കുക </string>
     <string name="popup_keepscreen_summary">പോപ്പ് അപ്പ് കാണിക്കുമ്പോൾ എപ്പോഴും സ്‌ക്രീൻ ഓൺ ചെയ്തു വയ്ക്കുക, വിഡിയോ പോസിൽ ആണെങ്കിൽ പോലും </string>
     <string name="browser_show_hidden_files_title">മറഞ്ഞിരിക്കുന്ന ഫയലുകൾ കാണിക്കുക</string>
+    <string name="enable_video_screenshot">ഒരു സ്ക്രീൻഷോട്ട് എടുക്കുക</string>
 
     <string name="subtitles_prefs_category">ഉപശീർഷകങ്ങൾ</string>
     <string name="subtitles_size_title">ഉപശീര്‍ഷകത്തിന്റെ വലുപ്പം</string>
@@ -340,15 +344,22 @@
     <string name="subtitles_size_big">വലുത്</string>
     <string name="subtitles_size_huge">വളരെ വലുത്</string>
     <string name="subtitles_color_title">ഉപശീര്‍ഷകത്തിന്റെ നിറം</string>
-    <string name="subtitles_color_white">വെളുപ്പ്</string>
-    <string name="subtitles_color_gray">ചാരനിറം</string>
-    <string name="subtitles_color_pink">പിങ്ക്</string>
-    <string name="subtitles_color_blue">നീല</string>
-    <string name="subtitles_color_yellow">മഞ്ഞ</string>
-    <string name="subtitles_color_green">പച്ച</string>
+    <string name="subtitles_color">നിറം</string>
+    <string name="subtitles_size">വലുപ്പം</string>
+    <string name="subtitles_background_color_title">സബ്ടൈറ്റിൽ പശ്ചാത്തലം</string>
     <string name="subtitles_background_title">ഉപശീര്‍ഷകത്തിന്റെ ബാക്ക്ഗ്രൗണ്ട്</string>
+    <string name="subtitles_shadow_title">സബ്‌ടൈറ്റിൽ നിഴൽ</string>
+    <string name="subtitle_decoration_none">ഒന്നുമില്ല</string>
+    <string name="subtitle_decoration_shadow">നിഴൽ</string>
     <string name="subtitles_bold_title">കട്ടിയുള്ള ഉപശീര്‍ഷകങ്ങള്‍</string>
     <string name="subtitles_autoload_title">ഉപശീര്‍ഷകങ്ങള്‍ താനേ ലോഡ് ചെയ്യുക</string>
+    <string name="previous_color">മുമ്പത്തെ നിറം</string>
+    <string name="new_color">പുതിയ നിറം</string>
+    <string name="subtitles_preset_default">സ്വതവേയുള്ളത്</string>
+    <string name="subtitles_preset_default_large">വലുപ്പമുള്ള അക്ഷരങ്ങൾ</string>
+    <string name="subtitles_preset_white_background">പശ്ചാത്തലത്തോട് കൂടി</string>
+    <string name="subtitles_yellow">മഞ്ഞ</string>
+    <string name="subtitles_yellow_background">മഞ്ഞ, പശ്ചാത്തലത്തോട് കൂടി</string>
 
     <string name="audio_prefs_category">ഓഡിയോ</string>
     <string name="lockscreen_cover_title">ലോക്ക് സ്‌ക്രീനിൽ മീഡിയ കവർ </string>
@@ -399,7 +410,7 @@
     <string name="artists_show_all_title">എല്ലാ കലാകാരന്മാരെയും കാണിക്കുക </string>
     <string name="show_headers">തലക്കെട്ടുകൾ കാണിക്കുക</string>
     <string name="show_headers_summary">തരം തരം അനുസരിച്ച് തലക്കെട്ടുകൾ പ്രകാരം ലിസ്റ്റുകൾ വിഭജിക്കുക</string>
-
+    <string name="tv_folders_first">ഫോൾഡറുകൾ ആദ്യം കാണിക്കുക</string>
     <string name="extensions_prefs_category">എക്സറ്റൻഷനുകൾ</string>
     <string name="extensions_empty">എക്സ്റ്റൻഷനുകൾ ഒന്നും കാണുന്നില്ല </string>
     <string name="extension_permission_title">പുതിയ എക്സ്റ്റൻഷൻ സജീവമാക്കുക \"%1$s\"?</string>
@@ -541,7 +552,6 @@
     <string name="permission_expanation_allow">നിങ്ങൾക്ക് ഒഴുക്കുകളോ ശ്രിംഘലയിലുള്ള മീഡിയയോ മാത്രമേ പ്ലേ ചെയ്യാൻ കഴിയൂ</string>
     <string name="exit_app">VLC അടയ്ക്കുക</string>
     <string name="exit_app_msg">VLC അടക്കണമെന്ന് താങ്കല്‍ക്കുറപ്പാണോ ?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">ഫാസ്റ്റ് സ്ക്രോളർ ട്രാക്ക് </string>
     <string name="fastscroller_handle">ഫാസ്റ്റ് സ്ക്രോളർ ഹാൻഡിൽ</string>
@@ -570,7 +580,7 @@
     <string name="apply_to_bt">ബ്ലൂടൂത്ത് ഉപകരണത്തിൽ പ്രയോഗിക്കുക</string>
     <string name="episodes">എപ്പിസോഡുകൾ</string>
     <string name="movies">സിനിമകള്‍</string>
-    <string name="videos">വീഡിയോകള്‍</string>
+    <string name="videos">വീഡിയോകൾ</string>
     <string name="videos_all">എല്ലാ വീഡിയോകള</string>
     <string name="clear_playback_history">പ്ലേബാക്ക് ചരിത്രം മായ്‌ക്കുക</string>
     <string name="ml_scanning">മീഡിയ ഫയലുകള്‍ക്ക് വേണ്ടി തിരയുന്നു</string>
@@ -628,7 +638,6 @@
     <string name="ml_wizard_scan_checkbox">മീഡിയ ഉള്ളടക്കത്തിനായി ഉപകരണം തിരഞ്ഞു നോക്കുക </string>
     <string name="ml_wizard_description">വിഎൽസി നിങ്ങളുടെ സംഭരണ ഉപകരണം സ്കാൻ ചെയ്തു മീഡിയ ലൈബ്രറി ഒരുക്കണമോ അതോ സാധാരണ ബ്രൗസർ അധിഷ്ഠിത പ്ലെയർ ആയി ഉപയോഗിക്കണമോ എന്ന് തീരുമാനിക്കുക</string>
     <string name="tv_my_new_videos">എന്റെ പുതിയ വീഡിയോകൾ</string>
-    <string name="cast_option_title">മീഡിയ മറ്റൊരു സ്ക്രീനിലേക്ക് കാസ്റ്റ് ചെയ്യുക </string>
     <string name="otg_device_title">OTG ഉപകരണം</string>
     <string name="browser">ബ്രൗസർ</string>
     <string name="ab_repeat">എ-ബി റിപ്പീറ്റ് </string>
@@ -651,6 +660,7 @@
     <string name="delete_the_selected">തിരഞ്ഞെടുത്തത് മായ്‌ചുകളയുക</string>
     <string name="download_the_selected">തിരഞ്ഞെടുത്തത് ഡൗൺലോഡ് ചെയ്യുക </string>
     <string name="next">അടുത്തത്</string>
+    <string name="skip">ഒഴിവാക്കുക</string>
     <string name="next_step">അടുത്തത്</string>
     <string name="download">ഡൗൺലോഡ്</string>
     <string name="ctx_player_video_track">വീഡിയോ ട്രാക്ക് തിരഞ്ഞെടുക്കുക </string>
@@ -707,6 +717,7 @@
     <string name="remove_current">ഇപ്പോൾ ഉള്ളത് മാറ്റുക</string>
     <string name="validation_delete_playlist">ഈ പ്ലേലിസ്റ്റ് ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ?</string>
     <string name="validation_delete_playlist_text">ഈ പ്രവർത്തനം പഴയപടിയാക്കാൻ കഴിയില്ല.</string>
+    <string name="display_settings">ഡിസ്പ്ലേ ക്രമീകരണം</string>
     <string name="display_in_list">പട്ടികയിൽ പ്രദർശിപ്പിക്കുക</string>
     <string name="display_in_grid">ഗ്രിഡിൽ പ്രദർശിപ്പിക്കുക</string>
     <string name="dump_db_succes">ആന്തരിക സംഭരണ ​​റൂട്ടിൽ ഡാറ്റാബേസ് ഉപേക്ഷിചിരിക്കുന്നു </string>
@@ -856,12 +867,11 @@
     <string name="go_to_folder">വന്ന ഇടത്തു തേടുക</string>
     <string name="create_shortcut">ഒരു ലോഞ്ചർ കുറുക്കുവഴി സൃഷ്ടിക്കുക</string>
     <string name="no_sub_renderer">കാസ്റ്റിങ് സമയത്തു ഉപശീർഷകങ്ങൾ തത്കാലം ലഭ്യമല്ല </string>
-    <string name="enqueuing">നിങ്ങളുടെ മീഡിയകൾ ലോഡുചെയ്യുന്നു</string>
+    <string name="enqueuing">നിങ്ങളുടെ മീഡിയ ലോഡ് ചെയ്യുന്നു</string>
     <string name="soundfont">മിഡി ശബ്ദ ഫോണ്ട്</string>
     <string name="soundfont_summary">മിഡി ശബ്ദ ചാലുകൾ പ്ലേ ചെയ്യുന്നതിന് ഒരു ശബ്ദ ഫോണ്ട് ഫയൽ തിരഞ്ഞെടുക്കുക</string>
     <string name="missing_media_snack">മീഡിയ കാണുന്നില്ല. കാണാതായ എല്ലാ മാധ്യമങ്ങളും മറയ്‌ക്കണോ?</string>
-    <string name="browser_show_missing_media">കാണാതായ മീഡിയകൾ കാണിക്കുക</string>
-    <string name="browser_show_missing_media_summary">ലഭ്യമല്ലെങ്കിലും വിദൂര മീഡിയകൾ കാണിക്കുക</string>
+    <string name="browser_show_missing_media">കാണാതായ മീഡിയ കാണിക്കുക</string>
     <string name="search_prefs">തിരയൽ ക്രമീകരണങ്ങൾ</string>
     <string name="preferred_resolution">തിരഞ്ഞെടുത്ത വീഡിയോ മിഴിവ്</string>
     <string name="preferred_resolution_summary">ഒഴുക്കുകൾക്കായുള്ള പരമാവധി ദൃശ്യ നിലവാരം, ബാധകമാകുമ്പോൾ: %s</string>
@@ -871,7 +881,6 @@
     <string name="delete_forever">എന്നെന്നേക്കുമായി മായ്ക്കുക</string>
     <string name="add_to_existing_playlist">നിലവിലുള്ള പ്ലേലിസ്റ്റിലേക്ക് ചേർക്കുക</string>
     <string name="bookmarks_title">അടയാളപ്പെടുത്തലുകൾ </string>
-    <string name="no_bookmark">ഇതു വരെ അടയാളപ്പെടുത്തലുകൾ ഒന്നുമില്ല </string>
     <string name="bookmark_default_name">%s ൽ  പുസ്തക അടയാളം</string>
     <string name="bookmark_name"> അടയാളപ്പെടുത്തലുകൾ %s</string>
     <string name="add_bookmark">പുസ്തക അടയാളം ചേർക്കുക</string>
@@ -903,7 +912,7 @@
     <string name="permission">അനുമതി</string>
     <string name="customize">ഇഷ്ടാനുസൃതമാക്കുക</string>
     <string name="selection_count">%d തിരഞ്ഞെടുത്തു</string>
-    <string name="controls_setting">നിയന്ത്രണ ക്രമീകരണങ്ങൾ</string>
+    <string name="controls_setting">നിയന്ത്രണ ക്രമീകരണങ്ങൾ</string> <!-- Unused -->
     <string name="gestures">ആംഗ്യങ്ങൾ</string>
     <string name="player_controls">പ്ലെയർ നിയന്ത്രണങ്ങൾ</string>
     <string name="video_double_tap_jump_delay">സമയ കാലതാമസത്തിൽ ഇരട്ട തൊടുക</string>
@@ -952,4 +961,33 @@
     <string name="seek_forward_content_description">സീക്ക് %s സെക്കൻഡ് ഫോർവേഡ്‌സ്</string>
     <string name="open_vlc">VLC തുറക്കുക</string>
     <string name="playing">പ്ലേ ചെയ്യുന്നു</string>
-</resources>
+    <string name="disable_track">ട്രാക്ക് അപ്രാപ്തമാക്കുക</string>
+    <string name="disabled">അപ്രാപ്തമാക്കുക</string>
+    <string name="talkback_folder">ഫോൾഡർ: %s</string>
+    <string name="talkback_file">ഫയൽ: %s</string>
+    <string name="talkback_favorite">ഇഷ്ടപ്പെട്ടത്: %s</string>
+    <string name="talkback_track_number">ട്രാക്ക് നമ്പർ %s</string>
+    <string name="talkback_release_date">%s -ൽ പുറത്തിറക്കിയത്</string>
+    <string name="talkback_video">വീഡിയോ: %s</string>
+    <string name="talkback_audio_track">ഓഡിയോ ട്രാക്ക്: %s</string>
+    <string name="talkback_hours">മണിക്കൂറുകൾ</string>
+    <string name="talkback_minutes">മിനുട്ടുകൾ</string>
+    <string name="talkback_seconds">സെക്കൻഡുകൾ</string>
+    <string name="talkback_enter_screen">%s ലേക്ക് പോകുക</string>
+    <string name="talkback_open_in_browser">വെബ് ബ്രൗസറിൽ തുറക്കുക</string>
+    <string name="talkback_video_tracks">വീഡിയോ ട്രാക്കുകൾ</string>
+    <string name="talkback_audio_tracks">ഓഡിയോ ട്രാക്കുകൾ</string>
+    <string name="talkback_subtitle_tracks">സബ്‌ടൈറ്റിലെ ട്രാക്കുകൾ</string>
+    <string name="selected">തിരഞ്ഞെടുത്തു</string>
+    <string name="talkback_increase_delay">കാലതാമസം കൂട്ടുക</string>
+    <string name="talkback_decrease_delay">കാലതാമസം കുറക്കുക</string>
+    <string name="talkback_increase_speed">വേഗത കൂട്ടുക</string>
+    <string name="talkback_decrease_speed">വേഗത കുറക്കുക</string>
+    <string name="talkback_language_selection">%s തിരഞ്ഞെടുത്ത ഭാഷകൾ</string>
+    <string name="talkback_audio_player_opened">ഓഡിയോ പ്ലെയർ തുറന്നു</string>
+    <string name="talkback_audio_player_collapsed">ഓഡിയോ പ്ലെയർ സങ്കോചിച്ചു</string>
+    <string name="talkback_audio_player_closed">ഓഡിയോ പ്ലെയർ അടഞ്ഞു</string>
+    <string name="talkback_audio_player">ഓഡിയോ പ്ലെയർ. ഇപ്പോൾ പ്ലേ ചെയ്യുന്നത്: %s</string>
+    <string name="talkback_out_of">%s ൽ %s</string>
+    <string name="downloading">ഡൗൺലോഡ് ചെയ്യുന്നു</string>
+    </resources>

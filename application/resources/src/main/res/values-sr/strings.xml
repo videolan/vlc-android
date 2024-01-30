@@ -34,7 +34,6 @@
     <string name="play_as_audio">Пусти као звук</string>
     <string name="play_as_video">Пусти као видео</string>
     <string name="play_as_audio_background">Пушта видео у позадини</string>
-    <string name="append">Додај</string>
     <string name="insert_next">Убаци следеће</string>
     <string name="play_all">Пусти све</string>
     <string name="append_all">Додај све</string>
@@ -121,7 +120,7 @@
     <string name="shuffle">Мешање искључено</string>
     <string name="shuffle_on">Мешање укључено</string>
     <string name="repeat_title">Режим понављања</string>
-    <string name="repeat">Без понављања</string>
+    <string name="repeat_none">Без понављања</string>
     <string name="repeat_single">Понови једну</string>
     <string name="repeat_all">Понављај све</string>
     <string name="previous">Претходно</string>
@@ -161,7 +160,6 @@
     <string name="sleep_in">Спавај за</string>
     <string name="jump_to_time">Пређи на време</string>
     <string name="subtitle_select">Избор титла</string>
-
     <string name="server_add_title">Додај нови сервер у омиљене</string>
     <string name="server_domain_hint">Адреса сервера (домен или ИП)</string>
     <string name="server_folder_hint">Путања фасцикле (опционо)</string>
@@ -212,7 +210,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Поставке</string>
-
     <string name="directories_summary">Изаберите фасцикле за израду медијатеке</string>
     <string name="add_custom_path">Додај прилагођену путању</string>
     <string name="add_custom_path_description">Додатна прилагођена фасцикла за скенирање:</string>
@@ -307,4 +304,4 @@
     <string name="display_in_list">Прикажи у виду листе</string>
     <string name="display_in_grid">Прикажи у виду мреже</string>
     <string name="unknown">Непознато</string>
-</resources>
+    </resources>

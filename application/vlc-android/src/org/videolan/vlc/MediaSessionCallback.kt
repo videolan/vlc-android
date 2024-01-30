@@ -171,7 +171,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             CUSTOM_ACTION_SPEED -> {
                 val steps = listOf(0.50f, 0.80f, 1.00f, 1.10f, 1.20f, 1.50f, 2.00f)
                 val index = 1 + steps.indexOf(steps.minByOrNull { abs(playbackService.rate - it) })
-                playbackService.setRate(steps[index % steps.size], false)
+                playbackService.setRate(steps[index % steps.size], true)
             }
             CUSTOM_ACTION_BOOKMARK -> {
                 playbackService.lifecycleScope.launch {
@@ -224,14 +224,14 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                         }
                     }
                     MediaSessionBrowser.ID_HISTORY -> {
-                        val tracks = context.getFromMl { lastMediaPlayed()?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
+                        val tracks = context.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
                         if (!tracks.isNullOrEmpty() && isActive) {
                             val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
                             loadMedia(mediaList, position)
                         }
                     }
                     MediaSessionBrowser.ID_STREAM -> {
-                        val tracks = context.getFromMl { lastStreamsPlayed() }
+                        val tracks = context.getFromMl { history(Medialibrary.HISTORY_TYPE_NETWORK) }
                         if (tracks.isNotEmpty() && isActive) {
                             tracks.sortWith(MediaComparators.ANDROID_AUTO)
                             loadMedia(tracks.toList(), position)

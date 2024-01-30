@@ -33,7 +33,6 @@
     <string name="video_app_switch_summary">ជ្រើសលក្ខណៈរបស់ VLC នៅពេលប្ដូរទៅកម្មវិធីផ្សេងចេញពីកម្មវិធីចាក់វីដេអូត្រឡប់</string>
     <string name="play_pip_title">ចាក់វីដេអូក្នុងរបៀបរូបភាពក្នុងរូបភាព</string>
     <string name="play_as_audio_background">ចាក់វីដេអូក្នុងផ្ទៃខាងក្រោយ</string>
-    <string name="append">បន្ថែម​ទៅ​​​ចុង</string>
     <string name="insert_next">បញ្ចូលបន្ទាប់</string>
     <string name="play_all">ចាក់​ទាំងអស់</string>
     <string name="append_all">បន្ថែម​ទៅ​ចុង​ទាំងអស់</string>
@@ -89,7 +88,7 @@
     <string name="shuffle">បិទបញ្ចូលគ្នា</string>
     <string name="shuffle_on">បើកបញ្ចូលគ្នា</string>
     <string name="repeat_title">មុខងារលេងត្រឡប់</string>
-    <string name="repeat">ការចាក់ឡើងវិញទទេរ</string>
+    <string name="repeat_none">ការចាក់ឡើងវិញទទេរ</string>
     <string name="repeat_single">លេងឡើងវិញម្ដងមួយ</string>
     <string name="repeat_all">លេងឡើងវិញទាំងអស់</string>
     <string name="previous">មុន</string>
@@ -119,7 +118,6 @@
     <string name="sleep_title">កម្មវិធី​កំណត់​ម៉ោង​ដេក</string>
     <string name="jump_to_time">លោត​ទៅ​ពេល</string>
     <string name="subtitle_select">ជ្រើស​ឯកសារ​ចំណងជើង​រង</string>
-
     <string name="server_username_hint">ឈ្មោះប្រើ</string>
     <string name="server_port">ច្រក:</string>
     <string name="login">បញ្ចូល</string>
@@ -162,12 +160,6 @@
     <string name="subtitles_size_normal">ធម្មតា</string>
     <string name="subtitles_size_big">ធំ</string>
     <string name="subtitles_size_huge">ទូលាយ</string>
-    <string name="subtitles_color_white">ស</string>
-    <string name="subtitles_color_gray">ប្រផេះ</string>
-    <string name="subtitles_color_pink">ផ្កាឈូក</string>
-    <string name="subtitles_color_blue">ខៀវ</string>
-    <string name="subtitles_color_yellow">លឿង</string>
-    <string name="subtitles_color_green">បៃតង</string>
     <string name="audio_prefs_category">សម្លេង</string>
     <string name="headset_prefs_category">កាស</string>
     <string name="enable_headset_detection">រក​កាស</string>
@@ -208,4 +200,4 @@
     <string name="browsing">រុករក</string>
 
     <string name="next">បន្ទាប់</string>
-</resources>
+    </resources>

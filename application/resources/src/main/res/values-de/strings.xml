@@ -15,10 +15,36 @@
     <string name="sortby_date">Datum</string>
     <string name="sortby_last_modified_date">Zuletzt hinzugefügt</string>
     <string name="sortby_insertion">Einfügedatum</string>
+    <string name="sortby_date_last_modified">Zuletzt hinzugefügt</string>
+    <string name="sortby_date_insertion">Einfügedatum</string>
+    <string name="sortby_date_release">Veröffentlichungsdatum</string>
     <string name="sortby_media_number">Mediennummer</string>
     <string name="sortby_number">Titelnummern</string>
     <string name="searchable_hint">Suchen…</string>
     <string name="history">Verlauf</string>
+
+    <string name="sortby_name_asc">Name A → Z</string>
+    <string name="sortby_name_desc">Name Z → A</string>
+    <string name="sortby_artist_name_asc">Künstlername A → Z</string>
+    <string name="sortby_artist_name_desc">Künstlername Z → A</string>
+    <string name="sortby_album_name_asc">Albumname A → Z</string>
+    <string name="sortby_album_name_desc">Albumname Z → A</string>
+    <string name="sortby_filename_asc">Dateiname A → Z</string>
+    <string name="sortby_filename_desc">Dateiname Z → A</string>
+    <string name="sortby_length_asc">Kürzeste zuerst</string>
+    <string name="sortby_length_desc">Längste zuerst</string>
+    <string name="sortby_date_asc">Ältestes Datum zuerst</string>
+    <string name="sortby_date_desc">Neuestes Datum zuerst</string>
+    <string name="sortby_last_modified_date_asc">Älteste hinzugefügte zuerst</string>
+    <string name="sortby_last_modified_date_desc">Jüngste hinzugefügte zuerst</string>
+    <string name="sortby_number_asc">Mehr Videos zuerst in der Gruppe</string>
+    <string name="sortby_number_desc">Weniger Videos zuerst in der Gruppe</string>
+    <string name="sortby_date_insertion_asc">Ältestes Einfügedatum zuerst</string>
+    <string name="sortby_date_insertion_desc">Neuestes Einfügungsdatum zuerst</string>
+    <string name="sortby_date_last_modified_asc">Ältestes Änderungsdatum zuerst</string>
+    <string name="sortby_date_last_modified_desc">Neuestes Änderungsdatum zuerst</string>
+    <string name="sortby_date_release_asc">Ältestes Erscheinungsdatum zuerst</string>
+    <string name="sortby_date_release_desc">Neuestes Erscheinungsdatum zuerst</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d Ergebnis gefunden</item>
@@ -38,7 +64,7 @@
     <string name="video_app_switch_summary">VLC-Verhalten auswählen, wenn Sie von der Filmwiedergabe zu einer anderen Anwendung wechseln</string>
     <string name="play_pip_title">Videos im Bild-in-Bild-Modus wiedergeben</string>
     <string name="play_as_audio_background">Videos im Hintergrund wiedergeben</string>
-    <string name="append">Anhängen</string>
+    <string name="append">Zur Wiedergabewarteschlange hinzufügen</string>
     <string name="insert_next">Als nächsten einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
@@ -118,6 +144,7 @@
     <string name="loading">Ladevorgang</string>
     <string name="please_wait">Bitte warten…</string>
     <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
+    <string name="nofav">Keine Favoriten gefunden.</string>
     <string name="empty_search">Kein Element für die Suche nach %s gefunden</string>
     <string name="noplaylist">Keine Wiedergabeliste gefunden</string>
     <string name="nosubfolder">Keine Unterordner</string>
@@ -131,7 +158,7 @@
     <string name="shuffle_on">Zufallswiedergabe EIN</string>
     <string name="shuffle_play">Zufallswiedergabe</string>
     <string name="repeat_title">Wiederholmodus</string>
-    <string name="repeat">Nichts wiederholen</string>
+    <string name="repeat_none">Nichts wiederholen</string>
     <string name="repeat_single">Einzelstück wiederholen</string>
     <string name="repeat_all">Alle wiederholen</string>
     <string name="previous">Vorherige</string>
@@ -174,6 +201,7 @@
     <string name="sleep_in">Ruhemodus verschieben</string>
     <string name="jump_to_time">Zum Zeitpunkt springen</string>
     <string name="subtitle_select">Untertiteldatei auswählen</string>
+    <string name="wait_before_sleep">Bis das aktuelle Medienelement zuerst fertig ist warten</string>
 
     <string name="server_add_title">Einen neuen Server zu den Favoriten hinzufügen</string>
     <string name="server_domain_hint">Serveradresse (Domainname oder IP)</string>
@@ -269,11 +297,16 @@
 
     <!-- Preferences -->
     <string name="preferences">Einstellungen</string>
+    <string name="more_preferences">Weitere Einstellungen</string>
+    <string name="prefs_opened_on_phone">Einstellungen auf dem Handy geöffnet</string>
+    <string name="open_on_phone">Auf dem Handybildschirm öffnen</string>
 
     <string name="directories_summary">Verzeichnisse, die zur Medienbibliothek hinzugefügt werden sollen</string>
     <string name="add_custom_path">Benutzerdefinierten Pfad hinzufügen</string>
     <string name="add_custom_path_description">Ein zusätzliches, benutzerdefiniertes Verzeichnis zum Durchsuchen eingeben:</string>
     <string name="remove_custom_path">Benutzerdefinierten Pfad entfernen</string>
+    <string name="group_ban_folder">Ordner aus Medienbibliothek ausblenden</string>
+
     <string name="hardware_acceleration">Hardwarebeschleunigung</string>
     <string name="hardware_acceleration_summary">Deaktiviert: bessere Stabilität\nDekodierung: kann die Leistung verbessern\nVoll: kann die Leistung noch weiter verbessern</string>
     <string name="hardware_acceleration_disabled">Deaktiviert</string>
@@ -285,8 +318,10 @@
     <string name="screen_orientation">Bildschirmausrichtung</string>
     <string name="screen_orientation_sensor">Sensorausrichtung</string>
     <string name="screen_orientation_portrait">Hochformat</string>
+    <string name="screen_orientation_portrait_reverse">Hochformat umgekehrt</string>
     <string name="screen_orientation_landscape">Querformat</string>
     <string name="screen_orientation_landscape_reverse">Querformat umgekehrt</string>
+    <string name="screen_orientation_landscape_sensor">Querformat (Sensor)</string>
     <string name="screen_orientation_last_locked">Letzte gesperrte Ausrichtung</string>
     <string name="enable_black_theme">Schwarzes Design</string>
     <string name="theme_auto">Automatisches Design</string>
@@ -413,6 +448,27 @@
     <string name="audio_ducking_title">VLC-Lautstärke bei Benachrichtigungen</string>
     <string name="audio_ducking_summary">Verringert die VLC-Lautstärke, um Audio-Benachrichtigungen, Navigationsanweisungen oder den Assistenten besser zu hören</string>
     <string name="casting_category">Streaming</string>
+    <string name="remote_access">Fernzugriff</string>
+    <string name="remote_access_status">Serverstatus</string>
+    <string name="remote_access_status_summary">Tippen, um den Serverstatus anzuzeigen</string>
+    <string name="remote_access_connections">Verbindungen</string>
+    <string name="remote_access_links">Links</string>
+    <string name="remote_access_active">Fernzugriff aktiv</string>
+    <string name="remote_access_notification">Fernzugriff aktiv auf %s</string>
+    <string name="remote_access_notification_stopped">Fernzugriff gestoppt</string>
+    <string name="remote_access_notification_connecting">Fernzugriffsverbindung wird hergestellt</string>
+    <string name="remote_access_notification_error">Fehler beim Fernzugriff</string>
+    <string name="remote_access_notification_stopping">Fernzugriff wird gestoppt</string>
+    <string name="remote_access_notification_not_init">Fernzugriff wird initialisiert</string>
+    <string name="enable_remote_access">Fernzugriff aktivieren</string>
+    <string name="remote_access_info">Fernzugriff-Info</string>
+    <string name="remote_access_content">Inhalt</string>
+    <string name="remote_access_medialibrary_content">Medienbibliotheksinhalt</string>
+    <string name="remote_access_medialibrary_content_summary">Aktiviert: %s\nDeaktiviert: %s</string>
+    <string name="remote_access_file_browser_content">Datei-Browser</string>
+    <string name="remote_access_network_browser_content">Netzwerk-Browser</string>
+    <string name="remote_access_playback_control">Wiedergabe steuern</string>
+    <string name="remote_access_logs">Protokolldateien teilen</string>
     <string name="casting_switch_title">Drahtloses streamen</string>
     <string name="casting_passthrough_title">Audio-Passthrough</string>
     <string name="casting_passthrough_summary">Lassen Sie Ihren Fernseher das Audio-Rendering verwalten</string>
@@ -426,6 +482,10 @@
     <string name="artists_show_all_title">Alle Künstler anzeigen</string>
     <string name="show_headers">Überschriften anzeigen</string>
     <string name="show_headers_summary">Listen je nach Sortiertyp der Überschriften auf teilen</string>
+    <string name="tv_folders_first">Ordner zuerst anzeigen</string>
+    <string name="tv_folders_first_summary">Ordner und dann Dateien im Dateibrowser anzeigen</string>
+    <string name="tv_show_hidden_files">Versteckte Dateien anzeigen</string>
+    <string name="tv_show_hidden_files_summary">Versteckte Dateien im Datei-Browser anzeigen</string>
 
     <string name="extensions_prefs_category">Erweiterungen</string>
     <string name="extensions_empty">Keine Erweiterungen gefunden</string>
@@ -533,6 +593,12 @@
     <string name="medialibrary">Medienbibliothek</string>
     <string name="medialibrary_directories">Ordner der Medienbibliothek</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">Was gibt es Neues in VLC für Android %s</string>
+    <string name="whats_new_36_webserver_text">Mit der neuen Fernzugriffsfunktion übernehmen Sie die Kontrolle über VLC für Android von jedem anderen Gerät aus. Senden Sie Ihre Medien in beide Richtungen, steuern Sie Ihre Wiedergabe und vieles mehr!</string>
+    <string name="whats_new_36_favorites_text">Sie können jetzt Ihre Medien, Wiedergabelisten, Künstler oder Alben als Favoriten markieren.\nFinden Sie Ihren bevorzugten Inhalt auf einen Blick, indem Sie den Inhalt nur nach Favoriten filtern!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">Weitere Aktionen</string>
     <string name="back_quit_lock">Zum Verlassen des Videos Zurück nochmals drücken</string>
@@ -557,6 +623,7 @@
     <string name="partial_content">VLC kann nicht auf alle Ihre Dateien zugreifen</string>
     <string name="partial_content_description">Ab Android 11 benötigen Anwendungen eine spezielle Berechtigung, um auf alle Gerätedateien zuzugreifen.\n\n%s</string>
     <string name="never_ask_again">Nicht erneut fragen</string>
+    <string name="never_show_again">Nicht erneut anzeigen</string>
     <string name="allow_settings_access_ringtone_title">VLC das Einstellen des Klingeltons erlauben</string>
     <string name="allow_settings_access_ringtone_description">VLC benötigt diese Berechtigung um, dieses Lied als Klingelton einzurichten.</string>
     <string name="allow_settings_access_brightness_title">VLC das Einstellen des Helligkeitsmodus erlauben</string>
@@ -674,6 +741,10 @@
     <string name="ab_repeat_stop">A-B-Wiederholung stoppen</string>
     <string name="stop_after_this">Nach diesem Titel stoppen</string>
     <string name="time_category_new">Neue Medien</string>
+    <string name="time_category_today">Heute</string>
+    <string name="time_category_yesterday">Gestern</string>
+    <string name="time_category_current_week">Diese Woche</string>
+    <string name="time_category_last_week">Letzte Woche</string>
     <string name="time_category_current_month">Diesen Monat</string>
     <string name="time_category_current_year">Dieses Jahr</string>
     <string name="time_category_last_year">Letztes Jahr</string>
@@ -725,6 +796,8 @@
     <string name="misc">Verschiedenes</string>
     <string name="popup_force_legacy_title">Benutzerdefiniertes Bild-in-Bild</string>
     <string name="popup_force_legacy_summary">Ein benutzerdefiniertes Bild-in-Bild im größenveränderbaren Fenster verwenden</string>
+    <string name="restore_background_video_title">Video aus dem Hintergrund wiederherstellen</string>
+    <string name="restore_background_video_summary">Video aus dem Hintergrund wiederherstellen, wenn VLC-Android erneut geöffnet wird</string>
     <string name="device_default">Systemsprache</string>
     <string name="track_number">%d Titel</string>
     <string name="jump_to">Springe zu</string>
@@ -746,6 +819,8 @@
     <string name="remove_current">Aktuelles entfernen</string>
     <string name="validation_delete_playlist">Diese Wiedergabeliste wirklich löschen?</string>
     <string name="validation_delete_playlist_text">Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="display_settings">Anzeigeeinstellungen</string>
+    <string name="incognito_mode">Inkognito-Modus</string>
     <string name="display_in_list">Als Liste anzeigen</string>
     <string name="display_in_grid">Als Gitter anzeigen</string>
     <string name="dump_db_succes">Die Datenbank wurde im internen Speicherstammordner abgelegt</string>
@@ -901,6 +976,28 @@
     <string name="missing_media_snack">Medien fehlen. Alle fehlenden Medien ausblenden?</string>
     <string name="browser_show_missing_media">Fehlenden Medien anzeigen</string>
     <string name="browser_show_missing_media_summary">Zeige entferntes Medienereignis, wenn diese nicht verfügbar sind</string>
+    <string name="parental_control">Elterliche Kontrolle</string>
+    <string name="safe_mode">Sicherer Modus</string>
+    <string name="safe_mode_summary">Wenn aktiviert, können Dateien nicht gelöscht oder die Wiedergabeliste ohne Eingabe der PIN geändert werden</string>
+    <string name="safe_mode_pin">Geben Sie Ihre PIN ein</string>
+    <string name="pin_unlock_success">Erfolgreich entsperrt. Um den Sicherheitsmodus erneut zu aktivieren, tippen Sie bitte auf dieses Symbol in der App:</string>
+    <string name="safe_mode_new_pin">Geben Sie Ihre neue PIN ein</string>
+    <string name="safe_mode_re_pin">Geben Sie Ihre PIN erneut ein</string>
+    <string name="safe_mode_no_match">PINs stimmen nicht überein</string>
+    <string name="safe_mode_invalid_pin">Falsche PIN</string>
+    <string name="safe_mode_pin_error">Ihre PIN sollte nur aus Ziffern bestehen</string>
+    <string name="pin_code_reason_create">Als Erstens, lassen Sie uns Ihren PIN-Code erstellen</string>
+    <string name="pin_code_reason_modify">Ändern Sie Ihren PIN-Code</string>
+    <string name="pin_code_modified">PIN-Code erfolgreich geändert</string>
+    <string name="pin_code_reason_check">Zugriff eingeschränkt. Bitte geben Sie Ihren PIN-Code ein</string>
+    <string name="pin_code_access_granted">Zugriff gewährt. Sie können auf dem Hauptbildschirm erneut sperren</string>
+    <string name="safe_mode_enabled">Der sichere Modus ist jetzt aktiviert</string>
+    <string name="restricted_access">Zugriff eingeschränkt</string>
+    <string name="unlock">Entsperren</string>
+    <string name="lock_with_pin">PIN-Sperre wieder aktivieren</string>
+    <string name="unlock_with_pin">Sicheren Modus entsperren</string>
+    <string name="lock_with_pin_short">PIN-Sperre</string>
+    <string name="restrict_settings">Einstellungenzugriff einschränken</string>
     <string name="search_prefs">Suche in Einstellungen</string>
     <string name="video_match_frame_rate_title">Bildwiederholrate der Anzeige anpassen</string>
     <string name="video_match_frame_rate_summary">Die Aktualisierungsrate der Anzeige an die Framerate der Medien anpassen. Beispielsweise sollte ein 24p-Film mit 24p abgespielt werden</string>
@@ -912,7 +1009,7 @@
     <string name="delete_forever">Für immer löschen</string>
     <string name="add_to_existing_playlist">Zur vorhandenen Wiedergabeliste hinzufügen</string>
     <string name="bookmarks_title">Lesezeichen</string>
-    <string name="no_bookmark">Bisher kein Lesezeichen vorhanden</string>
+    <string name="no_bookmark">Kein Lesezeichen festgelegt</string>
     <string name="bookmark_default_name">Lesezeichen bei %s</string>
     <string name="bookmark_name">%s - Lesezeichen</string>
     <string name="add_bookmark">Lesezeichen hinzufügen</string>
@@ -941,10 +1038,13 @@
     <string name="lock_use_sensor_title">Mit Sensor sperren</string>
     <string name="lock_use_sensor_summary">Wenn die Ausrichtung gesperrt ist, den Sensor zur umgekehrten Ausrichtung verwenden</string>
     <string name="start">Start</string>
+    <string name="notification_permission">Berechtigung für Benachrichtigungen</string>
+    <string name="notification_permission_explanation">VLC benötigt Ihre Erlaubnis zum Senden von Benachrichtigungen.\nDie App benachrichtigt Sie nur, wenn Sie Ihre Medien scannen oder das benutzerdefinierte Video Bild in Bild verwenden.\nWenn Sie dies ablehnen, funktioniert VLC nicht, die Benachrichtigungen werden jedoch ausgeblendet.</string>
     <string name="permission">Berechtigungen</string>
     <string name="customize">Anpassen</string>
     <string name="selection_count">%d ausgewählt</string>
-    <string name="controls_setting">Steuerungseinstellungen</string>
+    <string name="control_setting">Steuerungseinstellungen</string>
+    <string name="controls_setting">Steuerungseinstellungen</string> <!-- Unused -->
     <string name="gestures">Gesten</string>
     <string name="player_controls">Wiedergabesteuerungen</string>
     <string name="video_double_tap_jump_delay">Zeitverzögerung für doppeltes tippen</string>
@@ -981,6 +1081,12 @@
     <string name="material_you">Material You (nimmt Farben vom Hintergrund)</string>
     <string name="palette">Palette (nimmt Farben aus dem Medien-Cover)</string>
     <string name="custom">Eigenes</string>
+    <string name="widget_type">Widget-Typ</string>
+    <string name="widget_type_pill">Pille</string>
+    <string name="widget_type_normal">Normal</string>
+    <string name="widget_type_circle">Kreis</string>
+    <string name="widget_type_large">Groß</string>
+    <string name="widget_type_error">Dieser Widget-Typ ist für die Widget-Größe zu groß. Es kann zu visuellen Problemen führen</string>
     <string name="opacity">Deckkraft</string>
     <string name="widget_background">Hintergrund</string>
     <string name="widget_foreground">Vordergrund</string>
@@ -1056,6 +1162,68 @@
     <string name="talkback_action_forward">%s Sek. vorspulen</string>
     <string name="talkback_display_settings">Anzeigeeinstellungen</string>
     <string name="talkback_already_played">Bereits wiedergegeben</string>
+    <string name="show_only_favs">Nur Favoriten anzeigen</string>
+    <string name="ignore_headset_media_button_presses">Das Drücken der Medientaste am Headset igborieren</string>
+    <string name="ignore_headset_media_button_presses_summary">Nützlich, wenn Sie beispielsweise ein Headset mit defekten physischen Tasten verwenden</string>
+    <string name="replace_playlist">Wiedergabeliste erstzen</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">Fernzugriff aktiv</string>
+    <string name="ra_remote_access">Fernzugriff</string>
+    <string name="ra_remote_access_description">Fernzugriff-Statusbenachrichtigung</string>
+    <string name="ra_log_file">Protokolldateien</string>
+    <string name="ra_log_type">Protokolltyp</string>
+    <string name="ra_send_files">Dateien senden</string>
+    <string name="ra_not_in_foreground">Die Anwendung ist nicht im Vordergrund. Video kann nicht gestartet werden.</string>
+    <string name="ra_disconnected">Vom Gerät getrennt</string>
+    <string name="ra_file">Datei</string>
+    <string name="ra_upload_remaining">Hochladen von %s Dateien</string>
+    <string name="ra_upload_all">Alle hochladen</string>
+    <string name="ra_drop_files_tip">Dateien überall fallen lassen, um sie an Ihr Gerät zu senden</string>
+    <string name="ra_prepare_download">Vorbereitung des Herunterladens</string>
+    <string name="ra_forbidden">Inhalt in den Einstellungen deaktiviert</string>
+    <string name="ra_playback_forbidden">Wiedergabesteuerung in den Einstellungen deaktiviert</string>
+    <string name="ra_code_requested_explanation">Um Ihren Server zu schützen, ist der Zugriff geschützt.\nBitte geben Sie den Code aus den Benachrichtigungen ein</string>
+    <string name="ra_ssl_explanation_title">Unsichere Verbindung</string>
+    <string name="ra_ssl_explanation">Ihre Verbindung ist nicht sicher.</string>
+    <string name="ra_ssl_explanation_browser">Aufgrund der Implementierung der Browsersicherheit erhalten Sie auf der nächsten Seite eine Sicherheitswarnung.</string>
+    <string name="ra_ssl_explanation_accept">Stellen Sie sicher, dass Sie das Zertifikat akzeptieren, um den Fernzugriff nutzen zu können</string>
+    <string name="ra_ssl_button">Verwenden Sie eine sichere Verbindung.</string>
+    <string name="ra_new_code">Einen neuen Code senden</string>
+    <string name="home">Startseite</string>
+    <string name="ra_code">Geben Sie diesen Code ein: %s</string>
+    <string name="ra_send_logs">die Fernzugriffsprotokolle auf dem Gerät speichern</string>
+    <string name="ra_otp">Fernzugriff-Einmalpasswort</string>
+    <string name="ra_otp_description">Zugriffsanfragen für den Fernzugriff</string>
+    <string name="ra_otp_title">Anmeldeversuch per Fernzugriff</string>
+    <string name="ra_otp_subtitle">Wenn Sie es sind, geben Sie diesen Code auf dem anderen Gerät ein</string>
+    <string name="ra_otp_not_me">Das bin ich nicht</string>
 
+    <string name="ra_onboarding_welcome_desc">Willkommen bei der Fernbedienung von VLC für Android. Durch Aktivierung können Sie die Wiedergabe dieses Geräts steuern und mehr</string>
+    <string name="ra_onboarding_how_title">Steuern Sie Ihr Gerät</string>
+    <string name="ra_onboarding_how_desc">Steuern Sie die Wiedergabe Ihres Geräts, senden oder rufen Sie Dateien ab und mehr</string>
+    <string name="ra_onboarding_ssl_title">Datenverschlüsselung</string>
+    <string name="ra_onboarding_ssl_desc">Der Fernzugriff ist verschlüsselt, um den Verlust Ihrer Daten zu verhindern</string>
+    <string name="ra_onboarding_otp_title">Legitimierung</string>
+    <string name="ra_onboarding_otp_desc">Mit der Einmalpasswort-Authentifizierung verhindern Sie unerwünschten Zugriff auf Ihre Daten</string>
+    <string name="ra_onboarding_content_title">Inhaltlicher Zugriff</string>
+    <string name="ra_onboarding_content_desc">Wählen Sie aus, was zugänglich sein soll und was nicht</string>
+    <string name="ra_onboarding_content_ml">Medienbibliotheksinhaltszugriff</string>
+    <string name="ra_onboarding_content_files">Datei-Browser</string>
+    <string name="ra_onboarding_content_playback">Wiedergabesteuerung</string>
+    <string name="ra_disable">Deaktivieren</string>
+    <string name="ra_log_web">Protokoll für den Fernzugriff</string>
+    <string name="ra_log_crash">Absturz-Protokoll</string>
+    <string name="ra_log_mobile">Geräteprotokoll</string>
+    <string name="ra_log_current">Aktuelle lokale Protokolle</string>
+    <string name="ra_invalid_login">Sie müssen sich auf Ihrem Gerät anmelden</string>
+    <string name="ra_invalid_otp">Ungültiger Code bereitgestellt</string>
+    <string name="learn_more">Erfahren Sie mehr</string>
+
+    <!-- car screens -->
+    <string name="help">Hilfe</string>
+    <string name="podcast_mode">Podcast-Modus</string>
+    <string name="podcast_mode_help">Podcast-Steuerelemente werden angezeigt, wenn ein einzelner Titel abgespielt wird, der eines der folgenden Kriterien erfüllt:\n\t• Länge größer als 60 Min.\n\t• Länge größer als 15 Min. ohne Albumnamen\n\t• Genre ist %s</string>
+    <string name="voice_control">Sprachsteuerung</string>
+    <string name="voice_control_help">VLC kann über Google Assistant gesteuert werden, indem die folgenden Befehle gesprochen werden:\n\t• Abspielen, Pause, Stopp, Zurück, Weiter\n\t• Zurückspulen, Schneller Vorlauf, Wiederholen &lt;alle|eins|aus&gt;\n\t • Zu &lt;Zeit&gt; springen, &lt;Dauer&gt; überspringen\n\t• Was ist das für ein &lt;Künstler|Album|Lied&gt;\n\t• Spielen Sie [Künstler|Album|Lied|Genre|Wiedergabeliste] ab &lt;Name&gt;</string>
 </resources>

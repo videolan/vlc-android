@@ -36,7 +36,6 @@
     <string name="video_app_switch_summary">காணொளியின் பின்னணி இயக்கத்திலிருந்து வேறொரு செயலிக்கு மாறும் பொழுது VLC-ன் ஒழுங்கைத் தெரிவு செய்க</string>
     <string name="play_pip_title">காணொளிகளை படம்-உள்-படம் முறையில் இயக்கு</string>
     <string name="play_as_audio_background">காணொளிகளை பின்புலத்தில் இயக்கு</string>
-    <string name="append">சேர்</string>
     <string name="insert_next">அடுத்ததை நுழைக்க</string>
     <string name="play_all">அனைத்தையும் இயக்கு</string>
     <string name="append_all">அனைத்தையும் சேர்</string>
@@ -98,7 +97,7 @@
     <string name="shuffle">கலக்கு இயக்க முறையை அணைக்க</string>
     <string name="shuffle_on">கலக்கு இயக்க முறையை ஏற்று</string>
     <string name="repeat_title">மீள் இயக்க முறை</string>
-    <string name="repeat">ஒன்றையும் மீள் இயக்காதே</string>
+    <string name="repeat_none">ஒன்றையும் மீள் இயக்காதே</string>
     <string name="repeat_single">ஒன்றை மீள் இயக்கு</string>
     <string name="repeat_all">அனைத்தையும் மீள் இயக்கு</string>
     <string name="previous">முந்தைய</string>
@@ -140,7 +139,6 @@
     <string name="sleep_in">தூங்க</string>
     <string name="jump_to_time">நேரத்திற்கு தாவு</string>
     <string name="subtitle_select">துணைத்தலைப்பு கோப்பை தேர்</string>
-
     <string name="server_add_title">ஒரு புது தேக்கத்தை பிடித்தவையில் சேர்</string>
     <string name="server_domain_hint">தேக்க முகவரி (Domain பெயர் அ IP)</string>
     <string name="server_folder_hint">கோப்புறை பாதை (விரும்பினால்)</string>
@@ -166,7 +164,6 @@
 
     <string name="playback_history_title">இயக்க வரலாறு</string>
     <string name="playback_speed_title">இயக்க வேகத்தை சேமிக்க</string>
-
     <!-- Tips -->
     <string name="tips_title">காணொளியியக்கி துணுக்குதவிகள்</string>
     <string name="seek">நாடுதல்</string>
@@ -196,10 +193,8 @@
     <string name="revision">மறுபதிப்பு</string>
     <string name="about">பற்றி</string>
     <string name="vlc_authors">மற்றும் VLC ஆசிரியர்கள்.</string>
-
     <!-- Preferences -->
     <string name="preferences">அமைப்புகள்</string>
-
     <string name="directories_summary">அடைவுகளைவத் தேர்வுச்செய்து ஊடகத் தொகுப்பில் சேர்க்கவும்</string>
     <string name="add_custom_path">ஒரு தனிப்பயன் பாதையைச் சேர்</string>
     <string name="add_custom_path_description">வருடித் தேட கூடுதல் தனிப் பாதையைச் சேர் :</string>
@@ -244,16 +239,9 @@
     <string name="subtitles_size_big">பெரிய</string>
     <string name="subtitles_size_huge">மிகவும் பெரிய</string>
     <string name="subtitles_color_title">துணைஉரைகளின் நிரம்</string>
-    <string name="subtitles_color_white">வெள்ளை</string>
-    <string name="subtitles_color_gray">சாம்பல்</string>
-    <string name="subtitles_color_pink">பிங்க்</string>
-    <string name="subtitles_color_blue">நீலம்</string>
-    <string name="subtitles_color_yellow">மஞ்சல்</string>
-    <string name="subtitles_color_green">பச்சை</string>
     <string name="subtitles_background_title">துணைஉரை பின்னணி</string>
     <string name="subtitles_bold_title">போல்ட் வசனவரிகள்</string>
     <string name="subtitles_autoload_title">துணைஉரைகளை தானாக ஏற்று</string>
-
     <string name="audio_prefs_category">ஒலி</string>
     <string name="show_seek_in_compact_notif_title">அறிவிப்புப் பலகையில் நாடுதல் பொத்தான்கள்</string>
     <string name="list_title_ellipsize_default">இயல்புநிலை</string>
@@ -337,7 +325,6 @@
     <string name="music_now_playing">இப்போ ஒடுவது</string>
 
     <string name="exit_app">VLC-ஐ மூடு</string>
-
     <!-- Plugins -->
     <string name="plugins">நிரல்கள்</string>
     <string name="download_on_device">பதிவிறக்கு</string>
@@ -350,9 +337,6 @@
     <string name="browse_folder">கோப்புறையை உலாவ</string>
     <string name="listen">கேளுங்கள்</string>
     <string name="apply_to_bt">ஊடலை சாதனத்திற்கு உபயோகி</string>
-    <string name="episodes">பாகங்கள்</string>
-    <string name="movies">திரைப்படங்கள்</string>
-    <string name="videos">காணொளிகள்</string>
     <string name="ml_scanning">ஊடக கோப்புகளுக்காக வருடுகிறது</string>
     <string name="ml_parse_media">ஊடகத்தை பாகுபடுத்துதல்</string>
     <string name="ml_discovering">கண்டுபிடிக்கிறது</string>
@@ -417,4 +401,4 @@
     <string name="apply_to_all">எல்லா காணொளிகளுக்கும் உபயோகி</string>
     <string name="bookmarks_title">நூற்குறிகள்</string>
     <string name="player_controls">இயக்கி கட்டுப்பாடுகள்</string>
-</resources>
+    </resources>

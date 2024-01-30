@@ -16,6 +16,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.*
@@ -231,5 +233,96 @@ fun PackageManager.getPackageInfoCompat(packageName: String, vararg flagArgs: In
         getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
     } else {
         getPackageInfo(packageName, flags)
+    }
+}
+
+fun Context.startRemoteAccess() {
+    val intent = Intent(ACTION_INIT).setClassName(applicationContext, REMOTE_ACCESS_SERVICE)
+    launchForeground(intent)
+}
+
+fun Context.stopRemoteAccess() {
+    sendBroadcast(Intent(ACTION_STOP_SERVER).apply { `package` = packageName })
+    val intent = Intent(ACTION_INIT).setClassName(applicationContext, REMOTE_ACCESS_SERVICE)
+    stopService(intent)
+}
+
+fun Context.restartRemoteAccess() {
+    sendBroadcast(Intent(ACTION_RESTART_SERVER).apply { `package` = packageName })
+}
+
+/**
+ * Awaits for the first update of a [LiveData]
+ *
+ * @param T the livedata content type
+ * @return
+ */
+suspend fun <T> LiveData<T>.await(): T {
+    return withContext(Dispatchers.Main.immediate) {
+        suspendCancellableCoroutine { continuation ->
+            val observer = object : Observer<T> {
+                override fun onChanged(value: T) {
+                    removeObserver(this)
+                    continuation.resume(value)
+                }
+            }
+
+            observeForever(observer)
+
+            continuation.invokeOnCancellation {
+                removeObserver(observer)
+            }
+        }
+    }
+}
+
+suspend inline fun <T> suspendCoroutineWithTimeout(
+        timeout: Long,
+        crossinline block: (CancellableContinuation<T>) -> Unit
+): T? {
+    var finalValue: T? = null
+    withTimeoutOrNull(timeout) {
+        finalValue = suspendCancellableCoroutine(block = block)
+    }
+    return finalValue
+}
+
+/**
+ * Observes the [data] until the [block] is not met anymore
+ * or the timeout is exhausted
+ * It's blocking the calling coroutineContext
+ *
+ * @param T the LiveData type
+ * @param timeout the timeout to release the blocking state
+ * @param data the [LiveData] to observe
+ * @param block the blocking condition
+ * @return the livedata content
+ */
+suspend inline fun <T> observeLiveDataUntil(
+        timeout: Long,
+        data: LiveData<T>,
+        crossinline block: (T) -> Boolean
+): T? {
+    return withContext(Dispatchers.Main.immediate) {
+        var init = false
+        suspendCoroutineWithTimeout<T>(timeout) { suspend ->
+            var observers: Observer<T>? = null
+            val oldData = data.value
+            observers = Observer<T> { t ->
+                if (oldData == t && init) {
+                    return@Observer
+                }
+                init = true
+                if (!block(t) && !suspend.isCancelled) {
+                    suspend.resume(t)
+                    observers?.let { data.removeObserver(it) }
+                }
+            }
+
+            data.observeForever(observers)
+            suspend.invokeOnCancellation {
+                observers.let { data.removeObserver(it) }
+            }
+        }
     }
 }

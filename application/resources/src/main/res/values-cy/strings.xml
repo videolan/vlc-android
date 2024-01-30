@@ -38,7 +38,6 @@
     <string name="video_app_switch_summary">Dewisa beth mae VLC i\'w wneud pan wyt ti\'n newid i ap arall tra\'n chwarae fideo.</string>
     <string name="play_pip_title">Chwarae fideos mewn modd Llun-o-fewn-llun</string>
     <string name="play_as_audio_background">Chwarae fideos yn y cefndir</string>
-    <string name="append">Atodi</string>
     <string name="insert_next">Mewnosod y nesaf</string>
     <string name="play_all">Chwarae pob un</string>
     <string name="append_all">Atodi\'r cwbl</string>
@@ -133,7 +132,6 @@
     <string name="shuffle">Dim Cymysgu</string>
     <string name="shuffle_on">Cymysgu Traciau</string>
     <string name="repeat_title">Modd ail-chwarae</string>
-    <string name="repeat">Dim ail-chwarae</string>
     <string name="repeat_single">Ail-chwarae sengl</string>
     <string name="repeat_all">Ail-chwarae\'r cwbl</string>
     <string name="previous">Blaenorol</string>
@@ -177,7 +175,6 @@
     <string name="sleep_in">Mynd i gysgu mewn</string>
     <string name="jump_to_time">Neidio i amser</string>
     <string name="subtitle_select">Dewis ffeil isdeitlau</string>
-
     <string name="server_add_title">Ychwanegu gweinydd newydd i\'r ffefrynnau</string>
     <string name="server_domain_hint">Cyfeiriad gweinydd (IP neu enw parth)</string>
     <string name="server_share_hint">Enw rhwydwaith rhannu (neu gyfeiriad IP)</string>
@@ -205,8 +202,6 @@
     <string name="playback_history_title">Hanes chwarae</string>
     <string name="playback_history_summary">Cadw\'r holl ffeiliau a chwaraewyd yn yr adran Hanes</string>
     <string name="playback_speed_title">Cadw\'r cyflymder chwarae</string>
-    <string name="playback_speed_summary">Cadw\'r cyflymder chwarae o un cyfrwng i\'r nesaf</string>
-
     <string name="play_button">Botwm Chwarae</string>
 
     <string name="seek">Canfod</string>
@@ -232,7 +227,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Gosodiadau</string>
-
     <string name="directories_summary">Dewis cyfeiriaduron i\'w gynnwys yn y llyfrgell cyfryngau</string>
     <string name="add_custom_path">Ychwanegu lleoliad penodol</string>
     <string name="add_custom_path_description">Rhowch gyfeiriadur ychwanegol i\'w sganio:</string>
@@ -286,7 +280,6 @@
     <string name="popup_keepscreen_title">Cadw\'r sgrin YMLAEN mewn modd Ffenestr Llaim</string>
     <string name="popup_keepscreen_summary">Cadw\'r sgrin YMLAEN tro bod ffenestr llaim yn ymddangos, hyd yn oed os yw\'r fideo wedi ei oedi.</string>
     <string name="browser_show_hidden_files_title">Dangos ffeiliau cudd</string>
-
     <string name="subtitles_prefs_category">Isdeitlau</string>
     <string name="subtitles_size_title">Maint isdeitlau</string>
     <string name="subtitles_size_small">Bach</string>
@@ -294,16 +287,9 @@
     <string name="subtitles_size_big">Mawr</string>
     <string name="subtitles_size_huge">Anferth</string>
     <string name="subtitles_color_title">Lliw isdeitlau</string>
-    <string name="subtitles_color_white">Gwyn</string>
-    <string name="subtitles_color_gray">Llwyd</string>
-    <string name="subtitles_color_pink">Pinc</string>
-    <string name="subtitles_color_blue">Glas</string>
-    <string name="subtitles_color_yellow">Melyn</string>
-    <string name="subtitles_color_green">Gwyrdd</string>
     <string name="subtitles_background_title">Cefndir isdeitlau</string>
     <string name="subtitles_bold_title">Isdeitlau trwm</string>
     <string name="subtitles_autoload_title">Llwytho isdeitlau yn awtomatig</string>
-
     <string name="audio_prefs_category">Sain</string>
     <string name="lockscreen_cover_title">Clawr y cyfrwng ar y sgrîn cloi</string>
     <string name="lockscreen_cover_summary">Pan ar gael, gosod clawr yr albwm, llyfr, ayyb, fel delwedd sgrin cloi dy ddyfais.</string>
@@ -452,7 +438,6 @@
     <string name="permission_ask_again">Caniatáu</string>
     <string name="exit_app">Cau VLC</string>
     <string name="exit_app_msg">Wyt ti wir eisiau gadael VLC?</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">Tracio FastScroller</string>
     <string name="fastscroller_handle">Handlen FastScroller</string>
@@ -478,9 +463,6 @@
     <string name="download_subtitles">Lawrlwytho isdeitlau</string>
     <string name="browse_folder">Pori\'r ffolder</string>
     <string name="listen">Gwrando</string>
-    <string name="episodes">penodau</string>
-    <string name="movies">ffilmiau</string>
-    <string name="videos">fideos</string>
     <string name="videos_all">Pob fideo</string>
     <string name="clear_playback_history">Clirio\'r hanes chwarae</string>
     <string name="ml_scanning">Yn sganio am ffeiliau cyfryngau</string>
@@ -536,7 +518,6 @@
     <string name="ml_wizard_scan_checkbox">Sganio\'r ddyfais am gynnwys cyfryngau</string>
     <string name="ml_wizard_description">Dewis a all VLC sganio storfa dy ddyfais i drefnu dy lyfrgell cyfryngau neu dim ond i\'w defnyddio fel chwaraeydd syml gyda phorwr integredig.</string>
     <string name="tv_my_new_videos">Fy fideos newydd</string>
-    <string name="cast_option_title">Bwrw cyfryngau ar sgrin arall</string>
     <string name="otg_device_title">Dyfais OTG</string>
     <string name="browser">Porwr</string>
     <string name="ab_repeat">Ailadrodd A-B</string>
@@ -752,4 +733,4 @@
     <string name="warning_stream_speed">Gall gynyddu\'r cyflymder dros 1 i ffrydiau achosi iddynt chwarae yn dameidiog</string>
     <string name="go_to_folder">Pori\'r rhiant</string>
     <string name="no_sub_renderer">Dyw isdeitlau ddim eto ar gael wrth fwrw</string>
-</resources>
+    </resources>

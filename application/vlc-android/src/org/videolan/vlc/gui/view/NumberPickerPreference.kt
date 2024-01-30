@@ -63,8 +63,8 @@ class NumberPickerPreference(context: Context, attrs: AttributeSet?) : DialogPre
         setValue(if (restore) getPersistedInt(FALLBACK_DEFAULT_VALUE) else defaultValue as Int)
     }
 
-    override fun onGetDefaultValue(a: TypedArray?, index: Int): Any? {
-        return a?.getInteger(index, FALLBACK_DEFAULT_VALUE)
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
+        return a.getInteger(index, FALLBACK_DEFAULT_VALUE)
     }
 
     companion object {

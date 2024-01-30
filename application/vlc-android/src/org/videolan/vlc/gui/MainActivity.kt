@@ -62,6 +62,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.WhatsNewManager
 import org.videolan.vlc.util.WidgetMigration
 import org.videolan.vlc.util.getScreenWidth
 import java.util.concurrent.TimeUnit
@@ -99,9 +100,11 @@ class MainActivity : ContentActivity(),
         scanNeeded = savedInstanceState == null && settings.getBoolean(KEY_MEDIALIBRARY_AUTO_RESCAN, true)
         mediaLibrary = Medialibrary.getInstance()
 
-//        VLCBilling.getInstance(application).retrieveSkus()
-        WidgetMigration.launchIfNeeded(this)
-        NotificationPermissionManager.launchIfNeeded(this)
+        if (!NotificationPermissionManager.launchIfNeeded(this)) {
+            if (!WidgetMigration.launchIfNeeded(this)) {
+               if (!Settings.firstRun)  WhatsNewManager.launchIfNeeded(this) else WhatsNewManager.markAsShown(settings)
+            }
+        }
     }
 
     override fun onResume() {

@@ -35,7 +35,6 @@
     <string name="video_app_switch_summary">Zgjidh sjelljen e VLC kur kaloni në programe të tjera nga rishikimet e videos</string>
     <string name="play_pip_title">Luaj videos në mënyrë Fotografi-në-fotografi</string>
     <string name="play_as_audio_background">Luaj videos në sfond</string>
-    <string name="append">Shto</string>
     <string name="insert_next">Vendos tjetër</string>
     <string name="play_all">Luaj t\'gjithë</string>
     <string name="append_all">Shto t\'gjithë</string>
@@ -98,7 +97,7 @@
     <string name="shuffle">Përzierja Fikur</string>
     <string name="shuffle_on">Përzierja Ndezur</string>
     <string name="repeat_title">Mënyrë përsëritje</string>
-    <string name="repeat">Asnjë përsëritje</string>
+    <string name="repeat_none">Asnjë përsëritje</string>
     <string name="repeat_single">Përsërit një</string>
     <string name="repeat_all">Përsërit t\'gjitha</string>
     <string name="previous">Mëparshëm</string>
@@ -140,7 +139,6 @@
     <string name="sleep_in">Fle në</string>
     <string name="jump_to_time">Kërce në Orën</string>
     <string name="subtitle_select">Përzgjedh skedarin titrave</string>
-
     <string name="server_add_title">Shto një server të ri në të preferuarat</string>
     <string name="server_domain_hint">Server adresë (domain name ose IP)</string>
     <string name="server_share_hint">Emri shpërndarjes të rrjetit (ose IP address)</string>
@@ -188,10 +186,8 @@
     <string name="revision">Rishikim</string>
     <string name="about">Rreth</string>
     <string name="vlc_authors">dhe Autoret e VLC.</string>
-
     <!-- Preferences -->
     <string name="preferences">Cilësimet</string>
-
     <string name="directories_summary">Përzgjidhni dosjet që duhet të përfshihen në bibliotekën e media</string>
     <string name="add_custom_path">Shto rrugën e personalizuar</string>
     <string name="add_custom_path_description">Futni dosjen shtesë të personalize për të skanuar:</string>
@@ -225,18 +221,11 @@
     <string name="subtitles_size_big">Madhe</string>
     <string name="subtitles_size_huge">Stërmadhe</string>
     <string name="subtitles_color_title">Ngjyra Titrave</string>
-    <string name="subtitles_color_white">Bardhë</string>
-    <string name="subtitles_color_gray">Gri</string>
-    <string name="subtitles_color_pink">Rozë</string>
-    <string name="subtitles_color_blue">Blu</string>
-    <string name="subtitles_color_yellow">Verdhë</string>
-    <string name="subtitles_color_green">Jeshile</string>
     <string name="subtitles_background_title">Sfondi Titrave</string>
     <string name="subtitles_bold_title">Titra trashë</string>
     <string name="subtitles_autoload_title">Ngarko automatikisht titra</string>
-
     <string name="audio_prefs_category">Audio</string>
     <string name="performance_prefs_category">Performanca</string>
     <string name="debug_logs">Log-et e Debug</string>
     <string name="restart_vlc">Ristarto VLC</string>
-</resources>
+    </resources>

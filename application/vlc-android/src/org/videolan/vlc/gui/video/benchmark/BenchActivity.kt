@@ -581,6 +581,7 @@ class BenchActivity : ShallowVideoPlayer() {
             sendIntent.putExtra("late_frames", lateFrameCounter)
             setResult(Activity.RESULT_OK, sendIntent)
             sendIntent.putExtra("speed", speed)
+            sendIntent.putExtra("dav1d_version", getString(R.string.dav1d_version))
             super.finish()
         } else {
             errorFinish("PlaybackService is null")

@@ -3,18 +3,17 @@ apply plugin: 'kotlin-android'
 
 android {
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     packagingOptions {
         jniLibs {
             pickFirsts += ['lib/armeabi-v7a/libc++_shared.so', 'lib/armeabi/libc++_shared.so', 'lib/arm64-v8a/libc++_shared.so', 'lib/x86/libc++_shared.so', 'lib/x86_64/libc++_shared.so']
         }
         resources {
-            excludes += ['META-INF/main.kotlin_module', 'META-INF/donations_debug.kotlin_module', 'META-INF/mediadb_debug.kotlin_module', 'META-INF/resources_debug.kotlin_module', 'META-INF/television_debug.kotlin_module']
+            excludes += ['META-INF/*']
         }
     }
 
@@ -28,6 +27,7 @@ android {
         applicationId rootProject.ext.appId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        compileSdk rootProject.ext.compileSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         vectorDrawables.useSupportLibrary = true
@@ -123,7 +123,9 @@ android {
 dependencies {
     implementation project(':application:vlc-android')
     implementation project(':application:television')
+    implementation project(':application:webserver')
     testImplementation project(':application:television')
+    testImplementation project(':application:webserver')
 
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
@@ -133,6 +135,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$rootProject.ext.desugarLib"
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.orchestrator"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"

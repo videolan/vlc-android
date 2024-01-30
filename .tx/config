@@ -1,0 +1,12 @@
+[main]
+host = https://app.transifex.com
+
+[o:yaron:p:vlc-trans:r:android]
+file_filter            = application/resources/src/main/res/values-<lang>/strings.xml
+source_file            = application/resources/src/main/res/values/strings.xml
+type                   = ANDROID
+minimum_perc           = 50
+resource_name          = android
+replace_edited_strings = false
+keep_translations      = false
+lang_map = zh_CN: zh-rCN, zh_TW: zh-rTW, zgh: zgh-rMA, en_GB: en-rGB, es_MX: es-rMX, pt_BR: pt-rBR, pt_PT: pt

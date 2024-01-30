@@ -419,17 +419,12 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @WorkerThread
-    public MediaWrapper[] lastMediaPlayed() {
-        return mIsInitiated ? nativeLastMediaPlayed() : EMPTY_COLLECTION;
+    public MediaWrapper[] history(int type) {
+        return mIsInitiated ? nativeHistory(type) : EMPTY_COLLECTION;
     }
 
-    @WorkerThread
-    public MediaWrapper[] lastStreamsPlayed() {
-        return mIsInitiated ? nativeLastStreamsPlayed() : EMPTY_COLLECTION;
-    }
-
-    public boolean clearHistory() {
-        return mIsInitiated && nativeClearHistory();
+    public boolean clearHistory(int type) {
+        return mIsInitiated && nativeClearHistory(type);
     }
 
     public void clearDatabase(boolean restorePlaylist) {
@@ -670,10 +665,9 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeRemoveEntryPoint(String path);
     private native String[] nativeEntryPoints();
     private native boolean nativeRemoveDevice(String uuid, String path);
-    private native MediaWrapper[] nativeLastMediaPlayed();
-    private native MediaWrapper[] nativeLastStreamsPlayed();
+    private native MediaWrapper[] nativeHistory(int type);
     private native  boolean nativeAddToHistory(String mrl, String title);
-    private native  boolean nativeClearHistory();
+    private native  boolean nativeClearHistory(int type);
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
     private native MediaWrapper nativeAddMedia(String mrl, long duration);

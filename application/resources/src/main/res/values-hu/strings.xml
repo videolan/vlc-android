@@ -15,10 +15,36 @@
     <string name="sortby_date">Dátum</string>
     <string name="sortby_last_modified_date">Legutóbb hozzáadott</string>
     <string name="sortby_insertion">Beszúrás dátuma</string>
+    <string name="sortby_date_last_modified">Legutóbb hozzáadott</string>
+    <string name="sortby_date_insertion">Beszúrás dátuma</string>
+    <string name="sortby_date_release">Kiadás dátuma</string>
     <string name="sortby_media_number">Média száma</string>
     <string name="sortby_number">Számok száma</string>
     <string name="searchable_hint">Keresés…</string>
     <string name="history">Előzmények</string>
+
+    <string name="sortby_name_asc">Név A → Z</string>
+    <string name="sortby_name_desc">Név Z → A</string>
+    <string name="sortby_artist_name_asc">Előadó neve A → Z</string>
+    <string name="sortby_artist_name_desc">Előadó neve Z → A</string>
+    <string name="sortby_album_name_asc">Album címe A → Z</string>
+    <string name="sortby_album_name_desc">Album címe Z → A</string>
+    <string name="sortby_filename_asc">Fájlnév A → Z</string>
+    <string name="sortby_filename_desc">Fájlnév Z → A</string>
+    <string name="sortby_length_asc">Legrövidebb elöl</string>
+    <string name="sortby_length_desc">Leghosszabb elöl</string>
+    <string name="sortby_date_asc">Legrégebbi dátumú elöl</string>
+    <string name="sortby_date_desc">Legújabb dátumú elöl</string>
+    <string name="sortby_last_modified_date_asc">Legrégebben hozzáadott elöl</string>
+    <string name="sortby_last_modified_date_desc">Legutoljára hozzáadott elöl</string>
+    <string name="sortby_number_asc">Több videó a csoportban elöl</string>
+    <string name="sortby_number_desc">Kevesebb videó a csoportban elöl</string>
+    <string name="sortby_date_insertion_asc">Legrégebben beszúrt elöl</string>
+    <string name="sortby_date_insertion_desc">Legutoljára beszúrt elöl</string>
+    <string name="sortby_date_last_modified_asc">Legrégebben módosított elöl</string>
+    <string name="sortby_date_last_modified_desc">Legutoljára módosított elöl</string>
+    <string name="sortby_date_release_asc">Legrégebbi kiadási dátumú elöl</string>
+    <string name="sortby_date_release_desc">Legújabb kiadási dátumú elöl</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d találat</item>
@@ -38,7 +64,7 @@
     <string name="video_app_switch_summary">Válassza ki a VLC viselkedését, ha videolejátszás közben más alkalmazásra vált.</string>
     <string name="play_pip_title">Videók lejátszása „Kép a képben” módban</string>
     <string name="play_as_audio_background">Videók lejátszása a háttérben</string>
-    <string name="append">Hozzáfűzés</string>
+    <string name="append">Hozzáadás a lejátszási sorhoz</string>
     <string name="insert_next">Következő beszúrása</string>
     <string name="play_all">Összes lejátszása</string>
     <string name="append_all">Összes hozzáfűzése</string>
@@ -118,7 +144,8 @@
     <string name="loading">Betöltés</string>
     <string name="please_wait">Kérem várjon…</string>
     <string name="nomedia">Nem található médiafájl, hozzon át néhány fájlt az eszközére vagy módosítsa a beállításokat.</string>
-    <string name="empty_search">Nincs találat az „%s” keresésre</string>
+    <string name="nofav">Nem található kedvenc.</string>
+    <string name="empty_search">Nincs találat erre a keresésre: „%s”</string>
     <string name="noplaylist">Nem található lejátszólista.</string>
     <string name="nosubfolder">Nincs almappa</string>
     <string name="directorynotfound">A(z) „%1$s” könyvtárútvonal nem található.</string>
@@ -130,8 +157,8 @@
     <string name="shuffle">Véletlen sorrend ki</string>
     <string name="shuffle_on">Véletlen sorrend be</string>
     <string name="shuffle_play">Véletlen sorrend</string>
-    <string name="repeat_title">Ismétlés mód</string>
-    <string name="repeat">Nincs ismétlés</string>
+    <string name="repeat_title">Ismétlési mód</string>
+    <string name="repeat_none">Nincs ismétlés</string>
     <string name="repeat_single">Egy szám ismétlése</string>
     <string name="repeat_all">Összes ismétlése</string>
     <string name="previous">Előző</string>
@@ -174,9 +201,10 @@
     <string name="sleep_in">Elalvás:</string>
     <string name="jump_to_time">Ugrás időpontra</string>
     <string name="subtitle_select">Válasszon feliratfájlt</string>
+    <string name="wait_before_sleep">Várakozás az aktuális média befejezésére</string>
 
     <string name="server_add_title">Új kiszolgáló hozzáadása a kedvencekhez</string>
-    <string name="server_domain_hint">Kiszolgálócím (domain név vagy IP)</string>
+    <string name="server_domain_hint">Kiszolgálócím (doménnév vagy IP-cím)</string>
     <string name="server_share_hint">Hálózati megosztás neve (vagy IP-címe)</string>
     <string name="server_folder_hint">Mappaútvonal (nem kötelező)</string>
     <string name="server_username_hint">Felhasználónév</string>
@@ -269,11 +297,16 @@
 
     <!-- Preferences -->
     <string name="preferences">Beállítások</string>
+    <string name="more_preferences">További beállítások</string>
+    <string name="prefs_opened_on_phone">A megnyitott beállítások a telefonon</string>
+    <string name="open_on_phone">Megnyitás a telefon képernyőjén</string>
 
     <string name="directories_summary">Válassza ki a médiatár könyvtárait</string>
     <string name="add_custom_path">Egyéni útvonal hozzáadása</string>
     <string name="add_custom_path_description">Adjon meg egy egyéni könyvtárat a kereséshez:</string>
     <string name="remove_custom_path">Egyéni útvonal eltávolítása</string>
+    <string name="group_ban_folder">Mappa kitiltása a méditárból</string>
+
     <string name="hardware_acceleration">Hardveres gyorsítás</string>
     <string name="hardware_acceleration_summary">Kikapcsolva: jobb stabilitás\nDekódolás: javulhat a teljesítmény\nTeljes: tovább javulhat a teljesítmény</string>
     <string name="hardware_acceleration_disabled">Kikapcsolva</string>
@@ -285,8 +318,10 @@
     <string name="screen_orientation">Képernyő tájolása</string>
     <string name="screen_orientation_sensor">Automatikus (érzékelő)</string>
     <string name="screen_orientation_portrait">Álló</string>
+    <string name="screen_orientation_portrait_reverse">Fordított álló</string>
     <string name="screen_orientation_landscape">Fekvő</string>
     <string name="screen_orientation_landscape_reverse">Fordított fekvő</string>
+    <string name="screen_orientation_landscape_sensor">Fekvő (érzékelő)</string>
     <string name="screen_orientation_last_locked">Utolsó zárolt tájolás</string>
     <string name="enable_black_theme">Fekete téma</string>
     <string name="theme_auto">Automatikus téma</string>
@@ -337,7 +372,7 @@
     <string name="enable_double_tap_play_title">Dupla koppintás a lejátszáshoz/szüneteltetéshez</string>
     <string name="enable_double_tap_play_summary">Dupla koppintás a képernyő közepén a lejátszáshoz vagy szüneteltetéshez</string>
     <string name="enable_swipe_seek_title">Csúsztassa a tekeréshez</string>
-    <string name="enable_swipe_seek_summary">Csúsztassa az ujjait a képernyőn a tekeréshez</string>
+    <string name="enable_swipe_seek_summary">Csúsztassa végig az ujját a képernyőn a tekeréshez</string>
     <string name="enable_scale_gesture_title">Kétujjas nagyítás</string>
     <string name="enable_scale_gesture_summary">Nagyítás és kicsinyítés két ujjal</string>
     <string name="popup_keepscreen_title">A képernyő bekapcsolva tartása felugró módban</string>
@@ -413,6 +448,27 @@
     <string name="audio_ducking_title">Értesítéskor a VLC hangerejének csökkentése</string>
     <string name="audio_ducking_summary">Segít meghallani a hangértesítéseket, a navigációs utasításokat vagy az asszisztensprogramokat</string>
     <string name="casting_category">Átvitel</string>
+    <string name="remote_access">Távoli elérés</string>
+    <string name="remote_access_status">Kiszolgáló állapota</string>
+    <string name="remote_access_status_summary">Koppintson a kiszolgálóállapot megtekintéséhez</string>
+    <string name="remote_access_connections">Kapcsolatok</string>
+    <string name="remote_access_links">Hivatkozások</string>
+    <string name="remote_access_active">A távoli elérés aktív</string>
+    <string name="remote_access_notification">A távoli elérés aktív ezen: %s</string>
+    <string name="remote_access_notification_stopped">A távoli elérés leállítva</string>
+    <string name="remote_access_notification_connecting">A távoli elérés kapcsolódik</string>
+    <string name="remote_access_notification_error">Hiba a távoli elérésnél</string>
+    <string name="remote_access_notification_stopping">A távoli elérés leállítása</string>
+    <string name="remote_access_notification_not_init">A távoli elérés előkészítése</string>
+    <string name="enable_remote_access">A távoli elérés engedélyezése</string>
+    <string name="remote_access_info">A távoli elérési információi</string>
+    <string name="remote_access_content">Tartalom</string>
+    <string name="remote_access_medialibrary_content">Médiatár tartalma</string>
+    <string name="remote_access_medialibrary_content_summary">Engedélyezve: %s\nLetiltva: %s</string>
+    <string name="remote_access_file_browser_content">Fájlböngésző</string>
+    <string name="remote_access_network_browser_content">Hálózatböngésző</string>
+    <string name="remote_access_playback_control">Lejátszás vezérlése</string>
+    <string name="remote_access_logs">Naplófájlok megosztása</string>
     <string name="casting_switch_title">Vezeték nélküli átvitel</string>
     <string name="casting_passthrough_title">Hang áteresztés</string>
     <string name="casting_passthrough_summary">A TV kezelheti a hangrenderelést</string>
@@ -422,10 +478,14 @@
     <string name="casting_quality_medium">Közepes</string>
     <string name="casting_quality_low">Alacsony</string>
     <string name="casting_quality_lowcpu">Legalacsonyabb</string>
-    <string name="casting_connected_renderer">Kapcsolódva a(z) „%1$s” renderelőhöz</string>
+    <string name="casting_connected_renderer">Kapcsolódva a(z) „%1$s” megjelenítőhöz</string>
     <string name="artists_show_all_title">Összes előadó megjelenítése</string>
     <string name="show_headers">Fejlécek megjelenítése</string>
     <string name="show_headers_summary">A listák felosztása fejlécek szerint a rendezés típusától függően</string>
+    <string name="tv_folders_first">Mappák megjelenítése elöl</string>
+    <string name="tv_folders_first_summary">A mappák, majd a fájlok megjelenítése a fájlböngészőben</string>
+    <string name="tv_show_hidden_files">Rejtett fájlok megjelenítése</string>
+    <string name="tv_show_hidden_files_summary">Rejtett fájlok megjelenítése a fájlböngészőben</string>
 
     <string name="extensions_prefs_category">Bővítmények</string>
     <string name="extensions_empty">Nincs észlelt bővítmény</string>
@@ -533,6 +593,12 @@
     <string name="medialibrary">Médiatár</string>
     <string name="medialibrary_directories">Médiatár mappák</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">A VLC for Android %s újdonságai</string>
+    <string name="whats_new_36_webserver_text">Az új távoli elérési funkcióval tetszőleges eszközről irányíthatja a VLC for Androidot.\nKüldjön médiafájlokat mindkét irányba, vezérelje a lejátszást, és ez csak a kezdet!</string>
+    <string name="whats_new_36_favorites_text">Most már kedvencnek jelölheti a médiafájljait, lejátszólistáit, előadóit vagy albumait.\nTalálja meg az előnyben részesített tartalmait egy pillantás alatt azáltal, hogy csak a kedvenceire szűr!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">További műveletek</string>
     <string name="back_quit_lock">Nyomja meg még egyszer a Vissza gombot a videóból kilépéshez</string>
@@ -557,6 +623,7 @@
     <string name="partial_content">A VLC nem éri el az összes fájlját</string>
     <string name="partial_content_description">Az Android 11-től kezdve az alkalmazásoknak egy speciális engedélyre van szükségük az eszköz összes fájljának eléréséhez.\n\n%s</string>
     <string name="never_ask_again">Ne kérdezze újra</string>
+    <string name="never_show_again">Ne jelenítse meg újra</string>
     <string name="allow_settings_access_ringtone_title">A VLC beállíthatja a csengőhangot</string>
     <string name="allow_settings_access_ringtone_description">A VLC-nek szüksége van erre az engedélyre a számok csengőhangként beállításához.</string>
     <string name="allow_settings_access_brightness_title">A VLC beállíthatja a fényerősséget</string>
@@ -666,7 +733,7 @@
     <string name="ml_wizard_scan_checkbox">Eszköz átvizsgálása médiatartalom után</string>
     <string name="ml_wizard_description">Válassza ki, hogy a VLC felkutassa-e az eszköz tárhelyét a médiatára elrendezéséhez, vagy csak egyszerű lejátszóként használja, beépített böngészővel.</string>
     <string name="tv_my_new_videos">Új saját videók</string>
-    <string name="cast_option_title">Média átküldése más képernyőre</string>
+    <string name="cast_option_title">Média átküldése egy másik képernyőre</string>
     <string name="otg_device_title">OTG eszköz</string>
     <string name="browser">Böngésző</string>
     <string name="ab_repeat">A-B ismétlés</string>
@@ -674,6 +741,10 @@
     <string name="ab_repeat_stop">A-B ismétlés leállítása</string>
     <string name="stop_after_this">Leállítás ezután a szám után</string>
     <string name="time_category_new">Új média</string>
+    <string name="time_category_today">Ma</string>
+    <string name="time_category_yesterday">Tegna</string>
+    <string name="time_category_current_week">Ezen a héten</string>
+    <string name="time_category_last_week">Múlt héten</string>
     <string name="time_category_current_month">Ebben a hónapban</string>
     <string name="time_category_current_year">Ebben az évben</string>
     <string name="time_category_last_year">Tavaly</string>
@@ -725,6 +796,8 @@
     <string name="misc">Egyéb</string>
     <string name="popup_force_legacy_title">Egyéni „Kép a képben” felugró ablak</string>
     <string name="popup_force_legacy_summary">Egyéni „Kép a képben” átméretezhető felugró ablak</string>
+    <string name="restore_background_video_title">Videó helyreállítása a háttérből</string>
+    <string name="restore_background_video_summary">A videó helyreállítása a háttérből a vlc-android újbóli megnyitásakor</string>
     <string name="device_default">Eszköz alapértelmezése</string>
     <string name="track_number">%d szám</string>
     <string name="jump_to">Ugrás</string>
@@ -746,6 +819,8 @@
     <string name="remove_current">Jelenlegi eltávolítása</string>
     <string name="validation_delete_playlist">Biztos, hogy törli ezt a lejátszólistát?</string>
     <string name="validation_delete_playlist_text">Ez a művelet nem vonható vissza.</string>
+    <string name="display_settings">Megjelenítési beállítások</string>
+    <string name="incognito_mode">Inkognitó mód</string>
     <string name="display_in_list">Megjelenítés listában</string>
     <string name="display_in_grid">Megjelenítés rácsban</string>
     <string name="dump_db_succes">Adatbázis kiírva a belső tárhely gyökerében</string>
@@ -895,12 +970,34 @@
     <string name="go_to_folder">Szülő tallózása</string>
     <string name="create_shortcut">Indítóikon létrehozása</string>
     <string name="no_sub_renderer">A feliratok megjelenítése még nem támogatott vetítés közben</string>
-    <string name="enqueuing">Médiafájlok betöltése</string>
+    <string name="enqueuing">A médiafájl betöltése</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Válasszon egy SoundFont fájlt a MIDI hangsávok lejátszásához</string>
     <string name="missing_media_snack">Hiányzik a média. Elrejti az összes hiányzó médiát?</string>
-    <string name="browser_show_missing_media">Hiányzó médiák mutatása</string>
-    <string name="browser_show_missing_media_summary">Távoli médiák megjelenítése, még akkor is, ha nincsenek jelen</string>
+    <string name="browser_show_missing_media">Hiányzó média megjelenítése</string>
+    <string name="browser_show_missing_media_summary">Távoli média megjelenítése, még akkor is, ha nincs jelen</string>
+    <string name="parental_control">Szülői felügyelet</string>
+    <string name="safe_mode">Biztonságos mód</string>
+    <string name="safe_mode_summary">Ha aktiválja, akkor a fájlok nem törölhetők, a lejátszólisták pedig nem módosíthatók a PIN-kód megadása nélkül</string>
+    <string name="safe_mode_pin">Adja meg a PIN-kódot</string>
+    <string name="pin_unlock_success">Sikeresen feloldva. A biztonságos mód újbóli aktiválásához koppintson erre az ikonra az alkalmazásban:</string>
+    <string name="safe_mode_new_pin">Adja meg az új PIN-kódot</string>
+    <string name="safe_mode_re_pin">Adja meg újból a PIN-kódot</string>
+    <string name="safe_mode_no_match">A PIN-kódok nem egyeznek</string>
+    <string name="safe_mode_invalid_pin">Hibás PIN-kód</string>
+    <string name="safe_mode_pin_error">A PIN-kód csak számokat tartalmazhat</string>
+    <string name="pin_code_reason_create">Először hozza létre a PIN-kódját</string>
+    <string name="pin_code_reason_modify">A PIN-kód módosítása</string>
+    <string name="pin_code_modified">A PIN-kód sikeresen módosítva</string>
+    <string name="pin_code_reason_check">A hozzáférés korlátozva van. Adja meg a PIN-kódját.</string>
+    <string name="pin_code_access_granted">A hozzáférés megadva. Újból zárolhatja a főképernyőn.</string>
+    <string name="safe_mode_enabled">A biztonságos mód engedélyezve lett</string>
+    <string name="restricted_access">A hozzáférés korlátozva van</string>
+    <string name="unlock">Feloldás</string>
+    <string name="lock_with_pin">A PIN-kódos zárolás újbóli engedélyezése</string>
+    <string name="unlock_with_pin">Biztonságos mód feloldása</string>
+    <string name="lock_with_pin_short">PIN-kódos zárolás</string>
+    <string name="restrict_settings">Beállítások elérésének korlátozása</string>
     <string name="search_prefs">Keresési beállítások</string>
     <string name="video_match_frame_rate_title">Kijelző képfrissítési sebességének igazítása</string>
     <string name="video_match_frame_rate_summary">A kijelző képfrissítési sebességének igazítása a médiához. Például egy 24p-s filmnek 24p-s képfrissítéssel kellene futnia.</string>
@@ -912,7 +1009,7 @@
     <string name="delete_forever">Törlés örökre</string>
     <string name="add_to_existing_playlist">Hozzáadás a meglévő lejátszólistához</string>
     <string name="bookmarks_title">Könyvjelzők</string>
-    <string name="no_bookmark">Még nincsenek könyvjelzők</string>
+    <string name="no_bookmark">Nincs könyvjelző beállítva</string>
     <string name="bookmark_default_name">Könyvjelző itt: %s</string>
     <string name="bookmark_name">%s könyvjelzőzése</string>
     <string name="add_bookmark">Könyvjelző hozzáadása</string>
@@ -941,10 +1038,13 @@
     <string name="lock_use_sensor_title">Zárolás érzékelővel</string>
     <string name="lock_use_sensor_summary">Ha a tájolás zárolva van, használja az érzékelőt a fordított tájolás engedélyezéséhez</string>
     <string name="start">Indítás</string>
+    <string name="notification_permission">Értesítések engedély</string>
+    <string name="notification_permission_explanation">A VLC-nek engedélyre van szüksége van az értesítések küldéséhez.\nAz alkalmazás csak akkor értesít, ha beolvassa a médiát, vagy használja a Kép a képben videót.\nAz elutasítás nem akadályozza meg a VLC működését, azonban az értesítések el lesznek rejtve.</string>
     <string name="permission">Engedély</string>
     <string name="customize">Testreszabás</string>
     <string name="selection_count">%d kiválasztva</string>
-    <string name="controls_setting">Vezérlőbeállítások</string>
+    <string name="control_setting">Vezérlési beállítások</string>
+    <string name="controls_setting">Vezérlőbeállítások</string> <!-- Unused -->
     <string name="gestures">Gesztusok</string>
     <string name="player_controls">Lejátszásvezérlők</string>
     <string name="video_double_tap_jump_delay">Dupla koppintás késleltetése</string>
@@ -981,6 +1081,12 @@
     <string name="material_you">Material You (a színeket a háttérképből veszi)</string>
     <string name="palette">Paletta (a színeket a médiaborítóból veszi)</string>
     <string name="custom">Egyéni</string>
+    <string name="widget_type">Modul típusa</string>
+    <string name="widget_type_pill">Kapszula</string>
+    <string name="widget_type_normal">Normál</string>
+    <string name="widget_type_circle">Kör</string>
+    <string name="widget_type_large">Nagy</string>
+    <string name="widget_type_error">Ez a modultípus túl nagy ehhez a mérethez. Vizuális problémákat okozhat.</string>
     <string name="opacity">Átlátszatlanság</string>
     <string name="widget_background">Háttér</string>
     <string name="widget_foreground">Előtér</string>
@@ -1056,6 +1162,68 @@
     <string name="talkback_action_forward">Előretekerés %s másodperccel</string>
     <string name="talkback_display_settings">Kijelzőbeállítások</string>
     <string name="talkback_already_played">Már lejátszva</string>
+    <string name="show_only_favs">Csak a kedvencek megjelenítése</string>
+    <string name="ignore_headset_media_button_presses">Fejhallgató médiagombjainak figyelmen kívül hagyása</string>
+    <string name="ignore_headset_media_button_presses_summary">Hasznos például, ha olyan fejhallgatót használ, melynek fizikai gombjai elromlottak</string>
+    <string name="replace_playlist">Lejátszólista cseréje</string>
 
+    <!-- Remote access -->
+    <string name="ra_server_running">A távoli elérés aktív</string>
+    <string name="ra_remote_access">Távoli elérés</string>
+    <string name="ra_remote_access_description">Távoli elérés állapotának értesítése</string>
+    <string name="ra_log_file">Naplófájlok</string>
+    <string name="ra_log_type">Napló típusa</string>
+    <string name="ra_send_files">Fájlok küldése</string>
+    <string name="ra_not_in_foreground">Az alkalmazás nincs az előtérben. A videó nem indítható el.</string>
+    <string name="ra_disconnected">A kapcsolat bontva az eszközről</string>
+    <string name="ra_file">Fájl</string>
+    <string name="ra_upload_remaining">%s fájl feltöltése</string>
+    <string name="ra_upload_all">Összes feltöltése</string>
+    <string name="ra_drop_files_tip">Dobjon ide fájlokat, hogy elküldje az eszközére</string>
+    <string name="ra_prepare_download">A letöltése előkészítése</string>
+    <string name="ra_forbidden">A tartalom le van tiltva a beállításokban</string>
+    <string name="ra_playback_forbidden">A lejátszásvezérlés le van tiltva a beállításokban</string>
+    <string name="ra_code_requested_explanation">A kiszolgáló védelme érdekében az elérés védve van.\nAdja meg az értesítések között megjelenített kódot.</string>
+    <string name="ra_ssl_explanation_title">Nem biztonságos kapcsolat</string>
+    <string name="ra_ssl_explanation">A kapcsolata nem biztonságos.</string>
+    <string name="ra_ssl_explanation_browser">A böngésző biztonsági megvalósítása miatt biztonsági figyelmeztetést fog kapni a következő oldalon.</string>
+    <string name="ra_ssl_explanation_accept">Győződjön meg arról, hogy elfogadta-e a tanúsítványt, hogy használhassa a távoli elérést.</string>
+    <string name="ra_ssl_button">Biztonságos kapcsolat használata</string>
+    <string name="ra_new_code">Új kód küldése</string>
+    <string name="home">Kezdőlap</string>
+    <string name="ra_code">Adja meg ezt a kódot: %s</string>
+    <string name="ra_send_logs">A távoli elérés naplóinak mentése az eszközre</string>
+    <string name="ra_otp">A távoli elérés egyszer használatos jelszava</string>
+    <string name="ra_otp_description">Hozzáférési kérések a távoli eléréshez</string>
+    <string name="ra_otp_title">Távoli elérés bejelentkezési kérése</string>
+    <string name="ra_otp_subtitle">Ha Ön az, adja meg ezt a kódot a másik eszközön</string>
+    <string name="ra_otp_not_me">Nem én vagyok</string>
 
+    <string name="ra_onboarding_welcome_desc">Üdvözli a VLC for Android távoli elérése\nAz engedélyezésével távolról is fogja tudni vezérelni az eszköz lejátszását, és még több mindent.</string>
+    <string name="ra_onboarding_how_title">Vezérelje az eszközét</string>
+    <string name="ra_onboarding_how_desc">Vezérelje az eszköze lejátszását, küldjön vagy fogadjon fájlokat, és így tovább</string>
+    <string name="ra_onboarding_ssl_title">Adattitkosítás</string>
+    <string name="ra_onboarding_ssl_desc">A távoli elérés titkosítva van, hogy elkerülje az adatszivárgást</string>
+    <string name="ra_onboarding_otp_title">Hitelesítés</string>
+    <string name="ra_onboarding_otp_desc">Az egyszer használatos jelszót használó hitelesítéssel akadályozza meg a nemkívánatos hozzáférést az adataihoz</string>
+    <string name="ra_onboarding_content_title">Tartalomelérés</string>
+    <string name="ra_onboarding_content_desc">Válassza ki, hogy mi legyen elérhető, és mi nem</string>
+    <string name="ra_onboarding_content_ml">Hozzáférés a médiatár-tartalomhoz</string>
+    <string name="ra_onboarding_content_files">Fájlböngésző</string>
+    <string name="ra_onboarding_content_playback">Lejátszásvezérlés</string>
+    <string name="ra_disable">Letiltás</string>
+    <string name="ra_log_web">Távoli elérési napló</string>
+    <string name="ra_log_crash">Összeomlásnapló</string>
+    <string name="ra_log_mobile">Eszköznapló</string>
+    <string name="ra_log_current">Jelenlegi helyi naplók</string>
+    <string name="ra_invalid_login">Be kell jelentkeznie az eszközére</string>
+    <string name="ra_invalid_otp">Érvénytelen kód megadva</string>
+    <string name="learn_more">További információ</string>
+
+    <!-- car screens -->
+    <string name="help">Súgó</string>
+    <string name="podcast_mode">Podcast mód</string>
+    <string name="podcast_mode_help">A podcastvezérlők akkor jelennek meg, ha egyetlen sávot játszik le, amelyre a következő feltételek egyike teljesül:\n\t• Hosszabb mint 60 perc\n\t• Hosszabb mint 15 perc, és nincs albumneve\n\t• A műfaja %s </string>
+    <string name="voice_control">Hangvezérlés</string>
+    <string name="voice_control_help">A VLC vezérelhető a Google Segéden keresztül a következő parancsokkal:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 </resources>

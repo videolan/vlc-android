@@ -69,11 +69,13 @@ class NotificationPermissionDialog : VLCBottomSheetDialogFragment() {
 }
 
 object NotificationPermissionManager {
-    fun launchIfNeeded(activity: FragmentActivity) {
+    fun launchIfNeeded(activity: FragmentActivity):Boolean {
         if(!Permissions.canSendNotifications(activity) && !Settings.getInstance(activity).getBoolean(NOTIFICATION_PERMISSION_ASKED, false)) {
             val notificationPermissionDialog = NotificationPermissionDialog()
             notificationPermissionDialog.show(activity.supportFragmentManager, "fragment_notification_permission")
+            return true
         }
+        return false
     }
 }
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">Goed</string>
+    <string name="cancel">Kanselleer</string>
+    <string name="other">Ander</string>
+    <string name="sortby">Sorteer volgens…</string>
+    <string name="sortby_name">Naam</string>
+    <string name="sortby_filename">Lêernaam</string>
+    <string name="sortby_artist_name">Kunstenaarnaam</string>
+    <string name="sortby_album_name">Albumnaam</string>
+    <string name="sortby_length">Lengte</string>
+    <string name="sortby_date">Datum</string>
+    <string name="searchable_hint">Soek…</string>
+    <string name="history">Geskiedenis</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d resultaat gevind</item>
+        <item quantity="other">%d resultate gevind</item>
+    </plurals>
+
+    <string name="play">Speel af</string>
+    <string name="play_all">Speel alles af</string>
+    <string name="pause">Laat wag</string>
+    <string name="audio">Oudio</string>
+    <string name="equalizer">Gelykmaker</string>
+    <string name="cover_art">Dekbladkuns</string>
+    <string name="track_audio">Oudiosnit</string>
+    <string name="track_video">Videosnit</string>
+    <string name="track_unknown">Onbekende snit</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Taal: %1$s\n</string>
+    <string name="volume">Volume</string>
+    <string name="sound_on">Klank Aan</string>
+    <string name="sound_off">Klank Af</string>
+    <string name="brightness">Helderheid</string>
+    <string name="subtitles">Onderskrifte</string>
+    <string name="interface_prefs_screen">Koppelvlak</string>
+    </resources>

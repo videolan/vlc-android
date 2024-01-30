@@ -38,6 +38,7 @@ import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.RemoteAccessUtils
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -45,10 +46,12 @@ abstract class BaseActivity : AppCompatActivity() {
     private var currentNightMode: Int = 0
     private var startColor: Int = 0
     lateinit var settings: SharedPreferences
+    private var lastDisplayedOTPCode = ""
     var windowLayoutInfo: WindowLayoutInfo? = null
 
     open val displayTitle = false
     open fun forcedTheme():Int? = null
+    open var isOTPActivity:Boolean = false
     abstract fun getSnackAnchorView(overAudioPlayer:Boolean = false): View?
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -77,6 +80,18 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         PinCodeDelegate.pinUnlocked.observe(this) {
             invalidateOptionsMenu()
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                RemoteAccessUtils.otpFlow.collect {
+                    if (!isOTPActivity && it != null && lastDisplayedOTPCode != it) {
+                        lastDisplayedOTPCode = it
+                        val i = Intent(this@BaseActivity, OTPCodeActivity::class.java)
+                        i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                        startActivity(i)
+                    }
+                }
+            }
         }
     }
 

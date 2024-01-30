@@ -57,10 +57,9 @@ public:
     bool removeMediaFromHistory(int64_t mediaId);
     void setLibvlcInstance(libvlc_instance_t* inst);
     /* History */
-    std::vector<medialibrary::MediaPtr> lastMediaPlayed();
+    std::vector<medialibrary::MediaPtr> history(medialibrary::HistoryType type);
     bool addToHistory( const std::string& mrl, const std::string& title );
-    std::vector<medialibrary::MediaPtr> lastStreamsPlayed();
-    bool clearHistory();
+    bool clearHistory(medialibrary::HistoryType type);
 
     medialibrary::SearchAggregate search(const std::string& query);
     medialibrary::Query<medialibrary::IMedia> searchMedia(const std::string& query, const medialibrary::QueryParameters* params = nullptr);

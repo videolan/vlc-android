@@ -208,9 +208,9 @@ AndroidMediaLibrary::removeMediaFromHistory(int64_t mediaId)
 }
 
 std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::lastMediaPlayed()
+AndroidMediaLibrary::history(medialibrary::HistoryType type)
 {
-    return p_ml->history()->items( 100, 0 );
+    return p_ml->history(type)->items( 100, 0 );
 }
 
 bool
@@ -227,16 +227,10 @@ AndroidMediaLibrary::addToHistory( const std::string& mrl, const std::string& ti
     return true;
 }
 
-std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::lastStreamsPlayed()
-{
-    return p_ml->streamHistory()->items( 100, 0 );
-}
-
 bool
-AndroidMediaLibrary::clearHistory()
+AndroidMediaLibrary::clearHistory(medialibrary::HistoryType type)
 {
-    return p_ml->clearHistory();
+    return p_ml->clearHistory(type);
 }
 
 medialibrary::SearchAggregate

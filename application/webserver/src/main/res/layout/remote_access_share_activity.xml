@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <merge
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/coordinator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <include
+                    layout="@layout/toolbar"
+                    android:nextFocusLeft="@+id/ml_menu_search"
+                    android:nextFocusRight="@+id/ml_menu_search"
+                    android:nextFocusUp="@+id/ml_menu_search"
+                    android:nextFocusDown="@+id/ml_menu_search"
+                    android:nextFocusForward="@+id/ml_menu_search" />
+
+            <androidx.core.widget.NestedScrollView
+                    android:id="@+id/licenses"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="?attr/background_default"
+                    android:clipToPadding="false"
+                    android:fastScrollEnabled="true"
+                    android:paddingBottom="48dp"
+                    android:scrollbars="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:id="@+id/status_title"
+                            style="@style/Theme.VLC.HorizontalListTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/remote_access_status"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                            android:id="@+id/server_status"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/status_button"
+                            app:layout_constraintEnd_toStartOf="@+id/status_button"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/status_button"
+                            tools:text="@string/remote_access_notification" />
+
+                    <Button
+                            android:id="@+id/status_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/status_title"
+                            tools:text="Start" />
+
+                    <TextView
+                            android:id="@+id/links_title"
+                            style="@style/Theme.VLC.HorizontalListTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/remote_access_links"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/status_button" />
+
+
+                    <androidx.gridlayout.widget.GridLayout
+                            android:id="@+id/links_grid"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            app:columnCount="4"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/links_title" />
+
+
+                    <ImageView
+                            android:id="@+id/remote_access_qr_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="209dp"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                            android:id="@+id/connection_title"
+                            style="@style/Theme.VLC.HorizontalListTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/remote_access_connections"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/links_grid" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/connection_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/connection_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </merge>
+</layout>

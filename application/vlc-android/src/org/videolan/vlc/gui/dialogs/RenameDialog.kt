@@ -54,16 +54,24 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
 const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
+const val RENAME_DIALOG_FILE = "RENAME_DIALOG_FILE"
 
 class RenameDialog : VLCBottomSheetDialogFragment() {
 
@@ -71,13 +79,14 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
     private lateinit var renameButton: Button
     private lateinit var newNameInputtext: TextInputEditText
     private lateinit var media: MediaLibraryItem
+    private var renameFile: Boolean = false
 
     companion object {
 
-        fun newInstance(media: MediaLibraryItem): RenameDialog {
+        fun newInstance(media: MediaLibraryItem, isFile:Boolean = false): RenameDialog {
 
             return RenameDialog().apply {
-                arguments = bundleOf(RENAME_DIALOG_MEDIA to media)
+                arguments = bundleOf(RENAME_DIALOG_MEDIA to media, RENAME_DIALOG_FILE to isFile)
             }
         }
     }
@@ -89,15 +98,21 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         media = arguments?.parcelable(RENAME_DIALOG_MEDIA) ?: return
+        renameFile = arguments?.getBoolean(RENAME_DIALOG_FILE) ?: false
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_rename, container)
+        val name = if (renameFile && media is MediaWrapper) (media as MediaWrapper).fileName else media.title
         newNameInputtext = view.findViewById(R.id.new_name)
         renameButton = view.findViewById(R.id.rename_button)
-        if (media.title.isNotEmpty()) newNameInputtext.setText(media.title)
+        if (media.title.isNotEmpty()) {
+            newNameInputtext.setText(name)
+        }
+        val extIndex = name.indexOfLast { it == '.' }
+        if (extIndex != -1 && renameFile) newNameInputtext.setSelection(0, extIndex) else newNameInputtext.setSelection(0, name.length)
         renameButton.setOnClickListener {
             performRename()
         }
@@ -115,7 +130,17 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
                 true
             } else false
         }
-        view.findViewById<TextView>(R.id.media_title).text = media.title
+        view.findViewById<TextView>(R.id.media_title).text = name
+        lifecycleScope.launch(Dispatchers.IO) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                delay(100)
+                withContext(Dispatchers.Main) {
+                    newNameInputtext.requestFocus()
+
+                    UiTools.setKeyboardVisibility(newNameInputtext, true)
+                }
+            }
+        }
         return view
     }
 

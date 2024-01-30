@@ -34,7 +34,6 @@
     <string name="play_as_audio">Граць як аўдыё</string>
     <string name="play_as_video">Граць як відэа</string>
     <string name="play_as_audio_background">Прайграванне відэа ў фоне</string>
-    <string name="append">Дадаць</string>
     <string name="insert_next">Уставіць наступным</string>
     <string name="play_all">Граць усё</string>
     <string name="append_all">Дадаць усё</string>
@@ -124,7 +123,7 @@
 
     <string name="cover_art">Вокладка</string>
     <string name="repeat_title">Рэжым паўтору</string>
-    <string name="repeat">Не паўтараць</string>
+    <string name="repeat_none">Не паўтараць</string>
     <string name="repeat_single">Паўтараць адзін</string>
     <string name="repeat_all">Паўтараць усё</string>
     <string name="previous">Папярэдні</string>
@@ -162,7 +161,6 @@
     <string name="sleep_title">Таймер сну</string>
     <string name="jump_to_time">Пераход да часу</string>
     <string name="subtitle_select">Выбраць файл субтытраў</string>
-
     <string name="server_port">Порт:</string>
     <string name="password">Пароль</string>
 
@@ -195,7 +193,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Налады</string>
-
     <string name="directories_summary">Абярыце каталогі для ўключэння ў медыятэку</string>
     <string name="add_custom_path">Дадаць свой шлях</string>
     <string name="add_custom_path_description">Дадатковая дырэкторыя на сканаванне:</string>
@@ -230,16 +227,9 @@
     <string name="subtitles_size_big">вялікі</string>
     <string name="subtitles_size_huge">вялізны</string>
     <string name="subtitles_color_title">Колер субтытраў</string>
-    <string name="subtitles_color_white">белы</string>
-    <string name="subtitles_color_gray">шэры</string>
-    <string name="subtitles_color_pink">ружовы</string>
-    <string name="subtitles_color_blue">сіні</string>
-    <string name="subtitles_color_yellow">жоўты</string>
-    <string name="subtitles_color_green">зялёны</string>
     <string name="subtitles_background_title">Фон субтытраў</string>
     <string name="subtitles_bold_title">Тоўсты шрыфт субтытраў</string>
     <string name="subtitles_autoload_title">Аўтазагрузка субтытраў</string>
-
     <string name="audio_prefs_category">Аўдыя</string>
     <string name="headset_prefs_category">Навушнікі</string>
     <string name="enable_headset_detection">Вызначаць навушнікі</string>
@@ -304,7 +294,6 @@
     <string name="medialibrary_directories">Папкі медыятэкі</string>
 
     <string name="exit_app">Закрыць VLC</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">Хуткае прагортванне</string>
     <string name="fastscroller_handle">Хуткае прагортванне</string>
@@ -312,9 +301,6 @@
     <string name="download_on_device">Спампаваць</string>
     <string name="download_subtitles">Спампаваць субтытры</string>
     <string name="listen">Слухаць</string>
-    <string name="episodes">серыі</string>
-    <string name="movies">фільмы</string>
-    <string name="videos">відэа</string>
     <string name="videos_all">Усе відэа</string>
     <string name="length">Працягласць</string>
     <string name="ml_external_storage_accept">Так</string>
@@ -375,4 +361,4 @@
     <string name="air_action_play_pause">Прыпыніць/узнавіць прайграванне</string>
     <string name="air_action_volume_up">Гучней</string>
     <string name="air_action_volume_down">Цішэй</string>
-</resources>
+    </resources>

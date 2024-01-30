@@ -36,7 +36,6 @@
     <string name="video_app_switch_summary">Izvēlieties VLC darbību, pārslēdzoties uz citu programmu no video atskaņošanas</string>
     <string name="play_pip_title">Video demonstrēšana režīmā Attēls attēlā</string>
     <string name="play_as_audio_background">Atskaņot video fonā</string>
-    <string name="append">Pievienot</string>
     <string name="insert_next">Ievietot nākamo</string>
     <string name="play_all">Atskaņot visu</string>
     <string name="append_all">Pievienot visu</string>
@@ -112,7 +111,7 @@
     <string name="shuffle">Pēc kārtas</string>
     <string name="shuffle_on">Nejaušā secībā</string>
     <string name="repeat_title">Atkārtošanas režīms</string>
-    <string name="repeat">Neatkārtot</string>
+    <string name="repeat_none">Neatkārtot</string>
     <string name="repeat_single">Atkārtot vienu</string>
     <string name="repeat_all">Atkārtot visu</string>
     <string name="previous">Iepriekšējais</string>
@@ -153,7 +152,6 @@
     <string name="sleep_in">Iemigt pēc</string>
     <string name="jump_to_time">Pārlēkt uz laiku</string>
     <string name="subtitle_select">Izvēlaties subtitru failu</string>
-
     <string name="server_add_title">Pievienot izlasei jaunu serveri</string>
     <string name="server_domain_hint">Servera adrese (domēna vārds vai IP)</string>
     <string name="server_username_hint">Lietotājvārds</string>
@@ -200,7 +198,6 @@
 
     <!-- Preferences -->
     <string name="preferences">Iestatījumi</string>
-
     <string name="directories_summary">Izvēlaties direktorijas, lai iekļautu multivides bibliotēku</string>
     <string name="add_custom_path">Pievienot pielāgotu ceļu</string>
     <string name="add_custom_path_description">Ievadīt papildu pielāgoto direktoriju, lai skenētu:</string>
@@ -232,7 +229,6 @@
     <string name="enable_volume_gesture_title">Skaļuma žests</string>
     <string name="enable_seek_buttons">Pārtīšanas pogas</string>
     <string name="browser_show_hidden_files_title">Rādīt slēptās datnes</string>
-
     <string name="subtitles_prefs_category">Subtitri</string>
     <string name="subtitles_size_title">Subtitru izmērs</string>
     <string name="subtitles_size_small">Mazs</string>
@@ -240,16 +236,9 @@
     <string name="subtitles_size_big">Liels</string>
     <string name="subtitles_size_huge">Milzīgs</string>
     <string name="subtitles_color_title">Subtitru krāsa</string>
-    <string name="subtitles_color_white">Balta</string>
-    <string name="subtitles_color_gray">Pelēka</string>
-    <string name="subtitles_color_pink">Rozā</string>
-    <string name="subtitles_color_blue">Zila</string>
-    <string name="subtitles_color_yellow">Dzeltena</string>
-    <string name="subtitles_color_green">Zaļa</string>
     <string name="subtitles_background_title">Subtitru fona krāsa</string>
     <string name="subtitles_bold_title">Trekni subtitri</string>
     <string name="subtitles_autoload_title">Ielādēt subtitrus automātiski</string>
-
     <string name="audio_prefs_category">Skaņa</string>
     <string name="list_title_ellipsize_default">Noklusējuma</string>
     <string name="list_title_ellipsize_left">Pa kreisi</string>
@@ -316,7 +305,6 @@
     <string name="permission_ask_again">Piešķirt atļauju</string>
     <string name="exit_app">Aizvērt VLC</string>
     <string name="exit_app_msg">Vai esat pārliecināts, ka vēlaties iziet no VLC?</string>
-
     <!-- Plugins -->
     <string name="plugins">Spraudņi</string>
     <string name="download_on_device">Lejupielādēt</string>
@@ -326,9 +314,6 @@
     <string name="add_to_playlist">Pievienot atskaņošanas sarakstam</string>
     <string name="download_subtitles">Lejupielādēt subtitrus</string>
     <string name="listen">Klausīties</string>
-    <string name="episodes">sērijas</string>
-    <string name="movies">filmas</string>
-    <string name="videos">video</string>
     <string name="videos_all">Visi video</string>
     <string name="clear_playback_history">Tīrīt atskaņošanas vēsturi</string>
     <string name="resume">Atsākt</string>
@@ -362,4 +347,4 @@
     <string name="ctx_player_subs_track">Subtitru celiņš</string>
     <string name="track_index">Ieraksts: %s</string>
     <string name="sortby_track">Ieraksts</string>
-</resources>
+    </resources>

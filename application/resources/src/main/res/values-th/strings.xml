@@ -35,7 +35,6 @@
     <string name="video_app_switch_summary">เลือกลักษณะการทำงานของ VLC เมื่อคุณสลับไปใช้แอปพลิเคชันอื่นจากการเล่นวิดีโอ</string>
     <string name="play_pip_title">เล่นวิดีโอในโหมดภาพควบคู่</string>
     <string name="play_as_audio_background">เล่นวิดีโอในเบื้องหลัง</string>
-    <string name="append">ผนวก</string>
     <string name="insert_next">แทรกถัดไป</string>
     <string name="play_all">เล่นทั้งหมด</string>
     <string name="append_all">ผนวกทั้งหมด</string>
@@ -109,7 +108,6 @@
     <string name="shuffle">โหมดสุ่มเล่นปิด</string>
     <string name="shuffle_on">โหมดสุ่มเล่นเปิด</string>
     <string name="repeat_title">โหมดเล่นซ้ำ</string>
-    <string name="repeat">ไม่ต้องเล่นซ้ำ</string>
     <string name="repeat_single">เล่นซ้ำรายการเดียว</string>
     <string name="repeat_all">เล่นซ้ำทั้งหมด</string>
     <string name="previous">ก่อนหน้า</string>
@@ -150,7 +148,6 @@
     <string name="sleep_in">พักเครื่องใน</string>
     <string name="jump_to_time">ไปยังเวลาที่</string>
     <string name="subtitle_select">เลือกไฟล์คำบรรยาย</string>
-
     <string name="server_add_title">เพิ่มเซิร์ฟเวอร์ใหม่ลงในรายการโปรด</string>
     <string name="server_domain_hint">ที่อยู่เซิร์ฟเวอร์ (ชื่อโดเมนหรือ IP)</string>
     <string name="server_share_hint">ชื่อเครือข่ายแชร์ (หรือที่อยู่ IP)</string>
@@ -178,8 +175,6 @@
     <string name="playback_history_title">ประวัติการเล่น</string>
     <string name="playback_history_summary">บันทึกสื่อทั้งหมดที่เล่นไว้ในส่วน \"ประวัติ\"</string>
     <string name="playback_speed_title">บันทึกความเร็วในการเล่น</string>
-    <string name="playback_speed_summary">จดจำความเร็วในการเล่นระหว่างสื่อ</string>
-
     <string name="play_button">ปุ่มเล่น</string>
 
     <string name="seek">ค้นหา</string>
@@ -205,7 +200,6 @@
 
     <!-- Preferences -->
     <string name="preferences">การตั้งค่า</string>
-
     <string name="directories_summary">เลือกไดเรกทอรีที่จะรวมไว้ในคลังสื่อ</string>
     <string name="add_custom_path">เพิ่มเส้นทางแบบกำหนดเอง</string>
     <string name="add_custom_path_description">ใส่ไดเรกทอรีแบบกำหนดเองที่จะสแกนเพิ่ม:</string>
@@ -259,7 +253,6 @@
     <string name="popup_keepscreen_title">คงหน้าจอให้เปิดไว้ในโหมดป๊อปอัพ</string>
     <string name="popup_keepscreen_summary">คงหน้าจอให้เปิดไว้เสมอเมื่อแสดงป๊อปอัพ แม้ว่าจะพักวิดีโออยู่ก็ตาม</string>
     <string name="browser_show_hidden_files_title">แสดงไฟล์ที่ซ่อนอยู่</string>
-
     <string name="subtitles_prefs_category">คำบรรยาย</string>
     <string name="subtitles_size_title">ขนาดคำบรรยาย</string>
     <string name="subtitles_size_small">เล็ก</string>
@@ -267,16 +260,9 @@
     <string name="subtitles_size_big">ใหญ่</string>
     <string name="subtitles_size_huge">ใหญ่มหึมา</string>
     <string name="subtitles_color_title">สีคำบรรยาย</string>
-    <string name="subtitles_color_white">ขาว</string>
-    <string name="subtitles_color_gray">เทา</string>
-    <string name="subtitles_color_pink">ชมพู</string>
-    <string name="subtitles_color_blue">น้ำเงิน</string>
-    <string name="subtitles_color_yellow">เหลือง</string>
-    <string name="subtitles_color_green">เขียว</string>
     <string name="subtitles_background_title">พื้นหลังคำบรรยาย</string>
     <string name="subtitles_bold_title">คำบรรยายตัวหนา</string>
     <string name="subtitles_autoload_title">โหลดคำบรรยายอัตโนมัติ</string>
-
     <string name="audio_prefs_category">เสียง</string>
     <string name="lockscreen_cover_title">แสดงปกอัลบั้มบนฟน้าจอล็อก</string>
     <string name="lockscreen_cover_summary">เมื่อพร้อมใช้งาน ให้ตั้งปกอัลบั้มสื่อปัจจุบันเป็นภาพพื้นหลังของหน้าจอล็อก</string>
@@ -425,7 +411,6 @@
     <string name="permission_ask_again">อนุญาตสิทธิ์การเข้าถึง</string>
     <string name="exit_app">ปิด VLC</string>
     <string name="exit_app_msg">คุณแน่ใจหรือไม่ว่าคุณต้องการออกจาก VLC</string>
-
     <!-- fast scroller -->
     <string name="fastscroller_track">แทร็ก FastScroller</string>
     <string name="fastscroller_handle">ตัวจัดการ FastScroller</string>
@@ -451,9 +436,6 @@
     <string name="download_subtitles">ดาวน์โหลดคำบรรยาย</string>
     <string name="browse_folder">เรียกดูโฟลเดอร์</string>
     <string name="listen">ฟัง</string>
-    <string name="episodes">ตอน</string>
-    <string name="movies">ภาพยนตร์</string>
-    <string name="videos">วิดีโอ</string>
     <string name="videos_all">วิดีโอทั้งหมด</string>
     <string name="clear_playback_history">ล้างประวัติการเล่น</string>
     <string name="ml_scanning">กำลังสแกนไฟล์สื่อ</string>
@@ -509,7 +491,6 @@
     <string name="ml_wizard_scan_checkbox">สแกนอุปกรณ์สำหรับเนื้อหาสื่อ</string>
     <string name="ml_wizard_description">เลือกว่าจะให้ VLC สแกนที่เก็บข้อมูลอุปกรณ์ของคุณเพื่อจัดระเบียบไลบรารีสื่อของคุณหรือใช้เป็นเพียงโปรแกรมเล่นอย่างง่ายที่มีเบราว์เซอร์แบบรวม</string>
     <string name="tv_my_new_videos">วิดีโอใหม่ของฉัน</string>
-    <string name="cast_option_title">แคสต์สื่อบนหน้าจออื่น</string>
     <string name="otg_device_title">อุปกรณ์ OTG</string>
     <string name="browser">เบราว์เซอร์</string>
     <string name="ab_repeat">เล่นซ้ำแบบ A-B</string>
@@ -718,7 +699,6 @@
     <string name="audio_delay_global">การหน่วงเวลาเสียงถูกตั้งเป็น %s ms สำหรับวิดีโอทั้งหมด</string>
     <string name="warning_stream_speed">การเพิ่มความเร็วในการเล่นให้มากกว่า 1 สำหรับสตรีมอาจทำให้ติดขัดได้</string>
     <string name="go_to_folder">เรียกดูตำแหน่งหลัก</string>
-    <string name="enqueuing">กำลังโหลดสื่อของคุณ</string>
     <string name="add_button">เพิ่ม</string>
     <string name="add_all_button">เพิ่มทั้งหมด</string>
-</resources>
+    </resources>

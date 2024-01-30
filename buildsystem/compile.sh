@@ -261,7 +261,7 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=dabff02447615420e15d71852ecf74de982d18af
+    LIBVLCJNI_TESTED_HASH=31636e1850bda0511ea379322fe8a50aec016b1a
 else
     LIBVLCJNI_TESTED_HASH=13d22717b6af57fe1e4fe43e2250c30cffd77e3d
 fi
@@ -364,6 +364,10 @@ else
     fi
     TARGET="${ACTION}${BUILDTYPE}"
     GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+    if [ "$BUILDTYPE" = "Release" -a "$ACTION" = "assemble" ]; then
+        TARGET="bundle${BUILDTYPE}"
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+    fi
     if [ "$TEST" = 1 ]; then
         TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
         GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
@@ -371,6 +375,10 @@ else
         echo -e "\n===================================\nRun following for UI tests:"
         echo "adb shell am instrument -w -m -e clearPackageData true   -e package org.videolan.vlc -e debug false org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
     fi
+fi
+
+if [ ! -d "./buildsystem/network-sharing-server/dist" ] ; then
+    echo "\033[1;32mWARNING: This was built without the remote access at ./buildsystem/network-sharing-server/dist ..."
 fi
 
 #######

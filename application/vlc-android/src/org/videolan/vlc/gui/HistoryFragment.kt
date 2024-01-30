@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
@@ -177,7 +178,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun clearHistory() {
-        mediaLibrary.clearHistory()
+        mediaLibrary.clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
         viewModel.clearHistory()
         Settings.getInstance(requireActivity()).edit().remove(KEY_AUDIO_LAST_PLAYLIST).remove(KEY_MEDIA_LAST_PLAYLIST).apply()
     }

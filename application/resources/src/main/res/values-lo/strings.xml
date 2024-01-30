@@ -32,7 +32,6 @@
     <string name="video_app_switch_summary">ເລືອກຄຸນລັກສະນະ VLC ໃນເວລາທີ່ທ່ານປ່ຽນໄປໃຊ້ແອັບພລິເຄຊັນອື່ນຈາກການຫຼິ້ນວິດີໂອ</string>
     <string name="play_pip_title">ຫຼິ້ນວິດີໂອໃນໂໝດ Picture-in-picture</string>
     <string name="play_as_audio_background">ຫຼິ້ນວິດີໂອໃນພື້ນຫຼັງ</string>
-    <string name="append">ເພີ່ມ</string>
     <string name="insert_next">ໃສ່ຕໍ່ໄປ</string>
     <string name="play_all">ຫລີ້ນທັງຫມົດ</string>
     <string name="append_all">ເພີ່ມທັງໝົດ</string>
@@ -86,7 +85,7 @@
     <string name="shuffle">ປິດໂໝດສະຫຼັບເພງ</string>
     <string name="shuffle_on">ເປີດໂໝດສະຫຼັບເພງ</string>
     <string name="repeat_title">ໂໝດຫຼິ້ນຊ້ຳ</string>
-    <string name="repeat">ປິດການຫຼິ້ນຊ້ຳ</string>
+    <string name="repeat_none">ປິດການຫຼິ້ນຊ້ຳ</string>
     <string name="repeat_single">ຫຼິ້ນຊ້ຳລາຍການດຽວ</string>
     <string name="repeat_all">ຫຼິ້ນຊ້ຳທັງໝົດ</string>
     <string name="previous">ກ່ອນໜ້າ</string>
@@ -120,7 +119,6 @@
     <string name="sleep_in">ປິດເຄື່ອງໃນ</string>
     <string name="jump_to_time">ຂ້າມໄປເວລາ</string>
     <string name="subtitle_select">ເລືອກໄຟລ໌ຄຳບັນຍາຍ</string>
-
     <string name="server_add_title">ເພີ່ມເຊີບເວີໃໝ່ເຂົ້າໃນລາຍການທີ່ມັກ</string>
     <string name="server_username_hint">ຊື່ຜູ້ໃຊ້</string>
     <string name="server_port">ພອດ:</string>
@@ -158,10 +156,8 @@
     <string name="app_name_full">VLC ສຳລັບ Android</string>
     <string name="revision">ປັບປຸງໃໝ່</string>
     <string name="about">ກ່ຽວກັບ</string>
-
     <!-- Preferences -->
     <string name="preferences">ການຕັ້ັ້ງຄ່າ</string>
-
     <string name="directories_summary">ເລືອກໄດເຣັກທໍຣີທີ່ຈະລວມເຂົ້າໃນຫ້ອງສະໝຸດສື່</string>
     <string name="hardware_acceleration_disabled">ປິດໃຊ້ງານແລ້ວ</string>
     <string name="automatic">ອັດຕະໂນມັດ</string>
@@ -170,7 +166,6 @@
     <string name="interface_prefs_screen">ອິນເຕີເຟດ</string>
     <string name="enable_volume_gesture_title">ທ່າທາງລະດັບສຽງ</string>
     <string name="browser_show_hidden_files_title">ສະແດງໄຟລ໌ທີ່ເຊື່ອງ</string>
-
     <string name="subtitles_prefs_category">ຄຳບັນຍາຍ</string>
     <string name="subtitles_size_title">ຂະໜາດຄຳບັນຍາຍ</string>
     <string name="subtitles_size_small">ນ້ອຍ</string>
@@ -180,4 +175,4 @@
     <string name="network_browsing">ເຄືອຂ່າຍທ້ອງຖິ່ນ</string>
     <string name="allow_storage_access_title">ອະນຸຍາດໃຫ້ VLC ເຂົ້າເຖິິງໄຟລ໌ວິດີໂອແລະສຽງ</string>
     <string name="next">ຕໍ່ໄປ</string>
-</resources>
+    </resources>

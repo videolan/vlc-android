@@ -25,7 +25,6 @@
     <string name="play_from_start">सुरुवातीपासून प्ले करा</string>
     <string name="play_as_audio">ध्वनी स्वरुपात प्ले करा</string>
     <string name="play_as_video">चित्रफीत स्वरुपात प्ले करा</string>
-    <string name="append">जोडा</string>
     <string name="play_all">सर्व प्ले करा</string>
     <string name="append_all">सर्व जोडा</string>
     <string name="delete">काढून टाका</string>
@@ -103,7 +102,6 @@
     <string name="sleep_in">स्लीप मध्ये</string>
     <string name="jump_to_time">वेळेवर उडी घ्या</string>
     <string name="subtitle_select">उपशीर्षक फाईल निवडा</string>
-
     <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
     <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
     <string name="invalid_location">%1$s हे स्थान प्ले केले जाऊ शकत नाही.</string>
@@ -178,4 +176,4 @@
     <string name="sending_log">लॉग पाठवत आहे…</string>
 
     <string name="next">पुढील</string>
-</resources>
+    </resources>

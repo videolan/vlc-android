@@ -23,6 +23,7 @@
 
 package org.videolan.vlc
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -162,6 +163,7 @@ class StartActivity : FragmentActivity() {
         val savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1)
         /* Check if it's the first run */
         val firstRun = savedVersionNumber == -1
+        Settings.firstRun = firstRun
         val upgrade = firstRun || savedVersionNumber != currentVersionNumber
         val tv = showTvUi()
         if (upgrade && (tv || !firstRun)) settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
@@ -208,6 +210,8 @@ class StartActivity : FragmentActivity() {
                         MediaUtils.playTracks(this@StartActivity, album, 0)
                     }
                 }
+            } else if(action != null && action== "vlc.remoteaccess.share") {
+                startActivity(Intent().apply { component = ComponentName(this@StartActivity, "org.videolan.vlc.webserver.gui.remoteaccess.RemoteAccessShareActivity") })
             } else {
                 val target = idFromShortcut
                 if (target == R.id.ml_menu_last_playlist)

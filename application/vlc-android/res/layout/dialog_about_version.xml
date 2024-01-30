@@ -50,6 +50,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/medias2"
                     tools:text="* Bug fixes\n*Crash fixes" />
 
+            <Button
+                    android:id="@+id/moreButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/more"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/changelog" />
+
             <TextView
                     android:id="@+id/textView28"
                     android:layout_width="wrap_content"
@@ -59,7 +70,7 @@
                     android:text="@string/revision"
                     android:textColor="?attr/font_light"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/changelog" />
+                    app:layout_constraintTop_toBottomOf="@+id/moreButton" />
 
             <TextView
                     android:id="@+id/textView29"

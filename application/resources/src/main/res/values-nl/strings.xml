@@ -15,10 +15,34 @@
     <string name="sortby_date">Datum</string>
     <string name="sortby_last_modified_date">Recent toegevoegd</string>
     <string name="sortby_insertion">Datum ingevoegd</string>
+    <string name="sortby_date_last_modified">Recent toegevoegd</string>
+    <string name="sortby_date_insertion">Datum ingevoegd</string>
+    <string name="sortby_date_release">Releasedatum</string>
     <string name="sortby_media_number">Medianummer</string>
     <string name="sortby_number">Aantal tracks</string>
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
+
+    <string name="sortby_name_asc">Naam A → Z</string>
+    <string name="sortby_name_desc">Naam Z → A</string>
+    <string name="sortby_artist_name_asc">Naam artiest A → Z</string>
+    <string name="sortby_artist_name_desc">Naam artiest Z → A</string>
+    <string name="sortby_album_name_asc">Naam album A → Z</string>
+    <string name="sortby_album_name_desc">Naam album Z → A</string>
+    <string name="sortby_filename_asc">Bestandsnaam A → Z</string>
+    <string name="sortby_filename_desc">Bestandsnaam Z → A</string>
+    <string name="sortby_length_asc">Kortste eerst</string>
+    <string name="sortby_length_desc">Langste eerst</string>
+    <string name="sortby_date_asc">Oudste datum eerst</string>
+    <string name="sortby_date_desc">Nieuwste datum eerst</string>
+    <string name="sortby_last_modified_date_asc">Oudste toevoeging eerst</string>
+    <string name="sortby_last_modified_date_desc">Nieuwste toevoeging eerst</string>
+    <string name="sortby_date_insertion_asc">Oudste invoegdatum eerst</string>
+    <string name="sortby_date_insertion_desc">Nieuwste invoegdatum eerst</string>
+    <string name="sortby_date_last_modified_asc">Oudste wijzigingsdatum eerst</string>
+    <string name="sortby_date_last_modified_desc">Nieuwste wijzigingsdatum eerst</string>
+    <string name="sortby_date_release_asc">Oudste releasedatum eerst</string>
+    <string name="sortby_date_release_desc">Nieuwste releasedatum eerst</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultaat gevonden</item>
@@ -38,7 +62,7 @@
     <string name="video_app_switch_summary">Selecteer VLC-gedrag wanneer u naar een andere toepassing wisselt vanuit het afspelen van video</string>
     <string name="play_pip_title">Video\'s afspelen in modus beeld-in-beeld</string>
     <string name="play_as_audio_background">Video\'s op achtergrond afspelen</string>
-    <string name="append">Toevoegen</string>
+    <string name="append">Toevoegen aan afspeelwachtrij</string>
     <string name="insert_next">Als volgende invoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
@@ -118,6 +142,8 @@
     <string name="loading">Laden…</string>
     <string name="please_wait">Even wachten…</string>
     <string name="nomedia">Geen mediabestanden gevonden. Zet een aantal mediabestanden op uw apparaat of pas uw voorkeuren aan.</string>
+    <string name="nofav">Geen favoriet gevonden.</string>
+    <string name="empty_search">Geen items gevonden voor zoekopdracht %s</string>
     <string name="noplaylist">Geen afspeellijst gevonden.</string>
     <string name="nosubfolder">Geen submap</string>
     <string name="directorynotfound">Het pad \'%1$s\' werd niet teruggevonden.</string>
@@ -130,7 +156,6 @@
     <string name="shuffle_on">Willekeurige volgorde aan</string>
     <string name="shuffle_play">Willekeurige volgorde</string>
     <string name="repeat_title">Modus herhalen</string>
-    <string name="repeat">Niet herhalen</string>
     <string name="repeat_single">Een herhalen</string>
     <string name="repeat_all">Alles herhalen</string>
     <string name="previous">Vorige</string>
@@ -173,6 +198,7 @@
     <string name="sleep_in">Slapen over</string>
     <string name="jump_to_time">Naar tijdstip springen</string>
     <string name="subtitle_select">Ondertitelbestand selecteren</string>
+    <string name="wait_before_sleep">Eerst wachten tot huidig media-item klaar is</string>
 
     <string name="server_add_title">Nieuwe server aan favorieten toevoegen</string>
     <string name="server_domain_hint">Server-adres (domeinnaam of IP)</string>
@@ -203,6 +229,11 @@
 
     <string name="playback_history_title">Afspeelgeschiedenis</string>
     <string name="playback_history_summary">Alle media afgespeeld in geschiedenis-sectie opslaan</string>
+    <string name="video_resume_playback_title">Geschiedenis van video-afspeelwachtrij</string>
+    <string name="video_resume_playback_summary">Opslaan van de video-afspeelwachtrij toestaan om later te hervatten</string>
+    <string name="audio_resume_playback_title">Geschiedenis van audio-afspeelwachtrij</string>
+    <string name="audio_resume_playback_warning">Het uitschakelen van de geschiedenis van de audio-afspeelwachtrij kan leiden tot gedragsproblemen.\nNa het uitschakelen is het mogelijk dat u het afspelen niet kunt hervatten vanaf:\n\n\t- een bluetooth apparaat\n\t- de widget\n\t- de mediamelding</string>
+    <string name="audio_resume_playback_summary">Opslaan van de audio-afspeelwachtrij toestaan om later te hervatten</string>
     <string name="playback_speed_title">Afspeelsnelheid opslaan</string>
     <string name="playback_speed_summary">Afspeelsnelheid tussen media behouden</string>
 
@@ -246,6 +277,7 @@
     <string name="audio_player_tips">Audiospeler-tips</string>
     <string name="previous_next_song">Vorig/volgend liedje</string>
     <string name="show_playlist">Afspeellijst weergeven</string>
+    <string name="hide_playlist">Afspeellijst verbergen</string>
     <string name="hold_to_stop">Inhouden om te stoppen</string>
 
     <!-- About -->
@@ -262,11 +294,16 @@
 
     <!-- Preferences -->
     <string name="preferences">Instellingen</string>
+    <string name="more_preferences">Meer instellingen</string>
+    <string name="prefs_opened_on_phone">Instellingen op telefoon geopend</string>
+    <string name="open_on_phone">Openen op telefoonscherm</string>
 
     <string name="directories_summary">Selecteer mappen om te integreren in de mediabibliotheek</string>
     <string name="add_custom_path">Aangepast pad toevoegen</string>
     <string name="add_custom_path_description">Aangepaste map toevoegen om te controleren:</string>
     <string name="remove_custom_path">Aangepast pad verwijderen</string>
+    <string name="group_ban_folder">Map uit mediabibliotheek verbannen</string>
+
     <string name="hardware_acceleration">Hardwareversnelling</string>
     <string name="hardware_acceleration_summary">Uitgeschakeld: betere stabiliteit\nDecoderen: kan prestaties verbeteren\nVolledig: kan prestaties nog meer verbeteren</string>
     <string name="hardware_acceleration_disabled">Uitgeschakeld</string>
@@ -278,10 +315,13 @@
     <string name="screen_orientation">Scherm-oriëntatie</string>
     <string name="screen_orientation_sensor">Sensor-oriëntatie</string>
     <string name="screen_orientation_portrait">Staand</string>
+    <string name="screen_orientation_portrait_reverse">Staand omdraaien</string>
     <string name="screen_orientation_landscape">Liggend</string>
     <string name="screen_orientation_landscape_reverse">Omgekeerd liggend</string>
+    <string name="screen_orientation_landscape_sensor">Liggend (sensor)</string>
     <string name="screen_orientation_last_locked">Laatst vergrendelde oriëntatie</string>
     <string name="enable_black_theme">Zwart thema</string>
+    <string name="theme_auto">Automatisch thema</string>
     <string name="subtitle_text_encoding">Ondertitel-tekstcodering</string>
     <string name="subtitle_preferred_language">Voorkeurstaal ondertitels</string>
     <string name="daynight_title">Dag-/nachtmodus</string>
@@ -307,7 +347,9 @@
     <string name="media_seen">Gezien-videomarker weergeven</string>
     <string name="media_seen_summary">Een video als gezien markeren als u hem tot het einde afspeelt</string>
     <string name="force_play_all_summary">Alle video\'s afspelen, beginnend met die waar u op klikte</string>
+    <string name="force_play_all_audio_summary">Alle audio afspelen, beginnend met die waar u op klikte</string>
     <string name="force_play_all_title">Video-afspeellijst modus</string>
+    <string name="force_play_all_audio_title">Audio-afspeellijst modus</string>
     <string name="save_brightness_summary">Helderheid tussen media behouden</string>
     <string name="save_brightness_title">Helderheidsniveau opslaan</string>
     <string name="save_audiodelay_summary">Individuele audiovertraging opslaan voor elke video</string>
@@ -328,26 +370,44 @@
     <string name="enable_double_tap_play_summary">Dubbel tikken op midden van scherm om af te spelen of te pauzeren</string>
     <string name="enable_swipe_seek_title">Vegen om te zoeken</string>
     <string name="enable_swipe_seek_summary">Veeg uw vinger over het scherm om te zoeken</string>
+    <string name="enable_scale_gesture_title">Zoomen met twee vingers</string>
+    <string name="enable_scale_gesture_summary">In- en uitzoomen met twee vingers</string>
     <string name="popup_keepscreen_title">Scherm aan houden in pop-up-modus</string>
     <string name="popup_keepscreen_summary">Scherm altijd AAN houden wanneer pop-up weergegeven wordt, zelfs als video gepauzeerd is.</string>
     <string name="browser_show_hidden_files_title">Verborgen bestanden weergeven</string>
+    <string name="albums_show_track_numbers">Tracknummers weergeven</string>
+    <string name="enable_video_screenshot">Een screenshot maken</string>
 
     <string name="subtitles_prefs_category">Ondertitels</string>
     <string name="subtitles_size_title">Ondertitelgrootte</string>
+    <string name="subtitles_presets_title">Ondertitelpresets</string>
     <string name="subtitles_size_small">Klein</string>
     <string name="subtitles_size_normal">Normaal</string>
     <string name="subtitles_size_big">Groot</string>
     <string name="subtitles_size_huge">Enorm</string>
+    <string name="subtitles_font_style">Lettertype-stijl ondertitels</string>
     <string name="subtitles_color_title">Ondertitelkleur</string>
-    <string name="subtitles_color_white">Wit</string>
-    <string name="subtitles_color_gray">Grijs</string>
-    <string name="subtitles_color_pink">Roze</string>
-    <string name="subtitles_color_blue">Blauw</string>
-    <string name="subtitles_color_yellow">Geel</string>
-    <string name="subtitles_color_green">Groen</string>
+    <string name="subtitles_opacity">Dekking</string>
+    <string name="subtitles_color">Kleur</string>
+    <string name="subtitles_size">Grootte</string>
+    <string name="subtitles_background_color_title">Ondertitel-achtergrond</string>
     <string name="subtitles_background_title">Ondertitel-achtergrond</string>
+    <string name="subtitles_outline_title">Ondertitel-omtrek</string>
+    <string name="subtitles_shadow_title">Ondertitel-schaduw</string>
+    <string name="subtitles_decoration_title">Ondertitel-decoratie</string>
+    <string name="subtitle_decoration_none">Geen</string>
+    <string name="subtitle_decoration_shadow">Schaduw</string>
+    <string name="subtitle_decoration_outline">Omtrek</string>
     <string name="subtitles_bold_title">Vette ondertitels</string>
     <string name="subtitles_autoload_title">Ondertitels automatisch laden</string>
+    <string name="previous_color">Vorige kleur</string>
+    <string name="new_color">Nieuwe kleur</string>
+    <string name="subtitles_preset_default">Standaard</string>
+    <string name="subtitles_preset_default_large">Grote tekst</string>
+    <string name="subtitles_preset_default_largest">Grootste tekst en contrast</string>
+    <string name="subtitles_preset_white_background">Met achtergrond</string>
+    <string name="subtitles_yellow">Geel</string>
+    <string name="subtitles_yellow_background">Geel met achtergrond</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media-hoes op vergrendelscherm</string>
@@ -385,6 +445,12 @@
     <string name="audio_ducking_title">VLC-volume verlagen bij meldingen</string>
     <string name="audio_ducking_summary">Helpt om audiomeldingen, navigatie-instructies of het praten van de assistent te horen</string>
     <string name="casting_category">Uitzenden</string>
+    <string name="remote_access">Externe toegang</string>
+    <string name="remote_access_status">Serverstatus</string>
+    <string name="remote_access_status_summary">Tikken om de serverstatus te zien</string>
+    <string name="remote_access_connections">Verbindingen</string>
+    <string name="remote_access_links">Koppelingen</string>
+    <string name="remote_access_active">Externe toegang actief</string>
     <string name="casting_switch_title">Draadloos casten</string>
     <string name="casting_passthrough_title">Audiodoorvoer</string>
     <string name="casting_passthrough_summary">Laat uw tv het renderen van audio beheren</string>
@@ -398,7 +464,8 @@
     <string name="artists_show_all_title">Alle artiesten weergeven</string>
     <string name="show_headers">Koptekst weergeven</string>
     <string name="show_headers_summary">Lijsten splitsen op koptekst afhankelijk van het sorteertype</string>
-
+    <string name="tv_folders_first">Mappen eerst weergeven</string>
+    <string name="tv_folders_first_summary">Eerst mappen en daarna bestanden weergeven in de bestandsverkenner</string>
     <string name="extensions_prefs_category">Extensies</string>
     <string name="extensions_empty">Geen extensie gedetecteerd</string>
     <string name="extension_permission_title">Nieuwe extensie \"%1$s\" inschakelen?</string>
@@ -424,12 +491,14 @@
     <string name="auto_rescan">Automatisch opnieuw scannen</string>
     <string name="auto_rescan_summary">Apparaat automatisch scannen op nieuwe of verwijderde media bij het starten van de toepassing</string>
     <string name="dump_media_db">Media-database wegschrijven</string>
+    <string name="dump_app_db">App-database dumpen</string>
     <string name="dump_media_db_summary">Database naar interne opslagboom kopiëren</string>
     <string name="clear_media_db">Media-database wissen</string>
     <string name="clear_media_database_summary">Wist de database om opnieuw te beginnen</string>
     <string name="clear_app_data">App-gegevens wissen</string>
     <string name="clear_app_data_summary">Wist de gegevens van VLC voor Android</string>
     <string name="clear_history">Geschiedenis wissen</string>
+    <string name="clear_history_message">U verliest uw geschiedenis, uw huidige afspeellijsten en uw voortgang</string>
     <string name="set_locale">Taal instellen</string>
     <string name="network_caching">Netwerkbuffergrootte</string>
     <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te bufferen (in ms) voor software-decoderen\nOp 0 instellen om uit te schakelen</string>
@@ -437,6 +506,8 @@
     <string name="resume_playback_summary">Anders blijven pauzeren</string>
     <string name="blurred_cover_background_title">Wazige albumhoes-achtergrond</string>
     <string name="blurred_cover_background_summary">Wazige albumhoes in audiospeler-achtergrond</string>
+    <string name="force_shuffle_title">Willekeurige volgorde forceren</string>
+    <string name="force_shuffle_summary">Willekeurige volgorde forceren bij starten van afspelen</string>
     <string name="network_caching_popup">Deze waarde moet tussen 0 en 60 000 ms zijn</string>
     <string name="quit">Toepassing afsluiten en opnieuw starten</string>
     <string name="restart_message">Wijzigingen zullen van kracht worden van zodra de toepassing opnieuw gestart is.\n\nNu opnieuw starten?</string>
@@ -511,6 +582,12 @@
     <!-- Widget -->
     <string name="widget_name_w">VLC Widget licht</string>
     <string name="widget_name_b">VLC Widget donker</string>
+    <string name="widget_name_mini_player">VLC minispeler</string>
+    <string name="widget_old_text">We hebben onze widgets bijgewerkt!</string>
+    <string name="widget_old_description_start">Goed nieuws! We hebben verbeterde widgets uitgebracht.\nZe bieden meer responsiviteit en aanpasbaarheid</string>
+    <string name="whats_next">Wat is de volgende stap?</string>
+    <string name="widget_old_description_end">We hebben ontdekt dat u al widgets op uw launcher heeft. Helaas zijn ze niet compatibel met onze nieuwe verbeterde widgets.\nAfhankelijk van uw launcher, kan het zijn dat u de oude moet verwijderen om ze te vervangen.</string>
+    <string name="click_here">Klik hier voor meer informatie.</string>
     <string name="allow_storage_access_title">VLC toegang geven tot video- en audiobestanden</string>
     <string name="allow_storage_access_description">VLC moet uw toestemming hebben om toegang te krijgen tot de mediabestanden op dit apparaat.</string>
     <string name="allow_storage_manager_title">VLC alle bestandstoegang toestaan</string>
@@ -525,13 +602,22 @@
     <string name="allow_settings_access_brightness_description">VLC moet uw toestemming hebben om uw helderheidsmodus te wijzigen</string>
     <string name="allow_draw_overlays_title">Popup van VLC-speler toestaan over andere apps</string>
     <string name="allow_sdraw_overlays_description">VLC moet uw toestemming hebben om uw video weer te geven in een popup bovenop andere toepassingen.</string>
+    <string name="allow_pip">VLC player toestaan om Picture in Picture te starten</string>
+    <string name="allow_pip_description">VLC moet uw toestemming hebben om uw video weer te geven in \"Picture in Picture\"-modus.</string>
     <string name="permission_ask_again">Toegang toestaan</string>
     <string name="pick_file">Bestand kiezen</string>
     <string name="permission_not_granted">Toestemming niet verleend</string>
     <string name="permission_expanation_no_allow">U zult niet in staat zijn om uw media automatisch te ontdekken of externe ondertitels te gebruiken</string>
     <string name="permission_expanation_allow">U zult alleen streams of netwerkmedia kunnen afspelen</string>
+    <string name="permission_onboarding_no_perm">U zult niet in staat zijn om uw media automatisch te ontdekken.\nU kunt alleen streams of netwerkmedia afspelen</string>
+    <string name="permission_onboarding_perm_media">U kunt alleen standaard mediabestanden automatisch detecteren</string>
+    <string name="permission_onboarding_perm_all">U zult in staat zijn om al uw bestanden automatisch te ontdekken om alle soorten media af te spelen, zelfs vreemde, of gecomprimeerde bestanden</string>
     <string name="exit_app">VLC sluiten</string>
     <string name="exit_app_msg">Weet u zeker dat u VLC wilt afsluiten?</string>
+    <string name="widget_explanation_title">VLC-widgets</string>
+    <string name="widget_explanation_size">De widgets zijn er in verschillende maten en smaken</string>
+    <string name="widget_explanation_resize">Om het widgettype te veranderen, drukt u er lang op en gebruikt u de handgrepen om het formaat aan te passen aan uw wensen.</string>
+    <string name="widget_explanation_end">Widgets zijn sterk aanpasbaar. Laat uw creativiteit de vrije loop en laat ze op u lijken!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller-track</string>
@@ -642,6 +728,7 @@
     <string name="delete_the_selected">Selectie verwijderen</string>
     <string name="download_the_selected">Selectie downloaden</string>
     <string name="next">Volgende</string>
+    <string name="skip">Overslaan</string>
     <string name="next_step">Volgende</string>
     <string name="download">Downloaden</string>
     <string name="ctx_player_video_track">Videospoor selecteren</string>
@@ -698,6 +785,7 @@
     <string name="remove_current">Huidige verwijderen</string>
     <string name="validation_delete_playlist">Weer u zeker dat u deze afspeellijst wilt verwijderen?</string>
     <string name="validation_delete_playlist_text">Deze handeling kan niet ongedaan worden gemaakt.</string>
+    <string name="display_settings">Weergave-instellingen</string>
     <string name="display_in_list">Weergeven in lijst</string>
     <string name="display_in_grid">Weergeven in raster</string>
     <string name="dump_db_succes">Database naar hoofdmap van interne opslag weggeschreven</string>
@@ -793,6 +881,7 @@
     <string name="rename_group">Videogroep hernoemen</string>
     <string name="ungroup">Degroeperen</string>
     <string name="group_similar">Automatisch hergroeperen</string>
+    <string name="no_group_found">Geen videogroep gevonden</string>
     <string name="no_favorite">Geen favoriet</string>
     <string name="empty_directory">Leeg</string>
     <string name="no_track">Geen track</string>
@@ -853,6 +942,8 @@
     <string name="browser_show_missing_media">Ontbrekende media weergeven</string>
     <string name="browser_show_missing_media_summary">Externe media weergeven zelfs als ze niet aanwezig zijn</string>
     <string name="search_prefs">Instellingen doorzoeken</string>
+    <string name="video_match_frame_rate_title">Zelfde beeldsnelheid als scherm</string>
+    <string name="video_match_frame_rate_summary">De vernieuwingsfrequentie van het scherm afstemmen op de beeldsnelheid van de media. Bijvoorbeeld, een 24p film zou op 24p moeten worden afgespeeld.</string>
     <string name="preferred_resolution">Voorkeursvideoresolutie</string>
     <string name="preferred_resolution_summary">Maximale videokwaliteit voor streams, indien van toepassing, zal %s zijn.</string>
     <string name="pref_resolution_best_available">Beste beschikbaar</string>
@@ -861,7 +952,6 @@
     <string name="delete_forever">Voor altijd verwijderen</string>
     <string name="add_to_existing_playlist">Aan bestaande afspeellijst toevoegen</string>
     <string name="bookmarks_title">Bladwijzers</string>
-    <string name="no_bookmark">Nog geen bladwijzers</string>
     <string name="bookmark_default_name">Bladwijzer op %s</string>
     <string name="bookmark_name">Bladwijzer %s</string>
     <string name="add_bookmark">Bladwijzer toevoegen</string>
@@ -890,15 +980,18 @@
     <string name="lock_use_sensor_title">Vergrendelen met sensor</string>
     <string name="lock_use_sensor_summary">Wanneer de oriëntatie vergrendeld is, de sensor gebruiken om de omgekeerde oriëntatie toe te staan</string>
     <string name="start">Start</string>
-    <string name="permission">Machtiging</string>
+    <string name="notification_permission">Toestemming voor meldingen</string>
+    <string name="notification_permission_explanation">VLC heeft uw toestemming nodig om meldingen te versturen.\nDe app zal u alleen verwittigen wanneer u uw media scant of de aangepaste video Picture in Picture gebruikt.\Weigeren zal niet voorkomen dat VLC werkt, maar de meldingen zullen worden verborgen.</string>
+    <string name="permission">Toestemming</string>
     <string name="customize">Aanpassen</string>
     <string name="selection_count">%d geselecteerd</string>
-    <string name="controls_setting">Bedieningsinstellingen</string>
+    <string name="controls_setting">Bedieningsinstellingen</string> <!-- Unused -->
     <string name="gestures">Gebaren</string>
     <string name="player_controls">Spelerbediening</string>
     <string name="video_double_tap_jump_delay">Tijdvertraging dubbeltikken</string>
     <string name="video_key_jump_delay">Tijdvertraging navigatietoetsen</string>
     <string name="banned">Verbannen map (lang tikken om te wijzigen)</string>
+    <string name="banned_tv">Verbannen map</string>
     <string name="banned_parent">Verbannen door bovenliggende map</string>
     <plurals name="duplication_two_options_secondary">
         <item quantity="one">Dit item staat al in deze afspeellijst.</item>
@@ -924,4 +1017,87 @@
     <string name="foldable">Vouwbaar scherm</string>
     <string name="undo">Ongedaan maken</string>
     <string name="add_server_favorite">Een server-favoriet toevoegen</string>
-</resources>
+    <string name="widget_theme">Widget-thema</string>
+    <string name="widget_preferences">Widget configureren</string>
+    <string name="material_you">Material You (haalt kleuren van achtergrond)</string>
+    <string name="palette">Palet (haalt kleuren van de albumhoes)</string>
+    <string name="custom">Aangepast</string>
+    <string name="opacity">Dekking</string>
+    <string name="widget_background">Achtergrond</string>
+    <string name="widget_foreground">Voorgrond</string>
+    <string name="configure_widget">Widget-configuratie</string>
+    <string name="widget_preview">Voorbeeld van widget</string>
+    <string name="widget_forward_delay">Tijdvertraging vooruit</string>
+    <string name="widget_show_seek">Zoekknoppen weergeven</string>
+    <string name="widget_show_cover">Albumhoes weergeven</string>
+    <string name="widget_rewind_delay">Tijdvertraging achteruit</string>
+    <string name="widget_show_configure">Configuratiepictogram weergeven</string>
+    <string name="widget_show_configure_summary">Zelfs als het niet wordt weergegeven, kunt u op de rechterbovenhoek tikken om de configuratie te openen</string>
+    <string name="seek_backward_content_description">%s seconden achteruit zoeken</string>
+    <string name="seek_forward_content_description">%s seconden vooruit zoeken</string>
+    <string name="open_vlc">VLC openen</string>
+    <string name="playing">Afspelen</string>
+    <string name="disable_track">Track uitschakelen</string>
+    <string name="ascending">Oplopend</string>
+    <string name="descending">Aflopend</string>
+    <string name="screenshot_error">Fout bij maken van screenshot</string>
+    <string name="disabled">Uitgeschakeld</string>
+    <string name="enable_screenshot_gesture">Tikken met 3 vingers</string>
+    <string name="enable_screenshot_button">Screenshot-knop weergeven</string>
+    <string name="enable_screenshot_button_and_gesture">Knop en gebaar</string>
+
+
+
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%s - titel: %s - duur: %s</string>
+    <string name="talkback_genre">Genre: %s</string>
+    <string name="talkback_history_item">Geschiedenis item</string>
+    <string name="talkback_playlist">Afspeellijst: %s</string>
+    <string name="talkback_folder">Map: %s</string>
+    <string name="talkback_file">Bestand: %s</string>
+    <string name="talkback_favorite">Favoriet: %s</string>
+    <string name="talkback_track_number">Tracknummer %s</string>
+    <string name="talkback_duration">Duur: %s</string>
+    <string name="talkback_album">Album: %s</string>
+    <string name="talkback_artist">Artiest: %s</string>
+    <string name="talkback_release_date">Uitgegeven in %s</string>
+    <string name="talkback_video">Video: %s</string>
+    <string name="talkback_stream">Stream: %s</string>
+    <string name="talkback_audio_track">Audiospoor: %s</string>
+    <string name="talkback_video_group">Videogroep: %s</string>
+    <string name="talkback_hours">uur</string>
+    <string name="talkback_minutes">minuten</string>
+    <string name="talkback_seconds">seconden</string>
+    <string name="talkback_list_section">Hoofding: %s</string>
+    <string name="talkback_enter_screen">Navigeren naar %s</string>
+    <string name="talkback_file_size">Bestandsgrootte: %s</string>
+    <string name="talkback_open_in_browser">Openen in webbrowser</string>
+    <string name="talkback_video_player">Videospeler. Tikken om bediening weer te geven. Tik op de terug-knop om ze te verbergen</string>
+    <string name="talkback_video_tracks">Videosporen</string>
+    <string name="talkback_audio_tracks">Audiosporen</string>
+    <string name="talkback_subtitle_tracks">Ondertitelsporen</string>
+    <string name="talkback_subtitle_dowload_item">Taal: %s. %s. Naam: %s</string>
+    <string name="selected">Geselecteerd</string>
+    <string name="talkback_increase_delay">Vertraging vergroten</string>
+    <string name="talkback_decrease_delay">Vertraging verkleinen</string>
+    <string name="talkback_increase_speed">Snelheid verhogen</string>
+    <string name="talkback_decrease_speed">Snelheid verlagen</string>
+    <string name="talkback_subtitle_history">Ondertitelgeschiedenis</string>
+    <string name="talkback_language_selection">%s geselecteerde talen</string>
+    <string name="talkback_audio_player_opened">Audiospeler geopend</string>
+    <string name="talkback_audio_player_collapsed">Audiospeler ingeklapt</string>
+    <string name="talkback_audio_player_closed">Audiospeler gesloten</string>
+    <string name="talkback_audio_player">Audiospeler. Nu speelt: %s</string>
+    <string name="talkback_out_of">%s van %s</string>
+    <string name="talkback_track_index">Track %s van %s</string>
+    <string name="downloaded">Gedownload</string>
+    <string name="not_downloaded">Niet gedownload</string>
+    <string name="downloading">Downloaden</string>
+    <string name="talkback_action_rewind">%s seconden terugspoelen</string>
+    <string name="talkback_action_forward">%s seconden vooruitspoelen</string>
+    <string name="talkback_display_settings">Weergave-instellingen</string>
+    <string name="talkback_already_played">Reeds afgespeeld</string>
+    <string name="show_only_favs">Alleen favorieten weergeven</string>
+    <string name="ignore_headset_media_button_presses">Indrukken van mediaknoppen op headset negeren</string>
+    <string name="ignore_headset_media_button_presses_summary">Handig als u bijvoorbeeld een headset gebruikt met kapotte fysieke knoppen</string>
+    </resources>

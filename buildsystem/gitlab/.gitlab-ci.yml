@@ -8,6 +8,8 @@ cache:
 variables:
   VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20230621085943
   VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20230614051113
+  VLC_WEB_BUILD_IMAGE: registry.videolan.org/videolan-alpine-node:20230523124511
+  WEBSERVER_DIR: "./buildsystem/network-sharing-server/"
 
 default:
   interruptible: true
@@ -18,8 +20,62 @@ default:
     - docker
 
 stages:
+  - webserver-install-dependencies
+  - webserver-build
+  - webserver-audit
   - build
   - package
+
+.webserver-base:
+  image:
+    name: $VLC_WEB_BUILD_IMAGE
+  rules:
+    # Explicitely refuse to build anything that would also trigger
+    # a medialib build
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - buildsystem/network-sharing-server/**/*
+    - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+
+# This is generating the node_modules folder with the required dependencies
+# If/When we want to make it fully offline:
+# - the docker image should contain the node_modules files OR the node_modules should be included as a cache entry (see gradle on top of this file)
+# - this job should be removed and the ones depending on it should have their rules changed
+webserver-install-dependencies:
+    extends: .webserver-base
+    stage: webserver-install-dependencies
+    script:
+      - cd "$WEBSERVER_DIR"
+      - npm install
+    artifacts:
+      paths:
+        - buildsystem/network-sharing-server/node_modules/
+      when: on_success
+      expire_in: 1h
+
+webserver-build:
+    extends: .webserver-base
+    stage: webserver-build
+    needs:
+      - job: "webserver-install-dependencies"
+    script:
+        - cd "$WEBSERVER_DIR"
+        - npm run build
+    artifacts:
+      paths:
+        - buildsystem/network-sharing-server/dist/
+      when: on_success
+      expire_in: 1h
+
+webserver-vulnerabilities:
+    extends: .webserver-base
+    stage: webserver-build
+    needs:
+      - job: "webserver-install-dependencies"
+    script:
+        - cd "$WEBSERVER_DIR"
+        - npx audit-ci@^6 --config ./audit-ci.jsonc
 
 .build-all-base:
     stage: build
@@ -54,6 +110,11 @@ stages:
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
         changes:
+          - buildsystem/network-sharing-server/**/*
+        needs:
+          - job: "webserver-build"
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        changes:
           - medialibrary/**/*
           - buildsystem/**/*
     variables:
@@ -69,6 +130,11 @@ continuous-app-build:
         - ./gradlew assembleDebug
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        changes:
+          - buildsystem/network-sharing-server/**/*
+        needs:
+          - job: "webserver-build"
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 continuous-app-build-v4:
   extends: .build-all-base
@@ -76,6 +142,11 @@ continuous-app-build-v4:
     - ./buildsystem/compile.sh --init
     - ./gradlew assembleDebug -PforceVlc4=true
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - buildsystem/network-sharing-server/**/*
+      needs:
+        - job: "webserver-build"
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 
@@ -170,6 +241,8 @@ nightly-arm64:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm64
     artifacts:
@@ -183,6 +256,8 @@ nightly-armv7:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm
     artifacts:
@@ -196,6 +271,8 @@ nightly-x86:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86
     artifacts:
@@ -209,6 +286,8 @@ nightly-x86_64:
         name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86_64
     artifacts:
@@ -221,6 +300,8 @@ nightly-arm64-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm64
         EXTRA_BUILD_PARAM: -vlc4
@@ -233,6 +314,8 @@ nightly-armv7-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: arm
         EXTRA_BUILD_PARAM: -vlc4
@@ -245,6 +328,8 @@ nightly-x86-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86
         EXTRA_BUILD_PARAM: -vlc4
@@ -257,6 +342,8 @@ nightly-x86_64-v4:
     extends: .build-all-base
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
+    needs:
+      - job: "webserver-build"
     variables:
         ARCH: x86_64
         EXTRA_BUILD_PARAM: -vlc4
@@ -393,13 +480,17 @@ release:
     stage: build
     rules:
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
+    needs:
+      - job: "webserver-build"
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
+        - ./gradlew bundleRelease
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
             - application/app/build/outputs/apk/release/VLC-Android-*.apk
+            - application/app/build/outputs/bundle/release/*.aab
 #            - application/app/build/outputs/mapping/release/mapping.txt
         expire_in: 2 weeks
 

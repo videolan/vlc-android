@@ -451,7 +451,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             else -> {
                 arrayOf(binding.repeat, binding.headerRepeat).forEach {
                     it.setImageResource(R.drawable.ic_repeat_audio)
-                    it.contentDescription = ctx.getString(R.string.repeat)
+                    it.contentDescription = ctx.getString(R.string.repeat_none)
                 }
             }
         }

@@ -6,6 +6,11 @@
       "license"  : "apache2.0"
     },
     {
+      "title"    : "Bouncy Castle",
+      "copyright": "Copyright © 2000-2023 The Legion of the Bouncy Castle Inc.",
+      "license"  : "mit"
+    },
+    {
       "title"    : "Color Picker",
       "copyright": "Copyright © 2016 Jared Rummler",
       "license"  : "apache2.0"
@@ -44,6 +49,11 @@
       "title"    : "Konfetti",
       "copyright": "Copyright © 2017 Dion Segijn",
       "license"  : "isc"
+    },
+    {
+      "title"    : "Ktor",
+      "copyright": "Copyright © 2014-2019 JetBrains s.r.o and contributors",
+      "license"  : "apache2.0"
     },
     {
       "title"    : "liba52",
