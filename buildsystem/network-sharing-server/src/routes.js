@@ -17,8 +17,8 @@ const routes = [
     path: '/videos',
     children: [
       { path: '', component: VideoList, name: 'VideoList', meta: { showDisplayBar: true, showResume: true, showGrouping: true } },
-       { path: 'group/:groupId', component: VideoList, name: 'VideoGroupList', meta: { showDisplayBar: true } },
-       { path: 'folder/:folderId', component: VideoList, name: 'VideoFolderList', meta: { showDisplayBar: true } },
+       { path: 'group/:groupId', component: VideoList, name: 'VideoGroupList', meta: { showDisplayBar: true, showFAB: true, playAllType: "video-group" } },
+       { path: 'folder/:folderId', component: VideoList, name: 'VideoFolderList', meta: { showDisplayBar: true, showFAB: true, playAllType: "video-folder" } },
     ]
   },
   {
@@ -26,7 +26,7 @@ const routes = [
     children: [
       { path: 'artists', component: AudioArtists, name: 'AudioArtists', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
       { path: 'albums', component: AudioAlbums, name: 'AudioAlbums', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
-      { path: 'tracks', component: AudioTracks, name: 'AudioTracks', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
+      { path: 'tracks', component: AudioTracks, name: 'AudioTracks', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false, showFAB: true, playAllType: "tracks" } },
       { path: 'genres', component: AudioGenres, name: 'AudioGenres', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
     ]
   },

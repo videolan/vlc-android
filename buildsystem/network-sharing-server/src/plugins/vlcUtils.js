@@ -46,6 +46,17 @@ export default {
                         appStore.warning = { type: "warning", message: error.response.data }
                     }
                 })
+        },
+        app.config.globalProperties.$playAll = (route) => {
+            let type= route.meta.playAllType
+            let id = (type == "video-group") ? route.params.groupId : (type == "video-folder") ? route.params.folderId : 0
+            console.log(`Play all: ${type} with id: ${id}`)
+             axios.get(vlcApi.playAll(type, id))
+                 .catch(function (error) {
+                     if (error.response.status != 200) {
+                         appStore.warning = { type: "warning", message: error.response.data }
+                     }
+                 })
         }
         app.config.globalProperties.$resumePlayback = (isAudio) => {
             axios.get(vlcApi.resumePlayback(isAudio)).then((response) => {

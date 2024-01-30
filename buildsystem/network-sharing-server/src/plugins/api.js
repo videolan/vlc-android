@@ -182,6 +182,18 @@ export const vlcApi = {
         return `${API_URL}play?${new URLSearchParams(params).toString()}`
     },
     /**
+     * Retrieve the media play API URL
+     * @param {String} type the media container type (video-group, video-folder, ...)
+     * @param {String} id the media container id
+     * @returns the URL
+     */
+    playAll: (type, id) => {
+        const params = {}
+        if (type) params.type = type
+        if (id) params.id = id
+        return `${API_URL}play-all?${new URLSearchParams(params).toString()}`
+    },
+    /**
      * Retrieve the resume playback API URL
      * @param {Boolean} isAudio 
      * @returns the URL

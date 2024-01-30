@@ -707,6 +707,44 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             call.respond(HttpStatusCode.NotFound)
         }
+        // Play a media
+        get("/play-all") {
+            val type = call.request.queryParameters["type"]
+            val id = call.request.queryParameters["id"]
+            type?.let { type ->
+
+                val medias = appContext.getFromMl {
+                    when (type) {
+                        "video-group" -> {
+                            id?.let { id ->
+                                val group = getVideoGroup(id.toLong())
+                                group.media(Medialibrary.SORT_DEFAULT, false, false, false, group.mediaCount(), 0)
+                            }
+                        }
+                        "video-folder" -> {
+                            id?.let { id ->
+                                val folder = getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
+                                folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                            }
+                        }
+                        else -> getAudio(Medialibrary.SORT_DEFAULT, false, false, false)
+                    }
+                }
+                if (medias.isNullOrEmpty()) call.respond(HttpStatusCode.NotFound)
+                else {
+                    if (medias.size == 1 && medias[0].id == RemoteAccessServer.getInstance(appContext).service?.currentMediaWrapper?.id) {
+                        call.respond(HttpStatusCode.OK)
+                        return@get
+                    }
+                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
+                        call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ra_not_in_foreground))
+                    }
+                    MediaUtils.openList(appContext, medias.toList(), 0)
+                    call.respond(HttpStatusCode.OK)
+                }
+            }
+            call.respond(HttpStatusCode.NotFound)
+        }
         // Download a media file
         get("/prepare-download") {
             val type = call.request.queryParameters["type"] ?: "media"

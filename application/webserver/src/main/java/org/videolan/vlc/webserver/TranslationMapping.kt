@@ -91,5 +91,6 @@ object TranslationMapping {
         VIDEO_GROUP_NONE(R.string.video_min_group_length_disable),
         VIDEO_GROUP_BY_FOLDER(R.string.video_min_group_length_folder),
         VIDEO_GROUP_BY_NAME(R.string.video_min_group_length_name),
+        PLAY_ALL(R.string.play_all),
     }
 }

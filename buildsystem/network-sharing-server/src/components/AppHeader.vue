@@ -115,6 +115,11 @@
       </div>
 
       <div class="flex1 d-flex justify-content-end align-items-center">
+        <button class="btn btn-lg image-button" v-show="this.$route.meta.showFAB"
+        v-on:click.stop="$playAll(this.$route)" data-bs-toggle="tooltip" data-bs-placement="bottom"
+          :title="$t('PLAY_ALL')">
+          <img class="image-button-image" v-bind:src="$getAppAsset('ic_ctx_play_all', 24)">
+        </button>
         <button class="btn btn-lg image-button" v-show="this.$route.meta.showResume"
           v-on:click.stop="$resumePlayback(this.$route.meta.isAudio)" data-bs-toggle="tooltip" data-bs-placement="bottom"
           :title="$t('RESUME_PLAYBACK')">
