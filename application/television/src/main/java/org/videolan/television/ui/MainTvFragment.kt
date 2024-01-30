@@ -186,7 +186,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         otherAdapter = ArrayObjectAdapter(GenericCardPresenter(ctx))
         val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
 
-        val lockItem = GenericCardItem(ID_PIN_LOCK, getString(R.string.lock_with_pin_short), "", R.drawable.ic_menu_pin_lock_big, R.color.tv_card_content_dark)
+        val lockItem = GenericCardItem(ID_PIN_LOCK, getString(R.string.lock_with_pin_short), "", R.drawable.ic_pin_lock_big, R.color.tv_card_content_dark)
         if (PinCodeDelegate.pinUnlocked.value == true) otherAdapter.add(lockItem)
         otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_settings_big, R.color.tv_card_content_dark))
         val remoteAccessCard = GenericCardItem(ID_REMOTE_ACCESS, getString(R.string.remote_access), "", R.drawable.ic_remote_access_big, R.color.tv_card_content_dark)

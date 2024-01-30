@@ -401,7 +401,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, if (viewModel.media.uri.scheme == "file")
                     R.drawable.ic_folder_big
                 else
-                    R.drawable.ic_menu_network_big)
+                    R.drawable.ic_network_big)
                 detailsOverview.isImageScaleUpAllowed = true
                 actionsAdapter.set(ID_BROWSE, Action(ID_BROWSE.toLong(), res.getString(R.string.browse_folder)))
                 if (canSave) actionsAdapter.set(ID_FAVORITE, if (browserFavExists) actionDelete else actionAdd)

@@ -108,7 +108,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                 if (mediaLibraryItem.uri.scheme == "file")
                     context.getBitmapFromDrawable(R.drawable.ic_folder_big)
                 else
-                    context.getBitmapFromDrawable(R.drawable.ic_menu_network_big)
+                    context.getBitmapFromDrawable(R.drawable.ic_network_big)
             } else
                 AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.artworkMrl), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width))
             if (picture == null) picture = getBitmapFromDrawable(context, getTvIconRes(mediaLibraryItem))
