@@ -28,6 +28,7 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -560,7 +561,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     private fun banFolder(folder: Folder) {
-        MedialibraryUtils.banDir(folder.mMrl.removePrefix("file://"))
+        folder.mMrl.toUri().path?.let { path ->
+            MedialibraryUtils.banDir(path.removePrefix("file://"))
+        } ?: Log.e(TAG, "banFolder: path is null")
     }
 
     private fun renameGroup(media: VideoGroup) {
