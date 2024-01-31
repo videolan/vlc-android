@@ -50,8 +50,8 @@ export default {
         app.config.globalProperties.$playAll = (route) => {
             let type= route.meta.playAllType
             let id = (type == "video-group") ? route.params.groupId : (type == "video-folder") ? route.params.folderId : 0
-            console.log(`Play all: ${type} with id: ${id}`)
-             axios.get(vlcApi.playAll(type, id))
+            let path = (type == "browser") ? route.params.browseId : ""
+             axios.get(vlcApi.playAll(type, id, path))
                  .catch(function (error) {
                      if (error.response.status != 200) {
                          appStore.warning = { type: "warning", message: error.response.data }

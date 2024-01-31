@@ -185,12 +185,14 @@ export const vlcApi = {
      * Retrieve the media play API URL
      * @param {String} type the media container type (video-group, video-folder, ...)
      * @param {String} id the media container id
+     * @param {String} path the path of the folder to play
      * @returns the URL
      */
-    playAll: (type, id) => {
+    playAll: (type, id, path) => {
         const params = {}
         if (type) params.type = type
         if (id) params.id = id
+        if (path != "") params.path = path
         return `${API_URL}play-all?${new URLSearchParams(params).toString()}`
     },
     /**

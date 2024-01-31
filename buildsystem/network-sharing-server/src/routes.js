@@ -34,7 +34,7 @@ const routes = [
     path: '/browse', meta: { showDisplayBar: true },
     children: [
       { path: '', component: BrowseList, name: 'BrowseList', meta: { showDisplayBar: true } },
-      { path: ':browseId', component: BrowseChild, name: 'BrowseChild', meta: { showDisplayBar: true } },
+      { path: ':browseId', component: BrowseChild, name: 'BrowseChild', meta: { showDisplayBar: true, showFAB: true, playAllType: "browser" } },
     ]
   },
   { path: '/playlists', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true } },

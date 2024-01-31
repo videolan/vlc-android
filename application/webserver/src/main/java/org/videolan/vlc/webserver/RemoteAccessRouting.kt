@@ -713,7 +713,25 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val id = call.request.queryParameters["id"]
             type?.let { type ->
 
-                val medias = appContext.getFromMl {
+                val medias = if (type == "browser") {
+                    val path = call.request.queryParameters["path"] ?: kotlin.run {
+                        call.respond(HttpStatusCode.NotFound)
+                        return@get
+                    }
+                    val decodedPath = Uri.decode(path)
+
+                    val dataset = LiveDataset<MediaLibraryItem>()
+                    var list: Pair<List<MediaLibraryItem>, ArrayList<Pair<Int, String>>>? = null
+                    val provider = withContext(Dispatchers.Main) {
+                        FileBrowserProvider(appContext, dataset, decodedPath, false, false, Medialibrary.SORT_FILENAME, false)
+                    }
+                    try {
+                        list = getMediaFromProvider( provider, dataset)
+                    } catch (e: Exception) {
+                        Log.e(this::class.java.simpleName, e.message, e)
+                    }
+                    list?.first?.map { it as MediaWrapper }?.toTypedArray()
+                } else appContext.getFromMl {
                     when (type) {
                         "video-group" -> {
                             id?.let { id ->
@@ -962,6 +980,18 @@ private suspend fun getLogsFiles(): List<LogFile> = withContext(Dispatchers.IO) 
 
 data class LogFile(val path:String, val type:String)
 
+
+private suspend fun getMediaFromProvider(provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>): Pair<List<MediaLibraryItem>, ArrayList<Pair<Int, String>>> {
+    dataset.await()
+    val descriptions = ArrayList<Pair<Int, String>>()
+    observeLiveDataUntil(1500, provider.descriptionUpdate) { pair ->
+        descriptions.add(pair)
+        val block = descriptions.size < dataset.getList().size
+        block
+    }
+   return Pair(dataset.getList(), descriptions)
+}
+
 /**
  * Get the content from a [BrowserProvider]
  * Gracefully (or not) waits for the [LiveData] to be set before sending the result back
@@ -972,15 +1002,10 @@ data class LogFile(val path:String, val type:String)
  * @return a populated list
  */
 private suspend fun getProviderContent(context:Context, provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>, idPrefix: Long): ArrayList<RemoteAccessServer.PlayQueueItem> {
-    dataset.await()
-    val descriptions = ArrayList<Pair<Int, String>>()
-    observeLiveDataUntil(1500, provider.descriptionUpdate) { pair ->
-        descriptions.add(pair)
-        val block = descriptions.size < dataset.getList().size
-        block
-    }
+    val mediaFromProvider = getMediaFromProvider(provider, dataset)
     val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
-    dataset.getList().forEachIndexed { index, mediaLibraryItem ->
+
+    mediaFromProvider.first.forEachIndexed { index, mediaLibraryItem ->
         val description = try {
             if (mediaLibraryItem is MediaWrapper && mediaLibraryItem.type != MediaWrapper.TYPE_DIR) {
                 if (mediaLibraryItem.uri.scheme.isSchemeFile()) {
@@ -990,7 +1015,7 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
                 } else
                     ""
             } else {
-                val unparsedDescription = descriptions.firstOrNull { it.first == index }?.second
+                val unparsedDescription = mediaFromProvider.second.firstOrNull { it.first == index }?.second
                 val folders = unparsedDescription.getFolderNumber()
                 val files = unparsedDescription.getFilesNumber()
                 if (folders > 0 && files > 0) {
