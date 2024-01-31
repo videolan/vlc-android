@@ -226,8 +226,8 @@ export default {
     },
     mounted: function () {
         this.appStore.$subscribe((mutation, state) => {
-            console.log(`Something changed in the app store: ${mutation} -> ${state}`)
-            if (mutation.events.key == "needRefresh" && mutation.events.newValue === true) {
+            if (state.needRefresh) {
+                this.$log.log(`A stream has changed!! Reloading with: ${JSON.stringify(state)}`)
                 this.fetchStreams();
                 this.appStore.needRefresh = false
             }

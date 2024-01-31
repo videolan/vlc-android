@@ -83,8 +83,8 @@ export default {
     },
     mounted: function () {
         this.appStore.$subscribe((mutation, state) => {
-            this.$log.log(`Something changed in the app store: ${mutation.events.key} -> ${state}`)
-            if (mutation.events.key == "needRefresh" && mutation.events.newValue === true) {
+            this.$log.log(`Something changed in the app store: ${JSON.stringify(state)}`)
+            if (state.needRefresh) {
                 this.fetchVideos();
                 this.appStore.needRefresh = false
             }
