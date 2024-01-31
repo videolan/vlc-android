@@ -2074,7 +2074,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             } else if (service.hasMedia() && !displayManager.isPrimary) {
                 onPlaying()
             } else {
-                service.loadLastPlaylist(PLAYLIST_TYPE_VIDEO_RESUME)
+                service.loadLastPlaylist(PLAYLIST_TYPE_ALL)
             }
             if (itemTitle != null) title = itemTitle
             if (overlayDelegate.isHudRightBindingInitialized()) {
