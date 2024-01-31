@@ -193,20 +193,20 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     override fun onClick(v: View) {
-        if(adapter.multiSelectHelper.getSelection().isEmpty()) addToNewPlaylist()
-        else {
+        addToNewPlaylist()
+        if(adapter.multiSelectHelper.getSelection().isNotEmpty()) {
             val selectedItems = adapter.multiSelectHelper.getSelection()
             playlistIterator = selectedItems.iterator()
             processNextItem()
         }
     }
+
     private fun processNextItem() {
         if (playlistIterator != null && playlistIterator!!.hasNext()) {
             val item = playlistIterator!!.next()
             currentItem = item
             saveToExistingPlaylists(item)
         } else {
-            // No more items to process
             playlistIterator = null
             currentItem = null
             dismiss()
@@ -227,8 +227,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 alreadyAdding.set(false)
                 return@launch
             }
-            dismiss()
             savePlaylist(medialibrary.createPlaylist(name, Settings.includeMissing, false) ?: return@launch, newTracks)
+            if(adapter.multiSelectHelper.getSelection().isEmpty()) dismiss()
         }
     }
 
