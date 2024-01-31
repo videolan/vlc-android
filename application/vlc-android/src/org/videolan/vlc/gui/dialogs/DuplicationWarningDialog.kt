@@ -1,6 +1,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
 
     private var duplicatesCount: Int = 0
     private var highlightsCount: Int = 0
+    private var playlistTitle: String = "this"
 
     override fun initialFocusedView(): View {
         return if (shouldShowThreeOptions())
@@ -31,6 +33,7 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
     override fun onCreate(savedInstanceState: Bundle?) {
         highlightsCount = arguments?.getInt(HIGHLIGHT_KEY)!!
         duplicatesCount = arguments?.getInt(DUPLICATION_KEY)!!
+        playlistTitle = arguments?.getString(TITLE_KEY)!!
         super.onCreate(savedInstanceState)
     }
 
@@ -76,7 +79,7 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
     }
 
     private fun setupSecondaryText(pluralSecondary: Int) {
-        val secondaryMessage = resources.getQuantityString(pluralSecondary, duplicatesCount, duplicatesCount)
+        val secondaryMessage = Html.fromHtml(resources.getQuantityString(pluralSecondary, duplicatesCount,playlistTitle))
         binding.secondaryTextview.text = secondaryMessage
     }
 
@@ -94,12 +97,14 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
 
         private const val HIGHLIGHT_KEY = "highlighted_items_count"
         private const val DUPLICATION_KEY = "duplicate_items_count"
+        private const val TITLE_KEY = "playlist_title"
 
-        fun newInstance(highlightedItemsCount: Int, duplicateItemsCount: Int) : DuplicationWarningDialog {
+        fun newInstance(highlightedItemsCount: Int, duplicateItemsCount: Int, playlistTitle: String) : DuplicationWarningDialog {
             return DuplicationWarningDialog().apply {
                 val args = Bundle()
                 args.putInt(HIGHLIGHT_KEY, highlightedItemsCount)
                 args.putInt(DUPLICATION_KEY, duplicateItemsCount)
+                args.putString(TITLE_KEY, playlistTitle)
                 arguments = args
             }
         }

@@ -809,7 +809,7 @@
     <string name="button_medialibrary_preferences">Go to Medialibrary preferences</string>
     <string name="light_theme">Light theme</string>
     <string name="add">Add</string>
-    <string name="add_to_new_playlist">Add to new playlist</string>
+    <string name="add_to_new_playlist">Add to new or selected playlist</string>
     <string name="resume_card_message">Resume playback of %1$s?</string>
     <string name="misc">Miscellaneous</string>
     <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
@@ -1071,12 +1071,12 @@
     <string name="banned_tv">Banned folder</string>
     <string name="banned_parent">Banned by parent folder</string>
     <plurals name="duplication_two_options_secondary">
-        <item quantity="one">This item is already in this playlist.</item>
-        <item quantity="other">These items are already in this playlist.</item>
+        <item quantity="one">This item is already in <![CDATA[<b>\"%s\"</b>]]> playlist.</item>
+        <item quantity="other">These items are already in <![CDATA[<b>\"%s\"</b>]]>  playlist.</item>
     </plurals>
     <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 of the selected items is already in this playlist.</item>
-        <item quantity="other">%d of the selected items are already in this playlist.</item>
+        <item quantity="one">1 of the selected items is already in <![CDATA[<b>\"%s\"</b>]]> playlist.</item>
+        <item quantity="other">%d of the selected items are already in <![CDATA[<b>\"%s\"</b>]]> playlist.</item>
     </plurals>
     <string name="official_website">Official website</string>
     <string name="view_online">View online</string>

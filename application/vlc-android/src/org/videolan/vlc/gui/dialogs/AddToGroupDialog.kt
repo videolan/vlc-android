@@ -154,7 +154,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         dismiss()
     }
 
-    override fun onClick(item: MediaLibraryItem) {
+    override fun onClick(item: MediaLibraryItem, position: Int) {
         when (item) {
             is DummyItem -> {
                 newGroupListener.invoke()

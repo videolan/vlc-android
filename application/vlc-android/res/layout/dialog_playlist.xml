@@ -72,14 +72,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/selected_playlist_count"
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:minHeight="0dp"
-                    android:text="@string/add_to_existing_playlist"
+                    android:text="0 selected"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dialog_playlist_name" />
 
@@ -93,7 +93,7 @@
                     android:textSize="12sp"
                     android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"
+                    app:layout_constraintTop_toBottomOf="@+id/selected_playlist_count"
                     tools:text="65 medias" />
 
             <ProgressBar
@@ -103,9 +103,9 @@
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                    app:layout_constraintStart_toEndOf="@+id/textView8"
-                    app:layout_constraintTop_toTopOf="@+id/textView8" />
+                    app:layout_constraintBottom_toBottomOf="@+id/selected_playlist_count"
+                    app:layout_constraintStart_toEndOf="@+id/selected_playlist_count"
+                    app:layout_constraintTop_toTopOf="@+id/selected_playlist_count" />
 
             <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/replaceSwitch"
