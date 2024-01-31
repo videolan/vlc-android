@@ -89,7 +89,7 @@
                 android:textColor="?attr/list_title"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/subtitle"
-            app:layout_constraintEnd_toStartOf="@+id/selected_check"
+                app:layout_constraintEnd_toStartOf="@+id/selected_check"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imageView8"
                 app:layout_constraintTop_toTopOf="@+id/imageView8"
@@ -120,5 +120,4 @@
             app:srcCompat="@drawable/ic_video_grid_check"
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

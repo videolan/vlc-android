@@ -809,7 +809,8 @@
     <string name="button_medialibrary_preferences">Go to Medialibrary preferences</string>
     <string name="light_theme">Light theme</string>
     <string name="add">Add</string>
-    <string name="add_to_new_playlist">Add to new or selected playlist</string>
+    <string name="add_to_new_playlist">Add to new playlist</string>
+    <string name="add_to_new_or_selected_playlist">Add to new or selected playlist</string>
     <string name="resume_card_message">Resume playback of %1$s?</string>
     <string name="misc">Miscellaneous</string>
     <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>

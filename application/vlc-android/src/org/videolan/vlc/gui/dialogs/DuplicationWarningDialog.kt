@@ -21,7 +21,7 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
 
     private var duplicatesCount: Int = 0
     private var highlightsCount: Int = 0
-    private var playlistTitle: String = "this"
+    private var playlistTitle: String = ""
 
     override fun initialFocusedView(): View {
         return if (shouldShowThreeOptions())

@@ -173,7 +173,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                     processNextItem()
                 }
                 CANCEL, NO_OPTION -> {
-                    // do nothing
+                    processNextItem()
                 }
             }
         }
