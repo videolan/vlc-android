@@ -56,7 +56,6 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
     inner class ViewHolder(handler: ClickHandler,  binding: SimpleItemBinding) :  SelectorViewHolder<SimpleItemBinding>(binding) {
         init {
             binding.handler = handler
-            binding.holder = this
         }
 
         override fun selectView(selected: Boolean) {

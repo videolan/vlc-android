@@ -33,9 +33,6 @@
             name="position"
             type="int" />
 
-        <variable
-            name="holder"
-            type="org.videolan.vlc.gui.SimpleAdapter.ViewHolder" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

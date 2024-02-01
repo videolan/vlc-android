@@ -1,13 +1,19 @@
 package org.videolan.vlc.gui.dialogs
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
-import android.text.Html
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import com.google.android.material.color.MaterialColors
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDuplicationWarningBinding
 
@@ -48,13 +54,21 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
             binding.addAllButton.setOnClickListener(this)
             binding.addNewButton.setOnClickListener(this)
             binding.cancelButton.setOnClickListener(this)
-            setupSecondaryText(R.plurals.duplication_three_options_secondary)
+            val pluralSecondary = R.plurals.duplication_three_options_secondary
+            val secondaryMessage = if (duplicatesCount == 1)
+                resources.getQuantityString(pluralSecondary, duplicatesCount,playlistTitle)
+            else
+                resources.getQuantityString(pluralSecondary, duplicatesCount,duplicatesCount,playlistTitle)
+            setupSecondaryText(secondaryMessage)
         } else {
             binding.addNewButton.visibility = View.GONE
             binding.addAllButton.text = resources.getString(R.string.add_button)
             binding.addAllButton.setOnClickListener(this)
             binding.cancelButton.setOnClickListener(this)
-            setupSecondaryText(R.plurals.duplication_two_options_secondary)
+            val pluralSecondary = R.plurals.duplication_two_options_secondary
+            val secondaryMessage = resources.getQuantityString(pluralSecondary, duplicatesCount,playlistTitle)
+
+            setupSecondaryText(secondaryMessage)
         }
     }
 
@@ -78,9 +92,14 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
         dismiss()
     }
 
-    private fun setupSecondaryText(pluralSecondary: Int) {
-        val secondaryMessage = Html.fromHtml(resources.getQuantityString(pluralSecondary, duplicatesCount,playlistTitle))
-        binding.secondaryTextview.text = secondaryMessage
+    private fun setupSecondaryText(secondaryMessage: String) {
+        val searchTitle = "\"$playlistTitle\""
+        val styledText = SpannableString.valueOf(secondaryMessage)
+        val startIndex = styledText.indexOf(searchTitle)
+        val endIndex = startIndex + searchTitle.length
+        styledText.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        styledText.setSpan(ForegroundColorSpan(MaterialColors.getColor(requireContext(), R.attr.font_default, Color.BLACK)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.secondaryTextview.text = styledText
     }
 
     private fun shouldShowThreeOptions() = duplicatesCount < highlightsCount
