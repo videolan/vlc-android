@@ -2,13 +2,13 @@
     <div v-if="loaded && this.artists.length !== 0" class="container container-sm">
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
             <template v-for="artist in artists" :key="artist.id">
-                <MediaListItem :media="artist" :mediaType="'artist'" />
+                <MediaItem :isCard="false" :media="artist" :mediaType="'artist'" />
 
             </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="artist in artists" :key="artist.id">
-                <MediaCardItem :media="artist" :mediaType="'artist'" />
+                <MediaItem :isCard="true" :media="artist" :mediaType="'artist'" />
             </div>
         </div>
     </div>
@@ -23,8 +23,7 @@ import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
-import MediaCardItem from '../components/MediaCardItem.vue'
-import MediaListItem from '../components/MediaListItem.vue'
+import MediaItem from '../components/MediaItem.vue'
 import EmptyView from '../components/EmptyView.vue'
 
 export default {
@@ -32,8 +31,7 @@ export default {
         ...mapStores(useAppStore),
     },
     components: {
-        MediaCardItem,
-        MediaListItem,
+        MediaItem,
         EmptyView,
     },
     data() {

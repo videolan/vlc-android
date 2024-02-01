@@ -2,12 +2,12 @@
     <div v-if="loaded && this.tracks.length !== 0" class="container">
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
             <template v-for="track in tracks" :key="track.id">
-                <MediaListItem :media="track" :downloadable="true" :mediaType="'track'" />
+                <MediaItem :isCard="false" :media="track" :downloadable="true" :mediaType="'track'" />
             </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="track in tracks" :key="track.id">
-                <MediaCardItem :media="track" :downloadable="true" :mediaType="'track'" />
+                <MediaItem :isCard="true" :media="track" :downloadable="true" :mediaType="'track'" />
             </div>
         </div>
     </div>
@@ -22,8 +22,7 @@ import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
-import MediaCardItem from '../components/MediaCardItem.vue'
-import MediaListItem from '../components/MediaListItem.vue'
+import MediaItem from '../components/MediaItem.vue'
 import EmptyView from '../components/EmptyView.vue'
 
 export default {
@@ -31,8 +30,7 @@ export default {
         ...mapStores(useAppStore)
     },
     components: {
-        MediaCardItem,
-        MediaListItem,
+        MediaItem,
         EmptyView,
     },
     data() {

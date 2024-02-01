@@ -2,12 +2,12 @@
     <div v-if="loaded && this.videos.length !== 0" class="container">
         <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
             <template v-for="video in videos" :key="video.id">
-                <MediaListItem :media="video" :downloadable="true" :mediaType="getMediaType(video)" />
+                <MediaItem :isCard="false" :media="video" :downloadable="true" :mediaType="getMediaType(video)" />
             </template>
         </div>
         <div v-else class="row gx-3 gy-3 media-content">
             <div class="col-md-3 col-sm-4 col-6" v-for="video in videos" :key="video.id">
-                <MediaCardItem :media="video" :downloadable="true" :mediaType="getMediaType(video)" />
+                <MediaItem :isCard="true" :media="video" :downloadable="true" :mediaType="getMediaType(video)" />
             </div>
         </div>
     </div>
@@ -23,14 +23,12 @@ import { vlcApi } from '../plugins/api.js'
 import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import EmptyView from '../components/EmptyView.vue'
-import MediaCardItem from '../components/MediaCardItem.vue'
-import MediaListItem from '../components/MediaListItem.vue'
+import MediaItem from '../components/MediaItem.vue'
 
 export default {
     components: {
         EmptyView,
-        MediaCardItem,
-        MediaListItem,
+        MediaItem,
     },
     computed: {
         ...mapStores(useAppStore)
