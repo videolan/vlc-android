@@ -98,6 +98,7 @@
 <script>
 
 import { useAppStore } from '../stores/AppStore'
+import { useBrowserStore } from '../stores/BrowserStore'
 import { mapStores } from 'pinia'
 import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
@@ -106,7 +107,7 @@ import EmptyView from '../components/EmptyView.vue'
 
 export default {
     computed: {
-        ...mapStores(useAppStore, ['needRefresh'])
+        ...mapStores(useAppStore, ['needRefresh'], useBrowserStore)
     },
     components: {
         MediaItem,
@@ -125,7 +126,7 @@ export default {
             forbidden: false,
             networkForbidden: false,
             newStream: {
-                "artist": "",
+                "artist": " ",
                 "artworkURL": "",
                 "id": -1,
                 "isFolder": true,
@@ -230,7 +231,15 @@ export default {
                 this.appStore.needRefresh = false
             }
         })
-
+        this.browserStore.$subscribe((mutation, state) => {
+            state.descriptions.forEach(description => {
+                this.storages.forEach(item => {
+                    if (item.path == description.path) {
+                        item.artist = description.description
+                    }
+                })
+            })
+        })
     },
 }
 </script>

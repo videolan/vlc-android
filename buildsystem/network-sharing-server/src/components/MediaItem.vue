@@ -1,40 +1,44 @@
 <template>
-    <div v-if="(isCard)" v-on:click="manageClick" class="ratio clickable" v-bind:class="(mainImgClasses())">
-        <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-top">
-        <div class="media-overlay" v-show="!isBrowse()">
-            <img class="overlay-play" :src="(isOpenable() ? `./icons/open.svg` : `./icons/play_circle_white.svg`)" width="48" />
+    <div v-if="(isCard)" >
+        <div v-on:click="manageClick" class="ratio clickable" v-bind:class="(mainImgClasses())">
+            <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-top">
+            <div class="media-overlay" v-show="!isBrowse()">
+                <img class="overlay-play" :src="(isOpenable() ? `./icons/open.svg` : `./icons/play_circle_white.svg`)"
+                    width="48" />
+            </div>
+            <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
+            <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played)" />
+
+            <div class="card-progress-container" v-show="(media.progress > 0)">
+                <div class="card-progress full"></div>
+                <div class="card-progress" v-bind:style="(getProgressStyle())"></div>
+            </div>
         </div>
-        <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
-        <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played)" />
+        <div class="d-flex">
 
-        <div class="card-progress-container" v-show="(media.progress > 0)">
-            <div class="card-progress full"></div>
-            <div class="card-progress" v-bind:style="(getProgressStyle())"></div>
-        </div>
-    </div>
-    <div v-if="(isCard)" class="d-flex">
+            <div class="card-body media-text flex1">
+                <h6 class="card-title text-truncate">{{ media.title }}</h6>
+                <p class="card-text text-truncate card-desc" v-bind:class="((!this.getDescription()) ? 'empty-desc' : '')">
+                    {{ getDescription() }}
+                </p>
 
-        <div class="card-body media-text flex1">
-            <h6 class="card-title text-truncate">{{ media.title }}</h6>
-            <p class="card-text text-truncate">{{ (mediaType == 'video') ? $readableDuration(media.length) : media.artist }}
-            </p>
+            </div>
+            <div class="dropdown dropstart overlay-more-container" v-show="!this.hideOverflow">
+                <ImageButton type="more_vert" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" />
+                <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
+                    <li> <span v-on:click="$play(media, this.mediaType, false, false)" class="dropdown-item"
+                            v-t="'PLAY'"></span> </li>
+                    <li> <span v-on:click="$play(media, this.mediaType, true, false)" class="dropdown-item"
+                            v-t="'APPEND'"></span> </li>
+                    <li> <span v-if="(mediaType == 'video')" v-on:click="$play(media, this.mediaType, false, true)"
+                            class="dropdown-item" v-t="'PLAY_AS_AUDIO'"></span> </li>
+                    <li v-if="(mediaType != 'file' && mediaType != 'folder')"> <span
+                            v-on:click="$download(media, this.mediaType, this.downloadable)" class="dropdown-item"
+                            v-t="'DOWNLOAD'"></span>
+                    </li>
 
-        </div>
-        <div class="dropdown dropstart overlay-more-container" v-show="!this.hideOverflow">
-            <ImageButton type="more_vert" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" />
-            <ul class="dropdown-menu media-more" aria-labelledby="dropdownMenuButton1">
-                <li> <span v-on:click="$play(media, this.mediaType, false, false)" class="dropdown-item"
-                        v-t="'PLAY'"></span> </li>
-                <li> <span v-on:click="$play(media, this.mediaType, true, false)" class="dropdown-item"
-                        v-t="'APPEND'"></span> </li>
-                <li> <span v-if="(mediaType == 'video')" v-on:click="$play(media, this.mediaType, false, true)"
-                        class="dropdown-item" v-t="'PLAY_AS_AUDIO'"></span> </li>
-                <li v-if="(mediaType != 'file' && mediaType != 'folder')"> <span
-                        v-on:click="$download(media, this.mediaType, this.downloadable)" class="dropdown-item"
-                        v-t="'DOWNLOAD'"></span>
-                </li>
-
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
     <div v-else class="d-flex clickable media-img-list-tr">
@@ -42,19 +46,21 @@
             <img v-if="this.mediaType == 'file'" v-lazy="$getImageUrl(media, media.fileType)" class="media-img-list">
             <img v-else v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-list">
             <div class="media-overlay" v-show="!isBrowse()">
-                <img class="overlay-play" :src="(isOpenable() ? `./icons/open.svg` : `./icons/play_circle_white.svg`)" width="24" />
+                <img class="overlay-play" :src="(isOpenable() ? `./icons/open.svg` : `./icons/play_circle_white.svg`)"
+                    width="24" />
             </div>
             <span v-if="(mediaType == 'video' && media.resolution != '')" class="resolution">{{ media.resolution }}</span>
         <img class="played" :src="(`./icons/played.svg`)" v-show="(media.played && mediaType == 'video')"/>
 
-        <div class="card-progress-container" v-show="(media.progress > 0)">
-            <div class="card-progress full"></div>
-            <div class="card-progress" v-bind:style="(getProgressStyle())"></div>
+            <div class="card-progress-container" v-show="(media.progress > 0)">
+                <div class="card-progress full"></div>
+                <div class="card-progress" v-bind:style="(getProgressStyle())"></div>
+            </div>
         </div>
-      </div>
         <div v-on:click="manageClick" class="card-body media-text flex1">
             <h6 class="card-title text-truncate">{{ media.title }}</h6>
-            <p class="card-text text-truncate subtitle" v-if="getDescription().length > 0">{{ getDescription() }}</p>
+            <p class="card-text text-truncate subtitle"
+                v-bind:class="((!this.getDescription()) ? 'empty-desc empty-desc-list' : '')">{{ getDescription() }}</p>
 
         </div>
         <div class="dropdown dropstart overlay-more-container" v-show="!this.hideOverflow">
@@ -94,7 +100,7 @@ export default {
             return ''
         },
         isBrowse() {
-            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream') 
+            return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream')
         },
         isOpenable() {
             return ['video-group', 'video-folder'].includes(this.mediaType)
@@ -122,7 +128,7 @@ export default {
         media: Object,
         downloadable: Boolean,
         mediaType: String,
-        isCard:Boolean,
+        isCard: Boolean,
         hideOverflow: {
             type: Boolean,
             default: false
@@ -130,3 +136,48 @@ export default {
     },
 }
 </script>
+
+
+<style lang='scss'>
+@import '../scss/colors.scss';
+
+.card-desc {
+    margin-top: 4px;
+}
+
+.empty-desc {
+    background: $hover-grey;
+    width: 100%;
+    height: 16px;
+    margin-top: 4px;
+    margin-bottom: 4px !important;
+    border-radius: 4px;
+}
+
+.empty-desc-list {
+    max-width: 250px;
+}
+
+.empty-desc:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: block;
+    animation: slide 1s infinite;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+    float: left;
+}
+
+/* animation */
+
+@keyframes slide {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}</style>

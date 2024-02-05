@@ -547,17 +547,31 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
             }
+            //Get content synchronously
             val dataset = LiveDataset<MediaLibraryItem>()
             val provider = withContext(Dispatchers.Main) {
                 StorageProvider(appContext, dataset, null)
             }
-            val list = try {
-                getProviderContent(appContext, provider, dataset, 1000L)
-            } catch (e: Exception) {
-                Log.e(this::class.java.simpleName, e.message, e)
-                call.respond(HttpStatusCode.InternalServerError)
-                return@get
+            // Launch asynchronous description calculations
+            getProviderDescriptions(appContext, scope, provider, dataset)
+            observeLiveDataUntil(5000, dataset) {
+                provider.loading.value == false
             }
+
+            val list = dataset.getList().mapIndexed { index, mediaLibraryItem ->
+                val path = when (mediaLibraryItem) {
+                    is MediaWrapper -> mediaLibraryItem.uri.toString()
+                    is Storage -> mediaLibraryItem.uri.toString()
+                    else -> throw IllegalStateException("Unrecognised media type")
+
+                }
+                val title = if ((provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile()) && mediaLibraryItem is MediaWrapper)
+                    mediaLibraryItem.fileName else mediaLibraryItem.title
+                val isFolder = if (mediaLibraryItem is MediaWrapper) mediaLibraryItem.type == MediaWrapper.TYPE_DIR else true
+                RemoteAccessServer.PlayQueueItem(1000L + index, title, mediaLibraryItem.description ?: "", 0, mediaLibraryItem.artworkMrl
+                        ?: "", false, "", path, isFolder)
+            }
+
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
@@ -591,7 +605,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
             RemoteAccessServer.getInstance(appContext).networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
-                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
             }
             val gson = Gson()
@@ -604,7 +618,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
             stream.forEachIndexed { index, mediaLibraryItem ->
-                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
             }
             val gson = Gson()
@@ -624,15 +638,42 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val decodedPath = Uri.decode(path)
 
             val dataset = LiveDataset<MediaLibraryItem>()
+            //Get content synchronously
             val provider = withContext(Dispatchers.Main) {
                 FileBrowserProvider(appContext, dataset, decodedPath, false, false, Medialibrary.SORT_FILENAME, false)
             }
-            val list = try {
-                getProviderContent(appContext, provider, dataset, 1000L)
-            } catch (e: Exception) {
-                Log.e(this::class.java.simpleName, e.message, e)
-                call.respond(HttpStatusCode.InternalServerError)
-                return@get
+            // Launch asynchronous description calculations (for folders)
+            getProviderDescriptions(appContext, scope, provider, dataset)
+            observeLiveDataUntil(2000, dataset) {
+                provider.loading.value == false
+            }
+
+            // synchronous descriptions (for files)
+            dataset.getList().forEach {
+                (it as? MediaWrapper)?.let {
+                    if (it.type != MediaWrapper.TYPE_DIR) {
+                        it.description = if (it.uri.scheme.isSchemeFile()) {
+                            it.uri.path?.let {
+                                Formatter.formatFileSize(appContext, File(it).length())
+                            } ?: ""
+                        } else
+                            " "
+                    }
+                }
+            }
+            val list = dataset.getList().mapIndexed { index, it ->
+                val path = when (it) {
+                    is MediaWrapper -> it.uri.toString()
+                    is Storage -> it.uri.toString()
+                    else -> throw IllegalStateException("Unrecognised media type")
+
+                }
+                val title = if (provider is FileBrowserProvider
+                        && (provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
+                        && it is MediaWrapper) it.fileName else it.title
+                val isFolder = if (it is MediaWrapper) it.type == MediaWrapper.TYPE_DIR else true
+                RemoteAccessServer.PlayQueueItem(1000L + index, title, it.description ?: "", 0, it.artworkMrl
+                        ?: "", false, "", path, isFolder)
             }
 
             //segments
@@ -984,13 +1025,60 @@ data class LogFile(val path:String, val type:String)
 private suspend fun getMediaFromProvider(provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>): Pair<List<MediaLibraryItem>, ArrayList<Pair<Int, String>>> {
     dataset.await()
     val descriptions = ArrayList<Pair<Int, String>>()
-    observeLiveDataUntil(1500, provider.descriptionUpdate) { pair ->
+    observeLiveDataUntil(5000, provider.descriptionUpdate) { pair ->
         descriptions.add(pair)
-        val block = descriptions.size < dataset.getList().size
-        block
+        //releasing once the number of descriptions is the same as the dataset
+        descriptions.size < dataset.getList().size
     }
    return Pair(dataset.getList(), descriptions)
 }
+
+private fun getProviderDescriptions(context: Context, scope: CoroutineScope, provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>) {
+    val descriptions = ArrayList<Pair<Int, String>>()
+    scope.launch(Dispatchers.IO) {
+
+        observeLiveDataUntil(20000, provider.descriptionUpdate) { pair ->
+
+            try {
+                (dataset.getList()[pair.first] as? MediaWrapper)?.let { datasetEntry ->
+                    val desc =
+                            if (datasetEntry.type != MediaWrapper.TYPE_DIR) {
+                                if (datasetEntry.uri.scheme.isSchemeFile()) {
+                                    datasetEntry.uri.path?.let {
+                                        Formatter.formatFileSize(context, File(it).length())
+                                    } ?: ""
+                                } else
+                                    ""
+                            } else {
+                                val unparsedDescription = pair.second
+                                val folders = unparsedDescription.getFolderNumber()
+                                val files = unparsedDescription.getFilesNumber()
+                                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                            }
+                    if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
+                        RemoteAccessWebSockets.sendToAll(Gson().toJson(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc)))
+                    }
+                }
+                (dataset.getList()[pair.first] as? Storage)?.let { datasetEntry ->
+
+                                val unparsedDescription = pair.second
+                                val folders = unparsedDescription.getFolderNumber()
+                                val files = unparsedDescription.getFilesNumber()
+                    val desc = "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                    if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
+                        RemoteAccessWebSockets.sendToAll(Gson().toJson(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc)))
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("RemoteAccess", e.message, e)
+            }
+            descriptions.add(pair)
+            //releasing once the number of descriptions is the same as the dataset
+            descriptions.size < dataset.getList().size
+        }
+    }
+}
+
 
 /**
  * Get the content from a [BrowserProvider]

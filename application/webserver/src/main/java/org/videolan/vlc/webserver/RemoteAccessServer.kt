@@ -744,6 +744,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
     data class LoginNeeded(val dialogOpened: Boolean) : WSMessage("login-needed")
     data class MLRefreshNeeded(val refreshNeeded: Boolean = true) : WSMessage("ml-refresh-needed")
+    data class BrowserDescription(val path: String, val description:String) : WSMessage("browser-description")
     data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage("playback-control-forbidden")
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
     data class BreadcrumbItem(val title: String, val path: String)

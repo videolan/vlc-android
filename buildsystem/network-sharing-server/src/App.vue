@@ -24,6 +24,7 @@ import AddStream from './components/AddStream.vue'
 import UploadDialog from './components/UploadDialog.vue'
 import { vlcApi } from './plugins/api.js'
 import { usePlayerStore } from './stores/PlayerStore'
+import { useBrowserStore } from './stores/BrowserStore'
 import { useAppStore } from './stores/AppStore'
 import { mapStores } from 'pinia'
 import http from './plugins/auth'
@@ -39,7 +40,7 @@ export default {
     UploadDialog,
   },
   computed: {
-    ...mapStores(usePlayerStore, useAppStore)
+    ...mapStores(usePlayerStore, useAppStore, useBrowserStore)
   },
   data() {
     return {
@@ -129,6 +130,9 @@ export default {
           case 'ml-refresh-needed':
             this.$log.info("ML refresh needed")
             this.appStore.needRefresh = true
+            break;
+          case 'browser-description':
+            this.browserStore.descriptions.push(msg)
             break;
         }
       }
