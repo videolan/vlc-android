@@ -1,5 +1,5 @@
 <template>
-    <div v-if="(isCard)" >
+    <div v-if="(isCard)" class="card">
         <div v-on:click="manageClick" class="ratio clickable" v-bind:class="(mainImgClasses())">
             <img v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-top">
             <div class="media-overlay" v-show="!isBrowse()">
@@ -14,11 +14,12 @@
                 <div class="card-progress" v-bind:style="(getProgressStyle())"></div>
             </div>
         </div>
-        <div class="d-flex">
+        <div class="d-flex align-items-end">
 
             <div class="card-body media-text flex1">
-                <h6 class="card-title text-truncate">{{ media.title }}</h6>
-                <p class="card-text text-truncate card-desc" v-bind:class="((!this.getDescription()) ? 'empty-desc' : '')">
+                <h6 class="text-truncate" data-bs-toggle="tooltip" data-bs-placement="left"
+                    :title="(media.title)">{{ media.title }}</h6>
+                <p class="card-text text-truncate subtitle" v-bind:class="((!this.getDescription()) ? 'empty-desc' : '')">
                     {{ getDescription() }}
                 </p>
 
@@ -83,6 +84,7 @@
 
 <script>
 import ImageButton from './ImageButton.vue'
+import { Tooltip } from 'bootstrap';
 export default {
     components: {
         ImageButton,
@@ -109,6 +111,7 @@ export default {
             if (this.mediaType == 'video') {
                 return `${this.$readableDuration(this.media.length)} · ${this.media.resolution}`
             } else {
+                if (this.isCard && this.media.artist == " ") return '\xa0'
                 return this.media.artist
             }
         },
@@ -134,16 +137,20 @@ export default {
             default: false
         }
     },
+    mounted() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new Tooltip(tooltipTriggerEl, {
+                trigger: 'hover'
+            })
+        })
+    }
 }
 </script>
 
 
 <style lang='scss'>
 @import '../scss/colors.scss';
-
-.card-desc {
-    margin-top: 4px;
-}
 
 .empty-desc {
     background: $hover-grey;
@@ -180,4 +187,5 @@ export default {
     100% {
         transform: translateX(100%);
     }
-}</style>
+}
+</style>

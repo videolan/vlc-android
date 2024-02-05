@@ -135,7 +135,6 @@ export default {
     position: absolute;
     bottom: 0;
     top: auto;
-    border-radius: 6px;
     overflow: hidden;
 }
 

@@ -16,6 +16,10 @@ $breadcrumb-border-radius: 8px;
 $breadcrumb-padding-y: 6px;
 $dropdown-link-active-bg: #ff7700;
 
+$card-spacer-y: 0.5rem;
+$card-spacer-x: 0.5rem;
+$card-bg: $lighter-grey;
+
 @import "~bootstrap/scss/_maps";
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/mixins";
@@ -179,6 +183,11 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.media-img-list-tr .media-overlay {
   border-radius: 6px;
 }
 
@@ -186,6 +195,11 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.media-img-list-tr .media-img-top {
   border-radius: 6px;
 }
 
@@ -240,8 +254,6 @@ body {
 }
 
 .card-body.media-text {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
   min-width: 0;
 }
 
@@ -273,6 +285,11 @@ body {
 
 .audio-img-container {
   background-color: $hover-grey;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.media-img-list-tr .audio-img-container {
   border-radius: 6px;
 }
 
