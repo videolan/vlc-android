@@ -1801,7 +1801,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val renderer = RendererLiveData()
         val restartPlayer = LiveEvent<Boolean>()
         val headSetDetection = LiveEvent<Boolean>()
-        val equalizer = LiveEvent<MediaPlayer.Equalizer>()
+        val equalizer = LiveEvent<MediaPlayer.Equalizer?>()
 
         private const val SHOW_TOAST = "show_toast"
         private const val END_MEDIASESSION = "end_mediasession"
