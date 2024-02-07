@@ -31,9 +31,9 @@
     </div>
     <div class="d-flex flex1 justify-content-end">
       <ImageButton type="cloud_off" class="blink" v-show="!appStore.socketOpened" v-on:click.stop="disconnectedClicked"
-        data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DISCONNECTED')" />
+        v-tooltip data-bs-placement="bottom" :title="$t('DISCONNECTED')" />
       <RouterLink :to="{ name: 'SearchList' }">
-        <ImageButton type="search" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('SEARCH')" />
+        <ImageButton type="search" v-tooltip data-bs-placement="bottom" :title="$t('SEARCH')" />
       </RouterLink>
       <div class="dropdown dropstart">
         <ImageButton type="more_vert" data-bs-toggle="dropdown" aria-expanded="false" />
@@ -50,12 +50,10 @@
     </div>
     <div class="navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
       <div class="flex1 d-flex align-items-center">
-        <ImageButton type="grid_view" v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"
-          v-show="this.appStore.displayType[this.$route.name]" data-bs-toggle="tooltip" data-bs-placement="bottom"
-          :title="$t('DISPLAY_GRID')" />
-        <ImageButton type="view_list" v-show="!this.appStore.displayType[this.$route.name]" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" :title="$t('DISPLAY_LIST')" aria-expanded="false"
-          v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)" />
+        <ImageButton :type="(this.appStore.displayType[this.$route.name]) ? 'grid_view' : 'view_list'" v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"
+        v-tooltip data-bs-placement="bottom"
+          :title="$t((this.appStore.displayType[this.$route.name]) ? 'DISPLAY_GRID': 'DISPLAY_LIST')" />
+
         <div class="dropdown" v-show="this.$route.meta.showGrouping">
           <button class="btn btn-lg image-button hidden-arrow" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
@@ -116,12 +114,12 @@
 
       <div class="flex1 d-flex justify-content-end align-items-center">
         <button class="btn btn-lg image-button" v-show="this.$route.meta.showFAB"
-        v-on:click.stop="$playAll(this.$route)" data-bs-toggle="tooltip" data-bs-placement="bottom"
+        v-on:click.stop="$playAll(this.$route)" v-tooltip data-bs-placement="bottom"
           :title="$t('PLAY_ALL')">
           <img class="image-button-image" v-bind:src="$getAppAsset('ic_ctx_play_all', 24)">
         </button>
         <button class="btn btn-lg image-button" v-show="this.$route.meta.showResume"
-          v-on:click.stop="$resumePlayback(this.$route.meta.isAudio)" data-bs-toggle="tooltip" data-bs-placement="bottom"
+          v-on:click.stop="$resumePlayback(this.$route.meta.isAudio)" v-tooltip data-bs-placement="bottom"
           :title="$t('RESUME_PLAYBACK')">
           <img class="image-button-image" v-bind:src="$getAppAsset('ic_resume_playback', 24)">
         </button>
@@ -134,7 +132,6 @@
 import { useAppStore } from '../stores/AppStore'
 import { useBrowserStore } from '../stores/BrowserStore'
 import { mapStores } from 'pinia'
-import { Tooltip } from 'bootstrap';
 import ImageButton from './ImageButton.vue'
 
 export default {
@@ -166,14 +163,6 @@ export default {
     ...mapStores(useAppStore),
     ...mapStores(useBrowserStore),
   },
-  mounted() {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new Tooltip(tooltipTriggerEl, {
-        trigger: 'hover'
-      })
-    })
-  }
 }
 </script>
 
