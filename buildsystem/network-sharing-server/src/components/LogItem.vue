@@ -29,6 +29,8 @@ export default {
   components: {
     ImageButton,
   },
+  emits: ['refresh-logs'],
+
   props: {
     logfile: Object
   },

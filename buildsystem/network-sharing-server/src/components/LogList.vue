@@ -31,7 +31,7 @@ export default {
     LogItem,
   },
   props: {
-    logs: []
+    logs: Array
   }
 
 }
