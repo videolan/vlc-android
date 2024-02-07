@@ -1,8 +1,8 @@
 <template>
     <div v-if="(isCard)" class="card">
         <div v-on:click="manageClick" class="ratio clickable" v-bind:class="(mainImgClasses())">
-            <img v-if="this.mediaType == 'file'" v-lazy="$getImageUrl(media, media.fileType)" class="media-img-top">
-            <img v-else v-lazy="$getImageUrl(media, this.mediaType)" class="media-img-top">
+            <img v-if="this.mediaType == 'file'" v-lazy="$getImageUrl(media, `${media.fileType}_big`)" class="media-img-top">
+            <img v-else v-lazy="$getImageUrl(media, `${this.mediaType}_big`)" class="media-img-top">
             <div class="media-overlay" v-show="!isBrowse()">
                 <img class="overlay-play" :src="(isOpenable() ? `./icons/open.svg` : `./icons/play_circle_white.svg`)"
                     width="48" />

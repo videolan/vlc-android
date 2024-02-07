@@ -914,7 +914,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     return@get
                 }
             }
-            if (call.request.queryParameters["type"] == "video-folder") {
+            if (type == "video-folder") {
                 call.request.queryParameters["id"]?.let { id ->
                     val folder = appContext.getFromMl {
                         getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
@@ -927,13 +927,13 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                             }
                         }
                 }
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (type.endsWith("_big")) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
             }
             if (type == "new-stream" || type == "new-stream_big") {
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type?.endsWith("_big") == true) R.drawable.ic_remote_stream_add_big else R.drawable.ic_remote_stream_add, 256, 256), true)?.let {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type.endsWith("_big")) R.drawable.ic_remote_stream_add_big else R.drawable.ic_remote_stream_add, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
