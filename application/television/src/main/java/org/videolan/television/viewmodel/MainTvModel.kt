@@ -86,6 +86,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val nowPlaying: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val favoritesList: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val history: LiveData<List<MediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
@@ -230,12 +231,14 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private suspend fun updateBrowsers() {
-        val list = mutableListOf<MediaLibraryItem>()
+        val favList = mutableListOf<MediaLibraryItem>()
         updatedFavoriteList.forEach {
             it.description = it.uri.scheme
             it.addFlags(FAVORITE_FLAG)
-            list.add(it)
+            favList.add(it)
         }
+        (favoritesList as MutableLiveData).value = favList
+        val list = mutableListOf<MediaLibraryItem>()
         val directories = DirectoryRepository.getInstance(context).getMediaDirectoriesList(context).toMutableList()
         if (!showInternalStorage && directories.isNotEmpty()) directories.removeAt(0)
         directories.forEach { if (it.location.scanAllowed()) list.add(it) }

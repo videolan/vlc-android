@@ -97,6 +97,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
     private lateinit var playlistAdapter: ArrayObjectAdapter
+    private lateinit var favoritesAdapter: ArrayObjectAdapter
     private lateinit var browserAdapter: ArrayObjectAdapter
     private lateinit var otherAdapter: ArrayObjectAdapter
 
@@ -107,6 +108,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
     private lateinit var playlistRow: ListRow
+    private lateinit var favoritesRow: ListRow
     private lateinit var browsersRow: ListRow
     private lateinit var miscRow: ListRow
 
@@ -177,6 +179,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         playlistRow = ListRow(playlistHeader, playlistAdapter)
 //        rowsAdapter.add(playlistRow)
 
+        favoritesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
+        val favoritesHeader = HeaderItem(HEADER_PLAYLISTS, getString(R.string.favorites))
+        favoritesRow = ListRow(favoritesHeader, favoritesAdapter)
+
         //Browser section
         browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val browserHeader = HeaderItem(HEADER_NETWORK, getString(R.string.browsing))
@@ -241,6 +247,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             browserAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NETWORK)
         }
+        model.favoritesList.observe(requireActivity()) {
+            favoritesAdapter.setItems(it, diffCallback)
+        }
         model.audioCategories.observe(requireActivity()) {
             categoriesAdapter.setItems(it.toList(), diffCallback)
             addAndCheckLoadedLines(HEADER_CATEGORIES)
@@ -297,7 +306,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun resetLines() {
-        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
+        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow, audioRow, playlistRow, historyRow, favoritesRow, browsersRow, miscRow).filter {
             when {
                 !displayRecentlyPlayed && it == recentlyPlayedRow -> false
                 !displayRecentlyAdded && it == recentlyAdddedRow -> false
