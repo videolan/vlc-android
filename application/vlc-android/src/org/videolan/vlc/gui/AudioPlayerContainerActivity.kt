@@ -536,7 +536,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
         val visibility = if (show) View.VISIBLE else View.GONE
         if (scanProgressLayout?.visibility == visibility) return
         if (show) {
-            scheduler.scheduleAction(ACTION_DISPLAY_PROGRESSBAR, 1000L, bundleOf("discovery" to discovery))
+            scheduler.scheduleAction(ACTION_DISPLAY_PROGRESSBAR, 100L, bundleOf("discovery" to discovery))
         } else {
             scheduler.cancelAction(ACTION_DISPLAY_PROGRESSBAR)
             scanProgressLayout.setVisibility(visibility)
