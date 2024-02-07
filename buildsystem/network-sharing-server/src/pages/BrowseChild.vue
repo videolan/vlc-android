@@ -1,6 +1,6 @@
 <template>
-    <div v-if="loaded && this.browseResult.length !== 0" class="container media-list">
-        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3">
+    <div v-if="loaded && this.browseResult.length !== 0" class="container">
+        <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3  media-list">
             <template v-for="item in browseResult" :key="item.id">
                 <MediaItem :isCard="false" :media="item" :mediaType="(item.isFolder) ? 'folder' : 'file'"/>
             </template>
