@@ -662,18 +662,26 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }
             }
             val list = dataset.getList().mapIndexed { index, it ->
-                val path = when (it) {
+                val filePath = when (it) {
                     is MediaWrapper -> it.uri.toString()
                     is Storage -> it.uri.toString()
                     else -> throw IllegalStateException("Unrecognised media type")
 
                 }
-                val title = if (provider is FileBrowserProvider
-                        && (provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
+                val title = if ((provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
                         && it is MediaWrapper) it.fileName else it.title
                 val isFolder = if (it is MediaWrapper) it.type == MediaWrapper.TYPE_DIR else true
+                var fileType = "folder"
+                if (!isFolder) {
+                    fileType = when ((it as MediaWrapper).type) {
+                        MediaWrapper.TYPE_AUDIO -> "audio"
+                        MediaWrapper.TYPE_VIDEO -> "video"
+                        MediaWrapper.TYPE_SUBTITLE -> "subtitle"
+                        else -> "file"
+                    }
+                }
                 RemoteAccessServer.PlayQueueItem(1000L + index, title, it.description ?: "", 0, it.artworkMrl
-                        ?: "", false, "", path, isFolder)
+                        ?: "", false, "", filePath, isFolder, fileType = fileType)
             }
 
             //segments
@@ -1128,17 +1136,8 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
                 && (provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
                 && mediaLibraryItem is MediaWrapper) mediaLibraryItem.fileName else mediaLibraryItem.title
         val isFolder = if (mediaLibraryItem is MediaWrapper) mediaLibraryItem.type == MediaWrapper.TYPE_DIR else true
-        var type = "folder"
-        if (!isFolder) {
-            type = when ((mediaLibraryItem as MediaWrapper).type) {
-                MediaWrapper.TYPE_AUDIO -> "audio"
-                MediaWrapper.TYPE_VIDEO -> "video"
-                MediaWrapper.TYPE_SUBTITLE -> "subtitle"
-                else -> "file"
-            }
-        }
         list.add(RemoteAccessServer.PlayQueueItem(idPrefix + index, title, description, 0, mediaLibraryItem.artworkMrl
-                ?: "", false, "", path, isFolder, fileType = type))
+                ?: "", false, "", path, isFolder))
     }
     return list
 }
