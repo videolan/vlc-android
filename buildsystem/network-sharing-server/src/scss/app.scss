@@ -20,13 +20,18 @@ $card-spacer-y: 0.5rem;
 $card-spacer-x: 0.5rem;
 $card-bg: $lighter-grey;
 
+@import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap/scss/_maps";
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/bootstrap.scss";
+
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+
 
 :root {
   --bs-link-hover-color: #ff7700;
+  --bs-btn-hover-color: #ff610a;
 }
 
 @import "input-range";
@@ -72,8 +77,8 @@ main {
 // Check out the MDC Web documentation for how to use MDC Typography Sass mixins:
 // https://github.com/material-components/material-components-web/tree/master/packages/mdc-typography
 body {
-  background: $background;
-  color: $text-color;
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
