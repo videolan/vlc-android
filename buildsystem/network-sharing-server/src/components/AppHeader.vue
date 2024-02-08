@@ -45,6 +45,13 @@
             <RouterLink class="dropdown-item" :to="{ name: 'Logs' }" v-t="'LOG_FILE'">
             </RouterLink>
           </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a v-on:click="changeTheme" class="dropdown-item clickable">
+              <img  class="image-button" :src="(`./icons/checked.svg`)"  v-show="(this.appStore.darkTheme)"/>
+            <span  v-t="'DARK_THEME'"></span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -157,6 +164,9 @@ export default {
     },
     isActive(mode) {
       return this.appStore.videoGrouping == mode
+    },
+    changeTheme () {
+      this.appStore.darkTheme = !this.appStore.darkTheme
     }
   },
   computed: {

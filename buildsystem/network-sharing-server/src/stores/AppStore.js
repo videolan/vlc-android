@@ -16,6 +16,7 @@ export const useAppStore = defineStore('app', {
     socketOpened: true,
     showAddStream: false,
     needRefresh: false,
+    darkTheme: reactive(useLocalStorage('darkTheme',false)),
     title: ""
   }),
   getters: {

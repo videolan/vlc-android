@@ -1,5 +1,6 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
+// @import "~bootstrap/scss/variables-dark";
 @import "colors";
 
 $custom-theme-colors: map-merge($theme-colors, ("primary": $primary-color,
@@ -24,6 +25,11 @@ $card-bg: $lighter-grey;
 @import "~bootstrap/scss/_maps";
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/mixins";
+
+// @include color-mode(dark) {
+//   // CSS variable overrides here...
+//   --bs-body-bg: var(--bs-blue);
+// }
 
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";

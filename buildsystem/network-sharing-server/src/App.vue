@@ -179,7 +179,24 @@ export default {
     } else {
       this.startWS()
     }
-  }
+
+    if (this.appStore.darkTheme) {
+      document.documentElement.setAttribute('data-bs-theme', 'dark')
+    } else {
+      document.documentElement.removeAttribute('data-bs-theme')
+    }
+
+  },
+  mounted: function () {
+    this.appStore.$subscribe((mutation, state) => {
+      if (state.darkTheme) {
+        document.documentElement.setAttribute('data-bs-theme', 'dark')
+      } else {
+        document.documentElement.removeAttribute('data-bs-theme')
+      }
+    })
+
+  },
 }
 </script>
 
