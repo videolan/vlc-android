@@ -77,6 +77,10 @@
                 name="isPresent"
                 type="boolean" />
 
+        <variable
+                name="showSeen"
+                type="boolean" />
+
     </data>
 
     <org.videolan.television.ui.FocusableConstraintLayout
@@ -132,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 vlc:srcCompat="@drawable/ic_seen_normal"
-                android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE}"
+                android:visibility="@{seen == 0L || !showSeen ? View.GONE : View.VISIBLE}"
                 vlc:layout_constraintRight_toRightOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"/>
 

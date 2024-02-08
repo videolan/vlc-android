@@ -25,6 +25,7 @@ import org.videolan.resources.interfaces.FocusListener
 import org.videolan.television.databinding.MediaBrowserTvItemBinding
 import org.videolan.television.databinding.MediaBrowserTvItemListBinding
 import org.videolan.television.ui.browser.TvAdapterUtils
+import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
@@ -44,6 +45,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
 
     private val defaultCover: BitmapDrawable?
     private var focusListener: FocusListener? = null
+    private var seenMediaMarkerVisible: Boolean  =true
 
     init {
         val ctx: Context? = when (eventsHandler) {
@@ -52,6 +54,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             else -> null
         }
         defaultCover = ctx?.let { getMediaIconDrawable(it, type, true) }
+        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean("media_seen", true) }
+                ?: true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
@@ -198,6 +202,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                     }
                 }
             }
+            binding.showSeen = seenMediaMarkerVisible
             if (AndroidUtil.isLolliPopOrLater) binding.container.clipToOutline = true
         }
 
@@ -282,6 +287,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                 }
             }
             binding.container.clipToOutline = true
+            binding.showSeen = seenMediaMarkerVisible
         }
 
         override fun recycle() {

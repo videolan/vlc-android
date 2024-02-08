@@ -54,14 +54,14 @@ public const val FAVORITE_FLAG = 1000
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class CardPresenter(private val context: Activity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
 
-    private var mIsSeenMediaMarkerVisible = true
+    private var seenMediaMarkerVisible = true
     private var sDefaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_default_cone, context.theme)
 
     private val imageDefaultWidth: Float by lazy { context.resources.getDimension(R.dimen.tv_grid_card_thumb_width) }
     private val seenDrawable: Drawable? by lazy { VectorDrawableCompat.create(context.resources, R.drawable.ic_seen_tv_normal, context.theme) }
 
     init {
-        mIsSeenMediaMarkerVisible = Settings.getInstance(context).getBoolean("media_seen", true)
+        seenMediaMarkerVisible = Settings.getInstance(context).getBoolean("media_seen", true)
 
     }
 
@@ -145,7 +145,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                 holder.cardView.titleText = item.title
                 holder.cardView.contentText = item.description
                 holder.updateCardViewImage(item)
-                if (mIsSeenMediaMarkerVisible
+                if (seenMediaMarkerVisible
                         && item.type == MediaWrapper.TYPE_VIDEO
                         && item.seen > 0L)
                     holder.cardView.badgeImage = seenDrawable
@@ -202,14 +202,14 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                         Tools.setMediaDescription(mediaWrapper)
                         holder.cardView.contentText = mediaWrapper.description
                         if (mediaWrapper.time <= 0) {
-                            if (mIsSeenMediaMarkerVisible && item.type == MediaWrapper.TYPE_VIDEO
+                            if (seenMediaMarkerVisible && item.type == MediaWrapper.TYPE_VIDEO
                                     && item.seen > 0L)
                                 holder.cardView.badgeImage = seenDrawable
                         }
                     }
                     UPDATE_SEEN -> {
                         val mw = item as MediaWrapper
-                        if (mIsSeenMediaMarkerVisible && mw.type == MediaWrapper.TYPE_VIDEO && mw.seen > 0L)
+                        if (seenMediaMarkerVisible && mw.type == MediaWrapper.TYPE_VIDEO && mw.seen > 0L)
                             holder.cardView.badgeImage = seenDrawable
                     }
                 }

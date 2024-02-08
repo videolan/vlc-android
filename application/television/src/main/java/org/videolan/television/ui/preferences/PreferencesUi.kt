@@ -127,6 +127,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+            "media_seen" -> (activity as PreferencesActivity).setRestart()
         }
         return super.onPreferenceTreeClick(preference)
     }
