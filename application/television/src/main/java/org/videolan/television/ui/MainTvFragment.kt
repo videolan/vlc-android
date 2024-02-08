@@ -117,6 +117,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var displayNowPlaying = false
     private var displayRecentlyPlayed = false
     private var displayRecentlyAdded = false
+    private var displayFavorites = false
     private var selectedItem: Any? = null
 
     private var lines: Int = 7
@@ -248,6 +249,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             addAndCheckLoadedLines(HEADER_NETWORK)
         }
         model.favoritesList.observe(requireActivity()) {
+            displayFavorites = it.isNotEmpty()
             favoritesAdapter.setItems(it, diffCallback)
         }
         model.audioCategories.observe(requireActivity()) {
@@ -313,6 +315,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 !displayHistory && it == historyRow -> false
                 !displayPlaylist && it == playlistRow -> false
                 !displayNowPlaying && it == nowPlayingRow -> false
+                !displayFavorites && it == favoritesRow -> false
                 else -> true
             }
 
