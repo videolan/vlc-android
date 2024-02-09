@@ -112,12 +112,14 @@ export const vlcApi = {
      * Retrieve the app asset icon API URL
      * @param {Number} id the asset id 
      * @param {Number} width the img width
+     * @param {Boolean} preventTint if true, preserve the source colors
      * @returns the URL
      */
-    appAsset: (id, width) => {
+    appAsset: (id, width, preventTint) => {
         const params = {}
         if (id) params.id = id
         if (width) params.width = width
+        if (preventTint) params.preventTint = preventTint
         return `${API_URL}icon?${new URLSearchParams(params).toString()}`
     },
     /**

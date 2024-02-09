@@ -15,9 +15,9 @@ export default {
             const hours = Math.floor((ms / (3600 * 1000)) % 3600)
             return `${hours == 0 ? '' : hours + ":"}${hours == 0 && minutes < 10 ? minutes : minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
         }
-        app.config.globalProperties.$getAppAsset = (name, width) => {
+        app.config.globalProperties.$getAppAsset = (name, width, preventTint) => {
             if (width < 0 || width === undefined) width = 24
-            return vlcApi.appAsset(name, width)
+            return vlcApi.appAsset(name, width, preventTint)
         }
 
         app.config.globalProperties.$getImageUrl = (media, mediaType) => {

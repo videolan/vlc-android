@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Build
 import android.text.format.Formatter
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import com.google.gson.Gson
@@ -98,6 +99,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.BrowserProvider
@@ -265,6 +267,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     get("/icon") {
         val idString = call.request.queryParameters["id"]
         val width = call.request.queryParameters["width"]?.toInt() ?: 32
+        val preventTint = call.request.queryParameters["preventTint"]?.toBoolean() ?: false
 
         val id = try {
             appContext.resIdByName(idString, "drawable")
@@ -277,8 +280,12 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             call.respond(HttpStatusCode.NotFound)
             return@get
         }
+        val bmp = if (preventTint)
+            BitmapUtil.vectorToBitmap(appContext, id, width, width)
+        else
+            appContext.getColoredBitmapFromColor(id, ContextCompat.getColor(appContext, R.color.black), width, width)
 
-        BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, id, width, width), true)?.let {
+        BitmapUtil.encodeImage(bmp, true)?.let {
 
             call.respondBytes(ContentType.Image.PNG) { it }
             return@get
