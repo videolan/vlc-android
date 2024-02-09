@@ -3,7 +3,7 @@
     @dragenter.prevent="setDragging(true)" @dragover.prevent="setDragging(true)" @dragleave.prevent="setDragging(false)"
     @drop.prevent="onDrop">
     <div class="drop-files-content">
-      <img class="image-button-image" :src="(`./icons/file_upload.svg`)" width="82" />
+      <img class="image-button-image image-button" :src="(`./icons/file_upload.svg`)" width="82" />
       <p v-t="'DROP_FILES_TIP'"></p>
     </div>
   </div>
@@ -159,14 +159,14 @@ export default {
 .drop-files.active {
   opacity: 1;
   visibility: visible;
-  background-color: $light-grey-transparent;
+  background-color: var(--progress-background);
 }
 
 .drop-files-content {
   border: 3px dashed $primary-color;
   padding: 32px;
   border-radius: 16px;
-  background-color: $light-grey;
+  background-color: var(--light-gray);
   opacity: 1;
   display: flex;
   flex-direction: column;
@@ -183,7 +183,7 @@ export default {
   right: 16px;
   width: 450px;
   z-index: 1023;
-  background-color: $light-grey;
+  background-color: var(--light-gray);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.075) !important
@@ -191,7 +191,7 @@ export default {
 
 .uploads-header {
   height: 64px;
-  background-color: $lighter-grey;
+  background-color: var(--bs-card-bg);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-light navbar-expand-md shadow-sm sticky-top align-items-center container-fluid main-navbar">
     <RouterLink class="flex1" :to="{ name: 'VideoList' }">
-      <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48)" width="48">
+      <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48, true)" width="48">
     </RouterLink>
     <div class="d-flex justify-content-center">
       <RouterLink :to="{ name: 'VideoList' }">
@@ -55,7 +55,7 @@
         </ul>
       </div>
     </div>
-    <div class="navtabs-container border-top" v-show="this.$route.meta.showDisplayBar">
+    <div class="navtabs-container border-bottom" v-show="this.$route.meta.showDisplayBar">
       <div class="flex1 d-flex align-items-center">
         <ImageButton :type="(this.appStore.displayType[this.$route.name]) ? 'grid_view' : 'view_list'" v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"
         v-tooltip data-bs-placement="bottom"
@@ -180,7 +180,6 @@ export default {
 @import '../scss/colors.scss';
 
 .navbar.navbar-light {
-  background-color: $light-grey;
   border-radius: 0;
   padding: 0;
 }
@@ -199,6 +198,11 @@ export default {
   filter: invert(61%) sepia(64%) saturate(4340%) hue-rotate(358deg) brightness(99%) contrast(109%);
 }
 
+.nav-button img {
+  color: $primary-color;
+  filter: var(--img-tint);
+}
+
 .nav-button p {
   font-size: 0.7em;
   font-weight: 500;
@@ -210,7 +214,6 @@ export default {
 
 .navtabs-container {
   flex-basis: 100%;
-  background-color: $lighter-grey;
   display: flex;
 }
 
@@ -219,7 +222,7 @@ export default {
 }
 
 .navtabs .nav-link {
-  color: #212529;
+   color: var(--bs-btn-color);
 }
 
 .navtabs .nav-link.active {

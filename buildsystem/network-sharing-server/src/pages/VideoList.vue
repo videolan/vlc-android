@@ -50,6 +50,7 @@ export default {
             let folderId = this.$route.params.folderId
             http.get(vlcApi.videoList(this.appStore.videoGrouping, groupId, folderId))
                 .catch(function (error) {
+                    component.appStore.loading = false
                     if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
                     }
@@ -147,6 +148,6 @@ export default {
 
 .card-progress.full {
     width: 100%;
-    background-color: $light-grey-transparent;
+    background-color: var(--progress-background);
 }
 </style>

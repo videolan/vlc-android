@@ -1,6 +1,6 @@
 <template>
   <td class="align-middle text-center" :class="{ 'current-log': logfile.path == '' }">
-    <img class="image-button-image" :src="(this.getImageByType(logfile.type))" width="24" v-tooltip
+    <img class="image-button-image image-button" :src="(this.getImageByType(logfile.type))" v-tooltip
       data-bs-placement="bottom" :title="$t(this.getTitleByType(logfile.type))" />
   </td>
   <td class="align-middle w-auto" :class="{ 'current-log': logfile.path == '' }">
@@ -93,7 +93,7 @@ export default {
 }
 
 .table .current-log {
-  background-color: $primary-extra-light;
+  background-color: var(--hover-gray);
 }
 
 .log-download {

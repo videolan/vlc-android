@@ -1,7 +1,7 @@
 <template>
   <div class="all-center container">
-    <div class="error-container all-center">
-      <img v-bind:src="$getAppAsset('ic_empty', 64)">
+    <div class="error-container all-center card">
+      <img v-bind:src="$getAppAsset('ic_empty', 64, true)">
       <p>{{ message }}</p>
     </div>
   </div>
@@ -30,15 +30,13 @@ export default {
 }
 
 .error-container {
-  background-color: $lighter-grey;
   padding: 24px;
   border-radius: 8px;
-  border: 2px solid $grey-border;
 }
 
 .all-center p {
   margin-top: 8px;
-  color: $grey-text;
+  color: var(--secondary-text);
   font-size: 0.9em;
 }
 </style>

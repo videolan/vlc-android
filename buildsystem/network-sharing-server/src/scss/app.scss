@@ -1,7 +1,11 @@
+@import "colors";
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-// @import "~bootstrap/scss/variables-dark";
-@import "colors";
+@import "~bootstrap/scss/variables-dark";
+
+
+
+
 
 $custom-theme-colors: map-merge($theme-colors, ("primary": $primary-color,
       "secondary": $primary-color-dark,
@@ -11,7 +15,7 @@ $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 $breadcrumb-divider: quote(">");
 $breadcrumb-divider-color: $primary-color;
 $breadcrumb-margin-bottom: 0;
-$breadcrumb-bg: $background;
+$breadcrumb-bg: var(--breadcrumb-bg);
 $breadcrumb-padding-x: 1rem;
 $breadcrumb-border-radius: 8px;
 $breadcrumb-padding-y: 6px;
@@ -19,25 +23,50 @@ $dropdown-link-active-bg: #ff7700;
 
 $card-spacer-y: 0.5rem;
 $card-spacer-x: 0.5rem;
-$card-bg: $lighter-grey;
 
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap/scss/_maps";
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/mixins";
 
-// @include color-mode(dark) {
-//   // CSS variable overrides here...
-//   --bs-body-bg: var(--bs-blue);
-// }
 
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 
 
 :root {
-  --bs-link-hover-color: #ff7700;
+  --bs-link-hover-color: #ff610a;
   --bs-btn-hover-color: #ff610a;
+  --img-tint: invert(46%) sepia(2%) saturate(16%) hue-rotate(33deg) brightness(98%) contrast(92%);
+  --secondary-text: #{$gray-text};
+  --progress-background: #{$progress-background};
+  --bs-card-bg: #{$lighter-gray};
+  --hover-gray: #{$hover-gray};
+  --light-gray: #{$light-gray};
+  --breadcrumb-bg: #{$lighter-gray};
+  --placeholder-animation: rgba(255, 255, 255, 0.3);
+
+  .card {
+    --bs-card-bg: #{$lighter-gray};
+  }
+}
+
+[data-bs-theme="dark"] {
+  --bs-body-bg: #111;
+  --bs-link-hover-color: #ff610a;
+  --bs-btn-hover-color: #ff610a;
+  --img-tint: invert(99%) sepia(1%) saturate(1438%) hue-rotate(191deg) brightness(112%) contrast(80%);
+  --secondary-text: #{$gray-text-dark};
+  --progress-background: #{$progress-background-dark};
+  --bs-card-bg: #{$gray-900};
+  --hover-gray: #{$dark-background};
+  --light-gray: #{$light-gray-dark};
+  --breadcrumb-bg: #{$gray-900};
+  --placeholder-animation: rgba(255, 255, 255, 0.03);
+
+  .card {
+    --bs-card-bg: #{$gray-900};
+  }
 }
 
 @import "input-range";
@@ -216,7 +245,7 @@ body {
 
 .media-img-list[lazy=loading],
 .media-img-top[lazy=loading] {
-  background-color: $light-grey;
+  background-color: var(--bs-card-bg);
 }
 
 .media-img-list {
@@ -295,7 +324,7 @@ body {
 }
 
 .audio-img-container {
-  background-color: $hover-grey;
+  background-color: var(--bs-body-bg);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
@@ -312,10 +341,10 @@ body {
   margin-top: 4px;
   margin-bottom: 4px;
   margin-left: 24px;
-  border: 1px solid $hover-grey;
+  border: 1px solid var(--hover-gray);
   overflow: auto;
 }
 
 .subtitle {
-  color: $grey-text;
+  color: var(--secondary-text);
 }

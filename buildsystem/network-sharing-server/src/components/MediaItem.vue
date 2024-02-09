@@ -154,7 +154,7 @@ export default {
 @import '../scss/colors.scss';
 
 .empty-desc {
-    background: $hover-grey;
+    background: var(--hover-gray);
     width: 100%;
     height: 16px;
     margin-top: 4px;
@@ -173,8 +173,8 @@ export default {
     top: 0;
     left: 0;
     display: block;
-    animation: slide 1s infinite;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+    animation: slide 1.5s infinite;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, var(--placeholder-animation) 50%, rgba(0, 0, 0, 0) 100%);
     float: left;
 }
 

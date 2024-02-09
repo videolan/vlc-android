@@ -259,7 +259,7 @@ export default {
 
 #player {
   width: 100%;
-  color: #000;
+  color: var(--bs-heading-color);
   align-items: center;
   z-index: 1022;
 }
@@ -272,11 +272,11 @@ export default {
   padding-right: 16px;
   padding-top: 8px;
   padding-bottom: 8px;
-  background: $light-grey;
+  background: var(--bs-card-bg);
 }
 
 .progress-container {
-  background: linear-gradient(transparent 60%, $light-grey 60%);
+  background: linear-gradient(transparent 60%, var(--bs-card-bg) 60%);
   position: absolute;
   margin-top: -14px;
   width: 100vw;
@@ -318,7 +318,7 @@ export default {
 #duration {
   padding-left: 8px;
   padding-right: 8px;
-  background-color: $light-grey;
+  background-color: var(--light-gray);
   border-radius: 8px 8px 0px 0px;
   position: absolute;
   top: -10px;
@@ -350,6 +350,10 @@ export default {
   height: 27px;
   vertical-align: middle;
   line-height: 27px;
+}
+
+#artist {
+  color: var(--secondary-text);
 }
 
 
