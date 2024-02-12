@@ -201,6 +201,11 @@ export default {
 </script>
 
 <style>
+
+main {
+  padding-bottom: 48px;
+}
+
 ::-webkit-scrollbar {
   height: 5px;
   width: 5px;
