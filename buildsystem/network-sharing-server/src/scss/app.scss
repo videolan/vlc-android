@@ -45,6 +45,8 @@ $card-spacer-x: 0.5rem;
   --light-gray: #{$light-gray};
   --breadcrumb-bg: #{$lighter-gray};
   --placeholder-animation: rgba(255, 255, 255, 0.3);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.4);
+  --scrollbar-track: rgba(0, 0, 0, 0.05);
 
   .card {
     --bs-card-bg: #{$lighter-gray};
@@ -63,6 +65,8 @@ $card-spacer-x: 0.5rem;
   --light-gray: #{$light-gray-dark};
   --breadcrumb-bg: #{$gray-900};
   --placeholder-animation: rgba(255, 255, 255, 0.03);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.4);
+  --scrollbar-track: rgba(255, 255, 255, 0.05);
 
   .card {
     --bs-card-bg: #{$gray-900};

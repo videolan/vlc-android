@@ -207,21 +207,21 @@ main {
 }
 
 ::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
+  height: 8px;
+  width: 8px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--scrollbar-thumb);
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--scrollbar-thumb);
 }
 
 .footer-bottom-margin {
