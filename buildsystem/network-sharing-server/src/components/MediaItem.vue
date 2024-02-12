@@ -110,7 +110,7 @@ export default {
         },
         getDescription() {
             if (this.mediaType == 'video') {
-                return `${this.$readableDuration(this.media.length)} · ${this.media.resolution}`
+                return `${this.$readableDuration(this.media.length)}`
             } else {
                 if (this.isCard && this.media.artist == " ") return '\xa0'
                 return this.media.artist
