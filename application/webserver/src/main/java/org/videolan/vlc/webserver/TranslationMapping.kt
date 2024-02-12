@@ -92,6 +92,6 @@ object TranslationMapping {
         VIDEO_GROUP_BY_FOLDER(R.string.video_min_group_length_folder),
         VIDEO_GROUP_BY_NAME(R.string.video_min_group_length_name),
         PLAY_ALL(R.string.play_all),
-        DARK_THEME(R.string.enable_black_theme),
+        DARK_THEME(R.string.dark_theme),
     }
 }
