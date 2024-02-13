@@ -286,7 +286,7 @@ private suspend fun getPlaylistOrGenreImage(v: View, item: MediaLibraryItem, bin
 
     if (!bindChanged && playlistImage == null) playlistImage = defaultDrawable
     if (!bindChanged && playlistImage == null) binding?.setVariable(BR.showProgress, false)
-    if (!bindChanged) updateImageView(playlistImage, v, binding)
+    if (!bindChanged) updateImageView(playlistImage, v, binding, card = card)
 
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
@@ -310,7 +310,7 @@ fun updateImageViewTv(@DrawableRes res: Int, target: View) {
 fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, updateScaleType: Boolean = true, tv: Boolean = false, card: Boolean = false) {
     if (bitmap === null || bitmap.width <= 1 || bitmap.height <= 1) return
     if (vdb !== null && !tv) {
-        vdb.setVariable(BR.scaleType, if (card) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER)
+        vdb.setVariable(BR.scaleType, if (card) ImageView.ScaleType.CENTER_INSIDE else ImageView.ScaleType.FIT_CENTER)
         vdb.setVariable(BR.cover, BitmapDrawable(target.resources, bitmap))
         vdb.setVariable(BR.protocol, null)
         vdb.setVariable(BR.showProgress, false)
