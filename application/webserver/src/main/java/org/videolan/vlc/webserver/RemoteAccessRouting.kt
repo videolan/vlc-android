@@ -896,7 +896,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     return@get
                 }
             }
-            if (call.request.queryParameters["type"] == "video-group") {
+            if (call.request.queryParameters["type"]?.startsWith("video-group") == true) {
                 call.request.queryParameters["id"]?.let { id ->
                     val group = appContext.getFromMl {
                         getVideoGroup(id.toLong())
@@ -914,7 +914,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     return@get
                 }
             }
-            if (type == "video-folder") {
+            if (type?.startsWith("video-folder") == true) {
                 call.request.queryParameters["id"]?.let { id ->
                     val folder = appContext.getFromMl {
                         getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
