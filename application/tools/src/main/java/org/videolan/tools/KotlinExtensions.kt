@@ -1,3 +1,25 @@
+/**
+ * **************************************************************************
+ * KotlinExtensions.kt
+ * ****************************************************************************
+ * Copyright © 2023 VLC authors and VideoLAN
+ *
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * ***************************************************************************
+ */
 package org.videolan.tools
 
 import android.annotation.SuppressLint
@@ -56,7 +78,6 @@ val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).to
 val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 fun Boolean.toInt() = if (this) 1 else 0
-fun Long.hasFlag(flag: Long) = (flag and this) != 0L
 
 @OptIn(ObsoleteCoroutinesApi::class)
 fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
