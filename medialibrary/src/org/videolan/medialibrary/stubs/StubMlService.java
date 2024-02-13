@@ -34,12 +34,12 @@ public class StubMlService extends MlService {
     }
 
     @Override
-    public long getMaxCachedSize() {
+    public long getMaxCacheSize() {
         return 0;
     }
 
     @Override
-    public boolean setMaxCachedSize(long size) {
+    public boolean setMaxCacheSize(long size) {
         return false;
     }
 

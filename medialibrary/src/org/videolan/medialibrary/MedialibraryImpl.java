@@ -164,12 +164,12 @@ public class MedialibraryImpl extends Medialibrary {
                 removeFolder(folder);
             }
         }
-        nativeRemoveEntryPoint(Tools.encodeVLCMrl(mrl));
+        nativeRemoveRoot(Tools.encodeVLCMrl(mrl));
     }
 
     public String[] getFoldersList() {
         if (!mIsInitiated) return new String[0];
-        return nativeEntryPoints();
+        return nativeRoots();
     }
 
     public boolean removeDevice(String uuid, String path) {
@@ -410,9 +410,9 @@ public class MedialibraryImpl extends Medialibrary {
         if (mIsInitiated) nativeReload();
     }
 
-    public void reload(String entryPoint) {
-        if (mIsInitiated && !TextUtils.isEmpty(entryPoint))
-            nativeReload(Tools.encodeVLCMrl(entryPoint));
+    public void reload(String root) {
+        if (mIsInitiated && !TextUtils.isEmpty(root))
+            nativeReload(Tools.encodeVLCMrl(root));
     }
 
     public void forceParserRetry() {
@@ -623,32 +623,32 @@ public class MedialibraryImpl extends Medialibrary {
 
     @Override
     public boolean setSubscriptionMaxCachedMedia(int nbMedia) {
-        return mIsInitiated && nativeSetSubscriptionMaxCacheMedia(this, nbMedia);
+        return mIsInitiated && nativeSetSubscriptionMaxCachedMedia(this, nbMedia);
     }
 
     @Override
     public boolean setSubscriptionMaxCacheSize(long size) {
-        return mIsInitiated && nativeSetSubscriptionMaxCacheSize(this, size);
+        return mIsInitiated && nativeSetMlSubscriptionMaxCacheSize(this, size);
     }
 
     @Override
-    public boolean setGlobalSubscriptionMaxCacheSize(long size) {
-        return mIsInitiated && nativeSetGlobalSubscriptionMaxCacheSize(this, size);
+    public boolean setMaxCacheSize(long size) {
+        return mIsInitiated && nativeSetMaxCacheSize(this, size);
     }
 
     @Override
     public int getSubscriptionMaxCachedMedia() {
-        return mIsInitiated ? nativeGetSubscriptionMaxCacheMedia(this) : -1;
+        return mIsInitiated ? nativeGetSubscriptionMaxCachedMedia(this) : -1;
     }
 
     @Override
     public long getSubscriptionMaxCacheSize() {
-        return mIsInitiated ? nativeGetSubscriptionMaxCacheSize(this) : -1L;
+        return mIsInitiated ? nativeGetMlSubscriptionMaxCacheSize(this) : -1L;
     }
 
     @Override
-    public long getGlobalSubscriptionMaxCacheSize() {
-        return mIsInitiated ? nativeGetGlobalSubscriptionMaxCacheSize(this) : -1L;
+    public long getMaxCacheSize() {
+        return mIsInitiated ? nativeGetMaxCacheSize(this) : -1L;
     }
 
     @Override
@@ -672,8 +672,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeDiscover(String path);
     private native void nativeSetLibVLCInstance(long libVLC);
     private native boolean nativeSetDiscoverNetworkEnabled(boolean enabled);
-    private native void nativeRemoveEntryPoint(String path);
-    private native String[] nativeEntryPoints();
+    private native void nativeRemoveRoot(String path);
+    private native String[] nativeRoots();
     private native boolean nativeRemoveDevice(String uuid, String path);
     private native MediaWrapper[] nativeHistory(int type);
     private native  boolean nativeAddToHistory(String mrl, String title);
@@ -729,7 +729,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativePauseBackgroundOperations();
     private native void nativeResumeBackgroundOperations();
     private native void nativeReload();
-    private native void nativeReload(String entryPoint);
+    private native void nativeReload(String root);
     private native void nativeForceParserRetry();
     private native void nativeForceRescan();
     private native int nativeSetLastTime(long mediaId, long progress);
@@ -764,11 +764,11 @@ public class MedialibraryImpl extends Medialibrary {
     private native MlService nativeGetService(int type);
     private native boolean nativeFitsInSubscriptionCache(Medialibrary ml, long mediaId);
     private native void nativeCacheNewSubscriptionMedia(Medialibrary ml);
-    private native boolean nativeSetSubscriptionMaxCacheMedia(Medialibrary ml, int nbMedia);
-    private native boolean nativeSetSubscriptionMaxCacheSize(Medialibrary ml, long size);
-    private native boolean nativeSetGlobalSubscriptionMaxCacheSize(Medialibrary ml, long size);
-    private native int nativeGetSubscriptionMaxCacheMedia(Medialibrary ml);
-    private native long nativeGetSubscriptionMaxCacheSize(Medialibrary ml);
-    private native long nativeGetGlobalSubscriptionMaxCacheSize(Medialibrary ml);
+    private native boolean nativeSetSubscriptionMaxCachedMedia(Medialibrary ml, int nbMedia);
+    private native boolean nativeSetMlSubscriptionMaxCacheSize(Medialibrary ml, long size);
+    private native boolean nativeSetMaxCacheSize(Medialibrary ml, long size);
+    private native int nativeGetSubscriptionMaxCachedMedia(Medialibrary ml);
+    private native long nativeGetMlSubscriptionMaxCacheSize(Medialibrary ml);
+    private native long nativeGetMaxCacheSize(Medialibrary ml);
     private native boolean nativeRefreshAllSubscriptions(Medialibrary ml);
 }

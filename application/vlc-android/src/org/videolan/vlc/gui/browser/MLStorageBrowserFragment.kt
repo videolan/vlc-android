@@ -94,12 +94,12 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
 
     override fun onStart() {
         super.onStart()
-        addEntryPointsCallback()
+        addRootsCallback()
     }
 
     override fun onStop() {
         super.onStop()
-        removeEntryPointsCallback()
+        removeRootsCallback()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

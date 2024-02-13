@@ -712,7 +712,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
-    public boolean setGlobalSubscriptionMaxCacheSize(long size) {
+    public boolean setMaxCacheSize(long size) {
         return false;
     }
 
@@ -727,7 +727,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
-    public long getGlobalSubscriptionMaxCacheSize() {
+    public long getMaxCacheSize() {
         return -1L;
     }
 

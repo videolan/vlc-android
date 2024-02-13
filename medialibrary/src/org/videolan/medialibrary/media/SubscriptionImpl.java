@@ -36,15 +36,15 @@ public class SubscriptionImpl extends Subscription {
     }
 
     @Override
-    public long getMaxCachedSize() {
+    public long getMaxCacheSize() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetSubscriptionMaxCachedSize(ml, this.id) : -2;
+        return ml.isInitiated() ? nativeGetSubscriptionMaxCacheSize(ml, this.id) : -2;
     }
 
     @Override
-    public boolean setMaxCachedSize(long size) {
+    public boolean setMaxCacheSize(long size) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() && nativeSetSubscriptionMaxCachedSize(ml, this.id, size);
+        return ml.isInitiated() && nativeSetSubscriptionMaxCacheSize(ml, this.id, size);
     }
 
     @Override
@@ -87,8 +87,8 @@ public class SubscriptionImpl extends Subscription {
     private native int nativeSubscriptionNewMediaNotification(Medialibrary ml, long id);
     private native boolean nativeSetSubscriptionNewMediaNotification(Medialibrary ml, long id, int value);
     private native long nativeGetSubscriptionCachedSize(Medialibrary ml, long id);
-    private native long nativeGetSubscriptionMaxCachedSize(Medialibrary ml, long id);
-    private native boolean nativeSetSubscriptionMaxCachedSize(Medialibrary ml, long id, long size);
+    private native long nativeGetSubscriptionMaxCacheSize(Medialibrary ml, long id);
+    private native boolean nativeSetSubscriptionMaxCacheSize(Medialibrary ml, long id, long size);
     private native int nativeGetSubscriptionNbUnplayedMedia(Medialibrary ml, long id);
     private native Subscription[] nativeGetChildSubscriptions(Medialibrary ml, long id, int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites);
     private native Subscription nativeGetParent(Medialibrary ml, long id);

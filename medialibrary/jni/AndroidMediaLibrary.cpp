@@ -102,9 +102,9 @@ AndroidMediaLibrary::unbanFolder(const std::string& path)
 }
 
 std::vector<medialibrary::FolderPtr>
-AndroidMediaLibrary::bannedEntryPoints()
+AndroidMediaLibrary::bannedRoots()
 {
-    return p_ml->bannedEntryPoints()->all();
+    return p_ml->bannedRoots()->all();
 }
 
 void
@@ -120,13 +120,13 @@ AndroidMediaLibrary::setDiscoverNetworkEnabled(bool enabled)
 }
 
 void
-AndroidMediaLibrary::removeEntryPoint(const std::string& entryPoint)
+AndroidMediaLibrary::removeRoot(const std::string& root)
 {
-    p_ml->removeEntryPoint(entryPoint);
+    p_ml->removeRoot(root);
 }
 
 std::vector<medialibrary::FolderPtr>
-AndroidMediaLibrary::entryPoints()
+AndroidMediaLibrary::roots()
 {
     return p_ml->roots(nullptr)->all();
 }
@@ -164,9 +164,9 @@ AndroidMediaLibrary::reload()
 }
 
 void
-AndroidMediaLibrary::reload( const std::string& entryPoint )
+AndroidMediaLibrary::reload( const std::string& root )
 {
-    p_ml->reload(entryPoint);
+    p_ml->reload(root);
 }
 
 void
@@ -912,11 +912,11 @@ void AndroidMediaLibrary::onDiscoveryStarted()
     }
 }
 
-void AndroidMediaLibrary::onDiscoveryProgress( const std::string& entryPoint )
+void AndroidMediaLibrary::onDiscoveryProgress( const std::string& root )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryProgressId, ep.get());
@@ -934,82 +934,82 @@ void AndroidMediaLibrary::onDiscoveryCompleted()
     }
 }
 
-void AndroidMediaLibrary::onDiscoveryFailed(const std::string &entryPoint)
+void AndroidMediaLibrary::onDiscoveryFailed(const std::string &root)
 {
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryFailedId, ep.get());
     }
 }
 
-void AndroidMediaLibrary::onReloadStarted( const std::string& entryPoint )
+void AndroidMediaLibrary::onReloadStarted( const std::string& root )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadStartedId, ep.get());
     }
 }
 
-void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint, bool success )
+void AndroidMediaLibrary::onReloadCompleted( const std::string& root, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onReloadCompletedId, ep.get());
     }
 }
 
-void AndroidMediaLibrary::onEntryPointBanned( const std::string& entryPoint, bool success )
+void AndroidMediaLibrary::onRootBanned( const std::string& root, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointBannedId, ep.get(), success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onRootBannedId, ep.get(), success);
     }
 }
 
-void AndroidMediaLibrary::onEntryPointUnbanned( const std::string& entryPoint, bool success )
+void AndroidMediaLibrary::onRootUnbanned( const std::string& root, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointUnbannedId, ep.get(), success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onRootUnbannedId, ep.get(), success);
     }
 }
 
-void AndroidMediaLibrary::onEntryPointAdded( const std::string& entryPoint, bool success )
+void AndroidMediaLibrary::onRootAdded( const std::string& root, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointAddedId, ep.get(), success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onRootAddedId, ep.get(), success);
     }
 }
 
-void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bool success )
+void AndroidMediaLibrary::onRootRemoved( const std::string& root, bool success )
 {
     JNIEnv *env = getEnv();
     if (env == NULL) return;
-    auto ep = vlcNewStringUTF(env, entryPoint.c_str());
+    auto ep = vlcNewStringUTF(env, root.c_str());
     if (weak_thiz)
     {
-        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointRemovedId, ep.get(), success);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onRootRemovedId, ep.get(), success);
     }
 }
 
@@ -1215,7 +1215,7 @@ AndroidMediaLibrary::setSubscriptionMaxCacheSize( long size )
 }
 
 bool
-AndroidMediaLibrary::setGlobalSubscriptionMaxCacheSize( long size )
+AndroidMediaLibrary::setMaxCacheSize( long size )
 {
     return p_ml->setMaxCacheSize( size );
 }
@@ -1233,7 +1233,7 @@ AndroidMediaLibrary::getSubscriptionMaxCacheSize()
 }
 
 uint64_t
-AndroidMediaLibrary::getGlobalSubscriptionMaxCacheSize()
+AndroidMediaLibrary::getMaxCacheSize()
 {
     return p_ml->getMaxCacheSize();
 }

@@ -98,7 +98,7 @@ jobjectArray
 bannedFolders(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::FolderPtr> folders = aml->bannedEntryPoints();
+    std::vector<medialibrary::FolderPtr> folders = aml->bannedRoots();
 
 
     std::vector<std::string> mrls;
@@ -190,25 +190,25 @@ setLibVLCInstance(JNIEnv* env, jobject thiz, jlong libVLC){
 }
 
 void
-removeEntryPoint(JNIEnv* env, jobject thiz, jstring storagePath)
+removeRoot(JNIEnv* env, jobject thiz, jstring storagePath)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *path = env->GetStringUTFChars(storagePath, JNI_FALSE);
-    aml->removeEntryPoint(path);
+    aml->removeRoot(path);
     env->ReleaseStringUTFChars(storagePath, path);
 }
 
 jobjectArray
-entryPoints(JNIEnv* env, jobject thiz)
+roots(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::FolderPtr> entryPoints = aml->entryPoints();
+    std::vector<medialibrary::FolderPtr> roots = aml->roots();
     std::vector<std::string> mrls;
-    mrls.reserve(entryPoints.size());
-    for(medialibrary::FolderPtr& entryPoint : entryPoints) {
+    mrls.reserve(roots.size());
+    for(medialibrary::FolderPtr& root : roots) {
         try
         {
-            mrls.push_back( entryPoint->mrl() );
+            mrls.push_back( root->mrl() );
         }
         catch ( const medialibrary::fs::errors::DeviceRemoved& )
         {
@@ -272,12 +272,12 @@ reload(JNIEnv* env, jobject thiz)
 }
 
 void
-reloadEntryPoint(JNIEnv* env, jobject thiz, jstring entryPoint)
+reloadRoot(JNIEnv* env, jobject thiz, jstring root)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    const char *path = env->GetStringUTFChars(entryPoint, JNI_FALSE);
+    const char *path = env->GetStringUTFChars(root, JNI_FALSE);
     aml->reload(path);
-    env->ReleaseStringUTFChars(entryPoint, path);
+    env->ReleaseStringUTFChars(root, path);
 }
 
 void
@@ -2121,38 +2121,42 @@ setSubscriptionMaxCachedMedia(JNIEnv* env, jobject thiz, jobject medialibrary, j
 }
 
 jboolean
-setSubscriptionMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary, jlong size)
+setMlSubscriptionMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary, jlong size)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     return aml->setSubscriptionMaxCacheSize(size);
 }
 
 jboolean
-setGlobalSubscriptionMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary, jlong size)
+setMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary, jlong size)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    return aml->setGlobalSubscriptionMaxCacheSize(size);
+    return aml->setMaxCacheSize(size);
 }
 
-jint getSubscriptionMaxCachedMedia(JNIEnv* env, jobject thiz, jobject medialibrary)
+jint 
+getSubscriptionMaxCachedMedia(JNIEnv* env, jobject thiz, jobject medialibrary)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     return aml->getSubscriptionMaxCachedMedia();
 }
 
-jlong getSubscriptionMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary)
+jlong 
+getMlSubscriptionMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     return aml->getSubscriptionMaxCacheSize();
 }
 
-jlong getGlobalSubscriptionMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary)
+jlong
+getMaxCacheSize(JNIEnv* env, jobject thiz, jobject medialibrary)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    return aml->getGlobalSubscriptionMaxCacheSize();
+    return aml->getMaxCacheSize();
 }
 
-jboolean refreshAllSubscriptions(JNIEnv* env, jobject thiz, jobject ml)
+jboolean 
+refreshAllSubscriptions(JNIEnv* env, jobject thiz, jobject ml)
 {
         AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, ml);
     return aml->refreshAllSubscriptions();
@@ -2225,23 +2229,23 @@ setNewMediaNotificationEnabled(JNIEnv *env, jobject thiz, jobject medialibrary, 
 }
 
 jlong
-getMaxCachedSize(JNIEnv *env, jobject thiz, jobject medialibrary, jint _type)
+getServiceMaxCacheSize(JNIEnv *env, jobject thiz, jobject medialibrary, jint _type)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::IService::Type type = (medialibrary::IService::Type)_type;
     medialibrary::ServicePtr servicePtr = aml->service(type);
     if (servicePtr == nullptr) return -2;
-    return servicePtr->maxCachedSize();
+    return servicePtr->maxCacheSize();
 }
 
 jboolean
-setMaxCachedSize(JNIEnv *env, jobject thiz, jobject medialibrary, jint _type, jlong size)
+setServiceMaxCacheSize(JNIEnv *env, jobject thiz, jobject medialibrary, jint _type, jlong size)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::IService::Type type = (medialibrary::IService::Type)_type;
     medialibrary::ServicePtr servicePtr = aml->service(type);
     if (servicePtr == nullptr) return false;
-    return servicePtr->setMaxCachedSize(size);
+    return servicePtr->setMaxCacheSize(size);
 }
 
 jint
@@ -2360,21 +2364,21 @@ getSubscriptionCachedSize(JNIEnv *env, jobject thiz, jobject medialibrary, jlong
 }
 
 jlong
-getSubscriptionMaxCachedSize(JNIEnv *env, jobject thiz, jobject medialibrary, jlong id)
+getSubscriptionMaxCacheSize(JNIEnv *env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::SubscriptionPtr subscriptionPtr = aml->subscription(id);
     if (subscriptionPtr == nullptr) return -2;
-    return subscriptionPtr->maxCachedSize();
+    return subscriptionPtr->maxCacheSize();
 }
 
 jboolean
-setSubscriptionMaxCachedSize(JNIEnv *env, jobject thiz, jobject medialibrary, jlong id, jlong size)
+setSubscriptionMaxCacheSize(JNIEnv *env, jobject thiz, jobject medialibrary, jlong id, jlong size)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::SubscriptionPtr subscriptionPtr = aml->subscription(id);
     if (subscriptionPtr == nullptr) return false;
-    return subscriptionPtr->setMaxCachedSize(size);
+    return subscriptionPtr->setMaxCacheSize(size);
 }
 
 jint
@@ -2471,8 +2475,8 @@ static JNINativeMethod methods[] = {
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
     {"nativeSetLibVLCInstance", "(J)V", (void*)setLibVLCInstance },
     {"nativeSetDiscoverNetworkEnabled", "(Z)Z", (void*)setDiscoverNetworkEnabled },
-    {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },
-    {"nativeEntryPoints", "()[Ljava/lang/String;", (void*)entryPoints },
+    {"nativeRemoveRoot", "(Ljava/lang/String;)V", (void*)removeRoot },
+    {"nativeRoots", "()[Ljava/lang/String;", (void*)roots },
     {"nativeRemoveDevice", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeUnbanFolder", "(Ljava/lang/String;)V", (void*)unbanFolder },
@@ -2540,7 +2544,7 @@ static JNINativeMethod methods[] = {
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
     {"nativeReload", "()V", (void*)reload },
-    {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadEntryPoint },
+    {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadRoot },
     {"nativeForceParserRetry", "()V", (void*)forceParserRetry },
     {"nativeForceRescan", "()V", (void*)forceRescan },
     {"nativeSetLastTime", "(JJ)I", (void*)setLastTime },
@@ -2559,12 +2563,12 @@ static JNINativeMethod methods[] = {
     {"nativeGetService", "(I)Lorg/videolan/medialibrary/interfaces/media/MlService;", (void*)getService},
     {"nativeFitsInSubscriptionCache", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)fitsInSubscriptionCache},
     {"nativeCacheNewSubscriptionMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)V", (void*)cacheNewSubscriptionMedia},
-    {"nativeSetSubscriptionMaxCacheMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)Z", (void*)setSubscriptionMaxCachedMedia},
-    {"nativeSetSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)setSubscriptionMaxCacheSize},
-    {"nativeSetGlobalSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)setGlobalSubscriptionMaxCacheSize},
-    {"nativeGetSubscriptionMaxCacheMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)I", (void*)getSubscriptionMaxCachedMedia},
-    {"nativeGetSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)J", (void*)getSubscriptionMaxCacheSize},
-    {"nativeGetGlobalSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)J", (void*)getGlobalSubscriptionMaxCacheSize},
+    {"nativeSetSubscriptionMaxCachedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)Z", (void*)setSubscriptionMaxCachedMedia},
+    {"nativeSetMlSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)setMlSubscriptionMaxCacheSize},
+    {"nativeSetMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)setMaxCacheSize},
+    {"nativeGetSubscriptionMaxCachedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)I", (void*)getSubscriptionMaxCachedMedia},
+    {"nativeGetMlSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)J", (void*)getMlSubscriptionMaxCacheSize},
+    {"nativeGetMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)J", (void*)getMaxCacheSize},
     {"nativeRefreshAllSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;)Z", (void*)refreshAllSubscriptions},
 };
 
@@ -2676,8 +2680,8 @@ static JNINativeMethod service_methods[] = {
     {"nativeSetAutoDownloadEnabled", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IZ)Z", (void*)setAutoDownloadEnabled},
     {"nativeIsNewMediaNotificationEnabled", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)Z", (void*)isNewMediaNotificationEnabled},
     {"nativeSetNewMediaNotificationEnabled", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IZ)Z", (void*)setNewMediaNotificationEnabled},
-    {"nativeGetMaxCachedSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)J", (void*)getMaxCachedSize},
-    {"nativeSetMaxCachedSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IJ)Z", (void*)setMaxCachedSize},
+    {"nativeGetServiceMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)J", (void*)getServiceMaxCacheSize},
+    {"nativeSetServiceMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IJ)Z", (void*)setServiceMaxCacheSize},
     {"nativeGetNbSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbSubscriptions},
     {"nativeGetNbUnplayedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;I)I", (void*)getNbUnplayedMedia},
     {"nativeGetSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;IIZZZ)[Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getSubscriptions},
@@ -2690,8 +2694,8 @@ static JNINativeMethod subscription_methods[] = {
     {"nativeSubscriptionNewMediaNotification", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)subscriptionNewMediaNotification},
     {"nativeSetSubscriptionNewMediaNotification", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)Z", (void*)setSubscriptionNewMediaNotification},
     {"nativeGetSubscriptionCachedSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)getSubscriptionCachedSize},
-    {"nativeGetSubscriptionMaxCachedSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)getSubscriptionMaxCachedSize},
-    {"nativeSetSubscriptionMaxCachedSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)setSubscriptionMaxCachedSize},
+    {"nativeGetSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)getSubscriptionMaxCacheSize},
+    {"nativeSetSubscriptionMaxCacheSize", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)setSubscriptionMaxCacheSize},
     {"nativeGetSubscriptionNbUnplayedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getSubscriptionNbUnplayedMedia},
     {"nativeGetChildSubscriptions", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZZ)[Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getChildSubscriptions},
     {"nativeGetParent", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Lorg/videolan/medialibrary/interfaces/media/Subscription;", (void*)getParent},
@@ -3003,21 +3007,21 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.clazz,
            "onReloadCompleted", "(Ljava/lang/String;)V");
     GET_ID(GetMethodID,
-           ml_fields.MediaLibrary.onEntryPointBannedId,
+           ml_fields.MediaLibrary.onRootBannedId,
            ml_fields.MediaLibrary.clazz,
-           "onEntryPointBanned", "(Ljava/lang/String;Z)V");
+           "onRootBanned", "(Ljava/lang/String;Z)V");
     GET_ID(GetMethodID,
-           ml_fields.MediaLibrary.onEntryPointUnbannedId,
+           ml_fields.MediaLibrary.onRootUnbannedId,
            ml_fields.MediaLibrary.clazz,
-           "onEntryPointUnbanned", "(Ljava/lang/String;Z)V");
+           "onRootUnbanned", "(Ljava/lang/String;Z)V");
     GET_ID(GetMethodID,
-           ml_fields.MediaLibrary.onEntryPointAddedId,
+           ml_fields.MediaLibrary.onRootAddedId,
            ml_fields.MediaLibrary.clazz,
-           "onEntryPointAdded", "(Ljava/lang/String;Z)V");
+           "onRootAdded", "(Ljava/lang/String;Z)V");
     GET_ID(GetMethodID,
-           ml_fields.MediaLibrary.onEntryPointRemovedId,
+           ml_fields.MediaLibrary.onRootRemovedId,
            ml_fields.MediaLibrary.clazz,
-           "onEntryPointRemoved", "(Ljava/lang/String;Z)V");
+           "onRootRemoved", "(Ljava/lang/String;Z)V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaThumbnailReadyId,
            ml_fields.MediaLibrary.clazz,
