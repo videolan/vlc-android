@@ -37,7 +37,6 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
-import org.videolan.resources.*
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
@@ -56,6 +55,9 @@ import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeFavoriteEditable
 import org.videolan.vlc.viewmodels.browser.*
@@ -375,20 +377,22 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
                 val mw = item as MediaWrapper
                 if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
-                var flags = 0L
-                val isEmpty = (viewModel as? BrowserModel)?.isFolderEmpty(mw) ?: true
-                if (!isEmpty) flags = flags or CTX_PLAY
-                val isFileBrowser = isFile && item.uri.scheme == "file"
-                val favExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(mw.uri) }
-                flags = if (favExists) {
-                    if (mw.uri.scheme.isSchemeFavoriteEditable() && withContext(Dispatchers.IO) { browserFavRepository.isFavNetwork(mw.uri) }) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
-                    else flags or CTX_FAV_REMOVE
-                } else flags or CTX_FAV_ADD
-                if (isFileBrowser) {
-                    if (localViewModel.provider.hasMedias(mw)) flags = flags or CTX_ADD_FOLDER_PLAYLIST
-                    if (localViewModel.provider.hasSubfolders(mw)) flags = flags or CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+                val flags = FlagSet(ContextOption::class.java).apply {
+                    val isEmpty = (viewModel as? BrowserModel)?.isFolderEmpty(mw) ?: true
+                    if (!isEmpty) add(CTX_PLAY)
+                    val isFileBrowser = isFile && item.uri.scheme == "file"
+                    val favExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(mw.uri) }
+                    if (favExists) {
+                        if (mw.uri.scheme.isSchemeFavoriteEditable() && withContext(Dispatchers.IO) { browserFavRepository.isFavNetwork(mw.uri) })
+                            addAll(CTX_FAV_EDIT, CTX_FAV_REMOVE)
+                        else add(CTX_FAV_REMOVE)
+                    } else add(CTX_FAV_ADD)
+                    if (isFileBrowser) {
+                        if (localViewModel.provider.hasMedias(mw)) add(CTX_ADD_FOLDER_PLAYLIST)
+                        if (localViewModel.provider.hasSubfolders(mw)) add(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)
+                    }
                 }
-                if (flags != 0L) {
+                if (flags.isNotEmpty()) {
                     showContext(requireActivity(), this@MainBrowserFragment, position, item, flags)
                     currentCtx = this@MainBrowserContainer
                 }
@@ -396,7 +400,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         }
     }
 
-    override fun onCtxAction(position: Int, option: Long) {
+    override fun onCtxAction(position: Int, option: ContextOption) {
         val adapter = currentCtx?.requireAdapter() ?: return
         val mw = adapter.getItem(position) as? MediaWrapper
                 ?: return
@@ -406,6 +410,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             CTX_ADD_FOLDER_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), false)
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
             CTX_FAV_EDIT -> showAddServerDialog(mw)
+            else -> {}
         }
     }
 }

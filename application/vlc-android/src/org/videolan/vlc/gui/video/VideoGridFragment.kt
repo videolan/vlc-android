@@ -74,6 +74,10 @@ import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.Companion.createCtxFolderFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoGroupFlags
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -499,7 +503,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         videoListAdapter.notifyItemRangeChanged(0, videoListAdapter.itemCount - 1, UPDATE_SEEN)
     }
 
-    override fun onCtxAction(position: Int, option: Long) {
+    override fun onCtxAction(position: Int, option: ContextOption) {
         if (position >= videoListAdapter.itemCount) return
         val activity = activity ?: return
         when (val media = videoListAdapter.getItem(position)) {
@@ -533,6 +537,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
                 CTX_GO_TO_FOLDER -> showParentFolder(media)
                 CTX_ADD_SHORTCUT -> lifecycleScope.launch { requireActivity().createShortcut(media)}
+                else -> {}
             }
             is Folder -> when (option) {
                 CTX_PLAY -> viewModel.play(position)
@@ -543,6 +548,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     media.isFavorite = option == CTX_FAV_ADD
                 }
                 CTX_BAN_FOLDER -> banFolder(media)
+                else -> {}
             }
             is VideoGroup -> when (option) {
                 CTX_PLAY_ALL -> viewModel.play(position)
@@ -556,6 +562,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD
                 }
+                else -> {}
             }
         }
     }
@@ -597,16 +604,32 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
             is VideoCtxClick -> {
                 when (item) {
-                    is Folder -> showContext(requireActivity(), this@VideoGridFragment, position, item, CTX_FOLDER_FLAGS or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD)
-                    is VideoGroup -> if (item.presentCount == 0) UiTools.snackerMissing(requireActivity()) else showContext(requireActivity(), this@VideoGridFragment, position, item, CTX_VIDEO_GROUP_FLAGS or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD)
+                    is Folder -> {
+                        val flags = createCtxFolderFlags().apply {
+                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                        }
+                        showContext(requireActivity(), this@VideoGridFragment, position, item, flags)
+                    }
+                    is VideoGroup -> {
+                        if (item.presentCount == 0) UiTools.snackerMissing(requireActivity())
+                        else {
+                            val flags = createCtxVideoGroupFlags().apply {
+                                if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                            }
+                            showContext(requireActivity(), this@VideoGridFragment, position, item, flags)
+                        }
+                    }
                     is MediaWrapper -> {
-                        var flags = CTX_VIDEO_FLAGS
-                        flags = flags or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD
-                        flags = if (item.seen > 0) flags or CTX_MARK_AS_UNPLAYED else  flags or CTX_MARK_AS_PLAYED
-                        if (item.time != 0L) flags = flags or CTX_PLAY_FROM_START
-                        if (viewModel.groupingType == VideoGroupingType.NAME || viewModel.group != null) flags = flags or if (viewModel.group != null) CTX_REMOVE_GROUP else flags or CTX_ADD_GROUP or CTX_GROUP_SIMILAR
-                        //go to folder
-                        if (item.uri.retrieveParent() != null) flags = flags or CTX_GO_TO_FOLDER
+                        val flags = createCtxVideoFlags().apply {
+                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                            if (item.seen > 0) add(CTX_MARK_AS_UNPLAYED) else add(CTX_MARK_AS_PLAYED)
+                            if (item.time != 0L) add(CTX_PLAY_FROM_START)
+                            if (viewModel.groupingType == VideoGroupingType.NAME || viewModel.group != null) {
+                                if (viewModel.group != null) add(CTX_REMOVE_GROUP) else addAll(CTX_ADD_GROUP, CTX_GROUP_SIMILAR)
+                            }
+                            //go to folder
+                            if (item.uri.retrieveParent() != null) add(CTX_GO_TO_FOLDER)
+                        }
                         showContext(requireActivity(), this@VideoGridFragment, position, item, flags)
                     }
                 }

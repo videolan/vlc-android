@@ -67,9 +67,15 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import org.videolan.vlc.util.ContextOption
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.share
 import org.videolan.vlc.util.showParentFolder
+import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.Companion.createCtxAudioFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistAlbumFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxTrackFlags
+import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import java.security.SecureRandom
 import java.util.*
@@ -372,28 +378,38 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        val flags: Long = when (item.itemType) {
+        val flags: FlagSet<ContextOption> = when (item.itemType) {
             MediaLibraryItem.TYPE_MEDIA -> {
-                if ((item as? MediaWrapper)?.isFavorite == true) CTX_TRACK_FLAGS or CTX_FAV_REMOVE else CTX_TRACK_FLAGS or CTX_FAV_ADD
+                createCtxTrackFlags().apply {
+                    if ((item as? MediaWrapper)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
             }
             MediaLibraryItem.TYPE_ARTIST -> {
-                val flags = if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
-                if ((item as? Artist)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
-
+                createCtxAudioFlags().apply {
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if ((item as? Artist)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
             }
             MediaLibraryItem.TYPE_ALBUM -> {
-                val flags = if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS
-                if ((item as? Album)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+                createCtxPlaylistAlbumFlags().apply {
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if ((item as? Album)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
             }
             MediaLibraryItem.TYPE_GENRE -> {
-                val flags = if (item.tracksCount > 2) CTX_AUDIO_FLAGS or CTX_PLAY_SHUFFLE else CTX_AUDIO_FLAGS
-                if ((item as? Genre)?.isFavorite == true) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+                createCtxAudioFlags().apply {
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if ((item as? Genre)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
             }
             MediaLibraryItem.TYPE_PLAYLIST -> {
-                CTX_PLAY_AS_AUDIO or
-                (if (item.tracksCount > 2) CTX_PLAYLIST_ALBUM_FLAGS or CTX_PLAY_SHUFFLE else CTX_PLAYLIST_ALBUM_FLAGS) or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD
+                createCtxPlaylistAlbumFlags().apply {
+                    add(CTX_PLAY_AS_AUDIO)
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
             }
-            else -> CTX_AUDIO_FLAGS
+            else -> createCtxAudioFlags()
         }
         if (actionMode == null) showContext(requireActivity(), this, position, item, flags)
     }
@@ -411,7 +427,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 
-    override fun onCtxAction(position: Int, option: Long) {
+    override fun onCtxAction(position: Int, option: ContextOption) {
         if (position >= getCurrentAdapter()?.itemCount ?: 0) return
         val media = getCurrentAdapter()?.getItem(position) ?: return
         when (option) {
@@ -437,6 +453,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 withContext(Dispatchers.IO) { media.isFavorite = option == CTX_FAV_ADD }
             }
+            else -> {}
         }
     }
 

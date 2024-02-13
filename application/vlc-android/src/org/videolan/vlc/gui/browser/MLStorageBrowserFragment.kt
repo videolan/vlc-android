@@ -40,7 +40,6 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.resources.CTX_CUSTOM_REMOVE
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.setGone
 import org.videolan.tools.stripTrailingSlash
@@ -55,6 +54,9 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.TitleListView
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.CTX_CUSTOM_REMOVE
+import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
@@ -256,7 +258,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
                 val path = storage.uri.path ?: return
                 lifecycleScope.launchWhenStarted {
                     val isCustom = localViewModel.customDirectoryExists(path.stripTrailingSlash())
-                    if (isCustom && isAdded) showContext(requireActivity(), this@MLStorageBrowserFragment, position, item, CTX_CUSTOM_REMOVE)
+                    if (isCustom && isAdded) showContext(requireActivity(), this@MLStorageBrowserFragment, position, item, FlagSet(ContextOption::class.java).apply { add(CTX_CUSTOM_REMOVE) })
                 }
             }
         }
@@ -267,7 +269,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
 
         override fun onItemFocused(v: View, item: MediaLibraryItem) {}
     }
-    override fun onCtxAction(position: Int, option: Long) {
+    override fun onCtxAction(position: Int, option: ContextOption) {
         val storage = storageBrowserAdapter.getItem(position) as Storage
         val path = storage.uri.path ?: return
         localViewModel.deleteCustomDirectory(path)

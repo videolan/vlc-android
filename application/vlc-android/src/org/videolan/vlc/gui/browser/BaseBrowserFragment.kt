@@ -61,21 +61,6 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
-import org.videolan.resources.CTX_ADD_FOLDER_PLAYLIST
-import org.videolan.resources.CTX_ADD_SCANNED
-import org.videolan.resources.CTX_ADD_TO_PLAYLIST
-import org.videolan.resources.CTX_APPEND
-import org.videolan.resources.CTX_DELETE
-import org.videolan.resources.CTX_DOWNLOAD_SUBTITLES
-import org.videolan.resources.CTX_FAV_ADD
-import org.videolan.resources.CTX_FAV_REMOVE
-import org.videolan.resources.CTX_FIND_METADATA
-import org.videolan.resources.CTX_INFORMATION
-import org.videolan.resources.CTX_PLAY
-import org.videolan.resources.CTX_PLAY_ALL
-import org.videolan.resources.CTX_PLAY_AS_AUDIO
-import org.videolan.resources.CTX_RENAME
 import org.videolan.resources.KEY_MRL
 import org.videolan.resources.MOVIEPEDIA_ACTIVITY
 import org.videolan.resources.MOVIEPEDIA_MEDIA
@@ -112,6 +97,9 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.SchedulerCallback
@@ -601,37 +589,38 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) lifecycleScope.launch {
             val mw = item as MediaWrapper
             if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
-            var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) CTX_DELETE else 0
-            if (!isRootDirectory && this is FileBrowserFragment) flags = flags or CTX_DELETE
-            if (mw.type == MediaWrapper.TYPE_DIR) {
-                val isEmpty = viewModel.isFolderEmpty(mw)
-                if (!isEmpty) flags = flags or CTX_PLAY
-                val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"
-                val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
-                if (isFileBrowser || isNetworkBrowser) {
-                    val favExists = browserFavRepository.browserFavExists(mw.uri)
-                    flags = if (favExists) flags or CTX_FAV_REMOVE else flags or CTX_FAV_ADD
+            val flags = FlagSet(ContextOption::class.java).apply {
+                add(CTX_RENAME)
+                if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) add(CTX_DELETE)
+                if (!isRootDirectory && this is FileBrowserFragment) add(CTX_DELETE)
+                if (mw.type == MediaWrapper.TYPE_DIR) {
+                    val isEmpty = viewModel.isFolderEmpty(mw)
+                    if (!isEmpty) add(CTX_PLAY)
+                    val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"
+                    val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
+                    if (isFileBrowser || isNetworkBrowser) {
+                        val favExists = browserFavRepository.browserFavExists(mw.uri)
+                        if (favExists) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                    }
+                    if (isFileBrowser && !isRootDirectory && !MedialibraryUtils.isScanned(item.uri.toString())) {
+                        add(CTX_ADD_SCANNED)
+                    }
+                    if (isFileBrowser) {
+                        add(CTX_APPEND)
+                        if (viewModel.provider.hasMedias(mw)) add(CTX_ADD_FOLDER_PLAYLIST)
+                        if (viewModel.provider.hasSubfolders(mw)) add(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)
+                    }
+                } else {
+                    val isVideo = mw.type == MediaWrapper.TYPE_VIDEO
+                    val isAudio = mw.type == MediaWrapper.TYPE_AUDIO
+                    val isMedia = isVideo || isAudio
+                    if (isMedia) addAll(CTX_ADD_TO_PLAYLIST, CTX_APPEND, CTX_INFORMATION, CTX_PLAY_ALL)
+                    if (!isAudio && isMedia) add(CTX_PLAY_AS_AUDIO)
+                    if (!isMedia) add(CTX_PLAY)
+                    if (isVideo) add(CTX_DOWNLOAD_SUBTITLES)
                 }
-                if (isFileBrowser && !isRootDirectory && !MedialibraryUtils.isScanned(item.uri.toString())) {
-                    flags = flags or CTX_ADD_SCANNED
-                }
-                if (isFileBrowser) {
-                    if (viewModel.provider.hasMedias(mw)) flags = flags or CTX_ADD_FOLDER_PLAYLIST
-                    if (viewModel.provider.hasSubfolders(mw)) flags = flags or CTX_ADD_FOLDER_AND_SUB_PLAYLIST
-                    flags = flags or CTX_APPEND
-                }
-                flags = flags or CTX_RENAME
-            } else {
-                val isVideo = mw.type == MediaWrapper.TYPE_VIDEO
-                val isAudio = mw.type == MediaWrapper.TYPE_AUDIO
-                val isMedia = isVideo || isAudio
-                if (isMedia) flags = flags or CTX_PLAY_ALL or CTX_APPEND or CTX_INFORMATION or CTX_ADD_TO_PLAYLIST
-                if (!isAudio && isMedia) flags = flags or CTX_PLAY_AS_AUDIO
-                if (!isMedia) flags = flags or CTX_PLAY
-                if (isVideo) flags = flags or CTX_DOWNLOAD_SUBTITLES
-                flags = flags or CTX_RENAME
             }
-            if (flags != 0L) showContext(requireActivity(), this@BaseBrowserFragment, position, item, flags)
+            if (flags.isNotEmpty()) showContext(requireActivity(), this@BaseBrowserFragment, position, item, flags)
         }
     }
 
@@ -650,7 +639,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    override fun onCtxAction(position: Int, option: Long) {
+    override fun onCtxAction(position: Int, option: ContextOption) {
         val mw = adapter.getItem(position) as? MediaWrapper
                 ?: return
         when (option) {
@@ -702,6 +691,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> {
                 requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
             }
+            else -> {}
         }
     }
 
