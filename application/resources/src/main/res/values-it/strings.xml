@@ -633,7 +633,7 @@
     <string name="partial_content">VLC non può accedere a tutti i tuoi file</string>
     <string name="partial_content_description">A partire da Android 11, le applicazioni richiedono un\'autorizzazione speciale per accedere a tutti i file del dispositivo.\n\n%s</string>
     <string name="never_ask_again">Non chiedere ancora</string>
-    <string name="never_show_again">Non mostrare mai più</string>
+    <string name="never_show_again">Non mostrare più, nemmeno per le future versioni</string>
     <string name="allow_settings_access_ringtone_title">Consenti a VLC di impostare la suoneria</string>
     <string name="allow_settings_access_ringtone_description">VLC ha bisogno di questo permesso per impostare questo brano come suoneria.</string>
     <string name="allow_settings_access_brightness_title">Consenti a VLC di cambiare la luminosità</string>
@@ -802,6 +802,8 @@
     <string name="light_theme">Tema chiaro</string>
     <string name="add">Aggiungi</string>
     <string name="add_to_new_playlist">Aggiungi a nuova scaletta</string>
+    <string name="create_new_playlist">Crea una nuova scaletta</string>
+    <string name="create">Crea</string>
     <string name="resume_card_message">Vuoi riprendere la riproduzione di %1$s?</string>
     <string name="misc">Varie</string>
     <string name="popup_force_legacy_title">Utilizza finestra Picture-in-Picture personalizzata</string>
@@ -1064,15 +1066,15 @@
     <string name="banned">Cartella esclusa (toccare a lungo per modificare)</string>
     <string name="banned_tv">Cartella vietata</string>
     <string name="banned_parent">Esclusa dalla cartella superiore</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Questo elemento è già in questa scaletta.</item>
-        <item quantity="many">Questi elementi sono già in questa scaletta.</item>
-        <item quantity="other">Questi elementi sono già in questa scaletta.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Questo elemento è già nella scaletta \"%s\".</item>
+        <item quantity="many">Questi elementi sono già nella scaletta \"%s\".</item>
+        <item quantity="other">Questi elementi sono già nella scaletta \"%s\".</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 degli elementi selezionati è già in questa scaletta.</item>
-        <item quantity="many">%d degli elementi selezionati sono già in questa scaletta.</item>
-        <item quantity="other">%d degli elementi selezionati sono già in questa scaletta.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Uno degli elementi selezionati è già nella scaletta \"%s\".</item>
+        <item quantity="many">%d degli elementi selezionati sono già nella scaletta \"%s\".</item>
+        <item quantity="other">%d degli elementi selezionati sono già nella scaletta \"%s\".</item>
     </plurals>
     <string name="official_website">Sito web ufficiale</string>
     <string name="view_online">Visualizza in linea</string>

@@ -809,14 +809,6 @@ Kas sa lubad seda?</string>
     <!-- Unused -->
     <string name="gestures">Viipekäsud</string>
     <string name="player_controls">Mängija juhtnupud</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">See kirje juba on selles esitusloendis olemas.</item>
-        <item quantity="other">Need kirjed juba on selles esitusloendis olemas.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Valitud kirjetest 1 on juba  selles esitusloendis olemas.</item>
-        <item quantity="other">Valitud kirjetest %d on juba selles esitusloendis olemas.</item>
-    </plurals>
     <string name="view_online">Vaata võrgus</string>
     <string name="always_fast_seek">Alati kasuta kiirkerimist</string>
     <string name="always_fast_seek_summary">Kerimine on kiirem, kuid võib olla vähem täpne</string>

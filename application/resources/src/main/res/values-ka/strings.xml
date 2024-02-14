@@ -966,14 +966,6 @@
     <string name="banned">შეზღუდული საქაღალდე (შეცვლა დიდხანს დაჭერით)</string>
     <string name="banned_tv">შეზღუდული საქაღალდე</string>
     <string name="banned_parent">შეზღუდული ზედა საქაღალდით</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">ეს ჩანაწერი უკვე დასაკრავ სიაშია.</item>
-        <item quantity="other">ეს ჩანაწერები უკვე დასაკრავ სიაშია.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
-        <item quantity="other">%d შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
-    </plurals>
     <string name="official_website">მთავარი ვებსაიტი</string>
     <string name="view_online">ინტერნეტში ნახვა</string>
     <string name="player_under_notch">ვიდეოს ჩვენება კამერის ჭრილის ქვეშ</string>

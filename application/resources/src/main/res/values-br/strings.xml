@@ -790,12 +790,5 @@
     <string name="start">Loc\'hañ</string>
     <string name="permission">Aotre</string>
     <string name="customize">Personelaat</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Ar roudenn-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
-        <item quantity="two">Ar roudenn-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
-        <item quantity="few">Ar roudenn-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
-        <item quantity="many">Ar roudennoù-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
-        <item quantity="other">Ar roudennoù-mañ a zo e-barzh ar roll-lenn-mañ dija</item>
-    </plurals>
     <string name="disabled">Lazhet</string>
     </resources>

@@ -586,7 +586,6 @@
     <string name="partial_content">VLC non podet atzèdere a totu sos documentos tuos</string>
     <string name="partial_content_description">A partire dae Android 11, sas aplicatziones tenent bisòngiu de unu permissu ispetziale pro atzèdere a totu sos documentos de su dispositivos.\n\n%s</string>
     <string name="never_ask_again">Non torres a pedire prus</string>
-    <string name="never_show_again">No mustres prus</string>
     <string name="allow_settings_access_ringtone_title">Permiti a VLC de impostare sa soneria</string>
     <string name="allow_settings_access_ringtone_description">VLC tenet bisòngiu de custu permissu pro  impostare custu branu comente soneria.</string>
     <string name="allow_settings_access_brightness_title">Permiti a VLC de mudare sa luminosidade</string>
@@ -996,14 +995,6 @@
     <string name="banned">Cartella esclusa (incarca a longu pro cambiare)</string>
     <string name="banned_tv">Cartella bandida</string>
     <string name="banned_parent">Esclusa dae sa cartella superiore</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Custu elementu est giai in cust\'iscalita.</item>
-        <item quantity="other">Custos elementos sunt giai in cust\'iscalita.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 de sos elementos ischertados est giai in custa iscalita.</item>
-        <item quantity="other">%d de sos elementos ischertados sunt giai in custa iscalita.</item>
-    </plurals>
     <string name="official_website">Situ web ufitziale</string>
     <string name="view_online">Pòmpia in lìnia</string>
     <string name="player_under_notch">Ammustra su vìdeu a suta de sa taca</string>

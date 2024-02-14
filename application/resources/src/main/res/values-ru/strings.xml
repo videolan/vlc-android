@@ -914,18 +914,6 @@
     <string name="video_key_jump_delay">Интервал перемещения при использовании кнопок навигации</string>
     <string name="banned">Исключённая папка (сменить состояние можно долгим нажатием)</string>
     <string name="banned_parent">Исключённая папка (находится в исключённой родительской)</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Этот элемент уже есть в плейлисте.</item>
-        <item quantity="few">Эти элементы уже есть в плейлисте.</item>
-        <item quantity="many">Эти элементы уже есть в плейлисте.</item>
-        <item quantity="other">Эти элементы уже есть в плейлисте.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">В этом плейлисте уже есть 1 из выбранных элементов.</item>
-        <item quantity="few">В этом плейлисте уже есть выбранные элементы: %d.</item>
-        <item quantity="many">В этом плейлисте уже есть выбранные элементы: %d.</item>
-        <item quantity="other">В этом плейлисте уже есть выбранные элементы: %d.</item>
-    </plurals>
     <string name="official_website">Официальный сайт</string>
     <string name="view_online">Посмотреть онлайн</string>
     <string name="player_under_notch">Проигрывать видео под «чёлкой»</string>

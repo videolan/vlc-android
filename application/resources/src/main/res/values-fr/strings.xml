@@ -633,7 +633,7 @@
     <string name="partial_content">VLC ne peut pas accéder à tous vos fichiers</string>
     <string name="partial_content_description">À partir d’Android 11, les applications ont besoin d’une autorisation spéciale pour accéder à tous les fichiers de l’appareil.\n\n%s</string>
     <string name="never_ask_again">Ne plus jamais demander</string>
-    <string name="never_show_again">Ne plus jamais afficher</string>
+    <string name="never_show_again">Ne plus jamais montrer, même pour les versions futures.</string>
     <string name="allow_settings_access_ringtone_title">Autoriser VLC à changer la sonnerie du téléphone</string>
     <string name="allow_settings_access_ringtone_description">VLC a besoin de votre autorisation pour définir ce morceau comme sonnerie.</string>
     <string name="allow_settings_access_brightness_title">Autoriser VLC à modifier la luminosité de l’écran</string>
@@ -802,6 +802,8 @@
     <string name="light_theme">Thème clair</string>
     <string name="add">Ajouter</string>
     <string name="add_to_new_playlist">Ajouter à une nouvelle liste de lecture</string>
+    <string name="create_new_playlist">Créer une nouvelle liste de lecture</string>
+    <string name="create">Créer</string>
     <string name="resume_card_message">Reprendre la lecture de %1$s ?</string>
     <string name="misc">Divers</string>
     <string name="popup_force_legacy_title">Utiliser une fenêtre personnalisée de Picture-in-Picture</string>
@@ -1064,15 +1066,15 @@
     <string name="banned">Dossier interdit (appui long pour changer)</string>
     <string name="banned_tv">Dossier banni</string>
     <string name="banned_parent">Interdit par le dossier parent</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Cet élément est déjà dans cette liste de lecture.</item>
-        <item quantity="many">Ces éléments sont déjà dans cette liste de lecture.</item>
-        <item quantity="other">Ces éléments sont déjà dans cette liste de lecture.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Cet élément se trouve déjà dans la liste de lecture « %s ».</item>
+        <item quantity="many">Ces éléments se trouvent déjà dans la liste de lecture « %s ».</item>
+        <item quantity="other">Ces éléments se trouvent déjà dans la liste de lecture « %s ».</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 des éléments sélectionnés se trouve déjà dans cette liste de lecture.</item>
-        <item quantity="many">%d des éléments sélectionnés se trouvent déjà dans cette liste de lecture.</item>
-        <item quantity="other">%d des éléments sélectionnés se trouvent déjà dans cette liste de lecture.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 des éléments sélectionnés se trouve déjà dans la liste de lecture « %s ».</item>
+        <item quantity="many">%d des éléments sélectionnés se trouvent déjà dans la liste de lecture « %s ».</item>
+        <item quantity="other">%d des éléments sélectionnés se trouvent déjà dans la liste de lecture « %s ».</item>
     </plurals>
     <string name="official_website">Site officiel</string>
     <string name="view_online">Voir en ligne</string>

@@ -958,14 +958,6 @@
     <string name="banned">Folda yenye marufuku (gusa kwa muda mrefu ubadilishe)</string>
     <string name="banned_tv">Folda yenye marufuku</string>
     <string name="banned_parent">Imepigwa marufuku na folda kuu</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Kipengee hiki tayari kipo katika orodha chezeshi</item>
-        <item quantity="other">Vipengee hivi tayari vipo katika orodha chezeshi</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 ya kipengee hiki tayari kipo katika orodha chezeshi</item>
-        <item quantity="other">%d ya vipengee hivi tayari vipo katika orodha chezeshi</item>
-    </plurals>
     <string name="official_website">Tovuti rasmi</string>
     <string name="view_online">Tazama mtandaoni</string>
     <string name="player_under_notch">Onyesha video kwa mkato</string>

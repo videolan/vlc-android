@@ -772,14 +772,4 @@
     <string name="discovery_failed">Error al detectar: %s</string>
     <string name="lock_use_sensor_title">Bloquear con sensor</string>
     <string name="lock_use_sensor_summary">Cuando la orientación está bloqueada, usa el sensor para permitir la orientación inversa</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">El elemento ya está en la lista de reproducción.</item>
-        <item quantity="many">Los elementos ya están en la lista de reproducción.</item>
-        <item quantity="other">Los elementos ya están en la lista de reproducción.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 de los elementos seleccionados ya está en la lista de reproducción.</item>
-        <item quantity="many">%d de los elementos seleccionados ya están en la lista de reproducción.</item>
-        <item quantity="other">%d de los elementos seleccionados ya están en la lista de reproducción.</item>
-    </plurals>
     </resources>

@@ -19,7 +19,7 @@
     <string name="sortby_date_insertion">Datum vnosa</string>
     <string name="sortby_date_release">Datum izdaje</string>
     <string name="sortby_media_number">Številka vsebine</string>
-    <string name="sortby_number">Nb steza</string>
+    <string name="sortby_number">Nb steze</string>
     <string name="searchable_hint">Poišči …</string>
     <string name="history">Zgodovina</string>
 
@@ -176,6 +176,7 @@
     <string name="shuffle_on">Premešani način je vključen</string>
     <string name="shuffle_play">Premešaj</string>
     <string name="repeat_title">Način ponavljanja</string>
+    <string name="repeat_none">Ne ponovi nič</string>
     <string name="repeat_single">Ponovi eno</string>
     <string name="repeat_all">Ponovi vse</string>
     <string name="previous">Prejšnje</string>
@@ -642,7 +643,7 @@
     <string name="partial_content">VLC ne more dostopati do vseh datotek</string>
     <string name="partial_content_description">Od različice Android 11 je potrebno aplikacijam podeliti posebno pravico, da smejo dostopati do vseh datotek.\n\n%s</string>
     <string name="never_ask_again">Tega več ne sprašuj</string>
-    <string name="never_show_again">Tega ne prikaži več</string>
+    <string name="never_show_again">Tega ne prikaži več - niti za prihodnje različice</string>
     <string name="allow_settings_access_ringtone_title">Dovoli nastavljanje melodije zvonjenja</string>
     <string name="allow_settings_access_ringtone_description">Program zahteva odobritev nastavitve skladbe kot melodije zvonjenja.</string>
     <string name="allow_settings_access_brightness_title">Dovoli spreminjanje načina osvetlitve</string>
@@ -1032,6 +1033,7 @@
     <string name="delete_forever">Izbriši za stalno</string>
     <string name="add_to_existing_playlist">Dodaj v obstoječ seznam predvajanja</string>
     <string name="bookmarks_title">Zaznamki</string>
+    <string name="no_bookmark">Ni zaznamkov</string>
     <string name="bookmark_default_name">Zaznamek na %s</string>
     <string name="bookmark_name">Zaznamek %s</string>
     <string name="add_bookmark">Dodaj zaznamek</string>
@@ -1074,18 +1076,6 @@
     <string name="banned">Prepovedana mapa (dolgi tap za spremembo)</string>
     <string name="banned_tv">Prepovedana mapa</string>
     <string name="banned_parent">Starševska prepoved mape</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Ta predmet se že nahaja v seznamu predvajanja</item>
-        <item quantity="two">Ta predmeta se že nahajata v seznamu predvajanja</item>
-        <item quantity="few">Ti predmeti se že nahajajo v seznamu predvajanja</item>
-        <item quantity="other">Ti predmeti se že nahajajo v seznamu predvajanja</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Eden od izbranih predmetov je že na seznamu predvajanja</item>
-        <item quantity="two">%d izbrana predmeta sta že na seznamu predvajanja</item>
-        <item quantity="few">%d izbrani predmeti so že na seznamu predvajanja</item>
-        <item quantity="other">%d izbranih predmetov je že na seznamu predvajanja</item>
-    </plurals>
     <string name="official_website">Uradna spletna stran</string>
     <string name="view_online">Prikaži na spletu</string>
     <string name="player_under_notch">Prikaži video pod zarezo</string>

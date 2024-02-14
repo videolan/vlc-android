@@ -623,7 +623,7 @@
     <string name="partial_content">VLC kan inte komma åt alla dina filer</string>
     <string name="partial_content_description">Från och med Android 11 behöver appar en specialbehörighet för att komma åt alla filer på enheten.\n\n%s</string>
     <string name="never_ask_again">Fråga inte igen</string>
-    <string name="never_show_again">Visa aldrig igen</string>
+    <string name="never_show_again">Visa aldrig igen, även för framtida versioner</string>
     <string name="allow_settings_access_ringtone_title">Tillåt VLC att ändra ringsignalen</string>
     <string name="allow_settings_access_ringtone_description">Du måste bevilja denna behörighet för att VLC ska kunna ändra din ringsignal till denna låt.</string>
     <string name="allow_settings_access_brightness_title">Tillåt VLC att ändra ljusstyrkeläge</string>
@@ -792,6 +792,8 @@
     <string name="light_theme">Ljust tema</string>
     <string name="add">Lägg till</string>
     <string name="add_to_new_playlist">Lägg till i ny spellista</string>
+    <string name="create_new_playlist">Skapa ny spellista</string>
+    <string name="create">Skapa</string>
     <string name="resume_card_message">Återuppta uppspelning av %1$s?</string>
     <string name="misc">Övrigt</string>
     <string name="popup_force_legacy_title">Använd anpassad popupp för bild-i-bild</string>
@@ -1052,13 +1054,13 @@
     <string name="banned">Bannlyst mapp (tryck länge för att ändra)</string>
     <string name="banned_tv">Bannlyst mapp</string>
     <string name="banned_parent">Bannlyst av överordnad mapp</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Detta objekt finns redan i denna spellista.</item>
-        <item quantity="other">Dessa objekt finns redan i denna spellista.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Detta objekt finns redan i spellistan \"%s\".</item>
+        <item quantity="other">Dessa objekt finns redan i spellistan \"%s\".</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 av de markerade objekten finns redan i denna spellista. </item>
-        <item quantity="other">%d av de markerade objekten finns redan i denna spellista.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 av de markerade objekten finns redan i spellistan \"%s\".</item>
+        <item quantity="other">%d av de markerade objekten finns redan i spellistan \"%s\".</item>
     </plurals>
     <string name="official_website">Officiell webbplats</string>
     <string name="view_online">Visa på internet</string>

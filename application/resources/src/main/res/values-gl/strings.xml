@@ -794,12 +794,4 @@
     <string name="start">Iniciar</string>
     <string name="permission">Permiso</string>
     <string name="customize">Personalizar</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Este elemento xa está na lista de reprodución.</item>
-        <item quantity="other">Estes elementos xa están na lista de reprodución.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 dos elementos seleccionados xa está na lista de reprodución.</item>
-        <item quantity="other">%d dos elementos seleccionados xa están na lista de reprodución.</item>
-    </plurals>
     </resources>

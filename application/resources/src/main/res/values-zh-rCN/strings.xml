@@ -955,12 +955,6 @@
     <string name="banned">已屏蔽文件夹 (长按可更改)</string>
     <string name="banned_tv">已屏蔽文件夹</string>
     <string name="banned_parent">被上级文件夹屏蔽</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">项目在此播放列表内已存在。</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">选中的项目中有 %d 项在此播放列表中已存在。</item>
-    </plurals>
     <string name="official_website">官方网站</string>
     <string name="view_online">在线查看</string>
     <string name="player_under_notch">在刘海下方显示视频</string>

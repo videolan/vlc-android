@@ -857,12 +857,6 @@
     <string name="start">Start</string>
     <string name="permission">Uprawnienie</string>
     <string name="customize">Dostosuj</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Ten element jest już na tej playliście.</item>
-        <item quantity="few">Ten element jest już na tej playliście.</item>
-        <item quantity="many">Ten element jest już na tej playliście.</item>
-        <item quantity="other">Te elementy są już na tej playliście.</item>
-    </plurals>
     <string name="official_website">Oficjalna strona internetowa</string>
     <string name="view_online">Wyświetl online</string>
     <string name="no_web_browser">Brak zainstalowanej przeglądarki internetowej</string>

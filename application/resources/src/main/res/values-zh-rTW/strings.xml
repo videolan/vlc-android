@@ -613,7 +613,7 @@
     <string name="partial_content">VLC 無法存取您所有的檔案</string>
     <string name="partial_content_description">從 Android 11 開始，應用程式需要特別權限才能存取裝置上所有的檔案。\n\n%s</string>
     <string name="never_ask_again">不再詢問</string>
-    <string name="never_show_again">不要再次顯示</string>
+    <string name="never_show_again">不要再次顯示，即便是未來的版本</string>
     <string name="allow_settings_access_ringtone_title">允許 VLC 設定鈴聲</string>
     <string name="allow_settings_access_ringtone_description">VLC 需要您的授權才能將這首歌設定為鈴聲。</string>
     <string name="allow_settings_access_brightness_title">允許 VLC 改變亮度模式</string>
@@ -1040,12 +1040,6 @@
     <string name="banned">已封鎖的資料夾（長按以變更）</string>
     <string name="banned_tv">已封鎖的資料夾</string>
     <string name="banned_parent">被上層資料夾封鎖</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">這些項目已在此播放清單中。</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">選定項目中的 %d 個已在此播放清單中。</item>
-    </plurals>
     <string name="official_website">官方網站</string>
     <string name="view_online">線上檢視</string>
     <string name="player_under_notch">在缺口下顯示影片</string>

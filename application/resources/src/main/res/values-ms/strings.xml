@@ -149,6 +149,7 @@
     <string name="shuffle_on">Kocok Hidup</string>
     <string name="shuffle_play">Kocok</string>
     <string name="repeat_title">Mod ulang</string>
+    <string name="repeat_none">Ulang sekali</string>
     <string name="repeat_single">Ulang sekali</string>
     <string name="repeat_all">Ulang semua</string>
     <string name="previous">Terdahulu</string>
@@ -612,7 +613,7 @@
     <string name="partial_content">VLC tidak dapat mencapai semua fail anda</string>
     <string name="partial_content_description">Bermula dengan Android 11, aplikasi perlu dapatkan keizinan untuk mencapai semua fail peranti.\n\n %s</string>
     <string name="never_ask_again">Jangan tanya lagi</string>
-    <string name="never_show_again">Jangan sesekali tunjuk lagi</string>
+    <string name="never_show_again">Jangan tunjuk lagi, walapun pada versi akan datang</string>
     <string name="allow_settings_access_ringtone_title">Benarkan VLC tetapkan nada dering</string>
     <string name="allow_settings_access_ringtone_description">VLC memerlukan keizinan anda untuk memasang lagu ini sebagai nada dering anda.</string>
     <string name="allow_settings_access_brightness_title">Benarkan VLC mengubah mod kecerahan</string>
@@ -996,6 +997,7 @@
     <string name="delete_forever">Padam selamanya</string>
     <string name="add_to_existing_playlist">Tambah ke senarai main sedia ada</string>
     <string name="bookmarks_title">Tanda buku</string>
+    <string name="no_bookmark">Tiada tanda buku ditetapkan</string>
     <string name="bookmark_default_name">Tanda buku di %s</string>
     <string name="bookmark_name">Tanda buku %s</string>
     <string name="add_bookmark">Tambah tanda buku</string>
@@ -1038,12 +1040,6 @@
     <string name="banned">Folder dilarang (tahan untuk ubah)</string>
     <string name="banned_tv">Folder terlarang</string>
     <string name="banned_parent">Dilarang oleh folder induk</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">Item ini sudah ada dalam senarai main ini.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">%d item terpilih sudah ada dalam senarai main ini.</item>
-    </plurals>
     <string name="official_website">Tapak sesawang rasmi</string>
     <string name="view_online">Lihat dalam talian</string>
     <string name="player_under_notch">Papar video di bawah takuk</string>

@@ -635,7 +635,7 @@ Riippuen käynnistyksestä saatat joutua poistamaan tai korvaamaan vanhat.</stri
     <string name="partial_content">VLC ei voi käyttää kaikkia tiedostojasi</string>
     <string name="partial_content_description">Android 11 alkaen, sovellukset tarvitsevat erityisluvan käyttää kaikkia laitteen tiedostoja.\n\n%s</string>
     <string name="never_ask_again">Älä kysy uudestaan</string>
-    <string name="never_show_again">Älä näytä uudestaan</string>
+    <string name="never_show_again">Älä näytä uudelleen, edes tulevissa versioissa</string>
     <string name="allow_settings_access_ringtone_title">Salli VLC:n määrittää soittoäänen</string>
     <string name="allow_settings_access_ringtone_description">Sinun tarvitsee myöntää oikeudet VLC:lle määrittää tämä kappale soittoääneksi.</string>
     <string name="allow_settings_access_brightness_title">Salli VLC:n muuttaa kirkkautta</string>
@@ -1067,14 +1067,6 @@ Sen kieltäminen ei estä VLC:tä toimimasta, mutta ilmoitukset piilotetaan.</st
     <string name="banned">Kielletty kansio (vaihda painamalla pitkään)</string>
     <string name="banned_tv">Kielletty kansio</string>
     <string name="banned_parent">Pääkansion kieltämä</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Nämä ovat jo tässä soittolistassa.</item>
-        <item quantity="other">Nämä ovat jo tässä soittolistassa.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 valituista kohteista on jo soittolistalla.</item>
-        <item quantity="other">%d valituista kohteista on jo soittolistalla.</item>
-    </plurals>
     <string name="official_website">Virallinen verkkosivu</string>
     <string name="view_online">Katso verkossa</string>
     <string name="player_under_notch">Näytä video loven alla</string>

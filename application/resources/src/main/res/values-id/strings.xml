@@ -993,12 +993,6 @@
     <string name="banned">Folder dilarang (ketuk lama untuk mengubah)</string>
     <string name="banned_tv">Folder terlarang</string>
     <string name="banned_parent">Dilarang oleh folder induk</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">Item berikut telah ada di daftar putar.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">%d dari item yang dipilih telah ada di dalam daftar putar ini.</item>
-    </plurals>
     <string name="official_website">Situs resmi</string>
     <string name="view_online">Lihat online</string>
     <string name="player_under_notch">Tampilkan video di bawah notch</string>

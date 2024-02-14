@@ -966,14 +966,6 @@
     <string name="banned">Banned folder (long tap to change)</string>
     <string name="banned_tv">Banned folder</string>
     <string name="banned_parent">Banned by parent folder</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">This item is already in this playlist.</item>
-        <item quantity="other">These items are already in this playlist.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 of the selected items is already in this playlist.</item>
-        <item quantity="other">%d of the selected items are already in this playlist.</item>
-    </plurals>
     <string name="official_website">Official website</string>
     <string name="view_online">View online</string>
     <string name="player_under_notch">Display video under notch</string>

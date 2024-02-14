@@ -620,7 +620,6 @@
     <string name="partial_content">VLC ùn pò micca accede à tutti i vostri schedarii</string>
     <string name="partial_content_description">Cù Android 11 è dopu, l’appiecazioni richiedenu un permessu speziale per accede à tutti i schedarii di l’apparechju.\n\n%s</string>
     <string name="never_ask_again">Ùn mi dumandà mai più</string>
-    <string name="never_show_again">Ùn affissà mai più</string>
     <string name="allow_settings_access_ringtone_title">Permette à VLC di definisce a suneria</string>
     <string name="allow_settings_access_ringtone_description">VLC hà bisognu di stu permessu per definisce sta canzona cum’è a vostra suneria.</string>
     <string name="allow_settings_access_brightness_title">Permette à VLC di cambià u modu di lucidezza</string>
@@ -1048,14 +1047,6 @@
     <string name="banned">Cartulare difesu (longa picchicciata per cambià)</string>
     <string name="banned_tv">Cartulare difesu</string>
     <string name="banned_parent">Difesu da u cartulare di livellu superiore</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">St’elementu hè dighjà in sta lista di lettura.</item>
-        <item quantity="other">St’elementi sò dighjà in sta lista di lettura.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 trà l’elementi selezziunati hè dighjà in sta lista di lettura.</item>
-        <item quantity="other">%d trà l’elementi selezziunati sò dighjà in sta lista di lettura.</item>
-    </plurals>
     <string name="official_website">Situ web ufficiale</string>
     <string name="view_online">Vede in linea</string>
     <string name="player_under_notch">Affissà a video sottu l’intacca</string>

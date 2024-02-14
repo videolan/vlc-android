@@ -643,7 +643,7 @@
     <string name="partial_content">VLC nemôže pristupovať ku všetkým vašim súborom</string>
     <string name="partial_content_description">Počínajúc systémom Android 11 vyžadujú aplikácie osobitné povolenie na prístup ku všetkým súborom zariadenia.\n\n%s</string>
     <string name="never_ask_again">Už sa nikdy nepýtať</string>
-    <string name="never_show_again">Už nezobrazovať</string>
+    <string name="never_show_again">Už nezobrazovať, ani pre budúce verzie</string>
     <string name="allow_settings_access_ringtone_title">Povoliť VLC nastavovať tón vyzváňania</string>
     <string name="allow_settings_access_ringtone_description">Na nastavenie tejto skladby ako tónu vyzváňania musí mať VLC udelené oprávnenie.</string>
     <string name="allow_settings_access_brightness_title">Povoliť VLC zmenu režimu jasu</string>
@@ -1076,18 +1076,6 @@
     <string name="banned">Zablokovaný priečinok (zmenu vykonáte dlhým dotykom)</string>
     <string name="banned_tv">Vylúčený priečinok</string>
     <string name="banned_parent">Zablokované rodičovským priečinkom</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Táto položka už je v playliste.</item>
-        <item quantity="few">Tieto položky už sú v playliste.</item>
-        <item quantity="many">Tieto položky už sú v playliste.</item>
-        <item quantity="other">Tieto položky už sú v playliste.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 z vybraných položiek už je v playliste.</item>
-        <item quantity="few">%d z vybraných položiek už sú v playliste.</item>
-        <item quantity="many">%d z vybraných položiek už je v playliste.</item>
-        <item quantity="other">%d z vybraných položiek už je v playliste.</item>
-    </plurals>
     <string name="official_website">Oficiálna webová stránka</string>
     <string name="view_online">Zobraziť online</string>
     <string name="player_under_notch">Zobrazovať video pod výrezom</string>

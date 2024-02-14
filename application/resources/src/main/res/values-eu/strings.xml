@@ -998,14 +998,6 @@
     <string name="banned">Debekatutako karpeta (sakatu luze aldatzeko)</string>
     <string name="banned_tv">Debekatutako karpeta</string>
     <string name="banned_parent">Karpeta nagusiak debekatua</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Elementu hau dagoeneko erreprodukzio zerrenda honetan dago.</item>
-        <item quantity="other">Elementu hauek dagoeneko erreprodukzio zerrenda honetan daude.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Aukeratutako elementuetako 1 dagoeneko erreprodukzio zerrenda honetan dago.</item>
-        <item quantity="other">Aukeratutako %d elementu erreprodukzio zerrenda honetan daude dagoeneko.</item>
-    </plurals>
     <string name="official_website">Webgune ofiziala</string>
     <string name="view_online">Ikusi konektatuta</string>
     <string name="player_under_notch">Erakutsi bideoa koska azpian</string>

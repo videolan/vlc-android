@@ -613,7 +613,7 @@
     <string name="partial_content">VLCがすべてのファイルにアクセスできません</string>
     <string name="partial_content_description">Android 11で使用する場合、アプリケーションはデバイスのすべてのファイルにアクセスするために特別な権限が必要です。\n\n%s</string>
     <string name="never_ask_again">問い合わせない</string>
-    <string name="never_show_again">二度と表示しない</string>
+    <string name="never_show_again">表示しない(将来のバージョンでも継続)</string>
     <string name="allow_settings_access_ringtone_title">VLCに着信音の設定を許可</string>
     <string name="allow_settings_access_ringtone_description">この音楽を着信音に設定するためにVLCに許可を与える必要があります。</string>
     <string name="allow_settings_access_brightness_title">VLCが輝度モードを変更することを許可</string>
@@ -782,6 +782,8 @@
     <string name="light_theme">明いテーマ</string>
     <string name="add">追加</string>
     <string name="add_to_new_playlist">新しいプレイリストに追加</string>
+    <string name="create_new_playlist">新しいプレイリストを作成</string>
+    <string name="create">作成</string>
     <string name="resume_card_message">%1$s の再生を再開?</string>
     <string name="misc">その他</string>
     <string name="popup_force_legacy_title">カスタマイズされたピクチャーインピクチャーポップアップを使用</string>
@@ -1040,11 +1042,11 @@
     <string name="banned">禁止フォルダ (長押しで変更)</string>
     <string name="banned_tv">禁止されたフォルダー</string>
     <string name="banned_parent">親フォルダが禁止</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">これらの項目は既にこのプレイリストに存在します。</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">これらの項目は既に \"%s\" のプレイリストに存在します。</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">選択された項目の %d 個は既にこのプレイリストに存在します。</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">選択された %d の項目は既に \"%s\" のプレイリストに存在します。</item>
     </plurals>
     <string name="official_website">公式ウェブサイト</string>
     <string name="view_online">オンラインで表示</string>

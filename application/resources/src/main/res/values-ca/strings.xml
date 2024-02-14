@@ -158,6 +158,7 @@
     <string name="shuffle_on">Engega aleatori</string>
     <string name="shuffle_play">Aleatori</string>
     <string name="repeat_title">Mode repetició</string>
+    <string name="repeat_none">Sense repetició</string>
     <string name="repeat_single">Repeteix-ne una</string>
     <string name="repeat_all">Repeteix-ho tot</string>
     <string name="previous">Previ</string>
@@ -622,7 +623,7 @@
     <string name="partial_content">El VLC no pot accedir a tots els vostres fitxers</string>
     <string name="partial_content_description">Amb l\'Android 11 cal un permís especial perquè les aplicacions accedeixin a tots els fitxers del dispositiu.\n\n%s</string>
     <string name="never_ask_again">No ho tornis a demanar</string>
-    <string name="never_show_again">Mai tornis a mostrar-ho</string>
+    <string name="never_show_again">Mai tornis a mostrar, fins i tot per a futures versions</string>
     <string name="allow_settings_access_ringtone_title">Deixa que el VLC configuri la melodia del telèfon</string>
     <string name="allow_settings_access_ringtone_description">VLC necessita permís per configurar aquesta cançó com a melodia del telèfon.</string>
     <string name="allow_settings_access_brightness_title">Deixa que el VLC canviï el mode de brillantor</string>
@@ -1008,6 +1009,7 @@
     <string name="delete_forever">Suprimir per sempre</string>
     <string name="add_to_existing_playlist">Afegeix a la llista de reproducció existent</string>
     <string name="bookmarks_title">Preferits</string>
+    <string name="no_bookmark">No hi ha cap preferit</string>
     <string name="bookmark_default_name">Preferit a %s</string>
     <string name="bookmark_name">Preferit %s</string>
     <string name="add_bookmark">Afegir preferit</string>
@@ -1050,14 +1052,6 @@
     <string name="banned">Carpeta prohibida (feu un toc llarg per canviar)</string>
     <string name="banned_tv">Carpeta prohibida</string>
     <string name="banned_parent">Prohibit per la carpeta pare</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Aquest element ja està a la llista de reproducció.</item>
-        <item quantity="other">Aquests elements ja estan a la llista de reproducció.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 dels elements seleccionats ja està a la llista de reproducció.</item>
-        <item quantity="other">%d dels elements seleccionats ja estan a la llista de reproducció.</item>
-    </plurals>
     <string name="official_website">Lloc web oficial</string>
     <string name="view_online">Veure en línia</string>
     <string name="player_under_notch">Mostrar el vídeo sota l\'osca</string>

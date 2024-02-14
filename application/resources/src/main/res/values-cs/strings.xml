@@ -991,18 +991,6 @@
     <string name="banned">Zakázaná složka (lze změnit při dlouhém stisknutí)</string>
     <string name="banned_tv">Zakázaná složka</string>
     <string name="banned_parent">Zakázáno nadřazenou složkou</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Tato položka již je v tomto seznamu skladeb.</item>
-        <item quantity="few">Tyto položky již jsou v tomto seznamu skladeb.</item>
-        <item quantity="many">Tyto položky již jsou v tomto seznamu skladeb.</item>
-        <item quantity="other">Tyto položky již jsou v tomto seznamu skladeb.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 z vybraných položek je již v tomto seznamu skladeb.</item>
-        <item quantity="few">%d z vybraných položek je již v tomto seznamu skladeb.</item>
-        <item quantity="many">%d z vybraných položek je již v tomto seznamu skladeb.</item>
-        <item quantity="other">%d z vybraných položek je již v tomto seznamu skladeb.</item>
-    </plurals>
     <string name="official_website">Oficiální webové stránky</string>
     <string name="view_online">Zobrazit online</string>
     <string name="player_under_notch">Zobrazit video pod výřezem</string>

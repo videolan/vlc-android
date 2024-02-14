@@ -643,7 +643,7 @@
     <string name="partial_content">ל־VLC אין גישה לכל הקבצים שלך</string>
     <string name="partial_content_description">החל מ־Android 11, יישומים זקוקים להרשאה מיוחדת כדי לגשת לכל הקבצים במכשיר.\n\n%s</string>
     <string name="never_ask_again">לעולם לא לשאול שוב</string>
-    <string name="never_show_again">לא להציג עוד</string>
+    <string name="never_show_again">לא להציג שוב, גם לא לגרסאות עתידיות</string>
     <string name="allow_settings_access_ringtone_title">לאפשר ל־VLC להגדיר את הצלצול</string>
     <string name="allow_settings_access_ringtone_description">ל־VLC נדרשת ההרשאה הזאת כדי להגדיר את השיר הזה בתור הצלצול שלך.</string>
     <string name="allow_settings_access_brightness_title">לאפשר ל־VLC לשנות את מצב הבהירות</string>
@@ -812,6 +812,8 @@
     <string name="light_theme">ערכת עיצוב בהירה</string>
     <string name="add">הוספה</string>
     <string name="add_to_new_playlist">הוספה לרשימת נגינה חדשה</string>
+    <string name="create_new_playlist">יצירת רשימת נגינה חדשה</string>
+    <string name="create">יצירה</string>
     <string name="resume_card_message">להמשיך בנגינה של %1$s?</string>
     <string name="misc">שונות</string>
     <string name="popup_force_legacy_title">להשתמש בחלונית צפה מותאמת לתמונה בתוך תמונה</string>
@@ -1076,17 +1078,17 @@
     <string name="banned">תיקייה חסומה (נגיעה ארוכה לשינוי)</string>
     <string name="banned_tv">תיקייה חסומה</string>
     <string name="banned_parent">נחסמה על ידי תיקיית ההורה</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">הפריט הזה כבר קיים ברשימת נגינה זו.</item>
-        <item quantity="two">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
-        <item quantity="many">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
-        <item quantity="other">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">הפריט הזה כבר נמצא ברשימת הנגינה „%s”.</item>
+        <item quantity="two">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="many">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="other">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">אחד מהפריטים הנבחרים כבר נמצא ברשימת הנגינה.</item>
-        <item quantity="two">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
-        <item quantity="many">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
-        <item quantity="other">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">אחד מהפריטים האלה כבר נמצא ברשימת הנגינה „%s”.</item>
+        <item quantity="two">%d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="many">%d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="other">%d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
     </plurals>
     <string name="official_website">האתר הרשמי</string>
     <string name="view_online">הצגה באופן מקוון</string>

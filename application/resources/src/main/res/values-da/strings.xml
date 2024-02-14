@@ -964,14 +964,6 @@
     <string name="banned">Udeladte mapper (hold finger nede for at ændre)</string>
     <string name="banned_tv">Forbudt mappe</string>
     <string name="banned_parent">Udeladt af overordnet mappe</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Dette element er allerede på denne afspilningsliste.</item>
-        <item quantity="other">Disse elementer er allerede på denne spilleliste.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 af de valgte elementer er allerede på denne afspilningsliste.</item>
-        <item quantity="other">%d af de valgte elementer er allerede på denne spilleliste.</item>
-    </plurals>
     <string name="official_website">Officiel hjemmeside</string>
     <string name="view_online">Vis online</string>
     <string name="player_under_notch">Vis video under hak</string>

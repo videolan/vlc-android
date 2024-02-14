@@ -877,10 +877,6 @@
     <string name="selection_count">%dانتخاب شد</string>
     <!-- Unused -->
     <string name="gestures">اشاره‌ها</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">این مورد هم‌اکنون در سیاههٔ پخش هست</item>
-        <item quantity="other">این موارد هم‌اکنون در سیاههٔ پخش هستند</item>
-    </plurals>
     <string name="view_online">آنلاین ببینید</string>
     <string name="player_under_notch">ویدیو را از پایین برش صفحه نمایش بده</string>
     <string name="notch">برش صفحه</string>

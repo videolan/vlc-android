@@ -623,7 +623,7 @@
     <string name="partial_content">VLC kann nicht auf alle Ihre Dateien zugreifen</string>
     <string name="partial_content_description">Ab Android 11 benötigen Anwendungen eine spezielle Berechtigung, um auf alle Gerätedateien zuzugreifen.\n\n%s</string>
     <string name="never_ask_again">Nicht erneut fragen</string>
-    <string name="never_show_again">Nicht erneut anzeigen</string>
+    <string name="never_show_again">Nie wieder anzeigen, auch nicht für zukünftige Versionen</string>
     <string name="allow_settings_access_ringtone_title">VLC das Einstellen des Klingeltons erlauben</string>
     <string name="allow_settings_access_ringtone_description">VLC benötigt diese Berechtigung um, dieses Lied als Klingelton einzurichten.</string>
     <string name="allow_settings_access_brightness_title">VLC das Einstellen des Helligkeitsmodus erlauben</string>
@@ -792,6 +792,8 @@
     <string name="light_theme">Helles Design</string>
     <string name="add">Hinzufügen</string>
     <string name="add_to_new_playlist">Zur neuer Wiedergabeliste hinzufügen</string>
+    <string name="create_new_playlist">Neue Wiedergabeliste erstellen</string>
+    <string name="create">Erstellen</string>
     <string name="resume_card_message">Wiedergabe fortsetzen von %1$s?</string>
     <string name="misc">Verschiedenes</string>
     <string name="popup_force_legacy_title">Benutzerdefiniertes Bild-in-Bild</string>
@@ -1052,13 +1054,13 @@
     <string name="banned">Gesperrter Ordner (zum Ändern lange tippen)</string>
     <string name="banned_tv">Gesperrter Ordner</string>
     <string name="banned_parent">Gesperrt durch übergeordneten Ordner</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Dieses Element befinden sich bereits in dieser Wiedergabeliste. </item>
-        <item quantity="other">Diese Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Dieses Element befinden sich bereits in dieser \"%s\" - Wiedergabeliste. </item>
+        <item quantity="other">Diese Elemente befinden sich bereits in dieser \"%s\" - Wiedergabeliste.</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Eines der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
-        <item quantity="other">%d der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Eines der ausgewählten Elemente befinden sich bereits in dieser \"%s\" - Wiedergabeliste.</item>
+        <item quantity="other">%d der ausgewählten Elemente befinden sich bereits in dieser \"%s\" - Wiedergabeliste.</item>
     </plurals>
     <string name="official_website">Offizielle Webseite</string>
     <string name="view_online">Online ansehen</string>

@@ -985,14 +985,6 @@
     <string name="banned">Αποκλεισμένος φάκελος (πατήστε παρατεταμένα για αλλαγή)</string>
     <string name="banned_tv">Αποκλεισμένος φάκελος</string>
     <string name="banned_parent">Αποκλείστηκε από τον γονικό φάκελο</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Αυτό το στοιχείο βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-        <item quantity="other">Αυτά τα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 από τα επιλεγμένα στοιχεία βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-        <item quantity="other">%d από τα επιλεγμένα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-    </plurals>
     <string name="official_website">Επίσημη ιστοσελίδα</string>
     <string name="view_online">Προβολή διαδικτυακά</string>
     <string name="player_under_notch">Εμφάνιση βίντεο κάτω από την εγκοπή</string>

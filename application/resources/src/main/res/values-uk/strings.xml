@@ -176,6 +176,7 @@
     <string name="shuffle_on">Перемішування увімк.</string>
     <string name="shuffle_play">Перемішати</string>
     <string name="repeat_title">Режим повторювання</string>
+    <string name="repeat_none">Не повторювати</string>
     <string name="repeat_single">Повторити раз</string>
     <string name="repeat_all">Повторити все</string>
     <string name="previous">Попередній</string>
@@ -642,7 +643,7 @@
     <string name="partial_content">VLC не має доступу  до всіх ваших файлів</string>
     <string name="partial_content_description">Починаючи з Android 11, застосунки потребують особливого дозволу для доступу до всіх файлів вашого пристрою.\nn%s</string>
     <string name="never_ask_again">Ніколи не запитувати знову</string>
-    <string name="never_show_again">Ніколи не показувати знову</string>
+    <string name="never_show_again">Ніколи більше не показувати, навіть у майбутніх версіях</string>
     <string name="allow_settings_access_ringtone_title">Дозволити VLC задавати мелодію дзвінків</string>
     <string name="allow_settings_access_ringtone_description">VLC потрібно, що ви надали цей дозвіл для установки цієї пісні як вашої мелодії.</string>
     <string name="allow_settings_access_brightness_title">Дозволити VLC змінювати режим яскравості</string>
@@ -1032,6 +1033,7 @@
     <string name="delete_forever">Вилучити назавжди</string>
     <string name="add_to_existing_playlist">Додати до наявного списку відтворення</string>
     <string name="bookmarks_title">Закладки</string>
+    <string name="no_bookmark">Не задавати закладку</string>
     <string name="bookmark_default_name">Закладка в %s</string>
     <string name="bookmark_name">Закладка %s</string>
     <string name="add_bookmark">Додати закладку</string>
@@ -1074,18 +1076,6 @@
     <string name="banned">Заблокована тека (тривалий натиск, щоб змінити)</string>
     <string name="banned_tv">Заборонена тека</string>
     <string name="banned_parent">Заблоковано через батьківську тека</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Цей елемент вже наявний у цьому списку.</item>
-        <item quantity="few">Ці елементи вже наявні у цьому списку.</item>
-        <item quantity="many">Ці елементи вже наявні у цьому списку.</item>
-        <item quantity="other">Ці елементи вже наявні у цьому списку.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1  з обраних елементів вже наявний у цьому списку.</item>
-        <item quantity="few">%d з обраних елементів вже наявні у цьому списку.</item>
-        <item quantity="many">%d з обраних елементів вже наявні у цьому списку.</item>
-        <item quantity="other">%d з обраних елементів вже наявні у цьому списку.</item>
-    </plurals>
     <string name="official_website">Офіційна веб-сторінка</string>
     <string name="view_online">Переглянути онлайн</string>
     <string name="player_under_notch">Показувати відео під вирізом</string>

@@ -37,6 +37,8 @@
     <string name="sortby_date_desc">Yeniden eskiye göre</string>
     <string name="sortby_last_modified_date_asc">Eski eklenenden yeniye göre</string>
     <string name="sortby_last_modified_date_desc">Yeni eklenenden eskiye göre</string>
+    <string name="sortby_number_asc">Gruptaki ilk daha fazla görüntü</string>
+    <string name="sortby_number_desc">Gruptaki ilk daha az görüntü</string>
     <string name="sortby_date_insertion_asc">Eski eklenme tarihinden yeniye göre</string>
     <string name="sortby_date_insertion_desc">Yeni eklenme tarihinden eskiye göre</string>
     <string name="sortby_date_last_modified_asc">Eski düzenlenme tarihinden yeniye göre</string>
@@ -156,6 +158,7 @@
     <string name="shuffle_on">Karıştırma açık</string>
     <string name="shuffle_play">Karışık</string>
     <string name="repeat_title">Yineleme kipi</string>
+    <string name="repeat_none">Yineleme yok</string>
     <string name="repeat_single">Parça yinelensin</string>
     <string name="repeat_all">Tümü yinelensin</string>
     <string name="previous">Önceki</string>
@@ -620,7 +623,7 @@
     <string name="partial_content">VLC, tüm dosyalarınıza erişemiyor</string>
     <string name="partial_content_description">Android 11 sürümünden başlayarak, uygulamaların tüm aygıt dosyalarına erişebilmesi için özel izin verilmelidir.\n\n%s</string>
     <string name="never_ask_again">Bir daha sorma</string>
-    <string name="never_show_again">Bir daha gösterme</string>
+    <string name="never_show_again">Bir daha görüntülenmesin, gelecek sürümlerde de</string>
     <string name="allow_settings_access_ringtone_title">VLC zil sesini ayarlayabilsin</string>
     <string name="allow_settings_access_ringtone_description">VLC geçerli parçayı zil sesiniz olarak ayarlamak için bu izne gerek duyar.</string>
     <string name="allow_settings_access_brightness_title">VLC parlaklık kipini ayarlayabilsin</string>
@@ -1006,6 +1009,7 @@
     <string name="delete_forever">Kalıcı olarak sil</string>
     <string name="add_to_existing_playlist">Var olan listeye ekle</string>
     <string name="bookmarks_title">Yer imleri</string>
+    <string name="no_bookmark">Herhangi bir yer imi ayarlanmamış</string>
     <string name="bookmark_default_name">%s konumundaki yer imi</string>
     <string name="bookmark_name">%s yer imi</string>
     <string name="add_bookmark">Yer imi ekle</string>
@@ -1048,14 +1052,6 @@
     <string name="banned">Yasak klasör (uzun dokun değiştir)</string>
     <string name="banned_tv">Engellenmiş klasör</string>
     <string name="banned_parent">Üst klasörce yasaklanmış</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Bu öge zaten listede var.</item>
-        <item quantity="other">Bu ögeler zaten listede var.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Seçilmiş ögelerden 1 tanesi zaten listede var.</item>
-        <item quantity="other">Seçilmiş ögelerden %d tanesi zaten listede var.</item>
-    </plurals>
     <string name="official_website">Resmi site</string>
     <string name="view_online">Çevrim içi görüntüle</string>
     <string name="player_under_notch">Görüntü çentik altında görüntülensin</string>

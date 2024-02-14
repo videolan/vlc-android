@@ -633,7 +633,7 @@
     <string name="partial_content">VLC nu poate accesa toate fișierele dumneavoastră</string>
     <string name="partial_content_description">Începând cu Android 11, aplicațiile au nevoie de o permisiune specială pentru a accesa toate fișierele dispozitivului.\n\n\n%s</string>
     <string name="never_ask_again">Să nu mai întrebi niciodată</string>
-    <string name="never_show_again">Nu mai afișa niciodată</string>
+    <string name="never_show_again">Nu mai afișa niciodată, nici măcar pentru versiunile viitoare</string>
     <string name="allow_settings_access_ringtone_title">Permite programului VLC să stabilească tonul de apel</string>
     <string name="allow_settings_access_ringtone_description">VLC are nevoie de permisiune pentru a configura acest cântec ca ton de sonerie.</string>
     <string name="allow_settings_access_brightness_title">Permite programului VLC să modifice modul de luminozitate</string>
@@ -1064,16 +1064,6 @@
     <string name="banned">Dosar interzis (atinge lung pentru a schimba)</string>
     <string name="banned_tv">Dosar interzis</string>
     <string name="banned_parent">Interzis de dosarul părinte</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Acest element este deja în lista de redare.</item>
-        <item quantity="few">Aceste elemente sunt deja în lista de redare.</item>
-        <item quantity="other">Aceste elemente sunt deja în lista de redare.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 dintre elementele selectate este deja în lista de redare.</item>
-        <item quantity="few">%d dintre elementele selectate sunt deja în lista de redare.</item>
-        <item quantity="other">%d dintre elementele selectate sunt deja în lista de redare.</item>
-    </plurals>
     <string name="official_website">Site-ul oficial</string>
     <string name="view_online">Vizualizare online</string>
     <string name="player_under_notch">Afișează videoclipul sub crestătură</string>

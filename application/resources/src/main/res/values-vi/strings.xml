@@ -832,12 +832,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="video_key_jump_delay">Độ trễ phím điều hướng</string>
     <string name="banned">Thư mục bị cấm (nhấn giữ để thay đổi)</string>
     <string name="banned_parent">Bị thư mục mẹ cấm</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">Những đối tượng này đã có trong danh sách.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">%dtrong các đối tượng được chọn đã có trong danh sách.</item>
-    </plurals>
     <string name="official_website">Trang web chính thức</string>
     <string name="view_online">Xem trên mạng</string>
     <string name="player_under_notch">Hiển thị video dưới tai thỏ</string>

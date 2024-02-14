@@ -919,14 +919,6 @@
     <string name="video_key_jump_delay">നാവിഗേഷൻ കീകളുടെ സമയ കാലതാമസം</string>
     <string name="banned">നിരോധിച്ചിട്ടുള്ള ഫോൾഡർ (മാറ്റാൻ ദീർഘനേരം ടാപ്പ് ചെയ്യുക)</string>
     <string name="banned_parent">പാരന്റ് ഫോൾഡർ മുഖേന നിരോധിച്ചു</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">ഈ ഇനങ്ങൾ ഇതിനകം ഈ പ്ലേലിസ്റ്റിലുണ്ട്.</item>
-        <item quantity="other">ഈ ഇനങ്ങൾ ഇതിനകം ഈ പ്ലേലിസ്റ്റിലുണ്ട്.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 തിരഞ്ഞെടുത്ത ഇനങ്ങൾ ഈ പ്ലേലിസ്റ്റിൽ ഇതിനകം ഉണ്ട്.</item>
-        <item quantity="other">%d തിരഞ്ഞെടുത്ത ഇനങ്ങളുടെ ഈ പ്ലേലിസ്റ്റിൽ ഇതിനകം ഉണ്ട്.</item>
-    </plurals>
     <string name="official_website">ഔദ്യോഗിക വെബ്സൈറ്റ് </string>
     <string name="view_online">ഓൺലൈനിൽ കാണുക</string>
     <string name="player_under_notch">നോച്ചിന് താഴെ വീഡിയോ പ്രദർശിപ്പിക്കുക</string>

@@ -993,14 +993,6 @@
     <string name="banned">Verbannen map (lang tikken om te wijzigen)</string>
     <string name="banned_tv">Verbannen map</string>
     <string name="banned_parent">Verbannen door bovenliggende map</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Dit item staat al in deze afspeellijst.</item>
-        <item quantity="other">Deze items staan al in deze afspeellijst.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 van de geselecteerde items staat al in deze afspeellijst.</item>
-        <item quantity="other">%d van de geselecteerde items staan al in deze afspeellijst.</item>
-    </plurals>
     <string name="official_website">Officiële website</string>
     <string name="view_online">Online weergeven</string>
     <string name="player_under_notch">Video weergeven onder notch</string>

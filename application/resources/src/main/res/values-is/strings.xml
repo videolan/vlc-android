@@ -558,7 +558,6 @@
     <string name="allow_storage_manager_title">Leyfa VLC aðgang að öllum skrám</string>
     <string name="allow_storage_manager_description">%s\n\nVeita heimild?</string>
     <string name="never_ask_again">Ekki spyrja aftur</string>
-    <string name="never_show_again">Ekki birta þetta aftur</string>
     <string name="allow_settings_access_ringtone_title">Leyfa VLC að setja hringitón</string>
     <string name="allow_settings_access_ringtone_description">VLC þarf að fá þessa heimild hjá þér til að setja þetta lag upp sem hringitón.</string>
     <string name="allow_settings_access_brightness_title">Leyfa VLC að stilla birtustigsham</string>
@@ -928,14 +927,6 @@
     <string name="banned">Bönnuð mappa (ýttu lengi til að breyta)</string>
     <string name="banned_tv">Bönnuð mappa</string>
     <string name="banned_parent">Bannað af yfirmöppu</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Þetta atriði er þegar í þessum spilunarlista.</item>
-        <item quantity="other">Þessi atriði eru þegar í þessum spilunarlista.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 af völdu atriðunum eru þegar í þessum spilunarlista.</item>
-        <item quantity="other">%d af völdu atriðunum eru þegar í þessum spilunarlista.</item>
-    </plurals>
     <string name="official_website">Opinbert vefsvæði</string>
     <string name="view_online">Skoða á netinu</string>
     <string name="no_web_browser">Enginn vafri uppsettur</string>
