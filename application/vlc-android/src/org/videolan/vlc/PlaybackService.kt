@@ -41,6 +41,7 @@ import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.car.app.connection.CarConnection
 import androidx.car.app.notification.CarPendingIntent
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
@@ -147,7 +148,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private var popupManager: PopupManager? = null
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
-    private lateinit var carConnectionHandler:CarConnectionHandler
+    private lateinit var carConnection: CarConnection
 
     /**
      * Binds a [MediaBrowserCompat] to the service to allow receiving the
@@ -160,11 +161,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
             val state = intent.getIntExtra("state", 0)
-
-            if (action == CarConnectionHandler.RECEIVER_ACTION) {
-                carConnectionHandler.query()
-                return
-            }
 
             // skip all headsets events if there is a call
             if ((context.getSystemService(AUDIO_SERVICE) as AudioManager).mode == AudioManager.MODE_IN_CALL) return
@@ -652,13 +648,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             addAction(MiniPlayerAppWidgetProvider.ACTION_WIDGET_DISABLED)
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-            if (CarConnectionHandler.preferCarConnectionHandler()) addAction(CarConnectionHandler.RECEIVER_ACTION)
             addAction(CUSTOM_ACTION)
         }
         registerReceiverCompat(receiver, filter, false)
-        if (CarConnectionHandler.preferCarConnectionHandler()) {
-            carConnectionHandler = CarConnectionHandler(contentResolver)
-            carConnectionHandler.connectionType.observeForever {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            carConnection = CarConnection(this)
+            carConnection.type.observeForever {
                 if (it != null) executeUpdate(true)
             }
         }
@@ -1849,8 +1844,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     fun isCarMode(): Boolean {
-        return if (CarConnectionHandler.preferCarConnectionHandler()) {
-            carConnectionHandler.connectionType.value?.let { it > CarConnectionHandler.CONNECTION_TYPE_NOT_CONNECTED } ?: false
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            carConnection.type.value?.let { it > CarConnection.CONNECTION_TYPE_NOT_CONNECTED } ?: false
         } else {
             (getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_CAR
         }
