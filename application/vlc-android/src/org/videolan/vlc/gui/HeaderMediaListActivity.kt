@@ -167,15 +167,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
 
         }
-        val playlistModel = PlaylistModel.get(this)
-        PlaylistManager.currentPlayedMedia.observe(this) {
-            audioBrowserAdapter.currentMedia = it
-        }
-        playlistModel.dataset.asFlow().conflate().onEach {
-            audioBrowserAdapter.setCurrentlyPlaying(playlistModel.playing)
-            delay(50L)
-        }.launchWhenStarted(lifecycleScope)
-        audioBrowserAdapter.setModel(playlistModel)
         binding.btnShuffle.setOnClickListener {
             viewModel.playlist?.let { MediaUtils.playTracks(this, it, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true) }
         }
@@ -237,6 +228,24 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         audioBrowserAdapter.areSectionsEnabled = false
         binding.browserFastScroller.attachToCoordinator(binding.appbar, binding.coordinator, null)
         binding.browserFastScroller.setRecyclerView(binding.songs, viewModel.tracksProvider)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val playlistModel = PlaylistModel.get(this)
+        PlaylistManager.currentPlayedMedia.observe(this) {
+            audioBrowserAdapter.currentMedia = it
+        }
+        playlistModel.dataset.asFlow().conflate().onEach {
+            audioBrowserAdapter.setCurrentlyPlaying(playlistModel.playing)
+            delay(50L)
+        }.launchWhenStarted(lifecycleScope)
+        audioBrowserAdapter.setModel(playlistModel)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        audioBrowserAdapter.setCurrentlyPlaying(false)
     }
 
     override fun onStop() {
