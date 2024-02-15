@@ -27,12 +27,14 @@ import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
@@ -242,8 +244,22 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onCtxAction(position: Int, option: ContextOption) {
         @Suppress("UNCHECKED_CAST")
-        if (option == CTX_PLAY_ALL) MediaUtils.playAll(activity, viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
-        else super.onCtxAction(position, option)
+        when (option) {
+            CTX_PLAY_ALL -> MediaUtils.playAll(activity, viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
+            CTX_RENAME -> {
+                val media = getCurrentAdapter()?.getItem(position) ?: return
+                    val dialog = RenameDialog.newInstance(media)
+                    dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+                    dialog.setListener { item, name ->
+                        lifecycleScope.launch {
+                            viewModel.rename(media, name)
+                        }
+                }
+            }
+            else -> super.onCtxAction(position, option)
+        }
+
+
     }
 
     override fun onRefresh() {

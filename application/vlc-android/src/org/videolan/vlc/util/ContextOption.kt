@@ -85,6 +85,7 @@ enum class ContextOption : Flag {
 
         fun createCtxPlaylistAlbumFlags() = createCtxAudioFlags().apply {
             add(CTX_DELETE)
+            add(CTX_RENAME)
         }
 
         fun createCtxPlaylistItemFlags() = createBaseFlags().apply {

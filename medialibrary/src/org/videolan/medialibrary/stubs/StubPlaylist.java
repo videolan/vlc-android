@@ -97,6 +97,12 @@ public class StubPlaylist extends Playlist {
         return false;
     }
 
+    @Override
+    public boolean setName(String name) {
+        mTitle = name;
+        return true;
+    }
+
     public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {

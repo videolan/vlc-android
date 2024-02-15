@@ -80,6 +80,12 @@ public class PlaylistImpl extends Playlist {
         return ml.isInitiated() && nativePlaylistDelete(ml, mId);
     }
 
+    @Override
+    public boolean setName(String name) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml.isInitiated() && nativePlaylistSetName(ml, mId, name);
+    }
+
     public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, includeMissing, onlyFavorites, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
@@ -113,5 +119,7 @@ public class PlaylistImpl extends Playlist {
 
     private native boolean nativePlaylistRemove(Medialibrary ml, long id, int position);
     private native boolean nativePlaylistDelete(Medialibrary ml, long id);
+    private native boolean nativePlaylistSetName(Medialibrary ml, long mId, String name);
+
     private native boolean nativeSetFavorite(Medialibrary ml, long id, boolean favorite);
 }

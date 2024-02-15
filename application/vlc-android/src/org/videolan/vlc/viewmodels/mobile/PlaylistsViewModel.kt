@@ -23,6 +23,8 @@ package org.videolan.vlc.viewmodels.mobile
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.PlaylistFragment
@@ -39,6 +41,11 @@ class PlaylistsViewModel(context: Context, type: Playlist.Type) : MedialibraryVi
     init {
         watchPlaylists()
         providerInCard = settings.getBoolean(displayModeKey, providerInCard)
+    }
+
+    suspend fun rename(media: MediaLibraryItem, name: String) {
+        withContext(Dispatchers.IO) { (media as? Playlist)?.setName(name) }
+        refresh()
     }
 
     class Factory(val context: Context, val type: Playlist.Type): ViewModelProvider.NewInstanceFactory() {

@@ -1736,6 +1736,16 @@ playlistDelete(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId
     return aml->PlaylistDelete(playlistId);
 }
 
+jboolean
+setPlaylistName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
+    const medialibrary::PlaylistPtr playlist = aml->playlist(id);
+    const bool result = playlist->setName(char_name);
+    env->ReleaseStringUTFChars(name, char_name);
+    return result;
+}
+
  /*
   * Folder methods
   */
@@ -2671,6 +2681,7 @@ static JNINativeMethod playlist_methods[] = {
     {"nativePlaylistMove", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JII)Z", (void*)playlistMove },
     {"nativePlaylistRemove", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)Z", (void*)playlistRemove },
     {"nativePlaylistDelete", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)playlistDelete },
+    {"nativePlaylistSetName", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)Z", (void*)setPlaylistName },
     {"nativeSetFavorite", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)Z", (void*)setPlaylistFavorite },
 };
 
