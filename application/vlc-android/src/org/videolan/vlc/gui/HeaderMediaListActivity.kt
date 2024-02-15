@@ -152,17 +152,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         viewModel.tracksProvider.liveHeaders.observe(this) {
             binding.songs.invalidateItemDecorations()
         }
-        audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
 
-        val playlistModel = PlaylistModel.get(this)
-        audioBrowserAdapter.setModel(playlistModel)
-        PlaylistManager.currentPlayedMedia.observe(this) {
-            audioBrowserAdapter.currentMedia = it
-        }
-        playlistModel.dataset.asFlow().conflate().onEach {
-            audioBrowserAdapter.setCurrentlyPlaying(playlistModel.playing)
-            delay(50L)
-        }.launchWhenStarted(lifecycleScope)
         if (isPlaylist) {
             audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter, lockedInSafeMode = Settings.safeMode)
@@ -177,6 +167,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
 
         }
+        val playlistModel = PlaylistModel.get(this)
+        PlaylistManager.currentPlayedMedia.observe(this) {
+            audioBrowserAdapter.currentMedia = it
+        }
+        playlistModel.dataset.asFlow().conflate().onEach {
+            audioBrowserAdapter.setCurrentlyPlaying(playlistModel.playing)
+            delay(50L)
+        }.launchWhenStarted(lifecycleScope)
+        audioBrowserAdapter.setModel(playlistModel)
         binding.btnShuffle.setOnClickListener {
             viewModel.playlist?.let { MediaUtils.playTracks(this, it, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true) }
         }
