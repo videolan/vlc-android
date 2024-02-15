@@ -264,6 +264,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
 
         setBottomMargin()
+        Lyrics.setUI(binding);
     }
 
     override fun onDestroy() {
@@ -482,6 +483,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.time.text = displayTime
             if (!isDragging) binding.timeline.progress = progress.time.toInt()
             binding.progressBar.progress = progress.time.toInt()
+            Lyrics.progress(progress.time);
         }
 
         lifecycleScope.launchWhenStarted {

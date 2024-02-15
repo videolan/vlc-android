@@ -20,6 +20,7 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.*
 import org.videolan.vlc.*
+import org.videolan.vlc.gui.audio.Lyrics
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.repository.SlaveRepository
@@ -108,6 +109,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     fun setPosition(position: Float) {
+        Lyrics.hint = 0;
         if (seekable && mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.position = position
     }
 

@@ -52,8 +52,10 @@
         android:name="android.hardware.bluetooth"
         android:required="false"/>
 
-    <application>
-
+    <application       android:requestLegacyExternalStorage="true">
+        <meta-data
+            android:name="requestLegacyExternalStorage"
+            android:value="true"/>
         <!-- Enable VLC in Samsung multiwindow mode -->
         <meta-data
             android:name="com.samsung.android.sdk.multiwindow.enable"

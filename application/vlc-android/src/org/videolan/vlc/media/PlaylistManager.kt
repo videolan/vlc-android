@@ -75,6 +75,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.audio.Lyrics
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.awaitMedialibraryStarted
@@ -328,6 +329,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 //needed to save the current media in audio mode when it's a video played as audio
                 saveCurrentMedia()
                 saveMediaList()
+                // the UI is recreated?
+                val pos=Lyrics.lastPos;
+                Lyrics.seek(0)
+                Lyrics.setUILines(pos)
             }
             if (getCurrentMedia()?.isPodcast == true) saveMediaMeta()
         }
@@ -459,6 +464,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
+        Lyrics.clear();
         videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo()) || !isAppStarted()
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -528,6 +534,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             newMedia = true
             determinePrevAndNextIndices()
             service.onNewPlayback()
+            Lyrics.open(uri, service);
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
             if (player.isPlaying()) player.stop()
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)

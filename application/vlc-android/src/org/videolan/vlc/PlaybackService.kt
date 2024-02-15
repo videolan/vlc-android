@@ -74,6 +74,7 @@ import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.resources.util.startForegroundCompat
 import org.videolan.tools.*
 import org.videolan.vlc.car.VLCCarService
+import org.videolan.vlc.gui.audio.Lyrics
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -1594,6 +1595,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
             if (fromUser) publishState(time)
         }
+        Lyrics.seek(time);
         // Required to update timeline when paused
         if (fromUser && isPaused) showNotification()
     }
