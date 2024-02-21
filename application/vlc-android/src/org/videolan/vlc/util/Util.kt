@@ -82,7 +82,7 @@ object Util {
 
     fun getFullScreenBundle() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         val options = ActivityOptions.makeBasic()
-        options.launchBounds = Rect(0, 0, 0, 0)
+        options.setLaunchBounds(null)
         options.toBundle()
     } else Bundle()
 
