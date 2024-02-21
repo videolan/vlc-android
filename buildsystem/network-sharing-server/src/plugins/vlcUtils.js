@@ -59,6 +59,8 @@ export default {
                     break
                 case "artist": id = route.params.artistId
                     break
+                case "album": id = route.params.albumId
+                    break
                 default: id = 0
             }
             let path = (type == "browser") ? route.params.browseId : ""
