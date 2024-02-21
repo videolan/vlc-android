@@ -46,10 +46,21 @@ export default {
                         appStore.warning = { type: "warning", message: error.response.data }
                     }
                 })
-        },
+        }
         app.config.globalProperties.$playAll = (route) => {
             let type= route.meta.playAllType
-            let id = (type == "video-group") ? route.params.groupId : (type == "video-folder") ? route.params.folderId : 0
+
+            let id
+            switch (type) {
+                case "video-group":
+                    id = route.params.groupId
+                    break
+                case "video-folder": id = route.params.folderId
+                    break
+                case "artist": id = route.params.artistId
+                    break
+                default: id = 0
+            }
             let path = (type == "browser") ? route.params.browseId : ""
              axios.get(vlcApi.playAll(type, id, path))
                  .catch(function (error) {

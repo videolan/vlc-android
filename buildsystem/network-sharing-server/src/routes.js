@@ -10,6 +10,7 @@ import BrowseList from './pages/BrowseList'
 import SearchList from './pages/SearchList'
 import LoginPage from './pages/LoginPage'
 import SslPage from './pages/SslPage'
+import ArtistDetails from './pages/ArtistDetails'
 
 const routes = [
   { path: '/', redirect: '/videos', name: 'Home' },
@@ -28,6 +29,7 @@ const routes = [
       { path: 'albums', component: AudioAlbums, name: 'AudioAlbums', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
       { path: 'tracks', component: AudioTracks, name: 'AudioTracks', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false, showFAB: true, playAllType: "tracks" } },
       { path: 'genres', component: AudioGenres, name: 'AudioGenres', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
+      { path: 'artist/:artistId', component: ArtistDetails, name: 'ArtistDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "artist" } },
     ]
   },
   {

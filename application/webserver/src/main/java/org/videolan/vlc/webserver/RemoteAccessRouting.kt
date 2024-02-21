@@ -498,6 +498,25 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // Get an artist details
+        get("/artist") {
+            verifyLogin(settings)
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
+            val id = call.request.queryParameters["id"]?.toLong() ?: 0L
+
+            val artist = appContext.getFromMl { getArtist(id) }
+
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            artist.albums.forEach { album ->
+                list.add(album.toPlayQueueItem())
+            }
+            val result= RemoteAccessServer.ArtistResult(list, listOf(), artist.title)
+            val gson = Gson()
+            call.respondText(gson.toJson(result))
+        }
         // List of all the playlists
         get("/playlist-list") {
             verifyLogin(settings)
@@ -799,6 +818,12 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                             id?.let { id ->
                                 val folder = getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
                                 folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                            }
+                        }
+                        "artist" -> {
+                            id?.let { id ->
+                                val artist = getArtist(id.toLong())
+                                artist.tracks
                             }
                         }
                         else -> getAudio(Medialibrary.SORT_DEFAULT, false, false, false)
