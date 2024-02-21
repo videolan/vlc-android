@@ -718,6 +718,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val saveVideoPlayQueue = settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)
         if (!isAudio && saveVideoPlayQueue) {
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artist ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
             settings.putSingle(KEY_CURRENT_MEDIA, media.location)
         }
         if (isAudio && saveAudioPlayQueue) {
