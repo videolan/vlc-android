@@ -569,7 +569,21 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun banFolder(folder: Folder) {
         folder.mMrl.toUri().path?.let { path ->
-            MedialibraryUtils.banDir(path.removePrefix("file://"))
+            lifecycleScope.launch(Dispatchers.IO) {
+                val roots: Array<String> = Medialibrary.getInstance().foldersList
+                val strippedPath = path.removePrefix("file://")
+                for (root in roots) {
+                    if (root.removePrefix("file://") == strippedPath) {
+                        Log.w(TAG, "banFolder: trying to ban root: $root")
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            UiTools.snacker(requireActivity(), getString(R.string.cant_ban_root))
+                        }
+                        return@launch
+                    }
+                }
+                MedialibraryUtils.banDir(strippedPath)
+            }
+
         } ?: Log.e(TAG, "banFolder: path is null")
     }
 
