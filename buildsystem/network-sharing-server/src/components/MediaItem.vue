@@ -14,6 +14,9 @@
                 <div class="card-progress full"></div>
                 <div class="card-progress" v-bind:style="(getProgressStyle())"></div>
             </div>
+            <div class="item-play" v-show="isPlayable()" v-on:click.stop="$play(media, this.mediaType, false, false)">
+                <img class="image-button-image" :src="(`./icons/play_item.svg`)"  :title="$t('PLAY')"/>
+            </div>
         </div>
         <div class="d-flex align-items-end">
 
@@ -105,6 +108,9 @@ export default {
         isBrowse() {
             return (this.mediaType == 'folder' || this.mediaType == 'network' || this.mediaType == 'stream' || this.mediaType == 'new-stream')
         },
+        isPlayable() {
+            return (this.mediaType == 'album' || this.mediaType == 'artist')
+        },
         isOpenable() {
             return ['video-group', 'video-folder', 'artist', 'album'].includes(this.mediaType)
         },
@@ -180,6 +186,26 @@ export default {
     animation: slide 1.5s infinite;
     background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, var(--placeholder-animation) 50%, rgba(0, 0, 0, 0) 100%);
     float: left;
+}
+
+.item-play {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    top: auto;
+    left: auto;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 4px;
+    display: flex;
+}
+
+.item-play:hover {
+    background-color: $primary-color;
 }
 
 /* animation */

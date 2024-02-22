@@ -211,10 +211,9 @@ body {
   border: none;
 }
 
-//medias
+//medias 
 
 .media-overlay {
-  visibility: hidden;
   opacity: 0;
   position: absolute;
   top: 0;
@@ -265,8 +264,7 @@ body {
 }
 
 .media-img-list-tr:hover .media-overlay,
-.audio-img-container:hover .media-overlay {
-  visibility: visible;
+.media-overlay:hover {
   opacity: 1;
 }
 
