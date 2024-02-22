@@ -24,7 +24,6 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.app.Service
 import android.content.Context
-import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import org.videolan.resources.AppContextProvider
