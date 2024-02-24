@@ -243,7 +243,7 @@ class ArtworkProvider : ContentProvider() {
         // Non-square cover art will have an artworkMrl, which will be padded, re-encoded, and cached.
         // Videos, tracks with no cover art, etc. use mediaId and will be processed per library item.
         var key = mw?.artworkMrl ?: "$mediaId"
-        val nonTransparent = (Build.VERSION.SDK_INT >= 33) && ("com.android.systemui" == callingPackage)
+        val nonTransparent = (Build.VERSION.SDK_INT == 33) && ("com.android.systemui" == callingPackage)
         if (nonTransparent) key += "_nonTransparent"
         if (fallbackIcon != null) key += fallbackIcon.toString()
         val image = getOrPutImage(key) {
@@ -551,7 +551,7 @@ class ArtworkProvider : ContentProvider() {
         const val SHUFFLE_ALL = "shuffle_all"
 
         //Used to store webp encoded bitmap of the currently playing artwork
-        private val memCache: LruCache<String, ByteArray> = LruCache<String, ByteArray>(if (Build.VERSION.SDK_INT >= 33) 2 else 1)
+        private val memCache: LruCache<String, ByteArray> = LruCache<String, ByteArray>(if (Build.VERSION.SDK_INT == 33) 2 else 1)
 
         @Synchronized
         fun clear() {
