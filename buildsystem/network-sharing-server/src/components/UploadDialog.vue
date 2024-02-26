@@ -126,7 +126,7 @@ export default {
       e.stopPropagation();
     }.bind(this), false);
 
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipTriggerList = [].slice.call(this.$el.querySelectorAll('[data-bs-toggle="tooltip"]'))
     tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new Tooltip(tooltipTriggerEl, {
         trigger: 'hover'
