@@ -30,7 +30,8 @@
         <tbody>
           <tr v-for="(fileUpload, index) in uploadStore.uploadingFiles" :key="index">
             <td class="align-middle">
-              <p class="text-truncate">{{ fileUpload.file.name }}</p>
+              <p class="text-truncate" data-bs-toggle="tooltip" data-bs-placement="left" :title="(fileUpload.file.name)">
+                {{ fileUpload.file.name }}</p>
               <div v-if="(fileUpload.status == 'uploading')" class="progress" role="progressbar" aria-valuenow="0"
                 aria-valuemin="0" aria-valuemax="100">
                 <div class="progress-bar bg-primary" v-bind:style="{ width: getProgress(fileUpload) }"></div>
@@ -89,6 +90,8 @@ export default {
       for (const file of fileInput.files) {
         this.uploadStore.changeFileStatus(file, "waiting")
       }
+      this.refreshTooltips()
+
     },
     uploadAll() {
       this.uploadStore.uploadingFiles.filter(upload => upload.status == 'waiting').forEach(element => {
@@ -106,6 +109,7 @@ export default {
       for (const file of e.dataTransfer.files) {
         this.uploadStore.changeFileStatus(file, "waiting")
       }
+      this.refreshTooltips()
     },
     setDragging(dragging) {
       if (!dragging) {
@@ -116,6 +120,16 @@ export default {
         this.dragging = true
         clearTimeout(this.inActiveTimeout)
       }
+    },
+    refreshTooltips() {
+      this.$nextTick(() => {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new Tooltip(tooltipTriggerEl, {
+            trigger: 'hover'
+          })
+        })
+      });
     }
   },
   mounted() {
@@ -125,13 +139,6 @@ export default {
       e.preventDefault();
       e.stopPropagation();
     }.bind(this), false);
-
-    var tooltipTriggerList = [].slice.call(this.$el.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new Tooltip(tooltipTriggerEl, {
-        trigger: 'hover'
-      })
-    })
   }
 }
 </script>
