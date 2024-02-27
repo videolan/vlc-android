@@ -599,22 +599,12 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             // Launch asynchronous description calculations
             getProviderDescriptions(appContext, scope, provider, dataset)
-            observeLiveDataUntil(5000, dataset) {
-                provider.loading.value == false
-            }
-
-            val list = dataset.getList().mapIndexed { index, mediaLibraryItem ->
-                val path = when (mediaLibraryItem) {
-                    is MediaWrapper -> mediaLibraryItem.uri.toString()
-                    is Storage -> mediaLibraryItem.uri.toString()
-                    else -> throw IllegalStateException("Unrecognised media type")
-
-                }
-                val title = if ((provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile()) && mediaLibraryItem is MediaWrapper)
-                    mediaLibraryItem.fileName else mediaLibraryItem.title
-                val isFolder = if (mediaLibraryItem is MediaWrapper) mediaLibraryItem.type == MediaWrapper.TYPE_DIR else true
-                RemoteAccessServer.PlayQueueItem(1000L + index, title, mediaLibraryItem.description ?: "", 0, mediaLibraryItem.artworkMrl
-                        ?: "", false, "", path, isFolder)
+            val list = try {
+                getProviderContent(appContext, provider, dataset, 1000L)
+            } catch (e: Exception) {
+                Log.e(this::class.java.simpleName, e.message, e)
+                call.respond(HttpStatusCode.InternalServerError)
+                return@get
             }
 
             val gson = Gson()
