@@ -12,6 +12,7 @@ export const usePlayerStore = defineStore('player', {
     playqueueShowing: false,
     playQueueEdit: false,
     responsivePlayerShowing: false,
+    volume:0
   }),
   getters: {
   },
