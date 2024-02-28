@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.webserver.utils
 
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.slugify
@@ -55,6 +56,37 @@ object MediaZipUtils {
         val files = playlist.tracks.mapNotNull { prepareTrackForZip(it, -1) }
 
         val filename = "${playlist.title.slugify("_")}.zip"
+        val dst = File("$folder/$filename")
+        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        return filename
+    }
+
+    /**
+     * Generate a zip file for a [VideoGroup]
+     *
+     * @param videoGroup the video group to zip
+     * @return the filename
+     */
+    fun generateVideoGroupZip(videoGroup: VideoGroup, folder:String): String {
+        val files = videoGroup.media(Medialibrary.SORT_DEFAULT, false, false, false, videoGroup.mediaCount(), 0).mapNotNull { prepareTrackForZip(it, -1) }
+
+        val filename = "${videoGroup.title.slugify("_")}.zip"
+        val dst = File("$folder/$filename")
+        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        return filename
+    }
+
+    /**
+     * Generate a zip file for a [Folder]
+     *
+     * @param videoFolder the video folder to zip
+     * @return the filename
+     */
+    fun generateVideoGroupZip(videoFolder: Folder, folder:String): String {
+        val files = videoFolder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, videoFolder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0).mapNotNull { prepareTrackForZip(it, -1) }
+
+
+        val filename = "${videoFolder.title.slugify("_")}.zip"
         val dst = File("$folder/$filename")
         FileUtils.zipWithName(files.toTypedArray(), dst.path)
         return filename

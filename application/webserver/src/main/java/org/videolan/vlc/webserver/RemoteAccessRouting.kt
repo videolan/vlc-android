@@ -888,6 +888,18 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         call.respondText(dst)
                         return@get
                     }
+                    "video-group" -> {
+                        val videoGroup = appContext.getFromMl { getVideoGroup(id.toLong()) }
+                        val dst = MediaZipUtils.generateVideoGroupZip(videoGroup, RemoteAccessServer.getInstance(appContext).downloadFolder)
+                        call.respondText(dst)
+                        return@get
+                    }
+                    "video-folder" -> {
+                        val videoFolder = appContext.getFromMl { getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong()) }
+                        val dst = MediaZipUtils.generateVideoGroupZip(videoFolder, RemoteAccessServer.getInstance(appContext).downloadFolder)
+                        call.respondText(dst)
+                        return@get
+                    }
                     else -> {
                         //simple media. It's a direct download
                         appContext.getFromMl { getMedia(id.toLong()) }?.let { media ->
