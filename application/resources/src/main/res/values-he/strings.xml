@@ -109,25 +109,21 @@
     <plurals name="subfolders_quantity">
         <item quantity="one">תת־תיקייה אחת</item>
         <item quantity="two">%d תת־תיקיות</item>
-        <item quantity="many">%d תת־תיקיות</item>
         <item quantity="other">%d תת־תיקיות</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">מדיה אחת</item>
         <item quantity="two">%d מדיה</item>
-        <item quantity="many">%d מדיה</item>
         <item quantity="other">%d מדיה</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">קובץ מדיה אחד</item>
         <item quantity="two">%d קובצי מדיה</item>
-        <item quantity="many">%d קובצי מדיה</item>
         <item quantity="other">%d קובצי מדיה</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">סרטון אחד</item>
         <item quantity="two">%d סרטונים</item>
-        <item quantity="many">%d סרטונים</item>
         <item quantity="other">%d סרטונים</item>
     </plurals>
     <plurals name="movies_quantity">
@@ -139,7 +135,6 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">סדרת טלוויזיה אחת</item>
         <item quantity="two">%d סדרות טלוויזיה</item>
-        <item quantity="many">%d סדרות טלוויזיה</item>
         <item quantity="other">%d סדרות טלוויזיה</item>
     </plurals>
     <plurals name="track_quantity">
@@ -344,6 +339,7 @@
     <string name="screen_orientation_landscape_sensor">אופקי (חיישן)</string>
     <string name="screen_orientation_last_locked">הכיוון האחרון שננעל</string>
     <string name="enable_black_theme">ערכת נושא שחורה</string>
+    <string name="dark_theme">ערכת עיצוב כהה</string>
     <string name="theme_auto">ערכת עיצוב אוטומטית</string>
     <string name="subtitle_text_encoding">קידוד טקסט הכתוביות</string>
     <string name="subtitle_preferred_language">שפת הכתוביות המועדפת</string>
@@ -833,13 +829,11 @@
     <plurals name="tracks_inserted">
         <item quantity="one">רצועה %d נוספת</item>
         <item quantity="two">%d רצועות נוספות</item>
-        <item quantity="many">%d רצועות נוספות</item>
         <item quantity="other">%d רצועות נוספות</item>
     </plurals>
     <plurals name="tracks_appended">
         <item quantity="one">רצועה %d נוספה לסוף</item>
         <item quantity="two">%d רצועות נוספו לסוף</item>
-        <item quantity="many">%d רצועות נוספו לסוף</item>
         <item quantity="other">%d רצועות נוספו לסוף</item>
     </plurals>
     <string name="remove_current">הסרת הנוכחית</string>

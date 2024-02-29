@@ -334,6 +334,7 @@
     <string name="screen_orientation_landscape_sensor">Orizzontale (sensore)</string>
     <string name="screen_orientation_last_locked">Ultimo orientamento bloccato</string>
     <string name="enable_black_theme">Tema nero</string>
+    <string name="dark_theme">Tema scuro</string>
     <string name="theme_auto">Tema automatico</string>
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="subtitle_preferred_language">Lingua preferita dei sottotitoli</string>

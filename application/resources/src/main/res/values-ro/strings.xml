@@ -334,6 +334,7 @@
     <string name="screen_orientation_landscape_sensor">Peisaj (senzor)</string>
     <string name="screen_orientation_last_locked">Ultima orientare blocată</string>
     <string name="enable_black_theme">Tematica neagră</string>
+    <string name="dark_theme">Temă întunecată</string>
     <string name="theme_auto">Temă automată</string>
     <string name="subtitle_text_encoding">Codificarea textului din subtitlu</string>
     <string name="subtitle_preferred_language">Limba preferată pentru subtitrare</string>
@@ -802,6 +803,8 @@
     <string name="light_theme">Tema luminii</string>
     <string name="add">Adăugați</string>
     <string name="add_to_new_playlist">Adăugați la noua listă de redare</string>
+    <string name="create_new_playlist">Crează o nouă listă de redare</string>
+    <string name="create">Crează</string>
     <string name="resume_card_message">Reluați redarea %1$s?</string>
     <string name="misc">Redare aleatorie</string>
     <string name="popup_force_legacy_title">Utilizați fereastra pop-up personalizată Picture-in-Picture</string>

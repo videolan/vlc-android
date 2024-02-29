@@ -37,6 +37,8 @@
     <string name="sortby_date_desc">A data a più recente in primu</string>
     <string name="sortby_last_modified_date_asc">L’aghjuntu u più anzianu in primu</string>
     <string name="sortby_last_modified_date_desc">L’aghjuntu u più recente in primu</string>
+    <string name="sortby_number_asc">Più video in u gruppu in primu</string>
+    <string name="sortby_number_desc">Menu video in u gruppu in primu</string>
     <string name="sortby_date_insertion_asc">Data d’aghjuntu a più anziana in primu</string>
     <string name="sortby_date_insertion_desc">Data d’aghjuntu a più recente in primu</string>
     <string name="sortby_date_last_modified_asc">Data di mudificazione a più anziana in primu</string>
@@ -156,6 +158,7 @@
     <string name="shuffle_on">Lettura aleatoria attivata</string>
     <string name="shuffle_play">Aleatoriu</string>
     <string name="repeat_title">Modu di ripetizione</string>
+    <string name="repeat_none">Senza ripetizione</string>
     <string name="repeat_single">Ripete u pezzu</string>
     <string name="repeat_all">Ripete tutti</string>
     <string name="previous">Precedente</string>
@@ -321,6 +324,7 @@
     <string name="screen_orientation_landscape_sensor">Orizuntale (cattore)</string>
     <string name="screen_orientation_last_locked">Ultima orientazione ammarchjunata</string>
     <string name="enable_black_theme">Tema neru</string>
+    <string name="dark_theme">Tema scuru</string>
     <string name="theme_auto">Tema autumaticu</string>
     <string name="subtitle_text_encoding">Cudificazione di u testu di i sottutituli</string>
     <string name="subtitle_preferred_language">Lingua preferita di sottutitulu</string>
@@ -620,6 +624,7 @@
     <string name="partial_content">VLC ùn pò micca accede à tutti i vostri schedarii</string>
     <string name="partial_content_description">Cù Android 11 è dopu, l’appiecazioni richiedenu un permessu speziale per accede à tutti i schedarii di l’apparechju.\n\n%s</string>
     <string name="never_ask_again">Ùn mi dumandà mai più</string>
+    <string name="never_show_again">Ùn affissà mai più, mancu per e versioni future</string>
     <string name="allow_settings_access_ringtone_title">Permette à VLC di definisce a suneria</string>
     <string name="allow_settings_access_ringtone_description">VLC hà bisognu di stu permessu per definisce sta canzona cum’è a vostra suneria.</string>
     <string name="allow_settings_access_brightness_title">Permette à VLC di cambià u modu di lucidezza</string>
@@ -788,6 +793,8 @@
     <string name="light_theme">Tema chjaru</string>
     <string name="add">Aghjunghje</string>
     <string name="add_to_new_playlist">Aghjunghje à a nova lista di lettura</string>
+    <string name="create_new_playlist">Creà una lista di lettura nova</string>
+    <string name="create">Creà</string>
     <string name="resume_card_message">Ripiglià a ripruduzzione di %1$s ?</string>
     <string name="misc">Diversi</string>
     <string name="popup_force_legacy_title">Impiegà una finestra persunalizata fiura-nant’à-fiura (PIP)</string>
@@ -1005,6 +1012,7 @@
     <string name="delete_forever">Squassà ab eternu</string>
     <string name="add_to_existing_playlist">Aghjunghje à a lista di lettura esistente</string>
     <string name="bookmarks_title">Indette</string>
+    <string name="no_bookmark">Nisuna indetta definita</string>
     <string name="bookmark_default_name">Indettà à %s</string>
     <string name="bookmark_name">Indettà %s</string>
     <string name="add_bookmark">Aghjunghje un’indetta</string>
@@ -1047,6 +1055,14 @@
     <string name="banned">Cartulare difesu (longa picchicciata per cambià)</string>
     <string name="banned_tv">Cartulare difesu</string>
     <string name="banned_parent">Difesu da u cartulare di livellu superiore</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">St’elementu hè dighjà in a lista di lettura « %s ».</item>
+        <item quantity="other">St’elementi sò dighjà in a lista di lettura « %s ».</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 trà l’elementi selezziunati hè dighjà in a lista di lettura « %s ».</item>
+        <item quantity="other">%d trà l’elementi selezziunati sò dighjà in a lista di lettura « %s ».</item>
+    </plurals>
     <string name="official_website">Situ web ufficiale</string>
     <string name="view_online">Vede in linea</string>
     <string name="player_under_notch">Affissà a video sottu l’intacca</string>

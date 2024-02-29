@@ -324,6 +324,7 @@
     <string name="screen_orientation_landscape_sensor">Landskap (sensor)</string>
     <string name="screen_orientation_last_locked">Senast låsta orientering</string>
     <string name="enable_black_theme">Mörkt tema</string>
+    <string name="dark_theme">Mörkt tema</string>
     <string name="theme_auto">Automatiskt tema</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
     <string name="subtitle_preferred_language">Föredraget språk för undertexter</string>

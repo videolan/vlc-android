@@ -324,6 +324,7 @@
     <string name="screen_orientation_landscape_sensor">Querformat (Sensor)</string>
     <string name="screen_orientation_last_locked">Letzte gesperrte Ausrichtung</string>
     <string name="enable_black_theme">Schwarzes Design</string>
+    <string name="dark_theme">Dunkles Design</string>
     <string name="theme_auto">Automatisches Design</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="subtitle_preferred_language">Bevorzugte Untertitelsprache</string>

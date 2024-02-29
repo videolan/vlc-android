@@ -314,6 +314,7 @@
     <string name="screen_orientation_landscape_sensor">橫向（感應器）</string>
     <string name="screen_orientation_last_locked">最後鎖定方向</string>
     <string name="enable_black_theme">黑色主題</string>
+    <string name="dark_theme">深色佈景主題</string>
     <string name="theme_auto">自動佈景主題</string>
     <string name="subtitle_text_encoding">字幕編碼</string>
     <string name="subtitle_preferred_language">偏好的字幕語言</string>
@@ -782,6 +783,8 @@
     <string name="light_theme">亮色佈景主題</string>
     <string name="add">加入</string>
     <string name="add_to_new_playlist">加到新的播放清單</string>
+    <string name="create_new_playlist">建立新播放清單</string>
+    <string name="create">建立</string>
     <string name="resume_card_message">繼續播放 %1$s 嗎？</string>
     <string name="misc">雜項</string>
     <string name="popup_force_legacy_title">使用自訂子母畫面彈出</string>
@@ -1040,6 +1043,12 @@
     <string name="banned">已封鎖的資料夾（長按以變更）</string>
     <string name="banned_tv">已封鎖的資料夾</string>
     <string name="banned_parent">被上層資料夾封鎖</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">這些項目已在「%s」播放清單中。</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">選定項目中的 %d 個已在「%s」播放清單中。</item>
+    </plurals>
     <string name="official_website">官方網站</string>
     <string name="view_online">線上檢視</string>
     <string name="player_under_notch">在缺口下顯示影片</string>

@@ -324,6 +324,7 @@
     <string name="screen_orientation_landscape_sensor">Fekvő (érzékelő)</string>
     <string name="screen_orientation_last_locked">Utolsó zárolt tájolás</string>
     <string name="enable_black_theme">Fekete téma</string>
+    <string name="dark_theme">Sötét téma</string>
     <string name="theme_auto">Automatikus téma</string>
     <string name="subtitle_text_encoding">Feliratszöveg kódolása</string>
     <string name="subtitle_preferred_language">Felirat előnyben részesített nyelve</string>
@@ -792,6 +793,8 @@
     <string name="light_theme">Világos téma</string>
     <string name="add">Hozzáadás</string>
     <string name="add_to_new_playlist">Hozzáadás új lejátszólistához</string>
+    <string name="create_new_playlist">Új lejátszólista létrehozása</string>
+    <string name="create">Létrehozás</string>
     <string name="resume_card_message">Folytatja a(z) %1$s lejátszását?</string>
     <string name="misc">Egyéb</string>
     <string name="popup_force_legacy_title">Egyéni „Kép a képben” felugró ablak</string>
@@ -1052,6 +1055,14 @@
     <string name="banned">Tiltott mappa (hosszú koppintás a módosításhoz)</string>
     <string name="banned_tv">Tiltott mappa</string>
     <string name="banned_parent">Szülőmappa miatt tiltott</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Ez az elem már rajta van a(z) „%s” lejátszólistán.</item>
+        <item quantity="other">Ezek az elemek már rajta vannak a(z) „%s” lejátszólistán.</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">A kiválasztott elemek közül 1 már rajta van a(z) „%s” lejátszólistán.</item>
+        <item quantity="other">A kiválasztott elemek közül %d már rajta van a(z) „%s” lejátszólistán.</item>
+    </plurals>
     <string name="official_website">Hivatalos honlap</string>
     <string name="view_online">Online megtekintés</string>
     <string name="player_under_notch">Videó megjelenítése a bevágás alatt</string>

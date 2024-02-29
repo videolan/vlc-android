@@ -314,6 +314,7 @@
     <string name="screen_orientation_landscape_sensor">ランドスケープ（センサー）</string>
     <string name="screen_orientation_last_locked">最後にロックされた方向</string>
     <string name="enable_black_theme">ブラックテーマ</string>
+    <string name="dark_theme">ダークテーマ</string>
     <string name="theme_auto">自動テーマ</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="subtitle_preferred_language">優先する字幕の言語</string>
