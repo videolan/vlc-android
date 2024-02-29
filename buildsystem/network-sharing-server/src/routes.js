@@ -12,6 +12,7 @@ import LoginPage from './pages/LoginPage'
 import SslPage from './pages/SslPage'
 import ArtistDetails from './pages/ArtistDetails'
 import AlbumDetails from './pages/AlbumDetails'
+import PlaylistDetails from './pages/PlaylistDetails'
 
 const routes = [
   { path: '/', redirect: '/videos', name: 'Home' },
@@ -41,7 +42,13 @@ const routes = [
       { path: ':browseId', component: BrowseChild, name: 'BrowseChild', meta: { showDisplayBar: true, showFAB: true, playAllType: "browser" } },
     ]
   },
-  { path: '/playlists', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true } },
+  { 
+    path: '/playlists', redirect: '/playlists/all', name: 'PlaylistList',
+    children : [
+      {path: 'all', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true }},
+      { path: 'playlist/:playlistId', component: PlaylistDetails, name: 'PlaylistDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "playlist" } }
+    ]
+},
   { path: '/search', component: SearchList, name: 'SearchList', meta: { showDisplayBar: false } },
 
   { path: '/logs', component: PageDownloads, name: 'Logs' },

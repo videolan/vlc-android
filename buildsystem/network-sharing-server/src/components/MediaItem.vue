@@ -112,7 +112,7 @@ export default {
             return (this.mediaType == 'album' || this.mediaType == 'artist')
         },
         isOpenable() {
-            return ['video-group', 'video-folder', 'artist', 'album'].includes(this.mediaType)
+            return ['video-group', 'video-folder', 'artist', 'album', 'playlist'].includes(this.mediaType)
         },
         getDescription() {
             if (this.mediaType == 'video') {
@@ -123,7 +123,9 @@ export default {
             }
         },
         manageClick() {
-            if (this.mediaType == 'album') {
+            if (this.mediaType == 'playlist') {
+                this.$router.push({ name: 'PlaylistDetails', params: { playlistId: this.media.id } })
+            } else if (this.mediaType == 'album') {
                 this.$router.push({ name: 'AlbumDetails', params: { albumId: this.media.id } })
             } else if (this.mediaType == 'artist') {
                 this.$router.push({ name: 'ArtistDetails', params: { artistId: this.media.id } })

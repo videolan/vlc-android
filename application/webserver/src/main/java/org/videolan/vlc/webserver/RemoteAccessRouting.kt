@@ -517,6 +517,25 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val gson = Gson()
             call.respondText(gson.toJson(result))
         }
+        // Get an playlist details
+        get("/playlist") {
+            verifyLogin(settings)
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
+            val id = call.request.queryParameters["id"]?.toLong() ?: 0L
+
+            val playlist = appContext.getFromMl { getPlaylist(id, false, false) }
+
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            playlist.tracks.forEach { track ->
+                list.add(track.toPlayQueueItem())
+            }
+            val result= RemoteAccessServer.PlaylistResult(list, playlist.title)
+            val gson = Gson()
+            call.respondText(gson.toJson(result))
+        }
         // Get an artist details
         get("/artist") {
             verifyLogin(settings)

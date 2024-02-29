@@ -752,6 +752,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class VideoListResult(val content: List<PlayQueueItem>, val item: String)
     data class ArtistResult(val albums: List<PlayQueueItem>, val tracks: List<PlayQueueItem>, val name: String)
     data class AlbumResult(val tracks: List<PlayQueueItem>, val name: String)
+    data class PlaylistResult(val tracks: List<PlayQueueItem>, val name: String)
 
     fun getSecureUrl(call: ApplicationCall) = "https://${call.request.host()}:${engine.environment.connectors.first { it.type.name == "HTTPS" }.port}"
 

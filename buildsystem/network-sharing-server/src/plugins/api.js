@@ -89,6 +89,12 @@ export const vlcApi = {
         return`${API_URL}album?id=${albumId}`
     },
     /**
+     * Retrieve the playlist details API URL
+     */
+    playlistDetails: (playlistId) => { 
+        return`${API_URL}playlist?id=${playlistId}`
+    },
+    /**
      * Retrieve the playlist list API URL
      */
     playlistList: `${API_URL}playlist-list`,
