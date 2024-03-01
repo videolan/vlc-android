@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-light navbar-expand-md shadow-sm sticky-top align-items-center container-fluid main-navbar">
     <RouterLink class="flex1" :to="{ name: 'VideoList' }">
-      <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48, true)" width="48">
+      <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48, true)" width="48" v-on:click="iconClick()" v-bind:class="this.clicked > 2 && this.clicked % 2 == 1 ? 'animate' : ''">
     </RouterLink>
     <div class="d-flex justify-content-center">
       <RouterLink :to="{ name: 'VideoList' }">
@@ -145,6 +145,11 @@ export default {
   components: {
     ImageButton,
   },
+  data() {
+        return {
+            clicked: 0
+        }
+    },
   methods: {
     disconnectedClicked() {
       this.$root.startWebSocket();
@@ -167,6 +172,9 @@ export default {
     },
     changeTheme () {
       this.appStore.darkTheme = !this.appStore.darkTheme
+    },
+    iconClick() {
+      this.clicked++
     }
   },
   computed: {
@@ -241,4 +249,99 @@ export default {
 
 .cursor-pointer {
   cursor: pointer;
-}</style>
+}
+
+.animate {
+  animation-name: rotating, bounce, jello;
+  animation-duration: 1000ms, 1000ms, 1000ms;
+  animation-delay: 0ms, 1000ms, 1000ms;
+
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateY(-23px);
+    
+  }
+}
+
+@keyframes bounce {
+	0% {
+		animation-timing-function: ease-in;
+		opacity: 1;
+		transform: translateY(-23px);
+	}
+
+	24% {
+		opacity: 1;
+	}
+
+	40% {
+		animation-timing-function: ease-in;
+		transform: translateY(-12px);
+	}
+
+	65% {
+		animation-timing-function: ease-in;
+		transform: translateY(-6px);
+	}
+
+	82% {
+		animation-timing-function: ease-in;
+		transform: translateY(-3px);
+	}
+
+	93% {
+		animation-timing-function: ease-in;
+		transform: translateY(-2px);
+	}
+
+	25%,
+	55%,
+	75%,
+	87% {
+		animation-timing-function: ease-out;
+		transform: translateY(0px);
+	}
+
+	100% {
+		animation-timing-function: ease-out;
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
+
+@keyframes jello {
+	0% {
+		transform: scale3d(1, 1, 1);
+	}
+
+	30% {
+		transform: scale3d(1.1, 0.9, 1);
+	}
+
+	40% {
+		transform: scale3d(0.9, 1.1, 1);
+	}
+
+	50% {
+		transform: scale3d(1.05, 0.95, 1);
+	}
+
+	65% {
+		transform: scale3d(0.98, 1.02, 1);
+	}
+
+	75% {
+		transform: scale3d(1.02, 0.98, 1);
+	}
+
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+</style>
