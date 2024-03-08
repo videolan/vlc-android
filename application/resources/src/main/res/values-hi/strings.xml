@@ -463,8 +463,4 @@
     <string name="discovery_failed">%s: के लिए खोज असफल रही </string>
     <string name="start">शुरू करें</string>
     <string name="permission">अनुमति</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">ये आइटम पहले से ही प्लेलिस्ट में है।</item>
-        <item quantity="other">ये आइटम पहले से ही प्लेलिस्ट में हैं।</item>
-    </plurals>
     </resources>

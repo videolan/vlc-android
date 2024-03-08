@@ -483,7 +483,7 @@
     <string name="remote_access_info">Remote access info</string>
     <string name="remote_access_content">Content</string>
     <string name="remote_access_medialibrary_content">Media library content</string>
-    <string name="remote_access_medialibrary_content_summary">Enabled: %s\nDisabled: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Enabled: %1$s\nDisabled: %2$s</string>
     <string name="remote_access_file_browser_content">File browser</string>
     <string name="remote_access_network_browser_content">Network browser</string>
     <string name="remote_access_playback_control">Control playback</string>
@@ -1136,7 +1136,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - title: %s - duration: %s</string>
+    <string name="talkback_media_content_description">%1$s - title: %2$s - duration: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">History item</string>
     <string name="talkback_playlist">Playlist: %s</string>
@@ -1164,7 +1164,7 @@
     <string name="talkback_audio_tracks">Audio tracks</string>
     <string name="talkback_subtitle_tracks">Subtitle tracks</string>
     <string name="talkback_track" translatable="false">%s: %s. %s</string>
-    <string name="talkback_subtitle_dowload_item">Language: %s. %s. Name: %s</string>
+    <string name="talkback_subtitle_dowload_item">Language: %1$s. %2$s. Name: %3$s</string>
     <string name="selected">Selected</string>
     <string name="talkback_increase_delay">Increase delay</string>
     <string name="talkback_decrease_delay">Decrease delay</string>
@@ -1176,8 +1176,8 @@
     <string name="talkback_audio_player_collapsed">Audio player collapsed</string>
     <string name="talkback_audio_player_closed">Audio player closed</string>
     <string name="talkback_audio_player">Audio player. Currently playing: %s</string>
-    <string name="talkback_out_of">%s out of %s</string>
-    <string name="talkback_track_index">Track %s out of %s</string>
+    <string name="talkback_out_of">%1$s out of %2$s</string>
+    <string name="talkback_track_index">Track %1$s out of %2$s</string>
     <string name="downloaded">Downloaded</string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="downloading">Downloading</string>

@@ -332,12 +332,6 @@
     <string name="subtitles_size_big">Besar</string>
     <string name="subtitles_size_huge">Sangat besar</string>
     <string name="subtitles_color_title">Warna Terjemahan</string>
-    <string name="subtitles_color_white">Putih</string>
-    <string name="subtitles_color_gray">Abu - abu</string>
-    <string name="subtitles_color_pink">Merah muda</string>
-    <string name="subtitles_color_blue">Biru</string>
-    <string name="subtitles_color_yellow">Kuning</string>
-    <string name="subtitles_color_green">Hijau</string>
     <string name="subtitles_background_title">Latar Belakang Terjemahan</string>
     <string name="subtitles_bold_title">Tebalkan terjemahan</string>
     <string name="subtitles_autoload_title">Muat otomatis terjemahan</string>
@@ -905,12 +899,6 @@
     <string name="video_key_jump_delay">Kunci navigasi delay waktu</string>
     <string name="banned">Folder dilarang (ketuk lama untuk mengubah)</string>
     <string name="banned_parent">Dilarang oleh folder induk</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">Item berikut telah ada di daftar putar.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">%d dari item yang dipilih telah ada di dalam daftar putar ini.</item>
-    </plurals>
     <string name="official_website">Situs resmi</string>
     <string name="view_online">Lihat online</string>
     <string name="player_under_notch">Tampilkan video di bawah notch</string>
