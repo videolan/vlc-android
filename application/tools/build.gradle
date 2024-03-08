@@ -19,6 +19,9 @@ android {
         }
     }
     namespace 'videolan.org.commontools'
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {

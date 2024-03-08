@@ -54,6 +54,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 preBuild.dependsOn(webCopy)

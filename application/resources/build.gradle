@@ -44,6 +44,9 @@ android {
         res.srcDirs = ['flavors/debug/res']
     }
     namespace 'org.videolan.resources'
+    buildFeatures {
+        buildConfig true
+    }
 
 }
 dependencies {

@@ -64,6 +64,7 @@ android {
     namespace 'org.videolan.vlc.donations'
     buildFeatures {
         aidl true
+        buildConfig true
     }
 }
 
