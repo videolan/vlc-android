@@ -687,7 +687,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             } else if (settings.getBoolean("save_individual_audio_delay", true)) {
                 player.setAudioDelay(savedDelay)
             }
-            val abStart = media.getMetaLong(MediaWrapper.META_AB_REPEAT_START)
+            val abStart = if (settings.getBoolean(PLAYBACK_HISTORY, true))  media.getMetaLong(MediaWrapper.META_AB_REPEAT_START) else 0L
             if (abStart != 0L) {
                 abRepeatOn.value = true
                 val abStop = media.getMetaLong(MediaWrapper.META_AB_REPEAT_STOP)
@@ -695,7 +695,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toString())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
-            val rateString = media.getMetaString(MediaWrapper.META_SPEED)
+            val rateString = if (settings.getBoolean(PLAYBACK_HISTORY, true)) media.getMetaString(MediaWrapper.META_SPEED) else null
             if (!rateString.isNullOrEmpty()) {
                 player.setRate(rateString.toFloat(), false)
             }
