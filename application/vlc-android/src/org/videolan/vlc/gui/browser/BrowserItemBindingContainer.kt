@@ -106,6 +106,24 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         }
     }
 
+    fun setIsPlayed(played:Boolean) {
+        when (binding) {
+            is CardBrowserItemBinding -> {}
+            is BrowserItemBinding -> binding.played = played
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+    fun setProgress(progress:Int, max: Int) {
+        when (binding) {
+            is CardBrowserItemBinding -> {}
+            is BrowserItemBinding -> {
+                binding.progress = progress
+                binding.max = max
+            }
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
     fun setIsTv(isTv:Boolean) {
         when (binding) {
             is BrowserItemBinding -> binding.isTv = isTv
