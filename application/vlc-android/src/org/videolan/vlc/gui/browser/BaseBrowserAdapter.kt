@@ -159,8 +159,8 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
         val max = (media.length / 1000).toInt()
         val progress = (media.displayTime / 1000).toInt()
-        vh.bindingContainer.setProgress(progress, max)
-        vh.bindingContainer.setIsPlayed(media.playCount > 0)
+        vh.bindingContainer.setProgress(vh.bindingContainer.container.context, progress, max)
+        vh.bindingContainer.setIsPlayed(vh.bindingContainer.container.context, media.playCount > 0)
         vh.bindingContainer.setItem(media)
         vh.bindingContainer.setIsFavorite(isFavorite)
         val scheme = media.uri?.scheme ?: ""

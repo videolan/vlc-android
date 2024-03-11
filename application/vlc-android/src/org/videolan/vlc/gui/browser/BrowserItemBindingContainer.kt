@@ -24,12 +24,15 @@
 
 package org.videolan.vlc.gui.browser
 
+import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.ViewDataBinding
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.Settings
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
@@ -106,20 +109,23 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         }
     }
 
-    fun setIsPlayed(played:Boolean) {
+    fun setIsPlayed(context: Context, played:Boolean) {
+        if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
         when (binding) {
             is CardBrowserItemBinding -> {}
             is BrowserItemBinding -> binding.played = played
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }
     }
-    fun setProgress(progress:Int, max: Int) {
+    fun setProgress(context: Context, progress: Int, max: Int) {
+        if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
         when (binding) {
             is CardBrowserItemBinding -> {}
             is BrowserItemBinding -> {
                 binding.progress = progress
                 binding.max = max
             }
+
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }
     }
