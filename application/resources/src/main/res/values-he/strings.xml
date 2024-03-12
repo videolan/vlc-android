@@ -163,6 +163,7 @@
     <string name="nosubfolder">אין תת־תיקיה</string>
     <string name="directorynotfound">נתיב התיקייה \'%1$s\' לא נמצא.</string>
     <string name="nohistory">אין לך היסטוריית נגינה עדיין.</string>
+    <string name="cant_ban_root">אי אפשר לחסום תיקייה עליונה</string>
 
     <string name="cover_art">האומנות על העטיפה</string>
     <string name="shuffle_all_title">לערבב את הכול</string>
@@ -480,7 +481,7 @@
     <string name="remote_access_info">פרטי גישה מרחוק</string>
     <string name="remote_access_content">תוכן</string>
     <string name="remote_access_medialibrary_content">תוכן ספריית מדיה</string>
-    <string name="remote_access_medialibrary_content_summary">פעיל: %s\nמושבת: %s</string>
+    <string name="remote_access_medialibrary_content_summary">מופעל: %1$s\nמושבת: %2$s</string>
     <string name="remote_access_file_browser_content">דפדפן קבצים</string>
     <string name="remote_access_network_browser_content">דפדפן רשת</string>
     <string name="remote_access_playback_control">שליטה בנגינה</string>
@@ -1138,7 +1139,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - כותרת: %s - משך: %s</string>
+    <string name="talkback_media_content_description">%1$s - כותרת: %2$s - משך: %3$s</string>
     <string name="talkback_genre">סגנון: %s</string>
     <string name="talkback_history_item">פריט בהיסטוריה</string>
     <string name="talkback_playlist">רשימת נגינה: %s</string>
@@ -1165,7 +1166,7 @@
     <string name="talkback_video_tracks">רצועות וידאו</string>
     <string name="talkback_audio_tracks">רצועות שמע</string>
     <string name="talkback_subtitle_tracks">רצועות כתוביות</string>
-    <string name="talkback_subtitle_dowload_item">שפה: %s. %s. שם: %s</string>
+    <string name="talkback_subtitle_dowload_item">שפה: %1$s. %2$s. שם: %3$s</string>
     <string name="selected">נבחר</string>
     <string name="talkback_increase_delay">הגדלת השהיה</string>
     <string name="talkback_decrease_delay">הקטנת השהיה</string>
@@ -1177,8 +1178,8 @@
     <string name="talkback_audio_player_collapsed">נגן השמע הוקטן</string>
     <string name="talkback_audio_player_closed">נגן השמע נסגר</string>
     <string name="talkback_audio_player">נגן שמע. מנגן כרגע: %s</string>
-    <string name="talkback_out_of">%s מתוך %s</string>
-    <string name="talkback_track_index">רצועה %s מתוך %s</string>
+    <string name="talkback_out_of">%1$s מתוך %2$s</string>
+    <string name="talkback_track_index">רצועה %1$s מתוך %2$s</string>
     <string name="downloaded">התקבל</string>
     <string name="not_downloaded">לא התקבל</string>
     <string name="downloading">מתקבל</string>
@@ -1249,4 +1250,5 @@
     <string name="podcast_mode">מצב הסכתים</string>
     <string name="podcast_mode_help">פקדי הסתכים מופיעים בעת נגינה של רצועה בודדת שעונה על אחד מהתנאים הבאים:\n\t• האורך עולה על 60 דקות\n\t• האורך עולה על 15 דקות ואין שם אלבום\n\t• הסוגה היא %s</string>
     <string name="voice_control">שליטה קולית</string>
-    </resources>
+    <string name="voice_control_help">אפשר לשלוט ב־VLC באמצעות Google Assistant על ידי אמירת הפקודות האלה בקול רם (אין תמיכה בעברית עדיין):\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+</resources>

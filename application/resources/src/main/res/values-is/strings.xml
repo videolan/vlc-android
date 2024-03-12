@@ -147,7 +147,6 @@
     <string name="nosubfolder">Engar undirmöppur</string>
     <string name="directorynotfound">Skráaslóðin \'%1$s\' fannst ekki.</string>
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
-
     <string name="cover_art">Umslög</string>
     <string name="shuffle_all_title">Stokka allt</string>
     <string name="shuffle_title">Stokkunarhamur</string>
@@ -425,7 +424,6 @@
     <string name="enable_remote_access">Virkja fjaraðgang</string>
     <string name="remote_access_info">Upplýsingar um fjaraðgang</string>
     <string name="remote_access_content">Efni</string>
-    <string name="remote_access_medialibrary_content_summary">Virkt: %s\nÓvirkt: %s</string>
     <string name="remote_access_file_browser_content">Skráavafri</string>
     <string name="remote_access_network_browser_content">Netvafri</string>
     <string name="remote_access_playback_control">Stýring afspilunar</string>
@@ -958,8 +956,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titill: %s - tímalengd: %s</string>
     <string name="talkback_genre">Stíltegund: %s</string>
     <string name="talkback_history_item">Atriði í vinnsluferli</string>
     <string name="talkback_playlist">Spilunarlisti: %s</string>
@@ -986,7 +982,6 @@
     <string name="talkback_video_tracks">Myndspor</string>
     <string name="talkback_audio_tracks">Hljóðspor</string>
     <string name="talkback_subtitle_tracks">Skjátextaspor</string>
-    <string name="talkback_subtitle_dowload_item">Tungumál: %s. %s. Nafn: %s</string>
     <string name="selected">Valið</string>
     <string name="talkback_increase_delay">Auka töf</string>
     <string name="talkback_decrease_delay">Minnka töf</string>
@@ -998,8 +993,6 @@
     <string name="talkback_audio_player_collapsed">Hljóðspilari felldur saman</string>
     <string name="talkback_audio_player_closed">Hljóðspilara lokað</string>
     <string name="talkback_audio_player">Hljóðspilari. Núna að spila: %s</string>
-    <string name="talkback_out_of">%s af %s</string>
-    <string name="talkback_track_index">Spor %s af %s</string>
     <string name="downloaded">Sótt</string>
     <string name="not_downloaded">Ekki sótt</string>
     <string name="downloading">Sæki</string>

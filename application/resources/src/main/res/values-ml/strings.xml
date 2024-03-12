@@ -132,7 +132,6 @@
     <string name="nosubfolder">ഉപഫോൾഡർ ഇല്ല</string>
     <string name="directorynotfound">%1$s  ഫോള്‍ഡറിലേക്കുള്ള വഴി കണ്ടെത്താനായില്ല</string>
     <string name="nohistory">നിങ്ങള്‍ക്ക് ഇതുവരെ പ്ളേബാക്ക് ചരിത്രം ഇല്ല</string>
-
     <string name="cover_art">കവര്‍ ആര്‍ട്ട്</string>
     <string name="shuffle_all_title">കൂട്ടികലർത്തു </string>
     <string name="shuffle_title">ഷഫിൾ മോഡ്</string>
@@ -980,6 +979,5 @@
     <string name="talkback_audio_player_collapsed">ഓഡിയോ പ്ലെയർ സങ്കോചിച്ചു</string>
     <string name="talkback_audio_player_closed">ഓഡിയോ പ്ലെയർ അടഞ്ഞു</string>
     <string name="talkback_audio_player">ഓഡിയോ പ്ലെയർ. ഇപ്പോൾ പ്ലേ ചെയ്യുന്നത്: %s</string>
-    <string name="talkback_out_of">%s ൽ %s</string>
     <string name="downloading">ഡൗൺലോഡ് ചെയ്യുന്നു</string>
     </resources>

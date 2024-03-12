@@ -154,7 +154,6 @@
     <string name="nosubfolder">Žádná podsložka</string>
     <string name="directorynotfound">Nelze nalézt umístění adresáře \'%1$s\'</string>
     <string name="nohistory">Žádná historie přehraných položek</string>
-
     <string name="cover_art">Obal alba</string>
     <string name="shuffle_all_title">Přehrát náhodně vše</string>
     <string name="shuffle_title">Režim Náhodné přehrávání</string>
@@ -1038,8 +1037,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - název: %s - délka: %s</string>
     <string name="talkback_genre">Žánr: %s</string>
     <string name="talkback_history_item">Položka historie</string>
     <string name="talkback_playlist">Seznam skladeb: %s</string>
@@ -1066,7 +1063,6 @@
     <string name="talkback_video_tracks">Stopy videa</string>
     <string name="talkback_audio_tracks">Zvukové stopy</string>
     <string name="talkback_subtitle_tracks">Stopy titulků</string>
-    <string name="talkback_subtitle_dowload_item">Jazyk: %s. %s. Název: %s</string>
     <string name="selected">Vybráno</string>
     <string name="talkback_increase_delay">Zvýšit zpoždění</string>
     <string name="talkback_decrease_delay">Snížit zpoždění</string>
@@ -1078,8 +1074,6 @@
     <string name="talkback_audio_player_collapsed">Přehrávač zvuku je sbalený</string>
     <string name="talkback_audio_player_closed">Přehrávač zvuku je zavřený</string>
     <string name="talkback_audio_player">Přehrávač zvuku. Nyní hraje: %s</string>
-    <string name="talkback_out_of">%s z %s</string>
-    <string name="talkback_track_index">Stopa %s z %s</string>
     <string name="downloaded">Staženo</string>
     <string name="not_downloaded">Nestaženo</string>
     <string name="downloading">Stahování</string>

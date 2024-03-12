@@ -136,7 +136,6 @@
     <string name="nosubfolder">هیچ زیر پوشه ای وجود ندارد</string>
     <string name="directorynotfound">مسیر پوشه \'%1$s\' یافت نشد</string>
     <string name="nohistory">شما هنوز تاریخچه پخش ندارید</string>
-
     <string name="cover_art">جلد هنری</string>
     <string name="shuffle_all_title">پخش تصادفی همه</string>
     <string name="shuffle_title">حالت تصادفی</string>
@@ -899,8 +898,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s- تیتر: %s- مدت‌‌زمان: %s</string>
     <string name="talkback_genre">سبک‌: %s</string>
     <string name="talkback_history_item">مورد تاریخی</string>
     <string name="talkback_playlist">فهرست پخش: %s</string>

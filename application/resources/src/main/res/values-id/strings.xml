@@ -139,7 +139,6 @@
     <string name="nosubfolder">Subfolder tidak ditemukan</string>
     <string name="directorynotfound">Jalur direktori \'%1$s\' tidak ditemukan.</string>
     <string name="nohistory">Anda belum memiliki riwayat pemutaran.</string>
-
     <string name="cover_art">Sampul album</string>
     <string name="shuffle_all_title">Acak semua</string>
     <string name="shuffle_title">Mode acak</string>
@@ -445,7 +444,6 @@
     <string name="remote_access_info">Info akses jarak jauh</string>
     <string name="remote_access_content">Isi</string>
     <string name="remote_access_medialibrary_content">Isi pustaka media</string>
-    <string name="remote_access_medialibrary_content_summary">Diaktifkan: %s\nDinonaktifkan: %s</string>
     <string name="remote_access_file_browser_content">Peramban berkas</string>
     <string name="remote_access_network_browser_content">Peramban jaringan</string>
     <string name="casting_switch_title">salurkan/tampilkan pada layar lain tanpa perantara kabel</string>
@@ -1040,8 +1038,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - judul: %s - durasi: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Sejarah item</string>
     <string name="talkback_playlist">Daftar putar: %s</string>
@@ -1068,7 +1064,6 @@
     <string name="talkback_video_tracks">Trek video</string>
     <string name="talkback_audio_tracks">Trek audio</string>
     <string name="talkback_subtitle_tracks">Trek takarir</string>
-    <string name="talkback_subtitle_dowload_item">Bahasa: %s. %s. Nama: %s</string>
     <string name="selected">Dipilih</string>
     <string name="talkback_increase_delay">Tambahkan delay</string>
     <string name="talkback_decrease_delay">Kurangi delay</string>
@@ -1080,8 +1075,6 @@
     <string name="talkback_audio_player_collapsed">Pemutar audio disembunyikan</string>
     <string name="talkback_audio_player_closed">Pemutar audio ditutup</string>
     <string name="talkback_audio_player">Pemutar audio. Sekarang memainkan: %s</string>
-    <string name="talkback_out_of">%s dari %s</string>
-    <string name="talkback_track_index">Trek %s dari %s</string>
     <string name="downloaded">Telah diunduh</string>
     <string name="not_downloaded">Tidak diunduh</string>
     <string name="downloading">Mengunduh</string>

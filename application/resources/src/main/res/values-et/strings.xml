@@ -135,7 +135,6 @@
     <string name="nosubfolder">Alamkataloogi pole</string>
     <string name="directorynotfound">Kataloogi \'%1$s\' ei leitud.</string>
     <string name="nohistory">Taasesituse ajalugu veel puudub.</string>
-
     <string name="cover_art">Kaanepilt</string>
     <string name="shuffle_all_title">Sega kõik</string>
     <string name="shuffle_title">Juhuesitus</string>
@@ -860,7 +859,6 @@ Kas sa lubad seda?</string>
     <string name="talkback_video_tracks">Videorajad</string>
     <string name="talkback_audio_tracks">Audiorajad</string>
     <string name="talkback_subtitle_tracks">Subtiitrite rajad</string>
-    <string name="talkback_subtitle_dowload_item">Keel: %s. %s. Nimi: %s</string>
     <string name="selected">Valitud</string>
     <string name="talkback_increase_delay">Suurenda viivitust</string>
     <string name="talkback_decrease_delay">Vähenda viivitust</string>
@@ -868,7 +866,6 @@ Kas sa lubad seda?</string>
     <string name="talkback_decrease_speed">Vähenda kiirust</string>
     <string name="talkback_subtitle_history">Subtiitrite ajalugu</string>
     <string name="talkback_language_selection">%s valitud keelt</string>
-    <string name="talkback_track_index">Rada %s/%s</string>
     <string name="downloaded">Alla laetud</string>
     <string name="downloading">Allalaadimine</string>
     <string name="talkback_action_rewind">Keri tagasi %s sekundit</string>

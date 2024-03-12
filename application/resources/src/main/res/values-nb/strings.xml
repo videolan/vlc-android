@@ -133,7 +133,6 @@
     <string name="nosubfolder">Ingen undermapper</string>
     <string name="directorynotfound">Mappestien «%1$s» finnes ikke.</string>
     <string name="nohistory">Du har ingen avspillingshistorie enda.</string>
-
     <string name="cover_art">Omslagsbilde</string>
     <string name="shuffle_all_title">Stokk alle</string>
     <string name="shuffle_title">Tilfeldig-modus</string>
@@ -869,8 +868,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - tittel: %s - varighet: %s</string>
     <string name="talkback_genre">Sjangre: %s</string>
     <string name="talkback_history_item">Historikk-element</string>
     <string name="talkback_playlist">Spilleliste: %s</string>
@@ -895,15 +892,12 @@
     <string name="talkback_video_tracks">Videospor</string>
     <string name="talkback_audio_tracks">Lydspor</string>
     <string name="talkback_subtitle_tracks">Undertekstspor</string>
-    <string name="talkback_subtitle_dowload_item">Språk: %s.%s. Navn: %s</string>
     <string name="selected">Valgt</string>
     <string name="talkback_increase_delay">Øk forsinkelse</string>
     <string name="talkback_decrease_delay">Reduser forsinkelse</string>
     <string name="talkback_increase_speed">Øk hastigheten</string>
     <string name="talkback_decrease_speed">Senk hastigheten</string>
     <string name="talkback_subtitle_history">Undertekst-historikk</string>
-    <string name="talkback_out_of">%s ut av %s</string>
-    <string name="talkback_track_index">Spor %s ut av %s</string>
     <string name="downloaded">Nedlastet</string>
     <string name="not_downloaded">Ikke nedlastet</string>
     <string name="downloading">Laster ned</string>

@@ -141,7 +141,6 @@
     <string name="nosubfolder">Tiada subfolder</string>
     <string name="directorynotfound">Laluan direktori \'%1$s\' tidak ditemui.</string>
     <string name="nohistory">Anda belum memiliki sejarah main balik.</string>
-
     <string name="cover_art">Seni kulit hadapan</string>
     <string name="shuffle_all_title">Kocok semua</string>
     <string name="shuffle_title">Mod kocok</string>
@@ -314,6 +313,7 @@
     <string name="screen_orientation_landscape_sensor">Lanskap (sensor)</string>
     <string name="screen_orientation_last_locked">Orientasi kunci terakhir</string>
     <string name="enable_black_theme">Tema gelap</string>
+    <string name="dark_theme">Tema gelap</string>
     <string name="theme_auto">Auto tema</string>
     <string name="subtitle_text_encoding">Pengekodan teks sari kata</string>
     <string name="subtitle_preferred_language">Bahasa sari kata dikehendaki</string>
@@ -454,7 +454,6 @@
     <string name="remote_access_info">Maklumat capaian jauh</string>
     <string name="remote_access_content">Kandungan</string>
     <string name="remote_access_medialibrary_content">Kandungan pusataka media</string>
-    <string name="remote_access_medialibrary_content_summary">Dibenarkan: %s\nDilumpuhkan: %s</string>
     <string name="remote_access_file_browser_content">Pelayar fail</string>
     <string name="remote_access_network_browser_content">Pelayar rangkaian</string>
     <string name="remote_access_playback_control">Kawalan main balik</string>
@@ -782,6 +781,8 @@
     <string name="light_theme">Tema cerah</string>
     <string name="add">Tambah</string>
     <string name="add_to_new_playlist">Tambah ke senarai main baharu</string>
+    <string name="create_new_playlist">Cipta senarai main baharu</string>
+    <string name="create">Cipta</string>
     <string name="resume_card_message">Sambung semula main balik %1$s?</string>
     <string name="misc">Pelbagai</string>
     <string name="popup_force_legacy_title">Guna tetingkap timbul Gambar-dalam-Gambar suai</string>
@@ -979,10 +980,10 @@
     <string name="pin_code_modified">Kod PIN berjaya diubah suai</string>
     <string name="pin_code_reason_check">Capaian terhad. Sila masukkan kod PIN anda</string>
     <string name="pin_code_access_granted">Capaian dibuka. Anda boleh kunci-semula skrin utama</string>
-    <string name="safe_mode_enabled">Mod selamat kini dibenarkan</string>
+    <string name="safe_mode_enabled">Mod selamat kini didayakan</string>
     <string name="restricted_access">Capaian terhad</string>
     <string name="unlock">Nyahkunci</string>
-    <string name="lock_with_pin">Benarkan-semula kunci PIN</string>
+    <string name="lock_with_pin">Dayakan-semula kunci PIN</string>
     <string name="unlock_with_pin">Nyahkunci mod selamat</string>
     <string name="lock_with_pin_short">Kunci PIN</string>
     <string name="restrict_settings">Sekat capaian tetapan</string>
@@ -1040,6 +1041,12 @@
     <string name="banned">Folder dilarang (tahan untuk ubah)</string>
     <string name="banned_tv">Folder terlarang</string>
     <string name="banned_parent">Dilarang oleh folder induk</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">Item-item ini sudah ada dalam senarai main \"%s\".</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">%d daripada item terpilih sudah ada dalam senarai main ini \"%s\".</item>
+    </plurals>
     <string name="official_website">Tapak sesawang rasmi</string>
     <string name="view_online">Lihat dalam talian</string>
     <string name="player_under_notch">Papar video di bawah takuk</string>
@@ -1093,8 +1100,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - tajuk: %s - tempoh: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Item sejarah</string>
     <string name="talkback_playlist">Senarai Main: %s</string>
@@ -1121,7 +1126,6 @@
     <string name="talkback_video_tracks">Trek video</string>
     <string name="talkback_audio_tracks">Trek audio</string>
     <string name="talkback_subtitle_tracks">Trek sari kata</string>
-    <string name="talkback_subtitle_dowload_item">Bahasa: %s. %s. Nama: %s</string>
     <string name="selected">Dipilih</string>
     <string name="talkback_increase_delay">Tambah lengah</string>
     <string name="talkback_decrease_delay">Kurang lengah</string>
@@ -1133,8 +1137,6 @@
     <string name="talkback_audio_player_collapsed">Pemain audio dikuncup</string>
     <string name="talkback_audio_player_closed">Pemain audio ditutup</string>
     <string name="talkback_audio_player">Pemain audio. Sedang memainkan: %s</string>
-    <string name="talkback_out_of">%s daripada %s</string>
-    <string name="talkback_track_index">Trek %s daripada %s</string>
     <string name="downloaded">Dimuat turun</string>
     <string name="not_downloaded">Tidak dimuat turun</string>
     <string name="downloading">Memuat turun</string>

@@ -135,7 +135,6 @@
     <string name="nosubfolder">하위폴더 없음</string>
     <string name="directorynotfound">\'%1$s\' 디렉터리 경로를 찾을 수 없습니다.</string>
     <string name="nohistory">아직 재생 히스토리가 없습니다.</string>
-
     <string name="cover_art">표지 아트</string>
     <string name="shuffle_all_title">모두 순서섞기</string>
     <string name="shuffle_title">순서섞기 모드</string>
@@ -1032,8 +1031,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - 제목: %s - 재생시간: %s</string>
     <string name="talkback_genre">장르: %s</string>
     <string name="talkback_history_item">히스토리 항목</string>
     <string name="talkback_playlist">재생목록: %s</string>
@@ -1060,7 +1057,6 @@
     <string name="talkback_video_tracks">비디오 트랙</string>
     <string name="talkback_audio_tracks">오디오 트랙</string>
     <string name="talkback_subtitle_tracks">자막 트랙</string>
-    <string name="talkback_subtitle_dowload_item">언어: %s. %s. 이름: %s</string>
     <string name="selected">선택됨</string>
     <string name="talkback_increase_delay">지연 증가</string>
     <string name="talkback_decrease_delay">지연 감소</string>
@@ -1072,8 +1068,6 @@
     <string name="talkback_audio_player_collapsed">오디오 재생기 접힘</string>
     <string name="talkback_audio_player_closed">오디오 재생기 닫힘</string>
     <string name="talkback_audio_player">오디오 재생기. 현재 재생 중: %s</string>
-    <string name="talkback_out_of"> %s/%s</string>
-    <string name="talkback_track_index">트랙 %s/%s</string>
     <string name="downloaded">다운로드됨</string>
     <string name="not_downloaded">다운로드되지 않음</string>
     <string name="downloading">다운로드하는 중</string>

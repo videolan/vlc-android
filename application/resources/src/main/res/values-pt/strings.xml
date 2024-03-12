@@ -145,7 +145,6 @@
     <string name="nosubfolder">Nenhuma subpasta</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Ainda não tem um histórico de reprodução.</string>
-
     <string name="cover_art">Imagem da capa</string>
     <string name="shuffle_all_title">Tudo aleatório</string>
     <string name="shuffle_title">Modo aleatório</string>
@@ -970,7 +969,6 @@
     <string name="talkback_video_tracks">Faixas de vídeo</string>
     <string name="talkback_audio_tracks">Faixas de áudio</string>
     <string name="talkback_subtitle_tracks">Faixas de legendas</string>
-    <string name="talkback_subtitle_dowload_item">Idioma: %s. %s. Nome: %s</string>
     <string name="selected">Selecionado</string>
     <string name="talkback_increase_delay">Aumentar atraso</string>
     <string name="talkback_decrease_delay">Diminuir atraso</string>
@@ -978,8 +976,6 @@
     <string name="talkback_decrease_speed">Diminuir velocidade</string>
     <string name="talkback_subtitle_history">Histórico de legendas</string>
     <string name="talkback_language_selection">%s idiomas selecionados</string>
-    <string name="talkback_out_of">%s de %s</string>
-    <string name="talkback_track_index">Faixa %s de %s</string>
     <string name="downloaded">Transferido</string>
     <string name="not_downloaded">Não transferido</string>
     <string name="downloading">A transferir</string>

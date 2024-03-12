@@ -150,6 +150,7 @@
     <string name="nosubfolder">Ingen undermapp</string>
     <string name="directorynotfound">Sökvägen \"%1$s\" hittades inte.</string>
     <string name="nohistory">Du har ännu ingen uppspelningshistorik.</string>
+    <string name="cant_ban_root">Du kan inte bannlysa en rotmapp</string>
 
     <string name="cover_art">Omslagsbild</string>
     <string name="shuffle_all_title">Blanda allting</string>
@@ -465,7 +466,7 @@
     <string name="remote_access_info">Info om fjärråtkomst</string>
     <string name="remote_access_content">Innehåll</string>
     <string name="remote_access_medialibrary_content">Innehåll i mediabiblioteket</string>
-    <string name="remote_access_medialibrary_content_summary">Aktiverad: %s\nInaktiverad: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Aktiverad: %1$s\nInaktiverad: %2$s</string>
     <string name="remote_access_file_browser_content">Filväljare</string>
     <string name="remote_access_network_browser_content">Nätverksväljare</string>
     <string name="remote_access_playback_control">Styr uppspelning</string>
@@ -1117,7 +1118,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titel: %s - längd: %s</string>
+    <string name="talkback_media_content_description">%1$s - titel: %2$s - längd: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Historikobjekt</string>
     <string name="talkback_playlist">Spellista: %s</string>
@@ -1144,7 +1145,7 @@
     <string name="talkback_video_tracks">Videospår</string>
     <string name="talkback_audio_tracks">Ljudspår</string>
     <string name="talkback_subtitle_tracks">Undertextspår</string>
-    <string name="talkback_subtitle_dowload_item">Språk: %s. %s. Namn: %s</string>
+    <string name="talkback_subtitle_dowload_item">Språk: %1$s. %2$s. Namn: %3$s</string>
     <string name="selected">Markerade</string>
     <string name="talkback_increase_delay">Öka fördröjning</string>
     <string name="talkback_decrease_delay">Minska fördröjning</string>
@@ -1156,8 +1157,8 @@
     <string name="talkback_audio_player_collapsed">Ljudspelaren minimerades</string>
     <string name="talkback_audio_player_closed">Ljudspelaren stängdes</string>
     <string name="talkback_audio_player">Ljudspelare. Just nu spelas: %s</string>
-    <string name="talkback_out_of">%s av %s</string>
-    <string name="talkback_track_index">Spår %s av %s</string>
+    <string name="talkback_out_of">%1$s av %2$s</string>
+    <string name="talkback_track_index">Spår %1$s av %2$s</string>
     <string name="downloaded">Nedladdad</string>
     <string name="not_downloaded">Inte nedladdad</string>
     <string name="downloading">Laddar ned</string>

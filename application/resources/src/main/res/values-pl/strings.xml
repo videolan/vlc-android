@@ -152,7 +152,6 @@
     <string name="nosubfolder">Brak podfolderów</string>
     <string name="directorynotfound">Nie znaleziono ścieżki katalogu \'%1$s\'.</string>
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
-
     <string name="cover_art">Okładka</string>
     <string name="shuffle_all_title">Losowo wszystkie</string>
     <string name="shuffle_title">Tryb losowo</string>
@@ -876,8 +875,6 @@
     <string name="ascending">Rosnąco</string>
     <string name="descending">Malejąco</string>
     <string name="disabled">Wyłączone</string>
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - tytuł: %s - czas trwania: %s</string>
     <string name="talkback_genre">Gatunek: %s</string>
     <string name="talkback_playlist">Playlista: %s</string>
     <string name="talkback_folder">Folder: %s</string>
@@ -900,7 +897,6 @@
     <string name="talkback_video_tracks">Ścieżki wideo</string>
     <string name="talkback_audio_tracks">Ścieżki audio</string>
     <string name="talkback_subtitle_tracks">Ścieżki napisów</string>
-    <string name="talkback_subtitle_dowload_item">Język: %s. %s. Nazwa: %s</string>
     <string name="talkback_increase_delay">Zwiększ opóźnienie</string>
     <string name="talkback_decrease_delay">Zmniejsz opóźnienie</string>
     <string name="talkback_increase_speed">Zwiększ prędkość</string>

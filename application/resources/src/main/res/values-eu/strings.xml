@@ -148,7 +148,6 @@
     <string name="nosubfolder">Azpikarpetarik ez</string>
     <string name="directorynotfound">\'%1$s\' direktorio-bidea ez da aurkitu.</string>
     <string name="nohistory">Ez daukazu erreprodukzio-historiarik oraindik.</string>
-
     <string name="cover_art">Azaleko diseinua</string>
     <string name="shuffle_all_title">Nahastu denak</string>
     <string name="shuffle_title">Nahasketa modua</string>
@@ -1045,8 +1044,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titulua: %s - iraupena: %s</string>
     <string name="talkback_genre">Generoa: %s</string>
     <string name="talkback_history_item">Historiako elementua</string>
     <string name="talkback_playlist">Erreprodukzio-zerrenda: %s</string>
@@ -1073,7 +1070,6 @@
     <string name="talkback_video_tracks">Bideo pistak</string>
     <string name="talkback_audio_tracks">Audio pistak</string>
     <string name="talkback_subtitle_tracks">Azpitituluen pistak</string>
-    <string name="talkback_subtitle_dowload_item">Hizkuntza: %s. %s. Izena: %s</string>
     <string name="selected">Hautatuta</string>
     <string name="talkback_increase_delay">Handiagotu atzerapena</string>
     <string name="talkback_decrease_delay">Txikiagotu atzerapena</string>
@@ -1085,7 +1081,6 @@
     <string name="talkback_audio_player_collapsed">Audio-erreproduzitzailea tolestuta</string>
     <string name="talkback_audio_player_closed">Audio-erreproduzitzailea itxita</string>
     <string name="talkback_audio_player">Audio erreproduzitzailea. Oraintxe jotzen: %s</string>
-    <string name="talkback_out_of">%s %s-tik kanpo</string>
     <string name="downloaded">Deskargatuta</string>
     <string name="not_downloaded">Deskargatu gabe</string>
     <string name="downloading">Deskargatzen</string>

@@ -159,6 +159,7 @@
     <string name="nosubfolder">Fișier secundar inexistent</string>
     <string name="directorynotfound">Calea directorului \'%1$s\' nu a fost găsită.</string>
     <string name="nohistory">Nu aveţi încă un istoric al redărilor.</string>
+    <string name="cant_ban_root">Nu poți interzice un folder rădăcină</string>
 
     <string name="cover_art">Copertă</string>
     <string name="shuffle_all_title">Amestecă tot</string>
@@ -475,7 +476,6 @@
     <string name="remote_access_info">Informații despre accesul de la distanță</string>
     <string name="remote_access_content">Conținut</string>
     <string name="remote_access_medialibrary_content">Conținutul bibliotecii media</string>
-    <string name="remote_access_medialibrary_content_summary">Activat: %s\nDezactivat: %s</string>
     <string name="remote_access_file_browser_content">Navigatorul de fișiere</string>
     <string name="remote_access_network_browser_content">Navigatorul de rețea</string>
     <string name="remote_access_playback_control">Controlează redarea</string>
@@ -1120,8 +1120,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titlu: %s - durată: %s</string>
     <string name="talkback_genre">Gen: %s</string>
     <string name="talkback_history_item">Element de istoric</string>
     <string name="talkback_playlist">Listă de redare: %s</string>
@@ -1148,7 +1146,6 @@
     <string name="talkback_video_tracks">Piste video</string>
     <string name="talkback_audio_tracks">Piste audio</string>
     <string name="talkback_subtitle_tracks">Piste de subtitrări</string>
-    <string name="talkback_subtitle_dowload_item">Limbă: %s. %s. Nume: %s</string>
     <string name="selected">Selectat</string>
     <string name="talkback_increase_delay">Crește întârzierea</string>
     <string name="talkback_decrease_delay">Scade întârzierea</string>
@@ -1160,8 +1157,6 @@
     <string name="talkback_audio_player_collapsed">Player audio restrâns</string>
     <string name="talkback_audio_player_closed">Player audio închis</string>
     <string name="talkback_audio_player">Player audio. În prezent se redă: %s</string>
-    <string name="talkback_out_of">%s din %s</string>
-    <string name="talkback_track_index">Pista %s din %s</string>
     <string name="downloaded">Descărcat</string>
     <string name="not_downloaded">Nedescărcat</string>
     <string name="downloading">Se descarcă</string>

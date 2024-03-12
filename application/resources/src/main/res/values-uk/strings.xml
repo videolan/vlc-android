@@ -168,6 +168,7 @@
     <string name="nosubfolder">Без підтек</string>
     <string name="directorynotfound">Не знайдено шлях до каталогу \'%1$s\'.</string>
     <string name="nohistory">У вас ще немає історії відтворення.</string>
+    <string name="cant_ban_root">Ви не можете заблокувати кореневу теку</string>
 
     <string name="cover_art">Обкладинка</string>
     <string name="shuffle_all_title">Перемішати все</string>
@@ -344,6 +345,7 @@
     <string name="screen_orientation_landscape_sensor">Альбомна (сенсор)</string>
     <string name="screen_orientation_last_locked">Остання заблокована орієнтація</string>
     <string name="enable_black_theme">Чорна тема</string>
+    <string name="dark_theme">Темна тема</string>
     <string name="theme_auto">Автоматична тема</string>
     <string name="subtitle_text_encoding">Кодування тексту субтитрів</string>
     <string name="subtitle_preferred_language">Переважна мова субтитрів</string>
@@ -484,7 +486,6 @@
     <string name="remote_access_info">Інформація про віддалений доступ</string>
     <string name="remote_access_content">Вміст</string>
     <string name="remote_access_medialibrary_content">Вміст бібліотеки медіа</string>
-    <string name="remote_access_medialibrary_content_summary">Увімкнено: %s\nВимкнено: %s</string>
     <string name="remote_access_file_browser_content">Браузер файлів</string>
     <string name="remote_access_network_browser_content">Мережевий браузер</string>
     <string name="remote_access_playback_control">Управління відтворенням</string>
@@ -812,6 +813,8 @@
     <string name="light_theme">Світла тема</string>
     <string name="add">Додати</string>
     <string name="add_to_new_playlist">Додати до нового списку відтворення</string>
+    <string name="create_new_playlist">Створити новий список відтворення</string>
+    <string name="create">Створити</string>
     <string name="resume_card_message">Відновити відтворення з %1$s?</string>
     <string name="misc">Різне</string>
     <string name="popup_force_legacy_title">Використовувати особливий  вигульк картинка-в-картинці </string>
@@ -1076,6 +1079,18 @@
     <string name="banned">Заблокована тека (тривалий натиск, щоб змінити)</string>
     <string name="banned_tv">Заборонена тека</string>
     <string name="banned_parent">Заблоковано через батьківську тека</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Цей елемент вже наявний у списку \"%s\".</item>
+        <item quantity="few">Ці елементи вже наявні у списку \"%s\".</item>
+        <item quantity="many">Ці елементи вже наявні у списку \"%s\".</item>
+        <item quantity="other">Ці елементи вже наявні у списку \"%s\".</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 з обраних елементів вже наявний у списку \"%s\".</item>
+        <item quantity="few">%d з обраних елементів вже наявні у списку \"%s\".</item>
+        <item quantity="many">%d з обраних елементів вже наявні у списку \"%s\".</item>
+        <item quantity="other">%d з обраних елементів вже наявні у списку \"%s\".</item>
+    </plurals>
     <string name="official_website">Офіційна веб-сторінка</string>
     <string name="view_online">Переглянути онлайн</string>
     <string name="player_under_notch">Показувати відео під вирізом</string>
@@ -1129,8 +1144,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - назва: %s - тривалість: %s</string>
     <string name="talkback_genre">Жанр: %s</string>
     <string name="talkback_history_item">Елемент історії</string>
     <string name="talkback_playlist">Список відтворення: %s</string>
@@ -1157,7 +1170,6 @@
     <string name="talkback_video_tracks">Відеодоріжки</string>
     <string name="talkback_audio_tracks">Аудіодоріжки</string>
     <string name="talkback_subtitle_tracks">Доріжки субтитрів</string>
-    <string name="talkback_subtitle_dowload_item">Мова: %s. %s. Назва: %s</string>
     <string name="selected">Обрано</string>
     <string name="talkback_increase_delay">Збільшити затримку</string>
     <string name="talkback_decrease_delay">Зменшити затримку</string>
@@ -1169,8 +1181,6 @@
     <string name="talkback_audio_player_collapsed">Аудіопрогравач згорнений</string>
     <string name="talkback_audio_player_closed">Аудіопрогравач закритий</string>
     <string name="talkback_audio_player">Аудіопрогравач. Наразі відтворюється: %s</string>
-    <string name="talkback_out_of">%s з %s</string>
-    <string name="talkback_track_index">Доріжка %s з %s</string>
     <string name="downloaded">Завантажено</string>
     <string name="not_downloaded">Не завантажено</string>
     <string name="downloading">Завантажується</string>

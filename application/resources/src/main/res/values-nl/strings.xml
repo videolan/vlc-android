@@ -148,7 +148,6 @@
     <string name="nosubfolder">Geen submap</string>
     <string name="directorynotfound">Het pad \'%1$s\' werd niet teruggevonden.</string>
     <string name="nohistory">U hebt nog geen afspeelgeschiedenis.</string>
-
     <string name="cover_art">Albumhoes</string>
     <string name="shuffle_all_title">Alles in willekeurige volgorde</string>
     <string name="shuffle_title">Modus willekeurige volgorde</string>
@@ -1040,8 +1039,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titel: %s - duur: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Geschiedenis item</string>
     <string name="talkback_playlist">Afspeellijst: %s</string>
@@ -1068,7 +1065,6 @@
     <string name="talkback_video_tracks">Videosporen</string>
     <string name="talkback_audio_tracks">Audiosporen</string>
     <string name="talkback_subtitle_tracks">Ondertitelsporen</string>
-    <string name="talkback_subtitle_dowload_item">Taal: %s. %s. Naam: %s</string>
     <string name="selected">Geselecteerd</string>
     <string name="talkback_increase_delay">Vertraging vergroten</string>
     <string name="talkback_decrease_delay">Vertraging verkleinen</string>
@@ -1080,8 +1076,6 @@
     <string name="talkback_audio_player_collapsed">Audiospeler ingeklapt</string>
     <string name="talkback_audio_player_closed">Audiospeler gesloten</string>
     <string name="talkback_audio_player">Audiospeler. Nu speelt: %s</string>
-    <string name="talkback_out_of">%s van %s</string>
-    <string name="talkback_track_index">Track %s van %s</string>
     <string name="downloaded">Gedownload</string>
     <string name="not_downloaded">Niet gedownload</string>
     <string name="downloading">Downloaden</string>

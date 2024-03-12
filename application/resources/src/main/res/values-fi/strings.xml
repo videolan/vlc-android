@@ -150,7 +150,6 @@
     <string name="nosubfolder">Ei alihakemistoa</string>
     <string name="directorynotfound">Hakemiston polku \"%1$s\" ei löytynyt.</string>
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
-
     <string name="cover_art">Kansikuva</string>
     <string name="shuffle_all_title">Sekoita kaikki</string>
     <string name="shuffle_title">Satunnaistoisto</string>
@@ -331,6 +330,7 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="screen_orientation_landscape_sensor">Vaakasuunta (anturi)</string>
     <string name="screen_orientation_last_locked">Viimeinen lukittu suunta</string>
     <string name="enable_black_theme">Musta teema</string>
+    <string name="dark_theme">Tumma teema</string>
     <string name="theme_auto">Autom. teema</string>
     <string name="subtitle_text_encoding">Tekstityksen merkistö</string>
     <string name="subtitle_preferred_language">Tekstityksen kieli</string>
@@ -472,7 +472,6 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="remote_access_info">Etäkäytön tiedot</string>
     <string name="remote_access_content">Sisältö</string>
     <string name="remote_access_medialibrary_content">Mediakirjaston sisältö</string>
-    <string name="remote_access_medialibrary_content_summary">Käytössä: %s\nPoistettu: %s</string>
     <string name="remote_access_file_browser_content">Tiedostoselain</string>
     <string name="remote_access_network_browser_content">Verkkoselain</string>
     <string name="remote_access_playback_control">Ohjaa toistoa</string>
@@ -1132,8 +1131,6 @@ Osoite on %s</string>
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - nimi: %s - kesto: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Historian kohde</string>
     <string name="talkback_playlist">Soittolista: %s</string>
@@ -1160,7 +1157,6 @@ Osoite on %s</string>
     <string name="talkback_video_tracks">Videoraidat</string>
     <string name="talkback_audio_tracks">Audioraidat</string>
     <string name="talkback_subtitle_tracks">Tekstitysraidat</string>
-    <string name="talkback_subtitle_dowload_item">Kieli: %s. %s. Nimi: %s</string>
     <string name="selected">Valittu</string>
     <string name="talkback_increase_delay">Lisää viivettä</string>
     <string name="talkback_decrease_delay">Vähennä viivettä</string>
@@ -1172,8 +1168,6 @@ Osoite on %s</string>
     <string name="talkback_audio_player_collapsed">Audiosoitin taustalla</string>
     <string name="talkback_audio_player_closed">Audiosoitin suljettu</string>
     <string name="talkback_audio_player">Audiosoitin, nyt soi: %s</string>
-    <string name="talkback_out_of">%s / %s</string>
-    <string name="talkback_track_index">Raita %s / %s</string>
     <string name="downloaded">Ladattu</string>
     <string name="not_downloaded">Ei ladattu</string>
     <string name="downloading">Ladataan</string>

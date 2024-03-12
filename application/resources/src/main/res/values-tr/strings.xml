@@ -150,7 +150,6 @@
     <string name="nosubfolder">Alt klasör yok</string>
     <string name="directorynotfound">\'%1$s\' klasör yolu bulunamadı.</string>
     <string name="nohistory">Henüz bir oynatma geçmişiniz yok.</string>
-
     <string name="cover_art">Kapak görseli</string>
     <string name="shuffle_all_title">Tümünü karıştır</string>
     <string name="shuffle_title">Karıştırma kipi</string>
@@ -464,7 +463,6 @@
     <string name="remote_access_info">Uzaktan erişim bilgileri</string>
     <string name="remote_access_content">İçerik</string>
     <string name="remote_access_medialibrary_content">Ortam kitaplığı içeriği</string>
-    <string name="remote_access_medialibrary_content_summary">Açık: %s\nKapalı: %s</string>
     <string name="remote_access_file_browser_content">Dosya tarayıcı</string>
     <string name="remote_access_network_browser_content">Ağ tarayıcı</string>
     <string name="remote_access_playback_control">Oynatma denetlensin</string>
@@ -792,6 +790,8 @@
     <string name="light_theme">Açık tema</string>
     <string name="add">Ekle</string>
     <string name="add_to_new_playlist">Yeni listeye ekle</string>
+    <string name="create_new_playlist">Yeni oynatma listesi ekle</string>
+    <string name="create">Ekle</string>
     <string name="resume_card_message">%1$s oynatımı sürdürülsün mü?</string>
     <string name="misc">Çeşitli</string>
     <string name="popup_force_legacy_title">Görüntü içinde görüntü penceresi kullanılsın</string>
@@ -1052,6 +1052,14 @@
     <string name="banned">Yasak klasör (uzun dokun değiştir)</string>
     <string name="banned_tv">Engellenmiş klasör</string>
     <string name="banned_parent">Üst klasörce yasaklanmış</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Bu öge zaten \"%s\" oynatma listesinde var.</item>
+        <item quantity="other">Bu ögeler zaten \"%s\" oynatma listesinde var.</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Seçilmiş ögelerin 1 tanesi zaten \"%s\" oynatma listesinde var.</item>
+        <item quantity="other">Seçilmiş ögelerin %d tanesi zaten \"%s\" oynatma listesinde var.</item>
+    </plurals>
     <string name="official_website">Resmi site</string>
     <string name="view_online">Çevrim içi görüntüle</string>
     <string name="player_under_notch">Görüntü çentik altında görüntülensin</string>
@@ -1105,8 +1113,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - başlık: %s - süre: %s</string>
     <string name="talkback_genre">Tür: %s</string>
     <string name="talkback_history_item">Geçmiş ögesi</string>
     <string name="talkback_playlist">Liste: %s</string>
@@ -1133,7 +1139,6 @@
     <string name="talkback_video_tracks">Görüntü kayıtları</string>
     <string name="talkback_audio_tracks">Ses kayıtları</string>
     <string name="talkback_subtitle_tracks">Alt yazı kayıtları</string>
-    <string name="talkback_subtitle_dowload_item">Dil: %s. %s. Ad: %s</string>
     <string name="selected">Seçilmiş</string>
     <string name="talkback_increase_delay">Gecikmeyi artır</string>
     <string name="talkback_decrease_delay">Gecikmeyi azalt</string>
@@ -1145,8 +1150,6 @@
     <string name="talkback_audio_player_collapsed">Ses oynatıcı daraltıldı</string>
     <string name="talkback_audio_player_closed">Ses oynatıcı kapatıldı</string>
     <string name="talkback_audio_player">Ses oynatıcı. Şu anda oynatılan: %s</string>
-    <string name="talkback_out_of">%s / %s</string>
-    <string name="talkback_track_index">%s / %s. kayıt</string>
     <string name="downloaded">İndirildi</string>
     <string name="not_downloaded">İndirilmedi</string>
     <string name="downloading">İndiriliyor</string>

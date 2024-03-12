@@ -136,7 +136,6 @@
     <string name="nosubfolder">ქვესაქაღალდე არაა</string>
     <string name="directorynotfound">საქაღალდე „%1$s“ მისამართით, არაა.</string>
     <string name="nohistory">დაკვრის ისტორია ჯერ არ გაქვთ.</string>
-
     <string name="cover_art">გარეკანის სურათი</string>
     <string name="shuffle_all_title">ყველას არევა</string>
     <string name="shuffle_title">არევის რეჟიმი</string>
@@ -1013,8 +1012,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - სათაური: %s - ხანგრძლივობა: %s</string>
     <string name="talkback_genre">ჟანრი: %s</string>
     <string name="talkback_history_item">ისტორიის ჩანაწერი</string>
     <string name="talkback_playlist">დასაკრავი სია: %s</string>
@@ -1041,7 +1038,6 @@
     <string name="talkback_video_tracks">ვიდეოჩანაწერები</string>
     <string name="talkback_audio_tracks">ხმოვანი ჩანაწერები</string>
     <string name="talkback_subtitle_tracks">ქვეწარწერების ჩანაწერი</string>
-    <string name="talkback_subtitle_dowload_item">ენა: %s. %s. სახელი: %s</string>
     <string name="selected">შერჩეული</string>
     <string name="talkback_increase_delay">დაყოვნების გაზრდა</string>
     <string name="talkback_decrease_delay">დაყოვნების შემცირება</string>
@@ -1053,8 +1049,6 @@
     <string name="talkback_audio_player_collapsed">ხმოვანი დამკვრელი ჩაკეცილია</string>
     <string name="talkback_audio_player_closed">ხმოვანი დამკვრელი დახურულია</string>
     <string name="talkback_audio_player">ხმოვანი დამკვრელი. ახლა გაშვებულია: %s</string>
-    <string name="talkback_out_of">%s, სულ %s</string>
-    <string name="talkback_track_index">%s ჩანაწერი, სულ %s</string>
     <string name="downloaded">ჩამოტვირთულია</string>
     <string name="not_downloaded">არაა ჩამოტვირთული</string>
     <string name="downloading">ჩამოიტვირთება</string>

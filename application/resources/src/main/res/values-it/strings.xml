@@ -159,6 +159,7 @@
     <string name="nosubfolder">Nessuna sottocartella</string>
     <string name="directorynotfound">Il percorso della cartella \'%1$s\' non è stato trovato.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
+    <string name="cant_ban_root">Non puoi vietare una cartella radice</string>
 
     <string name="cover_art">Copertina</string>
     <string name="shuffle_all_title">Mescola tutti</string>
@@ -475,7 +476,7 @@
     <string name="remote_access_info">Informazioni di accesso remoto</string>
     <string name="remote_access_content">Contenuti</string>
     <string name="remote_access_medialibrary_content">Contenuti della raccolta multimediale</string>
-    <string name="remote_access_medialibrary_content_summary">Abilitato: %s\nDisabilitato: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Abilitato: %1$s\nDisabilitato: %2$s</string>
     <string name="remote_access_file_browser_content">Navigatore di file</string>
     <string name="remote_access_network_browser_content">Navigatore di rete</string>
     <string name="remote_access_playback_control">Controlla la riproduzione</string>
@@ -1131,7 +1132,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titolo: %s - durata: %s</string>
+    <string name="talkback_media_content_description">%1$s - titolo: %2$s - durata: %3$s</string>
     <string name="talkback_genre">Genere: %s</string>
     <string name="talkback_history_item">Elemento di cronologia</string>
     <string name="talkback_playlist">Scaletta: %s</string>
@@ -1158,7 +1159,7 @@
     <string name="talkback_video_tracks">Tracce video</string>
     <string name="talkback_audio_tracks">Tracce audio</string>
     <string name="talkback_subtitle_tracks">Traccia dei sottotitoli</string>
-    <string name="talkback_subtitle_dowload_item">Lingua: %s. %s. Nome: %s</string>
+    <string name="talkback_subtitle_dowload_item">Lingua: %1$s. %2$s. Nome: %3$s</string>
     <string name="selected">Selezionato</string>
     <string name="talkback_increase_delay">Aumenta ritardo</string>
     <string name="talkback_decrease_delay">Riduci ritardo</string>
@@ -1170,8 +1171,8 @@
     <string name="talkback_audio_player_collapsed">Lettore audio minimizzato</string>
     <string name="talkback_audio_player_closed">Lettore audio chiuso</string>
     <string name="talkback_audio_player">Lettore audio. In riproduzione: %s</string>
-    <string name="talkback_out_of">%s di %s</string>
-    <string name="talkback_track_index">Traccia %s di %s</string>
+    <string name="talkback_out_of">%1$s di %2$s</string>
+    <string name="talkback_track_index">Traccia %1$s di %2$s</string>
     <string name="downloaded">Scaricato</string>
     <string name="not_downloaded">Non scaricato</string>
     <string name="downloading">Scaricamento</string>

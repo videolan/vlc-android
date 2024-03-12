@@ -136,7 +136,6 @@
     <string name="nosubfolder">Hakuna folda dogo</string>
     <string name="directorynotfound">Njia ya mwongolezo \'%1$s\'  haijapatikana.</string>
     <string name="nohistory">Hauna historia ya uchezaji.</string>
-
     <string name="cover_art">Sanaa ya jalada</string>
     <string name="shuffle_all_title">Changanya zote</string>
     <string name="shuffle_title">Nui Changanyi</string>
@@ -1005,8 +1004,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - kichwa: %s - muda: %s</string>
     <string name="talkback_genre">Tanzu: %s</string>
     <string name="talkback_history_item">Kipengee cha historia</string>
     <string name="talkback_playlist">Orodha chezeshi: %s</string>
@@ -1033,7 +1030,6 @@
     <string name="talkback_video_tracks">Nakala za video</string>
     <string name="talkback_audio_tracks">Nakala za usikiko</string>
     <string name="talkback_subtitle_tracks">Nakala za manukuu</string>
-    <string name="talkback_subtitle_dowload_item">Lugha: %s. %s. Jina: %s</string>
     <string name="selected">Kilichochaguliwa</string>
     <string name="talkback_increase_delay">Ongeza kawizo</string>
     <string name="talkback_decrease_delay">Punguza kawizo</string>
@@ -1045,8 +1041,6 @@
     <string name="talkback_audio_player_collapsed">Kichezaji usikiko kimekunjwa</string>
     <string name="talkback_audio_player_closed">Kichezaji usikiko kimefungwa</string>
     <string name="talkback_audio_player">Kichezaji usikiko. Kinacheza: %s</string>
-    <string name="talkback_out_of">%s kati ya %s</string>
-    <string name="talkback_track_index">Nakala %s kati ya %s</string>
     <string name="downloaded">Imepakuliwa</string>
     <string name="not_downloaded">Haijapakuliwa</string>
     <string name="downloading">Inapakua</string>

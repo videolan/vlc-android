@@ -136,7 +136,6 @@
     <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
-
     <string name="cover_art">Cover art</string>
     <string name="shuffle_all_title">Shuffle all</string>
     <string name="shuffle_title">Shuffle mode</string>
@@ -1013,8 +1012,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - title: %s - duration: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">History item</string>
     <string name="talkback_playlist">Playlist: %s</string>
@@ -1041,7 +1038,6 @@
     <string name="talkback_video_tracks">Video tracks</string>
     <string name="talkback_audio_tracks">Audio tracks</string>
     <string name="talkback_subtitle_tracks">Subtitle tracks</string>
-    <string name="talkback_subtitle_dowload_item">Language: %s. %s. Name: %s</string>
     <string name="selected">Selected</string>
     <string name="talkback_increase_delay">Increase delay</string>
     <string name="talkback_decrease_delay">Decrease delay</string>
@@ -1053,8 +1049,6 @@
     <string name="talkback_audio_player_collapsed">Audio player collapsed</string>
     <string name="talkback_audio_player_closed">Audio player closed</string>
     <string name="talkback_audio_player">Audio player. Currently playing: %s</string>
-    <string name="talkback_out_of">%s out of %s</string>
-    <string name="talkback_track_index">Track %s out of %s</string>
     <string name="downloaded">Downloaded</string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="downloading">Downloading</string>

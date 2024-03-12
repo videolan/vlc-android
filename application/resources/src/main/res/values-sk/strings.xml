@@ -168,6 +168,7 @@
     <string name="nosubfolder">Žiadny podpriečinok</string>
     <string name="directorynotfound">Cesta k priečinku „%1$s“ sa nenašla.</string>
     <string name="nohistory">Ešte nie je dostupná žiadna história prehrávania.</string>
+    <string name="cant_ban_root">Hlavný priečinok nemôžete zablokovať</string>
 
     <string name="cover_art">Obal</string>
     <string name="shuffle_all_title">Všetko náhodne</string>
@@ -344,6 +345,7 @@
     <string name="screen_orientation_landscape_sensor">Na šírku (senzor)</string>
     <string name="screen_orientation_last_locked">Posledná uzamknutá orientácia</string>
     <string name="enable_black_theme">Čierna téma</string>
+    <string name="dark_theme">Tmavá téma</string>
     <string name="theme_auto">Téma automaticky</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="subtitle_preferred_language">Preferovaný jazyk titulkov</string>
@@ -484,7 +486,6 @@
     <string name="remote_access_info">Informácia o vzdialenom prístupe</string>
     <string name="remote_access_content">Obsah</string>
     <string name="remote_access_medialibrary_content">Obsah knižnice médií</string>
-    <string name="remote_access_medialibrary_content_summary">Zapnuté: %s\nVypnuté: %s</string>
     <string name="remote_access_file_browser_content">Prehliadač súborov</string>
     <string name="remote_access_network_browser_content">Prehliadač siete</string>
     <string name="remote_access_playback_control">Ovládanie prehrávania</string>
@@ -812,6 +813,8 @@
     <string name="light_theme">Svetlá téma</string>
     <string name="add">Pridať</string>
     <string name="add_to_new_playlist">Pridať do nového playlistu</string>
+    <string name="create_new_playlist">Vytvoriť nový playlist</string>
+    <string name="create">Vytvoriť</string>
     <string name="resume_card_message">Pokračovať prehrávanie z %1$s?</string>
     <string name="misc">Rôzne</string>
     <string name="popup_force_legacy_title">Použiť používateľské okno PiP</string>
@@ -1076,6 +1079,18 @@
     <string name="banned">Zablokovaný priečinok (zmenu vykonáte dlhým dotykom)</string>
     <string name="banned_tv">Vylúčený priečinok</string>
     <string name="banned_parent">Zablokované rodičovským priečinkom</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Táto položka už je v playliste \"%s\".</item>
+        <item quantity="few">Tieto položky už sú v playliste \"%s\".</item>
+        <item quantity="many">Tieto položky už sú v playliste \"%s\".</item>
+        <item quantity="other">Tieto položky už sú v playliste \"%s\".</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 z vybraných položiek už je v playliste \"%s\".</item>
+        <item quantity="few">%d z vybraných položiek už sú v playliste \"%s\".</item>
+        <item quantity="many">%d z vybraných položiek už je v playliste \"%s\".</item>
+        <item quantity="other">%d z vybraných položiek už je v playliste \"%s\".</item>
+    </plurals>
     <string name="official_website">Oficiálna webová stránka</string>
     <string name="view_online">Zobraziť online</string>
     <string name="player_under_notch">Zobrazovať video pod výrezom</string>
@@ -1129,8 +1144,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - názov: %s - trvanie: %s</string>
     <string name="talkback_genre">Žáner: %s</string>
     <string name="talkback_history_item">Položka histórie</string>
     <string name="talkback_playlist">Playlist: %s</string>
@@ -1157,7 +1170,6 @@
     <string name="talkback_video_tracks">Stopy s videom</string>
     <string name="talkback_audio_tracks">Stopy so zvukom</string>
     <string name="talkback_subtitle_tracks">Stopy s titulkami</string>
-    <string name="talkback_subtitle_dowload_item">Jazyk: %s. %s. Názov: %s</string>
     <string name="selected">Vybrané</string>
     <string name="talkback_increase_delay">Zvýšiť oneskorenie</string>
     <string name="talkback_decrease_delay">Znížiť oneskorenie</string>
@@ -1169,8 +1181,6 @@
     <string name="talkback_audio_player_collapsed">Prehrávač zvuku bol zbalený</string>
     <string name="talkback_audio_player_closed">Prehrávač zvuku bol zatvorený</string>
     <string name="talkback_audio_player">Prehrávač zvuku. Práve sa prehráva: %s</string>
-    <string name="talkback_out_of">%s z %s</string>
-    <string name="talkback_track_index">Stopa %s z %s</string>
     <string name="downloaded">Stiahnuté</string>
     <string name="not_downloaded">Nestiahnuté</string>
     <string name="downloading">Prebieha sťahovanie</string>

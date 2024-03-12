@@ -127,7 +127,6 @@
     <string name="nosubfolder">没有子文件夹</string>
     <string name="directorynotfound">目录路径「%1$s」不存在。</string>
     <string name="nohistory">尚无播放历史记录。</string>
-
     <string name="cover_art">专辑封面</string>
     <string name="shuffle_all_title">全部随机</string>
     <string name="shuffle_title">随机模式</string>
@@ -1002,8 +1001,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - 标题: %s - 时长: %s</string>
     <string name="talkback_genre">流派: %s</string>
     <string name="talkback_history_item">历史项目</string>
     <string name="talkback_playlist">播放列表: %s</string>
@@ -1030,7 +1027,6 @@
     <string name="talkback_video_tracks">视频轨</string>
     <string name="talkback_audio_tracks">音频轨</string>
     <string name="talkback_subtitle_tracks">字幕轨</string>
-    <string name="talkback_subtitle_dowload_item">语言: %s。%s。名称: %s</string>
     <string name="selected">已选中</string>
     <string name="talkback_increase_delay">增加延迟</string>
     <string name="talkback_decrease_delay">减小延迟</string>
@@ -1042,8 +1038,6 @@
     <string name="talkback_audio_player_collapsed">音频播放器已折叠</string>
     <string name="talkback_audio_player_closed">音频播放器已关闭</string>
     <string name="talkback_audio_player">音频播放器。正在播放: %s</string>
-    <string name="talkback_out_of">%s 个，共 %s 个</string>
-    <string name="talkback_track_index">第 %s 轨，共 %s 轨</string>
     <string name="downloaded">已下载</string>
     <string name="not_downloaded">未下载</string>
     <string name="downloading">正在下载</string>

@@ -141,6 +141,7 @@
     <string name="nosubfolder">サブフォルダがありません</string>
     <string name="directorynotfound">ディレクトリのパス \'%1$s\' がみつかりません。</string>
     <string name="nohistory">再生履歴がありません。</string>
+    <string name="cant_ban_root">ルートフォルダを禁止することはできません</string>
 
     <string name="cover_art">アートワーク</string>
     <string name="shuffle_all_title">すべてをシャッフル</string>
@@ -455,7 +456,7 @@
     <string name="remote_access_info">リモートアクセス情報</string>
     <string name="remote_access_content">コンテンツ</string>
     <string name="remote_access_medialibrary_content">メディアライブラリコンテンツ</string>
-    <string name="remote_access_medialibrary_content_summary">有効: %s\n無効: %s</string>
+    <string name="remote_access_medialibrary_content_summary">有効: %1$s\n無効: %2$s</string>
     <string name="remote_access_file_browser_content">ファイルブラウザ</string>
     <string name="remote_access_network_browser_content">ネットワークブラウザ</string>
     <string name="remote_access_playback_control">再生を制御</string>
@@ -1103,7 +1104,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - タイトル: %s - 長さ: %s</string>
+    <string name="talkback_media_content_description">%1$s - タイトル: %2$s - 長さ: %3$s</string>
     <string name="talkback_genre">ジャンル: %s</string>
     <string name="talkback_history_item">履歴の項目</string>
     <string name="talkback_playlist">プレイリスト: %s</string>
@@ -1130,7 +1131,7 @@
     <string name="talkback_video_tracks">ビデオトラック</string>
     <string name="talkback_audio_tracks">オーディオトラック</string>
     <string name="talkback_subtitle_tracks">字幕トラック</string>
-    <string name="talkback_subtitle_dowload_item">言語: %s. %s. 名前: %s</string>
+    <string name="talkback_subtitle_dowload_item">言語: %1$s. %2$s. 名前: %3$s</string>
     <string name="selected">選択されました</string>
     <string name="talkback_increase_delay">遅延を増加させる</string>
     <string name="talkback_decrease_delay">遅延を減少させる</string>
@@ -1142,8 +1143,8 @@
     <string name="talkback_audio_player_collapsed">オーディオプレイヤーが畳まれました</string>
     <string name="talkback_audio_player_closed">オーディオプレイヤーが閉じました</string>
     <string name="talkback_audio_player">オーディオプレイヤーで再生中: %s</string>
-    <string name="talkback_out_of">残り %s 全体 %s</string>
-    <string name="talkback_track_index">残りトラック %s 全体 %s</string>
+    <string name="talkback_out_of">%2$s のうち %1$s</string>
+    <string name="talkback_track_index">%2$s のうち %1$s トラック</string>
     <string name="downloaded">ダウンロードされました</string>
     <string name="not_downloaded">ダウンロードされていません</string>
     <string name="downloading">ダウンロードしています</string>

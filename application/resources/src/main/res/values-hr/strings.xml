@@ -128,7 +128,6 @@
     <string name="nosubfolder">Nema podmapa</string>
     <string name="directorynotfound">Putanja direktorija \'%1$s\' nije pronađena.</string>
     <string name="nohistory">Još nemate povijest reprodukcije.</string>
-
     <string name="cover_art">Omot slike</string>
     <string name="shuffle_all_title">Naizmjenično sve</string>
     <string name="shuffle_title">Naizmjenični način rada</string>
@@ -662,8 +661,6 @@
     <string name="disabled">Deaktivirano</string>
     <string name="enable_screenshot_gesture">Dodirni s tri prsta</string>
     <string name="enable_screenshot_button">Prikaži gumb za snimku ekrana</string>
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s – naslov: %s – trajanje: %s</string>
     <string name="talkback_genre">Žanr: %s</string>
     <string name="talkback_folder">Mapa: %s</string>
     <string name="talkback_file">Datoteka: %s</string>
@@ -676,11 +673,9 @@
     <string name="talkback_video_group">Grupa videa: %s</string>
     <string name="talkback_list_section">Zaglavlje: %s</string>
     <string name="talkback_file_size">Veličina datoteke: %s</string>
-    <string name="talkback_subtitle_dowload_item">Jezik: %s. %s. Ime: %s</string>
     <string name="selected">Odabrano</string>
     <string name="talkback_increase_speed">Povećaj brzinu</string>
     <string name="talkback_decrease_speed">Smanji brzinu</string>
-    <string name="talkback_out_of">%s od %s</string>
     <string name="downloaded">Preuzeto</string>
     <string name="not_downloaded">Nije preuzeto</string>
     <string name="downloading">Preuzimanje</string>

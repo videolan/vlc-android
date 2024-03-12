@@ -14,37 +14,37 @@
     <string name="sortby_length">trukmę</string>
     <string name="sortby_date">datą</string>
     <string name="sortby_last_modified_date">pridėjimo laiką</string>
-    <string name="sortby_insertion">pridėjimo laiką</string>
-    <string name="sortby_date_last_modified">Neseniai pridėta</string>
-    <string name="sortby_date_insertion">pridėjimo laiką</string>
+    <string name="sortby_insertion">pridėjimo datą</string>
+    <string name="sortby_date_last_modified">pridėjimą datą</string>
+    <string name="sortby_date_insertion">pridėjimo datą</string>
     <string name="sortby_date_release">išleidimo datą</string>
     <string name="sortby_media_number">kūrinio numerį</string>
     <string name="sortby_number">takelių skaičių</string>
     <string name="searchable_hint">Ieškoti…</string>
     <string name="history">Istorija</string>
 
-    <string name="sortby_name_asc">Pavadinimą A → Z</string>
-    <string name="sortby_name_desc">Pavadinimą Z → A</string>
-    <string name="sortby_artist_name_asc">Atlikėją A → Z</string>
-    <string name="sortby_artist_name_desc">Atlikėją Z → A</string>
-    <string name="sortby_album_name_asc">Albumą A → Z</string>
-    <string name="sortby_album_name_desc">Albumą Z → A</string>
-    <string name="sortby_filename_asc">Rinkmenos vardą A → Z</string>
-    <string name="sortby_filename_desc">Rinkmenos vardą Z → A</string>
-    <string name="sortby_length_asc">Trumpumą</string>
-    <string name="sortby_length_desc">Ilgumą</string>
-    <string name="sortby_date_asc">Senumą</string>
-    <string name="sortby_date_desc">Naujumą</string>
-    <string name="sortby_last_modified_date_asc">Pridėjimo senumą</string>
-    <string name="sortby_last_modified_date_desc">Pridėjimo naujumą</string>
+    <string name="sortby_name_asc">pavadinimą A → Z</string>
+    <string name="sortby_name_desc">pavadinimą Z → A</string>
+    <string name="sortby_artist_name_asc">atlikėją A → Z</string>
+    <string name="sortby_artist_name_desc">atlikėją Z → A</string>
+    <string name="sortby_album_name_asc">albumą A → Z</string>
+    <string name="sortby_album_name_desc">albumą Z → A</string>
+    <string name="sortby_filename_asc">rinkmenos vardą A → Z</string>
+    <string name="sortby_filename_desc">rinkmenos vardą Z → A</string>
+    <string name="sortby_length_asc">trumpumą</string>
+    <string name="sortby_length_desc">ilgumą</string>
+    <string name="sortby_date_asc">senumą</string>
+    <string name="sortby_date_desc">naujumą</string>
+    <string name="sortby_last_modified_date_asc">papildymo senumą</string>
+    <string name="sortby_last_modified_date_desc">papildymo naujumą</string>
     <string name="sortby_number_asc">didesnį vaizdo įrašų grupėje kiekį</string>
     <string name="sortby_number_desc">mažesnį vaizdo įrašų grupėje kiekį</string>
-    <string name="sortby_date_insertion_asc">seniausia įterpimo datą</string>
-    <string name="sortby_date_insertion_desc">naujausią įterpimo datą</string>
-    <string name="sortby_date_last_modified_asc">seniausią modifikavimo datą</string>
-    <string name="sortby_date_last_modified_desc">naujausią modifikavimo datą</string>
-    <string name="sortby_date_release_asc">seniausia įterpimo datą</string>
-    <string name="sortby_date_release_desc">naujausią įterpimo datą</string>
+    <string name="sortby_date_insertion_asc">seniausia pridėjimo datą</string>
+    <string name="sortby_date_insertion_desc">naujausią pridėjimo datą</string>
+    <string name="sortby_date_last_modified_asc">seniausią modifikacijos datą</string>
+    <string name="sortby_date_last_modified_desc">naujausią modifikacijos datą</string>
+    <string name="sortby_date_release_asc">seniausią išleidimo datą</string>
+    <string name="sortby_date_release_desc">naujausią išleidimo datą</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">Rastas %d kūrinys</item>
@@ -168,6 +168,7 @@
     <string name="nosubfolder">Be poaplankių</string>
     <string name="directorynotfound">„%1$s“ aplanko neradome.</string>
     <string name="nohistory">Kol kas grojimo žurnalas tuščias.</string>
+    <string name="cant_ban_root">Šakninio aplanko uždrausti negalima</string>
 
     <string name="cover_art">Viršelis</string>
     <string name="shuffle_all_title">Viską maišyti</string>
@@ -399,7 +400,7 @@
     <string name="popup_keepscreen_title">Laikyti ekraną įjungtą, kai rodomas iškylantis langas</string>
     <string name="popup_keepscreen_summary">Visada laikyti ekraną įjungtą tol, kol rodomas iškylantis langas, net jei vaizdo įrašas pristabdytas.</string>
     <string name="browser_show_hidden_files_title">Rodyti slepiamąsias rinkmenas</string>
-    <string name="albums_show_track_numbers">Rodyti takelių numerį</string>
+    <string name="albums_show_track_numbers">Rodyti takelio numerį</string>
     <string name="enable_video_screenshot">Padaryti ekrano kopiją</string>
 
     <string name="subtitles_prefs_category">Subtitrai</string>
@@ -471,7 +472,7 @@
     <string name="casting_category">Transliacija</string>
     <string name="remote_access">Nuotolinė prieiga</string>
     <string name="remote_access_status">Serverio būsena</string>
-    <string name="remote_access_status_summary">Pamatyti serverio būseną</string>
+    <string name="remote_access_status_summary">Bakstelėkite, kad pakeistumėte serverio būseną</string>
     <string name="remote_access_connections">Ryšiai</string>
     <string name="remote_access_links">Nuorodos</string>
     <string name="remote_access_active">Nuotolinė prieiga aktyvi</string>
@@ -485,11 +486,11 @@
     <string name="remote_access_info">Nuotolinės prieigos informacija</string>
     <string name="remote_access_content">Turinys</string>
     <string name="remote_access_medialibrary_content">Medijos bibliotekos turinys</string>
-    <string name="remote_access_medialibrary_content_summary">Įjungta: %s\nIšjungta: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Įjungta: %1$s\nIšjungta: %2$s</string>
     <string name="remote_access_file_browser_content">Rinkmenų naršyklė</string>
     <string name="remote_access_network_browser_content">Tinklo naršyklė</string>
     <string name="remote_access_playback_control">Atkūrimo valdymas</string>
-    <string name="remote_access_logs">Bendrinti žurnalo failus</string>
+    <string name="remote_access_logs">Bendrinti žurnalo rinkmenas</string>
     <string name="casting_switch_title">Belaidė transliacija</string>
     <string name="casting_passthrough_title">Garso perdavimas</string>
     <string name="casting_passthrough_summary">Leisti televizoriui tvarkyti garso perdavimą</string>
@@ -1005,7 +1006,7 @@
     <string name="browser_show_missing_media_summary">Rodyti žiniatinklio kūrinius, net jei jų nėra</string>
     <string name="parental_control">Tėvų kontrolė</string>
     <string name="safe_mode">Ribotoji veiksena</string>
-    <string name="safe_mode_summary">Kuomet suaktyvinta, rinkmenos negali būti ištrintos, o grojaraščiai keičiami neįvedus PIN kodo</string>
+    <string name="safe_mode_summary">Kuomet ši nuostata suaktyvinta, rinkmenos negali būti ištrintos, o grojaraščiai keičiami neįvedus PIN kodo</string>
     <string name="safe_mode_pin">Įveskite PIN kodą</string>
     <string name="pin_unlock_success">Sėkmingai atrakinta. Norėdami iš naujo suaktyvinti ribotąją veikseną, bakstelėkite šią piktogramą programėlėje:</string>
     <string name="safe_mode_new_pin">Įveskite naują PIN kodą</string>
@@ -1110,7 +1111,7 @@
     <string name="widget_theme">Valdiklio tema</string>
     <string name="widget_preferences">Konfigūruoti valdiklį</string>
     <string name="material_you">„Material You“ (ištraukia spalvas iš fono paveikslėlio)</string>
-    <string name="palette">„Paletė“ (ištraukia spalvas iš medijos viršelio)</string>
+    <string name="palette">„Paletė“ (spalvos ištraukiamos iš medijos viršelio)</string>
     <string name="custom">Tinkinta</string>
     <string name="widget_type">Valdiklio tipas</string>
     <string name="widget_type_pill">Tabletė</string>
@@ -1145,7 +1146,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - pavadinimas: %s - trukmė: %s</string>
+    <string name="talkback_media_content_description">%1$s – pavadinimas: %2$s – trukmė: %3$s</string>
     <string name="talkback_genre">Stilius: %s</string>
     <string name="talkback_history_item">Istorijos elementas</string>
     <string name="talkback_playlist">Grojaraštis: %s</string>
@@ -1172,7 +1173,7 @@
     <string name="talkback_video_tracks">Vaizdo takeliai</string>
     <string name="talkback_audio_tracks">Garso takeliai</string>
     <string name="talkback_subtitle_tracks">Subtitrų takeliai</string>
-    <string name="talkback_subtitle_dowload_item">Kalba: %s. %s. Pavadinimas: %s</string>
+    <string name="talkback_subtitle_dowload_item">Kalba: %1$s. %2$s. Pavadinimas: %3$s</string>
     <string name="selected">Pasirinkta</string>
     <string name="talkback_increase_delay">Padidinti vėlinimą</string>
     <string name="talkback_decrease_delay">Sumažinti vėlinimą</string>
@@ -1184,8 +1185,8 @@
     <string name="talkback_audio_player_collapsed">Garso leistuvė sutraukta</string>
     <string name="talkback_audio_player_closed">Garso leistuvė uždaryta</string>
     <string name="talkback_audio_player">Garso leistuvė. Šiuo metu grojama: %s</string>
-    <string name="talkback_out_of">%s iš %s</string>
-    <string name="talkback_track_index">Takelis %s iš %s</string>
+    <string name="talkback_out_of">%1$s iš %2$s</string>
+    <string name="talkback_track_index">Takelis %1$s iš %2$s</string>
     <string name="downloaded">Atsisiųsta</string>
     <string name="not_downloaded">Neatsisiųsta</string>
     <string name="downloading">Atsisiunčiama</string>
@@ -1231,17 +1232,17 @@
     <string name="ra_otp_not_me">Tai ne aš</string>
 
     <string name="ra_onboarding_welcome_desc">Sveiki atvykę į VLC, skirtos Android sistemai, nuotolinės prieigos nuostatas. Jas įgalinę galėsite valdyti šio įrenginio atkūrimą ir dar daugiau</string>
-    <string name="ra_onboarding_how_title">Valdykite savo įrenginį</string>
-    <string name="ra_onboarding_how_desc">Valdykite įrenginio atkūrimą, siųskite arba gaukite failus ir dar daugiau</string>
-    <string name="ra_onboarding_ssl_title">Duomenų šifravimas</string>
-    <string name="ra_onboarding_ssl_desc">Nuotolinė prieiga yra užšifruota, kad Jūsų duomenys nebūtų nutekinti</string>
-    <string name="ra_onboarding_otp_title">Tapatybės nustatymas</string>
-    <string name="ra_onboarding_otp_desc">Naudodami vienkartinį slaptažodžio autentifikavimą, apsaugokite savo duomenis nuo nepageidaujamos prieigos</string>
+    <string name="ra_onboarding_how_title">Įrenginio valdymas</string>
+    <string name="ra_onboarding_how_desc">Valdykite savo įrenginio atkūrimą, siųskite arba gaukite failus ir dar daugiau</string>
+    <string name="ra_onboarding_ssl_title">Šifruoti duomenys</string>
+    <string name="ra_onboarding_ssl_desc">Nuotolinė prieiga yra užšifruota, tad Jūsų duomenys yra saugūs nuo „nutekėjimo“</string>
+    <string name="ra_onboarding_otp_title">Tapatybės patvirtinimas</string>
+    <string name="ra_onboarding_otp_desc">Pasitelkę vienkartinį slaptažodį tapatybės patvirtinimui, galite užkirsti kelią nepageidaujamai prieigai prie savo duomenų</string>
     <string name="ra_onboarding_content_title">Turinio prieiga</string>
-    <string name="ra_onboarding_content_desc">Pasirinkite, ką galima pasiekti ir ko ne</string>
-    <string name="ra_onboarding_content_ml">Medijos bibliotekos turinys</string>
-    <string name="ra_onboarding_content_files">Rinkmenų naršyklė</string>
-    <string name="ra_onboarding_content_playback">Grojimo valdymas</string>
+    <string name="ra_onboarding_content_desc">Pasirinkite, ką galima bus pasiekti, o ko ne</string>
+    <string name="ra_onboarding_content_ml">Medijos bibliotekos turinį</string>
+    <string name="ra_onboarding_content_files">Rinkmenų naršyklę</string>
+    <string name="ra_onboarding_content_playback">Atkūrimo valdymą</string>
     <string name="ra_disable">Išjungti</string>
     <string name="ra_log_web">Nuotolinės prieigos žurnalas</string>
     <string name="ra_log_crash">Gedimų žurnalas</string>

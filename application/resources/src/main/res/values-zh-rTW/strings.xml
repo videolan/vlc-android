@@ -141,6 +141,7 @@
     <string name="nosubfolder">沒有子目錄</string>
     <string name="directorynotfound">目錄路徑「%1$s」不存在。</string>
     <string name="nohistory">目前並無播放記錄。</string>
+    <string name="cant_ban_root">您無法封鎖根資料夾</string>
 
     <string name="cover_art">專輯封面</string>
     <string name="shuffle_all_title">全部隨機</string>
@@ -455,7 +456,7 @@
     <string name="remote_access_info">遠端存取資訊</string>
     <string name="remote_access_content">內容</string>
     <string name="remote_access_medialibrary_content">媒體庫內容</string>
-    <string name="remote_access_medialibrary_content_summary">已啟用：%s\n已停用：%s</string>
+    <string name="remote_access_medialibrary_content_summary">已啟用：%1$s\n已停用：%2$s</string>
     <string name="remote_access_file_browser_content">檔案瀏覽器</string>
     <string name="remote_access_network_browser_content">網路瀏覽器</string>
     <string name="remote_access_playback_control">控制播放</string>
@@ -1103,7 +1104,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - 標題：%s - 持續時間：%s</string>
+    <string name="talkback_media_content_description">%1$s - 標題：%2$s - 持續時間：%3$s</string>
     <string name="talkback_genre">風格：%s</string>
     <string name="talkback_history_item">歷史紀錄項目</string>
     <string name="talkback_playlist">播放清單：%s</string>
@@ -1130,7 +1131,7 @@
     <string name="talkback_video_tracks">視訊軌</string>
     <string name="talkback_audio_tracks">音訊軌</string>
     <string name="talkback_subtitle_tracks">字幕軌</string>
-    <string name="talkback_subtitle_dowload_item">語言：%s。%s。名稱：%s</string>
+    <string name="talkback_subtitle_dowload_item">語言：%1$s。%2$s。名稱：%3$s</string>
     <string name="selected">已選取</string>
     <string name="talkback_increase_delay">增加延遲</string>
     <string name="talkback_decrease_delay">減少延遲</string>
@@ -1142,8 +1143,8 @@
     <string name="talkback_audio_player_collapsed">音訊播放程式已折疊</string>
     <string name="talkback_audio_player_closed">音訊播放程式已關閉</string>
     <string name="talkback_audio_player">音訊播放程式。正在播放：%s</string>
-    <string name="talkback_out_of">第 %s 個，共 %s 個</string>
-    <string name="talkback_track_index">第 %s 軌，共 %s 軌</string>
+    <string name="talkback_out_of">第 %1$s 個，共 %2$s 個</string>
+    <string name="talkback_track_index">第 %1$s 軌，共 %2$s 軌</string>
     <string name="downloaded">已下載</string>
     <string name="not_downloaded">未下載</string>
     <string name="downloading">正在下載</string>

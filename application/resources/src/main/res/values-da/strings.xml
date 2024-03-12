@@ -136,7 +136,6 @@
     <string name="nosubfolder">Ingen undermappe</string>
     <string name="directorynotfound">Mappestien \"%1$s\" blev ikke fundet.</string>
     <string name="nohistory">Du har endnu ikke en afspilningshistorik.</string>
-
     <string name="cover_art">Omslag</string>
     <string name="shuffle_all_title">Bland alle</string>
     <string name="shuffle_title">Blandtilstand</string>
@@ -1011,8 +1010,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titel: %s - varighed: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Element fra historik</string>
     <string name="talkback_playlist">Afspilningsliste: %s</string>
@@ -1039,7 +1036,6 @@
     <string name="talkback_video_tracks">Videospor</string>
     <string name="talkback_audio_tracks">Lydspor</string>
     <string name="talkback_subtitle_tracks">Undertekstspor</string>
-    <string name="talkback_subtitle_dowload_item">Sprog: %s. %s. Navn: %s</string>
     <string name="selected">Valgt</string>
     <string name="talkback_increase_delay">Øg forsinkelse</string>
     <string name="talkback_decrease_delay">Sænk forsænkelse</string>
@@ -1051,8 +1047,6 @@
     <string name="talkback_audio_player_collapsed">Lydafspiller lukket ned</string>
     <string name="talkback_audio_player_closed">Lydafspiller slukket</string>
     <string name="talkback_audio_player">Lydafspiller. Afspiller nu: %s</string>
-    <string name="talkback_out_of">%s af %s</string>
-    <string name="talkback_track_index">Spor %s ud af %s</string>
     <string name="downloaded">Hentet</string>
     <string name="not_downloaded">Ikke hentet</string>
     <string name="downloading">Henter</string>

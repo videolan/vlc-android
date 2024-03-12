@@ -150,7 +150,6 @@
     <string name="nosubfolder">Alcunu sottucartularu</string>
     <string name="directorynotfound">U chjassu di u cartulare « %1$s » ùn si trova micca.</string>
     <string name="nohistory">Ùn ci hè manc’una cronolugia di ripruduzzione.</string>
-
     <string name="cover_art">Cuprendula</string>
     <string name="shuffle_all_title">Lettura aleatoria di tuttu</string>
     <string name="shuffle_title">Modu di lettura aleatoria</string>
@@ -465,7 +464,6 @@
     <string name="remote_access_info">Infurmazione nant’à l’accessu à distanza</string>
     <string name="remote_access_content">Cuntenutu</string>
     <string name="remote_access_medialibrary_content">Cuntenutu di a mediateca</string>
-    <string name="remote_access_medialibrary_content_summary">Attivatu : %s\nDisattivatu : %s</string>
     <string name="remote_access_file_browser_content">Navigatore di schedarii</string>
     <string name="remote_access_network_browser_content">Navigatore di reta</string>
     <string name="remote_access_playback_control">Cuntrollà a ripruduzzione</string>
@@ -1116,8 +1114,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titulu : %s - durata : %s</string>
     <string name="talkback_genre">Generu : %s</string>
     <string name="talkback_history_item">Elementu di a cronolugia</string>
     <string name="talkback_playlist">Lista di lettura : %s</string>
@@ -1144,7 +1140,6 @@
     <string name="talkback_video_tracks">Traccie video</string>
     <string name="talkback_audio_tracks">Traccie audio</string>
     <string name="talkback_subtitle_tracks">Traccie di sottutitulu</string>
-    <string name="talkback_subtitle_dowload_item">Lingua : %s. %s. Nome : %s</string>
     <string name="selected">Selezziunatu</string>
     <string name="talkback_increase_delay">Aumentà u cumportu</string>
     <string name="talkback_decrease_delay">Diminuisce u cumportu</string>
@@ -1156,8 +1151,6 @@
     <string name="talkback_audio_player_collapsed">Lettore audio riduttu</string>
     <string name="talkback_audio_player_closed">Lettore audio chjosu</string>
     <string name="talkback_audio_player">Lettore audio. In corsu di lettura : %s</string>
-    <string name="talkback_out_of">%s nant’à %s</string>
-    <string name="talkback_track_index">Traccia %s nant’à %s</string>
     <string name="downloaded">Scaricatu</string>
     <string name="not_downloaded">Micca scaricatu</string>
     <string name="downloading">Scaricamentu</string>

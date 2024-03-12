@@ -140,7 +140,6 @@
     <string name="nosubfolder">Нет вложенной папки</string>
     <string name="directorynotfound">Каталог \'%1$s\' не найден.</string>
     <string name="nohistory">История воспроизведения пуста.</string>
-
     <string name="cover_art">Обложка</string>
     <string name="shuffle_all_title">Перемешать все</string>
     <string name="shuffle_title">Режим перемешивания</string>
@@ -951,8 +950,6 @@
     <string name="disable_track">Отключённая дорожка</string>
     <string name="ascending">По возрастанию</string>
     <string name="descending">По убыванию</string>
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - название: %s - длительность: %s</string>
     <string name="talkback_genre">Жанр: %s</string>
     <string name="talkback_history_item">Элемент истории</string>
     <string name="talkback_playlist">Плейлист: %s</string>
@@ -979,7 +976,6 @@
     <string name="talkback_video_tracks">Видеодорожки</string>
     <string name="talkback_audio_tracks">Аудиодорожки</string>
     <string name="talkback_subtitle_tracks">Дорожки субтитров</string>
-    <string name="talkback_subtitle_dowload_item">Язык: %s. %s. Название: %s</string>
     <string name="selected">Выбрано</string>
     <string name="talkback_increase_delay">Увеличить задержку</string>
     <string name="talkback_decrease_delay">Уменьшить задержку</string>
@@ -991,8 +987,6 @@
     <string name="talkback_audio_player_collapsed">Аудиоплеер свёрнут</string>
     <string name="talkback_audio_player_closed">Аудиоплеер закрыт</string>
     <string name="talkback_audio_player">Аудиоплеер воспроизводит: %s</string>
-    <string name="talkback_out_of">%s из %s</string>
-    <string name="talkback_track_index">Дорожка %s из %s</string>
     <string name="downloaded">Загружено</string>
     <string name="not_downloaded">Не загружено</string>
     <string name="downloading">Загружается</string>
