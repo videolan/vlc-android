@@ -1009,6 +1009,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
     fun setABRepeatValue(media: MediaWrapper?, time: Long) {
+        if (settings.getBoolean(PLAYBACK_HISTORY, true)) return
         val value = abRepeat.value ?: ABRepeat()
         when {
             value.start == -1L -> {
