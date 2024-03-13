@@ -3,7 +3,7 @@
 
 This default template purpose is to be used to report a bug you found in VLC for Android.
 
-To use a different template, follow the instructions here: https://code.videolan.org/videolan/vlc-android/-/wikis/Create-an-issue-and-use-a-template
+To use a different template, select it from the "Description" drop-down above. If you're having trouble finding it, see https://code.videolan.org/videolan/vlc-android/-/wikis/Create-an-issue-and-use-a-template.
 
 If you want to ask for a new feature, please use the "VLC for Android - Feature Request.md" template above.
 
