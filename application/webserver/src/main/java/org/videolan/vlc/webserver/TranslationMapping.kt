@@ -93,5 +93,6 @@ object TranslationMapping {
         VIDEO_GROUP_BY_NAME(R.string.video_min_group_length_name),
         PLAY_ALL(R.string.play_all),
         DARK_THEME(R.string.dark_theme),
+        LIGHT_THEME(R.string.light_theme),
     }
 }

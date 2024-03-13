@@ -1,11 +1,84 @@
 <template>
   <nav class="navbar navbar-light navbar-expand-md shadow-sm sticky-top align-items-center container-fluid main-navbar">
-    <div  class="flex1">
+    <div class="flex1-collapsible">
       <RouterLink :to="{ name: 'VideoList' }">
-        <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48, true)" width="48" v-on:click="iconClick()" v-bind:class="this.clicked > 2 && this.clicked % 2 == 1 ? 'animate' : ''">
+        <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48, true)" width="48" v-on:click="iconClick()"
+          v-bind:class="this.clicked > 2 && this.clicked % 2 == 1 ? 'animate' : ''">
       </RouterLink>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center nav-collapsed collapsed">
+      <p class="text-primary nav-main-title">{{ getRouteName() }}</p>
+    </div>
+    <div class="dropdown dropstart nav-collapsed">
+      <ImageButton type="menu" data-bs-toggle="dropdown" aria-expanded="false" />
+
+      <ul class="dropdown-menu dropdown-menu-start">
+        <li>
+          <RouterLink :to="{ name: 'VideoList' }">
+            <div class="nav-button d-flex btn  btn-lg medium">
+              <img class="nav-button" v-bind:src="$getAppAsset('ic_video')">
+              <p class="collapsed-menu-text" v-t="'VIDEO'"></p>
+            </div>
+          </RouterLink>
+          <RouterLink :to="{ name: 'AudioArtists' }">
+            <div class="nav-button d-flex btn  btn-lg medium">
+              <img v-bind:src="$getAppAsset('ic_menu_audio')">
+              <p class="collapsed-menu-text" v-t="'AUDIO'"></p>
+            </div>
+          </RouterLink>
+          <RouterLink :to="{ name: 'BrowseList' }">
+            <div class="nav-button d-flex btn  btn-lg medium">
+              <img v-bind:src="$getAppAsset('ic_folder')">
+              <p class="collapsed-menu-text" v-t="'BROWSE'"></p>
+            </div>
+          </RouterLink>
+          <RouterLink :to="{ name: 'PlaylistList' }">
+            <div class="nav-button d-flex btn  btn-lg medium">
+              <img v-bind:src="$getAppAsset('ic_playlist')">
+              <p class="collapsed-menu-text" v-t="'PLAYLISTS'"></p>
+            </div>
+          </RouterLink>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <RouterLink :to="{ name: 'SearchList' }">
+            <div class="nav-button d-flex btn  btn-lg medium">
+              <img :src="(`./icons/search.svg`)">
+              <p class="collapsed-menu-text" v-t="'SEARCH'"></p>
+            </div>
+          </RouterLink>
+        </li>
+
+        <li>
+          <RouterLink :to="{ name: 'Logs' }">
+            <div class="nav-button d-flex btn  btn-lg medium">
+              <img :src="(`./icons/crash.svg`)">
+              <p class="collapsed-menu-text" v-t="'LOG_FILE'"></p>
+            </div>
+          </RouterLink>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <div class="nav-button d-flex btn  btn-lg medium" v-on:click="this.$emit('send-files')">
+              <img :src="(`./icons/file_upload.svg`)">
+              <p class="collapsed-menu-text" v-t="'SEND_FILES'"></p>
+            </div>
+        </li>
+        <li>
+          <div class="nav-button d-flex btn  btn-lg medium" v-on:click="changeTheme">
+              <img :src="(`./icons/dark_mode.svg`)" v-show="(!this.appStore.darkTheme)">
+              <p class="collapsed-menu-text" v-t="'DARK_THEME'" v-show="(!this.appStore.darkTheme)"></p>
+              <img :src="(`./icons/light_mode.svg`)" v-show="(this.appStore.darkTheme)">
+              <p class="collapsed-menu-text" v-t="'LIGHT_THEME'" v-show="(this.appStore.darkTheme)"></p>
+            </div>
+        </li>
+      </ul>
+    </div>
+    <div class="d-flex justify-content-center nav-collapsible">
       <RouterLink :to="{ name: 'VideoList' }">
         <button class="btn btn-lg nav-button medium">
           <img v-bind:src="$getAppAsset('ic_video')">
@@ -31,7 +104,7 @@
         </button>
       </RouterLink>
     </div>
-    <div class="d-flex flex1 justify-content-end">
+    <div class="d-flex flex1 justify-content-end nav-collapsible">
       <ImageButton type="cloud_off" class="blink" v-show="!appStore.socketOpened" v-on:click.stop="disconnectedClicked"
         v-tooltip data-bs-placement="bottom" :title="$t('DISCONNECTED')" />
       <RouterLink :to="{ name: 'SearchList' }">
@@ -39,29 +112,40 @@
       </RouterLink>
       <div class="dropdown dropstart">
         <ImageButton type="more_vert" data-bs-toggle="dropdown" aria-expanded="false" />
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu nav-dropdown">
           <li>
-            <a v-on:click="this.$emit('send-files')" v-t="'SEND_FILES'" class="dropdown-item clickable"></a>
-          </li>
-          <li>
-            <RouterLink class="dropdown-item" :to="{ name: 'Logs' }" v-t="'LOG_FILE'">
-            </RouterLink>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li>
-            <a v-on:click="changeTheme" class="dropdown-item clickable">
-              <img  class="image-button" :src="(`./icons/checked.svg`)"  v-show="(this.appStore.darkTheme)"/>
-            <span  v-t="'DARK_THEME'"></span>
-            </a>
-          </li>
+          <RouterLink :to="{ name: 'Logs' }">
+            <div class="nav-button d-flex btn  btn-lg medium">
+              <img :src="(`./icons/crash.svg`)">
+              <p class="collapsed-menu-text" v-t="'LOG_FILE'"></p>
+            </div>
+          </RouterLink>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <div class="nav-button d-flex btn  btn-lg medium" v-on:click="this.$emit('send-files')">
+              <img :src="(`./icons/file_upload.svg`)">
+              <p class="collapsed-menu-text" v-t="'SEND_FILES'"></p>
+            </div>
+        </li>
+        <li>
+          <div class="nav-button d-flex btn  btn-lg medium" v-on:click="changeTheme">
+              <img :src="(`./icons/dark_mode.svg`)" v-show="(!this.appStore.darkTheme)">
+              <p class="collapsed-menu-text" v-t="'DARK_THEME'" v-show="(!this.appStore.darkTheme)"></p>
+              <img :src="(`./icons/light_mode.svg`)" v-show="(this.appStore.darkTheme)">
+              <p class="collapsed-menu-text" v-t="'LIGHT_THEME'" v-show="(this.appStore.darkTheme)"></p>
+            </div>
+        </li>
         </ul>
       </div>
     </div>
     <div class="navtabs-container border-bottom" v-show="this.$route.meta.showDisplayBar">
       <div class="flex1 d-flex align-items-center">
-        <ImageButton :type="(this.appStore.displayType[this.$route.name]) ? 'grid_view' : 'view_list'" v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)"
-        v-tooltip data-bs-placement="bottom"
-          :title="$t((this.appStore.displayType[this.$route.name]) ? 'DISPLAY_GRID': 'DISPLAY_LIST')" />
+        <ImageButton :type="(this.appStore.displayType[this.$route.name]) ? 'grid_view' : 'view_list'"
+          v-on:click.stop="this.appStore.toggleDisplayType(this.$route.name)" v-tooltip data-bs-placement="bottom"
+          :title="$t((this.appStore.displayType[this.$route.name]) ? 'DISPLAY_GRID' : 'DISPLAY_LIST')" />
 
         <div class="dropdown" v-show="this.$route.meta.showGrouping">
           <button class="btn btn-lg image-button hidden-arrow" type="button" data-bs-toggle="dropdown"
@@ -87,20 +171,20 @@
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
-            v-bind:class="(this.$route.name == 'AudioAlbums') ? 'active text-primary' : ''" :to="{ name: 'AudioAlbums' }"
-            v-t="'ALBUMS'">
+            v-bind:class="(this.$route.name == 'AudioAlbums') ? 'active text-primary' : ''"
+            :to="{ name: 'AudioAlbums' }" v-t="'ALBUMS'">
           </RouterLink>
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
-            v-bind:class="(this.$route.name == 'AudioTracks') ? 'active text-primary' : ''" :to="{ name: 'AudioTracks' }"
-            v-t="'TRACKS'">
+            v-bind:class="(this.$route.name == 'AudioTracks') ? 'active text-primary' : ''"
+            :to="{ name: 'AudioTracks' }" v-t="'TRACKS'">
           </RouterLink>
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" v-show="this.$route.meta.isAudio"
-            v-bind:class="(this.$route.name == 'AudioGenres') ? 'active text-primary' : ''" :to="{ name: 'AudioGenres' }"
-            v-t="'GENRES'"> </RouterLink>
+            v-bind:class="(this.$route.name == 'AudioGenres') ? 'active text-primary' : ''"
+            :to="{ name: 'AudioGenres' }" v-t="'GENRES'"> </RouterLink>
         </li>
       </ul>
 
@@ -123,8 +207,7 @@
 
       <div class="flex1 d-flex justify-content-end align-items-center">
         <button class="btn btn-lg image-button" v-show="this.$route.meta.showFAB"
-        v-on:click.stop="$playAll(this.$route)" v-tooltip data-bs-placement="bottom"
-          :title="$t('PLAY_ALL')">
+          v-on:click.stop="$playAll(this.$route)" v-tooltip data-bs-placement="bottom" :title="$t('PLAY_ALL')">
           <img class="image-button-image" v-bind:src="$getAppAsset('ic_ctx_play_all', 24)">
         </button>
         <button class="btn btn-lg image-button" v-show="this.$route.meta.showResume"
@@ -148,10 +231,10 @@ export default {
     ImageButton,
   },
   data() {
-        return {
-            clicked: 0
-        }
-    },
+    return {
+      clicked: 0
+    }
+  },
   methods: {
     disconnectedClicked() {
       this.$root.startWebSocket();
@@ -172,11 +255,33 @@ export default {
     isActive(mode) {
       return this.appStore.videoGrouping == mode
     },
-    changeTheme () {
+    changeTheme() {
       this.appStore.darkTheme = !this.appStore.darkTheme
     },
     iconClick() {
       this.clicked++
+    },
+    getRouteName() {
+      if (this.$route.matched[0]) {
+        switch (this.$route.matched[0].name) {
+          case 'Video':
+            return this.$t('VIDEO')
+          case 'Audio':
+            return this.$t('AUDIO')
+          case 'Browse':
+            return this.$t('BROWSE')
+          case 'Playlist':
+            return this.$t('PLAYLISTS')
+          case 'SearchList':
+            return this.$t('SEARCH')
+          case 'Logs':
+            return this.$t('LOG_FILE')
+          default:
+            return ""
+        }
+      } else {
+        return ""
+      }
     }
   },
   computed: {
@@ -188,6 +293,45 @@ export default {
 
 <style lang='scss'>
 @import '../scss/colors.scss';
+
+.nav-main-title {
+  font-weight: bold;
+}
+
+.nav-dropdown a, .nav-collapsed a {
+  text-decoration: none;
+}
+
+.collapsed-menu-text {
+  margin-left: 8px;
+}
+
+.d-flex.nav-collapsed,
+.nav-collapsed {
+  display: none !important;
+}
+
+.flex1-collapsible {
+  flex: 1;
+}
+
+@media screen and (max-width: 580px) {
+
+  .d-flex.nav-collapsible,
+  .nav-collapsible {
+    display: none !important;
+  }
+
+  .d-flex.nav-collapsed,
+  .nav-collapsed {
+    display: inherit !important;
+  }
+
+  .flex1-collapsible {
+    flex: none;
+  }
+
+}
 
 .navbar.navbar-light {
   border-radius: 0;
@@ -232,7 +376,7 @@ export default {
 }
 
 .navtabs .nav-link {
-   color: var(--bs-btn-color);
+  color: var(--bs-btn-color);
 }
 
 .navtabs .nav-link.active {
@@ -264,86 +408,86 @@ export default {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg) translateY(-23px);
-    
+
   }
 }
 
 @keyframes bounce {
-	0% {
-		animation-timing-function: ease-in;
-		opacity: 1;
-		transform: translateY(-23px);
-	}
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 1;
+    transform: translateY(-23px);
+  }
 
-	24% {
-		opacity: 1;
-	}
+  24% {
+    opacity: 1;
+  }
 
-	40% {
-		animation-timing-function: ease-in;
-		transform: translateY(-12px);
-	}
+  40% {
+    animation-timing-function: ease-in;
+    transform: translateY(-12px);
+  }
 
-	65% {
-		animation-timing-function: ease-in;
-		transform: translateY(-6px);
-	}
+  65% {
+    animation-timing-function: ease-in;
+    transform: translateY(-6px);
+  }
 
-	82% {
-		animation-timing-function: ease-in;
-		transform: translateY(-3px);
-	}
+  82% {
+    animation-timing-function: ease-in;
+    transform: translateY(-3px);
+  }
 
-	93% {
-		animation-timing-function: ease-in;
-		transform: translateY(-2px);
-	}
+  93% {
+    animation-timing-function: ease-in;
+    transform: translateY(-2px);
+  }
 
-	25%,
-	55%,
-	75%,
-	87% {
-		animation-timing-function: ease-out;
-		transform: translateY(0px);
-	}
+  25%,
+  55%,
+  75%,
+  87% {
+    animation-timing-function: ease-out;
+    transform: translateY(0px);
+  }
 
-	100% {
-		animation-timing-function: ease-out;
-		opacity: 1;
-		transform: translateY(0px);
-	}
+  100% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }
 
 @keyframes jello {
-	0% {
-		transform: scale3d(1, 1, 1);
-	}
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
 
-	30% {
-		transform: scale3d(1.1, 0.9, 1);
-	}
+  30% {
+    transform: scale3d(1.1, 0.9, 1);
+  }
 
-	40% {
-		transform: scale3d(0.9, 1.1, 1);
-	}
+  40% {
+    transform: scale3d(0.9, 1.1, 1);
+  }
 
-	50% {
-		transform: scale3d(1.05, 0.95, 1);
-	}
+  50% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
 
-	65% {
-		transform: scale3d(0.98, 1.02, 1);
-	}
+  65% {
+    transform: scale3d(0.98, 1.02, 1);
+  }
 
-	75% {
-		transform: scale3d(1.02, 0.98, 1);
-	}
+  75% {
+    transform: scale3d(1.02, 0.98, 1);
+  }
 
-	100% {
-		transform: scale3d(1, 1, 1);
-	}
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
 }
-
-</style>
+</style>nav-dropdown
