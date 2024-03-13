@@ -1,8 +1,10 @@
 <template>
   <nav class="navbar navbar-light navbar-expand-md shadow-sm sticky-top align-items-center container-fluid main-navbar">
-    <RouterLink class="flex1" :to="{ name: 'VideoList' }">
-      <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48, true)" width="48" v-on:click="iconClick()" v-bind:class="this.clicked > 2 && this.clicked % 2 == 1 ? 'animate' : ''">
-    </RouterLink>
+    <div  class="flex1">
+      <RouterLink :to="{ name: 'VideoList' }">
+        <img id="logo" v-bind:src="$getAppAsset('ic_icon', 48, true)" width="48" v-on:click="iconClick()" v-bind:class="this.clicked > 2 && this.clicked % 2 == 1 ? 'animate' : ''">
+      </RouterLink>
+    </div>
     <div class="d-flex justify-content-center">
       <RouterLink :to="{ name: 'VideoList' }">
         <button class="btn btn-lg nav-button medium">
