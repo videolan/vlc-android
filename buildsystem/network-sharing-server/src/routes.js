@@ -25,7 +25,7 @@ const routes = [
     ]
   },
   {
-    path: '/audio', redirect: '/audio/artists', name: 'Audio',
+    path: '/audio', redirect: '/audio/artists', name: 'AudioArtists',
     children: [
       { path: 'artists', component: AudioArtists, name: 'AudioArtists', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
       { path: 'albums', component: AudioAlbums, name: 'AudioAlbums', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },

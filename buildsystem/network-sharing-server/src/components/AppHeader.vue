@@ -266,7 +266,7 @@ export default {
         switch (this.$route.matched[0].name) {
           case 'Video':
             return this.$t('VIDEO')
-          case 'Audio':
+          case 'AudioArtists':
             return this.$t('AUDIO')
           case 'Browse':
             return this.$t('BROWSE')
