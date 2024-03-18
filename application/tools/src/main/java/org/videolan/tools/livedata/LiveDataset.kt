@@ -77,6 +77,14 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
         value = internalList.apply { remove(item) }
     }
 
+    fun replace(item: T) {
+        value = internalList.apply {
+            val index = indexOf(item)
+            removeAt(index)
+            add(index, item)
+        }
+    }
+
     fun remove(position: Int) {
         value = internalList.apply { removeAt(position) }
     }

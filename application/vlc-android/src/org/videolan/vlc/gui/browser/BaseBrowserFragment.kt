@@ -38,7 +38,10 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -154,6 +157,17 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         isRootDirectory = defineIsRoot()
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                needRefresh.observe(this@BaseBrowserFragment) {
+
+                    if (it) {
+                        viewModel.refreshMW()
+                        needRefresh.postValue(false)
+                    }
+                }
+            }
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -274,6 +288,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         startedScope.cancel()
         PlaybackService.serviceFlow.value?.removeCallback(this)
         viewModel.stop()
+        needRefresh.postValue(false)
     }
 
     override fun onDestroy() {
@@ -741,7 +756,26 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onMediaEvent(event: IMedia.Event) {}
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        if (event.type != MediaPlayer.Event.EndReached && event.type != MediaPlayer.Event.PositionChanged ) return
+        //refresh current item
+        PlaybackService.serviceFlow.value?.currentMediaWrapper?.let {
+            if (event.type == MediaPlayer.Event.PositionChanged) {
+                viewModel.refreshMedia(it, PlaybackService.serviceFlow.value?.getTime() ?: 0L)
+            }
+            if (event.type == MediaPlayer.Event.EndReached) {
+               lifecycleScope.launch {
+                   viewModel.updateMediaPlayed(it)
+               }
+            }
+            val index = viewModel.dataset.getList().indexOf(it)
+
+            adapter.notifyItemChanged(index, UPDATE_PROGRESS)
+        }
         needToRefreshMeta = true
+    }
+
+    companion object {
+        val needRefresh = MutableLiveData(false)
     }
 
 }
