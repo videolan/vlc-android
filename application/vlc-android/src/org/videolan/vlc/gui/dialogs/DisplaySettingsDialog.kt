@@ -32,9 +32,12 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.children
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -47,6 +50,7 @@ import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDisplaySettingsBinding
+import org.videolan.vlc.databinding.SortDisplaySettingBinding
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -81,7 +85,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
     companion object {
 
-        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean, sorts: List<Int>, currentSort: Int, currentSortDesc:Boolean, videoGroup:String? = null): DisplaySettingsDialog {
+        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean, sorts: List<Int>, currentSort: Int, currentSortDesc: Boolean, videoGroup: String? = null): DisplaySettingsDialog {
             return DisplaySettingsDialog().apply {
                 arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, ONLY_FAVS to onlyFavs, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, VIDEO_GROUPING to videoGroup)
                 if (showAllArtists != null) arguments!!.putBoolean(SHOW_ALL_ARTISTS, showAllArtists)
@@ -155,6 +159,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             binding.videoGroupsGroup.setGone()
             binding.videoGroupSpinner.setGone()
             binding.videoGroupText.setGone()
+            binding.videoGroupImage.setGone()
         }
         val spinnerArrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, VideoGroup.values())
 
@@ -164,7 +169,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             binding.videoGroupSpinner.performClick()
         }
         binding.videoGroupSpinner.setSelection(VideoGroup.values().indexOf(VideoGroup.findByValue(showVideoGroups)))
-        binding.videoGroupSpinner.onItemSelectedListener = object:OnItemSelectedListener {
+        binding.videoGroupSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val groupType = spinnerArrayAdapter.getItem(position) as VideoGroup
                 if (groupType.value != showVideoGroups) {
@@ -173,7 +178,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
                     dismiss()
                 }
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) { }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
     }
@@ -194,6 +200,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     private fun updateShowAllArtists() {
         if (showAllArtists == null) {
             binding.showAllArtistGroup.setGone()
+            binding.allArtistsImage.setGone()
             return
         }
         binding.showAllArtistCheckbox.isChecked = showAllArtists!!
@@ -216,46 +223,76 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         if (binding.sortsContainer.childCount == 0)
             sorts.forEach { sort ->
 
-                //one view for asc and one for desc
-                arrayOf(false, true).forEach {desc ->
-                    val v = View.inflate(requireActivity(), R.layout.sort_display_setting, null)
-                    val tv = v.findViewById<TextView>(R.id.sort_title)
-                    val container = v.findViewById<View>(R.id.sort_display_setting)
-                    v.setTag(R.id.sort, sort)
-                    v.setTag(R.id.sort_desc, desc)
+                val binding: SortDisplaySettingBinding = DataBindingUtil.inflate(LayoutInflater.from(requireActivity()), R.layout.sort_display_setting, binding.sortsContainer, true)
+                binding.sortAsc.setTag(R.id.sort, getSortTag(sort, false))
+                binding.sortDesc.setTag(R.id.sort, getSortTag(sort, true))
 
-                    container.setOnClickListener {
-                        currentSort = sort
-                        currentSortDesc = desc
+                binding.sortAsc.setOnClickListener {
+                    currentSort = sort
+                    currentSortDesc = false
 
-                        updateSorts()
-                        lifecycleScope.launch { displaySettingsViewModel.send(CURRENT_SORT, Pair(sort, desc)) }
-                    }
-                    tv.text = when (sort) {
-                        Medialibrary.SORT_ALPHA -> getString(if (desc) R.string.sortby_name_desc else R.string.sortby_name_asc)
-                        Medialibrary.SORT_FILENAME -> getString(if (desc) R.string.sortby_filename_desc else R.string.sortby_filename_asc)
-                        Medialibrary.SORT_ARTIST -> getString(if (desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name_asc)
-                        Medialibrary.SORT_DURATION -> getString(if (desc) R.string.sortby_length_desc else R.string.sortby_length_asc)
-                        Medialibrary.SORT_INSERTIONDATE -> getString(if (desc) R.string.sortby_date_insertion_desc else R.string.sortby_date_insertion_asc)
-                        Medialibrary.SORT_LASTMODIFICATIONDATE -> getString(if (desc) R.string.sortby_date_last_modified_desc else R.string.sortby_date_last_modified_asc)
-                        Medialibrary.SORT_ALBUM -> getString(if (desc) R.string.sortby_album_name_desc else R.string.sortby_album_name_asc)
-                        Medialibrary.SORT_RELEASEDATE -> getString(if (desc) R.string.sortby_date_release_desc else R.string.sortby_date_release_asc)
-                        Medialibrary.NbMedia -> getString(if (desc) R.string.sortby_number_asc else R.string.sortby_number_desc)
-                        else -> throw IllegalStateException("Unsupported sort: $sort")
-                    }
-                    val isCurrentSort = (sort == currentSort || currentSort == Medialibrary.SORT_DEFAULT && sort == Medialibrary.SORT_ALPHA) && currentSortDesc == desc
-                    v.isSelected = isCurrentSort
-
-                    binding.sortsContainer.addView(v)
+                    updateSorts()
+                    lifecycleScope.launch { displaySettingsViewModel.send(CURRENT_SORT, Pair(sort, false)) }
                 }
+                binding.sortDesc.setOnClickListener {
+                    currentSort = sort
+                    currentSortDesc = true
+
+                    updateSorts()
+                    lifecycleScope.launch { displaySettingsViewModel.send(CURRENT_SORT, Pair(sort, true)) }
+                }
+                val isCurrentSort = (sort == currentSort || currentSort == Medialibrary.SORT_DEFAULT && sort == Medialibrary.SORT_ALPHA)
+                when (sort) {
+                    Medialibrary.SORT_ALPHA -> setupSortViews(binding, isCurrentSort, R.string.sortby_name, R.string.sort_alpha_asc, R.string.sort_alpha_desc, R.drawable.ic_sort_alpha)
+                    Medialibrary.SORT_FILENAME -> setupSortViews(binding, isCurrentSort, R.string.sortby_filename, R.string.sort_alpha_asc, R.string.sort_alpha_desc, R.drawable.ic_sort_filename)
+                    Medialibrary.SORT_ARTIST -> setupSortViews(binding, isCurrentSort, R.string.sortby_artist_name, R.string.sort_alpha_asc, R.string.sort_alpha_desc, R.drawable.ic_sort_artist)
+                    Medialibrary.SORT_DURATION -> setupSortViews(binding, isCurrentSort, R.string.sortby_length, R.string.sortby_length_asc, R.string.sortby_length_desc, R.drawable.ic_sort_length)
+                    Medialibrary.SORT_INSERTIONDATE -> setupSortViews(binding, isCurrentSort, R.string.sortby_date_insertion, R.string.sort_date_asc, R.string.sort_date_desc, R.drawable.ic_sort_scan)
+                    Medialibrary.SORT_LASTMODIFICATIONDATE -> setupSortViews(binding, isCurrentSort, R.string.sortby_date_last_modified, R.string.sort_date_asc, R.string.sort_date_desc, R.drawable.ic_sort_scan)
+                    Medialibrary.SORT_ALBUM -> setupSortViews(binding, isCurrentSort, R.string.sortby_album_name, R.string.sort_alpha_asc, R.string.sort_alpha_desc, R.drawable.ic_sort_album)
+                    Medialibrary.SORT_RELEASEDATE -> setupSortViews(binding, isCurrentSort, R.string.sortby_date_release, R.string.sort_date_asc, R.string.sort_date_desc, R.drawable.ic_sort_date)
+                    Medialibrary.NbMedia -> setupSortViews(binding, isCurrentSort, R.string.sortby_number, R.string.sortby_number_asc, R.string.sortby_number_desc, R.drawable.ic_sort_number)
+                    else -> throw IllegalStateException("Unsupported sort: $sort")
+                }
+
             }
-        else {
-            //views are already added. Update their states
-            binding.sortsContainer.children.forEach {
-                it.isSelected = it.getTag(R.id.sort) == currentSort &&  it.getTag(R.id.sort_desc) ==  currentSortDesc
+        //views are added. Update their states
+        binding.sortsContainer.children.forEach { container ->
+            (container as ViewGroup).children.forEach childrenForEach@{
+                if (it.getTag(R.id.sort) == null) return@childrenForEach
+                val selected = it.getTag(R.id.sort) == getSortTag(currentSort, currentSortDesc)
+                it.isSelected = selected
+                (it as TextView).setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, if (selected) ContextCompat.getDrawable(requireActivity(), R.drawable.ic_check_large) else null, null)
             }
         }
     }
+
+    /**
+     * Setup the sort view
+     *
+     * @param binding the binding to use for the views
+     * @param isCurrentSort true if this view is the sort type currently used
+     * @param titleString the sort title string res
+     * @param ascString the sort asc variant string res
+     * @param descString the sort desc variant string res
+     * @param iconDrawable the sort icon drawable
+     */
+    private fun setupSortViews(binding: SortDisplaySettingBinding, isCurrentSort: Boolean, @StringRes titleString: Int, @StringRes ascString: Int, @StringRes descString: Int, @DrawableRes iconDrawable: Int) {
+        binding.sortTitle.text = getString(titleString)
+        binding.sortAsc.text = getString(ascString)
+        binding.sortDesc.text = getString(descString)
+        binding.sortIcon.setImageDrawable(ContextCompat.getDrawable(requireActivity(), iconDrawable))
+        binding.sortAsc.isSelected = isCurrentSort && !currentSortDesc
+        binding.sortDesc.isSelected = isCurrentSort && currentSortDesc
+    }
+
+    /**
+     * Generate the sort tag
+     *
+     * @param sort the sort type int
+     * @param desc is the sort desc
+     */
+    private fun getSortTag(sort: Int, desc: Boolean) = if (desc) "${sort}_desc" else "${sort}_asc"
 
     /**
      * Video grouping entry
@@ -264,7 +301,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
      * @property title the title resources to be shown
      * @property type the [VideosViewModel] type for this grouping
      */
-    enum class VideoGroup(val value: String, val title:Int, val type:VideoGroupingType) {
+    enum class VideoGroup(val value: String, val title: Int, val type: VideoGroupingType) {
         GROUP_BY_NAME(GROUP_VIDEOS_NAME, R.string.video_min_group_length_name, VideoGroupingType.NAME),
         GROUP_BY_FOLDER(GROUP_VIDEOS_FOLDER, R.string.video_min_group_length_folder, VideoGroupingType.FOLDER),
         NO_GROUP(GROUP_VIDEOS_NONE, R.string.video_min_group_length_disable, VideoGroupingType.NONE);
