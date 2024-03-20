@@ -112,7 +112,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
     fun setIsPlayed(context: Context, played:Boolean) {
         if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
         when (binding) {
-            is CardBrowserItemBinding -> {}
+            is CardBrowserItemBinding -> binding.played = played
             is BrowserItemBinding -> binding.played = played
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }
@@ -120,7 +120,10 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
     fun setProgress(context: Context, progress: Int, max: Int) {
         if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
         when (binding) {
-            is CardBrowserItemBinding -> {}
+            is CardBrowserItemBinding -> {
+                binding.progress = progress
+                binding.max = max
+            }
             is BrowserItemBinding -> {
                 binding.progress = progress
                 binding.max = max

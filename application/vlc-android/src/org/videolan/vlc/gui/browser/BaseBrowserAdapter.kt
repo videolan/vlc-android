@@ -148,7 +148,6 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             val max = (media.length / 1000).toInt()
             val progress = (media.displayTime / 1000).toInt()
             (holder as MediaViewHolder).bindingContainer.setProgress(holder.bindingContainer.container.context, progress, max)
-            holder.bindingContainer.setItem(media)
             if (media.type != MediaWrapper.TYPE_AUDIO) holder.bindingContainer.setIsPlayed(holder.bindingContainer.container.context, media.playCount > 0)
         }  else if (payloads[0] is CharSequence) {
             (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
