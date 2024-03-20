@@ -70,6 +70,10 @@
         <variable
                 name="isTv"
                 type="boolean" />
+
+        <variable
+                name="forceCoverHiding"
+                type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,12 +115,22 @@
                 android:onClick="@{holder::onImageClick}"
                 android:scaleType="centerCrop"
                 android:src="@{cover}"
-                android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.GONE : View.VISIBLE}"
+                android:visibility="@{forceCoverHiding ? View.INVISIBLE : item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/browser_checkbox"
                 app:layout_constraintTop_toTopOf="parent"
                 app:media="@{item}"
                 tools:srcCompat="@drawable/ic_am_folder" />
+
+        <org.videolan.vlc.gui.view.MiniVisualizer
+                android:id="@+id/playing"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:bar_color="?attr/mini_visualizer_color"
+                app:layout_constraintBottom_toBottomOf="@+id/item_icon"
+                app:layout_constraintEnd_toEndOf="@+id/item_icon"
+                app:layout_constraintStart_toStartOf="@+id/item_icon"
+                app:layout_constraintTop_toTopOf="@+id/item_icon" />
 
         <ImageView
                 android:id="@+id/ml_item_seen"

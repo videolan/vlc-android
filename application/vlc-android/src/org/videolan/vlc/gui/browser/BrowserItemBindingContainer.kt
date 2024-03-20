@@ -36,6 +36,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
+import org.videolan.vlc.gui.view.MiniVisualizer
 
 class BrowserItemBindingContainer(val binding: ViewDataBinding) {
     fun setCheckEnabled(enabled: Boolean) {
@@ -132,6 +133,63 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }
     }
+
+    fun getVisu():MiniVisualizer {
+        return when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+    fun startVisu() {
+        when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing.start()
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing.start()
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+    fun stopVisu() {
+        when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing.start()
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing.stop()
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
+    fun setVisuVisibility(visible: Int) {
+        when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing.visibility = visible
+                binding.forceCoverHiding = visible == View.VISIBLE
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing.visibility = visible
+                binding.forceCoverHiding = visible == View.VISIBLE
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
 
     fun setIsTv(isTv:Boolean) {
         when (binding) {

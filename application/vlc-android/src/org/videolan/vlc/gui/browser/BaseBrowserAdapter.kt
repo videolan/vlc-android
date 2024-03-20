@@ -51,8 +51,10 @@ import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.view.FastScroller
+import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.getDescriptionSpan
+import org.videolan.vlc.viewmodels.PlaylistModel
 
 const val UPDATE_PROGRESS = "update_progress"
 open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, var sort:Int = Medialibrary.SORT_FILENAME, var asc:Boolean = true) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem>, FastScroller.SeparatedAdapter {
@@ -84,6 +86,19 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     private var specialIcons = false
 
     val diffCallback = BrowserDiffCallback()
+    private var currentPlayingVisu: MiniVisualizer? = null
+    private var model: PlaylistModel? = null
+
+    var currentMedia: MediaWrapper? = null
+        set(media) {
+            if (media == currentMedia) return
+            val former = currentMedia
+            field = media
+            if (former != null) notifyItemChanged(dataset.indexOf(former))
+            if (media != null) {
+                notifyItemChanged(dataset.indexOf(media))
+            }
+        }
 
     private var scheduler: LifecycleAwareScheduler? = null
 
@@ -126,7 +141,17 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         scheduler?.cancelAction(MARQUEE_ACTION)
+        currentMedia = null
+        currentPlayingVisu = null
         super.onDetachedFromRecyclerView(recyclerView)
+    }
+
+    fun setCurrentlyPlaying(playing: Boolean) {
+        if (playing) currentPlayingVisu?.start() else currentPlayingVisu?.stop()
+    }
+
+    fun setModel(model: PlaylistModel) {
+        this.model = model
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
@@ -180,6 +205,14 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
         itemFocusChanged(position, false, vh.bindingContainer)
+        if (currentMedia == media) {
+            if (model?.playing != false) vh.bindingContainer.startVisu() else vh.bindingContainer.stopVisu()
+            vh.bindingContainer.setVisuVisibility(View.VISIBLE)
+            currentPlayingVisu = vh.bindingContainer.getVisu()
+        } else {
+            vh.bindingContainer.stopVisu()
+            vh.bindingContainer.setVisuVisibility(View.INVISIBLE)
+        }
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
