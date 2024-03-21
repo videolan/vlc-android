@@ -22,6 +22,7 @@ package org.videolan.vlc.viewmodels.browser
 
 import android.content.Context
 import androidx.annotation.MainThread
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.providers.BrowserProvider
@@ -164,6 +166,13 @@ open class BrowserModel(
             withContext(Dispatchers.Main) {
                 dataset.replace(item)
             }
+        }
+    }
+
+    fun saveSort() {
+        Settings.getInstance(context).edit {
+            putInt(sortKey, sort)
+            putBoolean("${sortKey}_desc", desc)
         }
     }
 }

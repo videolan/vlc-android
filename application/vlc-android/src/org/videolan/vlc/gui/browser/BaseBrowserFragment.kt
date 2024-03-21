@@ -38,6 +38,7 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
@@ -64,6 +65,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
@@ -85,9 +87,14 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
+import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.SHOW_ALL_FILES
+import org.videolan.vlc.gui.dialogs.SHOW_HIDDEN_FILES
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -104,7 +111,21 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SCANNED
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_DOWNLOAD_SUBTITLES
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_FIND_METADATA
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.Permissions
@@ -112,6 +133,7 @@ import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.io.File
@@ -129,7 +151,7 @@ private const val MSG_HIDE_ENQUEUING = "msg_hide_enqueuing"
 
 abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem>, SchedulerCallback, PlaybackService.Callback {
 
-    lateinit var scheduler:LifecycleAwareScheduler
+    lateinit var scheduler: LifecycleAwareScheduler
     private lateinit var addPlaylistFolderOnly: MenuItem
     private lateinit var layoutManager: LinearLayoutManager
     override var mrl: String? = null
@@ -149,9 +171,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     private var enqueuingSnackbar: Snackbar? = null
     private lateinit var startedScope: CoroutineScope
 
+    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        scheduler =  LifecycleAwareScheduler(this)
+        scheduler = LifecycleAwareScheduler(this)
         val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
             currentMedia = bundle.parcelable(KEY_MEDIA)
@@ -177,6 +201,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.ml_menu_display_options)?.isVisible = true
         menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
         menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
         menu.findItem(R.id.ml_menu_sortby_media_number)?.isVisible = false
@@ -234,6 +259,43 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }.launchWhenStarted(lifecycleScope)
     }
 
+    override fun onDisplaySettingChanged(key: String, value: Any) {
+        when (key) {
+            DISPLAY_IN_CARDS -> {
+                //todo
+//                viewModel.providersInCard[currentTab] = value as Boolean
+//                @Suppress("UNCHECKED_CAST")
+//                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
+//                lists[currentTab].adapter = adapters[currentTab]
+//                if (currentTab == 1 && songsAdapter.currentMedia != null) {
+//                    songsAdapter.currentMedia = null
+//                    songsAdapter.currentMedia = PlaylistManager.currentPlayedMedia.value
+//                }
+//                activity?.invalidateOptionsMenu()
+//                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], value)
+            }
+
+            CURRENT_SORT -> {
+                @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
+                viewModel.desc = sort.second
+                viewModel.sort = sort.first
+                refresh()
+                viewModel.saveSort()
+            }
+
+            SHOW_HIDDEN_FILES -> {
+                Settings.getInstance(requireActivity()).putSingle(BROWSER_SHOW_HIDDEN_FILES, value as Boolean)
+                Settings.showHiddenFiles = value
+                viewModel.refresh()
+            }
+
+            SHOW_ALL_FILES -> {
+                Settings.getInstance(requireActivity()).putSingle("browser_show_all_files", value as Boolean)
+                viewModel.updateShowAllFiles(value)
+            }
+        }
+    }
+
     override fun sortBy(sort: Int) {
         super.sortBy(sort)
         adapter.sort = sort
@@ -272,7 +334,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
         }
         if (!poped) {
-            browse(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()),false)
+            browse(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()), false)
         }
     }
 
@@ -367,22 +429,26 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      * Update views visibility and emptiness info
      */
     protected open fun updateEmptyView() {
-        binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: getString(R.string.nomedia)
+        binding.emptyLoading.emptyText = viewModel.filterQuery?.let { getString(R.string.empty_search, it) }
+                ?: getString(R.string.nomedia)
         swipeRefreshLayout.let {
             when {
-               !Permissions.canReadStorage(requireActivity()) -> binding.emptyLoading.state = EmptyLoadingState.MISSING_PERMISSION
+                !Permissions.canReadStorage(requireActivity()) -> binding.emptyLoading.state = EmptyLoadingState.MISSING_PERMISSION
                 it.isRefreshing -> {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
                 }
+
                 viewModel.isEmpty() && viewModel.filterQuery != null -> {
                     binding.emptyLoading.state = EmptyLoadingState.EMPTY_SEARCH
                     binding.networkList.visibility = View.GONE
                 }
+
                 viewModel.isEmpty() -> {
                     binding.emptyLoading.state = EmptyLoadingState.EMPTY
                     binding.networkList.visibility = View.GONE
                 }
+
                 else -> {
                     binding.emptyLoading.state = EmptyLoadingState.NONE
                     binding.networkList.visibility = View.VISIBLE
@@ -397,7 +463,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         playAll(null)
     }
 
-    override fun onTaskTriggered(id: String, data:Bundle) {
+    override fun onTaskTriggered(id: String, data: Bundle) {
         when (id) {
             MSG_SHOW_LOADING -> swipeRefreshLayout.isRefreshing = true
             MSG_HIDE_LOADING -> {
@@ -452,12 +518,12 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             scheduler.scheduleAction(MSG_SHOW_ENQUEUING, 1000L)
             withContext(Dispatchers.IO) {
                 val files = if (viewModel.url?.startsWith("file") == true) viewModel.provider.browseUrl(viewModel.url!!) else viewModel.dataset.getList()
-                    for (file in files.filterIsInstance(MediaWrapper::class.java))
-                        if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
-                            mediaLocations.add(getMediaWithMeta(file))
-                            if (mw != null && file.equals(mw))
-                                positionInPlaylist = mediaLocations.size - 1
-                        }
+                for (file in files.filterIsInstance(MediaWrapper::class.java))
+                    if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
+                        mediaLocations.add(getMediaWithMeta(file))
+                        if (mw != null && file.equals(mw))
+                            positionInPlaylist = mediaLocations.size - 1
+                    }
             }
             scheduler.startAction(MSG_HIDE_ENQUEUING)
             activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist) }
@@ -523,12 +589,34 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 menu?.let { onPrepareOptionsMenu(it) }
                 true
             }
+
             R.id.browser_show_all_files -> {
                 item.isChecked = !Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
                 Settings.getInstance(requireActivity()).putSingle("browser_show_all_files", item.isChecked)
                 viewModel.updateShowAllFiles(item.isChecked)
                 true
             }
+
+            R.id.ml_menu_display_options -> {
+                //filter all sorts and keep only applicable ones
+                val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME)
+                val settings = Settings.getInstance(requireActivity())
+
+                //Open the display settings Bottom sheet
+                DisplaySettingsDialog.newInstance(
+                        //todo
+                        displayInCards = false,
+                        onlyFavs = null,
+                        sorts = sorts,
+                        currentSort = viewModel.provider.sort,
+                        currentSortDesc = viewModel.provider.desc,
+                        showAllFiles = settings.getBoolean("browser_show_all_files", false),
+                        showHiddenFiles = settings.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
+                )
+                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
+                true
+            }
+
             R.id.browser_show_hidden_files -> {
                 item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
                 Settings.getInstance(requireActivity()).putSingle(BROWSER_SHOW_HIDDEN_FILES, item.isChecked)
@@ -536,6 +624,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 viewModel.refresh()
                 true
             }
+
             R.id.ml_menu_scan -> {
                 currentMedia?.let { media ->
                     addToScannedFolders(media)
@@ -543,18 +632,22 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 }
                 true
             }
+
             R.id.folder_add_playlist -> {
                 currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString()) }
                 true
             }
+
             R.id.subfolders_add_playlist -> {
                 currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString(), true) }
                 true
             }
+
             R.id.play_all -> {
                 onFabPlayClick(binding.root)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -594,10 +687,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     }
                 } else {
                     lifecycleScope.launch {
-                            val media = viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
-                                    .map { getMediaWithMeta(it as MediaWrapper) }
-                            MediaUtils.openList(v.context, media, position)
-                        }
+                        val media = viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
+                                .map { getMediaWithMeta(it as MediaWrapper) }
+                        MediaUtils.openList(v.context, media, position)
+                    }
                 }
             }
         }
@@ -663,7 +756,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      * @param mw the [MediaWrapper] to look into
      * @return a [MediaWrapper] with up to date ML metadata
      */
-    private suspend fun getMediaWithMeta(mw:MediaWrapper):MediaWrapper {
+    private suspend fun getMediaWithMeta(mw: MediaWrapper): MediaWrapper {
         return if (!needToRefreshMeta) mw else requireActivity().getFromMl {
             getMedia(mw.uri) ?: mw
         }
@@ -678,9 +771,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 playAll(mw)
             }
+
             CTX_APPEND -> lifecycleScope.launch {
-                    MediaUtils.appendMedia(activity, getMediaWithMeta(mw))
+                MediaUtils.appendMedia(activity, getMediaWithMeta(mw))
             }
+
             CTX_DELETE -> removeItem(mw)
             CTX_RENAME -> {
                 val dialog = RenameDialog.newInstance(mw, true)
@@ -699,11 +794,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     }
                 }
             }
+
             CTX_INFORMATION -> requireActivity().showMediaInfo(mw)
             CTX_PLAY_AS_AUDIO -> lifecycleScope.launch {
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 MediaUtils.openMedia(activity, getMediaWithMeta(mw))
             }
+
             CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
             CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
@@ -715,12 +812,15 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 }
                 startActivity(intent)
             }
+
             CTX_ADD_FOLDER_PLAYLIST -> {
                 requireActivity().addToPlaylistAsync(mw.uri.toString(), false)
             }
+
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> {
                 requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
             }
+
             else -> {}
         }
     }
@@ -753,7 +853,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         fabPlay?.let {
             if (this !is StorageBrowserFragment && (adapter.mediaCount > 0 || viewModel.url?.startsWith("file") == true)) {
                 setFabPlayVisibility(true)
-                it.setOnClickListener{onFabPlayClick(it)}
+                it.setOnClickListener { onFabPlayClick(it) }
             } else {
                 setFabPlayVisibility(false)
                 it.setOnClickListener(null)
@@ -771,16 +871,16 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onMediaEvent(event: IMedia.Event) {}
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-        if (event.type != MediaPlayer.Event.EndReached && event.type != MediaPlayer.Event.PositionChanged ) return
+        if (event.type != MediaPlayer.Event.EndReached && event.type != MediaPlayer.Event.PositionChanged) return
         //refresh current item
         PlaybackService.serviceFlow.value?.currentMediaWrapper?.let {
             if (event.type == MediaPlayer.Event.PositionChanged) {
                 viewModel.refreshMedia(it, PlaybackService.serviceFlow.value?.getTime() ?: 0L)
             }
             if (event.type == MediaPlayer.Event.EndReached) {
-               lifecycleScope.launch {
-                   viewModel.updateMediaPlayed(it)
-               }
+                lifecycleScope.launch {
+                    viewModel.updateMediaPlayed(it)
+                }
             }
             val index = viewModel.dataset.getList().indexOf(it)
 

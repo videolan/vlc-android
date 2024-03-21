@@ -64,6 +64,8 @@ const val ONLY_FAVS = "only_favs"
 const val SORTS = "sorts"
 const val CURRENT_SORT = "current_sort"
 const val CURRENT_SORT_DESC = "current_sort_desc"
+const val SHOW_ALL_FILES = "show_all_files"
+const val SHOW_HIDDEN_FILES = "show_hidden_files"
 
 /**
  * Dialog showing the display settings for a media list (audio video)
@@ -72,11 +74,13 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
     //current values
     private var displayInCards: Boolean = false
-    private var onlyFavs: Boolean = false
+    private var onlyFavs: Boolean? = null
     private lateinit var sorts: ArrayList<Int>
     private var currentSort: Int = -1
     private var currentSortDesc = false
     private var showAllArtists: Boolean? = null
+    private var showAllFiles: Boolean? = null
+    private var showHiddenFiles: Boolean? = null
     private var showVideoGroups: String? = null
 
     private lateinit var binding: DialogDisplaySettingsBinding
@@ -85,10 +89,13 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
     companion object {
 
-        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean, sorts: List<Int>, currentSort: Int, currentSortDesc: Boolean, videoGroup: String? = null): DisplaySettingsDialog {
+        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean?, sorts: List<Int>, currentSort: Int, currentSortDesc: Boolean, videoGroup: String? = null, showAllFiles:Boolean? = null, showHiddenFiles:Boolean? = null): DisplaySettingsDialog {
             return DisplaySettingsDialog().apply {
-                arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, ONLY_FAVS to onlyFavs, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, VIDEO_GROUPING to videoGroup)
+                arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, VIDEO_GROUPING to videoGroup)
+                if (onlyFavs != null) arguments!!.putBoolean(ONLY_FAVS, onlyFavs)
                 if (showAllArtists != null) arguments!!.putBoolean(SHOW_ALL_ARTISTS, showAllArtists)
+                if (showAllFiles != null) arguments!!.putBoolean(SHOW_ALL_FILES, showAllFiles)
+                if (showHiddenFiles != null) arguments!!.putBoolean(SHOW_HIDDEN_FILES, showHiddenFiles)
             }
         }
     }
@@ -108,8 +115,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         displayInCards = arguments?.getBoolean(DISPLAY_IN_CARDS)
                 ?: throw IllegalStateException("Display in list should be provided")
-        onlyFavs = arguments?.getBoolean(ONLY_FAVS)
-                ?: throw IllegalStateException("Only favs should be provided")
+        onlyFavs = if (arguments?.containsKey(ONLY_FAVS) == true) arguments?.getBoolean(ONLY_FAVS) else null
         sorts = arguments?.getIntegerArrayList(SORTS)
                 ?: throw IllegalStateException("Sorts should be provided")
         currentSort = arguments?.getInt(CURRENT_SORT)
@@ -117,6 +123,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         currentSortDesc = arguments?.getBoolean(CURRENT_SORT_DESC)
                 ?: throw IllegalStateException("Current sort desc should be provided")
         showAllArtists = if (arguments?.containsKey(SHOW_ALL_ARTISTS) == true) arguments?.getBoolean(SHOW_ALL_ARTISTS) else null
+        showAllFiles = if (arguments?.containsKey(SHOW_ALL_FILES) == true) arguments?.getBoolean(SHOW_ALL_FILES) else null
+        showHiddenFiles = if (arguments?.containsKey(SHOW_HIDDEN_FILES) == true) arguments?.getBoolean(SHOW_HIDDEN_FILES) else null
         showVideoGroups = arguments?.getString(VIDEO_GROUPING, null)
     }
 
@@ -130,6 +138,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         updateDisplayMode()
         updateShowAllArtists()
         updateShowOnlyFavs()
+        updateShowAllFiles()
+        updateShowHiddenFiles()
         updateSorts()
 
         binding.displayModeGroup.setOnClickListener {
@@ -146,14 +156,35 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             lifecycleScope.launch { displaySettingsViewModel.send(SHOW_ALL_ARTISTS, showAllArtists!!) }
         }
 
+        binding.showHiddenFilesGroup.setOnClickListener {
+            binding.showHiddenFilesCheckbox.isChecked = !binding.showHiddenFilesCheckbox.isChecked
+        }
+
+        binding.showHiddenFilesCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            showHiddenFiles = isChecked
+            updateShowHiddenFiles()
+            lifecycleScope.launch { displaySettingsViewModel.send(SHOW_HIDDEN_FILES, showHiddenFiles!!) }
+        }
+
+        binding.showAllFilesGroup.setOnClickListener {
+            binding.showAllFilesCheckbox.isChecked = !binding.showAllFilesCheckbox.isChecked
+        }
+
+        binding.showAllFilesCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            showAllFiles = isChecked
+            updateShowAllFiles()
+            lifecycleScope.launch { displaySettingsViewModel.send(SHOW_ALL_FILES, showAllFiles!!) }
+        }
+
         binding.onlyFavsGroup.setOnClickListener {
             binding.onlyFavsCheckbox.isChecked = !binding.onlyFavsCheckbox.isChecked
         }
 
+        if (onlyFavs == null) binding.onlyFavsCheckbox.setGone()
         binding.onlyFavsCheckbox.setOnCheckedChangeListener { _, isChecked ->
             onlyFavs = isChecked
             updateShowAllArtists()
-            lifecycleScope.launch { displaySettingsViewModel.send(ONLY_FAVS, onlyFavs) }
+            lifecycleScope.launch { displaySettingsViewModel.send(ONLY_FAVS, onlyFavs!!) }
         }
         if (showVideoGroups == null) {
             binding.videoGroupsGroup.setGone()
@@ -181,7 +212,6 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-
     }
 
     /**
@@ -207,11 +237,40 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     }
 
     /**
+     * Update the view for the "show all files" item
+     *
+     */
+    private fun updateShowAllFiles() {
+        if (showAllFiles == null) {
+            binding.showAllFilesGroup.setGone()
+            binding.allFilesImage.setGone()
+            return
+        }
+        binding.showAllFilesCheckbox.isChecked = showAllFiles!!
+    }
+
+    /**
+     * Update the view for the "show hidden files" item
+     *
+     */
+    private fun updateShowHiddenFiles() {
+        if (showHiddenFiles == null) {
+            binding.showHiddenFilesGroup.setGone()
+            binding.hiddenFilesImage.setGone()
+            return
+        }
+        binding.showHiddenFilesCheckbox.isChecked = showHiddenFiles!!
+    }
+
+    /**
      * Update the view for the "show only favorites" item
      *
      */
     private fun updateShowOnlyFavs() {
-        binding.onlyFavsCheckbox.isChecked = onlyFavs
+        if (onlyFavs == null) {
+            binding.onlyFavsGroup.setGone()
+            binding.onlyFavsImage.setGone()
+        } else binding.onlyFavsCheckbox.isChecked = onlyFavs!!
     }
 
     /**
