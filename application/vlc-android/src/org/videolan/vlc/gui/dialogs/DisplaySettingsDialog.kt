@@ -260,7 +260,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         binding.sortsContainer.children.forEach { container ->
             (container as ViewGroup).children.forEach childrenForEach@{
                 if (it.getTag(R.id.sort) == null) return@childrenForEach
-                val selected = it.getTag(R.id.sort) == getSortTag(currentSort, currentSortDesc)
+                val selected = it.getTag(R.id.sort) == getSortTag(currentSort, currentSortDesc) || (currentSort == Medialibrary.SORT_DEFAULT && it.getTag(R.id.sort) == getSortTag(Medialibrary.SORT_ALPHA, currentSortDesc))
                 it.isSelected = selected
                 (it as TextView).setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, if (selected) ContextCompat.getDrawable(requireActivity(), R.drawable.ic_check_large) else null, null)
             }
