@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.browser
 
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -45,8 +46,10 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -74,11 +77,13 @@ import org.videolan.resources.MOVIEPEDIA_ACTIVITY
 import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.BROWSER_DISPLAY_IN_CARDS
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.FORCE_PLAY_ALL_AUDIO
 import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.tools.isStarted
 import org.videolan.tools.putSingle
 import org.videolan.tools.removeFileScheme
@@ -87,6 +92,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -158,7 +164,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected var currentMedia: MediaWrapper? = null
     override var isRootDirectory: Boolean = false
     override val scannedDirectory = false
-    override val inCards = false
+    override var inCards = true
+        set(value) {
+            field = value
+            manageDisplay()
+        }
     protected lateinit var adapter: BaseBrowserAdapter
     protected abstract val categoryTitle: String
 
@@ -199,6 +209,36 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
+    private fun manageDisplay() {
+        if (binding.networkList.itemDecorationCount > 0) {
+            binding.networkList.removeItemDecorationAt(0)
+        }
+        if (inCards) {
+            val nbColumns = resources.getInteger(R.integer.mobile_card_columns)
+            val gridLayoutManager = GridLayoutManager(requireActivity(), nbColumns)
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    if (position == adapter.itemCount - 1) return 1
+                    return 1
+                }
+            }
+            binding.networkList.layoutManager = gridLayoutManager
+            binding.networkList.addItemDecoration(object : ItemDecoration() {
+                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                    super.getItemOffsets(outRect, view, parent, state)
+                    outRect.top = 8.dp
+                    outRect.left = 4.dp
+                    outRect.right = 4.dp
+                }
+            })
+        } else {
+            binding.networkList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+        binding.networkList.adapter?.let {
+            binding.networkList.adapter = it
+        }
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_display_options)?.isVisible = true
@@ -229,7 +269,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this, viewModel.sort, !viewModel.desc).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+        if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this, viewModel.sort, !viewModel.desc, forMain = requireActivity() is MainActivity).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
@@ -257,22 +297,14 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             adapter.setCurrentlyPlaying(playlistModel.playing)
             delay(50L)
         }.launchWhenStarted(lifecycleScope)
+        inCards = Settings.getInstance(requireActivity()).getBoolean(BROWSER_DISPLAY_IN_CARDS, false)
     }
 
     override fun onDisplaySettingChanged(key: String, value: Any) {
         when (key) {
             DISPLAY_IN_CARDS -> {
-                //todo
-//                viewModel.providersInCard[currentTab] = value as Boolean
-//                @Suppress("UNCHECKED_CAST")
-//                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
-//                lists[currentTab].adapter = adapters[currentTab]
-//                if (currentTab == 1 && songsAdapter.currentMedia != null) {
-//                    songsAdapter.currentMedia = null
-//                    songsAdapter.currentMedia = PlaylistManager.currentPlayedMedia.value
-//                }
-//                activity?.invalidateOptionsMenu()
-//                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], value)
+                Settings.getInstance(requireActivity()).putSingle(BROWSER_DISPLAY_IN_CARDS, value as Boolean)
+                inCards = value
             }
 
             CURRENT_SORT -> {
@@ -604,8 +636,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
-                        //todo
-                        displayInCards = false,
+                        displayInCards = inCards,
                         onlyFavs = null,
                         sorts = sorts,
                         currentSort = viewModel.provider.sort,

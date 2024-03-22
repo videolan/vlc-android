@@ -27,6 +27,7 @@ package org.videolan.vlc.gui.browser
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.ViewDataBinding
@@ -201,6 +202,14 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         when (binding) {
             is CardBrowserItemBinding -> binding.holder = holder
             is BrowserItemBinding -> binding.holder = holder
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
+    fun setupGrid() {
+        when (binding) {
+            is CardBrowserItemBinding -> binding.browserContainer.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            is BrowserItemBinding -> {}
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }
     }

@@ -57,7 +57,7 @@ import org.videolan.vlc.util.getDescriptionSpan
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 const val UPDATE_PROGRESS = "update_progress"
-open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, var sort:Int = Medialibrary.SORT_FILENAME, var asc:Boolean = true) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem>, FastScroller.SeparatedAdapter {
+open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>, var sort:Int = Medialibrary.SORT_FILENAME, var asc:Boolean = true, val forMain:Boolean = true) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem>, FastScroller.SeparatedAdapter {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
@@ -163,6 +163,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             vh.binding.title = dataset[position].title
         }
         itemFocusChanged(position, false, (holder as MediaViewHolder).bindingContainer)
+        if (!forMain) holder.bindingContainer.setupGrid()
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {

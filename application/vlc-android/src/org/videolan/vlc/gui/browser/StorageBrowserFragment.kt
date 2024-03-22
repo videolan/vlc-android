@@ -63,7 +63,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
     override var scannedDirectory = false
     private var snack: com.google.android.material.snackbar.Snackbar? = null
     private var alertDialog: AlertDialog? = null
-    override val inCards = false
+    override var inCards = false
 
     override val categoryTitle: String
         get() = getString(R.string.directories_summary)
