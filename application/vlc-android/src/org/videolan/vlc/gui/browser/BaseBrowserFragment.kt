@@ -291,12 +291,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             adapter.currentMedia = it
         }
 
-        val playlistModel = PlaylistModel.get(this)
-        adapter.setModel(playlistModel)
-        playlistModel.dataset.asFlow().conflate().onEach {
-            adapter.setCurrentlyPlaying(playlistModel.playing)
-            delay(50L)
-        }.launchWhenStarted(lifecycleScope)
         inCards = Settings.getInstance(requireActivity()).getBoolean(BROWSER_DISPLAY_IN_CARDS, false)
     }
 
@@ -398,6 +392,21 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         PlaybackService.serviceFlow.value?.removeCallback(this)
         viewModel.stop()
         needRefresh.postValue(false)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adapter.setCurrentlyPlaying(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val playlistModel = PlaylistModel.get(this)
+        adapter.setModel(playlistModel)
+        playlistModel.dataset.asFlow().conflate().onEach {
+            adapter.setCurrentlyPlaying(playlistModel.playing)
+            delay(50L)
+        }.launchWhenStarted(lifecycleScope)
     }
 
     override fun onDestroy() {
