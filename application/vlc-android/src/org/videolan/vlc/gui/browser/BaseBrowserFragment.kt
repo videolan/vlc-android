@@ -244,15 +244,12 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_display_options)?.isVisible = true
         menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
-        menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
+        menu.findItem(R.id.ml_menu_sortby)?.isVisible = false
         menu.findItem(R.id.ml_menu_sortby_media_number)?.isVisible = false
         menu.findItem(R.id.ml_menu_add_playlist)?.isVisible = !isRootDirectory
         addPlaylistFolderOnly = menu.findItem(R.id.folder_add_playlist)
         addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
 
-        val browserShowHiddenFiles = menu.findItem(R.id.browser_show_hidden_files)
-        browserShowHiddenFiles.isVisible = true
-        browserShowHiddenFiles.isChecked = Settings.showHiddenFiles
         if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
         UiTools.updateSortTitles(this)
     }
@@ -645,14 +642,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                         showHiddenFiles = settings.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
                 )
                         .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
-                true
-            }
-
-            R.id.browser_show_hidden_files -> {
-                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
-                Settings.getInstance(requireActivity()).putSingle(BROWSER_SHOW_HIDDEN_FILES, item.isChecked)
-                Settings.showHiddenFiles = item.isChecked
-                viewModel.refresh()
                 true
             }
 

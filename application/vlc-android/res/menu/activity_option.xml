@@ -175,13 +175,6 @@
             android:visible="false"/>
 
     <item
-            android:orderInCategory="3"
-            android:title="@string/browser_show_hidden_files_title"
-            android:visible="false"
-            android:checkable="true"
-            vlc:showAsAction="never"
-            android:id="@+id/browser_show_hidden_files" />
-    <item
             android:orderInCategory="5"
             android:title="@string/rename_group"
             android:icon="@drawable/ic_am_edit"
