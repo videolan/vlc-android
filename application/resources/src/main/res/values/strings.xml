@@ -539,7 +539,7 @@
     <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Later</string>
-    <string name="browser_show_all_title">Show all files</string>
+    <string name="browser_show_all_title">Show only multimedia files</string>
 
     <string name="developer_prefs_category">Developer</string>
     <string name="enable_verbose_mode">Verbose</string>

@@ -64,7 +64,7 @@ const val ONLY_FAVS = "only_favs"
 const val SORTS = "sorts"
 const val CURRENT_SORT = "current_sort"
 const val CURRENT_SORT_DESC = "current_sort_desc"
-const val SHOW_ALL_FILES = "show_all_files"
+const val SHOW_ONLY_MULTIMEDIA_FILES = "show_only_multimedia_files"
 const val SHOW_HIDDEN_FILES = "show_hidden_files"
 
 /**
@@ -79,7 +79,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     private var currentSort: Int = -1
     private var currentSortDesc = false
     private var showAllArtists: Boolean? = null
-    private var showAllFiles: Boolean? = null
+    private var showOnlyMultimediaFiles: Boolean? = null
     private var showHiddenFiles: Boolean? = null
     private var showVideoGroups: String? = null
 
@@ -89,12 +89,12 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
     companion object {
 
-        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean?, sorts: List<Int>, currentSort: Int, currentSortDesc: Boolean, videoGroup: String? = null, showAllFiles:Boolean? = null, showHiddenFiles:Boolean? = null): DisplaySettingsDialog {
+        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean?, sorts: List<Int>, currentSort: Int, currentSortDesc: Boolean, videoGroup: String? = null, showOnlyMultimediaFiles:Boolean? = null, showHiddenFiles:Boolean? = null): DisplaySettingsDialog {
             return DisplaySettingsDialog().apply {
                 arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, VIDEO_GROUPING to videoGroup)
                 if (onlyFavs != null) arguments!!.putBoolean(ONLY_FAVS, onlyFavs)
                 if (showAllArtists != null) arguments!!.putBoolean(SHOW_ALL_ARTISTS, showAllArtists)
-                if (showAllFiles != null) arguments!!.putBoolean(SHOW_ALL_FILES, showAllFiles)
+                if (showOnlyMultimediaFiles != null) arguments!!.putBoolean(SHOW_ONLY_MULTIMEDIA_FILES, showOnlyMultimediaFiles)
                 if (showHiddenFiles != null) arguments!!.putBoolean(SHOW_HIDDEN_FILES, showHiddenFiles)
             }
         }
@@ -123,7 +123,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         currentSortDesc = arguments?.getBoolean(CURRENT_SORT_DESC)
                 ?: throw IllegalStateException("Current sort desc should be provided")
         showAllArtists = if (arguments?.containsKey(SHOW_ALL_ARTISTS) == true) arguments?.getBoolean(SHOW_ALL_ARTISTS) else null
-        showAllFiles = if (arguments?.containsKey(SHOW_ALL_FILES) == true) arguments?.getBoolean(SHOW_ALL_FILES) else null
+        showOnlyMultimediaFiles = if (arguments?.containsKey(SHOW_ONLY_MULTIMEDIA_FILES) == true) arguments?.getBoolean(SHOW_ONLY_MULTIMEDIA_FILES) else null
         showHiddenFiles = if (arguments?.containsKey(SHOW_HIDDEN_FILES) == true) arguments?.getBoolean(SHOW_HIDDEN_FILES) else null
         showVideoGroups = arguments?.getString(VIDEO_GROUPING, null)
     }
@@ -171,9 +171,9 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         }
 
         binding.showAllFilesCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            showAllFiles = isChecked
+            showOnlyMultimediaFiles = isChecked
             updateShowAllFiles()
-            lifecycleScope.launch { displaySettingsViewModel.send(SHOW_ALL_FILES, showAllFiles!!) }
+            lifecycleScope.launch { displaySettingsViewModel.send(SHOW_ONLY_MULTIMEDIA_FILES, showOnlyMultimediaFiles!!) }
         }
 
         binding.onlyFavsGroup.setOnClickListener {
@@ -241,12 +241,12 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
      *
      */
     private fun updateShowAllFiles() {
-        if (showAllFiles == null) {
+        if (showOnlyMultimediaFiles == null) {
             binding.showAllFilesGroup.setGone()
             binding.allFilesImage.setGone()
             return
         }
-        binding.showAllFilesCheckbox.isChecked = showAllFiles!!
+        binding.showAllFilesCheckbox.isChecked = showOnlyMultimediaFiles!!
     }
 
     /**

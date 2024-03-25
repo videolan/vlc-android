@@ -79,6 +79,7 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.BROWSER_DISPLAY_IN_CARDS
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
 import org.videolan.tools.FORCE_PLAY_ALL_AUDIO
 import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
 import org.videolan.tools.MultiSelectHelper
@@ -99,8 +100,8 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
 import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
-import org.videolan.vlc.gui.dialogs.SHOW_ALL_FILES
 import org.videolan.vlc.gui.dialogs.SHOW_HIDDEN_FILES
+import org.videolan.vlc.gui.dialogs.SHOW_ONLY_MULTIMEDIA_FILES
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -248,9 +249,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         menu.findItem(R.id.ml_menu_add_playlist)?.isVisible = !isRootDirectory
         addPlaylistFolderOnly = menu.findItem(R.id.folder_add_playlist)
         addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
-        val browserShowAllFiles = menu.findItem(R.id.browser_show_all_files)
-        browserShowAllFiles.isVisible = true
-        browserShowAllFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
 
         val browserShowHiddenFiles = menu.findItem(R.id.browser_show_hidden_files)
         browserShowHiddenFiles.isVisible = true
@@ -315,8 +313,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 viewModel.refresh()
             }
 
-            SHOW_ALL_FILES -> {
-                Settings.getInstance(requireActivity()).putSingle("browser_show_all_files", value as Boolean)
+            SHOW_ONLY_MULTIMEDIA_FILES -> {
+                Settings.getInstance(requireActivity()).putSingle(BROWSER_SHOW_ONLY_MULTIMEDIA, (value as Boolean))
                 viewModel.updateShowAllFiles(value)
             }
         }
@@ -631,13 +629,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 true
             }
 
-            R.id.browser_show_all_files -> {
-                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
-                Settings.getInstance(requireActivity()).putSingle("browser_show_all_files", item.isChecked)
-                viewModel.updateShowAllFiles(item.isChecked)
-                true
-            }
-
             R.id.ml_menu_display_options -> {
                 //filter all sorts and keep only applicable ones
                 val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME)
@@ -650,7 +641,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                         sorts = sorts,
                         currentSort = viewModel.provider.sort,
                         currentSortDesc = viewModel.provider.desc,
-                        showAllFiles = settings.getBoolean("browser_show_all_files", false),
+                        showOnlyMultimediaFiles = settings.getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false),
                         showHiddenFiles = settings.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
                 )
                         .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")

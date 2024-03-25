@@ -137,7 +137,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 UiTools.restartDialog(requireActivity())
             }
-            "browser_show_all_files", "video_min_group_length" -> (activity as PreferencesActivity).setRestart()
+            "video_min_group_length" -> (activity as PreferencesActivity).setRestart()
             KEY_APP_THEME -> {
                 if (!AppContextProvider.locale.isNullOrEmpty()) UiTools.restartDialog(requireActivity()) else (activity as PreferencesActivity).exitAndRescan()
             }

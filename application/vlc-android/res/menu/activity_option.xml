@@ -176,13 +176,6 @@
 
     <item
             android:orderInCategory="3"
-            android:title="@string/browser_show_all_title"
-            android:visible="false"
-            android:checkable="true"
-            vlc:showAsAction="never"
-            android:id="@+id/browser_show_all_files" />
-    <item
-            android:orderInCategory="3"
             android:title="@string/browser_show_hidden_files_title"
             android:visible="false"
             android:checkable="true"
