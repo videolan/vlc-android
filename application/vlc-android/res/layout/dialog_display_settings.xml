@@ -159,7 +159,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/show_all_files_group"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/show_all_files_group"
-                    app:srcCompat="@drawable/ic_sort_artist" />
+                    app:srcCompat="@drawable/ic_multimedia" />
 
             <TextView
                     android:id="@+id/show_all_files_text"
@@ -203,7 +203,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/show_hidden_files_group"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/show_hidden_files_group"
-                    app:srcCompat="@drawable/ic_sort_artist" />
+                    app:srcCompat="@drawable/ic_hidden" />
 
             <TextView
                     android:id="@+id/show_hidden_files_text"
