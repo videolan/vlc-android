@@ -53,6 +53,7 @@ import org.videolan.tools.AUDIO_RESUME_PLAYBACK
 import org.videolan.tools.AUDIO_SHUFFLING
 import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.AppScope
+import org.videolan.tools.HTTP_USER_AGENT
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_PLAYBACK_RATE
@@ -511,6 +512,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (shouldDisableCookieForwarding) {
                 shouldDisableCookieForwarding = false
                 media.addOption(":no-http-forward-cookies")
+            }
+            settings.getString(HTTP_USER_AGENT, null)?.let {
+                 media.addOption(":http-user-agent=$it")
             }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
