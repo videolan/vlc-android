@@ -39,15 +39,15 @@ fun isSchemeStreaming(scheme: String?): Boolean = when {
 fun isSchemeHttpOrHttps(scheme: String?): Boolean = scheme?.startsWith("http") == true
 
 fun isSchemeSupported(scheme: String?) = when(scheme) {
-    "file", "smb", "ssh", "nfs", "ftp", "ftps", "content" -> true
+    "file", "smb", "ssh", "nfs", "ftp", "ftps", "ftpes", "content" -> true
     else -> false
 }
 fun String?.isSchemeNetwork() = when(this) {
-    "smb", "ssh", "nfs", "ftp", "ftps", "upnp" -> true
+    "smb", "ssh", "nfs", "ftp", "ftps", "ftpes", "upnp" -> true
     else -> false
 }
 
-fun String?.isSchemeFavoriteEditable() = this in arrayOf("ftp", "ftps", "sftp", "smb", "nfs")
+fun String?.isSchemeFavoriteEditable() = this in arrayOf("ftp", "ftps", "ftpes", "sftp", "smb", "nfs")
 
 fun String?.isSchemeFile() = when(this) {
     "file", null -> true

@@ -171,6 +171,7 @@ class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSe
         return when (protocols[position]) {
             "FTP" -> FTP_DEFAULT_PORT
             "FTPS" -> FTPS_DEFAULT_PORT
+            "FTPES" -> FTPES_DEFAULT_PORT
             "SFTP" -> SFTP_DEFAULT_PORT
             "HTTP" -> HTTP_DEFAULT_PORT
             "HTTPS" -> HTTPS_DEFAULT_PORT
@@ -249,6 +250,7 @@ class NetworkServerDialog : VLCBottomSheetDialogFragment(), AdapterView.OnItemSe
 
         const val FTP_DEFAULT_PORT = "21"
         const val FTPS_DEFAULT_PORT = "990"
+        const val FTPES_DEFAULT_PORT = "21"
         const val SFTP_DEFAULT_PORT = "22"
         const val HTTP_DEFAULT_PORT = "80"
         const val HTTPS_DEFAULT_PORT = "443"
