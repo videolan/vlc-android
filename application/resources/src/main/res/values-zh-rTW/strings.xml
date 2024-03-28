@@ -23,28 +23,14 @@
     <string name="searchable_hint">搜尋…</string>
     <string name="history">歷史記錄</string>
 
-    <string name="sortby_name_asc">名稱由 A 到 Z</string>
-    <string name="sortby_name_desc">名稱由 Z 到 A</string>
-    <string name="sortby_artist_name_asc">藝人名稱由 A 到 Z</string>
-    <string name="sortby_artist_name_desc">藝人名稱由 Z 到 A</string>
-    <string name="sortby_album_name_asc">專輯名稱由 A 到 Z</string>
-    <string name="sortby_album_name_desc">專輯名稱由 Z 到 A</string>
-    <string name="sortby_filename_asc">檔案名稱由 A 到 Z</string>
-    <string name="sortby_filename_desc">檔案名稱由 Z 到 A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">最短優先</string>
     <string name="sortby_length_desc">最長優先</string>
-    <string name="sortby_date_asc">最舊日期優先</string>
-    <string name="sortby_date_desc">最新日期優先</string>
-    <string name="sortby_last_modified_date_asc">最舊新增優先</string>
-    <string name="sortby_last_modified_date_desc">最新新增優先</string>
-    <string name="sortby_number_asc">較多影片在群組內優先</string>
-    <string name="sortby_number_desc">較少影片在群組內優先</string>
-    <string name="sortby_date_insertion_asc">最舊插入日期優先</string>
-    <string name="sortby_date_insertion_desc">最新插入日期優先</string>
-    <string name="sortby_date_last_modified_asc">最舊修改日期優先</string>
-    <string name="sortby_date_last_modified_desc">最新修改日期優先</string>
-    <string name="sortby_date_release_asc">最舊發行日期優先</string>
-    <string name="sortby_date_release_desc">最新發行日期優先</string>
+    <string name="sortby_number_asc">較多影片在群組內</string>
+    <string name="sortby_number_desc">較少影片在群組內</string>
+    <string name="sort_date_asc">最舊優先</string>
+    <string name="sort_date_desc">最新優先</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="other">找到 %d 個結果</item>
@@ -543,6 +529,7 @@
     <string name="dump_logcat">傾印 logcat 記錄檔</string>
     <string name="dump_logcat_success">Logcat 成功傾印到 %1$s！</string>
     <string name="dump_logcat_failure">傾印 logcat 失敗。</string>
+    <string name="http_user_agent">HTTP 使用者代理字串</string>
     <string name="custom_libvlc_options">自訂 libVLC 選項</string>
     <string name="custom_libvlc_options_invalid">無效的 libVLC 選項！</string>
 

@@ -23,29 +23,8 @@
     <string name="searchable_hint">Poišči …</string>
     <string name="history">Zgodovina</string>
 
-    <string name="sortby_name_asc">Ime A → Z</string>
-    <string name="sortby_name_desc">Ime Z → A</string>
-    <string name="sortby_artist_name_asc">Ime izvajalca A → Z</string>
-    <string name="sortby_artist_name_desc">Ime izvajalca Z → A</string>
-    <string name="sortby_album_name_asc">Ime albuma A → Z</string>
-    <string name="sortby_album_name_desc">Ime albuma Z → A</string>
-    <string name="sortby_filename_asc">Ime datoteke A → Z</string>
-    <string name="sortby_filename_desc">Ime datoteke Z → A</string>
     <string name="sortby_length_asc">Najprej krajši</string>
     <string name="sortby_length_desc">Najprej daljši</string>
-    <string name="sortby_date_asc">Najprej starejši datum</string>
-    <string name="sortby_date_desc">Najprej novejši datum</string>
-    <string name="sortby_last_modified_date_asc">Najprej starejši dodani</string>
-    <string name="sortby_last_modified_date_desc">Najprej novejši dodani</string>
-    <string name="sortby_number_asc">Najprej več videov v skupini</string>
-    <string name="sortby_number_desc">Najprej manj videov v skupini</string>
-    <string name="sortby_date_insertion_asc">Najprej starejši vnosi</string>
-    <string name="sortby_date_insertion_desc">Najprej najnovejši vnosi</string>
-    <string name="sortby_date_last_modified_asc">Najprej starejši spremenjeni</string>
-    <string name="sortby_date_last_modified_desc">Najprej nedavno spremenjeni</string>
-    <string name="sortby_date_release_asc">Najprej starejše izdaje</string>
-    <string name="sortby_date_release_desc">Najprej novejše izdaje</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d zadetek</item>
         <item quantity="two">%d zadetka</item>

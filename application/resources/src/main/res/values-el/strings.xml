@@ -23,29 +23,8 @@
     <string name="searchable_hint">Αναζήτηση…</string>
     <string name="history">Ιστορικό</string>
 
-    <string name="sortby_name_asc">Όνομα Α → Ω</string>
-    <string name="sortby_name_desc">Όνομα Ω → Α</string>
-    <string name="sortby_artist_name_asc">Όνομα καλλιτέχνη Α → Ω</string>
-    <string name="sortby_artist_name_desc">Όνομα καλλιτέχνη Ω → Α</string>
-    <string name="sortby_album_name_asc">Όνομα άλμπουμ Α → Ω</string>
-    <string name="sortby_album_name_desc">Όνομα άλμπουμ Ω → Α</string>
-    <string name="sortby_filename_asc">Όνομα αρχείου Α → Ω</string>
-    <string name="sortby_filename_desc">Όνομα αρχείου Ω → Α</string>
     <string name="sortby_length_asc">Πρώτα το πιο σύντομο</string>
     <string name="sortby_length_desc">Πρώτα το μεγαλύτερο</string>
-    <string name="sortby_date_asc">Πρώτα η παλαιότερη ημερομηνία</string>
-    <string name="sortby_date_desc">Πρώτα η νεότερη ημερομηνία</string>
-    <string name="sortby_last_modified_date_asc">Πρώτα η παλαιότερη προσθήκη</string>
-    <string name="sortby_last_modified_date_desc">Πρώτα η νεότερη προσθήκη</string>
-    <string name="sortby_number_asc">Πρώτα περισσότερα βίντεο στην ομάδα</string>
-    <string name="sortby_number_desc">Πρώτα λιγότερα βίντεο στην ομάδα</string>
-    <string name="sortby_date_insertion_asc">Πρώτα η παλαιότερη ημερομηνία εισαγωγής</string>
-    <string name="sortby_date_insertion_desc">Πρώτα η νεότερη ημερομηνία εισαγωγής</string>
-    <string name="sortby_date_last_modified_asc">Πρώτα η παλαιότερη ημερομηνία τροποποίησης</string>
-    <string name="sortby_date_last_modified_desc">Πρώτα η ημερομηνία νεότερης τροποποίησης</string>
-    <string name="sortby_date_release_asc">Πρώτα η παλαιότερη ημερομηνία κυκλοφορίας</string>
-    <string name="sortby_date_release_desc">Πρώτα η νεότερη ημερομηνία κυκλοφορίας</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Βρέθηκε %d αποτέλεσμα</item>
         <item quantity="other">Βρέθηκαν %d αποτελέσματα</item>

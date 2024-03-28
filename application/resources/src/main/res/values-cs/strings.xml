@@ -20,20 +20,8 @@
     <string name="searchable_hint">Hledat…</string>
     <string name="history">Historie</string>
 
-    <string name="sortby_name_asc">Název A → Z</string>
-    <string name="sortby_name_desc">Název Z → A</string>
-    <string name="sortby_artist_name_asc">Jméno umělce A → Z</string>
-    <string name="sortby_artist_name_desc">Jméno umělce Z → A</string>
-    <string name="sortby_album_name_asc">Název alba A → Z</string>
-    <string name="sortby_album_name_desc">Název alba Z → A</string>
-    <string name="sortby_filename_asc">Název souboru A → Z</string>
-    <string name="sortby_filename_desc">Název souboru Z → A</string>
     <string name="sortby_length_asc">Od nejkratšího</string>
     <string name="sortby_length_desc">Od nejdelšího</string>
-    <string name="sortby_date_asc">Od nejstaršího datumu</string>
-    <string name="sortby_date_desc">Od nejnovějšího datumu</string>
-    <string name="sortby_last_modified_date_asc">Od nejstaršího přidaného</string>
-    <string name="sortby_last_modified_date_desc">Od nejnovějšího přidaného</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">1 nalezený výsledek</item>
         <item quantity="few">%d nalezené výsledky</item>

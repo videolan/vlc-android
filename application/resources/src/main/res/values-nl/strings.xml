@@ -23,27 +23,8 @@
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
 
-    <string name="sortby_name_asc">Naam A → Z</string>
-    <string name="sortby_name_desc">Naam Z → A</string>
-    <string name="sortby_artist_name_asc">Naam artiest A → Z</string>
-    <string name="sortby_artist_name_desc">Naam artiest Z → A</string>
-    <string name="sortby_album_name_asc">Naam album A → Z</string>
-    <string name="sortby_album_name_desc">Naam album Z → A</string>
-    <string name="sortby_filename_asc">Bestandsnaam A → Z</string>
-    <string name="sortby_filename_desc">Bestandsnaam Z → A</string>
     <string name="sortby_length_asc">Kortste eerst</string>
     <string name="sortby_length_desc">Langste eerst</string>
-    <string name="sortby_date_asc">Oudste datum eerst</string>
-    <string name="sortby_date_desc">Nieuwste datum eerst</string>
-    <string name="sortby_last_modified_date_asc">Oudste toevoeging eerst</string>
-    <string name="sortby_last_modified_date_desc">Nieuwste toevoeging eerst</string>
-    <string name="sortby_date_insertion_asc">Oudste invoegdatum eerst</string>
-    <string name="sortby_date_insertion_desc">Nieuwste invoegdatum eerst</string>
-    <string name="sortby_date_last_modified_asc">Oudste wijzigingsdatum eerst</string>
-    <string name="sortby_date_last_modified_desc">Nieuwste wijzigingsdatum eerst</string>
-    <string name="sortby_date_release_asc">Oudste releasedatum eerst</string>
-    <string name="sortby_date_release_desc">Nieuwste releasedatum eerst</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultaat gevonden</item>
         <item quantity="other">%d resultaten gevonden</item>

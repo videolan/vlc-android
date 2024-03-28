@@ -23,28 +23,14 @@
     <string name="searchable_hint">Sök…</string>
     <string name="history">Historik</string>
 
-    <string name="sortby_name_asc">Namn A → Ö</string>
-    <string name="sortby_name_desc">Namn Ö → A</string>
-    <string name="sortby_artist_name_asc">Artistnamn A → Ö</string>
-    <string name="sortby_artist_name_desc">Artistnamn Ö → A</string>
-    <string name="sortby_album_name_asc">Albumnamn A → Ö</string>
-    <string name="sortby_album_name_desc">Albumnamn Ö → A</string>
-    <string name="sortby_filename_asc">Filnamn A → Ö</string>
-    <string name="sortby_filename_desc">Filnamn Ö → A</string>
+    <string name="sort_alpha_asc">A → Ö</string>
+    <string name="sort_alpha_desc">Ö → A</string>
     <string name="sortby_length_asc">Kortast först</string>
     <string name="sortby_length_desc">Längst först</string>
-    <string name="sortby_date_asc">Äldst datum först</string>
-    <string name="sortby_date_desc">Senast datum först</string>
-    <string name="sortby_last_modified_date_asc">Äldst tillagda först</string>
-    <string name="sortby_last_modified_date_desc">Senast tillagda först</string>
-    <string name="sortby_number_asc">Större videogrupper längst upp</string>
-    <string name="sortby_number_desc">Mindre videogrupper längst upp</string>
-    <string name="sortby_date_insertion_asc">Äldsta skapandedatum först</string>
-    <string name="sortby_date_insertion_desc">Senaste skapandedatum först</string>
-    <string name="sortby_date_last_modified_asc">Äldsta ändringsdatum först</string>
-    <string name="sortby_date_last_modified_desc">Senaste ändringsdatum först</string>
-    <string name="sortby_date_release_asc">Äldsta utgivningsdatum först</string>
-    <string name="sortby_date_release_desc">Senasta utgivningsdatum först</string>
+    <string name="sortby_number_asc">Större videogrupper</string>
+    <string name="sortby_number_desc">Mindre videogrupper</string>
+    <string name="sort_date_asc">Äldst först</string>
+    <string name="sort_date_desc">Nyast först</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultat hittades</item>

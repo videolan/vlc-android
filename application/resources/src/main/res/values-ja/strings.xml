@@ -23,28 +23,14 @@
     <string name="searchable_hint">検索…</string>
     <string name="history">履歴</string>
 
-    <string name="sortby_name_asc">名前 A → Z</string>
-    <string name="sortby_name_desc">名前 Z → A</string>
-    <string name="sortby_artist_name_asc">アーティスト名 A → Z</string>
-    <string name="sortby_artist_name_desc">アーティスト名 Z → A</string>
-    <string name="sortby_album_name_asc">アルバム名 A → Z</string>
-    <string name="sortby_album_name_desc">アルバム名 Z → A</string>
-    <string name="sortby_filename_asc">ファイル名 A → Z</string>
-    <string name="sortby_filename_desc">ファイル名 Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">より短いものを先に</string>
     <string name="sortby_length_desc">より長いものを先に</string>
-    <string name="sortby_date_asc">より古いものを先に</string>
-    <string name="sortby_date_desc">より新しいものを先に</string>
-    <string name="sortby_last_modified_date_asc">より古い追加順</string>
-    <string name="sortby_last_modified_date_desc">より新しい追加順</string>
-    <string name="sortby_number_asc">グループ内の動画を最初に増やす</string>
-    <string name="sortby_number_desc">グループ内の動画を最初に減らす</string>
-    <string name="sortby_date_insertion_asc">挿入日が古い順</string>
-    <string name="sortby_date_insertion_desc">挿入日が新しい順</string>
-    <string name="sortby_date_last_modified_asc">更新日が古い順</string>
-    <string name="sortby_date_last_modified_desc">更新日が新しい順</string>
-    <string name="sortby_date_release_asc">リリース日が古い順</string>
-    <string name="sortby_date_release_desc">リリース日が新しい順</string>
+    <string name="sortby_number_asc">グループ内の動画を増やす</string>
+    <string name="sortby_number_desc">グループ内の動画を減らす</string>
+    <string name="sort_date_asc">古い順</string>
+    <string name="sort_date_desc">新しい順</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d 件見つかりました</item>
@@ -543,6 +529,7 @@
     <string name="dump_logcat">logcatがログをダンプ</string>
     <string name="dump_logcat_success">Logcatが %1$s にログをダンプしました!</string>
     <string name="dump_logcat_failure">logcatがダンプに失敗しました。</string>
+    <string name="http_user_agent">HTTPユーザーエージェント</string>
     <string name="custom_libvlc_options">libVLCのカスタムオプション</string>
     <string name="custom_libvlc_options_invalid">libVLCのオプションが不正です!</string>
 

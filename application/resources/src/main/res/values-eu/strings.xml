@@ -23,27 +23,8 @@
     <string name="searchable_hint">Bilatu…</string>
     <string name="history">Historia</string>
 
-    <string name="sortby_name_asc">Izena A → Z</string>
-    <string name="sortby_name_desc">Izena Z → A</string>
-    <string name="sortby_artist_name_asc">Artistaren izena A → Z</string>
-    <string name="sortby_artist_name_desc">Artistaren izena Z → A</string>
-    <string name="sortby_album_name_asc">Albumaren izena A → Z</string>
-    <string name="sortby_album_name_desc">Albumaren izena Z → A</string>
-    <string name="sortby_filename_asc">Fitxategiaren izena A → Z</string>
-    <string name="sortby_filename_desc">Fitxategiaren izena Z → A</string>
     <string name="sortby_length_asc">Motzena lehenengo</string>
     <string name="sortby_length_desc">Luzeena lehenik</string>
-    <string name="sortby_date_asc">Data zaharrena lehenik</string>
-    <string name="sortby_date_desc">Data berriena lehenik</string>
-    <string name="sortby_last_modified_date_asc">Gehiketarik zaharrena lehenik</string>
-    <string name="sortby_last_modified_date_desc">Gehiketarik berriena lehenik</string>
-    <string name="sortby_date_insertion_asc">Txertatze datarik zaharrena lehenik</string>
-    <string name="sortby_date_insertion_desc">Txertatze datarik berriena lehenik</string>
-    <string name="sortby_date_last_modified_asc">Aldatze datarik zaharrena lehenik</string>
-    <string name="sortby_date_last_modified_desc">Aldatze datarik berriena lehenik</string>
-    <string name="sortby_date_release_asc">Argitaratze datarik zaharrena lehenik</string>
-    <string name="sortby_date_release_desc">Argitaratze datarik berriena lehenik</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Emaitza %d aurkitu da</item>
         <item quantity="other">%d emaitza aurkitu dira</item>

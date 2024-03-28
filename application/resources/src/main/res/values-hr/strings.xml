@@ -20,14 +20,6 @@
     <string name="searchable_hint">Pretraži…</string>
     <string name="history">Povijest</string>
 
-    <string name="sortby_name_asc">Ime A → Z</string>
-    <string name="sortby_name_desc">Ime Z → A</string>
-    <string name="sortby_artist_name_asc">Ime izvođača A → Z</string>
-    <string name="sortby_artist_name_desc">Ime izvođača Z → A</string>
-    <string name="sortby_album_name_asc">Ime albuma A → Z</string>
-    <string name="sortby_album_name_desc">Ime albuma Z → A</string>
-    <string name="sortby_filename_asc">Ime datoteke A → Z</string>
-    <string name="sortby_filename_desc">Ime datoteke Z → A</string>
     <string name="sortby_length_asc">Najprije najkraći</string>
     <string name="sortby_length_desc">Najprije najduži</string>
     <plurals name="search_found_results_quantity">

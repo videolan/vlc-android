@@ -20,20 +20,8 @@
     <string name="searchable_hint">Procurar…</string>
     <string name="history">Histórico</string>
 
-    <string name="sortby_name_asc">Nome A → Z</string>
-    <string name="sortby_name_desc">Nome Z → A</string>
-    <string name="sortby_artist_name_asc">Nome do artista A → Z</string>
-    <string name="sortby_artist_name_desc">Nome do artista Z → A</string>
-    <string name="sortby_album_name_asc">Nome do álbum A → Z</string>
-    <string name="sortby_album_name_desc">Nome do álbum Z → A</string>
-    <string name="sortby_filename_asc">Nome do ficheiro A → Z</string>
-    <string name="sortby_filename_desc">Nome do ficheiro Z → A</string>
     <string name="sortby_length_asc">Mais curto primeiro</string>
     <string name="sortby_length_desc">Mais longo primeiro</string>
-    <string name="sortby_date_asc">Data mais antiga primeiro</string>
-    <string name="sortby_date_desc">Data mais recente primeiro</string>
-    <string name="sortby_last_modified_date_asc">Adição mais antiga primeiro</string>
-    <string name="sortby_last_modified_date_desc">Adição mais recente primeiro</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Encontrado %d resultado</item>
         <item quantity="many">Encontrados %d resultados</item>

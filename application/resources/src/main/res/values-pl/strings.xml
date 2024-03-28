@@ -19,20 +19,8 @@
     <string name="searchable_hint">Szukaj…</string>
     <string name="history">Historia</string>
 
-    <string name="sortby_name_asc">Nazwa A → Z</string>
-    <string name="sortby_name_desc">Nazwa Z → A</string>
-    <string name="sortby_artist_name_asc">Nazwa artysty A → Z</string>
-    <string name="sortby_artist_name_desc">Nazwa artysty Z → A</string>
-    <string name="sortby_album_name_asc">Nazwa albumu A → Z</string>
-    <string name="sortby_album_name_desc">Nazwa albumu Z → A</string>
-    <string name="sortby_filename_asc">Nazwa pliku A → Z</string>
-    <string name="sortby_filename_desc">Nazwa pliku Z → A</string>
     <string name="sortby_length_asc">Najpierw najkrótsze</string>
     <string name="sortby_length_desc">Najpierw najdłuższe</string>
-    <string name="sortby_date_asc">Najpierw najstarsze</string>
-    <string name="sortby_date_desc">Najpierw najnowsze</string>
-    <string name="sortby_last_modified_date_asc">Najpierw najstarszy dodatek</string>
-    <string name="sortby_last_modified_date_desc">Najpierw najnowszy dodatek</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Znaleziono %d pozycję</item>
         <item quantity="few">Znaleziono %d pozycje</item>

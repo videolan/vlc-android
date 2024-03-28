@@ -22,24 +22,8 @@
     <string name="searchable_hint">검색…</string>
     <string name="history">히스토리</string>
 
-    <string name="sortby_name_asc">이름 A → Z</string>
-    <string name="sortby_name_desc">이름 Z → A</string>
-    <string name="sortby_artist_name_asc">아티스트 이름 A → Z</string>
-    <string name="sortby_artist_name_desc">아티스트 이름 Z → A</string>
-    <string name="sortby_album_name_asc">앨범 이름 A → Z</string>
-    <string name="sortby_album_name_desc">앨범 이름 Z → A</string>
-    <string name="sortby_filename_asc">파일 이름 A → Z</string>
-    <string name="sortby_filename_desc">파일 이름 Z → A</string>
     <string name="sortby_length_asc">가장 짧은 것부터</string>
     <string name="sortby_length_desc">가장 긴 것부터</string>
-    <string name="sortby_date_asc">가장 오래된 날짜 먼저</string>
-    <string name="sortby_date_desc">가장 최근 날짜 먼저</string>
-    <string name="sortby_last_modified_date_asc">가장 오래된 추가 항목 먼저</string>
-    <string name="sortby_last_modified_date_desc">가장 최근 추가 항목 먼저</string>
-    <string name="sortby_date_insertion_asc">가장 오래된 삽입 날짜 먼저</string>
-    <string name="sortby_date_insertion_desc">가장 최근 삽입 날짜 먼저</string>
-    <string name="sortby_date_last_modified_asc">가장 오래된 수정 날짜 먼저</string>
-    <string name="sortby_date_last_modified_desc">가장 최근 수정 날짜 먼저</string>
     <plurals name="search_found_results_quantity">
         <item quantity="other">검색 결과 %d개</item>
     </plurals>

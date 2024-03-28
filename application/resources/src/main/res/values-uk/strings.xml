@@ -23,28 +23,14 @@
     <string name="searchable_hint">Триває пошук…</string>
     <string name="history">Історія</string>
 
-    <string name="sortby_name_asc">За назвою від A до Z</string>
-    <string name="sortby_name_desc">За назвою від Z до A</string>
-    <string name="sortby_artist_name_asc">За іменем виконавця від A до Z</string>
-    <string name="sortby_artist_name_desc">За іменем виконавця від Z до A</string>
-    <string name="sortby_album_name_asc">За назвою альбому від A до Z</string>
-    <string name="sortby_album_name_desc">За назвою альбому від Z до A</string>
-    <string name="sortby_filename_asc">За назвою файла від A до Z</string>
-    <string name="sortby_filename_desc">За назвою файла від Z до A</string>
+    <string name="sort_alpha_asc">А → Я</string>
+    <string name="sort_alpha_desc">Я → А</string>
     <string name="sortby_length_asc">Найкоротші спершу</string>
     <string name="sortby_length_desc">Найдовші спершу</string>
-    <string name="sortby_date_asc">Найстаріші спершу</string>
-    <string name="sortby_date_desc">Найновіші спершу</string>
-    <string name="sortby_last_modified_date_asc">Найстаріше додавання спершу</string>
-    <string name="sortby_last_modified_date_desc">Найновіше додавання спершу</string>
-    <string name="sortby_number_asc">Більше відео у групі спершу</string>
-    <string name="sortby_number_desc">Менше відео у групі спершу</string>
-    <string name="sortby_date_insertion_asc">Найстаріше вставляння спершу</string>
-    <string name="sortby_date_insertion_desc">Найновіше вставляння спершу</string>
-    <string name="sortby_date_last_modified_asc">Найстаріша дата зміни спершу</string>
-    <string name="sortby_date_last_modified_desc">Найновіша дата зміни спершу</string>
-    <string name="sortby_date_release_asc">Найстаріша дата випуску спершу</string>
-    <string name="sortby_date_release_desc">Найновіша дата випуску спершу</string>
+    <string name="sortby_number_asc">Більше відео у групі</string>
+    <string name="sortby_number_desc">Менше відео у групі</string>
+    <string name="sort_date_asc">Найстаріші спершу</string>
+    <string name="sort_date_desc">Найновіші спершу</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">знайдено %d результат</item>
@@ -486,6 +472,7 @@
     <string name="remote_access_info">Інформація про віддалений доступ</string>
     <string name="remote_access_content">Вміст</string>
     <string name="remote_access_medialibrary_content">Вміст бібліотеки медіа</string>
+    <string name="remote_access_medialibrary_content_summary">Увімкнено: %1$s\nВимкнено: %2$s</string>
     <string name="remote_access_file_browser_content">Браузер файлів</string>
     <string name="remote_access_network_browser_content">Мережевий браузер</string>
     <string name="remote_access_playback_control">Управління відтворенням</string>
@@ -572,6 +559,7 @@
     <string name="dump_logcat">Викинути журнал logcat</string>
     <string name="dump_logcat_success">Logcat успішно викинули до %1$s!</string>
     <string name="dump_logcat_failure">Не вдалося викинути logcat.</string>
+    <string name="http_user_agent">HTTP-браузер користувача </string>
     <string name="custom_libvlc_options">Особливі  параметри libVLC</string>
     <string name="custom_libvlc_options_invalid">Недійсні параметри libVLC!</string>
 
@@ -1144,6 +1132,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - заголовок: %2$s - тривалість: %3$s</string>
     <string name="talkback_genre">Жанр: %s</string>
     <string name="talkback_history_item">Елемент історії</string>
     <string name="talkback_playlist">Список відтворення: %s</string>
@@ -1170,6 +1160,7 @@
     <string name="talkback_video_tracks">Відеодоріжки</string>
     <string name="talkback_audio_tracks">Аудіодоріжки</string>
     <string name="talkback_subtitle_tracks">Доріжки субтитрів</string>
+    <string name="talkback_subtitle_dowload_item">Мова: %1$s. %2$s. Назва: %3$s</string>
     <string name="selected">Обрано</string>
     <string name="talkback_increase_delay">Збільшити затримку</string>
     <string name="talkback_decrease_delay">Зменшити затримку</string>
@@ -1181,6 +1172,8 @@
     <string name="talkback_audio_player_collapsed">Аудіопрогравач згорнений</string>
     <string name="talkback_audio_player_closed">Аудіопрогравач закритий</string>
     <string name="talkback_audio_player">Аудіопрогравач. Наразі відтворюється: %s</string>
+    <string name="talkback_out_of">%1$s із %2$s</string>
+    <string name="talkback_track_index">Доріжка %1$s з %2$s</string>
     <string name="downloaded">Завантажено</string>
     <string name="not_downloaded">Не завантажено</string>
     <string name="downloading">Завантажується</string>

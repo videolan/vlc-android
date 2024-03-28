@@ -20,14 +20,6 @@
     <string name="searchable_hint">തിരയുക…</string>
     <string name="history">ചരിത്രം</string>
 
-    <string name="sortby_name_asc">നാമം A → Z</string>
-    <string name="sortby_name_desc">നാമം Z→ A</string>
-    <string name="sortby_artist_name_asc">ആർട്ടിസ്റ്റ് നാമം A → Z</string>
-    <string name="sortby_artist_name_desc">ആർട്ടിസ്റ്റ് നാമം Z → A</string>
-    <string name="sortby_album_name_asc">ആൽബം നാമം A → Z</string>
-    <string name="sortby_album_name_desc">ആൽബം നാമം Z → A</string>
-    <string name="sortby_filename_asc">ഫയൽ നാമം A → Z</string>
-    <string name="sortby_filename_desc">ഫയൽ നാമം Z → A</string>
     <string name="sortby_length_asc">ഏറ്റവും ചെറുത് ആദ്യം</string>
     <string name="sortby_length_desc">ദൈർഘ്യമേറിയത് ആദ്യം</string>
     <plurals name="search_found_results_quantity">

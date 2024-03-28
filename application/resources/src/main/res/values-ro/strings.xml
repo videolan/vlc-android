@@ -23,29 +23,8 @@
     <string name="searchable_hint">Căutare…</string>
     <string name="history">Istoric</string>
 
-    <string name="sortby_name_asc">Nume A → Z</string>
-    <string name="sortby_name_desc">Nume Z → A</string>
-    <string name="sortby_artist_name_asc">Numele artistului A → Z</string>
-    <string name="sortby_artist_name_desc">Numele artistului Z → A</string>
-    <string name="sortby_album_name_asc">Numele albumului A → Z</string>
-    <string name="sortby_album_name_desc">Numele albumului Z → A</string>
-    <string name="sortby_filename_asc">Numele fișierului A → Z</string>
-    <string name="sortby_filename_desc">Numele fișierului Z → A</string>
     <string name="sortby_length_asc">Întâi cel mai scurt</string>
     <string name="sortby_length_desc">Întâi cel mai lung</string>
-    <string name="sortby_date_asc">Întâi cea mai veche dată</string>
-    <string name="sortby_date_desc">Întâi cea mai nouă dată</string>
-    <string name="sortby_last_modified_date_asc">Mai întâi cea mai veche adăugare</string>
-    <string name="sortby_last_modified_date_desc">Mai întâi cea mai nouă adăugare</string>
-    <string name="sortby_number_asc">Mai multe videoclipuri în grup mai întâi</string>
-    <string name="sortby_number_desc">Mai puține videoclipuri în grup mai întâi</string>
-    <string name="sortby_date_insertion_asc">Întâi data inserării cea mai veche</string>
-    <string name="sortby_date_insertion_desc">Întâi data inserării cea mai nouă</string>
-    <string name="sortby_date_last_modified_asc">Întâi data modificării cea mai veche</string>
-    <string name="sortby_date_last_modified_desc">Întâi data modificării cea mai nouă</string>
-    <string name="sortby_date_release_asc">Întâi data lansării cea mai veche</string>
-    <string name="sortby_date_release_desc">Întâi data lansării cea mai nouă</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d rezultat găsit</item>
         <item quantity="few">%d rezultate găsite</item>
@@ -476,6 +455,7 @@
     <string name="remote_access_info">Informații despre accesul de la distanță</string>
     <string name="remote_access_content">Conținut</string>
     <string name="remote_access_medialibrary_content">Conținutul bibliotecii media</string>
+    <string name="remote_access_medialibrary_content_summary">Activat: %1$s\nDezactivat: %2$s</string>
     <string name="remote_access_file_browser_content">Navigatorul de fișiere</string>
     <string name="remote_access_network_browser_content">Navigatorul de rețea</string>
     <string name="remote_access_playback_control">Controlează redarea</string>
@@ -1120,6 +1100,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - titlu: %2$s - durată: %3$s</string>
     <string name="talkback_genre">Gen: %s</string>
     <string name="talkback_history_item">Element de istoric</string>
     <string name="talkback_playlist">Listă de redare: %s</string>
@@ -1146,6 +1128,7 @@
     <string name="talkback_video_tracks">Piste video</string>
     <string name="talkback_audio_tracks">Piste audio</string>
     <string name="talkback_subtitle_tracks">Piste de subtitrări</string>
+    <string name="talkback_subtitle_dowload_item">Limba: %1$s. %2$s. Numele: %3$s</string>
     <string name="selected">Selectat</string>
     <string name="talkback_increase_delay">Crește întârzierea</string>
     <string name="talkback_decrease_delay">Scade întârzierea</string>
@@ -1157,6 +1140,8 @@
     <string name="talkback_audio_player_collapsed">Player audio restrâns</string>
     <string name="talkback_audio_player_closed">Player audio închis</string>
     <string name="talkback_audio_player">Player audio. În prezent se redă: %s</string>
+    <string name="talkback_out_of">%1$s din %2$s</string>
+    <string name="talkback_track_index">Pista %1$s din %2$s</string>
     <string name="downloaded">Descărcat</string>
     <string name="not_downloaded">Nedescărcat</string>
     <string name="downloading">Se descarcă</string>

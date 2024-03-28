@@ -23,27 +23,8 @@
     <string name="searchable_hint">Leita…</string>
     <string name="history">Ferill</string>
 
-    <string name="sortby_name_asc">Nafn A → Ö</string>
-    <string name="sortby_name_desc">Nafn Ö → A</string>
-    <string name="sortby_artist_name_asc">Nafn flytjanda A → Ö</string>
-    <string name="sortby_artist_name_desc">Nafn flytjanda Ö → A</string>
-    <string name="sortby_album_name_asc">Nafn hljómplötu A → Ö</string>
-    <string name="sortby_album_name_desc">Nafn hljómplötu Ö → A</string>
-    <string name="sortby_filename_asc">Skráarheiti A → Ö</string>
-    <string name="sortby_filename_desc">Skráarheiti Ö → A</string>
     <string name="sortby_length_asc">Stysta fyrst</string>
     <string name="sortby_length_desc">Lengsta fyrst</string>
-    <string name="sortby_date_asc">Elsta fyrst</string>
-    <string name="sortby_date_desc">Nýjasta fyrst</string>
-    <string name="sortby_last_modified_date_asc">Elsta viðbætta fyrst</string>
-    <string name="sortby_last_modified_date_desc">Síðast viðbætt fyrst</string>
-    <string name="sortby_date_insertion_asc">Elsta sett inn fyrst</string>
-    <string name="sortby_date_insertion_desc">Nýjasta sett inn fyrst</string>
-    <string name="sortby_date_last_modified_asc">Elsta breytingadagsetning fyrst</string>
-    <string name="sortby_date_last_modified_desc">Nýjasta breytingadagsetning fyrst</string>
-    <string name="sortby_date_release_asc">Elsta útgáfudagsetning fyrst</string>
-    <string name="sortby_date_release_desc">Nýjasta útgáfudagsetning fyrst</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d niðurstaða fannst</item>
         <item quantity="other">%d niðurstöður fundust</item>

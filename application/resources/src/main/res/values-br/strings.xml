@@ -20,20 +20,8 @@
     <string name="searchable_hint">Klask…</string>
     <string name="history">Roll-istor</string>
 
-    <string name="sortby_name_asc">Anv A → Z</string>
-    <string name="sortby_name_desc">Anv Z → A</string>
-    <string name="sortby_artist_name_asc">Anv arzour A → Z</string>
-    <string name="sortby_artist_name_desc">Anv arzour Z → A</string>
-    <string name="sortby_album_name_asc">Anv albom A → Z</string>
-    <string name="sortby_album_name_desc">Anv albom Z → A</string>
-    <string name="sortby_filename_asc">Anv restr A → Z</string>
-    <string name="sortby_filename_desc">Anv restr Z → A</string>
     <string name="sortby_length_asc">Berrañ da gentañ</string>
     <string name="sortby_length_desc">Hirañ da gentañ</string>
-    <string name="sortby_date_asc">Koshoc\'h da gentañ</string>
-    <string name="sortby_date_desc">Nevesoc\'h da gentañ</string>
-    <string name="sortby_last_modified_date_asc">Ouzhpenn koshañ da gentañ</string>
-    <string name="sortby_last_modified_date_desc">Ouzhpenn nevesañ da gentañ</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d disoc\'h kavet</item>
         <item quantity="two">%d a zisoc\'hoù kavet</item>
@@ -162,7 +150,6 @@
     <string name="nosubfolder">Isteuliad ebet</string>
     <string name="directorynotfound">Neket bet kavet hent ar c\'havlec\'h \'%1$s\'.</string>
     <string name="nohistory">N\'ho peus roll-lenn ebet evit ar mare.</string>
-
     <string name="cover_art">Arz ar golo</string>
     <string name="shuffle_all_title">Pep-tra dre zegouezh</string>
     <string name="shuffle_title">Mod dre zegouezh</string>

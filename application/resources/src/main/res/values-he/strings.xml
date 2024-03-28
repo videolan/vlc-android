@@ -23,28 +23,14 @@
     <string name="searchable_hint">חיפוש…</string>
     <string name="history">היסטוריה</string>
 
-    <string name="sortby_name_asc">שם א ← ת</string>
-    <string name="sortby_name_desc">שם ת ← א</string>
-    <string name="sortby_artist_name_asc">שם האמן א ← ת</string>
-    <string name="sortby_artist_name_desc">שם האמן ת ← א</string>
-    <string name="sortby_album_name_asc">שם האלבום א ← ת</string>
-    <string name="sortby_album_name_desc">שם האלבום ת ← א</string>
-    <string name="sortby_filename_asc">שם הקובץ א ← ת</string>
-    <string name="sortby_filename_desc">שם הקובץ ת ← א</string>
+    <string name="sort_alpha_asc">א ← ת</string>
+    <string name="sort_alpha_desc">ת ← א</string>
     <string name="sortby_length_asc">הקצרים ביותר בהתחלה</string>
     <string name="sortby_length_desc">הארוכים ביותר בהתחלה</string>
-    <string name="sortby_date_asc">התאריך הישן ביותר בהתחלה</string>
-    <string name="sortby_date_desc">התאריך החדש ביותר בהתחלה</string>
-    <string name="sortby_last_modified_date_asc">התוספת האחרונה בהתחלה</string>
-    <string name="sortby_last_modified_date_desc">התוספת העדכנית בהתחלה</string>
-    <string name="sortby_number_asc">עוד סרטונים בקבוצה קודם לכן</string>
-    <string name="sortby_number_desc">פחות סרטונים בקבוצה קודם לכן</string>
-    <string name="sortby_date_insertion_asc">תאריך הוספה קדום ראשון</string>
-    <string name="sortby_date_insertion_desc">תאריך הוספה עדכני ראשון</string>
-    <string name="sortby_date_last_modified_asc">תאריך שינוי קדום ראשון</string>
-    <string name="sortby_date_last_modified_desc">תאריך שינוי עדכני ראשון</string>
-    <string name="sortby_date_release_asc">תאריך שחרור קדום ראשון</string>
-    <string name="sortby_date_release_desc">תאריך שחרור עדכני ראשון</string>
+    <string name="sortby_number_asc">יותר סרטונים בקבוצה</string>
+    <string name="sortby_number_desc">פחות סרטונים בקבוצה</string>
+    <string name="sort_date_asc">הישנים ביותר בהתחלה</string>
+    <string name="sort_date_desc">החדשים ביותר בהתחלה</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">נמצאה תוצאה אחת</item>
@@ -568,6 +554,7 @@
     <string name="dump_logcat">שמירת רישום logcat</string>
     <string name="dump_logcat_success">ה־Logcat נשמר בהצלחה אל %1$s!</string>
     <string name="dump_logcat_failure">שמירת ה־logcat נכשלה.</string>
+    <string name="http_user_agent">סוכן משתמש HTTP</string>
     <string name="custom_libvlc_options">אפשרויות מיוחדות ל־libVLC</string>
     <string name="custom_libvlc_options_invalid">אפשרויות libVLC שגויות!</string>
 

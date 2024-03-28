@@ -20,20 +20,8 @@
     <string name="searchable_hint">Otsi…</string>
     <string name="history">Ajalugu</string>
 
-    <string name="sortby_name_asc">Nimi A → Z</string>
-    <string name="sortby_name_desc">Nimi Z → A</string>
-    <string name="sortby_artist_name_asc">Esitaja nimi A → Z</string>
-    <string name="sortby_artist_name_desc">Esitaja nimi Z → A</string>
-    <string name="sortby_album_name_asc">Albumi nimi A → Z</string>
-    <string name="sortby_album_name_desc">Albumi nimi Z → A</string>
-    <string name="sortby_filename_asc">Faili nimi A → Z</string>
-    <string name="sortby_filename_desc">Faili nimi Z → A</string>
     <string name="sortby_length_asc">Esmalt lühimad</string>
     <string name="sortby_length_desc">Esmalt pikimad</string>
-    <string name="sortby_date_asc">Esmalt vanimad</string>
-    <string name="sortby_date_desc">Esmalt uusimad</string>
-    <string name="sortby_last_modified_date_asc">Esmalt varemlisatud</string>
-    <string name="sortby_last_modified_date_desc">Esmalt viimatilisatud</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Leidsin %d vaste</item>
         <item quantity="other">Leidsin %d vastet</item>

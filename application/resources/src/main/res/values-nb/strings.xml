@@ -20,18 +20,8 @@
     <string name="searchable_hint">Søk…</string>
     <string name="history">Historie</string>
 
-    <string name="sortby_name_asc">Navn A → Z</string>
-    <string name="sortby_name_desc">Navn Z → A</string>
-    <string name="sortby_artist_name_asc">Artistnavn A → Z</string>
-    <string name="sortby_artist_name_desc">Artistnavn Z → A</string>
-    <string name="sortby_album_name_asc">Albumnavn A → Z</string>
-    <string name="sortby_album_name_desc">Albumnavn Z → A</string>
-    <string name="sortby_filename_asc">Filnavn A → Z</string>
-    <string name="sortby_filename_desc">Filnavn Z → A</string>
     <string name="sortby_length_asc">Korteste først</string>
     <string name="sortby_length_desc">Lengste først</string>
-    <string name="sortby_date_asc">Eldste dato først</string>
-    <string name="sortby_date_desc">Nyeste dato først</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultat funnet</item>
         <item quantity="other">%d resultater funnet</item>

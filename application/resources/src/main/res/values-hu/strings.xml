@@ -23,29 +23,8 @@
     <string name="searchable_hint">Keresés…</string>
     <string name="history">Előzmények</string>
 
-    <string name="sortby_name_asc">Név A → Z</string>
-    <string name="sortby_name_desc">Név Z → A</string>
-    <string name="sortby_artist_name_asc">Előadó neve A → Z</string>
-    <string name="sortby_artist_name_desc">Előadó neve Z → A</string>
-    <string name="sortby_album_name_asc">Album címe A → Z</string>
-    <string name="sortby_album_name_desc">Album címe Z → A</string>
-    <string name="sortby_filename_asc">Fájlnév A → Z</string>
-    <string name="sortby_filename_desc">Fájlnév Z → A</string>
     <string name="sortby_length_asc">Legrövidebb elöl</string>
     <string name="sortby_length_desc">Leghosszabb elöl</string>
-    <string name="sortby_date_asc">Legrégebbi dátumú elöl</string>
-    <string name="sortby_date_desc">Legújabb dátumú elöl</string>
-    <string name="sortby_last_modified_date_asc">Legrégebben hozzáadott elöl</string>
-    <string name="sortby_last_modified_date_desc">Legutoljára hozzáadott elöl</string>
-    <string name="sortby_number_asc">Több videó a csoportban elöl</string>
-    <string name="sortby_number_desc">Kevesebb videó a csoportban elöl</string>
-    <string name="sortby_date_insertion_asc">Legrégebben beszúrt elöl</string>
-    <string name="sortby_date_insertion_desc">Legutoljára beszúrt elöl</string>
-    <string name="sortby_date_last_modified_asc">Legrégebben módosított elöl</string>
-    <string name="sortby_date_last_modified_desc">Legutoljára módosított elöl</string>
-    <string name="sortby_date_release_asc">Legrégebbi kiadási dátumú elöl</string>
-    <string name="sortby_date_release_desc">Legújabb kiadási dátumú elöl</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d találat</item>
         <item quantity="other">%d találat</item>

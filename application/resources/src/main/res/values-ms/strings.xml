@@ -23,29 +23,8 @@
     <string name="searchable_hint">Gelintar…</string>
     <string name="history">Sejarah</string>
 
-    <string name="sortby_name_asc">Nama A → Z</string>
-    <string name="sortby_name_desc">Nama Z → A</string>
-    <string name="sortby_artist_name_asc">Nama artis A → Z</string>
-    <string name="sortby_artist_name_desc">Nama artis Z → A</string>
-    <string name="sortby_album_name_asc">Nama album A → Z</string>
-    <string name="sortby_album_name_desc">Nama album Z → A</string>
-    <string name="sortby_filename_asc">Nama fail A → Z</string>
-    <string name="sortby_filename_desc">Nama fail Z → A</string>
     <string name="sortby_length_asc">Paling pendek dahulu</string>
     <string name="sortby_length_desc">Paling panjang dahulu</string>
-    <string name="sortby_date_asc">Tarikh paling lama dahulu</string>
-    <string name="sortby_date_desc">Tarikh terbaharu dahulu</string>
-    <string name="sortby_last_modified_date_asc">Tambahan terlama dahulu</string>
-    <string name="sortby_last_modified_date_desc">Tambahan terbaharu dahulu</string>
-    <string name="sortby_number_asc">Lagi video dalam kumpulan dahulu</string>
-    <string name="sortby_number_desc">Kurang video dalam kumpulan dahulu</string>
-    <string name="sortby_date_insertion_asc">Tarikh sisipan terlama dahulu</string>
-    <string name="sortby_date_insertion_desc">Tarikh sisipan terbaharu dahulu</string>
-    <string name="sortby_date_last_modified_asc">Tarikh pengubahsuaian terlama dahulu</string>
-    <string name="sortby_date_last_modified_desc">Tarikh pengubahsuaian terbaharu dahulu</string>
-    <string name="sortby_date_release_asc">Tarikh keluaran terlama dahulu</string>
-    <string name="sortby_date_release_desc">Tarikh keluaran terbaharu dahulu</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d keputusan ditemui</item>
     </plurals>
@@ -141,6 +120,8 @@
     <string name="nosubfolder">Tiada subfolder</string>
     <string name="directorynotfound">Laluan direktori \'%1$s\' tidak ditemui.</string>
     <string name="nohistory">Anda belum memiliki sejarah main balik.</string>
+    <string name="cant_ban_root">Anda tidak boleh sekat folder root</string>
+
     <string name="cover_art">Seni kulit hadapan</string>
     <string name="shuffle_all_title">Kocok semua</string>
     <string name="shuffle_title">Mod kocok</string>
@@ -454,6 +435,7 @@
     <string name="remote_access_info">Maklumat capaian jauh</string>
     <string name="remote_access_content">Kandungan</string>
     <string name="remote_access_medialibrary_content">Kandungan pusataka media</string>
+    <string name="remote_access_medialibrary_content_summary">Didayakan: %1$s\nDilumpuhkan: %2$s</string>
     <string name="remote_access_file_browser_content">Pelayar fail</string>
     <string name="remote_access_network_browser_content">Pelayar rangkaian</string>
     <string name="remote_access_playback_control">Kawalan main balik</string>
@@ -1100,6 +1082,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - tajuk: %2$s - tempoh: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Item sejarah</string>
     <string name="talkback_playlist">Senarai Main: %s</string>
@@ -1126,6 +1110,7 @@
     <string name="talkback_video_tracks">Trek video</string>
     <string name="talkback_audio_tracks">Trek audio</string>
     <string name="talkback_subtitle_tracks">Trek sari kata</string>
+    <string name="talkback_subtitle_dowload_item">Bahasa: %1$s. %2$s. Nama: %3$s</string>
     <string name="selected">Dipilih</string>
     <string name="talkback_increase_delay">Tambah lengah</string>
     <string name="talkback_decrease_delay">Kurang lengah</string>
@@ -1137,6 +1122,8 @@
     <string name="talkback_audio_player_collapsed">Pemain audio dikuncup</string>
     <string name="talkback_audio_player_closed">Pemain audio ditutup</string>
     <string name="talkback_audio_player">Pemain audio. Sedang memainkan: %s</string>
+    <string name="talkback_out_of">%1$s selesai daripada %2$s</string>
+    <string name="talkback_track_index">Trek %1$s selesai daripada %2$s</string>
     <string name="downloaded">Dimuat turun</string>
     <string name="not_downloaded">Tidak dimuat turun</string>
     <string name="downloading">Memuat turun</string>

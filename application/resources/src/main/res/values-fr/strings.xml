@@ -23,28 +23,14 @@
     <string name="searchable_hint">Recherche…</string>
     <string name="history">Historique</string>
 
-    <string name="sortby_name_asc">Nom A → Z</string>
-    <string name="sortby_name_desc">Nom Z → A</string>
-    <string name="sortby_artist_name_asc">Nom d’artiste A → Z</string>
-    <string name="sortby_artist_name_desc">Nom d’artiste Z → A</string>
-    <string name="sortby_album_name_asc">Nom d’album A → Z</string>
-    <string name="sortby_album_name_desc">Nom d’album Z → A</string>
-    <string name="sortby_filename_asc">Nom de fichier A → Z</string>
-    <string name="sortby_filename_desc">Nom de fichier Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Le plus court en premier</string>
     <string name="sortby_length_desc">Le plus long en premier</string>
-    <string name="sortby_date_asc">Date la plus ancienne en premier</string>
-    <string name="sortby_date_desc">La date la plus récente en premier</string>
-    <string name="sortby_last_modified_date_asc">L’ajout le plus ancien en premier</string>
-    <string name="sortby_last_modified_date_desc">L’ajout le plus récent en premier</string>
-    <string name="sortby_number_asc">Plus de vidéos dans le premier groupe</string>
-    <string name="sortby_number_desc">Moins de vidéos dans le premier groupe </string>
-    <string name="sortby_date_insertion_asc">Date d’insertion la plus ancienne en premier</string>
-    <string name="sortby_date_insertion_desc">Date d’insertion la plus récente en premier</string>
-    <string name="sortby_date_last_modified_asc">Date de modification la plus ancienne en premier</string>
-    <string name="sortby_date_last_modified_desc">Date de modification la plus récente en premier</string>
-    <string name="sortby_date_release_asc">Date de parution la plus ancienne en premier</string>
-    <string name="sortby_date_release_desc">Date de parution la plus récente en premier</string>
+    <string name="sortby_number_asc">Plus de vidéos en groupe</string>
+    <string name="sortby_number_desc">Moins de vidéos en groupe</string>
+    <string name="sort_date_asc">Le plus ancien en premier</string>
+    <string name="sort_date_desc">Le plus récent en premier</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d résultat trouvé</item>
@@ -563,6 +549,7 @@
     <string name="dump_logcat">Cliché du journal logcat</string>
     <string name="dump_logcat_success">Logcat enregistré avec succès dans : %1$s !</string>
     <string name="dump_logcat_failure">Échec de l’enregistrement de logcat.</string>
+    <string name="http_user_agent">Agent utilisateur HTTP</string>
     <string name="custom_libvlc_options">Options personnalisées de libVLC</string>
     <string name="custom_libvlc_options_invalid">Options invalides pour libVLC !</string>
 

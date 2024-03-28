@@ -23,27 +23,8 @@
     <string name="searchable_hint">Mencari…</string>
     <string name="history">Riwayat</string>
 
-    <string name="sortby_name_asc">Nama A → Z</string>
-    <string name="sortby_name_desc">Nama Z → A</string>
-    <string name="sortby_artist_name_asc">Nama artis A → Z</string>
-    <string name="sortby_artist_name_desc">Nama artis Z → A</string>
-    <string name="sortby_album_name_asc">Nama album A → Z</string>
-    <string name="sortby_album_name_desc">Nama album Z → A</string>
-    <string name="sortby_filename_asc">Nama berkas A → Z</string>
-    <string name="sortby_filename_desc">Nama berkas Z → A</string>
     <string name="sortby_length_asc">Utamakan durasi tersingkat</string>
     <string name="sortby_length_desc">Utamakan durasi terlama</string>
-    <string name="sortby_date_asc">Utamakan tanggal yang terlama</string>
-    <string name="sortby_date_desc">Utamakan tanggal yang terbaru</string>
-    <string name="sortby_last_modified_date_asc">Utamakan penambahan yang terlama</string>
-    <string name="sortby_last_modified_date_desc">Utamakan penambahan yang terbaru</string>
-    <string name="sortby_date_insertion_asc">Utamakan tanggal penyisipan yang terlama</string>
-    <string name="sortby_date_insertion_desc">Utamakan tanggal penyisipan yang terbaru</string>
-    <string name="sortby_date_last_modified_asc">Utamakan tanggal modifikasi yang terlama</string>
-    <string name="sortby_date_last_modified_desc">Utamakan tanggal modifikasi yang terbaru</string>
-    <string name="sortby_date_release_asc">Utamakan tanggal perilisan yang terlama</string>
-    <string name="sortby_date_release_desc">Utamakan tanggal perilisan yang terbaru</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d hasil ditemukan</item>
     </plurals>

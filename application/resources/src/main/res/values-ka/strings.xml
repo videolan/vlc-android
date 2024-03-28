@@ -20,20 +20,8 @@
     <string name="searchable_hint">ძიება…</string>
     <string name="history">ისტორია</string>
 
-    <string name="sortby_name_asc">სახელი ა → ჰ</string>
-    <string name="sortby_name_desc">სახელი ა → ჰ</string>
-    <string name="sortby_artist_name_asc">შემსრულებელი ა → ჰ</string>
-    <string name="sortby_artist_name_desc">შემსრულებელი ჰ → ა</string>
-    <string name="sortby_album_name_asc">ალბომი ა → ჰ</string>
-    <string name="sortby_album_name_desc">ალბომი ჰ → ა</string>
-    <string name="sortby_filename_asc">ფაილი ა → ჰ</string>
-    <string name="sortby_filename_desc">ფაილი ჰ → ა</string>
     <string name="sortby_length_asc">ხანმოკლე ჯერ</string>
     <string name="sortby_length_desc">ხანგრძლივი ჯერ</string>
-    <string name="sortby_date_asc">ადრინდელი ჯერ</string>
-    <string name="sortby_date_desc">უახლესი ჯერ</string>
-    <string name="sortby_last_modified_date_asc">ადრე დამატებული ჯერ</string>
-    <string name="sortby_last_modified_date_desc">ახლად დამატებული ჯერ</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d შედეგია ნაპოვნი</item>
         <item quantity="other">%d შედეგია ნაპოვნი</item>

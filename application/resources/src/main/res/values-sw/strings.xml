@@ -20,20 +20,8 @@
     <string name="searchable_hint">Tafuta</string>
     <string name="history">Historia</string>
 
-    <string name="sortby_name_asc">Jina A → Z</string>
-    <string name="sortby_name_desc">Jina Z → A</string>
-    <string name="sortby_artist_name_asc">Jina la msanii A → Z</string>
-    <string name="sortby_artist_name_desc">Jina la msanii Z → A</string>
-    <string name="sortby_album_name_asc">Jina la albamu A → Z</string>
-    <string name="sortby_album_name_desc">Jina la albamu Z → A</string>
-    <string name="sortby_filename_asc">Jina la faili A → Z</string>
-    <string name="sortby_filename_desc">Jina la faili Z → A</string>
     <string name="sortby_length_asc">Fupi zaidi kwanza</string>
     <string name="sortby_length_desc">Refu zaidi kwanza</string>
-    <string name="sortby_date_asc">Tarehe ya zamani zaidi kwanza</string>
-    <string name="sortby_date_desc">Tarehe ya karibuni zaidi kwanza</string>
-    <string name="sortby_last_modified_date_asc">Kilichoongezwa zamani kwanza</string>
-    <string name="sortby_last_modified_date_desc">Kilichoongezwa karibuni kwanza</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Tokeo %d limepatikana</item>
         <item quantity="other">Matokeo %d yamepatikana</item>

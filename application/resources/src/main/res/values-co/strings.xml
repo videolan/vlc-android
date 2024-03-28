@@ -23,29 +23,10 @@
     <string name="searchable_hint">Circà…</string>
     <string name="history">Cronolugia</string>
 
-    <string name="sortby_name_asc">Nome A → Z</string>
-    <string name="sortby_name_desc">Nome Z → A</string>
-    <string name="sortby_artist_name_asc">Nome di l’artista A → Z</string>
-    <string name="sortby_artist_name_desc">Nome di l’artista Z → A</string>
-    <string name="sortby_album_name_asc">Nome di l’albumu A → Z</string>
-    <string name="sortby_album_name_desc">Nome di l’albumu Z → A</string>
-    <string name="sortby_filename_asc">Nome di schedariu A → Z</string>
-    <string name="sortby_filename_desc">Nome di schedariu Z → A</string>
+    <string name="sort_alpha_asc">Da A à Z</string>
+    <string name="sort_alpha_desc">Da Z à A</string>
     <string name="sortby_length_asc">U più cortu in primu</string>
     <string name="sortby_length_desc">U più longu in primu</string>
-    <string name="sortby_date_asc">A data a più anziana in primu</string>
-    <string name="sortby_date_desc">A data a più recente in primu</string>
-    <string name="sortby_last_modified_date_asc">L’aghjuntu u più anzianu in primu</string>
-    <string name="sortby_last_modified_date_desc">L’aghjuntu u più recente in primu</string>
-    <string name="sortby_number_asc">Più video in u gruppu in primu</string>
-    <string name="sortby_number_desc">Menu video in u gruppu in primu</string>
-    <string name="sortby_date_insertion_asc">Data d’aghjuntu a più anziana in primu</string>
-    <string name="sortby_date_insertion_desc">Data d’aghjuntu a più recente in primu</string>
-    <string name="sortby_date_last_modified_asc">Data di mudificazione a più anziana in primu</string>
-    <string name="sortby_date_last_modified_desc">Data di mudificazione a più recente in primu</string>
-    <string name="sortby_date_release_asc">Data d’esciuta a più anziana in primu</string>
-    <string name="sortby_date_release_desc">Data d’esciuta a più recente in primu</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultatu trovu</item>
         <item quantity="other">%d risultati trovi</item>
@@ -150,6 +131,8 @@
     <string name="nosubfolder">Alcunu sottucartularu</string>
     <string name="directorynotfound">U chjassu di u cartulare « %1$s » ùn si trova micca.</string>
     <string name="nohistory">Ùn ci hè manc’una cronolugia di ripruduzzione.</string>
+    <string name="cant_ban_root">Ùn si pò micca pruibì un cartulare principale</string>
+
     <string name="cover_art">Cuprendula</string>
     <string name="shuffle_all_title">Lettura aleatoria di tuttu</string>
     <string name="shuffle_title">Modu di lettura aleatoria</string>
@@ -464,6 +447,7 @@
     <string name="remote_access_info">Infurmazione nant’à l’accessu à distanza</string>
     <string name="remote_access_content">Cuntenutu</string>
     <string name="remote_access_medialibrary_content">Cuntenutu di a mediateca</string>
+    <string name="remote_access_medialibrary_content_summary">Attivatu : %1$s\nDisattivatu : %2$s</string>
     <string name="remote_access_file_browser_content">Navigatore di schedarii</string>
     <string name="remote_access_network_browser_content">Navigatore di reta</string>
     <string name="remote_access_playback_control">Cuntrollà a ripruduzzione</string>
@@ -1114,6 +1098,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - titulu : %2$s - durata : %3$s</string>
     <string name="talkback_genre">Generu : %s</string>
     <string name="talkback_history_item">Elementu di a cronolugia</string>
     <string name="talkback_playlist">Lista di lettura : %s</string>
@@ -1140,6 +1126,7 @@
     <string name="talkback_video_tracks">Traccie video</string>
     <string name="talkback_audio_tracks">Traccie audio</string>
     <string name="talkback_subtitle_tracks">Traccie di sottutitulu</string>
+    <string name="talkback_subtitle_dowload_item">Lingua : %1$s. %2$s. Nome : %3$s</string>
     <string name="selected">Selezziunatu</string>
     <string name="talkback_increase_delay">Aumentà u cumportu</string>
     <string name="talkback_decrease_delay">Diminuisce u cumportu</string>
@@ -1151,6 +1138,8 @@
     <string name="talkback_audio_player_collapsed">Lettore audio riduttu</string>
     <string name="talkback_audio_player_closed">Lettore audio chjosu</string>
     <string name="talkback_audio_player">Lettore audio. In corsu di lettura : %s</string>
+    <string name="talkback_out_of">%1$s nant’à %2$s</string>
+    <string name="talkback_track_index">Traccia %1$s nant’à %2$s</string>
     <string name="downloaded">Scaricatu</string>
     <string name="not_downloaded">Micca scaricatu</string>
     <string name="downloading">Scaricamentu</string>

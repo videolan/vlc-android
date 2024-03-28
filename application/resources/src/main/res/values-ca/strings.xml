@@ -23,28 +23,14 @@
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Historial</string>
 
-    <string name="sortby_name_asc">Nom A → Z</string>
-    <string name="sortby_name_desc">Nom Z → A</string>
-    <string name="sortby_artist_name_asc">Nom de l\'artista A → Z</string>
-    <string name="sortby_artist_name_desc">Nom de l\'artista Z → A</string>
-    <string name="sortby_album_name_asc">Nom de l\'àlbum A → Z</string>
-    <string name="sortby_album_name_desc">Nom de l\'àlbum Z → A</string>
-    <string name="sortby_filename_asc">Nom del fitxer A → Z</string>
-    <string name="sortby_filename_desc">Nom de l\'artista Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">El més curt primer</string>
     <string name="sortby_length_desc">El més llarg primer</string>
-    <string name="sortby_date_asc">La data més antiga primer</string>
-    <string name="sortby_date_desc">La data més moderna primer</string>
-    <string name="sortby_last_modified_date_asc">L\'afegit més antic primer</string>
-    <string name="sortby_last_modified_date_desc">L\'afegit més modern primer</string>
-    <string name="sortby_number_asc">Més vídeos en grup primer</string>
-    <string name="sortby_number_desc">Menys vídeos en grup primer</string>
-    <string name="sortby_date_insertion_asc">La data d\'inserció més antiga primer</string>
-    <string name="sortby_date_insertion_desc">La data d\'inserció més moderna primer</string>
-    <string name="sortby_date_last_modified_asc">La data de modificació més antiga primer</string>
-    <string name="sortby_date_last_modified_desc">La data de modificació més moderna primer</string>
-    <string name="sortby_date_release_asc">La data de llançament més antiga primer</string>
-    <string name="sortby_date_release_desc">La data de llançament més moderna primer</string>
+    <string name="sortby_number_asc">Més vídeos en grup</string>
+    <string name="sortby_number_desc">Menys vídeos en grup</string>
+    <string name="sort_date_asc">El més antic primer</string>
+    <string name="sort_date_desc">El més nou primer</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">s\'ha trobat %d resultat</item>
@@ -150,6 +136,8 @@
     <string name="nosubfolder">No hi ha cap subcarpeta</string>
     <string name="directorynotfound">La ruta \'%1$s\' no s\'ha trobat.</string>
     <string name="nohistory">Encara no teniu historial de reproducció</string>
+    <string name="cant_ban_root">No es pot prohibir una carpeta arrel</string>
+
     <string name="cover_art">Art de la portada</string>
     <string name="shuffle_all_title">Aleatori a tot</string>
     <string name="shuffle_title">Mode aleatori</string>
@@ -323,6 +311,7 @@
     <string name="screen_orientation_landscape_sensor">Horitzontal (sensor)</string>
     <string name="screen_orientation_last_locked">Darrera orientació bloquejada</string>
     <string name="enable_black_theme">Tema negre</string>
+    <string name="dark_theme">Tema fosc</string>
     <string name="theme_auto">Tema automàtic</string>
     <string name="subtitle_text_encoding">Codificació del text del subtítol</string>
     <string name="subtitle_preferred_language">Idioma preferit per als subtítols</string>
@@ -463,6 +452,7 @@
     <string name="remote_access_info">Informació d\'accés remot</string>
     <string name="remote_access_content">Contingut</string>
     <string name="remote_access_medialibrary_content">Contingut de la biblioteca multimèdia</string>
+    <string name="remote_access_medialibrary_content_summary">Habilitat: %1$s\nInhabilitat: %2$s</string>
     <string name="remote_access_file_browser_content">Explorador de fitxers</string>
     <string name="remote_access_network_browser_content">Navegador de xarxa</string>
     <string name="remote_access_playback_control">Controla la reproducció</string>
@@ -1113,6 +1103,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - títol: %2$s - duració: %3$s</string>
     <string name="talkback_genre">Gènere: %s</string>
     <string name="talkback_history_item">Element d\'historial</string>
     <string name="talkback_playlist">Llista de reproducció: %s</string>
@@ -1139,6 +1131,7 @@
     <string name="talkback_video_tracks">Pistes de vídeo</string>
     <string name="talkback_audio_tracks">Pistes d\'àudio</string>
     <string name="talkback_subtitle_tracks">Pistes de subtítols</string>
+    <string name="talkback_subtitle_dowload_item">Idioma: %1$s. %2$s. Nom: %3$s</string>
     <string name="selected">Seleccionat</string>
     <string name="talkback_increase_delay">Augmenta el retard</string>
     <string name="talkback_decrease_delay">Disminueix el retard</string>
@@ -1150,6 +1143,8 @@
     <string name="talkback_audio_player_collapsed">El reproductor d\'àudio s\'ha col·lapsat </string>
     <string name="talkback_audio_player_closed">El reproductor d\'àudio s\'ha tancat</string>
     <string name="talkback_audio_player">Reproductor d\'àudio. Actualment reproduint: %s</string>
+    <string name="talkback_out_of">%1$s de %2$s</string>
+    <string name="talkback_track_index">Pista %1$s de %2$s</string>
     <string name="downloaded">Baixat</string>
     <string name="not_downloaded">No s\'ha baixat</string>
     <string name="downloading">Baixant</string>

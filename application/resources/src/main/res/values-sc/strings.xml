@@ -23,29 +23,8 @@
     <string name="searchable_hint">Chirca…</string>
     <string name="history">Cronologia</string>
 
-    <string name="sortby_name_asc">Nùmene A → Z</string>
-    <string name="sortby_name_desc">Nùmene Z → A</string>
-    <string name="sortby_artist_name_asc">Nùmene artista A → Z</string>
-    <string name="sortby_artist_name_desc">Nùmene artista Z → A</string>
-    <string name="sortby_album_name_asc">Nùmene album A → Z</string>
-    <string name="sortby_album_name_desc">Nùmene album Z → A</string>
-    <string name="sortby_filename_asc">Nùmene documentu A → Z</string>
-    <string name="sortby_filename_desc">Nùmene documentu  Z → A</string>
     <string name="sortby_length_asc">In antis su prus curtzu</string>
     <string name="sortby_length_desc">In antis su prus longu</string>
-    <string name="sortby_date_asc">In antis sa data prus betza</string>
-    <string name="sortby_date_desc">In antis sa data prus noa</string>
-    <string name="sortby_last_modified_date_asc">In antis s\'annanta prus betza</string>
-    <string name="sortby_last_modified_date_desc">In antis s\'annanta prus noa</string>
-    <string name="sortby_number_asc">Prus vìdeos in su primu grupu</string>
-    <string name="sortby_number_desc">Prus pagu vìdeos in su primu grupu</string>
-    <string name="sortby_date_insertion_asc">In antis s\'insertada prus betza</string>
-    <string name="sortby_date_insertion_desc">In antis s\'insertada prus noa</string>
-    <string name="sortby_date_last_modified_asc">In antis sa modìfica prus betza</string>
-    <string name="sortby_date_last_modified_desc">In antis sa modìfica prus noa</string>
-    <string name="sortby_date_release_asc">In antis sa publicatzione prus betza</string>
-    <string name="sortby_date_release_desc">In antis sa publicatzione prus noa</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultadu agatadu</item>
         <item quantity="other">%d risultados agatados</item>

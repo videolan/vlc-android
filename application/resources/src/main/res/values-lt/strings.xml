@@ -15,7 +15,7 @@
     <string name="sortby_date">datą</string>
     <string name="sortby_last_modified_date">pridėjimo laiką</string>
     <string name="sortby_insertion">pridėjimo datą</string>
-    <string name="sortby_date_last_modified">pridėjimą datą</string>
+    <string name="sortby_date_last_modified">pridėjimo laiką</string>
     <string name="sortby_date_insertion">pridėjimo datą</string>
     <string name="sortby_date_release">išleidimo datą</string>
     <string name="sortby_media_number">kūrinio numerį</string>
@@ -23,28 +23,14 @@
     <string name="searchable_hint">Ieškoti…</string>
     <string name="history">Istorija</string>
 
-    <string name="sortby_name_asc">pavadinimą A → Z</string>
-    <string name="sortby_name_desc">pavadinimą Z → A</string>
-    <string name="sortby_artist_name_asc">atlikėją A → Z</string>
-    <string name="sortby_artist_name_desc">atlikėją Z → A</string>
-    <string name="sortby_album_name_asc">albumą A → Z</string>
-    <string name="sortby_album_name_desc">albumą Z → A</string>
-    <string name="sortby_filename_asc">rinkmenos vardą A → Z</string>
-    <string name="sortby_filename_desc">rinkmenos vardą Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">trumpumą</string>
     <string name="sortby_length_desc">ilgumą</string>
-    <string name="sortby_date_asc">senumą</string>
-    <string name="sortby_date_desc">naujumą</string>
-    <string name="sortby_last_modified_date_asc">papildymo senumą</string>
-    <string name="sortby_last_modified_date_desc">papildymo naujumą</string>
     <string name="sortby_number_asc">didesnį vaizdo įrašų grupėje kiekį</string>
     <string name="sortby_number_desc">mažesnį vaizdo įrašų grupėje kiekį</string>
-    <string name="sortby_date_insertion_asc">seniausia pridėjimo datą</string>
-    <string name="sortby_date_insertion_desc">naujausią pridėjimo datą</string>
-    <string name="sortby_date_last_modified_asc">seniausią modifikacijos datą</string>
-    <string name="sortby_date_last_modified_desc">naujausią modifikacijos datą</string>
-    <string name="sortby_date_release_asc">seniausią išleidimo datą</string>
-    <string name="sortby_date_release_desc">naujausią išleidimo datą</string>
+    <string name="sort_date_asc">senumą</string>
+    <string name="sort_date_desc">naujumą</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">Rastas %d kūrinys</item>
@@ -166,7 +152,7 @@
     <string name="empty_search">Nieko nerasta pagal užklausą: %s</string>
     <string name="noplaylist">Grojaraščių nerasta.</string>
     <string name="nosubfolder">Be poaplankių</string>
-    <string name="directorynotfound">„%1$s“ aplanko neradome.</string>
+    <string name="directorynotfound">Katalogo kelias „%1$s“ nerastas.</string>
     <string name="nohistory">Kol kas grojimo žurnalas tuščias.</string>
     <string name="cant_ban_root">Šakninio aplanko uždrausti negalima</string>
 
@@ -334,7 +320,7 @@
     <string name="hardware_acceleration_decoding">Iškodavimo spartinimas</string>
     <string name="hardware_acceleration_full">Visiškas spartinimas</string>
     <string name="dev_hardware_decoder">Papildomas aparatinis iškodavimas</string>
-    <string name="dev_hardware_decoder_summary">Priverstinai naudoti aparatinį iškodavimą (tik patyrusiems naudotojams)</string>
+    <string name="dev_hardware_decoder_summary">Priverstinai naudoti aparatinį iškodavimą (tik pažengusiems naudotojams)</string>
     <string name="automatic">Automatiškai</string>
     <string name="screen_orientation">Vaizdo padėtis</string>
     <string name="screen_orientation_sensor">Automatinė (jutiklis)</string>
@@ -438,7 +424,7 @@
     <string name="lockscreen_cover_title">Kūrinio viršelis užrakinimo ekrane</string>
     <string name="lockscreen_cover_summary">Jei įmanoma, rodyti grojamo kūrinio viršelį užrakinimo ekrane</string>
     <string name="show_seek_in_compact_notif_title">Rodyti peršokimo mygtukus pranešimų skydelyje</string>
-    <string name="show_seek_in_compact_notif_summary">Rodyti peršokimo „atgal“ ir „pirmyn“ mygtukus kompaktiškuose medijos valdikliuose</string>
+    <string name="show_seek_in_compact_notif_summary">Rodyti prasukimo „atgal“ ir „pirmyn“ mygtukus kompaktiškuose medijos valdikliuose</string>
     <string name="list_title_ellipsize">Sąrašo pavadinimas vienos eilutės elipsėje</string>
     <string name="list_title_ellipsize_default">Numatytasis</string>
     <string name="list_title_ellipsize_left">Kairėje</string>
@@ -520,7 +506,7 @@
 
     <string name="performance_prefs_category">Našumas</string>
     <string name="deblocking">Išblokavimo filtro nuostatos</string>
-    <string name="deblocking_summary">Pakeitus blokavimo filtro nuostatas, vaizdo įrašų kokybė gali pagerėti (tik pažengusiems vartotojams)</string>
+    <string name="deblocking_summary">Pakeitus blokavimo filtro nuostatas, vaizdo įrašų kokybė gali pagerėti (tik pažengusiems naudotojams)</string>
     <string name="deblocking_always">Visiškas išblokavimas (lėčiausias)</string>
     <string name="deblocking_nonref">Vidutinis išblokavimas</string>
     <string name="deblocking_nonkey">Menkas išblokavimas</string>
@@ -573,6 +559,7 @@
     <string name="dump_logcat">Įrašyti pranešimų žurnalą</string>
     <string name="dump_logcat_success">Pranešimų žurnalas „logcat“ sėkmingai įrašytas į %1$s!</string>
     <string name="dump_logcat_failure">Nepavyko įrašyti „logcat“ pranešimų žurnalo.</string>
+    <string name="http_user_agent">HTTP naudotojo agentas</string>
     <string name="custom_libvlc_options">Savitos libVLC parinktys</string>
     <string name="custom_libvlc_options_invalid">Netinkamos libVLC parinktys!</string>
 
@@ -1169,7 +1156,7 @@
     <string name="talkback_enter_screen">Eiti į: %s</string>
     <string name="talkback_file_size">Rinkmenos dydis: %s</string>
     <string name="talkback_open_in_browser">Atidaryti žiniatinklio naršyklėje</string>
-    <string name="talkback_video_player">Vaizdo leistuvė. Bakstelėkite, kad būtų parodyti valdikliai. Bakstelėkite mygtuką „Atgal“, kad juos paslėptumėte</string>
+    <string name="talkback_video_player">Vaizdo leistuvė. Bakstelėkite, kad būtų parodyti valdikliai. Bakstelėkite mygtuką „atgal“, kad juos paslėptumėte</string>
     <string name="talkback_video_tracks">Vaizdo takeliai</string>
     <string name="talkback_audio_tracks">Garso takeliai</string>
     <string name="talkback_subtitle_tracks">Subtitrų takeliai</string>
@@ -1233,7 +1220,7 @@
 
     <string name="ra_onboarding_welcome_desc">Sveiki atvykę į VLC, skirtos Android sistemai, nuotolinės prieigos nuostatas. Jas įgalinę galėsite valdyti šio įrenginio atkūrimą ir dar daugiau</string>
     <string name="ra_onboarding_how_title">Įrenginio valdymas</string>
-    <string name="ra_onboarding_how_desc">Valdykite savo įrenginio atkūrimą, siųskite arba gaukite failus ir dar daugiau</string>
+    <string name="ra_onboarding_how_desc">Valdykite savo įrenginio atkūrimą, siųskite arba gaukite rinkmenas ir dar daugiau</string>
     <string name="ra_onboarding_ssl_title">Šifruoti duomenys</string>
     <string name="ra_onboarding_ssl_desc">Nuotolinė prieiga yra užšifruota, tad Jūsų duomenys yra saugūs nuo „nutekėjimo“</string>
     <string name="ra_onboarding_otp_title">Tapatybės patvirtinimas</string>

@@ -23,28 +23,14 @@
     <string name="searchable_hint">Suchen…</string>
     <string name="history">Verlauf</string>
 
-    <string name="sortby_name_asc">Name A → Z</string>
-    <string name="sortby_name_desc">Name Z → A</string>
-    <string name="sortby_artist_name_asc">Künstlername A → Z</string>
-    <string name="sortby_artist_name_desc">Künstlername Z → A</string>
-    <string name="sortby_album_name_asc">Albumname A → Z</string>
-    <string name="sortby_album_name_desc">Albumname Z → A</string>
-    <string name="sortby_filename_asc">Dateiname A → Z</string>
-    <string name="sortby_filename_desc">Dateiname Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Kürzeste zuerst</string>
     <string name="sortby_length_desc">Längste zuerst</string>
-    <string name="sortby_date_asc">Ältestes Datum zuerst</string>
-    <string name="sortby_date_desc">Neuestes Datum zuerst</string>
-    <string name="sortby_last_modified_date_asc">Älteste hinzugefügte zuerst</string>
-    <string name="sortby_last_modified_date_desc">Jüngste hinzugefügte zuerst</string>
-    <string name="sortby_number_asc">Mehr Videos zuerst in der Gruppe</string>
-    <string name="sortby_number_desc">Weniger Videos zuerst in der Gruppe</string>
-    <string name="sortby_date_insertion_asc">Ältestes Einfügedatum zuerst</string>
-    <string name="sortby_date_insertion_desc">Neuestes Einfügungsdatum zuerst</string>
-    <string name="sortby_date_last_modified_asc">Ältestes Änderungsdatum zuerst</string>
-    <string name="sortby_date_last_modified_desc">Neuestes Änderungsdatum zuerst</string>
-    <string name="sortby_date_release_asc">Ältestes Erscheinungsdatum zuerst</string>
-    <string name="sortby_date_release_desc">Neuestes Erscheinungsdatum zuerst</string>
+    <string name="sortby_number_asc">Mehr Videos in der Gruppe</string>
+    <string name="sortby_number_desc">Weniger Videos in der Gruppe</string>
+    <string name="sort_date_asc">Älteste zuerst</string>
+    <string name="sort_date_desc">Neueste zuerst</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d Ergebnis gefunden</item>

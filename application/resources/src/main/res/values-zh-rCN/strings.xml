@@ -14,26 +14,24 @@
     <string name="sortby_length">长度</string>
     <string name="sortby_date">日期</string>
     <string name="sortby_last_modified_date">最近添加</string>
-    <string name="sortby_insertion">插入日期</string>
-    <string name="sortby_media_number">媒体数</string>
+    <string name="sortby_insertion">插入时间</string>
+    <string name="sortby_date_last_modified">修改时间</string>
+    <string name="sortby_date_insertion">插入时间</string>
+    <string name="sortby_date_release">发行时间</string>
+    <string name="sortby_media_number">媒体数目</string>
     <string name="sortby_number">轨道编号</string>
     <string name="searchable_hint">搜索…</string>
     <string name="history">历史</string>
 
-    <string name="sortby_name_asc">名称 A → Z 升序</string>
-    <string name="sortby_name_desc">名称 Z → A 降序</string>
-    <string name="sortby_artist_name_asc">艺人名称 A → Z 升序</string>
-    <string name="sortby_artist_name_desc">艺人名称 Z → A 降序</string>
-    <string name="sortby_album_name_asc">专辑名称 A → Z 升序</string>
-    <string name="sortby_album_name_desc">专辑名称 Z → A 降序</string>
-    <string name="sortby_filename_asc">文件名 A → Z 升序</string>
-    <string name="sortby_filename_desc">文件名 Z → A 降序</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">时长 短 → 长</string>
     <string name="sortby_length_desc">时长 长 → 短</string>
-    <string name="sortby_date_asc">日期 旧 → 新</string>
-    <string name="sortby_date_desc">日期 新 → 旧</string>
-    <string name="sortby_last_modified_date_asc">修改时间 旧 → 新</string>
-    <string name="sortby_last_modified_date_desc">修改时间 新 → 旧</string>
+    <string name="sortby_number_asc">视频较多的群组优先</string>
+    <string name="sortby_number_desc">视频较少的群组优先</string>
+    <string name="sort_date_asc">最旧的优先</string>
+    <string name="sort_date_desc">最新的优先</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">已找到 %d 条结果</item>
     </plurals>
@@ -51,12 +49,13 @@
     <string name="video_app_switch_summary">视频回放过程中切换到其他应用程序时 VLC 的行为</string>
     <string name="play_pip_title">以画中画模式播放视频</string>
     <string name="play_as_audio_background">在后台播放视频</string>
+    <string name="append">添加到播放队列</string>
     <string name="insert_next">插入为下一项</string>
     <string name="play_all">播放全部</string>
     <string name="append_all">追加全部</string>
     <string name="resume_playback_short_title">继续播放</string>
     <string name="resume_playback_long_title">继续播放上次播放的媒体</string>
-    <string name="resume_playback_error">没有可继续的</string>
+    <string name="resume_playback_error">没有可继续播放的内容</string>
     <string name="delete">删除</string>
     <string name="remove">移除</string>
     <string name="set_song">设为铃声</string>
@@ -106,7 +105,7 @@
         <item quantity="other">%d 部电视节目</item>
     </plurals>
     <plurals name="track_quantity">
-        <item quantity="other">%d 首歌曲</item>
+        <item quantity="other">%d 条轨道</item>
     </plurals>
 
     <string name="internal_memory">内部存储</string>
@@ -122,11 +121,14 @@
     <string name="loading">正在加载</string>
     <string name="please_wait">请稍候…</string>
     <string name="nomedia">未找到媒体文件，请传输一些文件到您的设备，或调整您的偏好设置。</string>
+    <string name="nofav">没有收藏内容。</string>
     <string name="empty_search">｢%s｣ 查无结果</string>
     <string name="noplaylist">未找到播放列表。</string>
     <string name="nosubfolder">没有子文件夹</string>
     <string name="directorynotfound">目录路径「%1$s」不存在。</string>
     <string name="nohistory">尚无播放历史记录。</string>
+    <string name="cant_ban_root">根文件夹不可屏蔽</string>
+
     <string name="cover_art">专辑封面</string>
     <string name="shuffle_all_title">全部随机</string>
     <string name="shuffle_title">随机模式</string>
@@ -134,6 +136,7 @@
     <string name="shuffle_on">随机开启</string>
     <string name="shuffle_play">随机</string>
     <string name="repeat_title">循环模式</string>
+    <string name="repeat_none">不循环</string>
     <string name="repeat_single">单曲循环</string>
     <string name="repeat_all">全部循环</string>
     <string name="previous">上一项</string>
@@ -271,10 +274,16 @@
 
     <!-- Preferences -->
     <string name="preferences">设置</string>
+    <string name="more_preferences">更多设置</string>
+    <string name="prefs_opened_on_phone">已在手机上打开 ｢设置｣</string>
+    <string name="open_on_phone">在手机屏幕上打开</string>
+
     <string name="directories_summary">选择要收录于媒体库的目录</string>
     <string name="add_custom_path">添加自定义路径</string>
     <string name="add_custom_path_description">输入要扫描的其他自定义目录:</string>
     <string name="remove_custom_path">移除自定义路径</string>
+    <string name="group_ban_folder">从媒体库屏蔽该文件夹</string>
+
     <string name="hardware_acceleration">硬件加速</string>
     <string name="hardware_acceleration_summary">禁用: 稳定性更高\n解码: 可能提升性能\n完全: 可能进一步提升性能</string>
     <string name="hardware_acceleration_disabled">禁用</string>
@@ -286,10 +295,13 @@
     <string name="screen_orientation">视频屏幕方向</string>
     <string name="screen_orientation_sensor">自动 (传感器感应)</string>
     <string name="screen_orientation_portrait">纵向</string>
+    <string name="screen_orientation_portrait_reverse">纵向旋转 180°</string>
     <string name="screen_orientation_landscape">横向</string>
     <string name="screen_orientation_landscape_reverse">横向旋转 180°</string>
+    <string name="screen_orientation_landscape_sensor">横向 (跟随传感器)</string>
     <string name="screen_orientation_last_locked">上次锁定的方向</string>
     <string name="enable_black_theme">黑色主题</string>
+    <string name="dark_theme">深色主题</string>
     <string name="theme_auto">自动主题</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="subtitle_preferred_language">偏好的字幕语言</string>
@@ -338,6 +350,7 @@
     <string name="enable_double_tap_play_title">轻按两下可播放／暂停</string>
     <string name="enable_double_tap_play_summary">在屏幕中央轻按两下可播放／暂停</string>
     <string name="enable_swipe_seek_title">滑动可进退</string>
+    <string name="enable_swipe_seek_summary">左右滑动手指可控制进度条</string>
     <string name="enable_scale_gesture_title">双指缩放</string>
     <string name="enable_scale_gesture_summary">用两根手指进行放大/缩小操作</string>
     <string name="popup_keepscreen_title">浮层模式保持屏幕常亮</string>
@@ -413,6 +426,27 @@
     <string name="audio_ducking_title">收到通知时降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助于听清通知声音、导航语音或辅助功能讲解</string>
     <string name="casting_category">投屏</string>
+    <string name="remote_access">远程访问</string>
+    <string name="remote_access_status">服务器状态</string>
+    <string name="remote_access_status_summary">轻按可查看服务器状态</string>
+    <string name="remote_access_connections">连接</string>
+    <string name="remote_access_links">链接</string>
+    <string name="remote_access_active">远程访问处于活动状态</string>
+    <string name="remote_access_notification">%s 正在远程访问</string>
+    <string name="remote_access_notification_stopped">远程访问已停止</string>
+    <string name="remote_access_notification_connecting">远程访问正在连接</string>
+    <string name="remote_access_notification_error">远程访问出错</string>
+    <string name="remote_access_notification_stopping">远程访问正在停止</string>
+    <string name="remote_access_notification_not_init">远程访问正在初始化</string>
+    <string name="enable_remote_access">启用远程访问</string>
+    <string name="remote_access_info">远程访问信息</string>
+    <string name="remote_access_content">内容</string>
+    <string name="remote_access_medialibrary_content">媒体库内容</string>
+    <string name="remote_access_medialibrary_content_summary">已启用: %1$s\n已禁用: %2$s</string>
+    <string name="remote_access_file_browser_content">文件浏览器</string>
+    <string name="remote_access_network_browser_content">网络浏览器</string>
+    <string name="remote_access_playback_control">播放控制</string>
+    <string name="remote_access_logs">分享日志文件</string>
     <string name="casting_switch_title">无线投屏</string>
     <string name="casting_passthrough_title">音频直通</string>
     <string name="casting_passthrough_summary">让 TV 全权负责音频渲染</string>
@@ -428,6 +462,9 @@
     <string name="show_headers_summary">根据排序类型按标题拆分列表 </string>
     <string name="tv_folders_first">优先显示文件夹</string>
     <string name="tv_folders_first_summary">在文件浏览器中，将文件夹显示在前面，文件显示在后面</string>
+    <string name="tv_show_hidden_files">显示隐藏文件</string>
+    <string name="tv_show_hidden_files_summary">在文件浏览器中显示隐藏文件</string>
+
     <string name="extensions_prefs_category">扩展</string>
     <string name="extensions_empty">未侦测到扩展</string>
     <string name="extension_permission_title">激活新的扩展程序「%1$s」?</string>
@@ -534,6 +571,12 @@
     <string name="medialibrary">媒体库</string>
     <string name="medialibrary_directories">媒体库文件夹</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">VLC for Android %s 版本的新功能</string>
+    <string name="whats_new_36_webserver_text">通过 ｢远程访问｣ 功能，可在其他设备上远程控制 VLC for Android 的播放、\n双向传输媒体文件，还有其他强劲功能等您发掘!</string>
+    <string name="whats_new_36_favorites_text">现在媒体内容、播放列表、艺术家和专辑都可以加入收藏。\n只需翻阅收藏夹，就能迅速找到想要播放的内容!</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">更多操作</string>
     <string name="back_quit_lock">再次按「返回」可退出视频</string>
@@ -558,6 +601,7 @@
     <string name="partial_content">VLC 无法访问您的所有文件</string>
     <string name="partial_content_description">对于 Android 11 及更高版本，应用需要经过您的特别授权，才能访问设备上的所有文件。\n\n%s</string>
     <string name="never_ask_again">不再询问</string>
+    <string name="never_show_again">以后永远不要展示新版本介绍</string>
     <string name="allow_settings_access_ringtone_title">允许 VLC 设置铃声</string>
     <string name="allow_settings_access_ringtone_description">VLC 需要您的授权方可将该歌曲设为您的铃声。</string>
     <string name="allow_settings_access_brightness_title">允许 VLC 更改亮度模式</string>
@@ -675,6 +719,10 @@
     <string name="ab_repeat_stop">停止 A-B 循环</string>
     <string name="stop_after_this">当前曲目后停止播放</string>
     <string name="time_category_new">新媒体</string>
+    <string name="time_category_today">今天</string>
+    <string name="time_category_yesterday">昨天</string>
+    <string name="time_category_current_week">本周</string>
+    <string name="time_category_last_week">上周</string>
     <string name="time_category_current_month">本月</string>
     <string name="time_category_current_year">今年</string>
     <string name="time_category_last_year">去年</string>
@@ -722,10 +770,14 @@
     <string name="light_theme">亮色主题</string>
     <string name="add">添加</string>
     <string name="add_to_new_playlist">新建播放列表并添加</string>
+    <string name="create_new_playlist">新建播放列表</string>
+    <string name="create">新建</string>
     <string name="resume_card_message">是否继续播放 %1$s?</string>
     <string name="misc">杂项</string>
     <string name="popup_force_legacy_title">使用自定义画中画弹窗</string>
     <string name="popup_force_legacy_summary">使用大小可调整的自定义画中画弹出窗口</string>
+    <string name="restore_background_video_title">恢复后台播放的视频</string>
+    <string name="restore_background_video_summary">重新打开 VLC 时恢复后台播放的视频</string>
     <string name="device_default">设备默认</string>
     <string name="track_number">%d 条轨道</string>
     <string name="jump_to">跳转到</string>
@@ -746,6 +798,7 @@
     <string name="validation_delete_playlist">是否确定要删除该播放列表?</string>
     <string name="validation_delete_playlist_text">此操作不可撤消。</string>
     <string name="display_settings">显示设置</string>
+    <string name="incognito_mode">隐身模式</string>
     <string name="display_in_list">以列表形式显示</string>
     <string name="display_in_grid">以网格形式显示</string>
     <string name="dump_db_succes">数据库已转储到内部存储的根目录中</string>
@@ -863,7 +916,7 @@
     <string name="subscription_cancel_tv">如何退订</string>
     <string name="donate_unsubscribe_tv">要取消订阅，请在手机或计算机上打开 %s 或扫描以下二维码:</string>
     <string name="tip_jar">帮助 VLC</string>
-    <string name="thank_you">谢谢</string>
+    <string name="thank_you">感谢</string>
     <string name="thank_you_desc">感谢您的赞助！\n这将帮助我们大大改善VLC！</string>
     <string name="donate_again">再次赞助该应用</string>
 
@@ -901,6 +954,28 @@
     <string name="missing_media_snack">媒体文件缺失。隐藏所有的媒体文件？</string>
     <string name="browser_show_missing_media">显示缺失的媒体</string>
     <string name="browser_show_missing_media_summary">显示远程媒体，即使它们不在线</string>
+    <string name="parental_control">家长控制</string>
+    <string name="safe_mode">安全模式</string>
+    <string name="safe_mode_summary">启用时，必须输入密码才能删除文件或修改播放列表</string>
+    <string name="safe_mode_pin">请输入密码</string>
+    <string name="pin_unlock_success">已成功解锁。要重新启用安全模式，请轻按此图标:</string>
+    <string name="safe_mode_new_pin">请输入新密码</string>
+    <string name="safe_mode_re_pin">请重新输入密码</string>
+    <string name="safe_mode_no_match">两次输入的密码不匹配</string>
+    <string name="safe_mode_invalid_pin">密码错误</string>
+    <string name="safe_mode_pin_error">密码只应该包含数字</string>
+    <string name="pin_code_reason_create">首先，我们需要设置安全密码</string>
+    <string name="pin_code_reason_modify">更改密码</string>
+    <string name="pin_code_modified">密码已成功修改</string>
+    <string name="pin_code_reason_check">权限受限。请输入安全密码</string>
+    <string name="pin_code_access_granted">权限已获准。您可以在主屏幕重新锁定</string>
+    <string name="safe_mode_enabled">安全模式已启用</string>
+    <string name="restricted_access">权限受限</string>
+    <string name="unlock">解锁</string>
+    <string name="lock_with_pin">重新开启密码锁定</string>
+    <string name="unlock_with_pin">解锁安全模式</string>
+    <string name="lock_with_pin_short">密码锁定</string>
+    <string name="restrict_settings">限制 ｢设置｣ 访问</string>
     <string name="search_prefs">搜索设置</string>
     <string name="video_match_frame_rate_title">匹配显示器帧率</string>
     <string name="video_match_frame_rate_summary">使显示刷新率与媒体帧率相匹配。例如，24p (每秒24帧、逐行扫描) 的影片会以 24p 刷新率播放</string>
@@ -912,6 +987,7 @@
     <string name="delete_forever">永久删除</string>
     <string name="add_to_existing_playlist">添加到现有播放列表</string>
     <string name="bookmarks_title">书签</string>
+    <string name="no_bookmark">暂无书签</string>
     <string name="bookmark_default_name">位于 %s 的书签</string>
     <string name="bookmark_name">添加 %s 为书签</string>
     <string name="add_bookmark">添加书签</string>
@@ -946,6 +1022,7 @@
     <string name="permission">权限</string>
     <string name="customize">自定义</string>
     <string name="selection_count">选中了 %d 个</string>
+    <string name="control_setting">控制设置</string>
     <string name="controls_setting">控制及按钮设置</string> <!-- Unused -->
     <string name="gestures">手势</string>
     <string name="player_controls">播放器控制按钮</string>
@@ -954,6 +1031,12 @@
     <string name="banned">已屏蔽文件夹 (长按可更改)</string>
     <string name="banned_tv">已屏蔽文件夹</string>
     <string name="banned_parent">被上级文件夹屏蔽</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">选中的内容在 ｢%s｣ 播放列表中已存在。</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">选中内容中的 %d 项在 ｢%s｣ 播放列表中已存在。</item>
+    </plurals>
     <string name="official_website">官方网站</string>
     <string name="view_online">在线查看</string>
     <string name="player_under_notch">在刘海下方显示视频</string>
@@ -975,6 +1058,12 @@
     <string name="material_you">Material You (从桌面背景拉取颜色)</string>
     <string name="palette">Palette (从媒体封面拉取颜色)</string>
     <string name="custom">自定义</string>
+    <string name="widget_type">小工具类型</string>
+    <string name="widget_type_pill">药丸</string>
+    <string name="widget_type_normal">常规</string>
+    <string name="widget_type_circle">圆圈</string>
+    <string name="widget_type_large">大号</string>
+    <string name="widget_type_error">此类型对于当前小工具尺寸来说过大。可能会导致显示问题</string>
     <string name="opacity">不透明度</string>
     <string name="widget_background">背景</string>
     <string name="widget_foreground">前景</string>
@@ -1001,6 +1090,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - 标题: %2$s - 时长: %3$s</string>
     <string name="talkback_genre">流派: %s</string>
     <string name="talkback_history_item">历史项目</string>
     <string name="talkback_playlist">播放列表: %s</string>
@@ -1027,6 +1118,7 @@
     <string name="talkback_video_tracks">视频轨</string>
     <string name="talkback_audio_tracks">音频轨</string>
     <string name="talkback_subtitle_tracks">字幕轨</string>
+    <string name="talkback_subtitle_dowload_item">语言: %1$s。%2$s。名称: %3$s</string>
     <string name="selected">已选中</string>
     <string name="talkback_increase_delay">增加延迟</string>
     <string name="talkback_decrease_delay">减小延迟</string>
@@ -1038,6 +1130,8 @@
     <string name="talkback_audio_player_collapsed">音频播放器已折叠</string>
     <string name="talkback_audio_player_closed">音频播放器已关闭</string>
     <string name="talkback_audio_player">音频播放器。正在播放: %s</string>
+    <string name="talkback_out_of">当前: %1$s , 总: %2$s </string>
+    <string name="talkback_track_index">第 %1$s 轨, 共 %2$s 轨</string>
     <string name="downloaded">已下载</string>
     <string name="not_downloaded">未下载</string>
     <string name="downloading">正在下载</string>
@@ -1048,4 +1142,65 @@
     <string name="show_only_favs">只显示收藏</string>
     <string name="ignore_headset_media_button_presses">忽略耳机媒体按钮的动作</string>
     <string name="ignore_headset_media_button_presses_summary">例如正在使用的耳机物理按键损坏，这种情况下会用到该选项</string>
-    </resources>
+    <string name="replace_playlist">替换播放列表</string>
+
+    <!-- Remote access -->
+    <string name="ra_server_running">远程访问处于活动状态</string>
+    <string name="ra_remote_access">远程访问</string>
+    <string name="ra_remote_access_description">远程访问状态提醒</string>
+    <string name="ra_log_file">日志文件</string>
+    <string name="ra_log_type">日志类型</string>
+    <string name="ra_send_files">发送文件</string>
+    <string name="ra_not_in_foreground">应用程序不在前台。无法启动视频播放。</string>
+    <string name="ra_disconnected">已从设备断开连接</string>
+    <string name="ra_file">文件</string>
+    <string name="ra_upload_remaining">正在上传 %s 个文件</string>
+    <string name="ra_upload_all">全部上传</string>
+    <string name="ra_drop_files_tip">将文件拖到任意位置，即可发送到设备</string>
+    <string name="ra_prepare_download">正在准备要下载的内容</string>
+    <string name="ra_forbidden">内容访问已在 ｢设置｣ 中禁用</string>
+    <string name="ra_playback_forbidden">播放控制已在 ｢设置｣ 中禁用</string>
+    <string name="ra_code_requested_explanation">为保护服务器的安全，我们采取了验证措施。\n请输入通知消息中显示的验证码</string>
+    <string name="ra_ssl_explanation_title">未加密的连接</string>
+    <string name="ra_ssl_explanation">您的连接未加密。</string>
+    <string name="ra_ssl_explanation_browser">由于实施浏览器安全措施的技术限制，您将会在下一页看到安全警告消息。</string>
+    <string name="ra_ssl_explanation_accept">您需要接受服务器证书，才能使用该设备的远程访问功能</string>
+    <string name="ra_ssl_button">使用加密连接</string>
+    <string name="ra_new_code">发送一条新的验证码</string>
+    <string name="home">主页</string>
+    <string name="ra_code">请输入此验证码: %s</string>
+    <string name="ra_send_logs">将远程访问日志保存到设备</string>
+    <string name="ra_otp">远程访问一次性密码</string>
+    <string name="ra_otp_description">接受远程访问请求</string>
+    <string name="ra_otp_title">远程访问登录尝试</string>
+    <string name="ra_otp_subtitle">如果确定是您本人，请在另一台设备上输入此验证码</string>
+    <string name="ra_otp_not_me">不是我本人</string>
+
+    <string name="ra_onboarding_welcome_desc">欢迎使用 ｢VLC for Android｣ 的远程访问功能！\n启用此功能，即可从其他设备控制此设备的播放，还能做到很多其他事情</string>
+    <string name="ra_onboarding_how_title">控制您的设备</string>
+    <string name="ra_onboarding_how_desc">控制您设备的播放，发送或下载文件……</string>
+    <string name="ra_onboarding_ssl_title">数据加密</string>
+    <string name="ra_onboarding_ssl_desc">远程访问功能支持加密连接，可避免您的数据遭泄露</string>
+    <string name="ra_onboarding_otp_title">身份认证</string>
+    <string name="ra_onboarding_otp_desc">使用一次性密码进行身份认证，避免陌生人访问您的数据</string>
+    <string name="ra_onboarding_content_title">内容权限控制</string>
+    <string name="ra_onboarding_content_desc">选择允许访问哪些内容、不允许访问哪些内容</string>
+    <string name="ra_onboarding_content_ml">媒体库内容权限</string>
+    <string name="ra_onboarding_content_files">文件浏览器</string>
+    <string name="ra_onboarding_content_playback">播放控制</string>
+    <string name="ra_disable">禁用</string>
+    <string name="ra_log_web">远程访问日志</string>
+    <string name="ra_log_crash">崩溃日志</string>
+    <string name="ra_log_mobile">设备日志</string>
+    <string name="ra_log_current">当前本地日志</string>
+    <string name="ra_invalid_login">您需要在设备端登录</string>
+    <string name="ra_invalid_otp">密码无效</string>
+    <string name="learn_more">了解更多</string>
+
+    <!-- car screens -->
+    <string name="help">帮助</string>
+    <string name="podcast_mode">播客模式</string>
+    <string name="podcast_mode_help">在播放单条音轨且符合下列条件之一时，会出现 ｢播客｣ 模式控制按钮:\n\t• 时长超过 60 分钟\n\t• 时长超过 15 分钟，且没有专辑名称\n\t• 流派类型为 %s</string>
+    <string name="voice_control">语音控制</string>
+    <string name="voice_control_help">VLC 支持通过 Google Assistant 控制，命令词如下:\n\t• Play (播放), Pause (暂停), Stop (停止), Previous (上一曲), Next (下一曲)\n\t• Rewind (快退), Fast Forward (快进), Repeat &lt;all|one|off&gt;(全部循环/单曲循环/不循环)\n\t• Jump to &lt;time&gt; (跳到某时刻), Skip &lt;duration&gt; (前进某时长)\n\t• What\'s this &lt;artist|album|song&gt; (正在播放的艺人/专辑/曲名是什么?)\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt; (播放指定艺人/专辑/曲目/流派/播放列表)</string>
+</resources>
