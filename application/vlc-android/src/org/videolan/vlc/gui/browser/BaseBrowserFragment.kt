@@ -300,6 +300,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
                 viewModel.desc = sort.second
                 viewModel.sort = sort.first
+                viewModel.provider.desc = sort.second
+                viewModel.provider.sort = sort.first
                 refresh()
                 viewModel.saveSort()
             }
