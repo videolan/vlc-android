@@ -1,35 +1,10 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_play_from_start.xml
-  ~ **************************************************************************
-  ~ Copyright © 2024 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
   <path
-      android:pathData="m12,12c-1.105,0 -2,0.895 -2,2v20c0,1.105 0.895,2 2,2 1.105,0 2,-0.895 2,-2L14,14c0,-1.105 -0.895,-2 -2,-2zM20.053,12c-0.351,-0.009 -0.703,0.074 -1.021,0.25C18.395,12.602 18,13.273 18,14v19.998c0.001,1.571 1.729,2.528 3.061,1.695l16,-10c1.253,-0.781 1.253,-2.605 0,-3.391l-16,-9.998C20.752,12.112 20.404,12.009 20.053,12ZM22,17.607 L32.227,23.998 22,30.391Z"
+      android:pathData="m10,11c-1.105,0 -2,0.895 -2,2v22c0,1.105 0.895,2 2,2 1.105,0 2,-0.895 2,-2L12,13c0,-1.105 -0.895,-2 -2,-2zM18.002,11c-0.345,-0 -0.69,0.089 -1,0.268C16.383,11.624 16,12.285 16,13v22c0.001,1.54 1.691,2.498 3.002,1.729l19,-11c1.331,-0.774 1.331,-2.694 0,-3.461l-19,-10.998c-0.309,-0.179 -0.655,-0.269 -1,-0.27zM20,16.469 L33.01,23.998 20,31.529Z"
       android:fillColor="@color/white"
-      android:fillType="evenOdd"
-      android:strokeLineCap="round"/>
+      android:fillType="evenOdd"/>
 </vector>

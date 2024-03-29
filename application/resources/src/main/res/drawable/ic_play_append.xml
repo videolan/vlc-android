@@ -1,36 +1,10 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_play_append.xml
-  ~ **************************************************************************
-  ~ Copyright © 2024 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
   <path
-      android:pathData="M8.053,6C7.702,5.991 7.349,6.074 7.031,6.25C6.395,6.602 6,7.273 6,8L6,27.998C6.001,29.569 7.729,30.526 9.061,29.693L25.061,19.693C26.312,18.91 26.312,17.086 25.061,16.303L9.061,6.305C8.752,6.112 8.404,6.009 8.053,6zM10,11.607L20.227,17.998L10,24.391L10,11.607zM32,22C30.892,22 30,22.892 30,24L30,30L24,30C22.892,30 22,30.892 22,32C22,33.108 22.892,34 24,34L30,34L30,40C30,41.108 30.892,42 32,42C33.108,42 34,41.108 34,40L34,34L40,34C41.108,34 42,33.108 42,32C42,30.892 41.108,30 40,30L34,30L34,24C34,22.892 33.108,22 32,22z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="0.999995"
+      android:pathData="M6.002,8C5.657,8 5.312,8.089 5.002,8.268C4.383,8.624 4,9.285 4,10L4,32C4.001,33.54 5.669,34.5 7.002,33.729L26.002,22.729C27.331,21.958 27.331,20.038 26.002,19.268L7.002,8.27C6.693,8.091 6.347,8 6.002,8zM8,13.469L21.01,20.998L8,28.529L8,13.469zM34,20C32.892,20 32,20.892 32,22L32,28L26,28C24.892,28 24,28.892 24,30C24,31.108 24.892,32 26,32L32,32L32,38C32,39.108 32.892,40 34,40C35.108,40 36,39.108 36,38L36,32L42,32C43.108,32 44,31.108 44,30C44,28.892 43.108,28 42,28L36,28L36,22C36,20.892 35.108,20 34,20z"
       android:fillColor="@color/white"
-      android:fillType="evenOdd"/>
+      android:fillType="nonZero"/>
 </vector>

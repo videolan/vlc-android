@@ -1,36 +1,10 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_play_as_audio.xml
-  ~ **************************************************************************
-  ~ Copyright © 2024 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
-  <path
-      android:pathData="M8.053,6C7.675,5.996 7.349,6.074 7.031,6.25 6.395,6.602 6,7.273 6,8v19.998c0.001,1.571 1.729,2.528 3.061,1.695l16,-10c1.252,-0.784 1.252,-2.607 0,-3.391L9.061,6.305C8.752,6.112 8.404,6.004 8.053,6ZM10,11.607 L20.227,17.998 10,24.391ZM36,14c-1.65,0 -3,1.35 -3,3v3,10.344C32.358,30.116 31.681,30 31,30c-3.314,0 -6,2.686 -6,6 0,3.314 2.686,6 6,6 3.314,0 6,-2.686 6,-6V20h2c1.65,0 3,-1.35 3,-3v-3z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="0.999995"
-      android:fillColor="@color/white"
-      android:fillType="evenOdd"/>
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="M6.002,8C5.657,8 5.312,8.089 5.002,8.268C4.383,8.624 4,9.285 4,10L4,32C4.001,33.54 5.669,34.5 7.002,33.729L26.002,22.729C27.331,21.958 27.331,20.038 26.002,19.268L7.002,8.27C6.693,8.091 6.347,8 6.002,8zM38,12C36.35,12 35,13.35 35,15L35,18L35,28.344A6,6 0,0 0,33 28A6,6 0,0 0,27 34A6,6 0,0 0,33 40A6,6 0,0 0,39 34L39,18L41,18C42.65,18 44,16.65 44,15L44,12L38,12zM8,13.469L21.01,20.998L8,28.529L8,13.469z"
+            android:fillColor="@color/white"
+            android:fillType="evenOdd"/>
 </vector>
