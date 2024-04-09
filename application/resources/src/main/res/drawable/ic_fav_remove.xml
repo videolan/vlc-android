@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_download_subtitles.xml
+  ~  ic_fav_remove.xml
   ~ **************************************************************************
-  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,15 +23,13 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="40dp"
-    android:height="40dp"
-    android:viewportWidth="40"
-    android:viewportHeight="40">
-  <path
-      android:pathData="m11,10c-1.662,0 -3,1.338 -3,3v14c0,1.662 1.338,3 3,3h18c1.662,0 3,-1.338 3,-3L32,13c0,-1.662 -1.338,-3 -3,-3h-7.5v4h2c0.4453,0.0002 0.6683,0.5385 0.3535,0.8535l-3.5,3.5c-0.1953,0.1952 -0.5118,0.1952 -0.707,0l-3.5,-3.5C15.8317,14.5385 16.0547,14.0002 16.5,14h2v-4zM12,21h2c0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1h-2c-0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1zM18,21h10c0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1L18,23c-0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1zM12,25h10c0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1L12,27c-0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1zM26,25h2c0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1h-2c-0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="2"
-      android:fillColor="#000000"
-      android:strokeColor="#00000000"
-      android:strokeLineCap="round"/>
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+
+    <path
+            android:fillColor="@color/white"
+            android:pathData="M13.35,20.13c-0.76,0.69 -1.93,0.69 -2.69,-0.01l-0.11,-0.1C5.3,15.27 1.87,12.16 2,8.28c0.06,-1.7 0.93,-3.33 2.34,-4.29 2.64,-1.8 5.9,-0.96 7.66,1.1 1.76,-2.06 5.02,-2.91 7.66,-1.1 1.41,0.96 2.28,2.59 2.34,4.29 0.14,3.88 -3.3,6.99 -8.55,11.76l-0.1,0.09z" />
+
 </vector>

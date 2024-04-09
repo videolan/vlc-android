@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_play_all.xml
+  ~  ic_fav_add.xml
   ~ **************************************************************************
-  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,16 +23,13 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="40dp"
-    android:height="40dp"
-    android:viewportWidth="40"
-    android:viewportHeight="40">
-  <path
-      android:pathData="m9.5,7.9995c-0.831,0 -1.5,0.669 -1.5,1.5v13c0,0.831 0.669,1.5 1.5,1.5 0.831,0 1.5,-0.669 1.5,-1.5v-13c0,-0.831 -0.669,-1.5 -1.5,-1.5zM15.5,11.9995c-0.831,0 -1.5,0.669 -1.5,1.5v13c0,0.831 0.669,1.5 1.5,1.5 0.831,0 1.5,-0.669 1.5,-1.5v-13c0,-0.831 -0.669,-1.5 -1.5,-1.5zM21.0273,15.9995c-0.5629,-0.0153 -1.0275,0.4369 -1.0273,1v14c0.0006,0.7715 0.8371,1.2508 1.5039,0.8633l12,-7c0.6615,-0.396 0.6615,-1.3498 0,-1.7266l-12,-7c-0.1449,-0.0849 -0.3088,-0.1319 -0.4766,-0.1367z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="2"
-      android:fillColor="#000000"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"
-      android:strokeLineCap="round"/>
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+
+    <path
+            android:fillColor="@color/white"
+            android:pathData="M19.66,3.99c-2.64,-1.8 -5.9,-0.96 -7.66,1.1 -1.76,-2.06 -5.02,-2.91 -7.66,-1.1 -1.4,0.96 -2.28,2.58 -2.34,4.29 -0.14,3.88 3.3,6.99 8.55,11.76l0.1,0.09c0.76,0.69 1.93,0.69 2.69,-0.01l0.11,-0.1c5.25,-4.76 8.68,-7.87 8.55,-11.75 -0.06,-1.7 -0.94,-3.32 -2.34,-4.28zM12.1,18.55l-0.1,0.1 -0.1,-0.1C7.14,14.24 4,11.39 4,8.5 4,6.5 5.5,5 7.5,5c1.54,0 3.04,0.99 3.57,2.36h1.87C13.46,5.99 14.96,5 16.5,5c2,0 3.5,1.5 3.5,3.5 0,2.89 -3.14,5.74 -7.9,10.05z" />
+
 </vector>

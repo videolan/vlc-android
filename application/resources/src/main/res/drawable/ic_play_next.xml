@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_play_as_audio.xml
+  ~  ic_play_next.xml
   ~ **************************************************************************
-  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,14 +23,14 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="40dp"
-    android:height="40dp"
-    android:viewportWidth="40"
-    android:viewportHeight="40">
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
   <path
-      android:pathData="M9.0273,8C8.4644,7.9847 7.9998,8.4369 8,9v14c0.0005,0.7715 0.8374,1.2519 1.5039,0.8633l12,-7c0.6602,-0.3862 0.6602,-1.3404 0,-1.7266l-12,-7C9.359,8.0519 9.1952,8.0049 9.0273,8ZM28,12a2,2 0,0 0,-2 2v9.998,0.1328c-0.3264,-0.0862 -0.6624,-0.131 -1,-0.1328 -2.2091,0 -4,1.7909 -4,4 0,2.2091 1.7909,4 4,4 2.2091,0 4,-1.7909 4,-4L29,15h1c1.1046,0 2,-0.8954 2,-2v-1z"
-      android:strokeWidth="1.5"
-      android:fillColor="#000000"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"/>
+      android:pathData="M8.053,6C7.702,5.991 7.349,6.074 7.031,6.25C6.395,6.602 6,7.273 6,8L6,27.998C6.001,29.569 7.729,30.526 9.061,29.693L25.061,19.693C26.312,18.91 26.312,17.086 25.061,16.303L9.061,6.305C8.752,6.112 8.404,6.009 8.053,6zM10,11.607L20.227,17.998L10,24.391L10,11.607zM40,28A2,2 0,0 0,38 30L38,40A2,2 0,0 0,40 42A2,2 0,0 0,42 40L42,30A2,2 0,0 0,40 28zM26.086,28.002A2,2 0,0 0,25.049 28.24A2,2 0,0 0,24 30L24,40A2,2 0,0 0,27.098 41.672L34.721,36.672A2,2 0,0 0,34.721 33.328L27.098,28.328A2,2 0,0 0,26.086 28.002z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="0.999995"
+      android:fillColor="@color/white"
+      android:fillType="evenOdd"/>
 </vector>

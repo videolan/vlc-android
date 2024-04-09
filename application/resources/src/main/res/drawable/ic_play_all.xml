@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_play_from_start.xml
+  ~  ic_play_all.xml
   ~ **************************************************************************
-  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,15 +23,14 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="40dp"
-    android:height="40dp"
-    android:viewportWidth="40"
-    android:viewportHeight="40">
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
   <path
-      android:pathData="m9.5,11.9997c-0.831,0 -1.5,0.669 -1.5,1.5v13c0,0.831 0.669,1.5 1.5,1.5 0.831,0 1.5,-0.669 1.5,-1.5v-13c0,-0.831 -0.669,-1.5 -1.5,-1.5zM15.0273,11.9997c-0.563,0 -1.0275,0.4369 -1.0273,1v14c0.0005,0.7715 0.8375,1.2504 1.5039,0.8633l12,-7c0.6615,-0.381 0.6615,-1.3351 0,-1.7266l-12,-7c-0.1449,-0.0848 -0.3116,-0.1367 -0.4766,-0.1367z"
+      android:pathData="M8,6C6.895,6 6,6.895 6,8v20c0,1.105 0.895,2 2,2 1.105,0 2,-0.895 2,-2L10,8C10,6.895 9.105,6 8,6ZM16,10c-1.105,0 -2,0.895 -2,2v20c0,1.105 0.895,2 2,2 1.105,0 2,-0.895 2,-2L18,12c0,-1.105 -0.895,-2 -2,-2zM24.053,14C23.702,13.991 23.349,14.074 23.031,14.25 22.395,14.602 22,15.273 22,16v19.998c0.001,1.571 1.741,2.526 3.061,1.695l16,-10c1.253,-0.746 1.253,-2.565 0,-3.391l-16,-9.998C24.752,14.112 24.404,14.009 24.053,14ZM26,19.607 L36.227,25.998 26,32.391Z"
       android:strokeLineJoin="round"
-      android:strokeWidth="4"
-      android:fillColor="#000000"
-      android:strokeColor="#00000000"
-      android:strokeLineCap="round"/>
+      android:strokeWidth="0.999995"
+      android:fillColor="@color/white"
+      android:fillType="evenOdd"/>
 </vector>

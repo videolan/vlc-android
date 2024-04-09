@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_play_next.xml
+  ~  ic_play_append.xml
   ~ **************************************************************************
-  ~ Copyright © 2021 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,16 +23,14 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="40dp"
-    android:height="40dp"
-    android:viewportWidth="40"
-    android:viewportHeight="40">
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
   <path
-      android:pathData="m9,7.9999c-0.6364,0 -1.0002,0.4369 -1,1v14c0.0009,0.7715 0.8558,1.2498 1.5039,0.8633l12,-7c0.6615,-0.376 0.6615,-1.3297 0,-1.7266l-12,-7C9.359,8.0518 9.1719,7.9999 9,7.9999ZM23,21.9999c-0.5315,0 -0.9999,0.4011 -1,1v8c0,0.7986 0.8427,1.2716 1.5547,0.832L30,27.5351v3.4648c0,0.554 0.446,1 1,1 0.554,0 1,-0.446 1,-1v-8c0,-0.554 -0.4499,-1 -1.0039,-1 -0.554,0 -0.9961,0.446 -0.9961,1v3.4648L23.5547,22.1679C23.3885,22.0572 23.1857,21.9999 23,21.9999Z"
+      android:pathData="M8.053,6C7.702,5.991 7.349,6.074 7.031,6.25C6.395,6.602 6,7.273 6,8L6,27.998C6.001,29.569 7.729,30.526 9.061,29.693L25.061,19.693C26.312,18.91 26.312,17.086 25.061,16.303L9.061,6.305C8.752,6.112 8.404,6.009 8.053,6zM10,11.607L20.227,17.998L10,24.391L10,11.607zM32,22C30.892,22 30,22.892 30,24L30,30L24,30C22.892,30 22,30.892 22,32C22,33.108 22.892,34 24,34L30,34L30,40C30,41.108 30.892,42 32,42C33.108,42 34,41.108 34,40L34,34L40,34C41.108,34 42,33.108 42,32C42,30.892 41.108,30 40,30L34,30L34,24C34,22.892 33.108,22 32,22z"
       android:strokeLineJoin="round"
-      android:strokeWidth="2"
-      android:fillColor="#000000"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"
-      android:strokeLineCap="butt"/>
+      android:strokeWidth="0.999995"
+      android:fillColor="@color/white"
+      android:fillType="evenOdd"/>
 </vector>

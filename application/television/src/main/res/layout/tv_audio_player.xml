@@ -296,7 +296,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button_next"
                 app:layout_constraintStart_toEndOf="@+id/button_previous"
-                tools:src="@drawable/ic_play">
+                tools:src="@drawable/ic_play_tv">
 
             <requestFocus />
         </androidx.appcompat.widget.AppCompatImageView>
