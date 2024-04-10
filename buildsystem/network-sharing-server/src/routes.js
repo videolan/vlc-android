@@ -20,8 +20,8 @@ const routes = [
     path: '/videos', name: 'Video',
     children: [
       { path: '', component: VideoList, name: 'VideoList', meta: { showDisplayBar: true, showResume: true, showGrouping: true } },
-       { path: 'group/:groupId', component: VideoList, name: 'VideoGroupList', meta: { showDisplayBar: true, showFAB: true, playAllType: "video-group" } },
-       { path: 'folder/:folderId', component: VideoList, name: 'VideoFolderList', meta: { showDisplayBar: true, showFAB: true, playAllType: "video-folder" } },
+       { path: 'group/:groupId', component: VideoList, name: 'VideoGroupList', meta: { showDisplayBar: true, showFAB: true, playAllType: "video-group", icon:"ic_video" } },
+       { path: 'folder/:folderId', component: VideoList, name: 'VideoFolderList', meta: { showDisplayBar: true, showFAB: true, playAllType: "video-folder", icon:"ic_folder" } },
     ]
   },
   {
@@ -31,8 +31,8 @@ const routes = [
       { path: 'albums', component: AudioAlbums, name: 'AudioAlbums', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
       { path: 'tracks', component: AudioTracks, name: 'AudioTracks', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false, showFAB: true, playAllType: "tracks" } },
       { path: 'genres', component: AudioGenres, name: 'AudioGenres', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
-      { path: 'artist/:artistId', component: ArtistDetails, name: 'ArtistDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "artist" } },
-      { path: 'album/:albumId', component: AlbumDetails, name: 'AlbumDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "album" } },
+      { path: 'artist/:artistId', component: ArtistDetails, name: 'ArtistDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "artist", icon:"ic_no_artist" } },
+      { path: 'album/:albumId', component: AlbumDetails, name: 'AlbumDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "album", icon:"ic_album" } },
     ]
   },
   {
@@ -46,7 +46,7 @@ const routes = [
     path: '/playlists', redirect: '/playlists/all', name: 'Playlist',
     children : [
       {path: 'all', component: PlaylistList, name: 'PlaylistList', meta: { showDisplayBar: true }},
-      { path: 'playlist/:playlistId', component: PlaylistDetails, name: 'PlaylistDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "playlist" } }
+      { path: 'playlist/:playlistId', component: PlaylistDetails, name: 'PlaylistDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "playlist", icon:"ic_playlist" } }
     ]
 },
   { path: '/search', component: SearchList, name: 'SearchList', meta: { showDisplayBar: false } },
