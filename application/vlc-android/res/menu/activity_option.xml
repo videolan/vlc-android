@@ -64,20 +64,6 @@
             android:visible="true"/>
     <item
             android:orderInCategory="3"
-            android:id="@+id/ml_menu_display_list"
-            android:title="@string/display_in_list"
-            vlc:showAsAction="ifRoom|collapseActionView"
-            android:icon="@drawable/ic_am_view_list"
-            android:visible="false"/>
-    <item
-            android:orderInCategory="3"
-            android:id="@+id/ml_menu_display_grid"
-            android:title="@string/display_in_grid"
-            vlc:showAsAction="ifRoom|collapseActionView"
-            android:icon="@drawable/ic_am_view_grid"
-            android:visible="false"/>
-    <item
-            android:orderInCategory="3"
             android:id="@+id/ml_menu_scan"
             android:title="@string/add_to_scanned"
             vlc:showAsAction="ifRoom|collapseActionView"
@@ -188,20 +174,6 @@
             android:contentDescription="@string/add_custom_path_description"
             android:visible="false"/>
 
-    <item
-            android:orderInCategory="3"
-            android:title="@string/browser_show_all_title"
-            android:visible="false"
-            android:checkable="true"
-            vlc:showAsAction="never"
-            android:id="@+id/browser_show_all_files" />
-    <item
-            android:orderInCategory="3"
-            android:title="@string/browser_show_hidden_files_title"
-            android:visible="false"
-            android:checkable="true"
-            vlc:showAsAction="never"
-            android:id="@+id/browser_show_hidden_files" />
     <item
             android:orderInCategory="5"
             android:title="@string/rename_group"

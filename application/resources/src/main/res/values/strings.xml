@@ -24,28 +24,14 @@
     <string name="searchable_hint">Search…</string>
     <string name="history">History</string>
 
-    <string name="sortby_name_asc">Name A → Z</string>
-    <string name="sortby_name_desc">Name Z → A</string>
-    <string name="sortby_artist_name_asc">Artist name A → Z</string>
-    <string name="sortby_artist_name_desc">Artist name Z → A</string>
-    <string name="sortby_album_name_asc">Album name A → Z</string>
-    <string name="sortby_album_name_desc">Album name Z → A</string>
-    <string name="sortby_filename_asc">File name A → Z</string>
-    <string name="sortby_filename_desc">File name Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Shortest first</string>
     <string name="sortby_length_desc">Longest first</string>
-    <string name="sortby_date_asc">Oldest date first</string>
-    <string name="sortby_date_desc">Newest date first</string>
-    <string name="sortby_last_modified_date_asc">Oldest addition first</string>
-    <string name="sortby_last_modified_date_desc">Newest addition first</string>
-    <string name="sortby_number_asc">More videos in group first</string>
-    <string name="sortby_number_desc">Less videos in group first </string>
-    <string name="sortby_date_insertion_asc">Oldest insertion date first</string>
-    <string name="sortby_date_insertion_desc">Newest insertion date first</string>
-    <string name="sortby_date_last_modified_asc">Oldest modification date first</string>
-    <string name="sortby_date_last_modified_desc">Newest modification date first</string>
-    <string name="sortby_date_release_asc">Oldest release date first</string>
-    <string name="sortby_date_release_desc">Newest release date first</string>
+    <string name="sortby_number_asc">More videos in group</string>
+    <string name="sortby_number_desc">Less videos in group</string>
+    <string name="sort_date_asc">Oldest first</string>
+    <string name="sort_date_desc">Newest first</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d result found</item>
@@ -151,6 +137,7 @@
     <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
+    <string name="cant_ban_root">You can\'t ban a root folder</string>
 
     <string name="cover_art">Cover art</string>
     <string name="shuffle_all_title">Shuffle all</string>
@@ -296,7 +283,7 @@
     <string name="about">About</string>
     <string name="about_vlc_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read all files and network streams.</string>
     <string name="authors">Authors</string>
-    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2022 by VideoLAN</string>
+    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2024 by VideoLAN</string>
     <string name="about_license" translatable="false">GNU General Public License v2.0</string>
     <string name="about_license_text" translatable="false"></string>
     <string name="vlc_authors">and VLC Authors.</string>
@@ -338,6 +325,7 @@
     <string name="screen_orientation_landscape_sensor">Landscape (sensor)</string>
     <string name="screen_orientation_last_locked">Last locked orientation</string>
     <string name="enable_black_theme">Black theme</string>
+    <string name="dark_theme">Dark theme</string>
     <string name="theme_auto">Auto theme</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="subtitle_preferred_language">Preferred subtitle language</string>
@@ -481,7 +469,7 @@
     <string name="remote_access_info">Remote access info</string>
     <string name="remote_access_content">Content</string>
     <string name="remote_access_medialibrary_content">Media library content</string>
-    <string name="remote_access_medialibrary_content_summary">Enabled: %s\nDisabled: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Enabled: %1$s\nDisabled: %2$s</string>
     <string name="remote_access_file_browser_content">File browser</string>
     <string name="remote_access_network_browser_content">Network browser</string>
     <string name="remote_access_playback_control">Control playback</string>
@@ -551,7 +539,7 @@
     <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Later</string>
-    <string name="browser_show_all_title">Show all files</string>
+    <string name="browser_show_all_title">Show only multimedia files</string>
 
     <string name="developer_prefs_category">Developer</string>
     <string name="enable_verbose_mode">Verbose</string>
@@ -568,6 +556,7 @@
     <string name="dump_logcat">Dump logcat log</string>
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
+    <string name="http_user_agent">HTTP user agent</string>
     <string name="custom_libvlc_options">Custom libVLC options</string>
     <string name="custom_libvlc_options_invalid">Invalid libVLC options!</string>
 
@@ -641,7 +630,7 @@
     <string name="partial_content">VLC cannot access all of your files</string>
     <string name="partial_content_description">Starting with Android 11, applications need a special permission to access all device\'s files.\n\n%s</string>
     <string name="never_ask_again">Never ask again</string>
-    <string name="never_show_again">Never show again</string>
+    <string name="never_show_again">Never show again, even for future versions</string>
     <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
     <string name="allow_settings_access_ringtone_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
     <string name="allow_settings_access_brightness_title">Allow VLC to change brightness mode</string>
@@ -810,6 +799,8 @@
     <string name="light_theme">Light theme</string>
     <string name="add">Add</string>
     <string name="add_to_new_playlist">Add to new playlist</string>
+    <string name="create_new_playlist">Create new playlist</string>
+    <string name="create">Create</string>
     <string name="resume_card_message">Resume playback of %1$s?</string>
     <string name="misc">Miscellaneous</string>
     <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
@@ -1070,13 +1061,13 @@
     <string name="banned">Banned folder (long tap to change)</string>
     <string name="banned_tv">Banned folder</string>
     <string name="banned_parent">Banned by parent folder</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">This item is already in this playlist.</item>
-        <item quantity="other">These items are already in this playlist.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">This item is already in \"%s\" playlist.</item>
+        <item quantity="other">These items are already in \"%s\" playlist.</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 of the selected items is already in this playlist.</item>
-        <item quantity="other">%d of the selected items are already in this playlist.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 of the selected items is already in \"%s\" playlist.</item>
+        <item quantity="other">%d of the selected items are already in \"%s\" playlist.</item>
     </plurals>
     <string name="official_website">Official website</string>
     <string name="view_online">View online</string>
@@ -1132,7 +1123,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - title: %s - duration: %s</string>
+    <string name="talkback_media_content_description">%1$s - title: %2$s - duration: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">History item</string>
     <string name="talkback_playlist">Playlist: %s</string>
@@ -1160,7 +1151,7 @@
     <string name="talkback_audio_tracks">Audio tracks</string>
     <string name="talkback_subtitle_tracks">Subtitle tracks</string>
     <string name="talkback_track" translatable="false">%s: %s. %s</string>
-    <string name="talkback_subtitle_dowload_item">Language: %s. %s. Name: %s</string>
+    <string name="talkback_subtitle_dowload_item">Language: %1$s. %2$s. Name: %3$s</string>
     <string name="selected">Selected</string>
     <string name="talkback_increase_delay">Increase delay</string>
     <string name="talkback_decrease_delay">Decrease delay</string>
@@ -1172,8 +1163,8 @@
     <string name="talkback_audio_player_collapsed">Audio player collapsed</string>
     <string name="talkback_audio_player_closed">Audio player closed</string>
     <string name="talkback_audio_player">Audio player. Currently playing: %s</string>
-    <string name="talkback_out_of">%s out of %s</string>
-    <string name="talkback_track_index">Track %s out of %s</string>
+    <string name="talkback_out_of">%1$s out of %2$s</string>
+    <string name="talkback_track_index">Track %1$s out of %2$s</string>
     <string name="downloaded">Downloaded</string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="downloading">Downloading</string>

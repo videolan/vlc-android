@@ -20,20 +20,8 @@
     <string name="searchable_hint">جست‌وجو…</string>
     <string name="history">تاریخچه</string>
 
-    <string name="sortby_name_asc">نام آ  - ی</string>
-    <string name="sortby_name_desc">نام ی - آ</string>
-    <string name="sortby_artist_name_asc">نام هنرمند آ  - ی</string>
-    <string name="sortby_artist_name_desc">نام هنرمند ی - آ</string>
-    <string name="sortby_album_name_asc">نام آلبوم آ - ی</string>
-    <string name="sortby_album_name_desc">نام آلبوم ی - آ</string>
-    <string name="sortby_filename_asc">نام فایل آ - ی</string>
-    <string name="sortby_filename_desc">نام فایل ی - آ</string>
     <string name="sortby_length_asc">ابتدا کوتاه ترین</string>
     <string name="sortby_length_desc">ابتدا طولانی ترین</string>
-    <string name="sortby_date_asc">ابتدا قدیمی ترین</string>
-    <string name="sortby_date_desc">ابتدا جدید ترین</string>
-    <string name="sortby_last_modified_date_asc">ابتدا قدیمی ترین افزوده</string>
-    <string name="sortby_last_modified_date_desc">ابتدا جدیدترین افزوده</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d نتیجه یافت شد</item>
         <item quantity="other">%d نتیجه یافت شد</item>
@@ -136,7 +124,6 @@
     <string name="nosubfolder">هیچ زیر پوشه ای وجود ندارد</string>
     <string name="directorynotfound">مسیر پوشه \'%1$s\' یافت نشد</string>
     <string name="nohistory">شما هنوز تاریخچه پخش ندارید</string>
-
     <string name="cover_art">جلد هنری</string>
     <string name="shuffle_all_title">پخش تصادفی همه</string>
     <string name="shuffle_title">حالت تصادفی</string>
@@ -877,10 +864,6 @@
     <string name="selection_count">%dانتخاب شد</string>
     <!-- Unused -->
     <string name="gestures">اشاره‌ها</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">این مورد هم‌اکنون در سیاههٔ پخش هست</item>
-        <item quantity="other">این موارد هم‌اکنون در سیاههٔ پخش هستند</item>
-    </plurals>
     <string name="view_online">آنلاین ببینید</string>
     <string name="player_under_notch">ویدیو را از پایین برش صفحه نمایش بده</string>
     <string name="notch">برش صفحه</string>
@@ -903,8 +886,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s- تیتر: %s- مدت‌‌زمان: %s</string>
     <string name="talkback_genre">سبک‌: %s</string>
     <string name="talkback_history_item">مورد تاریخی</string>
     <string name="talkback_playlist">فهرست پخش: %s</string>

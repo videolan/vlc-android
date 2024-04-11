@@ -39,6 +39,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -134,6 +135,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
             return
         }
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+        PlaylistManager.playingAsAudio = false
         val settings = Settings.getInstance(context)
         if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI) || forceAll)) {
             when(val prov = provider) {
@@ -158,6 +160,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     internal fun playAudio(activity: FragmentActivity?, media: MediaWrapper) {
         if (activity == null) return
         media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+        PlaylistManager.playingAsAudio = true
         MediaUtils.openMedia(activity, media)
     }
 

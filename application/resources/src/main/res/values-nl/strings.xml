@@ -23,27 +23,8 @@
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
 
-    <string name="sortby_name_asc">Naam A → Z</string>
-    <string name="sortby_name_desc">Naam Z → A</string>
-    <string name="sortby_artist_name_asc">Naam artiest A → Z</string>
-    <string name="sortby_artist_name_desc">Naam artiest Z → A</string>
-    <string name="sortby_album_name_asc">Naam album A → Z</string>
-    <string name="sortby_album_name_desc">Naam album Z → A</string>
-    <string name="sortby_filename_asc">Bestandsnaam A → Z</string>
-    <string name="sortby_filename_desc">Bestandsnaam Z → A</string>
     <string name="sortby_length_asc">Kortste eerst</string>
     <string name="sortby_length_desc">Langste eerst</string>
-    <string name="sortby_date_asc">Oudste datum eerst</string>
-    <string name="sortby_date_desc">Nieuwste datum eerst</string>
-    <string name="sortby_last_modified_date_asc">Oudste toevoeging eerst</string>
-    <string name="sortby_last_modified_date_desc">Nieuwste toevoeging eerst</string>
-    <string name="sortby_date_insertion_asc">Oudste invoegdatum eerst</string>
-    <string name="sortby_date_insertion_desc">Nieuwste invoegdatum eerst</string>
-    <string name="sortby_date_last_modified_asc">Oudste wijzigingsdatum eerst</string>
-    <string name="sortby_date_last_modified_desc">Nieuwste wijzigingsdatum eerst</string>
-    <string name="sortby_date_release_asc">Oudste releasedatum eerst</string>
-    <string name="sortby_date_release_desc">Nieuwste releasedatum eerst</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultaat gevonden</item>
         <item quantity="other">%d resultaten gevonden</item>
@@ -148,7 +129,6 @@
     <string name="nosubfolder">Geen submap</string>
     <string name="directorynotfound">Het pad \'%1$s\' werd niet teruggevonden.</string>
     <string name="nohistory">U hebt nog geen afspeelgeschiedenis.</string>
-
     <string name="cover_art">Albumhoes</string>
     <string name="shuffle_all_title">Alles in willekeurige volgorde</string>
     <string name="shuffle_title">Modus willekeurige volgorde</string>
@@ -993,14 +973,6 @@
     <string name="banned">Verbannen map (lang tikken om te wijzigen)</string>
     <string name="banned_tv">Verbannen map</string>
     <string name="banned_parent">Verbannen door bovenliggende map</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Dit item staat al in deze afspeellijst.</item>
-        <item quantity="other">Deze items staan al in deze afspeellijst.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 van de geselecteerde items staat al in deze afspeellijst.</item>
-        <item quantity="other">%d van de geselecteerde items staan al in deze afspeellijst.</item>
-    </plurals>
     <string name="official_website">Officiële website</string>
     <string name="view_online">Online weergeven</string>
     <string name="player_under_notch">Video weergeven onder notch</string>
@@ -1048,8 +1020,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titel: %s - duur: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Geschiedenis item</string>
     <string name="talkback_playlist">Afspeellijst: %s</string>
@@ -1076,7 +1046,6 @@
     <string name="talkback_video_tracks">Videosporen</string>
     <string name="talkback_audio_tracks">Audiosporen</string>
     <string name="talkback_subtitle_tracks">Ondertitelsporen</string>
-    <string name="talkback_subtitle_dowload_item">Taal: %s. %s. Naam: %s</string>
     <string name="selected">Geselecteerd</string>
     <string name="talkback_increase_delay">Vertraging vergroten</string>
     <string name="talkback_decrease_delay">Vertraging verkleinen</string>
@@ -1088,8 +1057,6 @@
     <string name="talkback_audio_player_collapsed">Audiospeler ingeklapt</string>
     <string name="talkback_audio_player_closed">Audiospeler gesloten</string>
     <string name="talkback_audio_player">Audiospeler. Nu speelt: %s</string>
-    <string name="talkback_out_of">%s van %s</string>
-    <string name="talkback_track_index">Track %s van %s</string>
     <string name="downloaded">Gedownload</string>
     <string name="not_downloaded">Niet gedownload</string>
     <string name="downloading">Downloaden</string>

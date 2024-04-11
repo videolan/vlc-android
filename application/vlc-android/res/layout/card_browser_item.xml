@@ -55,6 +55,18 @@
                 type="boolean" />
 
         <variable
+                name="played"
+                type="boolean" />
+
+        <variable
+                name="max"
+                type="int" />
+
+        <variable
+                name="progress"
+                type="int" />
+
+        <variable
                 name="favorite"
                 type="boolean" />
 
@@ -69,6 +81,10 @@
         <variable
                 name="bgColor"
                 type="int" />
+
+        <variable
+                name="forceCoverHiding"
+                type="boolean" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -122,11 +138,35 @@
                     android:layout_marginTop="8dp"
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
-                    android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{forceCoverHiding ? View.INVISIBLE : item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:media="@{item}" />
+
+            <org.videolan.vlc.gui.view.MiniVisualizer
+                    android:id="@+id/playing"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:bar_color="?attr/mini_visualizer_color"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/item_icon"
+                    app:layout_constraintEnd_toEndOf="@+id/item_icon"
+                    app:layout_constraintStart_toStartOf="@+id/item_icon"
+                    app:layout_constraintTop_toTopOf="@+id/item_icon" />
+
+            <ImageView
+                    android:id="@+id/ml_item_seen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_black_bottom_right"
+                    android:padding="3dp"
+                    android:visibility="@{played ? View.VISIBLE : View.GONE, default=gone}"
+                    app:layout_constraintStart_toStartOf="@+id/item_icon"
+                    app:layout_constraintTop_toTopOf="@+id/item_icon"
+                    app:layout_goneMarginStart="4dp"
+                    app:srcCompat="@drawable/ic_check"
+                    tools:visibility="visible" />
 
             <TextView
                     android:id="@+id/dvi_icon"
@@ -134,7 +174,7 @@
                     android:layout_height="0dp"
                     android:gravity="center"
                     android:text="@{protocol}"
-                    android:textColor="@color/whitetransparent"
+                    android:textColor="@color/grey700"
                     android:textSize="11sp"
                     android:visibility="@{ TextUtils.isEmpty(protocol) ? View.GONE : View.VISIBLE, default=gone}"
                     app:layout_constraintBottom_toBottomOf="@+id/item_icon"
@@ -204,6 +244,23 @@
                     android:contentDescription="@string/more_actions"
                     app:srcCompat="@drawable/ic_more"
                     tools:visibility="visible" />
+
+            <ProgressBar
+                    android:id="@+id/ml_item_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:indeterminate="false"
+                    android:max="@{max}"
+                    android:maxHeight="2dip"
+                    android:minHeight="2dip"
+                    android:progress="@{progress}"
+                    android:progressDrawable="?attr/gridview_progressbar"
+                    android:secondaryProgress="0"
+                    android:visibility="@{progress == 0 || played ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_icon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_info_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+  <path
+      android:pathData="M48,8C25.944,8 8,25.944 8,48C8,70.056 25.944,88 48,88C70.056,88 88,70.056 88,48C88,25.944 70.056,8 48,8zM48,14C66.813,14 82,29.187 82,48C82,66.813 66.813,82 48,82C29.187,82 14,66.813 14,48C14,29.187 29.187,14 48,14zM48,27A4.5,4.5 0,0 0,43.5 31.5A4.5,4.5 0,0 0,48 36A4.5,4.5 0,0 0,52.5 31.5A4.5,4.5 0,0 0,48 27zM48,44A3,3 0,0 0,45 47L45,67A3,3 0,0 0,48 70A3,3 0,0 0,51 67L51,47A3,3 0,0 0,48 44z"
+      android:strokeLineJoin="round"
+      android:fillColor="@color/white"
+      android:strokeLineCap="round"/>
+</vector>

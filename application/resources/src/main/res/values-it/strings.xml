@@ -23,28 +23,14 @@
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Cronologia</string>
 
-    <string name="sortby_name_asc">Nome A → Z</string>
-    <string name="sortby_name_desc">Nome Z → A</string>
-    <string name="sortby_artist_name_asc">Nome artista A → Z</string>
-    <string name="sortby_artist_name_desc">Nome artista Z → A</string>
-    <string name="sortby_album_name_asc">Nome album A → Z</string>
-    <string name="sortby_album_name_desc">Nome album Z → A</string>
-    <string name="sortby_filename_asc">Nome file A → Z</string>
-    <string name="sortby_filename_desc">Nome file Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Prima il più breve</string>
     <string name="sortby_length_desc">Prima il più lungo</string>
-    <string name="sortby_date_asc">Prima la data più vecchia</string>
-    <string name="sortby_date_desc">Prima la data più recente</string>
-    <string name="sortby_last_modified_date_asc">Prima l\'aggiunta più datata</string>
-    <string name="sortby_last_modified_date_desc">Prima l\'ultima aggiunta</string>
-    <string name="sortby_number_asc">Più video nel primo gruppo</string>
-    <string name="sortby_number_desc">Meno video nel primo gruppo</string>
-    <string name="sortby_date_insertion_asc">Inserimento più datato per primo</string>
-    <string name="sortby_date_insertion_desc">Inserimento più recente per primo</string>
-    <string name="sortby_date_last_modified_asc">Modifica più datata per prima</string>
-    <string name="sortby_date_last_modified_desc">Modifica più recente per prima</string>
-    <string name="sortby_date_release_asc">Data di rilascio più datata per prima</string>
-    <string name="sortby_date_release_desc">Data di rilascio più recente per prima</string>
+    <string name="sortby_number_asc">Più video nel gruppo</string>
+    <string name="sortby_number_desc">Meno video nel gruppo</string>
+    <string name="sort_date_asc">Prima i più datati</string>
+    <string name="sort_date_desc">Prima i più recenti</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultato trovato</item>
@@ -159,6 +145,7 @@
     <string name="nosubfolder">Nessuna sottocartella</string>
     <string name="directorynotfound">Il percorso della cartella \'%1$s\' non è stato trovato.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
+    <string name="cant_ban_root">Non puoi vietare una cartella radice</string>
 
     <string name="cover_art">Copertina</string>
     <string name="shuffle_all_title">Mescola tutti</string>
@@ -334,6 +321,7 @@
     <string name="screen_orientation_landscape_sensor">Orizzontale (sensore)</string>
     <string name="screen_orientation_last_locked">Ultimo orientamento bloccato</string>
     <string name="enable_black_theme">Tema nero</string>
+    <string name="dark_theme">Tema scuro</string>
     <string name="theme_auto">Tema automatico</string>
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="subtitle_preferred_language">Lingua preferita dei sottotitoli</string>
@@ -474,7 +462,7 @@
     <string name="remote_access_info">Informazioni di accesso remoto</string>
     <string name="remote_access_content">Contenuti</string>
     <string name="remote_access_medialibrary_content">Contenuti della raccolta multimediale</string>
-    <string name="remote_access_medialibrary_content_summary">Abilitato: %s\nDisabilitato: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Abilitato: %1$s\nDisabilitato: %2$s</string>
     <string name="remote_access_file_browser_content">Navigatore di file</string>
     <string name="remote_access_network_browser_content">Navigatore di rete</string>
     <string name="remote_access_playback_control">Controlla la riproduzione</string>
@@ -561,6 +549,7 @@
     <string name="dump_logcat">Salva log logcat</string>
     <string name="dump_logcat_success">Logcat salvato correttamente su %1$s!</string>
     <string name="dump_logcat_failure">Salvataggio logcat non riuscito.</string>
+    <string name="http_user_agent">User agent HTTP</string>
     <string name="custom_libvlc_options">Opzioni personalizzate libVLC</string>
     <string name="custom_libvlc_options_invalid">Opzioni libVLC non valide!</string>
 
@@ -633,7 +622,7 @@
     <string name="partial_content">VLC non può accedere a tutti i tuoi file</string>
     <string name="partial_content_description">A partire da Android 11, le applicazioni richiedono un\'autorizzazione speciale per accedere a tutti i file del dispositivo.\n\n%s</string>
     <string name="never_ask_again">Non chiedere ancora</string>
-    <string name="never_show_again">Non mostrare mai più</string>
+    <string name="never_show_again">Non mostrare più, nemmeno per le future versioni</string>
     <string name="allow_settings_access_ringtone_title">Consenti a VLC di impostare la suoneria</string>
     <string name="allow_settings_access_ringtone_description">VLC ha bisogno di questo permesso per impostare questo brano come suoneria.</string>
     <string name="allow_settings_access_brightness_title">Consenti a VLC di cambiare la luminosità</string>
@@ -802,6 +791,8 @@
     <string name="light_theme">Tema chiaro</string>
     <string name="add">Aggiungi</string>
     <string name="add_to_new_playlist">Aggiungi a nuova scaletta</string>
+    <string name="create_new_playlist">Crea una nuova scaletta</string>
+    <string name="create">Crea</string>
     <string name="resume_card_message">Vuoi riprendere la riproduzione di %1$s?</string>
     <string name="misc">Varie</string>
     <string name="popup_force_legacy_title">Utilizza finestra Picture-in-Picture personalizzata</string>
@@ -1064,15 +1055,15 @@
     <string name="banned">Cartella esclusa (toccare a lungo per modificare)</string>
     <string name="banned_tv">Cartella vietata</string>
     <string name="banned_parent">Esclusa dalla cartella superiore</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Questo elemento è già in questa scaletta.</item>
-        <item quantity="many">Questi elementi sono già in questa scaletta.</item>
-        <item quantity="other">Questi elementi sono già in questa scaletta.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Questo elemento è già nella scaletta \"%s\".</item>
+        <item quantity="many">Questi elementi sono già nella scaletta \"%s\".</item>
+        <item quantity="other">Questi elementi sono già nella scaletta \"%s\".</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 degli elementi selezionati è già in questa scaletta.</item>
-        <item quantity="many">%d degli elementi selezionati sono già in questa scaletta.</item>
-        <item quantity="other">%d degli elementi selezionati sono già in questa scaletta.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Uno degli elementi selezionati è già nella scaletta \"%s\".</item>
+        <item quantity="many">%d degli elementi selezionati sono già nella scaletta \"%s\".</item>
+        <item quantity="other">%d degli elementi selezionati sono già nella scaletta \"%s\".</item>
     </plurals>
     <string name="official_website">Sito web ufficiale</string>
     <string name="view_online">Visualizza in linea</string>
@@ -1128,7 +1119,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titolo: %s - durata: %s</string>
+    <string name="talkback_media_content_description">%1$s - titolo: %2$s - durata: %3$s</string>
     <string name="talkback_genre">Genere: %s</string>
     <string name="talkback_history_item">Elemento di cronologia</string>
     <string name="talkback_playlist">Scaletta: %s</string>
@@ -1155,7 +1146,7 @@
     <string name="talkback_video_tracks">Tracce video</string>
     <string name="talkback_audio_tracks">Tracce audio</string>
     <string name="talkback_subtitle_tracks">Traccia dei sottotitoli</string>
-    <string name="talkback_subtitle_dowload_item">Lingua: %s. %s. Nome: %s</string>
+    <string name="talkback_subtitle_dowload_item">Lingua: %1$s. %2$s. Nome: %3$s</string>
     <string name="selected">Selezionato</string>
     <string name="talkback_increase_delay">Aumenta ritardo</string>
     <string name="talkback_decrease_delay">Riduci ritardo</string>
@@ -1167,8 +1158,8 @@
     <string name="talkback_audio_player_collapsed">Lettore audio minimizzato</string>
     <string name="talkback_audio_player_closed">Lettore audio chiuso</string>
     <string name="talkback_audio_player">Lettore audio. In riproduzione: %s</string>
-    <string name="talkback_out_of">%s di %s</string>
-    <string name="talkback_track_index">Traccia %s di %s</string>
+    <string name="talkback_out_of">%1$s di %2$s</string>
+    <string name="talkback_track_index">Traccia %1$s di %2$s</string>
     <string name="downloaded">Scaricato</string>
     <string name="not_downloaded">Non scaricato</string>
     <string name="downloading">Scaricamento</string>
@@ -1239,5 +1230,5 @@
     <string name="podcast_mode">Modalità podcast</string>
     <string name="podcast_mode_help">I controlli del podcast appaiono quando si riproduce una singola traccia che soddisfa uno dei seguenti criteri:\n\t• Durata superiore a 60 minuti\n\t• Durata superiore a 15 minuti senza nome dell\'album\n\t• Il genere è %s</string>
     <string name="voice_control">Controllo vocale</string>
-    <string name="voice_control_help">VLC può essere controllato tramite Google Assistant utilizzando i seguenti comandi vocali:\n\t• Riproduci, Pausa, Stop, Precedente, Successivo\n\t• Riavvolgi, Avanti veloce, Ripeti &lt;tutti|uno|spento&gt;• Vai a &lt;tempo&gt;, Salta &lt;durata&gt;\n\t• Qual è questo &lt;artista|album|canzone&gt;\n\t• Riproduci [artista|album|canzone|genere|scaletta] &lt;nome&gt;</string>
+    <string name="voice_control_help">VLC può essere controllato tramite Google Assistant utilizzando i seguenti comandi vocali:\n\t• Riproduci, Pausa, Ferma, Precedente, Successivo\n\t• Riavvolgi, Avanti veloce, Ripeti &lt;tutti|uno|spento&gt;• Vai a &lt;tempo&gt;, Salta &lt;durata&gt;\n\t• Qual è questo &lt;artista|album|brano&gt;\n\t• Riproduci [artista|album|brano|genere|scaletta] &lt;nome&gt;</string>
 </resources>

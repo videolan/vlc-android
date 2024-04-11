@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_folder_download.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M8,8C5.8,8 4.02,9.8 4.02,12L4,36C4,38.2 5.8,40 8,40L40,40C42.2,40 44,38.2 44,36L44,16C44,13.8 42.2,12 40,12L24,12L20,8L8,8zM8,12L18.34,12L22.34,16L40,16L40,36L8,36L8,12zM28.5,19.25C28.088,19.25 27.75,19.587 27.75,20L27.75,23.75L26.557,23.75C25.889,23.75 25.553,24.561 26.025,25.033L29.467,28.475C29.759,28.767 30.233,28.767 30.525,28.475L33.967,25.033C34.439,24.561 34.111,23.75 33.443,23.75L32.25,23.75L32.25,20C32.25,19.587 31.912,19.25 31.5,19.25L28.5,19.25zM25.5,30.5C25.088,30.5 24.75,30.837 24.75,31.25C24.75,31.663 25.088,32 25.5,32L34.5,32C34.912,32 35.25,31.663 35.25,31.25C35.25,30.837 34.912,30.5 34.5,30.5L25.5,30.5z"
+      android:strokeWidth="1"
+      android:fillColor="@color/grey700"/>
+</vector>

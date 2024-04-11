@@ -1,37 +1,10 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_auto_album.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
-  <path
-      android:pathData="M24,4A20,20 0,0 0,4 24a20,20 0,0 0,20 20,20 20,0 0,0 20,-20A20,20 0,0 0,24 4ZM24,15a9,9 0,0 1,9 9,9 9,0 0,1 -9,9 9,9 0,0 1,-9 -9,9 9,0 0,1 9,-9zM24,22c-1.1046,0 -2,0.8954 -2,2 0,1.1046 0.8954,2 2,2 1.1046,0 2,-0.8954 2,-2 0,-1.1046 -0.8954,-2 -2,-2z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="0.1"
-      android:fillColor="#ffffff"
-      android:strokeColor="#00000000"
-      android:strokeLineCap="round"/>
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillColor="#ffffff"
+            android:pathData="M24,6C14.083,6 6,14.083 6,24C6,33.917 14.083,42 24,42C33.917,42 42,33.917 42,24C42,14.083 33.917,6 24,6zM24,10C31.756,10 38,16.244 38,24C38,31.756 31.756,38 24,38C16.244,38 10,31.756 10,24C10,16.244 16.244,10 24,10zM24,18C20.71,18 18,20.71 18,24C18,27.29 20.71,30 24,30C27.29,30 30,27.29 30,24C30,20.71 27.29,18 24,18zM24,22C25.128,22 26,22.872 26,24C26,25.128 25.128,26 24,26C22.872,26 22,25.128 22,24C22,22.872 22.872,22 24,22z"
+            android:strokeLineCap="round" />
 </vector>

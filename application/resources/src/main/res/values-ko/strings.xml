@@ -22,24 +22,8 @@
     <string name="searchable_hint">검색…</string>
     <string name="history">히스토리</string>
 
-    <string name="sortby_name_asc">이름 A → Z</string>
-    <string name="sortby_name_desc">이름 Z → A</string>
-    <string name="sortby_artist_name_asc">아티스트 이름 A → Z</string>
-    <string name="sortby_artist_name_desc">아티스트 이름 Z → A</string>
-    <string name="sortby_album_name_asc">앨범 이름 A → Z</string>
-    <string name="sortby_album_name_desc">앨범 이름 Z → A</string>
-    <string name="sortby_filename_asc">파일 이름 A → Z</string>
-    <string name="sortby_filename_desc">파일 이름 Z → A</string>
     <string name="sortby_length_asc">가장 짧은 것부터</string>
     <string name="sortby_length_desc">가장 긴 것부터</string>
-    <string name="sortby_date_asc">가장 오래된 날짜 먼저</string>
-    <string name="sortby_date_desc">가장 최근 날짜 먼저</string>
-    <string name="sortby_last_modified_date_asc">가장 오래된 추가 항목 먼저</string>
-    <string name="sortby_last_modified_date_desc">가장 최근 추가 항목 먼저</string>
-    <string name="sortby_date_insertion_asc">가장 오래된 삽입 날짜 먼저</string>
-    <string name="sortby_date_insertion_desc">가장 최근 삽입 날짜 먼저</string>
-    <string name="sortby_date_last_modified_asc">가장 오래된 수정 날짜 먼저</string>
-    <string name="sortby_date_last_modified_desc">가장 최근 수정 날짜 먼저</string>
     <plurals name="search_found_results_quantity">
         <item quantity="other">검색 결과 %d개</item>
     </plurals>
@@ -135,7 +119,6 @@
     <string name="nosubfolder">하위폴더 없음</string>
     <string name="directorynotfound">\'%1$s\' 디렉터리 경로를 찾을 수 없습니다.</string>
     <string name="nohistory">아직 재생 히스토리가 없습니다.</string>
-
     <string name="cover_art">표지 아트</string>
     <string name="shuffle_all_title">모두 순서섞기</string>
     <string name="shuffle_title">순서섞기 모드</string>
@@ -985,12 +968,6 @@
     <string name="banned">금지된 폴더 (길게 탭하여 변경)</string>
     <string name="banned_tv">금지된 폴더</string>
     <string name="banned_parent">상위 폴더에 의해 금지됨</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="other">이 항목들은 이미 이 재생 목록에 있습니다.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="other">선택한 항목 중 %d개가 이미 이 재생목록에 있습니다.</item>
-    </plurals>
     <string name="official_website">공식 웹사이트</string>
     <string name="view_online">온라인 보기</string>
     <string name="player_under_notch">노치 아래에 비디오 화면표시</string>
@@ -1038,8 +1015,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - 제목: %s - 재생시간: %s</string>
     <string name="talkback_genre">장르: %s</string>
     <string name="talkback_history_item">히스토리 항목</string>
     <string name="talkback_playlist">재생목록: %s</string>
@@ -1066,7 +1041,6 @@
     <string name="talkback_video_tracks">비디오 트랙</string>
     <string name="talkback_audio_tracks">오디오 트랙</string>
     <string name="talkback_subtitle_tracks">자막 트랙</string>
-    <string name="talkback_subtitle_dowload_item">언어: %s. %s. 이름: %s</string>
     <string name="selected">선택됨</string>
     <string name="talkback_increase_delay">지연 증가</string>
     <string name="talkback_decrease_delay">지연 감소</string>
@@ -1078,8 +1052,6 @@
     <string name="talkback_audio_player_collapsed">오디오 재생기 접힘</string>
     <string name="talkback_audio_player_closed">오디오 재생기 닫힘</string>
     <string name="talkback_audio_player">오디오 재생기. 현재 재생 중: %s</string>
-    <string name="talkback_out_of"> %s/%s</string>
-    <string name="talkback_track_index">트랙 %s/%s</string>
     <string name="downloaded">다운로드됨</string>
     <string name="not_downloaded">다운로드되지 않음</string>
     <string name="downloading">다운로드하는 중</string>

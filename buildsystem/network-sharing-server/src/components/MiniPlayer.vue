@@ -43,7 +43,8 @@
             @click="togglePlayQueue($event)" v-bind:class="(this.playerStore.playqueueShowing) ? 'active' : ''" />
         </div>
         <div class="player-right-container volume-container">
-          <ImageButton type="volume" class="medium" id="volume_icon" />
+          <ImageButton type="volume" class="medium" id="volume_icon" v-show="(this.playerStore.volume != 0)" v-on:click="mute()"/>
+          <ImageButton type="volume_off" class="medium" id="volume_icon" v-show="(this.playerStore.volume == 0)" v-on:click="mute()"/>
           <input type="range" ref="volume" min="0" max="100" step="1" @change="this.volumeChange($event)"
             @input="this.volumeChange($event)" @touchstart="this.volumeTouched = true"
             @touchend="this.volumeTouched = false" @touchcancel="this.volumeTouched = false">
@@ -79,7 +80,8 @@ export default {
       loadedArtworkUrl: "",
       volumeTouched: false,
       progressTouched: false,
-      volumeTimeoutId: 0
+      volumeTimeoutId: 0,
+      oldVolume: -1,
     }
   },
   computed: {
@@ -93,6 +95,23 @@ export default {
       if (this.$refs.volume.value != this.nowPlaying.volume) this.$refs.volume.value = this.nowPlaying.volume
       this.updateVolumeBackground()
     },
+    //Mute or unmute depending on the current volume
+    mute() {
+      if (this.$refs.volume.value == 0) {
+        if (this.oldVolume == -1) {
+          this.$root.sendMessage("set-volume", this.$refs.volume.max / 2);
+          this.$refs.volume.value = this.$refs.volume.max / 2
+        } else {
+          this.$root.sendMessage("set-volume", this.oldVolume);
+          this.$refs.volume.value = this.oldVolume
+        }
+      } else {
+        this.oldVolume = this.$refs.volume.value
+          this.$root.sendMessage("set-volume", 0);
+        this.$refs.volume.value = 0
+      }
+      this.updateVolumeBackground() 
+    },
     changeProgressIfNeeded() {
       this.updateProgressBackground()
       if (this.$refs.progress.matches(':hover') || this.volumeTouched) return
@@ -105,6 +124,7 @@ export default {
       const max = target.max
       const val = target.value
 
+      this.playerStore.volume = this.$refs.volume.value
       target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
     },
     updateProgressBackground() {
@@ -159,6 +179,8 @@ export default {
         this.$root.sendMessage("set-volume", event.target.value);
         this.changeVolumeIfNeeded()
       }, "50");
+
+      this.playerStore.volume = event.target.value
 
     },
     progressChange(event) {
@@ -259,7 +281,7 @@ export default {
 
 #player {
   width: 100%;
-  color: #000;
+  color: var(--bs-heading-color);
   align-items: center;
   z-index: 1022;
 }
@@ -272,11 +294,11 @@ export default {
   padding-right: 16px;
   padding-top: 8px;
   padding-bottom: 8px;
-  background: $light-grey;
+  background: var(--bs-card-bg);
 }
 
 .progress-container {
-  background: linear-gradient(transparent 60%, $light-grey 60%);
+  background: linear-gradient(transparent 60%, var(--bs-card-bg) 60%);
   position: absolute;
   margin-top: -14px;
   width: 100vw;
@@ -318,7 +340,7 @@ export default {
 #duration {
   padding-left: 8px;
   padding-right: 8px;
-  background-color: $light-grey;
+  background-color: var(--light-gray);
   border-radius: 8px 8px 0px 0px;
   position: absolute;
   top: -10px;
@@ -350,6 +372,10 @@ export default {
   height: 27px;
   vertical-align: middle;
   line-height: 27px;
+}
+
+#artist {
+  color: var(--secondary-text);
 }
 
 

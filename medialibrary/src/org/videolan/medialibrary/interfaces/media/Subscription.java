@@ -25,8 +25,8 @@ public abstract class Subscription {
     public abstract int getNewMediaNotification();
     public abstract boolean setNewMediaNotification(int value);
     public abstract long getCachedSize();
-    public abstract long getMaxCachedSize();
-    public abstract boolean setMaxCachedSize(long size);
+    public abstract long getMaxCacheSize();
+    public abstract boolean setMaxCacheSize(long size);
     public abstract int getNbUnplayedMedia();
     public abstract Subscription[] getChildSubscriptions(int sortingCriteria, boolean desc, boolean includeMissing, boolean onlyFavorites);
     public abstract Subscription getParent();

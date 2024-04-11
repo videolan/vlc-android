@@ -41,6 +41,9 @@ android {
         }
     }
     namespace 'org.videolan.moviepedia'
+    buildFeatures {
+        buildConfig true
+    }
 
 }
 

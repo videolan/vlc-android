@@ -23,28 +23,14 @@
     <string name="searchable_hint">Sök…</string>
     <string name="history">Historik</string>
 
-    <string name="sortby_name_asc">Namn A → Ö</string>
-    <string name="sortby_name_desc">Namn Ö → A</string>
-    <string name="sortby_artist_name_asc">Artistnamn A → Ö</string>
-    <string name="sortby_artist_name_desc">Artistnamn Ö → A</string>
-    <string name="sortby_album_name_asc">Albumnamn A → Ö</string>
-    <string name="sortby_album_name_desc">Albumnamn Ö → A</string>
-    <string name="sortby_filename_asc">Filnamn A → Ö</string>
-    <string name="sortby_filename_desc">Filnamn Ö → A</string>
+    <string name="sort_alpha_asc">A → Ö</string>
+    <string name="sort_alpha_desc">Ö → A</string>
     <string name="sortby_length_asc">Kortast först</string>
     <string name="sortby_length_desc">Längst först</string>
-    <string name="sortby_date_asc">Äldst datum först</string>
-    <string name="sortby_date_desc">Senast datum först</string>
-    <string name="sortby_last_modified_date_asc">Äldst tillagda först</string>
-    <string name="sortby_last_modified_date_desc">Senast tillagda först</string>
-    <string name="sortby_number_asc">Större videogrupper längst upp</string>
-    <string name="sortby_number_desc">Mindre videogrupper längst upp</string>
-    <string name="sortby_date_insertion_asc">Äldsta skapandedatum först</string>
-    <string name="sortby_date_insertion_desc">Senaste skapandedatum först</string>
-    <string name="sortby_date_last_modified_asc">Äldsta ändringsdatum först</string>
-    <string name="sortby_date_last_modified_desc">Senaste ändringsdatum först</string>
-    <string name="sortby_date_release_asc">Äldsta utgivningsdatum först</string>
-    <string name="sortby_date_release_desc">Senasta utgivningsdatum först</string>
+    <string name="sortby_number_asc">Större videogrupper</string>
+    <string name="sortby_number_desc">Mindre videogrupper</string>
+    <string name="sort_date_asc">Äldst först</string>
+    <string name="sort_date_desc">Nyast först</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultat hittades</item>
@@ -150,6 +136,7 @@
     <string name="nosubfolder">Ingen undermapp</string>
     <string name="directorynotfound">Sökvägen \"%1$s\" hittades inte.</string>
     <string name="nohistory">Du har ännu ingen uppspelningshistorik.</string>
+    <string name="cant_ban_root">Du kan inte bannlysa en rotmapp</string>
 
     <string name="cover_art">Omslagsbild</string>
     <string name="shuffle_all_title">Blanda allting</string>
@@ -324,6 +311,7 @@
     <string name="screen_orientation_landscape_sensor">Landskap (sensor)</string>
     <string name="screen_orientation_last_locked">Senast låsta orientering</string>
     <string name="enable_black_theme">Mörkt tema</string>
+    <string name="dark_theme">Mörkt tema</string>
     <string name="theme_auto">Automatiskt tema</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
     <string name="subtitle_preferred_language">Föredraget språk för undertexter</string>
@@ -464,7 +452,7 @@
     <string name="remote_access_info">Info om fjärråtkomst</string>
     <string name="remote_access_content">Innehåll</string>
     <string name="remote_access_medialibrary_content">Innehåll i mediabiblioteket</string>
-    <string name="remote_access_medialibrary_content_summary">Aktiverad: %s\nInaktiverad: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Aktiverad: %1$s\nInaktiverad: %2$s</string>
     <string name="remote_access_file_browser_content">Filväljare</string>
     <string name="remote_access_network_browser_content">Nätverksväljare</string>
     <string name="remote_access_playback_control">Styr uppspelning</string>
@@ -623,7 +611,7 @@
     <string name="partial_content">VLC kan inte komma åt alla dina filer</string>
     <string name="partial_content_description">Från och med Android 11 behöver appar en specialbehörighet för att komma åt alla filer på enheten.\n\n%s</string>
     <string name="never_ask_again">Fråga inte igen</string>
-    <string name="never_show_again">Visa aldrig igen</string>
+    <string name="never_show_again">Visa aldrig igen, även för framtida versioner</string>
     <string name="allow_settings_access_ringtone_title">Tillåt VLC att ändra ringsignalen</string>
     <string name="allow_settings_access_ringtone_description">Du måste bevilja denna behörighet för att VLC ska kunna ändra din ringsignal till denna låt.</string>
     <string name="allow_settings_access_brightness_title">Tillåt VLC att ändra ljusstyrkeläge</string>
@@ -792,6 +780,8 @@
     <string name="light_theme">Ljust tema</string>
     <string name="add">Lägg till</string>
     <string name="add_to_new_playlist">Lägg till i ny spellista</string>
+    <string name="create_new_playlist">Skapa ny spellista</string>
+    <string name="create">Skapa</string>
     <string name="resume_card_message">Återuppta uppspelning av %1$s?</string>
     <string name="misc">Övrigt</string>
     <string name="popup_force_legacy_title">Använd anpassad popupp för bild-i-bild</string>
@@ -1052,13 +1042,13 @@
     <string name="banned">Bannlyst mapp (tryck länge för att ändra)</string>
     <string name="banned_tv">Bannlyst mapp</string>
     <string name="banned_parent">Bannlyst av överordnad mapp</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Detta objekt finns redan i denna spellista.</item>
-        <item quantity="other">Dessa objekt finns redan i denna spellista.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Detta objekt finns redan i spellistan \"%s\".</item>
+        <item quantity="other">Dessa objekt finns redan i spellistan \"%s\".</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 av de markerade objekten finns redan i denna spellista. </item>
-        <item quantity="other">%d av de markerade objekten finns redan i denna spellista.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 av de markerade objekten finns redan i spellistan \"%s\".</item>
+        <item quantity="other">%d av de markerade objekten finns redan i spellistan \"%s\".</item>
     </plurals>
     <string name="official_website">Officiell webbplats</string>
     <string name="view_online">Visa på internet</string>
@@ -1114,7 +1104,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titel: %s - längd: %s</string>
+    <string name="talkback_media_content_description">%1$s - titel: %2$s - längd: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Historikobjekt</string>
     <string name="talkback_playlist">Spellista: %s</string>
@@ -1141,7 +1131,7 @@
     <string name="talkback_video_tracks">Videospår</string>
     <string name="talkback_audio_tracks">Ljudspår</string>
     <string name="talkback_subtitle_tracks">Undertextspår</string>
-    <string name="talkback_subtitle_dowload_item">Språk: %s. %s. Namn: %s</string>
+    <string name="talkback_subtitle_dowload_item">Språk: %1$s. %2$s. Namn: %3$s</string>
     <string name="selected">Markerade</string>
     <string name="talkback_increase_delay">Öka fördröjning</string>
     <string name="talkback_decrease_delay">Minska fördröjning</string>
@@ -1153,8 +1143,8 @@
     <string name="talkback_audio_player_collapsed">Ljudspelaren minimerades</string>
     <string name="talkback_audio_player_closed">Ljudspelaren stängdes</string>
     <string name="talkback_audio_player">Ljudspelare. Just nu spelas: %s</string>
-    <string name="talkback_out_of">%s av %s</string>
-    <string name="talkback_track_index">Spår %s av %s</string>
+    <string name="talkback_out_of">%1$s av %2$s</string>
+    <string name="talkback_track_index">Spår %1$s av %2$s</string>
     <string name="downloaded">Nedladdad</string>
     <string name="not_downloaded">Inte nedladdad</string>
     <string name="downloading">Laddar ned</string>

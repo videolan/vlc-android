@@ -77,6 +77,8 @@ import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistItemFlags
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
@@ -150,17 +152,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         viewModel.tracksProvider.liveHeaders.observe(this) {
             binding.songs.invalidateItemDecorations()
         }
-        audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
 
-        val playlistModel = PlaylistModel.get(this)
-        audioBrowserAdapter.setModel(playlistModel)
-        PlaylistManager.currentPlayedMedia.observe(this) {
-            audioBrowserAdapter.currentMedia = it
-        }
-        playlistModel.dataset.asFlow().conflate().onEach {
-            audioBrowserAdapter.setCurrentlyPlaying(playlistModel.playing)
-            delay(50L)
-        }.launchWhenStarted(lifecycleScope)
         if (isPlaylist) {
             audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
             itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter, lockedInSafeMode = Settings.safeMode)
@@ -236,6 +228,24 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         audioBrowserAdapter.areSectionsEnabled = false
         binding.browserFastScroller.attachToCoordinator(binding.appbar, binding.coordinator, null)
         binding.browserFastScroller.setRecyclerView(binding.songs, viewModel.tracksProvider)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val playlistModel = PlaylistModel.get(this)
+        PlaylistManager.currentPlayedMedia.observe(this) {
+            audioBrowserAdapter.currentMedia = it
+        }
+        playlistModel.dataset.asFlow().conflate().onEach {
+            audioBrowserAdapter.setCurrentlyPlaying(playlistModel.playing)
+            delay(50L)
+        }.launchWhenStarted(lifecycleScope)
+        audioBrowserAdapter.setModel(playlistModel)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        audioBrowserAdapter.setCurrentlyPlaying(false)
     }
 
     override fun onStop() {
@@ -352,12 +362,13 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null) {
-            var flags = CTX_PLAYLIST_ITEM_FLAGS
             (item as? MediaWrapper)?.let { media ->
-                if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme))) flags = flags or CTX_RENAME or CTX_COPY
-                else  flags = flags or CTX_SHARE
-                flags = flags or if(item.isFavorite) CTX_FAV_REMOVE else CTX_FAV_ADD
-
+                val flags = createCtxPlaylistItemFlags().apply {
+                    if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                    if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme)))
+                        addAll(CTX_COPY, CTX_RENAME)
+                    else add(CTX_SHARE)
+                }
                 showContext(this, this, position, media, flags)
             }
         }
@@ -461,7 +472,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         startActivity(i)
     }
 
-    override fun onCtxAction(position: Int, option: Long) {
+    override fun onCtxAction(position: Int, option: ContextOption) {
         if (position >= audioBrowserAdapter.itemCount) return
         val media = audioBrowserAdapter.getItem(position) as MediaWrapper? ?: return
         when (option) {
@@ -488,6 +499,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 media.isFavorite = option == CTX_FAV_ADD
             }
+            else -> {}
         }
 
     }

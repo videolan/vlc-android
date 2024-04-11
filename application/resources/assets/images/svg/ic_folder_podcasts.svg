@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="48.0px"
+   height="48.0px"
+   viewBox="0 0 48.0 48.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_browser_podcast_2.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17188"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="10.248373"
+     inkscape:cx="18.198011"
+     inkscape:cy="22.491375"
+     inkscape:window-width="1600"
+     inkscape:window-height="829"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid17251" />
+  </sodipodi:namedview>
+  <defs
+     id="defs17183" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path12227"
+       style="fill:#000000;stroke-width:1"
+       d="M 8 8 C 5.8000022 8 4.0195313 9.8000018 4.0195312 12 L 4 36 C 4 38.199998 5.8000022 40 8 40 L 40 40 C 42.199998 40 44 38.199998 44 36 L 44 16 C 44 13.800002 42.199998 12 40 12 L 24 12 L 20 8 L 8 8 z M 8 12 L 18.339844 12 L 22.339844 16 L 40 16 L 40 36 L 8 36 L 8 12 z M 29.962891 18.501953 C 29.685872 18.503425 29.40617 18.520391 29.123047 18.552734 C 25.72556 18.935234 22.957724 21.688441 22.552734 25.085938 C 22.290235 27.298435 22.99547 29.336977 24.292969 30.859375 C 24.570468 31.181875 25.065245 31.204297 25.365234 30.904297 L 25.402344 30.867188 C 25.664843 30.604688 25.686953 30.177578 25.439453 29.892578 C 24.269464 28.520179 23.693516 26.615154 24.166016 24.597656 C 24.691015 22.340159 26.55009 20.556093 28.830078 20.121094 C 32.647564 19.386094 36 22.310004 36 26 C 36 27.469999 35.459218 28.821195 34.574219 29.871094 C 34.319219 30.171093 34.343282 30.605313 34.613281 30.882812 C 34.928281 31.197812 35.445469 31.175578 35.730469 30.830078 C 36.832958 29.525079 37.5 27.844998 37.5 26 C 37.5 21.844535 34.118173 18.479871 29.962891 18.501953 z M 29.865234 21.503906 C 29.60183 21.511643 29.333905 21.542813 29.0625 21.597656 C 27.360012 21.942656 25.972968 23.307267 25.605469 25.009766 C 25.305469 26.404764 25.658516 27.724845 26.416016 28.714844 C 26.678515 29.052343 27.188282 29.067078 27.488281 28.767578 L 27.541016 28.714844 C 27.796015 28.459844 27.795937 28.062343 27.585938 27.777344 C 27.075938 27.102344 26.849844 26.202499 27.089844 25.25 C 27.352343 24.185001 28.230235 23.322344 29.302734 23.089844 C 31.267722 22.639844 33 24.117502 33 26 C 33 26.652499 32.789687 27.252735 32.429688 27.740234 C 32.204688 28.047734 32.212422 28.468282 32.482422 28.738281 C 32.812422 29.068281 33.359219 29.015312 33.636719 28.632812 C 34.176718 27.897813 34.5 26.982499 34.5 26 C 34.5 23.471565 32.411476 21.429114 29.865234 21.503906 z M 30 24.5 C 29.175001 24.5 28.5 25.175001 28.5 26 C 28.5 26.554999 28.8 27.028516 29.25 27.291016 L 29.25 32.75 C 29.25 33.1625 29.5875 33.5 30 33.5 C 30.4125 33.5 30.75 33.1625 30.75 32.75 L 30.75 27.291016 C 31.2 27.036016 31.5 26.554999 31.5 26 C 31.5 25.175001 30.824989 24.5 30 24.5 z " />
+  </g>
+</svg>

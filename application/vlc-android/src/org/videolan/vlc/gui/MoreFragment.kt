@@ -148,12 +148,18 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
                 if (it) streamsEntry.loading.state = EmptyLoadingState.LOADING
             }
         }
+        streamsEntry.actionButton.setVisible()
+        streamsEntry.setOnActionClickListener {
+            val i = Intent(requireActivity(), SecondaryActivity::class.java)
+            i.putExtra("fragment", SecondaryActivity.STREAMS)
+            requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+        }
 
         settingsButton.setOnClickListener {
-            requireActivity().startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+            requireActivity().startActivityForResult(Intent(requireActivity(), PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
         }
         aboutButton.setOnClickListener {
-            val i = Intent(activity, SecondaryActivity::class.java)
+            val i = Intent(requireActivity(), SecondaryActivity::class.java)
             i.putExtra("fragment", SecondaryActivity.ABOUT)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
@@ -174,7 +180,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         streamsEntry.list.adapter = streamsAdapter
 
         historyEntry.setOnActionClickListener {
-            val i = Intent(activity, SecondaryActivity::class.java)
+            val i = Intent(requireActivity(), SecondaryActivity::class.java)
             i.putExtra("fragment", SecondaryActivity.HISTORY)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }

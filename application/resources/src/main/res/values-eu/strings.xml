@@ -23,27 +23,8 @@
     <string name="searchable_hint">Bilatu…</string>
     <string name="history">Historia</string>
 
-    <string name="sortby_name_asc">Izena A → Z</string>
-    <string name="sortby_name_desc">Izena Z → A</string>
-    <string name="sortby_artist_name_asc">Artistaren izena A → Z</string>
-    <string name="sortby_artist_name_desc">Artistaren izena Z → A</string>
-    <string name="sortby_album_name_asc">Albumaren izena A → Z</string>
-    <string name="sortby_album_name_desc">Albumaren izena Z → A</string>
-    <string name="sortby_filename_asc">Fitxategiaren izena A → Z</string>
-    <string name="sortby_filename_desc">Fitxategiaren izena Z → A</string>
     <string name="sortby_length_asc">Motzena lehenengo</string>
     <string name="sortby_length_desc">Luzeena lehenik</string>
-    <string name="sortby_date_asc">Data zaharrena lehenik</string>
-    <string name="sortby_date_desc">Data berriena lehenik</string>
-    <string name="sortby_last_modified_date_asc">Gehiketarik zaharrena lehenik</string>
-    <string name="sortby_last_modified_date_desc">Gehiketarik berriena lehenik</string>
-    <string name="sortby_date_insertion_asc">Txertatze datarik zaharrena lehenik</string>
-    <string name="sortby_date_insertion_desc">Txertatze datarik berriena lehenik</string>
-    <string name="sortby_date_last_modified_asc">Aldatze datarik zaharrena lehenik</string>
-    <string name="sortby_date_last_modified_desc">Aldatze datarik berriena lehenik</string>
-    <string name="sortby_date_release_asc">Argitaratze datarik zaharrena lehenik</string>
-    <string name="sortby_date_release_desc">Argitaratze datarik berriena lehenik</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Emaitza %d aurkitu da</item>
         <item quantity="other">%d emaitza aurkitu dira</item>
@@ -148,7 +129,6 @@
     <string name="nosubfolder">Azpikarpetarik ez</string>
     <string name="directorynotfound">\'%1$s\' direktorio-bidea ez da aurkitu.</string>
     <string name="nohistory">Ez daukazu erreprodukzio-historiarik oraindik.</string>
-
     <string name="cover_art">Azaleko diseinua</string>
     <string name="shuffle_all_title">Nahastu denak</string>
     <string name="shuffle_title">Nahasketa modua</string>
@@ -998,14 +978,6 @@
     <string name="banned">Debekatutako karpeta (sakatu luze aldatzeko)</string>
     <string name="banned_tv">Debekatutako karpeta</string>
     <string name="banned_parent">Karpeta nagusiak debekatua</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Elementu hau dagoeneko erreprodukzio zerrenda honetan dago.</item>
-        <item quantity="other">Elementu hauek dagoeneko erreprodukzio zerrenda honetan daude.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Aukeratutako elementuetako 1 dagoeneko erreprodukzio zerrenda honetan dago.</item>
-        <item quantity="other">Aukeratutako %d elementu erreprodukzio zerrenda honetan daude dagoeneko.</item>
-    </plurals>
     <string name="official_website">Webgune ofiziala</string>
     <string name="view_online">Ikusi konektatuta</string>
     <string name="player_under_notch">Erakutsi bideoa koska azpian</string>
@@ -1053,8 +1025,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titulua: %s - iraupena: %s</string>
     <string name="talkback_genre">Generoa: %s</string>
     <string name="talkback_history_item">Historiako elementua</string>
     <string name="talkback_playlist">Erreprodukzio-zerrenda: %s</string>
@@ -1081,7 +1051,6 @@
     <string name="talkback_video_tracks">Bideo pistak</string>
     <string name="talkback_audio_tracks">Audio pistak</string>
     <string name="talkback_subtitle_tracks">Azpitituluen pistak</string>
-    <string name="talkback_subtitle_dowload_item">Hizkuntza: %s. %s. Izena: %s</string>
     <string name="selected">Hautatuta</string>
     <string name="talkback_increase_delay">Handiagotu atzerapena</string>
     <string name="talkback_decrease_delay">Txikiagotu atzerapena</string>
@@ -1093,7 +1062,6 @@
     <string name="talkback_audio_player_collapsed">Audio-erreproduzitzailea tolestuta</string>
     <string name="talkback_audio_player_closed">Audio-erreproduzitzailea itxita</string>
     <string name="talkback_audio_player">Audio erreproduzitzailea. Oraintxe jotzen: %s</string>
-    <string name="talkback_out_of">%s %s-tik kanpo</string>
     <string name="downloaded">Deskargatuta</string>
     <string name="not_downloaded">Deskargatu gabe</string>
     <string name="downloading">Deskargatzen</string>

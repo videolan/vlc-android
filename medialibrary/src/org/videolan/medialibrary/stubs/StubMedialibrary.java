@@ -187,6 +187,11 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
+    public VideoGroup getVideoGroup(long id) {
+        return null;
+    }
+
+    @Override
     public boolean regroupAll() {
         return false;
     }
@@ -490,6 +495,11 @@ public class StubMedialibrary extends Medialibrary {
         return folders.toArray(new Folder[0]);
     }
 
+    @Override
+    public Folder getFolder(int type, long id) {
+        return null;
+    }
+
     public int getFoldersCount(int type) {
         return getFolders(type, 0, false, true, false, 0, 0).length;
     }
@@ -702,7 +712,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
-    public boolean setGlobalSubscriptionMaxCacheSize(long size) {
+    public boolean setMaxCacheSize(long size) {
         return false;
     }
 
@@ -717,7 +727,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
-    public long getGlobalSubscriptionMaxCacheSize() {
+    public long getMaxCacheSize() {
         return -1L;
     }
 

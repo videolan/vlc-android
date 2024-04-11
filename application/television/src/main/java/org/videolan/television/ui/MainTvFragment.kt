@@ -97,6 +97,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
     private lateinit var playlistAdapter: ArrayObjectAdapter
+    private lateinit var favoritesAdapter: ArrayObjectAdapter
     private lateinit var browserAdapter: ArrayObjectAdapter
     private lateinit var otherAdapter: ArrayObjectAdapter
 
@@ -107,6 +108,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
     private lateinit var playlistRow: ListRow
+    private lateinit var favoritesRow: ListRow
     private lateinit var browsersRow: ListRow
     private lateinit var miscRow: ListRow
 
@@ -115,6 +117,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var displayNowPlaying = false
     private var displayRecentlyPlayed = false
     private var displayRecentlyAdded = false
+    private var displayFavorites = false
     private var selectedItem: Any? = null
 
     private var lines: Int = 7
@@ -177,6 +180,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         playlistRow = ListRow(playlistHeader, playlistAdapter)
 //        rowsAdapter.add(playlistRow)
 
+        favoritesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
+        val favoritesHeader = HeaderItem(HEADER_PLAYLISTS, getString(R.string.favorites))
+        favoritesRow = ListRow(favoritesHeader, favoritesAdapter)
+
         //Browser section
         browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val browserHeader = HeaderItem(HEADER_NETWORK, getString(R.string.browsing))
@@ -186,9 +193,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         otherAdapter = ArrayObjectAdapter(GenericCardPresenter(ctx))
         val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
 
-        val lockItem = GenericCardItem(ID_PIN_LOCK, getString(R.string.lock_with_pin_short), "", R.drawable.ic_menu_pin_lock_big, R.color.tv_card_content_dark)
+        val lockItem = GenericCardItem(ID_PIN_LOCK, getString(R.string.lock_with_pin_short), "", R.drawable.ic_pin_lock_big, R.color.tv_card_content_dark)
         if (PinCodeDelegate.pinUnlocked.value == true) otherAdapter.add(lockItem)
-        otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content_dark))
+        otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_settings_big, R.color.tv_card_content_dark))
         val remoteAccessCard = GenericCardItem(ID_REMOTE_ACCESS, getString(R.string.remote_access), "", R.drawable.ic_remote_access_big, R.color.tv_card_content_dark)
         Settings.remoteAccessEnabled.observe(requireActivity()) {
             if (it)
@@ -196,8 +203,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             else
                 otherAdapter.remove(remoteAccessCard)
         }
-        if (Permissions.canReadStorage(requireActivity())) otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
-        otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VLC_VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
+        if (Permissions.canReadStorage(requireActivity())) otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_scan_big, R.color.tv_card_content_dark))
+        otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VLC_VERSION_NAME}", R.drawable.ic_info_big, R.color.tv_card_content_dark))
         val donateCard = GenericCardItem(ID_SPONSOR, getString(R.string.tip_jar), "", R.drawable.ic_donate_big, R.color.tv_card_content_dark)
 
 //        VLCBilling.getInstance(requireActivity().application).addStatusListener {
@@ -240,6 +247,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         model.browsers.observe(requireActivity()) {
             browserAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NETWORK)
+        }
+        model.favoritesList.observe(requireActivity()) {
+            displayFavorites = it.isNotEmpty()
+            favoritesAdapter.setItems(it, diffCallback)
         }
         model.audioCategories.observe(requireActivity()) {
             categoriesAdapter.setItems(it.toList(), diffCallback)
@@ -297,13 +308,14 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun resetLines() {
-        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
+        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow, audioRow, playlistRow, historyRow, favoritesRow, browsersRow, miscRow).filter {
             when {
                 !displayRecentlyPlayed && it == recentlyPlayedRow -> false
                 !displayRecentlyAdded && it == recentlyAdddedRow -> false
                 !displayHistory && it == historyRow -> false
                 !displayPlaylist && it == playlistRow -> false
                 !displayNowPlaying && it == nowPlayingRow -> false
+                !displayFavorites && it == favoritesRow -> false
                 else -> true
             }
 

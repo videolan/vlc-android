@@ -33,8 +33,8 @@ public abstract class MlService {
     public abstract boolean setAutoDownloadEnabled(boolean enabled);
     public abstract boolean isNewMediaNotificationEnabled();
     public abstract boolean setNewMediaNotificationEnabled(boolean enabled);
-    public abstract long getMaxCachedSize();
-    public abstract boolean setMaxCachedSize(long size);
+    public abstract long getMaxCacheSize();
+    public abstract boolean setMaxCacheSize(long size);
     public abstract int getNbSubscriptions();
     public abstract int getNbUnplayedMedia();
     public abstract Subscription[] getSubscriptions(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);

@@ -23,28 +23,14 @@
     <string name="searchable_hint">Suchen…</string>
     <string name="history">Verlauf</string>
 
-    <string name="sortby_name_asc">Name A → Z</string>
-    <string name="sortby_name_desc">Name Z → A</string>
-    <string name="sortby_artist_name_asc">Künstlername A → Z</string>
-    <string name="sortby_artist_name_desc">Künstlername Z → A</string>
-    <string name="sortby_album_name_asc">Albumname A → Z</string>
-    <string name="sortby_album_name_desc">Albumname Z → A</string>
-    <string name="sortby_filename_asc">Dateiname A → Z</string>
-    <string name="sortby_filename_desc">Dateiname Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Kürzeste zuerst</string>
     <string name="sortby_length_desc">Längste zuerst</string>
-    <string name="sortby_date_asc">Ältestes Datum zuerst</string>
-    <string name="sortby_date_desc">Neuestes Datum zuerst</string>
-    <string name="sortby_last_modified_date_asc">Älteste hinzugefügte zuerst</string>
-    <string name="sortby_last_modified_date_desc">Jüngste hinzugefügte zuerst</string>
-    <string name="sortby_number_asc">Mehr Videos zuerst in der Gruppe</string>
-    <string name="sortby_number_desc">Weniger Videos zuerst in der Gruppe</string>
-    <string name="sortby_date_insertion_asc">Ältestes Einfügedatum zuerst</string>
-    <string name="sortby_date_insertion_desc">Neuestes Einfügungsdatum zuerst</string>
-    <string name="sortby_date_last_modified_asc">Ältestes Änderungsdatum zuerst</string>
-    <string name="sortby_date_last_modified_desc">Neuestes Änderungsdatum zuerst</string>
-    <string name="sortby_date_release_asc">Ältestes Erscheinungsdatum zuerst</string>
-    <string name="sortby_date_release_desc">Neuestes Erscheinungsdatum zuerst</string>
+    <string name="sortby_number_asc">Mehr Videos in der Gruppe</string>
+    <string name="sortby_number_desc">Weniger Videos in der Gruppe</string>
+    <string name="sort_date_asc">Älteste zuerst</string>
+    <string name="sort_date_desc">Neueste zuerst</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d Ergebnis gefunden</item>
@@ -150,6 +136,7 @@
     <string name="nosubfolder">Keine Unterordner</string>
     <string name="directorynotfound">Der Verzeichnispfad \'%1$s\' wurde nicht gefunden.</string>
     <string name="nohistory">Sie haben noch keinen Wiedergabeverlauf.</string>
+    <string name="cant_ban_root">Sie können einen Stammordner nicht sperren</string>
 
     <string name="cover_art">Titelbild</string>
     <string name="shuffle_all_title">Zufallswiedergabe für alles</string>
@@ -324,6 +311,7 @@
     <string name="screen_orientation_landscape_sensor">Querformat (Sensor)</string>
     <string name="screen_orientation_last_locked">Letzte gesperrte Ausrichtung</string>
     <string name="enable_black_theme">Schwarzes Design</string>
+    <string name="dark_theme">Dunkles Design</string>
     <string name="theme_auto">Automatisches Design</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="subtitle_preferred_language">Bevorzugte Untertitelsprache</string>
@@ -464,7 +452,7 @@
     <string name="remote_access_info">Fernzugriff-Info</string>
     <string name="remote_access_content">Inhalt</string>
     <string name="remote_access_medialibrary_content">Medienbibliotheksinhalt</string>
-    <string name="remote_access_medialibrary_content_summary">Aktiviert: %s\nDeaktiviert: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Aktiviert: %1$s\nDeaktiviert: %2$s</string>
     <string name="remote_access_file_browser_content">Datei-Browser</string>
     <string name="remote_access_network_browser_content">Netzwerk-Browser</string>
     <string name="remote_access_playback_control">Wiedergabe steuern</string>
@@ -623,7 +611,7 @@
     <string name="partial_content">VLC kann nicht auf alle Ihre Dateien zugreifen</string>
     <string name="partial_content_description">Ab Android 11 benötigen Anwendungen eine spezielle Berechtigung, um auf alle Gerätedateien zuzugreifen.\n\n%s</string>
     <string name="never_ask_again">Nicht erneut fragen</string>
-    <string name="never_show_again">Nicht erneut anzeigen</string>
+    <string name="never_show_again">Nie wieder anzeigen, auch nicht für zukünftige Versionen</string>
     <string name="allow_settings_access_ringtone_title">VLC das Einstellen des Klingeltons erlauben</string>
     <string name="allow_settings_access_ringtone_description">VLC benötigt diese Berechtigung um, dieses Lied als Klingelton einzurichten.</string>
     <string name="allow_settings_access_brightness_title">VLC das Einstellen des Helligkeitsmodus erlauben</string>
@@ -792,6 +780,8 @@
     <string name="light_theme">Helles Design</string>
     <string name="add">Hinzufügen</string>
     <string name="add_to_new_playlist">Zur neuer Wiedergabeliste hinzufügen</string>
+    <string name="create_new_playlist">Neue Wiedergabeliste erstellen</string>
+    <string name="create">Erstellen</string>
     <string name="resume_card_message">Wiedergabe fortsetzen von %1$s?</string>
     <string name="misc">Verschiedenes</string>
     <string name="popup_force_legacy_title">Benutzerdefiniertes Bild-in-Bild</string>
@@ -1052,13 +1042,13 @@
     <string name="banned">Gesperrter Ordner (zum Ändern lange tippen)</string>
     <string name="banned_tv">Gesperrter Ordner</string>
     <string name="banned_parent">Gesperrt durch übergeordneten Ordner</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Dieses Element befinden sich bereits in dieser Wiedergabeliste. </item>
-        <item quantity="other">Diese Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Dieses Element befinden sich bereits in dieser \"%s\" - Wiedergabeliste. </item>
+        <item quantity="other">Diese Elemente befinden sich bereits in dieser \"%s\" - Wiedergabeliste.</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Eines der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
-        <item quantity="other">%d der ausgewählten Elemente befinden sich bereits in dieser Wiedergabeliste.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Eines der ausgewählten Elemente befinden sich bereits in dieser \"%s\" - Wiedergabeliste.</item>
+        <item quantity="other">%d der ausgewählten Elemente befinden sich bereits in dieser \"%s\" - Wiedergabeliste.</item>
     </plurals>
     <string name="official_website">Offizielle Webseite</string>
     <string name="view_online">Online ansehen</string>
@@ -1114,7 +1104,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - Titel: %s - Dauer: %s</string>
+    <string name="talkback_media_content_description">%1$s - Titel: %2$s - Dauer: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Element-Verlauf</string>
     <string name="talkback_playlist">Wiedergabeliste: %s</string>
@@ -1141,7 +1131,7 @@
     <string name="talkback_video_tracks">Videospuren</string>
     <string name="talkback_audio_tracks">Audiospuren</string>
     <string name="talkback_subtitle_tracks">Untertitelspuren</string>
-    <string name="talkback_subtitle_dowload_item">Sprache: %s. %s. Name: %s</string>
+    <string name="talkback_subtitle_dowload_item">Sprache: %1$s. %2$s. Name: %3$s</string>
     <string name="selected">Ausgewählt</string>
     <string name="talkback_increase_delay">Verzögerung erhöhen</string>
     <string name="talkback_decrease_delay">Verzögerung reduzieren</string>
@@ -1153,8 +1143,8 @@
     <string name="talkback_audio_player_collapsed">Audiowiedergabe minimiert</string>
     <string name="talkback_audio_player_closed">Audiowiedergabe geschlossen</string>
     <string name="talkback_audio_player">Audiowiedergabe. Aktuell läuft: %s</string>
-    <string name="talkback_out_of">%s von %s</string>
-    <string name="talkback_track_index">Titel %s von %s</string>
+    <string name="talkback_out_of">%1$s von %2$s</string>
+    <string name="talkback_track_index">Titel %1$s von %2$s</string>
     <string name="downloaded">Heruntergeladen</string>
     <string name="not_downloaded">Nicht heruntergeladen</string>
     <string name="downloading">Wird heruntergeladen</string>

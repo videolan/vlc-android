@@ -20,20 +20,8 @@
     <string name="searchable_hint">Search…</string>
     <string name="history">History</string>
 
-    <string name="sortby_name_asc">Name A → Z</string>
-    <string name="sortby_name_desc">Name Z → A</string>
-    <string name="sortby_artist_name_asc">Artist name A → Z</string>
-    <string name="sortby_artist_name_desc">Artist name Z → A</string>
-    <string name="sortby_album_name_asc">Album name A → Z</string>
-    <string name="sortby_album_name_desc">Album name Z → A</string>
-    <string name="sortby_filename_asc">File name A → Z</string>
-    <string name="sortby_filename_desc">File name Z → A</string>
     <string name="sortby_length_asc">Shortest first</string>
     <string name="sortby_length_desc">Longest first</string>
-    <string name="sortby_date_asc">Oldest date first</string>
-    <string name="sortby_date_desc">Newest date first</string>
-    <string name="sortby_last_modified_date_asc">Oldest addition first</string>
-    <string name="sortby_last_modified_date_desc">Newest addition first</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d result found</item>
         <item quantity="other">%d results found</item>
@@ -136,7 +124,6 @@
     <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
-
     <string name="cover_art">Cover art</string>
     <string name="shuffle_all_title">Shuffle all</string>
     <string name="shuffle_title">Shuffle mode</string>
@@ -966,14 +953,6 @@
     <string name="banned">Banned folder (long tap to change)</string>
     <string name="banned_tv">Banned folder</string>
     <string name="banned_parent">Banned by parent folder</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">This item is already in this playlist.</item>
-        <item quantity="other">These items are already in this playlist.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 of the selected items is already in this playlist.</item>
-        <item quantity="other">%d of the selected items are already in this playlist.</item>
-    </plurals>
     <string name="official_website">Official website</string>
     <string name="view_online">View online</string>
     <string name="player_under_notch">Display video under notch</string>
@@ -1021,8 +1000,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - title: %s - duration: %s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">History item</string>
     <string name="talkback_playlist">Playlist: %s</string>
@@ -1049,7 +1026,6 @@
     <string name="talkback_video_tracks">Video tracks</string>
     <string name="talkback_audio_tracks">Audio tracks</string>
     <string name="talkback_subtitle_tracks">Subtitle tracks</string>
-    <string name="talkback_subtitle_dowload_item">Language: %s. %s. Name: %s</string>
     <string name="selected">Selected</string>
     <string name="talkback_increase_delay">Increase delay</string>
     <string name="talkback_decrease_delay">Decrease delay</string>
@@ -1061,8 +1037,6 @@
     <string name="talkback_audio_player_collapsed">Audio player collapsed</string>
     <string name="talkback_audio_player_closed">Audio player closed</string>
     <string name="talkback_audio_player">Audio player. Currently playing: %s</string>
-    <string name="talkback_out_of">%s out of %s</string>
-    <string name="talkback_track_index">Track %s out of %s</string>
     <string name="downloaded">Downloaded</string>
     <string name="not_downloaded">Not downloaded</string>
     <string name="downloading">Downloading</string>

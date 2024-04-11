@@ -49,6 +49,7 @@ import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.media.MediaSessionBrowser
+import org.videolan.vlc.util.PlaybackAction
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import java.security.SecureRandom
@@ -115,8 +116,8 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     if (!prevActionSeek) {
                         val enabledActions = playbackService.enabledActions
                         when (keyEvent.keyCode) {
-                            KeyEvent.KEYCODE_MEDIA_NEXT -> if ((enabledActions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT) != 0L) onSkipToNext()
-                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> if ((enabledActions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS) != 0L) onSkipToPrevious()
+                            KeyEvent.KEYCODE_MEDIA_NEXT -> if (enabledActions.contains(PlaybackAction.ACTION_SKIP_TO_NEXT)) onSkipToNext()
+                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> if (enabledActions.contains(PlaybackAction.ACTION_SKIP_TO_PREVIOUS)) onSkipToPrevious()
                         }
                     }
                     prevActionSeek = false
@@ -313,7 +314,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
         val playbackState = PlaybackStateCompat.Builder()
-                .setActions(playbackService.enabledActions)
+                .setActions(playbackService.enabledActions.getCapabilities())
                 .setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.getTime(), playbackService.speed)
                 .build()
         playbackService.mediaSession.setPlaybackState(playbackState)
@@ -391,4 +392,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     override fun onSkipToQueueItem(id: Long) = playbackService.playIndexOrLoadLastPlaylist(id.toInt())
+
+    override fun onSetPlaybackSpeed(speed: Float) = playbackService.setRate(speed.coerceIn(0.5f, 2.0f), false)
+
 }

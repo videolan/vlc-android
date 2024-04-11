@@ -6,17 +6,17 @@
         </div>
         <template v-else>
             <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
-                <MediaListItem :media="newStream" :mediaType="'new-stream'" :hideOverflow="true" />
+                <MediaItem :isCard="false" :media="newStream" :mediaType="'new-stream'" :hideOverflow="true" />
                 <template v-for="stream in streams" :key="stream.id">
-                    <MediaListItem :media="stream" :mediaType="'stream'" :hideOverflow="true" />
+                    <MediaItem :isCard="false" :media="stream" :mediaType="'stream'" :hideOverflow="true" />
                 </template>
             </div>
             <div v-else class="row gx-3 gy-3 media-content">
                 <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-                    <MediaCardItem :media="newStream" :mediaType="'new-stream'" :hideOverflow="true" />
+                    <MediaItem :isCard="true" :media="newStream" :mediaType="'new-stream'" :hideOverflow="true" />
                 </div>
                 <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="stream in streams" :key="stream.id">
-                    <MediaCardItem :media="stream" :mediaType="'stream'" :hideOverflow="true" />
+                    <MediaItem :isCard="true" :media="stream" :mediaType="'stream'" :hideOverflow="true" />
                 </div>
             </div>
         </template>
@@ -34,12 +34,12 @@
         <template v-else>
             <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
                 <template v-for="favorite in favorites" :key="favorite.id">
-                    <MediaListItem :media="favorite" :mediaType="'folder'" :hideOverflow="true" />
+                    <MediaItem :isCard="false" :media="favorite" :mediaType="'folder'" :hideOverflow="true" />
                 </template>
             </div>
             <div v-else class="row gx-3 gy-3 media-content">
                 <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="favorite in favorites" :key="favorite.id">
-                    <MediaCardItem :media="favorite" :mediaType="'folder'" :hideOverflow="true" />
+                    <MediaItem :isCard="true" :media="favorite" :mediaType="'folder'" :hideOverflow="true" />
                 </div>
             </div>
         </template>
@@ -57,12 +57,12 @@
         <template v-else>
             <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
                 <template v-for="storage in storages" :key="storage.id">
-                    <MediaListItem :media="storage" :mediaType="'folder'" :hideOverflow="true" />
+                    <MediaItem :isCard="false" :media="storage" :mediaType="'folder'" :hideOverflow="true" />
                 </template>
             </div>
             <div v-else class="row gx-3 gy-3 media-content">
                 <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="storage in storages" :key="storage.id">
-                    <MediaCardItem :media="storage" :mediaType="'folder'" :hideOverflow="true" />
+                    <MediaItem :isCard="true" :media="storage" :mediaType="'folder'" :hideOverflow="true" />
                 </div>
             </div>
         </template>
@@ -81,12 +81,12 @@
         <template v-else>
             <div v-if="this.appStore.displayType[this.$route.name]" class="row gx-3 gy-3 media-list">
                 <template v-for="network in networkEntries" :key="network.id">
-                    <MediaListItem :media="network" :mediaType="'network'" :hideOverflow="true" />
+                    <MediaItem :isCard="false" :media="network" :mediaType="'network'" :hideOverflow="true" />
                 </template>
             </div>
             <div v-else class="row gx-3 gy-3 media-content">
                 <div class="col-md-3 col-lg-2 col-sm-4 col-6" v-for="network in networkEntries" :key="network.id">
-                    <MediaCardItem :media="network" :mediaType="'network'" :hideOverflow="true" />
+                    <MediaItem :isCard="true" :media="network" :mediaType="'network'" :hideOverflow="true" />
                 </div>
             </div>
         </template>
@@ -98,20 +98,19 @@
 <script>
 
 import { useAppStore } from '../stores/AppStore'
+import { useBrowserStore } from '../stores/BrowserStore'
 import { mapStores } from 'pinia'
 import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
-import MediaCardItem from '../components/MediaCardItem.vue'
-import MediaListItem from '../components/MediaListItem.vue'
+import MediaItem from '../components/MediaItem.vue'
 import EmptyView from '../components/EmptyView.vue'
 
 export default {
     computed: {
-        ...mapStores(useAppStore, ['needRefresh'])
+        ...mapStores(useAppStore, ['needRefresh'], useBrowserStore)
     },
     components: {
-        MediaCardItem,
-        MediaListItem,
+        MediaItem,
         EmptyView,
     },
     data() {
@@ -127,7 +126,7 @@ export default {
             forbidden: false,
             networkForbidden: false,
             newStream: {
-                "artist": "",
+                "artist": " ",
                 "artworkURL": "",
                 "id": -1,
                 "isFolder": true,
@@ -226,13 +225,21 @@ export default {
     },
     mounted: function () {
         this.appStore.$subscribe((mutation, state) => {
-            console.log(`Something changed in the app store: ${mutation} -> ${state}`)
-            if (mutation.events.key == "needRefresh" && mutation.events.newValue === true) {
+            if (state.needRefresh) {
+                this.$log.log(`A stream has changed!! Reloading with: ${JSON.stringify(state)}`)
                 this.fetchStreams();
                 this.appStore.needRefresh = false
             }
         })
-
+        this.browserStore.$subscribe((mutation, state) => {
+            state.descriptions.forEach(description => {
+                this.storages.forEach(item => {
+                    if (item.path == description.path) {
+                        item.artist = description.description
+                    }
+                })
+            })
+        })
     },
 }
 </script>

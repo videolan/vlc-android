@@ -6,8 +6,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="option"
-            type="org.videolan.vlc.gui.dialogs.CtxOption" />
+            name="menuItem"
+            type="org.videolan.vlc.gui.dialogs.CtxMenuItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +27,7 @@
             android:id="@+id/context_option_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{option.icon != 0 ? View.VISIBLE : View.GONE, default=gone}"
+            android:visibility="@{menuItem.icon != 0 ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
             android:layout_marginStart="24dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{option.title}"
+            android:text="@{menuItem.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/context_option_icon"

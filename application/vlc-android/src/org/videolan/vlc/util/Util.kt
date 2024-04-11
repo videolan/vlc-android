@@ -24,7 +24,6 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.app.Service
 import android.content.Context
-import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import org.videolan.resources.AppContextProvider
@@ -82,7 +81,7 @@ object Util {
 
     fun getFullScreenBundle() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         val options = ActivityOptions.makeBasic()
-        options.launchBounds = Rect(0, 0, 0, 0)
+        options.setLaunchBounds(null)
         options.toBundle()
     } else Bundle()
 

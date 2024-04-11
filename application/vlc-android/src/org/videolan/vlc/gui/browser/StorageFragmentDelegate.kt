@@ -30,7 +30,7 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.collection.SimpleArrayMap
 import androidx.fragment.app.FragmentActivity
-import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
+import org.videolan.medialibrary.interfaces.RootsEventsCb
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.util.canReadStorage
 import org.videolan.tools.*
@@ -42,8 +42,8 @@ import org.videolan.vlc.util.Permissions
 
 interface IStorageFragmentDelegate {
     fun checkBoxAction(v: View, mrl: String)
-    fun addEntryPointsCallback()
-    fun removeEntryPointsCallback()
+    fun addRootsCallback()
+    fun removeRootsCallback()
     val processingFolders: SimpleArrayMap<String, CheckBox>
 
     fun withContext(context: Context)
@@ -51,7 +51,7 @@ interface IStorageFragmentDelegate {
     fun addBannedFoldersCallback(callback: (folder:String, banned: Boolean)-> Unit)
 }
 
-class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
+class StorageFragmentDelegate : IStorageFragmentDelegate, RootsEventsCb {
     private lateinit var adapters: Array<StorageBrowserAdapter>
     private lateinit var context:Context
     override val processingFolders = SimpleArrayMap<String, CheckBox>()
@@ -70,12 +70,12 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
         bannedFolderCallback = callback
     }
 
-    override fun addEntryPointsCallback() {
-        Medialibrary.getInstance().addEntryPointsEventsCb(this)
+    override fun addRootsCallback() {
+        Medialibrary.getInstance().addRootsEventsCb(this)
     }
 
-    override fun removeEntryPointsCallback() {
-        Medialibrary.getInstance().removeEntryPointsEventsCb(this)
+    override fun removeRootsCallback() {
+        Medialibrary.getInstance().removeRootsEventsCb(this)
     }
 
     override fun checkBoxAction(v: View, mrl: String) {
@@ -110,17 +110,17 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, EntryPointsEventsCb {
         processingFolders.put(mrl, cbp)
     }
 
-    override fun onEntryPointBanned(entryPoint: String, success: Boolean) {
+    override fun onRootBanned(entryPoint: String, success: Boolean) {
         handler.post { bannedFolderCallback?.invoke(entryPoint, true) }
     }
 
-    override fun onEntryPointUnbanned(entryPoint: String, success: Boolean) {
+    override fun onRootUnbanned(entryPoint: String, success: Boolean) {
         handler.post { bannedFolderCallback?.invoke(entryPoint, false) }
     }
 
-    override fun onEntryPointAdded(entryPoint: String, success: Boolean) {}
+    override fun onRootAdded(entryPoint: String, success: Boolean) {}
 
-    override fun onEntryPointRemoved(entrypoint: String, success: Boolean) {
+    override fun onRootRemoved(entrypoint: String, success: Boolean) {
         var entryPoint = entrypoint
         if (entryPoint.endsWith("/"))
             entryPoint = entryPoint.substring(0, entryPoint.length - 1)

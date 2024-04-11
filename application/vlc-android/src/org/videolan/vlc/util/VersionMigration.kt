@@ -53,7 +53,7 @@ import org.videolan.vlc.isVLC4
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 11
+private const val CURRENT_VERSION = 12
 
 object VersionMigration {
 
@@ -98,6 +98,10 @@ object VersionMigration {
 
         if (lastVersion < 11) {
             migrateToVersion11(settings)
+        }
+
+        if (lastVersion < 12) {
+            migrateToVersion12(settings)
         }
 
         //Major version upgrade
@@ -288,6 +292,18 @@ object VersionMigration {
                     putBoolean("display_mode_playlists_${Playlist.Type.Video}", oldSetting)
                     remove("display_mode_playlists")
                 }
+            }
+    }
+
+    /**
+     * Migrate the show all files pref to show only multimedia files
+     */
+    private fun migrateToVersion12(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 12: Migrate the show all files pref to show only multimedia files")
+        if (settings.contains("browser_show_all_files"))
+            settings.edit(true) {
+                putBoolean("browser_show_only_multimedia", !settings.getBoolean("browser_show_all_files", true))
+                remove("browser_show_all_files")
             }
     }
 

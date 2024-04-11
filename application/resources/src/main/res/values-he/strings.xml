@@ -23,28 +23,14 @@
     <string name="searchable_hint">חיפוש…</string>
     <string name="history">היסטוריה</string>
 
-    <string name="sortby_name_asc">שם א ← ת</string>
-    <string name="sortby_name_desc">שם ת ← א</string>
-    <string name="sortby_artist_name_asc">שם האמן א ← ת</string>
-    <string name="sortby_artist_name_desc">שם האמן ת ← א</string>
-    <string name="sortby_album_name_asc">שם האלבום א ← ת</string>
-    <string name="sortby_album_name_desc">שם האלבום ת ← א</string>
-    <string name="sortby_filename_asc">שם הקובץ א ← ת</string>
-    <string name="sortby_filename_desc">שם הקובץ ת ← א</string>
+    <string name="sort_alpha_asc">א ← ת</string>
+    <string name="sort_alpha_desc">ת ← א</string>
     <string name="sortby_length_asc">הקצרים ביותר בהתחלה</string>
     <string name="sortby_length_desc">הארוכים ביותר בהתחלה</string>
-    <string name="sortby_date_asc">התאריך הישן ביותר בהתחלה</string>
-    <string name="sortby_date_desc">התאריך החדש ביותר בהתחלה</string>
-    <string name="sortby_last_modified_date_asc">התוספת האחרונה בהתחלה</string>
-    <string name="sortby_last_modified_date_desc">התוספת העדכנית בהתחלה</string>
-    <string name="sortby_number_asc">עוד סרטונים בקבוצה קודם לכן</string>
-    <string name="sortby_number_desc">פחות סרטונים בקבוצה קודם לכן</string>
-    <string name="sortby_date_insertion_asc">תאריך הוספה קדום ראשון</string>
-    <string name="sortby_date_insertion_desc">תאריך הוספה עדכני ראשון</string>
-    <string name="sortby_date_last_modified_asc">תאריך שינוי קדום ראשון</string>
-    <string name="sortby_date_last_modified_desc">תאריך שינוי עדכני ראשון</string>
-    <string name="sortby_date_release_asc">תאריך שחרור קדום ראשון</string>
-    <string name="sortby_date_release_desc">תאריך שחרור עדכני ראשון</string>
+    <string name="sortby_number_asc">יותר סרטונים בקבוצה</string>
+    <string name="sortby_number_desc">פחות סרטונים בקבוצה</string>
+    <string name="sort_date_asc">הישנים ביותר בהתחלה</string>
+    <string name="sort_date_desc">החדשים ביותר בהתחלה</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">נמצאה תוצאה אחת</item>
@@ -109,25 +95,21 @@
     <plurals name="subfolders_quantity">
         <item quantity="one">תת־תיקייה אחת</item>
         <item quantity="two">%d תת־תיקיות</item>
-        <item quantity="many">%d תת־תיקיות</item>
         <item quantity="other">%d תת־תיקיות</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">מדיה אחת</item>
         <item quantity="two">%d מדיה</item>
-        <item quantity="many">%d מדיה</item>
         <item quantity="other">%d מדיה</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">קובץ מדיה אחד</item>
         <item quantity="two">%d קובצי מדיה</item>
-        <item quantity="many">%d קובצי מדיה</item>
         <item quantity="other">%d קובצי מדיה</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">סרטון אחד</item>
         <item quantity="two">%d סרטונים</item>
-        <item quantity="many">%d סרטונים</item>
         <item quantity="other">%d סרטונים</item>
     </plurals>
     <plurals name="movies_quantity">
@@ -139,7 +121,6 @@
     <plurals name="tvshow_quantity">
         <item quantity="one">סדרת טלוויזיה אחת</item>
         <item quantity="two">%d סדרות טלוויזיה</item>
-        <item quantity="many">%d סדרות טלוויזיה</item>
         <item quantity="other">%d סדרות טלוויזיה</item>
     </plurals>
     <plurals name="track_quantity">
@@ -168,6 +149,7 @@
     <string name="nosubfolder">אין תת־תיקיה</string>
     <string name="directorynotfound">נתיב התיקייה \'%1$s\' לא נמצא.</string>
     <string name="nohistory">אין לך היסטוריית נגינה עדיין.</string>
+    <string name="cant_ban_root">אי אפשר לחסום תיקייה עליונה</string>
 
     <string name="cover_art">האומנות על העטיפה</string>
     <string name="shuffle_all_title">לערבב את הכול</string>
@@ -344,6 +326,7 @@
     <string name="screen_orientation_landscape_sensor">אופקי (חיישן)</string>
     <string name="screen_orientation_last_locked">הכיוון האחרון שננעל</string>
     <string name="enable_black_theme">ערכת נושא שחורה</string>
+    <string name="dark_theme">ערכת עיצוב כהה</string>
     <string name="theme_auto">ערכת עיצוב אוטומטית</string>
     <string name="subtitle_text_encoding">קידוד טקסט הכתוביות</string>
     <string name="subtitle_preferred_language">שפת הכתוביות המועדפת</string>
@@ -484,7 +467,7 @@
     <string name="remote_access_info">פרטי גישה מרחוק</string>
     <string name="remote_access_content">תוכן</string>
     <string name="remote_access_medialibrary_content">תוכן ספריית מדיה</string>
-    <string name="remote_access_medialibrary_content_summary">פעיל: %s\nמושבת: %s</string>
+    <string name="remote_access_medialibrary_content_summary">מופעל: %1$s\nמושבת: %2$s</string>
     <string name="remote_access_file_browser_content">דפדפן קבצים</string>
     <string name="remote_access_network_browser_content">דפדפן רשת</string>
     <string name="remote_access_playback_control">שליטה בנגינה</string>
@@ -571,6 +554,7 @@
     <string name="dump_logcat">שמירת רישום logcat</string>
     <string name="dump_logcat_success">ה־Logcat נשמר בהצלחה אל %1$s!</string>
     <string name="dump_logcat_failure">שמירת ה־logcat נכשלה.</string>
+    <string name="http_user_agent">סוכן משתמש HTTP</string>
     <string name="custom_libvlc_options">אפשרויות מיוחדות ל־libVLC</string>
     <string name="custom_libvlc_options_invalid">אפשרויות libVLC שגויות!</string>
 
@@ -643,7 +627,7 @@
     <string name="partial_content">ל־VLC אין גישה לכל הקבצים שלך</string>
     <string name="partial_content_description">החל מ־Android 11, יישומים זקוקים להרשאה מיוחדת כדי לגשת לכל הקבצים במכשיר.\n\n%s</string>
     <string name="never_ask_again">לעולם לא לשאול שוב</string>
-    <string name="never_show_again">לא להציג עוד</string>
+    <string name="never_show_again">לא להציג שוב, גם לא לגרסאות עתידיות</string>
     <string name="allow_settings_access_ringtone_title">לאפשר ל־VLC להגדיר את הצלצול</string>
     <string name="allow_settings_access_ringtone_description">ל־VLC נדרשת ההרשאה הזאת כדי להגדיר את השיר הזה בתור הצלצול שלך.</string>
     <string name="allow_settings_access_brightness_title">לאפשר ל־VLC לשנות את מצב הבהירות</string>
@@ -812,6 +796,8 @@
     <string name="light_theme">ערכת עיצוב בהירה</string>
     <string name="add">הוספה</string>
     <string name="add_to_new_playlist">הוספה לרשימת נגינה חדשה</string>
+    <string name="create_new_playlist">יצירת רשימת נגינה חדשה</string>
+    <string name="create">יצירה</string>
     <string name="resume_card_message">להמשיך בנגינה של %1$s?</string>
     <string name="misc">שונות</string>
     <string name="popup_force_legacy_title">להשתמש בחלונית צפה מותאמת לתמונה בתוך תמונה</string>
@@ -831,13 +817,11 @@
     <plurals name="tracks_inserted">
         <item quantity="one">רצועה %d נוספת</item>
         <item quantity="two">%d רצועות נוספות</item>
-        <item quantity="many">%d רצועות נוספות</item>
         <item quantity="other">%d רצועות נוספות</item>
     </plurals>
     <plurals name="tracks_appended">
         <item quantity="one">רצועה %d נוספה לסוף</item>
         <item quantity="two">%d רצועות נוספו לסוף</item>
-        <item quantity="many">%d רצועות נוספו לסוף</item>
         <item quantity="other">%d רצועות נוספו לסוף</item>
     </plurals>
     <string name="remove_current">הסרת הנוכחית</string>
@@ -1076,17 +1060,17 @@
     <string name="banned">תיקייה חסומה (נגיעה ארוכה לשינוי)</string>
     <string name="banned_tv">תיקייה חסומה</string>
     <string name="banned_parent">נחסמה על ידי תיקיית ההורה</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">הפריט הזה כבר קיים ברשימת נגינה זו.</item>
-        <item quantity="two">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
-        <item quantity="many">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
-        <item quantity="other">הפריטים האלה כבר קיימים ברשימת נגינה זו.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">הפריט הזה כבר נמצא ברשימת הנגינה „%s”.</item>
+        <item quantity="two">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="many">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="other">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">אחד מהפריטים הנבחרים כבר נמצא ברשימת הנגינה.</item>
-        <item quantity="two">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
-        <item quantity="many">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
-        <item quantity="other">%d מהפריטים הנבחרים כבר נמצאים ברשימת הנגינה.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">אחד מהפריטים האלה כבר נמצא ברשימת הנגינה „%s”.</item>
+        <item quantity="two">%d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="many">%d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="other">%d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
     </plurals>
     <string name="official_website">האתר הרשמי</string>
     <string name="view_online">הצגה באופן מקוון</string>
@@ -1142,7 +1126,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - כותרת: %s - משך: %s</string>
+    <string name="talkback_media_content_description">%1$s - כותרת: %2$s - משך: %3$s</string>
     <string name="talkback_genre">סגנון: %s</string>
     <string name="talkback_history_item">פריט בהיסטוריה</string>
     <string name="talkback_playlist">רשימת נגינה: %s</string>
@@ -1169,7 +1153,7 @@
     <string name="talkback_video_tracks">רצועות וידאו</string>
     <string name="talkback_audio_tracks">רצועות שמע</string>
     <string name="talkback_subtitle_tracks">רצועות כתוביות</string>
-    <string name="talkback_subtitle_dowload_item">שפה: %s. %s. שם: %s</string>
+    <string name="talkback_subtitle_dowload_item">שפה: %1$s. %2$s. שם: %3$s</string>
     <string name="selected">נבחר</string>
     <string name="talkback_increase_delay">הגדלת השהיה</string>
     <string name="talkback_decrease_delay">הקטנת השהיה</string>
@@ -1181,8 +1165,8 @@
     <string name="talkback_audio_player_collapsed">נגן השמע הוקטן</string>
     <string name="talkback_audio_player_closed">נגן השמע נסגר</string>
     <string name="talkback_audio_player">נגן שמע. מנגן כרגע: %s</string>
-    <string name="talkback_out_of">%s מתוך %s</string>
-    <string name="talkback_track_index">רצועה %s מתוך %s</string>
+    <string name="talkback_out_of">%1$s מתוך %2$s</string>
+    <string name="talkback_track_index">רצועה %1$s מתוך %2$s</string>
     <string name="downloaded">התקבל</string>
     <string name="not_downloaded">לא התקבל</string>
     <string name="downloading">מתקבל</string>
@@ -1253,4 +1237,5 @@
     <string name="podcast_mode">מצב הסכתים</string>
     <string name="podcast_mode_help">פקדי הסתכים מופיעים בעת נגינה של רצועה בודדת שעונה על אחד מהתנאים הבאים:\n\t• האורך עולה על 60 דקות\n\t• האורך עולה על 15 דקות ואין שם אלבום\n\t• הסוגה היא %s</string>
     <string name="voice_control">שליטה קולית</string>
-    </resources>
+    <string name="voice_control_help">אפשר לשלוט ב־VLC באמצעות Google Assistant על ידי אמירת הפקודות האלה בקול רם (אין תמיכה בעברית עדיין):\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+</resources>

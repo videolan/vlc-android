@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="48.0px"
+   height="48.0px"
+   viewBox="0 0 48.0 48.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_stream.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17188"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="14.493388"
+     inkscape:cx="26.977819"
+     inkscape:cy="13.523408"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid17251" />
+  </sodipodi:namedview>
+  <defs
+     id="defs17183" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path1219"
+       style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none;paint-order:markers fill stroke"
+       d="M 9.9726562 10.888672 A 2 2 0 0 0 8.3203125 11.646484 C 5.5372269 15.160925 4.0157766 19.509265 4 23.992188 A 2.0002 2.0002 0 0 0 4 24.007812 C 4.015777 28.490737 5.5372269 32.839075 8.3203125 36.353516 A 2 2 0 0 0 11.130859 36.679688 A 2 2 0 0 0 11.457031 33.869141 C 9.2318668 31.05923 8.0163881 27.584069 8.0019531 24 C 8.0163881 20.415931 9.2318668 16.940765 11.457031 14.130859 A 2 2 0 0 0 11.130859 11.320312 A 2 2 0 0 0 9.9726562 10.888672 z M 38.027344 10.888672 A 2 2 0 0 0 36.869141 11.320312 A 2 2 0 0 0 36.542969 14.130859 C 38.768133 16.940765 39.983612 20.415931 39.998047 24 C 39.983617 27.584069 38.768133 31.059235 36.542969 33.869141 A 2 2 0 0 0 36.869141 36.679688 A 2 2 0 0 0 39.679688 36.353516 C 42.462773 32.839075 43.984223 28.490736 44 24.007812 A 2.0002 2.0002 0 0 0 44 24.005859 A 2.0002 2.0002 0 0 0 44 24.003906 A 2.0002 2.0002 0 0 0 44 24.001953 A 2.0002 2.0002 0 0 0 44 24 A 2.0002 2.0002 0 0 0 44 23.998047 A 2.0002 2.0002 0 0 0 44 23.996094 A 2.0002 2.0002 0 0 0 44 23.994141 A 2.0002 2.0002 0 0 0 44 23.992188 C 43.98422 19.509265 42.462773 15.160925 39.679688 11.646484 A 2 2 0 0 0 38.027344 10.888672 z M 15.554688 16.589844 A 2 2 0 0 0 15.166016 16.634766 A 2 2 0 0 0 13.908203 17.507812 C 12.662739 19.443925 11.999988 21.697891 12 24 C 11.999988 26.302109 12.662739 28.556076 13.908203 30.492188 A 2 2 0 0 0 16.671875 31.091797 A 2 2 0 0 0 17.271484 28.328125 C 16.441031 27.03716 15.999992 25.535007 16 24 C 15.999992 22.464993 16.441031 20.96284 17.271484 19.671875 A 2 2 0 0 0 16.671875 16.908203 A 2 2 0 0 0 15.554688 16.589844 z M 32.613281 16.599609 A 2 2 0 0 0 31.328125 16.908203 A 2 2 0 0 0 30.728516 19.671875 C 31.558969 20.96284 32.000008 22.464993 32 24 C 32.000008 25.535007 31.558969 27.03716 30.728516 28.328125 A 2 2 0 0 0 31.328125 31.091797 A 2 2 0 0 0 34.091797 30.492188 C 35.337261 28.556076 36.000012 26.302109 36 24 C 36.000012 21.697891 35.337261 19.443924 34.091797 17.507812 A 2 2 0 0 0 32.613281 16.599609 z M 22.046875 19.001953 A 1.0001 1.0001 0 0 0 21.527344 19.119141 A 1.0001 1.0001 0 0 0 21 20 L 21 28 A 1.0001 1.0001 0 0 0 22.554688 28.832031 L 28.554688 24.832031 A 1.0001 1.0001 0 0 0 28.554688 23.167969 L 22.554688 19.167969 A 1.0001 1.0001 0 0 0 22.046875 19.001953 z " />
+  </g>
+</svg>

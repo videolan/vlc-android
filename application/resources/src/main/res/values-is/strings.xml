@@ -23,27 +23,8 @@
     <string name="searchable_hint">Leita…</string>
     <string name="history">Ferill</string>
 
-    <string name="sortby_name_asc">Nafn A → Ö</string>
-    <string name="sortby_name_desc">Nafn Ö → A</string>
-    <string name="sortby_artist_name_asc">Nafn flytjanda A → Ö</string>
-    <string name="sortby_artist_name_desc">Nafn flytjanda Ö → A</string>
-    <string name="sortby_album_name_asc">Nafn hljómplötu A → Ö</string>
-    <string name="sortby_album_name_desc">Nafn hljómplötu Ö → A</string>
-    <string name="sortby_filename_asc">Skráarheiti A → Ö</string>
-    <string name="sortby_filename_desc">Skráarheiti Ö → A</string>
     <string name="sortby_length_asc">Stysta fyrst</string>
     <string name="sortby_length_desc">Lengsta fyrst</string>
-    <string name="sortby_date_asc">Elsta fyrst</string>
-    <string name="sortby_date_desc">Nýjasta fyrst</string>
-    <string name="sortby_last_modified_date_asc">Elsta viðbætta fyrst</string>
-    <string name="sortby_last_modified_date_desc">Síðast viðbætt fyrst</string>
-    <string name="sortby_date_insertion_asc">Elsta sett inn fyrst</string>
-    <string name="sortby_date_insertion_desc">Nýjasta sett inn fyrst</string>
-    <string name="sortby_date_last_modified_asc">Elsta breytingadagsetning fyrst</string>
-    <string name="sortby_date_last_modified_desc">Nýjasta breytingadagsetning fyrst</string>
-    <string name="sortby_date_release_asc">Elsta útgáfudagsetning fyrst</string>
-    <string name="sortby_date_release_desc">Nýjasta útgáfudagsetning fyrst</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d niðurstaða fannst</item>
         <item quantity="other">%d niðurstöður fundust</item>
@@ -147,7 +128,6 @@
     <string name="nosubfolder">Engar undirmöppur</string>
     <string name="directorynotfound">Skráaslóðin \'%1$s\' fannst ekki.</string>
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
-
     <string name="cover_art">Umslög</string>
     <string name="shuffle_all_title">Stokka allt</string>
     <string name="shuffle_title">Stokkunarhamur</string>
@@ -425,7 +405,6 @@
     <string name="enable_remote_access">Virkja fjaraðgang</string>
     <string name="remote_access_info">Upplýsingar um fjaraðgang</string>
     <string name="remote_access_content">Efni</string>
-    <string name="remote_access_medialibrary_content_summary">Virkt: %s\nÓvirkt: %s</string>
     <string name="remote_access_file_browser_content">Skráavafri</string>
     <string name="remote_access_network_browser_content">Netvafri</string>
     <string name="remote_access_playback_control">Stýring afspilunar</string>
@@ -558,7 +537,6 @@
     <string name="allow_storage_manager_title">Leyfa VLC aðgang að öllum skrám</string>
     <string name="allow_storage_manager_description">%s\n\nVeita heimild?</string>
     <string name="never_ask_again">Ekki spyrja aftur</string>
-    <string name="never_show_again">Ekki birta þetta aftur</string>
     <string name="allow_settings_access_ringtone_title">Leyfa VLC að setja hringitón</string>
     <string name="allow_settings_access_ringtone_description">VLC þarf að fá þessa heimild hjá þér til að setja þetta lag upp sem hringitón.</string>
     <string name="allow_settings_access_brightness_title">Leyfa VLC að stilla birtustigsham</string>
@@ -928,14 +906,6 @@
     <string name="banned">Bönnuð mappa (ýttu lengi til að breyta)</string>
     <string name="banned_tv">Bönnuð mappa</string>
     <string name="banned_parent">Bannað af yfirmöppu</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Þetta atriði er þegar í þessum spilunarlista.</item>
-        <item quantity="other">Þessi atriði eru þegar í þessum spilunarlista.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 af völdu atriðunum eru þegar í þessum spilunarlista.</item>
-        <item quantity="other">%d af völdu atriðunum eru þegar í þessum spilunarlista.</item>
-    </plurals>
     <string name="official_website">Opinbert vefsvæði</string>
     <string name="view_online">Skoða á netinu</string>
     <string name="no_web_browser">Enginn vafri uppsettur</string>
@@ -967,8 +937,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - titill: %s - tímalengd: %s</string>
     <string name="talkback_genre">Stíltegund: %s</string>
     <string name="talkback_history_item">Atriði í vinnsluferli</string>
     <string name="talkback_playlist">Spilunarlisti: %s</string>
@@ -995,7 +963,6 @@
     <string name="talkback_video_tracks">Myndspor</string>
     <string name="talkback_audio_tracks">Hljóðspor</string>
     <string name="talkback_subtitle_tracks">Skjátextaspor</string>
-    <string name="talkback_subtitle_dowload_item">Tungumál: %s. %s. Nafn: %s</string>
     <string name="selected">Valið</string>
     <string name="talkback_increase_delay">Auka töf</string>
     <string name="talkback_decrease_delay">Minnka töf</string>
@@ -1007,8 +974,6 @@
     <string name="talkback_audio_player_collapsed">Hljóðspilari felldur saman</string>
     <string name="talkback_audio_player_closed">Hljóðspilara lokað</string>
     <string name="talkback_audio_player">Hljóðspilari. Núna að spila: %s</string>
-    <string name="talkback_out_of">%s af %s</string>
-    <string name="talkback_track_index">Spor %s af %s</string>
     <string name="downloaded">Sótt</string>
     <string name="not_downloaded">Ekki sótt</string>
     <string name="downloading">Sæki</string>

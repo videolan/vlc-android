@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="96"
+   height="96"
+   viewBox="0 0 96 96"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_network_big.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17188"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="3.623347"
+     inkscape:cx="16.559275"
+     inkscape:cy="25.942864"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid17251"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs17183" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path21734"
+       style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none;paint-order:markers fill stroke"
+       d="M 14 16 C 10.721883 16 8 18.721883 8 22 L 8 74 C 8 77.278117 10.721883 80 14 80 L 37 80 A 3 3 0 0 0 40 77 A 3 3 0 0 0 37 74 L 14 74 L 14 22 L 35.517578 22 L 44.638672 31.121094 A 3.0003 3.0003 0 0 0 46.759766 32 L 85 32 A 3 3 0 0 0 88 29 A 3 3 0 0 0 85 26 L 48.001953 26 L 38.880859 16.878906 A 3.0003 3.0003 0 0 0 36.759766 16 L 14 16 z M 85 41 C 65.153483 41 49 57.153306 49 77 A 3 3 0 0 0 52 80 A 3 3 0 0 0 55 77 C 55 60.395991 68.396153 47 85 47 A 3 3 0 0 0 88 44 A 3 3 0 0 0 85 41 z M 85 56 C 73.43759 56 64 65.43759 64 77 A 3 3 0 0 0 67 80 A 3 3 0 0 0 70 77 C 70 68.68025 76.68023 62 85 62 A 3 3 0 0 0 88 59 A 3 3 0 0 0 85 56 z M 83.5 71 A 4.5 4.5 0 0 0 79 75.5 A 4.5 4.5 0 0 0 83.5 80 A 4.5 4.5 0 0 0 88 75.5 A 4.5 4.5 0 0 0 83.5 71 z " />
+  </g>
+</svg>

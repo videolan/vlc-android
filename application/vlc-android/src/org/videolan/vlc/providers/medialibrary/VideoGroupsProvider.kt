@@ -38,7 +38,7 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
  *
  * @return a list of [MediaLibraryItem] containing the groups and the lonely medias
  */
-private fun Array<VideoGroup>.sanitizeGroups() = map { videoGroup ->
+fun Array<VideoGroup>.sanitizeGroups() = map { videoGroup ->
     if (videoGroup.mediaCount() == 1) {
         val video = videoGroup.media(Medialibrary.SORT_DEFAULT, false, true, false, 1, 0).getOrNull(0)
         if (video != null) {

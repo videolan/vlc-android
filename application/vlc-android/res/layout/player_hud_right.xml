@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="onClick"
                         app:chipBackgroundColor="@color/playerbackground"
-                        app:chipIcon="@drawable/ic_browser_subtitle_normal"
+                        app:chipIcon="@drawable/ic_subtitles"
                         app:chipIconTint="@color/white"
                         app:iconStartPadding="8dp"
                         tools:text="+3000ms" />

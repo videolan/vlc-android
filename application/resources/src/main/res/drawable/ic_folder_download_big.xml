@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_folder_download_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+  <path
+      android:pathData="M14,16C10.722,16 8,18.722 8,22L8,74C8,77.278 10.722,80 14,80L82,80C85.278,80 88,77.278 88,74L88,32C88,28.722 85.278,26 82,26L48.002,26L38.881,16.879A3,3 0,0 0,36.76 16L14,16zM14,22L35.518,22L44.639,31.121A3,3 0,0 0,46.76 32L82,32L82,74L14,74L14,22zM58,39.5C57.175,39.5 56.5,40.175 56.5,41L56.5,48.5L54.115,48.5C52.78,48.5 52.106,50.119 53.051,51.064L59.936,57.949C60.521,58.534 61.466,58.534 62.051,57.949L68.936,51.064C69.881,50.119 69.22,48.5 67.885,48.5L65.5,48.5L65.5,41C65.5,40.175 64.825,39.5 64,39.5L58,39.5zM52,62C51.175,62 50.5,62.675 50.5,63.5C50.5,64.325 51.175,65 52,65L70,65C70.825,65 71.5,64.325 71.5,63.5C71.5,62.675 70.825,62 70,62L52,62z"
+      android:strokeLineJoin="round"
+      android:fillColor="@color/grey700"/>
+</vector>

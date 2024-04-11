@@ -9,7 +9,7 @@
     <string name="sortby">Järjestä…</string>
     <string name="sortby_name">Nimi</string>
     <string name="sortby_filename">Tiedostonimi</string>
-    <string name="sortby_artist_name">Artistinimi</string>
+    <string name="sortby_artist_name">Artisti</string>
     <string name="sortby_album_name">Albumin nimi</string>
     <string name="sortby_length">Pituus</string>
     <string name="sortby_date">Päiväys</string>
@@ -18,33 +18,19 @@
     <string name="sortby_date_last_modified">Viimeksi lisätyt</string>
     <string name="sortby_date_insertion">Lisätty päivänä</string>
     <string name="sortby_date_release">Julkaisupäivä</string>
-    <string name="sortby_media_number">Kappaleen numero</string>
+    <string name="sortby_media_number">Kappale nro</string>
     <string name="sortby_number">Nb raidat</string>
     <string name="searchable_hint">Etsi…</string>
     <string name="history">Historia</string>
 
-    <string name="sortby_name_asc">Nimi A → Z</string>
-    <string name="sortby_name_desc">Nimi Z → A</string>
-    <string name="sortby_artist_name_asc">Artisti A → Z</string>
-    <string name="sortby_artist_name_desc">Artisti Z → A</string>
-    <string name="sortby_album_name_asc">Albumi A → Z</string>
-    <string name="sortby_album_name_desc">Albumi Z → A</string>
-    <string name="sortby_filename_asc">Tiedoston nimi A → Z</string>
-    <string name="sortby_filename_desc">Tiedoston nimi Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Lyhyin ensin</string>
     <string name="sortby_length_desc">Pisin ensin</string>
-    <string name="sortby_date_asc">Vanhin ensin</string>
-    <string name="sortby_date_desc">Uusin ensin</string>
-    <string name="sortby_last_modified_date_asc">Vanhin lisäys ensin</string>
-    <string name="sortby_last_modified_date_desc">Uusin lisäys ensin</string>
-    <string name="sortby_number_asc">Lisää videoita alkuryhmään</string>
-    <string name="sortby_number_desc">Vähemmän videoita alkuryhmään</string>
-    <string name="sortby_date_insertion_asc">Vanhin lisäyspäivä ensin</string>
-    <string name="sortby_date_insertion_desc">Uusin lisäyspäivä ensin</string>
-    <string name="sortby_date_last_modified_asc">Vanhin muutospäivä ensin</string>
-    <string name="sortby_date_last_modified_desc">Uusin muutospäivä ensin</string>
-    <string name="sortby_date_release_asc">Vanhin julkaisupäivä ensin</string>
-    <string name="sortby_date_release_desc">Uusin julkaisupäivä ensin</string>
+    <string name="sortby_number_asc">Enemmän videoita ryhmästä</string>
+    <string name="sortby_number_desc">Mähemmän videoita ryhmästä</string>
+    <string name="sort_date_asc">Vanhin ensin</string>
+    <string name="sort_date_desc">Uusin ensin</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d hakutulos</item>
@@ -55,48 +41,48 @@
     <string name="playback">Toisto</string>
     <string name="playback_controls">Toiston säätimet</string>
     <string name="medialibrary_scan">Mediakirjaston skannaus</string>
-    <string name="Medialibrary_progress">Mediakirjaston scannaa päivityksiä</string>
+    <string name="Medialibrary_progress">Mediakirjasto tarkistaa päivityksiä</string>
     <string name="play_from_start">Toista alusta</string>
     <string name="play_as_audio">Toista äänenä</string>
     <string name="play_as_video">Toista videona</string>
     <string name="return_to_video">Pitkä kosketus kanteen palauttaa videon</string>
-    <string name="video_app_switch_title">Taustalle / PiP-tila</string>
-    <string name="video_app_switch_summary">Valitse miten VLC käyttäytyy kun siirryt toiseen ohjelmaan ja videota toistetaan</string>
+    <string name="video_app_switch_title">Taustalle / PiP</string>
+    <string name="video_app_switch_summary">Valitse miten VLC käyttäytyy videotoiston aikana kun siirryt toiseen ohjelmaan</string>
     <string name="play_pip_title">Toista videot tilassa \"Kuva kuvassa\"</string>
     <string name="play_as_audio_background">Toista videot taustalla</string>
     <string name="append">Lisää soittojonoon</string>
     <string name="insert_next">Lisää seuraava</string>
     <string name="play_all">Toista kaikki</string>
-    <string name="append_all">Lisää kaikki loppuun</string>
+    <string name="append_all">Lisää kaikki</string>
     <string name="resume_playback_short_title">Jatka toistoa</string>
-    <string name="resume_playback_long_title">Jatka toistoa viimeisestä soittolistasta</string>
-    <string name="resume_playback_error">Ei jatkettavaa</string>
+    <string name="resume_playback_long_title">Jatka viimeisimmän soittolistan toistoa</string>
+    <string name="resume_playback_error">Ei mitään jatkettavaa</string>
     <string name="delete">Poista</string>
-    <string name="remove">Irroita</string>
+    <string name="remove">Poista</string>
     <string name="set_song">Aseta soittoääneksi</string>
-    <string name="set_song_question">Aseta \"%1$s\" soittoääneksi?</string>
+    <string name="set_song_question">Asetetaanko \"%1$s\" soittoääneksi?</string>
     <string name="info">Tietoja</string>
-    <string name="confirm_delete">Poista tiedosto \'%1$s\'?</string>
-    <string name="confirm_delete_message">Tämä on pysyvä, eikä sitä voi kumota.</string>
+    <string name="confirm_delete">Poistatko tiedoston \"%1$s\"?</string>
+    <string name="confirm_delete_message">Tätä ei voi kumota.</string>
     <string name="confirm_delete_album">Poistetaanko albumi \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Poistetaanko nämä \"%1$d\" kappaletta?</string>
-    <string name="confirm_delete_folder">Poista kansio ´%1$s´ ja kaikki sen sisältämät tiedostot?</string>
-    <string name="confirm_delete_folders">Poistetaanko nämä %1$s kansiot ja kaikki niiden sisältö?</string>
+    <string name="confirm_delete_folder">Poistetaanko kansio \"%1$s\" ja kaikki sen tiedostot?</string>
+    <string name="confirm_delete_folders">Poistetaanko nämä %1$s kansiot ja niiden sisältö?</string>
     <string name="confirm_delete_files">Poistetaanko nämä %1$s tiedostot?</string>
     <string name="confirm_delete_folders_and_files">Poistetaanko nämä %1$s kansiot ja %2$s tiedostot?</string>
-    <string name="confirm_delete_playlist">Poista soittolista ´%1$s´?</string>
-    <string name="ringtone_set">Tiedosto \'%1$s\' asetettiin soittoääneksi.</string>
-    <string name="ringtone_error">Virhe asetettaessa soittoääntä.</string>
-    <string name="pause">Tauota</string>
-    <string name="unknown_artist">Tuntematon esittäjä</string>
+    <string name="confirm_delete_playlist">Poistatko soittolistan \"%1$s\"?</string>
+    <string name="ringtone_set">Tiedosto \"%1$s\" asetettiin soittoääneksi.</string>
+    <string name="ringtone_error">Virhe soittoäänen asettamisessa.</string>
+    <string name="pause">Tauko</string>
+    <string name="unknown_artist">Tuntematon artisti</string>
     <string name="unknown_album">Tuntematon albumi</string>
     <string name="unknown_genre">Tuntematon genre</string>
     <string name="songs">Kappaleet</string>
     <string name="track_info_copied_to_clipboard">Kappaleen tiedot kopioitu leikepöydälle</string>
 
-    <string name="artists">Esittäjät</string>
+    <string name="artists">Artistit</string>
     <string name="albums">Albumit</string>
-    <string name="tracks">Kappaleet</string>
+    <string name="tracks">Raidat</string>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 levy</item>
@@ -116,19 +102,19 @@
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 video</item>
-        <item quantity="other">%d videot</item>
+        <item quantity="other">%d videota</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 elokuvat</item>
-        <item quantity="other">%d elokuvat</item>
+        <item quantity="other">%d elokuvaa</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="one">1 TV-ohjelmat</item>
-        <item quantity="other">%d TV-ohjelmat</item>
+        <item quantity="other">%d TV-ohjelmaa</item>
     </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 raita</item>
-        <item quantity="other">%d raitaa</item>
+        <item quantity="other">%d ääniraitaa</item>
     </plurals>
 
     <string name="internal_memory">Sisäinen muisti</string>
@@ -143,48 +129,49 @@
     <string name="directories">Hakemistot</string>
     <string name="loading">Ladataan</string>
     <string name="please_wait">Odota hetki…</string>
-    <string name="nomedia">Yhtäkään mediatiedostoa ei löydetty, siirrä tiedostoja laitteeseesi tai muuta asetuksia.</string>
+    <string name="nomedia">Mediatiedostoja ei löytynyt, siirrä tiedostoja laitteellesi tai muuta asetuksia.</string>
     <string name="nofav">Suosikkia ei löytynyt.</string>
-    <string name="empty_search">Haku ei löytynyt %s</string>
+    <string name="empty_search">Ei löytynyt haulla %s</string>
     <string name="noplaylist">Soittolistaa ei löytynyt.</string>
-    <string name="nosubfolder">Ei alikansiota</string>
-    <string name="directorynotfound">Hakemiston polkua \'%1$s\' ei löytynyt.</string>
+    <string name="nosubfolder">Ei alihakemistoa</string>
+    <string name="directorynotfound">Hakemiston polku \"%1$s\" ei löytynyt.</string>
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
+    <string name="cant_ban_root">Et voi kieltää root kansiota</string>
 
     <string name="cover_art">Kansikuva</string>
     <string name="shuffle_all_title">Sekoita kaikki</string>
-    <string name="shuffle_title">Satunnaistoisto käytössä?</string>
-    <string name="shuffle">Satunnaistoisto Pois</string>
-    <string name="shuffle_on">Satunnaistoisto Päällä</string>
+    <string name="shuffle_title">Satunnaistoisto</string>
+    <string name="shuffle">Satunnaistoisto pois</string>
+    <string name="shuffle_on">Satunnaistoisto päälle</string>
     <string name="shuffle_play">Sekoita</string>
-    <string name="repeat_title">Toisto</string>
+    <string name="repeat_title">Toistuvasti</string>
     <string name="repeat_none">Ei toistoa</string>
     <string name="repeat_single">Toista kerran</string>
-    <string name="repeat_all">Toista kaikki</string>
+    <string name="repeat_all">Toistuvasti kaikki</string>
     <string name="previous">Edellinen</string>
     <string name="stop">Pysäytä</string>
     <string name="firstsong">Soittolistan ensimmäinen kappale</string>
     <string name="lastsong">Soittolistan viimeinen kappale</string>
 
-    <string name="surface_best_fit">Parhaiten sopiva</string>
+    <string name="surface_best_fit">Paras sopivuus</string>
     <string name="surface_fit_screen">Sovita näyttöön</string>
     <string name="surface_fill">Täytä</string>
     <string name="surface_original">Keskitä</string>
-    <string name="resize_tip">Pitkä painallus näyttää lisää vaihtoehtoja</string>
+    <string name="resize_tip">Pitkä painallus näyttää vaihtoehtoja</string>
     <string name="unseekable_stream">Kelaamaton suoratoisto</string>
     <string name="refresh">Päivitä</string>
-    <string name="track_audio">Audioraita</string>
+    <string name="track_audio">Ääniraita</string>
     <string name="track_video">Videoraita</string>
     <string name="track_text">Tekstitysraita</string>
     <string name="track_unknown">Tunnistamaton raita</string>
-    <string name="track_bitrate_info">Bitrate: %1$s/s\n</string>
+    <string name="track_bitrate_info">Siirtonopeus: %1$s/s\n</string>
     <string name="track_codec_info">Koodekki: %1$s\n</string>
     <string name="track_language_info">Kieli: %1$s\n</string>
-    <string name="volume">Äänenvoimakkuus</string>
-    <string name="sound_on">Äänet päälle</string>
-    <string name="sound_off">Äänet pois</string>
+    <string name="volume">Voimakkuus</string>
+    <string name="sound_on">Ääni päälle</string>
+    <string name="sound_off">Ääni pois</string>
     <string name="brightness">Kirkkaus</string>
-    <string name="advanced">Kehittyneet asetukset</string>
+    <string name="advanced">lisäasetukset</string>
     <string name="audio_boost_warning">Vedä ylös uudelleen mennäksesi yli 100%</string>
 
     <plurals name="track_channels_info_quantity">
@@ -192,28 +179,28 @@
         <item quantity="other">%1$d kanavaa\n</item>
     </plurals>
 
-    <string name="track_samplerate_info">Näytteenottotaajuus: %1$d Hz\n</string>
+    <string name="track_samplerate_info">Näytetaajuus: %1$d Hz\n</string>
     <string name="track_resolution_info">Resoluutio: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Ruudunpäivitysnopeus: %1$.3f\n</string>
+    <string name="track_framerate_info">Kuvataajuus: %1$.3f\n</string>
 
     <string name="playback_speed">Toistonopeus</string>
     <string name="sleep_title">Uniajastin</string>
-    <string name="sleep_in">Uniajastin ajassa</string>
-    <string name="jump_to_time">Hyppää kohtaan</string>
+    <string name="sleep_in">Nukahtaa</string>
+    <string name="jump_to_time">Hyppää</string>
     <string name="subtitle_select">Valitse tekstitystiedosto</string>
     <string name="wait_before_sleep">Odota, että nykyinen media valmistuu ensin</string>
 
     <string name="server_add_title">Lisää uusi serveri suosikkeihin</string>
     <string name="server_domain_hint">Serverin osoite (domain tai IP-osoite)</string>
     <string name="server_share_hint">Verkkojaon nimi (tai IP-osoite)</string>
-    <string name="server_folder_hint">Kansioin osoite (valinnainen)</string>
+    <string name="server_folder_hint">Kansioin polku (valinnainen)</string>
     <string name="server_username_hint">Käyttäjänimi</string>
-    <string name="server_servername_hint">Palvelimen nimi, mukavuuden vuoksi</string>
+    <string name="server_servername_hint">Palvelimen nimi mukavuussyistä</string>
     <string name="server_port">Portti:</string>
-    <string name="login">Käyttäjänimi</string>
+    <string name="login">Kirjaudu</string>
     <string name="password">Salasana</string>
 
-    <string name="search_no_result">Ei mediatiedostoja löydetty</string>
+    <string name="search_no_result">Mediaa ei löytynyt</string>
     <string name="favorites_add">Lisää suosikkeihin</string>
     <string name="favorites_remove">Poista suosikeista</string>
     <string name="favorites_edit">Muokkaa</string>
@@ -231,32 +218,32 @@
 
 
     <string name="playback_history_title">Toistohistoria</string>
-    <string name="playback_history_summary">Tallenna kaikki soitettu media Historia-sektioon</string>
-    <string name="video_resume_playback_title">Video toistojonon historia</string>
+    <string name="playback_history_summary">Tallenna kaikki soitettu media \"Historiaan\"</string>
+    <string name="video_resume_playback_title">Videon toistojonon historia</string>
     <string name="video_resume_playback_summary">Salli videon toistojonon tallentaminen jatkaaksesi myöhemmin</string>
-    <string name="audio_resume_playback_title">Audio toistojonon historia</string>
+    <string name="audio_resume_playback_title">Audion toistojonon historia</string>
     <string name="audio_resume_playback_warning">Audion toistojonon historian poistaminen voi johtaa joihinkin toimintaongelmiin.
-Kun olet poistanut käytöstä, et ehkä voi jatkaa toistoa:
+Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
 
 - Bluetooth laitteesta,
 - Sovelmasta
 - Ilmoituksesta.</string>
     <string name="audio_resume_playback_summary">Salli audion toistojonon tallentaminen jatkaaksesi myöhemmin</string>
-    <string name="playback_speed_title">Tallenna toiston nopeus</string>
-    <string name="playback_speed_summary">Pidä toistonopeus median välillä</string>
+    <string name="playback_speed_title">Tallenna toistonopeus</string>
+    <string name="playback_speed_summary">Pidä toistonopeus medioiden välillä</string>
 
     <string name="play_button">Toista painike</string>
 
     <!-- Tips -->
-    <string name="tips_title">Videosoittimen vinkit</string>
+    <string name="tips_title">Vinkit</string>
     <string name="seek">Kelaa</string>
     <string name="subtitles">Tekstitykset</string>
-    <string name="tips_player_controls">Soittimen säädöt</string>
+    <string name="tips_player_controls">Soittimen säätimet</string>
     <string name="tips_player_controls_description">Napauta soittimen säätimiä saadaksesi selville, mihin niitä käytetään</string>
     <string name="tips_audio_sub">Audioraidat ja tekstitykset</string>
     <string name="tips_play_description">Toista video napauttamalla</string>
-    <string name="lock">Lukko</string>
-    <string name="tap">Napauta nähdäksesi</string>
+    <string name="lock">Lukitse</string>
+    <string name="tap">Näytä napauttamalla</string>
     <string name="tap_to_remove">Poista napauttamalla</string>
     <string name="tap_to_rearrange">Järjestä napauttamalla</string>
     <string name="tap_to_previous_next">Napauta edelliseen / seuraavaan</string>
@@ -278,24 +265,24 @@ Kun olet poistanut käytöstä, et ehkä voi jatkaa toistoa:
 
     <string name="playlist_tips">Soittolistan vinkit</string>
     <string name="remove_song">Poista kappale</string>
-    <string name="remove_playlist_item">%1$s on hylätty toistolistasta</string>
-    <string name="rearrange_order">Uudelleenjärjestä</string>
+    <string name="remove_playlist_item">%1$s on hylätty soittolistalta</string>
+    <string name="rearrange_order">Järjestä uudelleen</string>
     <string name="hold_to_seek">Pidä kelaus painamalla</string>
 
     <string name="audio_player_tips">Audio soittimen vinkit</string>
-    <string name="previous_next_song">Edellinen/Seuraava kappale</string>
+    <string name="previous_next_song">Kappale edellinen/seuraava</string>
     <string name="show_playlist">Näytä soittolista</string>
     <string name="hide_playlist">Piilota soittolista</string>
     <string name="hold_to_stop">Pidä pysäyttääksesi</string>
 
     <!-- About -->
     <string name="app_name_full">VLC Android™</string>
-    <string name="revision">Uudistus</string>
+    <string name="revision">Revisio</string>
     <string name="about">Tietoja</string>
-    <string name="about_vlc_text">VLC Android™ on suositun avoimen lähdekoodin VLC-mediasoittimen ohjelmointi puhelimelle. Android™ versio osaa lukea kaikkia tarvittavia tiedostoja ja suoratoistoa.</string>
+    <string name="about_vlc_text">VLC Android™ on suositun avoimen lähdekoodin mediasoitin puhelimelle. Android™ versio osaa käyttää kaikkia tarvittavia tiedostoja ja suoratoistoa verkossa.</string>
     <string name="authors">Tekijät</string>
     <string name="vlc_authors">ja VLC-tekijät</string>
-    <string name="is_compiled_by">Kokooman toteuttivat</string>
+    <string name="is_compiled_by">Koonnut</string>
     <string name="sources">Lähdekoodi</string>
     <string name="libraries">Kirjastot</string>
     <string name="feedback_forum">Palaute foorumi</string>
@@ -306,9 +293,9 @@ Kun olet poistanut käytöstä, et ehkä voi jatkaa toistoa:
     <string name="prefs_opened_on_phone">Asetukset avautuivat puhelimeen</string>
     <string name="open_on_phone">Avaa puhelimen näytöllä</string>
 
-    <string name="directories_summary">Valitse hakemistot jotka sisällytetään mediakirjastoon</string>
+    <string name="directories_summary">Valitse hakemistot jotka lisätään mediakirjastoon</string>
     <string name="add_custom_path">Lisää mukautettu polku</string>
-    <string name="add_custom_path_description">Syötä lisähakemisto jonka haluat tutkia:</string>
+    <string name="add_custom_path_description">Anna lisähakemisto jonka haluat tutkia:</string>
     <string name="remove_custom_path">Poista mukautettu polku</string>
     <string name="group_ban_folder">Estä kansio mediakirjastosta</string>
 
@@ -316,25 +303,26 @@ Kun olet poistanut käytöstä, et ehkä voi jatkaa toistoa:
     <string name="hardware_acceleration_summary">Poistettu käytöstä: parempi vakaus.
 Purkukiihdytys: voi parantaa suorituskykyä.
 Täysi: voi parantaa suorituskykyä edelleen.</string>
-    <string name="hardware_acceleration_disabled">Poistettu käytöstä</string>
+    <string name="hardware_acceleration_disabled">Poistettu</string>
     <string name="hardware_acceleration_decoding">Purkukiihdytys</string>
     <string name="hardware_acceleration_full">Täysi kiihdytys</string>
-    <string name="dev_hardware_decoder">Edistynyt laitteisto purkukooderi</string>
-    <string name="dev_hardware_decoder_summary">Pakota rautadekooderi, vain edistyneille käyttäjille</string>
+    <string name="dev_hardware_decoder">Laitepohjainen purkukooderi</string>
+    <string name="dev_hardware_decoder_summary">Pakota laitepohjainen purkukooderi, vain kokeneille käyttäjille</string>
     <string name="automatic">Automaattinen</string>
-    <string name="screen_orientation">Videoikkunan suuntaus</string>
+    <string name="screen_orientation">Videoruudun suunta</string>
     <string name="screen_orientation_sensor">Automaattinen (sensori)</string>
-    <string name="screen_orientation_portrait">Muotokuva</string>
-    <string name="screen_orientation_portrait_reverse">Pysty kääntöpuoli</string>
-    <string name="screen_orientation_landscape">Maisemakuva</string>
-    <string name="screen_orientation_landscape_reverse">Vaaka taaksepäin</string>
-    <string name="screen_orientation_landscape_sensor">Vaaka (anturi)</string>
+    <string name="screen_orientation_portrait">Pystysuunta</string>
+    <string name="screen_orientation_portrait_reverse">Pysty kääntö</string>
+    <string name="screen_orientation_landscape">Vaakasuunta</string>
+    <string name="screen_orientation_landscape_reverse">Vaaka kääntö</string>
+    <string name="screen_orientation_landscape_sensor">Vaakasuunta (anturi)</string>
     <string name="screen_orientation_last_locked">Viimeinen lukittu suunta</string>
     <string name="enable_black_theme">Musta teema</string>
-    <string name="theme_auto">Auto teema</string>
-    <string name="subtitle_text_encoding">Tekstityksen merkistökoodaus</string>
-    <string name="subtitle_preferred_language">Ensisijainen tekstityksen kieli</string>
-    <string name="daynight_title">PäiväYö tila</string>
+    <string name="dark_theme">Tumma teema</string>
+    <string name="theme_auto">Autom. teema</string>
+    <string name="subtitle_text_encoding">Tekstityksen merkistö</string>
+    <string name="subtitle_preferred_language">Tekstityksen kieli</string>
+    <string name="daynight_title">Päivä/Yötila</string>
     <string name="daynight_follow_system_title">Noudata järjestelmän tilaa</string>
     <string name="no_track_preference">Ei kielivalintaa</string>
     <string name="track_preference">Kappalevalinta: %s</string>
@@ -342,7 +330,7 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="extra_prefs_category">Lisäasetukset</string>
 
     <string name="interface_prefs_screen">Käyttöliittymä</string>
-    <string name="interface_secondary_display_category_title">Toissijainen näyttö</string>
+    <string name="interface_secondary_display_category_title">Toinen näyttö</string>
     <string name="interface_secondary_display_category_summary">Asetukset, kun lisänäyttö on kytketty (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Käytä kloonia</string>
     <string name="enable_clone_mode_summary">Kloonaa laitteen näyttö ilman kaukosäädintä</string>
@@ -354,36 +342,36 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="video_min_group_length_name">Ryhmittele nimen mukaan</string>
     <string name="video_transition_title">Videoiden muuntaminen</string>
     <string name="video_transition_summary">Näytä uusi videonimi muunnosvaiheessa</string>
-    <string name="media_seen">Näytä videon nähty merkintä</string>
+    <string name="media_seen">Näytä nähty merkintä videolle</string>
     <string name="media_seen_summary">Merkitse video katsotuksi, kun toistat sen loppuun asti</string>
-    <string name="force_play_all_summary">Toista kaikki videot, aloittaen siitä minkä käynnistit</string>
-    <string name="force_play_all_audio_summary">Toista kaikki audio alkaen siitä, josta napsautit</string>
+    <string name="force_play_all_summary">Toista kaikki videot, aloittaen siitä minkä aloitit</string>
+    <string name="force_play_all_audio_summary">Toista kaikki audiot, aloittaen siitä minkä aloitit</string>
     <string name="force_play_all_title">Video soittolista</string>
-    <string name="force_play_all_audio_title">Audio soittolista moodi</string>
+    <string name="force_play_all_audio_title">Audio soittolista</string>
     <string name="save_brightness_summary">Pidä sama kirkkaustaso medioiden välillä</string>
-    <string name="save_brightness_title">Tallenna kirkkauden taso</string>
+    <string name="save_brightness_title">Tallenna kirkkaustaso</string>
     <string name="save_audiodelay_summary">Tallenna jokaiselle videolle oma audioviive</string>
     <string name="save_audiodelay_title">Tallenna audioviive</string>
     <string name="enable_brightness_gesture_title">Kirkkausele</string>
-    <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
-    <string name="enable_volume_gesture_title">Äänenvoimakkuuden ele</string>
-    <string name="enable_volume_gesture_summary">Säädä voimakkuutta eleellä videotoiston aikana</string>
+    <string name="enable_brightness_gesture_summary">Säädä kirkkautta eleellä videon toiston aikana</string>
+    <string name="enable_volume_gesture_title">Voimakkuusele</string>
+    <string name="enable_volume_gesture_summary">Säädä voimakkuutta eleellä videon toiston aikana</string>
     <string name="enable_seek_buttons">Kelauspainikkeet</string>
     <string name="enable_seek_buttons_summary">Näytä käyttöliittymässä kelauspainikkeet eteen ja taakse</string>
     <string name="enable_android_auto_speed_buttons">Android Auto, toistonopeus</string>
     <string name="enable_android_auto_speed_buttons_summary">Näytä nopeudensäätö pudotusvalikossa</string>
     <string name="enable_android_auto_seek_buttons">Android Auto, kelauspainikkeet</string>
-    <string name="enable_android_auto_seek_buttons_summary">Näytä kelaus eteen- ja taaksepäin pudotusvalikossa. Kokeile ensin ohjauspyörän edellinen- ja seuraava-painiketta ennen kuin otat tämän käyttöön.</string>
+    <string name="enable_android_auto_seek_buttons_summary">Näytä kelaus eteen ja taakse pudotusvalikossa. Kokeile ohjauspyörän edellinen ja seuraava painikkeita ennen kuin otat tämän käyttöön.</string>
     <string name="enable_double_tap_seek_title">Kelaa napauttamalla kahdesti</string>
     <string name="enable_double_tap_seek_summary">Napauta kahdesti näytön reunalla, kelaa 10s</string>
     <string name="enable_double_tap_play_title">Toista/keskeytä napauttamalla kahdesti</string>
     <string name="enable_double_tap_play_summary">Toista tai keskeytä napauttamalla kahdesti näytön keskiosaa</string>
     <string name="enable_swipe_seek_title">Kelaa pyyhkäisemällä</string>
     <string name="enable_swipe_seek_summary">Kelaa pyyhkäisemällä näytön poikki</string>
-    <string name="enable_scale_gesture_title">Kahden sormen skaalaus</string>
-    <string name="enable_scale_gesture_summary">Lähennä ja loitonna kahdella sormella</string>
-    <string name="popup_keepscreen_title">Pidä näyttö PÄÄLLÄ Pop-Up tilassa</string>
-    <string name="popup_keepscreen_summary">Pidä näyttö aina PÄÄLLÄ, kun ponnahdusikkuna on näkyvissä, vaikka video olisi tauolla. </string>
+    <string name="enable_scale_gesture_title">Skaalaus sormilla</string>
+    <string name="enable_scale_gesture_summary">Skaalaa kahdella sormella</string>
+    <string name="popup_keepscreen_title">Pidä taustavalo päällä ilmoituksille</string>
+    <string name="popup_keepscreen_summary">Pidä taustavalo päällä kun ilmoitus on näkyvissä, vaikka video olisikin tauolla.</string>
     <string name="browser_show_hidden_files_title">Näytä piilotetut tiedostot</string>
     <string name="albums_show_track_numbers">Näytä raidan numero</string>
     <string name="enable_video_screenshot">Ota ruudunkaappaus</string>
@@ -394,8 +382,8 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="subtitles_size_small">Pieni</string>
     <string name="subtitles_size_normal">Normaali</string>
     <string name="subtitles_size_big">Iso</string>
-    <string name="subtitles_size_huge">Hullun iso</string>
-    <string name="subtitles_font_style">Tekstityksen fonttityyli</string>
+    <string name="subtitles_size_huge">Valtava</string>
+    <string name="subtitles_font_style">Tekstityksen fontti</string>
     <string name="subtitles_color_title">Tekstityksen väri</string>
     <string name="subtitles_opacity">Läpikuultavuus</string>
     <string name="subtitles_color">Väri</string>
@@ -409,7 +397,7 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="subtitle_decoration_shadow">Varjo</string>
     <string name="subtitle_decoration_outline">Ääriviiva</string>
     <string name="subtitles_bold_title">Lihavoitu tekstitys</string>
-    <string name="subtitles_autoload_title">Lataa tekstitykset automaattisesti</string>
+    <string name="subtitles_autoload_title">Lataa tekstit automaattisesti</string>
     <string name="previous_color">Edellinen väri</string>
     <string name="new_color">Uusi väri</string>
     <string name="subtitles_preset_default">Oletus</string>
@@ -421,30 +409,30 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Median kansikuva lukitusnäytöllä</string>
-    <string name="lockscreen_cover_summary">Kun mahdollista, aseta nykyisen mediatiedoston kuva lukitusnäytön taustakuvaksi</string>
+    <string name="lockscreen_cover_summary">Kun mahdollista, aseta mediatiedoston kuva lukitusnäytön taustakuvaksi</string>
     <string name="show_seek_in_compact_notif_title">Kelauspainikkeet ilmoituspaneelissa</string>
-    <string name="show_seek_in_compact_notif_summary">Näytä säätimessä kelauksen painikkeet taakse ja pikakelaus eteen</string>
-    <string name="list_title_ellipsize">Otsikon kolme pistettä</string>
+    <string name="show_seek_in_compact_notif_summary">Näytä kelauksen painikkeet taakse ja pikakelaus eteen</string>
+    <string name="list_title_ellipsize">Yksirivinen nimiluettelo</string>
     <string name="list_title_ellipsize_default">Oletus</string>
     <string name="list_title_ellipsize_left">Vasen</string>
     <string name="list_title_ellipsize_right">Oikea</string>
     <string name="list_title_ellipsize_middle">Keskellä</string>
-    <string name="list_title_ellipsize_marquee">Valintatyökalu</string>
-    <string name="audio_boost_title">Äänentehostus</string>
-    <string name="audio_boost_summary">Salli äänenvoimakkuus 200%:iin asti</string>
+    <string name="list_title_ellipsize_marquee">Ilmoituskyltti</string>
+    <string name="audio_boost_title">Audio-boosti</string>
+    <string name="audio_boost_summary">Salli voimakkuus jopa 200%</string>
     <string name="headset_prefs_category">Kuulokkeet</string>
     <string name="enable_headset_detection">Tunnista kuulokkeet</string>
-    <string name="enable_headset_detection_summary">Tunnista kuulokkeiden kiinnittäminen ja irrottaminen</string>
-    <string name="enable_play_on_headset_insertion">Jatka kuulokkeiden kiinnittämisen jälkeen</string>
+    <string name="enable_headset_detection_summary">Tunnista kuulokkeiden asettaminen ja poistaminen</string>
+    <string name="enable_play_on_headset_insertion">Jatka kuulokkeiden asettamisen jälkeen</string>
     <string name="enable_play_on_headset_insertion_summary">Tauota muussa tapauksessa</string>
     <string name="replaygain_prefs_category">Toiston vahvistus</string>
-    <string name="replaygain_enable">Käytä toistossa vahvistusta</string>
-    <string name="replaygain_enable_summary">Suoratoistot, joissa ei ole toiston vahvistustietoja, voivat olla hiljaisempia oletusvahvistuksesta johtuen</string>
-    <string name="replaygain_mode">Toiston vahvistustila:</string>
-    <string name="replaygain_mode_summary">Raitatila toistaa suoratoistoa, joissa on toiston vahvistustiedot samalla voimakkuudella. Albumitila säilyttää suhteellisen äänenvoimakkuuden samassa albumissa.</string>
+    <string name="replaygain_enable">Käytä toiston vahvistusta</string>
+    <string name="replaygain_enable_summary">Suoratoistot, joissa ei ole vahvistustietoja, voivat olla hiljaisempia vahvistuksen oletuksesta johtuen</string>
+    <string name="replaygain_mode">Toiston vahvistus moodi</string>
+    <string name="replaygain_mode_summary">Raitatila toistaa suoratoistoa, joissa on toiston vahvistustiedot samalla voimakkuudella. Albumitila säilyttää voimakkuuden samassa albumissa.</string>
     <string name="replaygain_preamp">Toiston esivahvistin</string>
     <string name="replaygain_preamp_summary">Muuttaa oletus tavoitetasoa (89 dB) suoratoistolle, joissa on toiston vahvistustiedot</string>
-    <string name="replaygain_default">Toiston oletus vahvistus</string>
+    <string name="replaygain_default">Oletus toiston vahvistus</string>
     <string name="replaygain_default_summary">Koskee suoratoistoa ilman toiston vahvistustietoja
 Arvo 0 poistaa tämän käytöstä</string>
     <string name="replaygain_peak_protection">Huippupiikin suojaus</string>
@@ -455,7 +443,7 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="aout_summary">Muuta menetelmää, jota VLC käyttää audion toistamiseen</string>
     <string name="audio_ducking_title">Alenna VLC-ilmoitusten voimakkuutta</string>
     <string name="audio_ducking_summary">Kuulet ilmoituksia, navigointiohjeita tai avustajan puhetta</string>
-    <string name="casting_category">Suoratoisto</string>
+    <string name="casting_category">Lähetys</string>
     <string name="remote_access">Etäyhteys</string>
     <string name="remote_access_status">Palvelimen tila</string>
     <string name="remote_access_status_summary">Paina ja katso palvelimen tila</string>
@@ -472,21 +460,21 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="remote_access_info">Etäkäytön tiedot</string>
     <string name="remote_access_content">Sisältö</string>
     <string name="remote_access_medialibrary_content">Mediakirjaston sisältö</string>
-    <string name="remote_access_medialibrary_content_summary">Käytössä: %s\nPoistettu: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Käytössä: %1$snPoistettu: %2$s</string>
     <string name="remote_access_file_browser_content">Tiedostoselain</string>
-    <string name="remote_access_network_browser_content">Verkon selain</string>
+    <string name="remote_access_network_browser_content">Verkkoselain</string>
     <string name="remote_access_playback_control">Ohjaa toistoa</string>
     <string name="remote_access_logs">Jaa lokitiedostoja</string>
     <string name="casting_switch_title">Langaton lähetys</string>
-    <string name="casting_passthrough_title">Audion läpivienti</string>
+    <string name="casting_passthrough_title">Äänen läpivienti</string>
     <string name="casting_passthrough_summary">Anna television hallita äänentoistoa</string>
     <string name="casting_conversion_quality_title">Muunnoksen laatu</string>
-    <string name="casting_conversion_quality_summary">Valitse muuntamisen laatu etänäytön suoratoistoon</string>
+    <string name="casting_conversion_quality_summary">Valitse muuntamisen laatu kun lähetät toiseen näyttöön</string>
     <string name="casting_quality_high">Korkea</string>
-    <string name="casting_quality_medium">Keskiteho</string>
-    <string name="casting_quality_low">Alhainen</string>
+    <string name="casting_quality_medium">Keskitaso</string>
+    <string name="casting_quality_low">Matala</string>
     <string name="casting_quality_lowcpu">Matalin</string>
-    <string name="casting_connected_renderer">Renderöinti yhdistetty \"%1$s\"</string>
+    <string name="casting_connected_renderer">Yhdistetty renderöintiin \"%1$s\"</string>
     <string name="artists_show_all_title">Näytä kaikki artistit</string>
     <string name="show_headers">Näytä otsikot</string>
     <string name="show_headers_summary">Jaa listat otsikoiden tyypin mukaan</string>
@@ -497,27 +485,27 @@ Arvo 0 poistaa tämän käytöstä</string>
 
     <string name="extensions_prefs_category">Laajennukset</string>
     <string name="extensions_empty">Laajennusta ei havaittu</string>
-    <string name="extension_permission_title">Ota laajennus \"%1$s\" käyttöön?</string>
+    <string name="extension_permission_title">Aktivoitko uuden laajennuksen \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Näytä %1$s</string>
     <string name="extension_prefs_activation_title">Aktivoi</string>
-    <string name="android_auto">Android automaattinen</string>
+    <string name="android_auto">Android Auto</string>
 
     <string name="controls_prefs_category">Säätimet</string>
 
     <string name="performance_prefs_category">Suorituskyky</string>
-    <string name="deblocking">Purkusuodattimen asetukset</string>
-    <string name="deblocking_summary">Vaihda purkusuodattimen asetuksia. Tämä voi parantaa kuvanlaatua (vain kokeneet käyttäjät)</string>
-    <string name="deblocking_always">Täysi purku (hitain)</string>
-    <string name="deblocking_nonref">Keskitason purku</string>
-    <string name="deblocking_nonkey">Matala purku</string>
-    <string name="deblocking_all">Ei purkua (nopein)</string>
+    <string name="deblocking">Palikanpoiston suodattimen asetukset</string>
+    <string name="deblocking_summary">Vaihda palikanpoiston suodattimen asetuksia. Tämä voi parantaa kuvanlaatua (vain kokeneet käyttäjät)</string>
+    <string name="deblocking_always">Tädellinen palikanpoisto (hitain)</string>
+    <string name="deblocking_nonref">Keskitason palikanpoisto</string>
+    <string name="deblocking_nonkey">Matala palikanpoisto</string>
+    <string name="deblocking_all">Ei palikanpoistoa (nopein)</string>
     <string name="enable_frame_skip">Ruudun ohitus</string>
     <string name="enable_frame_skip_summary">Nopeuttaa purkua, mutta saattaa heikentää videon laatua</string>
-    <string name="enable_time_stretching_audio">Aikaa venyttävä audio</string>
+    <string name="enable_time_stretching_audio">Aikaa venyttävä ääni</string>
     <string name="enable_time_stretching_audio_summary">Nopeuta ja hidasta ääntä muuttamatta sävelkorkeutta (vaatii nopean laitteen)</string>
 
     <string name="advanced_prefs_category">Lisäasetukset</string>
-    <string name="auto_rescan">Automaattinen haku</string>
+    <string name="auto_rescan">Autom. haku uudelleen</string>
     <string name="auto_rescan_summary">Skannaa laitteesta uutta tai poistettua mediaa ohjelman käynnistyksen yhteydessä</string>
     <string name="dump_media_db">Tyhjennä mediatietokanta</string>
     <string name="dump_app_db">Tyhjennä sovelluksen tietokanta</string>
@@ -533,7 +521,7 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="network_caching_summary">Aika, joka kuluu median puskurointiin (ms) ohjelmiston dekoodausta varten
 Arvo 0 poistaa käytöstä</string>
     <string name="resume_playback_title">Jatka toistoa puhelun jälkeen</string>
-    <string name="resume_playback_summary">Pysy muuten tauolla</string>
+    <string name="resume_playback_summary">Pysyy muuten tauolla</string>
     <string name="blurred_cover_background_title">Sumea kannen tausta</string>
     <string name="blurred_cover_background_summary">Sumea kansi soittimen taustalla</string>
     <string name="force_shuffle_title">Pakota sekoitus</string>
@@ -541,7 +529,7 @@ Arvo 0 poistaa käytöstä</string>
     <string name="network_caching_popup">Arvon on oltava välillä 0 - 60000 ms</string>
     <string name="quit">Käynnistä ohjelma uudelleen</string>
     <string name="restart_message">Muutokset tulevat voimaan, kun sovellus on käynnistetty uudelleen.
-Käynnistä uudelleen nyt?</string>
+Käynnistätkö uudelleen?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Myöhemmin</string>
     <string name="browser_show_all_title">Näytä kaikki tiedostot</string>
@@ -558,9 +546,10 @@ Käynnistä uudelleen nyt?</string>
     <string name="copy_to_clipboard">Kopioi leikepöydälle</string>
     <string name="copied_to_clipboard">Loki kopioitu leikepöydälle.</string>
     <string name="copied_from_clipboard">Osoite liitetty leikepöydältä</string>
-    <string name="dump_logcat">Vedos logcat:n kautta</string>
-    <string name="dump_logcat_success">Logcat:n vedos luotiin onnistuneesti kohteeseen %1$s!</string>
-    <string name="dump_logcat_failure">Logcat:n vedoksen luonti epäonnistui.</string>
+    <string name="dump_logcat">Vedos logcat lokista</string>
+    <string name="dump_logcat_success">Logcat vedos luotiin onnistuneesti %1$s!</string>
+    <string name="dump_logcat_failure">Logcat vedoksen luonti epäonnistui.</string>
+    <string name="http_user_agent">HTTP-apuohjelma</string>
     <string name="custom_libvlc_options">Mukautetut libVLC asetukset</string>
     <string name="custom_libvlc_options_invalid">Virheelliset libVLC asetukset!</string>
 
@@ -568,24 +557,24 @@ Käynnistä uudelleen nyt?</string>
     <string name="help_us_send_log">Auta meitä parantamaan VLC:tä lähettämällä seuraava kaatumisloki:</string>
     <string name="restart_vlc">Käynnistä VLC uudelleen</string>
     <string name="send_log">Lähetä loki</string>
-    <string name="sending_log">Lähetetään lokitiedostoa…</string>
+    <string name="sending_log">Lähetetään lokia…</string>
 
     <string name="delete_sub_title">Poista tekstitys</string>
     <string name="delete_sub_message">Haluatko poistaa tämän tekstityksen?</string>
     <string name="download_subtitle_title">Lataa tekstitys</string>
 
     <string name="no_result">Tuloksia ei löytynyt</string>
-    <string name="no_internet_connection">Tarkista internetyhteytesi</string>
+    <string name="no_internet_connection">Tarkista internetyhteys</string>
     <string name="retry">Yritä uudelleen</string>
     <string name="subs_download_error">Palvelu ei saatavilla. Yritä myöhemmin uudelleen</string>
 
     <string name="network_browsing">Lähiverkko</string>
     <string name="browsing">Selaa</string>
 
-    <string name="file_size">Tiedoston koko</string>
+    <string name="file_size">Tiedostokoko</string>
 
-    <string name="audio_delay">Äänen viive</string>
-    <string name="spu_delay">Tekstityksen viive</string>
+    <string name="audio_delay">Audioviive</string>
+    <string name="spu_delay">Tekstitysviive</string>
     <string name="network_shares_discovery">Etsitään verkkojakoja</string>
     <string name="network_empty">Tämä hakemisto on tyhjä.</string>
     <string name="network_connection_needed">Ei yhteyttä paikalliseen verkkoon.</string>
@@ -595,7 +584,7 @@ Käynnistä uudelleen nyt?</string>
     <string name="playlist_save">Tallenna soittolista</string>
     <string name="playlist_name_hint">Soittolistan nimi</string>
     <string name="go_to_chapter">Siirry lukuun...</string>
-    <string name="current_chapter">Osio: %s</string>
+    <string name="current_chapter">Luku: %s</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
     <string name="confirm_resume_title">Jatka toistettuja videoita</string>
     <string name="tv_ui_title">Android TV käyttöliittymä</string>
@@ -605,20 +594,20 @@ Käynnistä uudelleen nyt?</string>
 
     <!--What's new-->
     <string name="whats_new_title">Mitä uutta VLC Android %s</string>
-    <string name="whats_new_36_webserver_text">Uuden etäkäytön avulla hallitset VLC Android:lle mistä tahansa muusta laitteesta.\nLähetä mediaa molempiin suuntiin ja ohjaa toistoa!</string>
+    <string name="whats_new_36_webserver_text">Uuden etäkäytön avulla hallitset VLC Androidin mistä tahansa muusta laitteesta.\nLähetä mediaa molempiin suuntiin ja ohjaa toistoa!</string>
     <string name="whats_new_36_favorites_text">Voit lisätä mediat, soittolistat, artististit tai albumit suosikkeihin.\nLöydät haluamasi sisällön yhdellä silmäyksellä suodattamalla sisältöä vain suosikkien mukaan!</string>
 
 
     <!-- Accessibility -->
     <string name="more_actions">Lisää toimintoja</string>
-    <string name="back_quit_lock">Paina Takaisin uudelleen poistuaksesi videosta</string>
+    <string name="back_quit_lock">Paina uudelleen \"Takaisin\" ja poistu videosta</string>
     <string name="stream_deleted">Suoratoisto poistettu</string>
     <string name="no_subs_found">Ei tekstityksiä tässä hakemistossa</string>
     <string name="music_now_playing">Toistetaan</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Vaalea VLC-widget</string>
-    <string name="widget_name_b">Tumma VLC-widget</string>
+    <string name="widget_name_w">VLC White sovelma</string>
+    <string name="widget_name_b">VLC Dark sovelma</string>
     <string name="widget_name_mini_player">VLC minisoitin</string>
     <string name="widget_old_text">Olemme päivittäneet sovelmat!</string>
     <string name="widget_old_description_start">Hyviä uutisia! Julkaisimme parannetut sovelmat.
@@ -626,24 +615,24 @@ Tarjoavat nyt enemmän reagointikykyä ja räätälöintiä</string>
     <string name="whats_next">Mitä seuraavaksi?</string>
     <string name="widget_old_description_end">Havaitsimme, että käynnistyksessä on jo sovelmia, mutta ne eivät ole yhteensopivia uusien kanssa.
 Riippuen käynnistyksestä saatat joutua poistamaan tai korvaamaan vanhat.</string>
-    <string name="click_here">Napsauta saadaksesi lisätietoja.</string>
-    <string name="allow_storage_access_title">Salli VLC:lle pääsy video- ja audiotiedostoihin</string>
-    <string name="allow_storage_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle siirtyä tämän laitteen mediatiedostoihin.</string>
+    <string name="click_here">Paina saadaksesi lisätietoja.</string>
+    <string name="allow_storage_access_title">Salli VLC:lle pääsy videoon ja audioon </string>
+    <string name="allow_storage_access_description">Sinun tarvitsee myöntää VLC:lle oikeudet siirtyä tämän laitteen mediatiedostoihin.</string>
     <string name="allow_storage_manager_title">Salli VLC:lle käyttö kaikille tiedostoille</string>
     <string name="allow_storage_manager_description">%s\n\nMyönnetäänkö lupa?</string>
     <string name="allow_storage_manager_explanation">Saadaksesi VLC:n kaikki ominaisuudet ja mediatiedostojen laajan tuen, suosittelemme, että myönnät tämän luvan.</string>
     <string name="partial_content">VLC ei voi käyttää kaikkia tiedostojasi</string>
     <string name="partial_content_description">Android 11 alkaen, sovellukset tarvitsevat erityisluvan käyttää kaikkia laitteen tiedostoja.\n\n%s</string>
     <string name="never_ask_again">Älä kysy uudestaan</string>
-    <string name="never_show_again">Älä näytä uudestaan</string>
-    <string name="allow_settings_access_ringtone_title">Salli VLC:n määrittää soittoäänen</string>
-    <string name="allow_settings_access_ringtone_description">Sinun tarvitsee myöntää oikeudet VLC:lle määrittää tämä kappale soittoääneksi.</string>
+    <string name="never_show_again">Älä näytä uudelleen, edes tulevissa versioissa</string>
+    <string name="allow_settings_access_ringtone_title">Salli VLC:n määrittää soittoääni</string>
+    <string name="allow_settings_access_ringtone_description">Sinun tarvitsee myöntää VLC:lle oikeudet määrittää tämä kappale soittoääneksi.</string>
     <string name="allow_settings_access_brightness_title">Salli VLC:n muuttaa kirkkautta</string>
     <string name="allow_settings_access_brightness_description">Sinun tarvitsee myöntää VLC:lle oikeudet vaihtaa kirkkautta.</string>
     <string name="allow_draw_overlays_title">Salli VLC;n ilmoitukset muiden sovellusten päällä</string>
-    <string name="allow_sdraw_overlays_description">Sinun tarvitsee myöntää oikeudet VLC:lle näyttää ilmoitukset muiden sovellusten päällä.</string>
+    <string name="allow_sdraw_overlays_description">Sinun tarvitsee myöntää VLC:lle oikeudet näyttää ilmoitukset muiden sovellusten päällä.</string>
     <string name="allow_pip">Salli VLC:n käynnistyä kuva kuvassa</string>
-    <string name="allow_pip_description">Sinun tarvitsee myöntää oikeudet VLC:lle näyttää videot kuva kuvassa-tilassa.</string>
+    <string name="allow_pip_description">Sinun tarvitsee myöntää VLC:lle oikeudet näyttää videot kuva kuvassa.</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
     <string name="pick_file">Valitse tiedosto</string>
     <string name="permission_not_granted">Lupaa ei myönnetty</string>
@@ -661,7 +650,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="widget_explanation_end">Sovelmat ovat raskaasti muokattavissa. Päästä luovuutesi valloilleen!</string>
 
     <!-- fast scroller -->
-    <string name="fastscroller_track">FastScroller ura</string>
+    <string name="fastscroller_track">FastScroller raita</string>
     <string name="fastscroller_handle">FastScroller kahva</string>
 
     <!-- Plugins -->
@@ -676,19 +665,19 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="opengl_off">Pakota pois</string>
     <string name="network_favorites">Verkko suosikit</string>
     <string name="network_shared_folders">Jaetut kansiot</string>
-    <string name="encryption_warning">Varoitus, salaus ei ole käytettävissä tälle Android-versiolle. Salasana tallennetaan yksityiseen paikkaan, mutta ei salata</string>
+    <string name="encryption_warning">Varoitus, salaus ei ole käytettävissä tälle Android versiolle. Salasana tallennetaan yksityiseen paikkaan, mutta ei salata</string>
     <string name="store_password">Muista salasana</string>
     <string name="add_to_playlist">Lisää soittolistaan</string>
-    <string name="popup_playback_title">Toista videota ponnahdusikkunassa</string>
-    <string name="popup_playback">Toistetaan ponnahdusikkunassa</string>
+    <string name="popup_playback_title">Toista video ilmoitusikkunasta</string>
+    <string name="popup_playback">Toistetaan ilmoitusikkunasta</string>
     <string name="popup_expand">Laajenna video</string>
     <string name="download_subtitles">Lataa tekstitys</string>
     <string name="browse_folder">Selaa kansiota</string>
     <string name="listen">Kuuntele</string>
-    <string name="apply_to_bt">Käytä laitetta bluetooth</string>
+    <string name="apply_to_bt">Käytä bluetooth laitetta</string>
     <string name="episodes">jaksot</string>
     <string name="movies">elokuvat</string>
-    <string name="videos">videot</string>
+    <string name="videos">videota</string>
     <string name="videos_all">Kaikki videot</string>
     <string name="clear_playback_history">Tyhjennä toistohistoria</string>
     <string name="ml_scanning">Mediatiedostojen etsiminen</string>
@@ -702,13 +691,13 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="ml_external_storage_accept">Kyllä</string>
     <string name="ml_external_storage_decline">Ei</string>
     <string name="auto_last_added_media">Viimeksi lisätty</string>
-    <string name="auto_my_library">Minun mediakirjasto</string>
+    <string name="auto_my_library">Minun kirjasto</string>
     <string name="auto_home">Koti</string>
     <string name="no">Ei</string>
     <string name="loading_medialibrary">Ladataan mediakirjastoa...</string>
     <string name="yes">Kyllä</string>
 
-    <string name="custom_set_save_title">Tallentamattomat muutokset</string>
+    <string name="custom_set_save_title">Tallentamaton muutos</string>
     <string name="custom_set_save_warning">Varoitus: tallentamattomia muutoksia</string>
     <string name="existing_custom_set_save_message">Tallenna taajuuskorjain nimellä...</string>
     <string name="new_custom_set_save_message">Tallenna uusi taajuuskorjain nimellä...</string>
@@ -740,7 +729,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="audio_task_cleared_title">Lopeta sovellus pyyhkäisyllä</string>
     <string name="audio_task_cleared_summary">Lopeta toisto, kun sovellus poistuu</string>
     <string name="audio_resume_card_title">Näytä soittolistan vinkki</string>
-    <string name="audio_resume_card_summary">Näyttää vihjeen, joka auttaa sinua jatkamaan äänentoistoa kun sovellus käynnistyy</string>
+    <string name="audio_resume_card_summary">Näyttää vihjeen, joka auttaa sinua jatkamaan äänentoistoa kun sovellus avautuu</string>
     <string name="playback_rewind">Taaksepäin</string>
     <string name="playback_forward">Nopea eteenpäin</string>
     <string name="ml_wizard_scan_checkbox">Skannaa laite mediasisältöä varten</string>
@@ -749,9 +738,9 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="cast_option_title">Lähetä mediaa toiselle näytölle</string>
     <string name="otg_device_title">OTG laite</string>
     <string name="browser">Selain</string>
-    <string name="ab_repeat">Toisto A-B</string>
-    <string name="ab_repeat_reset">Nollaa A-B-toisto</string>
-    <string name="ab_repeat_stop">Pysäytä A-B-toisto</string>
+    <string name="ab_repeat">A-B silmukka</string>
+    <string name="ab_repeat_reset">Nollaa A-B silmukka</string>
+    <string name="ab_repeat_stop">Pysäytä A-B silmukka</string>
     <string name="stop_after_this">Pysähdy tämän raidan jälkeen</string>
     <string name="time_category_new">Uusi media</string>
     <string name="time_category_today">Tänään</string>
@@ -779,12 +768,12 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="ctx_player_video_track">Valitse videoraita</string>
     <string name="ctx_player_audio_track">Audioraita</string>
     <string name="ctx_player_subs_track">Tekstitysraita</string>
-    <string name="ctx_pip_title">Soitin ikkunassa</string>
+    <string name="ctx_pip_title">Ikkunassa</string>
     <string name="device_dialog_title">Ulkoinen laite asetettu</string>
     <string name="device_dialog_message">Liitit juuri uuden tallennusmedian televisioosi, haluatko avata sen VLC:llä?</string>
     <string name="videos_folders_title">Videot kansioittain</string>
     <string name="videos_groups_title">Videot ryhmittäin</string>
-    <string name="video_save_clone_mode">Aktivoidaanko kloonitila automaattisesti?</string>
+    <string name="video_save_clone_mode">Aktivoidaanko näytön klooni automaattisesti?</string>
     <string name="video_remote_enable">Vaihda kaukosäätötilaan</string>
     <string name="video_remote_disable">Kopioi näyttö</string>
     <string name="removed_from_playlist_anonymous">Kohteet poistettiin soittolistalta</string>
@@ -797,14 +786,16 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="onboarding_scan_title">Löydä media automaattisesti</string>
     <string name="onboarding_all_set">VLC, kaikki on asetettu!</string>
     <string name="onboarding_permission_given">Voit nyt löytää mediasi automaattisesti, käyttää ulkoista tekstitystä, sekä toistaa suoratoistoa tai verkkomediaa</string>
-    <string name="daynight_system_explanation">VLC käyttää automaattisesti tummaa tilaa vastaavasti järjestelmän asetusten kanssa</string>
+    <string name="daynight_system_explanation">VLC käyttää automaattisesti tummaa tilaa järjestelmän asetusten kanssa</string>
     <string name="daynight_legacy_explanation">VLC siirtyy yötilaan sopivana ajankohtana automaattisesti</string>
-    <string name="onboarding_scanning_enable">Anna VLC:n etsiä laitteen mediasisältöä</string>
+    <string name="onboarding_scanning_enable">Anna VLC:n etsiä mediasisältöä</string>
     <string name="onboarding_scan_customize">Haluan valita, mitkä kansiot VLC tarkistaa</string>
     <string name="button_medialibrary_preferences">Siirry mediakirjaston asetuksiin</string>
     <string name="light_theme">Kirkas teema</string>
     <string name="add">Lisää</string>
     <string name="add_to_new_playlist">Lisää uuteen soittolistaan</string>
+    <string name="create_new_playlist">Luo uusi soittolista</string>
+    <string name="create">Luo</string>
     <string name="resume_card_message">Jatkatko toistoa %1$s?</string>
     <string name="misc">Sekalaiset</string>
     <string name="popup_force_legacy_title">Käytä mukautettua kuva kuvassa ikkunaa</string>
@@ -814,7 +805,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="device_default">Laitteen oletus</string>
     <string name="track_number">%d raitaa</string>
     <string name="jump_to">Hyppää</string>
-    <string name="show_video_thumbnails_summary">Näytä videon pienoiskuvat luetteloissa</string>
+    <string name="show_video_thumbnails_summary">Näytä video pienoiskuvat luetteloissa</string>
     <string name="show_video_thumbnails">Videoiden pienoiskuvat</string>
     <string name="eq_snap_bands">Kohdista kanavat</string>
     <string name="enable_equalizer">Käytä</string>
@@ -827,40 +818,40 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     </plurals>
     <plurals name="tracks_appended">
         <item quantity="one">%d kappaleita liitetty</item>
-        <item quantity="other">%d Tracks appended</item>
+        <item quantity="other">%d kappaletta liitetty</item>
     </plurals>
     <string name="remove_current">Poista nykyinen</string>
-    <string name="validation_delete_playlist">Haluatko varmasti poistaa tämän soittolistan?</string>
-    <string name="validation_delete_playlist_text">Tätä toimintoa ei voi kumota.</string>
+    <string name="validation_delete_playlist">Haluatko poistaa tämän soittolistan?</string>
+    <string name="validation_delete_playlist_text">Tätä ei voi kumota.</string>
     <string name="display_settings">Näytön asetukset</string>
-    <string name="incognito_mode">Tuntematon tila</string>
+    <string name="incognito_mode">Anonyymi moodi</string>
     <string name="display_in_list">Näytä lista</string>
     <string name="display_in_grid">Näytä ruuduko</string>
-    <string name="dump_db_succes">Tietokanta on viety sisäisen muistin juureen</string>
-    <string name="dump_db_failure">Tietokannan tyhjentäminen epäonnistui</string>
+    <string name="dump_db_succes">Tietokanta on viety sisäisen tallennustilan juureen</string>
+    <string name="dump_db_failure">Tietokannan vienti epäonnistui</string>
     <string name="send_crash_title">VLC kaatumisen raportointi</string>
     <string name="send_crash_description">Lähettämällä kaatumisen ilmoituksen, autat meitä parantamaan VLC:n vakautta.</string>
-    <string name="send_crash_warning">Varmista että poistat kaiken henkilökohtaisen datan joita et halua lähettää meille.</string>
+    <string name="send_crash_warning">Varmista, että poistat kaikki tiedot, joita et halua lähettää.</string>
     <string name="include_medialib">Sisällytä sinun tietokantaan</string>
     <string name="vlc_reporter">VLC raportit</string>
     <string name="welcome_beta_title">VLC beetta</string>
-    <string name="welcome_beta_description">Tervetuloa VLC:n betaohjelmaan.\nHuomioithan että tässä versiossa saattaa olla joitakin bugeja.</string>
-    <string name="welcome_beta_description_bugs">Jos havaitset bugit, ole hyvä ja ilmoita siitä keskustelupalstalle tai buginjäljtykseen.</string>
-    <string name="welcome_beta_description_crashes">Kaatumisilmoitukset voit lähettää meille VLC raportit -kuvakkeen avulla.</string>
+    <string name="welcome_beta_description">Tervetuloa VLC:n betaohjelmaan.\nHuomaa, että tässä versiossa saattaa olla joitakin bugeja.</string>
+    <string name="welcome_beta_description_bugs">Jos havaitset bugin, ilmoita siitä meidän foorumilla tai käytä bugin jäljtysohjelmaa.</string>
+    <string name="welcome_beta_description_crashes">Kaatumisilmoitukset voit lähettää meille \"VLC raportit\" kuvakkeen kautta.</string>
     <string name="send">Lähetä</string>
     <string name="send_crash_action_title">Mitä haluat tehdä?</string>
     <string name="report_a_bug">Ilmoita virheestä</string>
     <string name="report_a_crash">Ilmoita kaatumisesta</string>
-    <string name="describe_crash">Ole hyvä ja kuvaile kuinka tämä sovelluksen kaatuminen tapahtui</string>
+    <string name="describe_crash">Kuvaile kuinka sovelluksen kaatuminen tapahtui</string>
     <string name="favorite">Suosikki</string>
     <string name="always">Aina</string>
     <string name="never">Ei koskaan</string>
     <string name="ask_confirmation">Kysy vahvistus</string>
     <string name="add_to_scanned">Lue tämä kansio</string>
     <string name="directory_not_scanned">Tätä hakemistoa ei ole luettu</string>
-    <string name="scanned_directory_added">%s hakemisto lisättiin luettuihin</string>
+    <string name="scanned_directory_added">%s lisätty skannattuksi hakemistoksi</string>
     <string name="video_group_size_summary">Ryhmittele %s alkukirjaimilla</string>
-    <string name="url_copied_to_clipboard">Url kopioitu leikepöydälle</string>
+    <string name="url_copied_to_clipboard">Osoite kopioitu leikepöydälle</string>
     <string name="share">Jaa</string>
     <string name="invalid_file">Virheellinen tiedosto. Ei voi jakaa.</string>
     <string name="share_file">Jaa %s</string>
@@ -869,7 +860,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="moviepedia_hint">Etsi metatiedot</string>
     <string name="moviepedia_result">Videon tuloksia</string>
     <string name="directed_by">Ohjannut</string>
-    <string name="casting">Suoratoisto</string>
+    <string name="casting">Lähetys</string>
     <string name="produced_by">Tuottanut</string>
     <string name="written_by">Kirjoittanut</string>
     <string name="music_by">Musiikki</string>
@@ -878,20 +869,20 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="header_tvshows">TV-ohjelmat</string>
     <string name="header_movies">Elokuvat</string>
     <string name="season_number">Kausi %s</string>
-    <string name="resume_episode">Jatko (%s)</string>
+    <string name="resume_episode">Jatka (%s)</string>
     <string name="start_over">Aloita alusta</string>
     <string name="next_episode">Seuraava jakso</string>
     <string name="open_network_settings">Avataanko verkon asetukset?</string>
     <string name="recently_played">Viimeksi toistettu</string>
     <string name="recently_added">Viimeksi lisätyt</string>
-    <string name="playback_multiple_errors">Useita medioita ei voi toistaa</string>
-    <string name="clear_media_db_message">Menetät kirjanmerkkisi ja luomasi soittolistat, mutta VLC:n on edelleen Android asetuksissa</string>
-    <string name="clear_app_data_message">Menetät kirjanmerkit, soittolistat ja kaikki VLC-asetukset</string>
+    <string name="playback_multiple_errors">Useampaa mediaa ei voi toistaa</string>
+    <string name="clear_media_db_message">Menetät toistohistorian, kirjanmerkkisi ja luomasi soittolistat, mutta säilytät VLC Android asetukset</string>
+    <string name="clear_app_data_message">Menetät toistohistorian, kirjanmerkit, soittolistat ja kaikki VLC asetukset</string>
     <string name="clear">Tyhjennä</string>
     <string name="abrepeat_add_first_marker">Aseta aloitus</string>
     <string name="abrepeat_add_second_marker">Aseta loppu</string>
-    <string name="demux_bitrate">Demux bittinopeus</string>
-    <string name="input_bitrate">Sisääntulon nopeus</string>
+    <string name="demux_bitrate">Kanavointinopeus</string>
+    <string name="input_bitrate">Tuleva siirtonopeus</string>
     <string name="video_information">Videon tiedot</string>
 
     <string name="channels">Kanavat</string>
@@ -901,7 +892,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="framerate_value">%1$.3f</string>
     <string name="bitrate_value">%1$s/s</string>
     <string name="language">Kieli</string>
-    <string name="track_samplerate">Näytteenottotaajuus</string>
+    <string name="track_samplerate">Näytetaajuus</string>
     <string name="track_samplerate_value">%1$d Hz\n</string>
     <string name="bitrate">Siirtonopeus</string>
     <string name="codec">Koodekki</string>
@@ -913,7 +904,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="subtitle_delay_end">Nähty teksti</string>
     <string name="track_index">Kappale: %s</string>
     <string name="audio_queue_progress">Valmiina: %s</string>
-    <string name="audio_queue_progress_remaining">Aikaa jäljellä: %s</string>
+    <string name="audio_queue_progress_remaining">Jäljellä: %s</string>
     <string name="audio_queue_progress_finished">Päättyy: %s</string>
     <string name="sortby_track">Kappale</string>
     <string name="this_folder">Lisää tämä kansio</string>
@@ -943,17 +934,17 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="sub_result_by_file">Tulokset tiedostollesi</string>
     <string name="donate">Auta VLC:tä</string>
     <string name="donate_desc">Tue vapaaehtoisia, jotka rakentavat VLC:tä</string>
-    <string name="donate_subscribtion">Haluaisin tämän kuukausilahtoituksena</string>
-    <string name="donate_send">Ryhdy lahjoittajaksi</string>
-    <string name="donation_description">Lahjoituksesi avulla voimme:\nparantaa Androidin VLC-sovellusta\nTue VideoLAN-yhdistystä</string>
+    <string name="donate_subscribtion">Haluaisin tehdä kuukausilahtoituksen</string>
+    <string name="donate_send">Ryhdy sponsoriksi</string>
+    <string name="donation_description">Sponsorointisi avulla voimme:\nParantaa VLC-sovellusta Androidille\nTue VideoLAN yhdistystä</string>
     <string name="subscription_purchased">Olet tilannut kuukausittaisen lahjoituksen</string>
-    <string name="subscription_cancel">Voit peruuttaa tilauksen Play Storen kautta</string>
+    <string name="subscription_cancel">Play Storen kautta voit peruuttaa tilauksen</string>
     <string name="subscription_cancel_tv">Kuinka tilaus peruutetaan</string>
     <string name="donate_unsubscribe_tv">Peruuta tilaus avaamalla %s puhelimella tai tietokoneella tai skannaamalla tämä koodi:</string>
     <string name="tip_jar">Auta VLC:tä</string>
     <string name="thank_you">Kiitos</string>
     <string name="thank_you_desc">Kiitos sinun tuestasi!\nSe auttaa meitä parantamaan VLC:tä!</string>
-    <string name="donate_again">Tue sovellusta uudelleen</string>
+    <string name="donate_again">Sponsoroi sovellusta uudelleen</string>
 
     <string name="mark_as_played">Merkitse toistetuksi</string>
     <string name="mark_as_not_played">Merkitse toistamattomaksi</string>
@@ -964,23 +955,23 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="air_action_rewind">Kelaa 10s taaksepäin</string>
     <string name="air_action_forward">Kelaa 10s eteenpäin</string>
     <string name="air_action_play_pause">Pysäytä/Jatka toistoa</string>
-    <string name="air_action_volume_up">Lisää äänenvoimakkuutta</string>
-    <string name="air_action_volume_down">Vähennä äänenvoimakkuutta</string>
+    <string name="air_action_volume_up">Lisää voimakkuutta</string>
+    <string name="air_action_volume_down">Vähennä voimakkuutta</string>
     <string name="air_action_next">Seuraava kohde toistoon</string>
     <string name="air_action_previous">Edellinen kohde toistoon</string>
-    <string name="allow_otg">Salli OTG-yhteys</string>
-    <string name="allow_otg_description">Valitse OTG-asema, jolle sallit oikeudet VLC:n käyttöön.</string>
+    <string name="allow_otg">Salli usb laitteet</string>
+    <string name="allow_otg_description">Valitse usb-asema, jolle sallit oikeudet VLC:n käyttöön.</string>
     <string name="timeout_infinite">Loputon</string>
-    <string name="video_hud_timeout">Videosoittimen ohjainten piilottamisen viive</string>
+    <string name="video_hud_timeout">Soittimen säätimien piilottamisen viive</string>
     <string name="video_hud_timeout_summary">%s s</string>
     <string name="remove_from_history">Poista historiasta</string>
     <string name="prefersmbv1">Suosi SMB 1</string>
-    <string name="prefersmbv1_summary">Poista asetuksen valinta, jos on ongelmia SMB-palvelimen selaamisessa</string>
+    <string name="prefersmbv1_summary">Poista tämä asetus, jos sinulla on ongelmia SMB-palvelimen selaamisessa</string>
     <string name="apply_to_all">Käytä kaikkiin videoihin</string>
-    <string name="audio_delay_global">Äänen viiveeksi on määritetty %s ms kaikissa videoissa</string>
-    <string name="audio_delay_bt">Äänen viive %s ms on asetettu laitteelle bluetooth</string>
-    <string name="warning_stream_speed">Toistonopeuden nostaminen yli 1 suoratoistolle voi aiheuttaa änkytystä</string>
-    <string name="go_to_folder">Selaa vanhempaa</string>
+    <string name="audio_delay_global">Ääniviiveeksi on määritetty %s ms kaikissa videoissa</string>
+    <string name="audio_delay_bt">Ääniviive %s ms on asetettu bluetooth laitteille</string>
+    <string name="warning_stream_speed">Toistonopeuden nostaminen suoratoistolle yli 1:den voi aiheuttaa änkytystä</string>
+    <string name="go_to_folder">Selaa yläkansiota</string>
     <string name="create_shortcut">Luo ohjelman pikakuvake</string>
     <string name="no_sub_renderer">Tekstityksiä ei vielä tueta suoratoiston aikana</string>
     <string name="enqueuing">Ladataan mediaa</string>
@@ -991,18 +982,18 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="browser_show_missing_media_summary">Näytä kaukaiset mediat, vaikka he eivät olisikaan läsnä</string>
     <string name="parental_control">Lapsilukko</string>
     <string name="safe_mode">Vikasietotila</string>
-    <string name="safe_mode_summary">Kun tiedostoja on aktivoitu, niitä ei voi poistaa tai soittolistaa muuttaa syöttämättä sinun PIN-koodia</string>
+    <string name="safe_mode_summary">Kun tiedostoja on aktivoitu, niitä ei voi poistaa tai muuttaa soittolistaa ilman sinun PIN koodia</string>
     <string name="safe_mode_pin">Anna sinun PIN</string>
     <string name="pin_unlock_success">Avaaminen onnistui. Aktivoi vikasietotila uudelleen painamalla sovelluksen tätä kuvaketta:</string>
     <string name="safe_mode_new_pin">Anna sinun uusi PIN</string>
     <string name="safe_mode_re_pin">Anna PIN uudestaan</string>
-    <string name="safe_mode_no_match">PIN-koodit eivät täsmää</string>
+    <string name="safe_mode_no_match">PIN koodit eivät täsmää</string>
     <string name="safe_mode_invalid_pin">Väärä PIN</string>
-    <string name="safe_mode_pin_error">Pin-koodisi saa sisältää vain numeroita</string>
-    <string name="pin_code_reason_create">Ensin luodaan sinun PIN-koodi</string>
-    <string name="pin_code_reason_modify">Vaihda sinun PIN-koodi</string>
-    <string name="pin_code_modified">PIN-koodin vaihto onnistui</string>
-    <string name="pin_code_reason_check">Pääsy on rajoitettu. Anna PIN-koodi</string>
+    <string name="safe_mode_pin_error">PIN koodi saa sisältää vain numeroita</string>
+    <string name="pin_code_reason_create">Ensin luodaan sinun PIN koodi</string>
+    <string name="pin_code_reason_modify">Vaihda sinun PIN koodi</string>
+    <string name="pin_code_modified">PIN koodin vaihto onnistui</string>
+    <string name="pin_code_reason_check">Pääsy on rajoitettu. Anna PIN koodi</string>
     <string name="pin_code_access_granted">Pääsy myönnetty. Voit lukita uudelleen päänäytössä</string>
     <string name="safe_mode_enabled">Vikasietotila on nyt käytössä</string>
     <string name="restricted_access">Pääsy on rajoitettu</string>
@@ -1017,7 +1008,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="preferred_resolution">Haluttu videon tarkkuus</string>
     <string name="preferred_resolution_summary">Videon enimmäislaatu suoratoistossa on tarvittaessa: %s</string>
     <string name="pref_resolution_best_available">Paras saatavilla oleva</string>
-    <string name="pref_resolution_very_low">Ehittäin matala laatu (240p)</string>
+    <string name="pref_resolution_very_low">Matala laatu (240p)</string>
     <string name="stop_unpaubale">Tätä mediaa ei voi laittaa tauolle. Lopeta sen sijaan?</string>
     <string name="delete_forever">Poista lopullisesti</string>
     <string name="add_to_existing_playlist">Lisää nykyiseen soittolistaan </string>
@@ -1028,11 +1019,11 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="add_bookmark">Lisää kirjanmerkki</string>
     <string name="bookmark_added">Kirjanmerkki lisätty</string>
     <string name="show">Näytä</string>
-    <string name="optional_features">Valinnaiset ominaisuudet</string>
+    <string name="optional_features">Lisäasetukset</string>
     <string name="optional_features_summary">Testiversion ominaisuudet, joita testataan - eivätkä välttämättä ole vakaita</string>
     <string name="optional_features_warning">Tämä ominaisuus on testiversiossa ja saattaa olla epävakaa</string>
     <string name="network_indexing">Verkon indeksointi</string>
-    <string name="network_indexing_warning">Verkon indeksointi on tällä hetkellä testauksessa.\nKnown issues:\n• Slow performance\n\nJos kohtaat muita ongelmia, ilmoita niistä meidän foorumilla.</string>
+    <string name="network_indexing_warning">Verkon indeksointi on tällä hetkellä testauksessa.\nTunnetut ongelmat:\n•  Hidas suorituskyky\n\nJos kohtaat muita ongelmia, ilmoita niistä meidän foorumilla.</string>
     <string name="start_vlc">Aloita VLC</string>
     <string name="jump_delay">Viive eteen/taakse</string>
     <string name="long_jump_delay">Pitkä painallus viiveelle eteenpäin/taaksepäin</string>
@@ -1043,7 +1034,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="play_media">Toista %s</string>
 
     <!-- Duplication Warning Dialog -->
-    <string name="message_primary_default">Lisätäänkö päällekkäiset tuotteet?</string>
+    <string name="message_primary_default">Lisätäänkö päällekkäiset?</string>
     <string name="add_button">Lisää</string>
     <string name="add_all_button">Lisää kaikki</string>
     <string name="add_new_only_button">Lisää vain uudet</string>
@@ -1053,31 +1044,31 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="start">Aloita</string>
     <string name="notification_permission">Ilmoitusten lupa</string>
     <string name="notification_permission_explanation">VLC tarvitsee luvan näyttääkseen ilmoituksia.
-Sovellus ilmoittaa sinulle vain, kun se hakee mediaasi tai käyttää mukautettua kuva kuvassa videota.
-Sen kieltäminen ei estä VLC:tä toimimasta, mutta ilmoitukset piilotetaan.</string>
+Sovellus ilmoittaa sinulle vain, kun se hakee mediaa tai käyttää mukautettua kuva kuvassa videota.
+Kieltäminen ei estä VLC:tä toimimasta, mutta ilmoitukset piilotetaan.</string>
     <string name="permission">Luvat</string>
     <string name="customize">Mukauta</string>
     <string name="selection_count">%d valittu</string>
-    <string name="control_setting">Ohjauksen asetukset</string>
-    <string name="controls_setting">Ohjauksen asetukset</string> <!-- Unused -->
+    <string name="control_setting">Säätimet</string>
+    <string name="controls_setting">Säätimet</string> <!-- Unused -->
     <string name="gestures">Eleet</string>
     <string name="player_controls">Soittimen säätimet</string>
-    <string name="video_double_tap_jump_delay">Kaksoisnapauta viive</string>
+    <string name="video_double_tap_jump_delay">Kaksoisnapautuksen viive</string>
     <string name="video_key_jump_delay">Ohjausnäppäinten viive</string>
     <string name="banned">Kielletty kansio (vaihda painamalla pitkään)</string>
     <string name="banned_tv">Kielletty kansio</string>
     <string name="banned_parent">Pääkansion kieltämä</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Nämä ovat jo tässä soittolistassa.</item>
-        <item quantity="other">Nämä ovat jo tässä soittolistassa.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Nämä ovat jo soittolistassa \"%s\".</item>
+        <item quantity="other">Nämä ovat jo soittolistassa \"%s\".</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 valituista kohteista on jo soittolistalla.</item>
-        <item quantity="other">%d valituista kohteista on jo soittolistalla.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one"> valituista kohteista on jo soittolistalla \"%s\".</item>
+        <item quantity="other">%d valituista kohteista on jo soittolistalla \"%s\".</item>
     </plurals>
     <string name="official_website">Virallinen verkkosivu</string>
     <string name="view_online">Katso verkossa</string>
-    <string name="player_under_notch">Näytä video loven alla</string>
+    <string name="player_under_notch">Näytä video lovessa</string>
     <string name="notch">Lovi</string>
     <string name="always_fast_seek">Käytä aina pikakelausta</string>
     <string name="always_fast_seek_summary">Kelaus on nopeampi, mutta tarkkuutta voi olla vähemmän</string>
@@ -1085,8 +1076,8 @@ Sen kieltäminen ei estä VLC:tä toimimasta, mutta ilmoitukset piilotetaan.</st
     <string name="touch_only_description">Mobiilikäyttöliittymään vaihtaminen onnistuu kosketusnäytöllä tai hiirellä.
 Liu\'uta alla varmistaaksesi, että tätä ominaisuutta on turvallista muuttaa.</string>
     <string name="no_web_browser">Selainta ei ole asennettu</string>
-    <string name="no_web_browser_message">Voit skannata tämän älypuhelimellasi.
-URL on %s</string>
+    <string name="no_web_browser_message">Voit skannata tämän puhelimellasi.
+Osoite on %s</string>
     <string name="no_video">Videota ei ole saatavilla</string>
     <string name="fold_optimized">Optimoitu taitettavalle näytölle</string>
     <string name="fold_optimize">Optimoi taitettavia näyttöjä varten</string>
@@ -1095,7 +1086,7 @@ URL on %s</string>
     <string name="add_server_favorite">Lisää palvelinsuosikki</string>
     <string name="widget_theme">Sovelman teema</string>
     <string name="widget_preferences">Määritä sovelma</string>
-    <string name="material_you">Material You (vetää värit taustakuvasta)</string>
+    <string name="material_you">Material You (poimii värit taustakuvasta)</string>
     <string name="palette">Palette (poimii värit median kannesta)</string>
     <string name="custom">Mukautettu</string>
     <string name="widget_type">Sovelman tyyppi</string>
@@ -1103,7 +1094,7 @@ URL on %s</string>
     <string name="widget_type_normal">Normaali</string>
     <string name="widget_type_circle">Ympyrä</string>
     <string name="widget_type_large">Suuri</string>
-    <string name="widget_type_error">Tämä sovelman tyyppi on liian suuri kokoon nähden. Se voi johtaa visuaalisiin ongelmiin</string>
+    <string name="widget_type_error">Tämä sovelma on liian suuri kokoon nähden. Se voi johtaa visuaalisiin ongelmiin</string>
     <string name="opacity">Läpikuultavuus</string>
     <string name="widget_background">Tausta</string>
     <string name="widget_foreground">Etuala</string>
@@ -1125,15 +1116,15 @@ URL on %s</string>
     <string name="screenshot_error">Virhe kaappausta otettaessa</string>
     <string name="disabled">Poistettu</string>
     <string name="enable_screenshot_gesture">Napauta 3:lla sormella</string>
-    <string name="enable_screenshot_button">Näytä painike ruudunkaappaukselle</string>
+    <string name="enable_screenshot_button">Näytä kaappauksen painike</string>
     <string name="enable_screenshot_button_and_gesture">Painike ja eleet</string>
 
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - nimi: %s - kesto: %s</string>
+    <string name="talkback_media_content_description">%1$s - nimi: %2$s - kesto: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
-    <string name="talkback_history_item">Historiakohde</string>
+    <string name="talkback_history_item">Historian kohde</string>
     <string name="talkback_playlist">Soittolista: %s</string>
     <string name="talkback_folder">Kansio: %s</string>
     <string name="talkback_file">Tiedosto: %s</string>
@@ -1152,13 +1143,13 @@ URL on %s</string>
     <string name="talkback_seconds">sekuntia</string>
     <string name="talkback_list_section">Otsikko: %s</string>
     <string name="talkback_enter_screen">Ohjaa %s</string>
-    <string name="talkback_file_size">Tiedoston koko: %s</string>
+    <string name="talkback_file_size">Tiedostokoko: %s</string>
     <string name="talkback_open_in_browser">Avaa selaimessa</string>
-    <string name="talkback_video_player">Videosoitin. Näytä säätimet napauttamalla. Takaisin-painikeella piilottaaksesi ne</string>
+    <string name="talkback_video_player">Videosoitin. Näytä säätimet napauttamalla. \"Takaisin\" painike piilottaa ne</string>
     <string name="talkback_video_tracks">Videoraidat</string>
     <string name="talkback_audio_tracks">Audioraidat</string>
     <string name="talkback_subtitle_tracks">Tekstitysraidat</string>
-    <string name="talkback_subtitle_dowload_item">Kieli: %s. %s. Nimi: %s</string>
+    <string name="talkback_subtitle_dowload_item">Kieli: %1$s. %2$s. Nimi: %3$s</string>
     <string name="selected">Valittu</string>
     <string name="talkback_increase_delay">Lisää viivettä</string>
     <string name="talkback_decrease_delay">Vähennä viivettä</string>
@@ -1170,8 +1161,8 @@ URL on %s</string>
     <string name="talkback_audio_player_collapsed">Audiosoitin taustalla</string>
     <string name="talkback_audio_player_closed">Audiosoitin suljettu</string>
     <string name="talkback_audio_player">Audiosoitin, nyt soi: %s</string>
-    <string name="talkback_out_of">%s / %s</string>
-    <string name="talkback_track_index">Raita %s / %s</string>
+    <string name="talkback_out_of">%1$s / %2$s</string>
+    <string name="talkback_track_index">Raita %1$s / %2$s</string>
     <string name="downloaded">Ladattu</string>
     <string name="not_downloaded">Ei ladattu</string>
     <string name="downloading">Ladataan</string>
@@ -1211,14 +1202,14 @@ Anna ilmoituksissa näkyvä koodi</string>
     <string name="home">Koti</string>
     <string name="ra_code">Anna tämä koodi: %s</string>
     <string name="ra_send_logs">Tallenna etäkäytön lokit laitteeseen</string>
-    <string name="ra_otp">Kertakäyttöinen etäkäyttö salasana</string>
+    <string name="ra_otp">Kertakäyttöinen etäkäytön salasana</string>
     <string name="ra_otp_description">Etäkäyttöä koskevat käyttöpyynnöt</string>
     <string name="ra_otp_title">Etäkäytön kirjautumisyritys</string>
     <string name="ra_otp_subtitle">Jos se olet sinä, kirjoita tämä koodi toiseen laitteeseen</string>
     <string name="ra_otp_not_me">Se en ollut minä</string>
 
     <string name="ra_onboarding_welcome_desc">Tervetuloa VLC Android etäkäyttöön
-Ottamalla se käyttöön voit ohjata laitteen toistoa ja muuta mukavaa</string>
+Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="ra_onboarding_how_title">Ohjaa laitettasi</string>
     <string name="ra_onboarding_how_desc">Ohjaa toistoa, lähetä tai nouda tiedostoja ja muuta mukavaa</string>
     <string name="ra_onboarding_ssl_title">Tiedonsalaus</string>
@@ -1244,5 +1235,5 @@ Ottamalla se käyttöön voit ohjata laitteen toistoa ja muuta mukavaa</string>
     <string name="podcast_mode">Podcast moodi</string>
     <string name="podcast_mode_help">Podcastin ohjaimet tulevat näkyviin, kun toistetaan raitaa, joka täyttää yhden seuraavista ehdoista:\n\t• Pituus yli 60 min\n\t• Pituus yli 15 min ilman albumin nimeä\n\t• Genre on %s</string>
     <string name="voice_control">Puheohjaus</string>
-    <string name="voice_control_help">VLC voidaan ohjata englanniksi Google Assistantin kautta sanomalla seuraavat komennot::\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+    <string name="voice_control_help">VLC voidaan ohjata englanniksi Google Assistant avulla sanomalla seuraavat komennot::\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 </resources>

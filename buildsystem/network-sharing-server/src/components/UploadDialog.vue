@@ -3,7 +3,7 @@
     @dragenter.prevent="setDragging(true)" @dragover.prevent="setDragging(true)" @dragleave.prevent="setDragging(false)"
     @drop.prevent="onDrop">
     <div class="drop-files-content">
-      <img class="image-button-image" :src="(`./icons/file_upload.svg`)" width="82" />
+      <img class="image-button-image image-button" :src="(`./icons/file_upload.svg`)" width="82" />
       <p v-t="'DROP_FILES_TIP'"></p>
     </div>
   </div>
@@ -30,7 +30,8 @@
         <tbody>
           <tr v-for="(fileUpload, index) in uploadStore.uploadingFiles" :key="index">
             <td class="align-middle">
-              <p class="text-truncate">{{ fileUpload.file.name }}</p>
+              <p class="text-truncate" data-bs-toggle="tooltip" data-bs-placement="left" :title="(fileUpload.file.name)">
+                {{ fileUpload.file.name }}</p>
               <div v-if="(fileUpload.status == 'uploading')" class="progress" role="progressbar" aria-valuenow="0"
                 aria-valuemin="0" aria-valuemax="100">
                 <div class="progress-bar bg-primary" v-bind:style="{ width: getProgress(fileUpload) }"></div>
@@ -89,6 +90,8 @@ export default {
       for (const file of fileInput.files) {
         this.uploadStore.changeFileStatus(file, "waiting")
       }
+      this.refreshTooltips()
+
     },
     uploadAll() {
       this.uploadStore.uploadingFiles.filter(upload => upload.status == 'waiting').forEach(element => {
@@ -106,6 +109,7 @@ export default {
       for (const file of e.dataTransfer.files) {
         this.uploadStore.changeFileStatus(file, "waiting")
       }
+      this.refreshTooltips()
     },
     setDragging(dragging) {
       if (!dragging) {
@@ -116,6 +120,16 @@ export default {
         this.dragging = true
         clearTimeout(this.inActiveTimeout)
       }
+    },
+    refreshTooltips() {
+      this.$nextTick(() => {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new Tooltip(tooltipTriggerEl, {
+            trigger: 'hover'
+          })
+        })
+      });
     }
   },
   mounted() {
@@ -125,13 +139,6 @@ export default {
       e.preventDefault();
       e.stopPropagation();
     }.bind(this), false);
-
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new Tooltip(tooltipTriggerEl, {
-        trigger: 'hover'
-      })
-    })
   }
 }
 </script>
@@ -159,14 +166,14 @@ export default {
 .drop-files.active {
   opacity: 1;
   visibility: visible;
-  background-color: $light-grey-transparent;
+  background-color: var(--progress-background);
 }
 
 .drop-files-content {
   border: 3px dashed $primary-color;
   padding: 32px;
   border-radius: 16px;
-  background-color: $light-grey;
+  background-color: var(--light-gray);
   opacity: 1;
   display: flex;
   flex-direction: column;
@@ -183,7 +190,7 @@ export default {
   right: 16px;
   width: 450px;
   z-index: 1023;
-  background-color: $light-grey;
+  background-color: var(--light-gray);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.075) !important
@@ -191,7 +198,7 @@ export default {
 
 .uploads-header {
   height: 64px;
-  background-color: $lighter-grey;
+  background-color: var(--bs-card-bg);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }

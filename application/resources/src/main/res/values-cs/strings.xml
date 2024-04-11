@@ -20,20 +20,8 @@
     <string name="searchable_hint">Hledat…</string>
     <string name="history">Historie</string>
 
-    <string name="sortby_name_asc">Název A → Z</string>
-    <string name="sortby_name_desc">Název Z → A</string>
-    <string name="sortby_artist_name_asc">Jméno umělce A → Z</string>
-    <string name="sortby_artist_name_desc">Jméno umělce Z → A</string>
-    <string name="sortby_album_name_asc">Název alba A → Z</string>
-    <string name="sortby_album_name_desc">Název alba Z → A</string>
-    <string name="sortby_filename_asc">Název souboru A → Z</string>
-    <string name="sortby_filename_desc">Název souboru Z → A</string>
     <string name="sortby_length_asc">Od nejkratšího</string>
     <string name="sortby_length_desc">Od nejdelšího</string>
-    <string name="sortby_date_asc">Od nejstaršího datumu</string>
-    <string name="sortby_date_desc">Od nejnovějšího datumu</string>
-    <string name="sortby_last_modified_date_asc">Od nejstaršího přidaného</string>
-    <string name="sortby_last_modified_date_desc">Od nejnovějšího přidaného</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">1 nalezený výsledek</item>
         <item quantity="few">%d nalezené výsledky</item>
@@ -154,7 +142,6 @@
     <string name="nosubfolder">Žádná podsložka</string>
     <string name="directorynotfound">Nelze nalézt umístění adresáře \'%1$s\'</string>
     <string name="nohistory">Žádná historie přehraných položek</string>
-
     <string name="cover_art">Obal alba</string>
     <string name="shuffle_all_title">Přehrát náhodně vše</string>
     <string name="shuffle_title">Režim Náhodné přehrávání</string>
@@ -991,18 +978,6 @@
     <string name="banned">Zakázaná složka (lze změnit při dlouhém stisknutí)</string>
     <string name="banned_tv">Zakázaná složka</string>
     <string name="banned_parent">Zakázáno nadřazenou složkou</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Tato položka již je v tomto seznamu skladeb.</item>
-        <item quantity="few">Tyto položky již jsou v tomto seznamu skladeb.</item>
-        <item quantity="many">Tyto položky již jsou v tomto seznamu skladeb.</item>
-        <item quantity="other">Tyto položky již jsou v tomto seznamu skladeb.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 z vybraných položek je již v tomto seznamu skladeb.</item>
-        <item quantity="few">%d z vybraných položek je již v tomto seznamu skladeb.</item>
-        <item quantity="many">%d z vybraných položek je již v tomto seznamu skladeb.</item>
-        <item quantity="other">%d z vybraných položek je již v tomto seznamu skladeb.</item>
-    </plurals>
     <string name="official_website">Oficiální webové stránky</string>
     <string name="view_online">Zobrazit online</string>
     <string name="player_under_notch">Zobrazit video pod výřezem</string>
@@ -1050,8 +1025,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - název: %s - délka: %s</string>
     <string name="talkback_genre">Žánr: %s</string>
     <string name="talkback_history_item">Položka historie</string>
     <string name="talkback_playlist">Seznam skladeb: %s</string>
@@ -1078,7 +1051,6 @@
     <string name="talkback_video_tracks">Stopy videa</string>
     <string name="talkback_audio_tracks">Zvukové stopy</string>
     <string name="talkback_subtitle_tracks">Stopy titulků</string>
-    <string name="talkback_subtitle_dowload_item">Jazyk: %s. %s. Název: %s</string>
     <string name="selected">Vybráno</string>
     <string name="talkback_increase_delay">Zvýšit zpoždění</string>
     <string name="talkback_decrease_delay">Snížit zpoždění</string>
@@ -1090,8 +1062,6 @@
     <string name="talkback_audio_player_collapsed">Přehrávač zvuku je sbalený</string>
     <string name="talkback_audio_player_closed">Přehrávač zvuku je zavřený</string>
     <string name="talkback_audio_player">Přehrávač zvuku. Nyní hraje: %s</string>
-    <string name="talkback_out_of">%s z %s</string>
-    <string name="talkback_track_index">Stopa %s z %s</string>
     <string name="downloaded">Staženo</string>
     <string name="not_downloaded">Nestaženo</string>
     <string name="downloading">Stahování</string>

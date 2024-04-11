@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_white_transparent"
                 android:padding="8dp"
-                app:srcCompat="@drawable/ic_menu_folder"
+                app:srcCompat="@drawable/ic_folder"
                 app:tint="@color/orange500" />
 
         <TextView

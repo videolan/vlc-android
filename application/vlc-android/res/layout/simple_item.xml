@@ -22,18 +22,29 @@
                 type="org.videolan.vlc.gui.SimpleAdapter.ClickHandler" />
 
         <variable
-                name="imageWidth"
-                type="int" />
+            name="imageWidth"
+            type="int" />
+
+        <variable
+            name="selected"
+            type="boolean" />
+
+        <variable
+            name="position"
+            type="int" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:focusable="true"
-            android:onClick="@{(v) -> handler.onClick(item)}"
-            android:orientation="horizontal"
-            android:padding="8dp">
+        selected="@{selected}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/video_list_background"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{(v) -> handler.onClick(item,position)}"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <ImageView
                 android:id="@+id/imageView8"
@@ -49,6 +60,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:media="@{item}" />
 
+        <ImageView
+            android:id="@+id/ml_item_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/video_overlay_selected"
+            android:visibility="@{selected ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+            app:layout_constraintEnd_toEndOf="@+id/imageView8"
+            app:layout_constraintStart_toStartOf="@+id/imageView8"
+            app:layout_constraintTop_toTopOf="@+id/imageView8"
+            app:layout_constraintVertical_bias="1.0" />
+
         <TextView
                 android:id="@+id/textView16"
                 android:layout_width="0dp"
@@ -62,7 +86,7 @@
                 android:textColor="?attr/list_title"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/subtitle"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/selected_check"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imageView8"
                 app:layout_constraintTop_toTopOf="@+id/imageView8"
@@ -77,8 +101,20 @@
                 android:layout_marginEnd="8dp"
                 android:text="@{item.description}"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/selected_check"
                 app:layout_constraintStart_toEndOf="@+id/imageView8"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+        <ImageView
+            android:id="@+id/selected_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:visibility="@{selected ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_video_grid_check"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

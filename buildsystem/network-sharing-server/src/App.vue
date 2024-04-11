@@ -24,6 +24,7 @@ import AddStream from './components/AddStream.vue'
 import UploadDialog from './components/UploadDialog.vue'
 import { vlcApi } from './plugins/api.js'
 import { usePlayerStore } from './stores/PlayerStore'
+import { useBrowserStore } from './stores/BrowserStore'
 import { useAppStore } from './stores/AppStore'
 import { mapStores } from 'pinia'
 import http from './plugins/auth'
@@ -39,7 +40,7 @@ export default {
     UploadDialog,
   },
   computed: {
-    ...mapStores(usePlayerStore, useAppStore)
+    ...mapStores(usePlayerStore, useAppStore, useBrowserStore)
   },
   data() {
     return {
@@ -127,8 +128,11 @@ export default {
             this.appStore.warning = { type: "warning", message: this.$t('PLAYBACK_CONTROL_FORBIDDEN') }
             break;
           case 'ml-refresh-needed':
-          this.$log.info("ML refresh needed")
-          this.appStore.needRefresh = true
+            this.$log.info("ML refresh needed")
+            this.appStore.needRefresh = true
+            break;
+          case 'browser-description':
+            this.browserStore.descriptions.push(msg)
             break;
         }
       }
@@ -175,27 +179,49 @@ export default {
     } else {
       this.startWS()
     }
-  }
+
+    if (this.appStore.darkTheme) {
+      document.documentElement.setAttribute('data-bs-theme', 'dark')
+    } else {
+      document.documentElement.removeAttribute('data-bs-theme')
+    }
+
+  },
+  mounted: function () {
+    this.appStore.$subscribe((mutation, state) => {
+      if (state.darkTheme) {
+        document.documentElement.setAttribute('data-bs-theme', 'dark')
+      } else {
+        document.documentElement.removeAttribute('data-bs-theme')
+      }
+    })
+
+  },
 }
 </script>
 
 <style>
+
+main {
+  padding-bottom: 48px;
+}
+
 ::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
+  height: 8px;
+  width: 8px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--scrollbar-thumb);
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--scrollbar-thumb);
 }
 
 .footer-bottom-margin {

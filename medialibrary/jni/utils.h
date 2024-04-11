@@ -186,10 +186,10 @@ struct fields {
         jmethodID onBackgroundTasksIdleChangedId;
         jmethodID onReloadStartedId;
         jmethodID onReloadCompletedId;
-        jmethodID onEntryPointBannedId;
-        jmethodID onEntryPointUnbannedId;
-        jmethodID onEntryPointAddedId;
-        jmethodID onEntryPointRemovedId;
+        jmethodID onRootBannedId;
+        jmethodID onRootUnbannedId;
+        jmethodID onRootAddedId;
+        jmethodID onRootRemovedId;
         jmethodID onMediaThumbnailReadyId;
         jmethodID onUnhandledExceptionId;
         jmethodID onSubscriptionsAddedId;

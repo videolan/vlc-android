@@ -20,20 +20,8 @@
     <string name="searchable_hint">Procurar…</string>
     <string name="history">Histórico</string>
 
-    <string name="sortby_name_asc">Nome A → Z</string>
-    <string name="sortby_name_desc">Nome Z → A</string>
-    <string name="sortby_artist_name_asc">Nome do artista A → Z</string>
-    <string name="sortby_artist_name_desc">Nome do artista Z → A</string>
-    <string name="sortby_album_name_asc">Nome do álbum A → Z</string>
-    <string name="sortby_album_name_desc">Nome do álbum Z → A</string>
-    <string name="sortby_filename_asc">Nome do ficheiro A → Z</string>
-    <string name="sortby_filename_desc">Nome do ficheiro Z → A</string>
     <string name="sortby_length_asc">Mais curto primeiro</string>
     <string name="sortby_length_desc">Mais longo primeiro</string>
-    <string name="sortby_date_asc">Data mais antiga primeiro</string>
-    <string name="sortby_date_desc">Data mais recente primeiro</string>
-    <string name="sortby_last_modified_date_asc">Adição mais antiga primeiro</string>
-    <string name="sortby_last_modified_date_desc">Adição mais recente primeiro</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Encontrado %d resultado</item>
         <item quantity="many">Encontrados %d resultados</item>
@@ -145,7 +133,6 @@
     <string name="nosubfolder">Nenhuma subpasta</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Ainda não tem um histórico de reprodução.</string>
-
     <string name="cover_art">Imagem da capa</string>
     <string name="shuffle_all_title">Tudo aleatório</string>
     <string name="shuffle_title">Modo aleatório</string>
@@ -970,7 +957,6 @@
     <string name="talkback_video_tracks">Faixas de vídeo</string>
     <string name="talkback_audio_tracks">Faixas de áudio</string>
     <string name="talkback_subtitle_tracks">Faixas de legendas</string>
-    <string name="talkback_subtitle_dowload_item">Idioma: %s. %s. Nome: %s</string>
     <string name="selected">Selecionado</string>
     <string name="talkback_increase_delay">Aumentar atraso</string>
     <string name="talkback_decrease_delay">Diminuir atraso</string>
@@ -978,8 +964,6 @@
     <string name="talkback_decrease_speed">Diminuir velocidade</string>
     <string name="talkback_subtitle_history">Histórico de legendas</string>
     <string name="talkback_language_selection">%s idiomas selecionados</string>
-    <string name="talkback_out_of">%s de %s</string>
-    <string name="talkback_track_index">Faixa %s de %s</string>
     <string name="downloaded">Transferido</string>
     <string name="not_downloaded">Não transferido</string>
     <string name="downloading">A transferir</string>

@@ -19,20 +19,8 @@
     <string name="searchable_hint">Szukaj…</string>
     <string name="history">Historia</string>
 
-    <string name="sortby_name_asc">Nazwa A → Z</string>
-    <string name="sortby_name_desc">Nazwa Z → A</string>
-    <string name="sortby_artist_name_asc">Nazwa artysty A → Z</string>
-    <string name="sortby_artist_name_desc">Nazwa artysty Z → A</string>
-    <string name="sortby_album_name_asc">Nazwa albumu A → Z</string>
-    <string name="sortby_album_name_desc">Nazwa albumu Z → A</string>
-    <string name="sortby_filename_asc">Nazwa pliku A → Z</string>
-    <string name="sortby_filename_desc">Nazwa pliku Z → A</string>
     <string name="sortby_length_asc">Najpierw najkrótsze</string>
     <string name="sortby_length_desc">Najpierw najdłuższe</string>
-    <string name="sortby_date_asc">Najpierw najstarsze</string>
-    <string name="sortby_date_desc">Najpierw najnowsze</string>
-    <string name="sortby_last_modified_date_asc">Najpierw najstarszy dodatek</string>
-    <string name="sortby_last_modified_date_desc">Najpierw najnowszy dodatek</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Znaleziono %d pozycję</item>
         <item quantity="few">Znaleziono %d pozycje</item>
@@ -152,7 +140,6 @@
     <string name="nosubfolder">Brak podfolderów</string>
     <string name="directorynotfound">Nie znaleziono ścieżki katalogu \'%1$s\'.</string>
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
-
     <string name="cover_art">Okładka</string>
     <string name="shuffle_all_title">Losowo wszystkie</string>
     <string name="shuffle_title">Tryb losowo</string>
@@ -857,12 +844,6 @@
     <string name="start">Start</string>
     <string name="permission">Uprawnienie</string>
     <string name="customize">Dostosuj</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Ten element jest już na tej playliście.</item>
-        <item quantity="few">Ten element jest już na tej playliście.</item>
-        <item quantity="many">Ten element jest już na tej playliście.</item>
-        <item quantity="other">Te elementy są już na tej playliście.</item>
-    </plurals>
     <string name="official_website">Oficjalna strona internetowa</string>
     <string name="view_online">Wyświetl online</string>
     <string name="no_web_browser">Brak zainstalowanej przeglądarki internetowej</string>
@@ -882,8 +863,6 @@
     <string name="ascending">Rosnąco</string>
     <string name="descending">Malejąco</string>
     <string name="disabled">Wyłączone</string>
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - tytuł: %s - czas trwania: %s</string>
     <string name="talkback_genre">Gatunek: %s</string>
     <string name="talkback_playlist">Playlista: %s</string>
     <string name="talkback_folder">Folder: %s</string>
@@ -906,7 +885,6 @@
     <string name="talkback_video_tracks">Ścieżki wideo</string>
     <string name="talkback_audio_tracks">Ścieżki audio</string>
     <string name="talkback_subtitle_tracks">Ścieżki napisów</string>
-    <string name="talkback_subtitle_dowload_item">Język: %s. %s. Nazwa: %s</string>
     <string name="talkback_increase_delay">Zwiększ opóźnienie</string>
     <string name="talkback_decrease_delay">Zmniejsz opóźnienie</string>
     <string name="talkback_increase_speed">Zwiększ prędkość</string>

@@ -20,20 +20,8 @@
     <string name="searchable_hint">Otsi…</string>
     <string name="history">Ajalugu</string>
 
-    <string name="sortby_name_asc">Nimi A → Z</string>
-    <string name="sortby_name_desc">Nimi Z → A</string>
-    <string name="sortby_artist_name_asc">Esitaja nimi A → Z</string>
-    <string name="sortby_artist_name_desc">Esitaja nimi Z → A</string>
-    <string name="sortby_album_name_asc">Albumi nimi A → Z</string>
-    <string name="sortby_album_name_desc">Albumi nimi Z → A</string>
-    <string name="sortby_filename_asc">Faili nimi A → Z</string>
-    <string name="sortby_filename_desc">Faili nimi Z → A</string>
     <string name="sortby_length_asc">Esmalt lühimad</string>
     <string name="sortby_length_desc">Esmalt pikimad</string>
-    <string name="sortby_date_asc">Esmalt vanimad</string>
-    <string name="sortby_date_desc">Esmalt uusimad</string>
-    <string name="sortby_last_modified_date_asc">Esmalt varemlisatud</string>
-    <string name="sortby_last_modified_date_desc">Esmalt viimatilisatud</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Leidsin %d vaste</item>
         <item quantity="other">Leidsin %d vastet</item>
@@ -135,7 +123,6 @@
     <string name="nosubfolder">Alamkataloogi pole</string>
     <string name="directorynotfound">Kataloogi \'%1$s\' ei leitud.</string>
     <string name="nohistory">Taasesituse ajalugu veel puudub.</string>
-
     <string name="cover_art">Kaanepilt</string>
     <string name="shuffle_all_title">Sega kõik</string>
     <string name="shuffle_title">Juhuesitus</string>
@@ -809,14 +796,6 @@ Kas sa lubad seda?</string>
     <!-- Unused -->
     <string name="gestures">Viipekäsud</string>
     <string name="player_controls">Mängija juhtnupud</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">See kirje juba on selles esitusloendis olemas.</item>
-        <item quantity="other">Need kirjed juba on selles esitusloendis olemas.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Valitud kirjetest 1 on juba  selles esitusloendis olemas.</item>
-        <item quantity="other">Valitud kirjetest %d on juba selles esitusloendis olemas.</item>
-    </plurals>
     <string name="view_online">Vaata võrgus</string>
     <string name="always_fast_seek">Alati kasuta kiirkerimist</string>
     <string name="always_fast_seek_summary">Kerimine on kiirem, kuid võib olla vähem täpne</string>
@@ -868,7 +847,6 @@ Kas sa lubad seda?</string>
     <string name="talkback_video_tracks">Videorajad</string>
     <string name="talkback_audio_tracks">Audiorajad</string>
     <string name="talkback_subtitle_tracks">Subtiitrite rajad</string>
-    <string name="talkback_subtitle_dowload_item">Keel: %s. %s. Nimi: %s</string>
     <string name="selected">Valitud</string>
     <string name="talkback_increase_delay">Suurenda viivitust</string>
     <string name="talkback_decrease_delay">Vähenda viivitust</string>
@@ -876,7 +854,6 @@ Kas sa lubad seda?</string>
     <string name="talkback_decrease_speed">Vähenda kiirust</string>
     <string name="talkback_subtitle_history">Subtiitrite ajalugu</string>
     <string name="talkback_language_selection">%s valitud keelt</string>
-    <string name="talkback_track_index">Rada %s/%s</string>
     <string name="downloaded">Alla laetud</string>
     <string name="downloading">Allalaadimine</string>
     <string name="talkback_action_rewind">Keri tagasi %s sekundit</string>

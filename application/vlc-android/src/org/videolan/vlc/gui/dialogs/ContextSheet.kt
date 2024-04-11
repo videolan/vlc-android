@@ -35,46 +35,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
-import org.videolan.resources.CTX_ADD_FOLDER_PLAYLIST
-import org.videolan.resources.CTX_ADD_GROUP
-import org.videolan.resources.CTX_ADD_SCANNED
-import org.videolan.resources.CTX_ADD_SHORTCUT
-import org.videolan.resources.CTX_ADD_TO_PLAYLIST
-import org.videolan.resources.CTX_APPEND
-import org.videolan.resources.CTX_BAN_FOLDER
-import org.videolan.resources.CTX_COPY
-import org.videolan.resources.CTX_CUSTOM_REMOVE
-import org.videolan.resources.CTX_DELETE
-import org.videolan.resources.CTX_DOWNLOAD_SUBTITLES
-import org.videolan.resources.CTX_FAV_ADD
-import org.videolan.resources.CTX_FAV_EDIT
-import org.videolan.resources.CTX_FAV_REMOVE
-import org.videolan.resources.CTX_FIND_METADATA
-import org.videolan.resources.CTX_GO_TO_FOLDER
-import org.videolan.resources.CTX_GROUP_SIMILAR
-import org.videolan.resources.CTX_INFORMATION
-import org.videolan.resources.CTX_MARK_ALL_AS_PLAYED
-import org.videolan.resources.CTX_MARK_AS_PLAYED
-import org.videolan.resources.CTX_MARK_AS_UNPLAYED
-import org.videolan.resources.CTX_PLAY
-import org.videolan.resources.CTX_PLAY_ALL
-import org.videolan.resources.CTX_PLAY_AS_AUDIO
-import org.videolan.resources.CTX_PLAY_FROM_START
-import org.videolan.resources.CTX_PLAY_NEXT
-import org.videolan.resources.CTX_PLAY_SHUFFLE
-import org.videolan.resources.CTX_REMOVE_FROM_PLAYLIST
-import org.videolan.resources.CTX_REMOVE_GROUP
-import org.videolan.resources.CTX_RENAME
-import org.videolan.resources.CTX_RENAME_GROUP
-import org.videolan.resources.CTX_SET_RINGTONE
-import org.videolan.resources.CTX_SHARE
-import org.videolan.resources.CTX_STOP_AFTER_THIS
-import org.videolan.resources.CTX_UNGROUP
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
 import org.videolan.vlc.databinding.ContextualSheetBinding
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.FlagSet
 
 const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
 const val CTX_POSITION_KEY = "CTX_POSITION_KEY"
@@ -87,7 +54,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
     override fun needToManageOrientation(): Boolean = false
 
     private lateinit var binding: ContextualSheetBinding
-    private lateinit var options: List<CtxOption>
+    private lateinit var menuItems: List<CtxMenuItem>
     lateinit var receiver: CtxActionReceiver
     private var itemPosition = -1
 
@@ -136,47 +103,49 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         }
         binding.ctxList.layoutManager = LinearLayoutManager(requireContext())
         binding.ctxList.adapter = ContextAdapter()
-        val flags = arguments?.getLong(CTX_FLAGS_KEY) ?: 0
-        options = populateOptions(flags)
+        val flags = FlagSet(ContextOption::class.java).apply {
+            setCapabilities(arguments?.getLong(CTX_FLAGS_KEY) ?: 0)
+        }
+        menuItems = populateMenuItems(flags)
     }
 
-    private fun populateOptions(flags: Long) = mutableListOf<CtxOption>().apply {
-        if (flags and CTX_PLAY != 0L) add(Simple(CTX_PLAY, getString(R.string.play), R.drawable.ic_ctx_play))
-        if (flags and CTX_PLAY_FROM_START != 0L) add(Simple(CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_ctx_play_from_start))
-        if (flags and CTX_PLAY_ALL != 0L) add(Simple(CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_ctx_play_all))
-        if (flags and CTX_PLAY_AS_AUDIO != 0L) add(Simple(CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_ctx_play_as_audio))
-        if (flags and CTX_APPEND != 0L) add(Simple(CTX_APPEND, getString(R.string.append), R.drawable.ic_ctx_append))
-        if (flags and CTX_PLAY_NEXT != 0L) add(Simple(CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_ctx_play_next))
-        if (flags and CTX_PLAY_SHUFFLE != 0L) add(Simple(CTX_PLAY_SHUFFLE, getString(R.string.shuffle_play), R.drawable.ic_ctx_shuffle))
-        if (flags and CTX_DOWNLOAD_SUBTITLES != 0L) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_ctx_download))
-        if (flags and CTX_INFORMATION != 0L) add(Simple(CTX_INFORMATION, getString(R.string.info), R.drawable.ic_ctx_information))
-        if (flags and CTX_ADD_TO_PLAYLIST != 0L) add(Simple(CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_ctx_add_to_playlist))
-        if (flags and CTX_SET_RINGTONE != 0L && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_ctx_set_ringtone))
-        if (flags and CTX_FAV_ADD != 0L) add(Simple(CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_ctx_fav_add))
-        if (flags and CTX_ADD_SCANNED != 0L) add(Simple(CTX_ADD_SCANNED, getString(R.string.add_to_scanned), R.drawable.ic_ctx_addtoscan))
-        if (flags and CTX_FAV_EDIT != 0L) add(Simple(CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_ctx_edit))
-        if (flags and CTX_FAV_REMOVE != 0L) add(Simple(CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_ctx_fav_remove))
-        if (flags and CTX_REMOVE_FROM_PLAYLIST != 0L) add(Simple(CTX_REMOVE_FROM_PLAYLIST, getString(R.string.remove), R.drawable.ic_ctx_remove_from_playlist))
-        if (flags and CTX_STOP_AFTER_THIS != 0L) add(Simple(CTX_STOP_AFTER_THIS, getString(R.string.stop_after_this), R.drawable.ic_ctx_stop_after_this))
-        if (flags and CTX_RENAME != 0L) add(Simple(CTX_RENAME, getString(R.string.rename), R.drawable.ic_ctx_edit))
-        if (flags and CTX_COPY != 0L) add(Simple(CTX_COPY, getString(R.string.copy_to_clipboard), R.drawable.ic_ctx_link))
-        if (flags and CTX_DELETE != 0L) add(Simple(CTX_DELETE, getString(R.string.delete), R.drawable.ic_ctx_delete))
-        if (flags and CTX_SHARE != 0L) add(Simple(CTX_SHARE, getString(R.string.share), R.drawable.ic_ctx_share))
-        if (flags and CTX_ADD_SHORTCUT != 0L && ShortcutManagerCompat.isRequestPinShortcutSupported(requireActivity())) add(Simple(CTX_ADD_SHORTCUT, getString(R.string.create_shortcut), R.drawable.ic_ctx_app_shortcut))
-        if (flags and CTX_FIND_METADATA != 0L) add(Simple(CTX_FIND_METADATA, getString(R.string.find_metadata), R.drawable.ic_ctx_delete))
-        if (flags and CTX_ADD_FOLDER_PLAYLIST != 0L) add(Simple(CTX_ADD_FOLDER_PLAYLIST, getString(R.string.this_folder), R.drawable.ic_ctx_add_to_playlist))
-        if (flags and CTX_ADD_FOLDER_AND_SUB_PLAYLIST != 0L) add(Simple(CTX_ADD_FOLDER_AND_SUB_PLAYLIST, getString(R.string.all_subfolders), R.drawable.ic_ctx_add_to_playlist))
-        if (flags and CTX_ADD_GROUP != 0L) add(Simple(CTX_ADD_GROUP, getString(R.string.add_to_group), R.drawable.ic_ctx_add_to_group))
-        if (flags and CTX_REMOVE_GROUP != 0L) add(Simple(CTX_REMOVE_GROUP, getString(R.string.remove_from_group), R.drawable.ic_ctx_remove_from_group))
-        if (flags and CTX_RENAME_GROUP != 0L) add(Simple(CTX_RENAME_GROUP, getString(R.string.rename_group), R.drawable.ic_ctx_edit))
-        if (flags and CTX_UNGROUP != 0L) add(Simple(CTX_UNGROUP, getString(R.string.ungroup), R.drawable.ic_ctx_delete))
-        if (flags and CTX_GROUP_SIMILAR != 0L) add(Simple(CTX_GROUP_SIMILAR, getString(R.string.group_similar), R.drawable.ic_ctx_group_auto))
-        if (flags and CTX_MARK_AS_PLAYED != 0L) add(Simple(CTX_MARK_AS_PLAYED, getString(R.string.mark_as_played), R.drawable.ic_ctx_mark_as_played))
-        if (flags and CTX_MARK_AS_UNPLAYED != 0L) add(Simple(CTX_MARK_AS_UNPLAYED, getString(R.string.mark_as_not_played), R.drawable.ic_ctx_mark_as_not_played))
-        if (flags and CTX_MARK_ALL_AS_PLAYED != 0L) add(Simple(CTX_MARK_ALL_AS_PLAYED, getString(R.string.mark_all_as_played), R.drawable.ic_ctx_mark_all_as_played))
-        if (flags and CTX_GO_TO_FOLDER != 0L) add(Simple(CTX_GO_TO_FOLDER, getString(R.string.go_to_folder), R.drawable.ic_ctx_folder))
-        if (flags and CTX_CUSTOM_REMOVE != 0L) add(Simple(CTX_CUSTOM_REMOVE, getString(R.string.remove_custom_path), R.drawable.ic_ctx_delete))
-        if (flags and CTX_BAN_FOLDER != 0L) add(Simple(CTX_BAN_FOLDER, getString(R.string.group_ban_folder), R.drawable.ic_ctx_hide_source))
+    private fun populateMenuItems(flags: FlagSet<ContextOption>) = mutableListOf<CtxMenuItem>().apply {
+        if (flags.contains(CTX_PLAY)) add(Simple(CTX_PLAY, getString(R.string.play), R.drawable.ic_ctx_play))
+        if (flags.contains(CTX_PLAY_FROM_START)) add(Simple(CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_ctx_play_from_start))
+        if (flags.contains(CTX_PLAY_ALL)) add(Simple(CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_ctx_play_all))
+        if (flags.contains(CTX_PLAY_AS_AUDIO)) add(Simple(CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_ctx_play_as_audio))
+        if (flags.contains(CTX_APPEND)) add(Simple(CTX_APPEND, getString(R.string.append), R.drawable.ic_ctx_append))
+        if (flags.contains(CTX_PLAY_SHUFFLE)) add(Simple(CTX_PLAY_SHUFFLE, getString(R.string.shuffle_play), R.drawable.ic_ctx_shuffle))
+        if (flags.contains(CTX_PLAY_NEXT)) add(Simple(CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_ctx_play_next))
+        if (flags.contains(CTX_DOWNLOAD_SUBTITLES)) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_ctx_download))
+        if (flags.contains(CTX_INFORMATION)) add(Simple(CTX_INFORMATION, getString(R.string.info), R.drawable.ic_ctx_information))
+        if (flags.contains(CTX_ADD_TO_PLAYLIST)) add(Simple(CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_ctx_add_to_playlist))
+        if (flags.contains(CTX_SET_RINGTONE) && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_ctx_set_ringtone))
+        if (flags.contains(CTX_FAV_ADD)) add(Simple(CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_ctx_fav_add))
+        if (flags.contains(CTX_ADD_SCANNED)) add(Simple(CTX_ADD_SCANNED, getString(R.string.add_to_scanned), R.drawable.ic_ctx_addtoscan))
+        if (flags.contains(CTX_FAV_EDIT)) add(Simple(CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_ctx_edit))
+        if (flags.contains(CTX_FAV_REMOVE)) add(Simple(CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_ctx_fav_remove))
+        if (flags.contains(CTX_REMOVE_FROM_PLAYLIST)) add(Simple(CTX_REMOVE_FROM_PLAYLIST, getString(R.string.remove), R.drawable.ic_ctx_remove_from_playlist))
+        if (flags.contains(CTX_STOP_AFTER_THIS)) add(Simple(CTX_STOP_AFTER_THIS, getString(R.string.stop_after_this), R.drawable.ic_ctx_stop_after_this))
+        if (flags.contains(CTX_RENAME)) add(Simple(CTX_RENAME, getString(R.string.rename), R.drawable.ic_ctx_edit))
+        if (flags.contains(CTX_COPY)) add(Simple(CTX_COPY, getString(R.string.copy_to_clipboard), R.drawable.ic_ctx_link))
+        if (flags.contains(CTX_DELETE)) add(Simple(CTX_DELETE, getString(R.string.delete), R.drawable.ic_ctx_delete))
+        if (flags.contains(CTX_SHARE)) add(Simple(CTX_SHARE, getString(R.string.share), R.drawable.ic_ctx_share))
+        if (flags.contains(CTX_ADD_SHORTCUT) && ShortcutManagerCompat.isRequestPinShortcutSupported(requireActivity())) add(Simple(CTX_ADD_SHORTCUT, getString(R.string.create_shortcut), R.drawable.ic_ctx_app_shortcut))
+        if (flags.contains(CTX_FIND_METADATA)) add(Simple(CTX_FIND_METADATA, getString(R.string.find_metadata), R.drawable.ic_ctx_delete))
+        if (flags.contains(CTX_ADD_FOLDER_PLAYLIST)) add(Simple(CTX_ADD_FOLDER_PLAYLIST, getString(R.string.this_folder), R.drawable.ic_ctx_add_to_playlist))
+        if (flags.contains(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)) add(Simple(CTX_ADD_FOLDER_AND_SUB_PLAYLIST, getString(R.string.all_subfolders), R.drawable.ic_ctx_add_to_playlist))
+        if (flags.contains(CTX_ADD_GROUP)) add(Simple(CTX_ADD_GROUP, getString(R.string.add_to_group), R.drawable.ic_ctx_add_to_group))
+        if (flags.contains(CTX_REMOVE_GROUP)) add(Simple(CTX_REMOVE_GROUP, getString(R.string.remove_from_group), R.drawable.ic_ctx_remove_from_group))
+        if (flags.contains(CTX_RENAME_GROUP)) add(Simple(CTX_RENAME_GROUP, getString(R.string.rename_group), R.drawable.ic_ctx_edit))
+        if (flags.contains(CTX_UNGROUP)) add(Simple(CTX_UNGROUP, getString(R.string.ungroup), R.drawable.ic_ctx_delete))
+        if (flags.contains(CTX_GROUP_SIMILAR)) add(Simple(CTX_GROUP_SIMILAR, getString(R.string.group_similar), R.drawable.ic_ctx_group_auto))
+        if (flags.contains(CTX_MARK_AS_PLAYED)) add(Simple(CTX_MARK_AS_PLAYED, getString(R.string.mark_as_played), R.drawable.ic_ctx_mark_as_played))
+        if (flags.contains(CTX_MARK_AS_UNPLAYED)) add(Simple(CTX_MARK_AS_UNPLAYED, getString(R.string.mark_as_not_played), R.drawable.ic_ctx_mark_as_not_played))
+        if (flags.contains(CTX_MARK_ALL_AS_PLAYED)) add(Simple(CTX_MARK_ALL_AS_PLAYED, getString(R.string.mark_all_as_played), R.drawable.ic_ctx_mark_all_as_played))
+        if (flags.contains(CTX_GO_TO_FOLDER)) add(Simple(CTX_GO_TO_FOLDER, getString(R.string.go_to_folder), R.drawable.ic_ctx_folder))
+        if (flags.contains(CTX_CUSTOM_REMOVE)) add(Simple(CTX_CUSTOM_REMOVE, getString(R.string.remove_custom_path), R.drawable.ic_ctx_delete))
+        if (flags.contains(CTX_BAN_FOLDER)) add(Simple(CTX_BAN_FOLDER, getString(R.string.group_ban_folder), R.drawable.ic_ctx_hide_source))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {
@@ -189,7 +158,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
 
             init {
                 itemView.setOnClickListener {
-                    receiver.onCtxAction(itemPosition, options[layoutPosition].id)
+                    receiver.onCtxAction(itemPosition, menuItems[layoutPosition].id)
                     dismiss()
                 }
                 itemView.setOnFocusChangeListener { _, hasFocus -> binding.contextOptionTitle.setTextColor(if (hasFocus) focusedColor else textColor) }
@@ -198,20 +167,20 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(ContextItemBinding.inflate(inflater, parent, false))
 
-        override fun getItemCount() = options.size
+        override fun getItemCount() = menuItems.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.binding.option = options[position]
-            holder.binding.contextOptionIcon.setImageResource(options[position].icon)
+            holder.binding.menuItem = menuItems[position]
+            holder.binding.contextOptionIcon.setImageResource(menuItems[position].icon)
         }
     }
 }
 
-sealed class CtxOption(val id: Long, val title: String, val icon: Int)
-class Simple(id: Long, title: String, icon: Int = 0) : CtxOption(id, title, icon)
+sealed class CtxMenuItem(val id: ContextOption, val title: String, val icon: Int)
+class Simple(id: ContextOption, title: String, icon: Int = 0) : CtxMenuItem(id, title, icon)
 
 interface CtxActionReceiver {
-    fun onCtxAction(position: Int, option: Long)
+    fun onCtxAction(position: Int, option: ContextOption)
 }
 
 /**
@@ -238,15 +207,15 @@ private fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver,
  * @param media the media used to display the title
  * @param flags the flags describing the actions to be displayed
  */
-fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, media: MediaLibraryItem?, flags: Long) {
+fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, media: MediaLibraryItem?, flags: FlagSet<ContextOption>) {
     if (!activity.isStarted()) return
     val arguments = when (media) {
         is MediaLibraryItem -> {
             bundleOf(CTX_MEDIA_KEY to media, CTX_POSITION_KEY to position,
-                    CTX_FLAGS_KEY to flags)
+                    CTX_FLAGS_KEY to flags.getCapabilities())
         }
         else -> bundleOf(CTX_TITLE_KEY to (media?.title ?: ""), CTX_POSITION_KEY to position,
-                CTX_FLAGS_KEY to flags)
+                CTX_FLAGS_KEY to flags.getCapabilities())
     }
     showContext(activity, receiver, arguments)
 }

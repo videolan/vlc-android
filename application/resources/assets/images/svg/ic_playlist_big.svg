@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="96.0px"
+   height="96.0px"
+   viewBox="0 0 96.0 96.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_playlist_big.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview10963"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="5.1241863"
+     inkscape:cx="65.181081"
+     inkscape:cy="38.152399"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid11026" />
+  </sodipodi:namedview>
+  <defs
+     id="defs10958" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect7439"
+       style="color:#000000;overflow:visible;fill:#000000;stroke:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;paint-order:markers fill stroke;stop-color:#000000"
+       d="M 15 24 C 13.338002 24 12 25.338002 12 27 C 12 28.661998 13.338002 30 15 30 L 57 30 C 58.661998 30 60 28.661998 60 27 C 60 25.338002 58.661998 24 57 24 L 15 24 z M 76 24 A 5.9999209 5.9999209 0 0 0 70 30 L 70 36 L 70 57.626953 C 68.231089 56.59577 66.181142 56 64 56 C 57.408155 56 52 61.408155 52 68 C 52 74.591845 57.408155 80 64 80 C 70.591845 80 76 74.591845 76 68 C 76 67.663111 75.982766 67.330142 75.955078 67 L 76 67 L 76 36 L 82 36 A 5.9999548 5.9999548 0 0 0 88 30 L 88 24 L 76 24 z M 15 41 C 13.338002 41 12 42.338002 12 44 C 12 45.661998 13.338002 47 15 47 L 57 47 C 58.661998 47 60 45.661998 60 44 C 60 42.338002 58.661998 41 57 41 L 15 41 z M 15 58 C 13.338002 58 12 59.338036 12 61 C 12 62.661964 13.338002 64 15 64 L 41 64 C 42.661998 64 44 62.661964 44 61 C 44 59.338036 42.661998 58 41 58 L 15 58 z M 64 62 C 67.349207 62 70 64.650793 70 68 C 70 71.349207 67.349207 74 64 74 C 60.650793 74 58 71.349207 58 68 C 58 64.650793 60.650793 62 64 62 z " />
+  </g>
+</svg>

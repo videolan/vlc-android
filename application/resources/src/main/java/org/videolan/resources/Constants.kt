@@ -71,7 +71,7 @@ val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()
 @JvmField val CAR_SETTINGS = "car.SETTINGS".buildPkgString()
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
-const val PLAYLIST_TYPE_VIDEO_RESUME = 2
+const val PLAYLIST_TYPE_ALL = 2
 const val MEDIALIBRARY_PAGE_SIZE = 500
 const val DRIVING_MODE_APP_PKG = "com.google.android.googlequicksearchbox"
 const val ANDROID_AUTO_APP_PKG = "com.google.android.projection.gearhead"
@@ -154,6 +154,7 @@ const val HEADER_RECENTLY_PLAYED = 32L
 const val HEADER_RECENTLY_ADDED = 33L
 const val HEADER_NOW_PLAYING = 34L
 const val HEADER_PERMISSION = 35L
+const val HEADER_FAVORITES = 36L
 const val ID_SETTINGS = 10L
 const val ID_ABOUT_TV = 11L
 const val ID_REFRESH = 13L
@@ -204,53 +205,6 @@ const val CURRENT_BROWSER_MAP = "CURRENT_BROWSER_MAP"
 
 //Dummy items
 const val DUMMY_NEW_GROUP = 0L
-
-// Context options
-const val CTX_PLAY_ALL = 1L
-const val CTX_APPEND = 1L shl 1
-const val CTX_PLAY_AS_AUDIO = 1L shl 2
-const val CTX_INFORMATION = 1L shl 3
-const val CTX_DELETE = 1L shl 4
-const val CTX_DOWNLOAD_SUBTITLES = 1L shl 5
-const val CTX_PLAY_FROM_START = 1L shl 6
-const val CTX_PLAY_SHUFFLE = 1L shl 7
-const val CTX_PLAY = 1L shl 8
-const val CTX_PLAY_NEXT = 1L shl 9
-const val CTX_ADD_TO_PLAYLIST = 1L shl 10
-const val CTX_SET_RINGTONE = 1L shl 11
-const val CTX_FAV_ADD = 1L shl 12
-const val CTX_FAV_EDIT = 1L shl 13
-const val CTX_FAV_REMOVE = 1L shl 14
-const val CTX_CUSTOM_REMOVE = 1L shl 15
-const val CTX_ITEM_DL = 1L shl 16
-const val CTX_REMOVE_FROM_PLAYLIST = 1L shl 17
-const val CTX_STOP_AFTER_THIS = 1L shl 18
-const val CTX_RENAME = 1L shl 19
-const val CTX_ADD_SCANNED = 1L shl 25
-const val CTX_COPY = 1L shl 26
-const val CTX_SHARE = 1L shl 27
-const val CTX_FIND_METADATA = 1L shl 28
-const val CTX_ADD_FOLDER_PLAYLIST = 1L shl 29
-const val CTX_ADD_FOLDER_AND_SUB_PLAYLIST = 1L shl 30
-const val CTX_ADD_GROUP = 1L shl 31
-const val CTX_REMOVE_GROUP = 1L shl 32
-const val CTX_RENAME_GROUP = 1L shl 33
-const val CTX_UNGROUP = 1L shl 34
-const val CTX_GROUP_SIMILAR = 1L shl 35
-const val CTX_MARK_AS_PLAYED = 1L shl 36
-const val CTX_MARK_ALL_AS_PLAYED = 1L shl 37
-const val CTX_GO_TO_FOLDER = 1L shl 38
-const val CTX_MARK_AS_UNPLAYED = 1L shl 39
-const val CTX_ADD_SHORTCUT = 1L shl 40
-const val CTX_BAN_FOLDER = 1L shl 41
-
-const val CTX_VIDEO_FLAGS = CTX_APPEND or CTX_SET_RINGTONE or CTX_PLAY_NEXT or CTX_DELETE or CTX_DOWNLOAD_SUBTITLES or CTX_INFORMATION or CTX_PLAY or CTX_PLAY_ALL or CTX_PLAY_AS_AUDIO or CTX_ADD_TO_PLAYLIST or CTX_SHARE or CTX_ADD_SHORTCUT
-const val CTX_TRACK_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_DELETE or CTX_INFORMATION or CTX_PLAY_ALL or CTX_ADD_TO_PLAYLIST or CTX_SET_RINGTONE or CTX_SHARE or CTX_GO_TO_FOLDER or CTX_ADD_SHORTCUT
-const val CTX_AUDIO_FLAGS = CTX_PLAY or CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PLAYLIST or CTX_INFORMATION or CTX_ADD_SHORTCUT
-const val CTX_PLAYLIST_ALBUM_FLAGS = CTX_AUDIO_FLAGS or CTX_DELETE or CTX_ADD_SHORTCUT
-const val CTX_PLAYLIST_ITEM_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PLAYLIST or CTX_INFORMATION or CTX_DELETE or CTX_SET_RINGTONE or CTX_ADD_SHORTCUT
-const val CTX_VIDEO_GROUP_FLAGS = CTX_PLAY_ALL or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_MARK_ALL_AS_PLAYED or CTX_RENAME_GROUP or CTX_UNGROUP or CTX_ADD_GROUP
-const val CTX_FOLDER_FLAGS = CTX_PLAY_ALL or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_MARK_ALL_AS_PLAYED or CTX_BAN_FOLDER
 
 //Moviepedia
 const val MOVIEPEDIA_MEDIA: String = "moviepedia_media"

@@ -129,7 +129,7 @@ class ColorPickerActivity : AppCompatActivity() {
      * @param previousColor the previous color used
      * @return the index of the closest color variant depending on the saturation and value
      */
-    private fun findClosestVariant(colors: ArrayList<Int>, closestColorIndex: Int,  @ColorInt previousColor: Int): Int {
+    private fun findClosestVariant(colors: ArrayList<Int>, closestColorIndex: Int, @ColorInt previousColor: Int): Int {
         val distances = HashMap<Int, Pair<Float, Float>>()
 
         for (i in 0..19) {
@@ -159,17 +159,19 @@ class ColorPickerActivity : AppCompatActivity() {
      * @return a pair with first being the index of the closest color from [previousColor] and the full color list
      */
     private fun generateColorsAndSelection(@ColorInt previousColor: Int): Pair<Int, ArrayList<Int>> {
-        var minHueDistance = 360F
+        var minHueDistance = colorHsvDistance(previousColor, Color.GRAY)
         var closestColorIndex = 0
         val colors = ArrayList<Int>(100)
-        var hue = 0
+        colors.add(Color.GRAY)
+        closestColorIndex = colors.size - 1
+        var hue = 1
         while (hue < 100) {
             val color = Color.HSVToColor(floatArrayOf(3.6F * hue, 1F, 1F))
             colors.add(color)
-            val colorHueDistance = colorHsvDistance(previousColor, color, 0)
+            val colorHueDistance = colorHsvDistance(previousColor, color)
             if (colorHueDistance < minHueDistance) {
                 minHueDistance = colorHueDistance
-                closestColorIndex = hue
+                closestColorIndex = colors.size - 1
             }
             hue++
         }
@@ -193,6 +195,15 @@ class ColorPickerActivity : AppCompatActivity() {
         return abs(hsv1[hsvIndex] - hsv2[hsvIndex])
     }
 
+    private fun colorHsvDistance(@ColorInt color1: Int, @ColorInt color2: Int): Float {
+
+        val hsv1 = FloatArray(3)
+        val hsv2 = FloatArray(3)
+        Color.colorToHSV(color1, hsv1)
+        Color.colorToHSV(color2, hsv2)
+        return abs(hsv1[0] - hsv2[0]) + abs(hsv1[1] - hsv2[1]) + abs(hsv1[2] - hsv2[2])
+    }
+
     /**
      * Get a variant color from [color]'s hue depending on a position
      * It will make the saturation and value vary depending on the position:
@@ -205,6 +216,11 @@ class ColorPickerActivity : AppCompatActivity() {
      */
     @ColorInt
     fun getVariantColor(color: Int, position: Int): Int {
+
+        if (color == Color.GRAY) {
+            val value = 1F - (0.05F * position)
+            return Color.HSVToColor(floatArrayOf(0F, 0F, value))
+        }
         val hsv = FloatArray(3)
         Color.colorToHSV(color, hsv)
         if (position <= 9)

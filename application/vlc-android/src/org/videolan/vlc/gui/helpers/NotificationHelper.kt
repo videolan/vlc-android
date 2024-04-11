@@ -51,9 +51,10 @@ import org.videolan.resources.START_ACTIVITY
 import org.videolan.tools.DrawableCache
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
-import org.videolan.tools.hasFlag
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
+import org.videolan.vlc.util.FlagSet
+import org.videolan.vlc.util.PlaybackAction
 import org.videolan.vlc.util.TextUtils
 import kotlin.math.abs
 
@@ -75,7 +76,7 @@ object NotificationHelper {
     fun createPlaybackNotification(ctx: Context, video: Boolean, title: String, artist: String,
                                    album: String, cover: Bitmap?, playing: Boolean, pausable: Boolean,
                                    seekable: Boolean, speed: Float, podcastMode: Boolean,
-                                   seekInCompactView: Boolean, enabledActions: Long,
+                                   seekInCompactView: Boolean, enabledActions: FlagSet<PlaybackAction>,
                                    sessionToken: MediaSessionCompat.Token?,
                                    spi: PendingIntent?): Notification {
 
@@ -110,13 +111,13 @@ object NotificationHelper {
             ))
         } else {
             builder.addAction(NotificationCompat.Action(R.drawable.ic_notif_previous, ctx.getString(R.string.previous),
-                    buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)))
+                    buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackAction.ACTION_SKIP_TO_PREVIOUS)))
         }
         /* Rewind */
         builder.addAction(NotificationCompat.Action(
                 DrawableCache.getDrawableFromMemCache(ctx, "ic_notif_rewind_${Settings.audioJumpDelay}", R.drawable.ic_notif_rewind),
                 ctx.getString(R.string.playback_rewind),
-                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_REWIND)))
+                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackAction.ACTION_REWIND)))
         /* Play/Pause or Stop */
         if (pausable) {
             if (playing) builder.addAction(NotificationCompat.Action(R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause),
@@ -128,7 +129,7 @@ object NotificationHelper {
         builder.addAction(NotificationCompat.Action(
                 DrawableCache.getDrawableFromMemCache(ctx, "ic_notif_forward_${Settings.audioJumpDelay}", R.drawable.ic_notif_forward),
                 ctx.getString(R.string.playback_forward),
-                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_FAST_FORWARD)))
+                buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackAction.ACTION_FAST_FORWARD)))
         /* Next */
         if (podcastMode) {
             builder.addAction(NotificationCompat.Action(R.drawable.ic_notif_bookmark_add, ctx.getString(R.string.add_bookmark),
@@ -136,7 +137,7 @@ object NotificationHelper {
             ))
         } else {
             builder.addAction(NotificationCompat.Action(R.drawable.ic_notif_next, ctx.getString(R.string.next),
-                    buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackStateCompat.ACTION_SKIP_TO_NEXT)))
+                    buildMediaButtonPendingIntent(ctx, enabledActions, PlaybackAction.ACTION_SKIP_TO_NEXT)))
         }
         if (AndroidDevices.showMediaStyle) {
             val showActions = if (podcastMode || (seekable && seekInCompactView)) intArrayOf(1, 2, 3) else intArrayOf(0, 2, 4)
@@ -150,9 +151,9 @@ object NotificationHelper {
         return builder.build()
     }
 
-    private fun buildMediaButtonPendingIntent(ctx: Context, enabledActions: Long, action: Long, allowIntent: Boolean = true): PendingIntent? {
-        return if (allowIntent && enabledActions.hasFlag(action))
-            MediaButtonReceiver.buildMediaButtonPendingIntent(ctx, action)
+    private fun buildMediaButtonPendingIntent(ctx: Context, enabledActions: FlagSet<PlaybackAction>, action: PlaybackAction, allowIntent: Boolean = true): PendingIntent? {
+        return if (allowIntent && enabledActions.contains(action))
+            MediaButtonReceiver.buildMediaButtonPendingIntent(ctx, action.toLong())
         else null
     }
 

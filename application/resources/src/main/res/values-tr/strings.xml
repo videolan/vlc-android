@@ -23,26 +23,14 @@
     <string name="searchable_hint">Arama…</string>
     <string name="history">Geçmiş</string>
 
-    <string name="sortby_name_asc">Ada göre A → Z</string>
-    <string name="sortby_name_desc">Ada göre Z → A</string>
-    <string name="sortby_artist_name_asc">Sanatçı adına göre A → Z</string>
-    <string name="sortby_artist_name_desc">Sanatçı adına göre Z → A</string>
-    <string name="sortby_album_name_asc">Albüm adına göre A → Z</string>
-    <string name="sortby_album_name_desc">Albüm adına göre Z → A</string>
-    <string name="sortby_filename_asc">Dosya adına göre A → Z</string>
-    <string name="sortby_filename_desc">Dosya adına göre Z → A</string>
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Kısadan uzuna göre</string>
     <string name="sortby_length_desc">Uzundan kısaya göre</string>
-    <string name="sortby_date_asc">Eskiden yeniye göre</string>
-    <string name="sortby_date_desc">Yeniden eskiye göre</string>
-    <string name="sortby_last_modified_date_asc">Eski eklenenden yeniye göre</string>
-    <string name="sortby_last_modified_date_desc">Yeni eklenenden eskiye göre</string>
-    <string name="sortby_date_insertion_asc">Eski eklenme tarihinden yeniye göre</string>
-    <string name="sortby_date_insertion_desc">Yeni eklenme tarihinden eskiye göre</string>
-    <string name="sortby_date_last_modified_asc">Eski düzenlenme tarihinden yeniye göre</string>
-    <string name="sortby_date_last_modified_desc">Yeni düzenlenme tarihinden eskiye göre</string>
-    <string name="sortby_date_release_asc">Eski yayınlanma tarihinden yeniye göre</string>
-    <string name="sortby_date_release_desc">Yeni yayınlanma tarihinden eskiye göre</string>
+    <string name="sortby_number_asc">Gruptan daha fazla video</string>
+    <string name="sortby_number_desc">Gruptan daha az video</string>
+    <string name="sort_date_asc">Eskiden yeniye</string>
+    <string name="sort_date_desc">Yeniden eskiye</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d sonuç bulundu</item>
@@ -148,6 +136,7 @@
     <string name="nosubfolder">Alt klasör yok</string>
     <string name="directorynotfound">\'%1$s\' klasör yolu bulunamadı.</string>
     <string name="nohistory">Henüz bir oynatma geçmişiniz yok.</string>
+    <string name="cant_ban_root">Bir kök klasörü engelleyemezsiniz</string>
 
     <string name="cover_art">Kapak görseli</string>
     <string name="shuffle_all_title">Tümünü karıştır</string>
@@ -156,6 +145,7 @@
     <string name="shuffle_on">Karıştırma açık</string>
     <string name="shuffle_play">Karışık</string>
     <string name="repeat_title">Yineleme kipi</string>
+    <string name="repeat_none">Yineleme yok</string>
     <string name="repeat_single">Parça yinelensin</string>
     <string name="repeat_all">Tümü yinelensin</string>
     <string name="previous">Önceki</string>
@@ -321,6 +311,7 @@
     <string name="screen_orientation_landscape_sensor">Yatay (almaç)</string>
     <string name="screen_orientation_last_locked">Son kilitlenmiş doğrultu</string>
     <string name="enable_black_theme">Siyah tema</string>
+    <string name="dark_theme">Koyu tema</string>
     <string name="theme_auto">Otomatik tema</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
     <string name="subtitle_preferred_language">Yeğlenen alt yazı dili</string>
@@ -461,7 +452,7 @@
     <string name="remote_access_info">Uzaktan erişim bilgileri</string>
     <string name="remote_access_content">İçerik</string>
     <string name="remote_access_medialibrary_content">Ortam kitaplığı içeriği</string>
-    <string name="remote_access_medialibrary_content_summary">Açık: %s\nKapalı: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Açık: %1$s\nKapalı: %2$s</string>
     <string name="remote_access_file_browser_content">Dosya tarayıcı</string>
     <string name="remote_access_network_browser_content">Ağ tarayıcı</string>
     <string name="remote_access_playback_control">Oynatma denetlensin</string>
@@ -620,7 +611,7 @@
     <string name="partial_content">VLC, tüm dosyalarınıza erişemiyor</string>
     <string name="partial_content_description">Android 11 sürümünden başlayarak, uygulamaların tüm aygıt dosyalarına erişebilmesi için özel izin verilmelidir.\n\n%s</string>
     <string name="never_ask_again">Bir daha sorma</string>
-    <string name="never_show_again">Bir daha gösterme</string>
+    <string name="never_show_again">Bir daha görüntülenmesin, gelecek sürümlerde de</string>
     <string name="allow_settings_access_ringtone_title">VLC zil sesini ayarlayabilsin</string>
     <string name="allow_settings_access_ringtone_description">VLC geçerli parçayı zil sesiniz olarak ayarlamak için bu izne gerek duyar.</string>
     <string name="allow_settings_access_brightness_title">VLC parlaklık kipini ayarlayabilsin</string>
@@ -789,6 +780,8 @@
     <string name="light_theme">Açık tema</string>
     <string name="add">Ekle</string>
     <string name="add_to_new_playlist">Yeni listeye ekle</string>
+    <string name="create_new_playlist">Yeni oynatma listesi ekle</string>
+    <string name="create">Ekle</string>
     <string name="resume_card_message">%1$s oynatımı sürdürülsün mü?</string>
     <string name="misc">Çeşitli</string>
     <string name="popup_force_legacy_title">Görüntü içinde görüntü penceresi kullanılsın</string>
@@ -1006,6 +999,7 @@
     <string name="delete_forever">Kalıcı olarak sil</string>
     <string name="add_to_existing_playlist">Var olan listeye ekle</string>
     <string name="bookmarks_title">Yer imleri</string>
+    <string name="no_bookmark">Herhangi bir yer imi ayarlanmamış</string>
     <string name="bookmark_default_name">%s konumundaki yer imi</string>
     <string name="bookmark_name">%s yer imi</string>
     <string name="add_bookmark">Yer imi ekle</string>
@@ -1048,13 +1042,13 @@
     <string name="banned">Yasak klasör (uzun dokun değiştir)</string>
     <string name="banned_tv">Engellenmiş klasör</string>
     <string name="banned_parent">Üst klasörce yasaklanmış</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Bu öge zaten listede var.</item>
-        <item quantity="other">Bu ögeler zaten listede var.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Bu öge zaten \"%s\" oynatma listesinde var.</item>
+        <item quantity="other">Bu ögeler zaten \"%s\" oynatma listesinde var.</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Seçilmiş ögelerden 1 tanesi zaten listede var.</item>
-        <item quantity="other">Seçilmiş ögelerden %d tanesi zaten listede var.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Seçilmiş ögelerin 1 tanesi zaten \"%s\" oynatma listesinde var.</item>
+        <item quantity="other">Seçilmiş ögelerin %d tanesi zaten \"%s\" oynatma listesinde var.</item>
     </plurals>
     <string name="official_website">Resmi site</string>
     <string name="view_online">Çevrim içi görüntüle</string>
@@ -1110,7 +1104,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - başlık: %s - süre: %s</string>
+    <string name="talkback_media_content_description">%1$s - başlık: %2$s - süre: %3$s</string>
     <string name="talkback_genre">Tür: %s</string>
     <string name="talkback_history_item">Geçmiş ögesi</string>
     <string name="talkback_playlist">Liste: %s</string>
@@ -1137,7 +1131,7 @@
     <string name="talkback_video_tracks">Görüntü kayıtları</string>
     <string name="talkback_audio_tracks">Ses kayıtları</string>
     <string name="talkback_subtitle_tracks">Alt yazı kayıtları</string>
-    <string name="talkback_subtitle_dowload_item">Dil: %s. %s. Ad: %s</string>
+    <string name="talkback_subtitle_dowload_item">Dil: %1$s. %2$s. Ad: %3$s</string>
     <string name="selected">Seçilmiş</string>
     <string name="talkback_increase_delay">Gecikmeyi artır</string>
     <string name="talkback_decrease_delay">Gecikmeyi azalt</string>
@@ -1149,8 +1143,8 @@
     <string name="talkback_audio_player_collapsed">Ses oynatıcı daraltıldı</string>
     <string name="talkback_audio_player_closed">Ses oynatıcı kapatıldı</string>
     <string name="talkback_audio_player">Ses oynatıcı. Şu anda oynatılan: %s</string>
-    <string name="talkback_out_of">%s / %s</string>
-    <string name="talkback_track_index">%s / %s. kayıt</string>
+    <string name="talkback_out_of">%1$s / %2$s</string>
+    <string name="talkback_track_index">%1$s / %2$s. kayıt</string>
     <string name="downloaded">İndirildi</string>
     <string name="not_downloaded">İndirilmedi</string>
     <string name="downloading">İndiriliyor</string>

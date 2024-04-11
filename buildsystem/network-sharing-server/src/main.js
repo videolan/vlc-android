@@ -9,6 +9,7 @@ import vlcUtils from './plugins/vlcUtils'
 import VueLazyload from 'vue-lazyload'
 import { usePlayerStore } from './stores/PlayerStore'
 import logger from './plugins/logger'
+import { tooltip } from './plugins/tooltip'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -31,7 +32,7 @@ router.beforeEach((to, from, next) => {
 
 const pinia = createPinia()
 initI18n().then(function (i18n) {
-  createApp(App).use(i18n).use(VueLazyload).use(router).use(pinia).use(logger).use(vlcUtils).mount('#app')
+  createApp(App).directive('tooltip', tooltip).use(i18n).use(VueLazyload).use(router).use(pinia).use(logger).use(vlcUtils).mount('#app')
 })
 
 export default router;

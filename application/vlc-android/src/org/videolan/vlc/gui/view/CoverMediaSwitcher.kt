@@ -46,7 +46,7 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         if (cover != null) {
             coverView.setImageBitmap(cover)
         } else {
-            coverView.setImageDrawable(ContextCompat.getDrawable(v.context, R.drawable.ic_player_cover_audiotrack))
+            coverView.setImageDrawable(ContextCompat.getDrawable(v.context, R.drawable.ic_no_thumbnail_song))
         }
 
         trackInfoView?.visibility = if (Settings.showAudioTrackInfo) View.VISIBLE else View.GONE

@@ -24,15 +24,20 @@
 
 package org.videolan.vlc.gui.browser
 
+import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.ViewDataBinding
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.Settings
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
+import org.videolan.vlc.gui.view.MiniVisualizer
 
 class BrowserItemBindingContainer(val binding: ViewDataBinding) {
     fun setCheckEnabled(enabled: Boolean) {
@@ -106,6 +111,87 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         }
     }
 
+    fun setIsPlayed(context: Context, played:Boolean) {
+        if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
+        when (binding) {
+            is CardBrowserItemBinding -> binding.played = played
+            is BrowserItemBinding -> binding.played = played
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+    fun setProgress(context: Context, progress: Int, max: Int) {
+        if (!Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) return
+        when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.progress = progress
+                binding.max = max
+            }
+            is BrowserItemBinding -> {
+                binding.progress = progress
+                binding.max = max
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
+    fun getVisu():MiniVisualizer {
+        return when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+    fun startVisu() {
+        when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing.start()
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing.start()
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+    fun stopVisu() {
+        when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing.start()
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing.stop()
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
+    fun setVisuVisibility(visible: Int) {
+        when (binding) {
+            is CardBrowserItemBinding -> {
+                binding.playing.visibility = visible
+                binding.forceCoverHiding = visible == View.VISIBLE
+            }
+
+            is BrowserItemBinding -> {
+                binding.playing.visibility = visible
+                binding.forceCoverHiding = visible == View.VISIBLE
+            }
+
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
+
     fun setIsTv(isTv:Boolean) {
         when (binding) {
             is BrowserItemBinding -> binding.isTv = isTv
@@ -116,6 +202,14 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
         when (binding) {
             is CardBrowserItemBinding -> binding.holder = holder
             is BrowserItemBinding -> binding.holder = holder
+            else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
+        }
+    }
+
+    fun setupGrid() {
+        when (binding) {
+            is CardBrowserItemBinding -> binding.browserContainer.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            is BrowserItemBinding -> {}
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }
     }

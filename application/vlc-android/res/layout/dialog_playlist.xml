@@ -16,16 +16,21 @@
                 type="Boolean" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-            <TextView
+                <TextView
                     android:id="@+id/textView9"
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="0dp"
@@ -33,46 +38,47 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:minHeight="0dp"
-                    android:text="@string/add_to_new_playlist"
+                    android:text="@string/create_new_playlist"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                    android:id="@+id/medias2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@{filesText}"
-                    android:textSize="12sp"
-                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9"
-                    tools:text="65 medias" />
 
-            <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dialog_playlist_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toStartOf="@+id/dialog_playlist_save"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    app:layout_constraintEnd_toStartOf="@+id/dialog_playlist_create"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/medias2">
+                    app:layout_constraintTop_toBottomOf="@+id/textView9">
 
-                <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:hint="@string/playlist_name_hint"
                         android:imeOptions="actionSend"
                         android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                    android:id="@+id/textView8"
+                <Button
+                    android:id="@+id/dialog_playlist_create"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dialog_playlist_name"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="8dp"
+                    android:enabled="@{!isLoading}"
+                    android:text="@string/create"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/dialog_playlist_name"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/selected_playlist_count"
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -83,7 +89,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dialog_playlist_name" />
 
-            <TextView
+                <TextView
                     android:id="@+id/medias"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,21 +99,21 @@
                     android:textSize="12sp"
                     android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"
+                    app:layout_constraintTop_toBottomOf="@+id/selected_playlist_count"
                     tools:text="65 medias" />
 
-            <ProgressBar
+                <ProgressBar
                     android:id="@+id/progressBar2"
                     style="?android:attr/progressBarStyle"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                    app:layout_constraintStart_toEndOf="@+id/textView8"
-                    app:layout_constraintTop_toTopOf="@+id/textView8" />
+                    app:layout_constraintBottom_toBottomOf="@+id/selected_playlist_count"
+                    app:layout_constraintStart_toEndOf="@+id/selected_playlist_count"
+                    app:layout_constraintTop_toTopOf="@+id/selected_playlist_count" />
 
-            <androidx.appcompat.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/replaceSwitch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -118,42 +124,44 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medias" />
 
-            <FrameLayout
+                <FrameLayout
                     android:id="@+id/dialog_list_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/replaceSwitch">
 
-                <androidx.recyclerview.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@android:id/list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                <TextView
+                    <TextView
                         android:id="@android:id/empty"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="@string/noplaylist" />
-            </FrameLayout>
+                </FrameLayout>
 
-            <Button
-                    android:id="@+id/dialog_playlist_save"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/dialog_playlist_name"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="8dp"
-                    android:enabled="@{!isLoading}"
-                    android:text="@string/add"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/dialog_playlist_name"
-                    app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/dialog_playlist_save"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:enabled="@{!isLoading}"
+            android:text="@string/add"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+    </LinearLayout>
 </layout>

@@ -51,7 +51,7 @@ export default {
     z-index: 1021;
     width: 100vw;
     overflow: hidden;
-    background-color: $lighter-grey;
+    background-color: var(--bs-body-bg);
     padding-bottom: 48px;
     cursor: pointer;
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
@@ -60,7 +60,7 @@ export default {
 @media screen and (min-width: 768px) {
     #play_queue {
         width: 400px;
-        background-color: $lighter-grey;
+        background-color: var(--bs-body-bg);
     }
 
     .play-queue-header {
@@ -70,7 +70,7 @@ export default {
 }
 
 .play-queue-toolbar {
-    background-color: $light-grey;
+    background-color: var(--bs-card-bg);
     padding-bottom: 8px;
 }
 
@@ -88,7 +88,7 @@ export default {
 
 
 .play-queue-item:hover {
-    background-color: $hover-grey;
+    background-color: var(--hover-gray);
 }
 
 .play-queue-header {

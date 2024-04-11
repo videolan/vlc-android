@@ -20,14 +20,6 @@
     <string name="searchable_hint">തിരയുക…</string>
     <string name="history">ചരിത്രം</string>
 
-    <string name="sortby_name_asc">നാമം A → Z</string>
-    <string name="sortby_name_desc">നാമം Z→ A</string>
-    <string name="sortby_artist_name_asc">ആർട്ടിസ്റ്റ് നാമം A → Z</string>
-    <string name="sortby_artist_name_desc">ആർട്ടിസ്റ്റ് നാമം Z → A</string>
-    <string name="sortby_album_name_asc">ആൽബം നാമം A → Z</string>
-    <string name="sortby_album_name_desc">ആൽബം നാമം Z → A</string>
-    <string name="sortby_filename_asc">ഫയൽ നാമം A → Z</string>
-    <string name="sortby_filename_desc">ഫയൽ നാമം Z → A</string>
     <string name="sortby_length_asc">ഏറ്റവും ചെറുത് ആദ്യം</string>
     <string name="sortby_length_desc">ദൈർഘ്യമേറിയത് ആദ്യം</string>
     <plurals name="search_found_results_quantity">
@@ -132,7 +124,6 @@
     <string name="nosubfolder">ഉപഫോൾഡർ ഇല്ല</string>
     <string name="directorynotfound">%1$s  ഫോള്‍ഡറിലേക്കുള്ള വഴി കണ്ടെത്താനായില്ല</string>
     <string name="nohistory">നിങ്ങള്‍ക്ക് ഇതുവരെ പ്ളേബാക്ക് ചരിത്രം ഇല്ല</string>
-
     <string name="cover_art">കവര്‍ ആര്‍ട്ട്</string>
     <string name="shuffle_all_title">കൂട്ടികലർത്തു </string>
     <string name="shuffle_title">ഷഫിൾ മോഡ്</string>
@@ -919,14 +910,6 @@
     <string name="video_key_jump_delay">നാവിഗേഷൻ കീകളുടെ സമയ കാലതാമസം</string>
     <string name="banned">നിരോധിച്ചിട്ടുള്ള ഫോൾഡർ (മാറ്റാൻ ദീർഘനേരം ടാപ്പ് ചെയ്യുക)</string>
     <string name="banned_parent">പാരന്റ് ഫോൾഡർ മുഖേന നിരോധിച്ചു</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">ഈ ഇനങ്ങൾ ഇതിനകം ഈ പ്ലേലിസ്റ്റിലുണ്ട്.</item>
-        <item quantity="other">ഈ ഇനങ്ങൾ ഇതിനകം ഈ പ്ലേലിസ്റ്റിലുണ്ട്.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 തിരഞ്ഞെടുത്ത ഇനങ്ങൾ ഈ പ്ലേലിസ്റ്റിൽ ഇതിനകം ഉണ്ട്.</item>
-        <item quantity="other">%d തിരഞ്ഞെടുത്ത ഇനങ്ങളുടെ ഈ പ്ലേലിസ്റ്റിൽ ഇതിനകം ഉണ്ട്.</item>
-    </plurals>
     <string name="official_website">ഔദ്യോഗിക വെബ്സൈറ്റ് </string>
     <string name="view_online">ഓൺലൈനിൽ കാണുക</string>
     <string name="player_under_notch">നോച്ചിന് താഴെ വീഡിയോ പ്രദർശിപ്പിക്കുക</string>
@@ -988,6 +971,5 @@
     <string name="talkback_audio_player_collapsed">ഓഡിയോ പ്ലെയർ സങ്കോചിച്ചു</string>
     <string name="talkback_audio_player_closed">ഓഡിയോ പ്ലെയർ അടഞ്ഞു</string>
     <string name="talkback_audio_player">ഓഡിയോ പ്ലെയർ. ഇപ്പോൾ പ്ലേ ചെയ്യുന്നത്: %s</string>
-    <string name="talkback_out_of">%s ൽ %s</string>
     <string name="downloading">ഡൗൺലോഡ് ചെയ്യുന്നു</string>
     </resources>

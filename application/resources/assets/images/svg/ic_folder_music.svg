@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="48.0px"
+   height="48.0px"
+   viewBox="0 0 48.0 48.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_browser_music_2.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17188"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="10.248373"
+     inkscape:cx="18.198011"
+     inkscape:cy="22.491375"
+     inkscape:window-width="1600"
+     inkscape:window-height="829"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid17251" />
+  </sodipodi:namedview>
+  <defs
+     id="defs17183" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path12221"
+       style="fill:#000000;stroke-width:1"
+       d="m 31.50003,19.250091 c -0.825,0 -1.49999,0.675 -1.49999,1.5 v 6.4065 c -0.44219,-0.2577 -0.95479,-0.4065 -1.5,-0.4065 -1.64796,0 -2.99999,1.352 -2.99999,2.9999 0,1.648 1.35203,3 2.99999,3 1.64796,0 2.99999,-1.352 2.99999,-3 v -7.4999 h 1.5 c 0.82499,0 1.49999,-0.675 1.49999,-1.5 v -1.5 z m -2.99999,9 c 0.83731,0 1.5,0.6627 1.5,1.4999 0,0.8373 -0.66269,1.5 -1.5,1.5 -0.83731,0 -1.49999,-0.6627 -1.49999,-1.5 0,-0.8372 0.66268,-1.4999 1.49999,-1.4999 z" />
+    <path
+       d="m 18.34,12.000091 4,4 H 40 v 20 H 8 v -24 H 18.34 M 20,8.0000908 H 8 c -2.2,0 -3.98,1.8 -3.98,4.0000002 l -0.02,24 c 0,2.2 1.8,4 4,4 h 32 c 2.2,0 4,-1.8 4,-4 v -20 c 0,-2.2 -1.8,-4 -4,-4 H 24 Z"
+       id="path12225"
+       style="fill:#000000;stroke-width:1" />
+  </g>
+</svg>

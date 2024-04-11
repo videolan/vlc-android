@@ -41,6 +41,7 @@ import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.car.app.connection.CarConnection
 import androidx.car.app.notification.CarPendingIntent
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
@@ -100,7 +101,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private var position: Long = -1L
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
-    internal var enabledActions = PLAYBACK_BASE_ACTIONS
+    internal var enabledActions = PlaybackAction.createBaseActions()
     lateinit var playlistManager: PlaylistManager
         private set
     val mediaplayer: MediaPlayer
@@ -147,7 +148,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private var popupManager: PopupManager? = null
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
-    private lateinit var carConnectionHandler:CarConnectionHandler
+    private lateinit var carConnection: CarConnection
 
     /**
      * Binds a [MediaBrowserCompat] to the service to allow receiving the
@@ -160,11 +161,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
             val state = intent.getIntExtra("state", 0)
-
-            if (action == CarConnectionHandler.RECEIVER_ACTION) {
-                carConnectionHandler.query()
-                return
-            }
 
             // skip all headsets events if there is a call
             if ((context.getSystemService(AUDIO_SERVICE) as AudioManager).mode == AudioManager.MODE_IN_CALL) return
@@ -652,13 +648,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             addAction(MiniPlayerAppWidgetProvider.ACTION_WIDGET_DISABLED)
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-            if (CarConnectionHandler.preferCarConnectionHandler()) addAction(CarConnectionHandler.RECEIVER_ACTION)
             addAction(CUSTOM_ACTION)
         }
         registerReceiverCompat(receiver, filter, false)
-        if (CarConnectionHandler.preferCarConnectionHandler()) {
-            carConnectionHandler = CarConnectionHandler(contentResolver)
-            carConnectionHandler.connectionType.observeForever {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            carConnection = CarConnection(this)
+            carConnection.type.observeForever {
                 if (it != null) executeUpdate(true)
             }
         }
@@ -964,7 +959,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val mbrIntent = MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_PLAY_PAUSE)
         val mbrName = ComponentName(this, MediaButtonReceiver::class.java)
         val playbackState = PlaybackStateCompat.Builder()
-                .setActions(enabledActions)
+                .setActions(enabledActions.getCapabilities())
                 .setState(PlaybackStateCompat.STATE_NONE, 0, 0f)
                 .build()
         mediaSession = MediaSessionCompat(this, "VLC", mbrName, mbrIntent).apply {
@@ -1054,15 +1049,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (!this::mediaSession.isInitialized) return
         if (AndroidDevices.isAndroidTv) scheduler.cancelAction(END_MEDIASESSION)
         val pscb = PlaybackStateCompat.Builder()
-        var actions = PLAYBACK_BASE_ACTIONS
+        var actions = PlaybackAction.createActivePlaybackActions()
         val hasMedia = playlistManager.hasCurrentMedia()
         var time = position ?: getTime()
         var state = PlayerController.playbackState
         when (state) {
-            PlaybackStateCompat.STATE_PLAYING -> actions = actions or (PlaybackStateCompat.ACTION_PAUSE or PlaybackStateCompat.ACTION_STOP)
-            PlaybackStateCompat.STATE_PAUSED -> actions = actions or (PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_STOP)
+            PlaybackStateCompat.STATE_PLAYING -> actions.addAll(PlaybackAction.ACTION_PAUSE, PlaybackAction.ACTION_STOP)
+            PlaybackStateCompat.STATE_PAUSED -> actions.addAll(PlaybackAction.ACTION_PLAY, PlaybackAction.ACTION_STOP)
             else -> {
-                actions = actions or PlaybackStateCompat.ACTION_PLAY
+                actions.add(PlaybackAction.ACTION_PLAY)
                 val media = if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater && hasMedia) playlistManager.getCurrentMedia() else null
                 if (media != null) { // Hack to show a now paying card on Android TV
                     val length = media.length
@@ -1080,9 +1075,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val repeatType = PlaylistManager.repeating.value
         val podcastMode = isPodcastMode
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasNext())
-            actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+            actions.add(PlaybackAction.ACTION_SKIP_TO_NEXT)
         if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasPrevious() || (isSeekable && !podcastMode))
-            actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+            actions.add(PlaybackAction.ACTION_SKIP_TO_PREVIOUS)
 
         when {
             podcastMode -> {
@@ -1094,15 +1089,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 if (!isCarMode()) {
                     addCustomSeekActions(pscb)
                 } else {
-                    actions = manageAutoActions(actions, pscb, repeatType)
+                    manageAutoActions(actions, pscb, repeatType)
                 }
             }
             else -> {
-                actions = manageAutoActions(actions, pscb, repeatType)
+                manageAutoActions(actions, pscb, repeatType)
             }
         }
-        actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
-        pscb.setActions(actions)
+        pscb.setActions(actions.getCapabilities())
         mediaSession.setRepeatMode(repeatType)
         mediaSession.setShuffleMode(if (isShuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE)
         mediaSession.setExtras(Bundle().apply {
@@ -1129,12 +1123,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
     }
 
-    private fun manageAutoActions(actions: Long, pscb: PlaybackStateCompat.Builder, repeatType: Int): Long {
-        var resultActions = actions
+    private fun manageAutoActions(actions: FlagSet<PlaybackAction>, pscb: PlaybackStateCompat.Builder, repeatType: Int) {
         if (playlistManager.canRepeat())
-            resultActions = resultActions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
+            actions.add(PlaybackAction.ACTION_SET_REPEAT_MODE)
         if (playlistManager.canShuffle())
-            resultActions = resultActions or PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE
+            actions.add(PlaybackAction.ACTION_SET_SHUFFLE_MODE)
         /* Always add the icons, regardless of the allowed actions */
         val shuffleResId = when {
             isShuffling -> R.drawable.ic_auto_shuffle_enabled
@@ -1149,7 +1142,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         pscb.addCustomAction(CUSTOM_ACTION_REPEAT, getString(R.string.repeat_title), repeatResId)
         addCustomSpeedActions(pscb, settings.getBoolean(ENABLE_ANDROID_AUTO_SPEED_BUTTONS, false))
         addCustomSeekActions(pscb, settings.getBoolean(ENABLE_ANDROID_AUTO_SEEK_BUTTONS, false))
-        return resultActions
     }
 
     private fun addCustomSeekActions(pscb: PlaybackStateCompat.Builder, showSeekActions: Boolean = true) {
@@ -1257,7 +1249,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     private fun loadLastAudioPlaylist() {
-        if (!AndroidDevices.isAndroidTv) loadLastPlaylist(PLAYLIST_TYPE_AUDIO)
+        if (!AndroidDevices.isAndroidTv) {
+            // If playback in background is enabled it should load the last media of any type
+            // not only audio
+            val playlistType = if (settings.getString(KEY_VIDEO_APP_SWITCH, "0") == "1") PLAYLIST_TYPE_ALL else PLAYLIST_TYPE_AUDIO
+            loadLastPlaylist(playlistType)
+        }
     }
 
     fun loadLastPlaylist(type: Int) {
@@ -1801,7 +1798,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val renderer = RendererLiveData()
         val restartPlayer = LiveEvent<Boolean>()
         val headSetDetection = LiveEvent<Boolean>()
-        val equalizer = LiveEvent<MediaPlayer.Equalizer>()
+        val equalizer = LiveEvent<MediaPlayer.Equalizer?>()
 
         private const val SHOW_TOAST = "show_toast"
         private const val END_MEDIASESSION = "end_mediasession"
@@ -1826,10 +1823,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 it.cbActor.trySend(UpdateState)
             }
         }
-
-        private const val PLAYBACK_BASE_ACTIONS = (PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
-                or PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or PlaybackStateCompat.ACTION_PLAY_FROM_URI
-                or PlaybackStateCompat.ACTION_PLAY_PAUSE or PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM)
     }
 
     fun getTime(realTime: Long): Int {
@@ -1856,8 +1849,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     fun isCarMode(): Boolean {
-        return if (CarConnectionHandler.preferCarConnectionHandler()) {
-            carConnectionHandler.connectionType.value?.let { it > CarConnectionHandler.CONNECTION_TYPE_NOT_CONNECTED } ?: false
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            carConnection.type.value?.let { it > CarConnection.CONNECTION_TYPE_NOT_CONNECTED } ?: false
         } else {
             (getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_CAR
         }

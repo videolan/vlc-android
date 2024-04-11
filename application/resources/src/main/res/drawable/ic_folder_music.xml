@@ -1,0 +1,38 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_folder_music.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="m31.5,19.25c-0.825,0 -1.5,0.675 -1.5,1.5v6.406c-0.442,-0.258 -0.955,-0.407 -1.5,-0.407 -1.648,0 -3,1.352 -3,3 0,1.648 1.352,3 3,3 1.648,0 3,-1.352 3,-3v-7.5h1.5c0.825,0 1.5,-0.675 1.5,-1.5v-1.5zM28.5,28.25c0.837,0 1.5,0.663 1.5,1.5 0,0.837 -0.663,1.5 -1.5,1.5 -0.837,0 -1.5,-0.663 -1.5,-1.5 0,-0.837 0.663,-1.5 1.5,-1.5z"
+      android:strokeWidth="1"
+      android:fillColor="@color/grey700"/>
+  <path
+      android:pathData="m18.34,12 l4,4H40v20H8v-24H18.34M20,8H8c-2.2,0 -3.98,1.8 -3.98,4l-0.02,24c0,2.2 1.8,4 4,4h32c2.2,0 4,-1.8 4,-4v-20c0,-2.2 -1.8,-4 -4,-4H24Z"
+      android:strokeWidth="1"
+      android:fillColor="@color/grey700"/>
+</vector>

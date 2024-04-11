@@ -39,6 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.VLCInstance
+import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
@@ -210,7 +211,7 @@ class BenchActivity : ShallowVideoPlayer() {
         // Minimum apk for benchmark is 21, so this warning is a non-issue
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
 
-        registerReceiver(broadcastReceiver, IntentFilter(ACTION_CONTINUE_BENCHMARK))
+        this.registerReceiverCompat(broadcastReceiver, IntentFilter(ACTION_CONTINUE_BENCHMARK), true)
     }
 
     override fun onResume() {

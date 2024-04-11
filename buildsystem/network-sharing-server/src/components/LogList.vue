@@ -2,7 +2,7 @@
   <div class="row  media-content">
     <div class="table-responsive card table-container">
 
-      <table class="table table-hover">
+      <table class="table table-hover table-no-margin">
         <thead>
           <tr class="table-striped-columns">
             <th class="col-1 text-center align-middle" role="columnheader" scope="col" v-t="'LOG_TYPE'">
@@ -31,7 +31,7 @@ export default {
     LogItem,
   },
   props: {
-    logs: []
+    logs: Array
   }
 
 }
@@ -41,5 +41,8 @@ export default {
 
 .table-container {
   padding: 0;
+}
+.table-no-margin {
+  margin-bottom: 0;
 }
 </style>

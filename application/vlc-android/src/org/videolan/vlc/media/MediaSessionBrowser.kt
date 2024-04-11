@@ -173,7 +173,7 @@ class MediaSessionBrowser {
                         val libraryMediaDesc = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_LIBRARY)
                                 .setTitle(res.getString(R.string.auto_my_library))
-                                .setIconUri(res.getResourceUri(R.drawable.ic_auto_audio))
+                                .setIconUri(res.getResourceUri(R.drawable.ic_auto_my_library))
                                 .setExtras(getContentStyle(CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE))
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(libraryMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))

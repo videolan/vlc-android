@@ -22,30 +22,81 @@
   ~
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sort_display_setting"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:background="?attr/selectableItemBackground"
-        android:layout_height="48dp"
-        android:minHeight="48dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="16dp"
-        android:gravity="center_vertical">
+<layout>
 
-    <TextView
-            android:id="@+id/sort_title"
-            android:layout_width="0dp"
-            android:textSize="16sp"
-            android:textColor="@color/standard_selection_control_normal_primary"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-
-    <ImageView
-            android:id="@+id/sort_checked"
-            android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/sort_display_setting"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_check_large"
-            app:tint="@color/standard_selection_invisible_primary" />
-</LinearLayout>
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+        <ImageView
+                android:id="@+id/sort_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sort_title"
+                app:srcCompat="@drawable/ic_am_favorite_outline" />
+
+        <TextView
+                android:id="@+id/sort_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_weight="1"
+                android:textColor="?attr/font_default"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@id/sort_asc"
+                app:layout_constraintEnd_toStartOf="@+id/guideline15"
+                app:layout_constraintStart_toEndOf="@+id/sort_icon"
+                tools:text="Alpha" />
+
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+                android:id="@+id/sort_asc"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/standard_selection_control_normal_primary"
+                app:layout_constraintBottom_toTopOf="@+id/sort_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline15"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="A → Z" />
+
+        <TextView
+                android:id="@+id/sort_desc"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/standard_selection_control_normal_primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline15"
+                app:layout_constraintTop_toBottomOf="@+id/sort_asc"
+                tools:text="Z → A" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

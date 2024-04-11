@@ -1,7 +1,7 @@
 cache:
     paths:
         - .gradle/
-        - gradle-8.2/
+        - gradle-8.6/
         - gradle/
         - gradlew
 
@@ -214,25 +214,25 @@ build-ml-arm64-v4:
     extends: .build-ml-base
     variables:
         ARCH: arm64
-        EXTRA_BUILD_PARAM: -vlc4
+        EXTRA_BUILD_PARAM: -ml -vlc4
 
 build-ml-armv7-v4:
     extends: .build-ml-base
     variables:
         ARCH: arm
-        EXTRA_BUILD_PARAM: -vlc4
+        EXTRA_BUILD_PARAM: -ml -vlc4
 
 build-ml-x86-v4:
     extends: .build-ml-base
     variables:
         ARCH: x86
-        EXTRA_BUILD_PARAM: -vlc4
+        EXTRA_BUILD_PARAM: -ml -vlc4
 
 build-ml-x86_64-v4:
     extends: .build-ml-base
     variables:
         ARCH: x86_64
-        EXTRA_BUILD_PARAM: -vlc4
+        EXTRA_BUILD_PARAM: -ml -vlc4
 
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:

@@ -19,20 +19,8 @@
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
 
-    <string name="sortby_name_asc">Nombre A → Z</string>
-    <string name="sortby_name_desc">Nombre Z → A</string>
-    <string name="sortby_artist_name_asc">Artista A → Z</string>
-    <string name="sortby_artist_name_desc">Artista Z → A</string>
-    <string name="sortby_album_name_asc">Álbum A → Z</string>
-    <string name="sortby_album_name_desc">Álbum Z → A</string>
-    <string name="sortby_filename_asc">Nombre del archivo A → Z</string>
-    <string name="sortby_filename_desc">Nombre del archivo Z → A</string>
     <string name="sortby_length_asc">Más corto primero</string>
     <string name="sortby_length_desc">Más largo primero</string>
-    <string name="sortby_date_asc">Más antiguo primero</string>
-    <string name="sortby_date_desc">Más reciente primero</string>
-    <string name="sortby_last_modified_date_asc">Adición más antigua primero</string>
-    <string name="sortby_last_modified_date_desc">Adición más reciente primero</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
         <item quantity="many">%d resultados encontrados</item>
@@ -140,7 +128,6 @@
     <string name="nosubfolder">Sin subcarpetas</string>
     <string name="directorynotfound">La ruta del directorio \'%1$s\' no ha sido encontrada</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
-
     <string name="cover_art">Portada</string>
     <string name="shuffle_all_title">Todo aleatorio</string>
     <string name="shuffle_title">Modo aleatorio</string>

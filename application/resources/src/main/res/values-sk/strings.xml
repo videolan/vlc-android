@@ -23,29 +23,8 @@
     <string name="searchable_hint">Vyhľadávať…</string>
     <string name="history">História</string>
 
-    <string name="sortby_name_asc">Názov A → Z</string>
-    <string name="sortby_name_desc">Názov Z → A</string>
-    <string name="sortby_artist_name_asc">Meno umelca A → Z</string>
-    <string name="sortby_artist_name_desc">Meno umelca Z → A</string>
-    <string name="sortby_album_name_asc">Názov albumu A → Z</string>
-    <string name="sortby_album_name_desc">Názov albumu Z → A</string>
-    <string name="sortby_filename_asc">Názov súboru A → Z</string>
-    <string name="sortby_filename_desc">Názov súboru Z → A</string>
     <string name="sortby_length_asc">Od najkratšieho</string>
     <string name="sortby_length_desc">Od najdlhšieho</string>
-    <string name="sortby_date_asc">Od najstaršieho dátumu</string>
-    <string name="sortby_date_desc">Od najnovšieho dátumu</string>
-    <string name="sortby_last_modified_date_asc">Od najstaršieho pridaného</string>
-    <string name="sortby_last_modified_date_desc">Od najnovšieho pridaného</string>
-    <string name="sortby_number_asc">Najskôr viac videí v skupine</string>
-    <string name="sortby_number_desc">Najskôr menej videí v skupine</string>
-    <string name="sortby_date_insertion_asc">Od najstaršieho dátumu vloženia</string>
-    <string name="sortby_date_insertion_desc">Od najnovšieho dátumu vloženia</string>
-    <string name="sortby_date_last_modified_asc">Od najstaršieho dátumu úpravy</string>
-    <string name="sortby_date_last_modified_desc">Od najnovšieho dátumu úpravy</string>
-    <string name="sortby_date_release_asc">Od najstaršieho dátumu vydania</string>
-    <string name="sortby_date_release_desc">Od najnovšieho dátumu vydania</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Nájdený %d výsledok</item>
         <item quantity="few">Počet nájdených výsledkov: %d</item>
@@ -168,6 +147,7 @@
     <string name="nosubfolder">Žiadny podpriečinok</string>
     <string name="directorynotfound">Cesta k priečinku „%1$s“ sa nenašla.</string>
     <string name="nohistory">Ešte nie je dostupná žiadna história prehrávania.</string>
+    <string name="cant_ban_root">Hlavný priečinok nemôžete zablokovať</string>
 
     <string name="cover_art">Obal</string>
     <string name="shuffle_all_title">Všetko náhodne</string>
@@ -344,6 +324,7 @@
     <string name="screen_orientation_landscape_sensor">Na šírku (senzor)</string>
     <string name="screen_orientation_last_locked">Posledná uzamknutá orientácia</string>
     <string name="enable_black_theme">Čierna téma</string>
+    <string name="dark_theme">Tmavá téma</string>
     <string name="theme_auto">Téma automaticky</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="subtitle_preferred_language">Preferovaný jazyk titulkov</string>
@@ -484,7 +465,7 @@
     <string name="remote_access_info">Informácia o vzdialenom prístupe</string>
     <string name="remote_access_content">Obsah</string>
     <string name="remote_access_medialibrary_content">Obsah knižnice médií</string>
-    <string name="remote_access_medialibrary_content_summary">Zapnuté: %s\nVypnuté: %s</string>
+    <string name="remote_access_medialibrary_content_summary">Zapnuté: %1$s\nVypnutné: %2$s</string>
     <string name="remote_access_file_browser_content">Prehliadač súborov</string>
     <string name="remote_access_network_browser_content">Prehliadač siete</string>
     <string name="remote_access_playback_control">Ovládanie prehrávania</string>
@@ -643,7 +624,7 @@
     <string name="partial_content">VLC nemôže pristupovať ku všetkým vašim súborom</string>
     <string name="partial_content_description">Počínajúc systémom Android 11 vyžadujú aplikácie osobitné povolenie na prístup ku všetkým súborom zariadenia.\n\n%s</string>
     <string name="never_ask_again">Už sa nikdy nepýtať</string>
-    <string name="never_show_again">Už nezobrazovať</string>
+    <string name="never_show_again">Už nezobrazovať, ani pre budúce verzie</string>
     <string name="allow_settings_access_ringtone_title">Povoliť VLC nastavovať tón vyzváňania</string>
     <string name="allow_settings_access_ringtone_description">Na nastavenie tejto skladby ako tónu vyzváňania musí mať VLC udelené oprávnenie.</string>
     <string name="allow_settings_access_brightness_title">Povoliť VLC zmenu režimu jasu</string>
@@ -812,6 +793,8 @@
     <string name="light_theme">Svetlá téma</string>
     <string name="add">Pridať</string>
     <string name="add_to_new_playlist">Pridať do nového playlistu</string>
+    <string name="create_new_playlist">Vytvoriť nový playlist</string>
+    <string name="create">Vytvoriť</string>
     <string name="resume_card_message">Pokračovať prehrávanie z %1$s?</string>
     <string name="misc">Rôzne</string>
     <string name="popup_force_legacy_title">Použiť používateľské okno PiP</string>
@@ -1076,17 +1059,17 @@
     <string name="banned">Zablokovaný priečinok (zmenu vykonáte dlhým dotykom)</string>
     <string name="banned_tv">Vylúčený priečinok</string>
     <string name="banned_parent">Zablokované rodičovským priečinkom</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Táto položka už je v playliste.</item>
-        <item quantity="few">Tieto položky už sú v playliste.</item>
-        <item quantity="many">Tieto položky už sú v playliste.</item>
-        <item quantity="other">Tieto položky už sú v playliste.</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Táto položka už je v playliste \"%s\".</item>
+        <item quantity="few">Tieto položky už sú v playliste \"%s\".</item>
+        <item quantity="many">Tieto položky už sú v playliste \"%s\".</item>
+        <item quantity="other">Tieto položky už sú v playliste \"%s\".</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 z vybraných položiek už je v playliste.</item>
-        <item quantity="few">%d z vybraných položiek už sú v playliste.</item>
-        <item quantity="many">%d z vybraných položiek už je v playliste.</item>
-        <item quantity="other">%d z vybraných položiek už je v playliste.</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 z vybraných položiek už je v playliste \"%s\".</item>
+        <item quantity="few">%d z vybraných položiek už sú v playliste \"%s\".</item>
+        <item quantity="many">%d z vybraných položiek už je v playliste \"%s\".</item>
+        <item quantity="other">%d z vybraných položiek už je v playliste \"%s\".</item>
     </plurals>
     <string name="official_website">Oficiálna webová stránka</string>
     <string name="view_online">Zobraziť online</string>
@@ -1142,7 +1125,7 @@
 
 
     <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - názov: %s - trvanie: %s</string>
+    <string name="talkback_media_content_description">%1$s - názov: %2$s - trvanie: %3$s</string>
     <string name="talkback_genre">Žáner: %s</string>
     <string name="talkback_history_item">Položka histórie</string>
     <string name="talkback_playlist">Playlist: %s</string>
@@ -1169,7 +1152,7 @@
     <string name="talkback_video_tracks">Stopy s videom</string>
     <string name="talkback_audio_tracks">Stopy so zvukom</string>
     <string name="talkback_subtitle_tracks">Stopy s titulkami</string>
-    <string name="talkback_subtitle_dowload_item">Jazyk: %s. %s. Názov: %s</string>
+    <string name="talkback_subtitle_dowload_item">Jazyk: %1$s. %2$s. Meno: %3$s</string>
     <string name="selected">Vybrané</string>
     <string name="talkback_increase_delay">Zvýšiť oneskorenie</string>
     <string name="talkback_decrease_delay">Znížiť oneskorenie</string>
@@ -1181,8 +1164,8 @@
     <string name="talkback_audio_player_collapsed">Prehrávač zvuku bol zbalený</string>
     <string name="talkback_audio_player_closed">Prehrávač zvuku bol zatvorený</string>
     <string name="talkback_audio_player">Prehrávač zvuku. Práve sa prehráva: %s</string>
-    <string name="talkback_out_of">%s z %s</string>
-    <string name="talkback_track_index">Stopa %s z %s</string>
+    <string name="talkback_out_of">%1$s z %2$s</string>
+    <string name="talkback_track_index">Stopa %1$s z %2$s</string>
     <string name="downloaded">Stiahnuté</string>
     <string name="not_downloaded">Nestiahnuté</string>
     <string name="downloading">Prebieha sťahovanie</string>

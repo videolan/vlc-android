@@ -23,29 +23,8 @@
     <string name="searchable_hint">Αναζήτηση…</string>
     <string name="history">Ιστορικό</string>
 
-    <string name="sortby_name_asc">Όνομα Α → Ω</string>
-    <string name="sortby_name_desc">Όνομα Ω → Α</string>
-    <string name="sortby_artist_name_asc">Όνομα καλλιτέχνη Α → Ω</string>
-    <string name="sortby_artist_name_desc">Όνομα καλλιτέχνη Ω → Α</string>
-    <string name="sortby_album_name_asc">Όνομα άλμπουμ Α → Ω</string>
-    <string name="sortby_album_name_desc">Όνομα άλμπουμ Ω → Α</string>
-    <string name="sortby_filename_asc">Όνομα αρχείου Α → Ω</string>
-    <string name="sortby_filename_desc">Όνομα αρχείου Ω → Α</string>
     <string name="sortby_length_asc">Πρώτα το πιο σύντομο</string>
     <string name="sortby_length_desc">Πρώτα το μεγαλύτερο</string>
-    <string name="sortby_date_asc">Πρώτα η παλαιότερη ημερομηνία</string>
-    <string name="sortby_date_desc">Πρώτα η νεότερη ημερομηνία</string>
-    <string name="sortby_last_modified_date_asc">Πρώτα η παλαιότερη προσθήκη</string>
-    <string name="sortby_last_modified_date_desc">Πρώτα η νεότερη προσθήκη</string>
-    <string name="sortby_number_asc">Πρώτα περισσότερα βίντεο στην ομάδα</string>
-    <string name="sortby_number_desc">Πρώτα λιγότερα βίντεο στην ομάδα</string>
-    <string name="sortby_date_insertion_asc">Πρώτα η παλαιότερη ημερομηνία εισαγωγής</string>
-    <string name="sortby_date_insertion_desc">Πρώτα η νεότερη ημερομηνία εισαγωγής</string>
-    <string name="sortby_date_last_modified_asc">Πρώτα η παλαιότερη ημερομηνία τροποποίησης</string>
-    <string name="sortby_date_last_modified_desc">Πρώτα η ημερομηνία νεότερης τροποποίησης</string>
-    <string name="sortby_date_release_asc">Πρώτα η παλαιότερη ημερομηνία κυκλοφορίας</string>
-    <string name="sortby_date_release_desc">Πρώτα η νεότερη ημερομηνία κυκλοφορίας</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Βρέθηκε %d αποτέλεσμα</item>
         <item quantity="other">Βρέθηκαν %d αποτελέσματα</item>
@@ -150,7 +129,6 @@
     <string name="nosubfolder">Δεν βρέθηκε υποφάκελος</string>
     <string name="directorynotfound">Η διαδρομή του φακέλου \'%1$s\' δεν βρέθηκε.</string>
     <string name="nohistory">Δεν έχετε ιστορικό αναπαραγωγής ακόμα.</string>
-
     <string name="cover_art">Εξώφυλλο</string>
     <string name="shuffle_all_title">Ανακάτεμα όλων</string>
     <string name="shuffle_title">Λειτουργία ανακατέματος</string>
@@ -985,14 +963,6 @@
     <string name="banned">Αποκλεισμένος φάκελος (πατήστε παρατεταμένα για αλλαγή)</string>
     <string name="banned_tv">Αποκλεισμένος φάκελος</string>
     <string name="banned_parent">Αποκλείστηκε από τον γονικό φάκελο</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Αυτό το στοιχείο βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-        <item quantity="other">Αυτά τα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 από τα επιλεγμένα στοιχεία βρίσκεται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-        <item quantity="other">%d από τα επιλεγμένα στοιχεία βρίσκονται ήδη σε αυτήν τη λίστα αναπαραγωγής.</item>
-    </plurals>
     <string name="official_website">Επίσημη ιστοσελίδα</string>
     <string name="view_online">Προβολή διαδικτυακά</string>
     <string name="player_under_notch">Εμφάνιση βίντεο κάτω από την εγκοπή</string>
@@ -1040,8 +1010,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - τίτλος: %s - διάρκεια: %s</string>
     <string name="talkback_genre">Είδος: %s</string>
     <string name="talkback_history_item">Στοιχείο ιστορικού</string>
     <string name="talkback_playlist">Λίστα αναπαραγωγής: %s</string>
@@ -1068,7 +1036,6 @@
     <string name="talkback_video_tracks">Κομμάτια βίντεο</string>
     <string name="talkback_audio_tracks">Κομμάτια ήχου</string>
     <string name="talkback_subtitle_tracks">Κομμάτια υπότιτλων</string>
-    <string name="talkback_subtitle_dowload_item">Γλώσσα: %s. %s. Όνομα: %s</string>
     <string name="selected">Επιλεγμένο</string>
     <string name="talkback_increase_delay">Αύξηση καθυστέρησης</string>
     <string name="talkback_decrease_delay">Μείωση καθυστέρησης</string>
@@ -1080,8 +1047,6 @@
     <string name="talkback_audio_player_collapsed">Κατέρρευσε η αναπαραγωγή ήχου</string>
     <string name="talkback_audio_player_closed">Έκλεισε η αναπαραγωγή ήχου</string>
     <string name="talkback_audio_player">Αναπαραγωγή ήχου. Τρέχουσα αναπαραγωγή: %s</string>
-    <string name="talkback_out_of">%s από %s</string>
-    <string name="talkback_track_index">Κομμάτι %s από %s</string>
     <string name="downloaded">Έγινε λήψη</string>
     <string name="not_downloaded">Δεν έγινε λήψη</string>
     <string name="downloading">Γίνεται λήψη...</string>

@@ -19,33 +19,12 @@
     <string name="sortby_date_insertion">Datum vnosa</string>
     <string name="sortby_date_release">Datum izdaje</string>
     <string name="sortby_media_number">Številka vsebine</string>
-    <string name="sortby_number">Nb steza</string>
+    <string name="sortby_number">Nb steze</string>
     <string name="searchable_hint">Poišči …</string>
     <string name="history">Zgodovina</string>
 
-    <string name="sortby_name_asc">Ime A → Z</string>
-    <string name="sortby_name_desc">Ime Z → A</string>
-    <string name="sortby_artist_name_asc">Ime izvajalca A → Z</string>
-    <string name="sortby_artist_name_desc">Ime izvajalca Z → A</string>
-    <string name="sortby_album_name_asc">Ime albuma A → Z</string>
-    <string name="sortby_album_name_desc">Ime albuma Z → A</string>
-    <string name="sortby_filename_asc">Ime datoteke A → Z</string>
-    <string name="sortby_filename_desc">Ime datoteke Z → A</string>
     <string name="sortby_length_asc">Najprej krajši</string>
     <string name="sortby_length_desc">Najprej daljši</string>
-    <string name="sortby_date_asc">Najprej starejši datum</string>
-    <string name="sortby_date_desc">Najprej novejši datum</string>
-    <string name="sortby_last_modified_date_asc">Najprej starejši dodani</string>
-    <string name="sortby_last_modified_date_desc">Najprej novejši dodani</string>
-    <string name="sortby_number_asc">Najprej več videov v skupini</string>
-    <string name="sortby_number_desc">Najprej manj videov v skupini</string>
-    <string name="sortby_date_insertion_asc">Najprej starejši vnosi</string>
-    <string name="sortby_date_insertion_desc">Najprej najnovejši vnosi</string>
-    <string name="sortby_date_last_modified_asc">Najprej starejši spremenjeni</string>
-    <string name="sortby_date_last_modified_desc">Najprej nedavno spremenjeni</string>
-    <string name="sortby_date_release_asc">Najprej starejše izdaje</string>
-    <string name="sortby_date_release_desc">Najprej novejše izdaje</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d zadetek</item>
         <item quantity="two">%d zadetka</item>
@@ -168,7 +147,6 @@
     <string name="nosubfolder">Ni podmape</string>
     <string name="directorynotfound">Mape »%1$s« ni mogoče najti.</string>
     <string name="nohistory">Trenutno še ni zgodovine predvajanja.</string>
-
     <string name="cover_art">Naslovnica</string>
     <string name="shuffle_all_title">Premešaj vse</string>
     <string name="shuffle_title">Premešani način</string>
@@ -176,6 +154,7 @@
     <string name="shuffle_on">Premešani način je vključen</string>
     <string name="shuffle_play">Premešaj</string>
     <string name="repeat_title">Način ponavljanja</string>
+    <string name="repeat_none">Ne ponovi nič</string>
     <string name="repeat_single">Ponovi eno</string>
     <string name="repeat_all">Ponovi vse</string>
     <string name="previous">Prejšnje</string>
@@ -483,7 +462,6 @@
     <string name="remote_access_info">Podatki oddaljenega dostopa</string>
     <string name="remote_access_content">Vsebina</string>
     <string name="remote_access_medialibrary_content">Vsebina knjižnice vsebin</string>
-    <string name="remote_access_medialibrary_content_summary">Vklopljeno: %s\nIzklopljeno: %s</string>
     <string name="remote_access_file_browser_content">Datotečni brskalnik</string>
     <string name="remote_access_network_browser_content">Omrežni brskalnik</string>
     <string name="remote_access_playback_control">Krmiljenje predvajanja</string>
@@ -642,7 +620,7 @@
     <string name="partial_content">VLC ne more dostopati do vseh datotek</string>
     <string name="partial_content_description">Od različice Android 11 je potrebno aplikacijam podeliti posebno pravico, da smejo dostopati do vseh datotek.\n\n%s</string>
     <string name="never_ask_again">Tega več ne sprašuj</string>
-    <string name="never_show_again">Tega ne prikaži več</string>
+    <string name="never_show_again">Tega ne prikaži več - niti za prihodnje različice</string>
     <string name="allow_settings_access_ringtone_title">Dovoli nastavljanje melodije zvonjenja</string>
     <string name="allow_settings_access_ringtone_description">Program zahteva odobritev nastavitve skladbe kot melodije zvonjenja.</string>
     <string name="allow_settings_access_brightness_title">Dovoli spreminjanje načina osvetlitve</string>
@@ -811,6 +789,8 @@
     <string name="light_theme">Svetla tema</string>
     <string name="add">Dodaj</string>
     <string name="add_to_new_playlist">Dodaj na nov seznam predvajanja</string>
+    <string name="create_new_playlist">Ustvari nov seznam predvajanja</string>
+    <string name="create">Ustvari</string>
     <string name="resume_card_message">Nadaljujem s predvajanjem %1$s?</string>
     <string name="misc">Različno</string>
     <string name="popup_force_legacy_title">Uporabi prilagojen prikaz slike v sliki</string>
@@ -1032,6 +1012,7 @@
     <string name="delete_forever">Izbriši za stalno</string>
     <string name="add_to_existing_playlist">Dodaj v obstoječ seznam predvajanja</string>
     <string name="bookmarks_title">Zaznamki</string>
+    <string name="no_bookmark">Ni zaznamkov</string>
     <string name="bookmark_default_name">Zaznamek na %s</string>
     <string name="bookmark_name">Zaznamek %s</string>
     <string name="add_bookmark">Dodaj zaznamek</string>
@@ -1074,17 +1055,17 @@
     <string name="banned">Prepovedana mapa (dolgi tap za spremembo)</string>
     <string name="banned_tv">Prepovedana mapa</string>
     <string name="banned_parent">Starševska prepoved mape</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Ta predmet se že nahaja v seznamu predvajanja</item>
-        <item quantity="two">Ta predmeta se že nahajata v seznamu predvajanja</item>
-        <item quantity="few">Ti predmeti se že nahajajo v seznamu predvajanja</item>
-        <item quantity="other">Ti predmeti se že nahajajo v seznamu predvajanja</item>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Ta predmet se že nahaja na seznamu predvajanja \"%s\".</item>
+        <item quantity="two">Ta predmeta se že nahajata na seznamu predvajanja \"%s\".</item>
+        <item quantity="few">Ti predmeti se že nahajajo na seznamu predvajanja \"%s\".</item>
+        <item quantity="other">Ti predmeti se že nahajajo na seznamu predvajanja \"%s\".</item>
     </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">Eden od izbranih predmetov je že na seznamu predvajanja</item>
-        <item quantity="two">%d izbrana predmeta sta že na seznamu predvajanja</item>
-        <item quantity="few">%d izbrani predmeti so že na seznamu predvajanja</item>
-        <item quantity="other">%d izbranih predmetov je že na seznamu predvajanja</item>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Eden od izbranih predmetov je že na seznamu predvajanja \"%s\"</item>
+        <item quantity="two">%d izbrana predmeta sta že na seznamu predvajanja \"%s\".</item>
+        <item quantity="few">%d izbrani predmeti so že na seznamu predvajanja \"%s\".</item>
+        <item quantity="other">%d izbranih predmetov je že na seznamu predvajanja \"%s\".</item>
     </plurals>
     <string name="official_website">Uradna spletna stran</string>
     <string name="view_online">Prikaži na spletu</string>
@@ -1139,8 +1120,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - naslov: %s - trajanje: %s</string>
     <string name="talkback_genre">Zvrst: %s</string>
     <string name="talkback_history_item">Predmet zgodovine</string>
     <string name="talkback_playlist">Seznam predvajanja: %s</string>
@@ -1167,7 +1146,6 @@
     <string name="talkback_video_tracks">Video steze</string>
     <string name="talkback_audio_tracks">Zvočne steze</string>
     <string name="talkback_subtitle_tracks">Steze s podnapisi</string>
-    <string name="talkback_subtitle_dowload_item">Jezik: %s. %s. Ime: %s</string>
     <string name="selected">Izbrano</string>
     <string name="talkback_increase_delay">Povečaj zamik</string>
     <string name="talkback_decrease_delay">Zmanjšaj zamik</string>
@@ -1179,8 +1157,6 @@
     <string name="talkback_audio_player_collapsed">Zvočni predvajalnik je zložen</string>
     <string name="talkback_audio_player_closed">Zvočni predvajalnik je zaprt</string>
     <string name="talkback_audio_player">Zvočni predvajalnik. Trenutno se predvaja: %s</string>
-    <string name="talkback_out_of">%s od %s</string>
-    <string name="talkback_track_index">Vsebina %s od %s</string>
     <string name="downloaded">Preneseno</string>
     <string name="not_downloaded">Ni preneseno</string>
     <string name="downloading">Prenos poteka</string>

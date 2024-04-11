@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_unknown.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M24,6C22.704,6 21.277,6.46 20.27,7.445C19.262,8.431 18.653,9.719 18.104,11.367L10.559,34L9,34C6.815,34 5,35.815 5,38L5,40C5,41.105 5.895,42 7,42L41,42C42.105,42 43,41.105 43,40L43,38C43,35.815 41.185,34 39,34L37.441,34L29.896,11.367C29.347,9.719 28.738,8.431 27.73,7.445C26.723,6.46 25.296,6 24,6zM24,10C24.589,10 24.663,10.04 24.934,10.305C25.204,10.569 25.653,11.281 26.104,12.633L34.104,36.633L34.559,38L13.441,38L13.896,36.633L21.896,12.633C22.347,11.281 22.796,10.569 23.066,10.305C23.337,10.04 23.411,10 24,10zM23.805,21.75C22.2,21.75 20.985,22.537 20.258,23.617C19.898,24.157 20.152,24.899 20.752,25.154C21.209,25.342 21.757,25.207 22.02,24.779C22.372,24.232 22.943,23.775 23.82,23.775C25.755,23.775 26.138,25.583 25.455,26.551C24.81,27.473 23.699,28.088 23.121,29.131C22.911,29.506 22.822,29.903 22.777,30.285C22.702,30.938 23.234,31.5 23.887,31.5C24.442,31.5 24.891,31.073 24.959,30.525C25.004,30.188 25.071,30.023 25.184,29.82C25.649,28.965 26.512,28.56 27.412,27.232C28.222,26.032 27.914,24.419 27.389,23.557C26.774,22.552 25.567,21.75 23.805,21.75zM23.813,33C22.987,33 22.313,33.675 22.313,34.5C22.313,35.325 22.987,36 23.813,36C24.638,36 25.313,35.325 25.313,34.5C25.313,33.675 24.638,33 23.813,33z"
+      android:strokeLineJoin="round"
+      android:fillColor="@color/grey700"
+      android:strokeLineCap="round"/>
+</vector>

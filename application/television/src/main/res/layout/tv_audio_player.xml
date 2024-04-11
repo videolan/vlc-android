@@ -49,7 +49,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_no_artwork_big"
+                android:src="@drawable/ic_song_big"
                 app:layout_constraintBottom_toTopOf="@+id/media_title"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"

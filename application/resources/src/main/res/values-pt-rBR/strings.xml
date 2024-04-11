@@ -895,16 +895,6 @@
     <string name="video_key_jump_delay">Atraso das teclas de navegação</string>
     <string name="banned">Pasta banida (toque prolongado para modificar)</string>
     <string name="banned_parent">Banido a partir da pasta pai</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Este item já está na lista de reprodução.</item>
-        <item quantity="many">Estes itens já estão na lista de reprodução.</item>
-        <item quantity="other">Estes itens já estão na lista de reprodução.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 dos itens selecionados já está na lista de reprodução.</item>
-        <item quantity="many">%d dos itens selecionados já está na lista de reprodução.</item>
-        <item quantity="other">%d dos itens selecionados já está na lista de reprodução.</item>
-    </plurals>
     <string name="official_website">Site oficial</string>
     <string name="view_online">Ver online</string>
     <string name="player_under_notch">Exibir vídeo abaixo do entalhe</string>

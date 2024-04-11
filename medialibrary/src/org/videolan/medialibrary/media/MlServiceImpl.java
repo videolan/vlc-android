@@ -39,15 +39,15 @@ public class MlServiceImpl extends MlService {
     }
 
     @Override
-    public long getMaxCachedSize() {
+    public long getMaxCacheSize() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetMaxCachedSize(ml, this.type.value) : -2L;
+        return ml.isInitiated() ? nativeGetServiceMaxCacheSize(ml, this.type.value) : -2L;
     }
 
     @Override
-    public boolean setMaxCachedSize(long size) {
+    public boolean setMaxCacheSize(long size) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() && nativeSetMaxCachedSize(ml, this.type.value, size);
+        return ml.isInitiated() && nativeSetServiceMaxCacheSize(ml, this.type.value, size);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class MlServiceImpl extends MlService {
     private native boolean nativeSetAutoDownloadEnabled(Medialibrary ml, int type, boolean enabled);
     private native boolean nativeIsNewMediaNotificationEnabled(Medialibrary ml, int type);
     private native boolean nativeSetNewMediaNotificationEnabled(Medialibrary ml, int type, boolean enabled);
-    private native long nativeGetMaxCachedSize(Medialibrary ml, int type);
-    private native boolean nativeSetMaxCachedSize(Medialibrary ml, int type, long size);
+    private native long nativeGetServiceMaxCacheSize(Medialibrary ml, int type);
+    private native boolean nativeSetServiceMaxCacheSize(Medialibrary ml, int type, long size);
     private native int nativeGetNbSubscriptions(Medialibrary ml, int type);
     private native int nativeGetNbUnplayedMedia(Medialibrary ml, int type);
     private native Subscription[] nativeGetSubscriptions(Medialibrary ml, int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites);

@@ -53,7 +53,13 @@ export const vlcApi = {
     /**
      * Retrieve the video list API URL
      */
-    videoList: `${API_URL}video-list`,
+    videoList: (grouping, groupId, folderId) => { 
+        var group = ""
+        if (groupId) group = `&group=${groupId}`
+        var folder = ""
+        if (folderId) folder = `&folder=${folderId}`
+       return `${API_URL}video-list?grouping=${grouping}${group}${folder}`
+    },
     /**
      * Retrieve the artist list API URL
      */
@@ -70,6 +76,24 @@ export const vlcApi = {
      * Retrieve the genre list API URL
      */
     genreList: `${API_URL}genre-list`,
+    /**
+     * Retrieve the artist details API URL
+     */
+    artistDetails: (artistId) => { 
+        return`${API_URL}artist?id=${artistId}`
+    },
+    /**
+     * Retrieve the album details API URL
+     */
+    albumDetails: (albumId) => { 
+        return`${API_URL}album?id=${albumId}`
+    },
+    /**
+     * Retrieve the playlist details API URL
+     */
+    playlistDetails: (playlistId) => { 
+        return`${API_URL}playlist?id=${playlistId}`
+    },
     /**
      * Retrieve the playlist list API URL
      */
@@ -106,12 +130,14 @@ export const vlcApi = {
      * Retrieve the app asset icon API URL
      * @param {Number} id the asset id 
      * @param {Number} width the img width
+     * @param {Boolean} preventTint if true, preserve the source colors
      * @returns the URL
      */
-    appAsset: (id, width) => {
+    appAsset: (id, width, preventTint) => {
         const params = {}
         if (id) params.id = id
         if (width) params.width = width
+        if (preventTint) params.preventTint = preventTint
         return `${API_URL}icon?${new URLSearchParams(params).toString()}`
     },
     /**
@@ -174,6 +200,20 @@ export const vlcApi = {
         if (asAudio) params.audio = asAudio
         if (mediaType) params.type = mediaType
         return `${API_URL}play?${new URLSearchParams(params).toString()}`
+    },
+    /**
+     * Retrieve the media play API URL
+     * @param {String} type the media container type (video-group, video-folder, ...)
+     * @param {String} id the media container id
+     * @param {String} path the path of the folder to play
+     * @returns the URL
+     */
+    playAll: (type, id, path) => {
+        const params = {}
+        if (type) params.type = type
+        if (id) params.id = id
+        if (path != "") params.path = path
+        return `${API_URL}play-all?${new URLSearchParams(params).toString()}`
     },
     /**
      * Retrieve the resume playback API URL

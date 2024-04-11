@@ -39,17 +39,17 @@ public:
     bool removeDevice(const std::string& uuid, const std::string& path);
     void banFolder(const std::string& path);
     void unbanFolder(const std::string& path);
-    std::vector<medialibrary::FolderPtr> bannedEntryPoints();
+    std::vector<medialibrary::FolderPtr> bannedRoots();
     void discover(const std::string&);
     bool setDiscoverNetworkEnabled(bool enabled);
-    void removeEntryPoint(const std::string& entryPoint);
-    std::vector<medialibrary::FolderPtr> entryPoints();
+    void removeRoot(const std::string& root);
+    std::vector<medialibrary::FolderPtr> roots();
     void setMediaUpdatedCbFlag(int flags);
     void setMediaAddedCbFlag(int flags);
     void pauseBackgroundOperations();
     void resumeBackgroundOperations();
     void reload();
-    void reload( const std::string& entryPoint );
+    void reload( const std::string& root );
     void forceParserRetry();
     void forceRescan();
     jint setLastPosition(int64_t mediaId, float progress);
@@ -167,15 +167,15 @@ public:
     void onFoldersDeleted( std::set<int64_t> );
 
     void onDiscoveryStarted();
-    void onDiscoveryProgress( const std::string& entryPoint );
+    void onDiscoveryProgress( const std::string& root );
     void onDiscoveryCompleted();
-    void onDiscoveryFailed( const std::string& entryPoint );
-    void onReloadStarted( const std::string& entryPoint );
-    void onReloadCompleted( const std::string& entryPoint, bool success );
-    void onEntryPointBanned( const std::string& entryPoint, bool success );
-    void onEntryPointUnbanned( const std::string& entryPoint, bool success );
-    void onEntryPointAdded( const std::string& entryPoint, bool success );
-    void onEntryPointRemoved( const std::string& entryPoint, bool success );
+    void onDiscoveryFailed( const std::string& root );
+    void onReloadStarted( const std::string& root );
+    void onReloadCompleted( const std::string& root, bool success );
+    void onRootBanned( const std::string& root, bool success );
+    void onRootUnbanned( const std::string& root, bool success );
+    void onRootAdded( const std::string& root, bool success );
+    void onRootRemoved( const std::string& root, bool success );
     void onParsingStatsUpdated( uint32_t opsDone, uint32_t opsScheduled );
     void onBackgroundTasksIdleChanged( bool isIdle );
     void onMediaThumbnailReady(medialibrary::MediaPtr media, medialibrary::ThumbnailSizeType sizeType,
@@ -193,10 +193,10 @@ public:
     void cacheNewSubscriptionMedia();
     bool setSubscriptionMaxCachedMedia( int nbMedia );
     bool setSubscriptionMaxCacheSize( long size );
-    bool setGlobalSubscriptionMaxCacheSize( long size );
+    bool setMaxCacheSize( long size );
     uint32_t getSubscriptionMaxCachedMedia();
     uint64_t getSubscriptionMaxCacheSize();
-    uint64_t getGlobalSubscriptionMaxCacheSize();
+    uint64_t getMaxCacheSize();
     bool refreshAllSubscriptions();
     void onSubscriptionsAdded( std::vector<medialibrary::SubscriptionPtr> );
     void onSubscriptionsModified( std::set<int64_t> );

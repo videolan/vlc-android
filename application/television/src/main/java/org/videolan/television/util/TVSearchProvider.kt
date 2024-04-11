@@ -163,7 +163,7 @@ private fun MediaWrapper.getThumb(): Uri {
     if (!isThumbnailGenerated) {
         ThumbnailsProvider.getVideoThumbnail(this@getThumb, 512)
     }
-    val resourceUri = "android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}".toUri()
+    val resourceUri = "android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_video_big}".toUri()
     val mrl = artworkMrl ?: return resourceUri
     return try {
         getFileUri(mrl)

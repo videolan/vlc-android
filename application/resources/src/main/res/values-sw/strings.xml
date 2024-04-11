@@ -20,20 +20,8 @@
     <string name="searchable_hint">Tafuta</string>
     <string name="history">Historia</string>
 
-    <string name="sortby_name_asc">Jina A → Z</string>
-    <string name="sortby_name_desc">Jina Z → A</string>
-    <string name="sortby_artist_name_asc">Jina la msanii A → Z</string>
-    <string name="sortby_artist_name_desc">Jina la msanii Z → A</string>
-    <string name="sortby_album_name_asc">Jina la albamu A → Z</string>
-    <string name="sortby_album_name_desc">Jina la albamu Z → A</string>
-    <string name="sortby_filename_asc">Jina la faili A → Z</string>
-    <string name="sortby_filename_desc">Jina la faili Z → A</string>
     <string name="sortby_length_asc">Fupi zaidi kwanza</string>
     <string name="sortby_length_desc">Refu zaidi kwanza</string>
-    <string name="sortby_date_asc">Tarehe ya zamani zaidi kwanza</string>
-    <string name="sortby_date_desc">Tarehe ya karibuni zaidi kwanza</string>
-    <string name="sortby_last_modified_date_asc">Kilichoongezwa zamani kwanza</string>
-    <string name="sortby_last_modified_date_desc">Kilichoongezwa karibuni kwanza</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Tokeo %d limepatikana</item>
         <item quantity="other">Matokeo %d yamepatikana</item>
@@ -136,7 +124,6 @@
     <string name="nosubfolder">Hakuna folda dogo</string>
     <string name="directorynotfound">Njia ya mwongolezo \'%1$s\'  haijapatikana.</string>
     <string name="nohistory">Hauna historia ya uchezaji.</string>
-
     <string name="cover_art">Sanaa ya jalada</string>
     <string name="shuffle_all_title">Changanya zote</string>
     <string name="shuffle_title">Nui Changanyi</string>
@@ -958,14 +945,6 @@
     <string name="banned">Folda yenye marufuku (gusa kwa muda mrefu ubadilishe)</string>
     <string name="banned_tv">Folda yenye marufuku</string>
     <string name="banned_parent">Imepigwa marufuku na folda kuu</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">Kipengee hiki tayari kipo katika orodha chezeshi</item>
-        <item quantity="other">Vipengee hivi tayari vipo katika orodha chezeshi</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 ya kipengee hiki tayari kipo katika orodha chezeshi</item>
-        <item quantity="other">%d ya vipengee hivi tayari vipo katika orodha chezeshi</item>
-    </plurals>
     <string name="official_website">Tovuti rasmi</string>
     <string name="view_online">Tazama mtandaoni</string>
     <string name="player_under_notch">Onyesha video kwa mkato</string>
@@ -1013,8 +992,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - kichwa: %s - muda: %s</string>
     <string name="talkback_genre">Tanzu: %s</string>
     <string name="talkback_history_item">Kipengee cha historia</string>
     <string name="talkback_playlist">Orodha chezeshi: %s</string>
@@ -1041,7 +1018,6 @@
     <string name="talkback_video_tracks">Nakala za video</string>
     <string name="talkback_audio_tracks">Nakala za usikiko</string>
     <string name="talkback_subtitle_tracks">Nakala za manukuu</string>
-    <string name="talkback_subtitle_dowload_item">Lugha: %s. %s. Jina: %s</string>
     <string name="selected">Kilichochaguliwa</string>
     <string name="talkback_increase_delay">Ongeza kawizo</string>
     <string name="talkback_decrease_delay">Punguza kawizo</string>
@@ -1053,8 +1029,6 @@
     <string name="talkback_audio_player_collapsed">Kichezaji usikiko kimekunjwa</string>
     <string name="talkback_audio_player_closed">Kichezaji usikiko kimefungwa</string>
     <string name="talkback_audio_player">Kichezaji usikiko. Kinacheza: %s</string>
-    <string name="talkback_out_of">%s kati ya %s</string>
-    <string name="talkback_track_index">Nakala %s kati ya %s</string>
     <string name="downloaded">Imepakuliwa</string>
     <string name="not_downloaded">Haijapakuliwa</string>
     <string name="downloading">Inapakua</string>

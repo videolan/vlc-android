@@ -843,20 +843,4 @@
     <string name="start">إبدأ</string>
     <string name="permission">الإذن</string>
     <string name="customize">خصّص</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="zero">هذه 0 العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="one">هذا العنصر موجود بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="two">هذان العنصران موجودان بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="few">هذه العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="many">هذه العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="other">هذه العناصر موجودة بالفعل في قائمة التشغيل هذه.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="zero">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="one">1 من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="two">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="few">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="many">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
-        <item quantity="other">%d من العناصر المحددة موجودة بالفعل في قائمة التشغيل هذه.</item>
-    </plurals>
     </resources>

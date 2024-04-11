@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_network.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillColor="@color/grey700"
+            android:pathData="M8,8C5.815,8 4,9.815 4,12L4,36C4,38.185 5.815,40 8,40L18,40A2,2 0,0 0,20 38A2,2 0,0 0,18 36L8,36L8,12L18.172,12L22.172,16L42,16A2,2 0,0 0,44 14A2,2 0,0 0,42 12L23.828,12L19.828,8L8,8zM42,20C32.083,20 24,28.083 24,38A2,2 0,0 0,26 40A2,2 0,0 0,28 38C28,30.244 34.244,24 42,24A2,2 0,0 0,44 22A2,2 0,0 0,42 20zM42,28C36.501,28 32,32.501 32,38A2,2 0,0 0,34 40A2,2 0,0 0,36 38C36,34.663 38.663,32 42,32A2,2 0,0 0,44 30A2,2 0,0 0,42 28zM42,36A2,2 0,0 0,40 38A2,2 0,0 0,42 40A2,2 0,0 0,44 38A2,2 0,0 0,42 36z"
+            android:strokeLineCap="round" />
+</vector>

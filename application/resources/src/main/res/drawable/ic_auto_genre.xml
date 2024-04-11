@@ -1,35 +1,10 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_auto_genre.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
   <path
-      android:pathData="M19.4416,6.0178C18.215,5.9233 17.2794,6.2023 16.8708,7.055 7.8426,25.8971 8.2921,37.0475 14.8449,40.8306 21.3978,44.6141 31.2801,39.4293 43.0838,22.1892 45.2213,19.0671 35.1455,13.2357 31.8691,11.3439 29.4117,9.9251 23.1212,6.3013 19.4416,6.0178ZM24.8069,16.0063c0.252,2.0745 -1.2258,3.9599 -3.2998,4.2101 -2.0745,0.2475 -3.9604,-1.2303 -4.2101,-3.3047 2.5614,1.0215 5.0741,0.9724 7.5099,-0.9054zM31.3592,19.7898c-0.297,2.8701 0.711,5.1812 2.9749,6.9564 -1.9215,0.8208 -4.1449,-0.0675 -4.9657,-1.9903 -0.8208,-1.9215 0.0675,-4.1453 1.9908,-4.9661zM17.2839,30.2576c1.0903,-0.0765 2.2162,0.1575 3.2341,0.747 2.7144,1.5673 3.6458,5.0377 2.0785,7.752 -2.0349,-4.0414 -5.287,-5.98 -9.8301,-5.6776 0.9792,-1.6965 2.7,-2.6932 4.5175,-2.8215z"
-      android:strokeWidth="2.24996543"
-      android:fillColor="#ffffff"
-      android:strokeColor="#00000000"/>
+      android:pathData="M26,4A4,4 0,0 0,22 8L22,15L26,15L26,8L42,8L42,18C42,22.42 38.42,26 34,26C32.1,26 30.38,25.299 29,24.199L29,28.9C30.52,29.6 32.22,30 34,30C40.62,30 46,24.62 46,18L46,8A4,4 0,0 0,42 4L26,4zM28,12L28,13A2,2 0,0 0,30 15A2,2 0,0 0,32 13L32,12L28,12zM36,12L36,13A2,2 0,0 0,38 15A2,2 0,0 0,40 13L40,12L36,12zM6,18A4,4 0,0 0,2 22L2,32C2,38.62 7.38,44 14,44C20.62,44 26,38.62 26,32L26,22A4,4 0,0 0,22 18L6,18zM33.98,18C31.92,18 30.161,18.94 29.381,20.26C29.001,20.94 29.5,21.76 30.26,21.76L37.699,21.76C38.459,21.76 38.96,20.939 38.58,20.279C37.8,18.939 36.04,18 33.98,18zM6,22L22,22L22,32C22,36.42 18.42,40 14,40C9.58,40 6,36.42 6,32L6,22zM10,26A2,2 0,0 0,8 28L8,29L12,29L12,28A2,2 0,0 0,10 26zM18,26A2,2 0,0 0,16 28L16,29L20,29L20,28A2,2 0,0 0,18 26zM10.279,32C9.519,32 9.02,32.82 9.4,33.5C10.18,34.84 11.94,35.779 14,35.779C16.06,35.779 17.84,34.84 18.6,33.5C18.98,32.82 18.481,32 17.721,32L10.279,32z"
+      android:strokeWidth="1"
+      android:fillColor="#ffffff"/>
 </vector>

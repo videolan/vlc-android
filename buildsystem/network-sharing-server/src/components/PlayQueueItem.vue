@@ -82,7 +82,7 @@ export default {
 }
 
 .media-artwork[lazy=loading] {
-  background-color: $lighter-grey;
+  background-color: $lighter-gray;
 }
 
 .h6.queue-title,

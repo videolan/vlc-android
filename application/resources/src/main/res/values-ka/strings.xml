@@ -20,20 +20,8 @@
     <string name="searchable_hint">ძიება…</string>
     <string name="history">ისტორია</string>
 
-    <string name="sortby_name_asc">სახელი ა → ჰ</string>
-    <string name="sortby_name_desc">სახელი ა → ჰ</string>
-    <string name="sortby_artist_name_asc">შემსრულებელი ა → ჰ</string>
-    <string name="sortby_artist_name_desc">შემსრულებელი ჰ → ა</string>
-    <string name="sortby_album_name_asc">ალბომი ა → ჰ</string>
-    <string name="sortby_album_name_desc">ალბომი ჰ → ა</string>
-    <string name="sortby_filename_asc">ფაილი ა → ჰ</string>
-    <string name="sortby_filename_desc">ფაილი ჰ → ა</string>
     <string name="sortby_length_asc">ხანმოკლე ჯერ</string>
     <string name="sortby_length_desc">ხანგრძლივი ჯერ</string>
-    <string name="sortby_date_asc">ადრინდელი ჯერ</string>
-    <string name="sortby_date_desc">უახლესი ჯერ</string>
-    <string name="sortby_last_modified_date_asc">ადრე დამატებული ჯერ</string>
-    <string name="sortby_last_modified_date_desc">ახლად დამატებული ჯერ</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d შედეგია ნაპოვნი</item>
         <item quantity="other">%d შედეგია ნაპოვნი</item>
@@ -136,7 +124,6 @@
     <string name="nosubfolder">ქვესაქაღალდე არაა</string>
     <string name="directorynotfound">საქაღალდე „%1$s“ მისამართით, არაა.</string>
     <string name="nohistory">დაკვრის ისტორია ჯერ არ გაქვთ.</string>
-
     <string name="cover_art">გარეკანის სურათი</string>
     <string name="shuffle_all_title">ყველას არევა</string>
     <string name="shuffle_title">არევის რეჟიმი</string>
@@ -966,14 +953,6 @@
     <string name="banned">შეზღუდული საქაღალდე (შეცვლა დიდხანს დაჭერით)</string>
     <string name="banned_tv">შეზღუდული საქაღალდე</string>
     <string name="banned_parent">შეზღუდული ზედა საქაღალდით</string>
-    <plurals name="duplication_two_options_secondary">
-        <item quantity="one">ეს ჩანაწერი უკვე დასაკრავ სიაშია.</item>
-        <item quantity="other">ეს ჩანაწერები უკვე დასაკრავ სიაშია.</item>
-    </plurals>
-    <plurals name="duplication_three_options_secondary">
-        <item quantity="one">1 შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
-        <item quantity="other">%d შერჩეული ჩანაწერებიდან, უკვე დასაკრავ სიაშია.</item>
-    </plurals>
     <string name="official_website">მთავარი ვებსაიტი</string>
     <string name="view_online">ინტერნეტში ნახვა</string>
     <string name="player_under_notch">ვიდეოს ჩვენება კამერის ჭრილის ქვეშ</string>
@@ -1021,8 +1000,6 @@
 
 
 
-    <!--    accessibility-->
-    <string name="talkback_media_content_description">%s - სათაური: %s - ხანგრძლივობა: %s</string>
     <string name="talkback_genre">ჟანრი: %s</string>
     <string name="talkback_history_item">ისტორიის ჩანაწერი</string>
     <string name="talkback_playlist">დასაკრავი სია: %s</string>
@@ -1049,7 +1026,6 @@
     <string name="talkback_video_tracks">ვიდეოჩანაწერები</string>
     <string name="talkback_audio_tracks">ხმოვანი ჩანაწერები</string>
     <string name="talkback_subtitle_tracks">ქვეწარწერების ჩანაწერი</string>
-    <string name="talkback_subtitle_dowload_item">ენა: %s. %s. სახელი: %s</string>
     <string name="selected">შერჩეული</string>
     <string name="talkback_increase_delay">დაყოვნების გაზრდა</string>
     <string name="talkback_decrease_delay">დაყოვნების შემცირება</string>
@@ -1061,8 +1037,6 @@
     <string name="talkback_audio_player_collapsed">ხმოვანი დამკვრელი ჩაკეცილია</string>
     <string name="talkback_audio_player_closed">ხმოვანი დამკვრელი დახურულია</string>
     <string name="talkback_audio_player">ხმოვანი დამკვრელი. ახლა გაშვებულია: %s</string>
-    <string name="talkback_out_of">%s, სულ %s</string>
-    <string name="talkback_track_index">%s ჩანაწერი, სულ %s</string>
     <string name="downloaded">ჩამოტვირთულია</string>
     <string name="not_downloaded">არაა ჩამოტვირთული</string>
     <string name="downloading">ჩამოიტვირთება</string>

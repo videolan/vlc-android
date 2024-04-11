@@ -1,6 +1,6 @@
 <template>
   <td class="align-middle text-center" :class="{ 'current-log': logfile.path == '' }">
-    <img class="image-button-image" :src="(this.getImageByType(logfile.type))" width="24" data-bs-toggle="tooltip"
+    <img class="image-button-image image-button" :src="(this.getImageByType(logfile.type))" v-tooltip
       data-bs-placement="bottom" :title="$t(this.getTitleByType(logfile.type))" />
   </td>
   <td class="align-middle w-auto" :class="{ 'current-log': logfile.path == '' }">
@@ -9,9 +9,9 @@
   </td>
   <td class="text-center col-1" :class="{ 'current-log': logfile.path == '' }">
     <a :href="href" class="" v-if="logfile.path != ''">
-      <ImageButton type="file_download" data-bs-toggle="tooltip" data-bs-placement="bottom" :title="$t('DOWNLOAD')" />
+      <ImageButton type="file_download" v-tooltip data-bs-placement="bottom" :title="$t('DOWNLOAD')" />
     </a>
-    <ImageButton v-else-if="!sending" type="file_upload" v-on:click="downloadLocalLog" data-bs-toggle="tooltip"
+    <ImageButton v-else-if="!sending" type="file_upload" v-on:click.stop="downloadLocalLog" v-tooltip
       data-bs-placement="bottom" :title="$t('SEND_LOGS')" />
     <div v-else class="spinner-border text-primary send-spinner" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -29,6 +29,8 @@ export default {
   components: {
     ImageButton,
   },
+  emits: ['refresh-logs'],
+
   props: {
     logfile: Object
   },
@@ -66,7 +68,8 @@ export default {
           return `LOG_TYPE_MOBILE`
       }
     },
-    downloadLocalLog() {
+    downloadLocalLog(e) {
+      Tooltip.getInstance(e.target).hide()
       this.sending = true
       sendLogs().then(() => {
         this.sending = false
@@ -74,14 +77,6 @@ export default {
       })
     }
   },
-  mounted: function () {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new Tooltip(tooltipTriggerEl, {
-        trigger: 'hover'
-      })
-    })
-  }
 }
 </script>
 
@@ -98,7 +93,7 @@ export default {
 }
 
 .table .current-log {
-  background-color: $primary-extra-light;
+  background-color: var(--hover-gray);
 }
 
 .log-download {

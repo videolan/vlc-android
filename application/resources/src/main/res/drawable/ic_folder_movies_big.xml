@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_folder_movies_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+  <path
+      android:pathData="M14,16C10.722,16 8,18.722 8,22L8,74C8,77.278 10.722,80 14,80L82,80C85.278,80 88,77.278 88,74L88,32C88,28.722 85.278,26 82,26L48.002,26L38.881,16.879A3,3 0,0 0,36.76 16L14,16zM14,22L35.518,22L44.639,31.121A3,3 0,0 0,46.76 32L82,32L82,74L14,74L14,22zM49,41C47.35,41 46,42.35 46,44L46,62C46,63.65 47.35,65 49,65L73,65C74.65,65 76,63.65 76,62L76,42.5C76,41.675 75.325,41 74.5,41L70,41L72.73,46.461C72.85,46.701 72.67,47 72.4,47L69.43,47C68.86,47 68.336,46.686 68.096,46.176L65.5,41L62.5,41L65.23,46.461C65.35,46.701 65.17,47 64.9,47L61.93,47C61.36,47 60.836,46.686 60.596,46.176L58,41L55,41L57.73,46.461C57.85,46.701 57.67,47 57.4,47L54.43,47C53.86,47 53.335,46.686 53.08,46.176L50.5,41L49,41z"
+      android:strokeLineJoin="round"
+      android:fillColor="@color/grey700"/>
+</vector>

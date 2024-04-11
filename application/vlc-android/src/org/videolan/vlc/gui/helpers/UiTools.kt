@@ -112,6 +112,8 @@ object UiTools {
     private var DEFAULT_COVER_AUDIO_AUTO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ALBUM_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE: BitmapDrawable? = null
+    private var DEFAULT_COVER_PLAYLIST_DRAWABLE: BitmapDrawable? = null
+    private var DEFAULT_COVER_GENRE_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_MOVIE_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_TVSHOW_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_FOLDER_DRAWABLE: BitmapDrawable? = null
@@ -120,6 +122,8 @@ object UiTools {
     private var DEFAULT_COVER_AUDIO_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_ALBUM_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_PLAYLIST_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_GENRE_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_MOVIE_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_TVSHOW_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_FOLDER_DRAWABLE_BIG: BitmapDrawable? = null
@@ -150,7 +154,7 @@ object UiTools {
 
     fun getDefaultFolderDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_FOLDER_DRAWABLE == null) {
-            DEFAULT_COVER_FOLDER_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_menu_folder))
+            DEFAULT_COVER_FOLDER_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_folder))
         }
         return DEFAULT_COVER_FOLDER_DRAWABLE!!
     }
@@ -169,6 +173,20 @@ object UiTools {
         return DEFAULT_COVER_ARTIST_DRAWABLE!!
     }
 
+    fun getDefaultPlaylistDrawable(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_PLAYLIST_DRAWABLE == null) {
+            DEFAULT_COVER_PLAYLIST_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_playlist))
+        }
+        return DEFAULT_COVER_PLAYLIST_DRAWABLE!!
+    }
+
+    fun getDefaultGenreDrawable(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_GENRE_DRAWABLE == null) {
+            DEFAULT_COVER_GENRE_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_genre))
+        }
+        return DEFAULT_COVER_GENRE_DRAWABLE!!
+    }
+
     fun getDefaultMovieDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_MOVIE_DRAWABLE == null) {
             DEFAULT_COVER_MOVIE_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_movie))
@@ -185,7 +203,7 @@ object UiTools {
 
     fun getDefaultVideoDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE_BIG == null) {
-            DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal))
+            DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_video_big))
         }
         return DEFAULT_COVER_VIDEO_DRAWABLE_BIG!!
     }
@@ -211,6 +229,20 @@ object UiTools {
         return DEFAULT_COVER_ARTIST_DRAWABLE_BIG!!
     }
 
+    fun getDefaultPlaylistDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_PLAYLIST_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_PLAYLIST_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_playlist_big))
+        }
+        return DEFAULT_COVER_PLAYLIST_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultGenreDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_GENRE_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_GENRE_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_genre_big))
+        }
+        return DEFAULT_COVER_GENRE_DRAWABLE_BIG!!
+    }
+
     fun getDefaultMovieDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_MOVIE_DRAWABLE_BIG == null) {
             DEFAULT_COVER_MOVIE_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_movie_big))
@@ -227,7 +259,7 @@ object UiTools {
 
     fun getDefaultFolderDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_FOLDER_DRAWABLE_BIG == null) {
-            DEFAULT_COVER_FOLDER_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_menu_folder_big))
+            DEFAULT_COVER_FOLDER_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_folder_big))
         }
         return DEFAULT_COVER_FOLDER_DRAWABLE_BIG!!
     }
@@ -919,35 +951,35 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
     MediaLibraryItem.TYPE_MEDIA -> {
         val mw = mediaLibraryItem as MediaWrapper
         when (mw.type) {
-            MediaWrapper.TYPE_VIDEO -> R.drawable.ic_browser_video_big_normal
-            MediaWrapper.TYPE_DIR -> if (mw.uri.scheme == "file") R.drawable.ic_menu_folder_big else R.drawable.ic_menu_network_big
+            MediaWrapper.TYPE_VIDEO -> R.drawable.ic_video_big
+            MediaWrapper.TYPE_DIR -> if (mw.uri.scheme == "file") R.drawable.ic_folder_big else R.drawable.ic_network_big
             MediaWrapper.TYPE_AUDIO -> R.drawable.ic_song_big
-            else -> R.drawable.ic_browser_unknown_big_normal
+            else -> R.drawable.ic_unknown_big
         }
     }
     MediaLibraryItem.TYPE_DUMMY -> {
         when (mediaLibraryItem.id) {
-            HEADER_VIDEO -> R.drawable.ic_video_collection_big
+            HEADER_VIDEO -> R.drawable.ic_video_big
             HEADER_PERMISSION -> R.drawable.ic_permission_big
-            HEADER_DIRECTORIES -> R.drawable.ic_menu_folder_big
-            HEADER_NETWORK -> R.drawable.ic_menu_network_big
-            HEADER_SERVER -> R.drawable.ic_menu_network_add_big
-            HEADER_STREAM -> R.drawable.ic_menu_stream_big
-            HEADER_PLAYLISTS -> R.drawable.ic_menu_playlist_big
+            HEADER_DIRECTORIES -> R.drawable.ic_folder_big
+            HEADER_NETWORK -> R.drawable.ic_network_big
+            HEADER_SERVER -> R.drawable.ic_network_add_big
+            HEADER_STREAM -> R.drawable.ic_stream_big
+            HEADER_PLAYLISTS -> R.drawable.ic_playlist_big
             HEADER_MOVIES, CATEGORY_NOW_PLAYING_PIP -> R.drawable.ic_browser_movie_big
             HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
-            ID_SETTINGS -> R.drawable.ic_menu_preferences_big
+            ID_SETTINGS -> R.drawable.ic_settings_big
             ID_ABOUT_TV -> R.drawable.ic_default_cone
-            ID_REMOTE_ACCESS -> R.drawable.ic_remote_access
+            ID_REMOTE_ACCESS -> R.drawable.ic_remote_access_big
             ID_SPONSOR -> R.drawable.ic_donate_big
             CATEGORY_ARTISTS -> R.drawable.ic_artist_big
             CATEGORY_ALBUMS -> R.drawable.ic_album_big
             CATEGORY_GENRES -> R.drawable.ic_genre_big
             CATEGORY_SONGS, CATEGORY_NOW_PLAYING -> R.drawable.ic_song_big
-            else -> R.drawable.ic_browser_unknown_big_normal
+            else -> R.drawable.ic_unknown_big
         }
     }
-    else -> R.drawable.ic_browser_unknown_big_normal
+    else -> R.drawable.ic_unknown_big
 }
 
 suspend fun fillActionMode(context: Context, mode: ActionMode, multiSelectHelper: MultiSelectHelper<MediaLibraryItem>) {

@@ -54,7 +54,7 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 private const val TAG = "VLC/VideoListAdapter"
 
-class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
+class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean, private var hideProgress:Boolean
 ) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback), FastScroller.SeparatedAdapter,
         MultiSelectAdapter<MediaLibraryItem>, IEventsSource<VideoAction> by EventsSource() {
 
@@ -94,6 +94,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         item.let {
             holder.binding.setVariable(BR.isFavorite, it.isFavorite)
             holder.binding.setVariable(BR.showProgress, item.artworkMrl.isNullOrBlank())
+            holder.binding.setVariable(BR.showItemProgress, !hideProgress)
         }
     }
 

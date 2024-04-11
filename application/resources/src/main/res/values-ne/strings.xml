@@ -20,18 +20,8 @@
     <string name="searchable_hint">खोज्नुहोस…</string>
     <string name="history">इतिहास</string>
 
-    <string name="sortby_name_asc">नाम A → Z</string>
-    <string name="sortby_name_desc">नाम Z → A</string>
-    <string name="sortby_artist_name_asc">कलाकारको नाम A → Z</string>
-    <string name="sortby_artist_name_desc">कलाकारको नाम Z → A</string>
-    <string name="sortby_album_name_asc">एल्बमको नाम A → Z</string>
-    <string name="sortby_album_name_desc">एल्बमको नाम Z → A</string>
-    <string name="sortby_filename_asc">फाइलको नाम A → Z</string>
-    <string name="sortby_filename_desc">फाइल नाम Z → A</string>
     <string name="sortby_length_asc">सबैभन्दा छोटो पहिले</string>
     <string name="sortby_length_desc">सबैभन्दा लामो पहिले</string>
-    <string name="sortby_date_asc">सबैभन्दा पुरानो मिति पहिले</string>
-    <string name="sortby_date_desc">सबैभन्दा नयाँ मिति पहिले</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d नतिजा भेटियो</item>
         <item quantity="other">%d नतिजाहरु भेटिए</item>
@@ -129,7 +119,6 @@
     <string name="nosubfolder">कुनै सबफोल्डर छैन</string>
     <string name="directorynotfound">डाइरेक्टरी पाथ \'%1$s\' भेटिएन।</string>
     <string name="nohistory">अहिले सम्म तपाईँसँग बजाएको इतिहास छैन ।</string>
-
     <string name="cover_art">खोल चित्र</string>
     <string name="shuffle_all_title">सबै फेरबदल गर्नुहोस्</string>
     <string name="shuffle_title">फेरबदल मोड</string>

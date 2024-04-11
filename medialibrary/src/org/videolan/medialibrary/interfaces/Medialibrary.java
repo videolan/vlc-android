@@ -119,7 +119,7 @@ abstract public class Medialibrary {
     protected final List<OnDeviceChangeListener> onDeviceChangeListeners = new ArrayList<>();
     protected volatile boolean isMedialibraryStarted = false;
     protected final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
-    protected final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
+    protected final List<RootsEventsCb> rootsEventsCbList = new ArrayList<>();
     private MedialibraryExceptionHandler mExceptionHandler;
 
     protected static final Medialibrary instance = MLServiceLocator.getAbstractMedialibrary();
@@ -458,23 +458,23 @@ abstract public class Medialibrary {
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                     cb.onDiscoveryStarted();
         }
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
                     cb.onDiscoveryStarted();
         }
     }
 
-    public void onDiscoveryProgress(String entryPoint) {
+    public void onDiscoveryProgress(String root) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onDiscoveryProgress(entryPoint);
+                    cb.onDiscoveryProgress(root);
         }
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onDiscoveryProgress(entryPoint);
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
+                    cb.onDiscoveryProgress(root);
         }
     }
 
@@ -484,23 +484,23 @@ abstract public class Medialibrary {
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                     cb.onDiscoveryCompleted();
         }
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
                     cb.onDiscoveryCompleted();
         }
     }
 
-    public void onDiscoveryFailed(String entryPoint) {
+    public void onDiscoveryFailed(String root) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onDiscoveryFailed(entryPoint);
+                    cb.onDiscoveryFailed(root);
         }
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onDiscoveryFailed(entryPoint);
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
+                    cb.onDiscoveryFailed(root);
         }
     }
 
@@ -528,57 +528,57 @@ abstract public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onReloadStarted(String entryPoint) {
+    public void onReloadStarted(String root) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onReloadStarted(entryPoint);
+                    cb.onReloadStarted(root);
         }
     }
 
     @SuppressWarnings("unused")
-    public void onReloadCompleted(String entryPoint) {
+    public void onReloadCompleted(String root) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                    cb.onReloadCompleted(entryPoint);
+                    cb.onReloadCompleted(root);
         }
     }
 
     @SuppressWarnings("unused")
-    public void onEntryPointBanned(String entryPoint, boolean success) {
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onEntryPointBanned(entryPoint, success);
+    public void onRootBanned(String root, boolean success) {
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
+                    cb.onRootBanned(root, success);
         }
     }
 
     @SuppressWarnings("unused")
-    public void onEntryPointUnbanned(String entryPoint, boolean success) {
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onEntryPointUnbanned(entryPoint, success);
+    public void onRootUnbanned(String root, boolean success) {
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
+                    cb.onRootUnbanned(root, success);
         }
     }
 
 
     @SuppressWarnings("unused")
-    void onEntryPointAdded(String entryPoint, boolean success) {
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onEntryPointAdded(entryPoint, success);
+    void onRootAdded(String root, boolean success) {
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
+                    cb.onRootAdded(root, success);
         }
     }
 
     @SuppressWarnings("unused")
-    public void onEntryPointRemoved(String entryPoint, boolean success) {
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.isEmpty())
-                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
-                    cb.onEntryPointRemoved(entryPoint, success);
+    public void onRootRemoved(String root, boolean success) {
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.isEmpty())
+                for (RootsEventsCb cb : rootsEventsCbList)
+                    cb.onRootRemoved(root, success);
         }
     }
 
@@ -710,16 +710,16 @@ abstract public class Medialibrary {
         }
     }
 
-    public void addEntryPointsEventsCb(EntryPointsEventsCb cb) {
-        synchronized (entryPointsEventsCbList) {
-            if (!entryPointsEventsCbList.contains(cb))
-                entryPointsEventsCbList.add(cb);
+    public void addRootsEventsCb(RootsEventsCb cb) {
+        synchronized (rootsEventsCbList) {
+            if (!rootsEventsCbList.contains(cb))
+                rootsEventsCbList.add(cb);
         }
     }
 
-    public void removeEntryPointsEventsCb(EntryPointsEventsCb cb) {
-        synchronized (entryPointsEventsCbList) {
-            entryPointsEventsCbList.remove(cb);
+    public void removeRootsEventsCb(RootsEventsCb cb) {
+        synchronized (rootsEventsCbList) {
+            rootsEventsCbList.remove(cb);
         }
     }
 
@@ -770,6 +770,8 @@ abstract public class Medialibrary {
 
     abstract public VideoGroup createVideoGroup(long[] ids);
 
+    abstract public VideoGroup getVideoGroup(long id);
+
     abstract public boolean regroupAll();
 
     abstract public boolean regroup(long mediaId);
@@ -816,6 +818,7 @@ abstract public class Medialibrary {
     abstract public boolean flushUserProvidedThumbnails();
     abstract public MediaWrapper addStream(String mrl, String title);
     abstract public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset);
+    abstract public Folder getFolder(int type, long id);
     abstract public int getFoldersCount(int type);
     abstract public int setLastTime(long mediaId, long time);
     abstract public boolean setLastPosition(long mediaId, float position);
@@ -844,9 +847,9 @@ abstract public class Medialibrary {
     abstract public void cacheNewSubscriptionMedia();
     abstract public boolean setSubscriptionMaxCachedMedia(int nbMedia);
     abstract public boolean setSubscriptionMaxCacheSize(long size);
-    abstract public boolean setGlobalSubscriptionMaxCacheSize(long size);
+    abstract public boolean setMaxCacheSize(long size);
     abstract public int getSubscriptionMaxCachedMedia();
     abstract public long getSubscriptionMaxCacheSize();
-    abstract public long getGlobalSubscriptionMaxCacheSize();
+    abstract public long getMaxCacheSize();
     abstract public boolean refreshAllSubscriptions();
 }

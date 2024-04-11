@@ -212,7 +212,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         val width = if (binding.albumCover.width > 0) binding.albumCover.width else this@AudioPlayerActivity.getScreenWidth()
         val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width) }
         if (cover == null) {
-            binding.albumCover.setImageResource(R.drawable.ic_no_artwork_big)
+            binding.albumCover.setImageResource(R.drawable.ic_song_big)
             binding.background.clearColorFilter()
             binding.background.setImageResource(0)
         } else {

@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Build
 import android.text.format.Formatter
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import com.google.gson.Gson
@@ -64,9 +65,11 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
@@ -96,15 +99,18 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.StorageProvider
+import org.videolan.vlc.providers.medialibrary.sanitizeGroups
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.RemoteAccessUtils
 import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getFilesNumber
 import org.videolan.vlc.util.getFolderNumber
@@ -261,6 +267,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     get("/icon") {
         val idString = call.request.queryParameters["id"]
         val width = call.request.queryParameters["width"]?.toInt() ?: 32
+        val preventTint = call.request.queryParameters["preventTint"]?.toBoolean() ?: false
 
         val id = try {
             appContext.resIdByName(idString, "drawable")
@@ -273,8 +280,12 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             call.respond(HttpStatusCode.NotFound)
             return@get
         }
+        val bmp = if (preventTint)
+            BitmapUtil.vectorToBitmap(appContext, id, width, width)
+        else
+            appContext.getColoredBitmapFromColor(id, ContextCompat.getColor(appContext, R.color.black), width, width)
 
-        BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, id, width, width), true)?.let {
+        BitmapUtil.encodeImage(bmp, true)?.let {
 
             call.respondBytes(ContentType.Image.PNG) { it }
             return@get
@@ -382,14 +393,46 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
             }
-            val videos = appContext.getFromMl { getVideos(Medialibrary.SORT_DEFAULT, false, false, false) }
+            val grouping = call.request.queryParameters["grouping"]?.toInt() ?: 0
+            val groupId = call.request.queryParameters["group"]?.toLong() ?: 0L
+            val folderId = call.request.queryParameters["folder"]?.toLong() ?: 0L
+            var groupTitle = ""
+            val videos = appContext.getFromMl {
+                if (groupId != 0L) {
+                    val result = getVideoGroup(groupId)?.let { group ->
+                        groupTitle = group.title
+                        group.media(Medialibrary.SORT_DEFAULT, false, false, false, group.mediaCount(), 0)
+                    }
+                    result
+                } else if (folderId != 0L) {
+                val result = getFolder(Folder.TYPE_FOLDER_VIDEO, folderId)?.let { folder ->
+                    groupTitle = folder.title
+                    folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                }
+                result
+            } else when (grouping) {
+                    0 -> getVideos(Medialibrary.SORT_DEFAULT, false, false, false)
+                    1 -> getFolders(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0)
+                    else -> getVideoGroups(Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0).sanitizeGroups()
+                }
+            }
+            if (videos == null) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
 
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
             videos.forEach { video ->
-                list.add(video.toPlayQueueItem())
+                when (video) {
+                    is MediaWrapper->list.add(video.toPlayQueueItem())
+                    is Folder -> list.add(video.toPlayQueueItem(appContext))
+                    is VideoGroup -> list.add(video.toPlayQueueItem(appContext))
+                }
+
             }
+            val result = RemoteAccessServer.VideoListResult(list, groupTitle)
             val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondText(gson.toJson(result))
         }
         // List of all the albums
         get("/album-list") {
@@ -455,6 +498,63 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
+        // Get an album details
+        get("/album") {
+            verifyLogin(settings)
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
+            val id = call.request.queryParameters["id"]?.toLong() ?: 0L
+
+            val album = appContext.getFromMl { getAlbum(id) }
+
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            album.tracks.forEach { track ->
+                list.add(track.toPlayQueueItem(album.albumArtist))
+            }
+            val result= RemoteAccessServer.AlbumResult(list, album.title)
+            val gson = Gson()
+            call.respondText(gson.toJson(result))
+        }
+        // Get an playlist details
+        get("/playlist") {
+            verifyLogin(settings)
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
+            val id = call.request.queryParameters["id"]?.toLong() ?: 0L
+
+            val playlist = appContext.getFromMl { getPlaylist(id, false, false) }
+
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            playlist.tracks.forEach { track ->
+                list.add(track.toPlayQueueItem())
+            }
+            val result= RemoteAccessServer.PlaylistResult(list, playlist.title)
+            val gson = Gson()
+            call.respondText(gson.toJson(result))
+        }
+        // Get an artist details
+        get("/artist") {
+            verifyLogin(settings)
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
+            val id = call.request.queryParameters["id"]?.toLong() ?: 0L
+
+            val artist = appContext.getFromMl { getArtist(id) }
+
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            artist.albums.forEach { album ->
+                list.add(album.toPlayQueueItem())
+            }
+            val result= RemoteAccessServer.ArtistResult(list, listOf(), artist.title)
+            val gson = Gson()
+            call.respondText(gson.toJson(result))
+        }
         // List of all the playlists
         get("/playlist-list") {
             verifyLogin(settings)
@@ -511,10 +611,13 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
             }
+            //Get content synchronously
             val dataset = LiveDataset<MediaLibraryItem>()
             val provider = withContext(Dispatchers.Main) {
                 StorageProvider(appContext, dataset, null)
             }
+            // Launch asynchronous description calculations
+            getProviderDescriptions(appContext, scope, provider, dataset)
             val list = try {
                 getProviderContent(appContext, provider, dataset, 1000L)
             } catch (e: Exception) {
@@ -522,6 +625,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.InternalServerError)
                 return@get
             }
+
             val gson = Gson()
             call.respondText(gson.toJson(list))
         }
@@ -555,7 +659,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
             RemoteAccessServer.getInstance(appContext).networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
-                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
             }
             val gson = Gson()
@@ -568,7 +672,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
             stream.forEachIndexed { index, mediaLibraryItem ->
-                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, "", 0, mediaLibraryItem.artworkMrl
+                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true))
             }
             val gson = Gson()
@@ -588,15 +692,50 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val decodedPath = Uri.decode(path)
 
             val dataset = LiveDataset<MediaLibraryItem>()
+            //Get content synchronously
             val provider = withContext(Dispatchers.Main) {
                 FileBrowserProvider(appContext, dataset, decodedPath, false, false, Medialibrary.SORT_FILENAME, false)
             }
-            val list = try {
-                getProviderContent(appContext, provider, dataset, 1000L)
-            } catch (e: Exception) {
-                Log.e(this::class.java.simpleName, e.message, e)
-                call.respond(HttpStatusCode.InternalServerError)
-                return@get
+            // Launch asynchronous description calculations (for folders)
+            getProviderDescriptions(appContext, scope, provider, dataset)
+            observeLiveDataUntil(2000, dataset) {
+                provider.loading.value == false
+            }
+
+            // synchronous descriptions (for files)
+            dataset.getList().forEach {
+                (it as? MediaWrapper)?.let {
+                    if (it.type != MediaWrapper.TYPE_DIR) {
+                        it.description = if (it.uri.scheme.isSchemeFile()) {
+                            it.uri.path?.let {
+                                Formatter.formatFileSize(appContext, File(it).length())
+                            } ?: ""
+                        } else
+                            " "
+                    }
+                }
+            }
+            val list = dataset.getList().mapIndexed { index, it ->
+                val filePath = when (it) {
+                    is MediaWrapper -> it.uri.toString()
+                    is Storage -> it.uri.toString()
+                    else -> throw IllegalStateException("Unrecognised media type")
+
+                }
+                val title = if ((provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
+                        && it is MediaWrapper) it.fileName else it.title
+                val isFolder = if (it is MediaWrapper) it.type == MediaWrapper.TYPE_DIR else true
+                var fileType = "folder"
+                if (!isFolder) {
+                    fileType = when ((it as MediaWrapper).type) {
+                        MediaWrapper.TYPE_AUDIO -> "audio"
+                        MediaWrapper.TYPE_VIDEO -> "video"
+                        MediaWrapper.TYPE_SUBTITLE -> "subtitle"
+                        else -> "file"
+                    }
+                }
+                RemoteAccessServer.PlayQueueItem(1000L + index, title, it.description ?: "", 0, it.artworkMrl
+                        ?: "", false, "", filePath, isFolder, fileType = fileType)
             }
 
             //segments
@@ -609,7 +748,6 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }.toMutableList().apply {
                     add(0, RemoteAccessServer.BreadcrumbItem(appContext.getString(R.string.home), "root"))
                 }
-
 
             val result = RemoteAccessServer.BrowsingResult(list, breadcrumbItems)
             val gson = Gson()
@@ -642,6 +780,14 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         "artist" -> getArtist(id.toLong()).tracks
                         "genre" -> getGenre(id.toLong()).tracks
                         "playlist" -> getPlaylist(id.toLong(), false, false).tracks
+                        "video-group" -> {
+                            val group = getVideoGroup(id.toLong())
+                            group.media(Medialibrary.SORT_DEFAULT, false, false, false, group.mediaCount(), 0)
+                        }
+                        "video-folder" -> {
+                            val folder = getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
+                            folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                        }
                         else -> arrayOf(getMedia(id.toLong()))
                     }
                 }
@@ -659,6 +805,74 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         append -> MediaUtils.appendMedia(appContext, medias)
                         else -> MediaUtils.openList(appContext, medias.toList(), 0)
                     }
+                    call.respond(HttpStatusCode.OK)
+                }
+            }
+            call.respond(HttpStatusCode.NotFound)
+        }
+        // Play a media
+        get("/play-all") {
+            val type = call.request.queryParameters["type"]
+            val id = call.request.queryParameters["id"]
+            type?.let { type ->
+
+                val medias = if (type == "browser") {
+                    val path = call.request.queryParameters["path"] ?: kotlin.run {
+                        call.respond(HttpStatusCode.NotFound)
+                        return@get
+                    }
+                    val decodedPath = Uri.decode(path)
+
+                    val dataset = LiveDataset<MediaLibraryItem>()
+                    var list: Pair<List<MediaLibraryItem>, ArrayList<Pair<Int, String>>>? = null
+                    val provider = withContext(Dispatchers.Main) {
+                        FileBrowserProvider(appContext, dataset, decodedPath, false, false, Medialibrary.SORT_FILENAME, false)
+                    }
+                    try {
+                        list = getMediaFromProvider( provider, dataset)
+                    } catch (e: Exception) {
+                        Log.e(this::class.java.simpleName, e.message, e)
+                    }
+                    list?.first?.map { it as MediaWrapper }?.toTypedArray()
+                } else appContext.getFromMl {
+                    when (type) {
+                        "video-group" -> {
+                            id?.let { id ->
+                                val group = getVideoGroup(id.toLong())
+                                group.media(Medialibrary.SORT_DEFAULT, false, false, false, group.mediaCount(), 0)
+                            }
+                        }
+                        "video-folder" -> {
+                            id?.let { id ->
+                                val folder = getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
+                                folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                            }
+                        }
+                        "artist" -> {
+                            id?.let { id ->
+                                val artist = getArtist(id.toLong())
+                                artist.tracks
+                            }
+                        }
+                        "album" -> {
+                            id?.let { id ->
+                                val album = getAlbum(id.toLong())
+                                album.tracks
+                            }
+                        }
+                        else -> getAudio(Medialibrary.SORT_DEFAULT, false, false, false)
+                    }
+                }
+                if (medias.isNullOrEmpty()) call.respond(HttpStatusCode.NotFound)
+                else {
+                    if (medias.size == 1 && medias[0].id == RemoteAccessServer.getInstance(appContext).service?.currentMediaWrapper?.id) {
+                        call.respond(HttpStatusCode.OK)
+                        return@get
+                    }
+                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
+                        call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ra_not_in_foreground))
+                    }
+                    MediaUtils.openList(appContext, medias.toList(), 0)
                     call.respond(HttpStatusCode.OK)
                 }
             }
@@ -690,6 +904,18 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     "playlist" -> {
                         val playlist = appContext.getFromMl { getPlaylist(id.toLong(), false, false) }
                         val dst = MediaZipUtils.generatePlaylistZip(playlist, RemoteAccessServer.getInstance(appContext).downloadFolder)
+                        call.respondText(dst)
+                        return@get
+                    }
+                    "video-group" -> {
+                        val videoGroup = appContext.getFromMl { getVideoGroup(id.toLong()) }
+                        val dst = MediaZipUtils.generateVideoGroupZip(videoGroup, RemoteAccessServer.getInstance(appContext).downloadFolder)
+                        call.respondText(dst)
+                        return@get
+                    }
+                    "video-folder" -> {
+                        val videoFolder = appContext.getFromMl { getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong()) }
+                        val dst = MediaZipUtils.generateVideoGroupZip(videoFolder, RemoteAccessServer.getInstance(appContext).downloadFolder)
                         call.respondText(dst)
                         return@get
                     }
@@ -730,7 +956,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         }
         // Get a media artwork
         get("/artwork") {
-            if (call.request.queryParameters["type"] in arrayOf("folder", "network")) {
+            var type = call.request.queryParameters["type"]
+            if (type in arrayOf("folder", "network", "folder_big", "network_big")) {
                 call.request.queryParameters["artwork"]?.let { artworkUrl ->
                     if (artworkUrl.startsWith("http")) {
                         val bmp = HttpImageLoader.downloadBitmap(artworkUrl)
@@ -742,29 +969,71 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         }
                     }
                 }
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_menu_folder, 256, 256), true)?.let {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
             }
-            if (call.request.queryParameters["type"] == "new-stream") {
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_remote_stream_add, 256, 256), true)?.let {
+            if (call.request.queryParameters["type"]?.startsWith("video-group") == true) {
+                call.request.queryParameters["id"]?.let { id ->
+                    val group = appContext.getFromMl {
+                        getVideoGroup(id.toLong())
+                    }
+                        val bmp = ThumbnailsProvider.getVideoGroupThumbnail(group, 512)
+                        if (bmp != null) {
+                            BitmapUtil.encodeImage(bmp, true)?.let {
+                                call.respondBytes(ContentType.Image.PNG) { it }
+                                return@get
+                            }
+                        }
+                }
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
             }
-            if (call.request.queryParameters["type"] == "file") {
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_browser_unknown_normal, 256, 256), true)?.let {
+            if (type?.startsWith("video-folder") == true) {
+                call.request.queryParameters["id"]?.let { id ->
+                    val folder = appContext.getFromMl {
+                        getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong())
+                    }
+                        val bmp = ThumbnailsProvider.getFolderThumbnail(folder, 512)
+                        if (bmp != null) {
+                            BitmapUtil.encodeImage(bmp, true)?.let {
+                                call.respondBytes(ContentType.Image.PNG) { it }
+                                return@get
+                            }
+                        }
+                }
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (type.endsWith("_big")) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
+            if (type == "new-stream" || type == "new-stream_big") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type.endsWith("_big")) R.drawable.ic_remote_stream_add_big else R.drawable.ic_remote_stream_add, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
+            if (type == "file") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_unknown, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
             }
             try {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: RemoteAccessServer.getInstance(appContext).service?.coverArt
+
+                var bigVariant = "0"
+                if (type?.endsWith("_big") == true) {
+                    type = type.substring(0, type.length -4)
+                    bigVariant = "1"
+                }
                 //check by id and use the ArtworkProvider if provided
                 call.request.queryParameters["id"]?.let {
                     val cr = appContext.contentResolver
-                    val mediaType = when (call.request.queryParameters["type"]) {
+                    val mediaType = when (type) {
                         "video" -> ArtworkProvider.VIDEO
                         "album" -> ArtworkProvider.ALBUM
                         "artist" -> ArtworkProvider.ARTIST
@@ -772,7 +1041,14 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         "playlist" -> ArtworkProvider.PLAYLIST
                         else -> ArtworkProvider.MEDIA
                     }
-                    cr.openInputStream(Uri.parse("content://${appContext.applicationContext.packageName}.artwork/$mediaType/1/$it"))?.let { inputStream ->
+                   val uri = ArtworkProvider.buildUri(appContext, Uri.Builder()
+                            .appendPath(mediaType)
+                            .appendPath("1")
+                            .appendPath(it)
+                           .appendQueryParameter(ArtworkProvider.BIG_VARIANT, bigVariant)
+                           .appendQueryParameter(ArtworkProvider.REMOTE_ACCESS, "1")
+                            .build())
+                    cr.openInputStream(uri)?.let { inputStream ->
                         call.respondBytes(ContentType.Image.JPEG) { inputStream.toByteArray() }
                         inputStream.close()
                         return@get
@@ -831,6 +1107,65 @@ private suspend fun getLogsFiles(): List<LogFile> = withContext(Dispatchers.IO) 
 
 data class LogFile(val path:String, val type:String)
 
+
+private suspend fun getMediaFromProvider(provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>): Pair<List<MediaLibraryItem>, ArrayList<Pair<Int, String>>> {
+    dataset.await()
+    val descriptions = ArrayList<Pair<Int, String>>()
+    observeLiveDataUntil(5000, provider.descriptionUpdate) { pair ->
+        descriptions.add(pair)
+        //releasing once the number of descriptions is the same as the dataset
+        descriptions.size < dataset.getList().size
+    }
+   return Pair(dataset.getList(), descriptions)
+}
+
+private fun getProviderDescriptions(context: Context, scope: CoroutineScope, provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>) {
+    val descriptions = ArrayList<Pair<Int, String>>()
+    scope.launch(Dispatchers.IO) {
+
+        observeLiveDataUntil(20000, provider.descriptionUpdate) { pair ->
+
+            try {
+                (dataset.getList()[pair.first] as? MediaWrapper)?.let { datasetEntry ->
+                    val desc =
+                            if (datasetEntry.type != MediaWrapper.TYPE_DIR) {
+                                if (datasetEntry.uri.scheme.isSchemeFile()) {
+                                    datasetEntry.uri.path?.let {
+                                        Formatter.formatFileSize(context, File(it).length())
+                                    } ?: ""
+                                } else
+                                    ""
+                            } else {
+                                val unparsedDescription = pair.second
+                                val folders = unparsedDescription.getFolderNumber()
+                                val files = unparsedDescription.getFilesNumber()
+                                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                            }
+                    if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
+                        RemoteAccessWebSockets.sendToAll(Gson().toJson(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc)))
+                    }
+                }
+                (dataset.getList()[pair.first] as? Storage)?.let { datasetEntry ->
+
+                                val unparsedDescription = pair.second
+                                val folders = unparsedDescription.getFolderNumber()
+                                val files = unparsedDescription.getFilesNumber()
+                    val desc = "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                    if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
+                        RemoteAccessWebSockets.sendToAll(Gson().toJson(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc)))
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("RemoteAccess", e.message, e)
+            }
+            descriptions.add(pair)
+            //releasing once the number of descriptions is the same as the dataset
+            descriptions.size < dataset.getList().size
+        }
+    }
+}
+
+
 /**
  * Get the content from a [BrowserProvider]
  * Gracefully (or not) waits for the [LiveData] to be set before sending the result back
@@ -841,15 +1176,10 @@ data class LogFile(val path:String, val type:String)
  * @return a populated list
  */
 private suspend fun getProviderContent(context:Context, provider: BrowserProvider, dataset: LiveDataset<MediaLibraryItem>, idPrefix: Long): ArrayList<RemoteAccessServer.PlayQueueItem> {
-    dataset.await()
-    val descriptions = ArrayList<Pair<Int, String>>()
-    observeLiveDataUntil(1500, provider.descriptionUpdate) { pair ->
-        descriptions.add(pair)
-        val block = descriptions.size < dataset.getList().size
-        block
-    }
+    val mediaFromProvider = getMediaFromProvider(provider, dataset)
     val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
-    dataset.getList().forEachIndexed { index, mediaLibraryItem ->
+
+    mediaFromProvider.first.forEachIndexed { index, mediaLibraryItem ->
         val description = try {
             if (mediaLibraryItem is MediaWrapper && mediaLibraryItem.type != MediaWrapper.TYPE_DIR) {
                 if (mediaLibraryItem.uri.scheme.isSchemeFile()) {
@@ -859,10 +1189,16 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
                 } else
                     ""
             } else {
-                val unparsedDescription = descriptions.firstOrNull { it.first == index }?.second
+                val unparsedDescription = mediaFromProvider.second.firstOrNull { it.first == index }?.second
                 val folders = unparsedDescription.getFolderNumber()
                 val files = unparsedDescription.getFilesNumber()
-                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                if (folders > 0 && files > 0) {
+                    "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                } else if (files > 0) {
+                    context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)
+                } else if (folders > 0) {
+                    context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)
+                } else mediaLibraryItem.description
             }
         } catch (e: Exception) {
             Log.e(RemoteAccessServer::class.java.simpleName, e.message, e)
@@ -885,6 +1221,7 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
 }
 
 
+
 fun Album.toPlayQueueItem() = RemoteAccessServer.PlayQueueItem(id, title, albumArtist
         ?: "", duration, artworkMrl
         ?: "", false, "")
@@ -898,6 +1235,12 @@ fun Genre.toPlayQueueItem(appContext: Context) = RemoteAccessServer.PlayQueueIte
 fun Playlist.toPlayQueueItem(appContext: Context) = RemoteAccessServer.PlayQueueItem(id, title, appContext.resources.getQuantityString(R.plurals.track_quantity, tracksCount, tracksCount), 0, artworkMrl
         ?: "", false, "")
 
-fun MediaWrapper.toPlayQueueItem() = RemoteAccessServer.PlayQueueItem(id, title, artist
-        ?: "", length, artworkMrl
+fun MediaWrapper.toPlayQueueItem(defaultArtist: String = "") = RemoteAccessServer.PlayQueueItem(id, title, artist?.ifEmpty { defaultArtist } ?: defaultArtist, length, artworkMrl
         ?: "", false, generateResolutionClass(width, height) ?: "", progress = time, played = seen > 0)
+
+fun Folder.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, mediaCount(Folder.TYPE_FOLDER_VIDEO), mediaCount(Folder.TYPE_FOLDER_VIDEO))
+        ?: "", 0, artworkMrl
+        ?: "", false,"", videoType = "video-folder")
+
+fun VideoGroup.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, if (this.mediaCount() > 1) context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, this.mediaCount(), this.mediaCount()) else "length", 0, artworkMrl
+        ?: "", false,"", videoType = "video-group", played = presentSeen == presentCount && presentCount != 0)

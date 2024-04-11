@@ -25,6 +25,14 @@
             android:summary="@string/prefersmbv1_summary"
             android:title="@string/prefersmbv1"/>
 
+    <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textMultiLine"
+            android:key="http_user_agent"
+            app:useSimpleSummaryProvider="true"
+            android:singleLine="false"
+            android:title="@string/http_user_agent"/>
+
     <Preference
             android:enabled="true"
             android:key="dump_media_db"

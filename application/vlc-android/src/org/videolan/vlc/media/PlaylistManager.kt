@@ -53,6 +53,7 @@ import org.videolan.tools.AUDIO_RESUME_PLAYBACK
 import org.videolan.tools.AUDIO_SHUFFLING
 import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.AppScope
+import org.videolan.tools.HTTP_USER_AGENT
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_PLAYBACK_RATE
@@ -75,6 +76,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.awaitMedialibraryStarted
@@ -109,7 +111,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         private val mediaList = MediaWrapperList()
         fun hasMedia() = mediaList.size() != 0
         val repeating = MutableStateFlow(PlaybackStateCompat.REPEAT_MODE_NONE)
-
+        var playingAsAudio = false
     }
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
@@ -459,7 +461,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0, forceResume:Boolean = false, forceRestart:Boolean = false) {
-        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo()) || !isAppStarted()
+        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
@@ -472,6 +474,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
 
         val mw = mediaList.getMedia(index) ?: return
+        if (mw.type == MediaWrapper.TYPE_VIDEO && !isAppStarted()) videoBackground = true
         val isVideoPlaying = mw.type == MediaWrapper.TYPE_VIDEO && player.isVideoPlaying()
         setRepeatTypeFromSettings()
         if (!videoBackground && isVideoPlaying) mw.addFlags(MediaWrapper.MEDIA_VIDEO)
@@ -494,7 +497,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
-            val start = if (forceRestart || videoResumeStatus == VideoResumeStatus.NEVER) 0L else getStartTime(mw)
+            val start = if (forceRestart
+                || videoResumeStatus == VideoResumeStatus.NEVER
+                || !Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) 0L else getStartTime(mw)
             if (isVideoPlaying) {
                 if (!forceResume && videoResumeStatus == VideoResumeStatus.ASK && start > 0) {
                     waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
@@ -507,6 +512,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (shouldDisableCookieForwarding) {
                 shouldDisableCookieForwarding = false
                 media.addOption(":no-http-forward-cookies")
+            }
+            settings.getString(HTTP_USER_AGENT, null)?.let {
+                 media.addOption(":http-user-agent=$it")
             }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
@@ -612,6 +620,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun saveMediaMeta(end:Boolean = false) = launch(start = CoroutineStart.UNDISPATCHED) outerLaunch@ {
+        if (!Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) return@outerLaunch
         if (endReachedFor != null && endReachedFor == getCurrentMedia()?.uri.toString() && !end) return@outerLaunch
         val titleIdx = player.getTitleIdx()
         val currentMedia = getCurrentMedia() ?: return@outerLaunch
@@ -624,6 +633,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val rate = player.getRate()
         launch(Dispatchers.IO) innerLaunch@ {
             val media = if (entryUrl != null) medialibrary.getMedia(entryUrl) else medialibrary.findMedia(currentMedia) ?: return@innerLaunch
+            if (showAudioPlayer.value != true) BaseBrowserFragment.needRefresh.postValue(true)
             if (media.id == 0L) return@innerLaunch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
             //checks if the [MediaPlayer] has not been reset in the meantime to prevent saving 0
@@ -683,7 +693,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             } else if (settings.getBoolean("save_individual_audio_delay", true)) {
                 player.setAudioDelay(savedDelay)
             }
-            val abStart = media.getMetaLong(MediaWrapper.META_AB_REPEAT_START)
+            val abStart = if (settings.getBoolean(PLAYBACK_HISTORY, true))  media.getMetaLong(MediaWrapper.META_AB_REPEAT_START) else 0L
             if (abStart != 0L) {
                 abRepeatOn.value = true
                 val abStop = media.getMetaLong(MediaWrapper.META_AB_REPEAT_STOP)
@@ -691,7 +701,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toString())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
-            val rateString = media.getMetaString(MediaWrapper.META_SPEED)
+            val rateString = if (settings.getBoolean(PLAYBACK_HISTORY, true)) media.getMetaString(MediaWrapper.META_SPEED) else null
             if (!rateString.isNullOrEmpty()) {
                 player.setRate(rateString.toFloat(), false)
             }
@@ -714,6 +724,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val saveVideoPlayQueue = settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)
         if (!isAudio && saveVideoPlayQueue) {
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artist ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
             settings.putSingle(KEY_CURRENT_MEDIA, media.location)
         }
         if (isAudio && saveAudioPlayQueue) {
@@ -1002,6 +1015,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
     fun setABRepeatValue(media: MediaWrapper?, time: Long) {
+        if (settings.getBoolean(PLAYBACK_HISTORY, true)) return
         val value = abRepeat.value ?: ABRepeat()
         when {
             value.start == -1L -> {

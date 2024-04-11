@@ -85,6 +85,10 @@
                 type="Boolean" />
 
         <variable
+                name="showSeen"
+                type="boolean" />
+
+        <variable
                 name="imageWidth"
                 type="int" />
 
@@ -152,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_seen_normal"
-                android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE}"
+                android:visibility="@{seen == 0L || !showSeen ? View.GONE : View.VISIBLE}"
                 vlc:layout_constraintEnd_toEndOf="@+id/media_cover"
                 vlc:layout_constraintTop_toTopOf="@+id/media_cover" />
 

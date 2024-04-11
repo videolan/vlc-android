@@ -220,9 +220,12 @@ const val SLEEP_TIMER_WAIT = "sleep_timer_wait"
 
 const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
 const val PLAYLIST_REPLACE = "playlist_replace"
+const val HTTP_USER_AGENT = "http_user_agent"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
+const val BROWSER_SHOW_ONLY_MULTIMEDIA = "browser_show_only_multimedia"
+const val BROWSER_DISPLAY_IN_CARDS = "browser_display_in_cards"
 
 // Albums
 const val ALBUMS_SHOW_TRACK_NUMBER = "albums_show_track_number"

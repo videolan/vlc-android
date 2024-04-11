@@ -19,13 +19,18 @@
 
 package org.videolan.vlc
 
-import android.content.*
+import android.content.ContentProvider
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -52,11 +57,15 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.AccessControl
 import org.videolan.vlc.util.ThumbnailsProvider
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.nio.ByteBuffer
 import java.security.SecureRandom
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import java.util.zip.CRC32
 import kotlin.math.max
 
@@ -112,21 +121,23 @@ class ArtworkProvider : ContentProvider() {
                 Log.d(TAG, "openFile() Time: ${getTimestamp()} URI: $uri " +
                         "Thread: ${Thread.currentThread().name} Caller: $callingPackage")
             }
-            //retrieve thumbnails. If uriSegments[1] is "1" the asker is the web server's website
+            val bigVariant = uri.getQueryParameter(BIG_VARIANT)  == "1"
+            val remoteAccess = uri.getQueryParameter(REMOTE_ACCESS)  == "1"
+            //retrieve thumbnails.
             when (uriSegments[0]) {
                 HISTORY -> getPFDFromByteArray(getHistory(ctx))
                 LAST_ADDED -> getPFDFromByteArray(getLastAdded(ctx))
                 SHUFFLE_ALL -> getPFDFromByteArray(getShuffleAll(ctx))
-                VIDEO -> if (uriSegments[1] == "1")
-                    getMediaImage(ctx, ContentUris.parseId(uri), false, fallbackIcon = R.drawable.ic_web_video, isLarge = true)
+                VIDEO -> if (remoteAccess)
+                    getMediaImage(ctx, ContentUris.parseId(uri), false, fallbackIcon =  if (bigVariant) R.drawable.ic_remote_video_unknown_big else R.drawable.ic_remote_video_unknown, isLarge = true)
                 else
                     getMediaImage(ctx, ContentUris.parseId(uri), false)
-                MEDIA -> if (uriSegments[1] == "1") getMediaImage(ctx, ContentUris.parseId(uri), fallbackIcon = R.drawable.ic_web_audio) else getMediaImage(ctx, ContentUris.parseId(uri))
-                ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri))
-                ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri))
+                MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri), fallbackIcon = if (remoteAccess) if (bigVariant) R.drawable.ic_remote_song_unknown_big else R.drawable.ic_remote_song_unknown else null)
+                ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri), remoteAccess, bigVariant)
+                ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri), remoteAccess, bigVariant)
                 REMOTE -> getRemoteImage(ctx, uri.getQueryParameter(PATH))
-                GENRE -> if (uriSegments[1] == "1") getGenreImage(ctx, ContentUris.parseId(uri), fallbackIcon = R.drawable.ic_web_genre) else getGenreImage(ctx, ContentUris.parseId(uri))
-                PLAYLIST -> if (uriSegments[1] == "1") getPlaylistImage(ctx, ContentUris.parseId(uri), fallbackIcon = R.drawable.ic_web_playlist) else getPlaylistImage(ctx, ContentUris.parseId(uri))
+                GENRE -> if (remoteAccess) getGenreImage(ctx, ContentUris.parseId(uri), fallbackIcon = if (bigVariant) R.drawable.ic_remote_genre_unknown_big else R.drawable.ic_remote_genre_unknown) else getGenreImage(ctx, ContentUris.parseId(uri))
+                PLAYLIST -> if (remoteAccess) getPlaylistImage(ctx, ContentUris.parseId(uri), fallbackIcon = if (bigVariant) R.drawable.ic_remote_playlist_unknown_big else R.drawable.ic_remote_playlist_unknown) else getPlaylistImage(ctx, ContentUris.parseId(uri))
                 PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri),
                         uri.getBooleanQueryParameter(SHUFFLE, false))
                 else -> throw FileNotFoundException("Uri is not supported: $uri")
@@ -165,7 +176,7 @@ class ArtworkProvider : ContentProvider() {
      * getMediaImage in that results are not cached since AA is the only consumer and Glide within
      * AA performs caching.
      */
-    private fun getCategoryImage(context: Context, category: String, id: Long): ParcelFileDescriptor {
+    private fun getCategoryImage(context: Context, category: String, id: Long, forRemote:Boolean = false, bigVariant:Boolean = true): ParcelFileDescriptor {
         val mw: MediaLibraryItem? = runBlocking(Dispatchers.IO) {
             when (category) {
                 ALBUM -> context.getFromMl { getAlbum(id) }
@@ -188,8 +199,8 @@ class ArtworkProvider : ContentProvider() {
             }?.let { return@getCategoryImage getPFDFromByteArray(it) }
         }
         val unknownIcon = when (category) {
-            ALBUM -> R.drawable.ic_auto_album_unknown
-            ARTIST -> R.drawable.ic_auto_artist_unknown
+            ALBUM -> if (forRemote) if (bigVariant) R.drawable.ic_remote_album_unknown_big else R.drawable.ic_remote_album_unknown else R.drawable.ic_auto_album_unknown
+            ARTIST -> if (forRemote) if (bigVariant) R.drawable.ic_remote_artist_unknown_big else R.drawable.ic_remote_artist_unknown else R.drawable.ic_auto_artist_unknown
             else -> R.drawable.ic_auto_nothumb
         }
         return getPFDFromBitmap(context.getBitmapFromDrawable(unknownIcon))
@@ -231,14 +242,26 @@ class ArtworkProvider : ContentProvider() {
         }
         // Non-square cover art will have an artworkMrl, which will be padded, re-encoded, and cached.
         // Videos, tracks with no cover art, etc. use mediaId and will be processed per library item.
-        val key = mw?.artworkMrl ?: "$mediaId"
-        val nonTransparent = (Build.VERSION.SDK_INT >= 33) && ("com.android.systemui" == callingPackage)
-        val image = getOrPutImage(if (nonTransparent) "${key}_nonTransparent" else key) {
+        var key = mw?.artworkMrl ?: "$mediaId"
+        val nonTransparent = (Build.VERSION.SDK_INT == 33) && ("com.android.systemui" == callingPackage)
+        if (nonTransparent) key += "_nonTransparent"
+        if (fallbackIcon != null) key += fallbackIcon.toString()
+        val image = getOrPutImage(key) {
             runBlocking(Dispatchers.IO) {
                 var bitmap = if (mw != null) ThumbnailsProvider.obtainBitmap(mw, width) else null
                 if (bitmap == null) bitmap = readEmbeddedArtwork(mw, width)
                 if (padSquare && bitmap != null) bitmap = padSquare(bitmap)
-                if (bitmap == null) bitmap = ctx.getBitmapFromDrawable(fallbackIcon ?: R.drawable.ic_no_media, if (isLarge) width169 else width, if (isLarge) height169 else width)
+                if (bitmap == null) {
+                    bitmap = ctx.getBitmapFromDrawable(fallbackIcon
+                            ?: R.drawable.ic_no_media, width, width)
+                    if (isLarge && bitmap != null) {
+                        val paint = Paint()
+                        val bmp = Bitmap.createBitmap(width169, height169, Bitmap.Config.ARGB_8888)
+                        val canvas = Canvas(bmp)
+                        canvas.drawBitmap(bitmap, 224F, 0F, paint)
+                        bitmap = bmp
+                    }
+                }
                 if (nonTransparent) bitmap = removeTransparency(bitmap)
                 return@runBlocking BitmapUtil.encodeImage(bitmap, ENABLE_TRACING) {
                     getTimestamp()
@@ -512,6 +535,8 @@ class ArtworkProvider : ContentProvider() {
     companion object {
 
         const val PATH = "path"
+        const val BIG_VARIANT = "big_variant"
+        const val REMOTE_ACCESS = "remote_access"
         const val ALBUM = "album"
         const val GENRE = "genre"
         const val VIDEO = "video"
@@ -526,7 +551,7 @@ class ArtworkProvider : ContentProvider() {
         const val SHUFFLE_ALL = "shuffle_all"
 
         //Used to store webp encoded bitmap of the currently playing artwork
-        private val memCache: LruCache<String, ByteArray> = LruCache<String, ByteArray>(if (Build.VERSION.SDK_INT >= 33) 2 else 1)
+        private val memCache: LruCache<String, ByteArray> = LruCache<String, ByteArray>(if (Build.VERSION.SDK_INT == 33) 2 else 1)
 
         @Synchronized
         fun clear() {

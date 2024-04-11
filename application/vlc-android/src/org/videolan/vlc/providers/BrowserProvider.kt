@@ -61,6 +61,7 @@ import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.AppScope
+import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.DependencyProvider
 import org.videolan.tools.Settings
@@ -94,7 +95,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private var discoveryJob : Job? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
-    private var showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
+    private var showOnlyMultimedia = Settings.getInstance(context).getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
@@ -161,7 +162,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if (mediabrowser == null) {
             registerCreator { MediaBrowser(VLCInstance.getInstance(context), null, browserHandler) }
             mediabrowser = get(this)
-            if (showAll) mediabrowser?.setIgnoreFileTypes(".")
+            if (!showOnlyMultimedia) mediabrowser?.setIgnoreFileTypes(".")
         }
     }
 
@@ -386,9 +387,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
         media.release()
         if (!mw.isMedia()) {
-            if (showAll || mw.isBrowserMedia()) return mw
+            if (!showOnlyMultimedia || mw.isBrowserMedia()) return mw
             if (mw.isBrowserMedia()) return mw
-            else if (!showAll) return null
+            else if (showOnlyMultimedia) return null
         }
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)) return withContext(coroutineContextProvider.IO) {
@@ -423,7 +424,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     fun updateShowAllFiles(value: Boolean) {
-        showAll = value
+        showOnlyMultimedia = value
         refresh()
     }
 

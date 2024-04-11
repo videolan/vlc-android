@@ -12,7 +12,7 @@
                 <h5 class="media-content text-primary" v-t="'VIDEO'"></h5>
                 <div class="row gx-3 gy-3 media-list">
                     <template v-for="video in results.videos" :key="video.id">
-                        <MediaListItem :media="video" :mediaType="'video'" />
+                        <MediaItem :isCard="false" :media="video" :mediaType="'video'" />
                     </template>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <h5 class="media-content text-primary" v-t="'TRACKS'"></h5>
                 <div class="row gx-3 gy-3 media-list">
                     <template v-for="video in results.videos" :key="video.id">
-                        <MediaListItem :media="video" :mediaType="'video'" />
+                        <MediaItem :isCard="false" :media="video" :mediaType="'video'" />
                     </template>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <h5 class="media-content text-primary" v-t="'ALBUMS'"></h5>
                 <div class="row gx-3 gy-3 media-list">
                     <template v-for="album in results.albums" :key="album.id">
-                        <MediaListItem :media="album" :mediaType="'album'" />
+                        <MediaItem :isCard="false" :media="album" :mediaType="'album'" />
                     </template>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <h5 class="media-content text-primary" v-t="'ARTISTS'"></h5>
                 <div class="row gx-3 gy-3 media-list">
                     <template v-for="artist in results.artists" :key="artist.id">
-                        <MediaListItem :media="artist" :mediaType="'artist'" />
+                        <MediaItem :isCard="false" :media="artist" :mediaType="'artist'" />
                     </template>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <h5 class="media-content text-primary" v-t="'GENRES'"></h5>
                 <div class="row gx-3 gy-3 media-list">
                     <template v-for="genre in results.genres" :key="genre.id">
-                        <MediaListItem :media="genre" :mediaType="'genre'" />
+                        <MediaItem :isCard="false" :media="genre" :mediaType="'genre'" />
                     </template>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <h5 class="media-content text-primary" v-t="'PLAYLISTS'"></h5>
                 <div class="row gx-3 gy-3 media-list">
                     <template v-for="genre in results.playlists" :key="genre.id">
-                        <MediaListItem :media="genre" :mediaType="'playlist'" />
+                        <MediaItem :isCard="false" :media="genre" :mediaType="'playlist'" />
                     </template>
                 </div>
             </div>
@@ -70,7 +70,7 @@ import { useAppStore } from '../stores/AppStore'
 import { mapStores } from 'pinia'
 import http from '../plugins/auth'
 import { vlcApi } from '../plugins/api.js'
-import MediaListItem from '../components/MediaListItem.vue'
+import MediaItem from '../components/MediaItem.vue'
 import EmptyView from '../components/EmptyView.vue'
 import ImageButton from '../components/ImageButton.vue'
 import { reactive } from 'vue'
@@ -80,7 +80,7 @@ export default {
         ...mapStores(useAppStore)
     },
     components: {
-        MediaListItem,
+        MediaItem,
         EmptyView,
         ImageButton,
     },
