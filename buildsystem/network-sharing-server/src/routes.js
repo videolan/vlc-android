@@ -12,6 +12,7 @@ import LoginPage from './pages/LoginPage'
 import SslPage from './pages/SslPage'
 import ArtistDetails from './pages/ArtistDetails'
 import AlbumDetails from './pages/AlbumDetails'
+import GenreDetails from './pages/GenreDetails'
 import PlaylistDetails from './pages/PlaylistDetails'
 
 const routes = [
@@ -33,6 +34,7 @@ const routes = [
       { path: 'genres', component: AudioGenres, name: 'AudioGenres', meta: { showDisplayBar: true, isAudio: true, showResume: true, showGrouping: false } },
       { path: 'artist/:artistId', component: ArtistDetails, name: 'ArtistDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "artist", icon:"ic_no_artist" } },
       { path: 'album/:albumId', component: AlbumDetails, name: 'AlbumDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "album", icon:"ic_album" } },
+      { path: 'genre/:genreId', component: GenreDetails, name: 'GenreDetails', meta: { showDisplayBar: true, isAudio: false, showResume: false, showGrouping: false, showFAB: true, playAllType: "genre", icon:"ic_genre" } },
     ]
   },
   {
