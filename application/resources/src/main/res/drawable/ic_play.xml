@@ -1,11 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_play.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
   <path
-      android:pathData="M14.037,8.246C13.397,8.598 13,9.27 13,10v28c-0.001,1.578 1.725,2.527 3.074,1.688l22,-14c1.234,-0.777 1.234,-2.58 0,-3.375l-22,-14C15.447,7.921 14.661,7.896 14.037,8.246ZM17,13.645 L33.273,24 17,34.355Z"
-      android:strokeLineJoin="round"
+      android:pathData="M15.004,8.266C14.383,8.622 14,9.284 14,10v28c0.001,1.543 1.677,2.499 3.008,1.727l24,-14c1.323,-0.772 1.323,-2.683 0,-3.455l-24,-14C16.371,7.912 15.607,7.909 15.004,8.266ZM18,13.48 L36.031,24 18,34.518Z"
       android:fillColor="@color/white"
       android:fillType="evenOdd"/>
 </vector>

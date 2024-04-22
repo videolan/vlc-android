@@ -8,7 +8,7 @@
    version="1.1"
    id="SVGRoot"
    sodipodi:docname="ic_play.svg"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.3.2 (1:1.3.2+202311252150+091e20ef0f)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,18 +23,38 @@
      inkscape:pagecheckerboard="1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="8"
-     inkscape:cx="19.25"
-     inkscape:cy="48.75"
+     inkscape:zoom="16"
+     inkscape:cx="34.03125"
+     inkscape:cy="25.09375"
      inkscape:window-width="1920"
      inkscape:window-height="1043"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1">
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        type="xygrid"
-       id="grid4374" />
+       id="grid4374"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px"
+       visible="true"
+       empspacing="4" />
   </sodipodi:namedview>
   <defs
      id="defs4288" />
@@ -44,8 +64,8 @@
      id="layer1">
     <path
        style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-linejoin:round;-inkscape-stroke:none"
-       d="M 14.037109,8.2460938 C 13.397215,8.5976347 12.999695,9.2699005 13,10 v 28 c -5.79e-4,1.578241 1.725116,2.526786 3.074219,1.6875 l 22,-14 c 1.234399,-0.776967 1.234381,-2.579774 0,-3.375 l -22,-14 C 15.446535,7.9208549 14.66106,7.8956911 14.037109,8.2460938 Z M 17,13.644531 33.273437,24 17,34.355469 Z"
-       id="path5917"
+       d="M 15.003906,8.265625 C 14.382911,8.622341 14.000015,9.2838426 14,10 v 28 c 0.0011,1.542948 1.677322,2.499372 3.007812,1.726562 l 24,-14 c 1.322705,-0.771915 1.322705,-2.683163 0,-3.455078 l -24,-13.9999996 C 16.370926,7.9115721 15.607416,7.9093099 15.003906,8.265625 Z M 18,13.480469 36.03125,24 18,34.517578 Z"
+       id="path21"
        sodipodi:nodetypes="cccccccccccc" />
   </g>
 </svg>

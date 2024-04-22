@@ -1,11 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_stop_after_this.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
   <path
-      android:pathData="M7.172,8C6.66,8 6.148,8.196 5.758,8.586C4.977,9.367 4.977,10.633 5.758,11.414L13,18.656L13,38C13,39.578 14.743,40.535 16.074,39.688L27.047,32.703L36.586,42.242C37.367,43.023 38.633,43.023 39.414,42.242C40.195,41.461 40.195,40.195 39.414,39.414L30.504,30.504L27.605,27.605L17,17L13,13L8.586,8.586C8.195,8.196 7.684,8 7.172,8zM15.064,8C14.712,7.989 14.357,8.07 14.037,8.246C14.008,8.262 13.983,8.282 13.955,8.299L23.326,17.67L33.273,24L31.063,25.406L33.961,28.305L38.074,25.688C39.309,24.902 39.309,23.098 38.074,22.313L16.074,8.313C15.766,8.116 15.417,8.011 15.064,8zM17,22.656L24.148,29.805L17,34.355L17,22.656z"
-      android:strokeLineJoin="round"
-      android:fillColor="#000000"
+      android:pathData="M8.586,8.586C8.211,8.211 7.702,8 7.172,8 6.641,8 6.133,8.211 5.758,8.586c-0.781,0.781 -0.781,2.047 0,2.828L14,19.656V38c-0.001,1.544 1.674,2.506 3.008,1.729l10.777,-6.287 8.801,8.801c0.781,0.781 2.047,0.781 2.828,0 0.781,-0.781 0.781,-2.047 0,-2.828zM15.658,8.029C15.428,8.069 15.207,8.149 15.004,8.266 14.783,8.398 14.589,8.572 14.434,8.777L20.732,15.076 36.029,24l-4.025,2.348 2.926,2.926 6.078,-3.545c1.325,-0.771 1.325,-2.686 0,-3.457l-24,-14C16.601,8.034 16.123,7.948 15.658,8.029ZM18,23.656 L24.859,30.516 18,34.518Z"
+      android:fillColor="@color/white"
       android:fillType="evenOdd"/>
 </vector>
