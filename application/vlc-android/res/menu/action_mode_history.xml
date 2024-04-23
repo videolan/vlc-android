@@ -5,21 +5,21 @@
         android:id="@+id/action_history_info"
         android:visible="false"
         android:title="@string/info"
-            android:icon="@drawable/ic_am_information"
+            android:icon="@drawable/ic_information"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_history_play"
         android:title="@string/play"
-            android:icon="@drawable/ic_am_play"
+            android:icon="@drawable/ic_play"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_history_append"
         android:title="@string/append"
-            android:icon="@drawable/ic_am_append"
+            android:icon="@drawable/ic_play_append"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_go_to_folder"
         android:title="@string/go_to_folder"
-            android:icon="@drawable/ic_am_folder"
+            android:icon="@drawable/ic_go_to_folder"
         app:showAsAction="always" />
 </menu>

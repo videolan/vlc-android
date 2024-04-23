@@ -30,14 +30,14 @@
     <item
             android:orderInCategory="1"
             android:id="@+id/menu_pref_search"
-            android:icon="@drawable/ic_am_search"
+            android:icon="@drawable/ic_search"
             android:title="@string/searchable_hint"
             vlc:showAsAction="always|collapseActionView"/>
 
     <item
             android:orderInCategory="2"
             android:id="@+id/menu_remote_access_onboarding"
-            android:icon="@drawable/ic_am_information"
+            android:icon="@drawable/ic_information"
             android:title="@string/ra_remote_access"
             android:visible="false"
             vlc:showAsAction="always|collapseActionView"/>

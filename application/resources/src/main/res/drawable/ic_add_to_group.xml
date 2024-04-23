@@ -1,4 +1,5 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:width="40dp"
         android:height="40dp"
         android:viewportWidth="40"
@@ -8,7 +9,8 @@
             android:strokeAlpha="1"
             android:strokeLineJoin="miter"
             android:strokeWidth="5.12989235"
-            android:fillColor="@color/white"
+            android:fillColor="?attr/colorControlNormal"
+            tools:fillColor="@color/white"
             android:strokeColor="#00000000"
             android:fillAlpha="1"
             android:strokeLineCap="round" />

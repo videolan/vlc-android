@@ -148,9 +148,9 @@ open class FileBrowserFragment : BaseBrowserFragment() {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(mrl!!.toUri())
 
             item.setIcon(if (isFavorite)
-                R.drawable.ic_am_favorite
+                R.drawable.ic_fav_remove
             else
-                R.drawable.ic_am_favorite_outline)
+                R.drawable.ic_fav_add)
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
         }
     }

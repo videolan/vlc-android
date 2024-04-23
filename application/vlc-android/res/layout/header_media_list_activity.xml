@@ -218,7 +218,7 @@
                             vlc:layout_constraintBottom_toBottomOf="@id/play_btn"
                             vlc:layout_constraintStart_toEndOf="@+id/btn_add_playlist"
                             vlc:layout_constraintTop_toTopOf="@id/play_btn"
-                            vlc:srcCompat="@drawable/ic_am_favorite" />
+                            vlc:srcCompat="@drawable/ic_fav_add" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

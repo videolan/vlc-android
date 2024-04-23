@@ -43,7 +43,7 @@
                 android:layout_marginStart="24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/sort_title"
-                app:srcCompat="@drawable/ic_am_favorite_outline" />
+                app:srcCompat="@drawable/ic_fav_remove" />
 
         <TextView
                 android:id="@+id/sort_title"

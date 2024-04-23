@@ -5,7 +5,7 @@
     <item
             android:orderInCategory="0"
             android:id="@+id/pin_relocked"
-            android:icon="@drawable/ic_am_pin_lock"
+            android:icon="@drawable/ic_pin_lock"
             android:title="@string/lock_with_pin"
             vlc:showAsAction="always"
             android:visible="false"/>
@@ -13,7 +13,7 @@
     <item
             android:orderInCategory="0"
             android:id="@+id/play_all"
-            android:icon="@drawable/ic_am_play"
+            android:icon="@drawable/ic_play"
             android:title="@string/play_all"
             vlc:showAsAction="always"
             android:visible="false"/>
@@ -21,14 +21,14 @@
     <item
             android:orderInCategory="0"
             android:id="@+id/shuffle_all"
-            android:icon="@drawable/ic_am_shuffle"
+            android:icon="@drawable/ic_shuffle"
             android:title="@string/shuffle_all_title"
             vlc:showAsAction="always"
             android:visible="false"/>
     <item
             android:orderInCategory="1"
             android:id="@+id/ml_menu_renderers"
-            android:icon="@drawable/ic_am_renderer"
+            android:icon="@drawable/ic_renderer"
             android:title="@string/cast_option_title"
             vlc:showAsAction="always|collapseActionView"
             android:visible="false"/>
@@ -36,14 +36,14 @@
     <item
             android:orderInCategory="1"
             android:id="@+id/ml_menu_filter"
-            android:icon="@drawable/ic_am_search"
+            android:icon="@drawable/ic_search"
             vlc:actionViewClass="androidx.appcompat.widget.SearchView"
             android:title="@string/searchable_hint"
             vlc:showAsAction="always|collapseActionView"/>
     <item
             android:orderInCategory="2"
             android:id="@+id/ml_menu_last_playlist"
-            android:icon="@drawable/ic_am_lastplaylist"
+            android:icon="@drawable/ic_last_playqueue"
             android:title="@string/resume_playback_short_title"
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false"/>
@@ -51,7 +51,7 @@
     <item
             android:orderInCategory="2"
             android:id="@+id/ml_menu_display_options"
-            android:icon="@drawable/ic_am_display_settings"
+            android:icon="@drawable/ic_display_settings"
             android:title="@string/display_settings"
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false"/>
@@ -67,12 +67,12 @@
             android:id="@+id/ml_menu_scan"
             android:title="@string/add_to_scanned"
             vlc:showAsAction="ifRoom|collapseActionView"
-            android:icon="@drawable/ic_am_addtoscan"
+            android:icon="@drawable/ic_add_to_scan"
             android:visible="false" />
     <item
             android:orderInCategory="2"
             android:title="@string/sortby"
-            android:icon="@drawable/ic_am_sort"
+            android:icon="@drawable/ic_sort"
             android:contentDescription="@string/sortby"
             android:id="@+id/ml_menu_sortby"
             vlc:showAsAction="ifRoom|collapseActionView"
@@ -156,7 +156,7 @@
     <item
             android:orderInCategory="4"
             android:id="@+id/pin_unlock"
-            android:icon="@drawable/ic_am_pin_unlock"
+            android:icon="@drawable/ic_pin_unlock"
             android:title="@string/unlock_with_pin"
             vlc:showAsAction="never"
             android:visible="false"/>
@@ -164,7 +164,7 @@
     <item
             android:orderInCategory="4"
             android:id="@+id/ml_menu_refresh"
-            android:icon="@drawable/ic_am_refresh"
+            android:icon="@drawable/ic_refresh"
             vlc:showAsAction="never"
             android:title="@string/refresh"/>
     <item
@@ -177,7 +177,7 @@
     <item
             android:orderInCategory="5"
             android:title="@string/rename_group"
-            android:icon="@drawable/ic_am_edit"
+            android:icon="@drawable/ic_edit"
             android:visible="false"
             vlc:showAsAction="ifRoom"
             android:id="@+id/rename_group" />
@@ -185,7 +185,7 @@
     <item
             android:orderInCategory="5"
             android:title="@string/ungroup"
-            android:icon="@drawable/ic_am_delete"
+            android:icon="@drawable/ic_delete"
             android:visible="false"
             vlc:showAsAction="ifRoom"
             android:id="@+id/ungroup" />

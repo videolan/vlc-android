@@ -4,58 +4,58 @@
     <item
         android:id="@+id/action_mode_audio_info"
         android:title="@string/info"
-            android:icon="@drawable/ic_am_information"
+            android:icon="@drawable/ic_information"
         app:showAsAction="always"/>
     <item
             android:id="@+id/action_mode_audio_share"
             android:title="@string/share"
-            android:icon="@drawable/ic_am_share"
+            android:icon="@drawable/ic_share"
             app:showAsAction="always" />
     <item
         android:id="@+id/action_mode_audio_play"
         android:title="@string/play"
-            android:icon="@drawable/ic_am_play"
+            android:icon="@drawable/ic_play"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_favorite_add"
         android:title="@string/favorites_add"
-            android:icon="@drawable/ic_am_favorite"
+            android:icon="@drawable/ic_fav_add"
             app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_mode_favorite_remove"
         android:title="@string/favorites_remove"
-            android:icon="@drawable/ic_am_favorite_outline"
+            android:icon="@drawable/ic_fav_add"
             app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mode_audio_append"
         android:title="@string/append"
-            android:icon="@drawable/ic_am_append"
+            android:icon="@drawable/ic_play_append"
             app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mode_audio_add_playlist"
         android:title="@string/add_to_playlist"
-            android:icon="@drawable/ic_am_addtoplaylist"
+            android:icon="@drawable/ic_add_to_playlist"
             app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mode_audio_delete"
         android:title="@string/delete"
-            android:icon="@drawable/ic_am_delete"
+            android:icon="@drawable/ic_delete"
         android:visible="false"
             app:showAsAction="ifRoom" />
     <group android:id="@+id/phone_only" >
         <item
-            android:id="@+id/action_mode_audio_set_song"
-            android:title="@string/set_song"
-                android:icon="@drawable/ic_am_ringtone"
-            android:visible="false"
-                app:showAsAction="ifRoom" />
+                android:id="@+id/action_mode_audio_set_song"
+                android:icon="@drawable/ic_set_ringtone"
+                android:title="@string/set_song"
+                android:visible="false"
+                app:showAsAction="always" />
     </group>
 
     <item
             android:id="@+id/action_mode_go_to_folder"
             android:title="@string/go_to_folder"
-            android:icon="@drawable/ic_am_folder"
+            android:icon="@drawable/ic_go_to_folder"
             android:visible="false"
             app:showAsAction="ifRoom" />
 </menu>

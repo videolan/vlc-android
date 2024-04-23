@@ -78,7 +78,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/display_mode_group"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/display_mode_group"
-                    tools:srcCompat="@drawable/ic_am_view_grid" />
+                    tools:srcCompat="@drawable/ic_view_grid" />
 
 
             <TextView

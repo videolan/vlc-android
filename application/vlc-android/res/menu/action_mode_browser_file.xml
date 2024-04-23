@@ -5,27 +5,27 @@
         android:id="@+id/action_mode_file_info"
         android:title="@string/info"
         android:visible="false"
-            android:icon="@drawable/ic_am_information"
+            android:icon="@drawable/ic_information"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_file_play"
         android:title="@string/play_all"
-            android:icon="@drawable/ic_am_play"
+            android:icon="@drawable/ic_play"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_file_append"
         android:title="@string/append"
-            android:icon="@drawable/ic_am_append"
+            android:icon="@drawable/ic_play_append"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_file_delete"
         android:title="@string/delete"
         android:visible="false"
-            android:icon="@drawable/ic_am_delete"
+            android:icon="@drawable/ic_delete"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_file_add_playlist"
         android:title="@string/add_to_playlist"
-            android:icon="@drawable/ic_am_addtoplaylist"
+            android:icon="@drawable/ic_add_to_playlist"
         app:showAsAction="always"/>
 </menu>

@@ -391,9 +391,9 @@ class FileBrowserFragmentUITest : BaseUITest() {
         onView(withRecyclerView(R.id.network_list).atPosition(0)).perform(click())
 
         onView(withId(R.id.ml_menu_save))
-                .check(matches(withActionIconDrawable(R.drawable.ic_am_favorite_outline)))
+                .check(matches(withActionIconDrawable(R.drawable.ic_fav_add)))
                 .perform(click())
-                .check(matches(withActionIconDrawable(R.drawable.ic_am_favorite)))
+                .check(matches(withActionIconDrawable(R.drawable.ic_fav_remove)))
 
         onView(isRoot()).perform(pressBack())
         onView(isRoot()).perform(pressBack())
@@ -414,9 +414,9 @@ class FileBrowserFragmentUITest : BaseUITest() {
         onView(withRecyclerView(R.id.network_list).atPosition(3)).perform(click())
 
         onView(withId(R.id.ml_menu_save))
-                .check(matches(withActionIconDrawable(R.drawable.ic_am_favorite)))
+                .check(matches(withActionIconDrawable(R.drawable.ic_fav_remove)))
                 .perform(click())
-                .check(matches(withActionIconDrawable(R.drawable.ic_am_favorite_outline)))
+                .check(matches(withActionIconDrawable(R.drawable.ic_fav_add)))
 
         onView(isRoot()).perform(pressBack())
 
