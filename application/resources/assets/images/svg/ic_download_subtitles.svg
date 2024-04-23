@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="48.0px"
+   height="48.0px"
+   viewBox="0 0 48.0 48.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="ic_download_subtitles.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview13559"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="13.455443"
+     inkscape:cx="22.518768"
+     inkscape:cy="23.893676"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid13682" />
+  </sodipodi:namedview>
+  <defs
+     id="defs13554" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path14535"
+       style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-width:2;stroke-linejoin:round;-inkscape-stroke:none"
+       d="M 22 2 L 22 8 L 18 8 A 1.0001 1.0001 0 0 0 17.292969 9.7070312 L 23.292969 15.707031 A 1.0001 1.0001 0 0 0 24.707031 15.707031 L 30.707031 9.7070312 A 1.0001 1.0001 0 0 0 30 8 L 26 8 L 26 2 L 22 2 z M 8 8 C 5.8000044 8 4 9.8000044 4 12 L 4 36 C 4 38.199996 5.8000044 40 8 40 L 40 40 C 42.199996 40 44 38.199996 44 36 L 44 12 C 44 9.8000044 42.199996 8 40 8 L 35 8 L 35 12 L 40 12 L 40 36 L 8 36 L 8 12 L 13 12 L 13 8 L 8 8 z M 12 20 L 12 24 L 16 24 L 16 20 L 12 20 z M 20 20 L 20 24 L 36 24 L 36 20 L 20 20 z M 12 28 L 12 32 L 28 32 L 28 28 L 12 28 z M 32 28 L 32 32 L 36 32 L 36 28 L 32 28 z " />
+  </g>
+</svg>
