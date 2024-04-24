@@ -55,6 +55,7 @@ class RemoteAccessService : LifecycleService() {
     private val receiver = object : BroadcastReceiver() {
         @SuppressLint("WakelockTimeout")
         override fun onReceive(context: Context, intent: Intent) {
+            if (!::server.isInitialized) return
             when (intent.action) {
                 ACTION_STOP_SERVER -> {
                     lifecycleScope.launch { server.stop() }
