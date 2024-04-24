@@ -202,7 +202,7 @@
 
       </div>
       <div class="d-flex align-items-center" v-else-if="this.getTitle()">
-        <p class="text-primary breadcrumb">{{ this.getTitle() }}</p>
+        <div class="text-primary breadcrumb"><img v-bind:src="$getAppAsset($route.meta.icon)"> <span class="breadcrumb-content-item">{{ this.getTitle() }}</span></div>
       </div>
 
       <div class="flex1 d-flex justify-content-end align-items-center">
@@ -352,7 +352,7 @@ export default {
   filter: invert(61%) sepia(64%) saturate(4340%) hue-rotate(358deg) brightness(99%) contrast(109%);
 }
 
-.nav-button img {
+.nav-button img, .breadcrumb img {
   color: $primary-color;
   filter: var(--img-tint);
 }
@@ -385,6 +385,15 @@ export default {
 
 #app .main-navbar {
   flex-wrap: wrap;
+}
+
+.breadcrumb-content-item {
+  margin-left: var(--bs-breadcrumb-item-padding-x);
+}
+
+.breadcrumb-content-item::before {
+  content: '>';
+  margin-right: var(--bs-breadcrumb-item-padding-x);
 }
 
 @keyframes blinker {
