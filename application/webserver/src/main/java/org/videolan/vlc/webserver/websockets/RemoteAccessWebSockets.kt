@@ -198,22 +198,24 @@ object RemoteAccessWebSockets {
 
    suspend fun sendToAll(message: String) {
        if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: sendToAll called on ${websocketSession.size} sessions with message '$message'")
+       val iterator = ArrayList(websocketSession).iterator()
        val toRemove = hashSetOf<DefaultWebSocketServerSession>()
-       websocketSession.forEach {
+       while (iterator.hasNext()) {
+           val connection = iterator.next()
            try {
-               it.send(Frame.Text(message))
+               connection.send(Frame.Text(message))
            } catch (e: Exception) {
-               toRemove.add(it)
+               toRemove.add(connection)
            }
        }
        websocketSession.removeAll(toRemove)
    }
 
     suspend fun closeAllSessions() {
-        with(websocketSession.iterator()) {
-            forEach {
-                it.close()
-            }
+        val iterator = ArrayList(websocketSession).iterator()
+        while (iterator.hasNext()) {
+            val connection = iterator.next()
+            connection.close()
         }
     }
 }
