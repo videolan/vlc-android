@@ -35,6 +35,8 @@ import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.DialogExtDeviceBinding
+import org.videolan.vlc.databinding.DialogPlaybackSpeedBinding
 import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
 import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.util.isSchemeStreaming
@@ -43,9 +45,7 @@ import kotlin.math.*
 
 class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
-    private lateinit var speedValue: TextView
-    private lateinit var seekSpeed: SeekBar
-    private lateinit var streamWarning: TextView
+    private lateinit var binding: DialogPlaybackSpeedBinding
 
     private var playbackService: PlaybackService? = null
     private var textColor: Int = 0
@@ -89,34 +89,29 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun initialFocusedView(): View {
-        return seekSpeed
+        return binding.playbackSpeedSeek
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_playback_speed, container)
-        speedValue = view.findViewById(R.id.playback_speed_value)
-        seekSpeed = view.findViewById(R.id.playback_speed_seek)
-        streamWarning = view.findViewById(R.id.stream_warning)
-        val playbackSpeedPlus = view.findViewById<ImageView>(R.id.playback_speed_plus)
-        val playbackSpeedMinus = view.findViewById<ImageView>(R.id.playback_speed_minus)
+        binding = DialogPlaybackSpeedBinding.inflate(inflater, container, false)
 
-        seekSpeed.setOnSeekBarChangeListener(seekBarListener)
-        playbackSpeedPlus.setOnClickListener(speedUpListener)
-        playbackSpeedMinus.setOnClickListener(speedDownListener)
-        speedValue.setOnClickListener(resetListener)
-        playbackSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(speedDownListener, lifecycle))
-        playbackSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(speedUpListener, lifecycle))
-        playbackSpeedMinus.setOnKeyListener(OnRepeatListenerKey(speedDownListener, lifecycle))
-        playbackSpeedPlus.setOnKeyListener(OnRepeatListenerKey(speedUpListener, lifecycle))
+        binding.playbackSpeedSeek.setOnSeekBarChangeListener(seekBarListener)
+        binding.playbackSpeedPlus.setOnClickListener(speedUpListener)
+        binding.playbackSpeedMinus.setOnClickListener(speedDownListener)
+        binding.playbackSpeedValue.setOnClickListener(resetListener)
+        binding.playbackSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(speedDownListener, lifecycle))
+        binding.playbackSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(speedUpListener, lifecycle))
+        binding.playbackSpeedMinus.setOnKeyListener(OnRepeatListenerKey(speedDownListener, lifecycle))
+        binding.playbackSpeedPlus.setOnKeyListener(OnRepeatListenerKey(speedUpListener, lifecycle))
 
-        textColor = speedValue.currentTextColor
+        textColor = binding.playbackSpeedValue.currentTextColor
 
 
         dialog?.setCancelable(true)
         dialog?.setCanceledOnTouchOutside(true)
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,7 +122,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
     private fun setRateProgress() {
         var speed = playbackService!!.rate.toDouble()
         speed = 100 * (1 + ln(speed) / ln(4.0))
-        seekSpeed.progress = speed.toInt()
+        binding.playbackSpeedSeek.progress = speed.toInt()
         updateInterface()
     }
 
@@ -140,20 +135,20 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         val rate = ((initialRate + delta) * 100f).roundToInt() / 100f
         if (rate < 0.25f || rate > 4f || playbackService!!.currentMediaWrapper == null)
             return
-        seekSpeed.announceForAccessibility(rate.toString())
-        seekSpeed.contentDescription = rate.toString()
+        binding.playbackSpeedSeek.announceForAccessibility(rate.toString())
+        binding.playbackSpeedSeek.contentDescription = rate.toString()
         playbackService!!.setRate(rate, true)
     }
 
     private fun updateInterface() {
         val rate = playbackService!!.rate
-        speedValue.text = rate.formatRateString()
+        binding.playbackSpeedValue.text = rate.formatRateString()
         if (rate != 1.0f) {
-            speedValue.setTextColor(ContextCompat.getColor(requireActivity(), R.color.orange500))
+            binding.playbackSpeedValue.setTextColor(ContextCompat.getColor(requireActivity(), R.color.orange500))
         } else {
-            speedValue.setTextColor(textColor)
+            binding.playbackSpeedValue.setTextColor(textColor)
         }
-        streamWarning.visibility = if (isSchemeStreaming(playbackService?.currentMediaLocation) && rate > 1) View.VISIBLE else View.INVISIBLE
+        binding.streamWarning.visibility = if (isSchemeStreaming(playbackService?.currentMediaLocation) && rate > 1) View.VISIBLE else View.INVISIBLE
 
     }
 
