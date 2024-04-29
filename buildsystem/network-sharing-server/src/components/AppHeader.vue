@@ -201,7 +201,7 @@
         </nav>
 
       </div>
-      <div class="d-flex align-items-center" v-else-if="this.getTitle()">
+      <div class="d-flex align-items-center" v-else-if="this.getTitle() && $route.meta.icon">
         <div class="text-primary breadcrumb"><img v-bind:src="$getAppAsset($route.meta.icon)"> <span class="breadcrumb-content-item">{{ this.getTitle() }}</span></div>
       </div>
 

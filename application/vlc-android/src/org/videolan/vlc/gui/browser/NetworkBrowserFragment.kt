@@ -105,6 +105,11 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
         fabPlay?.setOnClickListener { onFabPlayClick(it) }
     }
 
+    override fun onDestroyView() {
+        (requireActivity() as? SecondaryActivity)?.setSupportActionBar(null)
+        super.onDestroyView()
+    }
+
     override fun refresh() {
         if (networkMonitor.connected)
             super.refresh()

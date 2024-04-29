@@ -61,6 +61,8 @@ export default {
                     break
                 case "album": id = route.params.albumId
                     break
+                case "genre": id = route.params.genreId
+                    break
                 case "playlist": id = route.params.playlistId
                     break
                 default: id = 0

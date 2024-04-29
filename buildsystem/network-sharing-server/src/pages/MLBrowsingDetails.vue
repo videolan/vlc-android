@@ -44,9 +44,32 @@ export default {
         fetchTracks() {
             let component = this
             component.appStore.loading = true
-            let albumId = this.$route.params.albumId
-            this.$log.log(`Loading artist: ${albumId}`)
-            http.get(vlcApi.albumDetails(albumId))
+            let apiUrl = ''
+            switch (this.$route.name) {
+                case 'VideoGroupList':
+                case 'VideoFolderList':
+                    apiUrl = vlcApi.videoList(this.appStore.videoGrouping, this.$route.params.groupId, this.$route.params.folderId)
+                    break;
+                case 'ArtistDetails':
+                    apiUrl = vlcApi.artistDetails(this.$route.params.artistId)
+                    break;
+                case 'AlbumDetails':
+                    apiUrl = vlcApi.albumDetails(this.$route.params.albumId)
+                    break;
+                case 'GenreDetails':
+                    apiUrl = vlcApi.genreDetails(this.$route.params.genreId)
+                    break;
+                case 'PlaylistDetails':
+                    apiUrl = vlcApi.playlistDetails(this.$route.params.playlistId)
+                    break;
+            }
+
+            console.log(`url is ${apiUrl}`)
+
+
+
+
+            http.get(apiUrl)
                 .catch(function (error) {
                     if (error.response !== undefined && error.response.status == 403) {
                         component.forbidden = true;
@@ -56,7 +79,19 @@ export default {
                     this.loaded = true;
                     if (response) {
                         component.forbidden = false;
-                        this.tracks = response.data.tracks
+
+                        switch (this.$route.name) {
+                            case 'VideoGroupList':
+                            case 'VideoFolderList':
+                                this.tracks = response.data.content
+                                break;
+                            case 'ArtistDetails':
+                                this.tracks = response.data.albums
+                                break;
+                            default:
+                                this.tracks = response.data.tracks
+                                break;
+                        }
                     }
                     component.appStore.loading = false
                     component.appStore.title = response.data.name
@@ -66,12 +101,12 @@ export default {
         getEmptyText() {
             if (this.forbidden) return this.$t('FORBIDDEN')
             return this.$t('NO_MEDIA')
-        }
+        },
     },
     created: function () {
         this.fetchTracks();
     },
-    unmounted: function() {
+    unmounted: function () {
         console.log("unmounted")
         this.appStore.title = ''
     }

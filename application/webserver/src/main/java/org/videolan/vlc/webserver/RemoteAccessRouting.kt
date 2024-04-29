@@ -517,6 +517,25 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val gson = Gson()
             call.respondText(gson.toJson(result))
         }
+        // Get a genre details
+        get("/genre") {
+            verifyLogin(settings)
+            if (!settings.serveAudios(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
+            val id = call.request.queryParameters["id"]?.toLong() ?: 0L
+
+            val genre = appContext.getFromMl { getGenre(id) }
+
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            genre.tracks.forEach { track ->
+                list.add(track.toPlayQueueItem())
+            }
+            val result= RemoteAccessServer.AlbumResult(list, genre.title)
+            val gson = Gson()
+            call.respondText(gson.toJson(result))
+        }
         // Get an playlist details
         get("/playlist") {
             verifyLogin(settings)
@@ -858,6 +877,12 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                             id?.let { id ->
                                 val album = getAlbum(id.toLong())
                                 album.tracks
+                            }
+                        }
+                        "genre" -> {
+                            id?.let { id ->
+                                val genre = getGenre(id.toLong())
+                                genre.tracks
                             }
                         }
                         else -> getAudio(Medialibrary.SORT_DEFAULT, false, false, false)

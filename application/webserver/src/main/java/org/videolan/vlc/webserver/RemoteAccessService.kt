@@ -31,8 +31,11 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import io.ktor.server.netty.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
@@ -49,15 +52,42 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.NotificationHelper
 
 
-class RemoteAccessService : LifecycleService() {
+class RemoteAccessService : LifecycleService(), CoroutineScope by MainScope() {
 
     private lateinit var server: RemoteAccessServer
+    private val startServerActor = actor<String>(capacity = Channel.CONFLATED) {
+        for (entry in channel) {
+            when (entry) {
+                ACTION_STOP_SERVER -> {
+                    server.stop()
+                }
+                ACTION_START_SERVER -> {
+                    server.start()
+                }
+                ACTION_RESTART_SERVER ->{
+                    val observer = object : Observer<ServerStatus> {
+                        override fun onChanged(serverStatus: ServerStatus) {
+                            if (serverStatus == ServerStatus.STOPPED) {
+                                lifecycleScope.launch { server.start() }
+                                server.serverStatus.removeObserver(this)
+                            }
+                        }
+                    }
+                    server.serverStatus.observe(this@RemoteAccessService, observer)
+                    server.stop()
+                }
+            }
+        }
+    }
+
+
     private val receiver = object : BroadcastReceiver() {
         @SuppressLint("WakelockTimeout")
         override fun onReceive(context: Context, intent: Intent) {
+            if (!::server.isInitialized) return
             when (intent.action) {
                 ACTION_STOP_SERVER -> {
-                    lifecycleScope.launch { server.stop() }
+                    startServerActor.trySend(ACTION_STOP_SERVER)
                 }
                 ACTION_DISABLE_SERVER -> {
                     lifecycleScope.launch {
@@ -67,21 +97,10 @@ class RemoteAccessService : LifecycleService() {
                     }
                 }
                 ACTION_START_SERVER -> {
-                    lifecycleScope.launch { server.start() }
+                    startServerActor.trySend(ACTION_START_SERVER)
                 }
                 ACTION_RESTART_SERVER -> {
-                    lifecycleScope.launch {
-                        val observer = object : Observer<ServerStatus> {
-                            override fun onChanged(serverStatus: ServerStatus) {
-                                if (serverStatus == ServerStatus.STOPPED) {
-                                    lifecycleScope.launch { server.start() }
-                                    server.serverStatus.removeObserver(this)
-                                }
-                            }
-                        }
-                        server.serverStatus.observe(this@RemoteAccessService, observer)
-                        server.stop()
-                    }
+                    startServerActor.trySend(ACTION_RESTART_SERVER)
                 }
             }
         }
