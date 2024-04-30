@@ -12,6 +12,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.util.*
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import java.util.*
 import kotlin.math.floor
@@ -298,6 +299,12 @@ fun getTvDescComp(foldersFirst: Boolean): Comparator<MediaLibraryItem> = Compara
 }
 
 fun getFilenameAscComp(nbOfDigits: Int): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+    if (Settings.showTvUi && Settings.tvFoldersFirst) {
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+    }
     val type1 = (item1 as? MediaWrapper)?.type
     val type2 = (item2 as? MediaWrapper)?.type
     if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
@@ -309,6 +316,12 @@ fun getFilenameAscComp(nbOfDigits: Int): Comparator<MediaLibraryItem> = Comparat
 }
 
 fun getFilenameDescComp(nbOfDigits: Int): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+    if (Settings.showTvUi && Settings.tvFoldersFirst) {
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+    }
     val type1 = (item1 as? MediaWrapper)?.type
     val type2 = (item2 as? MediaWrapper)?.type
     if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
