@@ -954,6 +954,7 @@
     <string name="mark_as_played">Mark as played</string>
     <string name="mark_as_not_played">Mark as not played</string>
     <string name="mark_all_as_played">Mark all as played</string>
+    <string name="mark_all_as_not_played">Mark all as not played</string>
     <string name="new_group">New group</string>
     <string name="new_group_desc">Create a new group</string>
 

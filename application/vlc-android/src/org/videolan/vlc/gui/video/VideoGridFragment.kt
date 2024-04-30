@@ -544,6 +544,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_APPEND -> viewModel.append(position)
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
                 CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
+                CTX_MARK_ALL_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD
                 }
@@ -558,6 +559,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_RENAME_GROUP -> renameGroup(media)
                 CTX_UNGROUP -> lifecycleScope.launch { if (!requireActivity().showPinIfNeeded()) viewModel.ungroup(media) }
                 CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
+                CTX_MARK_ALL_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media).getAll(), true) {}
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD

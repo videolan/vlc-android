@@ -143,6 +143,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (flags.contains(CTX_MARK_AS_PLAYED)) add(Simple(CTX_MARK_AS_PLAYED, getString(R.string.mark_as_played), R.drawable.ic_mark_as_played))
         if (flags.contains(CTX_MARK_AS_UNPLAYED)) add(Simple(CTX_MARK_AS_UNPLAYED, getString(R.string.mark_as_not_played), R.drawable.ic_mark_as_not_played))
         if (flags.contains(CTX_MARK_ALL_AS_PLAYED)) add(Simple(CTX_MARK_ALL_AS_PLAYED, getString(R.string.mark_all_as_played), R.drawable.ic_mark_all_as_played))
+        if (flags.contains(CTX_MARK_ALL_AS_UNPLAYED)) add(Simple(CTX_MARK_ALL_AS_UNPLAYED, getString(R.string.mark_all_as_not_played), R.drawable.ic_mark_all_as_not_played))
         if (flags.contains(CTX_GO_TO_FOLDER)) add(Simple(CTX_GO_TO_FOLDER, getString(R.string.go_to_folder), R.drawable.ic_browse_parent))
         if (flags.contains(CTX_CUSTOM_REMOVE)) add(Simple(CTX_CUSTOM_REMOVE, getString(R.string.remove_custom_path), R.drawable.ic_delete))
         if (flags.contains(CTX_BAN_FOLDER)) add(Simple(CTX_BAN_FOLDER, getString(R.string.group_ban_folder), R.drawable.ic_hide_source))
