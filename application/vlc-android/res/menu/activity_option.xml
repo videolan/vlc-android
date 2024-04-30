@@ -64,6 +64,20 @@
             android:visible="true"/>
     <item
             android:orderInCategory="3"
+            android:id="@+id/ml_menu_display_list"
+            android:title="@string/display_in_list"
+            vlc:showAsAction="never"
+            android:icon="@drawable/ic_view_list"
+            android:visible="false"/>
+    <item
+            android:orderInCategory="3"
+            android:id="@+id/ml_menu_display_grid"
+            android:title="@string/display_in_grid"
+            vlc:showAsAction="never"
+            android:icon="@drawable/ic_view_grid"
+            android:visible="false"/>
+    <item
+            android:orderInCategory="3"
             android:id="@+id/ml_menu_scan"
             android:title="@string/add_to_scanned"
             vlc:showAsAction="ifRoom|collapseActionView"
