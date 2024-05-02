@@ -153,6 +153,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
     private fun changeSpeedTo(newValue: Float) {
         if (playbackService == null)
             return
+        if (newValue > 4.0F || newValue < 0.25F) return
         playbackService!!.setRate(newValue, true)
         setRateProgress()
     }
