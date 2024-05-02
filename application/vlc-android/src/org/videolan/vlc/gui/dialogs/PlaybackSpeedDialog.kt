@@ -104,10 +104,10 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
         binding.playbackSpeedSeek.setOnSeekBarChangeListener(seekBarListener)
         binding.playbackSpeedValue.setOnClickListener(resetListener)
-        binding.buttonSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(speedDownListener, lifecycle))
-        binding.buttonSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(speedUpListener, lifecycle))
-        binding.buttonSpeedMinus.setOnKeyListener(OnRepeatListenerKey(speedDownListener, lifecycle))
-        binding.buttonSpeedPlus.setOnKeyListener(OnRepeatListenerKey(speedUpListener, lifecycle))
+        binding.buttonSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(clickListener = speedDownListener, listenerLifecycle = lifecycle))
+        binding.buttonSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(clickListener = speedUpListener, listenerLifecycle = lifecycle))
+        binding.buttonSpeedMinus.setOnKeyListener(OnRepeatListenerKey(clickListener = speedDownListener, listenerLifecycle = lifecycle))
+        binding.buttonSpeedPlus.setOnKeyListener(OnRepeatListenerKey(clickListener = speedUpListener, listenerLifecycle = lifecycle))
         binding.buttonSpeed1.setOnClickListener {
             changeSpeedTo(1F)
         }

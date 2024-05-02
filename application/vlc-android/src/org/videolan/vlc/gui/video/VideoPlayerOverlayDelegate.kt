@@ -661,8 +661,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         hudBinding.playerOverlayForward.setOnClickListener(player)
         hudBinding.playerOverlayRewind.setOnLongClickListener(player)
         hudBinding.playerOverlayForward.setOnLongClickListener(player)
-        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(player, player.lifecycle))
-        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(player, player.lifecycle))
+        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(clickListener = player, listenerLifecycle = player.lifecycle))
+        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(clickListener = player, listenerLifecycle = player.lifecycle))
     }
 
     fun updateOrientationIcon() {
