@@ -30,6 +30,7 @@ import androidx.lifecycle.Lifecycle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.SchedulerCallback
+import kotlin.math.pow
 
 /**
  *
@@ -82,7 +83,11 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
     override fun onTaskTriggered(id: String, data: Bundle) {
         when(id) {
             ACTION_ONCLICK -> {
-                val interval = if (initialTime > -1L && System.currentTimeMillis() - initialTime > speedUpDelay) normalInterval.toLong() / 3 else normalInterval.toLong()
+                val interval = if (initialTime > -1L && System.currentTimeMillis() - initialTime > speedUpDelay) {
+                    val speedWeight = if (System.currentTimeMillis() - initialTime < speedUpDelay * 2) 1 else 2
+                    if (BuildConfig.DEBUG) Log.d("RepeatSpeed", "From start: ${System.currentTimeMillis() - initialTime}ms. speedWeight: $speedWeight. Interval: ${normalInterval.toLong() / (3F.pow(speedWeight.toInt())).toInt()}")
+                    normalInterval.toLong() / (3F.pow(speedWeight)).toInt()
+                } else normalInterval.toLong()
                 scheduler.scheduleAction(ACTION_ONCLICK, interval)
                 clickListener.onClick(downView)
             }
