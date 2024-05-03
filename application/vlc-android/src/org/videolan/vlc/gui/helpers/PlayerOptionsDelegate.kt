@@ -71,7 +71,7 @@ private const val ID_AUDIO_CONTROL_SETTING = 20L
 private const val ID_SAFE_MODE_LOCK = 21L
 private const val ID_SAFE_MODE_UNLOCK = 22L
 @SuppressLint("ShowToast")
-class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
+class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true)  {
 
     private lateinit var bookmarkClickedListener: () -> Unit
     private lateinit var recyclerview: RecyclerView
@@ -145,8 +145,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 if (recyclerview.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
                 else null // someone else will find the next focus
             }
-            service.lifecycle.addObserver(this)
-            activity.lifecycle.addObserver(this)
             if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             recyclerview.adapter = OptionsAdapter()
             recyclerview.itemAnimator = null
