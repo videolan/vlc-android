@@ -118,4 +118,10 @@ class MiniVisualizer : LinearLayout {
             stopSet.start()
         }
     }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        stop()
+    }
+
 }
