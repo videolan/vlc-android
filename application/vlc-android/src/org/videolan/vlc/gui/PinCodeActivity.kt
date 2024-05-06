@@ -30,6 +30,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
@@ -49,6 +50,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PinCodeActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
@@ -104,6 +106,7 @@ class PinCodeActivity : BaseActivity() {
                     updateFocus()
                     //focus next button on TV
                     if (Settings.tvUI && codeFilled) binding.nextButton.requestFocus()
+                    if (editText == binding.pinCode4 && pinTexts.filter { it.text?.isNotEmpty() == true }.size == 4) next()
                 }
             }
             editText.setOnKeyListener { v, keyCode, event ->
@@ -319,6 +322,7 @@ class PinCodeActivity : BaseActivity() {
                 return
             }
         }
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "nextStep: ${getPinCode()}", Exception("Give me a stacktrace"))
         model.nextStep(getPinCode())
         pinTexts.forEach { it.clearText() }
     }
