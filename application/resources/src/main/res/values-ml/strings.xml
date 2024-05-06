@@ -446,8 +446,6 @@
     <string name="restart_message">അപ്ലിക്കേഷൻ പുനരാരംഭിച്ചുകഴിഞ്ഞാൽ മാറ്റങ്ങൾ പ്രാബല്യത്തിൽ വരും.\n\nഇപ്പോൾ പുനരാരംഭിക്കണോ?</string>
     <string name="restart_message_OK">ശരി </string>
     <string name="restart_message_Later">പിന്നീട് </string>
-    <string name="browser_show_all_title">എല്ലാ ഫയലുകളും കാണിക്കുക </string>
-
     <string name="developer_prefs_category">ഡേവ്ലപ്പർ </string>
     <string name="enable_verbose_mode">വാചാലമായി</string>
     <string name="enable_verbose_mode_summary">വെർബോസിറ്റി കൂട്ടുക ( ലോഗ് കാറ്റ് )</string>

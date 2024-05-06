@@ -112,7 +112,6 @@
     <string name="nosubfolder">Không có thư mục con nào</string>
     <string name="directorynotfound">Không tìm thấy đường dẫn thư mục ‘%1$s‘.</string>
     <string name="nohistory">Bạn chưa có lịch sử phát.</string>
-
     <string name="cover_art">Ảnh bìa</string>
     <string name="shuffle_all_title">Xáo trộn tất cả</string>
     <string name="shuffle_title">Chế độ xáo trộn</string>
@@ -397,8 +396,6 @@
     <string name="restart_message">Thay đổi sẽ được áp dụng sau khi ứng dụng khởi động lại.\n\nKhởi động lại ngay ?</string>
     <string name="restart_message_OK">Đồng ý</string>
     <string name="restart_message_Later">Lúc nữa</string>
-    <string name="browser_show_all_title">Hiển thị tất cả tập tin</string>
-
     <string name="developer_prefs_category">Nhà phát triển</string>
     <string name="enable_verbose_mode">Chế độ chi tiết</string>
     <string name="enable_verbose_mode_summary">Tăng sự chi tiết (nhật ký)</string>

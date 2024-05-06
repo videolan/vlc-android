@@ -404,8 +404,6 @@
     <string name="restart_message">Kemeret e vo e kont ar c\'hemmoù ur wech ma vo adloc\'het an arload.\n\nAdloc\'hañ bremañ?</string>
     <string name="restart_message_OK">Mat eo</string>
     <string name="restart_message_Later">Diwezhatoc\'h</string>
-    <string name="browser_show_all_title">Diskouez an holl restroù</string>
-
     <string name="developer_prefs_category">Diorroer</string>
     <string name="enable_verbose_mode">Ragellerezh</string>
     <string name="enable_verbose_mode_summary">Kreskiñ ar ragellerezh (logcat)</string>

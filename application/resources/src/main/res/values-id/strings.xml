@@ -492,8 +492,6 @@
     <string name="restart_message">Perubahan akan berlaku setelah aplikasi dimulai ulang.\nMulai ulang sekarang?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Nanti</string>
-    <string name="browser_show_all_title">Perlihatkan semua berkas</string>
-
     <string name="developer_prefs_category">Pengembang</string>
     <string name="enable_verbose_mode">Tampilkan</string>
     <string name="enable_verbose_mode_summary">Tingkatkan verbositas (logcat)</string>

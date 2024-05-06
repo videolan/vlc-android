@@ -23,8 +23,15 @@
     <string name="searchable_hint">Chirca…</string>
     <string name="history">Cronologia</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">In antis su prus curtzu</string>
     <string name="sortby_length_desc">In antis su prus longu</string>
+    <string name="sortby_number_asc">Prus vìdeos in su grupu</string>
+    <string name="sortby_number_desc">Prus pagu vìdeos in su grupu</string>
+    <string name="sort_date_asc">In antis sos prus betzos</string>
+    <string name="sort_date_desc">In antis sos prus noos</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultadu agatadu</item>
         <item quantity="other">%d risultados agatados</item>
@@ -129,6 +136,8 @@
     <string name="nosubfolder">Peruna sutacartella</string>
     <string name="directorynotfound">Su percursu de sa cartella \'%1$s\' no est istadu agatadu.</string>
     <string name="nohistory">Non tenes galu una cronologia de sas riprodutziones.</string>
+    <string name="cant_ban_root">Non podes bandire una cartella de raighina</string>
+
     <string name="cover_art">Cobertedda</string>
     <string name="shuffle_all_title">Ammestura totu</string>
     <string name="shuffle_title">Ammestrura</string>
@@ -443,6 +452,7 @@
     <string name="remote_access_info">Informatziones de atzessu remotu</string>
     <string name="remote_access_content">Cuntenutos</string>
     <string name="remote_access_medialibrary_content">Cuntenutos sa biblioteca multimediale</string>
+    <string name="remote_access_medialibrary_content_summary">Abilitadu: %1$s\nDisabilitadu: %2$s</string>
     <string name="remote_access_file_browser_content">Esploradore de documentos</string>
     <string name="remote_access_network_browser_content">Navigadore de retza</string>
     <string name="remote_access_playback_control">Controlla sa riprodutzione</string>
@@ -512,7 +522,7 @@
     <string name="restart_message">Sas modìficas ant a tènnere efetu cando s\'aplicatzione at a èssere torrada a allùghere\n\n\Torrare a l\'allùghere como?</string>
     <string name="restart_message_OK">AB</string>
     <string name="restart_message_Later">Prus a tardu</string>
-    <string name="browser_show_all_title">Ammustra totu sos documentos</string>
+    <string name="browser_show_all_title">Mustra petzi sos documentos multimediales</string>
 
     <string name="developer_prefs_category">Isvilupadore</string>
     <string name="enable_verbose_mode">Verbosu</string>
@@ -529,6 +539,7 @@
     <string name="dump_logcat">Sarva log logcat</string>
     <string name="dump_logcat_success">Logcat sarvadu currettamente in %1$s!</string>
     <string name="dump_logcat_failure">Sarvatàgiu logcat fallidu.</string>
+    <string name="http_user_agent">Agente impreadore HTTP</string>
     <string name="custom_libvlc_options">Optziones libVLC personalizadas</string>
     <string name="custom_libvlc_options_invalid">Optziones libVLC non vàlidas!</string>
 
@@ -1093,6 +1104,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - tìtulu: %2$s - longària: %3$s</string>
     <string name="talkback_genre">Gènere: %s</string>
     <string name="talkback_history_item">Elementu de cronologia</string>
     <string name="talkback_playlist">Iscalita: %s</string>
@@ -1119,6 +1132,7 @@
     <string name="talkback_video_tracks">Rastas vìdeu</string>
     <string name="talkback_audio_tracks">Rastas àudio</string>
     <string name="talkback_subtitle_tracks">Rastas de sos sutatìtulos</string>
+    <string name="talkback_subtitle_dowload_item">Limba: %1$s. %2$s. Nùmene: %3$s</string>
     <string name="selected">Seletzionadu</string>
     <string name="talkback_increase_delay">Aumenta su ritardu</string>
     <string name="talkback_decrease_delay">Mìnima su ritardu</string>
@@ -1130,6 +1144,8 @@
     <string name="talkback_audio_player_collapsed">Leghidore àudio minimadu</string>
     <string name="talkback_audio_player_closed">Leghidore àudio serradu</string>
     <string name="talkback_audio_player">Leghidore àudio. In riprodutzione: %s</string>
+    <string name="talkback_out_of">%1$s de %2$s</string>
+    <string name="talkback_track_index">Rasta %1$s de %2$s</string>
     <string name="downloaded">Iscarrigadu</string>
     <string name="not_downloaded">No iscarrigadu</string>
     <string name="downloading">Iscarrighende</string>

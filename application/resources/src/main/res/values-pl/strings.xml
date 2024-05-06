@@ -417,8 +417,6 @@
     <string name="restart_message">Zmiany będą zaakceptowane po ponownym uruchomieniu aplikacji.\n\nZrestartować teraz?</string>
     <string name="restart_message_OK">Tak</string>
     <string name="restart_message_Later">Później</string>
-    <string name="browser_show_all_title">Pokaż wszystkie pliki</string>
-
     <string name="developer_prefs_category">Programisty</string>
     <string name="enable_verbose_mode">Szczegółowość</string>
     <string name="enable_verbose_mode_summary">Zwiększenie liczby komunikatów (logcat)</string>

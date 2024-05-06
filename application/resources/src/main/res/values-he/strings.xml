@@ -537,7 +537,7 @@
     <string name="restart_message">השינויים יחולו עם הפעלת היישום מחדש.\n\nלהפעיל מחדש כעת?</string>
     <string name="restart_message_OK">אישור</string>
     <string name="restart_message_Later">אחר כך</string>
-    <string name="browser_show_all_title">הצגת כל הקבצים</string>
+    <string name="browser_show_all_title">הצגת קובצי מולטימדיה בלבד</string>
 
     <string name="developer_prefs_category">למתכנתים</string>
     <string name="enable_verbose_mode">פירוט</string>

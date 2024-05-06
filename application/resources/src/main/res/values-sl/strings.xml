@@ -23,8 +23,15 @@
     <string name="searchable_hint">Poišči …</string>
     <string name="history">Zgodovina</string>
 
+    <string name="sort_alpha_asc">A → Ž</string>
+    <string name="sort_alpha_desc">Ž → A</string>
     <string name="sortby_length_asc">Najprej krajši</string>
     <string name="sortby_length_desc">Najprej daljši</string>
+    <string name="sortby_number_asc">Več videov v skupini</string>
+    <string name="sortby_number_desc">Manj videov v skupini</string>
+    <string name="sort_date_asc">Starejši naprej</string>
+    <string name="sort_date_desc">Novejši naprej</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d zadetek</item>
         <item quantity="two">%d zadetka</item>
@@ -147,6 +154,8 @@
     <string name="nosubfolder">Ni podmape</string>
     <string name="directorynotfound">Mape »%1$s« ni mogoče najti.</string>
     <string name="nohistory">Trenutno še ni zgodovine predvajanja.</string>
+    <string name="cant_ban_root">Korenske mape ni mogoče prepovedati</string>
+
     <string name="cover_art">Naslovnica</string>
     <string name="shuffle_all_title">Premešaj vse</string>
     <string name="shuffle_title">Premešani način</string>
@@ -322,6 +331,7 @@
     <string name="screen_orientation_landscape_sensor">Ležeče (senzor)</string>
     <string name="screen_orientation_last_locked">Zadnja zaklenjena orientacija</string>
     <string name="enable_black_theme">Črna tema</string>
+    <string name="dark_theme">Temna tema</string>
     <string name="theme_auto">Samodejna tema</string>
     <string name="subtitle_text_encoding">Kodiranje besedila podnapisov</string>
     <string name="subtitle_preferred_language">Prednostni jezik podnapisov</string>
@@ -462,6 +472,7 @@
     <string name="remote_access_info">Podatki oddaljenega dostopa</string>
     <string name="remote_access_content">Vsebina</string>
     <string name="remote_access_medialibrary_content">Vsebina knjižnice vsebin</string>
+    <string name="remote_access_medialibrary_content_summary">Omogočeno: %1$s\nOnemogočeno: %2$s</string>
     <string name="remote_access_file_browser_content">Datotečni brskalnik</string>
     <string name="remote_access_network_browser_content">Omrežni brskalnik</string>
     <string name="remote_access_playback_control">Krmiljenje predvajanja</string>
@@ -531,7 +542,7 @@
     <string name="restart_message">Spremembe bodo upoštevane ob naslednjem zagonu aplikacije.\n\nPonovni zagon?</string>
     <string name="restart_message_OK">V redu</string>
     <string name="restart_message_Later">Pozneje</string>
-    <string name="browser_show_all_title">Prikaži vse datoteke</string>
+    <string name="browser_show_all_title">Prikaži le večpredstavnostne vsebine</string>
 
     <string name="developer_prefs_category">Razvijalec</string>
     <string name="enable_verbose_mode">Podrobno</string>
@@ -548,6 +559,7 @@
     <string name="dump_logcat">Odloži dnevnik logcat</string>
     <string name="dump_logcat_success">Dnevnik logcat je uspešno odložen v %1$s!</string>
     <string name="dump_logcat_failure">Odlaganje dnevnika logcat je spodletelo.</string>
+    <string name="http_user_agent">HTTP uporabniški agent</string>
     <string name="custom_libvlc_options">Prilagojene možnosti za libVLC</string>
     <string name="custom_libvlc_options_invalid">Neveljavne možnosti za libVLC!</string>
 
@@ -1120,6 +1132,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - naslov: %2$s - dolžina: %3$s</string>
     <string name="talkback_genre">Zvrst: %s</string>
     <string name="talkback_history_item">Predmet zgodovine</string>
     <string name="talkback_playlist">Seznam predvajanja: %s</string>
@@ -1146,6 +1160,7 @@
     <string name="talkback_video_tracks">Video steze</string>
     <string name="talkback_audio_tracks">Zvočne steze</string>
     <string name="talkback_subtitle_tracks">Steze s podnapisi</string>
+    <string name="talkback_subtitle_dowload_item">Jezik: %1$s. %2$s. Ime: %3$s</string>
     <string name="selected">Izbrano</string>
     <string name="talkback_increase_delay">Povečaj zamik</string>
     <string name="talkback_decrease_delay">Zmanjšaj zamik</string>
@@ -1157,6 +1172,8 @@
     <string name="talkback_audio_player_collapsed">Zvočni predvajalnik je zložen</string>
     <string name="talkback_audio_player_closed">Zvočni predvajalnik je zaprt</string>
     <string name="talkback_audio_player">Zvočni predvajalnik. Trenutno se predvaja: %s</string>
+    <string name="talkback_out_of">%1$s od skupno%2$s</string>
+    <string name="talkback_track_index">Vsebina %1$s od skupno %2$s</string>
     <string name="downloaded">Preneseno</string>
     <string name="not_downloaded">Ni preneseno</string>
     <string name="downloading">Prenos poteka</string>

@@ -532,7 +532,7 @@
     <string name="restart_message">Le modifiche avranno effetto solo dopo il riavvio dell\'applicazione.\n\nVuoi riavviare ora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Più tardi</string>
-    <string name="browser_show_all_title">Mostra tutti i file</string>
+    <string name="browser_show_all_title">Mostra solo i file multimediali</string>
 
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verboso</string>

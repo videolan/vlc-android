@@ -23,8 +23,15 @@
     <string name="searchable_hint">Keresés…</string>
     <string name="history">Előzmények</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Legrövidebb elöl</string>
     <string name="sortby_length_desc">Leghosszabb elöl</string>
+    <string name="sortby_number_asc">Több videó a csoportban</string>
+    <string name="sortby_number_desc">Kevesebb videó a csoportban</string>
+    <string name="sort_date_asc">Legrégebbi elöl</string>
+    <string name="sort_date_desc">Legújabb elöl</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d találat</item>
         <item quantity="other">%d találat</item>
@@ -445,6 +452,7 @@
     <string name="remote_access_info">A távoli elérési információi</string>
     <string name="remote_access_content">Tartalom</string>
     <string name="remote_access_medialibrary_content">Médiatár tartalma</string>
+    <string name="remote_access_medialibrary_content_summary">Engedélyezve: %1$s\nLetiltva: %2$s</string>
     <string name="remote_access_file_browser_content">Fájlböngésző</string>
     <string name="remote_access_network_browser_content">Hálózatböngésző</string>
     <string name="remote_access_playback_control">Lejátszás vezérlése</string>
@@ -514,7 +522,7 @@
     <string name="restart_message">A változások az alkalmazás újraindítása után lépnek érvénybe.\n\nÚjraindítja most?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Később</string>
-    <string name="browser_show_all_title">Összes fájl megjelenítése</string>
+    <string name="browser_show_all_title">Csak a multimédiafájlok megjelenítése</string>
 
     <string name="developer_prefs_category">Fejlesztő</string>
     <string name="enable_verbose_mode">Részletes</string>
@@ -531,6 +539,7 @@
     <string name="dump_logcat">Logcat napló mentése</string>
     <string name="dump_logcat_success">Logcat sikeresen kimentve ide: %1$s!</string>
     <string name="dump_logcat_failure">Logcat mentése sikertelen.</string>
+    <string name="http_user_agent">HTTP felhasználói ügynök</string>
     <string name="custom_libvlc_options">Egyéni libVLC beállítások</string>
     <string name="custom_libvlc_options_invalid">Érvénytelen libVLC beállítások.</string>
 
@@ -1095,6 +1104,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s – cím: %2$s – időtartam: %3$s</string>
     <string name="talkback_genre">Műfaj: %s</string>
     <string name="talkback_history_item">Előzményelem</string>
     <string name="talkback_playlist">Lejátszási lista: %s</string>
@@ -1121,6 +1132,7 @@
     <string name="talkback_video_tracks">Videósávok</string>
     <string name="talkback_audio_tracks">Zeneszámok</string>
     <string name="talkback_subtitle_tracks">Feliratsávok</string>
+    <string name="talkback_subtitle_dowload_item">Nyelv: %1$s. %2$s. Név: %3$s</string>
     <string name="selected">Kiválasztva</string>
     <string name="talkback_increase_delay">Késleltetés növelése</string>
     <string name="talkback_decrease_delay">Késleltetés csökkentése</string>
@@ -1132,6 +1144,8 @@
     <string name="talkback_audio_player_collapsed">Zenelejátszó összecsukva</string>
     <string name="talkback_audio_player_closed">Zenelejátszó bezárva</string>
     <string name="talkback_audio_player">Zenelejátszó. Most játszott: %s</string>
+    <string name="talkback_out_of">%1$s / %2$s</string>
+    <string name="talkback_track_index">Szám: %1$s / %2$s</string>
     <string name="downloaded">Letöltve</string>
     <string name="not_downloaded">Nincs letöltve</string>
     <string name="downloading">Letöltés</string>

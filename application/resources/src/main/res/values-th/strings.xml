@@ -101,7 +101,6 @@
     <string name="nosubfolder">ไม่มีโฟลเดอร์ย่อย</string>
     <string name="directorynotfound">ไม่พบเส้นทางไดเรกทอรี \'%1$s\'</string>
     <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
-
     <string name="cover_art">ภาพหน้าปก</string>
     <string name="shuffle_all_title">เล่นทั้งหมดแบบสลับ</string>
     <string name="shuffle_title">โหมดสุ่มเล่น</string>
@@ -334,8 +333,6 @@
     <string name="restart_message">การเปลี่ยนแปลงจะมีผลเมื่อเริ่มการทำงานแอปพลิเคชันใหม่\n\nเริ่มการทำงานใหม่ตอนนี้หรือไม่</string>
     <string name="restart_message_OK">ตกลง</string>
     <string name="restart_message_Later">ภายหลัง</string>
-    <string name="browser_show_all_title">แสดงไฟล์ทั้งหมด</string>
-
     <string name="developer_prefs_category">นักพัฒนา</string>
     <string name="enable_verbose_mode">รายละเอียด</string>
     <string name="enable_verbose_mode_summary">เพิ่มรายละเอียด (บันทึก)</string>

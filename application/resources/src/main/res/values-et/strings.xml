@@ -420,8 +420,6 @@
     <string name="restart_message">Muutused jõustuvad peale rakenduse taaskäivitamist.\n\nTaaskäivita kohe?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Hiljem</string>
-    <string name="browser_show_all_title">Näita kõiki faile</string>
-
     <string name="developer_prefs_category">Arendaja</string>
     <string name="enable_verbose_mode">Jutukas</string>
     <string name="enable_verbose_mode_summary">Suurenda jutukust (logcat)</string>

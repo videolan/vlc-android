@@ -461,8 +461,6 @@
     <string name="restart_message">Breytingar munu taka gildi eftir að forritið hefur verið endurræst.\n\nEndurræsa núna?</string>
     <string name="restart_message_OK">Í lagi</string>
     <string name="restart_message_Later">Seinna</string>
-    <string name="browser_show_all_title">Birta allar skrár</string>
-
     <string name="developer_prefs_category">Forritari</string>
     <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
     <string name="enable_verbose_mode_summary">Auktu magn upplýsinga (verbosity / logcat)</string>
@@ -916,6 +914,9 @@
     <string name="widget_preferences">Stilla viðmótshluta</string>
     <string name="custom">Sérsniðið</string>
     <string name="widget_type">Tegund viðmótshluta</string>
+    <string name="widget_type_normal">Venjulegt</string>
+    <string name="widget_type_circle">Hringur</string>
+    <string name="widget_type_large">Stórt</string>
     <string name="opacity">Ógegnsæi</string>
     <string name="widget_background">Bakgrunnur</string>
     <string name="widget_foreground">Forgrunnur</string>
@@ -982,23 +983,38 @@
     <string name="talkback_display_settings">Stillingar skjás</string>
     <string name="talkback_already_played">Þegar spilað</string>
     <string name="show_only_favs">Sýna aðeins eftirlæti</string>
+    <string name="ra_remote_access">Fjaraðgangur</string>
+    <string name="ra_log_file">Atvikaskrár</string>
     <string name="ra_send_files">Senda skrár</string>
     <string name="ra_file">Skrá</string>
     <string name="ra_upload_remaining">Sendi inn %s skrár</string>
     <string name="ra_upload_all">Senda inn allt</string>
     <string name="ra_ssl_explanation_title">Óörugg tenging</string>
     <string name="ra_ssl_button">Nota örugga tengingu</string>
+    <string name="ra_new_code">Senda nýjan kóða</string>
     <string name="home">Heim</string>
+    <string name="ra_code">Settu inn þennan kóða: %s</string>
     <string name="ra_otp_not_me">Þetta er ekki ég</string>
 
+    <string name="ra_onboarding_how_title">Stýrðu tækinu þínu</string>
     <string name="ra_onboarding_ssl_title">Dulritun gagna</string>
     <string name="ra_onboarding_otp_title">Auðkenning</string>
+    <string name="ra_onboarding_content_title">Aðgangur að efni</string>
+    <string name="ra_onboarding_content_desc">Veldu að hverju aðgangur sé leyfður og hverju ekki</string>
+    <string name="ra_onboarding_content_ml">Aðgangur að efni margmiðlunarsafns</string>
     <string name="ra_onboarding_content_files">Skráavafri</string>
     <string name="ra_onboarding_content_playback">Stýring afspilunar</string>
     <string name="ra_disable">Gera óvirkt</string>
+    <string name="ra_log_web">Atvikaskráning fjaraðgangs</string>
+    <string name="ra_log_crash">Atvikaskráning hruna</string>
+    <string name="ra_log_mobile">Atvikaskráning tækis</string>
+    <string name="ra_log_current">Fyrirliggjandi atvikaskrár tækis</string>
+    <string name="ra_invalid_login">Þú þarft að skrá þig inn á tækið þitt</string>
+    <string name="ra_invalid_otp">Ógildur kóði gefinn</string>
     <string name="learn_more">Kanna nánar</string>
 
     <!-- car screens -->
     <string name="help">Hjálp</string>
+    <string name="podcast_mode">Hlaðvarpshamur</string>
     <string name="voice_control">Raddstýring</string>
     </resources>

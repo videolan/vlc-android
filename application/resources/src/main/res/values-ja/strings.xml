@@ -512,7 +512,7 @@
     <string name="restart_message">変更はアプリケーションの再起動後に有効になります。\n\n今すぐ再起動しますか?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">後で</string>
-    <string name="browser_show_all_title">すべてのファイルを表示</string>
+    <string name="browser_show_all_title">マルチメディアファイルのみ表示</string>
 
     <string name="developer_prefs_category">開発者</string>
     <string name="enable_verbose_mode">出力レベル</string>

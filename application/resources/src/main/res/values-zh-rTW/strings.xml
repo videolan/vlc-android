@@ -512,7 +512,7 @@
     <string name="restart_message">應用程式重新啟動後，變更才會生效。\n\n現在要重新啟動嗎？</string>
     <string name="restart_message_OK">確定</string>
     <string name="restart_message_Later">稍後</string>
-    <string name="browser_show_all_title">顯示所有檔案</string>
+    <string name="browser_show_all_title">僅顯示多媒體檔案</string>
 
     <string name="developer_prefs_category">開發者</string>
     <string name="enable_verbose_mode">Verbose</string>

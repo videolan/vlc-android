@@ -23,8 +23,15 @@
     <string name="searchable_hint">Vyhľadávať…</string>
     <string name="history">História</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Od najkratšieho</string>
     <string name="sortby_length_desc">Od najdlhšieho</string>
+    <string name="sortby_number_asc">Viac videí v skupine</string>
+    <string name="sortby_number_desc">Menej videí v skupine</string>
+    <string name="sort_date_asc">Najskôr najstaršie</string>
+    <string name="sort_date_desc">Najskôr najnovšie</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">Nájdený %d výsledok</item>
         <item quantity="few">Počet nájdených výsledkov: %d</item>
@@ -535,7 +542,7 @@
     <string name="restart_message">Zmeny sa prejavia po reštartovaní aplikácie.\n\nReštartovať teraz?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Neskôr</string>
-    <string name="browser_show_all_title">Zobraziť všetky súbory</string>
+    <string name="browser_show_all_title">Zobraziť len multimediálne súbory</string>
 
     <string name="developer_prefs_category">Vývojár</string>
     <string name="enable_verbose_mode">Komunikatívnosť</string>
@@ -552,6 +559,7 @@
     <string name="dump_logcat">Analyzovať denník logcat</string>
     <string name="dump_logcat_success">Denník logcat bol úspešne analyzovaný a uložený do %1$s!</string>
     <string name="dump_logcat_failure">Nepodarilo sa analyzovať denník logcat.</string>
+    <string name="http_user_agent">Používateľský agent HTTP</string>
     <string name="custom_libvlc_options">Používateľské nastavenia libVLC</string>
     <string name="custom_libvlc_options_invalid">Neplatné nastavenia libVLC!</string>
 

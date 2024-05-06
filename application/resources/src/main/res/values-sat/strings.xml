@@ -129,7 +129,6 @@
     <string name="nosubfolder">ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱵᱟᱹᱱᱩᱜᱼᱟ</string>
     <string name="directorynotfound">%1$s ᱩᱱᱩᱫᱩᱜ ᱡᱟᱭᱜᱟ ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ ᱾</string>
     <string name="nohistory">ᱟᱢ ᱴᱷᱮᱱ ᱚᱠᱟ ᱯᱞᱮᱵᱮᱠ ᱱᱟᱜᱟᱢ ᱵᱟᱹᱱᱩᱜᱟ ᱾</string>
-
     <string name="cover_art">ᱠᱚᱵᱷᱟᱹᱨ ᱟᱨᱴ</string>
     <string name="shuffle_all_title">ᱡᱷᱚᱛᱚ ᱯᱷᱮᱱᱴᱟᱣ ᱢᱮ</string>
     <string name="shuffle_title">ᱯᱷᱮᱱᱴᱟᱣ ᱢᱳᱰ</string>
@@ -389,8 +388,6 @@
     <string name="restart_message">ᱵᱚᱫᱚᱞ ᱠᱚ ᱫᱚ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱫᱩᱦᱲᱟᱹ ᱮᱦᱚᱵ ᱯᱚᱨᱮ ᱮᱢᱚᱜᱼᱚᱜ ᱟ ᱾\n\nᱱᱤᱛᱚᱜ ᱫᱩᱦᱲᱟᱹ ᱮᱦᱚᱵ ᱢᱮ?</string>
     <string name="restart_message_OK">ᱴᱷᱤᱠ</string>
     <string name="restart_message_Later">ᱛᱟᱭᱚᱢ ᱛᱮ</string>
-    <string name="browser_show_all_title">ᱥᱟᱱᱟᱢ ᱨᱮᱫ ᱠᱚ ᱩᱫᱩᱜ</string>
-
     <string name="developer_prefs_category">ᱰᱮᱵᱷᱞᱚᱯᱟᱹᱨ</string>
     <string name="enable_verbose_mode">ᱵᱽᱷᱟᱹᱨᱵᱚᱡᱽ</string>
     <string name="enable_verbose_mode_summary">ᱵᱷᱟᱹᱨᱵᱚᱥᱤᱴᱭ ᱵᱚᱰᱷᱟᱣ ᱢᱮ (ᱞᱚᱜᱠᱮᱴ)</string>

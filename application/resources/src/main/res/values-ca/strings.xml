@@ -522,7 +522,7 @@
     <string name="restart_message">Els canvis s\'aplicaran quan es reiniciï l\'aplicació.\n\nReinici ara mateix?</string>
     <string name="restart_message_OK">D\'acord</string>
     <string name="restart_message_Later">Després</string>
-    <string name="browser_show_all_title">Mostra tots els fitxers</string>
+    <string name="browser_show_all_title">Mostra només els fitxers multimèdia</string>
 
     <string name="developer_prefs_category">Desenvolupador</string>
     <string name="enable_verbose_mode">Detallat</string>
@@ -539,6 +539,7 @@
     <string name="dump_logcat">Bolca el registre logcat</string>
     <string name="dump_logcat_success">S\'ha bolcat satisfactòriament el registre logcat a %1$s!</string>
     <string name="dump_logcat_failure">No s\'ha pogut bolcar el logcat.</string>
+    <string name="http_user_agent">Agent d\'usuari HTTP</string>
     <string name="custom_libvlc_options">Opcions personalitzades libVLC</string>
     <string name="custom_libvlc_options_invalid">Opcions invàlides libVLC!</string>
 

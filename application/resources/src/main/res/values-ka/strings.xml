@@ -473,8 +473,6 @@
     <string name="restart_message">ცვლილებები აისახება ხელახლა გაშვების შემდგომ.\n\nახლავე გაეშვას?</string>
     <string name="restart_message_OK">კარგი</string>
     <string name="restart_message_Later">მოგვიანებით</string>
-    <string name="browser_show_all_title">ყველა ფაილის გამოჩენა</string>
-
     <string name="developer_prefs_category">შემმუშავებლისთვის</string>
     <string name="enable_verbose_mode">განვრცობა</string>
     <string name="enable_verbose_mode_summary">მეტად დაწვრილებითი აღრიცხვა (logcat)</string>

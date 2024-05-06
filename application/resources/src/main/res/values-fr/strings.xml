@@ -532,7 +532,7 @@
     <string name="restart_message">Les changements ne seront pris en compte qu’après le redémarrage de l’application.\n\nRedémarrer maintenant ?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Plus tard</string>
-    <string name="browser_show_all_title">Afficher tous les fichiers</string>
+    <string name="browser_show_all_title">Afficher uniquement les fichiers multimédias</string>
 
     <string name="developer_prefs_category">Développeur</string>
     <string name="enable_verbose_mode">Verbosité</string>

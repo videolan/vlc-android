@@ -493,8 +493,6 @@
     <string name="restart_message">Wijzigingen zullen van kracht worden van zodra de toepassing opnieuw gestart is.\n\nNu opnieuw starten?</string>
     <string name="restart_message_OK">Ok</string>
     <string name="restart_message_Later">Later</string>
-    <string name="browser_show_all_title">Alle bestanden weergeven</string>
-
     <string name="developer_prefs_category">Ontwikkelaar</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
     <string name="enable_verbose_mode_summary">Verbosity verhogen (logcat)</string>

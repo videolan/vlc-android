@@ -472,8 +472,6 @@
     <string name="restart_message">Mabadiliko yatafanywa programu itakapoanzishwa tena\n\nAnzisha tena sasa hivi?</string>
     <string name="restart_message_OK">Sawa</string>
     <string name="restart_message_Later">Baadaye</string>
-    <string name="browser_show_all_title">Onyesha faili zote</string>
-
     <string name="developer_prefs_category">Msanidi</string>
     <string name="enable_verbose_mode">Utondoti</string>
     <string name="enable_verbose_mode_summary">Ongeza kiwango cha maneno (kwenye logcat)</string>

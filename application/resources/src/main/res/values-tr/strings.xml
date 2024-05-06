@@ -522,7 +522,7 @@
     <string name="restart_message">Değişikliklerin geçerli olması için uygulama yeniden başlatılmalıdır.\n\nYeniden başlatılsın mı?</string>
     <string name="restart_message_OK">Tamam</string>
     <string name="restart_message_Later">Sonra</string>
-    <string name="browser_show_all_title">Tüm dosyaları görüntüle</string>
+    <string name="browser_show_all_title">Yalnızca çoklu ortam dosyaları görüntülensin</string>
 
     <string name="developer_prefs_category">Geliştirici</string>
     <string name="enable_verbose_mode">Ayrıntıları görüntüle</string>
@@ -539,6 +539,7 @@
     <string name="dump_logcat">Logcat günlüğü indirilsin</string>
     <string name="dump_logcat_success">Logcat, %1$s dosyasına yazıldı!</string>
     <string name="dump_logcat_failure">Logcat indirilemedi.</string>
+    <string name="http_user_agent">HTTP kullanıcı uygulaması</string>
     <string name="custom_libvlc_options">Özel libVLC ayarları</string>
     <string name="custom_libvlc_options_invalid">libVLC ayarları geçersiz!</string>
 

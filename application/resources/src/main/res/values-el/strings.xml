@@ -483,8 +483,6 @@
     <string name="restart_message">Οι αλλαγές θα πραγματοποιηθούν όταν η εφαρμογή επανεκκινηθεί.\n\nΕπανεκκίνηση τώρα;</string>
     <string name="restart_message_OK">Εντάξει</string>
     <string name="restart_message_Later">Αργότερα</string>
-    <string name="browser_show_all_title">Εμφάνιση όλων των αρχείων</string>
-
     <string name="developer_prefs_category">Για προγραμματιστές</string>
     <string name="enable_verbose_mode">Αναλυτικότητα</string>
     <string name="enable_verbose_mode_summary">Αυξήστε την αναλυτικότητα (logcat)</string>

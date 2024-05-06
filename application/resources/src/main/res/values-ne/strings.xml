@@ -378,8 +378,6 @@
     <string name="restart_message">एकपटक अनुप्रयोग पुनः सुरु भएपछि परिवर्तन प्रभावी हुनेछ।\n\nअहिले नै पुनः सुरु गर्ने हो?</string>
     <string name="restart_message_OK">ठीक</string>
     <string name="restart_message_Later">पछि</string>
-    <string name="browser_show_all_title">सबै फाइलहरू देखाउनुहोस्</string>
-
     <string name="developer_prefs_category">डेभलपर</string>
     <string name="enable_verbose_mode">वाचाल</string>
     <string name="enable_verbose_mode_summary">वर्बोसिटी (लगक्याट) वृद्धि गर्नुहोस्</string>

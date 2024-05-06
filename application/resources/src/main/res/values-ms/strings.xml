@@ -23,8 +23,15 @@
     <string name="searchable_hint">Gelintar…</string>
     <string name="history">Sejarah</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Paling pendek dahulu</string>
     <string name="sortby_length_desc">Paling panjang dahulu</string>
+    <string name="sortby_number_asc">Lagi video dalam kumpulan</string>
+    <string name="sortby_number_desc">Kurang video dalam kumpulan</string>
+    <string name="sort_date_asc">Paling lama dahulu</string>
+    <string name="sort_date_desc">Paling baharu dahulu</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d keputusan ditemui</item>
     </plurals>
@@ -505,8 +512,6 @@
     <string name="restart_message">Perubahan akan berkesan sebaik sahaja aplikasi dimulakan semula.\n\nMula Semula sekarang?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Kemudian</string>
-    <string name="browser_show_all_title">Tunjuk semua fail</string>
-
     <string name="developer_prefs_category">Pembangun</string>
     <string name="enable_verbose_mode">Berjela</string>
     <string name="enable_verbose_mode_summary">TIngkatkan kejelaan (logcat)</string>
@@ -522,6 +527,7 @@
     <string name="dump_logcat">Longgok log logcat</string>
     <string name="dump_logcat_success">Logcat berjaya dilonggok ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal longgokkan logcat.</string>
+    <string name="http_user_agent">Ejen pengguna HTTP</string>
     <string name="custom_libvlc_options">Pilihan libVLC suai</string>
     <string name="custom_libvlc_options_invalid">Pilihan libVLC tidak sah!</string>
 
