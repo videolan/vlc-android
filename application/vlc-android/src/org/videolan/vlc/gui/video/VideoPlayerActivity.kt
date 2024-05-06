@@ -2309,6 +2309,18 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     open fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                NetworkConnectionManager.isMetered.observe(this) {
+                    val meteredAction =(settings.getString("metered_connection", "0") ?: "0").toInt()
+                    if (it && meteredAction != 0 && isSchemeStreaming(service.currentMediaLocation)) {
+                        if (meteredAction == 1) {
+                            stop()
+                            Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
+                            finish()
+                        } else UiTools.snacker(this, R.string.metered_connection_warning)
+                    }
+                }
+            }
             this.service = service
             if (savedMediaList != null && service.currentMediaWrapper == null) {
                 service.append(savedMediaList!!, savedMediaIndex)

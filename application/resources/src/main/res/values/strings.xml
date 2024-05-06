@@ -1242,6 +1242,8 @@
     <string name="network" >Network</string>
     <string name="metered_connection">Action for streams when the connection is metered</string>
     <string name="metered_do_nothing">Do nothing</string>
-    <string name="metered_stop">Pause playback</string>
+    <string name="metered_stop">Stop playback</string>
     <string name="metered_warn">Warn me (the warning may be missed for audio playback)</string>
+    <string name="metered_connection_stopped">Media stopped because the connection is metered</string>
+    <string name="metered_connection_warning">Your connection is metered. Fees may apply.</string>
 </resources>
