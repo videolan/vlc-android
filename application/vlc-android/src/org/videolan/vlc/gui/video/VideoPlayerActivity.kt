@@ -970,25 +970,36 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 videoLayout?.findViewById<FrameLayout>(R.id.player_surface_frame)?.let {
                     val surfaceView = it.findViewById<SurfaceView>(R.id.surface_video)
                     surfaceView?.let { surface ->
-                        val width = service?.currentVideoTrack?.getWidth() ?: surface.width
-                        val height = service?.currentVideoTrack?.getHeight() ?: surface.height
-                        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-                        val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
-                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.toFile().mkdirs()
-                        val dst = File(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.path + "/vlc_${simpleDateFormat.format(Date())}.jpg")
+                        var width = 0
+                        var height = 0
+                        service?.currentVideoTrack?.let {
+                            width = it.getWidth()
+                            height = it.getHeight()
+                        }
+                        if (width == 0) width = surface.width
+                        if (height == 0) height = surface.width
+                        try {
+                            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                            val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
+                            AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.toFile().mkdirs()
+                            val dst = File(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_SCREENSHOTS_URI_DIRECTORY.path + "/vlc_${simpleDateFormat.format(Date())}.jpg")
 
-                        PixelCopy.request(surface, bitmap, { copyResult ->
-                            if (copyResult != 0) {
-                                UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
-                                return@request
-                            }
-                            val coords = IntArray(2)
-                            surfaceView.getLocationOnScreen(coords)
-                            if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath))
-                                screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
-                            else
-                                UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
-                        }, Handler(Looper.getMainLooper()))
+                            PixelCopy.request(surface, bitmap, { copyResult ->
+                                if (copyResult != 0) {
+                                    UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
+                                    return@request
+                                }
+                                val coords = IntArray(2)
+                                surfaceView.getLocationOnScreen(coords)
+                                if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath))
+                                    screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
+                                else
+                                    UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
+                            }, Handler(Looper.getMainLooper()))
+                        } catch (e: Exception) {
+                            Log.e(TAG, e.message, e)
+                            UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
+                        }
                     }
                 }
 
