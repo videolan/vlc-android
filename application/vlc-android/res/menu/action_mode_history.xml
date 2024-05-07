@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_history_info"
-        android:visible="false"
-        android:title="@string/info"
+            android:id="@+id/action_history_info"
             android:icon="@drawable/ic_information"
-        app:showAsAction="always"/>
+            android:title="@string/info"
+            android:visible="false"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_history_play"
-        android:title="@string/play"
+            android:id="@+id/action_history_play"
             android:icon="@drawable/ic_play"
-        app:showAsAction="always" />
+            android:title="@string/play"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_history_append"
-        android:title="@string/append"
+            android:id="@+id/action_history_append"
             android:icon="@drawable/ic_play_append"
-        app:showAsAction="always" />
+            android:title="@string/append"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_go_to_folder"
-        android:title="@string/go_to_folder"
+            android:id="@+id/action_go_to_folder"
             android:icon="@drawable/ic_go_to_folder"
-        app:showAsAction="always" />
+            android:title="@string/go_to_folder"
+            app:showAsAction="always" />
 </menu>

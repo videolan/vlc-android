@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ *************************************************************************
   ~  activity_prefs.xml
   ~ **************************************************************************
@@ -24,21 +23,21 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:vlc="http://schemas.android.com/apk/res-auto">
+        xmlns:vlc="http://schemas.android.com/apk/res-auto">
 
 
     <item
-            android:orderInCategory="1"
             android:id="@+id/menu_pref_search"
             android:icon="@drawable/ic_search"
+            android:orderInCategory="1"
             android:title="@string/searchable_hint"
-            vlc:showAsAction="always|collapseActionView"/>
+            vlc:showAsAction="always|collapseActionView" />
 
     <item
-            android:orderInCategory="2"
             android:id="@+id/menu_remote_access_onboarding"
             android:icon="@drawable/ic_information"
+            android:orderInCategory="2"
             android:title="@string/ra_remote_access"
             android:visible="false"
-            vlc:showAsAction="always|collapseActionView"/>
+            vlc:showAsAction="always|collapseActionView" />
 </menu>

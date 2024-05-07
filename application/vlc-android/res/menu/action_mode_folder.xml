@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_folder_play"
-        android:title="@string/play"
+            android:id="@+id/action_folder_play"
             android:icon="@drawable/ic_play"
-        app:showAsAction="always" />
+            android:title="@string/play"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_folder_append"
-        android:title="@string/append"
+            android:id="@+id/action_folder_append"
             android:icon="@drawable/ic_play_append"
-        app:showAsAction="always" />
+            android:title="@string/append"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_folder_add_playlist"
-        android:title="@string/add_to_playlist"
+            android:id="@+id/action_folder_add_playlist"
             android:icon="@drawable/ic_add_to_playlist"
-        app:showAsAction="always"/>
+            android:title="@string/add_to_playlist"
+            app:showAsAction="always" />
     <item
             android:id="@+id/action_video_delete"
-            android:title="@string/delete"
             android:icon="@drawable/ic_delete"
+            android:title="@string/delete"
             app:showAsAction="ifRoom" />
     <item
-        android:orderInCategory="6"
-        android:title="@string/favorites_add"
-        app:showAsAction="never"
-        android:id="@+id/action_mode_favorite_add" />
+            android:id="@+id/action_mode_favorite_add"
+            android:orderInCategory="6"
+            android:title="@string/favorites_add"
+            app:showAsAction="never" />
     <item
-        android:orderInCategory="6"
-        android:title="@string/favorites_remove"
-        app:showAsAction="never"
-        android:id="@+id/action_mode_favorite_remove" />
+            android:id="@+id/action_mode_favorite_remove"
+            android:orderInCategory="6"
+            android:title="@string/favorites_remove"
+            app:showAsAction="never" />
 </menu>
