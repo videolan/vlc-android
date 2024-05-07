@@ -49,6 +49,9 @@
     <color name="grey875">#2a2a2a</color>
     <color name="grey900">#212121</color>
 
+    <color name="action_mode_dark">@color/grey875</color>
+    <color name="action_mode_light">#fff3e0</color>
+
 
     <color name="dark_background">#131313</color>
 
