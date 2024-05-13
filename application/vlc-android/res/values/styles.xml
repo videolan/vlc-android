@@ -494,6 +494,7 @@
         <item name="colorControlHighlight">@color/orange500</item>
         <item name="player_icon_color">@color/grey50</item>
         <item name="background_audio_tips">@color/white_transparent_95</item>
+        <item name="audio_seek_bar">@drawable/audio_seekbar_black</item>
     </style>
 
     <style name="VLCTransparentTheme" parent="VLCTransparentThemeLight" />
