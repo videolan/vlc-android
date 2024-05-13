@@ -53,6 +53,7 @@ import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.CANCEL
 import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.NO_OPTION
 import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.OPTION_KEY
 import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.REQUEST_KEY
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
@@ -235,6 +236,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         if (alreadyAdding.getAndSet(true)) return
         val name = binding.dialogPlaylistName.editText?.text?.toString()?.trim { it <= ' ' }
                 ?: return
+        UiTools.setKeyboardVisibility(binding.dialogPlaylistName, false)
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { medialibrary.getPlaylistByName(name) }?.let {
                 binding.dialogPlaylistName.error = getString(R.string.playlist_existing, it.title)
