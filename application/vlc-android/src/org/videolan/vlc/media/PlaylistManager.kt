@@ -268,9 +268,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             service.showNotification()
         }
         if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && getCurrentMedia()?.type == MediaWrapper.TYPE_AUDIO && !shuffling && canShuffle()) shuffle()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            service.checkMetered(NetworkConnectionManager.isMetered.value ?: false)
-        }
     }
 
     @Volatile

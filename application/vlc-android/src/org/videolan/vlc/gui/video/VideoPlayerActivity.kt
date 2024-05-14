@@ -27,27 +27,50 @@ import android.app.KeyguardManager
 import android.app.PictureInPictureParams
 import android.bluetooth.BluetoothA2dp
 import android.bluetooth.BluetoothHeadset
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
+import android.os.Parcelable
+import android.os.PowerManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Rational
-import android.view.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.PixelCopy
+import android.view.Surface
+import android.view.SurfaceView
+import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -76,9 +99,14 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
@@ -89,13 +117,64 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.EXIT_PLAYER
+import org.videolan.resources.MOBILE_MAIN_ACTIVITY
+import org.videolan.resources.PLAYLIST_TYPE_ALL
+import org.videolan.resources.PLAY_DISABLE_HARDWARE
+import org.videolan.resources.PLAY_EXTRA_FROM_START
+import org.videolan.resources.PLAY_EXTRA_ITEM_LOCATION
+import org.videolan.resources.PLAY_EXTRA_ITEM_TITLE
+import org.videolan.resources.PLAY_EXTRA_OPENED_POSITION
+import org.videolan.resources.PLAY_EXTRA_START_TIME
+import org.videolan.resources.PLAY_EXTRA_SUBTITLES_LOCATION
+import org.videolan.resources.PLAY_FROM_SERVICE
+import org.videolan.resources.PLAY_FROM_VIDEOGRID
+import org.videolan.resources.TV_AUDIOPLAYER_ACTIVITY
+import org.videolan.resources.buildPkgString
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableList
-import org.videolan.tools.*
-import org.videolan.vlc.*
+import org.videolan.tools.AUDIO_BOOST
+import org.videolan.tools.AUDIO_PREFERRED_LANGUAGE
+import org.videolan.tools.BRIGHTNESS_VALUE
+import org.videolan.tools.DISPLAY_UNDER_NOTCH
+import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
+import org.videolan.tools.ENABLE_DOUBLE_TAP_PLAY
+import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
+import org.videolan.tools.ENABLE_SCALE_GESTURE
+import org.videolan.tools.ENABLE_SEEK_BUTTONS
+import org.videolan.tools.ENABLE_SWIPE_SEEK
+import org.videolan.tools.ENABLE_VOLUME_GESTURE
+import org.videolan.tools.KEY_VIDEO_APP_SWITCH
+import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
+import org.videolan.tools.LAST_LOCK_ORIENTATION
+import org.videolan.tools.LOCK_USE_SENSOR
+import org.videolan.tools.POPUP_FORCE_LEGACY
+import org.videolan.tools.PREF_TIPS_SHOWN
+import org.videolan.tools.SAVE_BRIGHTNESS
+import org.videolan.tools.SCREENSHOT_MODE
+import org.videolan.tools.SCREEN_ORIENTATION
+import org.videolan.tools.SUBTITLE_PREFERRED_LANGUAGE
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_PAUSED
+import org.videolan.tools.VIDEO_RATIO
+import org.videolan.tools.VIDEO_RESUME_TIME
+import org.videolan.tools.VIDEO_RESUME_URI
+import org.videolan.tools.VIDEO_TRANSITION_SHOW
+import org.videolan.tools.dp
+import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.isStarted
+import org.videolan.tools.isVisible
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setInvisible
+import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.getAllTracks
+import org.videolan.vlc.getSelectedVideoTrack
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
@@ -104,7 +183,11 @@ import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.BitmapUtil
+import org.videolan.vlc.gui.helpers.KeycodeListener
+import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
@@ -115,21 +198,28 @@ import org.videolan.vlc.media.VideoResumeStatus
 import org.videolan.vlc.media.WaitConfirmation
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.FileUtils.getUri
+import org.videolan.vlc.util.FrameRateManager
+import org.videolan.vlc.util.IDialogManager
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.LocaleUtil.localeEquivalent
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.hasNotch
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.io.File
-import java.lang.Runnable
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 import kotlin.math.roundToInt
 
 
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
+    private var warnMetered = false
     var hasPhysicalNotch: Boolean = false
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope: CoroutineScope
@@ -2309,18 +2399,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     open fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                NetworkConnectionManager.isMetered.observe(this) {
-                    val meteredAction =(settings.getString("metered_connection", "0") ?: "0").toInt()
-                    if (it && meteredAction != 0 && isSchemeStreaming(service.currentMediaLocation)) {
-                        if (meteredAction == 1) {
-                            stop()
-                            Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
-                            finish()
-                        } else UiTools.snacker(this, R.string.metered_connection_warning)
-                    }
-                }
-            }
             this.service = service
             if (savedMediaList != null && service.currentMediaWrapper == null) {
                 service.append(savedMediaList!!, savedMediaIndex)

@@ -20,6 +20,7 @@
 package org.videolan.vlc
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.KeyguardManager
 import android.app.Notification
 import android.app.NotificationManager
@@ -153,6 +154,7 @@ import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -766,17 +768,20 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
     }
 
-    fun checkMetered(it: Boolean) {
+    private fun checkMetered(metered: Boolean, activity: Activity? = null) {
+        if (!metered) return
         val meteredAction = (settings.getString("metered_connection", "0") ?: "0").toInt()
-        if (isVideoPlaying) {
-            //delegated to the VideoPlayerActivity
-            return
-        }
-        if (it && meteredAction != 0 && isSchemeStreaming(currentMediaLocation)) {
+        if (meteredAction != 0 && isSchemeStreaming(currentMediaLocation)) {
             if (meteredAction == 1) {
                 stop()
                 Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
-            } else Toast.makeText(this, R.string.metered_connection_warning, Toast.LENGTH_LONG).show()
+            } else {
+                AppContextProvider.currentActivity?.let {
+                    UiTools.snacker(it, R.string.metered_connection_warning)
+                } ?: run {
+                    Toast.makeText(this, R.string.metered_connection_warning, Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

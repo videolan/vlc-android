@@ -24,6 +24,7 @@
 
 package org.videolan.resources
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
@@ -34,6 +35,9 @@ import java.lang.reflect.InvocationTargetException
 object AppContextProvider {
 
     private lateinit var context: Context
+    var currentActivity: Activity? = null
+
+
     // Property to get the new locale only on restart to prevent change the locale partially on runtime
     var locale: String? = ""
         private set
