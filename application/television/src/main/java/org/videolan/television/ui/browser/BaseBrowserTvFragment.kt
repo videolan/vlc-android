@@ -136,7 +136,6 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         }
 
         val sortClick: (View) -> Unit = { v ->
-            animationDelegate.setVisibility(binding.headerButton, View.GONE)
             sort(v)
         }
 
