@@ -336,7 +336,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
-        animationDelegate.collapseExtendedFAB()
+        if (animationDelegate.isFABExpanded()) animationDelegate.collapseExtendedFAB()
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
                 sortBy(Medialibrary.SORT_ALPHA)
