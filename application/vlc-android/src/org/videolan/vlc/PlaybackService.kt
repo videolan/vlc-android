@@ -782,7 +782,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (meteredAction != 0 && isSchemeStreaming(currentMediaLocation)) {
             if (meteredAction == 1) {
                 stop()
-                Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
+                //we also check if the current activity is AudioPlayerContainerActivity to avoid displaying the
+                //snackbar in the VideoPlayerActivity that will be closed by the call to stop()
+                (AppContextProvider.currentActivity as? AudioPlayerContainerActivity)?.let {activity ->
+                    UiTools.snackerConfirm(activity, getString(R.string.metered_connection_stopped), overAudioPlayer = activity.isAudioPlayerExpanded, confirmMessage = R.string.preferences) {
+                        lifecycleScope.launch {
+                            PreferencesActivity.launchWithPref(activity as FragmentActivity, "metered_connection")
+                        }
+                    }
+                } ?: run {
+                    Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
+                }
             } else {
                 AppContextProvider.currentActivity?.let {activity ->
                     UiTools.snackerConfirm(activity, getString(R.string.metered_connection_warning), overAudioPlayer = activity is AudioPlayerContainerActivity && activity.isAudioPlayerExpanded, confirmMessage = R.string.preferences) {
