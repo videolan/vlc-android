@@ -150,6 +150,7 @@ import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.getResourceUri
 import org.videolan.tools.readableSize
 import org.videolan.vlc.car.VLCCarService
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -782,7 +783,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
             } else {
                 AppContextProvider.currentActivity?.let {
-                    UiTools.snacker(it, R.string.metered_connection_warning)
+                    UiTools.snacker(it, R.string.metered_connection_warning, it is AudioPlayerContainerActivity && it.isAudioPlayerExpanded)
                 } ?: run {
                     Toast.makeText(this, R.string.metered_connection_warning, Toast.LENGTH_LONG).show()
                 }
