@@ -309,6 +309,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 if (!wakeLock.isHeld) wakeLock.acquire()
                 showNotification()
                 nbErrors = 0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    NetworkConnectionManager.isMetered.value?.let {
+                        checkMetered(it)
+                    }
+                }
             }
             MediaPlayer.Event.Paused -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Paused")
@@ -768,7 +773,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
     }
 
-    private fun checkMetered(metered: Boolean, activity: Activity? = null) {
+    private fun checkMetered(metered: Boolean) {
         if (!metered) return
         val meteredAction = (settings.getString("metered_connection", "0") ?: "0").toInt()
         if (meteredAction != 0 && isSchemeStreaming(currentMediaLocation)) {
