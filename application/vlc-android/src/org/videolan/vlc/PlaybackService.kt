@@ -64,6 +64,7 @@ import androidx.core.app.ServiceCompat
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -157,6 +158,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaSessionBrowser
@@ -782,8 +784,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 stop()
                 Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
             } else {
-                AppContextProvider.currentActivity?.let {
-                    UiTools.snacker(it, R.string.metered_connection_warning, it is AudioPlayerContainerActivity && it.isAudioPlayerExpanded)
+                AppContextProvider.currentActivity?.let {activity ->
+                    UiTools.snackerConfirm(activity, getString(R.string.metered_connection_warning), overAudioPlayer = activity is AudioPlayerContainerActivity && activity.isAudioPlayerExpanded, confirmMessage = R.string.preferences) {
+                        lifecycleScope.launch {
+                            PreferencesActivity.launchWithPref(activity as FragmentActivity, "metered_connection")
+                        }
+                    }
                 } ?: run {
                     Toast.makeText(this, R.string.metered_connection_warning, Toast.LENGTH_LONG).show()
                 }

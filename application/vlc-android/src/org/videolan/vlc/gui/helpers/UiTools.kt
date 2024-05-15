@@ -273,7 +273,7 @@ object UiTools {
     fun snacker(activity: Activity, stringId: Int, overAudioPlayer: Boolean = false) {
         val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
         val snack = Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT)
-        if (overAudioPlayer) snack.setAnchorView(R.id.time)
+        if (overAudioPlayer) snack.setAnchorView(R.id.audio_play_progress)
         snack.show()
     }
 
