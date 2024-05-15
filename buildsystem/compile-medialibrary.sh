@@ -61,6 +61,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   rm -f ${SQLITE_RELEASE}.tar.gz
   cd ${SQLITE_RELEASE}
   patch -p1 < ${SRC_DIR}/buildsystem/patches/sqlite/sqlite-no-shell.patch
+  patch -p1 < ${SRC_DIR}/buildsystem/patches/sqlite/e0a9935be1c506646566f6b7845eb381bb219e16.patch
   autoreconf -vif
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
