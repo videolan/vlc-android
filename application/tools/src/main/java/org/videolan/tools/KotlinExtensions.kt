@@ -122,7 +122,11 @@ suspend fun Context.awaitAppIsForegroung(): Boolean {
     return activityManager.isAppForeground()
 }
 
-private fun ActivityManager.isAppForeground() = runningAppProcesses[0].importance <= RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+private fun ActivityManager.isAppForeground() = try {
+    runningAppProcesses[0].importance <= RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+} catch (e: Exception) {
+    false
+}
 
 @OptIn(ExperimentalContracts::class)
 fun String?.isValidUrl(): Boolean {
