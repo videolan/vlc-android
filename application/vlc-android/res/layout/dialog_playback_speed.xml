@@ -112,10 +112,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/round_border"
-                android:fontFamily="sans-serif-black"
                 android:gravity="center"
                 android:text="1.0"
-                android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/button_speed_125"
                 app:layout_constraintStart_toEndOf="@+id/button_speed_08"
                 app:layout_constraintTop_toTopOf="@+id/button_speed_125" />
