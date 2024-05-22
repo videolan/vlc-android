@@ -34,7 +34,7 @@ android {
     }
 
     task webCopy(type: Copy) {
-        from '../../buildsystem/network-sharing-server/dist'
+        from '../../remoteaccess/dist'
         into 'assets/dist'
     }
 
