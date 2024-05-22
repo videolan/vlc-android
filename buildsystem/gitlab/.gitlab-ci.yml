@@ -46,7 +46,7 @@ webserver-install-dependencies:
     extends: .webserver-base
     stage: webserver-install-dependencies
     script:
-      - ./buildsystem/compile-remoteaccess.sh
+      - ./buildsystem/compile-remoteaccess.sh --init
       - cd "$WEBSERVER_DIR"
       - npm install
     artifacts:
@@ -75,7 +75,6 @@ webserver-vulnerabilities:
     needs:
       - job: "webserver-install-dependencies"
     script:
-        - ./buildsystem/compile-remoteaccess.sh
         - cd "$WEBSERVER_DIR"
         - npx audit-ci@^6 --config ./audit-ci.jsonc
 

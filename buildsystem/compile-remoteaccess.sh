@@ -40,8 +40,8 @@ while [ $# -gt 0 ]; do
             echo "Use -c to build the remote access project"
             exit 0
             ;;
-        -c)
-            BUILD_REMOTE_ACCCESS=1
+        --init)
+            INIT_ONLY=1
             ;;
         *)
             diagnostic "$0: Invalid option '$1'."
@@ -78,7 +78,7 @@ done
       cd ..
   fi
 
-  if [ "$BUILD_REMOTE_ACCCESS" = 1 ]; then
+  if [ "$INIT_ONLY" != 1 ]; then
         diagnostic "Building the Remote Access project"
     cd "$VLC_REMOTE_ACCESS_PATH"
 
