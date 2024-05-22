@@ -377,8 +377,8 @@ else
     fi
 fi
 
-if [ ! -d "./buildsystem/network-sharing-server/dist" ] ; then
-    echo "\033[1;32mWARNING: This was built without the remote access at ./buildsystem/network-sharing-server/dist ..."
+if [ ! -d "./remoteaccess/dist" ] ; then
+    echo "\033[1;32mWARNING: This was built without the remote access at ./remoteaccess/dist ..."
 fi
 
 #######
