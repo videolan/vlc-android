@@ -28,14 +28,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -61,7 +58,6 @@ import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.RemoteAccessUtils
 import org.videolan.vlc.util.isSchemeNetwork
 
 class SecondaryActivity : ContentActivity(), IDialogManager {
@@ -78,8 +74,6 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
     override fun forcedTheme() =
         if (intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING) R.style.Theme_VLC_Black
         else null
-
-    override var isOTPActivity = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,16 +107,6 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
         }
         dialogsDelegate.observeDialogs(this, this)
         if (intent.getBooleanExtra(KEY_ANIMATED, false)) supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (isOTPActivity) {
-                    lifecycleScope.launch {
-                        RemoteAccessUtils.otpFlow.emit(null)
-                    }
-                }
-                finish()
-            }
-        })
     }
 
     override fun fireDialog(dialog: Dialog) {

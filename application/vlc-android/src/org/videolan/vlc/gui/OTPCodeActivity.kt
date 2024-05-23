@@ -25,7 +25,11 @@
 package org.videolan.vlc.gui
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.videolan.vlc.R
+import org.videolan.vlc.util.RemoteAccessUtils
 
 
 class OTPCodeActivity : BaseActivity() {
@@ -38,6 +42,15 @@ class OTPCodeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.otp_code_activity)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                lifecycleScope.launch {
+                    RemoteAccessUtils.otpFlow.emit(null)
+                }
+                finish()
+            }
+        })
     }
 
 
