@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
+import org.videolan.tools.setGone
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserBinding
@@ -52,6 +53,8 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     var maxTimeSize = 6
 
     lateinit var playbackService: PlaybackService
+
+    abstract fun showTimeOnly(): Boolean
 
     abstract fun getTitle(): Int
 
@@ -80,6 +83,9 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         binding.timPicDeleteCurrent.onFocusChangeListener = this
 
         mTextColor = binding.timPicTimetojump.currentTextColor
+        if (showTimeOnly()) {
+            binding.timPicWaitCheckbox.setGone()
+        }
 
         return binding.root
     }

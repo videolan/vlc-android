@@ -34,6 +34,8 @@ class JumpToTimeDialog : PickTimeFragment() {
         dismiss()
     }
 
+    override fun showTimeOnly() = true
+
     override fun getTitle(): Int {
         return R.string.jump_to_time
     }

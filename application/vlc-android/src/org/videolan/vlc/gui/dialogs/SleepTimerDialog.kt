@@ -42,6 +42,8 @@ class SleepTimerDialog : PickTimeFragment() {
     private lateinit var settings: SharedPreferences
     private val playlistModel by lazy { PlaylistModel.get(this) }
 
+    override fun showTimeOnly() = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
