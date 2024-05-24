@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:gravity="bottom|right"
                 android:importantForAccessibility="no"
-                android:text="4.00"
+                android:text="8.00"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/playback_speed_seek"
                 app:layout_constraintEnd_toEndOf="parent"
