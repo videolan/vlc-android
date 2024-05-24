@@ -40,7 +40,6 @@ import java.util.*
 class SleepTimerDialog : PickTimeFragment() {
 
     private lateinit var settings: SharedPreferences
-    private lateinit var waitCheckBox: CheckBox
     private val playlistModel by lazy { PlaylistModel.get(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -53,13 +52,12 @@ class SleepTimerDialog : PickTimeFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        waitCheckBox = view.findViewById(R.id.tim_pic_wait_checkbox)
-        waitCheckBox.isChecked = settings.getBoolean(SLEEP_TIMER_WAIT, false)
+        binding.timPicWaitCheckbox.isChecked = settings.getBoolean(SLEEP_TIMER_WAIT, false)
     }
 
     override fun executeAction() {
-        playlistModel.service?.waitForMediaEnd = waitCheckBox.isChecked
-        settings.putSingle(SLEEP_TIMER_WAIT, waitCheckBox.isChecked)
+        playlistModel.service?.waitForMediaEnd = binding.timPicWaitCheckbox.isChecked
+        settings.putSingle(SLEEP_TIMER_WAIT, binding.timPicWaitCheckbox.isChecked)
 
         val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
         val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
