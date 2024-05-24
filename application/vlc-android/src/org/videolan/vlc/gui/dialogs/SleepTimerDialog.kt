@@ -59,11 +59,13 @@ class SleepTimerDialog : PickTimeFragment() {
 
     override fun executeAction() {
         playlistModel.service?.waitForMediaEnd = binding.timPicWaitCheckbox.isChecked
+        playlistModel.service?.resetOnInteraction = binding.timPicResetCheckbox.isChecked
         settings.putSingle(SLEEP_TIMER_WAIT, binding.timPicWaitCheckbox.isChecked)
 
         val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
         val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
         val interval = (hours + minutes) / MILLIS_IN_MICROS //Interval in ms
+        playlistModel.service?.sleepTimerInterval = interval
 
         val sleepTime = Calendar.getInstance()
         sleepTime.timeInMillis = sleepTime.timeInMillis + interval

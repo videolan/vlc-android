@@ -220,6 +220,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private lateinit var browserCallback: MediaBrowserCallback
     var sleepTimerJob: Job? = null
     var waitForMediaEnd = false
+    var resetOnInteraction = false
+    var sleepTimerInterval = 0L
     private var mediaEndReached = false
 
     // Playback management

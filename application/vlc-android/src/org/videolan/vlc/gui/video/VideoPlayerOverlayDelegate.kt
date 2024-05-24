@@ -354,6 +354,9 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         player.handler.removeMessages(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
         player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_VOLUME_INFO, 1000L)
         dimStatusBar(true)
+        player.service?.let { service ->
+            resetSleepTimer(service)
+        }
     }
 
     /**
@@ -448,7 +451,15 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
                     player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
             }
+
+            resetSleepTimer(service)
         }
+    }
+
+    private fun resetSleepTimer(service: PlaybackService) {
+        val sleepTime = Calendar.getInstance()
+        sleepTime.timeInMillis = System.currentTimeMillis() + service.sleepTimerInterval
+        PlaybackService.playerSleepTime.value = sleepTime
     }
 
     fun updateOverlayPausePlay(skipAnim: Boolean = false) {
