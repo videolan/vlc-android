@@ -29,6 +29,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import org.videolan.tools.SLEEP_TIMER_RESET_INTERACTION
 import org.videolan.tools.SLEEP_TIMER_WAIT
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -55,11 +56,15 @@ class SleepTimerDialog : PickTimeFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.timPicWaitCheckbox.isChecked = settings.getBoolean(SLEEP_TIMER_WAIT, false)
+        binding.timPicResetCheckbox.isChecked = settings.getBoolean(SLEEP_TIMER_RESET_INTERACTION, false)
     }
 
     override fun executeAction() {
         playlistModel.service?.waitForMediaEnd = binding.timPicWaitCheckbox.isChecked
         playlistModel.service?.resetOnInteraction = binding.timPicResetCheckbox.isChecked
+
+        val settings = Settings.getInstance(requireActivity())
+        settings.putSingle(SLEEP_TIMER_RESET_INTERACTION, binding.timPicResetCheckbox.isChecked)
         settings.putSingle(SLEEP_TIMER_WAIT, binding.timPicWaitCheckbox.isChecked)
 
         val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
