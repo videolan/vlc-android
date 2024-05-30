@@ -64,6 +64,12 @@
             android:summary="@string/browser_show_missing_media_summary"
             android:title="@string/browser_show_missing_media"/>
 
+    <PreferenceScreen
+            app:singleLineTitle="false"
+            android:defaultValue="-1"
+            android:key="default_sleep_timer"
+            android:title="@string/sleep_title"/>
+
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">

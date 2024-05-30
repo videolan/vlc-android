@@ -85,6 +85,7 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         mTextColor = binding.timPicTimetojump.currentTextColor
         if (showTimeOnly()) {
             binding.timPicWaitCheckbox.setGone()
+            binding.timPicResetCheckbox.setGone()
         }
 
         return binding.root
@@ -144,7 +145,7 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         }
     }
 
-    private fun updateValue(value: String) {
+    fun updateValue(value: String) {
         if (pickedRawTime.length >= maxTimeSize)
             return
         pickedRawTime += value

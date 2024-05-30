@@ -23,14 +23,18 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.FragmentActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceScreen
 import androidx.preference.TwoStatePreference
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
@@ -44,15 +48,21 @@ import org.videolan.tools.LocaleUtils
 import org.videolan.tools.PREF_TV_UI
 import org.videolan.tools.RESULT_UPDATE_SEEN_MEDIA
 import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.UiTools
 
 
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private lateinit var settings: SharedPreferences
+    private lateinit var sleepTimerPreference: PreferenceScreen
     override fun getXml() = R.xml.preferences_ui
 
     override fun getTitleId() = R.string.interface_prefs_screen
@@ -77,6 +87,9 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 getString(R.string.video_group_size_summary, text)
             }
         }
+        settings = Settings.getInstance(requireActivity())
+        sleepTimerPreference = findPreference("default_sleep_timer")!!
+        manageSleepTimerSummary()
     }
 
     private fun setupTheme() {
@@ -124,6 +137,11 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+            "default_sleep_timer" -> {
+                val newFragment = SleepTimerDialog.newInstance(true)
+                newFragment.onDismissListener  = DialogInterface.OnDismissListener { manageSleepTimerSummary() }
+                newFragment.show((activity as FragmentActivity).supportFragmentManager, "time")
+            }
             "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }
@@ -159,6 +177,17 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
             }
         }
+    }
+
+    private fun manageSleepTimerSummary() {
+        val interval = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL,  -1L)
+        if (interval == -1L) {
+            sleepTimerPreference.summary = getString(R.string.disabled)
+            return
+        }
+        val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT,  false)
+        val reset = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION,  false)
+        sleepTimerPreference.summary = getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), if (wait) "true" else "false", if (reset) "true" else "false")
     }
 
     private fun prepareLocaleList() {
