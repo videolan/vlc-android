@@ -262,6 +262,17 @@
         <item>98</item>
     </string-array>
 
+    <string-array name="metered_connection_list">
+        <item>@string/metered_do_nothing</item>
+        <item>@string/metered_stop</item>
+        <item>@string/metered_warn</item>
+    </string-array>
+    <string-array name="metered_connection_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="list_title_ellipsize_list">
         <item>@string/list_title_ellipsize_default</item>
         <item>@string/list_title_ellipsize_left</item>

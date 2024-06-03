@@ -532,7 +532,7 @@ Arvo 0 poistaa käytöstä</string>
 Käynnistätkö uudelleen?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Myöhemmin</string>
-    <string name="browser_show_all_title">Näytä kaikki tiedostot</string>
+    <string name="browser_show_all_title">Näytä vain multimedia</string>
 
     <string name="developer_prefs_category">Kehittäjä</string>
     <string name="enable_verbose_mode">Monisanainen</string>
@@ -588,7 +588,7 @@ Käynnistätkö uudelleen?</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
     <string name="confirm_resume_title">Jatka toistettuja videoita</string>
     <string name="tv_ui_title">Android TV käyttöliittymä</string>
-    <string name="tv_ui_summary">Vaihda näkymä TV:n mukaiseen teemaan</string>
+    <string name="tv_ui_summary">Vaihda TV:n mukaiseen vaakanäkymään</string>
     <string name="medialibrary">Mediakirjasto</string>
     <string name="medialibrary_directories">Mediakirjaston kansiot</string>
 

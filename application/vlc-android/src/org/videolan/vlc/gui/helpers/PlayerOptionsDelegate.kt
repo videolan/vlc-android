@@ -71,7 +71,7 @@ private const val ID_AUDIO_CONTROL_SETTING = 20L
 private const val ID_SAFE_MODE_LOCK = 21L
 private const val ID_SAFE_MODE_UNLOCK = 22L
 @SuppressLint("ShowToast")
-class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true) : LifecycleObserver {
+class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true)  {
 
     private lateinit var bookmarkClickedListener: () -> Unit
     private lateinit var recyclerview: RecyclerView
@@ -105,7 +105,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 options.add(PlayerOption(ID_POPUP_VIDEO, R.drawable.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
             if (primary)
                 options.add(PlayerOption(ID_REPEAT, R.drawable.ic_repeat, res.getString(R.string.repeat_title)))
-            if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
+            if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.drawable.ic_player_shuffle, res.getString(R.string.shuffle_title)))
             options.add(PlayerOption(ID_VIDEO_STATS, R.drawable.ic_video_stats, res.getString(R.string.video_information)))
         } else {
             if (service.videoTracksCount > 0) options.add(PlayerOption(ID_PLAY_AS_VIDEO, R.drawable.ic_playasaudio_off, res.getString(R.string.play_as_video)))
@@ -145,8 +145,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 if (recyclerview.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
                 else null // someone else will find the next focus
             }
-            service.lifecycle.addObserver(this)
-            activity.lifecycle.addObserver(this)
             if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             recyclerview.adapter = OptionsAdapter()
             recyclerview.itemAnimator = null
@@ -341,14 +339,14 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
     }
 
     private fun setShuffle() {
-        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
+        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_player_shuffle)
         shuffleBinding.root.contentDescription = shuffleBinding.root.context.getString(if (service.isShuffling) R.string.shuffle_on else R.string.shuffle)
     }
 
     private fun initShuffle(binding: PlayerOptionItemBinding) {
         shuffleBinding = binding
         AppScope.launch(Dispatchers.Main) {
-            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_shuffle)
+            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on_48dp else R.drawable.ic_player_shuffle)
             shuffleBinding.root.contentDescription = shuffleBinding.root.context.getString(if (service.isShuffling) R.string.shuffle_on else R.string.shuffle)
         }
     }

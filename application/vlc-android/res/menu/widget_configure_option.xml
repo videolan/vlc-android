@@ -29,7 +29,7 @@
     <item
             android:orderInCategory="1"
             android:id="@+id/widget_info"
-            android:icon="@drawable/ic_am_information"
+            android:icon="@drawable/ic_information"
             android:title="@string/info"
             vlc:showAsAction="always"/>
     <item

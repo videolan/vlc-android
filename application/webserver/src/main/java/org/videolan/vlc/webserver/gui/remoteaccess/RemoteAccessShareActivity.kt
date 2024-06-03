@@ -110,7 +110,7 @@ class RemoteAccessShareActivity : BaseActivity() {
                 copyImageView.setPadding(8.dp, 8.dp, 8.dp, 8.dp)
 
                 val shareImageView = ImageView(this)
-                shareImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_am_share))
+                shareImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_share))
                 shareImageView.setOnClickListener {
                     share(getString(R.string.remote_access), link)
                 }

@@ -542,7 +542,7 @@
     <string name="restart_message">Зміни набудуть сили після перезапуску програми.\n\nПерезапустити зараз?</string>
     <string name="restart_message_OK">Гаразд</string>
     <string name="restart_message_Later">Пізніше</string>
-    <string name="browser_show_all_title">Показати усі файли</string>
+    <string name="browser_show_all_title">Показувати тільки мультимедійні файли</string>
 
     <string name="developer_prefs_category">Розробник</string>
     <string name="enable_verbose_mode">Інформативність</string>

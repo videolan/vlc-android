@@ -473,8 +473,6 @@
     <string name="restart_message">Ændringerne træder i kraft når programmet er blevet genstartet.\n\nGenstart nu?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Senere</string>
-    <string name="browser_show_all_title">Vis alle filer</string>
-
     <string name="developer_prefs_category">Udvikler</string>
     <string name="enable_verbose_mode">Uddybende</string>
     <string name="enable_verbose_mode_summary">Forøg graden af uddybning (logcat)</string>

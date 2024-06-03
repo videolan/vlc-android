@@ -155,7 +155,6 @@
     <string name="nosubfolder">لا يوجد مجلد فرعي</string>
     <string name="directorynotfound">لم يوجد مسار الدليل ”%1$s“.</string>
     <string name="nohistory">من من شيء شغّلته في التأريخ.</string>
-
     <string name="cover_art">الغلاف الفني</string>
     <string name="shuffle_all_title">اخلطها كلها</string>
     <string name="shuffle_title">وضع الخلط</string>
@@ -426,8 +425,6 @@
     <string name="restart_message">ستسري التغييرات بمجرد إعادة تشغيل التطبيق.\n\n إعادة التشغيل الآن؟</string>
     <string name="restart_message_OK">حسنًا</string>
     <string name="restart_message_Later">لاحقًا</string>
-    <string name="browser_show_all_title">اظهر كافة الملفات</string>
-
     <string name="developer_prefs_category">مطوِّر</string>
     <string name="enable_verbose_mode">المطوّل</string>
     <string name="enable_verbose_mode_summary">زِد التّطويل</string>

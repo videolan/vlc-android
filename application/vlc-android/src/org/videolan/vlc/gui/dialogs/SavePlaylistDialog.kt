@@ -53,8 +53,10 @@ import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.CANCEL
 import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.NO_OPTION
 import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.OPTION_KEY
 import org.videolan.vlc.gui.dialogs.DuplicationWarningDialog.Companion.REQUEST_KEY
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.providers.FileBrowserProvider
+import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.util.*
@@ -235,6 +237,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         if (alreadyAdding.getAndSet(true)) return
         val name = binding.dialogPlaylistName.editText?.text?.toString()?.trim { it <= ' ' }
                 ?: return
+        UiTools.setKeyboardVisibility(binding.dialogPlaylistName, false)
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { medialibrary.getPlaylistByName(name) }?.let {
                 binding.dialogPlaylistName.error = getString(R.string.playlist_existing, it.title)
@@ -258,10 +261,14 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 val id = mw.id
                 if (id == 0L) {
                     var media = medialibrary.getMedia(mw.uri)
-                    if (media != null)
+                    if (media != null) {
                         ids.add(media.id)
-                    else {
-                        media = medialibrary.addMedia(mw.location, -1L)
+                        media.title = mw.title
+                    } else {
+                        media = if (isSchemeStreaming(mw.location))
+                            medialibrary.addStream(mw.location, mw.title)
+                        else
+                            medialibrary.addMedia(mw.location, -1L)
                         if (media != null) ids.add(media.id)
                     }
                 } else

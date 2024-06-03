@@ -56,7 +56,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
             PlaybackService.renderer.observe(this) {
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers) ?: return@observe
                 item.isVisible = !hideRenderers() && showRenderers
-                item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
+                item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_renderer else R.drawable.ic_renderer_on)
             }
             RendererDelegate.renderers.observe(this) { rendererItems ->
                 showRenderers = !rendererItems.isNullOrEmpty()
@@ -100,7 +100,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         } else
             menu.findItem(R.id.ml_menu_filter).isVisible = false
         menu.findItem(R.id.ml_menu_renderers).isVisible = current !is MLStorageBrowserFragment && !hideRenderers() && showRenderers && Settings.getInstance(this).getBoolean("enable_casting", true)
-        menu.findItem(R.id.ml_menu_renderers).setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
+        menu.findItem(R.id.ml_menu_renderers).setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_renderer else R.drawable.ic_renderer_on)
         return true
     }
 

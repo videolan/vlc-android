@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_play_normal.xml
+  ~  ic_play.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2024 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,18 +23,14 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="48dp"
-        android:height="48dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="@color/standard_selection_control_normal"
-            android:fillType="evenOdd"
-            android:pathData="m4.9395,2.0011c-0.5277,0.032 -0.9393,0.4693 -0.9395,0.998v18c-0.001,0.7774 0.8466,1.2586 1.5137,0.8594l15,-9.0019c0.6471,-0.3885 0.6471,-1.3264 0,-1.7149l-15,-9c-0.1729,-0.1037 -0.373,-0.1527 -0.5742,-0.1406z"
-            android:strokeWidth="1.99999797"
-            android:strokeAlpha="1"
-            android:strokeColor="#00000000"
-            android:strokeLineCap="butt"
-            android:strokeLineJoin="round" />
+        xmlns:tools="http://schemas.android.com/tools"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M15.004,8.266C14.383,8.622 14,9.284 14,10v28c0.001,1.543 1.677,2.499 3.008,1.727l24,-14c1.323,-0.772 1.323,-2.683 0,-3.455l-24,-14C16.371,7.912 15.607,7.909 15.004,8.266ZM18,13.48 L36.031,24 18,34.518Z"
+          tools:fillColor="@color/white"
+          android:fillColor="?attr/colorControlNormal"
+          android:fillType="evenOdd"/>
 </vector>

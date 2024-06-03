@@ -5,31 +5,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
-import org.videolan.medialibrary.interfaces.Medialibrary.NbMedia
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_ALBUM
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_ALPHA
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_ARTIST
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_DEFAULT
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_DURATION
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_FILENAME
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_FILESIZE
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_INSERTIONDATE
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_LASTMODIFICATIONDATE
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_PLAYCOUNT
-import org.videolan.medialibrary.interfaces.Medialibrary.SORT_RELEASEDATE
-import org.videolan.medialibrary.interfaces.Medialibrary.TrackId
+import org.videolan.medialibrary.interfaces.Medialibrary.*
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.resources.util.getLength
-import org.videolan.resources.util.getTimeCategory
-import org.videolan.resources.util.getTimeCategoryString
-import org.videolan.resources.util.getYear
-import org.videolan.resources.util.isSpecialItem
+import org.videolan.resources.util.*
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
-import java.util.Locale
+import java.util.*
 import kotlin.math.floor
 
 object ModelsHelper {
@@ -313,32 +298,36 @@ fun getTvDescComp(foldersFirst: Boolean): Comparator<MediaLibraryItem> = Compara
             ?: "") ?: -1
 }
 
-fun getFilenameAscComp(): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+fun getFilenameAscComp(nbOfDigits: Int): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+    if (Settings.showTvUi && Settings.tvFoldersFirst) {
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+    }
     val type1 = (item1 as? MediaWrapper)?.type
     val type2 = (item2 as? MediaWrapper)?.type
     if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
     else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-    val filename1 = (item1 as? MediaWrapper)?.fileName?.removeExtension() ?: (item1 as? Storage)?.title
-    val filename2 = (item2 as? MediaWrapper)?.fileName?.removeExtension() ?: (item2 as? Storage)?.title
-    naturalOrder<String>().compare(filename1?.lowercase(Locale.getDefault()), filename2?.lowercase(Locale.getDefault()))
+    val filename1 = (item1 as? MediaWrapper)?.fileName ?: (item1 as? Storage)?.title
+    val filename2 = (item2 as? MediaWrapper)?.fileName ?: (item2 as? Storage)?.title
+    filename1?.lowercase(Locale.getDefault()).sanitizeStringForAlphaCompare(nbOfDigits)?.compareTo(filename2?.lowercase(Locale.getDefault()).sanitizeStringForAlphaCompare(nbOfDigits)
+            ?: "") ?: -1
 }
 
-fun getFilenameDescComp(): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+fun getFilenameDescComp(nbOfDigits: Int): Comparator<MediaLibraryItem> = Comparator<MediaLibraryItem> { item1, item2 ->
+    if (Settings.showTvUi && Settings.tvFoldersFirst) {
+        val type1 = (item1 as? MediaWrapper)?.type
+        val type2 = (item2 as? MediaWrapper)?.type
+        if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+        else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+    }
     val type1 = (item1 as? MediaWrapper)?.type
     val type2 = (item2 as? MediaWrapper)?.type
     if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
     else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-    val filename1 = (item1 as? MediaWrapper)?.fileName?.removeExtension() ?: (item1 as? Storage)?.title
-    val filename2 = (item2 as? MediaWrapper)?.fileName?.removeExtension() ?: (item2 as? Storage)?.title
-    naturalOrder<String>().compare(filename2?.lowercase(Locale.getDefault()), filename1?.lowercase(Locale.getDefault()))
-}
-
-/**
- * Properly remove the extension part of a filename by not removing it if it leaves an empty string
- *
- * @return the filename without the extension part
- */
-fun String.removeExtension():String {
-    if (isNotEmpty() && substringBeforeLast(".").isEmpty()) return this
-    return substringBeforeLast(".")
+    val filename1 = (item1 as? MediaWrapper)?.fileName ?: (item1 as? Storage)?.title
+    val filename2 = (item2 as? MediaWrapper)?.fileName ?: (item2 as? Storage)?.title
+    filename2?.lowercase(Locale.getDefault()).sanitizeStringForAlphaCompare(nbOfDigits)?.compareTo(filename1?.lowercase(Locale.getDefault()).sanitizeStringForAlphaCompare(nbOfDigits)
+            ?: "") ?: -1
 }

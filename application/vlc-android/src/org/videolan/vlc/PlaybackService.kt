@@ -20,15 +20,31 @@
 package org.videolan.vlc
 
 import android.annotation.TargetApi
-import android.app.*
+import android.app.Activity
+import android.app.KeyguardManager
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.SearchManager
+import android.app.Service
+import android.app.UiModeManager
 import android.appwidget.AppWidgetManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.ServiceInfo
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
-import android.os.*
+import android.os.Binder
+import android.os.Build
+import android.os.Bundle
+import android.os.IBinder
+import android.os.PowerManager
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -48,16 +64,30 @@ import androidx.core.app.ServiceCompat
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
-import androidx.lifecycle.*
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ServiceLifecycleDispatcher
+import androidx.lifecycle.lifecycleScope
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import androidx.media.utils.MediaConstants
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -67,29 +97,97 @@ import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_PLAY_FROM_SEARCH
+import org.videolan.resources.ACTION_REMOTE_BACKWARD
+import org.videolan.resources.ACTION_REMOTE_FORWARD
+import org.videolan.resources.ACTION_REMOTE_GENERIC
+import org.videolan.resources.ACTION_REMOTE_LAST_PLAYLIST
+import org.videolan.resources.ACTION_REMOTE_PLAY
+import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
+import org.videolan.resources.ACTION_REMOTE_SEEK_BACKWARD
+import org.videolan.resources.ACTION_REMOTE_SEEK_FORWARD
+import org.videolan.resources.ACTION_REMOTE_STOP
+import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
+import org.videolan.resources.ANDROID_AUTO_APP_PKG
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CAR_SETTINGS
+import org.videolan.resources.CUSTOM_ACTION
+import org.videolan.resources.CUSTOM_ACTION_BOOKMARK
+import org.videolan.resources.CUSTOM_ACTION_FAST_FORWARD
+import org.videolan.resources.CUSTOM_ACTION_REPEAT
+import org.videolan.resources.CUSTOM_ACTION_REWIND
+import org.videolan.resources.CUSTOM_ACTION_SHUFFLE
+import org.videolan.resources.CUSTOM_ACTION_SPEED
+import org.videolan.resources.DRIVING_MODE_APP_PKG
+import org.videolan.resources.EXTRA_CUSTOM_ACTION_ID
+import org.videolan.resources.EXTRA_SEARCH_BUNDLE
+import org.videolan.resources.EXTRA_SEEK_DELAY
+import org.videolan.resources.PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT
+import org.videolan.resources.PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV
+import org.videolan.resources.PLAYLIST_TYPE_ALL
+import org.videolan.resources.PLAYLIST_TYPE_AUDIO
+import org.videolan.resources.VLCInstance
+import org.videolan.resources.VLCOptions
+import org.videolan.resources.WEARABLE_RESERVE_SLOT_SKIP_TO_NEXT
+import org.videolan.resources.WEARABLE_RESERVE_SLOT_SKIP_TO_PREV
+import org.videolan.resources.WEARABLE_SHOW_CUSTOM_ACTION
 import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.resources.util.startForegroundCompat
-import org.videolan.tools.*
+import org.videolan.tools.AUDIO_RESUME_PLAYBACK
+import org.videolan.tools.DrawableCache
+import org.videolan.tools.ENABLE_ANDROID_AUTO_SEEK_BUTTONS
+import org.videolan.tools.ENABLE_ANDROID_AUTO_SPEED_BUTTONS
+import org.videolan.tools.KEY_VIDEO_APP_SWITCH
+import org.videolan.tools.LOCKSCREEN_COVER
+import org.videolan.tools.POSITION_IN_AUDIO_LIST
+import org.videolan.tools.POSITION_IN_SONG
+import org.videolan.tools.SHOW_SEEK_IN_COMPACT_NOTIFICATION
+import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.getResourceUri
+import org.videolan.tools.readableSize
 import org.videolan.vlc.car.VLCCarService
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.media.*
-import org.videolan.vlc.util.*
+import org.videolan.vlc.media.MediaSessionBrowser
+import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
+import org.videolan.vlc.media.PlayerController
+import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.AccessControl
+import org.videolan.vlc.util.FlagSet
+import org.videolan.vlc.util.LifecycleAwareScheduler
+import org.videolan.vlc.util.NetworkConnectionManager
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.PlaybackAction
+import org.videolan.vlc.util.RendererLiveData
+import org.videolan.vlc.util.SchedulerCallback
+import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.VLCAudioFocusHelper
+import org.videolan.vlc.util.awaitMedialibraryStarted
+import org.videolan.vlc.util.isSchemeHttpOrHttps
+import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
 import videolan.org.commontools.LiveEvent
-import java.util.*
+import java.util.ArrayDeque
+import java.util.Calendar
 import kotlin.math.abs
 
 private const val TAG = "VLC/PlaybackService"
@@ -214,6 +312,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 if (!wakeLock.isHeld) wakeLock.acquire()
                 showNotification()
                 nbErrors = 0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    NetworkConnectionManager.isMetered.value?.let {
+                        checkMetered(it)
+                    }
+                }
             }
             MediaPlayer.Event.Paused -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Paused")
@@ -666,6 +769,42 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         serviceFlow.value = this
         mediaBrowserCompat = MediaBrowserInstance.getInstance(this)
         PlaylistManager.playingState.value = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            NetworkConnectionManager.isMetered.observe(this) {
+                checkMetered(it)
+            }
+        }
+    }
+
+    private fun checkMetered(metered: Boolean) {
+        if (!metered) return
+        val meteredAction = (settings.getString("metered_connection", "0") ?: "0").toInt()
+        if (meteredAction != 0 && isSchemeStreaming(currentMediaLocation)) {
+            if (meteredAction == 1) {
+                stop()
+                //we also check if the current activity is AudioPlayerContainerActivity to avoid displaying the
+                //snackbar in the VideoPlayerActivity that will be closed by the call to stop()
+                (AppContextProvider.currentActivity as? AudioPlayerContainerActivity)?.let {activity ->
+                    UiTools.snackerConfirm(activity, getString(R.string.metered_connection_stopped), overAudioPlayer = activity.isAudioPlayerExpanded, confirmMessage = R.string.preferences) {
+                        lifecycleScope.launch {
+                            PreferencesActivity.launchWithPref(activity as FragmentActivity, "metered_connection")
+                        }
+                    }
+                } ?: run {
+                    Toast.makeText(this, R.string.metered_connection_stopped, Toast.LENGTH_LONG).show()
+                }
+            } else {
+                AppContextProvider.currentActivity?.let {activity ->
+                    UiTools.snackerConfirm(activity, getString(R.string.metered_connection_warning), overAudioPlayer = activity is AudioPlayerContainerActivity && activity.isAudioPlayerExpanded, confirmMessage = R.string.preferences) {
+                        lifecycleScope.launch {
+                            PreferencesActivity.launchWithPref(activity as FragmentActivity, "metered_connection")
+                        }
+                    }
+                } ?: run {
+                    Toast.makeText(this, R.string.metered_connection_warning, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)

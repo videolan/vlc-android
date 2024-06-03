@@ -23,8 +23,8 @@
     <string name="searchable_hint">Ieškoti…</string>
     <string name="history">Istorija</string>
 
-    <string name="sort_alpha_asc">A → Z</string>
-    <string name="sort_alpha_desc">Z → A</string>
+    <string name="sort_alpha_asc">A → Ž</string>
+    <string name="sort_alpha_desc">Ž → A</string>
     <string name="sortby_length_asc">trumpumą</string>
     <string name="sortby_length_desc">ilgumą</string>
     <string name="sortby_number_asc">didesnį vaizdo įrašų grupėje kiekį</string>
@@ -542,7 +542,7 @@
     <string name="restart_message">Pasikeitimai įsigalios iš naujo paleidus programą.\n\nPaleisti programą iš naujo?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Vėliau</string>
-    <string name="browser_show_all_title">Rodyti visas rinkmenas</string>
+    <string name="browser_show_all_title">Rodyti tik multimedijos rinkmenas</string>
 
     <string name="developer_prefs_category">Programuotojams</string>
     <string name="enable_verbose_mode">Detalizavimas</string>
@@ -1097,7 +1097,7 @@
     <string name="add_server_favorite">Pridėti mėgst. serverį</string>
     <string name="widget_theme">Valdiklio tema</string>
     <string name="widget_preferences">Konfigūruoti valdiklį</string>
-    <string name="material_you">„Material You“ (ištraukia spalvas iš fono paveikslėlio)</string>
+    <string name="material_you">„Material You“ (spalvos ištraukiamos iš fono paveikslėlio)</string>
     <string name="palette">„Paletė“ (spalvos ištraukiamos iš medijos viršelio)</string>
     <string name="custom">Tinkinta</string>
     <string name="widget_type">Valdiklio tipas</string>

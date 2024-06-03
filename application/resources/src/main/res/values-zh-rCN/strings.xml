@@ -512,8 +512,6 @@
     <string name="restart_message">改动将在应用重新启动后生效。\n\n是否现在重启?</string>
     <string name="restart_message_OK">确定</string>
     <string name="restart_message_Later">稍后</string>
-    <string name="browser_show_all_title">显示所有文件</string>
-
     <string name="developer_prefs_category">开发人员</string>
     <string name="enable_verbose_mode">详尽模式</string>
     <string name="enable_verbose_mode_summary">增加详尽程度 (logcat)</string>

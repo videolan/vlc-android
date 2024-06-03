@@ -517,8 +517,6 @@
     <string name="restart_message">I cambiamenti seranu pigliati in contu quandu l’appiecazione serà rilanciata.\n\nRilancialla avà ?</string>
     <string name="restart_message_OK">Vai</string>
     <string name="restart_message_Later">Dopu</string>
-    <string name="browser_show_all_title">Affissà tutti i schedarii</string>
-
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verbosu</string>
     <string name="enable_verbose_mode_summary">Aumentà a verbusità (logcat)</string>

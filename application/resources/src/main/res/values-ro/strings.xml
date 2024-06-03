@@ -23,8 +23,15 @@
     <string name="searchable_hint">Căutare…</string>
     <string name="history">Istoric</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Întâi cel mai scurt</string>
     <string name="sortby_length_desc">Întâi cel mai lung</string>
+    <string name="sortby_number_asc">Mai multe videoclipuri în grup</string>
+    <string name="sortby_number_desc">Mai puține videoclipuri în grup</string>
+    <string name="sort_date_asc">Întâi cele mai vechi</string>
+    <string name="sort_date_desc">Întâi cele mai noi</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d rezultat găsit</item>
         <item quantity="few">%d rezultate găsite</item>
@@ -525,7 +532,7 @@
     <string name="restart_message">Modificările vor intra în vigoare după repornirea aplicației. \n \nReporniți acum?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Mai târziu</string>
-    <string name="browser_show_all_title">Afișați toate fișierele</string>
+    <string name="browser_show_all_title">Afișează numai fișierele multimedia</string>
 
     <string name="developer_prefs_category">Dezvoltator</string>
     <string name="enable_verbose_mode">Detaliat</string>
@@ -542,6 +549,7 @@
     <string name="dump_logcat">Colectează jurnalul logcat</string>
     <string name="dump_logcat_success">Logcat a fost colectat cu succes în %1$s!</string>
     <string name="dump_logcat_failure">Colectarea logcat a eșuat.</string>
+    <string name="http_user_agent">Agent de utilizator HTTP</string>
     <string name="custom_libvlc_options">Opțiuni personalizate libVLC</string>
     <string name="custom_libvlc_options_invalid">Setări libVLC eronate!</string>
 
@@ -1047,6 +1055,16 @@
     <string name="banned">Dosar interzis (atinge lung pentru a schimba)</string>
     <string name="banned_tv">Dosar interzis</string>
     <string name="banned_parent">Interzis de dosarul părinte</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Acest element se află deja în \"1%s\" playlist. </item>
+        <item quantity="few">Aceste elemente se află deja în \"1%s\" playlist. </item>
+        <item quantity="other">Aceste elemente se află deja în \"1%s\" de playlist.</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 dintre elementele selectate se află deja în  \" %s \" playlist. </item>
+        <item quantity="few">%d  dintre elementele selectate se află deja în \" %s \" playlist .</item>
+        <item quantity="other">%d  dintre elementele selectate se află deja în \" %s \" de playlist .</item>
+    </plurals>
     <string name="official_website">Site-ul oficial</string>
     <string name="view_online">Vizualizare online</string>
     <string name="player_under_notch">Afișează videoclipul sub crestătură</string>

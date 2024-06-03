@@ -433,8 +433,6 @@
     <string name="restart_message">Los cambios se aplicaran al reiniciar.\n\n¿Desea reiniciar ahora?</string>
     <string name="restart_message_OK">Aceptar</string>
     <string name="restart_message_Later">Más tarde</string>
-    <string name="browser_show_all_title">Mostrar todos los archivos</string>
-
     <string name="developer_prefs_category">Desarrollador</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>

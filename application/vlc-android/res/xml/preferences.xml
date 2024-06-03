@@ -41,6 +41,16 @@
                 android:title="@string/screen_orientation"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/network">
+        <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/metered_connection_list"
+                android:entryValues="@array/metered_connection_values"
+                android:key="metered_connection"
+                android:summary="%s"
+                android:title="@string/metered_connection"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/history">
         <CheckBoxPreference
                 app:singleLineTitle="false"

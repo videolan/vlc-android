@@ -498,8 +498,6 @@
     <string name="restart_message">Aldaketek aplikazioa berrabiarazitakoan izango dute eragina.\n\nBerrabiarazi orain?</string>
     <string name="restart_message_OK">Ados</string>
     <string name="restart_message_Later">Gero</string>
-    <string name="browser_show_all_title">Erakutsi fitxategi guztiak</string>
-
     <string name="developer_prefs_category">Garatzailea</string>
     <string name="enable_verbose_mode">Xehetua</string>
     <string name="enable_verbose_mode_summary">Handitu xehetasun-maila (logcat)</string>

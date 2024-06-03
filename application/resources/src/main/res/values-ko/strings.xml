@@ -481,8 +481,6 @@
     <string name="restart_message">응용프로그램이 다시 시작되면 변경 사항이 적용됩니다.\n\n지금 다시 시작하시겠습니까?</string>
     <string name="restart_message_OK">Ok</string>
     <string name="restart_message_Later">나중에</string>
-    <string name="browser_show_all_title">모든 파일 표시</string>
-
     <string name="developer_prefs_category">개발자</string>
     <string name="enable_verbose_mode">상세 설명</string>
     <string name="enable_verbose_mode_summary">상세설명 증가 (logcat)</string>

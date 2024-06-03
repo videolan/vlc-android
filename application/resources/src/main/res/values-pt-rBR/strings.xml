@@ -131,7 +131,6 @@
     <string name="nosubfolder">Nenhuma sub pasta</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Você não possui histórico de reprodução.</string>
-
     <string name="cover_art">Capa</string>
     <string name="shuffle_all_title">Todos em aleatório</string>
     <string name="shuffle_title">Modo aleatório</string>
@@ -440,8 +439,6 @@
     <string name="restart_message">As modificações terão efeito quando o aplicativo for reiniciado.\n\nReiniciar agora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Mais tarde</string>
-    <string name="browser_show_all_title">Exibir todos os arquivos</string>
-
     <string name="developer_prefs_category">Desenvolvedor</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
     <string name="enable_verbose_mode_summary">Aumentar o detalhamento (logcat)</string>

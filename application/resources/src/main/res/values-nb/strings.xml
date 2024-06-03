@@ -422,8 +422,6 @@
     <string name="restart_message">Endringene vil bli tatt i bruk når appen har startet på nytt.\n\nVil du starte på nytt nå?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Senere</string>
-    <string name="browser_show_all_title">Vis alle filer</string>
-
     <string name="developer_prefs_category">Utvikler</string>
     <string name="enable_verbose_mode">Detaljer</string>
     <string name="enable_verbose_mode_summary">Flere detaljer (logcat)</string>

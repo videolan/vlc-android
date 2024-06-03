@@ -28,7 +28,7 @@
     <item
             android:orderInCategory="2"
             android:id="@+id/menu_remote_access_onboarding"
-            android:icon="@drawable/ic_am_information"
+            android:icon="@drawable/ic_information"
             android:title="@string/ra_remote_access"
             app:showAsAction="ifRoom"/>
 </menu>

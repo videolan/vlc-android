@@ -130,6 +130,8 @@ internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, pri
         }
     }
 
+    fun isFABExpanded() = currenstate == MediaBrowserState.SCROLLED_DOWN_FAB_EXPANDED
+
     internal fun expandExtendedFAB() {
         currenstate = MediaBrowserState.SCROLLED_DOWN_FAB_EXPANDED
     }

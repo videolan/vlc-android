@@ -449,8 +449,6 @@
     <string name="restart_message">Изменения вступят в силу после перезапуска приложения.\n\nПерезапустить его сейчас?</string>
     <string name="restart_message_OK">ОК</string>
     <string name="restart_message_Later">Позже</string>
-    <string name="browser_show_all_title">Показать все файлы</string>
-
     <string name="developer_prefs_category">Для разработчиков</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_summary">Степень детализации сообщений (logcat)</string>

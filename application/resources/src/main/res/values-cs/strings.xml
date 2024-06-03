@@ -493,8 +493,6 @@
     <string name="restart_message">Změny se projeví po restartu aplikace.\n\nChcete restartovat nyní?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Později</string>
-    <string name="browser_show_all_title">Zobrazit všechny soubory</string>
-
     <string name="developer_prefs_category">Pro vývojáře</string>
     <string name="enable_verbose_mode">Více podrobností</string>
     <string name="enable_verbose_mode_summary">Zvýšit počet podrobnosti v protokolu.</string>

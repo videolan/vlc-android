@@ -20,11 +20,15 @@
 package org.videolan.mobile.app
 
 import android.annotation.TargetApi
+import android.app.Activity
+import android.app.Application
+import android.app.Application.ActivityLifecycleCallbacks
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Bundle
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
 import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_ON
 import kotlinx.coroutines.Dispatchers
@@ -50,12 +54,13 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.NetworkConnectionManager
 import org.videolan.vlc.util.VersionMigration
 import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
 
 interface AppDelegate {
     val appContextProvider : AppContextProvider
-    fun Context.setupApplication()
+    fun Application.setupApplication()
 }
 
 class AppSetupDelegate : AppDelegate,
@@ -66,7 +71,7 @@ class AppSetupDelegate : AppDelegate,
     override val appContextProvider = AppContextProvider
 
     @TargetApi(Build.VERSION_CODES.O)
-    override fun Context.setupApplication() {
+    override fun Application.setupApplication() {
         appContextProvider.init(this)
         NotificationHelper.createNotificationChannels(this)
 
@@ -91,6 +96,22 @@ class AppSetupDelegate : AppDelegate,
         backgroundInit()
         if (Settings.getInstance(this).getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
             startRemoteAccess()
+
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            override fun onActivityResumed(activity: Activity) {
+                AppContextProvider.currentActivity = activity
+            }
+
+            override fun onActivityPaused(activity: Activity) {
+                AppContextProvider.currentActivity = null
+            }
+
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+            override fun onActivityStarted(activity: Activity) {}
+            override fun onActivityStopped(activity: Activity) {}
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+            override fun onActivityDestroyed(activity: Activity) {}
+        })
     }
 
     // init operations executed in background threads
@@ -105,6 +126,9 @@ class AppSetupDelegate : AppDelegate,
         if (!AndroidDevices.isAndroidTv) sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
             component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)
         })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            NetworkConnectionManager.start(AppContextProvider.appContext)
+        }
 
     }
 }

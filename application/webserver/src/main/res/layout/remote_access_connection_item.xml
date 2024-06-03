@@ -24,6 +24,6 @@
                 android:padding="12dp"
                 android:visibility="gone"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_ctx_delete" />
+                app:srcCompat="@drawable/ic_delete" />
     </LinearLayout>
 </layout>

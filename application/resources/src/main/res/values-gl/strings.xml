@@ -119,7 +119,6 @@
     <string name="nosubfolder">Non ha subcartafoles</string>
     <string name="directorynotfound">Non foi posíbel localizar o camiño \'%1$s\'.</string>
     <string name="nohistory">Aínda non existe un historial de reprodución.</string>
-
     <string name="cover_art">Portada</string>
     <string name="shuffle_all_title">Barallar todo</string>
     <string name="shuffle_title">Modo aleatorio</string>
@@ -383,8 +382,6 @@
     <string name="restart_message">Os cambios terán efecto cando se reinicie a aplicación.\nReiniciar a aplicación?</string>
     <string name="restart_message_OK">Aceptar</string>
     <string name="restart_message_Later">Máis tarde</string>
-    <string name="browser_show_all_title">Mostrar todos os ficheiros</string>
-
     <string name="developer_prefs_category">Desenvolvedor/a</string>
     <string name="enable_verbose_mode">Detallado</string>
     <string name="enable_verbose_mode_summary">Incrementar o nivel de detalle (logcat)</string>

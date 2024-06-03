@@ -351,8 +351,6 @@
     <string name="restart_message">Promjene će biti primjenjene nakon ponovnog pokretanja\n\nŽelite li to učiniti odmah?</string>
     <string name="restart_message_OK">U redu</string>
     <string name="restart_message_Later">Kasnije</string>
-    <string name="browser_show_all_title">Pokaži sve datoteke</string>
-
     <string name="developer_prefs_category">Razvoj</string>
     <string name="enable_verbose_mode">Opširnije</string>
     <string name="enable_verbose_mode_summary">Povećaj opširnost zapisa (LogCat)</string>

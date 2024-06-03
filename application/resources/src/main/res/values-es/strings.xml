@@ -128,7 +128,6 @@
     <string name="nosubfolder">No hay subcarpeta</string>
     <string name="directorynotfound">La ruta de la carpeta «%1$s» no ha sido encontrada.</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
-
     <string name="cover_art">Portada</string>
     <string name="shuffle_all_title">Barajar todo</string>
     <string name="shuffle_title">Modo aleatorio</string>
@@ -370,8 +369,6 @@
     <string name="restart_message">Los cambios tomarán efecto una vez se reinicie la aplicación.\n\n¿Reiniciar ahora?</string>
     <string name="restart_message_OK">Aceptar</string>
     <string name="restart_message_Later">Más tarde</string>
-    <string name="browser_show_all_title">Mostrar todos los archivos</string>
-
     <string name="developer_prefs_category">Desarrollador</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>

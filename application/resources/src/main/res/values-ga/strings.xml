@@ -342,8 +342,6 @@
     <string name="restart_message">Cuirfear na hathruithe i bhfeidhm nuair a atosófar an feidhmchlár.\n\nAtosaigh anois é?</string>
     <string name="restart_message_OK">Tá go maith</string>
     <string name="restart_message_Later">Níos déanaí</string>
-    <string name="browser_show_all_title">Taispeáin gach comhad</string>
-
     <string name="developer_prefs_category">Forbróir</string>
     <string name="enable_verbose_mode">Foclach</string>
     <string name="clear_log">Glan an t-oireas</string>

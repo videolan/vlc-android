@@ -954,6 +954,7 @@
     <string name="mark_as_played">Mark as played</string>
     <string name="mark_as_not_played">Mark as not played</string>
     <string name="mark_all_as_played">Mark all as played</string>
+    <string name="mark_all_as_not_played">Mark all as not played</string>
     <string name="new_group">New group</string>
     <string name="new_group_desc">Create a new group</string>
 
@@ -1237,4 +1238,12 @@
     <string name="podcast_mode_genres" translatable="false">audiobook(s), podcast, speech, or vocal</string>
     <string name="voice_control">Voice control</string>
     <string name="voice_control_help">VLC can be controlled through Google Assistant by speaking the following commands:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Network</string>
+    <string name="metered_connection">Action for streams when the connection is metered</string>
+    <string name="metered_do_nothing">Do nothing</string>
+    <string name="metered_stop">Stop playback</string>
+    <string name="metered_warn">Warn me (the warning may be missed for audio playback)</string>
+    <string name="metered_connection_stopped">Media stopped because the connection is metered</string>
+    <string name="metered_connection_warning">Your connection is metered. Fees may apply.</string>
 </resources>

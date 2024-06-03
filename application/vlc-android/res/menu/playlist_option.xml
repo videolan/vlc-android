@@ -27,7 +27,7 @@
     <item
             android:orderInCategory="0"
             android:id="@+id/pin_relocked"
-            android:icon="@drawable/ic_am_pin_lock"
+            android:icon="@drawable/ic_pin_lock"
             android:title="@string/lock_with_pin"
             app:showAsAction="always"
             android:visible="false"/>
@@ -35,14 +35,14 @@
     <item
             android:orderInCategory="1"
             android:id="@+id/ml_menu_filter"
-            android:icon="@drawable/ic_am_search"
+            android:icon="@drawable/ic_search"
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             android:title="@string/searchable_hint"
             app:showAsAction="always|collapseActionView"/>
     <item
             android:orderInCategory="2"
             android:title="@string/sortby"
-            android:icon="@drawable/ic_am_sort"
+            android:icon="@drawable/ic_sort"
             android:contentDescription="@string/sortby"
             android:id="@+id/ml_menu_sortby"
             app:showAsAction="ifRoom|collapseActionView"

@@ -638,7 +638,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                         displayInCards = inCards,
                         onlyFavs = null,
                         sorts = sorts,
-                        currentSort = viewModel.provider.sort,
+                        currentSort = viewModel.provider.sort.takeIf { it != 0 } ?: Medialibrary.SORT_FILENAME,
                         currentSortDesc = viewModel.provider.desc,
                         showOnlyMultimediaFiles = settings.getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false),
                         showHiddenFiles = settings.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)

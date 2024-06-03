@@ -435,6 +435,72 @@ fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.l
     collect() // tail-call
 }
 
+/**
+ * Sanitize a string by adding enough "0" at the start
+ * to make a "natural" alphanumeric comparison (1, 2, 10, 11, 20) instead of a strict one (1, 10, 11, 21, 20)
+ *
+ * @param nbOfDigits the number of digits to reach
+ * @return a string having exactly [nbOfDigits] digits at the start
+ */
+fun String?.sanitizeStringForAlphaCompare(nbOfDigits: Int): String? {
+    if (this == null) return null
+    if (first().isDigit()) return buildString {
+        var numberOfPrependingZeros =0
+        for (c in this@sanitizeStringForAlphaCompare) {
+            if (c.isDigit() && c.digitToInt() == 0) numberOfPrependingZeros++ else break
+        }
+        for (i in 0 until (nbOfDigits - numberOfPrependingZeros - (getStartingNumber()?.numberOfDigits() ?: 0))) {
+            append("0")
+        }
+        append(this@sanitizeStringForAlphaCompare)
+    }
+    return this
+}
+
+/**
+ * Calculate the number of digits of an Int
+ *
+ * @return the number of digits of this Int
+ */
+fun Int.numberOfDigits(): Int = when (this) {
+    in -9..9 -> 1
+    else -> 1 + (this / 10).numberOfDigits()
+}
+
+/**
+ * Get the number described at the start of this String if any
+ *
+ * @return the starting number of this String, null if no number found
+ */
+fun String.getStartingNumber(): Int? {
+    return try {
+        buildString {
+            for (c in this@getStartingNumber)
+                //we exclude starting "0" to prevent bad sorts
+                if (c.isDigit()) {
+                    if (!(this.isEmpty() && c.digitToInt() == 0)) append(c)
+                } else break
+        }.toInt()
+    } catch (e: NumberFormatException) {
+        null
+    }
+}
+
+/**
+ * Determine the max number of digits iat the start of
+ * this lit items' filename
+ *
+ * @return a max number of digits
+ */
+fun List<MediaLibraryItem>.determineMaxNbOfDigits(): Int {
+    var numberOfPrepending = 0
+    forEach {
+        numberOfPrepending = max((it as? MediaWrapper)?.fileName?.getStartingNumber()?.numberOfDigits()
+                ?: 0, numberOfPrepending)
+    }
+    return numberOfPrepending
+}
+
 fun Fragment.showParentFolder(media: MediaWrapper) {
     val parent = MLServiceLocator.getAbstractMediaWrapper(media.uri.retrieveParent()).apply {
         type = MediaWrapper.TYPE_DIR

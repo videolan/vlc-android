@@ -522,7 +522,7 @@
     <string name="restart_message">Ändringarna kommer att träda i kraft när applikationen har startats om.\n\nStarta om nu?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Senare</string>
-    <string name="browser_show_all_title">Visa alla filer</string>
+    <string name="browser_show_all_title">Visa endast multimediafiler</string>
 
     <string name="developer_prefs_category">Utvecklare</string>
     <string name="enable_verbose_mode">Detaljerad loggdata</string>
@@ -539,6 +539,7 @@
     <string name="dump_logcat">Spara logg</string>
     <string name="dump_logcat_success">Logcat sparades till %1$s!</string>
     <string name="dump_logcat_failure">Misslyckades att spara logcat.</string>
+    <string name="http_user_agent">HTTP-användaragent</string>
     <string name="custom_libvlc_options">Anpassade libVLC-alternativ</string>
     <string name="custom_libvlc_options_invalid">Ogiltiga libVLC-alternativ!</string>
 

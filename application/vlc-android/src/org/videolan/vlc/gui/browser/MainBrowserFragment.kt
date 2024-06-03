@@ -114,11 +114,25 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInList
+        menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInList
         menu.findItem(R.id.add_server_favorite).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
+                displayInList = item.itemId == R.id.ml_menu_display_list
+                containerAdapterAssociation.keys.forEach {
+                    it.inCards = !displayInList
+                }
+                localEntry.displayInCards = !displayInList
+                favoritesEntry.displayInCards = !displayInList
+                networkEntry.displayInCards = !displayInList
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).putSingle(displayInListKey, displayInList)
+                true
+            }
             R.id.add_server_favorite -> {
                 showAddServerDialog(null)
                 true

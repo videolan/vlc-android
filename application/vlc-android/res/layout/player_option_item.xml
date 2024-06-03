@@ -21,6 +21,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="@dimen/default_margin"
+                app:tint="?attr/font_default"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/option_title"
                 app:layout_constraintStart_toStartOf="parent"

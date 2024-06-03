@@ -4,49 +4,49 @@
     <item
         android:id="@+id/action_videogroup_play"
         android:title="@string/play"
-            android:icon="@drawable/ic_am_play"
+            android:icon="@drawable/ic_play"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_videogroup_append"
         android:title="@string/append"
-            android:icon="@drawable/ic_am_append"
+            android:icon="@drawable/ic_play_append"
         app:showAsAction="always" />
     <item
             android:id="@+id/action_add_to_group"
             android:title="@string/add_to_group"
-            android:icon="@drawable/ic_am_add_to_group"
+            android:icon="@drawable/ic_add_to_group"
             app:showAsAction="always" />
     <item
             android:id="@+id/action_videogroup_add_playlist"
             android:title="@string/add_to_playlist"
-            android:icon="@drawable/ic_am_addtoplaylist"
+            android:icon="@drawable/ic_add_to_playlist"
             app:showAsAction="ifRoom"/>
     <item
             android:id="@+id/action_ungroup"
             android:title="@string/ungroup"
-            android:icon="@drawable/ic_am_remove_from_group"
+            android:icon="@drawable/ic_remove_from_group"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_rename"
             android:title="@string/rename_group"
-            android:icon="@drawable/ic_am_edit"
+            android:icon="@drawable/ic_edit"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_video_delete"
             android:title="@string/delete"
-            android:icon="@drawable/ic_am_delete"
+            android:icon="@drawable/ic_delete"
             app:showAsAction="ifRoom" />
 
     <item
             android:id="@+id/action_group_similar"
             android:title="@string/group_similar"
-            android:icon="@drawable/ic_am_group_auto"
+            android:icon="@drawable/ic_group_auto"
             app:showAsAction="ifRoom" />
 
     <item
             android:id="@+id/action_mode_go_to_folder"
             android:title="@string/go_to_folder"
-            android:icon="@drawable/ic_am_folder"
+            android:icon="@drawable/ic_go_to_folder"
             android:visible="false"
             app:showAsAction="ifRoom" />
     <item

@@ -125,7 +125,6 @@
     <string name="nosubfolder">Dim is-ffolder</string>
     <string name="directorynotfound">Methwyd dod o hyd i\'r cyfeiriadur \'%1$s\'.</string>
     <string name="nohistory">Does dim hanes chwarae eto.</string>
-
     <string name="cover_art">Dyluniad clawr</string>
     <string name="shuffle_all_title">Cymysgu\'r cwbl</string>
     <string name="shuffle_title">Modd cymysgu</string>
@@ -361,8 +360,6 @@
     <string name="restart_message">Caiff newidiadau eu rhoi ar waith pan fydd yr ap wedi ail-ddechrau.\n\nAil-ddechrau nawr?</string>
     <string name="restart_message_OK">Iawn</string>
     <string name="restart_message_Later">Yn hwyrach</string>
-    <string name="browser_show_all_title">Dangos pob ffeil</string>
-
     <string name="developer_prefs_category">Datblygwr</string>
     <string name="enable_verbose_mode">Amleiriog</string>
     <string name="enable_verbose_mode_summary">Cynyddu\'r geiriogrwydd yn logcat Android.</string>

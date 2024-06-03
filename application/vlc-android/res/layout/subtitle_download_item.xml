@@ -67,12 +67,12 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 android:padding="4dp"
-                android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_done : @drawable/ic_am_download }"
+                android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_done : @drawable/ic_download_subtitles }"
                 android:visibility="@{subtitleItem.state == State.Downloading ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/ic_am_download" />
+                tools:srcCompat="@drawable/ic_download_subtitles" />
 
         <ProgressBar
                 android:id="@+id/loading"

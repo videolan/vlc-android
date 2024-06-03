@@ -152,7 +152,7 @@ fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (t
 }
 
 fun getDummyItemIcon(context: Context, item:DummyItem) = when (item.id) {
-    DUMMY_NEW_GROUP -> BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_am_add_to_group))
+    DUMMY_NEW_GROUP -> BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_add_to_group))
     else -> null
 }
 

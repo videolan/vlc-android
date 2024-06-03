@@ -159,7 +159,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
         generateSeparator(binding.subtitleTracks.options)
         generateOptionItem(binding.subtitleTracks.options, getString(R.string.spu_delay), R.drawable.ic_delay, VideoTrackOption.SUB_DELAY)
         generateOptionItem(binding.subtitleTracks.options, getString(R.string.subtitle_select), R.drawable.ic_subtitles_file, VideoTrackOption.SUB_PICK)
-        generateOptionItem(binding.subtitleTracks.options, getString(R.string.download_subtitles), R.drawable.ic_am_download, VideoTrackOption.SUB_DOWNLOAD)
+        generateOptionItem(binding.subtitleTracks.options, getString(R.string.download_subtitles), R.drawable.ic_download_subtitles, VideoTrackOption.SUB_DOWNLOAD)
         generateSeparator(binding.subtitleTracks.options, true)
         binding.subtitleTracks.options.setAnimationUpdateListener {
             binding.subtitleTracks.trackMore.rotation = if (binding.subtitleTracks.options.isCollapsed) 180F - (180F * it) else 180F * it

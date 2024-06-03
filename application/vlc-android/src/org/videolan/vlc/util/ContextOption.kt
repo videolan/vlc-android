@@ -43,6 +43,7 @@ enum class ContextOption : Flag {
     CTX_INFORMATION,
     CTX_ITEM_DL,
     CTX_MARK_ALL_AS_PLAYED,
+    CTX_MARK_ALL_AS_UNPLAYED,
     CTX_MARK_AS_PLAYED,
     CTX_MARK_AS_UNPLAYED,
     CTX_PLAY,
@@ -92,12 +93,12 @@ enum class ContextOption : Flag {
 
         fun createCtxVideoGroupFlags() = createBaseFlags().apply {
             remove(CTX_ADD_SHORTCUT)
-            addAll(CTX_ADD_GROUP, CTX_MARK_ALL_AS_PLAYED, CTX_PLAY_ALL, CTX_RENAME_GROUP, CTX_UNGROUP)
+            addAll(CTX_ADD_GROUP, CTX_MARK_ALL_AS_PLAYED, CTX_MARK_ALL_AS_UNPLAYED, CTX_PLAY_ALL, CTX_RENAME_GROUP, CTX_UNGROUP)
         }
 
         fun createCtxFolderFlags() = createBaseFlags().apply {
             remove(CTX_ADD_SHORTCUT)
-            addAll(CTX_BAN_FOLDER, CTX_MARK_ALL_AS_PLAYED, CTX_PLAY_ALL)
+            addAll(CTX_BAN_FOLDER, CTX_MARK_ALL_AS_PLAYED, CTX_MARK_ALL_AS_UNPLAYED, CTX_PLAY_ALL)
         }
     }
 }

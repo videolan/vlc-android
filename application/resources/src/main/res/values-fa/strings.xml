@@ -465,8 +465,6 @@
     <string name="restart_message">تغییرات پس از بستن کامل برنامه و اجرای دوباره آن انجام می شود آیا این کار الان انجام شود؟</string>
     <string name="restart_message_OK">تایید</string>
     <string name="restart_message_Later">فعلا نه</string>
-    <string name="browser_show_all_title">نمایش همه فایل ها</string>
-
     <string name="developer_prefs_category">توسعه دهنده</string>
     <string name="enable_verbose_mode">گزارش کامل</string>
     <string name="enable_verbose_mode_summary">اطلاعات بیشتری را برای (گزارش) ارائه می دهد</string>

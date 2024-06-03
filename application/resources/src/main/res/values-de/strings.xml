@@ -522,8 +522,6 @@
     <string name="restart_message">Änderungen werden nach einem Neustart übernommen.\n\nJetzt neu starten?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Später</string>
-    <string name="browser_show_all_title">Alle Dateien anzeigen</string>
-
     <string name="developer_prefs_category">Entwickler</string>
     <string name="enable_verbose_mode">Ausführlichkeit</string>
     <string name="enable_verbose_mode_summary">Ausführlichkeit des Protokolls erhöhen (Logcat)</string>
@@ -539,6 +537,7 @@
     <string name="dump_logcat">Logcat-Protokoll erstellen</string>
     <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter %1$s erstellt!</string>
     <string name="dump_logcat_failure">Erstellen des Logcat-Auszugs fehlgeschlagen.</string>
+    <string name="http_user_agent">HTTP User-Agent</string>
     <string name="custom_libvlc_options">Benutzerdefinierte libVLC-Optionen</string>
     <string name="custom_libvlc_options_invalid">Ungültige libVLC-Optionen!</string>
 
