@@ -407,8 +407,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         when (option) {
             CTX_PLAY -> MediaUtils.openMedia(activity, mw)
             CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
-            CTX_ADD_FOLDER_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), false)
-            CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
+            CTX_ADD_FOLDER_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), false, mw.title)
+            CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), true, mw.title)
             CTX_FAV_EDIT -> showAddServerDialog(mw)
             else -> {}
         }
