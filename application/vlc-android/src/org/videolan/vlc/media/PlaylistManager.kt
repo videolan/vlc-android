@@ -1029,7 +1029,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
     fun setABRepeatValue(media: MediaWrapper?, time: Long) {
-        if (settings.getBoolean(PLAYBACK_HISTORY, true)) return
         val value = abRepeat.value ?: ABRepeat()
         when {
             value.start == -1L -> {
@@ -1043,8 +1042,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 value.stop = time
             }
         }
-        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, value.start)
-        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, value.stop)
+        if (settings.getBoolean(PLAYBACK_HISTORY, true)) {
+            media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, value.start)
+            media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, value.stop)
+        }
         abRepeat.value = value
     }
 
