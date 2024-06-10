@@ -457,6 +457,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     private fun resetSleepTimer(service: PlaybackService) {
+        if (!service.resetOnInteraction) return
         val sleepTime = Calendar.getInstance()
         sleepTime.timeInMillis = System.currentTimeMillis() + service.sleepTimerInterval
         PlaybackService.playerSleepTime.value = sleepTime
