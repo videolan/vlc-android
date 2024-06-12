@@ -456,6 +456,8 @@
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
     <string name="casting_category">Casting</string>
     <string name="remote_access">Remote access</string>
+    <string name="remote_access_version_title">Remote access version</string>
+    <string name="remote_access_hash_title">Remote access hash</string>
     <string name="remote_access_status">Server status</string>
     <string name="remote_access_status_summary">Tap to see the server status</string>
     <string name="remote_access_connections">Connections</string>
