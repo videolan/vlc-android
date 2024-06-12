@@ -1175,8 +1175,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.TimeChanged -> {
                     abRepeat.value?.let {
-                        if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start)
-                        if (player.getCurrentTime() < it.start) service.setTime(it.start)
+                        if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start, false)
+                        if (player.getCurrentTime() < it.start) service.setTime(it.start, false)
                     }
                     if (player.getCurrentTime() % 10 == 0L) savePosition()
                     val now = System.currentTimeMillis()
