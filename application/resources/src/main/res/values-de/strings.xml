@@ -189,7 +189,6 @@
     <string name="jump_to_time">Zum Zeitpunkt springen</string>
     <string name="subtitle_select">Untertiteldatei auswählen</string>
     <string name="wait_before_sleep">Bis das aktuelle Medienelement zuerst fertig ist warten</string>
-
     <string name="server_add_title">Einen neuen Server zu den Favoriten hinzufügen</string>
     <string name="server_domain_hint">Serveradresse (Domainname oder IP)</string>
     <string name="server_share_hint">Netzwerkfreigabename (oder IP-Adresse)</string>
@@ -522,6 +521,8 @@
     <string name="restart_message">Änderungen werden nach einem Neustart übernommen.\n\nJetzt neu starten?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Später</string>
+    <string name="browser_show_all_title">Nur Multimediadateien anzeigen</string>
+
     <string name="developer_prefs_category">Entwickler</string>
     <string name="enable_verbose_mode">Ausführlichkeit</string>
     <string name="enable_verbose_mode_summary">Ausführlichkeit des Protokolls erhöhen (Logcat)</string>
@@ -934,6 +935,7 @@
     <string name="mark_as_played">Als gespielt markieren</string>
     <string name="mark_as_not_played">Als nicht abgespielt markieren</string>
     <string name="mark_all_as_played">Alle als gespielt markieren</string>
+    <string name="mark_all_as_not_played">Alle als nicht abgespielt markieren</string>
     <string name="new_group">Neue Gruppe</string>
     <string name="new_group_desc">Neue Gruppe erstellen</string>
 
@@ -1215,4 +1217,12 @@
     <string name="podcast_mode_help">Podcast-Steuerelemente werden angezeigt, wenn ein einzelner Titel abgespielt wird, der eines der folgenden Kriterien erfüllt:\n\t• Länge größer als 60 Min.\n\t• Länge größer als 15 Min. ohne Albumnamen\n\t• Genre ist %s</string>
     <string name="voice_control">Sprachsteuerung</string>
     <string name="voice_control_help">VLC kann über Google Assistant gesteuert werden, indem die folgenden Befehle gesprochen werden:\n\t• Abspielen, Pause, Stopp, Zurück, Weiter\n\t• Zurückspulen, Schneller Vorlauf, Wiederholen &lt;alle|eins|aus&gt;\n\t • Zu &lt;Zeit&gt; springen, &lt;Dauer&gt; überspringen\n\t• Was ist das für ein &lt;Künstler|Album|Lied&gt;\n\t• Spielen Sie [Künstler|Album|Lied|Genre|Wiedergabeliste] ab &lt;Name&gt;</string>
+
+    <string name="network" >Netzwerk</string>
+    <string name="metered_connection">Aktion für Streams, wenn die Verbindung gemessen wird</string>
+    <string name="metered_do_nothing">Nichts machen</string>
+    <string name="metered_stop">Wiedergabe stoppen</string>
+    <string name="metered_warn">Mich warnen (die Warnung kann bei der Audiowiedergabe übersehen werden)</string>
+    <string name="metered_connection_stopped">Medien stoppen, da die Verbindung gemessen wird</string>
+    <string name="metered_connection_warning">Ihre Verbindung wird gemessen. Es können Gebühren anfallen.</string>
 </resources>

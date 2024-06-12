@@ -189,7 +189,6 @@
     <string name="jump_to_time">Jump to Time</string>
     <string name="subtitle_select">Select subtitle file</string>
     <string name="wait_before_sleep">Wait for current media item to finish first</string>
-
     <string name="server_add_title">Add a new server to favourites</string>
     <string name="server_domain_hint">Server address (domain name or IP)</string>
     <string name="server_share_hint">Network share name (or IP address)</string>
@@ -936,6 +935,7 @@
     <string name="mark_as_played">Mark as played</string>
     <string name="mark_as_not_played">Mark as not played</string>
     <string name="mark_all_as_played">Mark all as played</string>
+    <string name="mark_all_as_not_played">Mark all as not played</string>
     <string name="new_group">New group</string>
     <string name="new_group_desc">Create a new group</string>
 
@@ -1217,4 +1217,12 @@
     <string name="podcast_mode_help">Podcast controls appear when playing a single track which meets one of the following criteria:\n\t• Length greater than 60 min\n\t• Length greater than 15 min with no album name\n\t• Genre is %s</string>
     <string name="voice_control">Voice control</string>
     <string name="voice_control_help">VLC can be controlled through Google Assistant by speaking the following commands:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Network</string>
+    <string name="metered_connection">Action for streams when the connection is metered</string>
+    <string name="metered_do_nothing">Do nothing</string>
+    <string name="metered_stop">Stop playback</string>
+    <string name="metered_warn">Warn me (the warning may be missed for audio playback)</string>
+    <string name="metered_connection_stopped">Media stopped because the connection is metered</string>
+    <string name="metered_connection_warning">Your connection is metered. Fees may apply.</string>
 </resources>

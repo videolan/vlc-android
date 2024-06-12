@@ -189,7 +189,6 @@
     <string name="jump_to_time">Saltar al minut</string>
     <string name="subtitle_select">Selecciona un fitxer de subtítols</string>
     <string name="wait_before_sleep">Espereu que acabi primer l\'actual element multimèdia</string>
-
     <string name="server_add_title">Afegeix un servidor als preferits</string>
     <string name="server_domain_hint">Adreça del servidor (nom de domini o IP)</string>
     <string name="server_share_hint">Nom del recurs compartit de xarxa (o adreça IP)</string>
@@ -936,6 +935,7 @@
     <string name="mark_as_played">Marca-ho com a reproduït</string>
     <string name="mark_as_not_played">Marca-ho com a no reproduït</string>
     <string name="mark_all_as_played">Marca-ho tot com a reproduït</string>
+    <string name="mark_all_as_not_played">Marca-ho tot com a no reproduït</string>
     <string name="new_group">Grup nou</string>
     <string name="new_group_desc">Crear un grup nou</string>
 
@@ -1217,4 +1217,5 @@
     <string name="podcast_mode_help">Els controls del podcast apareixen quan es reprodueix una única pista que compleix un dels següents criteris:\n\t• Durada superior a 60 min:\n\t• Durada superior a 15 min sense nom d\'àlbum:\n\t• El gènere és %s</string>
     <string name="voice_control">Control de veu</string>
     <string name="voice_control_help">El VLC es pot controlar a través de Google Assistant parlant les següents ordres:\n\t• Reproduir, Pausa, Aturar, Anterior, Següent:\n\t• Rebobinar, Avançar ràpid, Repetir &lt;totes|una|apagar&gt;\n\t• Saltar a &lt;temps&gt;, Ometre &lt;duració&gt;\n\t• Què és això &lt;artista|àlbum|cançó&gt;\n\t• Reproduir [artista|àlbum|cançó|gènere|llista de reproducció] &lt;nom&gt;</string>
-</resources>
+
+    </resources>

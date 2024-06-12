@@ -189,6 +189,8 @@
     <string name="jump_to_time">Hoppa till tid</string>
     <string name="subtitle_select">Välj undertextfil</string>
     <string name="wait_before_sleep">Vänta på att nuvarande mediaobjekt slutförs först</string>
+    <string name="reset_on_interaction">Återställ vid interaktion</string>
+    <string name="default_sleep_timer_summary">%1$s, vänta på att media ska sluta: %2$s, återställ vid interaktion: %3$s</string>
 
     <string name="server_add_title">Lägg till en ny server i favoriter</string>
     <string name="server_domain_hint">Serveradress (domännamn eller IP)</string>
@@ -936,6 +938,7 @@
     <string name="mark_as_played">Markera som uppspelad</string>
     <string name="mark_as_not_played">Markera som ej uppspelad</string>
     <string name="mark_all_as_played">Markera alla som uppspelade</string>
+    <string name="mark_all_as_not_played">Markera alla som ej uppspelade</string>
     <string name="new_group">Ny grupp</string>
     <string name="new_group_desc">Skapa en ny grupp</string>
 
@@ -1217,4 +1220,12 @@
     <string name="podcast_mode_help">Podcast-kontroller visas när enstaka spår som uppfyller ett av följande kriterier spelas upp:\n\t• Längd på minst 60 min\n\t• Längd på minst 15 min utan albumnamn\n\t• Genren är %s</string>
     <string name="voice_control">Röststyrning</string>
     <string name="voice_control_help">VLC kan styras via Google Assistant genom att säga följande kommandon:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;tidpunkt&gt;, Skip &lt;varaktighet&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;namn&gt;</string>
+
+    <string name="network" >Nätverk</string>
+    <string name="metered_connection">Strömåtgärder vid anslutning med datapriser</string>
+    <string name="metered_do_nothing">Gör ingenting</string>
+    <string name="metered_stop">Stoppa uppspelningen</string>
+    <string name="metered_warn">Varna mig (under ljuduppspelning kan man missa varningen)</string>
+    <string name="metered_connection_stopped">Media stoppades på grund av anslutning med datapriser</string>
+    <string name="metered_connection_warning">Du har en anslutning med datapriser. Avgifter kan tillkomma.</string>
 </resources>

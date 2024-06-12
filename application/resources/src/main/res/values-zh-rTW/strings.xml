@@ -179,6 +179,8 @@
     <string name="jump_to_time">跳至時間</string>
     <string name="subtitle_select">選擇字幕檔</string>
     <string name="wait_before_sleep">等待目前媒體項目先完成</string>
+    <string name="reset_on_interaction">任何互動時重設</string>
+    <string name="default_sleep_timer_summary">%1$s，等待媒體結束：%2$s，互動時重設：%3$s</string>
 
     <string name="server_add_title">新增伺服器至收藏</string>
     <string name="server_domain_hint">伺服器地址（網域名稱或 IP 位址）</string>
@@ -924,6 +926,7 @@
     <string name="mark_as_played">標記為已播放</string>
     <string name="mark_as_not_played">標記為未播放</string>
     <string name="mark_all_as_played">全部標記為已播放</string>
+    <string name="mark_all_as_not_played">全部標記為未播放</string>
     <string name="new_group">新群組</string>
     <string name="new_group_desc">建立新群組</string>
 
@@ -1203,4 +1206,12 @@
     <string name="podcast_mode_help">播放符合以下條件之一的單一曲目時會出現 podcast 控制：\n\t• 長度大於 60 分鐘\n\t• 長度大於 15 分鐘，無專輯名稱\n\t• 類型為 %s</string>
     <string name="voice_control">語音控制</string>
     <string name="voice_control_help">可以透過 Google 助理透過說出以下命令來控制VLC：\n\t• 播放、暫停、停止、上一個、下一個\n\t• 快退、快轉、重複&lt;全部|一個|關閉&gt;\n \t • 跳至&lt;時間&gt;，跳過&lt;持續時間&gt;\n\t• 這是什麼&lt;藝人|專輯|歌曲&gt;\n\t• 播放[藝人|專輯|歌曲|類型|播放清單] &lt;名稱&gt;</string>
+
+    <string name="network" >網路</string>
+    <string name="metered_connection">在計量連線時要對串流執行的動作</string>
+    <string name="metered_do_nothing">不要執行任何動作</string>
+    <string name="metered_stop">停止播放</string>
+    <string name="metered_warn">警告我（音訊播放可能會錯過警告）</string>
+    <string name="metered_connection_stopped">因為是計量連線，因此媒體停止播放</string>
+    <string name="metered_connection_warning">您目前使用的是計量連線。可能需要付費。</string>
 </resources>

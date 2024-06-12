@@ -204,7 +204,7 @@
     <string name="jump_to_time">קפיצה לזמן</string>
     <string name="subtitle_select">בחירת קובץ כתוביות</string>
     <string name="wait_before_sleep">להמתין לסיום פריט המדיה הנוכחי</string>
-
+    <string name="reset_on_interaction">איפוס עם כל מחוות תפעול</string>
     <string name="server_add_title">הוספת שרת חדש למועדפים</string>
     <string name="server_domain_hint">כתובת השרת (שם מתחם או IP)</string>
     <string name="server_share_hint">שם השיתוף ברשת (או כתובת IP)</string>
@@ -953,6 +953,7 @@
     <string name="mark_as_played">לסמן כהתנגן</string>
     <string name="mark_as_not_played">סימון כטרם התנגן</string>
     <string name="mark_all_as_played">לסמן הכול כהתנגן</string>
+    <string name="mark_all_as_not_played">סימון הכול כטרם נוגן</string>
     <string name="new_group">קבוצה חדשה</string>
     <string name="new_group_desc">יצירת קבוצה חדשה</string>
 
@@ -1238,4 +1239,7 @@
     <string name="podcast_mode_help">פקדי הסתכים מופיעים בעת נגינה של רצועה בודדת שעונה על אחד מהתנאים הבאים:\n\t• האורך עולה על 60 דקות\n\t• האורך עולה על 15 דקות ואין שם אלבום\n\t• הסוגה היא %s</string>
     <string name="voice_control">שליטה קולית</string>
     <string name="voice_control_help">אפשר לשלוט ב־VLC באמצעות Google Assistant על ידי אמירת הפקודות האלה בקול רם (אין תמיכה בעברית עדיין):\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
-</resources>
+
+    <string name="network" >רשת</string>
+    <string name="metered_do_nothing">לא לעשות כלום</string>
+    </resources>

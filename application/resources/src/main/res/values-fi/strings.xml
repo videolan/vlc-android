@@ -189,7 +189,6 @@
     <string name="jump_to_time">Hyppää</string>
     <string name="subtitle_select">Valitse tekstitystiedosto</string>
     <string name="wait_before_sleep">Odota, että nykyinen media valmistuu ensin</string>
-
     <string name="server_add_title">Lisää uusi serveri suosikkeihin</string>
     <string name="server_domain_hint">Serverin osoite (domain tai IP-osoite)</string>
     <string name="server_share_hint">Verkkojaon nimi (tai IP-osoite)</string>
@@ -949,6 +948,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="mark_as_played">Merkitse toistetuksi</string>
     <string name="mark_as_not_played">Merkitse toistamattomaksi</string>
     <string name="mark_all_as_played">Merkitse kaikki toistetuksi</string>
+    <string name="mark_all_as_not_played">Merkitse kaikki ei toistetuksi</string>
     <string name="new_group">Uusi ryhmä</string>
     <string name="new_group_desc">Luo uusi ryhmä</string>
 
@@ -1236,4 +1236,12 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="podcast_mode_help">Podcastin ohjaimet tulevat näkyviin, kun toistetaan raitaa, joka täyttää yhden seuraavista ehdoista:\n\t• Pituus yli 60 min\n\t• Pituus yli 15 min ilman albumin nimeä\n\t• Genre on %s</string>
     <string name="voice_control">Puheohjaus</string>
     <string name="voice_control_help">VLC voidaan ohjata englanniksi Google Assistant avulla sanomalla seuraavat komennot::\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Verkko</string>
+    <string name="metered_connection">Toiminto suoratoistolle, kun yhteyttä mitataan</string>
+    <string name="metered_do_nothing">Ei mitään</string>
+    <string name="metered_stop">Pysäytä toisto</string>
+    <string name="metered_warn">Varoita minua (voi jäädä huomaamatta äänen toiston aikana)</string>
+    <string name="metered_connection_stopped">Media pysähtyi, koska yhteyttä mitataan</string>
+    <string name="metered_connection_warning">Yhteytesi on mitattu.</string>
 </resources>
