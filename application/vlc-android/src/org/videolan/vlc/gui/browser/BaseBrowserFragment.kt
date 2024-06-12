@@ -656,12 +656,12 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
 
             R.id.folder_add_playlist -> {
-                currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString()) }
+                currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString(), defaultTitle = it.title) }
                 true
             }
 
             R.id.subfolders_add_playlist -> {
-                currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString(), true) }
+                currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString(), true, defaultTitle = it.title) }
                 true
             }
 
@@ -836,11 +836,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
 
             CTX_ADD_FOLDER_PLAYLIST -> {
-                requireActivity().addToPlaylistAsync(mw.uri.toString(), false)
+                requireActivity().addToPlaylistAsync(mw.uri.toString(), false, mw.title)
             }
 
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> {
-                requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
+                requireActivity().addToPlaylistAsync(mw.uri.toString(), true, mw.title)
             }
 
             else -> {}

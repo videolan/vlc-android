@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_mode_audio_info"
-        android:title="@string/info"
+            android:id="@+id/action_mode_audio_info"
             android:icon="@drawable/ic_information"
-        app:showAsAction="always"/>
-    <item
-            android:id="@+id/action_mode_audio_share"
-            android:title="@string/share"
-            android:icon="@drawable/ic_share"
+            android:title="@string/info"
             app:showAsAction="always" />
     <item
-        android:id="@+id/action_mode_audio_play"
-        android:title="@string/play"
-            android:icon="@drawable/ic_play"
-        app:showAsAction="always"/>
+            android:id="@+id/action_mode_audio_share"
+            android:icon="@drawable/ic_share"
+            android:title="@string/share"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_mode_favorite_add"
-        android:title="@string/favorites_add"
+            android:id="@+id/action_mode_audio_play"
+            android:icon="@drawable/ic_play"
+            android:title="@string/play"
+            app:showAsAction="always" />
+    <item
+            android:id="@+id/action_mode_favorite_add"
             android:icon="@drawable/ic_fav_add"
+            android:title="@string/favorites_add"
             app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_mode_favorite_remove"
-        android:title="@string/favorites_remove"
+            android:id="@+id/action_mode_favorite_remove"
             android:icon="@drawable/ic_fav_add"
+            android:title="@string/favorites_remove"
             app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_mode_audio_append"
-        android:title="@string/append"
+            android:id="@+id/action_mode_audio_append"
             android:icon="@drawable/ic_play_append"
+            android:title="@string/append"
             app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_mode_audio_add_playlist"
-        android:title="@string/add_to_playlist"
+            android:id="@+id/action_mode_audio_add_playlist"
             android:icon="@drawable/ic_add_to_playlist"
+            android:title="@string/add_to_playlist"
             app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_mode_audio_delete"
-        android:title="@string/delete"
+            android:id="@+id/action_mode_audio_delete"
             android:icon="@drawable/ic_delete"
-        android:visible="false"
+            android:title="@string/delete"
+            android:visible="false"
             app:showAsAction="ifRoom" />
-    <group android:id="@+id/phone_only" >
+    <group android:id="@+id/phone_only">
         <item
                 android:id="@+id/action_mode_audio_set_song"
                 android:icon="@drawable/ic_set_ringtone"
@@ -54,8 +54,8 @@
 
     <item
             android:id="@+id/action_mode_go_to_folder"
-            android:title="@string/go_to_folder"
             android:icon="@drawable/ic_go_to_folder"
+            android:title="@string/go_to_folder"
             android:visible="false"
             app:showAsAction="ifRoom" />
 </menu>

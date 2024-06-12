@@ -32,13 +32,17 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
+import org.videolan.tools.setGone
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.AudioBrowserBinding
+import org.videolan.vlc.databinding.DialogTimePickerBinding
 import org.videolan.vlc.gui.helpers.TalkbackUtil
 import org.videolan.vlc.util.launchWhenStarted
 
 abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener {
 
+    lateinit var binding: DialogTimePickerBinding
     private var mTextColor: Int = 0
 
     var hours = ""
@@ -47,9 +51,10 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     private var formatTime = ""
     private var pickedRawTime = ""
     var maxTimeSize = 6
-    private lateinit var tvTimeToJump: TextView
 
     lateinit var playbackService: PlaybackService
+
+    abstract fun showTimeOnly(): Boolean
 
     abstract fun getTitle(): Int
 
@@ -65,50 +70,29 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_time_picker, container)
-        tvTimeToJump = view.findViewById<View>(R.id.tim_pic_timetojump) as TextView
-        (view.findViewById<View>(R.id.tim_pic_title) as TextView).setText(getTitle())
+        binding = DialogTimePickerBinding.inflate(inflater, container, false)
+        binding.timPicTitle.setText(getTitle())
+        arrayOf(binding.timPic0, binding.timPic1, binding.timPic2, binding.timPic3, binding.timPic4, binding.timPic5, binding.timPic6, binding.timPic7, binding.timPic8, binding.timPic9, binding.timPic00, binding.timPic30, binding.timPicDelete, binding.timPicOk).forEach {
+            it .setOnClickListener(this)
+            it .onFocusChangeListener = this
 
-        view.findViewById<View>(R.id.tim_pic_1).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_1).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_2).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_2).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_3).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_3).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_4).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_4).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_5).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_5).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_6).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_6).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_7).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_7).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_8).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_8).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_9).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_9).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_0).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_0).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_00).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_00).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_30).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_30).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_delete).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_delete).onFocusChangeListener = this
-        view.findViewById<View>(R.id.tim_pic_ok).setOnClickListener(this)
-        view.findViewById<View>(R.id.tim_pic_ok).onFocusChangeListener = this
-        val deleteCurrent = view.findViewById<View>(R.id.tim_pic_delete_current)
-        deleteCurrent.setOnClickListener(this)
-        deleteCurrent.visibility = if (showDeleteCurrent()) View.VISIBLE else View.GONE
-        deleteCurrent.onFocusChangeListener = this
+        }
 
-        mTextColor = tvTimeToJump.currentTextColor
+        binding.timPicDeleteCurrent.setOnClickListener(this)
+        binding.timPicDeleteCurrent.visibility = if (showDeleteCurrent()) View.VISIBLE else View.GONE
+        binding.timPicDeleteCurrent.onFocusChangeListener = this
 
-        return view
+        mTextColor = binding.timPicTimetojump.currentTextColor
+        if (showTimeOnly()) {
+            binding.timPicWaitCheckbox.setGone()
+            binding.timPicResetCheckbox.setGone()
+        }
+
+        return binding.root
     }
 
     override fun initialFocusedView(): View {
-        return requireView().findViewById(R.id.tim_pic_1)
+        return binding.timPic1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -161,7 +145,7 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         }
     }
 
-    private fun updateValue(value: String) {
+    fun updateValue(value: String) {
         if (pickedRawTime.length >= maxTimeSize)
             return
         pickedRawTime += value
@@ -185,8 +169,8 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         if (hours !== "")
             formatTime = hours + "h " + formatTime
 
-        tvTimeToJump.text = formatTime
-        tvTimeToJump.announceForAccessibility(TalkbackUtil.millisToString(requireActivity(), getTimeInMillis() ))
+        binding.timPicTimetojump.text = formatTime
+        binding.timPicTimetojump.announceForAccessibility(TalkbackUtil.millisToString(requireActivity(), getTimeInMillis() ))
     }
 
     fun getTimeInMillis(): Long {

@@ -9,7 +9,7 @@ variables:
   VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20230621085943
   VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20230614051113
   VLC_WEB_BUILD_IMAGE: registry.videolan.org/videolan-alpine-node:20230523124511
-  WEBSERVER_DIR: "./buildsystem/network-sharing-server/"
+  WEBSERVER_DIR: "./remoteaccess"
 
 default:
   interruptible: true
@@ -34,7 +34,7 @@ stages:
     # a medialib build
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       changes:
-        - buildsystem/network-sharing-server/**/*
+        - buildsystem/compile-remoteaccess.sh
     - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
 
@@ -46,11 +46,12 @@ webserver-install-dependencies:
     extends: .webserver-base
     stage: webserver-install-dependencies
     script:
+      - ./buildsystem/compile-remoteaccess.sh --init
       - cd "$WEBSERVER_DIR"
       - npm install
     artifacts:
       paths:
-        - buildsystem/network-sharing-server/node_modules/
+        - remoteaccess/
       when: on_success
       expire_in: 1h
 
@@ -64,7 +65,7 @@ webserver-build:
         - npm run build
     artifacts:
       paths:
-        - buildsystem/network-sharing-server/dist/
+        - remoteaccess/
       when: on_success
       expire_in: 1h
 
@@ -110,7 +111,7 @@ webserver-vulnerabilities:
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
         changes:
-          - buildsystem/network-sharing-server/**/*
+          - buildsystem/compile-remoteaccess.sh
         needs:
           - job: "webserver-build"
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -131,7 +132,7 @@ continuous-app-build:
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
         changes:
-          - buildsystem/network-sharing-server/**/*
+          - buildsystem/compile-remoteaccess.sh
         needs:
           - job: "webserver-build"
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -144,7 +145,7 @@ continuous-app-build-v4:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       changes:
-        - buildsystem/network-sharing-server/**/*
+        - buildsystem/compile-remoteaccess.sh
       needs:
         - job: "webserver-build"
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'

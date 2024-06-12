@@ -23,39 +23,46 @@ package org.videolan.vlc.gui.dialogs
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SeekBar
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.DialogPlaybackSpeedBinding
 import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
 import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.util.launchWhenStarted
-import kotlin.math.*
+import kotlin.math.ln
+import kotlin.math.pow
+
 
 class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
-    private lateinit var speedValue: TextView
-    private lateinit var seekSpeed: SeekBar
-    private lateinit var streamWarning: TextView
+    private lateinit var binding: DialogPlaybackSpeedBinding
 
     private var playbackService: PlaybackService? = null
     private var textColor: Int = 0
+
+    private val orangeColor:Int
+        get() {
+                val typedValue = TypedValue()
+                val theme = requireActivity().theme
+                theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+                return typedValue.data
+        }
 
     private val seekBarListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (playbackService == null || playbackService!!.currentMediaWrapper == null)
                 return
             if (fromUser) {
-                val rate = (4.0).pow(progress.toDouble() / 100.0 - 1).toFloat()
+                val rate = (8.0).pow(progress.toDouble() / 100.0 - 1).toFloat()
                 playbackService!!.setRate(rate, true)
                 updateInterface()
             }
@@ -77,46 +84,58 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
     private val speedUpListener = View.OnClickListener {
         if (playbackService == null)
             return@OnClickListener
-        changeSpeed(0.05f)
-        setRateProgress()
+        changeSpeedTo(playbackService!!.rate + 0.01f)
     }
 
     private val speedDownListener = View.OnClickListener {
         if (playbackService == null)
             return@OnClickListener
-        changeSpeed(-0.05f)
-        setRateProgress()
+        changeSpeedTo(playbackService!!.rate - 0.01f)
     }
 
     override fun initialFocusedView(): View {
-        return seekSpeed
+        return binding.playbackSpeedValue
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_playback_speed, container)
-        speedValue = view.findViewById(R.id.playback_speed_value)
-        seekSpeed = view.findViewById(R.id.playback_speed_seek)
-        streamWarning = view.findViewById(R.id.stream_warning)
-        val playbackSpeedPlus = view.findViewById<ImageView>(R.id.playback_speed_plus)
-        val playbackSpeedMinus = view.findViewById<ImageView>(R.id.playback_speed_minus)
+                              savedInstanceState: Bundle?): View {
+        binding = DialogPlaybackSpeedBinding.inflate(inflater, container, false)
 
-        seekSpeed.setOnSeekBarChangeListener(seekBarListener)
-        playbackSpeedPlus.setOnClickListener(speedUpListener)
-        playbackSpeedMinus.setOnClickListener(speedDownListener)
-        speedValue.setOnClickListener(resetListener)
-        playbackSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(speedDownListener, lifecycle))
-        playbackSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(speedUpListener, lifecycle))
-        playbackSpeedMinus.setOnKeyListener(OnRepeatListenerKey(speedDownListener, lifecycle))
-        playbackSpeedPlus.setOnKeyListener(OnRepeatListenerKey(speedUpListener, lifecycle))
+        binding.playbackSpeedSeek.setOnSeekBarChangeListener(seekBarListener)
+        binding.playbackSpeedValue.setOnClickListener(resetListener)
+        binding.buttonSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(clickListener = speedDownListener, listenerLifecycle = lifecycle))
+        binding.buttonSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(clickListener = speedUpListener, listenerLifecycle = lifecycle))
+        binding.buttonSpeedMinus.setOnKeyListener(OnRepeatListenerKey(clickListener = speedDownListener, listenerLifecycle = lifecycle))
+        binding.buttonSpeedPlus.setOnKeyListener(OnRepeatListenerKey(clickListener = speedUpListener, listenerLifecycle = lifecycle))
+        binding.buttonSpeed1.setOnClickListener {
+            changeSpeedTo(1F)
+        }
+        binding.buttonSpeed08.setOnClickListener {
+            changeSpeedTo(0.8F)
+        }
+        binding.buttonSpeed125.setOnClickListener {
+            changeSpeedTo(1.25F)
+        }
+        binding.buttonSpeed15.setOnClickListener {
+            changeSpeedTo(1.5F)
+        }
+        binding.buttonSpeed2.setOnClickListener {
+            changeSpeedTo(2F)
+        }
+        binding.buttonSpeedMinus.setOnClickListener {
+            changeSpeedTo(playbackService!!.rate - 0.01f)
+        }
+        binding.buttonSpeedPlus.setOnClickListener {
+            changeSpeedTo(playbackService!!.rate + 0.01f)
+        }
 
-        textColor = speedValue.currentTextColor
+        textColor = binding.playbackSpeedValue.currentTextColor
 
 
         dialog?.setCancelable(true)
         dialog?.setCanceledOnTouchOutside(true)
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -126,34 +145,28 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     private fun setRateProgress() {
         var speed = playbackService!!.rate.toDouble()
-        speed = 100 * (1 + ln(speed) / ln(4.0))
-        seekSpeed.progress = speed.toInt()
+        speed = 100 * (1 + ln(speed) / ln(8.0))
+        binding.playbackSpeedSeek.progress = speed.toInt()
         updateInterface()
     }
 
-    private fun changeSpeed(delta: Float) {
-        var initialRate = (playbackService!!.rate * 100.0).roundToInt() / 100.0
-        initialRate = if (delta > 0)
-            floor((initialRate + 0.005) / 0.05) * 0.05
-        else
-            ceil((initialRate - 0.005) / 0.05) * 0.05
-        val rate = ((initialRate + delta) * 100f).roundToInt() / 100f
-        if (rate < 0.25f || rate > 4f || playbackService!!.currentMediaWrapper == null)
+    private fun changeSpeedTo(newValue: Float) {
+        if (playbackService == null)
             return
-        seekSpeed.announceForAccessibility(rate.toString())
-        seekSpeed.contentDescription = rate.toString()
-        playbackService!!.setRate(rate, true)
+        if (newValue > 8.0F || newValue < 0.25F) return
+        playbackService!!.setRate(newValue, true)
+        setRateProgress()
     }
 
     private fun updateInterface() {
         val rate = playbackService!!.rate
-        speedValue.text = rate.formatRateString()
+        binding.playbackSpeedValue.text = rate.formatRateString()
         if (rate != 1.0f) {
-            speedValue.setTextColor(ContextCompat.getColor(requireActivity(), R.color.orange500))
+            binding.playbackSpeedValue.setTextColor(orangeColor)
         } else {
-            speedValue.setTextColor(textColor)
+            binding.playbackSpeedValue.setTextColor(textColor)
         }
-        streamWarning.visibility = if (isSchemeStreaming(playbackService?.currentMediaLocation) && rate > 1) View.VISIBLE else View.INVISIBLE
+        binding.streamWarning.visibility = if (isSchemeStreaming(playbackService?.currentMediaLocation) && rate > 1) View.VISIBLE else View.INVISIBLE
 
     }
 

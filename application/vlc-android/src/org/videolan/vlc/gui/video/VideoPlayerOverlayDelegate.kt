@@ -354,6 +354,9 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         player.handler.removeMessages(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
         player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.FADE_OUT_VOLUME_INFO, 1000L)
         dimStatusBar(true)
+        player.service?.let { service ->
+            resetSleepTimer(service)
+        }
     }
 
     /**
@@ -448,7 +451,16 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 if (overlayTimeout != VideoPlayerActivity.OVERLAY_INFINITE)
                     player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
             }
+
+            resetSleepTimer(service)
         }
+    }
+
+    private fun resetSleepTimer(service: PlaybackService) {
+        if (!service.resetOnInteraction) return
+        val sleepTime = Calendar.getInstance()
+        sleepTime.timeInMillis = System.currentTimeMillis() + service.sleepTimerInterval
+        PlaybackService.playerSleepTime.value = sleepTime
     }
 
     fun updateOverlayPausePlay(skipAnim: Boolean = false) {
@@ -661,8 +673,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         hudBinding.playerOverlayForward.setOnClickListener(player)
         hudBinding.playerOverlayRewind.setOnLongClickListener(player)
         hudBinding.playerOverlayForward.setOnLongClickListener(player)
-        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(player, player.lifecycle))
-        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(player, player.lifecycle))
+        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(clickListener = player, listenerLifecycle = player.lifecycle))
+        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(clickListener = player, listenerLifecycle = player.lifecycle))
     }
 
     fun updateOrientationIcon() {

@@ -24,6 +24,7 @@
 package org.videolan.television.ui.preferences
 
 import android.annotation.TargetApi
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
@@ -32,7 +33,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceScreen
 import androidx.preference.TwoStatePreference
+import org.videolan.medialibrary.Tools
 import org.videolan.resources.AppContextProvider
 import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
@@ -40,13 +43,15 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var tvUiPref: CheckBoxPreference
     private var currentLocale: String? = null
-
+    private lateinit var settings: SharedPreferences
+    private lateinit var sleepTimerPreference: PreferenceScreen
     override fun getXml() = R.xml.preferences_ui
 
     override fun getTitleId() = R.string.interface_prefs_screen
@@ -64,6 +69,13 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         findPreference<Preference>(BROWSER_SHOW_HIDDEN_FILES)?.isVisible = true
         prepareLocaleList()
         currentLocale = AppContextProvider.locale
+    }
+
+    override fun onCreatePreferences(bundle: Bundle?, s: String?) {
+        super.onCreatePreferences(bundle, s)
+        settings = Settings.getInstance(activity)
+        sleepTimerPreference = findPreference("default_sleep_timer")!!
+        manageSleepTimerSummary()
     }
 
     override fun onResume() {
@@ -120,6 +132,11 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+            "default_sleep_timer" -> {
+                val newFragment = SleepTimerDialog.newInstance(true)
+                newFragment.onDismissListener  = DialogInterface.OnDismissListener { manageSleepTimerSummary() }
+                newFragment.show((activity as FragmentActivity).supportFragmentManager, "time")
+            }
 
             KEY_SHOW_HEADERS -> {
                 Settings.showHeaders = (preference as TwoStatePreference).isChecked
@@ -129,6 +146,17 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             "media_seen" -> (activity as PreferencesActivity).setRestart()
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+    private fun manageSleepTimerSummary() {
+        val interval = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL,  -1L)
+        if (interval == -1L) {
+            sleepTimerPreference.summary = getString(R.string.disabled)
+            return
+        }
+        val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT,  false)
+        val reset = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION,  false)
+        sleepTimerPreference.summary = getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), if (wait) "true" else "false", if (reset) "true" else "false")
     }
 
     private fun prepareLocaleList() {

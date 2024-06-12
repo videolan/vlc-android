@@ -1,36 +1,12 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_play.xml
-  ~ **************************************************************************
-  ~ Copyright © 2024 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
-  <path
-      android:pathData="M15.004,8.266C14.383,8.622 14,9.284 14,10v28c0.001,1.543 1.677,2.499 3.008,1.727l24,-14c1.323,-0.772 1.323,-2.683 0,-3.455l-24,-14C16.371,7.912 15.607,7.909 15.004,8.266ZM18,13.48 L36.031,24 18,34.518Z"
-          tools:fillColor="@color/white"
-          android:fillColor="?attr/colorControlNormal"
-          android:fillType="evenOdd"/>
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillColor="?attr/colorControlNormal"
+            android:fillType="evenOdd"
+            android:pathData="M11.004,8.266C10.383,8.622 10,9.284 10,10v28c0.001,1.543 1.671,2.499 3.008,1.727l24,-14c1.323,-0.772 1.323,-2.683 0,-3.455L13.008,8.271C12.396,7.912 11.632,7.909 11.004,8.266ZM14,13.48 L32.031,24 14,34.518Z"
+            tools:fillColor="@color/white" />
 </vector>

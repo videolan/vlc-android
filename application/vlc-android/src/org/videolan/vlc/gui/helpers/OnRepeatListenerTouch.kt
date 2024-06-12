@@ -34,12 +34,7 @@ import androidx.lifecycle.Lifecycle
  * @param normalInterval Normal interval in millis
  * @param clickListener The OnClickListener to trigger
  */
-class OnRepeatListenerTouch(private val initialInterval: Int, private val normalInterval: Int, speedUpDelay: Int, private val clickListener: View.OnClickListener, listenerLifecycle: Lifecycle) : View.OnTouchListener, OnRepeatListener(initialInterval, normalInterval, speedUpDelay, clickListener, listenerLifecycle) {
-    /**
-     *
-     * @param clickListener The OnClickListener to trigger
-     */
-    constructor(clickListener: View.OnClickListener, listenerLifecycle: Lifecycle) : this(DEFAULT_INITIAL_DELAY, DEFAULT_NORMAL_DELAY, DEFAULT_SPEEDUP_DELAY, clickListener, listenerLifecycle)
+class OnRepeatListenerTouch(private val initialInterval: Int = DEFAULT_INITIAL_DELAY, private val normalInterval: Int = DEFAULT_NORMAL_DELAY, speedUpDelay: Int = DEFAULT_SPEEDUP_DELAY, private val clickListener: View.OnClickListener, listenerLifecycle: Lifecycle) : View.OnTouchListener, OnRepeatListener(initialInterval, normalInterval, speedUpDelay, clickListener, listenerLifecycle) {
 
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {

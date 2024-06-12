@@ -216,7 +216,11 @@ const val WIDGETS_BACKGROUND_LAST_COLORS = "widgets_background_last_colors"
 const val WIDGETS_FOREGROUND_LAST_COLORS = "widgets_foreground_last_colors"
 const val CUSTOM_POPUP_HEIGHT = "custom_popup_height"
 
+const val SLEEP_TIMER_DEFAULT_INTERVAL = "sleep_timer_default_interval"
+const val SLEEP_TIMER_DEFAULT_WAIT = "sleep_timer_default_wait"
+const val SLEEP_TIMER_DEFAULT_RESET_INTERACTION = "sleep_timer_default_reset_interaction"
 const val SLEEP_TIMER_WAIT = "sleep_timer_wait"
+const val SLEEP_TIMER_RESET_INTERACTION = "sleep_timer_reset_interaction"
 
 const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
 const val PLAYLIST_REPLACE = "playlist_replace"

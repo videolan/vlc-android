@@ -142,6 +142,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         binding = DialogPlaylistBinding.inflate(layoutInflater, container, false)
         binding.isLoading = isLoading
         binding.filesText = filesText
+        binding.dialogPlaylistName.editText?.setText(requireArguments().getString(KEY_DEFAULT_TITLE) ?: "")
         return binding.root
     }
 
@@ -344,6 +345,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         const val KEY_NEW_TRACKS = "PLAYLIST_NEW_TRACKS"
         const val KEY_FOLDER = "PLAYLIST_FROM_FOLDER"
         const val KEY_SUB_FOLDERS = "PLAYLIST_FOLDER_ADD_SUBFOLDERS"
+        const val KEY_DEFAULT_TITLE = "DEFAULT_TITLE"
 
         const val SELECTED_PLAYLIST = "SELECTED_PLAYLIST"
     }

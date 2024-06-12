@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_mode_file_info"
-        android:title="@string/info"
-        android:visible="false"
+            android:id="@+id/action_mode_file_info"
             android:icon="@drawable/ic_information"
-        app:showAsAction="always"/>
+            android:title="@string/info"
+            android:visible="false"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_mode_file_play"
-        android:title="@string/play_all"
+            android:id="@+id/action_mode_file_play"
             android:icon="@drawable/ic_play"
-        app:showAsAction="always"/>
+            android:title="@string/play_all"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_mode_file_append"
-        android:title="@string/append"
+            android:id="@+id/action_mode_file_append"
             android:icon="@drawable/ic_play_append"
-        app:showAsAction="always"/>
+            android:title="@string/append"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_mode_file_delete"
-        android:title="@string/delete"
-        android:visible="false"
+            android:id="@+id/action_mode_file_delete"
             android:icon="@drawable/ic_delete"
-        app:showAsAction="always"/>
+            android:title="@string/delete"
+            android:visible="false"
+            app:showAsAction="always" />
     <item
-        android:id="@+id/action_mode_file_add_playlist"
-        android:title="@string/add_to_playlist"
+            android:id="@+id/action_mode_file_add_playlist"
             android:icon="@drawable/ic_add_to_playlist"
-        app:showAsAction="always"/>
+            android:title="@string/add_to_playlist"
+            app:showAsAction="always" />
 </menu>

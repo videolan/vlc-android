@@ -481,11 +481,11 @@ object UiTools {
         }
     }
 
-    fun FragmentActivity.addToPlaylistAsync(parent: String, includeSubfolders: Boolean = false) {
+    fun FragmentActivity.addToPlaylistAsync(parent: String, includeSubfolders: Boolean = false, defaultTitle:String = "") {
         if (!isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
         savePlaylistDialog.arguments = bundleOf(SavePlaylistDialog.KEY_FOLDER to parent,
-                SavePlaylistDialog.KEY_SUB_FOLDERS to includeSubfolders)
+                SavePlaylistDialog.KEY_SUB_FOLDERS to includeSubfolders, SavePlaylistDialog.KEY_DEFAULT_TITLE to defaultTitle)
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 

@@ -68,6 +68,9 @@ import org.videolan.tools.POSITION_IN_AUDIO_LIST
 import org.videolan.tools.POSITION_IN_MEDIA
 import org.videolan.tools.POSITION_IN_MEDIA_LIST
 import org.videolan.tools.POSITION_IN_SONG
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
 import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_PAUSED
 import org.videolan.tools.VIDEO_RESUME_PLAYBACK
@@ -90,6 +93,7 @@ import org.videolan.vlc.util.updateNextProgramAfterThumbnailGeneration
 import org.videolan.vlc.util.updateWithMLMeta
 import org.videolan.vlc.util.validateLocation
 import java.security.SecureRandom
+import java.util.Calendar
 import java.util.Stack
 import kotlin.math.max
 
@@ -268,6 +272,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             service.showNotification()
         }
         if (settings.getBoolean(KEY_AUDIO_FORCE_SHUFFLE, false) && getCurrentMedia()?.type == MediaWrapper.TYPE_AUDIO && !shuffling && canShuffle()) shuffle()
+        if (settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L) != -1L) {
+            service.waitForMediaEnd = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
+            service.resetOnInteraction = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
+            val sleepTime = Calendar.getInstance()
+            sleepTime.timeInMillis += settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
+            sleepTime.set(Calendar.SECOND, 0)
+            service.setSleepTimer(sleepTime)
+        }
     }
 
     @Volatile
