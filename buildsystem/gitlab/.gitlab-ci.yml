@@ -487,6 +487,7 @@ release:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
         - ./gradlew bundleRelease
+        - ./gradlew assembleNoTv
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
