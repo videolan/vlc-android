@@ -74,6 +74,10 @@ android {
             signingConfig = signingConfigs.release
             matchingFallbacks = ['release']
         }
+        noTv {
+            initWith release
+            matchingFallbacks = ['release']
+        }
         debug {
             applicationIdSuffix ".debug"
             jniDebuggable true
