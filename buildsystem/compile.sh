@@ -96,6 +96,7 @@ while [ $# -gt 0 ]; do
             ;;
         -tv)
             NO_TV=1
+            RELEASE=1
             ;;
         *)
             diagnostic "$0: Invalid option '$1'."
