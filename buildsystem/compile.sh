@@ -345,10 +345,10 @@ if [ "$TEST" = 1 ]; then
     BUILDTYPE="Debug"
 elif [ "$SIGNED_RELEASE" = 1 ]; then
     BUILDTYPE="signedRelease"
-elif [ "$RELEASE" = 1 ]; then
-    BUILDTYPE="Release"
 elif [ "$NO_TV" = 1 ]; then
     BUILDTYPE="NoTv"
+elif [ "$RELEASE" = 1 ]; then
+    BUILDTYPE="Release"
 fi
 
 if [ "$FORCE_VLC_4" = 1 ]; then
@@ -372,6 +372,10 @@ else
     TARGET="${ACTION}${BUILDTYPE}"
     GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
     if [ "$BUILDTYPE" = "Release" -a "$ACTION" = "assemble" ]; then
+        TARGET="bundle${BUILDTYPE}"
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+    fi
+    if [ "$BUILDTYPE" = "NoTv" -a "$ACTION" = "assemble" ]; then
         TARGET="bundle${BUILDTYPE}"
         GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
     fi
