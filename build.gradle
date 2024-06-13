@@ -89,6 +89,10 @@ ext {
 //    NN: Minor version from 00 to 99
 //    RR: Micro/Revision version from 00 to 99
 //    AA: ABI from 0 to 99
+//    Starting from 13050420 the last digit represents the ABI and the variant (normal or NoTv)
+//    Also, the values are sorted to allow the most pertinent version to be prioritized
+//
+//    Old values
 //    0 is dev
 //    1 was ARMv5        (deprecated)
 //    2 was ARMv6-nofpu  (deprecated)
@@ -99,4 +103,15 @@ ext {
 //    7 is ARMv8
 //    8 is x86_64
 //    9 is MIPS64
+//
+//    New values
+//    0 is dev
+//    1 is ARMv7-A No TV
+//    2 is ARMv8 No TV
+//    3 is x86 No TV
+//    4 is x86_64 No TV
+//    5 is ARMv7-A
+//    6 is ARMv8
+//    7 is x86
+//    8 is ARMv7-A
 }

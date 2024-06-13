@@ -114,7 +114,8 @@ android {
         }
     }
 
-    def abiCodes = ['x86': 5, 'x86_64': 8, 'armeabi-v7a': 4, 'arm64-v8a': 7]
+    def abiCodes = ['armeabi-v7a': 5, 'arm64-v8a': 6, 'x86': 7, 'x86_64': 8]
+    def abiCodesNoTv = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4]
     lint {
         abortOnError false
         disable 'MissingTranslation', 'ExtraTranslation'
@@ -127,7 +128,11 @@ android {
             def outputAbi = output.getFilter(com.android.build.OutputFile.ABI)
             def abiName = System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
             if (outputAbi != null) abiName = outputAbi
-            output.versionCodeOverride = 10000000 + defaultConfig.versionCode + abiCodes.get(abiName, 0)
+            def versionCode = abiCodes.get(abiName, 0)
+            if (variant.buildType.name == "noTv") {
+                versionCode = abiCodesNoTv.get(abiName, 0)
+            }
+            output.versionCodeOverride = 10000000 + defaultConfig.versionCode + versionCode
             def outputName = "VLC-Android-"
             outputName += variant.versionName.replace(" ", "-")
             if (variant.buildType.name == "debug") outputName += "-debug"
