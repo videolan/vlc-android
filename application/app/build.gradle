@@ -131,6 +131,7 @@ android {
             def outputName = "VLC-Android-"
             outputName += variant.versionName.replace(" ", "-")
             if (variant.buildType.name == "debug") outputName += "-debug"
+            if (variant.buildType.name == "noTv") outputName += "-no-tv"
             outputName += "-" + abiName + ".apk"
             output.outputFileName = outputName
         }
