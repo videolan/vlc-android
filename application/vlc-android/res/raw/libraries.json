@@ -221,6 +221,11 @@
       "license"  : "isc"
     },
     {
+      "title"    : "RemoteAccess",
+      "copyright": "Copyright © 2015 VLC authors, VideoLAN, and VideoLabs",
+      "license"  : "lgpl2.1"
+    },
+    {
       "title"    : "Retrofit",
       "copyright": "Copyright © 2013 Square, Inc.",
       "license"  : "apache2.0"
