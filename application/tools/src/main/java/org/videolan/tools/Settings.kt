@@ -225,6 +225,7 @@ const val SLEEP_TIMER_RESET_INTERACTION = "sleep_timer_reset_interaction"
 const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
 const val PLAYLIST_REPLACE = "playlist_replace"
 const val HTTP_USER_AGENT = "http_user_agent"
+const val DAV1D_THREAD_NUMBER = "dav1d_thread_number"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"

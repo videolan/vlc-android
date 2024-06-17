@@ -93,6 +93,12 @@
                 android:key="enable_frame_skip"
                 android:summary="@string/enable_frame_skip_summary"
                 android:title="@string/enable_frame_skip"/>
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textMultiLine"
+            android:key="dav1d_thread_number"
+            app:useSimpleSummaryProvider="true"
+            android:title="@string/dav1d_thread_number"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/developer_prefs_category">

@@ -54,6 +54,7 @@ import org.videolan.tools.AUDIO_RESUME_PLAYBACK
 import org.videolan.tools.AUDIO_SHUFFLING
 import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.AppScope
+import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.HTTP_USER_AGENT
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
 import org.videolan.tools.KEY_INCOGNITO
@@ -529,6 +530,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             settings.getString(HTTP_USER_AGENT, null)?.let {
                  media.addOption(":http-user-agent=$it")
+            }
+            val dav1dThreadNumber = settings.getString(DAV1D_THREAD_NUMBER, "") ?: ""
+            if (dav1dThreadNumber.toInt() >= 1) {
+                media.addOption(":dav1d-thread-frames=$dav1dThreadNumber")
             }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
