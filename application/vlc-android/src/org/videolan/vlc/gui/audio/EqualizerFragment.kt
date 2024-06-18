@@ -244,7 +244,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             }
 
 
-            if (binding.snapBands.isChecked) {
+            if (binding.snapBands.isChecked && oldBands.isNotEmpty()) {
                 val delta = eqBandsViews[index].getProgress() - oldBands[index]
                 for (i in eqBandsViews.indices) {
                     if (i == index) {
@@ -271,6 +271,10 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             for (eqBandsView in eqBandsViews) {
                 oldBands.add(eqBandsView.getProgress())
             }
+        }
+
+        override fun onStopTrackingTouch() {
+            oldBands.clear()
         }
     }
 

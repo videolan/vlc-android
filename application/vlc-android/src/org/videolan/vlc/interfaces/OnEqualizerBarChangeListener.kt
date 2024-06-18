@@ -23,4 +23,5 @@ package org.videolan.vlc.interfaces
 interface OnEqualizerBarChangeListener {
     fun onProgressChanged(value: Float, fromUser: Boolean)
     fun onStartTrackingTouch()
+    fun onStopTrackingTouch()
 }

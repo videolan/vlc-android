@@ -27,9 +27,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
+import com.google.android.material.slider.Slider
 import org.videolan.vlc.R
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 
@@ -37,39 +36,27 @@ import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 class EqualizerBar : LinearLayout {
 
     private lateinit var bandValueTextView: TextView
-    private lateinit var verticalSeekBar: VerticalSeekBar
+    private lateinit var verticalSlider: Slider
     private lateinit var bandTextView: TextView
     private var listener: OnEqualizerBarChangeListener? = null
 
     override fun setNextFocusLeftId(nextFocusLeftId: Int) {
         super.setNextFocusLeftId(nextFocusLeftId)
-        verticalSeekBar.nextFocusLeftId = nextFocusLeftId
+        verticalSlider.nextFocusLeftId = nextFocusLeftId
     }
 
     override fun setNextFocusRightId(nextFocusRightId: Int) {
         super.setNextFocusRightId(nextFocusRightId)
-        verticalSeekBar.nextFocusRightId = nextFocusRightId
+        verticalSlider.nextFocusRightId = nextFocusRightId
     }
 
-    private val seekListener = object : OnSeekBarChangeListener {
-        override fun onStartTrackingTouch(seekBar: SeekBar) {
-            listener?.onStartTrackingTouch()
-        }
-
-        override fun onStopTrackingTouch(seekBar: SeekBar) {}
-
-        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-            val value = (progress - RANGE) / PRECISION.toFloat()
-            // HACK:    VerticalSeekBar programmatically calls onProgress
-            //          fromUser will always be false
-            //          So use custom getFromUser() instead of fromUser
-            listener?.onProgressChanged(value, isFromUser())
+    private val seekListener = object : Slider.OnChangeListener {
+        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+            val value = (value - RANGE) / PRECISION.toFloat()
+            listener?.onProgressChanged(value, fromUser)
             updateValueText()
         }
     }
-
-    private fun isFromUser() = verticalSeekBar.fromUser
-
 
     constructor(context: Context, band: Float) : super(context) {
         init(context, band)
@@ -83,12 +70,21 @@ class EqualizerBar : LinearLayout {
     private fun init(context: Context, band: Float) {
         LayoutInflater.from(context).inflate(R.layout.equalizer_bar, this, true)
 
-        verticalSeekBar = findViewById(R.id.equalizer_seek)
+        verticalSlider = findViewById(R.id.equalizer_seek)
         //Force LTR to fix VerticalSeekBar background problem with RTL layout
-        verticalSeekBar.layoutDirection = View.LAYOUT_DIRECTION_LTR
-        verticalSeekBar.max = 2 * RANGE
-        verticalSeekBar.progress = RANGE
-        verticalSeekBar.setOnSeekBarChangeListener(seekListener)
+        verticalSlider.layoutDirection = View.LAYOUT_DIRECTION_LTR
+        verticalSlider.valueTo = (2 * RANGE).toFloat()
+        verticalSlider.value = RANGE.toFloat()
+        verticalSlider.addOnChangeListener(seekListener)
+        verticalSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                listener?.onStartTrackingTouch()
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                listener?.onStopTrackingTouch()
+            }
+        })
         bandTextView = findViewById(R.id.equalizer_band)
         bandValueTextView = findViewById(R.id.band_value)
         bandTextView.text = if (band < 999.5f)
@@ -99,27 +95,27 @@ class EqualizerBar : LinearLayout {
     }
 
     private fun updateValueText() {
-        val newValue = (verticalSeekBar.progress / 10) - 20
-        bandValueTextView.text = if (newValue > 0) "+${newValue}dB" else "${newValue}dB"
+        val newValue = (verticalSlider.value / 10) - 20
+        bandValueTextView.text = if (newValue > 0) "+${newValue.toInt()}dB" else "${newValue.toInt()}dB"
     }
 
     fun setValue(value: Float) {
-        verticalSeekBar.progress = (value * PRECISION + RANGE).toInt()
+        verticalSlider.value = (value * PRECISION + RANGE)
         updateValueText()
     }
 
-    fun getValue() = ((verticalSeekBar.progress - RANGE) / PRECISION.toFloat())
+    fun getValue() = ((verticalSlider.value - RANGE) / PRECISION.toFloat())
 
     fun setListener(listener: OnEqualizerBarChangeListener?) {
         this.listener = listener
     }
 
     fun setProgress(fl: Int) {
-        verticalSeekBar.progress = fl
+        verticalSlider.value = fl.toFloat()
         updateValueText()
     }
 
-    fun getProgress(): Int = verticalSeekBar.progress
+    fun getProgress(): Int = verticalSlider.value.toInt()
 
     companion object {
 
