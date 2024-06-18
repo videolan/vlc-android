@@ -94,5 +94,7 @@ object TranslationMapping {
         PLAY_ALL(R.string.play_all),
         DARK_THEME(R.string.dark_theme),
         LIGHT_THEME(R.string.light_theme),
+        MORE(R.string.more),
+        HISTORY(R.string.history),
     }
 }
