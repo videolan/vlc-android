@@ -532,7 +532,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                  media.addOption(":http-user-agent=$it")
             }
             val dav1dThreadNumber = settings.getString(DAV1D_THREAD_NUMBER, "") ?: ""
-            if (dav1dThreadNumber.toInt() >= 1) {
+            if (dav1dThreadNumber.isNotEmpty() && dav1dThreadNumber.toInt() >= 1) {
                 media.addOption(":dav1d-thread-frames=$dav1dThreadNumber")
             }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
