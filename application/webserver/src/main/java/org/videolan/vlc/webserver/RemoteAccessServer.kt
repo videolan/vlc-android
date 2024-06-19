@@ -525,8 +525,10 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         lastNowPlayingSendTime = System.currentTimeMillis()
         lastWasPlaying = service?.isPlaying == true
 
-        generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { RemoteAccessWebSockets.sendToAll(nowPlaying) }
+        scope.launch {
+            generateNowPlaying()?.let { nowPlaying ->
+                AppScope.launch { RemoteAccessWebSockets.sendToAll(nowPlaying) }
+            }
         }
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch { RemoteAccessWebSockets.sendToAll(playQueue) }
@@ -545,8 +547,10 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         }
         if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
         lastNowPlayingSendTime = System.currentTimeMillis()
-        generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { RemoteAccessWebSockets.sendToAll(nowPlaying) }
+        scope.launch {
+            generateNowPlaying()?.let { nowPlaying ->
+                AppScope.launch { RemoteAccessWebSockets.sendToAll(nowPlaying) }
+            }
         }
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch { RemoteAccessWebSockets.sendToAll(playQueue) }
@@ -562,8 +566,10 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         if (event.type != MediaPlayer.Event.TimeChanged) return
         if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
         lastNowPlayingSendTime = System.currentTimeMillis()
-        generateNowPlaying()?.let { nowPlaying ->
-            AppScope.launch { RemoteAccessWebSockets.sendToAll(message = nowPlaying) }
+        scope.launch {
+            generateNowPlaying()?.let { nowPlaying ->
+                AppScope.launch { RemoteAccessWebSockets.sendToAll(message = nowPlaying) }
+            }
         }
         generatePlayQueue()?.let { playQueue ->
             AppScope.launch { RemoteAccessWebSockets.sendToAll(playQueue) }
@@ -575,13 +581,14 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      *
      * @return a [String] describing the now playing
      */
-    private fun generateNowPlaying(): String? {
+    private suspend fun generateNowPlaying(): String?  {
         service?.let { service ->
             service.currentMediaWrapper?.let { media ->
                 val gson = Gson()
+                val bookmarks = withContext(Dispatchers.IO) { media.bookmarks ?: arrayOf() }
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
                         ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
-                        ?: "", media.uri.toString(), getVolume(), service.isShuffling, service.repeatType)
+                        ?: "", media.uri.toString(), getVolume(), service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.title, it.time) })
                 return gson.toJson(nowPlaying)
 
             }
@@ -735,7 +742,9 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
 
     abstract class WSMessage(val type: String)
     data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val shuffle: Boolean, val repeat: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
-            ?: false) : WSMessage("now-playing")
+            ?: false, val bookmarks:List<WSBookmark> = listOf()) : WSMessage("now-playing")
+
+    data class WSBookmark(val title: String, val time: Long)
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
     data class PlayQueueItem(val id: Long, val title: String, val artist: String, val length: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false, val progress: Long = 0L, val played: Boolean = false, val fileType: String = "", val videoType:String? = null)
