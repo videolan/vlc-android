@@ -96,5 +96,7 @@ object TranslationMapping {
         LIGHT_THEME(R.string.light_theme),
         MORE(R.string.more),
         HISTORY(R.string.history),
+        ADD_FAVORITE(R.string.favorites_add),
+        REMOVE_FAVORITE(R.string.favorites_remove),
     }
 }
