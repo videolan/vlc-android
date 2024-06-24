@@ -1252,4 +1252,6 @@
     <string name="metered_warn">Warn me (the warning may be missed for audio playback)</string>
     <string name="metered_connection_stopped">Media stopped because the connection is metered</string>
     <string name="metered_connection_warning">Your connection is metered. Fees may apply.</string>
+    <string name="adding">Adding</string>
+    <string name="to">to</string>
 </resources>

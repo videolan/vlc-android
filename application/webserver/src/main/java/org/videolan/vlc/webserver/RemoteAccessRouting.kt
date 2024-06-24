@@ -99,6 +99,7 @@ import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.resIdByName
 import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.gui.dialogs.getPlaylistByName
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
@@ -557,6 +558,83 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val result= RemoteAccessServer.PlaylistResult(list, playlist.title)
             val gson = Gson()
             call.respondText(gson.toJson(result))
+        }
+        // Create a new playlist
+        post("/playlist-create") {
+            verifyLogin(settings)
+            if (!settings.servePlaylists(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@post
+            }
+
+            val formParameters = try {
+                call.receiveParameters()
+            } catch (e: Exception) {
+                null
+            }
+
+            val name = formParameters?.get("name") ?: call.respond(HttpStatusCode.NoContent)
+            appContext.getFromMl {
+                if (getPlaylistByName(name as String) == null) {
+                    createPlaylist(name, true, false)
+                }
+            }
+
+            call.respondText("")
+        }
+        // Add a media to playlists
+        post("/playlist-add") {
+            verifyLogin(settings)
+            if (!settings.servePlaylists(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@post
+            }
+
+            val formParameters = try {
+                call.receiveParameters()
+            } catch (e: Exception) {
+                null
+            }
+
+            val mediaId = formParameters?.get("mediaId")?.toLong()
+            val mediaType = formParameters?.get("mediaType")
+            val playlists = formParameters?.getAll("playlists[]") as List<String>
+            if (mediaId == null || mediaType == null) {
+                call.respond(HttpStatusCode.NoContent)
+                return@post
+            }
+            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "mediaId: $mediaId, mediaType: $mediaType, playlists: $playlists")
+
+            val medias = appContext.getFromMl {
+               when (mediaType) {
+                    "album" -> getAlbum(mediaId).tracks
+                    "artist" -> getArtist(mediaId).tracks
+                    "genre" -> getGenre(mediaId).tracks
+                    "video-group" -> {
+                        val group = getVideoGroup(mediaId)
+                        group.media(Medialibrary.SORT_DEFAULT, false, false, false, group.mediaCount(), 0)
+                    }
+                    "video-folder" -> {
+                        val folder = getFolder(Folder.TYPE_FOLDER_VIDEO, mediaId)
+                        folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                    }
+                    else -> arrayOf(getMedia(mediaId))
+                }
+            } ?: run {
+                call.respond(HttpStatusCode.NoContent)
+                return@post
+            }
+            appContext.getFromMl {
+                playlists.forEach {
+                    val playlist = getPlaylist(it.toLong(), true, false)
+                    medias.forEach {
+                        playlist.append(it.id)
+                    }
+                }
+
+            }
+
+            call.respondText("")
         }
         // Get an artist details
         get("/artist") {

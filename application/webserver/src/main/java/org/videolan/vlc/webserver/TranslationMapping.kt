@@ -103,5 +103,11 @@ object TranslationMapping {
         LOCAL_NETWORK(R.string.network_browsing),
         STREAMS(R.string.streams),
         LOADING(R.string.loading),
+        ADD_PLAYLIST(R.string.add_to_playlist),
+        ADDING(R.string.adding),
+        TO(R.string.to),
+        NEW_PLAYLIST(R.string.create_new_playlist),
+        CREATE(R.string.create),
+        ADD(R.string.add),
     }
 }
