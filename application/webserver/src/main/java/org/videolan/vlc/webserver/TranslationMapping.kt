@@ -51,6 +51,7 @@ object TranslationMapping {
         SEND_FILES(R.string.ra_send_files),
         DOWNLOAD(R.string.download),
         NO_MEDIA(R.string.nomedia),
+        NO_PLAYLIST(R.string.noplaylist),
         PLAY(R.string.play),
         APPEND(R.string.append),
         PLAY_AS_AUDIO(R.string.play_as_audio),
