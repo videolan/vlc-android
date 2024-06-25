@@ -101,5 +101,7 @@ object TranslationMapping {
         FAVORITES(R.string.favorites),
         STORAGES(R.string.browser_storages),
         LOCAL_NETWORK(R.string.network_browsing),
+        STREAMS(R.string.streams),
+        LOADING(R.string.loading),
     }
 }

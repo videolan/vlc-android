@@ -57,6 +57,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -690,6 +691,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 return@get
             }
             val gson = Gson()
+            delay(5000)
             call.respondText(gson.toJson(list))
         }
         // List of all the network shares
@@ -718,6 +720,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite))
             }
             val gson = Gson()
+            delay(5000)
             call.respondText(gson.toJson(list))
         }
         //list of folders and files in a path
