@@ -224,6 +224,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     var sleepTimerInterval = 0L
     private var mediaEndReached = false
 
+    var isInPiPMode: MutableLiveData<Boolean> = MutableLiveData(false)
+
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
 

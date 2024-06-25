@@ -1712,7 +1712,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun isInPictureInPictureMode(): Boolean {
-        return AndroidUtil.isNougatOrLater && super.isInPictureInPictureMode()
+        return service?.isInPiPMode?.value ?: false
     }
 
     override fun setPictureInPictureParams(params: PictureInPictureParams) {
@@ -1725,6 +1725,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode)
+        service?.isInPiPMode?.value = isInPictureInPictureMode
         service?.mediaplayer?.updateVideoSurfaces()
     }
 
