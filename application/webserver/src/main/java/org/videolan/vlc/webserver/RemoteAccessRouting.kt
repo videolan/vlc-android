@@ -574,13 +574,18 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
 
             val name = formParameters?.get("name") ?: call.respond(HttpStatusCode.NoContent)
-            appContext.getFromMl {
+            val created = appContext.getFromMl {
                 if (getPlaylistByName(name as String) == null) {
                     createPlaylist(name, true, false)
+                    true
+                } else {
+                  false
                 }
             }
-
-            call.respondText("")
+            if (!created)
+                call.respond(HttpStatusCode.Conflict, appContext.getString(R.string.playlist_existing, name))
+            else
+                call.respondText("")
         }
         // Add a media to playlists
         post("/playlist-add") {
