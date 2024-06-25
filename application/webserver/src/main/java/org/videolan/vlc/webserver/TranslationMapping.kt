@@ -98,5 +98,8 @@ object TranslationMapping {
         HISTORY(R.string.history),
         ADD_FAVORITE(R.string.favorites_add),
         REMOVE_FAVORITE(R.string.favorites_remove),
+        FAVORITES(R.string.favorites),
+        STORAGES(R.string.browser_storages),
+        LOCAL_NETWORK(R.string.network_browsing),
     }
 }
