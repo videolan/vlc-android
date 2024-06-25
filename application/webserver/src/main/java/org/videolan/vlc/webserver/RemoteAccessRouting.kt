@@ -765,7 +765,9 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 withContext(Dispatchers.Default) {
                     appContext.getFromMl {
                         history(
-                            Medialibrary.HISTORY_TYPE_LOCAL).toMutableList().map { it.toPlayQueueItem(if (it.type == MediaWrapper.TYPE_VIDEO) Tools.millisToText(it.length) else "") }
+                            Medialibrary.HISTORY_TYPE_LOCAL).toMutableList().map { it.toPlayQueueItem(" ").apply {
+                            if (it.type == MediaWrapper.TYPE_VIDEO) fileType = "video"
+                        } }
                     }
                 }
             } catch (e: Exception) {
