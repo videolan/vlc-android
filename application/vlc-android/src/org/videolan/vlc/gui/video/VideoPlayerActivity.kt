@@ -826,6 +826,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     val paramBuilder = PictureInPictureParams.Builder()
                     if (width != 0 && height != 0 && (width.toFloat() / height.toFloat()) in 0.418410f..2.39f)
                         paramBuilder.setAspectRatio(Rational(width, height))
+                    paramBuilder.setActions(listOf())
                     service?.updateWidgetState()
                     enterPictureInPictureMode(paramBuilder.build())
                 } catch (e: IllegalArgumentException) { // Fallback with default parameters
