@@ -77,7 +77,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/title" />
 
             <TextView
-                    android:id="@+id/textView37"
+                    android:id="@+id/description_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -100,7 +100,7 @@
                     android:text="@string/never_ask_again"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView37" />
+                    app:layout_constraintTop_toBottomOf="@+id/description_text" />
 
             <Button
                     android:id="@+id/open_in_browser"

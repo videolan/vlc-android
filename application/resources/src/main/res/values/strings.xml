@@ -612,9 +612,14 @@
 
 <!--    update-->
     <string name="update_title">Update available</string>
-    <string name="update_text">A new nightly release of VLC for Android is available!\n\nYou\'re seeing this because you are using a nightly build.\nNightly versions are updated automatically everyday with the latest features and fixes.\n\nDownload now?</string>
+    <string name="install_nightly_title">Install the nightly version</string>
+    <string name="update_text">A new nightly release of VLC for Android is available!\n\nYou\'re seeing this because you are using a nightly build.</string>
+    <string name="install_text">Nightly versions are updated automatically everyday with the latest features and fixes.\n\nDownload now?</string>
+
     <string name="open_in_browser">Open in browser</string>
     <string name="install">Install</string>
+    <string name="install_nightly">Install the nightly version</string>
+    <string name="install_nightly_alert">Nightly builds are experimental versions updated everyday.\n\nExpect new features but also new bugs!</string>
 
 
     <!-- Accessibility -->

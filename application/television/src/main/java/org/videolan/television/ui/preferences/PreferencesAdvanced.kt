@@ -36,13 +36,31 @@ import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.resources.KEY_CURRENT_AUDIO
+import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_ARTIST
+import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_THUMB
+import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_TITLE
+import org.videolan.resources.KEY_CURRENT_MEDIA
+import org.videolan.resources.KEY_CURRENT_MEDIA_RESUME
+import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
+import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST_RESUME
+import org.videolan.resources.ROOM_DATABASE
+import org.videolan.resources.SCHEME_PACKAGE
+import org.videolan.resources.VLCInstance
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.Settings
@@ -52,9 +70,12 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.UPDATE_URL
+import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.deleteAllWatchNext
@@ -108,6 +129,26 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "debug_logs" -> {
                 val intent = Intent(ctx, DebugLogActivity::class.java)
                 startActivity(intent)
+                return true
+            }
+            "nightly_install" -> {
+
+                val appCompatActivity = activity as PreferencesActivity
+                android.app.AlertDialog.Builder(appCompatActivity)
+                        .setTitle(resources.getString(R.string.install_nightly))
+                        .setMessage(resources.getString(R.string.install_nightly_alert))
+                        .setPositiveButton(R.string.ok){ _, _ ->
+                            appCompatActivity.lifecycleScope.launch {
+                                AutoUpdate.checkUpdate(appCompatActivity.application, true) {
+                                    val updateDialog = UpdateDialog().apply {
+                                        arguments = bundleOf(UPDATE_URL to it)
+                                    }
+                                    updateDialog.show(appCompatActivity.supportFragmentManager, "fragment_update")
+                                }
+                            }
+                        }
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
 

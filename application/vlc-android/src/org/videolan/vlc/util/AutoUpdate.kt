@@ -58,16 +58,17 @@ object AutoUpdate {
      * Checks if an update is available in the nightlies
      *
      * @param context [Application] used to get the settings
+     * @param skipChecks If true, the checks are skipped
      * @param listener Function called when an update is found
      */
-    suspend fun checkUpdate(context: Application, listener: (String) -> Unit) = withContext(Dispatchers.IO) {
+    suspend fun checkUpdate(context: Application, skipChecks:Boolean = false, listener: (String) -> Unit) = withContext(Dispatchers.IO) {
         //limit to debug builds (nightlies are included)
-        if (!BuildConfig.DEBUG) return@withContext
+        if (!BuildConfig.DEBUG && !skipChecks) return@withContext
 
         //check if last update is older than 6 hours
 
         val settings = Settings.getInstance(context)
-        if (settings.getLong(KEY_LAST_UPDATE_TIME, 0L) > System.currentTimeMillis() - 6 * 3600000) {
+        if (!skipChecks && settings.getLong(KEY_LAST_UPDATE_TIME, 0L) > System.currentTimeMillis() - 6 * 3600000) {
             Log.i(TAG, "Last update is less than 6 hours")
             return@withContext
         }
@@ -88,7 +89,7 @@ object AutoUpdate {
             Log.i(TAG, "Checking for update for abi! $abi")
 
 
-            val buildTime = context.getString(R.string.build_time)
+            val buildTime = if (skipChecks) "2000-01-01" else context.getString(R.string.build_time)
 
             val localFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val webFormat = SimpleDateFormat("yyyyMMdd", Locale.US)

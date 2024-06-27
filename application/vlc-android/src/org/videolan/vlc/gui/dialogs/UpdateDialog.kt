@@ -39,16 +39,19 @@ import kotlinx.coroutines.launch
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogUpdateBinding
 import org.videolan.vlc.util.AutoUpdate
 
 const val UPDATE_URL = "update_url"
+const val NEW_INSTALL = "new_install"
 
 class UpdateDialog : VLCBottomSheetDialogFragment() {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
     override fun needToManageOrientation(): Boolean = false
 
+    private var newInstall: Boolean = false
     private lateinit var updateURL: String
     private lateinit var binding: DialogUpdateBinding
 
@@ -61,12 +64,15 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
         updateURL = savedInstanceState?.getString(UPDATE_URL)
                 ?: arguments?.getString(UPDATE_URL)
                         ?: throw IllegalStateException("Update URL not provided")
+        newInstall = savedInstanceState?.getBoolean(NEW_INSTALL)
+                ?: arguments?.getBoolean(NEW_INSTALL) ?: false
 
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(UPDATE_URL, updateURL)
+        outState.putBoolean(NEW_INSTALL, newInstall)
     }
 
 
@@ -98,6 +104,12 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
         binding.neverAgain.setOnCheckedChangeListener { _, isChecked ->
             Settings.getInstance(requireActivity()).putSingle(KEY_SHOW_UPDATE, !isChecked)
         }
+
+        if (newInstall) {
+            binding.title.text = getString(R.string.install_nightly_title)
+        }
+        binding.descriptionText.text = if (newInstall) getString(R.string.install_text) else "${getString(R.string.update_text)}\n\n${getString(R.string.install_text)}"
+
         return binding.root
     }
 }

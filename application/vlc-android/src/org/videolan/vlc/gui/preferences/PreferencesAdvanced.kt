@@ -36,6 +36,7 @@ import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -65,11 +66,15 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.NEW_INSTALL
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.UPDATE_URL
+import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.share
@@ -112,6 +117,25 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "debug_logs" -> {
                 val intent = Intent(requireContext(), DebugLogActivity::class.java)
                 startActivity(intent)
+                return true
+            }
+            "nightly_install" -> {
+
+                android.app.AlertDialog.Builder(requireActivity())
+                        .setTitle(resources.getString(R.string.install_nightly))
+                        .setMessage(resources.getString(R.string.install_nightly_alert))
+                        .setPositiveButton(R.string.ok){ _, _ ->
+                            requireActivity().lifecycleScope.launch {
+                                AutoUpdate.checkUpdate(requireActivity().application, true) {
+                                    val updateDialog = UpdateDialog().apply {
+                                        arguments = bundleOf(UPDATE_URL to it, NEW_INSTALL to true)
+                                    }
+                                    updateDialog.show(requireActivity().supportFragmentManager, "fragment_update")
+                                }
+                            }
+                        }
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "clear_history" -> {
