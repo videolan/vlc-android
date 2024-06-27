@@ -612,7 +612,7 @@
 
 <!--    update-->
     <string name="update_title">Update available</string>
-    <string name="update_text">A new update is available!\n\nDownload now?</string>
+    <string name="update_text">A new nightly release of VLC for Android is available!\n\nYou\'re seeing this because you are using a nightly build.\nNightly versions are updated automatically everyday with the latest features and fixes.\n\nDownload now?</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="install">Install</string>
 
