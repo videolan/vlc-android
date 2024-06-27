@@ -122,8 +122,8 @@ class MainActivity : ContentActivity(),
         }
 
         lifecycleScope.launch {
+            if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@launch
             AutoUpdate.checkUpdate(this@MainActivity.application) {
-                if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@checkUpdate
                 val updateDialog = UpdateDialog().apply {
                     arguments = bundleOf(UPDATE_URL to it)
                 }

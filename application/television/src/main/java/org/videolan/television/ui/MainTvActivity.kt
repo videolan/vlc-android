@@ -27,16 +27,24 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ProgressBar
+import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
+import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
+import org.videolan.tools.Settings
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
+import org.videolan.vlc.gui.dialogs.UPDATE_URL
+import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.Util
@@ -70,6 +78,15 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
         val fragmentManager = supportFragmentManager
         browseFragment = fragmentManager.findFragmentById(R.id.browse_fragment) as MainTvFragment
         progressBar = findViewById(R.id.tv_main_progress)
+        lifecycleScope.launch {
+            if (!Settings.getInstance(this@MainTvActivity).getBoolean(KEY_SHOW_UPDATE, true)) return@launch
+            AutoUpdate.checkUpdate(this@MainTvActivity.application) {
+                val updateDialog = UpdateDialog().apply {
+                    arguments = bundleOf(UPDATE_URL to it)
+                }
+                updateDialog.show(supportFragmentManager, "fragment_update")
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -35,9 +35,7 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
