@@ -1432,7 +1432,7 @@ fun MediaWrapper.toPlayQueueItem(defaultArtist: String = "") = RemoteAccessServe
 
 fun Folder.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, mediaCount(Folder.TYPE_FOLDER_VIDEO), mediaCount(Folder.TYPE_FOLDER_VIDEO))
         ?: "", 0, artworkMrl
-        ?: "", false, "", videoType = "video-folder", favorite = isFavorite)
+        ?: "", false, "", fileType = "video-folder", favorite = isFavorite)
 
 fun VideoGroup.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, if (this.mediaCount() > 1) context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, this.mediaCount(), this.mediaCount()) else "length", 0, artworkMrl
-        ?: "", false, "", played = presentSeen == presentCount && presentCount != 0, videoType = "video-group", favorite = isFavorite)
+        ?: "", false, "", played = presentSeen == presentCount && presentCount != 0, fileType = "video-group", favorite = isFavorite)
