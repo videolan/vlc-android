@@ -57,7 +57,7 @@ done
 ##############################
   diagnostic "Setting up the Remote Access project"
 
-  REMOTE_ACCESS_TESTED_HASH=27d7222bb43bbc89161408419cba3eb80db65d7a
+  REMOTE_ACCESS_TESTED_HASH=28d9ae472bf7d0447970d8f19d3e8e5dc922d215
   REMOTE_ACCESS_REPOSITORY=https://code.videolan.org/videolan/remoteaccess
 
   : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/remoteaccess"}
@@ -83,6 +83,6 @@ done
     cd "$VLC_REMOTE_ACCESS_PATH"
 
     npm install
-    npm run build
+    npm run build-android
     cd ..
   fi

@@ -62,7 +62,7 @@ webserver-build:
       - job: "webserver-install-dependencies"
     script:
         - cd "$WEBSERVER_DIR"
-        - npm run build
+        - npm run build-android
     artifacts:
       paths:
         - remoteaccess/
