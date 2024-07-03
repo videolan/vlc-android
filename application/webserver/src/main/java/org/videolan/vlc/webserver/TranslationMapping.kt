@@ -25,8 +25,10 @@
 package org.videolan.vlc.webserver
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.StringRes
 import org.json.JSONObject
+import org.videolan.vlc.BuildConfig
 
 object TranslationMapping {
     fun generateTranslations(context: Context): String {
@@ -34,6 +36,9 @@ object TranslationMapping {
         StringMapping.values().forEach {
             map[it.name] = context.getString(it.id).replace("%s", "{msg}")
         }
+        map["PORT"] = "android"
+        map["DEVICE_NAME"] = "${Build.MANUFACTURER} - ${Build.MODEL}"
+        map["APP_VERSION"] = BuildConfig.VLC_VERSION_NAME
         return JSONObject(map.toMap()).toString()
     }
 
@@ -110,5 +115,15 @@ object TranslationMapping {
         NEW_PLAYLIST(R.string.create_new_playlist),
         CREATE(R.string.create),
         ADD(R.string.add),
+        ABOUT(R.string.about),
+        CONNECTED_DEVICE(R.string.connected_device),
+        DEVICE_MODEL(R.string.model),
+        VLC_VERSION(R.string.app_name_full),
+        REMOTE_ACCESS_TITLE(R.string.remote_access),
+        REMOTE_ACCESS_HASH_TITLE(R.string.remote_access_hash_title),
+        REMOTE_ACCESS_VERSION_TITLE(R.string.remote_access_version_title),
+        REMOTE_ACCESS_VERSION(R.string.remote_access_version),
+        REMOTE_ACCESS_HASH(R.string.build_remote_access_revision),
+        LIBRARIES(R.string.libraries),
     }
 }

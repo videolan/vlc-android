@@ -1265,4 +1265,7 @@
     <string name="metered_connection_warning">Your connection is metered. Fees may apply.</string>
     <string name="adding">Adding</string>
     <string name="to">to</string>
+    <string name="device">Device</string>
+    <string name="connected_device">Connected device</string>
+    <string name="model">Device model</string>
 </resources>
