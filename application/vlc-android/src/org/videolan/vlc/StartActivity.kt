@@ -214,8 +214,15 @@ class StartActivity : FragmentActivity() {
                 startActivity(Intent().apply { component = ComponentName(this@StartActivity, "org.videolan.vlc.webserver.gui.remoteaccess.RemoteAccessShareActivity") })
             } else {
                 val target = idFromShortcut
+                val service = PlaybackService.instance
                 if (target == R.id.ml_menu_last_playlist)
                     PlaybackService.loadLastAudio(this)
+                else if (service != null && service.isInPiPMode.value == true) {
+                    service.isInPiPMode.value = false
+                    val startIntent = Intent(this, VideoPlayerActivity::class.java)
+                    startIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                    startActivity(startIntent)
+                }
                 else
                     startApplication(tv, firstRun, upgrade, target, removeOldDevices)
             }

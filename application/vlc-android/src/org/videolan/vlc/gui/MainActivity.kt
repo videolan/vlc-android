@@ -33,6 +33,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -42,7 +43,18 @@ import org.videolan.resources.ACTIVITY_RESULT_OPEN
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.ACTIVITY_RESULT_SECONDARY
 import org.videolan.resources.EXTRA_TARGET
-import org.videolan.tools.*
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_MEDIALIBRARY_AUTO_RESCAN
+import org.videolan.tools.KEY_SHOW_UPDATE
+import org.videolan.tools.PERMISSION_NEVER_ASK
+import org.videolan.tools.PERMISSION_NEXT_ASK
+import org.videolan.tools.RESULT_RESCAN
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.RESULT_RESTART_APP
+import org.videolan.tools.RESULT_UPDATE_ARTISTS
+import org.videolan.tools.RESULT_UPDATE_SEEN_MEDIA
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
@@ -50,6 +62,8 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
+import org.videolan.vlc.gui.dialogs.UPDATE_URL
+import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
@@ -60,6 +74,7 @@ import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.WhatsNewManager
@@ -105,6 +120,17 @@ class MainActivity : ContentActivity(),
                if (!Settings.firstRun)  WhatsNewManager.launchIfNeeded(this) else WhatsNewManager.markAsShown(settings)
             }
         }
+
+        lifecycleScope.launch {
+            if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@launch
+            AutoUpdate.checkUpdate(this@MainActivity.application) {
+                val updateDialog = UpdateDialog().apply {
+                    arguments = bundleOf(UPDATE_URL to it)
+                }
+                updateDialog.show(supportFragmentManager, "fragment_update")
+            }
+        }
+
     }
 
     override fun onResume() {

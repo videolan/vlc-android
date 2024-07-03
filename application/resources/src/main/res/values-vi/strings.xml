@@ -15,10 +15,22 @@
     <string name="sortby_date">Ngày</string>
     <string name="sortby_last_modified_date">Được thêm gần đây</string>
     <string name="sortby_insertion">Ngày chèn</string>
+    <string name="sortby_date_last_modified">Được thêm gần đây</string>
+    <string name="sortby_date_insertion">Ngày chèn</string>
+    <string name="sortby_date_release">Ngày phát hành</string>
     <string name="sortby_media_number">Số hiệu media</string>
     <string name="sortby_number">Số bài hát</string>
     <string name="searchable_hint">Tìm kiếm…</string>
     <string name="history">Lịch sử</string>
+
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
+    <string name="sortby_length_asc">Ngắn nhất trước</string>
+    <string name="sortby_length_desc">Dài nhất trước</string>
+    <string name="sortby_number_asc">Nhiều video hơn trong nhóm</string>
+    <string name="sortby_number_desc">Ít video hơn trong nhóm</string>
+    <string name="sort_date_asc">Cũ nhất trước</string>
+    <string name="sort_date_desc">Mới nhất trước</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d kết quả được tìm thấy</item>
@@ -37,6 +49,7 @@
     <string name="video_app_switch_summary">Chọn hành động của VLC khi bạn chuyển sang ứng dụng khác khi đang phát video</string>
     <string name="play_pip_title">Mở video ở chế độ hình-trong-hình</string>
     <string name="play_as_audio_background">Phát video trong nền</string>
+    <string name="append">Thêm vào hàng đợi</string>
     <string name="insert_next">Chèn tiếp</string>
     <string name="play_all">Phát tất cả</string>
     <string name="append_all">Tạm dừng tất cả</string>
@@ -67,8 +80,8 @@
     <string name="track_info_copied_to_clipboard">Thông tin bài hát đã sao chép vào khay nhớ tạm</string>
 
     <string name="artists">Nghệ sĩ</string>
-    <string name="albums">Album</string>
-    <string name="tracks">Bài hát</string>
+    <string name="albums">Albums</string>
+    <string name="tracks">Bản nhạc</string>
 
     <plurals name="albums_quantity">
         <item quantity="other">%d album</item>
@@ -112,6 +125,8 @@
     <string name="nosubfolder">Không có thư mục con nào</string>
     <string name="directorynotfound">Không tìm thấy đường dẫn thư mục ‘%1$s‘.</string>
     <string name="nohistory">Bạn chưa có lịch sử phát.</string>
+    <string name="cant_ban_root">Bạn không thể cấm folder gốc.</string>
+
     <string name="cover_art">Ảnh bìa</string>
     <string name="shuffle_all_title">Xáo trộn tất cả</string>
     <string name="shuffle_title">Chế độ xáo trộn</string>
@@ -119,7 +134,8 @@
     <string name="shuffle_on">Bật xáo trộn</string>
     <string name="shuffle_play">Xáo trộn</string>
     <string name="repeat_title">Chế độ lặp</string>
-    <string name="repeat_single">Lặp lại chỉ một mục</string>
+    <string name="repeat_none">Không lặp lại</string>
+    <string name="repeat_single">Lặp lại một mục</string>
     <string name="repeat_all">Lặp lại tất cả</string>
     <string name="previous">Trước đó</string>
     <string name="stop">Dừng lại</string>
@@ -145,7 +161,7 @@
     <string name="sound_off">Tắt âm thanh</string>
     <string name="brightness">Độ sáng</string>
     <string name="advanced">tùy chọn nâng cao</string>
-    <string name="audio_boost_warning">Vuốt lên trên lần nữa để đặt âm lượng vượt quá 100%</string>
+    <string name="audio_boost_warning">Trượt lên trên lần nữa để đặt âm lượng vượt quá 100%</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d kênh\n</item>
@@ -230,6 +246,7 @@
     <string name="audio_player_tips">Bí quyết cho trình phát âm thanh</string>
     <string name="previous_next_song">Bài hát trước đó/tiếp theo</string>
     <string name="show_playlist">Hiện danh sách phát</string>
+    <string name="hide_playlist">Ẩn danh sách phát</string>
     <string name="hold_to_stop">Giữ để dừng</string>
 
     <!-- About -->
@@ -245,10 +262,16 @@
 
     <!-- Preferences -->
     <string name="preferences">Cài đặt</string>
+    <string name="more_preferences">Cài đặt khác...</string>
+    <string name="prefs_opened_on_phone">Cài đặt mở trên điện thoại</string>
+    <string name="open_on_phone">Mở trên màn hình điện thoại</string>
+
     <string name="directories_summary">Chọn thư mục để chứa Thư Viện Media</string>
     <string name="add_custom_path">Thêm đường dẫn tuỳ chỉnh</string>
     <string name="add_custom_path_description">Thêm vào thư mục do bạn chỉ định để quét:</string>
     <string name="remove_custom_path">Xoá đường dẫn tuỳ chỉnh</string>
+    <string name="group_ban_folder">Cấm folder khỏi thư viện đa phương tiện</string>
+
     <string name="hardware_acceleration">Tăng tốc phần cứng</string>
     <string name="hardware_acceleration_summary">Tắt: sẽ ổn định hơn, không bj giật\nGiải mã: có thể cải thiện hiệu suất\n Đầy đủ: có thể cải thiện hiệu suất hơn nữa</string>
     <string name="hardware_acceleration_disabled">Tắt</string>
@@ -260,15 +283,21 @@
     <string name="screen_orientation">Hướng xoay của màn hình</string>
     <string name="screen_orientation_sensor">Tự động (cảm biến)</string>
     <string name="screen_orientation_portrait">Hướng dọc</string>
+    <string name="screen_orientation_portrait_reverse">Hướng dọc đảo ngược</string>
     <string name="screen_orientation_landscape">Hướng ngang</string>
     <string name="screen_orientation_landscape_reverse">Hướng ngang đảo ngược</string>
+    <string name="screen_orientation_landscape_sensor">Hướng ngang (cảm biến)</string>
     <string name="screen_orientation_last_locked">Hướng xoay đã khoá lần cuối</string>
-    <string name="enable_black_theme">Giao diện tối</string>
+    <string name="enable_black_theme">Giao diện đen</string>
+    <string name="dark_theme">Giao diện tối</string>
+    <string name="theme_auto">Giao diện tự động</string>
     <string name="subtitle_text_encoding">Mã hóa văn bản phụ đề</string>
     <string name="subtitle_preferred_language">Ngôn ngữ phụ đề được ưu tiên</string>
     <string name="daynight_title">Chế độ ngày đêm</string>
     <string name="daynight_follow_system_title">Dựa vào chế dộ của hệ thống</string>
-    <string name="no_track_preference">Không có ưu tiên ngôn ngữ</string>
+    <string name="no_track_preference">Không có tùy thích ngôn ngữ</string>
+    <string name="track_preference">Tùy thích bản nhạc: %s</string>
+
     <string name="extra_prefs_category">Thiết lập khác</string>
 
     <string name="interface_prefs_screen">Giao diện</string>
@@ -306,16 +335,24 @@
     <string name="enable_double_tap_play_title">Nhấn đúp để phát/tạm dừng</string>
     <string name="enable_double_tap_play_summary">Nhấn đúp ở giữa màn hình để phát hoặc tạm dừng</string>
     <string name="enable_swipe_seek_title">Vuốt để tua</string>
+    <string name="enable_scale_gesture_title">Phóng to bằng 2 ngón tay</string>
+    <string name="enable_scale_gesture_summary">Phóng to và nhỏ bằng 2 ngón tay</string>
     <string name="popup_keepscreen_title">Giữ màn hình bật khi đang ở chế dộ cửa sổ</string>
     <string name="popup_keepscreen_summary">Luôn giữ màn hình bật khi cửa sổ nhỏ hiện ra, kể cả khi video tạm dừng</string>
     <string name="browser_show_hidden_files_title">Hiển thị các file đã ẩn</string>
+    <string name="albums_show_track_numbers">Hiện số hiệu bản nhạc</string>
+    <string name="enable_video_screenshot">Chụp màn hình</string>
+
     <string name="subtitles_prefs_category">Phụ đề</string>
     <string name="subtitles_size_title">Kích cỡ phụ đề</string>
+    <string name="subtitles_presets_title">Phụ đề đặt trước</string>
     <string name="subtitles_size_small">Nhỏ</string>
     <string name="subtitles_size_normal">Bình thường</string>
     <string name="subtitles_size_big">Lớn</string>
     <string name="subtitles_size_huge">Cực lớn</string>
     <string name="subtitles_color_title">Màu của phụ đề</string>
+    <string name="subtitles_color">Màu sắc</string>
+    <string name="subtitles_size">Kích cỡ</string>
     <string name="subtitles_background_title">Nền của phụ đề</string>
     <string name="subtitles_bold_title">Bôi đậm phụ đề</string>
     <string name="subtitles_autoload_title">Tự động tải phụ đề</string>
@@ -337,11 +374,16 @@
     <string name="enable_headset_detection_summary">Nhận diện khi tai nghe được cắm vào và rút ra</string>
     <string name="enable_play_on_headset_insertion">Tiếp tục khi cắm tai nghe</string>
     <string name="enable_play_on_headset_insertion_summary">Nếu không thì tạm dừng</string>
+    <string name="replaygain_track">Bản nhạc</string>
+    <string name="replaygain_album">Album</string>
     <string name="aout">Dữ liệu Audio xuất ra</string>
     <string name="aout_summary">Thay đổi phương thức xuất âm thanh của VLC</string>
     <string name="audio_ducking_title">Giảm âm lượng của VLC khi có thông báo</string>
     <string name="audio_ducking_summary">Giúp bạn nghe các thông báo âm thanh, hướng dẫn điều hướng hoặc trợ lý nói</string>
     <string name="casting_category">Truyền</string>
+    <string name="remote_access">Truy cập từ xa</string>
+    <string name="remote_access_status">Trạng thái máy chủ</string>
+    <string name="remote_access_links">Liên kết</string>
     <string name="casting_switch_title">Truyền không dây</string>
     <string name="casting_passthrough_title">Chuyển âm thanh qua</string>
     <string name="casting_passthrough_summary">Để TV của bạn xử lý âm thanh</string>
@@ -395,7 +437,7 @@
     <string name="quit">Thoát và khởi động lại ứng dụng</string>
     <string name="restart_message">Thay đổi sẽ được áp dụng sau khi ứng dụng khởi động lại.\n\nKhởi động lại ngay ?</string>
     <string name="restart_message_OK">Đồng ý</string>
-    <string name="restart_message_Later">Lúc nữa</string>
+    <string name="restart_message_Later">Lúc khác</string>
     <string name="developer_prefs_category">Nhà phát triển</string>
     <string name="enable_verbose_mode">Chế độ chi tiết</string>
     <string name="enable_verbose_mode_summary">Tăng sự chi tiết (nhật ký)</string>

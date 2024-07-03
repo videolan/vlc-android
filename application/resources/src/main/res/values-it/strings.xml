@@ -199,6 +199,8 @@
     <string name="jump_to_time">Salto temporale</string>
     <string name="subtitle_select">Seleziona file di sottotitoli</string>
     <string name="wait_before_sleep">Attendi che l\'elemento multimediale corrente finisca per primo</string>
+    <string name="reset_on_interaction">Ripristina a ogni interazione</string>
+    <string name="default_sleep_timer_summary">%1$s, attendi la fine del media: %2$s, ripristina a ogni interazione: %3$s</string>
 
     <string name="server_add_title">Aggiungi un nuovo server ai preferiti</string>
     <string name="server_domain_hint">Indirizzo server (nome dominio o IP)</string>
@@ -948,6 +950,7 @@
     <string name="mark_as_played">Marca come riprodotto</string>
     <string name="mark_as_not_played">Marca come non riprodotto</string>
     <string name="mark_all_as_played">Marca tutti come riprodotti</string>
+    <string name="mark_all_as_not_played">Marca tutti come non riprodotti</string>
     <string name="new_group">Nuovo gruppo</string>
     <string name="new_group_desc">Crea un nuovo gruppo</string>
 
@@ -1231,4 +1234,12 @@
     <string name="podcast_mode_help">I controlli del podcast appaiono quando si riproduce una singola traccia che soddisfa uno dei seguenti criteri:\n\t• Durata superiore a 60 minuti\n\t• Durata superiore a 15 minuti senza nome dell\'album\n\t• Il genere è %s</string>
     <string name="voice_control">Controllo vocale</string>
     <string name="voice_control_help">VLC può essere controllato tramite Google Assistant utilizzando i seguenti comandi vocali:\n\t• Riproduci, Pausa, Ferma, Precedente, Successivo\n\t• Riavvolgi, Avanti veloce, Ripeti &lt;tutti|uno|spento&gt;• Vai a &lt;tempo&gt;, Salta &lt;durata&gt;\n\t• Qual è questo &lt;artista|album|brano&gt;\n\t• Riproduci [artista|album|brano|genere|scaletta] &lt;nome&gt;</string>
+
+    <string name="network" >Rete</string>
+    <string name="metered_connection">Azione per le trasmissioni quando la connessione è a consumo.</string>
+    <string name="metered_do_nothing">Non fare niente</string>
+    <string name="metered_stop">Ferma la riproduzione</string>
+    <string name="metered_warn">Avvisami (l\'avviso potrebbe non essere presente per la riproduzione audio)</string>
+    <string name="metered_connection_stopped">Media fermato perché la connessione è a consumo</string>
+    <string name="metered_connection_warning">La tua connessione è a consumo. Potrebbero essere applicati dei costi.</string>
 </resources>

@@ -179,7 +179,6 @@
     <string name="jump_to_time">转到时间</string>
     <string name="subtitle_select">选择字幕文件</string>
     <string name="wait_before_sleep">先等待当前媒体项目播放结束</string>
-
     <string name="server_add_title">向收藏夹添加新的服务器</string>
     <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
     <string name="server_share_hint">网络共享名称 (或 IP 地址)</string>
@@ -512,6 +511,8 @@
     <string name="restart_message">改动将在应用重新启动后生效。\n\n是否现在重启?</string>
     <string name="restart_message_OK">确定</string>
     <string name="restart_message_Later">稍后</string>
+    <string name="browser_show_all_title">只显示多媒体文件</string>
+
     <string name="developer_prefs_category">开发人员</string>
     <string name="enable_verbose_mode">详尽模式</string>
     <string name="enable_verbose_mode_summary">增加详尽程度 (logcat)</string>
@@ -527,6 +528,7 @@
     <string name="dump_logcat">logcat 日志转储</string>
     <string name="dump_logcat_success">Logcat 日志已成功转储至 %1$s!</string>
     <string name="dump_logcat_failure">logcat 转储失败。</string>
+    <string name="http_user_agent">HTTP 用户代理字符串</string>
     <string name="custom_libvlc_options">自定义 libVLC 选项</string>
     <string name="custom_libvlc_options_invalid">无效的 libVLC 选项!</string>
 
@@ -921,6 +923,7 @@
     <string name="mark_as_played">标记为已播放</string>
     <string name="mark_as_not_played">标记为未播放</string>
     <string name="mark_all_as_played">全部标记为已播放</string>
+    <string name="mark_all_as_not_played">全部标记为未播放</string>
     <string name="new_group">新建分组</string>
     <string name="new_group_desc">创建一个新的分组</string>
 
@@ -1201,4 +1204,5 @@
     <string name="podcast_mode_help">在播放单条音轨且符合下列条件之一时，会出现 ｢播客｣ 模式控制按钮:\n\t• 时长超过 60 分钟\n\t• 时长超过 15 分钟，且没有专辑名称\n\t• 流派类型为 %s</string>
     <string name="voice_control">语音控制</string>
     <string name="voice_control_help">VLC 支持通过 Google Assistant 控制，命令词如下:\n\t• Play (播放), Pause (暂停), Stop (停止), Previous (上一曲), Next (下一曲)\n\t• Rewind (快退), Fast Forward (快进), Repeat &lt;all|one|off&gt;(全部循环/单曲循环/不循环)\n\t• Jump to &lt;time&gt; (跳到某时刻), Skip &lt;duration&gt; (前进某时长)\n\t• What\'s this &lt;artist|album|song&gt; (正在播放的艺人/专辑/曲名是什么?)\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt; (播放指定艺人/专辑/曲目/流派/播放列表)</string>
-</resources>
+
+    </resources>

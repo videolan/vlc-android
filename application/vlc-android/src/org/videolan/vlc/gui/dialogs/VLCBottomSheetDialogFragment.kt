@@ -21,7 +21,7 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Settings.showTvUi) {
-            requireActivity().setTheme(R.style.Theme_VLC_Black)
+            requireActivity().setTheme(R.style.Theme_VLC_Black_BottomSheet)
         }
         super.onCreate(savedInstanceState)
     }

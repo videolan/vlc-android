@@ -209,7 +209,6 @@
     <string name="jump_to_time">Preskočiť na čas</string>
     <string name="subtitle_select">Vybrať súbor s titulkami</string>
     <string name="wait_before_sleep">Počkajte na skončenie aktuálnej mediálnej položky</string>
-
     <string name="server_add_title">Pridať nový server do obľúbených</string>
     <string name="server_domain_hint">Adresa servera (názov domény alebo IP)</string>
     <string name="server_share_hint">Názov zdieľania v sieti (alebo IP adresa)</string>
@@ -960,6 +959,7 @@
     <string name="mark_as_played">Označiť ako prehrané</string>
     <string name="mark_as_not_played">Označiť ako neprehrané</string>
     <string name="mark_all_as_played">Označiť všetko ako prehrané</string>
+    <string name="mark_all_as_not_played">Označiť všetky ako neprehrané</string>
     <string name="new_group">Nová skupina</string>
     <string name="new_group_desc">Vytvoriť novú skupinu</string>
 
@@ -1245,4 +1245,12 @@
     <string name="podcast_mode_help">Ovládacie prvky pre podcasty sa zobrazia vtedy, keď sa prehráva jedna stopa, spĺňajúca niektoré z nasledujúcich kritérií: \n\t• dĺžka viac ako 60 minút\n\t• dĺžka viac ako 15 minút, bez názvu albumu\n\t• Žánrom je %s</string>
     <string name="voice_control">Hlasové ovládanie</string>
     <string name="voice_control_help">VLC je možné ovládať pomocou Google Assistant, vyslovením týchto príkazov: \n\t• Prehrať, Pozastaviť, Stop, Predchádzajúce, Ďalej\n\t• Previnúť, Rýchlo dopredu, Zopakovať &lt;všetko|raz|vypnuté&gt;\n\t• Preskočiť na &lt;čas&gt;, Preskočiť &lt;trvanie&gt;\n\t• Čo je toto &lt;umelec|album|skladba&gt;\n\t• Prehrať [umelec|album|skladba|žáner|playlist] &lt;názov&gt;</string>
+
+    <string name="network" >Sieť</string>
+    <string name="metered_connection">Akcia pre streamy v prípade, že ide o merané pripojenie</string>
+    <string name="metered_do_nothing">Neurobiť nič</string>
+    <string name="metered_stop">Zastaviť prehrávanie</string>
+    <string name="metered_warn">Upozorniť ma (pri prehrávaní zvuku sa môže varovanie vynechať)</string>
+    <string name="metered_connection_stopped">Médium bolo zastavené z dôvodu meraného pripojenia</string>
+    <string name="metered_connection_warning">Vaše pripojenie je merané. Môžu vzniknúť dodatočné poplatky.</string>
 </resources>

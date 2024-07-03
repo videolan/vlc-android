@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_group.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M15,10C13.373,10 12,11.373 12,13L12,33C12,34.627 13.373,36 15,36L39,36C40.627,36 42,34.627 42,33L42,13C42,11.373 40.627,10 39,10L36,10L38.576,15.461C38.693,15.708 38.523,16 38.262,16L35.26,16C34.994,16 34.75,15.84 34.631,15.588L32,10L28.5,10L31.076,15.461C31.193,15.708 31.023,16 30.762,16L27.76,16C27.494,16 27.25,15.84 27.131,15.588L24.5,10L21,10L23.576,15.461C23.693,15.708 23.523,16 23.262,16L20.26,16C19.994,16 19.75,15.84 19.631,15.588L17,10L15,10zM6,12A2,2 0,0 0,4 14L4,40C4,42.185 5.815,44 8,44L34,44A2,2 0,0 0,36 42A2,2 0,0 0,34 40L8,40L8,14A2,2 0,0 0,6 12zM16,16.049L17.477,19.178C17.715,19.682 18.202,20 18.734,20L38,20L38,32L16,32L16,16.049z"
+      android:fillColor="#000000"
+      tools:fillColor="#000000"/>
+</vector>

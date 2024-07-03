@@ -31,6 +31,10 @@ android {
             initWith debug
             matchingFallbacks = ['debug']
         }
+        noTv {
+            initWith release
+            matchingFallbacks = ['release']
+        }
     }
 
     task webCopy(type: Copy) {

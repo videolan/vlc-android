@@ -27,10 +27,19 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
-import android.widget.*
+import android.view.WindowManager
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
@@ -244,14 +253,13 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             }
 
 
-            if (binding.snapBands.isChecked) {
+            if (binding.snapBands.isChecked && oldBands.isNotEmpty()) {
                 val delta = eqBandsViews[index].getProgress() - oldBands[index]
                 for (i in eqBandsViews.indices) {
                     if (i == index) {
                         continue
                     }
-
-                    eqBandsViews[i].setProgress(oldBands[i] + delta / (abs(i - index) * abs(i - index) * abs(i - index) + 1))
+                    eqBandsViews[i].setProgress((oldBands[i] + delta / (abs(i - index) * abs(i - index) * abs(i - index) + 1)).coerceIn(0, EqualizerBar.RANGE * 2))
 
                     if (binding.equalizerButton.isChecked) {
 
@@ -263,7 +271,6 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
 
             if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
 
-
         }
 
         override fun onStartTrackingTouch() {
@@ -271,6 +278,10 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             for (eqBandsView in eqBandsViews) {
                 oldBands.add(eqBandsView.getProgress())
             }
+        }
+
+        override fun onStopTrackingTouch() {
+            oldBands.clear()
         }
     }
 

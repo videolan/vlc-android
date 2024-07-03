@@ -3,74 +3,85 @@
         tools:ignore="MissingTranslation">
 
     <!-- Main VLC Interface -->
-    <string name="ok">ठीक</string>
+    <string name="ok">ठीक छ</string>
     <string name="cancel">रद्द गर्नुहोस्</string>
     <string name="other">अन्य</string>
     <string name="sortby">निम्नद्वारा क्रमाङ्कन गर्नुहोस्...</string>
     <string name="sortby_name">नाम</string>
     <string name="sortby_filename">फाइलको नाम</string>
     <string name="sortby_artist_name">कलाकारको नाम</string>
-    <string name="sortby_album_name">सङ्ग्रहको नाम</string>
-    <string name="sortby_length">लम्बाइ</string>
+    <string name="sortby_album_name">एल्बमको नाम</string>
+    <string name="sortby_length">अवधि</string>
     <string name="sortby_date">मिति</string>
     <string name="sortby_last_modified_date">हालै थपिएको</string>
     <string name="sortby_insertion">सम्मिलित मिति</string>
+    <string name="sortby_date_last_modified">हालै थपिएको</string>
+    <string name="sortby_date_insertion">सम्मिलित मिति</string>
+    <string name="sortby_date_release">सार्वजनिक गरिएको मिति</string>
     <string name="sortby_media_number">मिडिया नम्बर</string>
     <string name="sortby_number">Nb ट्र्याकहरू</string>
-    <string name="searchable_hint">खोज्नुहोस…</string>
+    <string name="searchable_hint">खोज्नुहोस्…</string>
     <string name="history">इतिहास</string>
 
+    <string name="sort_alpha_asc">क → ह</string>
+    <string name="sort_alpha_desc">ह → क</string>
     <string name="sortby_length_asc">सबैभन्दा छोटो पहिले</string>
     <string name="sortby_length_desc">सबैभन्दा लामो पहिले</string>
+    <string name="sortby_number_asc">समूहमा रहेका थप भिडियोहरू</string>
+    <string name="sortby_number_desc">समूहमा रहेका कम भिडियोहरू</string>
+    <string name="sort_date_asc">पुरानो पहिले</string>
+    <string name="sort_date_desc">नयाँ पहिले</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d नतिजा भेटियो</item>
-        <item quantity="other">%d नतिजाहरु भेटिए</item>
+        <item quantity="other">%d नतिजाहरू भेटिए</item>
     </plurals>
 
-    <string name="play">बजाउनुहोस</string>
+    <string name="play">बजाउनुहोस्</string>
     <string name="playback">बजाउने</string>
     <string name="playback_controls">बजाउने नियन्त्रणहरू</string>
     <string name="medialibrary_scan">मेडिया लाइब्रेरी स्क्यान गर्नुहोस्</string>
-    <string name="Medialibrary_progress">मिडिया लाइब्रेरी स्क्यानिङ प्रगति अद्यतनहरू</string>
-    <string name="play_from_start">सुरुबाट बजाउनुहोस</string>
-    <string name="play_as_audio">अडियो सरी बजाउनुहोस</string>
-    <string name="play_as_video">भिडियो सरी बजाउनुहोस</string>
-    <string name="return_to_video">भिडियो रिस्टोर गर्न कभरमा लामो ट्याप गर्नुहोस्</string>
+    <string name="Medialibrary_progress">मिडिया लाइब्रेरी स्क्यानिङ प्रगति जानकारीहरू</string>
+    <string name="play_from_start">सुरुबाट बजाउनुहोस्</string>
+    <string name="play_as_audio">अडियोको रूपमा बजाउनुहोस्</string>
+    <string name="play_as_video">भिडियोको रूपमा बजाउनुहोस्</string>
+    <string name="return_to_video">भिडियो पूर्वरूपमा लैजानको लागि कभरमा लामो ट्याप गर्नुहोस्</string>
     <string name="video_app_switch_title">पृष्ठभूमि/PiP ढाँचा</string>
-    <string name="video_app_switch_summary">VLC व्यवहार चयन गर्नुहोस् जब तपाईं भिडियो प्लेब्याकबाट अन्य अनुप्रयोगमा स्विच गर्नुहुन्छ</string>
-    <string name="play_pip_title">तस्वीर-मा-तस्वीर प्रणालीमा चलदृश्य बजाउनुहोस्</string>
+    <string name="video_app_switch_summary">भिडियो प्लेब्याकबाट अन्य अनुप्रयोगमा स्विच गर्नुहुँदा VLC को स्वभाव चयन गर्नुहोस्</string>
+    <string name="play_pip_title">तस्वीर-मा-तस्वीर प्रणालीमा भिडियो बजाउनुहोस्</string>
     <string name="play_as_audio_background">भिडियोहरू पृष्ठभूमिमा बजाउनुहोस्</string>
+    <string name="append">हाल बजाइरहेको सूचीमा थप्नुहोस्</string>
     <string name="insert_next">अर्को घुसाउनुहोस्</string>
     <string name="play_all">सबै बजाउनुहोस्</string>
     <string name="append_all">सबै थप्नुहोस्</string>
     <string name="resume_playback_short_title">प्लेब्याक पुनःसुरु गर्नुहोस्</string>
     <string name="resume_playback_long_title">अन्तिम प्लेसूचीको प्लेब्याक पुनःसुरु गर्नुहोस्</string>
-    <string name="resume_playback_error">रिज्युम गर्न केही पनि छैन</string>
+    <string name="resume_playback_error">पुन:सुरु गर्न केही पनि छैन</string>
     <string name="delete">मेटाउनुहोस्</string>
     <string name="remove">हटाउनुहोस्</string>
-    <string name="set_song">रिङटोनको रुपमा राख्ने</string>
-    <string name="set_song_question">%1$s रिंगटोनको रूपमा सेट गर्नुहुन्छ?</string>
+    <string name="set_song">रिङटोनको रूपमा राख्नुहोस्</string>
+    <string name="set_song_question">%1$s लाई रिङ्गटोनको रूपमा सेट गर्नुहुन्छ?</string>
     <string name="info">जानकारी</string>
-    <string name="confirm_delete">%1$s फाइल मेटाउन चाहनुहुन्छ?</string>
+    <string name="confirm_delete">\'%1$s\' फाइल मेटाउन चाहनुहुन्छ?</string>
     <string name="confirm_delete_message">यो स्थायी हो र पूर्ववत गर्न सकिँदैन।</string>
-    <string name="confirm_delete_album">%1$sएल्बम मेटाउने हो?</string>
-    <string name="confirm_delete_several_media">%1$dयी मिडिया मेटाउने हो?</string>
-    <string name="confirm_delete_folder">%1$s फोल्डरका साथै यस भित्रको सबै सामाग्रीहरू मेटाउन चाहनुहुन्छ?</string>
+    <string name="confirm_delete_album">\'%1$s\' एल्बम मेटाउने हो?</string>
+    <string name="confirm_delete_several_media">यी %1$d मिडिया मेटाउने हो?</string>
+    <string name="confirm_delete_folder">\'%1$s\' फोल्डरका साथै यस भित्रको सबै सामाग्रीहरू मेटाउन चाहनुहुन्छ?</string>
     <string name="confirm_delete_folders">यी %1$s फोल्डरका साथै यिनका सबै सामग्रीहरू मेटाउने हो? </string>
     <string name="confirm_delete_files">यी %1$s फाइलहरू मेटाउने हो?</string>
     <string name="confirm_delete_folders_and_files">यी %1$s फोल्डरका साथै %2$s फाइलहरू मेटाउन चाहनुहुन्छ?</string>
     <string name="confirm_delete_playlist">\'%1$s\' प्लेसूची मेटाउन चाहनुहुन्छ?</string>
     <string name="ringtone_set">फाइल \'%1$s\' लाई रिङटोनको रूपमा सेट गरियो।</string>
-    <string name="ringtone_error">रिङटोनको रुपमा स्थापित गर्ने क्रममा त्रुटि भयो ।</string>
-    <string name="pause">पौज गर्नुहोस</string>
+    <string name="ringtone_error">रिङटोनको रूपमा स्थापित गर्ने क्रममा त्रुटि भयो ।</string>
+    <string name="pause">पज गर्नुहोस्</string>
     <string name="unknown_artist">अज्ञात कलाकार</string>
-    <string name="unknown_album">अज्ञात एलबम</string>
-    <string name="unknown_genre">अज्ञात शैली</string>
+    <string name="unknown_album">अज्ञात एल्बम</string>
+    <string name="unknown_genre">अज्ञात विधा</string>
     <string name="songs">गीतहरू</string>
     <string name="track_info_copied_to_clipboard">ट्र्याक जानकारी क्लिपबोर्डमा प्रतिलिपि गरियो</string>
 
     <string name="artists">कलाकारहरू</string>
-    <string name="albums">संग्रहहरू</string>
+    <string name="albums">एल्बमहरू</string>
     <string name="tracks">ट्र्याकहरू</string>
 
     <plurals name="albums_quantity">
@@ -79,7 +90,7 @@
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">१ सहफोल्डर</item>
-        <item quantity="other">%d सहफोल्डरहरू</item>
+        <item quantity="other">%d सबफोल्डरहरू</item>
     </plurals>
     <plurals name="media_quantity">
         <item quantity="one">1 media</item>
@@ -87,11 +98,11 @@
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">१ मेडिया फाईल</item>
-        <item quantity="other">%d मेडिया फाईलहरु</item>
+        <item quantity="other">%d मिडिया फाइलहरू</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 वीडियो</item>
-        <item quantity="other">%d वीडियो</item>
+        <item quantity="other">%d भिडियोहरू</item>
     </plurals>
     <plurals name="movies_quantity">
         <item quantity="one">1 movie</item>
@@ -101,35 +112,35 @@
         <item quantity="one">1 TV show</item>
         <item quantity="other">%dटिभी कार्यक्रमहरू</item>
     </plurals>
-    <string name="internal_memory">आन्तरिक भन्डारण</string>
+    <string name="internal_memory">आन्तरिक भण्डारण</string>
     <string name="audio">अडियो</string>
     <string name="video">भिडियो</string>
     <string name="bookmarks">पुस्तकचिनो</string>
     <string name="equalizer">इक्वालाइजर</string>
-    <string name="all_albums">सबै एलबमहरू</string>
-    <string name="genres">शैलीहरू</string>
-    <string name="playlists">प्लेलिस्टहरु</string>
+    <string name="all_albums">सबै एल्बमहरू</string>
+    <string name="genres">विधाहरू</string>
+    <string name="playlists">प्लेलिस्टहरू</string>
     <string name="title">शिर्षक</string>
-    <string name="directories">निर्देशिकाहरु</string>
-    <string name="loading">लोड हुदैछ</string>
-    <string name="please_wait">कृपया प्रतिक्ष्य गर्नुहोस …</string>
-    <string name="nomedia">कुनै पनि सामग्री फाइल भेटिएन , कृपया केही फाइलहरू तपाईको डिभाइसमा सार्नुहोस् या अभिरुचीहरू मिलाउनुहोस् ।</string>
-    <string name="empty_search">%sखोजेको बस्तु फेला परेन</string>
-    <string name="noplaylist">कुनै पनि बजाउने भेटिएन।</string>
-    <string name="nosubfolder">कुनै सबफोल्डर छैन</string>
-    <string name="directorynotfound">डाइरेक्टरी पाथ \'%1$s\' भेटिएन।</string>
-    <string name="nohistory">अहिले सम्म तपाईँसँग बजाएको इतिहास छैन ।</string>
-    <string name="cover_art">खोल चित्र</string>
-    <string name="shuffle_all_title">सबै फेरबदल गर्नुहोस्</string>
-    <string name="shuffle_title">फेरबदल मोड</string>
-    <string name="shuffle">फेरबदल बन्द गर्नुहोस्</string>
-    <string name="shuffle_on">फेरबदल सुरु गर्नुहोस्</string>
-    <string name="shuffle_play">फेरबदल</string>
+    <string name="directories">डाइरेक्टरीहरू</string>
+    <string name="loading">लोड हुँदैछ</string>
+    <string name="please_wait">कृपया प्रतिक्षा गर्नुहोस्…</string>
+    <string name="nomedia">कुनै पनि मिडिया फाइल भेटिएन , कृपया केही फाइलहरू तपाईँको उपकरणमा सार्नुहोस् या अभिरुचीहरू मिलाउनुहोस् ।</string>
+    <string name="empty_search">%sखोजेको वस्तु फेला परेन</string>
+    <string name="noplaylist">कुनै पनि प्लेलिस्ट भेटिएन।</string>
+    <string name="nosubfolder">कुनै पनि सबफोल्डर छैन</string>
+    <string name="directorynotfound">डाइरेक्टरी पाथ %1$s भेटिएन।</string>
+    <string name="nohistory">अहिले सम्म तपाईँसँग बजाएको मिडियाको इतिहास छैन ।</string>
+    <string name="cover_art">कभर आर्ट</string>
+    <string name="shuffle_all_title">सबै फिट्नुहोस्</string>
+    <string name="shuffle_title">फिट्ने मोड</string>
+    <string name="shuffle">फिट्ने बन्द गर्नुहोस्</string>
+    <string name="shuffle_on">फिट्ने चालु छ</string>
+    <string name="shuffle_play">फिट्नुहोस्</string>
     <string name="repeat_title">दोहोर्याउने रीत</string>
     <string name="repeat_single">एउटैलाई दोहोर्याउनुहोस्</string>
     <string name="repeat_all">सबै दोहोर्याउनुहोस्</string>
     <string name="previous">अघिल्लो</string>
-    <string name="stop">रोक्नुहोस</string>
+    <string name="stop">रोक्नुहोस्</string>
     <string name="firstsong">वाद्यसूचीको पहिलो गीत</string>
     <string name="lastsong">वाद्यसूचीको अन्तिम गीत</string>
 
@@ -169,7 +180,6 @@
     <string name="jump_to_time">समयमा जानुहोस्</string>
     <string name="subtitle_select">उपशीर्षक फाइल छान्नुहोस्</string>
     <string name="wait_before_sleep">हालको मिडिया वस्तु पहिले समाप्त हुनको लागि पर्खनुहोस्</string>
-
     <string name="server_add_title">नयाँ सर्वर मनपर्ने सूचीमा थप्नुहोस्</string>
     <string name="server_domain_hint">सर्भर ठेगाना (डोमेन नाम वा आईपी)</string>
     <string name="server_share_hint">नेटवर्क शेयर नाम (वा आईपी ठेगाना)</string>

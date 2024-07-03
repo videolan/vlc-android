@@ -179,6 +179,8 @@
     <string name="jump_to_time">指定時間へジャンプ</string>
     <string name="subtitle_select">字幕ファイルの選択</string>
     <string name="wait_before_sleep">現在のメディア項目が最初に終了するのを待つ</string>
+    <string name="reset_on_interaction">すべてのインタラクションでリセット</string>
+    <string name="default_sleep_timer_summary">%1$s, メディアの終了待ち: %2$s, インタラクションでリセット: %3$s</string>
 
     <string name="server_add_title">お気に入りにサーバーを追加</string>
     <string name="server_domain_hint">サーバーアドレス(ドメイン名またはIP)</string>
@@ -924,6 +926,7 @@
     <string name="mark_as_played">再生済みとしてマーク</string>
     <string name="mark_as_not_played">未再生としてマーク</string>
     <string name="mark_all_as_played">すべてを再生済みとしてマーク</string>
+    <string name="mark_all_as_not_played">すべてを未再生としてマーク</string>
     <string name="new_group">新しいグループ</string>
     <string name="new_group_desc">新しいグループを作成</string>
 
@@ -1203,4 +1206,12 @@
     <string name="podcast_mode_help">Podcastのコントロールは以下のいずれかの条件を満たす単一トラックを再生するときに表示されます:\n\t• 長さが60分を超える場合\n\t• アルバム名がなく、長さが15分を超える場合\n\t• ジャンルが %s の場合</string>
     <string name="voice_control">音声制御</string>
     <string name="voice_control_help">VLCはGoogleアシスタントを通じて次のコマンドを話すことで制御することができます:\n\t• 再生、一時停止、停止、前へ、次へ\n\t• 巻き戻し、早送り、繰り返し、 &lt;すべて|一つのみ|停止&gt;\n\t• &lt;指定時間&gt; にジャンプ、 &lt;間隔&gt; をスキップ\n\t• これは何ですか &lt;アーティスト|アルバム|曲&gt;\n\t• [アーティスト|アルバム|曲|ジャンル|プレイリスト] &lt;名前&gt; を再生</string>
+
+    <string name="network" >ネットワーク</string>
+    <string name="metered_connection">接続が従量制のストリームに対するアクション</string>
+    <string name="metered_do_nothing">何もしない</string>
+    <string name="metered_stop">再生の停止</string>
+    <string name="metered_warn">通知（再生中の通知は行われないかも知れません）</string>
+    <string name="metered_connection_stopped">接続が従量制のため再生を停止しました</string>
+    <string name="metered_connection_warning">接続が従量制です。使用量が課金される可能性があります。</string>
 </resources>

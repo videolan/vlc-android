@@ -199,6 +199,8 @@
     <string name="jump_to_time">Sări la timpul</string>
     <string name="subtitle_select">Selectează fișierul subtitlu</string>
     <string name="wait_before_sleep">Așteaptă ca elementul media actual să se termine primul</string>
+    <string name="reset_on_interaction">Resetează orice interacțiune</string>
+    <string name="default_sleep_timer_summary">%1$s, așteaptă sfârșitul fișierului media: %2$s, resetare la interacțiune: %3$s</string>
 
     <string name="server_add_title">Adaugă un server nou la favorite</string>
     <string name="server_domain_hint">Adresa serverului (nume domeniu sau IP)</string>
@@ -948,6 +950,7 @@
     <string name="mark_as_played">Marcați ca fiind jucat</string>
     <string name="mark_as_not_played">Marcați ca neredat</string>
     <string name="mark_all_as_played">Marcați toate ca fiind jucate</string>
+    <string name="mark_all_as_not_played">Marchează tot ca neredat</string>
     <string name="new_group">Grup nou</string>
     <string name="new_group_desc">Creați un nou grup</string>
 
@@ -1231,4 +1234,12 @@
     <string name="podcast_mode_help">Comenzile podcastului apar la redarea unei singure piese care îndeplinește unul dintre următoarele criterii:\n\t• Durată mai mare de 60 de minute\n\t• Durată mai mare de 15 minute fără nume de album\n\t• Genul este %s</string>
     <string name="voice_control">Control vocal</string>
     <string name="voice_control_help">VLC poate fi controlat prin Asistentul Google rostind următoarele comenzi:\n\t• Redare, Pauză, Oprire, Anterior, Următorul\n\t• Derulare înapoi, Derulare rapidă înainte, Repetare &lt;toate|una|oprit&gt;\n\t • Salt la &lt;timp&gt;, Omite &lt;durata&gt;\n\t• Ce este acest &lt;artist|album|melodie&gt;\n\t• Redare [artist|album|cântec|gen|listă de redare] &lt;nume&gt;</string>
+
+    <string name="network" >Rețea</string>
+    <string name="metered_connection">Acțiune pentru fluxuri atunci când conexiunea este măsurată</string>
+    <string name="metered_do_nothing">Nu face nimic</string>
+    <string name="metered_stop">Oprește redarea</string>
+    <string name="metered_warn">Avertizează-mă (avertismentul poate fi ratat pentru redarea audio)</string>
+    <string name="metered_connection_stopped">Fișierul media s-a oprit deoarece conexiunea este măsurată</string>
+    <string name="metered_connection_warning">Conexiunea dvs. este măsurată. Se pot aplica taxe.</string>
 </resources>

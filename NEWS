@@ -1,3 +1,14 @@
+Changes between 3.6.0 Beta 1 and 3.6.0 Beta 1:
+------------------
+ * Remote access: more content and improvements
+ * Warning for metered connections
+ * Icons rework
+ * Browser interface rework
+ * Rework the add to playlist dialog
+ * Playback behavior fixes
+ * Android Auto improvements
+ * Crash fixes and memory leaks
+
 Changes between 3.5.4 and 3.6.0 Beta 1:
 ------------------
  * Remote access: take control of your VLC for Android from any device

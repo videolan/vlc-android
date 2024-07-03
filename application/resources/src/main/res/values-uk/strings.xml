@@ -209,6 +209,8 @@
     <string name="jump_to_time">Перейти до часу</string>
     <string name="subtitle_select">Обрати файл субтитрів</string>
     <string name="wait_before_sleep">Зачекайте, поки завершиться поточне медіа</string>
+    <string name="reset_on_interaction">Відновлювати за будь-якої взаємодії</string>
+    <string name="default_sleep_timer_summary">%1$s, очікувати кінця медіа: %2$s, відновлювати при взаємодії: %3$s</string>
 
     <string name="server_add_title">Додати новий сервер до обраного</string>
     <string name="server_domain_hint">Адреса сервера (назва домену чи IP)</string>
@@ -960,6 +962,7 @@
     <string name="mark_as_played">Позначити як відтворене</string>
     <string name="mark_as_not_played">Позначити як переглянуте</string>
     <string name="mark_all_as_played">Позначии усе як відтворене</string>
+    <string name="mark_all_as_not_played">Позначити як невідтворене</string>
     <string name="new_group">Нова група</string>
     <string name="new_group_desc">Створити нову групу</string>
 
@@ -1245,4 +1248,12 @@
     <string name="podcast_mode_help">Елементи керування подкастом з\'являються під час відтворення однієї доріжки, яка відповідає одному з таких критеріїв:\n\t- Тривалість більше 60 хв\n\t- Тривалість більше 15 хв без назви альбому\n\t- Жанр %s</string>
     <string name="voice_control">Голосове управління</string>
     <string name="voice_control_help">VLC може керуватися через Google Assistant шляхом таких голосових команд:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Мережа</string>
+    <string name="metered_connection">Дія для потоків, коли з\'єднання тарифікується</string>
+    <string name="metered_do_nothing">Нічого не робити</string>
+    <string name="metered_stop">Зупинити відтворення</string>
+    <string name="metered_warn">Попередити мене (попередження може бути пропущено при відтворенні аудіо)</string>
+    <string name="metered_connection_stopped">Медіа зупинено, тому що з\'єднання тарифікується</string>
+    <string name="metered_connection_warning">Ваше з\'єднання тарифікується. Може стягуватися плата.</string>
 </resources>

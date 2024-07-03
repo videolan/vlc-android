@@ -54,6 +54,7 @@ import org.videolan.tools.AUDIO_RESUME_PLAYBACK
 import org.videolan.tools.AUDIO_SHUFFLING
 import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.AppScope
+import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.HTTP_USER_AGENT
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
 import org.videolan.tools.KEY_INCOGNITO
@@ -529,6 +530,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             settings.getString(HTTP_USER_AGENT, null)?.let {
                  media.addOption(":http-user-agent=$it")
+            }
+            val dav1dThreadNumber = settings.getString(DAV1D_THREAD_NUMBER, "") ?: ""
+            if (dav1dThreadNumber.isNotEmpty() && dav1dThreadNumber.toInt() >= 1) {
+                media.addOption(":dav1d-thread-frames=$dav1dThreadNumber")
             }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
@@ -1029,7 +1034,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
     fun setABRepeatValue(media: MediaWrapper?, time: Long) {
-        if (settings.getBoolean(PLAYBACK_HISTORY, true)) return
         val value = abRepeat.value ?: ABRepeat()
         when {
             value.start == -1L -> {
@@ -1043,8 +1047,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 value.stop = time
             }
         }
-        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, value.start)
-        media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, value.stop)
+        if (settings.getBoolean(PLAYBACK_HISTORY, true)) {
+            media?.setLongMeta(MediaWrapper.META_AB_REPEAT_START, value.start)
+            media?.setLongMeta(MediaWrapper.META_AB_REPEAT_STOP, value.stop)
+        }
         abRepeat.value = value
     }
 
@@ -1174,8 +1180,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.TimeChanged -> {
                     abRepeat.value?.let {
-                        if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start)
-                        if (player.getCurrentTime() < it.start) service.setTime(it.start)
+                        if (it.stop != -1L && player.getCurrentTime() > it.stop) service.setTime(it.start, false)
+                        if (player.getCurrentTime() < it.start) service.setTime(it.start, false)
                     }
                     if (player.getCurrentTime() % 10 == 0L) savePosition()
                     val now = System.currentTimeMillis()

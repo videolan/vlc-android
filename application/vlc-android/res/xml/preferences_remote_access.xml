@@ -40,6 +40,11 @@
                 android:key="remote_access_network_browser_content"
                 android:title="@string/remote_access_network_browser_content" />
         <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="enable_remote_access"
+                android:key="remote_access_history_content"
+                android:title="@string/history" />
+        <CheckBoxPreference
                 android:defaultValue="true"
                 android:dependency="enable_remote_access"
                 android:key="remote_access_playback_control"

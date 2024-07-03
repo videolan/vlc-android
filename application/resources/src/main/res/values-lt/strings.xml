@@ -42,7 +42,7 @@
     <string name="play">Groti</string>
     <string name="playback">Grojimas</string>
     <string name="playback_controls">Atkūrimo valdymas</string>
-    <string name="medialibrary_scan">Fonotekos žvalgymas</string>
+    <string name="medialibrary_scan">Mediatekos žvalgymas</string>
     <string name="Medialibrary_progress">Žvalgomasi kūrinių sąrašo atnaujinimui</string>
     <string name="play_from_start">Groti nuo pradžių</string>
     <string name="play_as_audio">Groti kaip garso kūrinį</string>
@@ -209,6 +209,8 @@
     <string name="jump_to_time">Šokti į laiką</string>
     <string name="subtitle_select">Pasirinkti subtitrų rinkmeną</string>
     <string name="wait_before_sleep">Palaukti, kol bus pabaigtas dabartinis medijos elementas</string>
+    <string name="reset_on_interaction">Atkurti esant bet kokiai sąveikai</string>
+    <string name="default_sleep_timer_summary">%1$s, laukti kūrinio pabaigos: %2$s, atkurti sąveikaujant: %3$s</string>
 
     <string name="server_add_title">Pridėti naują mėgst. serverį</string>
     <string name="server_domain_hint">Serverio adresas (domeno vardas ar IP)</string>
@@ -230,7 +232,7 @@
     <string name="streams">Srautai</string>
     <string name="open_mrl_dialog_msg">Įveskite tinklo adresą, pvz.: http://, mms:// ar rtsp://</string>
     <string name="encountered_error_title">Grojimo klaida</string>
-    <string name="encountered_error_message">Grodama šį kūrinį VLC programa sutriko.\nPabandykite atnaujinti savo fonoteką.</string>
+    <string name="encountered_error_message">Grodama šį kūrinį VLC programa sutriko.\nPabandykite atnaujinti savo mediateką.</string>
     <string name="invalid_location">Nepavyko atkurti %1$s</string>
     <string name="missing_location">Ši medijos rinkmena yra nepasiekiamoje saugykloje ir jos negalima atkurti.</string>
 
@@ -308,7 +310,7 @@
     <string name="prefs_opened_on_phone">Nuostatos atidarytos telefone</string>
     <string name="open_on_phone">Atidaryti telefono ekrane</string>
 
-    <string name="directories_summary">Pasirinkite katalogus, kuriuos norite įtraukti į fonoteką</string>
+    <string name="directories_summary">Pasirinkite katalogus, kuriuos norite įtraukti į mediateką</string>
     <string name="add_custom_path">Pridėti savitą kelią</string>
     <string name="add_custom_path_description">Įtraukti papildomą žvalgytiną katalogą:</string>
     <string name="remove_custom_path">Pašalinti papildomą kelią</string>
@@ -471,7 +473,7 @@
     <string name="enable_remote_access">Įgalinti nuotolinę prieigą</string>
     <string name="remote_access_info">Nuotolinės prieigos informacija</string>
     <string name="remote_access_content">Turinys</string>
-    <string name="remote_access_medialibrary_content">Medijos bibliotekos turinys</string>
+    <string name="remote_access_medialibrary_content">Mediatekos turinys</string>
     <string name="remote_access_medialibrary_content_summary">Įjungta: %1$s\nIšjungta: %2$s</string>
     <string name="remote_access_file_browser_content">Rinkmenų naršyklė</string>
     <string name="remote_access_network_browser_content">Tinklo naršyklė</string>
@@ -542,7 +544,7 @@
     <string name="restart_message">Pasikeitimai įsigalios iš naujo paleidus programą.\n\nPaleisti programą iš naujo?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Vėliau</string>
-    <string name="browser_show_all_title">Rodyti tik multimedijos rinkmenas</string>
+    <string name="browser_show_all_title">Rodyti tik įv. terpės rinkmenas</string>
 
     <string name="developer_prefs_category">Programuotojams</string>
     <string name="enable_verbose_mode">Detalizavimas</string>
@@ -590,7 +592,7 @@
     <string name="network_connection_needed">Nėra ryšio su vietiniu tinklu.</string>
     <string name="search_hint">Ieškoti kūrinio</string>
     <string name="search_in_list_hint">Ieškoti dabartiniame sąraše</string>
-    <string name="search_global">Ieškoti visoje fonotekoje</string>
+    <string name="search_global">Ieškoti visoje mediatekoje</string>
     <string name="playlist_save">Įrašyti grojaraštį</string>
     <string name="playlist_name_hint">Grojaraščio pavadinimas</string>
     <string name="go_to_chapter">Eiti į skyrių...</string>
@@ -599,13 +601,13 @@
     <string name="confirm_resume_title">Tęsti vaizdo įrašų peržiūrą</string>
     <string name="tv_ui_title">Android TV sąsaja</string>
     <string name="tv_ui_summary">Pakeisti naudotojo sąsają į TV skirtąjį apipavidalinimą</string>
-    <string name="medialibrary">Fonoteka</string>
-    <string name="medialibrary_directories">Fonotekos aplankai</string>
+    <string name="medialibrary">Mediateka</string>
+    <string name="medialibrary_directories">Mediatekos aplankai</string>
 
     <!--What's new-->
     <string name="whats_new_title">Kas naujo VLC, skirtos Android sistemai: %s</string>
     <string name="whats_new_36_webserver_text">Naudodami naują nuotolinės prieigos funkciją, galima valdyti VLC, skirtą Android sistemai, iš bet kurio kito įrenginio.\nSiųsti ir priimti rinkmenas, valdyti atkūrimą ir dar daugiau!</string>
-    <string name="whats_new_36_favorites_text">Dabar galite įtraukti į „Mėgstamiausius“ savo mediją, grojaraščius, atlikėjus arba albumus.\nRaskite pageidaujamą turinį filtruodami jį „Mėgstamiausiuose“!</string>
+    <string name="whats_new_36_favorites_text">Dabar galite įtraukti į „Mėgstamiausius“ savo kūrinius, grojaraščius, atlikėjus arba albumus.\nRaskite pageidaujamą turinį filtruodami jį „Mėgstamiausiuose“!</string>
 
 
     <!-- Accessibility -->
@@ -694,14 +696,14 @@
     <string name="length">Trukmė</string>
     <string name="tv_settings_hint">Laikykite nuspaudę mygtuką „Gerai“, kad pažymėtumėte / atžymėtumėte katalogus</string>
     <string name="ml_external_storage_title">Aptikta nauja laikmena</string>
-    <string name="ml_external_storage_msg">Ar norite, kad %1$s būtų pridėta(s) prie fonotekos?</string>
+    <string name="ml_external_storage_msg">Ar norite, kad %1$s būtų pridėta(s) prie mediatekos?</string>
     <string name="ml_external_storage_accept">Taip</string>
     <string name="ml_external_storage_decline">Ne</string>
     <string name="auto_last_added_media">Paskutinis pridėtas</string>
-    <string name="auto_my_library">Fonoteka</string>
+    <string name="auto_my_library">Mediateka</string>
     <string name="auto_home">Pagrindinis</string>
     <string name="no">Ne</string>
-    <string name="loading_medialibrary">Įkeliama fonoteka...</string>
+    <string name="loading_medialibrary">Įkeliama Mediateka...</string>
     <string name="yes">Taip</string>
 
     <string name="custom_set_save_title">Neišsaugoti pakeitimai</string>
@@ -717,7 +719,7 @@
     <string name="custom_set_restored">Pasirinktinis glodintuvas atstatytas.</string>
     <string name="unsaved_set_deleted_message">Neišsaugotas glodintuvo rinkinys pašalintas.</string>
     <string name="equalizer_new_preset_name">Naujas</string>
-    <string name="settings_ml_block_scan">Šiuo metu žvalgomasi kūrinių ir sudarinėjama fonoteka</string>
+    <string name="settings_ml_block_scan">Šiuo metu žvalgomasi kūrinių ir sudarinėjama mediateka</string>
     <string name="recommendations">Pasiūlymai</string>
     <string name="recommendations_desc">Paleisties rekomendacinės kortelės</string>
     <string name="browser_quick_access">Greitoji prieiga</string>
@@ -797,7 +799,7 @@
     <string name="daynight_legacy_explanation">VLC automatiškai persijungs į naktinę veikseną</string>
     <string name="onboarding_scanning_enable">Leisti VLC nuskaityti mano įrenginį</string>
     <string name="onboarding_scan_customize">Leisti man nurodyti, kuriuos aplankus VLC gali žvalgyti</string>
-    <string name="button_medialibrary_preferences">Eiti į fonotekos parinktis</string>
+    <string name="button_medialibrary_preferences">Eiti į Mediatekos parinktis</string>
     <string name="light_theme">Šviesus apipavidalinimas</string>
     <string name="add">Pridėti</string>
     <string name="add_to_new_playlist">Įtraukti į naują grojaraštį</string>
@@ -960,6 +962,7 @@
     <string name="mark_as_played">Pažymėti kaip peržiūrėtą</string>
     <string name="mark_as_not_played">Pažymėti kaip neperžiūrėtą</string>
     <string name="mark_all_as_played">Pažymėti viską kaip peržiūrėtą</string>
+    <string name="mark_all_as_not_played">Pažymėti viską kaip neperžiūrėtą</string>
     <string name="new_group">Nauja grupė</string>
     <string name="new_group_desc">Sukurti naują grupę</string>
 
@@ -1098,7 +1101,7 @@
     <string name="widget_theme">Valdiklio tema</string>
     <string name="widget_preferences">Konfigūruoti valdiklį</string>
     <string name="material_you">„Material You“ (spalvos ištraukiamos iš fono paveikslėlio)</string>
-    <string name="palette">„Paletė“ (spalvos ištraukiamos iš medijos viršelio)</string>
+    <string name="palette">„Paletė“ (spalvos ištraukiamos iš kūrinio viršelio)</string>
     <string name="custom">Tinkinta</string>
     <string name="widget_type">Valdiklio tipas</string>
     <string name="widget_type_pill">Tabletė</string>
@@ -1245,4 +1248,12 @@
     <string name="podcast_mode_help">Prenumeruojamų transliacijų valdikliai rodomi leidžiant vieną įrašą, atitinkantį vieną iš šių kriterijų:\n\t• Ilgesnis nei 60 min.\n\t• Ilgesnis nei 15 min. ir yra be albumo pavadinimo\n\t• Žanras yra %s</string>
     <string name="voice_control">Valdymas balsu</string>
     <string name="voice_control_help">VLC galima valdyti naudojant „Google“ padėjėją, ištariant šias komandas:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Tinklas</string>
+    <string name="metered_connection">Veiksmas srautams, kai ryšys yra matuojamas</string>
+    <string name="metered_do_nothing">Nieko nedaryti</string>
+    <string name="metered_stop">Stabdyti atkūrimą</string>
+    <string name="metered_warn">Įspėti mane (įspėjimas gali būti praleistas atkuriant garso įr.)</string>
+    <string name="metered_connection_stopped">Medija sustabdyta, nes ryšys yra matuojamas</string>
+    <string name="metered_connection_warning">Jūsų ryšys yra matuojamas. Gali būti taikomi pap. mokesčiai.</string>
 </resources>

@@ -198,8 +198,7 @@
     <string name="sleep_in">Silenciar em</string>
     <string name="jump_to_time">Saltar para o tempo</string>
     <string name="subtitle_select">Selecionar ficheiro de legendas</string>
-    <string name="wait_before_sleep">Esperar primeiro que o idem da média atual termine</string>
-
+    <string name="wait_before_sleep">Aguardar que o item multimédia atual termine primeiro</string>
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
     <string name="server_domain_hint">Endereço do servidor (nome do domínio ou IP)</string>
     <string name="server_share_hint">Nome da partilha de rede (ou endereço de IP)</string>
@@ -222,20 +221,20 @@
     <string name="encountered_error_title">Erro de reprodução</string>
     <string name="encountered_error_message">O VLC encontrou um erro com esta média.\nPor favor, tente atualizar a mediateca.</string>
     <string name="invalid_location">A localização %1$s não pode ser reproduzida.</string>
-    <string name="missing_location">Esta média é de um armazenamento indisponível e por isso não pode ser reproduzido.</string>
+    <string name="missing_location">Esta média está num armazenamento indisponível e por isso não pode ser reproduzida.</string>
 
     <string name="search">Procurar</string>
 
 
     <string name="playback_history_title">Histórico de reprodução</string>
-    <string name="playback_history_summary">Guardar toda a multimédia reproduzida na secção do Histórico</string>
+    <string name="playback_history_summary">Guardar toda a média reproduzida na secção do histórico</string>
     <string name="video_resume_playback_title">Histórico da fila de reprodução de vídeo</string>
     <string name="video_resume_playback_summary">Permite guardar a fila de reprodução de vídeo para retomar posteriormente</string>
     <string name="audio_resume_playback_title">Histórico da fila de reprodução de áudio</string>
     <string name="audio_resume_playback_warning">Desativar o histórico da fila de reprodução de áudio pode provocar alguns problemas.\nApós desativá-lo pode não ser possível retomar a reprodução a partir:\n\n\t- dum dispositivo Bluetooth\n\t- do widget\n\t- da notificação da média</string>
     <string name="audio_resume_playback_summary">Permite guardar a fila de reprodução de áudio para retomar posteriormente</string>
     <string name="playback_speed_title">Guardar Velocidade de Reprodução</string>
-    <string name="playback_speed_summary">Manter a velocidade de reprodução entre multimédias</string>
+    <string name="playback_speed_summary">Manter a velocidade de reprodução entre médias</string>
 
     <string name="play_button">Botão de Reproduzir</string>
 
@@ -244,7 +243,7 @@
     <string name="seek">Pesquisar</string>
     <string name="subtitles">Legendas</string>
     <string name="tips_player_controls">Controlos do reprodutor</string>
-    <string name="tips_player_controls_description">Toque nos controlos de reprodução abaixo para descobrir para que eles servem</string>
+    <string name="tips_player_controls_description">Toque nos controlos de reprodução em baixo para descobrir a sua função</string>
     <string name="tips_audio_sub">Faixas de áudio e legendas</string>
     <string name="tips_play_description">Toque para reproduzir o vídeo</string>
     <string name="lock">Bloquear</string>
@@ -534,7 +533,7 @@
     <string name="restart_message_Later">Mais tarde</string>
     <string name="browser_show_all_title">Mostrar apenas ficheiros multimédia</string>
 
-    <string name="developer_prefs_category">Programadores/Criadores</string>
+    <string name="developer_prefs_category">Programador</string>
     <string name="enable_verbose_mode">Detalhado</string>
     <string name="enable_verbose_mode_summary">Aumentar detalhe (logcat)</string>
     <string name="debug_logs">Registos de depuração</string>
@@ -555,7 +554,7 @@
 
     <string name="serious_crash">Infelizmente, ocorreu um erro sério e o VLC teve de fechar.</string>
     <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando-nos o seguinte registo de erro:</string>
-    <string name="restart_vlc">Reiniciar VLC</string>
+    <string name="restart_vlc">Reiniciar o VLC</string>
     <string name="send_log">Enviar o registo</string>
     <string name="sending_log">A enviar o registo…</string>
 
@@ -600,7 +599,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">Mais ações</string>
-    <string name="back_quit_lock">Prima novamente em Anterior para sair do vídeo</string>
+    <string name="back_quit_lock">Prima novamente em \'voltar\' para sair do vídeo</string>
     <string name="stream_deleted">Transmissão eliminada</string>
     <string name="no_subs_found">Não existem legendas nesta pasta</string>
     <string name="music_now_playing">A reproduzir</string>
@@ -629,7 +628,7 @@
     <string name="allow_settings_access_brightness_description">O VLC necessita desta permissão para alterar o modo de brilho.</string>
     <string name="allow_draw_overlays_title">Permitir que o VLC apareça por cima das outras aplicações</string>
     <string name="allow_sdraw_overlays_description">O VLC necessita desta permissão para mostrar os vídeos por cima das outras aplicações.</string>
-    <string name="allow_pip">Permitir ao VLC lançar a Imagem na Imagem</string>
+    <string name="allow_pip">Permitir ao VLC lançar a imagem na imagem</string>
     <string name="allow_pip_description">O VLC necessita desta permissão para mostrar a miniatura do vídeo por cima das outras aplicações.</string>
     <string name="permission_ask_again">Permitir</string>
     <string name="pick_file">Escolher um ficheiro</string>
@@ -701,21 +700,21 @@
     <string name="save">Guardar</string>
     <string name="saved">%s guardado</string>
     <string name="do_not_save">Não guardar</string>
-    <string name="custom_set_deleted_message">Definições de equalizador \"%1$s\" apagada.</string>
+    <string name="custom_set_deleted_message">Definições do equalizador personalizado \"%1$s\" eliminadas.</string>
     <string name="custom_set_wrong_input">Nome inválido.</string>
     <string name="custom_set_already_exist">Já existem definições de equalizador com este nome.</string>
     <string name="custom_set_restored">Definições de equalizador personalizadas restauradas.</string>
-    <string name="unsaved_set_deleted_message">Definições de equalizador não guardadas e apagadas.</string>
+    <string name="unsaved_set_deleted_message">Definições de equalizador não guardadas e eliminadas.</string>
     <string name="equalizer_new_preset_name">Novo</string>
     <string name="settings_ml_block_scan">De momento, a mediateca está a analisar os seus dispositivos</string>
     <string name="recommendations">Recomendações</string>
-    <string name="recommendations_desc">Cartões de recomendações no \'launcher\'</string>
+    <string name="recommendations_desc">Cartões de recomendações no \'lançador\'</string>
     <string name="browser_quick_access">Acesso rápido</string>
     <string name="browser_storages">Armazenamentos</string>
     <string name="msg_delete_failed">Não foi possível eliminar %1$s</string>
     <string name="renderer_list_title">Ecrãs</string>
-    <string name="sdcard_permission_dialog_title">Necessita de dar ao VLC acesso de escrita para o SD Card</string>
-    <string name="sdcard_permission_dialog_message">VLC não consegue eliminar este ficheiro sem a permissão de acesso de gravação.\nPor favor, vá para o seu cartão SD e clique em \'Selecionar.\nPode ter que clicar primeiro em \'Mostrar Cartão SD\' no menu no topo à direita</string>
+    <string name="sdcard_permission_dialog_title">Necessita de dar ao VLC acesso de escrita para o cartão SD</string>
+    <string name="sdcard_permission_dialog_message">VLC não consegue eliminar este ficheiro sem a permissão de acesso de gravação.\nPor favor, vá para o seu cartão SD e clique em \"Selecionar\".\nPode ter que clicar primeiro em \"Mostrar cartão SD\" no menu no topo à direita</string>
     <string name="dialog_sd_wizard">Mostrar</string>
     <string name="renderers_disconnect">Desligar</string>
     <string name="audio_digital_failed">Não foi possível alterar o estado de saída do áudio digital</string>
@@ -826,8 +825,8 @@
     <string name="incognito_mode">Modo incógnito</string>
     <string name="display_in_list">Mostrar em lista</string>
     <string name="display_in_grid">Mostrar em grelha</string>
-    <string name="dump_db_succes">Banco de dados despejado na raiz de armazenamento interno</string>
-    <string name="dump_db_failure">Falha ao despejar o banco de dados</string>
+    <string name="dump_db_succes">Base de dados descarregada (dumped) na raiz da memória interna</string>
+    <string name="dump_db_failure">Falha ao descarregar (dump) a base de dados</string>
     <string name="send_crash_title">Relator de falhas do VLC</string>
     <string name="send_crash_description">Ao enviar a sua falha, ajuda-nos a melhorar a estabilidade do VLC.</string>
     <string name="send_crash_warning">Tenha a certeza que remove todos os dados confidenciais que não deseja enviar.</string>
@@ -835,12 +834,12 @@
     <string name="vlc_reporter">Relator VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bem-vindo ao programa beta do VLC.\nObserve que esta versão pode ter alguns erros.</string>
-    <string name="welcome_beta_description_bugs">Se você reparar num erro, por favor reporte-o no nosso fórum ou no monitorizador de erros.</string>
+    <string name="welcome_beta_description_bugs">Se detetar um erro, comunique-o no nosso fórum ou no nosso registo de erros.</string>
     <string name="welcome_beta_description_crashes">Se ocorrer uma falha, por favor utilize o ícone do Relator VLC no seu lançador para enviá-lo para nós.</string>
     <string name="send">Enviar</string>
     <string name="send_crash_action_title">O que quer fazer?</string>
-    <string name="report_a_bug">Reportar um bug</string>
-    <string name="report_a_crash">Reportar um crash</string>
+    <string name="report_a_bug">Reportar um erro/bug</string>
+    <string name="report_a_crash">Reportar uma falha/crash</string>
     <string name="describe_crash">Por favor descreva como essa falha aconteceu</string>
     <string name="favorite">Favorito</string>
     <string name="always">Sempre</string>
@@ -848,9 +847,9 @@
     <string name="ask_confirmation">Solicitar confirmação</string>
     <string name="add_to_scanned">Verificar esta pasta</string>
     <string name="directory_not_scanned">Este diretório não é examinado</string>
-    <string name="scanned_directory_added">%s  adicionado aos seus diretórios examinados</string>
+    <string name="scanned_directory_added">%s adicionado aos seus diretórios examinados</string>
     <string name="video_group_size_summary">Agrupar por %s letras iniciais</string>
-    <string name="url_copied_to_clipboard">Url copiado para a área de transferência</string>
+    <string name="url_copied_to_clipboard">URL copiado para a área de transferência</string>
     <string name="share">Partilhar</string>
     <string name="invalid_file">Ficheiro inválido. Não pode ser partilhado.</string>
     <string name="share_file">Partilhar %s</string>
@@ -859,7 +858,7 @@
     <string name="moviepedia_hint">Pesquisar metadados</string>
     <string name="moviepedia_result">Resultados de vídeo</string>
     <string name="directed_by">Realizado por</string>
-    <string name="casting">Difusão</string>
+    <string name="casting">Seleção de intérpretes</string>
     <string name="produced_by">Produzido por</string>
     <string name="written_by">Escrito por</string>
     <string name="music_by">Música por</string>
@@ -914,7 +913,7 @@
     <string name="more">Mais</string>
     <string name="favorites">Favoritos</string>
     <string name="new_stream">Nova transmissão</string>
-    <string name="add_to_group">Adicioanr ao grupo de vídeos</string>
+    <string name="add_to_group">Adicionar ao grupo de vídeos</string>
     <string name="remove_from_group">Remover do grupo de vídeos</string>
     <string name="rename_group">Renomear o grupo de vídeos</string>
     <string name="ungroup">Desagrupar</string>
@@ -939,15 +938,16 @@
     <string name="subscription_purchased">Você está subscrito a um patrocínio mensal</string>
     <string name="subscription_cancel">Pode retirar a subscrição na Play Store</string>
     <string name="subscription_cancel_tv">Como retirar a subscrição</string>
-    <string name="donate_unsubscribe_tv">Para remover a subscrição, abra o %s num telefone ou num computador, ou digitalize este código:</string>
+    <string name="donate_unsubscribe_tv">Para remover a subscrição, abra %s num telemóvel ou num computador, ou digitalize este código:</string>
     <string name="tip_jar">Ajudar o VLC</string>
     <string name="thank_you">Obrigado</string>
     <string name="thank_you_desc">Obrigado pelo seu patrocínio!\nEstá a ajudar-nos a melhorar o VLC!</string>
     <string name="donate_again">Patrocinar a aplicação novamente</string>
 
-    <string name="mark_as_played">Marcar como visto</string>
-    <string name="mark_as_not_played">Marcar como não visto</string>
-    <string name="mark_all_as_played">Marcar todos como visto</string>
+    <string name="mark_as_played">Marcar como reproduzido</string>
+    <string name="mark_as_not_played">Marcar como não reproduzido</string>
+    <string name="mark_all_as_played">Marcar todos como reproduzidos</string>
+    <string name="mark_all_as_not_played">Marcar todos como não reproduzidos</string>
     <string name="new_group">Novo grupo</string>
     <string name="new_group_desc">Criar um novo grupo</string>
 
@@ -966,7 +966,7 @@
     <string name="remove_from_history">Remover do histórico</string>
     <string name="prefersmbv1">Priorizar SMB 1</string>
     <string name="prefersmbv1_summary">Desmarque esta configuração se tiver alguma dificuldade em navegar no seu servidor SMB</string>
-    <string name="apply_to_all">Aplicar a todos os videos</string>
+    <string name="apply_to_all">Aplicar a todos os vídeos</string>
     <string name="audio_delay_global">Atraso de áudio definido para %s ms para todos os vídeos</string>
     <string name="audio_delay_bt">Atraso de áudio definido para %s ms para o dispositivo bluetooth</string>
     <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para transmissões pode causar engasgos</string>
@@ -1002,14 +1002,14 @@
     <string name="lock_with_pin_short">Bloqueio PIN</string>
     <string name="restrict_settings">Restringir o acesso às definições</string>
     <string name="search_prefs">Procurar definições</string>
-    <string name="video_match_frame_rate_title">Corresponder à velocidade de fotogramas do ecrã</string>
+    <string name="video_match_frame_rate_title">Corresponder à taxa de fotogramas do ecrã</string>
     <string name="video_match_frame_rate_summary">Fazer corresponder a taxa de atualização do ecrã à taxa de fotogramas do suporte. Por exemplo, um filme de 24p deve ser reproduzido a 24p</string>
     <string name="preferred_resolution">Resolução de vídeo preferida</string>
     <string name="preferred_resolution_summary">A qualidade máxima de vídeo para as transmissões, quando aplicável, será: %s</string>
     <string name="pref_resolution_best_available">Melhor disponível</string>
     <string name="pref_resolution_very_low">Muito baixa definição (240p)</string>
     <string name="stop_unpaubale">Esta média não pode ser pausada. Quer antes pará-la?</string>
-    <string name="delete_forever">Apagar definitivamente</string>
+    <string name="delete_forever">Eliminar definitivamente</string>
     <string name="add_to_existing_playlist">Adicionar à lista de reprodução existente</string>
     <string name="bookmarks_title">Marcadores</string>
     <string name="no_bookmark">Nenhum marcador definido</string>
@@ -1024,8 +1024,8 @@
     <string name="network_indexing">Indexação na rede</string>
     <string name="network_indexing_warning">A indexação na rede está atualmente na fase experimental (beta).\nProblemas conhecidos:\n• Desempenho lento\n\nSe encontrar outros problemas, por favor reporte-os no nosso fórum.</string>
     <string name="start_vlc">Iniciar o VLC</string>
-    <string name="jump_delay">Atraso de tempo para avançar/retroceder</string>
-    <string name="long_jump_delay">Atraso de tempo de avançar/retroceder do toque longo</string>
+    <string name="jump_delay">Atraso de tempo para avançar / retroceder</string>
+    <string name="long_jump_delay">Atraso de tempo de avançar / retroceder do toque longo</string>
     <string name="jump_delay_summary">%s segundos</string>
     <string name="move_up">Subir</string>
     <string name="move_down">Descer</string>
@@ -1046,7 +1046,7 @@
     <string name="permission">Permissão</string>
     <string name="customize">Personalizar</string>
     <string name="selection_count">%d selecionado</string>
-    <string name="control_setting">Definições de controlos</string>
+    <string name="control_setting">Definições de controlo</string>
     <string name="controls_setting">Definições de controlos</string> <!-- Unused -->
     <string name="gestures">Gestos</string>
     <string name="player_controls">Controlos do reprodutor</string>
@@ -1083,8 +1083,8 @@
     <string name="add_server_favorite">Adicionar um servidor favorito</string>
     <string name="widget_theme">Tema do widget</string>
     <string name="widget_preferences">Configurar widget</string>
-    <string name="material_you">Material You (retira cores do papel de parede)</string>
-    <string name="palette">Palette (retira as cores da capa dos media)</string>
+    <string name="material_you">Material You (extrai as cores do papel de parede)</string>
+    <string name="palette">Palette (extrai as cores da capa dos média)</string>
     <string name="custom">Personalizado</string>
     <string name="widget_type">Tipo de widget</string>
     <string name="widget_type_pill">Pílula</string>
@@ -1231,4 +1231,12 @@
     <string name="podcast_mode_help">Os controlos de podcast aparecem quando se reproduz uma única faixa que satisfaz um dos seguintes critérios:\n\t• Duração superior a 60 min\n\t• Duração superior a 15 minutos sem nome de álbum\n\t• O género é %s</string>
     <string name="voice_control">Controlo por voz</string>
     <string name="voice_control_help">O VLC pode ser controlado através do Google Assistant falando os seguintes comandos:\n\t• Reproduzir, Pausa, Parar, Anterior, Seguinte\n\t• Rebobinar, Avançar rapidamente, Repetir &lt;tudo|um|desativado&gt;\n\t• Ir para o &lt;tempo&gt;, Ignorar &lt;duração&gt;\n\t• Qual é este(a) &lt;artista|álbum|música&gt;\n\t• Reproduzir [artista|álbum|música|género|lista de reprodução] &lt;nome&gt;</string>
+
+    <string name="network" >Rede</string>
+    <string name="metered_connection">Ação para transmissões quando a conexão tem custos</string>
+    <string name="metered_do_nothing">Não fazer nada</string>
+    <string name="metered_stop">Parar reprodução</string>
+    <string name="metered_warn">Avisar-me (o aviso pode não ser ouvido durante a reprodução de áudio)</string>
+    <string name="metered_connection_stopped">A reprodução da média parou porque a conexão tem custos</string>
+    <string name="metered_connection_warning">A sua conexão tem custos. Podem ser aplicados custos adicionais.</string>
 </resources>

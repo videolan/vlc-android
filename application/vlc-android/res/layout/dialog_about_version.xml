@@ -62,73 +62,112 @@
                     app:layout_constraintTop_toBottomOf="@+id/changelog" />
 
             <TextView
+                    android:id="@+id/remote_access"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/remote_access_version_title"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/remote_access_version"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/remote_access_version" />
+
+            <TextView
+                    android:id="@+id/remote_access_hash_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/remote_access_hash_title"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/remote_access_revision"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/remote_access_version" />
+
+            <TextView
                     android:id="@+id/textView28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
                     android:text="@string/revision"
                     android:textColor="?attr/font_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/revision"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/moreButton" />
-
-            <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="libvlcjni"
-                    android:textColor="?attr/font_light"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView35" />
-
-            <TextView
-                    android:id="@+id/textView35"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="VLC"
-                    android:textColor="?attr/font_light"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView28" />
-
-            <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="libvlc"
-                    android:textColor="?attr/font_light"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                    app:layout_constraintTop_toTopOf="@+id/revision" />
 
             <TextView
                     android:id="@+id/textView30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="16dp"
                     android:text="@string/is_compiled_by"
                     android:textColor="?attr/font_light"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/compiled_by"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintTop_toTopOf="@+id/compiled_by" />
+
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?attr/default_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/compiled_by" />
+
+            <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="libvlcjni"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/libvlc_revision"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/libvlc_revision" />
+
+            <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="VLC"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/vlc_revision"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/vlc_revision" />
+
+            <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="libvlc"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/libvlc_version"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/libvlc_version" />
+
+            <View
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?attr/default_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/libvlc_version" />
 
             <TextView
                     android:id="@+id/revision"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
                     android:textColor="?attr/font_default"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView28"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
-                    app:layout_constraintTop_toTopOf="@+id/textView28"
+                    app:layout_constraintTop_toBottomOf="@+id/moreButton"
                     tools:text="cb3c6284d" />
 
             <TextView
@@ -136,11 +175,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="4dp"
                     android:textColor="?attr/font_default"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView35"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
-                    app:layout_constraintTop_toTopOf="@+id/textView35"
+                    app:layout_constraintTop_toBottomOf="@+id/libvlc_revision"
                     tools:text="cb3c6284d" />
 
             <TextView
@@ -148,11 +187,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
                     android:textColor="?attr/font_default"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView29"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
-                    app:layout_constraintTop_toTopOf="@+id/textView29"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
                     tools:text="cb3c6284d" />
 
             <TextView
@@ -160,13 +199,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="4dp"
                     android:textColor="?attr/font_default"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
-                    app:layout_constraintTop_toTopOf="@+id/textView2"
-                    app:layout_constraintVertical_bias="1.0"
+                    app:layout_constraintTop_toBottomOf="@+id/vlc_revision"
                     tools:text="cb3c6284d" />
 
             <TextView
@@ -174,20 +212,45 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="4dp"
                     android:textColor="?attr/font_default"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView30"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
-                    app:layout_constraintTop_toTopOf="@+id/textView30"
+                    app:layout_constraintTop_toBottomOf="@+id/revision"
                     tools:text="Gitlab runner" />
+
+            <TextView
+                    android:id="@+id/remote_access_version"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="?attr/font_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
+                    app:layout_constraintTop_toBottomOf="@+id/divider2"
+                    tools:text="0.1.0" />
+
+            <TextView
+                    android:id="@+id/remote_access_revision"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="?attr/font_default"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
+                    app:layout_constraintTop_toBottomOf="@+id/remote_access_version"
+                    tools:text="0.1.0" />
 
             <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/compilation_barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="end"
-                    app:constraint_referenced_ids="textView28,textView30,textView29"
-                    tools:layout_editor_absoluteX="411dp" />
+                    app:constraint_referenced_ids="remote_access,textView28,textView30,textView29" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

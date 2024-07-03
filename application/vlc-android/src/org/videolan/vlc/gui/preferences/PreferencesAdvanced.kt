@@ -36,6 +36,8 @@ import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.os.bundleOf
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
@@ -58,16 +60,21 @@ import org.videolan.resources.ROOM_DATABASE
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.BitmapCache
+import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.NEW_INSTALL
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.UPDATE_URL
+import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.share
@@ -110,6 +117,25 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "debug_logs" -> {
                 val intent = Intent(requireContext(), DebugLogActivity::class.java)
                 startActivity(intent)
+                return true
+            }
+            "nightly_install" -> {
+
+                android.app.AlertDialog.Builder(requireActivity())
+                        .setTitle(resources.getString(R.string.install_nightly))
+                        .setMessage(resources.getString(R.string.install_nightly_alert))
+                        .setPositiveButton(R.string.ok){ _, _ ->
+                            requireActivity().lifecycleScope.launch {
+                                AutoUpdate.checkUpdate(requireActivity().application, true) {
+                                    val updateDialog = UpdateDialog().apply {
+                                        arguments = bundleOf(UPDATE_URL to it, NEW_INSTALL to true)
+                                    }
+                                    updateDialog.show(requireActivity().supportFragmentManager, "fragment_update")
+                                }
+                            }
+                        }
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "clear_history" -> {
@@ -277,6 +303,22 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         restartMediaPlayer()
                     }
                     restartLibVLC()
+                }
+            }
+            DAV1D_THREAD_NUMBER -> {
+                val threadNumber = sharedPreferences.getString(key, "") ?: ""
+                if (threadNumber != "" ) {
+                    if ((threadNumber.isDigitsOnly() && threadNumber.toInt() < 1) || !threadNumber.isDigitsOnly()) {
+                        UiTools.snacker(requireActivity(), R.string.dav1d_thread_number_invalid)
+                        sharedPreferences.putSingle(DAV1D_THREAD_NUMBER, "")
+                    }
+                } else {
+                    // In case of failure, after resetting the value to "" the SimpleSummaryProvider
+                    // doesn't re-update it's summary to the default, has to be forced
+                    val pref = findPreference<EditTextPreference>(key)
+                    if (pref?.callChangeListener("") == true) {
+                        pref.setText("");
+                    }
                 }
             }
             "opengl", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {

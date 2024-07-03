@@ -17,6 +17,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        nov {
+            initWith release
+            matchingFallbacks = ['release']
+        }
     }
     namespace 'videolan.org.commontools'
     buildFeatures {

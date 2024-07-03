@@ -199,7 +199,6 @@
     <string name="jump_to_time">Aller au temps</string>
     <string name="subtitle_select">Sélectionner des sous-titres</string>
     <string name="wait_before_sleep">Attendez que le multimédia en cours se termine</string>
-
     <string name="server_add_title">Ajouter un serveur aux favoris</string>
     <string name="server_domain_hint">Adresse du serveur (domaine ou adresse IP)</string>
     <string name="server_share_hint">Nom du partage réseau (ou adresse IP)</string>
@@ -948,6 +947,7 @@
     <string name="mark_as_played">Marquer comme vu</string>
     <string name="mark_as_not_played">Marquer comme non vu</string>
     <string name="mark_all_as_played">Marquer tout comme vu</string>
+    <string name="mark_all_as_not_played">Marquer tous les éléments comme non joués</string>
     <string name="new_group">Nouveau groupe</string>
     <string name="new_group_desc">Créer un nouveau groupe</string>
 
@@ -1231,4 +1231,12 @@
     <string name="podcast_mode_help">Les commandes de podcast apparaissent lors de la lecture d’une seule piste qui répond à l’un des critères suivants :\n\t• Durée supérieure à 60 min\n\t• Durée supérieure à 15 min sans nom d’album\n\t• Le genre est %s</string>
     <string name="voice_control">Commande vocale</string>
     <string name="voice_control_help">VLC peut être contrôlé via Google Assistant en prononçant les commandes suivantes :\n\t• Lecture, Pause, Stop, Précédent, Suivant\n\t• Retour, Avance rapide, Répéter &lt;all|one|off&gt;\n\t• Sauter à &lt;time&gt;, Sauter &lt;duration&gt;\n\t• Qu’est-ce que c’est &lt;artist|album|song&gt;\n\t• Jouer [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Réseau</string>
+    <string name="metered_connection">Agir sur les flux lorsque la connexion est tarifée.</string>
+    <string name="metered_do_nothing">Ne rien faire</string>
+    <string name="metered_stop">Arrêter la lecture</string>
+    <string name="metered_warn">Avertissez-moi (l’avertissement peut ne pas être pris en compte lors de la lecture audio)</string>
+    <string name="metered_connection_stopped">Le média s’est arrêté parce que la connexion est tarifée.</string>
+    <string name="metered_connection_warning">Votre connexion est tarifée. Des frais peuvent s’appliquer.</string>
 </resources>

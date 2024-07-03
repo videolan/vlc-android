@@ -189,7 +189,6 @@
     <string name="jump_to_time">Sıçranacak zaman</string>
     <string name="subtitle_select">Alt yazı dosyasını seçin</string>
     <string name="wait_before_sleep">Önce geçerli ortam ögesinin sona ermesi beklensin</string>
-
     <string name="server_add_title">Sık kullanılanlara yeni sunucu ekle</string>
     <string name="server_domain_hint">Sunucu adresi (etki alanı ya da IP)</string>
     <string name="server_share_hint">Ağ paylaşımı adı (ya da IP adresi)</string>
@@ -936,6 +935,7 @@
     <string name="mark_as_played">Oynatılmış olarak imle</string>
     <string name="mark_as_not_played">Oynatılmamış olarak imle</string>
     <string name="mark_all_as_played">Tümünü oynatılmış olarak imle</string>
+    <string name="mark_all_as_not_played">Tümünü oynatılmamış olarak işaretle</string>
     <string name="new_group">Yeni grup</string>
     <string name="new_group_desc">Yeni grup ekle</string>
 
@@ -1217,4 +1217,5 @@
     <string name="podcast_mode_help">Podcast denetimleri, aşağıdaki ölçütlerden birini karşılayan tek bir parça oynatıldığında görüntülenir:\n\t• 60 dakikadan uzun olan\n\t• 15 dakikadan uzun olan ve albüm adı olmayan\n\t• Tür %s</string>
     <string name="voice_control">Ses denetimi</string>
     <string name="voice_control_help">VLC, aşağıdaki komutlar söylenerek Google Asistan ile denetlenebilir:\n\t• Oynat, Duraklat, Durdur, Önceki, Sonraki\n\t• Geri git, İleri git, &lt;Tümünü|Birini|kapat&gt;\n\t Yinele • &lt;Zamana&gt; atla, &lt;Süreyi&gt; atla\n\t• Bu &lt;Sanatçı|Albüm|Parça&gt; nedir?\n\t• [Sanatçı|Albüm|Parça|Tür|Oynatma listesi] &lt;adı&gt;</string>
-</resources>
+
+    </resources>
