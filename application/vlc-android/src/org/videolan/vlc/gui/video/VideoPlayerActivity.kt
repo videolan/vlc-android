@@ -830,6 +830,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     service?.updateWidgetState()
                     enterPictureInPictureMode(paramBuilder.build())
                 } catch (e: IllegalArgumentException) { // Fallback with default parameters
+                    Log.w(TAG, e.message, e)
                     enterPictureInPictureMode()
                 }
             else enterPictureInPictureMode()
