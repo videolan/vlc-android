@@ -2,7 +2,6 @@ package org.videolan.vlc.media
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.widget.Toast
@@ -56,6 +55,7 @@ import org.videolan.tools.AUDIO_STOP_AFTER
 import org.videolan.tools.AppScope
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.HTTP_USER_AGENT
+import org.videolan.tools.KEY_AUDIO_CONFIRM_RESUME
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_PLAYBACK_RATE
@@ -84,7 +84,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.NetworkConnectionManager
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import org.videolan.vlc.util.isSchemeFD
 import org.videolan.vlc.util.isSchemeHttpOrHttps
@@ -152,10 +151,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
     val waitForConfirmation by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
+    val waitForConfirmationAudio by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<WaitConfirmation?>().apply { value = null } }
     private var lastPrevious = -1L
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
-    lateinit var videoResumeStatus: VideoResumeStatus
+    lateinit var videoResumeStatus: ResumeStatus
+    lateinit var audioResumeStatus: ResumeStatus
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 
@@ -175,8 +176,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun resetResumeStatus() {
         val string = settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0")
-        videoResumeStatus = if (string == "2") VideoResumeStatus.ASK else if (string == "0") VideoResumeStatus.ALWAYS else VideoResumeStatus.NEVER
+        videoResumeStatus = if (string == "2") ResumeStatus.ASK else if (string == "0") ResumeStatus.ALWAYS else ResumeStatus.NEVER
+        val audio = settings.getString(KEY_AUDIO_CONFIRM_RESUME, "0")
+        audioResumeStatus = if (audio == "2") ResumeStatus.ASK else if (audio == "0") ResumeStatus.ALWAYS else ResumeStatus.NEVER
         waitForConfirmation.postValue(null)
+        waitForConfirmationAudio.postValue(null)
     }
 
     /**
@@ -213,9 +217,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         mediaWrapper = MLServiceLocator.getAbstractMediaWrapper(location.toUri())
                         if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
                         mediaList.add(mediaWrapper)
-                    } else
+                    } else {
                         if (BuildConfig.BETA) Log.d(TAG, "Adding $mediaWrapper to the queue")
                         mediaList.add(mediaWrapper)
+                    }
                 }
             }
             load(mediaList, position)
@@ -512,12 +517,23 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
-            val start = if (forceRestart
-                || videoResumeStatus == VideoResumeStatus.NEVER
-                || !Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) 0L else getStartTime(mw)
+
+            val start: Long
             if (isVideoPlaying) {
-                if (!forceResume && videoResumeStatus == VideoResumeStatus.ASK && start > 0) {
+                start = if (forceRestart
+                    || videoResumeStatus == ResumeStatus.NEVER
+                    || !Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) 0L else getStartTime(mw)
+                if (!forceResume && videoResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
                     waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
+                    return
+                }
+            } else {
+                start = if (forceRestart
+                    || audioResumeStatus == ResumeStatus.NEVER
+                    || !Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) 0L else getStartTime(mw)
+                if (!forceResume && audioResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
+                    val confirmation = WaitConfirmation(mw.title, index, flags)
+                    waitForConfirmationAudio.postValue(confirmation)
                     return
                 }
             }
@@ -1260,7 +1276,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
 class DelayValues(var start: Long = -1L, var stop: Long = -1L)
-class WaitConfirmation(val title: String, val index: Int, val flags: Int)
-enum class VideoResumeStatus {
+class WaitConfirmation(val title: String, val index: Int, val flags: Int, var used: Boolean = false)
+enum class ResumeStatus {
     ALWAYS, ASK, NEVER
 }

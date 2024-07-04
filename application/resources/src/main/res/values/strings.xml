@@ -607,6 +607,7 @@
     <string name="current_chapter">Chapter: %s</string>
     <string name="confirm_resume">Resume from last position?</string>
     <string name="confirm_resume_title">Resume played videos</string>
+    <string name="confirm_resume_audio_title">Resume played audio</string>
     <string name="tv_ui_title">Android TV interface</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
     <string name="medialibrary">Media library</string>

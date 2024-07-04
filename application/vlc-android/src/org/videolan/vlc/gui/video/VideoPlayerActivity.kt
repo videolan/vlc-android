@@ -195,7 +195,7 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.media.VideoResumeStatus
+import org.videolan.vlc.media.ResumeStatus
 import org.videolan.vlc.media.WaitConfirmation
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
@@ -2288,11 +2288,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 .setTitle(confirmation.title)
                 .setView(dialogView)
                 .setPositiveButton(R.string.resume) { _, _ ->
-                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = VideoResumeStatus.ALWAYS
+                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = ResumeStatus.ALWAYS
                     lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceResume = true) }
                 }
                 .setNegativeButton(R.string.no) { _, _ ->
-                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = VideoResumeStatus.NEVER
+                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = ResumeStatus.NEVER
                     lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceRestart = true) }
                 }
                 .create().apply {

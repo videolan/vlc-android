@@ -37,6 +37,15 @@
         android:persistent="true"
         android:title="@string/audio_preferred_language"/>
 
+    <ListPreference
+        app:singleLineTitle="false"
+        android:defaultValue="0"
+        android:key="audio_confirm_resume"
+        android:entries="@array/ask_confirmation_entries"
+        android:entryValues="@array/ask_confirmation_values"
+        android:summary="%s"
+        android:title="@string/confirm_resume_audio_title"/>
+
     <PreferenceCategory
             android:title="@string/headset_prefs_category"
             android:key="headset_prefs_category">
