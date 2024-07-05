@@ -620,6 +620,7 @@
     <string name="install">Install</string>
     <string name="install_nightly">Install the nightly version</string>
     <string name="install_nightly_alert">Nightly builds are experimental versions updated everyday.\n\nExpect new features but also new bugs!</string>
+    <string name="nightly_version">Found version: %2$s - %1$s</string>
 
 
     <!-- Accessibility -->

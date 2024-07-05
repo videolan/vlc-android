@@ -36,14 +36,18 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogUpdateBinding
 import org.videolan.vlc.util.AutoUpdate
+import java.text.DateFormat
+import java.util.Date
 
 const val UPDATE_URL = "update_url"
+const val UPDATE_DATE = "update_date"
 const val NEW_INSTALL = "new_install"
 
 class UpdateDialog : VLCBottomSheetDialogFragment() {
@@ -51,6 +55,7 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation(): Boolean = false
 
+    private lateinit var updateDate: Date
     private var newInstall: Boolean = false
     private lateinit var updateURL: String
     private lateinit var binding: DialogUpdateBinding
@@ -64,6 +69,9 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
         updateURL = savedInstanceState?.getString(UPDATE_URL)
                 ?: arguments?.getString(UPDATE_URL)
                         ?: throw IllegalStateException("Update URL not provided")
+        updateDate = Date(savedInstanceState?.getLong(UPDATE_DATE)
+                ?: arguments?.getLong(UPDATE_DATE)?: throw IllegalStateException("Update date not provided"))
+
         newInstall = savedInstanceState?.getBoolean(NEW_INSTALL)
                 ?: arguments?.getBoolean(NEW_INSTALL) ?: false
 
@@ -72,6 +80,7 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(UPDATE_URL, updateURL)
+        outState.putLong(UPDATE_DATE, updateDate.time)
         outState.putBoolean(NEW_INSTALL, newInstall)
     }
 
@@ -104,6 +113,23 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
         binding.neverAgain.setOnCheckedChangeListener { _, isChecked ->
             Settings.getInstance(requireActivity()).putSingle(KEY_SHOW_UPDATE, !isChecked)
         }
+
+
+        val arch = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Build.SUPPORTED_ABIS[0]
+        } else {
+            Build.CPU_ABI
+        }
+
+        val abi = try {
+            val abiCodes = mapOf(Pair("armeabi-v7a", "armv7"), Pair("arm64-v8a", "arm64"), Pair("x86", "x86"), Pair("x86_64", "x86_64"))
+            if (!abiCodes.containsKey(arch)) throw Exception("Unsupported architecture")
+            abiCodes[arch]
+        } catch (e: Exception) {
+            ""
+        }
+
+        binding.nightlyDate.text = getString(R.string.nightly_version, DateFormat.getDateInstance(DateFormat.SHORT).format(updateDate), abi)
 
         if (newInstall) {
             binding.title.text = getString(R.string.install_nightly_title)

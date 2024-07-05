@@ -90,6 +90,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/download_progress" />
 
+            <TextView
+                    android:id="@+id/nightly_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_corners_black_more_transparent"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description_text"
+                    tools:text="@string/nightly_version" />
+
             <CheckBox
                     android:id="@+id/never_again"
                     android:layout_width="0dp"
@@ -100,7 +117,7 @@
                     android:text="@string/never_ask_again"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/nightly_date" />
 
             <Button
                     android:id="@+id/open_in_browser"

@@ -68,6 +68,7 @@ import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.NEW_INSTALL
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -126,9 +127,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setMessage(resources.getString(R.string.install_nightly_alert))
                         .setPositiveButton(R.string.ok){ _, _ ->
                             requireActivity().lifecycleScope.launch {
-                                AutoUpdate.checkUpdate(requireActivity().application, true) {
+                                AutoUpdate.checkUpdate(requireActivity().application, true) {url, date ->
                                     val updateDialog = UpdateDialog().apply {
-                                        arguments = bundleOf(UPDATE_URL to it, NEW_INSTALL to true)
+                                        arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time, NEW_INSTALL to true)
                                     }
                                     updateDialog.show(requireActivity().supportFragmentManager, "fragment_update")
                                 }

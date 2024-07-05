@@ -47,6 +47,7 @@ import java.io.File
 import java.io.IOException
 import java.net.URL
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -61,7 +62,7 @@ object AutoUpdate {
      * @param skipChecks If true, the checks are skipped
      * @param listener Function called when an update is found
      */
-    suspend fun checkUpdate(context: Application, skipChecks:Boolean = false, listener: (String) -> Unit) = withContext(Dispatchers.IO) {
+    suspend fun checkUpdate(context: Application, skipChecks:Boolean = false, listener: (String, Date) -> Unit) = withContext(Dispatchers.IO) {
         //limit to debug builds (nightlies are included)
         if (!BuildConfig.DEBUG && !skipChecks) return@withContext
 
@@ -107,14 +108,16 @@ object AutoUpdate {
                     val decodedUrl = m.group()
                     val splitUrl = decodedUrl.split('-')
                     try {
-                        if ((webFormat.parse(splitUrl[splitUrl.size - 2])?.time
-                                        ?: 0) > (buildDate?.time ?: Long.MAX_VALUE)) {
-                            Log.i(TAG, "Found update: $decodedUrl")
-                            withContext(Dispatchers.Main) {
-                                listener.invoke("http://artifacts.videolan.org/vlc-android/nightly-$abi/$decodedUrl")
-                            }
-                            found = true
+                        val nightlyDate = webFormat.parse(splitUrl[splitUrl.size - 2])
+                        nightlyDate?.let {
+                            if (nightlyDate.time > (buildDate?.time ?: Long.MAX_VALUE)) {
+                                Log.i(TAG, "Found update: $decodedUrl")
+                                withContext(Dispatchers.Main) {
+                                    listener.invoke("http://artifacts.videolan.org/vlc-android/nightly-$abi/$decodedUrl", nightlyDate)
+                                }
+                                found = true
 
+                            }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

@@ -62,6 +62,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
+import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.INavigator
@@ -123,9 +124,9 @@ class MainActivity : ContentActivity(),
 
         lifecycleScope.launch {
             if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@launch
-            AutoUpdate.checkUpdate(this@MainActivity.application) {
+            AutoUpdate.checkUpdate(this@MainActivity.application) {url, date ->
                 val updateDialog = UpdateDialog().apply {
-                    arguments = bundleOf(UPDATE_URL to it)
+                    arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
                 }
                 updateDialog.show(supportFragmentManager, "fragment_update")
             }
