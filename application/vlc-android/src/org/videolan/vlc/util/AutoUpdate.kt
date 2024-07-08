@@ -178,5 +178,14 @@ object AutoUpdate {
         }
     }
 
+    suspend fun clean(context: Application) = withContext(Dispatchers.IO) {
+        try {
+            val downloadedFile = File(context.getCacheDir(), "update.apk")
+            if (downloadedFile.exists()) downloadedFile.delete() else { }
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
+        }
+    }
+
 
 }

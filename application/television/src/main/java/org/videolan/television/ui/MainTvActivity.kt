@@ -80,6 +80,7 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
         browseFragment = fragmentManager.findFragmentById(R.id.browse_fragment) as MainTvFragment
         progressBar = findViewById(R.id.tv_main_progress)
         lifecycleScope.launch {
+            AutoUpdate.clean(this@MainTvActivity.application)
             if (!Settings.getInstance(this@MainTvActivity).getBoolean(KEY_SHOW_UPDATE, true)) return@launch
             AutoUpdate.checkUpdate(this@MainTvActivity.application) {url, date ->
                 val updateDialog = UpdateDialog().apply {

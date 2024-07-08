@@ -123,6 +123,7 @@ class MainActivity : ContentActivity(),
         }
 
         lifecycleScope.launch {
+            AutoUpdate.clean(this@MainActivity.application)
             if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@launch
             AutoUpdate.checkUpdate(this@MainActivity.application) {url, date ->
                 val updateDialog = UpdateDialog().apply {
