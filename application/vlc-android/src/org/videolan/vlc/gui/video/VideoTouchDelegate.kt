@@ -76,6 +76,10 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     var lastTapTimeMs: Long = 0
     var touchDownMs: Long = 0
     private var touchAction = TOUCH_NONE
+        set(value) {
+            field = value
+            Log.d(this::class.java.simpleName, "touchAction $value")
+        }
     private var initTouchY = 0f
     private var initTouchX = 0f
     private var touchY = -1f
@@ -172,6 +176,11 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         initTouchX = event.x
                         touchY = initTouchY
                         player.initAudioVolume()
+                        if (touchAction == TOUCH_FASTPLAY) {
+                            player.overlayDelegate.hideOverlay(false)
+                            player.service?.setRate(savedRate, false)
+                            player.overlayDelegate.hideInfo()
+                        }
                         touchAction = TOUCH_NONE
                         // Seek
                         touchX = event.x
@@ -191,7 +200,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                             handler.postDelayed(fastPlayRunable, 250)
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && event.pointerCount == 3) touchAction = TOUCH_SCREENSHOT
+                        if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && event.pointerCount == 3 && touchAction != TOUCH_FASTPLAY) touchAction = TOUCH_SCREENSHOT
                         if (touchAction == TOUCH_IGNORE || touchAction == TOUCH_FASTPLAY) return false
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
@@ -225,6 +234,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
                     }
                     MotionEvent.ACTION_UP -> {
+                        // FastPlay
+                        if (touchAction == TOUCH_FASTPLAY) {
+                            player.overlayDelegate.hideOverlay(false)
+                            player.service?.setRate(savedRate, false)
+                            player.overlayDelegate.hideInfo()
+                            touchAction = TOUCH_NONE
+                            return true
+                        }
                         if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && touchAction == TOUCH_SCREENSHOT) {
                             player.takeScreenshot()
                             return true
@@ -237,14 +254,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         touchX = -1f
                         touchY = -1f
 
-                        // FastPlay
-                        if (touchAction == TOUCH_FASTPLAY) {
-                            player.overlayDelegate.hideOverlay(false)
-                            player.service?.setRate(savedRate, false)
-                            player.overlayDelegate.hideInfo()
-                            touchAction = TOUCH_NONE
-                            return true
-                        }
                         // Seek
                         if (touchAction == TOUCH_TAP_SEEK) {
                             doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
@@ -482,7 +491,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            if (player.fov == 0f && !player.isLocked && (touchControls and TOUCH_FLAG_SCALE == TOUCH_FLAG_SCALE)) {
+            if (player.fov == 0f && !player.isLocked && (touchControls and TOUCH_FLAG_SCALE == TOUCH_FLAG_SCALE) && touchAction != TOUCH_FASTPLAY) {
                 val grow = detector.scaleFactor > 1.0f
                 if (grow && player.currentScaleType != MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     savedScale = player.currentScaleType
