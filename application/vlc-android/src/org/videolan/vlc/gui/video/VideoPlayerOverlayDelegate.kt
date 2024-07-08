@@ -299,6 +299,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         player.rootView?.announceForAccessibility("$text.$subText")
     }
 
+    fun hideInfo() {
+        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_INFO)
+    }
+
      fun fadeOutInfo(view:View?) {
         if (view?.visibility == View.VISIBLE) {
             view.startAnimation(AnimationUtils.loadAnimation(

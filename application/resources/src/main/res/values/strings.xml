@@ -387,6 +387,8 @@
     <string name="enable_tap_and_hold_fastplay_title">Enable Fastplay</string>
     <string name="enable_tap_and_hold_fastplay_summary">Tap and hold to increase play speed</string>
     <string name="fastplay_speed_title">Fastplay speed</string>
+    <string name="fastplay_title">Playing at %sx</string>
+    <string name="fastplay_subtitle">Release to stop</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>

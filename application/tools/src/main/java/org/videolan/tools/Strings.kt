@@ -46,6 +46,7 @@
 
 package org.videolan.tools
 
+import android.annotation.SuppressLint
 import java.text.DecimalFormat
 import java.util.*
 import kotlin.math.log10
@@ -74,6 +75,18 @@ fun Long.readableSize(): String {
     val digitGroups = (log10(size.toDouble()) / log10(1000.0)).toInt()
     return DecimalFormat("#,##0.#").format(size / (1000.0).pow(digitGroups.toDouble())) + " " + units[digitGroups]
 }
+
+/**
+ * Format the Float value to a readable string without trailing zeros
+ *
+ * @return a formatted String
+ */
+@SuppressLint("DefaultLocale")
+fun Float.readableString(): String {
+    return if (this % 1.0 == 0.0) String.format("%d", toLong())
+    else String.format("%s", this)
+}
+
 
 fun String.removeFileScheme() = if (this.startsWith("file://")) this.drop(7) else this
 
