@@ -385,7 +385,7 @@
     <string name="albums_show_track_numbers">Show track numbers</string>
     <string name="enable_video_screenshot">Take a screenshot</string>
     <string name="enable_tap_and_hold_fastplay_title">Enable Fastplay</string>
-    <string name="enable_tap_and_hold_fastplay_summary">Tap and hold to increase play speed</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Tap and hold to increase the playback speed</string>
     <string name="fastplay_speed_title">Fastplay speed</string>
     <string name="fastplay_title">Playing at %sx</string>
     <string name="fastplay_subtitle">Release to stop</string>

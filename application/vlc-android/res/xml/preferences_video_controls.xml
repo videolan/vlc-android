@@ -13,7 +13,8 @@
             app:iconSpaceReserved="false"
             app:singleLineTitle="false" />
 
-    <PreferenceCategory android:title="@string/gestures">
+    <PreferenceCategory android:title="@string/gestures"
+            app:iconSpaceReserved="false">
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="enable_volume_gesture"
@@ -30,6 +31,13 @@
                 app:singleLineTitle="false" />
         <CheckBoxPreference
                 android:defaultValue="true"
+                android:key="enable_swipe_seek"
+                android:summary="@string/enable_swipe_seek_summary"
+                android:title="@string/enable_swipe_seek_title"
+                app:iconSpaceReserved="false"
+                app:singleLineTitle="false" />
+        <CheckBoxPreference
+                android:defaultValue="true"
                 android:key="enable_scale_gesture"
                 android:summary="@string/enable_scale_gesture_summary"
                 android:title="@string/enable_scale_gesture_title"
@@ -42,6 +50,12 @@
                 android:title="@string/enable_double_tap_seek_title"
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
+        <org.videolan.vlc.gui.view.NumberPickerPreference
+                android:defaultValue="10"
+                android:dependency="enable_double_tap_seek"
+                app:iconSpaceReserved="false"
+                app:key="video_double_tap_jump_delay"
+                app:title="@string/video_double_tap_jump_delay" />
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="enable_double_tap_play"
@@ -49,26 +63,7 @@
                 android:title="@string/enable_double_tap_play_title"
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
-        <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="enable_swipe_seek"
-                android:summary="@string/enable_swipe_seek_summary"
-                android:title="@string/enable_swipe_seek_title"
-                app:iconSpaceReserved="false"
-                app:singleLineTitle="false" />
-        <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="enable_fastplay"
-                android:summary="@string/enable_tap_and_hold_fastplay_summary"
-                android:title="@string/enable_tap_and_hold_fastplay_title"
-                app:iconSpaceReserved="false"
-                app:singleLineTitle="false" />
-        <org.videolan.vlc.gui.view.NumberPickerPreference
-                android:defaultValue="10"
-                android:dependency="enable_double_tap_seek"
-                app:iconSpaceReserved="false"
-                app:key="video_double_tap_jump_delay"
-                app:title="@string/video_double_tap_jump_delay" />
+
         <ListPreference
                 android:defaultValue="0"
                 android:entries="@array/video_screenshot"
@@ -76,6 +71,13 @@
                 android:key="screenshot_mode"
                 android:summary="%s"
                 android:title="@string/enable_video_screenshot"
+                app:iconSpaceReserved="false"
+                app:singleLineTitle="false" />
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="enable_fastplay"
+                android:summary="@string/enable_tap_and_hold_fastplay_summary"
+                android:title="@string/enable_tap_and_hold_fastplay_title"
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
         <ListPreference
@@ -91,7 +93,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/player_controls">
+    <PreferenceCategory android:title="@string/player_controls"
+            app:iconSpaceReserved="false">
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="enable_seek_buttons"
