@@ -69,6 +69,7 @@ import org.videolan.vlc.gui.helpers.ExpandStateAppBarLayoutBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.interfaces.Filterable
@@ -499,6 +500,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 media.isFavorite = option == CTX_FAV_ADD
             }
+            CTX_ADD_SHORTCUT -> lifecycleScope.launch { createShortcut(media) }
             else -> {}
         }
 
