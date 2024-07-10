@@ -7,6 +7,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <LinearLayout
+            android:id="@+id/fastPlayContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/video_list_length_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:alpha="0"
+            android:visibility="gone"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+        <TextView
+                android:id="@+id/fastPlayTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="@string/fastplay_title" />
+
+        <ImageView
+                android:id="@+id/fastPlayForwardFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_half_seek_forward" />
+
+        <ImageView
+                android:id="@+id/fastPlayForwardSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_half_seek_forward" />
+    </LinearLayout>
+
     <androidx.constraintlayout.widget.Guideline
             android:orientation="horizontal"
             android:layout_width="wrap_content"

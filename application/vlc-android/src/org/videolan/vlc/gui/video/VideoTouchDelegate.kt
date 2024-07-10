@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.video
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.os.Handler
@@ -19,6 +20,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +34,7 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AndroidDevices.isTv
 import org.videolan.tools.dp
 import org.videolan.tools.readableString
+import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -95,6 +98,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private var lastSeekWasForward = true
     private var seekAnimRunning = false
     private var animatorSet: AnimatorSet = AnimatorSet()
+    private var fastPlayAnimatorSet: AnimatorSet = AnimatorSet()
     private val rightContainer: CircularRevealFrameLayout by lazy { player.findViewById(R.id.rightContainer) }
     private val leftContainer: CircularRevealFrameLayout by lazy { player.findViewById(R.id.leftContainer) }
     private val rightContainerBackground: HalfCircleView by lazy { player.findViewById(R.id.rightContainerBackground) }
@@ -191,9 +195,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                             if (touchAction == TOUCH_NONE) {
                                 savedRate = player.service!!.rate
                                 player.service?.setRate(org.videolan.tools.Settings.fastplaySpeed, false)
-                                showSeek(true)
+                                showFastPlay()
                                 player.overlayDelegate.hideOverlay(fromUser = true)
-                                player.overlayDelegate.showInfo(player.getString(R.string.fastplay_title, org.videolan.tools.Settings.fastplaySpeed.readableString()), 2000, player.getString(R.string.fastplay_subtitle))
                                 touchAction = TOUCH_FASTPLAY
                             }
                         }
@@ -242,7 +245,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         if (touchAction == TOUCH_FASTPLAY) {
                             player.overlayDelegate.hideOverlay(false)
                             player.service?.setRate(savedRate, false)
-                            player.overlayDelegate.hideInfo()
+                            hideFastplay()
                             touchAction = TOUCH_NONE
                             return true
                         }
@@ -548,6 +551,40 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
     }
 
+    /**
+     * Show the fast play overlay
+     */
+    private fun showFastPlay() {
+        initSeekOverlay()
+        val container:LinearLayout = player.findViewById(R.id.fastPlayContainer)
+        val title: TextView = player.findViewById(R.id.fastPlayTitle)
+        title.text = player.getString(R.string.fastplay_title, org.videolan.tools.Settings.fastplaySpeed.readableString())
+        container.setVisible()
+        container.animate().alpha(1F)
+        val firstImageAnim = ObjectAnimator.ofFloat(player.findViewById(R.id.fastPlayForwardFirst), "alpha", 1f, 0f, 0f)
+        firstImageAnim.duration = 750
+        firstImageAnim.repeatCount = ValueAnimator.INFINITE
+
+        val secondImageAnim = ObjectAnimator.ofFloat(player.findViewById(R.id.fastPlayForwardSecond), "alpha", 0F, 1f, 0f)
+        secondImageAnim.duration = 750
+        secondImageAnim.repeatCount = ValueAnimator.INFINITE
+
+
+        fastPlayAnimatorSet = AnimatorSet()
+        fastPlayAnimatorSet.playTogether(firstImageAnim, secondImageAnim)
+        fastPlayAnimatorSet.start()
+    }
+
+    /**
+     * Hide the fast play overlay
+     */
+    private fun hideFastplay() {
+        val container:LinearLayout = player.findViewById(R.id.fastPlayContainer)
+        container.animate().alpha(0F).withEndAction {
+            container.setGone()
+        }
+        fastPlayAnimatorSet.cancel()
+    }
     private fun showSeek(seekForward: Boolean): TextView {
         initSeekOverlay()
         val container = if (seekForward) rightContainer else leftContainer
