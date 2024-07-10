@@ -30,6 +30,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AndroidDevices.isTv
+import org.videolan.tools.dp
 import org.videolan.tools.readableString
 import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
@@ -196,7 +197,10 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                                 touchAction = TOUCH_FASTPLAY
                             }
                         }
-                        if (touchControls and TOUCH_FLAG_FASTPLAY != 0)
+                        val fastPlaySecurityMargin = 48.dp.toFloat()
+                        if (touchControls and TOUCH_FLAG_FASTPLAY != 0
+                                && touchY in fastPlaySecurityMargin.. screenConfig.metrics.heightPixels.toFloat() - fastPlaySecurityMargin
+                                && touchX in fastPlaySecurityMargin.. screenConfig.metrics.widthPixels.toFloat() - fastPlaySecurityMargin)
                             handler.postDelayed(fastPlayRunable, 250)
                     }
                     MotionEvent.ACTION_MOVE -> {
