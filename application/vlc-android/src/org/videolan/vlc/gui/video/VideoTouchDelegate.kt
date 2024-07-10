@@ -86,6 +86,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
     private var initTouchY = 0f
     private var initTouchX = 0f
+    private var initInAllowedBounds = false
     private var touchY = -1f
     private var touchX = -1f
     private var verticalTouchActive = false
@@ -111,6 +112,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private val seekRewindSecond: ImageView by lazy { player.findViewById(R.id.seekRewindSecond) }
     private val seekContainer: ConstraintLayout by lazy { player.findViewById(R.id.seekContainer) }
     private val seekBackground: FrameLayout by lazy { player.findViewById(R.id.seek_background) }
+    private val gestureSafetyMargin = 48.dp.toFloat()
 
     companion object {
         private const val TAG = "VLC/VideoTouchDelegate"
@@ -179,6 +181,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         // Audio
                         initTouchY = event.y
                         initTouchX = event.x
+                        initInAllowedBounds = isInAllowedBounds(initTouchX, initTouchY)
                         touchY = initTouchY
                         player.initAudioVolume()
                         if (touchAction == TOUCH_FASTPLAY) {
@@ -191,7 +194,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         touchX = event.x
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
-                        var fastPlayRunable = Runnable {
+                        val fastPlayRunnable = Runnable {
                             if (touchAction == TOUCH_NONE) {
                                 savedRate = player.service!!.rate
                                 player.service?.setRate(org.videolan.tools.Settings.fastplaySpeed, false)
@@ -200,11 +203,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                                 touchAction = TOUCH_FASTPLAY
                             }
                         }
-                        val fastPlaySecurityMargin = 48.dp.toFloat()
-                        if (touchControls and TOUCH_FLAG_FASTPLAY != 0
-                                && touchY in fastPlaySecurityMargin.. screenConfig.metrics.heightPixels.toFloat() - fastPlaySecurityMargin
-                                && touchX in fastPlaySecurityMargin.. screenConfig.metrics.widthPixels.toFloat() - fastPlaySecurityMargin)
-                            handler.postDelayed(fastPlayRunable, 250)
+                        if (touchControls and TOUCH_FLAG_FASTPLAY != 0 && isInAllowedBounds(touchX, touchY))
+                            handler.postDelayed(fastPlayRunnable, 250)
                     }
                     MotionEvent.ACTION_MOVE -> {
                         if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && event.pointerCount == 3 && touchAction != TOUCH_FASTPLAY) touchAction = TOUCH_SCREENSHOT
@@ -319,6 +319,9 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
     }
 
+    private fun isInAllowedBounds(x:Float, y:Float) = y in gestureSafetyMargin .. screenConfig.metrics.heightPixels.toFloat() - gestureSafetyMargin
+            && x in gestureSafetyMargin.. screenConfig.metrics.widthPixels.toFloat() - gestureSafetyMargin
+
     fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
         if (player.isLoading) return false
         //Check for a joystick event
@@ -385,7 +388,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
-        if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0) {
+        if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0 && initInAllowedBounds) {
             var realCoef = coef
             if (realCoef == 0) realCoef = 1
             // No seek action if coef > 0.5 and gesturesize < 1cm
@@ -423,6 +426,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doVolumeTouch(y_changed: Float) {
+        if (!initInAllowedBounds) return
         if (touchAction != TOUCH_NONE && touchAction != TOUCH_VOLUME) return
         val audioMax = player.audioMax
         val delta = -(y_changed / screenConfig.yRange * audioMax * 1.25f)
@@ -468,6 +472,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doBrightnessTouch(ychanged: Float) {
+        if (!initInAllowedBounds) return
         if (touchAction != TOUCH_NONE && touchAction != TOUCH_BRIGHTNESS) return
         if (isFirstBrightnessGesture) initBrightnessTouch()
         touchAction = TOUCH_BRIGHTNESS
