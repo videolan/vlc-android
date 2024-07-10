@@ -525,6 +525,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             val sb = StringBuilder()
             val seekForward = delta >= 0
 
+            initSeekOverlay()
             if (lastSeekWasForward != seekForward) {
                 animatorSet.cancel()
                 hideSeekOverlay(true)
