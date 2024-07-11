@@ -86,6 +86,7 @@ class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
                 hideOrientationOverlay()
             }
             orientationList.adapter = orientationAdapter
+            orientationMainView.setOnClickListener { hideOrientationOverlay() }
 
         }
     }
