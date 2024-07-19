@@ -98,7 +98,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val relockItem = menu?.findItem(R.id.pin_relocked)
         if (relockItem != null) {
-            relockItem.isVisible = PinCodeDelegate.pinUnlocked.value == true
+            relockItem.isVisible = Settings.safeMode && PinCodeDelegate.pinUnlocked.value == true
         }
         val unlockItem = menu?.findItem(R.id.pin_unlock)
         if (unlockItem != null) {
