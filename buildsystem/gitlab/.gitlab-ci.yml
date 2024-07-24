@@ -76,7 +76,7 @@ webserver-vulnerabilities:
       - job: "webserver-install-dependencies"
     script:
         - cd "$WEBSERVER_DIR"
-        - npx audit-ci@^6 --config ./audit-ci.jsonc
+        - npx audit-ci@^6 --skip-dev --config ./audit-ci.jsonc
 
 .build-all-base:
     stage: build
