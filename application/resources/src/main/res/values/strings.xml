@@ -1274,4 +1274,5 @@
     <string name="device">Device</string>
     <string name="connected_device">Connected device</string>
     <string name="model">Device model</string>
+    <string name="prefs_app_data">Application data</string>
 </resources>
