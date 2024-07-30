@@ -86,7 +86,7 @@ object PreferenceParser {
         val changedSettings = ArrayList<Pair<String, Any>>()
         allPrefs.forEach { pref ->
             allSettings.forEach { setting ->
-                if (pref.key == setting.key) {
+                if (pref.key == setting.key && pref.key != "custom_libvlc_options") {
                     setting.value?.let {
                         if (!isSame(it, pref.defaultValue)) changedSettings.add(Pair(pref.key, it))
                     }
@@ -272,7 +272,7 @@ object PreferenceParser {
         val allPrefs = parsePreferences(activity, parseUIPrefs = true)
         savedSettings?.forEach { entry ->
             allPrefs.forEach {
-                if (it.key == entry.key) {
+                if (it.key == entry.key  && it.key != "custom_libvlc_options") {
                     Log.i("PrefParser", "Restored: ${entry.key} -> ${entry.value}")
                     newPrefs.putSingle(entry.key, if (entry.value is Double) (entry.value as Double).toInt() else entry.value)
                 }
