@@ -67,7 +67,19 @@
 
         <PreferenceScreen
                 android:key="clear_history"
-                android:title="@string/clear_playback_history"/>
+                android:title="@string/clear_playback_history" />
+
+        <Preference
+                android:enabled="true"
+                android:key="export_settings"
+                android:summary="@string/export_settings_summary"
+                android:title="@string/export_settings" />
+
+        <Preference
+                android:enabled="true"
+                android:key="restore_settings"
+                android:summary="@string/restore_settings_summary"
+                android:title="@string/restore_settings"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/performance_prefs_category">
         <CheckBoxPreference

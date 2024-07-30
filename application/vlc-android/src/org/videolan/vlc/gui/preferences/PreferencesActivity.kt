@@ -150,7 +150,7 @@ class PreferencesActivity : BaseActivity() {
          */
         suspend fun launchWithPref(activity: FragmentActivity, prefKey:String) {
             val pref = withContext(Dispatchers.IO) {
-                PreferenceParser.parsePreferences(activity)
+                PreferenceParser.parsePreferences(activity, true)
             }.first { it.key == prefKey }
             val intent = Intent(activity, PreferencesActivity::class.java)
             intent.putExtra(EXTRA_PREF_END_POINT, pref)

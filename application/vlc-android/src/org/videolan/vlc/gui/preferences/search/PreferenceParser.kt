@@ -24,28 +24,51 @@
 
 package org.videolan.vlc.gui.preferences.search
 
+import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.content.res.XmlResourceParser
 import android.os.Parcelable
+import android.util.Log
 import androidx.annotation.XmlRes
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.EXPORT_SETTINGS_FILE
+import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.tools.wrap
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.util.FileUtils
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStreamWriter
 
 object PreferenceParser {
 
     /**
      * Parses all the preferences available in the app.
      * @param context the context to be used to retrieve the preferences
+     * @param parseUIPrefs whether to parse the UI preferences or not
      *
      * @return a list of [PreferenceItem]
      */
-    fun parsePreferences(context: Context): ArrayList<PreferenceItem> {
+    fun parsePreferences(context: Context, parseUIPrefs: Boolean = false): ArrayList<PreferenceItem> {
         val result = ArrayList<PreferenceItem>()
-        arrayOf(R.xml.preferences, R.xml.preferences_adv, R.xml.preferences_audio, R.xml.preferences_casting, R.xml.preferences_subtitles, R.xml.preferences_ui, R.xml.preferences_video, R.xml.preferences_remote_access).forEach {
+        arrayListOf(R.xml.preferences, R.xml.preferences_adv, R.xml.preferences_audio, R.xml.preferences_casting, R.xml.preferences_subtitles, R.xml.preferences_ui, R.xml.preferences_video, R.xml.preferences_remote_access)
+            .apply {
+                if (parseUIPrefs) this.add(R.xml.preferences_video_controls)
+            }
+        .forEach {
             result.addAll(parsePreferences(context, it))
         }
         return result
@@ -58,7 +81,7 @@ object PreferenceParser {
      * @return a list of changed settings in the form a of pair of the key and the value
      */
     private fun getAllChangedPrefs(context: Context): ArrayList<Pair<String, Any>> {
-        val allPrefs = parsePreferences(context)
+        val allPrefs = parsePreferences(context, parseUIPrefs = true)
         val allSettings = Settings.getInstance(context).all
         val changedSettings = ArrayList<Pair<String, Any>>()
         allPrefs.forEach { pref ->
@@ -94,6 +117,26 @@ object PreferenceParser {
      */
     fun getChangedPrefsString(context: Context) = buildString {
         getAllChangedPrefs(context).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
+    }
+
+    /**
+     * Get a string describing the preferences changed by the user in json format
+     * @param context the context to be used to retrieve the preferences
+     *
+     * @return a string of all the changed preferences
+     */
+    private fun getChangedPrefsJson(context: Context) = buildString {
+        append("{")
+        val allChangedPrefs = getAllChangedPrefs(context)
+        for (allChangedPref in allChangedPrefs) {
+            when {
+                allChangedPref.second is Boolean || allChangedPref.second is Int || allChangedPref.second is Long -> append("\"${allChangedPref.first}\": ${allChangedPref.second}")
+                else -> append("\"${allChangedPref.first}\": \"${allChangedPref.second}\"")
+            }
+            if (allChangedPref != allChangedPrefs.last()) append(", ")
+
+        }
+        append("}")
     }
 
     /**
@@ -168,6 +211,73 @@ object PreferenceParser {
         } catch (e: Exception) {
         }
         return ""
+    }
+
+    /**
+     * Export the preferences to a file
+     *
+     * @param activity the activity to use to export the preferences
+     * @param dst the destination file
+     */
+    suspend fun exportPreferences(activity: Activity, dst: File) = withContext(Dispatchers.IO) {
+        val changedPrefs = getChangedPrefsJson(activity)
+        var success = false
+        val stream: FileOutputStream
+        try {
+            stream = FileOutputStream(dst)
+            val output = OutputStreamWriter(stream)
+            val bw = BufferedWriter(output)
+            try {
+                bw.write(changedPrefs)
+                success = true
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                CloseableUtils.close(bw)
+                CloseableUtils.close(output)
+            }
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        withContext(Dispatchers.Main) {
+            if (success) UiTools.snacker(
+                activity,
+                activity.getString(R.string.export_settings_success)
+            ) else {
+                UiTools.snacker(
+                    activity,
+                    activity.getString(R.string.export_settings_failure)
+                )
+            }
+        }
+    }
+
+    /**
+     * Restore the preferences from a file
+     *
+     * @param activity the activity to use to restore the preferences
+     */
+    suspend fun restoreSettings(activity: Activity) = withContext(Dispatchers.IO) {
+        val changedPrefs = FileUtils.getStringFromFile(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + EXPORT_SETTINGS_FILE)
+        val moshi = Moshi.Builder().build()
+        val adapter = moshi.adapter<Map<String, Any>>(
+            Types.newParameterizedType(
+                Map::class.java,
+                String::class.javaObjectType,
+                Object::class.java
+            )
+        )
+        val savedSettings =  adapter.fromJson(changedPrefs)
+        val newPrefs = Settings.getInstance(activity)
+        val allPrefs = parsePreferences(activity, parseUIPrefs = true)
+        savedSettings?.forEach { entry ->
+            allPrefs.forEach {
+                if (it.key == entry.key) {
+                    Log.i("PrefParser", "Restored: ${entry.key} -> ${entry.value}")
+                    newPrefs.putSingle(entry.key, if (entry.value is Double) (entry.value as Double).toInt() else entry.value)
+                }
+            }
+        }
     }
 }
 

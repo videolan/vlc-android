@@ -244,3 +244,4 @@ const val REMOTE_ACCESS_SERVICE = "org.videolan.vlc.webserver.RemoteAccessServic
 const val REMOTE_ACCESS_ONBOARDING = "org.videolan.vlc.webserver.gui.remoteaccess.onboarding.RemoteAccessOnboardingActivity"
 
 const val ROOM_DATABASE = "/vlc_database.zip"
+const val EXPORT_SETTINGS_FILE = "/vlc_exported_settings.json"

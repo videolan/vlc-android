@@ -49,6 +49,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.EXPORT_SETTINGS_FILE
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_ARTIST
@@ -77,6 +78,7 @@ import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
@@ -275,6 +277,23 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         Toast.makeText(activity, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
                     }
                 }
+                return true
+            }
+            "export_settings" -> {
+                val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + EXPORT_SETTINGS_FILE)
+                launch(Dispatchers.IO) {
+                    if ((activity as FragmentActivity).getWritePermission(Uri.fromFile(dst))) {
+                        PreferenceParser.exportPreferences(activity!!, dst)
+                    }
+                }
+                return true
+            }
+            "restore_settings" -> {
+                launch {
+                    PreferenceParser.restoreSettings(activity!!)
+                }
+                UiTools.restartDialog(activity!!)
+
                 return true
             }
         }

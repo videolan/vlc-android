@@ -1275,4 +1275,10 @@
     <string name="connected_device">Connected device</string>
     <string name="model">Device model</string>
     <string name="prefs_app_data">Application data</string>
+    <string name="export_settings_summary">Export your settings to a file to import them later</string>
+    <string name="export_settings">Export settings</string>
+    <string name="restore_settings_summary">Restore your settings from a previous export</string>
+    <string name="restore_settings">Restore settings</string>
+    <string name="export_settings_success">Settings exported successfully to the internal storage root</string>
+    <string name="export_settings_failure">Something went wrong while exporting your settings</string>
 </resources>
