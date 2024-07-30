@@ -45,6 +45,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.applyOverscanMargin
+import org.videolan.resources.util.retrieveApplication
 import org.videolan.tools.KEY_SAFE_MODE_PIN
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -427,7 +428,7 @@ class SafeModeModel(application: Application, val reason: PinCodeReason) : Andro
     class Factory(private val context: Context, private val reason: PinCodeReason) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return SafeModeModel(context.applicationContext as Application, reason) as T
+            return SafeModeModel(context.retrieveApplication().applicationContext as Application, reason) as T
         }
     }
 }

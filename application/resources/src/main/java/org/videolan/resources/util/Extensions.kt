@@ -1,11 +1,13 @@
 package org.videolan.resources.util
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Notification
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageInfo
@@ -325,4 +327,10 @@ suspend inline fun <T> observeLiveDataUntil(
             }
         }
     }
+}
+
+
+fun Context.retrieveApplication():Application {
+    if (this is ContextWrapper) return baseContext.retrieveApplication()
+    return applicationContext as Application
 }
