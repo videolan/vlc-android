@@ -24,14 +24,17 @@
 package org.videolan.television.ui.preferences
 
 import android.app.Fragment
+import android.content.Intent
 import android.os.Bundle
 import androidx.leanback.preference.LeanbackPreferenceFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceDialogFragment
+import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 
 import org.videolan.vlc.R
 
+const val RESTART_CODE = 10001
 abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
 
     protected abstract fun getXml(): Int
@@ -54,6 +57,15 @@ abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
                 show(this@BasePreferenceFragment.fragmentManager, DIALOG_FRAGMENT_TAG)
             }
         } else null
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RESTART_CODE) {
+            if (resultCode == ConfirmationTvActivity.ACTION_ID_POSITIVE) {
+                android.os.Process.killProcess(android.os.Process.myPid())
+            }
+        }
     }
 
     companion object {

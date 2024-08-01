@@ -23,7 +23,9 @@
 package org.videolan.television.ui.preferences
 
 import android.annotation.TargetApi
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.InputFilter
@@ -49,14 +51,21 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.browser.FilePickerActivity
+import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.isVLC4
+import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.LocaleUtil
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
 
 private const val TAG = "VLC/PreferencesAudio"
+private const val FILE_PICKER_RESULT_CODE = 10000
 
 @Suppress("DEPRECATION")
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -166,6 +175,38 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 }
             }
             KEY_PLAYBACK_SPEED_PERSIST -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE, 1.0f)
+        }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == null) return false
+        when (preference.key) {
+            "soundfont" -> {
+                val filePickerIntent = Intent(activity, FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SOUNDFONT.ordinal)
+                startActivityForResult(
+                    filePickerIntent,
+                    FILE_PICKER_RESULT_CODE
+                )
+            }
+        }
+
+        return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+            if (data == null) return
+            if (requestCode == FILE_PICKER_RESULT_CODE) {
+                if (data.hasExtra(EXTRA_MRL)) {
+                    launch {
+                        MediaUtils.useAsSoundFont(activity, Uri.parse(data.getStringExtra(
+                            EXTRA_MRL
+                        )))
+                        VLCInstance.restart()
+                    }
+                    UiTools.restartDialog(activity!!, true, RESTART_CODE, this)
+                }
         }
     }
 
