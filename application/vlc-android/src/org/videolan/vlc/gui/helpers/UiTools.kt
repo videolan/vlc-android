@@ -804,8 +804,9 @@ object UiTools {
     }
 
 
-    fun restartDialog(context: Context) {
-        AlertDialog.Builder(context)
+    fun restartDialog(context: Context, fromLeanback:Boolean = false) {
+        val builder = if (fromLeanback) AlertDialog.Builder(context, R.style.Theme_AppCompat) else AlertDialog.Builder(context)
+        builder
                 .setTitle(context.resources.getString(R.string.restart_vlc))
                 .setMessage(context.resources.getString(R.string.restart_message))
                 .setPositiveButton(R.string.restart_message_OK) { _, _ -> android.os.Process.killProcess(android.os.Process.myPid()) }

@@ -29,22 +29,21 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.content.res.XmlResourceParser
+import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.XmlRes
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.EXPORT_SETTINGS_FILE
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.tools.wrap
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.FileUtils
 import java.io.BufferedWriter
 import java.io.File
@@ -240,15 +239,10 @@ object PreferenceParser {
             e.printStackTrace()
         }
         withContext(Dispatchers.Main) {
-            if (success) UiTools.snacker(
-                activity,
-                activity.getString(R.string.export_settings_success)
-            ) else {
-                UiTools.snacker(
-                    activity,
-                    activity.getString(R.string.export_settings_failure)
-                )
-            }
+            if (success)
+                Toast.makeText(activity, R.string.export_settings_success, Toast.LENGTH_LONG).show()
+            else
+                Toast.makeText(activity, R.string.export_settings_failure, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -257,24 +251,26 @@ object PreferenceParser {
      *
      * @param activity the activity to use to restore the preferences
      */
-    suspend fun restoreSettings(activity: Activity) = withContext(Dispatchers.IO) {
-        val changedPrefs = FileUtils.getStringFromFile(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + EXPORT_SETTINGS_FILE)
-        val moshi = Moshi.Builder().build()
-        val adapter = moshi.adapter<Map<String, Any>>(
-            Types.newParameterizedType(
-                Map::class.java,
-                String::class.javaObjectType,
-                Object::class.java
+    suspend fun restoreSettings(activity: Activity, file: Uri) = withContext(Dispatchers.IO) {
+        file.path?.let {
+            val changedPrefs = FileUtils.getStringFromFile(it)
+            val moshi = Moshi.Builder().build()
+            val adapter = moshi.adapter<Map<String, Any>>(
+                Types.newParameterizedType(
+                    Map::class.java,
+                    String::class.javaObjectType,
+                    Object::class.java
+                )
             )
-        )
-        val savedSettings =  adapter.fromJson(changedPrefs)
-        val newPrefs = Settings.getInstance(activity)
-        val allPrefs = parsePreferences(activity, parseUIPrefs = true)
-        savedSettings?.forEach { entry ->
-            allPrefs.forEach {
-                if (it.key == entry.key  && it.key != "custom_libvlc_options") {
-                    Log.i("PrefParser", "Restored: ${entry.key} -> ${entry.value}")
-                    newPrefs.putSingle(entry.key, if (entry.value is Double) (entry.value as Double).toInt() else entry.value)
+            val savedSettings =  adapter.fromJson(changedPrefs)
+            val newPrefs = Settings.getInstance(activity)
+            val allPrefs = parsePreferences(activity, parseUIPrefs = true)
+            savedSettings?.forEach { entry ->
+                allPrefs.forEach {
+                    if (it.key == entry.key  && it.key != "custom_libvlc_options") {
+                        Log.i("PrefParser", "Restored: ${entry.key} -> ${entry.value}")
+                        newPrefs.putSingle(entry.key, if (entry.value is Double) (entry.value as Double).toInt() else entry.value)
+                    }
                 }
             }
         }

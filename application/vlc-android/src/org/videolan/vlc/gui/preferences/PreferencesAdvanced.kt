@@ -66,6 +66,9 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
+import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.browser.FilePickerActivity
+import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.NEW_INSTALL
 import org.videolan.vlc.gui.dialogs.RenameDialog
@@ -77,6 +80,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
+import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
@@ -84,6 +88,7 @@ import org.videolan.vlc.util.share
 import java.io.File
 import java.io.IOException
 
+private const val FILE_PICKER_RESULT_CODE = 10000
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() =  R.xml.preferences_adv
@@ -281,15 +286,34 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "restore_settings" -> {
-                lifecycleScope.launch {
-                    PreferenceParser.restoreSettings(requireActivity())
-                }
-                UiTools.restartDialog(requireActivity())
+                val filePickerIntent = Intent(requireContext(), FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SETTINGS.ordinal)
+                startActivityForResult(filePickerIntent, FILE_PICKER_RESULT_CODE)
+
+
 
                 return true
             }
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) return
+        if (requestCode == FILE_PICKER_RESULT_CODE) {
+            if (data.hasExtra(EXTRA_MRL)) {
+                lifecycleScope.launch {
+                    lifecycleScope.launch {
+                        PreferenceParser.restoreSettings(requireActivity(), Uri.parse(data.getStringExtra(
+                            EXTRA_MRL
+                        )))
+                    }
+                    VLCInstance.restart()
+                }
+                UiTools.restartDialog(requireActivity())
+            }
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
