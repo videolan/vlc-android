@@ -62,6 +62,7 @@ import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST_RESUME
 import org.videolan.resources.ROOM_DATABASE
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.VLCInstance
+import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.Settings
@@ -92,6 +93,7 @@ import java.io.File
 import java.io.IOException
 
 private const val FILE_PICKER_RESULT_CODE = 10000
+private const val RESTART_CODE = 10001
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
     override fun getXml(): Int {
@@ -307,18 +309,24 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RESTART_CODE) {
+            if (resultCode == ConfirmationTvActivity.ACTION_ID_POSITIVE) {
+                android.os.Process.killProcess(android.os.Process.myPid())
+            }
+        }
         if (data == null) return
         if (requestCode == FILE_PICKER_RESULT_CODE) {
             if (data.hasExtra(EXTRA_MRL)) {
                 launch {
-                    launch {
-                        PreferenceParser.restoreSettings(activity, Uri.parse(data.getStringExtra(
-                            EXTRA_MRL
-                        )))
-                    }
-                    VLCInstance.restart()
+                    PreferenceParser.restoreSettings(
+                        activity, Uri.parse(
+                            data.getStringExtra(
+                                EXTRA_MRL
+                            )
+                        )
+                    )
                 }
-                UiTools.restartDialog(activity!!, true)
+                UiTools.restartDialog(activity!!, true, RESTART_CODE, this)
             }
         }
     }

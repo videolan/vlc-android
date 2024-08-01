@@ -64,6 +64,7 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -811,11 +812,37 @@ object UiTools {
     }
 
 
-    fun restartDialog(context: Context, fromLeanback:Boolean = false) {
-        val builder = if (fromLeanback) AlertDialog.Builder(context, R.style.Theme_AppCompat) else AlertDialog.Builder(context)
-        builder
-                .setTitle(context.resources.getString(R.string.restart_vlc))
-                .setMessage(context.resources.getString(R.string.restart_message))
+    fun restartDialog(
+        activity: Activity,
+        fromLeanback: Boolean = false,
+        leanbackResultCode: Int = 0,
+        leanbackCaller: Any? = null
+    ) {
+
+        if (fromLeanback) {
+            val intent = Intent(Intent.ACTION_VIEW).setClassName(activity, TV_CONFIRMATION_ACTIVITY)
+
+            intent.putExtra(
+                "confirmation_dialog_title",
+                activity.getString(R.string.restart_vlc)
+            )
+            intent.putExtra(
+                "confirmation_dialog_text",
+                activity.getString(R.string.restart_message)
+            )
+            when (leanbackCaller) {
+                is Activity -> leanbackCaller.startActivityForResult(intent, leanbackResultCode)
+                is Fragment -> leanbackCaller.startActivityForResult(intent, leanbackResultCode)
+                is android.app.Fragment -> leanbackCaller.startActivityForResult(intent, leanbackResultCode)
+                else -> throw IllegalStateException("Invalid caller")
+            }
+
+            return
+        }
+
+        AlertDialog.Builder(activity)
+                .setTitle(activity.resources.getString(R.string.restart_vlc))
+                .setMessage(activity.resources.getString(R.string.restart_message))
                 .setPositiveButton(R.string.restart_message_OK) { _, _ -> android.os.Process.killProcess(android.os.Process.myPid()) }
                 .setNegativeButton(R.string.restart_message_Later, null)
                 .create()
