@@ -36,6 +36,7 @@ import io.ktor.server.websocket.webSocket
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import org.videolan.tools.AppScope
 import org.videolan.tools.REMOTE_ACCESS_PLAYBACK_CONTROL
@@ -45,9 +46,12 @@ import org.videolan.vlc.webserver.RemoteAccessServer
 import org.videolan.vlc.webserver.ssl.SecretGenerator
 
 object RemoteAccessWebSockets {
+    val messageQueue: ArrayList<RemoteAccessServer.WSMessage> = arrayListOf()
     private const val TAG = "HttpSharingServerWS"
     private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
     private val tickets = ArrayList<WSAuthTicket>()
+    val onPlaybackEventChannel = Channel<String>()
+
 
 
     fun Routing.setupWebSockets(context: Context, settings: SharedPreferences) {
@@ -67,88 +71,131 @@ object RemoteAccessWebSockets {
                         return@webSocket
                     }
                     val service = RemoteAccessServer.getInstance(context).service
-                    when (incomingMessage.message) {
-                        "hello" -> {}
-                        "play" -> if (playbackControlAllowedOrSend(settings)) service?.play()
-                        "pause" -> if (playbackControlAllowedOrSend(settings)) service?.pause()
-                        "previous" -> if (playbackControlAllowedOrSend(settings)) service?.previous(false)
-                        "next" -> if (playbackControlAllowedOrSend(settings)) service?.next()
-                        "previous10" -> if (playbackControlAllowedOrSend(settings)) service?.let { it.seek((it.getTime() - 10000).coerceAtLeast(0), fromUser = true) }
-                        "next10" -> if (playbackControlAllowedOrSend(settings)) service?.let { it.seek((it.getTime() + 10000).coerceAtMost(it.length), fromUser = true) }
-                        "shuffle" -> if (playbackControlAllowedOrSend(settings)) service?.shuffle()
-                        "repeat" -> if (playbackControlAllowedOrSend(settings)) service?.let {
-                            when (it.repeatType) {
-                                PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-                                }
-
-                                PlaybackStateCompat.REPEAT_MODE_ONE -> if (it.hasPlaylist()) {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                                } else {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                                }
-
-                                PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                                    it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                                }
-                            }
-                        }
-
-                        "get-volume" -> {
-                            AppScope.launch { websocketSession.forEach { it.send(Frame.Text(getVolumeMessage(context, service))) } }
-                        }
-
-                        "set-volume" -> {
-                            if (playbackControlAllowedOrSend(settings)) (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
-                                val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-                                it.setStreamVolume(AudioManager.STREAM_MUSIC, ((incomingMessage.id!!.toFloat() / 100) * max).toInt(), AudioManager.FLAG_SHOW_UI)
-
-                            }
-
-                        }
-
-                        "set-progress" -> {
-                            if (playbackControlAllowedOrSend(settings)) incomingMessage.id?.let {
-                                service?.setTime(it.toLong())
-                            }
-                        }
-
-                        "play-media" -> {
-                            if (playbackControlAllowedOrSend(settings)) service?.playIndex(incomingMessage.id!!)
-
-                        }
-
-                        "delete-media" -> {
-                            if (playbackControlAllowedOrSend(settings)) service?.remove(incomingMessage.id!!)
-
-                        }
-
-                        "move-media-bottom" -> {
-                            if (playbackControlAllowedOrSend(settings)) {
-                                val index = incomingMessage.id!!
-                                if (index < (service?.playlistManager?.getMediaListSize()
-                                                ?: 0) - 1)
-                                    service?.moveItem(index, index + 2)
-                            }
-
-                        }
-
-                        "move-media-top" -> {
-                            if (playbackControlAllowedOrSend(settings)) {
-                                val index = incomingMessage.id!!
-                                if (index > 0)
-                                    service?.moveItem(index, index - 1)
-                            }
-
-                        }
-
-                        else -> Log.w(TAG, "Unrecognized message", IllegalStateException("Unrecognized message: $message"))
-                    }
+                    manageIncomingMessages(incomingMessage, settings, service, context)
                 } catch (e: Exception) {
                     Log.e(TAG, e.message, e)
                 }
             }
             websocketSession.remove(this)
+        }
+    }
+
+    fun manageIncomingMessages(
+        incomingMessage: WSIncomingMessage,
+        settings: SharedPreferences,
+        service: PlaybackService?,
+        context: Context,
+    ) {
+        when (incomingMessage.message) {
+            "hello" -> {}
+            "play" -> if (playbackControlAllowedOrSend(settings)) service?.play()
+            "pause" -> if (playbackControlAllowedOrSend(settings)) service?.pause()
+            "previous" -> if (playbackControlAllowedOrSend(settings)) service?.previous(false)
+            "next" -> if (playbackControlAllowedOrSend(settings)) service?.next()
+            "previous10" -> if (playbackControlAllowedOrSend(settings)) service?.let {
+                it.seek(
+                    (it.getTime() - 10000).coerceAtLeast(
+                        0
+                    ), fromUser = true
+                )
+            }
+
+            "next10" -> if (playbackControlAllowedOrSend(settings)) service?.let {
+                it.seek(
+                    (it.getTime() + 10000).coerceAtMost(
+                        it.length
+                    ), fromUser = true
+                )
+            }
+
+            "shuffle" -> if (playbackControlAllowedOrSend(settings)) service?.shuffle()
+            "repeat" -> if (playbackControlAllowedOrSend(settings)) service?.let {
+                when (it.repeatType) {
+                    PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+                    }
+
+                    PlaybackStateCompat.REPEAT_MODE_ONE -> if (it.hasPlaylist()) {
+                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
+                    } else {
+                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                    }
+
+                    PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                        it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+                    }
+                }
+            }
+
+            "get-volume" -> {
+                AppScope.launch {
+                    websocketSession.forEach {
+                        it.send(
+                            Frame.Text(
+                                getVolumeMessage(
+                                    context,
+                                    service
+                                )
+                            )
+                        )
+                    }
+                }
+            }
+
+            "set-volume" -> {
+                if (playbackControlAllowedOrSend(settings)) (context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let {
+                    val max = it.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                    it.setStreamVolume(
+                        AudioManager.STREAM_MUSIC,
+                        ((incomingMessage.id!!.toFloat() / 100) * max).toInt(),
+                        AudioManager.FLAG_SHOW_UI
+                    )
+
+                }
+
+            }
+
+            "set-progress" -> {
+                if (playbackControlAllowedOrSend(settings)) incomingMessage.id?.let {
+                    service?.setTime(it.toLong())
+                }
+            }
+
+            "play-media" -> {
+                if (playbackControlAllowedOrSend(settings)) service?.playIndex(incomingMessage.id!!)
+
+            }
+
+            "delete-media" -> {
+                if (playbackControlAllowedOrSend(settings)) service?.remove(incomingMessage.id!!)
+
+            }
+
+            "move-media-bottom" -> {
+                if (playbackControlAllowedOrSend(settings)) {
+                    val index = incomingMessage.id!!
+                    if (index < (service?.playlistManager?.getMediaListSize()
+                            ?: 0) - 1
+                    )
+                        service?.moveItem(index, index + 2)
+                }
+
+            }
+
+            "move-media-top" -> {
+                if (playbackControlAllowedOrSend(settings)) {
+                    val index = incomingMessage.id!!
+                    if (index > 0)
+                        service?.moveItem(index, index - 1)
+                }
+
+            }
+
+            else -> Log.w(
+                TAG,
+                "Unrecognized message",
+                IllegalStateException("Unrecognized message: $incomingMessage")
+            )
         }
     }
 
@@ -196,7 +243,10 @@ object RemoteAccessWebSockets {
         return ticket.id
     }
 
-   suspend fun sendToAll(message: String) {
+   suspend fun sendToAll(messageObj: RemoteAccessServer.WSMessage) {
+       val message = Gson().toJson(messageObj)
+       addToQueue(messageObj)
+       onPlaybackEventChannel.trySend(message)
        if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: sendToAll called on ${websocketSession.size} sessions with message '$message'")
        val iterator = ArrayList(websocketSession).iterator()
        val toRemove = hashSetOf<DefaultWebSocketServerSession>()
@@ -210,6 +260,19 @@ object RemoteAccessWebSockets {
        }
        websocketSession.removeAll(toRemove)
    }
+
+    /**
+     * Add a message to the queue and remove duplicates if needed
+     *
+     * @param wsMessage the message to send
+     */
+    private fun addToQueue(wsMessage: RemoteAccessServer.WSMessage) {
+        val typesDuplicates = arrayOf("now-playing", "play-queue", "auth", "volume", "player-status", "login-needed", "ml-refresh-needed", "playback-control-forbidden")
+        if (wsMessage.type in typesDuplicates) {
+            messageQueue.removeIf { it.type == wsMessage.type }
+        }
+        messageQueue.add(wsMessage)
+    }
 
     suspend fun closeAllSessions() {
         val iterator = ArrayList(websocketSession).iterator()

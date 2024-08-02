@@ -151,8 +151,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
         AppScope.launch {
             val isPlaying = service?.isPlaying == true || playing
-            val playerStatus = Gson().toJson(PlayerStatus(isPlaying))
-            RemoteAccessWebSockets.sendToAll(playerStatus)
+            RemoteAccessWebSockets.sendToAll(PlayerStatus(isPlaying))
         }
     }
 
@@ -161,7 +160,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      */
     private val loginObserver = androidx.lifecycle.Observer<Boolean> { showed ->
         AppScope.launch {
-            RemoteAccessWebSockets.sendToAll(Gson().toJson(LoginNeeded(showed)))
+            RemoteAccessWebSockets.sendToAll(LoginNeeded(showed))
         }
     }
 
@@ -509,7 +508,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
             watchMedia()
             scope.registerCallBacks {
                 scope.launch {
-                    RemoteAccessWebSockets.sendToAll(Gson().toJson(MLRefreshNeeded()))
+                    RemoteAccessWebSockets.sendToAll(MLRefreshNeeded())
                 }
             }
         }
@@ -543,7 +542,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     override fun onMediaEvent(event: IMedia.Event) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Send now playing from onMediaEvent")
         if (event.type == IMedia.Event.ParsedChanged) {
-            AppScope.launch {  RemoteAccessWebSockets.sendToAll(Gson().toJson(MLRefreshNeeded())) }
+            AppScope.launch {  RemoteAccessWebSockets.sendToAll(MLRefreshNeeded()) }
         }
         if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
         lastNowPlayingSendTime = System.currentTimeMillis()
@@ -568,7 +567,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         lastNowPlayingSendTime = System.currentTimeMillis()
         scope.launch {
             generateNowPlaying()?.let { nowPlaying ->
-                AppScope.launch { RemoteAccessWebSockets.sendToAll(message = nowPlaying) }
+                AppScope.launch { RemoteAccessWebSockets.sendToAll(messageObj = nowPlaying) }
             }
         }
         generatePlayQueue()?.let { playQueue ->
@@ -579,17 +578,16 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     /**
      * Generate the now playing data to be sent to the client
      *
-     * @return a [String] describing the now playing
+     * @return a [NowPlaying] describing the now playing
      */
-    private suspend fun generateNowPlaying(): String?  {
+    suspend fun generateNowPlaying(): NowPlaying? {
         service?.let { service ->
             service.currentMediaWrapper?.let { media ->
-                val gson = Gson()
                 val bookmarks = withContext(Dispatchers.IO) { media.bookmarks ?: arrayOf() }
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
                         ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
                         ?: "", media.uri.toString(), getVolume(), service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.title, it.time) })
-                return gson.toJson(nowPlaying)
+                return nowPlaying
 
             }
         }
@@ -599,9 +597,9 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     /**
      * Generate the play queue data to be sent to the client
      *
-     * @return a [String] describing the play queue
+     * @return a [PlayQueue] describing the play queue
      */
-    private fun generatePlayQueue(): String? {
+    fun generatePlayQueue(): PlayQueue? {
         service?.let { service ->
             val list = ArrayList<PlayQueueItem>()
             service.playlistManager.getMediaList().forEachIndexed { index, mediaWrapper ->
@@ -609,8 +607,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                         ?: "", mediaWrapper.length, mediaWrapper.artworkMrl
                         ?: "", service.playlistManager.currentIndex == index, favorite = mediaWrapper.isFavorite))
             }
-            val gson = Gson()
-            return gson.toJson(PlayQueue(list))
+            return PlayQueue(list)
         }
         return null
     }

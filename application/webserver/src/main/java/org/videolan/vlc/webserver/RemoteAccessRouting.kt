@@ -57,13 +57,11 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
@@ -106,6 +104,7 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.StorageProvider
@@ -125,6 +124,7 @@ import org.videolan.vlc.util.toByteArray
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import org.videolan.vlc.webserver.RemoteAccessServer.Companion.getServerFiles
+import org.videolan.vlc.webserver.RemoteAccessServer.PlayerStatus
 import org.videolan.vlc.webserver.RemoteAccessSession.verifyLogin
 import org.videolan.vlc.webserver.utils.MediaZipUtils
 import org.videolan.vlc.webserver.utils.serveAudios
@@ -132,6 +132,7 @@ import org.videolan.vlc.webserver.utils.servePlaylists
 import org.videolan.vlc.webserver.utils.serveSearch
 import org.videolan.vlc.webserver.utils.serveVideos
 import org.videolan.vlc.webserver.websockets.RemoteAccessWebSockets
+import org.videolan.vlc.webserver.websockets.WSIncomingMessage
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileNotFoundException
@@ -437,6 +438,36 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val result = RemoteAccessServer.VideoListResult(list, groupTitle)
             val gson = Gson()
             call.respondText(gson.toJson(result))
+        }
+        get("/longpolling") {
+            //Empty the queue if needed
+            if (RemoteAccessWebSockets.messageQueue.isNotEmpty()) {
+                call.respondText(Gson().toJson(RemoteAccessWebSockets.messageQueue))
+                RemoteAccessWebSockets.messageQueue.clear()
+                return@get
+            }
+            //block the request until a message is received
+           val message =  RemoteAccessWebSockets.onPlaybackEventChannel.receive()
+            if (message.contains("\"type\":\"browser-description\"")) {
+                call.respondText("[$message]")
+                return@get
+            }
+            val remoteAccessServer = RemoteAccessServer.getInstance(appContext)
+            val messages = arrayListOf<String>()
+            remoteAccessServer.generatePlayQueue()?.let { playQueue -> messages.add(Gson().toJson(playQueue)) }
+            val isPlaying = PlaylistManager.showAudioPlayer.value ?: false
+            messages.add(Gson().toJson(PlayerStatus(isPlaying)))
+            remoteAccessServer.generateNowPlaying()?.let { it1 -> messages.add(Gson().toJson(it1)) }
+            call.respondText("[${messages.joinToString(",")}]")
+        }
+        // Manage playback events
+        get("/playback-event") {
+            call.request.queryParameters["message"]?.let { message ->
+                val id = call.request.queryParameters["id"]?.toInt()
+                val authTicket = call.request.queryParameters["authTicket"]
+                RemoteAccessWebSockets.manageIncomingMessages(WSIncomingMessage(message, id, authTicket), settings, RemoteAccessServer.getInstance(appContext).service, appContext)
+            }
+            call.respond(HttpStatusCode.OK)
         }
         // List of all the albums
         get("/album-list") {
@@ -1334,7 +1365,7 @@ private fun getProviderDescriptions(context: Context, scope: CoroutineScope, pro
                                 "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
                             }
                     if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
-                        RemoteAccessWebSockets.sendToAll(Gson().toJson(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc)))
+                        RemoteAccessWebSockets.sendToAll(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc))
                     }
                 }
                 (dataset.getList()[pair.first] as? Storage)?.let { datasetEntry ->
@@ -1344,7 +1375,7 @@ private fun getProviderDescriptions(context: Context, scope: CoroutineScope, pro
                                 val files = unparsedDescription.getFilesNumber()
                     val desc = "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
                     if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
-                        RemoteAccessWebSockets.sendToAll(Gson().toJson(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc)))
+                        RemoteAccessWebSockets.sendToAll(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc))
                     }
                 }
             } catch (e: Exception) {
