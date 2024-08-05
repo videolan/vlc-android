@@ -41,6 +41,7 @@ import android.os.Handler
 import android.os.Looper
 import android.renderscript.*
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.view.animation.*
 import android.view.inputmethod.InputMethodManager
@@ -83,6 +84,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -102,9 +104,11 @@ import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.openLinkIfPossible
+import java.security.SecureRandom
 import kotlin.math.min
 
 object UiTools {
+    private var logoAnimationRunning: Boolean = false
     var currentNightMode: Int = 0
     private const val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
@@ -394,9 +398,12 @@ object UiTools {
         val logo = v.findViewById<ImageView>(R.id.logo)
         val konfettiView = v.findViewById<KonfettiView>(R.id.konfetti)
         logo.setOnClickListener {
-            logo.animate().rotationBy(360F).translationY(-24.dp.toFloat()).setDuration(600).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
+            if (logoAnimationRunning) return@setOnClickListener
+            logoAnimationRunning = true
+            val iter = SecureRandom().nextInt(4) + 1
+            logo.animate().rotationBy(360F * iter).translationY(-24.dp.toFloat()).setDuration(600 + (100L * iter)).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
                 logo.animate().translationY(0F).setStartDelay(75).setDuration(300).setInterpolator(OvershootInterpolator(3.0F)).withEndAction {
-
+                    logoAnimationRunning = false
                 }
                 konfettiView.build()
                         .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
@@ -409,7 +416,7 @@ object UiTools {
                         .setPosition(logo.x + logo.width - 12.dp, logo.x + logo.width - 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
                         .setRotationEnabled(false)
                         .setDelay(275)
-                        .burst(35)
+                        .burst(iter * 30)
                 konfettiView.build()
                         .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
                         .setDirection(180.0, 225.0)
@@ -421,7 +428,7 @@ object UiTools {
                         .setPosition(logo.x + 12.dp, logo.x + 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
                         .setRotationEnabled(false)
                         .setDelay(275)
-                        .burst(35)
+                        .burst(iter * 30)
             }
         }
 
