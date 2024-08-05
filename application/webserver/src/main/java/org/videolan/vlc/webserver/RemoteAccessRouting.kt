@@ -442,7 +442,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         get("/longpolling") {
             //Empty the queue if needed
             if (RemoteAccessWebSockets.messageQueue.isNotEmpty()) {
-                call.respondText(Gson().toJson(RemoteAccessWebSockets.messageQueue))
+                val queue = RemoteAccessWebSockets.messageQueue.toArray()
+                call.respondText(Gson().toJson(queue))
                 RemoteAccessWebSockets.messageQueue.clear()
                 return@get
             }
@@ -465,7 +466,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             call.request.queryParameters["message"]?.let { message ->
                 val id = call.request.queryParameters["id"]?.toInt()
                 val authTicket = call.request.queryParameters["authTicket"]
-                RemoteAccessWebSockets.manageIncomingMessages(WSIncomingMessage(message, id, authTicket), settings, RemoteAccessServer.getInstance(appContext).service, appContext)
+                if (!RemoteAccessWebSockets.manageIncomingMessages(WSIncomingMessage(message, id, authTicket), settings, RemoteAccessServer.getInstance(appContext).service, appContext)) {
+                    call.respond(HttpStatusCode.Forbidden)
+                    return@get
+                }
             }
             call.respond(HttpStatusCode.OK)
         }

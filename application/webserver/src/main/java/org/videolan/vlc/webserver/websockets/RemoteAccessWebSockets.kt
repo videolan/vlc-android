@@ -80,25 +80,34 @@ object RemoteAccessWebSockets {
         }
     }
 
+    /**
+     * Manage incoming messages from the client, either from websockets or long polling
+     *
+     * @param incomingMessage the incoming message
+     * @param settings the shared preferences
+     * @param service the playback service
+     * @param context the context
+     * @return true if the message has been handled, false if playback control is not allowed
+     */
     fun manageIncomingMessages(
         incomingMessage: WSIncomingMessage,
         settings: SharedPreferences,
         service: PlaybackService?,
         context: Context,
-    ) {
+    ):Boolean {
         when (incomingMessage.message) {
             "hello" -> {}
-            "play" -> if (playbackControlAllowedOrSend(settings)) service?.play()
-            "pause" -> if (playbackControlAllowedOrSend(settings)) service?.pause()
-            "previous" -> if (playbackControlAllowedOrSend(settings)) service?.previous(false)
-            "next" -> if (playbackControlAllowedOrSend(settings)) service?.next()
+            "play" -> if (playbackControlAllowedOrSend(settings)) service?.play() else return false
+            "pause" -> if (playbackControlAllowedOrSend(settings)) service?.pause() else return false
+            "previous" -> if (playbackControlAllowedOrSend(settings)) service?.previous(false) else return false
+            "next" -> if (playbackControlAllowedOrSend(settings)) service?.next() else return false
             "previous10" -> if (playbackControlAllowedOrSend(settings)) service?.let {
                 it.seek(
                     (it.getTime() - 10000).coerceAtLeast(
                         0
                     ), fromUser = true
                 )
-            }
+            } else return false
 
             "next10" -> if (playbackControlAllowedOrSend(settings)) service?.let {
                 it.seek(
@@ -106,9 +115,9 @@ object RemoteAccessWebSockets {
                         it.length
                     ), fromUser = true
                 )
-            }
+            } else return false
 
-            "shuffle" -> if (playbackControlAllowedOrSend(settings)) service?.shuffle()
+            "shuffle" -> if (playbackControlAllowedOrSend(settings)) service?.shuffle() else return false
             "repeat" -> if (playbackControlAllowedOrSend(settings)) service?.let {
                 when (it.repeatType) {
                     PlaybackStateCompat.REPEAT_MODE_NONE -> {
@@ -125,7 +134,7 @@ object RemoteAccessWebSockets {
                         it.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                     }
                 }
-            }
+            } else return false
 
             "get-volume" -> {
                 AppScope.launch {
@@ -151,23 +160,23 @@ object RemoteAccessWebSockets {
                         AudioManager.FLAG_SHOW_UI
                     )
 
-                }
+                } else return false
 
             }
 
             "set-progress" -> {
                 if (playbackControlAllowedOrSend(settings)) incomingMessage.id?.let {
                     service?.setTime(it.toLong())
-                }
+                } else return false
             }
 
             "play-media" -> {
-                if (playbackControlAllowedOrSend(settings)) service?.playIndex(incomingMessage.id!!)
+                if (playbackControlAllowedOrSend(settings)) service?.playIndex(incomingMessage.id!!) else return false
 
             }
 
             "delete-media" -> {
-                if (playbackControlAllowedOrSend(settings)) service?.remove(incomingMessage.id!!)
+                if (playbackControlAllowedOrSend(settings)) service?.remove(incomingMessage.id!!) else return false
 
             }
 
@@ -178,7 +187,7 @@ object RemoteAccessWebSockets {
                             ?: 0) - 1
                     )
                         service?.moveItem(index, index + 2)
-                }
+                } else return false
 
             }
 
@@ -187,16 +196,20 @@ object RemoteAccessWebSockets {
                     val index = incomingMessage.id!!
                     if (index > 0)
                         service?.moveItem(index, index - 1)
-                }
+                } else return false
 
             }
 
-            else -> Log.w(
-                TAG,
-                "Unrecognized message",
-                IllegalStateException("Unrecognized message: $incomingMessage")
-            )
+            else -> {
+                Log.w(
+                    TAG,
+                    "Unrecognized message",
+                    IllegalStateException("Unrecognized message: $incomingMessage")
+                )
+                return false
+            }
         }
+        return true
     }
 
     /**
