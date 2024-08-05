@@ -628,6 +628,7 @@
     <string name="nightly_version">Found version: %2$s - %1$s</string>
     <string name="update_nightly_alert">You are running a nightly version. Would you like to periodically look for updates?</string>
     <string name="update_nightly">Auto update</string>
+    <string name="update_nightly_summary">Search for nightly update periodically</string>
 
 
     <!-- Accessibility -->

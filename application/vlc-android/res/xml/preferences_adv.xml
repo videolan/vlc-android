@@ -132,6 +132,13 @@
                 android:key="nightly_install"
                 android:title="@string/install_nightly"/>
 
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="show_update"
+                android:summary="@string/update_nightly_summary"
+                android:title="@string/update_nightly"/>
+
         <EditTextPreference
                 android:defaultValue=""
                 android:inputType="textMultiLine"

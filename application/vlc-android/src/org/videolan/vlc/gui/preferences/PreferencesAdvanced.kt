@@ -64,6 +64,7 @@ import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.browser.EXTRA_MRL
@@ -106,6 +107,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             it.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(5))
             it.setSelection(it.editableText.length)
         }
+        if (!BuildConfig.DEBUG) findPreference<Preference>("show_update")?.isVisible  = false
     }
 
     override fun onStart() {

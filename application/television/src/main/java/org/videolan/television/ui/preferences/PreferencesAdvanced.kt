@@ -66,6 +66,7 @@ import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
@@ -118,6 +119,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             }
             return
         }
+        if (!BuildConfig.DEBUG) findPreference<Preference>("show_update")?.isVisible  = false
         super.onDisplayPreferenceDialog(preference)
     }
 
