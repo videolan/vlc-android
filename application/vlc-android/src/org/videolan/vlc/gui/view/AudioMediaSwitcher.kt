@@ -77,6 +77,10 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         audioMediaSwitcherListener.onTextClicked()
     }
 
+    fun onChapterSwitching(next: Boolean) {
+        audioMediaSwitcherListener.onChapterSwitching(next)
+    }
+
     suspend fun updateMedia(service: PlaybackService?) {
         if (service == null) return
         val artMrl = service.coverArt
@@ -99,7 +103,15 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
 
         val inflater = LayoutInflater.from(context)
         if (service.hasPrevious()) {
-            addMediaView(inflater, service.titlePrev, service.artistPrev, service.albumPrev, coverPrev, prevTrackInfo)
+            addMediaView(
+                inflater,
+                service.titlePrev,
+                service.artistPrev,
+                service.albumPrev,
+                coverPrev,
+                prevTrackInfo,
+                false
+            )
             hasPrevious = true
         }
         val chapter = service.getCurrentChapter()
@@ -107,8 +119,8 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             !chapter.isNullOrEmpty() -> arrayOf(chapter, service.title, service.artist)
             else -> arrayOf(service.title, service.artist, service.album);
         }
-        if (service.hasMedia()) addMediaView(inflater, titleCurrent, artistCurrent, albumCurrent, coverCurrent, trackInfo)
-        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, service.albumNext, coverNext, nextTrackInfo)
+        if (service.hasMedia()) addMediaView(inflater, titleCurrent, artistCurrent, albumCurrent, coverCurrent, trackInfo, !chapter.isNullOrEmpty())
+        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, service.albumNext, coverNext, nextTrackInfo, false)
 
         if (service.hasPrevious() && service.hasMedia()) {
             previousPosition = 1
@@ -117,7 +129,15 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             scrollTo(0)
     }
 
-    protected abstract fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, album: String?, cover: Bitmap?, trackInfo: String?)
+    protected abstract fun addMediaView(
+        inflater: LayoutInflater,
+        title: String?,
+        artist: String?,
+        album: String?,
+        cover: Bitmap?,
+        trackInfo: String?,
+        hasChapters: Boolean
+    )
 
     fun setAudioMediaSwitcherListener(l: AudioMediaSwitcherListener) {
         audioMediaSwitcherListener = l
@@ -139,6 +159,8 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
 
         fun onTextClicked()
 
+        fun onChapterSwitching(next: Boolean)
+
         companion object {
             const val PREVIOUS_MEDIA = 1
             const val CURRENT_MEDIA = 2
@@ -154,5 +176,6 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         override fun onTouchClick() {}
         override fun onTouchLongClick() = Unit
         override fun onTextClicked() {}
+        override fun onChapterSwitching(next: Boolean) { }
     }
 }

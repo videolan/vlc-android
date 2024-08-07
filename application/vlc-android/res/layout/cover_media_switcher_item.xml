@@ -60,13 +60,40 @@
         </androidx.cardview.widget.CardView>
 
 
+        <ImageView
+                android:id="@+id/previous_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/actionBarItemBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/song_title"
+                app:layout_constraintEnd_toStartOf="@+id/song_title"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/song_title"
+                app:srcCompat="@drawable/ic_chevron_left" />
+
+        <ImageView
+                android:id="@+id/next_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="?attr/actionBarItemBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/song_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/song_title"
+                app:layout_constraintTop_toTopOf="@+id/song_title"
+                app:srcCompat="@drawable/ic_chevron_right" />
+
         <TextView
                 android:id="@+id/song_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
                 android:fontFamily="sans-serif-light"
                 android:importantForAccessibility="no"
                 android:maxLines="1"
@@ -75,8 +102,9 @@
                 android:textSize="24sp"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toTopOf="@+id/song_subtitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/next_chapter"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/previous_chapter"
                 app:layout_constraintTop_toBottomOf="@+id/cover_card"
                 tools:text="5th Symphony" />
 
@@ -87,8 +115,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-                android:maxLines="1"
                 android:importantForAccessibility="no"
+                android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="?attr/font_audio_light"
                 android:textSize="14sp"

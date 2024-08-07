@@ -58,6 +58,27 @@
                     tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
+        <ImageView
+                android:id="@+id/previous_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/actionBarItemBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/song_title"
+                app:layout_constraintEnd_toStartOf="@+id/song_title"
+                app:layout_constraintTop_toTopOf="@+id/song_title"
+                app:srcCompat="@drawable/ic_chevron_left" />
+
+        <ImageView
+                android:id="@+id/next_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="?attr/actionBarItemBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/song_title"
+                app:layout_constraintStart_toEndOf="@+id/song_title"
+                app:layout_constraintTop_toTopOf="@+id/song_title"
+                app:srcCompat="@drawable/ic_chevron_right" />
 
         <TextView
                 android:id="@+id/song_title"

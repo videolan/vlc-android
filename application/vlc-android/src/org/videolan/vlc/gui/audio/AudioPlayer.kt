@@ -184,6 +184,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val activity = activity as AudioPlayerContainerActivity
             activity.slideUpOrDownAudioPlayer()
         }
+        binding.nextChapter?.setOnClickListener {
+            coverMediaSwitcherListener.onChapterSwitching(true)
+        }
+        binding.previousChapter?.setOnClickListener {
+            coverMediaSwitcherListener.onChapterSwitching(false)
+        }
 
         val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
         val touchHelper = ItemTouchHelper(callback)
@@ -383,6 +389,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
 
         val chapter = playlistModel.service?.getCurrentChapter()
+        if (chapter.isNullOrEmpty()) {
+            binding.nextChapter?.visibility = View.GONE
+            binding.previousChapter?.visibility = View.GONE
+        } else {
+            binding.nextChapter?.visibility = View.VISIBLE
+            binding.previousChapter?.visibility = View.VISIBLE
+        }
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
         binding.songSubtitle?.text = if (!chapter.isNullOrEmpty()) TextUtils.separatedString(playlistModel.title, playlistModel.artist) else TextUtils.separatedString(playlistModel.artist, playlistModel.album)
         binding.songTitle?.isSelected = true
@@ -877,6 +890,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouchUp() {}
 
         override fun onTextClicked() { }
+
+        override fun onChapterSwitching(next: Boolean) { }
     }
 
     private val coverMediaSwitcherListener = object : AudioMediaSwitcherListener by AudioMediaSwitcher.EmptySwitcherListener {
@@ -897,6 +912,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             Settings.getInstance(requireActivity()).putSingle(KEY_SHOW_TRACK_INFO, !Settings.showAudioTrackInfo)
             Settings.showAudioTrackInfo = !Settings.showAudioTrackInfo
             lifecycleScope.launch { doUpdate() }
+        }
+
+        override fun onChapterSwitching(next: Boolean) {
+            playlistModel.service?.let {service ->
+                service.chapterIdx = service.chapterIdx.plus(if (next) 1 else -1).coerceIn(0, service.mediaplayer.getChapters(-1).size - 1)
+            }
         }
     }
 
