@@ -211,7 +211,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     private lateinit var artworkMap: MutableMap<String, Uri>
 
     private val callbacks = mutableListOf<Callback>()
-    private val subtitleMessage = ArrayDeque<String>(1)
+    private val subtitleMessage = ArrayDeque<Pair<String,Long>>(1)
     private lateinit var cbActor: SendChannel<CbAction>
     var detectHeadset = true
     var headsetInserted = false
@@ -1136,7 +1136,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         val length = length
         lastLength = length
         val chapterTitle = if (lastChaptersCount > 0) getCurrentChapter() else null
-        val displayMsg = subtitleMessage.poll()
+        val displayMsg = getSubtitleMessage()
+        displayMsg?.let { scheduler.scheduleAction(UPDATE_META, 5_000L) }
         val bob = withContext(Dispatchers.Default) {
             val carMode = isCarMode()
             val title = media.nowPlaying ?: media.title
@@ -1322,6 +1323,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     fun notifyTrackChanged() {
+        subtitleMessage.clear()
         updateMetadata()
         updateWidget()
         broadcastMetadata()
@@ -1557,10 +1559,26 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         mediaSession.setPlaybackState(playbackState)
     }
 
-    fun displayPlaybackMessage(@StringRes resId: Int, vararg formatArgs: String) {
-        val ctx = this@PlaybackService
-        subtitleMessage.push(ctx.getString(resId, *formatArgs))
+    fun displaySubtitleMessage(vararg messages: String) {
+        var endTime = System.currentTimeMillis()
+        subtitleMessage.clear()
+        messages.forEach { msg ->
+            endTime += 5000L
+            msg?.let { subtitleMessage.addLast(Pair(it, endTime)) }
+        }
         updateMetadata()
+    }
+
+    private fun getSubtitleMessage(): String? {
+        return subtitleMessage.peek()?.let {
+            when {
+                System.currentTimeMillis() > it.second -> {
+                    subtitleMessage.poll()
+                    subtitleMessage.peek()?.first
+                }
+                else -> it.first
+            }
+        }
     }
 
     @MainThread
@@ -1824,6 +1842,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 currentToast = Toast.makeText(applicationContext, text, duration)
                 currentToast?.show()
             }
+            UPDATE_META -> updateMetadata()
             END_MEDIASESSION -> if (::mediaSession.isInitialized) mediaSession.isActive = false
         }
     }
@@ -1946,6 +1965,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
         private const val SHOW_TOAST = "show_toast"
         private const val END_MEDIASESSION = "end_mediasession"
+        private const val UPDATE_META = "update_meta"
 
         val playerSleepTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Calendar?>().apply { value = null } }
 

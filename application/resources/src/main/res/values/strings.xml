@@ -85,6 +85,11 @@
     <string name="albums">Albums</string>
     <string name="tracks">Tracks</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Saved Bookmark</item>
+        <item quantity="other">%d Saved Bookmarks</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>

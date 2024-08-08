@@ -181,7 +181,8 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                         val bookmark = it.addBookmark(playbackService.getTime())
                         val bookmarkName = context.getString(R.string.bookmark_default_name, Tools.millisToString(playbackService.getTime()))
                         bookmark?.setName(bookmarkName)
-                        playbackService.displayPlaybackMessage(R.string.saved, bookmarkName)
+                        playbackService.displaySubtitleMessage(context.getString(R.string.saved, bookmarkName),
+                                context.resources.getQuantityString(R.plurals.saved_bookmarks_quantity, it.bookmarks.size, it.bookmarks.size))
                     }
                 }
             }
@@ -306,8 +307,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     private fun checkForSeekFailure(forward: Boolean) {
-        if (playbackService.playlistManager.player.lastPosition == 0.0f && (forward || playbackService.getTime() > 0))
-            playbackService.displayPlaybackMessage(R.string.unseekable_stream)
+        if (playbackService.playlistManager.player.lastPosition == 0.0f && (forward || playbackService.getTime() > 0)) {
+            val context = playbackService.applicationContext
+            playbackService.displaySubtitleMessage(context.getString(R.string.unseekable_stream))
+        }
     }
 
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
