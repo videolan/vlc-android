@@ -37,6 +37,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.ServiceInfo
 import android.content.res.Configuration
+import android.graphics.Typeface
 import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
@@ -50,6 +51,9 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.text.Spannable
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -149,6 +153,7 @@ import org.videolan.tools.SHOW_SEEK_IN_COMPACT_NOTIFICATION
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.getResourceUri
+import org.videolan.tools.markBidi
 import org.videolan.tools.readableSize
 import org.videolan.vlc.car.VLCCarService
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -179,6 +184,7 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.VLCAudioFocusHelper
 import org.videolan.vlc.util.awaitMedialibraryStarted
+import org.videolan.vlc.util.firstNotNullAsSpannable
 import org.videolan.vlc.util.isSchemeHttpOrHttps
 import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
@@ -1153,10 +1159,35 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 putLong(MediaMetadataCompat.METADATA_KEY_DURATION, if (length != 0L) length else -1L)
             }
             if (carMode) {
-                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, chapterTitle ?: title)
-                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, displayMsg
-                        ?: MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
-                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
+                var carTitle = title
+                var carSubtitle = MediaUtils.getDisplaySubtitle(ctx, media)
+                val queueInfo = MediaUtils.getQueuePosition(currentMediaPosition, mediaListSize)
+
+                /* Add the queue position information to the underlying string */
+                when (settings.getInt("android_auto_queue_info_pos_val", 3)) {
+                    1 -> carTitle = TextUtils.separatedString(queueInfo, carTitle.markBidi())
+                    2 -> carTitle = TextUtils.separatedString(carTitle.markBidi(), queueInfo)
+                    3 -> carSubtitle = TextUtils.separatedString(queueInfo, carSubtitle)
+                }
+                /**
+                 * This section allows for variability in the title and subtitle contents.
+                 */
+                // Set Display Title
+                val displayTitle = arrayOf(chapterTitle, carTitle).firstNotNullAsSpannable()?.also {
+                    val titleScaleFactor = settings.getInt("android_auto_title_scale_val", 100) / 100f
+                    it.setSpan(RelativeSizeSpan(titleScaleFactor), 0, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+                // Set Display Subtitle Font Size
+                val displaySubtitle = arrayOf(displayMsg, carSubtitle).firstNotNullAsSpannable()?.also {
+                    val subTitleScaleFactor = settings.getInt("android_auto_subtitle_scale_val", 100) / 100f
+                    it.setSpan(RelativeSizeSpan(subTitleScaleFactor), 0, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    // Add italics for subtitle messages
+                    if (displayMsg != null) { it.setSpan(StyleSpan(Typeface.ITALIC), 0, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) }
+                }
+                // Add the data to the Bundle
+                bob.putText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, displayTitle)
+                bob.putText(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, displaySubtitle)
+                bob.putText(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
             }
             if (Permissions.canReadStorage(ctx) && coverOnLockscreen) {
                 val albumArtUri = when {
@@ -1559,7 +1590,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         mediaSession.setPlaybackState(playbackState)
     }
 
-    fun displaySubtitleMessage(vararg messages: String) {
+    fun displaySubtitleMessage(vararg messages: String?) {
         var endTime = System.currentTimeMillis()
         subtitleMessage.clear()
         messages.forEach { msg ->

@@ -336,14 +336,16 @@ object MediaUtils {
         return TextUtils.separatedString(prefix, suffix)
     }
 
-    fun getDisplaySubtitle(ctx: Context, media: MediaWrapper, mediaPosition: Int, mediaSize: Int): String {
+    fun getDisplaySubtitle(ctx: Context, media: MediaWrapper): String? {
         val album = getMediaAlbum(ctx, media)
         val artist = getMediaArtist(ctx, media)
         val isAlbumUnknown = album == getMediaString(ctx, R.string.unknown_album)
         val isArtistUnknown = artist == getMediaString(ctx, R.string.unknown_artist)
-        val prefix = if (mediaSize > 1) "${mediaPosition + 1} / $mediaSize" else null
-        val suffix = if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
-        return TextUtils.separatedString(prefix, suffix)
+        return if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
+    }
+
+    fun getQueuePosition(mediaPosition: Int, mediaSize: Int): String? {
+        return if (mediaSize > 1) "${mediaPosition + 1} / $mediaSize" else null
     }
 
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title

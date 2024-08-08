@@ -331,6 +331,10 @@ fun CharSequence.getPresenceDescriptionSpan(context: Context):SpannableString {
     return string
 }
 
+fun Array<out CharSequence?>.firstNotNullAsSpannable(): SpannableString? {
+    return firstNotNullOfOrNull { it?.let(::SpannableString) }
+}
+
 fun Int.toPixel(): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = toFloat() * (metrics.densityDpi / 160f)
