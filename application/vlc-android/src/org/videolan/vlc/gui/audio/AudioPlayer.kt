@@ -31,6 +31,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -930,9 +931,17 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             }
 
             currentChapters?.second?.let { chapters ->
-                playlistModel.service!!.chapterIdx =
-                    playlistModel.service!!.chapterIdx.plus(if (next) 1 else -1)
-                        .coerceIn(0, chapters.size - 1)
+                playlistModel.service?.let { service ->
+                    val chapterIdx = playlistModel.service!!.chapterIdx
+                    if (!next) {
+                        val chapter = chapters[service.chapterIdx]
+                        if (chapter.timeOffset + 5000 > service.getTime())
+                            playlistModel.service!!.chapterIdx = chapterIdx.plus(-1).coerceAtLeast(0)
+                        else
+                            playlistModel.service!!.chapterIdx = chapterIdx
+                    } else if (chapterIdx != chapters.size - 1)
+                        playlistModel.service!!.chapterIdx = chapterIdx.plus(1).coerceAtMost(chapters.size - 1)
+                }
             }
         }
     }
