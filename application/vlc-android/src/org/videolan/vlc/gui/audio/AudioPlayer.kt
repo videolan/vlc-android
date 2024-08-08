@@ -57,6 +57,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
@@ -123,6 +124,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private var audioPlayProgressMode:Boolean = false
     private var lastEndsAt = -1L
     private var isDragging = false
+    private var currentChapters: Pair<MediaWrapper,  List<MediaPlayer.Chapter>?>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -275,6 +277,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     override fun onDestroy() {
         Settings.removeAudioControlsChangeListener()
         binding.songsList.adapter = null
+        currentChapters = null
         super.onDestroy()
     }
 
@@ -896,6 +899,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     private val coverMediaSwitcherListener = object : AudioMediaSwitcherListener by AudioMediaSwitcher.EmptySwitcherListener {
 
+
         override fun onMediaSwitching() {
             (activity as? AudioPlayerContainerActivity)?.playerBehavior?.lock(true)
         }
@@ -915,8 +919,20 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
 
         override fun onChapterSwitching(next: Boolean) {
-            playlistModel.service?.let {service ->
-                service.chapterIdx = service.chapterIdx.plus(if (next) 1 else -1).coerceIn(0, service.mediaplayer.getChapters(-1).size - 1)
+            playlistModel.service?.let { service ->
+                service.currentMediaWrapper?.let { media ->
+                    if (currentChapters?.first?.uri != media.uri) {
+                        playlistModel.service?.getChapters(-1)?.let {
+                            currentChapters = Pair(media, it.toList())
+                        }
+                    }
+                }
+            }
+
+            currentChapters?.second?.let { chapters ->
+                playlistModel.service!!.chapterIdx =
+                    playlistModel.service!!.chapterIdx.plus(if (next) 1 else -1)
+                        .coerceIn(0, chapters.size - 1)
             }
         }
     }
