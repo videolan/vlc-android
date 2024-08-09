@@ -134,7 +134,9 @@ class MainActivity : ContentActivity(),
                     .setPositiveButton(R.string.yes){ _, _ ->
                         settings.putSingle(KEY_SHOW_UPDATE, true)
                     }
-                    .setNegativeButton(R.string.no, null)
+                    .setNegativeButton(R.string.no){ _, _ ->
+                        settings.putSingle(KEY_SHOW_UPDATE, false)
+                    }
                     .show()
                 return@launch
             }
