@@ -49,6 +49,7 @@ import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.media.MediaSessionBrowser
+import org.videolan.vlc.util.Permissions.canCheckBluetoothDevices
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
@@ -79,11 +80,13 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             }
 
             // Bluetooth headset
-            val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-            if (bluetoothAdapter != null &&
-                BluetoothAdapter.STATE_CONNECTED == bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET) &&
-                isBluetoothHeadsetHardKey(keyEvent)) {
-                return true
+            if (canCheckBluetoothDevices(playbackService.applicationContext)) {
+                BluetoothAdapter.getDefaultAdapter()?.let { bluetoothAdapter ->
+                    if (BluetoothAdapter.STATE_CONNECTED == bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET)
+                        && isBluetoothHeadsetHardKey(keyEvent)) {
+                        return true
+                    }
+                }
             }
         }
 
@@ -115,7 +118,6 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 }
                 KeyEvent.ACTION_UP -> {
                     if (!prevActionSeek) {
-                        val enabledActions = playbackService.enabledActions
                         when (keyEvent.keyCode) {
                             KeyEvent.KEYCODE_MEDIA_NEXT -> onSkipToNext()
                             KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onSkipToPrevious()

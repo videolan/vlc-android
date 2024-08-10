@@ -113,6 +113,10 @@ object Permissions {
      */
     fun hasAllAccess(context: Context) = !Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.fromParts(SCHEME_PACKAGE, context.packageName, null)).isCallable(context) || isExternalStorageManager()
 
+    fun canCheckBluetoothDevices(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
+    }
+
     @JvmOverloads
     fun canWriteStorage(context: Context = AppContextProvider.appContext): Boolean {
         return if (AndroidUtil.isROrLater) {
