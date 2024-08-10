@@ -32,7 +32,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.Tools
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -40,7 +43,7 @@ import org.videolan.vlc.databinding.ChapterListItemBinding
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.launchWhenStarted
 
-class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedListener {
+class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedListener, PlaybackService.Callback {
 
     companion object {
 
@@ -50,6 +53,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
     }
 
     private lateinit var chapterList: RecyclerView
+    private lateinit var chapterAdapter: ChapterAdapter
     private lateinit var nestedScrollView: NestedScrollView
 
     private var service: PlaybackService? = null
@@ -67,13 +71,18 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchWhenStarted(lifecycleScope)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
+            .onCompletion { onServiceChanged(null) }
+            .launchWhenStarted(lifecycleScope)
     }
 
     private fun initChapterList() {
         val svc = service ?: return
         val chapters = svc.getChapters(-1)
-        if (chapters == null || chapters.size <= 1) return
+        if (chapters == null || chapters.size <= 1) {
+            dismiss()
+            return
+        }
 
         val chapterData = ArrayList<Chapter>()
 
@@ -82,7 +91,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
             chapterData.add(Chapter(name, Tools.millisToString(chapters[i].timeOffset)))
         }
 
-        val adapter = ChapterAdapter(chapterData, svc.chapterIdx, this)
+        chapterAdapter = ChapterAdapter(chapterData, svc.chapterIdx, this)
 
         chapterList.layoutManager = object : LinearLayoutManager(activity, VERTICAL, false) {
             override fun onLayoutCompleted(state: RecyclerView.State?) {
@@ -97,21 +106,26 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
             }
         }
         ViewCompat.setNestedScrollingEnabled(chapterList, false)
-        chapterList.adapter = adapter
+        chapterList.adapter = chapterAdapter
     }
 
     override fun onChapterSelected(position: Int) {
         service?.chapterIdx = position
         dismiss()
-
     }
 
     private fun onServiceChanged(service: PlaybackService?) {
+        if (this.service == service) return
         if (service != null) {
             this.service = service
+            service.addCallback(this)
             initChapterList()
-        } else
+        } else {
+            this.service?.apply {
+                removeCallback(this@SelectChapterDialog)
+            }
             this.service = null
+        }
     }
 
     override fun getDefaultState(): Int {
@@ -125,22 +139,28 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
 
     data class Chapter(val name: String, val time: String)
 
-    inner class ChapterAdapter(private val chapters: List<Chapter>, private val selectedIndex: Int?, private val listener: IOnChapterSelectedListener) : RecyclerView.Adapter<ChapterViewHolder>() {
-        private lateinit var binding: ChapterListItemBinding
+    inner class ChapterAdapter(private val chapters: List<Chapter>, private var selectedIndex: Int, private val listener: IOnChapterSelectedListener) : RecyclerView.Adapter<ChapterViewHolder>() {
 
         override fun onBindViewHolder(holder: ChapterViewHolder, position: Int) {
-            binding.chapter = chapters[position]
-            binding.selected = selectedIndex == position
+            holder.binding.chapter = chapters[position]
+            holder.binding.selected = selectedIndex == position
+            holder.binding.executePendingBindings()
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterViewHolder {
-            binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.chapter_list_item, parent, false) as ChapterListItemBinding
+            val binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.chapter_list_item, parent, false) as ChapterListItemBinding
             return ChapterViewHolder(binding, listener)
-
         }
 
         override fun getItemCount(): Int {
             return chapters.size
+        }
+
+        fun updateSelectedIndex(newIndex: Int) {
+            val oldIndex = selectedIndex
+            selectedIndex = newIndex
+            notifyItemChanged(oldIndex)
+            notifyItemChanged(newIndex)
         }
     }
 
@@ -152,13 +172,20 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
 
         fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
             listener.onChapterSelected(layoutPosition)
-
         }
-
-
     }
 
+    override fun update() {
+        service?.let { chapterAdapter.updateSelectedIndex(it.chapterIdx) }
+        chapterList.requestLayout()
+    }
 
+    override fun onMediaEvent(event: IMedia.Event) {
+    }
+
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        if (event.type == MediaPlayer.Event.Opening) initChapterList()
+    }
 }
 
 interface IOnChapterSelectedListener {
