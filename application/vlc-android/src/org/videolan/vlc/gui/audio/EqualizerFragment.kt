@@ -64,7 +64,7 @@ import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListener {
@@ -260,7 +260,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                     if (i == index) {
                         continue
                     }
-                    eqBandsViews[i].setProgress((oldBands[i] + delta / (abs(i - index) * abs(i - index) * abs(i - index) + 1)).coerceIn(0, EqualizerBar.RANGE * 2))
+                    eqBandsViews[i].setProgress((oldBands[i] + delta / ((i - index).absoluteValue.let { it * it * it } + 1)).coerceIn(0, EqualizerBar.RANGE * 2))
 
                     if (binding.equalizerButton.isChecked) {
 

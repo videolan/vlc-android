@@ -58,7 +58,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MISC_CHANNEL_ID
 import org.videolan.vlc.gui.view.PopupLayout
 import org.videolan.vlc.util.getPendingIntent
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.floor
 
 class PopupManager constructor(private val service: PlaybackService) : PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
@@ -156,7 +156,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
     override fun onLongPress(e: MotionEvent) {}
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-        if (abs(velocityX) > FLING_STOP_VELOCITY || velocityY > FLING_STOP_VELOCITY) {
+        if (velocityX.absoluteValue > FLING_STOP_VELOCITY || velocityY > FLING_STOP_VELOCITY) {
             stopPlayback()
             return true
         }

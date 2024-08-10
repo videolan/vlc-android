@@ -59,7 +59,7 @@ import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
@@ -289,14 +289,13 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
         val inputDevice = event.device
 
-        val dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X)
-        val dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y)
-        if (inputDevice == null || abs(dpadx) == 1.0f || abs(dpady) == 1.0f) return false
+        val dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X).absoluteValue
+        val dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y).absoluteValue
+        if (inputDevice == null || dpadx == 1.0f || dpady == 1.0f) return false
 
-        val x = AndroidDevices.getCenteredAxis(event, inputDevice,
-                MotionEvent.AXIS_X)
+        val x = AndroidDevices.getCenteredAxis(event, inputDevice, MotionEvent.AXIS_X)
 
-        if (abs(x) > 0.3 && System.currentTimeMillis() - lastMove > JOYSTICK_INPUT_DELAY) {
+        if (x.absoluteValue > 0.3f && System.currentTimeMillis() - lastMove > JOYSTICK_INPUT_DELAY) {
             seek(if (x > 0.0f) 10000 else -10000)
             lastMove = System.currentTimeMillis()
             return true

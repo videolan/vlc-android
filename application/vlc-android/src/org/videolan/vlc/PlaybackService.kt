@@ -20,7 +20,6 @@
 package org.videolan.vlc
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.app.KeyguardManager
 import android.app.Notification
 import android.app.NotificationManager
@@ -194,7 +193,7 @@ import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
 import videolan.org.commontools.LiveEvent
 import java.util.ArrayDeque
 import java.util.Calendar
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 private const val TAG = "VLC/PlaybackService"
 
@@ -1348,7 +1347,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     1.50f to R.drawable.ic_auto_speed_1_50,
                     2.00f to R.drawable.ic_auto_speed_2_00
             )
-            val speedResId = speedIcons[speedIcons.keys.minByOrNull { abs(speed - it) }]
+            val speedResId = speedIcons[speedIcons.keys.minByOrNull { (speed - it).absoluteValue }]
                     ?: R.drawable.ic_auto_speed
             pscb.addCustomAction(CUSTOM_ACTION_SPEED, getString(R.string.playback_speed), speedResId)
         }

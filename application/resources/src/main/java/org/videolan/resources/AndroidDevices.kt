@@ -39,7 +39,7 @@ import org.videolan.tools.getFileNameFromPath
 import org.videolan.tools.startsWith
 import java.io.*
 import java.util.*
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 @TargetApi(VERSION_CODES.N)
 object AndroidDevices {
@@ -153,7 +153,7 @@ object AndroidDevices {
 
             // Ignore axis values that are within the 'flat' region of the
             // joystick axis center.
-            if (abs(value) > flat) {
+            if (value.absoluteValue > flat) {
                 return value
             }
         }
