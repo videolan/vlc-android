@@ -25,7 +25,6 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
@@ -37,7 +36,6 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 
@@ -85,8 +83,7 @@ class BookmarkModel : ViewModel(), PlaybackService.Callback {
             ViewModelProvider(activity).get(BookmarkModel::class.java)
     }
 
-    override fun update() {
-    }
+    override fun update() = refresh()
 
     override fun onMediaEvent(event: IMedia.Event) {
     }

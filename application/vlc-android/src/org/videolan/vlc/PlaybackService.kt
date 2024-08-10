@@ -1598,7 +1598,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             endTime += 5000L
             msg?.let { subtitleMessage.addLast(Pair(it, endTime)) }
         }
-        updateMetadata()
+        executeUpdate()
     }
 
     private fun getSubtitleMessage(): String? {

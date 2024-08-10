@@ -49,7 +49,6 @@ import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.vlc.util.PlaybackAction
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
