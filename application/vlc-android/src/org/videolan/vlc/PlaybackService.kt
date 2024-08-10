@@ -1256,20 +1256,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
         when {
             podcastMode -> {
-                addCustomSeekActions(pscb)
-                addCustomSpeedActions(pscb)
+                manageAutoActions(actions, pscb, repeatType, true)
                 pscb.addCustomAction(CUSTOM_ACTION_BOOKMARK, getString(R.string.add_bookmark), R.drawable.ic_bookmark_add)
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                if (!isCarMode()) {
-                    addCustomSeekActions(pscb)
-                } else {
-                    manageAutoActions(actions, pscb, repeatType)
-                }
-            }
-            else -> {
-                manageAutoActions(actions, pscb, repeatType)
-            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !isCarMode() -> addCustomSeekActions(pscb)
+            else -> manageAutoActions(actions, pscb, repeatType)
         }
         pscb.setActions(actions.getCapabilities())
         mediaSession.setRepeatMode(repeatType)
@@ -1298,25 +1289,29 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         }
     }
 
-    private fun manageAutoActions(actions: FlagSet<PlaybackAction>, pscb: PlaybackStateCompat.Builder, repeatType: Int) {
+    private fun manageAutoActions(actions: FlagSet<PlaybackAction>, pscb: PlaybackStateCompat.Builder, repeatType: Int, podcastMode: Boolean = false) {
         if (playlistManager.canRepeat())
             actions.add(PlaybackAction.ACTION_SET_REPEAT_MODE)
         if (playlistManager.canShuffle())
             actions.add(PlaybackAction.ACTION_SET_SHUFFLE_MODE)
         /* Always add the icons, regardless of the allowed actions */
-        val shuffleResId = when {
-            isShuffling -> R.drawable.ic_auto_shuffle_enabled
-            else -> R.drawable.ic_auto_shuffle_disabled
+        if (!podcastMode) {
+            val shuffleResId = when {
+                isShuffling -> R.drawable.ic_auto_shuffle_enabled
+                else -> R.drawable.ic_auto_shuffle_disabled
+            }
+            pscb.addCustomAction(CUSTOM_ACTION_SHUFFLE, getString(R.string.shuffle_title), shuffleResId)
         }
-        pscb.addCustomAction(CUSTOM_ACTION_SHUFFLE, getString(R.string.shuffle_title), shuffleResId)
-        val repeatResId = when (repeatType) {
-            PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_auto_repeat_pressed
-            PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_auto_repeat_one_pressed
-            else -> R.drawable.ic_auto_repeat_normal
+        if (!podcastMode || repeatType != PlaybackStateCompat.REPEAT_MODE_NONE) {
+            val repeatResId = when (repeatType) {
+                PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_auto_repeat_pressed
+                PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_auto_repeat_one_pressed
+                else -> R.drawable.ic_auto_repeat_normal
+            }
+            pscb.addCustomAction(CUSTOM_ACTION_REPEAT, getString(R.string.repeat_title), repeatResId)
         }
-        pscb.addCustomAction(CUSTOM_ACTION_REPEAT, getString(R.string.repeat_title), repeatResId)
-        addCustomSpeedActions(pscb, settings.getBoolean(ENABLE_ANDROID_AUTO_SPEED_BUTTONS, false))
-        addCustomSeekActions(pscb, settings.getBoolean(ENABLE_ANDROID_AUTO_SEEK_BUTTONS, false))
+        addCustomSeekActions(pscb, podcastMode or settings.getBoolean(ENABLE_ANDROID_AUTO_SEEK_BUTTONS, false))
+        addCustomSpeedActions(pscb, podcastMode or settings.getBoolean(ENABLE_ANDROID_AUTO_SPEED_BUTTONS, false))
     }
 
     private fun addCustomSeekActions(pscb: PlaybackStateCompat.Builder, showSeekActions: Boolean = true) {
