@@ -344,8 +344,12 @@ object MediaUtils {
         return if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
     }
 
-    fun getQueuePosition(mediaPosition: Int, mediaSize: Int): String? {
-        return if (mediaSize > 1) "${mediaPosition + 1} / $mediaSize" else null
+    fun getQueuePosition(mediaPosition: Int, mediaSize: Int, shortQueue: Boolean = false): String? {
+        return when {
+            shortQueue && mediaSize > 1 -> "${mediaPosition + 1}"
+            mediaSize > 1 -> "${mediaPosition + 1} / $mediaSize"
+            else -> null
+        }
     }
 
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title

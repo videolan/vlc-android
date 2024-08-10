@@ -1161,7 +1161,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             if (carMode) {
                 var carTitle = title
                 var carSubtitle = MediaUtils.getDisplaySubtitle(ctx, media)
-                val queueInfo = MediaUtils.getQueuePosition(currentMediaPosition, mediaListSize)
+                val shortQueue = settings.getInt("android_auto_queue_format_val", 1) == 0
+                val queueInfo = MediaUtils.getQueuePosition(currentMediaPosition, mediaListSize, shortQueue)
 
                 /* Add the queue position information to the underlying string */
                 when (settings.getInt("android_auto_queue_info_pos_val", 3)) {

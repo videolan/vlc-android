@@ -545,4 +545,28 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="android_auto_queue_position" translatable="false">
+        <item>@string/queue_info_none</item>
+        <item>@string/queue_info_before_title</item>
+        <item>@string/queue_info_after_title</item>
+        <item>@string/queue_info_before_subtitle</item>
+    </string-array>
+
+    <string-array name="android_auto_queue_position_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="android_auto_queue_format_entries">
+        <item>@string/queue_format_short_desc</item>
+        <item>@string/queue_format_long_desc</item>
+    </string-array>
+
+    <string-array name="android_auto_queue_format_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

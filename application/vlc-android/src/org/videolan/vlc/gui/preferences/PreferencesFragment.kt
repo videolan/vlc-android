@@ -148,6 +148,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
             }
             "remote_access_category" -> loadFragment(PreferencesRemoteAccess())
+            "android_auto_category" -> loadFragment(PreferencesAndroidAuto())
             PLAYBACK_HISTORY -> {
                 val activity = activity
                 activity?.setResult(RESULT_RESTART)

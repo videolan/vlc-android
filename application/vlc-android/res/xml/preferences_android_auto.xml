@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="android_auto_category"
+    android:title="@string/android_auto">
+
+    <PreferenceCategory android:title="@string/interface_prefs_screen">
+        <SeekBarPreference
+            android:defaultValue="100"
+            android:iconSpaceReserved="false"
+            android:key="android_auto_title_scale_val"
+            android:max="100"
+            android:title="@string/title_size"
+            app:updatesContinuously="true"
+            app:iconSpaceReserved="false"
+            app:min="50" />
+
+        <SeekBarPreference
+            android:defaultValue="100"
+            android:iconSpaceReserved="false"
+            android:key="android_auto_subtitle_scale_val"
+            android:max="100"
+            android:title="@string/subtitle_size"
+            app:updatesContinuously="true"
+            app:iconSpaceReserved="false"
+            app:min="50" />
+
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/android_auto_queue_position"
+            android:entryValues="@array/android_auto_queue_position_values"
+            android:key="android_auto_queue_info_pos"
+            android:summary="%s"
+            android:title="@string/queue_info" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/android_auto_queue_format_entries"
+            android:entryValues="@array/android_auto_queue_format_values"
+            android:key="android_auto_queue_format"
+            android:summary="%s"
+            android:title="@string/queue_format" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/controls_prefs_category">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_android_auto_speed_buttons"
+            android:summary="@string/enable_android_auto_speed_buttons_summary"
+            android:title="@string/enable_android_auto_speed_buttons"
+            app:singleLineTitle="false" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_android_auto_seek_buttons"
+            android:summary="@string/enable_android_auto_seek_buttons_summary"
+            android:title="@string/enable_android_auto_seek_buttons"
+            app:singleLineTitle="false" />
+    </PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>

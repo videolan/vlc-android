@@ -107,6 +107,10 @@
                 android:key="remote_access_category"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesRemoteAccess"/>
         <Preference
+            android:title="@string/android_auto"
+            android:key="android_auto_category"
+            android:fragment="org.videolan.television.ui.preferences.PreferencesAndroidAuto"/>
+        <Preference
                 android:title="@string/advanced_prefs_category"
                 android:key="adv_category"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesAdvanced"/>

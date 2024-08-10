@@ -1302,4 +1302,17 @@
     <string name="restore_settings">Restore settings</string>
     <string name="export_settings_success">Settings exported successfully to the internal storage root</string>
     <string name="export_settings_failure">Something went wrong while exporting your settings</string>
+
+    <string name="queue_info">Queue information</string>
+    <string name="queue_info_none">Do not show queue position</string>
+    <string name="queue_info_before_title">Before title</string>
+    <string name="queue_info_after_title">After title</string>
+    <string name="queue_info_before_subtitle">Before subtitle</string>
+
+    <string name="title_size">Title text size</string>
+    <string name="subtitle_size">Subtitle text size</string>
+
+    <string name="queue_format">Queue format</string>
+    <string name="queue_format_short_desc">Queue position</string>
+    <string name="queue_format_long_desc">Queue position / Queue size</string>
 </resources>
