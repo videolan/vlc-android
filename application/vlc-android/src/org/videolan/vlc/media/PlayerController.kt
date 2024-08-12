@@ -241,7 +241,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun setRate(rate: Float, save: Boolean) {
         if (mediaplayer.isReleased) return
         mediaplayer.rate = rate
-        speed.value = rate
+        speed.postValue(rate)
         if (save && settings.getBoolean(if (isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false))
             settings.putSingle(if (isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else  KEY_PLAYBACK_RATE, rate)
     }
