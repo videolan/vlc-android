@@ -170,6 +170,11 @@ object RemoteAccessWebSockets {
                 } else return false
             }
 
+                        "play-chapter" -> {
+                            incomingMessage.id?.let { id ->
+                                if (playbackControlAllowedOrSend(settings)) service?.chapterIdx = id
+                            }
+                        }
             "play-media" -> {
                 if (playbackControlAllowedOrSend(settings)) service?.playIndex(incomingMessage.id!!) else return false
 

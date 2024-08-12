@@ -125,5 +125,9 @@ object TranslationMapping {
         REMOTE_ACCESS_VERSION(R.string.remote_access_version),
         REMOTE_ACCESS_HASH(R.string.build_remote_access_revision),
         LIBRARIES(R.string.libraries),
+        SLEEP_TIMER(R.string.sleep_title),
+        PLAYBACK_SPEED(R.string.playback_speed),
+        CHAPTERS(R.string.chapters),
+        BOOKMARKS(R.string.bookmarks),
     }
 }
