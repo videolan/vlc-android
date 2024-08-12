@@ -27,5 +27,6 @@ package org.videolan.vlc.webserver.websockets
 data class WSIncomingMessage(
             val message: String,
             val id: Int?,
+            val floatValue: Float? = null,
             val authTicket: String? = null
 )
