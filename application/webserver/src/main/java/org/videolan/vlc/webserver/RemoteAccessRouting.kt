@@ -59,6 +59,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import org.json.JSONArray
 import org.json.JSONObject
 import org.videolan.medialibrary.MLServiceLocator
@@ -448,7 +449,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 return@get
             }
             //block the request until a message is received
-           val message =  RemoteAccessWebSockets.onPlaybackEventChannel.receive()
+            // The 3 second timeout is to avoid blocking forever
+            val message =  withTimeout(3000) { RemoteAccessWebSockets.onPlaybackEventChannel.receive() }
             if (message.contains("\"type\":\"browser-description\"")) {
                 call.respondText("[$message]")
                 return@get
