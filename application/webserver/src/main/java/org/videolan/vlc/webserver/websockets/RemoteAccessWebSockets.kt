@@ -44,6 +44,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.webserver.BuildConfig
 import org.videolan.vlc.webserver.RemoteAccessServer
 import org.videolan.vlc.webserver.ssl.SecretGenerator
+import java.util.Calendar
 
 object RemoteAccessWebSockets {
     val messageQueue: ArrayList<RemoteAccessServer.WSMessage> = arrayListOf()
@@ -177,6 +178,15 @@ object RemoteAccessWebSockets {
                         "speed" -> {
                             incomingMessage.floatValue?.let { speed ->
                                 if (playbackControlAllowedOrSend(settings)) service?.setRate(speed, true)
+                            }
+                        }
+                        "sleep-timer" -> {
+                            incomingMessage.longValue?.let { sleepTimerEnd ->
+                                val sleepTime = Calendar.getInstance()
+                                sleepTime.timeInMillis = sleepTime.timeInMillis + sleepTimerEnd
+                                sleepTime.set(Calendar.SECOND, 0)
+                                service?.setSleepTimer(sleepTime)
+                                if (playbackControlAllowedOrSend(settings)) service?.sleepTimerInterval = sleepTimerEnd
                             }
                         }
             "play-media" -> {

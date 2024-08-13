@@ -467,9 +467,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         get("/playback-event") {
             call.request.queryParameters["message"]?.let { message ->
                 val id = call.request.queryParameters["id"]?.toInt()
+                val longValue = call.request.queryParameters["longValue"]?.toLong()
                 val floatValue = call.request.queryParameters["floatValue"]?.toFloat()
                 val authTicket = call.request.queryParameters["authTicket"]
-                if (!RemoteAccessWebSockets.manageIncomingMessages(WSIncomingMessage(message, id, floatValue, authTicket = authTicket), settings, RemoteAccessServer.getInstance(appContext).service, appContext)) {
+                if (!RemoteAccessWebSockets.manageIncomingMessages(WSIncomingMessage(message, id, floatValue, longValue, authTicket = authTicket), settings, RemoteAccessServer.getInstance(appContext).service, appContext)) {
                     call.respond(HttpStatusCode.Forbidden)
                     return@get
                 }
