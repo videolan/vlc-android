@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.helpers
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.Intent
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -200,6 +201,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             }
             ID_POPUP_VIDEO -> {
                 (activity as VideoPlayerActivity).switchToPopup()
+                val startMain = Intent(Intent.ACTION_MAIN)
+                startMain.addCategory(Intent.CATEGORY_HOME)
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                activity.startActivity(startMain)
                 hide()
             }
             ID_REPEAT -> setRepeatMode()
