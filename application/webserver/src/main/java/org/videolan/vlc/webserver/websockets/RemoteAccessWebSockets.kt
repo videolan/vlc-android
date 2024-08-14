@@ -36,11 +36,15 @@ import io.ktor.server.websocket.webSocket
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.Tools
 import org.videolan.tools.AppScope
 import org.videolan.tools.REMOTE_ACCESS_PLAYBACK_CONTROL
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
 import org.videolan.vlc.webserver.BuildConfig
 import org.videolan.vlc.webserver.RemoteAccessServer
 import org.videolan.vlc.webserver.ssl.SecretGenerator
@@ -189,6 +193,42 @@ object RemoteAccessWebSockets {
                                 if (playbackControlAllowedOrSend(settings)) service?.sleepTimerInterval = sleepTimerEnd
                             }
                         }
+                        "add-bookmark" -> {
+                            incomingMessage.longValue?.let { time ->
+                                service?.currentMediaWrapper?.let {
+                                    AppScope.launch {
+                                        withContext(Dispatchers.IO) {
+                                            val bookmark = it.addBookmark(time)
+                                            bookmark?.setName(context.getString(R.string.bookmark_default_name, Tools.millisToString(service!!.getTime())))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        "delete-bookmark" -> {
+                            incomingMessage.longValue?.let { bookmarkTime ->
+                                service?.currentMediaWrapper?.let { media ->
+                                    AppScope.launch {
+                                        withContext(Dispatchers.IO) {
+                                            media.removeBookmark(bookmarkTime)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+            "rename-bookmark" -> {
+                incomingMessage.longValue?.let { bookmarkTime ->
+                    incomingMessage.stringValue?.let { bookmarkName ->
+                        service?.currentMediaWrapper?.let { media ->
+                            AppScope.launch {
+                                withContext(Dispatchers.IO) {
+                                    media.bookmarks.firstOrNull { it.time == bookmarkTime }?.setName(bookmarkName)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             "play-media" -> {
                 if (playbackControlAllowedOrSend(settings)) service?.playIndex(incomingMessage.id!!) else return false
 

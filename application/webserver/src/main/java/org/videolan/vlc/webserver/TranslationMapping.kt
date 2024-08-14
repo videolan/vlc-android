@@ -129,6 +129,9 @@ object TranslationMapping {
         PLAYBACK_SPEED(R.string.playback_speed),
         CHAPTERS(R.string.chapters),
         BOOKMARKS(R.string.bookmarks),
+        NO_BOOKMARK(R.string.no_bookmark),
+        OK(R.string.ok),
+        CANCEL(R.string.cancel),
         NOT_SET(R.string.notset),
     }
 }

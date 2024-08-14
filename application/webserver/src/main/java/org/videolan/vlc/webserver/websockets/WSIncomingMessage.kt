@@ -29,5 +29,6 @@ data class WSIncomingMessage(
             val id: Int?,
             val floatValue: Float? = null,
             val longValue: Long? = null,
+            val stringValue: String? = null,
             val authTicket: String? = null
 )

@@ -590,7 +590,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 val sleepTimer = playerSleepTime.value?.time?.time ?: 0L
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
                         ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
-                        ?: "", media.uri.toString(), getVolume(), speed, sleepTimer, service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.title, it.time) }, chapters = chapters.map { WSBookmark(it.name, it.duration) })
+                        ?: "", media.uri.toString(), getVolume(), speed, sleepTimer, service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.id, it.title, it.time) }, chapters = chapters.map { WSChapter(it.name, it.duration) })
                 return nowPlaying
 
             }
@@ -743,9 +743,10 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
 
     abstract class WSMessage(val type: String)
     data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long, val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val speed: Float, val sleepTimer: Long, val shuffle: Boolean, val repeat: Int, val shouldShow: Boolean = PlaylistManager.playingState.value
-            ?: false, val bookmarks:List<WSBookmark> = listOf(), val chapters:List<WSBookmark> = listOf()) : WSMessage("now-playing")
+            ?: false, val bookmarks:List<WSBookmark> = listOf(), val chapters:List<WSChapter> = listOf()) : WSMessage("now-playing")
 
-    data class WSBookmark(val title: String, val time: Long)
+    data class WSBookmark(val id:Long, val title: String, val time: Long)
+    data class WSChapter(val title: String, val time: Long)
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
     data class PlayQueueItem(val id: Long, val title: String, val artist: String, val duration: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false, val progress: Long = 0L, val played: Boolean = false, var fileType: String = "", val favorite: Boolean = false)
