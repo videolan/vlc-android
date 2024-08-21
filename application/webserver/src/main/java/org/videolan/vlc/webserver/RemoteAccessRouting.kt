@@ -1427,7 +1427,7 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
                     context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)
                 } else if (folders > 0) {
                     context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)
-                } else mediaLibraryItem.description
+                } else mediaLibraryItem.description ?: ""
             }
         } catch (e: Exception) {
             Log.e(RemoteAccessServer::class.java.simpleName, e.message, e)
