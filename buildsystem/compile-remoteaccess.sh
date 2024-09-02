@@ -57,7 +57,7 @@ done
 ##############################
   diagnostic "Setting up the Remote Access project"
 
-  REMOTE_ACCESS_TESTED_HASH=c65766195742cd2f861bab4c5bffc09d01f037cb
+  REMOTE_ACCESS_TESTED_HASH=9fa89144d61afb1d07dc6ed56a3e68d811de24b0
   REMOTE_ACCESS_REPOSITORY=https://code.videolan.org/videolan/remoteaccess
 
   : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/remoteaccess"}
