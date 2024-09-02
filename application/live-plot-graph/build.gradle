@@ -40,6 +40,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        noTv {
+            initWith release
+            matchingFallbacks = ['release']
+        }
+        vlcBundle {
+            initWith release
+            matchingFallbacks = ['release']
+        }
     }
     namespace 'org.videolan.liveplotgraph'
 
