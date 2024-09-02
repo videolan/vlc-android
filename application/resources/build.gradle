@@ -34,6 +34,10 @@ android {
             initWith release
             matchingFallbacks = ['release']
         }
+        vlcBundle {
+            initWith release
+            matchingFallbacks = ['release']
+        }
 
     }
 
@@ -70,6 +74,8 @@ dependencies {
     releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     noTvApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     noTvApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    vlcBundleApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    vlcBundleApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
 
     api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
 

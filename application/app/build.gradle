@@ -62,12 +62,18 @@ android {
             }
         }
     }
+    androidComponents {
+        beforeVariants(selector().withBuildType("vlcBundle")) { variantBuilder ->
+            variantBuilder.minSdk = 30
+        }
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
+            defaultConfig.minSdkVersion rootProject.ext.minSdkVersion
         }
         signedRelease {
             initWith release
@@ -75,6 +81,10 @@ android {
             matchingFallbacks = ['release']
         }
         noTv {
+            initWith release
+            matchingFallbacks = ['release']
+        }
+        vlcBundle {
             initWith release
             matchingFallbacks = ['release']
         }
@@ -132,6 +142,10 @@ android {
             if (variant.buildType.name == "noTv") {
                 versionCode = abiCodesNoTv.get(abiName, 0)
             }
+            if (variant.buildType.name == "vlcBundle") {
+                versionCode = 9
+            }
+
             output.versionCodeOverride = 10000000 + defaultConfig.versionCode + versionCode
             def outputName = "VLC-Android-"
             outputName += variant.versionName.replace(" ", "-")

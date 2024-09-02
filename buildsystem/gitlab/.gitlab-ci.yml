@@ -486,14 +486,14 @@ release:
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
-        - ./gradlew bundleRelease
+        - ./gradlew bundleVlcBundle
         - ./gradlew assembleNoTv
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
             - application/app/build/outputs/apk/release/VLC-Android-*.apk
             - application/app/build/outputs/apk/noTv/VLC-Android-*.apk
-            - application/app/build/outputs/bundle/release/*.aab
+            - application/app/build/outputs/bundle/vlcBundle/*.aab
 #            - application/app/build/outputs/mapping/release/mapping.txt
         expire_in: 2 weeks
 

@@ -35,6 +35,10 @@ android {
             initWith release
             matchingFallbacks = ['release']
         }
+        vlcBundle {
+            initWith release
+            matchingFallbacks = ['release']
+        }
     }
 
     task webCopy(type: Copy) {

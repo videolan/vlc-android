@@ -81,6 +81,10 @@ android {
             matchingFallbacks = ['release']
             buildConfigField "boolean", "NO_TV", "true"
         }
+        vlcBundle {
+            initWith release
+            matchingFallbacks = ['release']
+        }
         signedRelease {
             initWith release
             matchingFallbacks = ['release']

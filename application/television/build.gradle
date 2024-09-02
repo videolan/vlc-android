@@ -37,6 +37,10 @@ android {
             initWith release
             matchingFallbacks = ['release']
         }
+        vlcBundle {
+            initWith release
+            matchingFallbacks = ['release']
+        }
     }
     namespace 'org.videolan.television'
 
