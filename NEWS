@@ -1,4 +1,13 @@
-Changes between 3.6.0 Beta 1 and 3.6.0 Beta 1:
+Changes between 3.6.0 Beta 3 and 3.6.0 Beta 4:
+------------------
+ * Remote access: multiple addition and improvements
+ * Nightly auto update
+ * Video player: tap to fast play
+ * Improve the PiP mode
+ * Improve dav1d integration
+ * Crash fixes and memory leaks
+
+Changes between 3.6.0 Beta 1 and 3.6.0 Beta 3:
 ------------------
  * Remote access: more content and improvements
  * Warning for metered connections
