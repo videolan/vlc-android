@@ -85,7 +85,7 @@ webserver-vulnerabilities:
     script:
         - mkdir -p ~/.android
         - if [ -n "$KEYSTORE_FILE_BASE64" ]; then base64 -d $KEYSTORE_FILE_BASE64 > ~/.android/debug.keystore; fi
-        - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH}
+        - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH} -t
 
 # Rebuilds libvlc JNI
 .build-libvlc-base:
@@ -361,8 +361,8 @@ nightly-x86_64-v4:
     stage: build
     script:
       - mkdir -p $M2_REPO
-      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release ${EXTRA_BUILD_PARAM}
-      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b ${EXTRA_BUILD_PARAM}
+      - ./buildsystem/compile.sh -l  -a ${ARCH} -t -m2 $M2_REPO release ${EXTRA_BUILD_PARAM}
+      - ./buildsystem/compile.sh -ml -a ${ARCH} -t -m2 $M2_REPO release -b ${EXTRA_BUILD_PARAM}
     artifacts:
       expire_in: 1h
       when: on_success
@@ -379,8 +379,8 @@ nightly-x86_64-v4:
     stage: build
     script:
       - mkdir -p $M2_REPO
-      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release -vlc4
-      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b -vlc4
+      - ./buildsystem/compile.sh -l  -a ${ARCH} -t -m2 $M2_REPO release -vlc4
+      - ./buildsystem/compile.sh -ml -a ${ARCH} -t -m2 $M2_REPO release -b -vlc4
     artifacts:
       expire_in: 1h
       when: on_success
