@@ -12,6 +12,8 @@ variables:
   WEBSERVER_DIR: "./remoteaccess"
 
 default:
+  before_script: |
+    set -x
   interruptible: true
   image:
     name: $VLC_ANDROID_IMAGE_40
