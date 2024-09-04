@@ -187,10 +187,22 @@ object RemoteAccessWebSockets {
                         "sleep-timer" -> {
                             incomingMessage.longValue?.let { sleepTimerEnd ->
                                 val sleepTime = Calendar.getInstance()
-                                sleepTime.timeInMillis = sleepTime.timeInMillis + sleepTimerEnd
+                                sleepTime.timeInMillis += sleepTimerEnd
                                 sleepTime.set(Calendar.SECOND, 0)
-                                service?.setSleepTimer(sleepTime)
+                                AppScope.launch(Dispatchers.Main) {
+                                    service?.setSleepTimer(sleepTime)
+                                }
                                 if (playbackControlAllowedOrSend(settings)) service?.sleepTimerInterval = sleepTimerEnd
+                            }
+                        }
+                        "sleep-timer-wait" -> {
+                            incomingMessage.stringValue?.let { waitForMediaEnd ->
+                                service?.waitForMediaEnd = waitForMediaEnd == "true"
+                            }
+                        }
+                        "sleep-timer-reset" -> {
+                            incomingMessage.stringValue?.let { resetOnInteraction ->
+                                service?.resetOnInteraction = resetOnInteraction == "true"
                             }
                         }
                         "add-bookmark" -> {

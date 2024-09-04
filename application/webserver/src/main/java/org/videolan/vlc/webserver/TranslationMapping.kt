@@ -133,5 +133,10 @@ object TranslationMapping {
         OK(R.string.ok),
         CANCEL(R.string.cancel),
         NOT_SET(R.string.notset),
+        SLEEP_IN(R.string.sleep_in),
+        WAIT_CURRENT_MEDIA(R.string.wait_before_sleep),
+        RESET_ON_INTERACTION(R.string.reset_on_interaction),
+        HOURS(R.string.talkback_hours),
+        MINUTES(R.string.talkback_minutes),
     }
 }

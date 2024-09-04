@@ -70,6 +70,8 @@ class SleepTimerDialog : PickTimeFragment() {
                 updateValue("$hours$minutes")
             }
         }
+        binding.timPicWaitCheckbox.isChecked = playlistModel.service?.waitForMediaEnd ?: false
+        binding.timPicResetCheckbox.isChecked = playlistModel.service?.resetOnInteraction ?: false
     }
 
     override fun executeAction() {
