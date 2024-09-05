@@ -86,8 +86,6 @@ webserver-vulnerabilities:
         - mkdir -p ~/.android
         - if [ -n "$KEYSTORE_FILE_BASE64" ]; then base64 -d $KEYSTORE_FILE_BASE64 > ~/.android/debug.keystore; fi
         - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH}
-    variables:
-        MAKEFLAGS: -j8
 
 # Rebuilds libvlc JNI
 .build-libvlc-base:
