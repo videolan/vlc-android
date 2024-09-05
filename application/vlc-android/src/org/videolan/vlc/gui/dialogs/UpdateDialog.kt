@@ -40,6 +40,8 @@ import org.videolan.resources.util.parcelable
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogUpdateBinding
 import org.videolan.vlc.util.AutoUpdate
@@ -87,6 +89,7 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogUpdateBinding.inflate(layoutInflater, container, false)
+        if (!BuildConfig.DEBUG) binding.download.setGone()
         binding.download.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (!requireActivity().packageManager.canRequestPackageInstalls()) {
