@@ -587,7 +587,10 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 val bookmarks = withContext(Dispatchers.IO) { media.bookmarks ?: arrayOf() }
                 val chapters = withContext(Dispatchers.IO) { service.getChapters(-1) ?: arrayOf() }
                 val speed = String.format(Locale.US, "%.2f", service.speed).toFloat()
-                val sleepTimer = playerSleepTime.value?.time?.time ?: 0L
+                var sleepTimer = 0L
+                scope.launch(Dispatchers.Main) {
+                    sleepTimer = playerSleepTime.value?.time?.time ?: 0L
+                }
                 val waitForMediaEnd = service.waitForMediaEnd
                 val resetOnInteraction = service.resetOnInteraction
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
