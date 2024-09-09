@@ -193,16 +193,31 @@ object RemoteAccessWebSockets {
                                     service?.setSleepTimer(sleepTime)
                                 }
                                 if (playbackControlAllowedOrSend(settings)) service?.sleepTimerInterval = sleepTimerEnd
+                                AppScope.launch {
+                                    RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { nowPlaying ->
+                                        AppScope.launch { sendToAll(nowPlaying) }
+                                    }
+                                }
                             }
                         }
                         "sleep-timer-wait" -> {
                             incomingMessage.stringValue?.let { waitForMediaEnd ->
                                 service?.waitForMediaEnd = waitForMediaEnd == "true"
+                                AppScope.launch {
+                                    RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { nowPlaying ->
+                                        AppScope.launch { sendToAll(nowPlaying) }
+                                    }
+                                }
                             }
                         }
                         "sleep-timer-reset" -> {
                             incomingMessage.stringValue?.let { resetOnInteraction ->
                                 service?.resetOnInteraction = resetOnInteraction == "true"
+                                AppScope.launch {
+                                    RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { nowPlaying ->
+                                        AppScope.launch { sendToAll(nowPlaying) }
+                                    }
+                                }
                             }
                         }
                         "add-bookmark" -> {
