@@ -42,8 +42,10 @@ import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.util.share
 
 private const val ACTION_AUDIO_DELAY = 2
 private const val ACTION_SPU_DELAY = 3
@@ -71,6 +73,7 @@ private const val ID_VIDEO_CONTROL_SETTING = 19L
 private const val ID_AUDIO_CONTROL_SETTING = 20L
 private const val ID_SAFE_MODE_LOCK = 21L
 private const val ID_SAFE_MODE_UNLOCK = 22L
+private const val ID_SHARE = 23L
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true)  {
 
@@ -123,6 +126,8 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             if (PinCodeDelegate.pinUnlocked.value == true) options.add(PlayerOption(ID_SAFE_MODE_LOCK, R.drawable.ic_pin_lock, res.getString(R.string.lock_with_pin)))
             if (Settings.safeMode && PinCodeDelegate.pinUnlocked.value == false) options.add(PlayerOption(ID_SAFE_MODE_UNLOCK, R.drawable.ic_pin_unlock, res.getString(R.string.unlock_with_pin)))
             options.add(PlayerOption(ID_VIDEO_CONTROL_SETTING, R.drawable.ic_video_controls, res.getString(R.string.control_setting)))
+        } else {
+            options.add(PlayerOption(ID_SHARE, R.drawable.ic_share, res.getString(R.string.share_track_info)))
         }
 
         if (!Settings.showTvUi) {
@@ -251,6 +256,28 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 hide()
                 val videoControlsSettingsDialog = VideoControlsSettingsDialog()
                 videoControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_video_controls_settings")
+            }
+            ID_SHARE -> {
+                hide()
+                service.playlistManager.getCurrentMedia()?.let { media ->
+                    val trackInfo = buildString {
+                        var started = false
+                        if (media.title.isNotBlank()) {
+                            append(media.title)
+                            started = true
+                        }
+                        if (media.album.isNotBlank()) {
+                            if (started) append(" ${TextUtils.separator} ")
+                            started = true
+                            append(media.album)
+                        }
+                        if (media.artist.isNotBlank()) {
+                            if (started) append(" ${TextUtils.separator} ")
+                            append(media.artist)
+                        }
+                    }
+                    activity.share("", activity.getString(R.string.share_track, trackInfo))
+                }
             }
             ID_AUDIO_CONTROL_SETTING -> {
                 hide()

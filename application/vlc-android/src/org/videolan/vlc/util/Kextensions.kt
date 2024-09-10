@@ -107,7 +107,7 @@ fun FragmentActivity.share(file: File) {
 fun FragmentActivity.share(title:String, content: String) {
     val intentShareFile = Intent(Intent.ACTION_SEND)
     if (isStarted()) {
-        intentShareFile.type = "*/*"
+        intentShareFile.type = "text/plain"
         intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
         intentShareFile.putExtra(Intent.EXTRA_TEXT, content)
         startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file,title)))

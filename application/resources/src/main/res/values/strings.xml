@@ -889,6 +889,8 @@
     <string name="invalid_file">Invalid file. Cannot be shared.</string>
     <string name="share_file">Share %s</string>
     <string name="share_message">Here is %s</string>
+    <string name="share_track_info">Share the track info</string>
+    <string name="share_track">Currently listening to %s</string>
     <string name="find_metadata">Find metadata</string>
     <string name="moviepedia_hint">Search metadata</string>
     <string name="moviepedia_result">Video results</string>
