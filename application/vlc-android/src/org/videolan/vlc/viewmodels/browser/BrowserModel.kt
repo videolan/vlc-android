@@ -162,9 +162,10 @@ open class BrowserModel(
 
     suspend fun updateMediaPlayed(mw: MediaWrapper) = withContext(Dispatchers.IO) {
         if (dataset.getList().contains(mw)) {
-            val item = provider.medialibrary.getMedia(mw.id)
-            withContext(Dispatchers.Main) {
-                dataset.replace(item)
+            provider.medialibrary.getMedia(mw.id)?.let { item ->
+                withContext(Dispatchers.Main) {
+                    dataset.replace(item)
+                }
             }
         }
     }
