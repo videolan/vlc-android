@@ -5,11 +5,13 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import android.util.Log
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import java.io.File
 import java.io.FileNotFoundException
+import java.io.IOException
 
 private const val TAG = "VLC/FileProvider"
 private const val THUMB_PROVIDER_AUTHORITY = "${BuildConfig.APP_ID}.thumbprovider"
@@ -58,6 +60,12 @@ fun getUpdateUri() = Uri.Builder()
         .build()!!
 
 fun isPathValid(path: String): Boolean {
-    val file = File(path)
+    val file = try {
+        File(path)
+    } catch (e: IOException) {
+        Log.e(TAG, "Failed to parse path: $path")
+        Log.e(TAG, e.message, e)
+        return false
+    }
     return AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) } && file.canRead()
 }
