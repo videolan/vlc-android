@@ -199,6 +199,9 @@
     <string name="jump_to_time">Saltar para o tempo</string>
     <string name="subtitle_select">Selecionar ficheiro de legendas</string>
     <string name="wait_before_sleep">Aguardar que o item multimédia atual termine primeiro</string>
+    <string name="reset_on_interaction">Repor em qualquer interação</string>
+    <string name="default_sleep_timer_summary">%1$s, esperar fim do média: %2$s, repor a interação: %3$s</string>
+
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
     <string name="server_domain_hint">Endereço do servidor (nome do domínio ou IP)</string>
     <string name="server_share_hint">Nome da partilha de rede (ou endereço de IP)</string>
@@ -377,6 +380,11 @@
     <string name="browser_show_hidden_files_title">Mostrar ficheiros ocultos</string>
     <string name="albums_show_track_numbers">Mostrar números das faixas</string>
     <string name="enable_video_screenshot">Tirar uma captura de ecrã</string>
+    <string name="enable_tap_and_hold_fastplay_title">Ativar reprodução rápida</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Toque e mantenha premido para aumentar a velocidade de reprodução</string>
+    <string name="fastplay_speed_title">Velocidade da reprodução rápida</string>
+    <string name="fastplay_title">A reproduzir a %sx</string>
+    <string name="fastplay_subtitle">Soltar para parar</string>
 
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho das Legendas</string>
@@ -446,6 +454,8 @@
     <string name="audio_ducking_summary">Ajuda a ouvir notificações de áudio, instruções de navegação ou conversa do assistente</string>
     <string name="casting_category">Difusão</string>
     <string name="remote_access">Acesso remoto</string>
+    <string name="remote_access_version_title">Versão do acesso remoto</string>
+    <string name="remote_access_hash_title">Hash do acesso remoto</string>
     <string name="remote_access_status">Estado do servidor</string>
     <string name="remote_access_status_summary">Toque para ver o estado do servidor</string>
     <string name="remote_access_connections">Conexões</string>
@@ -551,6 +561,8 @@
     <string name="http_user_agent">HTTP user agent</string>
     <string name="custom_libvlc_options">Opções personalizadas libVLC</string>
     <string name="custom_libvlc_options_invalid">Opções de libVLC inválidas!</string>
+    <string name="dav1d_thread_number">Número do \'thread\' Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Número do \'thread\' inválido! (>=1)</string>
 
     <string name="serious_crash">Infelizmente, ocorreu um erro sério e o VLC teve de fechar.</string>
     <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando-nos o seguinte registo de erro:</string>
@@ -595,6 +607,21 @@
     <string name="whats_new_title">O que há de novo no VLC para Android %s</string>
     <string name="whats_new_36_webserver_text">Com a nova funcionalidade de acesso remoto, controle o VLC para Android a partir de qualquer outro dispositivo.\nEnvie os seus conteúdos multimédia para ambos os lados, controle a sua reprodução e muito mais!</string>
     <string name="whats_new_36_favorites_text">Agora pode adicionar os seus conteúdos multimédia, listas de reprodução, artistas ou álbuns aos favoritos.\nEncontre rapidamente os seus conteúdos preferidos filtrando-os apenas pelos favoritos!</string>
+
+<!--    update-->
+    <string name="update_title">Atualização disponível</string>
+    <string name="install_nightly_title">Instalar a versão nightly</string>
+    <string name="update_text">Uma nova versão nightly do VLC para Android está disponível!\n\nEstá a ver isto porque está a utilizar uma versão nightly.</string>
+    <string name="install_text">As versões nightly são atualizadas automaticamente todos os dias com as mais recentes funcionalidades e correções.\n\nDescarregar agora?</string>
+
+    <string name="open_in_browser">Abrir no navegador</string>
+    <string name="install">Instalar</string>
+    <string name="install_nightly">Instalar a versão nightly</string>
+    <string name="install_nightly_alert">As compilações nightly são versões experimentais atualizadas todos os dias.\n\nEspere novas funcionalidades mas também novos erros!</string>
+    <string name="nightly_version">Versão encontrada: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Está a executar uma versão nightly. Gostaria de procurar atualizações periodicamente?</string>
+    <string name="update_nightly">Atualizar automaticamente</string>
+    <string name="update_nightly_summary">Procurar por atualização nightly periodicamente</string>
 
 
     <!-- Accessibility -->
@@ -1239,4 +1266,16 @@
     <string name="metered_warn">Avisar-me (o aviso pode não ser ouvido durante a reprodução de áudio)</string>
     <string name="metered_connection_stopped">A reprodução da média parou porque a conexão tem custos</string>
     <string name="metered_connection_warning">A sua conexão tem custos. Podem ser aplicados custos adicionais.</string>
+    <string name="adding">Adicionando</string>
+    <string name="to">a</string>
+    <string name="device">Dispositivo</string>
+    <string name="connected_device">Dispositivo conectado</string>
+    <string name="model">Modelo do dispositivo</string>
+    <string name="prefs_app_data">Dados da aplicação</string>
+    <string name="export_settings_summary">Exportar as suas definições para um ficheiro para as importar mais tarde</string>
+    <string name="export_settings">Exportar definições</string>
+    <string name="restore_settings_summary">Restaurar as suas definições de uma exportação anterior</string>
+    <string name="restore_settings">Restaurar definições</string>
+    <string name="export_settings_success">Definições exportadas com êxito para a raiz do armazenamento interno</string>
+    <string name="export_settings_failure">Algo correu mal ao exportar as suas definições</string>
 </resources>

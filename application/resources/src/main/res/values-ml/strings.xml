@@ -15,6 +15,7 @@
     <string name="sortby_date">തീയതി</string>
     <string name="sortby_last_modified_date">ഈയിടെ ചേർത്തത് </string>
     <string name="sortby_insertion">ഉൾപ്പെടുത്തൽ തീയതി</string>
+    <string name="sortby_date_last_modified">അടുത്തിടെ ചേർത്തത് </string>
     <string name="sortby_media_number">മാധ്യമ അക്കം</string>
     <string name="sortby_number">ട്രാക്കുകളുടെ എണ്ണം</string>
     <string name="searchable_hint">തിരയുക…</string>
@@ -327,7 +328,6 @@
     <string name="popup_keepscreen_summary">പോപ്പ് അപ്പ് കാണിക്കുമ്പോൾ എപ്പോഴും സ്‌ക്രീൻ ഓൺ ചെയ്തു വയ്ക്കുക, വിഡിയോ പോസിൽ ആണെങ്കിൽ പോലും </string>
     <string name="browser_show_hidden_files_title">മറഞ്ഞിരിക്കുന്ന ഫയലുകൾ കാണിക്കുക</string>
     <string name="enable_video_screenshot">ഒരു സ്ക്രീൻഷോട്ട് എടുക്കുക</string>
-
     <string name="subtitles_prefs_category">ഉപശീർഷകങ്ങൾ</string>
     <string name="subtitles_size_title">ഉപശീര്‍ഷകത്തിന്റെ വലുപ്പം</string>
     <string name="subtitles_size_small">ചെറുത്</string>
@@ -463,7 +463,6 @@
     <string name="dump_logcat_failure">ലോഗ്കാറ്റ് ഡംപ് ചെയ്യൽ പരാജയപ്പെട്ടു </string>
     <string name="custom_libvlc_options">കസ്റ്റമ് libVLC ഓപ്ഷനുകൾ</string>
     <string name="custom_libvlc_options_invalid">അസാധുവായ libVLC ഓപ്ഷനുകൾ!</string>
-
     <string name="serious_crash">നിർഭാഗ്യവശാൽ ഒരു ഗുരുതര പിഴവ് സംഭവിച്ചിരിക്കുന്നു, വിഎൽസി നിർത്തുകയാണ് </string>
     <string name="help_us_send_log">ഈ ക്റാഷ് ലോഗ് നൽകി വിഎൽസി യെ മെച്ചപെടുത്താൻ സഹായിക്കുക </string>
     <string name="restart_vlc">VLC പുനരാരംഭിക്കുക</string>

@@ -14,10 +14,21 @@
     <string name="sortby_length">Fad</string>
     <string name="sortby_date">Dáta</string>
     <string name="sortby_last_modified_date">Curtha leis le déanaí</string>
+    <string name="sortby_insertion">An dáta iontrála</string>
+    <string name="sortby_date_last_modified">Curtha leis le déanaí</string>
+    <string name="sortby_date_insertion">An dáta iontrála</string>
+    <string name="sortby_date_release">An dáta air a cuireadh amach é</string>
     <string name="sortby_media_number">Uimhir an mheáin</string>
     <string name="sortby_number">Rianta Nb</string>
     <string name="searchable_hint">Cuardaigh…</string>
     <string name="history">Oireas</string>
+
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
+    <string name="sortby_length_asc">An ceann is giorra ar dtús</string>
+    <string name="sortby_length_desc">An ceann is faide ar dtús</string>
+    <string name="sort_date_asc">An ceann is sine ar dtús</string>
+    <string name="sort_date_desc">An ceann is nuaí ar dtús</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d toradh aimsithe</item>
@@ -55,6 +66,7 @@
     <string name="confirm_delete_folder">Scrios an fillteán \'%1$s\' agus a inneachar ar fad?</string>
     <string name="confirm_delete_folders">Scrios na %1$s fillteán seo agus a n-inneachar ar fad?</string>
     <string name="confirm_delete_files">Scrios an %1$s chomhad seo?</string>
+    <string name="confirm_delete_folders_and_files">Scrios na %1$s fillteáin agus na %2$s gcomhad seo?</string>
     <string name="confirm_delete_playlist">Scrios an seinmliosta \"%1$s\"?</string>
     <string name="ringtone_set">Socraíodh an comhad \'%1$s\' mar an ghlaofhuaim.</string>
     <string name="ringtone_error">Tharla botún nuair a bhí an ghlaofhuaim á socrú.</string>
@@ -204,6 +216,7 @@
     <string name="aspect_ratio">Cóimheas treoíochta</string>
     <string name="advanced_options">Ardroghanna</string>
     <string name="tips_swipe">Sleamhnaigh suas nó síos</string>
+    <string name="tips_swipe_horizontal">Sleamhnaigh clé nó deas</string>
     <string name="tips_playlist">Seinnliosta</string>
     <string name="tips_hold_seek">Coinnigh greim air chun cuardach</string>
     <string name="tips_long_drop">Brúigh síos é agus scaoil leis</string>
@@ -236,6 +249,9 @@
 
     <!-- Preferences -->
     <string name="preferences">Socruithe</string>
+    <string name="more_preferences">Tuilleadh socruithe</string>
+    <string name="open_on_phone">Oscail ar scáileán an ghutháin é</string>
+
     <string name="directories_summary">Roghnaigh comhadlanna le cur sa leabharlann meán</string>
     <string name="add_custom_path">Cuir conair shaincheaptha leis</string>
     <string name="remove_custom_path">Bain an chonair shaincheaptha</string>
@@ -274,18 +290,42 @@
     <string name="enable_seek_buttons">Cnaipí cuardaithe</string>
     <string name="enable_double_tap_seek_title">Brúigh faoi dhó chun cuardach</string>
     <string name="enable_double_tap_seek_summary">Cnag faoi dhó ar imill an scáileáin chun dul ar aghaidh/siar 10 soicind</string>
+    <string name="enable_double_tap_play_title">Cnag faoi dhó chun é a sheinm/a chur ar sos</string>
     <string name="enable_swipe_seek_title">Sleamhnaigh chun cuardach</string>
+    <string name="enable_scale_gesture_summary">Gluais isteach agus amach le dhá mhéar</string>
     <string name="browser_show_hidden_files_title">Taispeáin comhaid i bhfolach</string>
+    <string name="albums_show_track_numbers">Taispeáin uimhir na rianta</string>
+    <string name="enable_video_screenshot">Déan gabháil scáileáin</string>
     <string name="subtitles_prefs_category">Fotheidil</string>
     <string name="subtitles_size_title">Méid na bhfotheideal</string>
+    <string name="subtitles_presets_title">Réamhshocruithe na bhfotheidil</string>
     <string name="subtitles_size_small">Beag</string>
     <string name="subtitles_size_normal">Gnáth</string>
     <string name="subtitles_size_big">Mór</string>
     <string name="subtitles_size_huge">Ollmhór</string>
     <string name="subtitles_color_title">Dath na bhfotheideal</string>
+    <string name="subtitles_opacity">Teimhneacht</string>
+    <string name="subtitles_color">Dath</string>
+    <string name="subtitles_size">Méid</string>
+    <string name="subtitles_background_color_title">Cúlra na bhfotheidil</string>
     <string name="subtitles_background_title">Cúlra na bhfotheideal</string>
+    <string name="subtitles_outline_title">Imlíne na bhfotheidil</string>
+    <string name="subtitles_shadow_title">Scáth na bhfotheidil</string>
+    <string name="subtitles_decoration_title">Maisiúchán na bhfotheidil</string>
+    <string name="subtitle_decoration_none">Dada</string>
+    <string name="subtitle_decoration_shadow">Scáth</string>
+    <string name="subtitle_decoration_outline">Imlíne</string>
     <string name="subtitles_bold_title">Fotheidil throma</string>
     <string name="subtitles_autoload_title">Luchtaigh fotheidil go huathoibríoch</string>
+    <string name="previous_color">An dath roimhe</string>
+    <string name="new_color">Dath nua</string>
+    <string name="subtitles_preset_default">An réamhshocrú</string>
+    <string name="subtitles_preset_default_large">Téacs mór</string>
+    <string name="subtitles_preset_default_largest">An téacs is mó agus codarsnacht</string>
+    <string name="subtitles_preset_white_background">Le cúlra</string>
+    <string name="subtitles_yellow">Buí</string>
+    <string name="subtitles_yellow_background">Buí le cúlra</string>
+
     <string name="audio_prefs_category">Fuaim</string>
     <string name="lockscreen_cover_title">Clúdach meáin ar an nglasáil scáileáin</string>
     <string name="lockscreen_cover_summary">Nuair atá sé ar fáil, socraigh an t-ealaíon clúdaigh reatha mar chúlbhrat don ghlas scáileáin</string>
@@ -301,11 +341,19 @@
     <string name="enable_headset_detection_summary">Braith má chuirtear isteach nó má bhaintear amach cluasáin</string>
     <string name="enable_play_on_headset_insertion">Atosaigh nuair a chuirtear cluasáin isteach</string>
     <string name="enable_play_on_headset_insertion_summary">Cuir ar sos cibé ar bith</string>
+    <string name="replaygain_track">Rian</string>
+    <string name="replaygain_album">Albam</string>
     <string name="aout">Aschur fuaime</string>
     <string name="aout_summary">Athraigh an modh a bhaineann VLC feidhm as chun fuaim a aschur</string>
     <string name="audio_ducking_title">Ísligh airde fuaime VLC nuair a fhaightear fógraí</string>
     <string name="audio_ducking_summary">Cabhraíonn sé sin chun fógraí fuaime, treoracha tiomána, nó caint ó chúntóir a chloisteáil</string>
     <string name="casting_category">Teilgean</string>
+    <string name="remote_access">Rochtain chianda</string>
+    <string name="remote_access_status">An chaoi ina bhfuil an freastalaí</string>
+    <string name="remote_access_connections">Ceangail</string>
+    <string name="remote_access_links">Naisc</string>
+    <string name="remote_access_content">Inneachar</string>
+    <string name="remote_access_medialibrary_content_summary">Cumasaithe: %1$s\nDíchumasaithe: %2$s</string>
     <string name="casting_switch_title">Teilgean gan sreang</string>
     <string name="casting_passthrough_title">Taisteal Tríd Fuaime</string>
     <string name="casting_passthrough_summary">Lig do do theilifíseán an fhuaim a oiriúnú</string>
@@ -316,6 +364,9 @@
     <string name="casting_quality_low">Íseal</string>
     <string name="casting_quality_lowcpu">Is ísle</string>
     <string name="artists_show_all_title">Taispeáin gach ceoltóir</string>
+    <string name="show_headers">Taispeáin na ceanntáisc</string>
+    <string name="tv_folders_first">Taispeáin na fillteáin ar dtús</string>
+    <string name="tv_show_hidden_files">Taispeáin comhaid atá i bhfolach</string>
     <string name="extensions_prefs_category">Breiseáin</string>
     <string name="extensions_empty">Níor aimsíodh aon bhreiseán</string>
     <string name="extension_permission_title">Gníomhachtaigh an breiseán nua \"%1$s\"?</string>
@@ -354,6 +405,7 @@
 
     <string name="no_result">Níor aimsíodh aon toradh</string>
     <string name="no_internet_connection">Dearbháil do cheangal idirlín</string>
+    <string name="retry">Féach arís é</string>
     <string name="subs_download_error">Níl an tseirbhís ar fáil. Déan arís ar ball é.</string>
 
     <string name="network_browsing">Líonra áitiúil</string>
@@ -389,20 +441,28 @@
     <!-- Widget -->
     <string name="widget_name_w">Giuirléid Bhán VLC</string>
     <string name="widget_name_b">Giuirléid Dhubh VLC</string>
+    <string name="widget_name_mini_player">Mionsheinnteoir VLC</string>
+    <string name="widget_old_text">Tá ár gcuid giuirléidí nuashonraithe againn!</string>
+    <string name="whats_next">Cad é an chéad rud eile?</string>
+    <string name="click_here">Brúigh anseo chun tuilleadh eolais a chur air.</string>
     <string name="allow_storage_access_title">Lig do VLC físchomhaid agus comhaid fhuaime a rochtain</string>
     <string name="allow_storage_access_description">Caithfidh tú cead a thabhairt do VLC na comhaid mheáin ar an ngléas seo a rochtain.</string>
     <string name="allow_storage_manager_title">Tabhair cead do VLC rochtain a fháil ar gach comhad</string>
     <string name="allow_storage_manager_description">%s\n\nTabhair cead?</string>
     <string name="partial_content">Ní féidir le VLC gach ceann do de chuid comhaid a rochtain</string>
     <string name="never_ask_again">Ná fiafraigh riamh arís</string>
+    <string name="never_show_again">Ná taispeáin é seo arís, fiú do leaganacha eile amach anseo.</string>
     <string name="allow_settings_access_ringtone_title">Lig do VLC an ghlaofhuaim a shocrú</string>
     <string name="allow_settings_access_ringtone_description">Ní mór duit cead a thabhairt do VLC chun an t-amhrán sin a shocrú mar do ghlaofhuaim.</string>
     <string name="allow_settings_access_brightness_title">Ceadaigh do VLC an mód gile a athrú</string>
     <string name="allow_draw_overlays_title">Lig don seinnteoir VLC teacht aníos thar fheidhmchláir eile</string>
+    <string name="allow_pip">Lig don seinnteoir VLC an Pictiúr laistigh de Phictiúr a thosú</string>
     <string name="permission_ask_again">Tabhair cead</string>
+    <string name="pick_file">Roghnaigh comhad</string>
     <string name="permission_not_granted">Níor tugadh cead</string>
     <string name="exit_app">Dún VLC</string>
     <string name="exit_app_msg">An bhfuil tú cinnte gur mian leat scoir ó VLC?</string>
+    <string name="widget_explanation_title">Giuirléidí VLC</string>
     <!-- Plugins -->
     <string name="plugins">Breiseáin</string>
     <string name="download_on_device">Íosluchtaigh</string>
@@ -422,6 +482,9 @@
     <string name="download_subtitles">Íosluchtaigh na fotheidil</string>
     <string name="browse_folder">Siortaigh an fillteán</string>
     <string name="listen">Éist</string>
+    <string name="apply_to_bt">Cuir é seo i bhfeidhm ar ghléas Bluetooth</string>
+    <string name="movies">scannáin</string>
+    <string name="videos">físeáin</string>
     <string name="videos_all">Gach físeán</string>
     <string name="ml_scanning">Ag braith do chomhaid mheán</string>
     <string name="ml_parse_media">Ag miondealú an mheáin</string>
@@ -441,6 +504,7 @@
 
     <string name="custom_set_save_title">Athruithe nár cuireadh i dtaisce</string>
     <string name="save">Taisc</string>
+    <string name="saved">Taiscthe %s</string>
     <string name="do_not_save">Ná taisc</string>
     <string name="custom_set_wrong_input">Ainm neamhbhailí.</string>
     <string name="equalizer_new_preset_name">Nua</string>
@@ -468,6 +532,10 @@
     <string name="ab_repeat">Athsheinm A-B</string>
     <string name="stop_after_this">Stad i ndiaidh an rian seo</string>
     <string name="time_category_new">Meáin nua</string>
+    <string name="time_category_today">Inniu</string>
+    <string name="time_category_yesterday">Inné</string>
+    <string name="time_category_current_week">An tseachtain seo</string>
+    <string name="time_category_last_week">An tseachtain seo caite</string>
     <string name="time_category_current_month">An mhí seo</string>
     <string name="time_category_current_year">I mbliana</string>
     <string name="time_category_last_year">Anuraidh</string>
@@ -478,10 +546,13 @@
     <string name="subtitle_search_name_hint">Ainm</string>
     <string name="subtitle_search_episode_hint">Eipeasóid</string>
     <string name="subtitle_search_season_hint">Seasúr</string>
+    <string name="subtitles_download_failed">Theip ar an íosluchtú</string>
     <string name="language_to_download">Teanga</string>
     <string name="delete_the_selected">Scrios an roghnúchán</string>
     <string name="download_the_selected">Íosluchtaigh an rogha</string>
     <string name="next">Ar aghaidh</string>
+    <string name="skip">Léim thar seo</string>
+    <string name="next_step">Ar aghaidh</string>
     <string name="download">Íosluchtaigh é</string>
     <string name="ctx_player_video_track">Roghnaigh an físrian</string>
     <string name="ctx_player_audio_track">Rian fuaime</string>
@@ -504,6 +575,7 @@
     <string name="light_theme">An téama geal</string>
     <string name="add">Cuir leis</string>
     <string name="add_to_new_playlist">Cuir leis an seinmliosta nua é</string>
+    <string name="create">Cruthaigh</string>
     <string name="resume_card_message">Atosaigh athsheinm %1$s?</string>
     <string name="misc">Ilchineálach</string>
     <string name="device_default">An gaireas réamhshocraithe</string>
@@ -517,6 +589,7 @@
     <string name="remove_current">Bain an ceann reatha</string>
     <string name="validation_delete_playlist">An bhfuil tú cinnte gur mian leat an seinmliosta seo a scriosadh?</string>
     <string name="validation_delete_playlist_text">Ní féidir é seo a chur ar ceal.</string>
+    <string name="display_settings">Socruithe taispeána</string>
     <string name="display_in_list">Taispeáin i liosta iad</string>
     <string name="display_in_grid">Taispeáin mar ghreille</string>
     <string name="send_crash_warning">Déan cinnte aon sonraí íogaire nach mian leat a sheoladh a bhaint as.</string>
@@ -613,12 +686,15 @@
     <string name="sub_result_by_file">Torthaí do do chomhad</string>
     <string name="donate">Cabhraigh le VLC</string>
     <string name="donate_desc">Tacaigh leis na daoine atá ag tógáil VLC go deonach</string>
+    <string name="donate_send">Cuir tús le m\'urraíocht</string>
     <string name="tip_jar">Cabhraigh le VLC</string>
     <string name="thank_you">Go raibh maith agat</string>
     <string name="donate_again">Déan urraíocht arís ar an bhfeidhmchlár</string>
 
     <string name="mark_as_played">Sainigh mar sheinnte</string>
+    <string name="mark_as_not_played">Rianaigh nach bhfuil sé seinnte</string>
     <string name="mark_all_as_played">Sainigh uile mar sheinnte</string>
+    <string name="mark_all_as_not_played">Rianaigh uile nach bhfuil siad seinnte</string>
     <string name="new_group">Grúpa nua</string>
     <string name="new_group_desc">Cruthaigh grúpa nua</string>
 
@@ -629,22 +705,128 @@
     <string name="air_action_volume_down">Airde síos</string>
     <string name="air_action_next">Mír ar aghaidh san athsheinm</string>
     <string name="air_action_previous">Mír roimhe san athsheinm</string>
+    <string name="timeout_infinite">Gan chríoch</string>
     <string name="video_hud_timeout_summary">%ss</string>
+    <string name="remove_from_history">Bain ón oireas é</string>
+    <string name="apply_to_all">Cuir seo i bhfeidhm ar gach físeán</string>
+    <string name="enqueuing">Tá do chuid meáin á luchtú</string>
+    <string name="browser_show_missing_media">Taispeáin an meán atá in easnamh</string>
+    <string name="safe_mode_pin">Cuir isteach do UAP</string>
+    <string name="safe_mode_new_pin">Cuir isteach do UAP nua</string>
+    <string name="safe_mode_re_pin">Cuir isteach arís do UAP</string>
+    <string name="safe_mode_no_match">Ní hionann na huimhreacha aitheantais pearsanta</string>
+    <string name="safe_mode_invalid_pin">UAP mhícheart</string>
+    <string name="restricted_access">Rochtain shrianta</string>
+    <string name="unlock">Bain an glas de</string>
     <string name="search_prefs">Socruithe cuardaigh</string>
     <string name="preferred_resolution">An fís-theimhneach is fearr leat</string>
     <string name="pref_resolution_best_available">An ceann is fearr ar fáil</string>
     <string name="delete_forever">Scrios go buan é</string>
+    <string name="show">Taispeáin</string>
     <string name="optional_features">Gnéithe roghnacha</string>
     <string name="start_vlc">Tosaigh VLC</string>
     <string name="jump_delay_summary">%s soicind</string>
+    <string name="move_up">Bog suas é</string>
+    <string name="move_down">Bog síos é</string>
+    <string name="play_media">Seinn %s</string>
+
     <string name="add_button">Cuir leis</string>
     <string name="add_all_button">Cuir gach ceann leis</string>
     <string name="add_new_only_button">Ná cuir ach cinn nua leis</string>
     <string name="start">Tosaigh</string>
     <string name="permission">Cead</string>
     <string name="customize">Saincheap</string>
+    <string name="selection_count">%d roghnaithe</string>
+    <string name="control_setting">Socruithe rialtáin</string>
     <string name="controls_setting">Socruithe na rialtán</string> <!-- Unused -->
     <string name="gestures">Gothaí</string>
     <string name="player_controls">Rialtáin an seinnteora</string>
     <string name="official_website">Láithreán gréasáin oifigiúil</string>
+    <string name="notch">Eang</string>
+    <string name="no_video">Níl físeán le fáil</string>
+    <string name="foldable">Scáileán infhillte</string>
+    <string name="undo">Cealaigh</string>
+    <string name="custom">Saincheaptha</string>
+    <string name="widget_type_pill">Piolla</string>
+    <string name="widget_type_normal">Gnáth</string>
+    <string name="widget_type_circle">Ciorcal</string>
+    <string name="widget_type_large">Mór</string>
+    <string name="opacity">Teimhneacht</string>
+    <string name="widget_background">Cúlra</string>
+    <string name="widget_foreground">Tulra</string>
+    <string name="widget_show_cover">Taispeáin an clúdach</string>
+    <string name="open_vlc">Oscail VLC</string>
+    <string name="playing">Ag seinm</string>
+    <string name="disable_track">Díchumasaigh an rian</string>
+    <string name="ascending">Ag dul suas</string>
+    <string name="descending">Ag dul síos</string>
+    <string name="disabled">Díchumasaithe</string>
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - teideal: %2$s - fad: %3$s</string>
+    <string name="talkback_folder">Fillteán: %s</string>
+    <string name="talkback_file">Comhad: %s</string>
+    <string name="talkback_favorite">Ceanán: %s</string>
+    <string name="talkback_track_number">Uimhir an riain %s</string>
+    <string name="talkback_duration">Fad: %s</string>
+    <string name="talkback_album">Albam: %s</string>
+    <string name="talkback_artist">Ealaíontóir: %s</string>
+    <string name="talkback_release_date">Cuireadh amach in %s é</string>
+    <string name="talkback_video">Físeán: %s</string>
+    <string name="talkback_stream">Sruthaigh: %s</string>
+    <string name="talkback_hours">uair an chloig</string>
+    <string name="talkback_minutes">nóiméid</string>
+    <string name="talkback_seconds">soicind</string>
+    <string name="talkback_list_section">Ceanntásc: %s</string>
+    <string name="talkback_enter_screen">Téigh chuig %s</string>
+    <string name="talkback_file_size">Méid an chomhaid: %s</string>
+    <string name="talkback_open_in_browser">Oscail i líonléitheoir é</string>
+    <string name="talkback_video_player">Seinnteoir físeán. Cnag air chun na rialtáin a thaispeáint. Cnag an cnaipe siar chun iad a chur i bhfolach.</string>
+    <string name="talkback_subtitle_dowload_item">Teanga: %1$s. %2$s. Ainm: %3$s</string>
+    <string name="selected">Roghnaithe</string>
+    <string name="talkback_increase_delay">Méadaigh an mhoill</string>
+    <string name="talkback_decrease_delay">Laghdaigh an mhoill</string>
+    <string name="talkback_increase_speed">Méadaigh an luas</string>
+    <string name="talkback_decrease_speed">Moilligh an luas</string>
+    <string name="talkback_language_selection">%s theanga roghnaithe</string>
+    <string name="talkback_audio_player_opened">Tá an seinnteoir fuaime ar oscailt</string>
+    <string name="talkback_audio_player_collapsed">Tá an seinnteoir fuaime leacaithe</string>
+    <string name="talkback_audio_player_closed">Tá an seinnteoir fuaime dúnta</string>
+    <string name="talkback_out_of">%1$s as %2$s</string>
+    <string name="talkback_track_index">Rian %1$s as %2$s</string>
+    <string name="downloaded">Íosluchtaithe</string>
+    <string name="not_downloaded">Neamhíosluchtaithe</string>
+    <string name="downloading">Á íosluchtú</string>
+    <string name="talkback_action_rewind">Cas siar %s soicind é</string>
+    <string name="talkback_display_settings">Taispeáin na socruithe</string>
+    <string name="talkback_already_played">Seinnte cheana</string>
+    <string name="show_only_favs">Taispeáin na ceanáin amháin</string>
+    <string name="ra_remote_access">Rochtain chianda</string>
+    <string name="ra_send_files">Seol comhaid</string>
+    <string name="ra_not_in_foreground">Níl an feidhmchlár sa tulra. Ní féidir an físeán a thosú.</string>
+    <string name="ra_disconnected">Dícheangailte ón ngléas</string>
+    <string name="ra_file">Comhad</string>
+    <string name="ra_upload_remaining">Tá %s chomhad á n-uasluchtú</string>
+    <string name="ra_upload_all">Uasluchtaigh uile iad</string>
+    <string name="ra_drop_files_tip">Scaoil na comhaid in áit ar bith chun iad a sheoladh chuig do ghléas</string>
+    <string name="ra_prepare_download">Tá d\'íosluchtú á ullmhú</string>
+    <string name="ra_ssl_explanation_title">Ceangal gan slándáil</string>
+    <string name="ra_ssl_explanation">Níl do cheangal slán.</string>
+    <string name="ra_new_code">Seol tagairt nua</string>
+    <string name="home">Baile</string>
+    <string name="ra_code">Cuir isteach an tagairt seo: %s</string>
+    <string name="ra_otp_not_me">Ní mise atá ann</string>
+
+    <string name="ra_onboarding_how_title">Rialaigh do ghléas</string>
+    <string name="ra_onboarding_otp_title">Fíordheimhniú</string>
+    <string name="ra_onboarding_content_playback">Rialú athsheanma</string>
+    <string name="ra_disable">Díchumasaigh é</string>
+    <string name="learn_more">Foghlaim tuilleadh faoi</string>
+
+    <!-- car screens -->
+    <string name="help">Cabhair</string>
+    <string name="voice_control">Rialú le guth</string>
+    <string name="network" >Líonra</string>
+    <string name="metered_do_nothing">Ná déan faic</string>
+    <string name="metered_stop">Stad an t-athsheinm</string>
+    <string name="metered_warn">Tabhair rabhadh dom (b\'fhéidir nach bhfeicfí an rabhadh nuair a bheidh fuaim á seinm)</string>
     </resources>

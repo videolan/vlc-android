@@ -179,6 +179,9 @@
     <string name="jump_to_time">转到时间</string>
     <string name="subtitle_select">选择字幕文件</string>
     <string name="wait_before_sleep">先等待当前媒体项目播放结束</string>
+    <string name="reset_on_interaction">有任何交互时重置</string>
+    <string name="default_sleep_timer_summary">%1$s, 等待媒体结束: %2$s, 交互时重置: %3$s</string>
+
     <string name="server_add_title">向收藏夹添加新的服务器</string>
     <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
     <string name="server_share_hint">网络共享名称 (或 IP 地址)</string>
@@ -357,6 +360,11 @@
     <string name="browser_show_hidden_files_title">显示隐藏文件</string>
     <string name="albums_show_track_numbers">显示音轨编号</string>
     <string name="enable_video_screenshot">抓取截图</string>
+    <string name="enable_tap_and_hold_fastplay_title">启用 ｢快放｣ 功能</string>
+    <string name="enable_tap_and_hold_fastplay_summary">长按并保持按住状态，可加快播放速度</string>
+    <string name="fastplay_speed_title">｢快放｣ 速度</string>
+    <string name="fastplay_title">正以 %s 倍速播放</string>
+    <string name="fastplay_subtitle">松开可恢复原速</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -426,6 +434,8 @@
     <string name="audio_ducking_summary">有助于听清通知声音、导航语音或辅助功能讲解</string>
     <string name="casting_category">投屏</string>
     <string name="remote_access">远程访问</string>
+    <string name="remote_access_version_title">远程访问版本</string>
+    <string name="remote_access_hash_title">远程访问 hash</string>
     <string name="remote_access_status">服务器状态</string>
     <string name="remote_access_status_summary">轻按可查看服务器状态</string>
     <string name="remote_access_connections">连接</string>
@@ -531,6 +541,8 @@
     <string name="http_user_agent">HTTP 用户代理字符串</string>
     <string name="custom_libvlc_options">自定义 libVLC 选项</string>
     <string name="custom_libvlc_options_invalid">无效的 libVLC 选项!</string>
+    <string name="dav1d_thread_number">Dav1d 线程数</string>
+    <string name="dav1d_thread_number_invalid">无效的线程数! (>=1)</string>
 
     <string name="serious_crash">真不走运，发生了很严重的错误，VLC 不得不关闭鸟。</string>
     <string name="help_us_send_log">您可以将下述崩溃日志发送给我们，协助改进 VLC:</string>
@@ -576,7 +588,17 @@
     <string name="whats_new_36_webserver_text">通过 ｢远程访问｣ 功能，可在其他设备上远程控制 VLC for Android 的播放、\n双向传输媒体文件，还有其他强劲功能等您发掘!</string>
     <string name="whats_new_36_favorites_text">现在媒体内容、播放列表、艺术家和专辑都可以加入收藏。\n只需翻阅收藏夹，就能迅速找到想要播放的内容!</string>
 
+<!--    update-->
+    <string name="update_title">有更新可用</string>
+    <string name="install_nightly_title">安装每日构建版</string>
+    <string name="update_text">VLC for Android 的每日构建版已发布新版本!\n\n您看到本消息，是因为您正在使用的是每日构建版。</string>
+    <string name="install_text">每日构建版是包含 master 分支最新的功能以及 bug 修复方案的自动构建版本。\n\n是否立即下载?</string>
 
+    <string name="open_in_browser">在浏览器中打开</string>
+    <string name="install">安装</string>
+    <string name="install_nightly">安装每日构建版</string>
+    <string name="install_nightly_alert">每日构建版是每天更新的实验性版本。\n\n您可以享用最新的功能，但也可能遇到全新的 bug!</string>
+    <string name="nightly_version">发现版本: %2$s - %1$s</string>
     <!-- Accessibility -->
     <string name="more_actions">更多操作</string>
     <string name="back_quit_lock">再次按「返回」可退出视频</string>
@@ -1205,4 +1227,16 @@
     <string name="voice_control">语音控制</string>
     <string name="voice_control_help">VLC 支持通过 Google Assistant 控制，命令词如下:\n\t• Play (播放), Pause (暂停), Stop (停止), Previous (上一曲), Next (下一曲)\n\t• Rewind (快退), Fast Forward (快进), Repeat &lt;all|one|off&gt;(全部循环/单曲循环/不循环)\n\t• Jump to &lt;time&gt; (跳到某时刻), Skip &lt;duration&gt; (前进某时长)\n\t• What\'s this &lt;artist|album|song&gt; (正在播放的艺人/专辑/曲名是什么?)\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt; (播放指定艺人/专辑/曲目/流派/播放列表)</string>
 
+    <string name="network" >网络</string>
+    <string name="metered_connection">按流量计费的网络下对串流的处理</string>
+    <string name="metered_do_nothing">不执行任何操作</string>
+    <string name="metered_stop">停止播放</string>
+    <string name="metered_warn">警告我 (播放音频时可能不会注意到警告文字)</string>
+    <string name="metered_connection_stopped">因处于按流量计费的网络，媒体播放已停止</string>
+    <string name="metered_connection_warning">您的网络连接属于按流量计费型。可能会产生流量费用。</string>
+    <string name="adding">增加中</string>
+    <string name="to">到</string>
+    <string name="device">设备</string>
+    <string name="connected_device">已连接设备</string>
+    <string name="model">设备型号</string>
     </resources>

@@ -360,6 +360,11 @@
     <string name="browser_show_hidden_files_title">顯示隱藏檔案</string>
     <string name="albums_show_track_numbers">顯示軌道編號</string>
     <string name="enable_video_screenshot">螢幕截圖</string>
+    <string name="enable_tap_and_hold_fastplay_title">啟用快速播放</string>
+    <string name="enable_tap_and_hold_fastplay_summary">按住以加快播放速度</string>
+    <string name="fastplay_speed_title">快速播放速度</string>
+    <string name="fastplay_title">正在以 %s 倍速播放</string>
+    <string name="fastplay_subtitle">放開以停止</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -429,6 +434,8 @@
     <string name="audio_ducking_summary">有助於聽到音訊通知、導航指示或助理說話</string>
     <string name="casting_category">投放</string>
     <string name="remote_access">遠端存取</string>
+    <string name="remote_access_version_title">遠端存取版本</string>
+    <string name="remote_access_hash_title">遠端存雜湊值</string>
     <string name="remote_access_status">伺服器狀態</string>
     <string name="remote_access_status_summary">輕點以檢視伺服器狀態</string>
     <string name="remote_access_connections">連線</string>
@@ -534,6 +541,8 @@
     <string name="http_user_agent">HTTP 使用者代理字串</string>
     <string name="custom_libvlc_options">自訂 libVLC 選項</string>
     <string name="custom_libvlc_options_invalid">無效的 libVLC 選項！</string>
+    <string name="dav1d_thread_number">Dav1d 執行緒數量</string>
+    <string name="dav1d_thread_number_invalid">無效的執行緒數量！(>=1)</string>
 
     <string name="serious_crash">很遺憾，一個嚴重的錯誤的發生，VLC 必須關閉。</string>
     <string name="help_us_send_log">請發送以下的錯誤記錄來協助我們改善 VLC：</string>
@@ -565,6 +574,8 @@
     <string name="search_global">在所有媒體櫃中搜尋</string>
     <string name="playlist_save">儲存播放清單</string>
     <string name="playlist_name_hint">播放清單名稱</string>
+    <string name="chapters">章節</string>
+    <string name="notset">未設定</string>
     <string name="go_to_chapter">轉到章節...</string>
     <string name="current_chapter">章節：%s</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
@@ -578,6 +589,21 @@
     <string name="whats_new_title">Android 版 VLC %s 中有什麼新功能</string>
     <string name="whats_new_36_webserver_text">使用新的遠端存取功能，可以從任何其他裝置控制 Android 版 VLC。\n雙向傳送媒體、控制播放等等！</string>
     <string name="whats_new_36_favorites_text">您現在可以收藏您的媒體、播放清單、藝人或專輯。\n僅按收藏過濾內容，一目了然地找到您喜歡的內容！</string>
+
+<!--    update-->
+    <string name="update_title">有可用的更新</string>
+    <string name="install_nightly_title">安裝每日更新版</string>
+    <string name="update_text">VLC for Android 的每日更新版已釋出新版本！\n\n因為您正在使用每日更新版，所以會看到這個訊息。</string>
+    <string name="install_text">每日更新版是包含最新功能與修復，且會每天自動更新的版本。\n\n要立刻下載嗎？</string>
+
+    <string name="open_in_browser">在瀏覽器中開啟</string>
+    <string name="install">安裝</string>
+    <string name="install_nightly">安裝每日更新版</string>
+    <string name="install_nightly_alert">每日更新版是每天更新的實驗性版本。\n\n可以享受到最新的功能，但也可能會遇到新的臭蟲！</string>
+    <string name="nightly_version">找到的版本：%2$s - %1$s</string>
+    <string name="update_nightly_alert">您正在執行每夜版本。您想要定期尋找更新嗎？</string>
+    <string name="update_nightly">自動更新</string>
+    <string name="update_nightly_summary">定期搜尋每夜更新</string>
 
 
     <!-- Accessibility -->
@@ -1214,4 +1240,16 @@
     <string name="metered_warn">警告我（音訊播放可能會錯過警告）</string>
     <string name="metered_connection_stopped">因為是計量連線，因此媒體停止播放</string>
     <string name="metered_connection_warning">您目前使用的是計量連線。可能需要付費。</string>
+    <string name="adding">新增</string>
+    <string name="to">至</string>
+    <string name="device">裝置</string>
+    <string name="connected_device">已連結的裝置</string>
+    <string name="model">裝置型號</string>
+    <string name="prefs_app_data">應用程式資料</string>
+    <string name="export_settings_summary">將您的設定匯出為檔案，並在稍後匯入</string>
+    <string name="export_settings">匯出設定</string>
+    <string name="restore_settings_summary">從先前的匯出還原您的設定</string>
+    <string name="restore_settings">還原設定</string>
+    <string name="export_settings_success">設定已成功匯出至內部儲存空間根目錄</string>
+    <string name="export_settings_failure">匯出您的設定時發生問題</string>
 </resources>

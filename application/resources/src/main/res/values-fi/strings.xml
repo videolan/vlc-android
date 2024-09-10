@@ -189,6 +189,9 @@
     <string name="jump_to_time">Hyppää</string>
     <string name="subtitle_select">Valitse tekstitystiedosto</string>
     <string name="wait_before_sleep">Odota, että nykyinen media valmistuu ensin</string>
+    <string name="reset_on_interaction">Nollaa kaikissa tilanteissa</string>
+    <string name="default_sleep_timer_summary">%1$s, odota median päättymistä: %2$s, nollaa tilanne: %3$s</string>
+
     <string name="server_add_title">Lisää uusi serveri suosikkeihin</string>
     <string name="server_domain_hint">Serverin osoite (domain tai IP-osoite)</string>
     <string name="server_share_hint">Verkkojaon nimi (tai IP-osoite)</string>
@@ -374,6 +377,11 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="browser_show_hidden_files_title">Näytä piilotetut tiedostot</string>
     <string name="albums_show_track_numbers">Näytä raidan numero</string>
     <string name="enable_video_screenshot">Ota ruudunkaappaus</string>
+    <string name="enable_tap_and_hold_fastplay_title">Nopea toistonopeus käyttöön</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Napauta ja pidä painettuna, lisää toistonopeutta</string>
+    <string name="fastplay_speed_title">Toiston nopeus</string>
+    <string name="fastplay_title">Toistetaan %sx</string>
+    <string name="fastplay_subtitle">Vapauta lopettaaksesi</string>
 
     <string name="subtitles_prefs_category">Tekstitykset</string>
     <string name="subtitles_size_title">Tekstityksen koko</string>
@@ -444,6 +452,8 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="audio_ducking_summary">Kuulet ilmoituksia, navigointiohjeita tai avustajan puhetta</string>
     <string name="casting_category">Lähetys</string>
     <string name="remote_access">Etäyhteys</string>
+    <string name="remote_access_version_title">Etäkäytön versio</string>
+    <string name="remote_access_hash_title">Etäkäytön hash</string>
     <string name="remote_access_status">Palvelimen tila</string>
     <string name="remote_access_status_summary">Paina ja katso palvelimen tila</string>
     <string name="remote_access_connections">Yhteydet</string>
@@ -551,6 +561,8 @@ Käynnistätkö uudelleen?</string>
     <string name="http_user_agent">HTTP-apuohjelma</string>
     <string name="custom_libvlc_options">Mukautetut libVLC asetukset</string>
     <string name="custom_libvlc_options_invalid">Virheelliset libVLC asetukset!</string>
+    <string name="dav1d_thread_number">Dav1d säikeen numero</string>
+    <string name="dav1d_thread_number_invalid">Virheellinen säikeen numero! (>=1)</string>
 
     <string name="serious_crash">Valitettavasti VLC kohtasi vakavan virheen ja se suljettiin.</string>
     <string name="help_us_send_log">Auta meitä parantamaan VLC:tä lähettämällä seuraava kaatumisloki:</string>
@@ -595,6 +607,27 @@ Käynnistätkö uudelleen?</string>
     <string name="whats_new_title">Mitä uutta VLC Android %s</string>
     <string name="whats_new_36_webserver_text">Uuden etäkäytön avulla hallitset VLC Androidin mistä tahansa muusta laitteesta.\nLähetä mediaa molempiin suuntiin ja ohjaa toistoa!</string>
     <string name="whats_new_36_favorites_text">Voit lisätä mediat, soittolistat, artististit tai albumit suosikkeihin.\nLöydät haluamasi sisällön yhdellä silmäyksellä suodattamalla sisältöä vain suosikkien mukaan!</string>
+
+<!--    update-->
+    <string name="update_title">Päivitys saatavilla</string>
+    <string name="install_nightly_title">Asenna ennakkoversio</string>
+    <string name="update_text">Uusi VLC Android:lle on saatavilla ennakkoversiona
+
+Näet tämän, koska käytät aikaisempaa ennakkoversiota.</string>
+    <string name="install_text">Ennakkoversiot päivitetään automaattisesti joka päivä uusimmilla ominaisuuksilla ja korjauksilla.
+
+Ladataanko nyt?</string>
+
+    <string name="open_in_browser">Avaa selaimessa</string>
+    <string name="install">Asenna</string>
+    <string name="install_nightly">Asenna ennakkoversio</string>
+    <string name="install_nightly_alert">Ennakkoversiot ovat kokeellisia versioita, joita tehdään päivittäin.
+
+Uusia ominaisuuksia, mutta myös uusia bugeja!</string>
+    <string name="nightly_version">Löydetty versio: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Käytät ennakkoversiota. Haluatko päivittää säännöllisesti?</string>
+    <string name="update_nightly">Autom. päivitys</string>
+    <string name="update_nightly_summary">Hae ennakkoversio säännöllisesti</string>
 
 
     <!-- Accessibility -->
@@ -1244,4 +1277,16 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="metered_warn">Varoita minua (voi jäädä huomaamatta äänen toiston aikana)</string>
     <string name="metered_connection_stopped">Media pysähtyi, koska yhteyttä mitataan</string>
     <string name="metered_connection_warning">Yhteytesi on mitattu.</string>
+    <string name="adding">Lisätään</string>
+    <string name="to">-</string>
+    <string name="device">Laite</string>
+    <string name="connected_device">Yhdistetty laite</string>
+    <string name="model">Laitteen malli</string>
+    <string name="prefs_app_data">Sovellusdata</string>
+    <string name="export_settings_summary">Vie asetukset tiedostoon, jotta voit tuoda ne myöhemmin</string>
+    <string name="export_settings">Vie asetukset</string>
+    <string name="restore_settings_summary">Palauta asetukset edellisestä viennistä</string>
+    <string name="restore_settings">Palauta asetukset</string>
+    <string name="export_settings_success">Asetukset vietiin sisäisen tallennustilan juureen</string>
+    <string name="export_settings_failure">Jotain meni vikaan vietäessä asetuksia</string>
 </resources>

@@ -189,6 +189,9 @@
     <string name="jump_to_time">Jump to Time</string>
     <string name="subtitle_select">Select subtitle file</string>
     <string name="wait_before_sleep">Wait for current media item to finish first</string>
+    <string name="reset_on_interaction">Reset on any interaction</string>
+    <string name="default_sleep_timer_summary">%1$s, wait media end: %2$s, reset on interaction: %3$s</string>
+
     <string name="server_add_title">Add a new server to favourites</string>
     <string name="server_domain_hint">Server address (domain name or IP)</string>
     <string name="server_share_hint">Network share name (or IP address)</string>
@@ -367,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Show hidden files</string>
     <string name="albums_show_track_numbers">Show track numbers</string>
     <string name="enable_video_screenshot">Take a screenshot</string>
+    <string name="enable_tap_and_hold_fastplay_title">Enable Fastplay</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Tap and hold to increase the playback speed</string>
+    <string name="fastplay_speed_title">Fastplay speed</string>
+    <string name="fastplay_title">Playing at %sx</string>
+    <string name="fastplay_subtitle">Release to stop</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
@@ -436,6 +444,8 @@
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
     <string name="casting_category">Casting</string>
     <string name="remote_access">Remote access</string>
+    <string name="remote_access_version_title">Remote access version</string>
+    <string name="remote_access_hash_title">Remote access hash</string>
     <string name="remote_access_status">Server status</string>
     <string name="remote_access_status_summary">Tap to see the server status</string>
     <string name="remote_access_connections">Connections</string>
@@ -541,6 +551,8 @@
     <string name="http_user_agent">HTTP user agent</string>
     <string name="custom_libvlc_options">Custom libVLC options</string>
     <string name="custom_libvlc_options_invalid">Invalid libVLC options!</string>
+    <string name="dav1d_thread_number">Dav1d thread number</string>
+    <string name="dav1d_thread_number_invalid">Invalid thread number! (>=1)</string>
 
     <string name="serious_crash">Unfortunately, a serious error has occurred and VLC had to close.</string>
     <string name="help_us_send_log">Help us improving VLC by sending the following crash log:</string>
@@ -585,6 +597,21 @@
     <string name="whats_new_title">What\'s new in VLC for Android %s</string>
     <string name="whats_new_36_webserver_text">With the new remote access feature, take control of VLC for Android from any other device.\nSend your media both ways, control your playback and much more!</string>
     <string name="whats_new_36_favorites_text">You can now favorite your media, playlists, artists or albums.\nFind your preferred content at a glance by filtering the content by favorites only!</string>
+
+<!--    update-->
+    <string name="update_title">Update available</string>
+    <string name="install_nightly_title">Install the nightly version</string>
+    <string name="update_text">A new nightly release of VLC for Android is available!\n\nYou\'re seeing this because you are using a nightly build.</string>
+    <string name="install_text">Nightly versions are updated automatically everyday with the latest features and fixes.\n\nDownload now?</string>
+
+    <string name="open_in_browser">Open in browser</string>
+    <string name="install">Install</string>
+    <string name="install_nightly">Install the nightly version</string>
+    <string name="install_nightly_alert">Nightly builds are experimental versions updated everyday.\n\nExpect new features but also new bugs!</string>
+    <string name="nightly_version">Found version: %2$s - %1$s</string>
+    <string name="update_nightly_alert">You are running a nightly version. Would you like to periodically look for updates?</string>
+    <string name="update_nightly">Auto update</string>
+    <string name="update_nightly_summary">Search for nightly update periodically</string>
 
 
     <!-- Accessibility -->
@@ -1225,4 +1252,16 @@
     <string name="metered_warn">Warn me (the warning may be missed for audio playback)</string>
     <string name="metered_connection_stopped">Media stopped because the connection is metered</string>
     <string name="metered_connection_warning">Your connection is metered. Fees may apply.</string>
+    <string name="adding">Adding</string>
+    <string name="to">to</string>
+    <string name="device">Device</string>
+    <string name="connected_device">Connected device</string>
+    <string name="model">Device model</string>
+    <string name="prefs_app_data">Application data</string>
+    <string name="export_settings_summary">Export your settings to a file to import them later</string>
+    <string name="export_settings">Export settings</string>
+    <string name="restore_settings_summary">Restore your settings from a previous export</string>
+    <string name="restore_settings">Restore settings</string>
+    <string name="export_settings_success">Settings exported successfully to the internal storage root</string>
+    <string name="export_settings_failure">Something went wrong while exporting your settings</string>
 </resources>

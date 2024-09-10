@@ -199,6 +199,9 @@
     <string name="jump_to_time">Aller au temps</string>
     <string name="subtitle_select">Sélectionner des sous-titres</string>
     <string name="wait_before_sleep">Attendez que le multimédia en cours se termine</string>
+    <string name="reset_on_interaction">Réinitialiser en cas d’interaction</string>
+    <string name="default_sleep_timer_summary">%1$s, attendre la fin du média : %2$s, réinitialiser lors de l’interaction : %3$s</string>
+
     <string name="server_add_title">Ajouter un serveur aux favoris</string>
     <string name="server_domain_hint">Adresse du serveur (domaine ou adresse IP)</string>
     <string name="server_share_hint">Nom du partage réseau (ou adresse IP)</string>
@@ -377,6 +380,11 @@
     <string name="browser_show_hidden_files_title">Afficher les fichiers cachés</string>
     <string name="albums_show_track_numbers">Afficher les numéros de piste</string>
     <string name="enable_video_screenshot">Prendre une capture d’écran</string>
+    <string name="enable_tap_and_hold_fastplay_title">Activer la lecture rapide</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Appuyez et maintenez la pression pour augmenter la vitesse de lecture</string>
+    <string name="fastplay_speed_title">Vitesse de lecture rapide</string>
+    <string name="fastplay_title">Lecture à %sx</string>
+    <string name="fastplay_subtitle">Relâcher pour arrêter</string>
 
     <string name="subtitles_prefs_category">Sous-titres</string>
     <string name="subtitles_size_title">Taille des sous-titres</string>
@@ -446,6 +454,8 @@
     <string name="audio_ducking_summary">Aide à l’écoute des notifications audio, instructions de navigation ou assistant vocal</string>
     <string name="casting_category">Diffusion</string>
     <string name="remote_access">Accès à distance</string>
+    <string name="remote_access_version_title">Version de l’accès à distance</string>
+    <string name="remote_access_hash_title">Hachage ou « hash » de l’accès à distance</string>
     <string name="remote_access_status">État du serveur</string>
     <string name="remote_access_status_summary">Touchez pour voir l’état du serveur</string>
     <string name="remote_access_connections">Connexions</string>
@@ -551,6 +561,8 @@
     <string name="http_user_agent">Agent utilisateur HTTP</string>
     <string name="custom_libvlc_options">Options personnalisées de libVLC</string>
     <string name="custom_libvlc_options_invalid">Options invalides pour libVLC !</string>
+    <string name="dav1d_thread_number">Numéro du fil de discussion Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Numéro du fil de discussion non valide ! (≥1)</string>
 
     <string name="serious_crash">Malheureusement, une importante erreur est intervenue et VLC a dû se fermer.</string>
     <string name="help_us_send_log">Aidez-nous à améliorer VLC en envoyant le rapport de plantage suivant :</string>
@@ -595,6 +607,21 @@
     <string name="whats_new_title">Nouveautés de VLC pour Android %s</string>
     <string name="whats_new_36_webserver_text">Grâce à la nouvelle fonction d’accès à distance, prenez le contrôle de VLC pour Android depuis n’importe quel autre appareil.\nEnvoyez vos médias dans les deux sens, contrôlez votre lecture et bien plus encore !</string>
     <string name="whats_new_36_favorites_text">Vous pouvez désormais mettre en favoris vos médias, vos listes de lecture, vos artistes ou vos albums.\nRetrouvez vos contenus préférés en un clin d’œil en les filtrant par favoris uniquement !</string>
+
+<!--    update-->
+    <string name="update_title">Mise à jour disponible</string>
+    <string name="install_nightly_title">Installer la version Nightly</string>
+    <string name="update_text">Une nouvelle version Nightly de VLC pour Android est disponible !\n\nVous voyez ce message parce que vous utilisez une version Nightly.</string>
+    <string name="install_text">Les versions Nightly sont mises à jour automatiquement tous les jours avec les dernières fonctionnalités et corrections.\n\nTélécharger maintenant ?</string>
+
+    <string name="open_in_browser">Ouvrir dans le navigateur</string>
+    <string name="install">Installer</string>
+    <string name="install_nightly">Installer la version Nightly</string>
+    <string name="install_nightly_alert">Les Nightly builds sont des versions expérimentales mises à jour quotidiennement.\n\nAttendez-vous à de nouvelles fonctionnalités mais aussi à de nouveaux bugs !</string>
+    <string name="nightly_version">Version trouvée : %2$s - %1$s</string>
+    <string name="update_nightly_alert">Vous utilisez une version nightly. Souhaitez-vous rechercher périodiquement des mises à jour ?</string>
+    <string name="update_nightly">Mise à jour automatique</string>
+    <string name="update_nightly_summary">Rechercher périodiquement une mise à jour nightly</string>
 
 
     <!-- Accessibility -->
@@ -1239,4 +1266,16 @@
     <string name="metered_warn">Avertissez-moi (l’avertissement peut ne pas être pris en compte lors de la lecture audio)</string>
     <string name="metered_connection_stopped">Le média s’est arrêté parce que la connexion est tarifée.</string>
     <string name="metered_connection_warning">Votre connexion est tarifée. Des frais peuvent s’appliquer.</string>
+    <string name="adding">Ajout</string>
+    <string name="to">à</string>
+    <string name="device">Périphérique</string>
+    <string name="connected_device">Appareil connecté</string>
+    <string name="model">Modèle de l’appareil</string>
+    <string name="prefs_app_data">Données d’application</string>
+    <string name="export_settings_summary">Exporter vos paramètres dans un fichier pour les importer ultérieurement</string>
+    <string name="export_settings">Exporter les paramètres</string>
+    <string name="restore_settings_summary">Restaurer vos paramètres à partir d’une exportation précédente</string>
+    <string name="restore_settings">Restaurer les paramètres</string>
+    <string name="export_settings_success">Paramètres exportés avec succès vers le stockage interne root</string>
+    <string name="export_settings_failure">Une erreur s’est produite lors de l’exportation de vos paramètres</string>
 </resources>

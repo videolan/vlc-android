@@ -139,7 +139,7 @@
     <string name="audio">Zvok</string>
     <string name="video">Video</string>
     <string name="bookmarks">Zaznamki</string>
-    <string name="equalizer">Uravnalnik zvoka</string>
+    <string name="equalizer">Izenačevalnik zvoka</string>
     <string name="all_albums">Vsi albumi</string>
     <string name="genres">Zvrsti</string>
     <string name="playlists">Seznami predvajanja</string>
@@ -209,6 +209,8 @@
     <string name="jump_to_time">Skoči na čas</string>
     <string name="subtitle_select">Izbor datoteke s podnapisi</string>
     <string name="wait_before_sleep">Počakajte, da se trenutna vsebina konča</string>
+    <string name="reset_on_interaction">Ponastavi ob interakciji</string>
+    <string name="default_sleep_timer_summary">%1$s, čakanje na konec vsebine: %2$s, ponastavitev ob interakciji: %3$s</string>
 
     <string name="server_add_title">Dodaj nov strežnik med priljubljene</string>
     <string name="server_domain_hint">Naslov strežnika (ime domene ali naslov IP)</string>
@@ -388,6 +390,11 @@
     <string name="browser_show_hidden_files_title">Pokaži skrite datoteke</string>
     <string name="albums_show_track_numbers">Prikaži številko vsebine</string>
     <string name="enable_video_screenshot">Zajemi zaslon</string>
+    <string name="enable_tap_and_hold_fastplay_title">Vklopi hitro predvajanje</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Tapnite in držite za povečevanje hitrosti predvajanja</string>
+    <string name="fastplay_speed_title">Hitrost predvajanja</string>
+    <string name="fastplay_title">Pospešeno za %sx</string>
+    <string name="fastplay_subtitle">Spustite za zaustavitev</string>
 
     <string name="subtitles_prefs_category">Podnapisi</string>
     <string name="subtitles_size_title">Velikost podnapisov</string>
@@ -457,6 +464,8 @@
     <string name="audio_ducking_summary">Možnost omogoča prilagajanje glasnosti obvestil, navigacijskega vodenja in drugih zvokov.</string>
     <string name="casting_category">Zasedba</string>
     <string name="remote_access">Oddaljeni dostop</string>
+    <string name="remote_access_version_title">Različica oddaljenega dostopa</string>
+    <string name="remote_access_hash_title">Razpršitev (hash) oddaljenega dostopa</string>
     <string name="remote_access_status">Stanje strežnika</string>
     <string name="remote_access_status_summary">Tapnite za prikaz stanja strežnika</string>
     <string name="remote_access_connections">Povezave</string>
@@ -562,6 +571,8 @@
     <string name="http_user_agent">HTTP uporabniški agent</string>
     <string name="custom_libvlc_options">Prilagojene možnosti za libVLC</string>
     <string name="custom_libvlc_options_invalid">Neveljavne možnosti za libVLC!</string>
+    <string name="dav1d_thread_number">Dav1d številka niti</string>
+    <string name="dav1d_thread_number_invalid">Napačna številka niti! (>=1)</string>
 
     <string name="serious_crash">Prišlo do resne programske napake in predvajalnik VLC se je zaprl.</string>
     <string name="help_us_send_log">Pomagajte izboljšati program VLC in pošljite poročilo o sesutju:</string>
@@ -606,6 +617,21 @@
     <string name="whats_new_title">Kaj je novega v VLC za Android %s</string>
     <string name="whats_new_36_webserver_text">Nova možnost oddaljenega dostopa omogoča krmiljenje VLC za Android s poljubno napravo.\nPošljite vsebine v obe smeri, krmilite predvajanje in mnogo več!</string>
     <string name="whats_new_36_favorites_text">Sedaj lahko za priljubljene označite vsebine, sezname predvajanj, izvajalce ali albume.\nEnostavno najdite najljubše vsebine s pomočjo filtra za priljubljene!</string>
+
+<!--    update-->
+    <string name="update_title">Na voljo je posodobitev</string>
+    <string name="install_nightly_title">Namesti nočno različico</string>
+    <string name="update_text">Na voljo je nova nočna izdaja VLC za Android!\n\nTo sporočilo je prikazano, ker uporabljate nočno izdajo programa.</string>
+    <string name="install_text">Nočne izdaje se vsak dan samodejno posodobijo in vsebujejo najnovejše funkcije in popravke.\n\nPrenesem zdaj?*</string>
+
+    <string name="open_in_browser">Odpri v brskalniku</string>
+    <string name="install">Namesti</string>
+    <string name="install_nightly">Namesti nočno različico</string>
+    <string name="install_nightly_alert">Nočne izdaje so preizkusne različice, ki se posodobijo vsak dan.\n\nPričakujte nove funkcije, a tudi nove hrošče!</string>
+    <string name="nightly_version">Najdena različica: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Zagnana je nočna različica. Želite redno iskati posodobitve?</string>
+    <string name="update_nightly">Samodejno posodabljanje</string>
+    <string name="update_nightly_summary">Redno iskanje nočnih posodobitev</string>
 
 
     <!-- Accessibility -->
@@ -706,16 +732,16 @@
 
     <string name="custom_set_save_title">Neshranjene spremembe</string>
     <string name="custom_set_save_warning">Opozorilo: spremembe niso shranjene</string>
-    <string name="existing_custom_set_save_message">Shrani nastavitve uravnalnika kot …</string>
-    <string name="new_custom_set_save_message">Shrani nove nastavitve uravnalnika kot …</string>
+    <string name="existing_custom_set_save_message">Shrani nastavitve izenačevalnika kot …</string>
+    <string name="new_custom_set_save_message">Shrani nove nastavitve izenačevalnika kot …</string>
     <string name="save">Shrani</string>
     <string name="saved">%s je shranjeno</string>
     <string name="do_not_save">Ne shrani</string>
-    <string name="custom_set_deleted_message">Nastavitve uravnalnika po meri »%1$s« so izbrisane.</string>
+    <string name="custom_set_deleted_message">Nastavitve izenačevalnika po meri »%1$s« so izbrisane.</string>
     <string name="custom_set_wrong_input">Neveljavno ime</string>
-    <string name="custom_set_already_exist">Nastavitve uravnalnika s tem imenom že obstajajo.</string>
-    <string name="custom_set_restored">Nastavitve uravnalnika po meri so obnovljene.</string>
-    <string name="unsaved_set_deleted_message">Neshranjene nastavitve uravnalnika po meri so izbrisane.</string>
+    <string name="custom_set_already_exist">Nastavitve izenačevalnika s tem imenom že obstajajo.</string>
+    <string name="custom_set_restored">Nastavitve izenačevalnika po meri so obnovljene.</string>
+    <string name="unsaved_set_deleted_message">Neshranjene nastavitve izenačevalnika po meri so izbrisane.</string>
     <string name="equalizer_new_preset_name">Novo</string>
     <string name="settings_ml_block_scan">Knjižnica predstavnih vsebin pregleduje naprave</string>
     <string name="recommendations">Priporočila</string>
@@ -960,6 +986,7 @@
     <string name="mark_as_played">Označi kot predvajano</string>
     <string name="mark_as_not_played">Označi kot nepredvajano</string>
     <string name="mark_all_as_played">Označi vse kot predvajano</string>
+    <string name="mark_all_as_not_played">Označi vse kot nepredvajene</string>
     <string name="new_group">Nova skupina</string>
     <string name="new_group_desc">Ustvari novo skupino</string>
 
@@ -1245,4 +1272,24 @@
     <string name="podcast_mode_help">Krmilniki za podkaste se pojavijo ob predvajanju posnetka, ki ustreza enemu od naslednjih kriterijev:\nt• Dolžna večja od 60 min\n\t• Dolžina večja od 15 min brez imena albuma\n\t• Zvrst je %s</string>
     <string name="voice_control">Glasovni nadzor</string>
     <string name="voice_control_help">VLC je mogoče nadzorovati preko Google Assistant z izgovorjavo naslednjih ukazov:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Omrežje</string>
+    <string name="metered_connection">Dejanja za pretoke, ko se meri povezava</string>
+    <string name="metered_do_nothing">Na naredi ničesar</string>
+    <string name="metered_stop">Zaustavi predvajanje</string>
+    <string name="metered_warn">Opozori me (opozorilo se lahko zgreši za predvajanje zvoka)</string>
+    <string name="metered_connection_stopped">Vsebina se je zaustavila zaradi merjenja povezave</string>
+    <string name="metered_connection_warning">Povezava se meri</string>
+    <string name="adding">Dodajanje</string>
+    <string name="to">k</string>
+    <string name="device">Naprava</string>
+    <string name="connected_device">Povezana naprava</string>
+    <string name="model">Model naprave</string>
+    <string name="prefs_app_data">Programski podatki</string>
+    <string name="export_settings_summary">Izvoz nastavitev v datoteko za kasnejši uvoz</string>
+    <string name="export_settings">Nastavitve izvoza</string>
+    <string name="restore_settings_summary">Obnova nastavitev iz prejšnjega izvoza</string>
+    <string name="restore_settings">Obnova nastavitev</string>
+    <string name="export_settings_success">Nastavitve so bile uspešno izvožene v koren notranje shrambe</string>
+    <string name="export_settings_failure">Pri izvažanju nastavitev je prišlo do napake</string>
 </resources>

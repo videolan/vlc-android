@@ -390,6 +390,11 @@
     <string name="browser_show_hidden_files_title">Показати приховані файли</string>
     <string name="albums_show_track_numbers">Показувати номери доріжок</string>
     <string name="enable_video_screenshot">Зробити знімок екрану</string>
+    <string name="enable_tap_and_hold_fastplay_title">Увімкнути швидке відтворення</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Торкніться та утримуйте для збільшення швидкості відтворення</string>
+    <string name="fastplay_speed_title">Швидкість швидкого відтворення</string>
+    <string name="fastplay_title">Відтворюється на швидкості %sx</string>
+    <string name="fastplay_subtitle">Відпустіть, щоб зупинитись</string>
 
     <string name="subtitles_prefs_category">Субтитри</string>
     <string name="subtitles_size_title">Розмір субтитрів</string>
@@ -459,6 +464,8 @@
     <string name="audio_ducking_summary">Допомагає почути звукові сповіщення, навігаційні вказівки та слова асистента</string>
     <string name="casting_category">Трансляція</string>
     <string name="remote_access">Віддалений доступ</string>
+    <string name="remote_access_version_title">Версія віддаленого доступу</string>
+    <string name="remote_access_hash_title">Хеш віддаленого доступу</string>
     <string name="remote_access_status">Стан сервера</string>
     <string name="remote_access_status_summary">Торкніться, щоб побачити стан сервера</string>
     <string name="remote_access_connections">З\'єднання</string>
@@ -564,6 +571,8 @@
     <string name="http_user_agent">HTTP-браузер користувача </string>
     <string name="custom_libvlc_options">Особливі  параметри libVLC</string>
     <string name="custom_libvlc_options_invalid">Недійсні параметри libVLC!</string>
+    <string name="dav1d_thread_number">Номер потоку Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Нечинний номер потоку! (>=1)</string>
 
     <string name="serious_crash">Несподівано трапилася серйозна помилка, тому VLC довелося закрити.</string>
     <string name="help_us_send_log">Допомогти нам поліпшити VLC, відправивши журнал аварії:</string>
@@ -608,6 +617,21 @@
     <string name="whats_new_title">Що нового у VLC для Андроїд %s</string>
     <string name="whats_new_36_webserver_text">З новою функцією віддаленого доступу ви можете керувати VLC для Android з будь-якого іншого пристрою.\nВідправляйте медіафайли в обидва боки, керуйте відтворенням і багато іншого!</string>
     <string name="whats_new_36_favorites_text">Тепер ви можете додавати медіафайли, списки відтворення, виконавців або альбоми до улюблених.\nЗнаходьте потрібний вміст з першого погляду, відфільтрувавши його лише за обраним!</string>
+
+<!--    update-->
+    <string name="update_title">Доступне оновлення</string>
+    <string name="install_nightly_title">Встановити нічну збірку</string>
+    <string name="update_text">Вийшов новий нічний випуск VLC для Android! \n\nВи бачите це, тому що використовуєте нічну збірку.</string>
+    <string name="install_text">Нічні версії автоматично оновлюються щодня з найновішими функціями та виправленнями.\n\nЗавантажити зараз?</string>
+
+    <string name="open_in_browser">Відкрити у вебоглядачі</string>
+    <string name="install">Встановити</string>
+    <string name="install_nightly">Встановити нічну збірку</string>
+    <string name="install_nightly_alert">Нічні збірки - це експериментальні версії, які оновлюються щодня.\n\nОчікуйте нові можливості, а також нові вади!</string>
+    <string name="nightly_version">Знайдена версія: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Ви запустили нічну збірку. Хочете періодично шукати оновлення?</string>
+    <string name="update_nightly">Автооновлення</string>
+    <string name="update_nightly_summary">Пошук нічних оновлень періодично</string>
 
 
     <!-- Accessibility -->
@@ -1256,4 +1280,16 @@
     <string name="metered_warn">Попередити мене (попередження може бути пропущено при відтворенні аудіо)</string>
     <string name="metered_connection_stopped">Медіа зупинено, тому що з\'єднання тарифікується</string>
     <string name="metered_connection_warning">Ваше з\'єднання тарифікується. Може стягуватися плата.</string>
+    <string name="adding">Додавання</string>
+    <string name="to">до</string>
+    <string name="device">Пристрій</string>
+    <string name="connected_device">Під\'єднаний пристрій</string>
+    <string name="model">Модель пристрою</string>
+    <string name="prefs_app_data">Дані застосунку</string>
+    <string name="export_settings_summary">Експортуйте ваші налаштування у файл, щоб пізніше імпортувати їх</string>
+    <string name="export_settings">Експортувати налаштування</string>
+    <string name="restore_settings_summary">Відновлюйте ваші налаштування з попереднього експорту</string>
+    <string name="restore_settings">Відновити налаштування</string>
+    <string name="export_settings_success">Налаштування успішно експортовано до кореня внутрішнього сховища</string>
+    <string name="export_settings_failure">Щось пішло не так під час експорту ваших налаштувань</string>
 </resources>

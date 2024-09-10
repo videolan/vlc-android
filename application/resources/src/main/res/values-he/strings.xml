@@ -205,6 +205,8 @@
     <string name="subtitle_select">בחירת קובץ כתוביות</string>
     <string name="wait_before_sleep">להמתין לסיום פריט המדיה הנוכחי</string>
     <string name="reset_on_interaction">איפוס עם כל מחוות תפעול</string>
+    <string name="default_sleep_timer_summary">%1$s, המתנה לסיום המדיה: %2$s, איפוס עם תפעול: %3$s</string>
+
     <string name="server_add_title">הוספת שרת חדש למועדפים</string>
     <string name="server_domain_hint">כתובת השרת (שם מתחם או IP)</string>
     <string name="server_share_hint">שם השיתוף ברשת (או כתובת IP)</string>
@@ -383,6 +385,11 @@
     <string name="browser_show_hidden_files_title">הצגת קבצים מוסתרים</string>
     <string name="albums_show_track_numbers">הצגת מספרי הרצועות</string>
     <string name="enable_video_screenshot">צילום המסך</string>
+    <string name="enable_tap_and_hold_fastplay_title">הפעלת נגינה מהירה</string>
+    <string name="enable_tap_and_hold_fastplay_summary">נגיעה והחזקה תגברנה את מהירות הנגינה</string>
+    <string name="fastplay_speed_title">מהירות נגינה מהירה</string>
+    <string name="fastplay_title">מתנגן בקצב %sx</string>
+    <string name="fastplay_subtitle">שחרור עוצר</string>
 
     <string name="subtitles_prefs_category">כתוביות</string>
     <string name="subtitles_size_title">גודל הכתוביות</string>
@@ -452,6 +459,8 @@
     <string name="audio_ducking_summary">מסייע בהאזנה לצלילי התרעה, הנחיות ניווט או דיבור של יישומון סיוע</string>
     <string name="casting_category">שידור</string>
     <string name="remote_access">גישה מרחוק</string>
+    <string name="remote_access_version_title">גרסת גישה מרחוק</string>
+    <string name="remote_access_hash_title">גיבוב גישה מרחוק</string>
     <string name="remote_access_status">מצב שרת</string>
     <string name="remote_access_status_summary">נא לגעת כדי לצפות במצב השרת</string>
     <string name="remote_access_connections">חיבורים</string>
@@ -557,6 +566,8 @@
     <string name="http_user_agent">סוכן משתמש HTTP</string>
     <string name="custom_libvlc_options">אפשרויות מיוחדות ל־libVLC</string>
     <string name="custom_libvlc_options_invalid">אפשרויות libVLC שגויות!</string>
+    <string name="dav1d_thread_number">מספר תהליכון Dav1d</string>
+    <string name="dav1d_thread_number_invalid">מספר תהליכון שגוי! (>=1)</string>
 
     <string name="serious_crash">אתרע מזלך והתרחשה תקלה איומה, לפיכך נכפה על VLC להיסגר.</string>
     <string name="help_us_send_log">ניתן לסייע לנו לשפר את VLC ע״י שליחת דוח הקריסה הבא:</string>
@@ -588,6 +599,8 @@
     <string name="search_global">חיפוש בכל ספריית המדיה</string>
     <string name="playlist_save">שמירת רשימת הנגינה</string>
     <string name="playlist_name_hint">שם רשימת הנגינה</string>
+    <string name="chapters">פרקים</string>
+    <string name="notset">לא הוגדר</string>
     <string name="go_to_chapter">מעבר לפרק…</string>
     <string name="current_chapter">פרק: %s</string>
     <string name="confirm_resume">להמשיך מהמיקום האחרון?</string>
@@ -601,6 +614,21 @@
     <string name="whats_new_title">מה חדש ב־VLC ל־Android %s</string>
     <string name="whats_new_36_webserver_text">עם יכולת החדשה לגישה מרחוק, אפשר לשלוט ב־VLC ל־Android מכל מכשיר אחר.\nלשלוח את המדיה שלך בשני הכיוונים, לשלוט בנגינה ועוד המון יכולות חיוניות!</string>
     <string name="whats_new_36_favorites_text">אפשר לסמן את המדיה, האומנים והאלבומים שלך כמועדפים.\nלאתר את התוכן המועדף עליך במבט חטוף על ידי סינון התוכן לפי מועדפים בלבד!</string>
+
+<!--    update-->
+    <string name="update_title">עדכון זמין</string>
+    <string name="install_nightly_title">התקנת המהדורה שנבנתה בלילה</string>
+    <string name="update_text">מהדורה לילית של VLC ל־Android זמינה!\n\nהסיבה שזה מופיע היא כי הגרסה שלך היא מהדורה לילית.</string>
+    <string name="install_text">גרסאות ליליות מתעדכנות אוטומטיות מדי יום ומכילות את היכולות והתיקונים העדכניים ביותר.\n\nלהוריד כעת?</string>
+
+    <string name="open_in_browser">פתיחה בדפדפן</string>
+    <string name="install">התקנה</string>
+    <string name="install_nightly">התקנת המהדורה שנבנתה בלילה</string>
+    <string name="install_nightly_alert">מהדורות ליליות הן גרסאות ניסיוניות שמתעדכנות מדי יום.\n\nיכולות החדשות עלולות גם להצטרף תקלות!</string>
+    <string name="nightly_version">גרסה שנמצאה: %2$s - %1$s</string>
+    <string name="update_nightly_alert">הגרסה שפועלת אצלך היא הגרסה הליילית. לחפש עדכונים מדי פעם?</string>
+    <string name="update_nightly">עדכון אוטומטי</string>
+    <string name="update_nightly_summary">חיפוש אחר עדכון ליילי מדי פעם בפעם</string>
 
 
     <!-- Accessibility -->
@@ -1241,5 +1269,22 @@
     <string name="voice_control_help">אפשר לשלוט ב־VLC באמצעות Google Assistant על ידי אמירת הפקודות האלה בקול רם (אין תמיכה בעברית עדיין):\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
 
     <string name="network" >רשת</string>
+    <string name="metered_connection">פעולה לתזרימים כשהחיבור מוגבל או מדוד</string>
     <string name="metered_do_nothing">לא לעשות כלום</string>
-    </resources>
+    <string name="metered_stop">עצירת נגינה</string>
+    <string name="metered_warn">להזהיר אותי (בנגינת שמע יכול להיות שהאזהרה תתפספס)</string>
+    <string name="metered_connection_stopped">המדיה נעצרה כי החיבור מוגבל או מדוד</string>
+    <string name="metered_connection_warning">החיבור שלך מוגבל או מדוד. עלולות לחול עלויות נוספות.</string>
+    <string name="adding">מתווסף</string>
+    <string name="to">אל</string>
+    <string name="device">מכשיר</string>
+    <string name="connected_device">מכשיר מחובר</string>
+    <string name="model">דגם מכשיר</string>
+    <string name="prefs_app_data">נתוני יישום</string>
+    <string name="export_settings_summary">ייצוא ההגדרות שלך לקובץ כדי לייבא אותם בהמשך</string>
+    <string name="export_settings">ייצוא הגדרות</string>
+    <string name="restore_settings_summary">שחזור ההגדרות שלך מייצוא קודם</string>
+    <string name="restore_settings">שחזור הגדרות</string>
+    <string name="export_settings_success">ההגדרות יוצאו בהצלחה לשורש האחסון הפנימי</string>
+    <string name="export_settings_failure">משהו השתבש בעת ייצוא ההגדרות שלך</string>
+</resources>

@@ -23,8 +23,15 @@
     <string name="searchable_hint">Bilatu…</string>
     <string name="history">Historia</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Motzena lehenengo</string>
     <string name="sortby_length_desc">Luzeena lehenik</string>
+    <string name="sortby_number_asc">Bideo gehiago taldean</string>
+    <string name="sortby_number_desc">Bideo gutxiago taldean</string>
+    <string name="sort_date_asc">Zaharrena lehendik</string>
+    <string name="sort_date_desc">Berriena lehendik</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">Emaitza %d aurkitu da</item>
         <item quantity="other">%d emaitza aurkitu dira</item>
@@ -129,6 +136,8 @@
     <string name="nosubfolder">Azpikarpetarik ez</string>
     <string name="directorynotfound">\'%1$s\' direktorio-bidea ez da aurkitu.</string>
     <string name="nohistory">Ez daukazu erreprodukzio-historiarik oraindik.</string>
+    <string name="cant_ban_root">Ezin duzu erroko karpeta bat debekatu</string>
+
     <string name="cover_art">Azaleko diseinua</string>
     <string name="shuffle_all_title">Nahastu denak</string>
     <string name="shuffle_title">Nahasketa modua</string>
@@ -136,6 +145,7 @@
     <string name="shuffle_on">Nahasketa piztuta</string>
     <string name="shuffle_play">Nahastu</string>
     <string name="repeat_title">Errepikatzeko modua</string>
+    <string name="repeat_none">Errepikatu bat ere ez</string>
     <string name="repeat_single">Errepikatu bat</string>
     <string name="repeat_all">Errepikatu denak</string>
     <string name="previous">Aurrekoa</string>
@@ -179,6 +189,8 @@
     <string name="jump_to_time">Jauzi denborara</string>
     <string name="subtitle_select">Hautatu azpitituluen fitxategia</string>
     <string name="wait_before_sleep">Itxaron uneko multimedia amaitu arte</string>
+    <string name="reset_on_interaction">Berrezarri edozein interakziotan</string>
+    <string name="default_sleep_timer_summary">%1$s, itxaron multimediaren bukaera: %2$s, berrezarri interakzioan:%3$s</string>
 
     <string name="server_add_title">Gehitu zerbitzari berri bat gogokoetara</string>
     <string name="server_domain_hint">Zerbitzariaren helbidea (domeinu-izena edo IPa)</string>
@@ -282,6 +294,8 @@
     <string name="add_custom_path">Gehitu bide pertsonalizatua</string>
     <string name="add_custom_path_description">Idatzi eskaneatzeko direktorio gehigarriak:</string>
     <string name="remove_custom_path">Kendu bide pertsonalizatua</string>
+    <string name="group_ban_folder">Debekatu karpeta multimedia liburutegitik</string>
+
     <string name="hardware_acceleration">Hardware-azelerazioa</string>
     <string name="hardware_acceleration_summary">Desgaituta: egonkortasun handiagoa\nDekodifikazioa: errendimendua hobe dezake\nOsoa: errendimendua gehiago hobetu dezake</string>
     <string name="hardware_acceleration_disabled">Desgaituta</string>
@@ -293,10 +307,13 @@
     <string name="screen_orientation">Pantailaren orientazioa</string>
     <string name="screen_orientation_sensor">Automatikoa (sentsorea)</string>
     <string name="screen_orientation_portrait">Bertikala</string>
+    <string name="screen_orientation_portrait_reverse">Erretratua alderantziz</string>
     <string name="screen_orientation_landscape">Horizontala</string>
     <string name="screen_orientation_landscape_reverse">Alderantzizko horizontala</string>
+    <string name="screen_orientation_landscape_sensor">Paisaia (sentsorea)</string>
     <string name="screen_orientation_last_locked">Blokeatutako azken orientazioa</string>
     <string name="enable_black_theme">Itxura beltza</string>
+    <string name="dark_theme">Itxura iluna</string>
     <string name="theme_auto">Itxura automatikoa</string>
     <string name="subtitle_text_encoding">Azpitituluen testu-kodeketa</string>
     <string name="subtitle_preferred_language">Azpitituluen hizkuntza hobetsia</string>
@@ -353,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Erakutsi ezkutuko fitxategiak</string>
     <string name="albums_show_track_numbers">Erakutsi pista zenbakia</string>
     <string name="enable_video_screenshot">Egin pantaila-argazkia</string>
+    <string name="enable_tap_and_hold_fastplay_title">Gaitu erreprodukzio azkarra</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Luze sakatu erreprodukzio-abiadura handitzeko</string>
+    <string name="fastplay_speed_title">Erreprodukzio azkarraren abiadura</string>
+    <string name="fastplay_title">%sx-en erreproduzitzen</string>
+    <string name="fastplay_subtitle">Askatu gelditzeko</string>
 
     <string name="subtitles_prefs_category">Azpitituluak</string>
     <string name="subtitles_size_title">Azpitituluen tamaina</string>
@@ -436,6 +458,11 @@
     <string name="enable_remote_access">Gaitu urruneko sarbidea</string>
     <string name="remote_access_info">Urruneko sarbidearen informazioa</string>
     <string name="remote_access_content">Edukia</string>
+    <string name="remote_access_medialibrary_content_summary">Gaituta: %1$s\nDesgaituta: %2$s</string>
+    <string name="remote_access_file_browser_content">Fitxategien arakatzailea</string>
+    <string name="remote_access_network_browser_content">Sareko nabigatzailea</string>
+    <string name="remote_access_playback_control">Erreprodukzio-kontrola</string>
+    <string name="remote_access_logs">Partekatu erregistro fitxategiak</string>
     <string name="casting_switch_title">Hari gabeko igortzea</string>
     <string name="casting_passthrough_title">Audio igarobidea</string>
     <string name="casting_passthrough_summary">Utzi zure telebistari audioa errendatzen</string>
@@ -451,6 +478,9 @@
     <string name="show_headers_summary">Zatitu zerrendak goiburuen arabera ordenatzeko motaren arabera</string>
     <string name="tv_folders_first">Erakutsi karpetak lehenik</string>
     <string name="tv_folders_first_summary">Erakutsi karpetak eta ondoren fitxategiak fitxategi-arakatzailean</string>
+    <string name="tv_show_hidden_files">Erakutsi ezkutuko fitxategiak</string>
+    <string name="tv_show_hidden_files_summary">Erakutsi ezkutuko fitxategiak fitxategien arakatzailean</string>
+
     <string name="extensions_prefs_category">Gehigarriak</string>
     <string name="extensions_empty">Ez da gehigarririk atzeman</string>
     <string name="extension_permission_title">\"%1$s\" gehigarri berria aktibatu?</string>
@@ -498,6 +528,8 @@
     <string name="restart_message">Aldaketek aplikazioa berrabiarazitakoan izango dute eragina.\n\nBerrabiarazi orain?</string>
     <string name="restart_message_OK">Ados</string>
     <string name="restart_message_Later">Gero</string>
+    <string name="browser_show_all_title">Erakutsi bakarrik multimedia fitxategiak</string>
+
     <string name="developer_prefs_category">Garatzailea</string>
     <string name="enable_verbose_mode">Xehetua</string>
     <string name="enable_verbose_mode_summary">Handitu xehetasun-maila (logcat)</string>
@@ -513,9 +545,9 @@
     <string name="dump_logcat">Erauzi logcat erregistroa</string>
     <string name="dump_logcat_success">Logcat ondo erauzi da %1$s(e)ra!</string>
     <string name="dump_logcat_failure">Huts egin du logcat-a erauztea.</string>
+    <string name="http_user_agent">HTTP erabiltzaile-agentea</string>
     <string name="custom_libvlc_options">libVLC aukera pertsonalizatuak</string>
     <string name="custom_libvlc_options_invalid">Baliogabeko libVLC aukerak!</string>
-
     <string name="serious_crash">Tamalez errore larri bat gertatu da eta VLC itxi egin da.</string>
     <string name="help_us_send_log">Lagun gaitzazu VLC hobetzen ondorengo kraskatze-erregistroa bidalita:</string>
     <string name="restart_vlc">Berrabiarazi VLC</string>
@@ -546,6 +578,8 @@
     <string name="search_global">Bilatu multimedia-liburutegi osoan</string>
     <string name="playlist_save">Gorde erreprodukzio-zerrenda</string>
     <string name="playlist_name_hint">Erreprodukzio-zerrendaren izena</string>
+    <string name="chapters">Kapituluak</string>
+    <string name="notset">Ezarri gabe</string>
     <string name="go_to_chapter">Joan kapitulura…</string>
     <string name="current_chapter">Kapitulua: %s</string>
     <string name="confirm_resume">Azken posiziotik berrekin?</string>
@@ -555,6 +589,12 @@
     <string name="medialibrary">Multimedia-liburutegia</string>
     <string name="medialibrary_directories">Multimedia-liburutegiko karpetak</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">Zer berri dago Android %s-erako VLC-n</string>
+    <!--    update-->
+    <string name="update_title">Eguneratzea eskuragarri</string>
+    <string name="open_in_browser">Ireki nabigatzailean</string>
+    <string name="install">Instalatu</string>
     <!-- Accessibility -->
     <string name="more_actions">Ekintza gehiago</string>
     <string name="back_quit_lock">Bideotik irteteko, sakatu berriro \'Atzera\'</string>
@@ -696,6 +736,10 @@
     <string name="ab_repeat_stop">Utzi A-B errepikatzea</string>
     <string name="stop_after_this">Gelditu pista honen ondoren</string>
     <string name="time_category_new">Multimedia berria</string>
+    <string name="time_category_today">Gaur</string>
+    <string name="time_category_yesterday">Atzo</string>
+    <string name="time_category_current_week">Aste honetan</string>
+    <string name="time_category_last_week">Azken astean</string>
     <string name="time_category_current_month">Hilabete honetan</string>
     <string name="time_category_current_year">Aurten</string>
     <string name="time_category_last_year">Iaz</string>
@@ -743,10 +787,13 @@
     <string name="light_theme">Itxura argia</string>
     <string name="add">Gehitu</string>
     <string name="add_to_new_playlist">Gehitu erreprodukzio-zerrenda berrira</string>
+    <string name="create_new_playlist">Sortu erreprodukzio-zerrenda berria</string>
+    <string name="create">Sortu</string>
     <string name="resume_card_message">Berrekin %1$s-ren erreprodukzioa?</string>
     <string name="misc">Denetarik</string>
     <string name="popup_force_legacy_title">Erabili irudia-irudian laster-leiho pertsonalizatua</string>
     <string name="popup_force_legacy_summary">Erabili irudia-irudian laster-leiho pertsonalizatu neurgarria</string>
+    <string name="restore_background_video_title">Leheneratu bideoa atzeko planotik</string>
     <string name="device_default">Gailuan lehenetsitakoa</string>
     <string name="track_number">%d pista</string>
     <string name="jump_to">Jauzi hona</string>
@@ -893,6 +940,7 @@
     <string name="mark_as_played">Markatu erreproduzituta gisa</string>
     <string name="mark_as_not_played">Markatu erreproduzitu gabe gisa</string>
     <string name="mark_all_as_played">Markatu guztiak erreproduzituta gisa</string>
+    <string name="mark_all_as_not_played">Markatu guztiak erreproduzitu gabe gisa</string>
     <string name="new_group">Talde berria</string>
     <string name="new_group_desc">Sortu talde berria</string>
 
@@ -924,6 +972,8 @@
     <string name="missing_media_snack">Euskarria falta da. Falta diren euskarri guztiak ezkutatu?</string>
     <string name="browser_show_missing_media">Erakutsi falta diren multimediak</string>
     <string name="browser_show_missing_media_summary">Erakutsi urrutiko komunikabideak ez egon arren</string>
+    <string name="parental_control">Gurasoen kontrola</string>
+    <string name="safe_mode">Modu segurua</string>
     <string name="search_prefs">Bilaketa ezarpenak</string>
     <string name="video_match_frame_rate_title">Lotu bistaratzeko fotograma-abiadura</string>
     <string name="video_match_frame_rate_summary">Lotu pantailaren freskatze-abiadura multimediako fotograma-abiadurarekin. Adibidez, 24p-ko film bat 24p-n erreproduzitu behar da</string>

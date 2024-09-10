@@ -360,6 +360,11 @@
     <string name="browser_show_hidden_files_title">隠しファイルを表示</string>
     <string name="albums_show_track_numbers">トラック番号を表示</string>
     <string name="enable_video_screenshot">スクリーンショットを撮る</string>
+    <string name="enable_tap_and_hold_fastplay_title">高速再生を有効化</string>
+    <string name="enable_tap_and_hold_fastplay_summary">タップとホールドすることで再生速度を増加します</string>
+    <string name="fastplay_speed_title">高速再生の速度</string>
+    <string name="fastplay_title"> %s倍で再生中</string>
+    <string name="fastplay_subtitle">離すと停止します</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕サイズ</string>
@@ -429,6 +434,8 @@
     <string name="audio_ducking_summary">音声通知、ナビゲーションまたはアシスタント会話を聴き取りやすくする</string>
     <string name="casting_category">配信</string>
     <string name="remote_access">リモートアクセス</string>
+    <string name="remote_access_version_title">リモートアクセスバージョン</string>
+    <string name="remote_access_hash_title">リモートアクセスハッシュ</string>
     <string name="remote_access_status">サーバーステータス</string>
     <string name="remote_access_status_summary">タップしてサーバーステータスを確認</string>
     <string name="remote_access_connections">接続</string>
@@ -534,6 +541,8 @@
     <string name="http_user_agent">HTTPユーザーエージェント</string>
     <string name="custom_libvlc_options">libVLCのカスタムオプション</string>
     <string name="custom_libvlc_options_invalid">libVLCのオプションが不正です!</string>
+    <string name="dav1d_thread_number">Dav1dのスレッド番号</string>
+    <string name="dav1d_thread_number_invalid">スレッド番号が正しくありません! (>=1)</string>
 
     <string name="serious_crash">深刻なエラーが発生したため、VLCを終了しました。</string>
     <string name="help_us_send_log">以下のクラッシュログを送信することでVLCの改善に協力してください:</string>
@@ -565,6 +574,8 @@
     <string name="search_global">すべてのメディアライブラリから検索</string>
     <string name="playlist_save">プレイリストを保存</string>
     <string name="playlist_name_hint">プレイリスト名</string>
+    <string name="chapters">チャプター</string>
+    <string name="notset">未設定</string>
     <string name="go_to_chapter">チャプター指定…</string>
     <string name="current_chapter">チャプター: %s</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
@@ -578,6 +589,21 @@
     <string name="whats_new_title">VLC for Android %s の更新情報</string>
     <string name="whats_new_36_webserver_text">新しいリモートアクセス機能を利用すると、他のデバイスからAndroid版VLCを制御することができます。\nメディアを双方向に送信したり再生したりなど色々な制御ができます!</string>
     <string name="whats_new_36_favorites_text">メディア、プレイリスト、アーティスト、アルバムをお気に入りに追加することができるようになりました。\nお気に入りでフィルタリングすると好きなコンテンツが一目で見つけられます!</string>
+
+<!--    update-->
+    <string name="update_title">アップデートがあります</string>
+    <string name="install_nightly_title">ナイトリーバージョンをインストール</string>
+    <string name="update_text">VLC for Androidの新しいナイトリーリリースがあります!\n\nこのメッセージはあなたがナイトリー版を利用しているため表示されています。</string>
+    <string name="install_text">ナイトリーバージョンは自動的に最新の機能と修正が行われて更新されています。\n\nすぐにダウンロードしますか?</string>
+
+    <string name="open_in_browser">ブラウザーで開く</string>
+    <string name="install">インストール</string>
+    <string name="install_nightly">ナイトリーバージョンをインストール</string>
+    <string name="install_nightly_alert">ナイトリー版は試験的なバージョンで毎日更新されています。\n\n新しい機能がすぐに利用できますが、新しいバグもある可能性があります!</string>
+    <string name="nightly_version">見つかったバージョン: %2$s - %1$s</string>
+    <string name="update_nightly_alert">ナイトリーバージョンを使用中です。定期的にアップデートを希望しますか?</string>
+    <string name="update_nightly">自動更新</string>
+    <string name="update_nightly_summary">ナイトリーバージョンの更新を定期的に確認する</string>
 
 
     <!-- Accessibility -->
@@ -1214,4 +1240,16 @@
     <string name="metered_warn">通知（再生中の通知は行われないかも知れません）</string>
     <string name="metered_connection_stopped">接続が従量制のため再生を停止しました</string>
     <string name="metered_connection_warning">接続が従量制です。使用量が課金される可能性があります。</string>
+    <string name="adding">追加</string>
+    <string name="to">に</string>
+    <string name="device">デバイス</string>
+    <string name="connected_device">接続されたデバイス</string>
+    <string name="model">デバイスモデル</string>
+    <string name="prefs_app_data">アプリケーションデータ</string>
+    <string name="export_settings_summary">後でインポートするために設定をファイルにエクスポートする</string>
+    <string name="export_settings">設定をエクスポートする</string>
+    <string name="restore_settings_summary">エクスポート済みの設定をインポートして設定をリストアする</string>
+    <string name="restore_settings">設定をリストアする</string>
+    <string name="export_settings_success">内部ストレージのルートに設定が正常にエクスポートされました</string>
+    <string name="export_settings_failure">設定をエクスポート中に何らかの異常が発生しました</string>
 </resources>

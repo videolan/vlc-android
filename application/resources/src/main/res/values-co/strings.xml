@@ -27,6 +27,11 @@
     <string name="sort_alpha_desc">Da Z à A</string>
     <string name="sortby_length_asc">U più cortu in primu</string>
     <string name="sortby_length_desc">U più longu in primu</string>
+    <string name="sortby_number_asc">Più filmetti in u gruppu</string>
+    <string name="sortby_number_desc">Menu filmetti in u gruppu</string>
+    <string name="sort_date_asc">U più anzianu in primu</string>
+    <string name="sort_date_desc">U più recente in primu</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultatu trovu</item>
         <item quantity="other">%d risultati trovi</item>
@@ -88,7 +93,7 @@
         <item quantity="other">%d sottucartulari</item>
     </plurals>
     <plurals name="media_quantity">
-        <item quantity="one">1 schedariu multimedia</item>
+        <item quantity="one">1 schedariu multimedià</item>
         <item quantity="other">%d schedarii multimedià</item>
     </plurals>
     <plurals name="mediafiles_quantity">
@@ -184,6 +189,8 @@
     <string name="jump_to_time">Saltà à una stonda</string>
     <string name="subtitle_select">Selezziunà un schedariu di sottutituli</string>
     <string name="wait_before_sleep">Aspettà chì u medià attuale si compii in primu</string>
+    <string name="reset_on_interaction">Reinizià à ogni interazzione</string>
+    <string name="default_sleep_timer_summary">%1$s, aspettà a fine di u medià : %2$s, reinizià à ogni interazzione : %3$s</string>
 
     <string name="server_add_title">Aghjunghje un novu servitore à i favuriti</string>
     <string name="server_domain_hint">Indirizzu di u servitore (nome di duminiu o IP)</string>
@@ -363,7 +370,6 @@
     <string name="browser_show_hidden_files_title">Affissà i schedarii piattati</string>
     <string name="albums_show_track_numbers">Affissà i numeri di traccia</string>
     <string name="enable_video_screenshot">Catturà una fiura di screnu</string>
-
     <string name="subtitles_prefs_category">Sottutituli</string>
     <string name="subtitles_size_title">Dimensione di i sottutituli</string>
     <string name="subtitles_presets_title">Prerigature di i sottutituli</string>
@@ -432,6 +438,8 @@
     <string name="audio_ducking_summary">Aiuta à stà à sente e nutificazioni aidio, l’istruzzioni parlate di navigazione o d’assistenza</string>
     <string name="casting_category">Diffusione</string>
     <string name="remote_access">Accessu à distanza</string>
+    <string name="remote_access_version_title">Versione di l’accessu à distanza</string>
+    <string name="remote_access_hash_title">Tazzeghju di l’accessu à distanza</string>
     <string name="remote_access_status">Statu di u servitore</string>
     <string name="remote_access_status_summary">Picchichjà per vede u statu di u servitore</string>
     <string name="remote_access_connections">Cunnessioni</string>
@@ -517,6 +525,8 @@
     <string name="restart_message">I cambiamenti seranu pigliati in contu quandu l’appiecazione serà rilanciata.\n\nRilancialla avà ?</string>
     <string name="restart_message_OK">Vai</string>
     <string name="restart_message_Later">Dopu</string>
+    <string name="browser_show_all_title">Affissà solu i schedarii multimedià</string>
+
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verbosu</string>
     <string name="enable_verbose_mode_summary">Aumentà a verbusità (logcat)</string>
@@ -532,11 +542,14 @@
     <string name="dump_logcat">Arregistrà u ghjurnale logcat</string>
     <string name="dump_logcat_success">Logcat arregistratu bè ver di %1$s !</string>
     <string name="dump_logcat_failure">Fiascu à l’arregistramentu di logcat.</string>
+    <string name="http_user_agent">Agente utilizatore HTTP</string>
     <string name="custom_libvlc_options">Ozzioni libVLC persunalizate</string>
     <string name="custom_libvlc_options_invalid">Ozzioni inaccettevule per libVLC !</string>
+    <string name="dav1d_thread_number">Numeru di filu Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Numeru di filu inaccettevule ! (>=1)</string>
 
     <string name="serious_crash">Per disgrazia, un sbagliu seriu hè accadutu è VLC hè statu chjosu.</string>
-    <string name="help_us_send_log">Aiutatecci à megliurà VLC mandenduci quellu ghjurnale d’accidente :</string>
+    <string name="help_us_send_log">Aiutateci à megliurà VLC mandenduci quellu ghjurnale d’accidente :</string>
     <string name="restart_vlc">Rilancià VLC</string>
     <string name="send_log">Mandà u ghjurnale di i messaghji</string>
     <string name="sending_log">Inviu di u ghjurnale…</string>
@@ -579,8 +592,7 @@
     <string name="whats_new_36_webserver_text">Grazia à a funzione nova d’accessu à distanza, pigliate u cuntrollu di VLC per Android da qualsiasi altru apparechju.\nMandate u vostru medià in e duie direzzioni, cuntrollate a vostra ripruduzzione è ancu di più !</string>
     <string name="whats_new_36_favorites_text">Avà si pò aghjunghje cum’è favuriti i vostri medià, liste di lettura, artisti o albumi.\nRitruvate in un’ochjata i vostri cuntenuti preferiti filtrenduli da i favuriti solu !</string>
 
-
-    <!-- Accessibility -->
+<!-- Accessibility -->
     <string name="more_actions">Azzioni di più</string>
     <string name="back_quit_lock">Preme Precedente torna per chità a video</string>
     <string name="stream_deleted">Flussu squassatu</string>
@@ -699,7 +711,7 @@
     <string name="sdcard_permission_dialog_title">Ci vole à cuncede à VLC l’accessu in scrittura à a vostra carta SD</string>
     <string name="sdcard_permission_dialog_message">VLC ùn pò micca squassà stu schedariu senza permessu d’accessu in scrittura.\nDa prima, ci vole à andà ver di a vostra carta SD è cliccà nant’à \&quot;Affissà carta SD\&quot; in u listinu insù-diritta</string>
     <string name="dialog_sd_wizard">Mustrammi</string>
-    <string name="renderers_disconnect">Disghjunghje</string>
+    <string name="renderers_disconnect">Discunnette</string>
     <string name="audio_digital_failed">Fiascu per cambià u statu di l’esciuta digitale audio</string>
     <string name="audio_digital_output_enabled">Esciuta digitale audio attivata</string>
     <string name="audio_digital_output_disabled">Esciuta digitale audio disattivata</string>
@@ -928,6 +940,7 @@
     <string name="mark_as_played">Marcà cum’è issendu vistu</string>
     <string name="mark_as_not_played">Marcà cum’è ùn issendu micca vistu</string>
     <string name="mark_all_as_played">Tuttu marcà cum’è issendu visti</string>
+    <string name="mark_all_as_not_played">Tuttu marcà cum’è ùn issendu letti</string>
     <string name="new_group">Novu gruppu</string>
     <string name="new_group_desc">Creà un novu gruppu</string>
 
@@ -1162,7 +1175,7 @@
     <string name="ra_file">Schedariu</string>
     <string name="ra_upload_remaining">Incaricamentu di %s schedarii</string>
     <string name="ra_upload_all">Tuttu incaricà</string>
-    <string name="ra_drop_files_tip">Depunite i schedarii in any locu per mandalli versu u vostru apparechju</string>
+    <string name="ra_drop_files_tip">Depunite i schedarii in ogni locu per mandalli versu u vostru apparechju</string>
     <string name="ra_prepare_download">Preparazione di u vostru scaricamentu</string>
     <string name="ra_forbidden">Cuntenutu disattivatu in e preferenze</string>
     <string name="ra_playback_forbidden">Cuntrollu di a ripruduzzione disattivatu in e preferenze</string>
@@ -1209,4 +1222,12 @@
     <string name="podcast_mode_help">I cuntrolli di podcast s’affissanu quandu si leghje una traccia unica chì risponde à unu di quelli criterii :\n\t• Longhezza superiore à 60 minuti\n\t• Longhezza superiore à 15 minuti senza nome d’albumu\n\t• Generu hè %s</string>
     <string name="voice_control">Cuntrollu di a voce</string>
     <string name="voice_control_help">VLC pò esse cuntrullatu via Google Assistant dicendu quelle cumande :\n\t• Leghje, Pausa, Piantà, Precedente, Seguente\n\t• Ritrusà, Avanza rapida, Ripete &lt;tuttu|unu|disattivatu&gt;\n\t• Saltà à &lt;una stonda&gt;\n\t• Tralascià &lt;durata&gt;\n\t• Chì hè &lt;st’artista|st’albumu|sta canzona&gt;\n\t• Leghje [artista|albumu|canzona|generu|lista di lettura] &lt;nome&gt;</string>
-</resources>
+
+    <string name="network" >Reta</string>
+    <string name="metered_connection">Azzione nant’à i flussi quandu a cunnessione hè tariffata</string>
+    <string name="metered_do_nothing">Ùn fà nunda</string>
+    <string name="metered_stop">Piantà a lettura</string>
+    <string name="metered_warn">Avertitemi (l’avertimentu puderia esse mancatu durante a lettura audio)</string>
+    <string name="metered_connection_stopped">U medià hè piantatu perchè a cunnessione hè tariffata</string>
+    <string name="metered_connection_warning">A vostra cunnessione hè tariffata. Certi costi puderianu appiecassi.</string>
+    </resources>

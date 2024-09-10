@@ -380,6 +380,11 @@
     <string name="browser_show_hidden_files_title">Mostra file nascosti</string>
     <string name="albums_show_track_numbers">Mostra numeri di traccia</string>
     <string name="enable_video_screenshot">Cattura una schermata</string>
+    <string name="enable_tap_and_hold_fastplay_title">Abilita Fastplay</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Tocca e trattieni per aumentare la velocità di riproduzione</string>
+    <string name="fastplay_speed_title">Velocità Fastplay</string>
+    <string name="fastplay_title">Riproduzione a %sx</string>
+    <string name="fastplay_subtitle">Rilascia per fermare</string>
 
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
@@ -449,6 +454,8 @@
     <string name="audio_ducking_summary">Aiuta a sentire le notifiche audio, le istruzioni parlate di navigazione o assistenza</string>
     <string name="casting_category">Trasmissione</string>
     <string name="remote_access">Accesso remoto</string>
+    <string name="remote_access_version_title">Versione accesso remoto</string>
+    <string name="remote_access_hash_title">Hash accesso remoto</string>
     <string name="remote_access_status">Stato del server</string>
     <string name="remote_access_status_summary">Tocca per vedere lo stato del server</string>
     <string name="remote_access_connections">Connessioni</string>
@@ -554,6 +561,8 @@
     <string name="http_user_agent">User agent HTTP</string>
     <string name="custom_libvlc_options">Opzioni personalizzate libVLC</string>
     <string name="custom_libvlc_options_invalid">Opzioni libVLC non valide!</string>
+    <string name="dav1d_thread_number">Numero thread Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Numero thread non valido! (>=1)</string>
 
     <string name="serious_crash">Sfortunatamente, si è verificato un errore grave e VLC è stato chiuso.</string>
     <string name="help_us_send_log">Aiutaci a migliorare VLC inviando il seguente registro del crash:</string>
@@ -585,6 +594,8 @@
     <string name="search_global">Cerca in tutta la raccolta multimediale</string>
     <string name="playlist_save">Salva scaletta</string>
     <string name="playlist_name_hint">Nome scaletta</string>
+    <string name="chapters">Capitoli</string>
+    <string name="notset">Non impostato</string>
     <string name="go_to_chapter">Vai al capitolo…</string>
     <string name="current_chapter">Capitolo: %s</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
@@ -598,6 +609,21 @@
     <string name="whats_new_title">Cosa c\'è di nuovo in VLC per Android %s</string>
     <string name="whats_new_36_webserver_text">Con la nuova funzione di accesso remoto, prendi il controllo di VLC per Android da qualsiasi altro dispositivo. Invia i tuoi media in entrambe le direzioni, controlla la riproduzione e molto altro!</string>
     <string name="whats_new_36_favorites_text">Ora puoi aggiungere ai preferiti i tuoi media, scalette, artisti o album.\nTrova facilmente i contenuti che ti piacciono filtrando solo i preferiti!</string>
+
+<!--    update-->
+    <string name="update_title">Aggiornamento disponibile</string>
+    <string name="install_nightly_title">Installa la versione nightly</string>
+    <string name="update_text">È disponibile una nuova versione nightly di VLC per Android!\n\nVedi questo perché stai utilizzando una versione nightly.</string>
+    <string name="install_text">Le versioni nightly sono aggiornate automaticamente ogni giorno con le funzionalità e le correzioni più recenti.\n\nVuoi scaricare adesso?</string>
+
+    <string name="open_in_browser">Apri nel browser</string>
+    <string name="install">Installa</string>
+    <string name="install_nightly">Installa la versione nightly</string>
+    <string name="install_nightly_alert">Le versioni nigthly sono versioni sperimentali aggiornate ogni giorno.\n\nAspettati nuove funzionalità, ma anche nuovi bug!</string>
+    <string name="nightly_version">Versione trovata: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Stai eseguendo una versione notturna. Vuoi cercare periodicamente gli aggiornamenti?</string>
+    <string name="update_nightly">Aggiornamento automatico</string>
+    <string name="update_nightly_summary">Cerca periodicamente l\'aggiornamento notturno</string>
 
 
     <!-- Accessibility -->
@@ -1242,4 +1268,16 @@
     <string name="metered_warn">Avvisami (l\'avviso potrebbe non essere presente per la riproduzione audio)</string>
     <string name="metered_connection_stopped">Media fermato perché la connessione è a consumo</string>
     <string name="metered_connection_warning">La tua connessione è a consumo. Potrebbero essere applicati dei costi.</string>
+    <string name="adding">Aggiunta di</string>
+    <string name="to">a</string>
+    <string name="device">Dispositivo</string>
+    <string name="connected_device">Dispositivo connesso</string>
+    <string name="model">Modello del dispositivo</string>
+    <string name="prefs_app_data">Dati applicazione</string>
+    <string name="export_settings_summary">Esporta le tue impostazioni su un file per importarle successivamente </string>
+    <string name="export_settings">Esporta le impostazioni</string>
+    <string name="restore_settings_summary">Ripristina le tue impostazioni da un\'esportazione precedente</string>
+    <string name="restore_settings">Ripristina le impostazioni</string>
+    <string name="export_settings_success">Impostazioni esportate correttamente nella radice dell\'archiviazione interna</string>
+    <string name="export_settings_failure">Si è verificato un problema durante l\'esportazione delle impostazioni</string>
 </resources>

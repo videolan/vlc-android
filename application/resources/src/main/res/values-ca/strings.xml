@@ -189,6 +189,9 @@
     <string name="jump_to_time">Saltar al minut</string>
     <string name="subtitle_select">Selecciona un fitxer de subtítols</string>
     <string name="wait_before_sleep">Espereu que acabi primer l\'actual element multimèdia</string>
+    <string name="reset_on_interaction">Restableix en qualsevol interacció</string>
+    <string name="default_sleep_timer_summary">%1$s, espera el final del multimèdia: %2$s, restableix en interacció: %3$s</string>
+
     <string name="server_add_title">Afegeix un servidor als preferits</string>
     <string name="server_domain_hint">Adreça del servidor (nom de domini o IP)</string>
     <string name="server_share_hint">Nom del recurs compartit de xarxa (o adreça IP)</string>
@@ -367,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Mostra els fitxers ocults</string>
     <string name="albums_show_track_numbers">Mostra els números de pista</string>
     <string name="enable_video_screenshot">Obtén una instantània</string>
+    <string name="enable_tap_and_hold_fastplay_title">Habilita la reproducció ràpida</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Toqueu i manteniu premut per augmentar la velocitat de reproducció</string>
+    <string name="fastplay_speed_title">Velocitat de reproducció ràpida</string>
+    <string name="fastplay_title">Reproduïnt a %sx</string>
+    <string name="fastplay_subtitle">Allibera per aturar</string>
 
     <string name="subtitles_prefs_category">Subtítols</string>
     <string name="subtitles_size_title">Mida dels subtítols</string>
@@ -436,6 +444,8 @@
     <string name="audio_ducking_summary">Ajuda a sentir les notificacions d\'àudio, instruccions de navegació o la veu de l\'assistent</string>
     <string name="casting_category">Difusió</string>
     <string name="remote_access">Accés remot</string>
+    <string name="remote_access_version_title">Versió d\'accés remot</string>
+    <string name="remote_access_hash_title">Hash d\'accés remot</string>
     <string name="remote_access_status">Estat del servidor</string>
     <string name="remote_access_status_summary">Toqueu per veure l\'estat del servidor</string>
     <string name="remote_access_connections">Connexions</string>
@@ -541,6 +551,8 @@
     <string name="http_user_agent">Agent d\'usuari HTTP</string>
     <string name="custom_libvlc_options">Opcions personalitzades libVLC</string>
     <string name="custom_libvlc_options_invalid">Opcions invàlides libVLC!</string>
+    <string name="dav1d_thread_number">Número de fil del Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Número de fil incorrecte! (>=1)</string>
 
     <string name="serious_crash">Desafortunadament, hi ha hagut un error seriós quan el VLC s\'ha tancat.</string>
     <string name="help_us_send_log">Ajudan\'s a millorar VLC enviant-nos el següent fitxer de registre de fallades:</string>
@@ -585,6 +597,21 @@
     <string name="whats_new_title">Què hi ha de nou al VLC per a Android %s</string>
     <string name="whats_new_36_webserver_text">Amb la nova funció d\'accés remot, preneu el control del VLC per a Android des de qualsevol altre dispositiu.\nEnvieu els vostres mitjans en ambdós sentits, controleu la reproducció i molt més!</string>
     <string name="whats_new_36_favorites_text">Ara podeu afegir als preferits els vostres mitjans, llistes de reproducció, artistes o àlbums.\nTrobeu el contingut preferit d\'un cop d\'ull filtrant només els preferits!</string>
+
+<!--    update-->
+    <string name="update_title">Actualització disponible</string>
+    <string name="install_nightly_title">Instal·la la versió nocturna</string>
+    <string name="update_text">Hi ha disponible un nou llançament nocturn del VLC per a Android!\n\nVeieu aquest missatge perquè esteu usant un muntatge nocturn.</string>
+    <string name="install_text">Els muntatges nocturns s\'actualitzen automàticament cada dia amb les últimes característiques i correccions.\n\nVoleu descarrregar ara?</string>
+
+    <string name="open_in_browser">Obre al navegador web</string>
+    <string name="install">Instal·la</string>
+    <string name="install_nightly">Instal·la la versió nocturna</string>
+    <string name="install_nightly_alert">Els muntatges nocturns són versions experimentals que s\'actualitzen diàriament.\n\nPodeu esperar noves funcions però també nous errors!</string>
+    <string name="nightly_version">Versió trobada: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Esteu executant una versió nocturna. Voleu buscar actualitzacions periòdicament?</string>
+    <string name="update_nightly">Actualització automàtica</string>
+    <string name="update_nightly_summary">Buscar actualització nocturna periòdicament</string>
 
 
     <!-- Accessibility -->
@@ -1218,4 +1245,23 @@
     <string name="voice_control">Control de veu</string>
     <string name="voice_control_help">El VLC es pot controlar a través de Google Assistant parlant les següents ordres:\n\t• Reproduir, Pausa, Aturar, Anterior, Següent:\n\t• Rebobinar, Avançar ràpid, Repetir &lt;totes|una|apagar&gt;\n\t• Saltar a &lt;temps&gt;, Ometre &lt;duració&gt;\n\t• Què és això &lt;artista|àlbum|cançó&gt;\n\t• Reproduir [artista|àlbum|cançó|gènere|llista de reproducció] &lt;nom&gt;</string>
 
-    </resources>
+    <string name="network" >Xarxa</string>
+    <string name="metered_connection">Acció per a fluxos quan es mesura la connexió</string>
+    <string name="metered_do_nothing">No facis res</string>
+    <string name="metered_stop">Atura la reproducció</string>
+    <string name="metered_warn">Avisa\'m (es pot perdre l\'avís per a la reproducció d\'àudio)</string>
+    <string name="metered_connection_stopped">El multimèdia s\'ha aturat perquè es mesura la connexió</string>
+    <string name="metered_connection_warning">La vostra connexió està mesurada. Es poden aplicar tarifes.</string>
+    <string name="adding">Afegint</string>
+    <string name="to">a</string>
+    <string name="device">Dispositiu</string>
+    <string name="connected_device">Dispositiu connectat</string>
+    <string name="model">Model de dispositiu</string>
+    <string name="prefs_app_data">Dades de l\'aplicació</string>
+    <string name="export_settings_summary">Exporteu la vostra configuració a un fitxer per importar-la més tard</string>
+    <string name="export_settings">Exportar configuració</string>
+    <string name="restore_settings_summary">Restaurar la configuració des d\'una exportació prèvia</string>
+    <string name="restore_settings">Restaurar la configuració</string>
+    <string name="export_settings_success">S\'ha exportat la configuració satisfactòriament a l’arrel de l’emmagatzematge intern </string>
+    <string name="export_settings_failure">Alguna cosa ha fallat durant l\'exportació de la configuració</string>
+</resources>

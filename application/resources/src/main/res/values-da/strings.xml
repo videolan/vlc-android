@@ -189,6 +189,9 @@
     <string name="jump_to_time">Spring til tidspunkt</string>
     <string name="subtitle_select">Vælg fil med undertekster</string>
     <string name="wait_before_sleep">Vent først på afslutning af nuværende medie</string>
+    <string name="reset_on_interaction">Nulstil ved enhver interaktion</string>
+    <string name="default_sleep_timer_summary">%1$s, afvent medieafslutning: %2$s, nulstil ved interaktion: %3$s</string>
+
     <string name="server_add_title">Tilføj en ny server til favoritter</string>
     <string name="server_domain_hint">Serveradresse (domænenavn eller IP)</string>
     <string name="server_share_hint">Netværksdelingsnavn (eller IP-adresse)</string>
@@ -367,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Vis skjulte filer</string>
     <string name="albums_show_track_numbers">Vis spornumre</string>
     <string name="enable_video_screenshot">Tag et skærmbillede</string>
+    <string name="enable_tap_and_hold_fastplay_title">Slå hurtigafspilning til</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Dup og hold for at øge afspilningshastighed</string>
+    <string name="fastplay_speed_title">Hurtigafspilningshastighed</string>
+    <string name="fastplay_title">Afspiller med %sx</string>
+    <string name="fastplay_subtitle">Frigør for at stoppe</string>
 
     <string name="subtitles_prefs_category">Undertekster</string>
     <string name="subtitles_size_title">Underteksters størrelse</string>
@@ -436,6 +444,8 @@
     <string name="audio_ducking_summary">Hjælper med at høre lydnotifikationer, navigationsinstruktioner eller assisterende tale</string>
     <string name="casting_category">Udsendelse</string>
     <string name="remote_access">Fjernadgang</string>
+    <string name="remote_access_version_title">Fjernadgangsversion</string>
+    <string name="remote_access_hash_title">Fjernadgangshashværdi</string>
     <string name="remote_access_status">Serverstatus</string>
     <string name="remote_access_status_summary">Tryk for at se serverstatus</string>
     <string name="remote_access_connections">Forbindelser</string>
@@ -541,6 +551,8 @@
     <string name="http_user_agent">HTTP bruger-agent</string>
     <string name="custom_libvlc_options">Tilpasset libVLC indstillinger</string>
     <string name="custom_libvlc_options_invalid">Ugyldige libVLC-indstillinger!</string>
+    <string name="dav1d_thread_number">Dav1d trådnummer</string>
+    <string name="dav1d_thread_number_invalid">Ugyldigt trådnummer! (>=1)</string>
 
     <string name="serious_crash">Der opstod desværre en alvorlig fejl, og VLC måtte lukkes ned.</string>
     <string name="help_us_send_log">Hjælp os med at forbedre VLC ved at sende følgende log for nedbrud:</string>
@@ -585,6 +597,21 @@
     <string name="whats_new_title">Hvad er nyt i VLC til Android %s</string>
     <string name="whats_new_36_webserver_text">Med den nye fjernadgangsmulighed kan du styre VLC til Android fra alle enheder.\nSende dine medier frem og tilbage, kontrollere din afspilning og meget mere!</string>
     <string name="whats_new_36_favorites_text">Du kan nu favorisere dine medier, afspilningslister, kunstnere eller albummer.\nFind dit foretrukne indhold ved at filtrere indhold kun fra favoritter!</string>
+
+<!--    update-->
+    <string name="update_title">Tilgængelig opdatering</string>
+    <string name="install_nightly_title">Installér natlig version</string>
+    <string name="update_text">Der er en ny natlig version af VLC til Android tilgængelig!\n\nDu ser denne besked, fordi du anvender en natlig version.</string>
+    <string name="install_text">Natlige versioner opdateres automatisk hver dag med de nyeste funktioner og rettelser.\n\nHent nu?</string>
+
+    <string name="open_in_browser">Åbn i browser</string>
+    <string name="install">Installér</string>
+    <string name="install_nightly">Installér natlig version</string>
+    <string name="install_nightly_alert">Natlige versioner er eksperimentelle versioner opdateret hver eneste dag.\n\nForvent nye funktioner. Forvent nye fejl!</string>
+    <string name="nightly_version">Fundet version: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Du bruger en natlig version. Vil du periodisk se efter opdateringer?</string>
+    <string name="update_nightly">Automatisk opdatering</string>
+    <string name="update_nightly_summary">Søg periodisk efter opdatering til natlig version</string>
 
 
     <!-- Accessibility -->
@@ -1225,4 +1252,16 @@
     <string name="metered_warn">Advar mig (advarslen kan overses ved lydafspilning)</string>
     <string name="metered_connection_stopped">Medie stoppede da forbindelsen koster per forbrug</string>
     <string name="metered_connection_warning">Din forbindelse koster per forbrug. Det kan give udgifter.</string>
+    <string name="adding">Tilføjer</string>
+    <string name="to">til</string>
+    <string name="device">Enhed</string>
+    <string name="connected_device">Tilsluttet enhed</string>
+    <string name="model">Model for enhed</string>
+    <string name="prefs_app_data">Applikationsdata</string>
+    <string name="export_settings_summary">Eksportér dine indstillinger til en fil for at importere dem på et senere tidspunkt</string>
+    <string name="export_settings">Eksportér indstillinger</string>
+    <string name="restore_settings_summary">Gendan indstillinger fra en tidligere eksport</string>
+    <string name="restore_settings">Gendan indstillinger</string>
+    <string name="export_settings_success">Indstillinger eksporteret med succes til internt rodlager</string>
+    <string name="export_settings_failure">Noget gik galt under eksport af indstillinger</string>
 </resources>

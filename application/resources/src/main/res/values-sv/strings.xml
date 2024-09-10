@@ -370,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Visa dolda filer</string>
     <string name="albums_show_track_numbers">Visa spårnummer</string>
     <string name="enable_video_screenshot">Ta en skärmdump</string>
+    <string name="enable_tap_and_hold_fastplay_title">Aktivera snabbuppspelning</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Håll ned för att öka uppspelningshastigheten</string>
+    <string name="fastplay_speed_title">Hastighet för snabbuppspelning</string>
+    <string name="fastplay_title">Spelar upp med %sx</string>
+    <string name="fastplay_subtitle">Släpp för att stoppa</string>
 
     <string name="subtitles_prefs_category">Undertexter</string>
     <string name="subtitles_size_title">Undertextstorlek</string>
@@ -439,6 +444,8 @@
     <string name="audio_ducking_summary">Hjälper till att höra ljudmeddelanden, navigeringsinstruktioner eller assistenttal</string>
     <string name="casting_category">Casta</string>
     <string name="remote_access">Fjärråtkomst</string>
+    <string name="remote_access_version_title">Version för fjärråtkomst</string>
+    <string name="remote_access_hash_title">Hash för fjärråtkomst</string>
     <string name="remote_access_status">Serverstatus</string>
     <string name="remote_access_status_summary">Tryck för att se serverstatusen</string>
     <string name="remote_access_connections">Anslutningar</string>
@@ -544,6 +551,8 @@
     <string name="http_user_agent">HTTP-användaragent</string>
     <string name="custom_libvlc_options">Anpassade libVLC-alternativ</string>
     <string name="custom_libvlc_options_invalid">Ogiltiga libVLC-alternativ!</string>
+    <string name="dav1d_thread_number">Trådnummer för Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Ogiltigt trådnummer! (>=1)</string>
 
     <string name="serious_crash">Tyvärr uppstod ett allvarligt fel och VLC blev tvungen att stängas ned.</string>
     <string name="help_us_send_log">Hjälp oss att förbättra VLC genom att skicka följande kraschlogg:</string>
@@ -575,6 +584,8 @@
     <string name="search_global">Sök i alla mediabibliotek</string>
     <string name="playlist_save">Spara spellista</string>
     <string name="playlist_name_hint">Spellistans namn</string>
+    <string name="chapters">Kapitel</string>
+    <string name="notset">Inte angivet</string>
     <string name="go_to_chapter">Gå till kapitel…</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
@@ -588,6 +599,21 @@
     <string name="whats_new_title">Vad är nytt i VLC for Android %s</string>
     <string name="whats_new_36_webserver_text">Med den nya fjärråtkomsten kan du ta kontroll över VLC for Android från en annan enhet.\nSkicka dina mediafiler åt båda håll, styra din uppspelning och mycket mer!</string>
     <string name="whats_new_36_favorites_text">Du kan nu favoritmarkera dina mediafiler, spellistor, artist eller album,\nHitta innehållet du föredrar på ett ögonblick genom att filtrera innehållet efter endast favoriter!</string>
+
+<!--    update-->
+    <string name="update_title">Uppdatering är tillgänglig</string>
+    <string name="install_nightly_title">Installera nightly-versionen</string>
+    <string name="update_text">En ny nightly-utgåva av VLC for Android är tillgänglig!\n\nDu ser detta eftersom du använder ett nightly-bygge.</string>
+    <string name="install_text">Nightly-versioner uppdateras automatiskt varje dag med de senaste funktionerna och korrigeringarna.\n\nLadda ned nu?</string>
+
+    <string name="open_in_browser">Öppna i webbläsaren</string>
+    <string name="install">Installera</string>
+    <string name="install_nightly">Installera nightly-versionen</string>
+    <string name="install_nightly_alert">Nightly-byggen är experimentversioner som uppdateras varje dag.\n\nNy funktionalitet kan man förvänta sig, men även nya buggar.</string>
+    <string name="nightly_version">Version som hittades: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Du kör en nightly-version. Vill du söka efter uppdateringar regelbundet?</string>
+    <string name="update_nightly">Uppdatera automatiskt</string>
+    <string name="update_nightly_summary">Sök efter nightly-uppdateringar regelbundet</string>
 
 
     <!-- Accessibility -->
@@ -1228,4 +1254,16 @@
     <string name="metered_warn">Varna mig (under ljuduppspelning kan man missa varningen)</string>
     <string name="metered_connection_stopped">Media stoppades på grund av anslutning med datapriser</string>
     <string name="metered_connection_warning">Du har en anslutning med datapriser. Avgifter kan tillkomma.</string>
+    <string name="adding">Lägger till</string>
+    <string name="to">i</string>
+    <string name="device">Enhet</string>
+    <string name="connected_device">Enhet som är ansluten</string>
+    <string name="model">Enhetsmodell</string>
+    <string name="prefs_app_data">Applikationsdata</string>
+    <string name="export_settings_summary">Exportera dina inställningar till en fil för att importera dem senare</string>
+    <string name="export_settings">Exportera inställningar</string>
+    <string name="restore_settings_summary">Återställ dina inställningar från en tidigare exportering</string>
+    <string name="restore_settings">Återställ inställningar</string>
+    <string name="export_settings_success">Inställningarna exporterades till intern lagringsrot</string>
+    <string name="export_settings_failure">Någonting gick fel när dina inställningar exporterades</string>
 </resources>

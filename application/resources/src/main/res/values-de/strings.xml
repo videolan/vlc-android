@@ -189,6 +189,9 @@
     <string name="jump_to_time">Zum Zeitpunkt springen</string>
     <string name="subtitle_select">Untertiteldatei auswählen</string>
     <string name="wait_before_sleep">Bis das aktuelle Medienelement zuerst fertig ist warten</string>
+    <string name="reset_on_interaction">Bei jeder Interaktion zurücksetzen</string>
+    <string name="default_sleep_timer_summary">%1$s, warten auf Medienende: %2$s, Zurücksetzen bei Interaktion: %3$s</string>
+
     <string name="server_add_title">Einen neuen Server zu den Favoriten hinzufügen</string>
     <string name="server_domain_hint">Serveradresse (Domainname oder IP)</string>
     <string name="server_share_hint">Netzwerkfreigabename (oder IP-Adresse)</string>
@@ -367,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Versteckte Dateien anzeigen</string>
     <string name="albums_show_track_numbers">Titelnummern anzeigen</string>
     <string name="enable_video_screenshot">Ein Bildschirmfoto aufnehmen</string>
+    <string name="enable_tap_and_hold_fastplay_title">Schnelle Wiedergabe aktivieren</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Tippen und halten, um die Wiedergabegeschwindigkeit zu erhöhen</string>
+    <string name="fastplay_speed_title">Geschwindigkeit der schnellen Wiedergabe</string>
+    <string name="fastplay_title">Wiedergabe mit %s x</string>
+    <string name="fastplay_subtitle">Zum Anhalten loslassen</string>
 
     <string name="subtitles_prefs_category">Untertitel</string>
     <string name="subtitles_size_title">Untertitelgröße</string>
@@ -436,6 +444,8 @@
     <string name="audio_ducking_summary">Verringert die VLC-Lautstärke, um Audio-Benachrichtigungen, Navigationsanweisungen oder den Assistenten besser zu hören</string>
     <string name="casting_category">Streaming</string>
     <string name="remote_access">Fernzugriff</string>
+    <string name="remote_access_version_title">Version für Fernzugriff</string>
+    <string name="remote_access_hash_title">Remote-Zugriffs-Hash</string>
     <string name="remote_access_status">Serverstatus</string>
     <string name="remote_access_status_summary">Tippen, um den Serverstatus anzuzeigen</string>
     <string name="remote_access_connections">Verbindungen</string>
@@ -541,6 +551,8 @@
     <string name="http_user_agent">HTTP User-Agent</string>
     <string name="custom_libvlc_options">Benutzerdefinierte libVLC-Optionen</string>
     <string name="custom_libvlc_options_invalid">Ungültige libVLC-Optionen!</string>
+    <string name="dav1d_thread_number">Dav1d-Threadnummer</string>
+    <string name="dav1d_thread_number_invalid">Ungültige Threadnummer! (>=1)</string>
 
     <string name="serious_crash">Leider ist ein schwerwiegender Fehler aufgetreten und VLC musste geschlossen werden.</string>
     <string name="help_us_send_log">Helfen Sie uns bei der Verbesserung des VLC, durch das Übersenden des folgenden Fehlerberichtes:</string>
@@ -585,6 +597,21 @@
     <string name="whats_new_title">Was gibt es Neues in VLC für Android %s</string>
     <string name="whats_new_36_webserver_text">Mit der neuen Fernzugriffsfunktion übernehmen Sie die Kontrolle über VLC für Android von jedem anderen Gerät aus. Senden Sie Ihre Medien in beide Richtungen, steuern Sie Ihre Wiedergabe und vieles mehr!</string>
     <string name="whats_new_36_favorites_text">Sie können jetzt Ihre Medien, Wiedergabelisten, Künstler oder Alben als Favoriten markieren.\nFinden Sie Ihren bevorzugten Inhalt auf einen Blick, indem Sie den Inhalt nur nach Favoriten filtern!</string>
+
+<!--    update-->
+    <string name="update_title">Update verfügbar</string>
+    <string name="install_nightly_title">Nightly-Version installieren</string>
+    <string name="update_text">Eine neue Nightly-Version von VLC für Android ist verfügbar!\n\nSie sehen dies, weil Sie eine Nightly-Version verwenden.</string>
+    <string name="install_text">Nightly-Versionen werden jeden Tag automatisch mit den neuesten Funktionen und Fixes aktualisiert.\n\nJetzt herunterladen?</string>
+
+    <string name="open_in_browser">Im Browser öffnen</string>
+    <string name="install">Installieren</string>
+    <string name="install_nightly">Die Nightly-Version installieren</string>
+    <string name="install_nightly_alert">Nightly-Builds sind experimentelle Versionen, die täglich aktualisiert werden.\n\nErwarten Sie neue Funktionen, aber auch neue Fehler!</string>
+    <string name="nightly_version">Gefundene Version: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Sie verwenden eine Nightly-Version. Möchten Sie regelmäßig nach Updates suchen?</string>
+    <string name="update_nightly">Automatisch aktualisieren</string>
+    <string name="update_nightly_summary">Regelmäßig nach nächtlichen Updates suchen</string>
 
 
     <!-- Accessibility -->
@@ -1225,4 +1252,16 @@
     <string name="metered_warn">Mich warnen (die Warnung kann bei der Audiowiedergabe übersehen werden)</string>
     <string name="metered_connection_stopped">Medien stoppen, da die Verbindung gemessen wird</string>
     <string name="metered_connection_warning">Ihre Verbindung wird gemessen. Es können Gebühren anfallen.</string>
+    <string name="adding">Füge hinzu</string>
+    <string name="to">zu</string>
+    <string name="device">Gerät</string>
+    <string name="connected_device">Verbundenes Ger#t</string>
+    <string name="model">Gerätemodell</string>
+    <string name="prefs_app_data">Anwendungsdaten</string>
+    <string name="export_settings_summary">Exportieren Sie Ihre Einstellungen in eine Datei, um sie später zu importieren</string>
+    <string name="export_settings">Exporteinstellungen</string>
+    <string name="restore_settings_summary">Ihre Einstellungen aus einem vorherigen Export wieder herstellen</string>
+    <string name="restore_settings">Einstellungen wiederherstellen</string>
+    <string name="export_settings_success">Einstellungen erfolgreich in das interne Speicherstammverzeichnis exportiert</string>
+    <string name="export_settings_failure">Beim Exportieren Ihrer Einstellungen ist ein Fehler aufgetreten</string>
 </resources>

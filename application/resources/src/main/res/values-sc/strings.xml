@@ -189,6 +189,8 @@
     <string name="jump_to_time">Brincu temporale</string>
     <string name="subtitle_select">Issèbera unu documentu de sutatìtulos</string>
     <string name="wait_before_sleep">In antis iseta chi s\'elementu multimediale atuale agabbet</string>
+    <string name="reset_on_interaction">Reseta a cada interatzione</string>
+    <string name="default_sleep_timer_summary">%1$s, iseta sa fine de su mèdiu: %2$s, reseta a cada interatzione: %3$s</string>
 
     <string name="server_add_title">Annanghe unu server nou a sos preferidos</string>
     <string name="server_domain_hint">Indiritzu server (nùmene domìniu o IP)</string>
@@ -368,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Ammustra sos documentos istichidos</string>
     <string name="albums_show_track_numbers">Ammustra sos nùmeros de rasta</string>
     <string name="enable_video_screenshot">Faghe un\'ischermada</string>
+    <string name="enable_tap_and_hold_fastplay_title">Abìlita sa riprodutzione lestra</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Toca e mantene incarcadu pro aumentare sa lestresa de riprodutzione</string>
+    <string name="fastplay_speed_title">Velotzidade de riprodutzione lestra</string>
+    <string name="fastplay_title">Riprodutzione a %sx</string>
+    <string name="fastplay_subtitle">Lassa pro firmare</string>
 
     <string name="subtitles_prefs_category">Sutatìtulos</string>
     <string name="subtitles_size_title">Mannària de sos sutatìtulos</string>
@@ -437,6 +444,8 @@
     <string name="audio_ducking_summary">Agiudat a intendere sas notìficas àudio, sas istrutziones chistionadas de navigatzione o assistèntzia</string>
     <string name="casting_category">Trasmissione</string>
     <string name="remote_access">Atzessu remotu</string>
+    <string name="remote_access_version_title">Versione de atzessu remotu</string>
+    <string name="remote_access_hash_title">Hash de atzessu remotu</string>
     <string name="remote_access_status">Istadu de su serbidore</string>
     <string name="remote_access_status_summary">Toca pro bìdere s\'istadu de su serbidore</string>
     <string name="remote_access_connections">Connessiones</string>
@@ -542,6 +551,8 @@
     <string name="http_user_agent">Agente impreadore HTTP</string>
     <string name="custom_libvlc_options">Optziones libVLC personalizadas</string>
     <string name="custom_libvlc_options_invalid">Optziones libVLC non vàlidas!</string>
+    <string name="dav1d_thread_number">Nùmeru de filu (thread) de su Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Nùmeru de filu invàlidu (>=1)</string>
 
     <string name="serious_crash">Isfortunatamente b\'est istadu un\'errore grave e VLC est istadu serradu.</string>
     <string name="help_us_send_log">Agiuda·nos a megiorare VLC imbiende custu registru de errore:</string>
@@ -586,6 +597,21 @@
     <string name="whats_new_title">Ite b\'at de nou in VLC pro Android %s</string>
     <string name="whats_new_36_webserver_text">Cun sa funtzionalidade noa de atzessu remotu, piga su controllu de VLC pro Android dae cale si siat àteru dispositivu.\nImbia sos mèdios tuos in totu sas duas diretziones, controlla sa riprodutzione e àteru meda!</string>
     <string name="whats_new_36_favorites_text">Como podes annànghere a sos preferidos sos mèdios, sas iscalitas, sos artistas o sos albums tuos.\nAtzapa sos cuntenutos tuos chi preferis in presse filtrende sos preferidos ebbia!</string>
+
+<!--    update-->
+    <string name="update_title">Atualizatzione a disponimentu</string>
+    <string name="install_nightly_title">Installa sa versione de isvilupu</string>
+    <string name="update_text">B\'at una versione de isvilupu de VLC pro Android noa a disponimentu!n\nSes bidende custu ca ses impreende una versione de isvilupu.</string>
+    <string name="install_text">Sas versiones de isvilupu benint agiornadas in automàticu cada die cun sas ùrtimas funtzionalidades e sos ùrtimos acontzos.\n\nLa boles iscarrigare como?</string>
+
+    <string name="open_in_browser">Aberi in su navigadore</string>
+    <string name="install">Installa</string>
+    <string name="install_nightly">Installa sa versione de isvilupu</string>
+    <string name="install_nightly_alert">Sas versiones de isvilupu sunt versiones isperimentales annoadas cada die.\n\nIseta·ti funtzionalidades noas ma fintzas faddinas noas!</string>
+    <string name="nightly_version">Versione atzapada: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Ses impreende una versione de isvilupu. Boles chircare atualizatziones in manera periòdica?</string>
+    <string name="update_nightly">Atualizatzione automàtica</string>
+    <string name="update_nightly_summary">Chirca atualizatziones de sa versione de isvilupu in manera periòdica</string>
 
 
     <!-- Accessibility -->
@@ -936,6 +962,7 @@
     <string name="mark_as_played">Marca comente riproduidu</string>
     <string name="mark_as_not_played">Marca comente non riproduidu</string>
     <string name="mark_all_as_played">Marca totu comente riproduidu</string>
+    <string name="mark_all_as_not_played">Marca totu comente non riproduidu</string>
     <string name="new_group">Grupu nou</string>
     <string name="new_group_desc">Crea unu grupu nou</string>
 
@@ -1217,4 +1244,24 @@
     <string name="podcast_mode_help">Sos controllos de su podcast aparint cando ses riproduende una rasta sìngula chi satisfaghet unu de sos critèrios chi sighint:\n\t• Longària prus manna de 60 minutos\n\t• Longària prus manna de 15 minutos chene nùmene de s\'album\n\t• Su gènere est %s</string>
     <string name="voice_control">Controllu cun boghe</string>
     <string name="voice_control_help">VLC si podet controllare impreende Google Assistant narende custos cumandos:\n\t• Riprodui, Pàusa, Firma, Antepostu, Imbeniente\n\t• Incùida, Avantzamentu lestru, Repite &lt;totu|unu|mortu&gt;\n\t• Bae a &lt;tempus&gt;, Brinca &lt;longària&gt;\n\t• Ite est custu &lt;artista|album|cantzone&gt;\n\t• Riprodui [artista|album|cantzone|gènere|iscalita] &lt;nùmene&gt;</string>
+
+    <string name="network" >Rete</string>
+    <string name="metered_connection">Atzione pro sas trasmissiones cando sa connessione est a consumu.</string>
+    <string name="metered_do_nothing">Non fatzas nudda</string>
+    <string name="metered_stop">Firma sa riprodutzione</string>
+    <string name="metered_warn">Avisa·mi (s\'avisu diat pòdere no èssere presente pro sa riprodutzione àudio)</string>
+    <string name="metered_connection_stopped">Mèdiu firmadu ca sa connessione est a consumu</string>
+    <string name="metered_connection_warning">Sa connessione tua est a consumu. Bi diant pòdere èssere costos aplicados.</string>
+    <string name="adding">Annanghende</string>
+    <string name="to">a</string>
+    <string name="device">Dispositivu</string>
+    <string name="connected_device">Dispositivu connessu</string>
+    <string name="model">Modellu de su dispositivu</string>
+    <string name="prefs_app_data">Datos de s\'aplicatzione</string>
+    <string name="export_settings_summary">Esporta sas impostatziones tuas a unu documentu pro las importare prus a tardu</string>
+    <string name="export_settings">Esporta sas impostatziones</string>
+    <string name="restore_settings_summary">Riprìstina sas impostatziones tuas dae un\'esportatzione pretzedente</string>
+    <string name="restore_settings">Riprìstina sas impostatziones</string>
+    <string name="export_settings_success">Impostatziones esportadas chene problemas in sa raighina (root) de sa memòria interna</string>
+    <string name="export_settings_failure">B\'at àpidu carchi problema cun s\'esportatzione de sas impostatziones tuas</string>
 </resources>

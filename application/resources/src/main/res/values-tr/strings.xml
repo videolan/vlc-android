@@ -189,6 +189,9 @@
     <string name="jump_to_time">Sıçranacak zaman</string>
     <string name="subtitle_select">Alt yazı dosyasını seçin</string>
     <string name="wait_before_sleep">Önce geçerli ortam ögesinin sona ermesi beklensin</string>
+    <string name="reset_on_interaction">Herhangi bir etkileşimde sıfırlansın</string>
+    <string name="default_sleep_timer_summary">%1$s, ortam sonunda bekleme: %2$s, etkileşimde sıfırlama: %3$s</string>
+
     <string name="server_add_title">Sık kullanılanlara yeni sunucu ekle</string>
     <string name="server_domain_hint">Sunucu adresi (etki alanı ya da IP)</string>
     <string name="server_share_hint">Ağ paylaşımı adı (ya da IP adresi)</string>
@@ -367,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
     <string name="albums_show_track_numbers">Kayıt numaraları görüntülensin</string>
     <string name="enable_video_screenshot">Ekran görüntüsü al</string>
+    <string name="enable_tap_and_hold_fastplay_title">Hızlı oynatma kullanılsın</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Oynatma hızını artırmak için dokunup tutun</string>
+    <string name="fastplay_speed_title">Hızlı oynatma hızı</string>
+    <string name="fastplay_title">%sx hızda oynatılıyor</string>
+    <string name="fastplay_subtitle">Durmak için bırakın</string>
 
     <string name="subtitles_prefs_category">Alt yazılar</string>
     <string name="subtitles_size_title">Alt yazı boyutu</string>
@@ -436,6 +444,8 @@
     <string name="audio_ducking_summary">Açıldığında, bildirim seslerinin, yol bulma bilgilendirmelerinin ya da yardımcı konuşmalarının duyulması kolaylaşır</string>
     <string name="casting_category">Aktarım</string>
     <string name="remote_access">Uzaktan erişim</string>
+    <string name="remote_access_version_title">Uzaktan erişim sürümü</string>
+    <string name="remote_access_hash_title">Uzaktan erişim karması</string>
     <string name="remote_access_status">Sunucu durumu</string>
     <string name="remote_access_status_summary">Sunucu durumunu görüntülemek için dokunun</string>
     <string name="remote_access_connections">Bağlantılar</string>
@@ -541,6 +551,8 @@
     <string name="http_user_agent">HTTP kullanıcı uygulaması</string>
     <string name="custom_libvlc_options">Özel libVLC ayarları</string>
     <string name="custom_libvlc_options_invalid">libVLC ayarları geçersiz!</string>
+    <string name="dav1d_thread_number">İşlem numarası geçersiz</string>
+    <string name="dav1d_thread_number_invalid">İşlem numarası geçersiz! (>=1)</string>
 
     <string name="serious_crash">Ne yazık ki önemli bir sorun çıktığından VLC kapatılacak.</string>
     <string name="help_us_send_log">Bu çökme kaydını göndererek VLC uygulamasının geliştirilmesine yardımcı olun:</string>
@@ -585,6 +597,21 @@
     <string name="whats_new_title">Android için VLC %s yenilikleri</string>
     <string name="whats_new_36_webserver_text">Yeni uzaktan erişim özelliğiyle başka bir aygıttan Android için VLC uygulamasını denetleyebilirsiniz.\nOrtamınızı iki yönde de gönderin, oynatmayı denetleyin ve diğer işlemleri yapın!</string>
     <string name="whats_new_36_favorites_text">Artık ortamlarınızı, oynatma listelerinizi, sanatçılarınızı veya albümlerinizi sık kullanılanlara ekleyebilirsiniz.\nİçeriği yalnızca sık kullanılanlara göre süzerek istediğiniz içeriği bir bakışta bulun!</string>
+
+<!--    update-->
+    <string name="update_title">Güncelleme yayınlanmış</string>
+    <string name="install_nightly_title">Gecelik sürümü kur</string>
+    <string name="update_text">Yeni bir Android için VLC gecelik sürümü yayınlanmış!\n\nBu iletiyi gecelik bir sürüm kullandığınız için görüyorsunuz.</string>
+    <string name="install_text">Gecelik sürümler her gün son özellikler ve düzeltmelerle otomatik olarak güncellenir.\n\nŞimdi indirilsin mi?</string>
+
+    <string name="open_in_browser">Tarayıcıda aç</string>
+    <string name="install">Kur</string>
+    <string name="install_nightly">Gecelik sürümü kur</string>
+    <string name="install_nightly_alert">Gecelik sürümler her gün güncellenen deneysel sürümlerdir.\n\nYeni özelliklerin yanında yeni hatalarla karşılaşmayı da bekleyin!</string>
+    <string name="nightly_version">Bulunan sürüm: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Gecelik sürümü kullanıyorsunuz. Güncellemelerin düzenli olarak denetlenmesini ister misiniz?</string>
+    <string name="update_nightly">Otomatik güncellensin</string>
+    <string name="update_nightly_summary">Gecelik güncelleme düzenli olarak denetlensin</string>
 
 
     <!-- Accessibility -->
@@ -1218,4 +1245,23 @@
     <string name="voice_control">Ses denetimi</string>
     <string name="voice_control_help">VLC, aşağıdaki komutlar söylenerek Google Asistan ile denetlenebilir:\n\t• Oynat, Duraklat, Durdur, Önceki, Sonraki\n\t• Geri git, İleri git, &lt;Tümünü|Birini|kapat&gt;\n\t Yinele • &lt;Zamana&gt; atla, &lt;Süreyi&gt; atla\n\t• Bu &lt;Sanatçı|Albüm|Parça&gt; nedir?\n\t• [Sanatçı|Albüm|Parça|Tür|Oynatma listesi] &lt;adı&gt;</string>
 
-    </resources>
+    <string name="network" >Ağ</string>
+    <string name="metered_connection">Kotalı bir ağda akışlara uygulanacak işlem</string>
+    <string name="metered_do_nothing">Bir şey yapılmasın</string>
+    <string name="metered_stop">Oynatma durdurulsun</string>
+    <string name="metered_warn">Uyarı görüntülensin (ses oynatılırken uyarı görüntülenmeyebilir)</string>
+    <string name="metered_connection_stopped">Ağ bağlantısı kotalı olduğundan ortam durduruldu</string>
+    <string name="metered_connection_warning">Bağlantınız kotalı olduğundan ek ücretler söz konusu olabilir.</string>
+    <string name="adding">Ekleniyor</string>
+    <string name="to">şuraya</string>
+    <string name="device">Aygıt</string>
+    <string name="connected_device">Bağlı aygıt</string>
+    <string name="model">Aygıt modeli</string>
+    <string name="prefs_app_data">Uygulama verileri</string>
+    <string name="export_settings_summary">Ayarlarınızı bir dosyaya dışa aktararak daha sonra içe aktarabilirsiniz</string>
+    <string name="export_settings">Ayarları dışa aktar</string>
+    <string name="restore_settings_summary">Daha önce dışa aktardığınız ayarları geri yükleyin</string>
+    <string name="restore_settings">Ayarları geri yükle</string>
+    <string name="export_settings_success">Ayarlar iç depolama alanı kök klasörüne dışa aktarıldı</string>
+    <string name="export_settings_failure">Ayarlarınız dışa aktarılırken bir sorun çıktı</string>
+</resources>

@@ -189,6 +189,8 @@
     <string name="jump_to_time">Ugrás időpontra</string>
     <string name="subtitle_select">Válasszon feliratfájlt</string>
     <string name="wait_before_sleep">Várakozás az aktuális média befejezésére</string>
+    <string name="reset_on_interaction">Visszaállítás bármilyen interakcióra</string>
+    <string name="default_sleep_timer_summary">%1$s, várakozás a média befejezésére: %2$s, visszaállítás interakcióra: %3$s</string>
 
     <string name="server_add_title">Új kiszolgáló hozzáadása a kedvencekhez</string>
     <string name="server_domain_hint">Kiszolgálócím (doménnév vagy IP-cím)</string>
@@ -368,6 +370,11 @@
     <string name="browser_show_hidden_files_title">Rejtett fájlok megjelenítése</string>
     <string name="albums_show_track_numbers">Számok sorszámának megjelenítése</string>
     <string name="enable_video_screenshot">Képernyőkép készítése</string>
+    <string name="enable_tap_and_hold_fastplay_title">Gyors lejátszás engedélyezése</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Érintse meg és tartsa úgy a lejátszási sebesség növeléséhez</string>
+    <string name="fastplay_speed_title">Gyors lejátszás sebessége</string>
+    <string name="fastplay_title">Lejátszás %s× sebességgel</string>
+    <string name="fastplay_subtitle">Engedje fel a leállításhoz</string>
 
     <string name="subtitles_prefs_category">Feliratok</string>
     <string name="subtitles_size_title">Feliratok mérete</string>
@@ -437,6 +444,8 @@
     <string name="audio_ducking_summary">Segít meghallani a hangértesítéseket, a navigációs utasításokat vagy az asszisztensprogramokat</string>
     <string name="casting_category">Átvitel</string>
     <string name="remote_access">Távoli elérés</string>
+    <string name="remote_access_version_title">Távoli elérés verziója</string>
+    <string name="remote_access_hash_title">Távoli elérés ujjlenyomata</string>
     <string name="remote_access_status">Kiszolgáló állapota</string>
     <string name="remote_access_status_summary">Koppintson a kiszolgálóállapot megtekintéséhez</string>
     <string name="remote_access_connections">Kapcsolatok</string>
@@ -542,6 +551,8 @@
     <string name="http_user_agent">HTTP felhasználói ügynök</string>
     <string name="custom_libvlc_options">Egyéni libVLC beállítások</string>
     <string name="custom_libvlc_options_invalid">Érvénytelen libVLC beállítások.</string>
+    <string name="dav1d_thread_number">Dav1d szálak száma</string>
+    <string name="dav1d_thread_number_invalid">Érvénytelen szálszám! (>=1)</string>
 
     <string name="serious_crash">Sajnos egy komoly hiba történt, és a VLC-nek be kellett záródnia.</string>
     <string name="help_us_send_log">Segítsen a VLC tökéletesítésében a következő összeomlásnapló elküldésével:</string>
@@ -587,7 +598,17 @@
     <string name="whats_new_36_webserver_text">Az új távoli elérési funkcióval tetszőleges eszközről irányíthatja a VLC for Androidot.\nKüldjön médiafájlokat mindkét irányba, vezérelje a lejátszást, és ez csak a kezdet!</string>
     <string name="whats_new_36_favorites_text">Most már kedvencnek jelölheti a médiafájljait, lejátszólistáit, előadóit vagy albumait.\nTalálja meg az előnyben részesített tartalmait egy pillantás alatt azáltal, hogy csak a kedvenceire szűr!</string>
 
+<!--    update-->
+    <string name="update_title">Frissítés érhető el</string>
+    <string name="install_nightly_title">A napi verzió telepítése</string>
+    <string name="update_text">A VLC for Android új napi kiadása elérhető!\n\nEzt azért látja, mert napi összeállítást használ.</string>
+    <string name="install_text">A napi verziók automatikusan frissülnek minden nap, és a legfrissebb funkciókat és javításokat tartalmazzák.\n\nLetölti most?</string>
 
+    <string name="open_in_browser">Megnyitás böngészőben</string>
+    <string name="install">Telepítés</string>
+    <string name="install_nightly">A napi verzió telepítése</string>
+    <string name="install_nightly_alert">A napi összeállítások naponta frissülő kísérleti verziók.\n\nÚj funkciókra, de új hibákra is számítson!</string>
+    <string name="nightly_version">Talált verzió: %2$s - %1$s</string>
     <!-- Accessibility -->
     <string name="more_actions">További műveletek</string>
     <string name="back_quit_lock">Nyomja meg még egyszer a Vissza gombot a videóból kilépéshez</string>
@@ -936,6 +957,7 @@
     <string name="mark_as_played">Megjelölés lejátszottként</string>
     <string name="mark_as_not_played">Lejátszatlannak jelöl</string>
     <string name="mark_all_as_played">Összes megjelölése lejátszottként</string>
+    <string name="mark_all_as_not_played">Összes megjelölése lejátszatlanként</string>
     <string name="new_group">Új csoport</string>
     <string name="new_group_desc">Új csoport létrehozása</string>
 
@@ -1217,4 +1239,17 @@
     <string name="podcast_mode_help">A podcastvezérlők akkor jelennek meg, ha egyetlen sávot játszik le, amelyre a következő feltételek egyike teljesül:\n\t• Hosszabb mint 60 perc\n\t• Hosszabb mint 15 perc, és nincs albumneve\n\t• A műfaja %s </string>
     <string name="voice_control">Hangvezérlés</string>
     <string name="voice_control_help">A VLC vezérelhető a Google Segéden keresztül a következő parancsokkal:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
-</resources>
+
+    <string name="network" >Hálózat</string>
+    <string name="metered_connection">A közvetítések művelete forgalomkorlátos kapcsolatnál</string>
+    <string name="metered_do_nothing">Ne tegyen semmit</string>
+    <string name="metered_stop">Lejátszás leállítása</string>
+    <string name="metered_warn">Figyelmeztetés (a hanglejátszás miatt lehet, hogy nem fogja észrevenni)</string>
+    <string name="metered_connection_stopped">A média leállt, mert a kapcsolat forgalomkorlátos</string>
+    <string name="metered_connection_warning">A kapcsolat forgalomkorlátos. Költségek merülhetnek fel.</string>
+    <string name="adding">Hozzáadás</string>
+    <string name="to">ehhez:</string>
+    <string name="device">Eszköz</string>
+    <string name="connected_device">Csatlakoztatott eszköz</string>
+    <string name="model">Eszközmodell</string>
+    </resources>

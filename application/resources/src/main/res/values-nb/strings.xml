@@ -117,7 +117,7 @@
     <string name="directories">Mapper</string>
     <string name="loading">Laster</string>
     <string name="please_wait">Vent litt…</string>
-    <string name="nomedia">Ingen mediefiler ble funnet, vennligst overfør noen filer til enheten din eller justere innstillingene dine.</string>
+    <string name="nomedia">Ingen mediefiler ble funnet, vennligst overfør noen filer til enheten din eller juster innstillingene dine.</string>
     <string name="empty_search">Ingen element funnet for søket%s</string>
     <string name="noplaylist">Ingen spillelister funnet.</string>
     <string name="nosubfolder">Ingen undermapper</string>
@@ -189,7 +189,7 @@
     <string name="favorite_removed">Fjernet fra favoritter</string>
 
     <string name="streams">Strømmer</string>
-    <string name="open_mrl_dialog_msg">Skriv inn nettverksadresse: f.eks. http://, mms:// eller rtsp://</string>
+    <string name="open_mrl_dialog_msg">Skriv inn nettverksadresse: f.eks. https://, http://, mms:// eller rtsp://</string>
     <string name="encountered_error_title">Avspillingsfeil</string>
     <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\nPrøv å oppdatere mediebiblioteket.</string>
     <string name="invalid_location">Plasseringen %1$s kan ikke avspilles.</string>
@@ -200,8 +200,10 @@
 
     <string name="playback_history_title">Avspillingshistorikk</string>
     <string name="playback_history_summary">Lagre alle avspilte medier i Historikk-seksjonen</string>
-    <string name="video_resume_playback_title">Videoavspillingskøhistorie</string>
-    <string name="audio_resume_playback_title">Lydavspillingskøhistorie</string>
+    <string name="video_resume_playback_title">Videoavspillingskø-historikk</string>
+    <string name="video_resume_playback_summary">Tillat å lagre videoavspillingskøen så den kan fortsettes senere</string>
+    <string name="audio_resume_playback_title">Lydavspillingskø-historikk</string>
+    <string name="audio_resume_playback_summary">Tillat å lagre lydavspillingskøen så den kan fortsettes senere</string>
     <string name="playback_speed_title">Lagre avspillingshastighet</string>
     <string name="play_button">Avspillingsknapp</string>
 
@@ -250,7 +252,7 @@
     <string name="app_name_full">VLC for Android</string>
     <string name="revision">Revisjon</string>
     <string name="about">Om</string>
-    <string name="about_vlc_text">VLC for Android™ er en port av VLC mediespiller, den populære åpen kildekode mediespilleren. Android™-versjonen kan lese alle filer og nettverksstrømmer.</string>
+    <string name="about_vlc_text">VLC for Android™ er en port av VLC mediespiller, den populære åpen-kildekodede mediespilleren. Android™-versjonen kan lese alle filer og nettverksstrømmer.</string>
     <string name="authors">Forfattere</string>
     <string name="vlc_authors">og VLC-utviklere.</string>
     <string name="is_compiled_by">Kompilert av</string>
@@ -283,8 +285,8 @@
     <string name="subtitle_preferred_language">Foretrukket undertekst språk</string>
     <string name="daynight_title">Dag/Natt-modus</string>
     <string name="daynight_follow_system_title">Følg systemmodus</string>
-    <string name="no_track_preference">Ingen språk preferanser</string>
-    <string name="track_preference">Spor preferanse: %s</string>
+    <string name="no_track_preference">Ingen språkpreferanser</string>
+    <string name="track_preference">Sporpreferanse: %s</string>
 
     <string name="extra_prefs_category">Ekstra innstillinger</string>
 
@@ -295,15 +297,16 @@
     <string name="enable_clone_mode_summary">Klon enhetsskjermen uten fjernkontroll</string>
 
     <string name="video_prefs_category">Video</string>
-    <string name="video_min_group_length_title">Grupper videoer</string>
+    <string name="video_min_group_length_title">Gruppér videoer</string>
     <string name="video_min_group_length_disable">Ikke gruppér videoer</string>
-    <string name="video_min_group_length_folder">Grupper etter mappe</string>
+    <string name="video_min_group_length_folder">Gruppér etter mappe</string>
     <string name="video_min_group_length_name">Gruppér etter navn</string>
     <string name="video_transition_title">Overgang mellom videoer</string>
     <string name="video_transition_summary">Vis ny videotittel ved overgang</string>
     <string name="media_seen">Vis «Sett»-videomarkør</string>
     <string name="media_seen_summary">Merk en video som sett når du spiller den til den er ferdig</string>
     <string name="force_play_all_summary">Spill av alle videoer, fra og med den du klikket på</string>
+    <string name="force_play_all_audio_summary">Spill av alle lydfiler, og starter med den du klikket på</string>
     <string name="force_play_all_title">Videospilleliste-modus</string>
     <string name="force_play_all_audio_title">Lydspillelistemodus</string>
     <string name="save_brightness_summary">Behold lysnivå mellom medier</string>
@@ -324,9 +327,9 @@
     <string name="browser_show_hidden_files_title">Vis skjulte filer</string>
     <string name="albums_show_track_numbers">Vis spornummer</string>
     <string name="enable_video_screenshot">Ta et skjermbilde</string>
-
     <string name="subtitles_prefs_category">Undertekster</string>
     <string name="subtitles_size_title">Undertekststørrelse</string>
+    <string name="subtitles_presets_title">Forhåndsinnstillinger for undertekster</string>
     <string name="subtitles_size_small">Liten</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Stor</string>
@@ -371,6 +374,7 @@
     <string name="replaygain_track">Sport</string>
     <string name="replaygain_album">Album</string>
     <string name="aout">Lydutgang</string>
+    <string name="aout_summary">Velg metoden VLC skal bruke til å sende ut lyd</string>
     <string name="audio_ducking_title">Senk lyden i VLC når det kommer varsel</string>
     <string name="audio_ducking_summary">Hjelper for å høre lydvarsel, navigasjonsinstrukser, eller når assistenten prater</string>
     <string name="casting_category">Casting</string>
@@ -385,6 +389,8 @@
     <string name="casting_quality_lowcpu">Lavest</string>
     <string name="casting_connected_renderer">Tilkoblet til opptegneren «%1$s»</string>
     <string name="artists_show_all_title">Vis alle artistene</string>
+    <string name="show_headers">Vis toppfelter</string>
+    <string name="show_headers_summary">Del opp lister etter toppfelter ut i fra sorteringstypen</string>
     <string name="tv_folders_first">Vis mapper først</string>
     <string name="tv_folders_first_summary">Vis mapper og så filer i filutforskeren</string>
     <string name="extensions_prefs_category">Utvidelser</string>
@@ -412,7 +418,7 @@
     <string name="clear_media_db">Tøm mediedatabase</string>
     <string name="clear_media_database_summary">Tømmer databasen for å starte på nytt</string>
     <string name="clear_history">Tøm historikk</string>
-    <string name="set_locale">Velg lokalitet</string>
+    <string name="set_locale">Velg språkområde</string>
     <string name="network_caching">Nettverksbufferverdi</string>
     <string name="resume_playback_title">Fortsett avspillingen etter en samtale</string>
     <string name="resume_playback_summary">Fortsett å ha det på pause ellers</string>
@@ -438,7 +444,6 @@
     <string name="dump_logcat_failure">Klarte ikke å utføre logcat-dump.</string>
     <string name="custom_libvlc_options">Tilpassede libVLC-innstillinger</string>
     <string name="custom_libvlc_options_invalid">Ugyldige libVLC-innstillinger!</string>
-
     <string name="serious_crash">En alvorlig feil har dessverre skjedd, og VLC måtte avslutte.</string>
     <string name="help_us_send_log">Hjelp oss å forbedre VLC ved å sende inn følgende kjæsj-logg:</string>
     <string name="restart_vlc">Start VLC på nytt</string>
@@ -507,6 +512,10 @@
     <string name="permission_ask_again">Gi tillatelse</string>
     <string name="pick_file">Velg en fil</string>
     <string name="permission_not_granted">Tilgang ikke gitt</string>
+    <string name="permission_expanation_no_allow">Du vil ikke kunne auto-oppdage mediene dine eller bruke eksterne undertekster</string>
+    <string name="permission_onboarding_no_perm">Du vil ikke kunne auto-oppdage mediene dine.\nDu vil kun kunne spille av strømmer eller nettverksmedier</string>
+    <string name="permission_onboarding_perm_media">Du vil kun kunne auto-oppdage ordinære mediefiler</string>
+    <string name="permission_onboarding_perm_all">Du vil kunne auto-oppdage alle filene dine, å spille av alle typer mediefiler inkludert de merkelige mediefilene, eller komprimerte filer</string>
     <string name="exit_app">Lukk VLC</string>
     <string name="exit_app_msg">Er du sikker på at du vil avslutte VLC?</string>
     <string name="widget_explanation_title">VLC-skjermelementer</string>
@@ -647,6 +656,7 @@
     <string name="light_theme">Lyst tema</string>
     <string name="add">Legg til</string>
     <string name="add_to_new_playlist">Legg til i ny spilleliste</string>
+    <string name="create_new_playlist">Lag en ny spilleliste</string>
     <string name="resume_card_message">Gjenoppta avspiling av %1$s?</string>
     <string name="misc">Diverse</string>
     <string name="popup_force_legacy_title">Bruk tilpasset bilde-i-bilde popup</string>
@@ -697,7 +707,7 @@
     <string name="add_to_scanned">Skann mappen</string>
     <string name="directory_not_scanned">Denne mappen er ikke skannet</string>
     <string name="scanned_directory_added">%s lagt til de skannede mappene</string>
-    <string name="video_group_size_summary">Grupper etter %s første bokstaver</string>
+    <string name="video_group_size_summary">Gruppér etter %s første bokstaver</string>
     <string name="url_copied_to_clipboard">Lenke er kopiert til utklippstavlen</string>
     <string name="share">Del</string>
     <string name="invalid_file">Ugyldig fil. Kan ikke bli delt.</string>
@@ -798,10 +808,17 @@
     <string name="remove_from_history">Fjern fra historikk</string>
     <string name="prefersmbv1">Foretrekk SMB 1</string>
     <string name="apply_to_all">Bruk på alle videoer</string>
+    <string name="go_to_folder">Bla gjennom overmappen</string>
     <string name="no_sub_renderer">Undertekster er ikke støttet enda under casting</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Velg en SoundFont-fil for å spille av MIDI-lydfiler</string>
     <string name="missing_media_snack">Medie mangler. Skjul alle manglende medier?</string>
     <string name="browser_show_missing_media">Vis manglende media</string>
+    <string name="browser_show_missing_media_summary">Vis eksterne mediefiler selv hvis de ikke er til stede</string>
+    <string name="video_match_frame_rate_title">Samkjør skjermen med videoers bildefrekvens</string>
+    <string name="video_match_frame_rate_summary">Samkjør skjermens bildefrekvens med videoer. For eksempel burde en 24Hz-film spilles av i 24Hz.</string>
     <string name="preferred_resolution">Ønsket videooppløsning</string>
+    <string name="preferred_resolution_summary">Maks videokvalitet for strømmer, om relevant, vil være: %s</string>
     <string name="pref_resolution_best_available">Beste tilgjengelige</string>
     <string name="pref_resolution_very_low">Veldig lav oppløsning (240p)</string>
     <string name="delete_forever">Slett for alltid</string>
@@ -824,20 +841,23 @@
     <string name="message_primary_default">Legg til duplikate element(er)?</string>
     <string name="add_button">Legg til</string>
     <string name="add_all_button">Legg til alle</string>
+    <string name="discovery_failed">Oppdaging mislyktes for: %s</string>
     <string name="lock_use_sensor_title">Lås med sensor</string>
+    <string name="lock_use_sensor_summary">Når skjermrotasjonen er låst fast, kan sensoren brukes for å tillate 180°-rotasjon</string>
     <string name="start">Start</string>
     <string name="permission">Tilganger</string>
     <string name="customize">Tilpass</string>
     <string name="selection_count">%d valgte</string>
-    <!-- Unused -->
+    <string name="controls_setting">Kontrollinnstillinger</string> <!-- Unused -->
     <string name="gestures">Gester</string>
     <string name="banned_tv">Utestengt mappe</string>
     <string name="banned_parent">Utestengt av overordnet mappe</string>
-    <string name="official_website">Offesiell nettside</string>
+    <string name="official_website">Offisielt nettsted</string>
     <string name="view_online">Se på nettet</string>
     <string name="no_web_browser">Ingen nettleser installert</string>
     <string name="no_video">Ingen video tilgjengelig</string>
     <string name="undo">Angre</string>
+    <string name="add_server_favorite">Legg til en tjenerfavoritt</string>
     <string name="custom">Tilpasset</string>
     <string name="opacity">Gjennomsiktighet</string>
     <string name="widget_background">Bakgrunn</string>
@@ -886,6 +906,7 @@
     <string name="talkback_increase_speed">Øk hastigheten</string>
     <string name="talkback_decrease_speed">Senk hastigheten</string>
     <string name="talkback_subtitle_history">Undertekst-historikk</string>
+    <string name="talkback_track_index">Spor %1$s av %2$s</string>
     <string name="downloaded">Nedlastet</string>
     <string name="not_downloaded">Ikke nedlastet</string>
     <string name="downloading">Laster ned</string>
