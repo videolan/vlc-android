@@ -60,12 +60,12 @@ fun getUpdateUri() = Uri.Builder()
         .build()!!
 
 fun isPathValid(path: String): Boolean {
-    val file = try {
-        File(path)
+    try {
+        val file = File(path)
+        return AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) } && file.canRead()
     } catch (e: IOException) {
         Log.e(TAG, "Failed to parse path: $path")
         Log.e(TAG, e.message, e)
         return false
     }
-    return AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) } && file.canRead()
 }
