@@ -969,6 +969,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     if (asAudio) medias[0].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                     if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung()) {
                         call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ra_not_in_foreground))
+                        return@get
                     }
                     when {
                         append -> MediaUtils.appendMedia(appContext, medias)
