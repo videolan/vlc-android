@@ -64,7 +64,7 @@ public class MLServiceLocator {
 
     // MediaWrapper
     public static MediaWrapper getAbstractMediaWrapper(long id, String mrl, long time, float position, long length,
-                                                       int type, String title, String filename, long artistId,
+                                                       int type, String title, String filename, long artistId, long albumArtistId,
                                                        String artist, String genre, long albumId, String album,
                                                        String albumArtist, int width, int height,
                                                        String artworkURL, int audio, int spu,
@@ -73,29 +73,29 @@ public class MLServiceLocator {
                                                        int releaseDate, boolean isPresent, long insertionDate) {
         if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapperImpl(id, mrl, time, position, length, type, title,
-                    filename, artistId, artist, genre, albumId, album, albumArtist, width, height, artworkURL,
+                    filename, artistId, albumArtistId, artist, genre, albumId, album, albumArtist, width, height, artworkURL,
                     audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated,
                     isFavorite, releaseDate, isPresent, insertionDate);
         } else {
             return new StubMediaWrapper(id, mrl, time, position, length, type, title,
-                    filename,artistId, artist, genre, albumId, album, albumArtist, width, height, artworkURL,
+                    filename,artistId, albumArtistId, artist, genre, albumId, album, albumArtist, width, height, artworkURL,
                     audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated, isFavorite, releaseDate, isPresent, insertionDate);
         }
     }
 
     public static MediaWrapper getAbstractMediaWrapper(Uri uri, long time, float position, long length, int type,
-                                                       Bitmap picture, String title, long artistId, String artist,
+                                                       Bitmap picture, String title, long artistId, long albumArtistId, String artist,
                                                        String genre, long albumId, String album, String albumArtist,
                                                        int width, int height, String artworkURL,
                                                        int audio, int spu, int trackNumber,
                                                        int discNumber, long lastModified, long seen,
                                                        long insertionDate) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new MediaWrapperImpl(uri, time, position, length, type, picture, title, artistId, artist, genre,
+            return new MediaWrapperImpl(uri, time, position, length, type, picture, title, artistId, albumArtistId, artist, genre,
                     albumId, album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
                     discNumber, lastModified, seen, false, insertionDate);
         } else {
-            return new StubMediaWrapper(uri, time, position, length, type, picture, title, artistId, artist, genre,
+            return new StubMediaWrapper(uri, time, position, length, type, picture, title, artistId, albumArtistId, artist, genre,
                     albumId, album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
                     discNumber, lastModified, seen, false, insertionDate);
         }

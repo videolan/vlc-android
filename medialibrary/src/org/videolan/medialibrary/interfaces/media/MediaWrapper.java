@@ -92,6 +92,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     protected String mDisplayTitle;
     protected long mArtistId;
+    protected long mAlbumArtistId;
     protected String mArtist;
     protected String mGenre;
     protected String mCopyright;
@@ -152,6 +153,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract boolean markAsPlayed();
     public abstract Album getAlbumWrapper();
     public abstract Artist getArtistWrapper();
+    public abstract Artist getAlbumArtistWrapper();
 
     /**
      * Create a new MediaWrapper
@@ -159,7 +161,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
      * @param mrl Should not be null.
      */
     public MediaWrapper(long id, String mrl, long time, float position, long length, int type, String title,
-                        String filename, long artistId, String artist, String genre, long albumId, String album, String albumArtist,
+                        String filename, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isThumbnailGenerated,
                         boolean isFavorite, int releaseDate, boolean isPresent, long insertionDate) {
@@ -171,7 +173,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mFilename = filename;
         mReleaseYear = releaseDate;
         mIsPresent = isPresent;
-        init(time, position, length, type, null, title, artistId, artist, genre, albumId, album, albumArtist, width, height,
+        init(time, position, length, type, null, title, artistId, albumArtistId, artist, genre, albumId, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
                 trackNumber, discNumber, lastModified, seen, isPresent, null, isFavorite, insertionDate);
         final StringBuilder sb = new StringBuilder();
@@ -318,7 +320,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     private void init(long time, float position, long length, int type,
-                      Bitmap picture, String title, long artistId, String artist, String genre, long albumId, String album, String albumArtist,
+                      Bitmap picture, String title, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                       int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
                       long seen, boolean isPresent, IMedia.Slave[] slaves, boolean isFavorite, long insertionDate) {
         mFilename = null;
@@ -336,6 +338,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
         mTitle = title != null ? title.trim() : null;
         mArtistId = artistId;
+        mAlbumArtistId = albumArtistId;
         mArtist = artist != null ? artist.trim() : null;
         mGenre = genre != null ? genre.trim() : null;
         mAlbumId = albumId;
@@ -352,11 +355,11 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     public MediaWrapper(Uri uri, long time, float position, long length, int type,
-                        Bitmap picture, String title, long artistId, String artist, String genre, long albumId, String album, String albumArtist,
+                        Bitmap picture, String title, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isFavorite, long insertionDate) {
         mUri = uri;
-        init(time, position, length, type, picture, title, artistId, artist, genre, albumId, album, albumArtist,
+        init(time, position, length, type, picture, title, artistId, albumArtistId, artist, genre, albumId, album, albumArtist,
                 width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, true, null, isFavorite, insertionDate);
     }
 
@@ -614,6 +617,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         return mArtistId;
     }
 
+    public long getAlbumArtistId() {
+        return mAlbumArtistId;
+    }
+
     public Boolean isArtistUnknown() {
         return mArtist == null;
     }
@@ -764,6 +771,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                 (Bitmap) in.readParcelable(Bitmap.class.getClassLoader()),
                 in.readString(),
                 in.readLong(),
+                in.readLong(),
                 in.readString(),
                 in.readString(),
                 in.readLong(),
@@ -795,6 +803,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         dest.writeParcelable(getPicture(), flags);
         dest.writeString(getTitle());
         dest.writeLong(getArtistId());
+        dest.writeLong(getAlbumArtistId());
         dest.writeString(getArtist());
         dest.writeString(getGenre());
         dest.writeLong(getAlbumId());

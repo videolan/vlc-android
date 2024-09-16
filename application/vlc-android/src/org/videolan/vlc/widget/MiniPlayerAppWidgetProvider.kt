@@ -436,6 +436,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 "Track name",
                 "",
                 -1L,
+                -1L,
                 "Artist name",
                 "",
                 -1L,

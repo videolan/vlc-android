@@ -14,11 +14,11 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 public class StubMediaWrapper extends MediaWrapper {
     public StubMediaWrapper(long id, String mrl, long time, float position, long length, int type, String title,
-                        String filename, long artistId, String artist, String genre, long albumId, String album, String albumArtist,
+                        String filename, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isThumbnailGenerated,
                         boolean isFavorite, int releaseDate, boolean isPresent, long insertionDate) {
-        super(id, mrl, time, position, length, type, title, filename, artistId, artist,
+        super(id, mrl, time, position, length, type, title, filename, artistId, albumArtistId, artist,
                 genre, albumId, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
                 seen, isThumbnailGenerated, isFavorite, releaseDate, isPresent, insertionDate);
@@ -46,10 +46,10 @@ public class StubMediaWrapper extends MediaWrapper {
     }
 
     public StubMediaWrapper(Uri uri, long time, float position, long length, int type,
-                        Bitmap picture, String title, long artistId,  String artist, String genre, long albumId, String album, String albumArtist,
+                        Bitmap picture, String title, long artistId, long albumArtistId,  String artist, String genre, long albumId, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isFavorite, long insertionDate) {
-        super(uri, time, position, length, type, picture, title, artistId, artist,
+        super(uri, time, position, length, type, picture, title, artistId, albumArtistId, artist,
                 genre, albumId, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified, seen, isFavorite, insertionDate);
     }
@@ -100,6 +100,11 @@ public class StubMediaWrapper extends MediaWrapper {
 
     @Override
     public Artist getArtistWrapper() {
+        return null;
+    }
+
+    @Override
+    public Artist getAlbumArtistWrapper() {
         return null;
     }
 
