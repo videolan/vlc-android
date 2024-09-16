@@ -1016,6 +1016,7 @@
     <string name="go_to_folder">Browse parent</string>
     <string name="go_to_album">Go to album</string>
     <string name="go_to_artist">Go to artist</string>
+    <string name="go_to_album_artist">Go to album artist</string>
     <string name="create_shortcut">Create a launcher shortcut</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
     <string name="enqueuing">Loading your media</string>

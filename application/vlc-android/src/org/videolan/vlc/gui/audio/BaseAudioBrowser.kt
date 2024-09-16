@@ -387,6 +387,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             MediaLibraryItem.TYPE_MEDIA -> {
                 createCtxTrackFlags().apply {
                     if ((item as? MediaWrapper)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                    if ((item as? MediaWrapper)?.artistId != (item as? MediaWrapper)?.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
                 }
             }
             MediaLibraryItem.TYPE_ARTIST -> {
@@ -454,6 +455,15 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             }
             CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
                 val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).getArtistWrapper()
+                val i = Intent(requireActivity(), SecondaryActivity::class.java)
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                i.putExtra(ARTIST_FROM_ALBUM, true)
+                i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(i)
+            }
+            CTX_GO_TO_ALBUM_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                val artist = (media as MediaWrapper).getAlbumArtistWrapper()
                 val i = Intent(requireActivity(), SecondaryActivity::class.java)
                 i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                 i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)

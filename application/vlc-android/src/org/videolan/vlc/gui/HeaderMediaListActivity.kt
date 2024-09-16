@@ -368,7 +368,11 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                     if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
                     if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme)))
                         addAll(CTX_COPY, CTX_RENAME)
-                    if (media.type == MediaWrapper.TYPE_AUDIO) add(CTX_GO_TO_ARTIST)
+                    if (media.type == MediaWrapper.TYPE_AUDIO) {
+                        add(CTX_GO_TO_ARTIST)
+                        if (BuildConfig.DEBUG) Log.d("CtxPrep", "Artist id is: ${media.artistId}, album artist is: ${media.albumArtistId}")
+                        if (media.artistId != media.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
+                    }
                     else add(CTX_SHARE)
                 }
                 showContext(this, this, position, media, flags)
@@ -504,6 +508,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_ADD_SHORTCUT -> lifecycleScope.launch { createShortcut(media) }
             CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
                 val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).getArtistWrapper()
+                val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                i.putExtra(ARTIST_FROM_ALBUM, true)
+                i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(i)
+            }
+            CTX_GO_TO_ALBUM_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                val artist = (media as MediaWrapper).getAlbumArtistWrapper()
                 val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
                 i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                 i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)

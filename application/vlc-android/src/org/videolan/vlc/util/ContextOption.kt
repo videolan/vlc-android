@@ -61,7 +61,8 @@ enum class ContextOption : Flag {
     CTX_STOP_AFTER_THIS,
     CTX_UNGROUP,
     CTX_GO_TO_ALBUM,
-    CTX_GO_TO_ARTIST;
+    CTX_GO_TO_ARTIST,
+    CTX_GO_TO_ALBUM_ARTIST;
 
     override fun toLong() = 1L shl this.ordinal
 
