@@ -23,7 +23,7 @@ public class StubGenre extends Genre {
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) {
                 for (Album album : dt.mAlbums) {
-                    if (album.getTitle().equals(media.getAlbum()) &&
+                    if (album.getTitle().equals(media.getAlbumName()) &&
                             !results.contains(album)) {
                         results.add(album);
                     }
@@ -49,7 +49,7 @@ public class StubGenre extends Genre {
             if (media.getGenre().equals(this.getTitle()) &&
                     Tools.hasSubString(media.getTitle(), query)) {
                 for (Album album : dt.mAlbums) {
-                    if (album.getTitle().equals(media.getAlbum()) &&
+                    if (album.getTitle().equals(media.getAlbumName()) &&
                             !results.contains(album)) {
                         results.add(album);
                     }
@@ -66,7 +66,7 @@ public class StubGenre extends Genre {
             if (media.getGenre().equals(this.getTitle()) &&
                     Tools.hasSubString(media.getTitle(), query)) {
                 for (Album album : dt.mAlbums) {
-                    if (album.getTitle().equals(media.getAlbum()) &&
+                    if (album.getTitle().equals(media.getAlbumName()) &&
                             !results.contains(album)) {
                         results.add(album);
                     }
@@ -81,8 +81,8 @@ public class StubGenre extends Genre {
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) {
                 for (Artist artist : dt.mArtists) {
-                    if ((artist.getTitle().equals(media.getArtist()) ||
-                            artist.getTitle().equals(media.getAlbumArtist())) &&
+                    if ((artist.getTitle().equals(media.getArtistName()) ||
+                            artist.getTitle().equals(media.getAlbumArtistName())) &&
                             !results.contains(artist)) {
                         results.add(artist);
                         break;

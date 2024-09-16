@@ -75,7 +75,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     auto isFavorite = mediaPtr->isFavorite();
     return { env, env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
                           (jlong) mediaPtr->id(), mrl.get(), (jlong) mediaPtr->lastTime(), (jfloat) mediaPtr->lastPosition(), (jlong) duration, type,
-                          title.get(), filename.get(), (jlong) artistId, albumArtistId, artist.get(), genre.get(), (jlong) albumId, album.get(),
+                          title.get(), filename.get(), (jlong) artistId, (jlong) albumArtistId, artist.get(), genre.get(), (jlong) albumId, album.get(),
                           albumArtist.get(), width, height, thumbnail.get(),
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
                           (jlong) mediaPtr->playCount(), hasThumbnail, isFavorite, mediaPtr->releaseDate(), isPresent, (jlong) mediaPtr->insertionDate())

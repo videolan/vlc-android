@@ -419,11 +419,11 @@ class MediaSessionBrowser {
             val albumNames = mutableSetOf<String>()
             if (Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) {
                 val lastMediaPlayed = ml.history(Medialibrary.HISTORY_TYPE_LOCAL)?.toList()?.filter { isMediaAudio(it) }
-                if (!lastMediaPlayed.isNullOrEmpty()) for (mw in lastMediaPlayed) mw.album?.let { albumNames.add(it) }
+                if (!lastMediaPlayed.isNullOrEmpty()) for (mw in lastMediaPlayed) mw.albumName?.let { albumNames.add(it) }
             }
             /* Pad the end with recently added albums. We may end up dropping a few due to absent artwork. */
             val recentAudio = ml.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, false, MAX_HISTORY_SIZE, 0)
-            if (!recentAudio.isNullOrEmpty()) for (mw in recentAudio) mw.album?.let { albumNames.add(it) }
+            if (!recentAudio.isNullOrEmpty()) for (mw in recentAudio) mw.albumName?.let { albumNames.add(it) }
             /* Build the list of media items */
             val results: ArrayList<MediaBrowserCompat.MediaItem> = ArrayList()
             val shuffleAllPath = Uri.Builder()

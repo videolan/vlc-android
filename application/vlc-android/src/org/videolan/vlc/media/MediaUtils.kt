@@ -299,7 +299,7 @@ object MediaUtils {
     fun getMediaArtist(ctx: Context, media: MediaWrapper?): String = when {
         media == null -> getMediaString(ctx, R.string.unknown_artist)
         media.type == MediaWrapper.TYPE_VIDEO -> ""
-        media.artist != null -> media.artist
+        media.artistName != null -> media.artistName
         media.nowPlaying != null -> media.title
         isSchemeStreaming(media.uri.scheme) -> ""
         else -> getMediaString(ctx, R.string.unknown_artist)
@@ -307,12 +307,12 @@ object MediaUtils {
 
     fun getMediaReferenceArtist(ctx: Context, media: MediaWrapper?) = getMediaArtist(ctx, media)
 
-    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtist
+    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtistName
             ?: getMediaString(ctx, R.string.unknown_artist)
 
     fun getMediaAlbum(ctx: Context, media: MediaWrapper?): String = when {
         media == null -> getMediaString(ctx, R.string.unknown_album)
-        media.album != null -> media.album
+        media.albumName != null -> media.albumName
         media.nowPlaying != null -> ""
         isSchemeStreaming(media.uri.scheme) -> ""
         else -> getMediaString(ctx, R.string.unknown_album)
@@ -329,9 +329,9 @@ object MediaUtils {
         }
         val suffix = when {
             media.type == MediaWrapper.TYPE_VIDEO -> generateResolutionClass(media.width, media.height)
-            media.length > 0L -> media.artist
+            media.length > 0L -> media.artistName
             isSchemeStreaming(media.uri.scheme) -> media.uri.toString()
-            else -> media.artist
+            else -> media.artistName
         }
         return TextUtils.separatedString(prefix, suffix)
     }

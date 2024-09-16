@@ -268,8 +268,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         }
 
         val artist = when {
-            forPreview -> widgetCacheEntry.currentMedia?.artist
-            playing -> service?.artist ?: widgetCacheEntry.currentMedia?.artist
+            forPreview -> widgetCacheEntry.currentMedia?.artistName
+            playing -> service?.artist ?: widgetCacheEntry.currentMedia?.artistName
             else -> settings.getString(KEY_CURRENT_AUDIO_RESUME_ARTIST, "")
         }
         setupTexts(context, views, widgetType, title, artist)

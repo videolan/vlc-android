@@ -760,7 +760,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (!isAudio && saveVideoPlayQueue) {
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
             settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artist ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artistName ?: "")
             settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
             settings.putSingle(KEY_CURRENT_MEDIA, media.location)
         }
@@ -768,7 +768,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
             settings.putSingle(KEY_CURRENT_AUDIO, media.location)
             settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artist ?: "")
+            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artistName ?: "")
             settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
         }
     }
@@ -1151,7 +1151,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         newMedia = false
                         if (player.hasRenderer || !player.isVideoPlaying()) showAudioPlayer.value = true
                         savePlaycount(mw)
-                        if (mw.title == mw.fileName || (mw.type == MediaWrapper.TYPE_STREAM && (mw.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || mw.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true)))) {
+                        if (mw.title == mw.fileName || (mw.type == MediaWrapper.TYPE_STREAM && (mw.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || mw.artistName != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true)))) {
                             // used for initial metadata update. We avoid the metadata load when the initial MediaPlayer.Event.ESSelected is sent to avoid race conditions
                             refreshTrackMeta(mw)
                         }
@@ -1215,7 +1215,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.ESSelected -> {
                     getCurrentMedia()?.let { media ->
                         if (player.isPlaying()) {
-                            if (media.type == MediaWrapper.TYPE_STREAM && (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artist != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
+                            if (media.type == MediaWrapper.TYPE_STREAM && (media.title != player.mediaplayer.media?.getMeta(IMedia.Meta.Title, true) || media.artistName != player.mediaplayer.media?.getMeta(IMedia.Meta.Artist, true))) {
                                 refreshTrackMeta(media)
                             }
                         }

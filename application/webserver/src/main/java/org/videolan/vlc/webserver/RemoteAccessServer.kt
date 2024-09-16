@@ -604,7 +604,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 val isVideoPlaying = service.playlistManager.player.isVideoPlaying()
                 val waitForMediaEnd = service.waitForMediaEnd
                 val resetOnInteraction = service.resetOnInteraction
-                val nowPlaying = NowPlaying(media.title ?: "", media.artist
+                val nowPlaying = NowPlaying(media.title ?: "", media.artistName
                         ?: "", service.isPlaying, isVideoPlaying, service.getTime(), service.length, media.id, media.artworkURL
                         ?: "", media.uri.toString(), getVolume(), speed, sleepTimer, waitForMediaEnd, resetOnInteraction, service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.id, it.title, it.time) }, chapters = chapters.map { WSChapter(it.name, it.duration) })
                 return nowPlaying
@@ -623,7 +623,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         service?.let { service ->
             val list = ArrayList<PlayQueueItem>()
             service.playlistManager.getMediaList().forEachIndexed { index, mediaWrapper ->
-                list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artist
+                list.add(PlayQueueItem(mediaWrapper.id, mediaWrapper.title, mediaWrapper.artistName
                         ?: "", mediaWrapper.length, mediaWrapper.artworkMrl
                         ?: "", service.playlistManager.currentIndex == index, favorite = mediaWrapper.isFavorite))
             }

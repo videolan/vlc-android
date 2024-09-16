@@ -1529,7 +1529,7 @@ fun Genre.toPlayQueueItem(appContext: Context) = RemoteAccessServer.PlayQueueIte
 fun Playlist.toPlayQueueItem(appContext: Context) = RemoteAccessServer.PlayQueueItem(id, title, appContext.resources.getQuantityString(R.plurals.track_quantity, tracksCount, tracksCount), 0, artworkMrl
         ?: "", false, "", favorite = isFavorite)
 
-fun MediaWrapper.toPlayQueueItem(defaultArtist: String = "") = RemoteAccessServer.PlayQueueItem(id, title, artist?.ifEmpty { defaultArtist } ?: defaultArtist, length, artworkMrl
+fun MediaWrapper.toPlayQueueItem(defaultArtist: String = "") = RemoteAccessServer.PlayQueueItem(id, title, artistName?.ifEmpty { defaultArtist } ?: defaultArtist, length, artworkMrl
         ?: "", false, generateResolutionClass(width, height) ?: "", progress = time, played = seen > 0, favorite = isFavorite)
 
 fun Folder.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, mediaCount(Folder.TYPE_FOLDER_VIDEO), mediaCount(Folder.TYPE_FOLDER_VIDEO))

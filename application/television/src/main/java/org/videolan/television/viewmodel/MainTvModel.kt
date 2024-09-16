@@ -194,9 +194,9 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         PlaybackService.instance?.run {
             currentMediaWrapper?.let {
                 if (this.playlistManager.player.isVideoPlaying())
-                    DummyItem(CATEGORY_NOW_PLAYING_PIP, it.title, it.artist).apply { setArtWork(coverArt) }
+                    DummyItem(CATEGORY_NOW_PLAYING_PIP, it.title, it.artistName).apply { setArtWork(coverArt) }
                 else
-                    DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(coverArt) }
+                    DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artistName).apply { setArtWork(coverArt) }
             }
         }?.let { list.add(0, it) }
         (nowPlaying as MutableLiveData).value = list
@@ -315,7 +315,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                             val intent = Intent(activity, org.videolan.television.ui.DetailsActivity::class.java)
                             // pass the item information
                             intent.putExtra("media", it)
-                            intent.putExtra("item", org.videolan.television.ui.MediaItemDetails(it.title, it.artist, it.album, it.location, it.artworkURL))
+                            intent.putExtra("item", org.videolan.television.ui.MediaItemDetails(it.title, it.artistName, it.albumName, it.location, it.artworkURL))
                             activity.startActivity(intent)
                         }
                     }

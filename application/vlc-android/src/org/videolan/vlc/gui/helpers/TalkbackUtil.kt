@@ -46,8 +46,8 @@ object TalkbackUtil {
 
     fun getAudioTrack(context: Context, audio: MediaWrapper) = context.getString(R.string.talkback_audio_track, audio.title)
             .talkbackAppend(getDuration(context, millisToString(context, audio.length)))
-            .talkbackAppend(context.getString(R.string.talkback_album, audio.album))
-            .talkbackAppend(context.getString(R.string.talkback_artist, audio.artist))
+            .talkbackAppend(context.getString(R.string.talkback_album, audio.albumName))
+            .talkbackAppend(context.getString(R.string.talkback_artist, audio.artistName))
 
     fun getVideoGroup(context: Context, video: VideoGroup) = context.getString(R.string.talkback_video_group, video.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.videos_quantity, video.mediaCount(), video.mediaCount()))
@@ -68,7 +68,7 @@ object TalkbackUtil {
     fun getArtist(context: Context, artist: String?) = if (artist == null) "" else context.getString(R.string.talkback_artist, artist)
     fun getTrackNumber(context: Context, item: MediaWrapper) = context.getString(R.string.talkback_track_number, item.trackNumber.toString())
     fun getTimeAndArtist(context: Context, item: MediaWrapper) = millisToString(context, item.length)
-            .talkbackAppend(getArtist(context, item.artist))
+            .talkbackAppend(getArtist(context, item.artistName))
 
 
     fun getFolder(context: Context, folder: Folder): String {

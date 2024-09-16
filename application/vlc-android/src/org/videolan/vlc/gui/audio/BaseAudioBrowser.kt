@@ -450,11 +450,11 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_GO_TO_ALBUM -> lifecycleScope.launch(Dispatchers.IO) {
                 val i = Intent(activity, HeaderMediaListActivity::class.java)
-                i.putExtra(AudioBrowserFragment.TAG_ITEM, (media as MediaWrapper).getAlbumWrapper())
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, (media as MediaWrapper).album)
                 startActivity(i)
             }
             CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
-                val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).getArtistWrapper()
+                val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).artist
                 val i = Intent(requireActivity(), SecondaryActivity::class.java)
                 i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                 i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
@@ -463,7 +463,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 startActivity(i)
             }
             CTX_GO_TO_ALBUM_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
-                val artist = (media as MediaWrapper).getAlbumArtistWrapper()
+                val artist = (media as MediaWrapper).albumArtist
                 val i = Intent(requireActivity(), SecondaryActivity::class.java)
                 i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                 i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)

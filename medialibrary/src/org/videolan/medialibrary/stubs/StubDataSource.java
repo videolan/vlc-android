@@ -208,9 +208,9 @@ public class StubDataSource {
                 case SORT_LASTMODIFICATIONDATE:
                     return Long.valueOf(o1.getLastModified()).compareTo(o2.getLastModified());
                 case SORT_ARTIST:
-                    return compareArtistStr(o1.getArtist(), o2.getArtist());
+                    return compareArtistStr(o1.getArtistName(), o2.getArtistName());
                 case SORT_ALBUM:
-                    return compareAlbumStr(o1.getAlbum(), o2.getAlbum());
+                    return compareAlbumStr(o1.getAlbumName(), o2.getAlbumName());
                 default:
                     return 0;
             }
@@ -523,24 +523,24 @@ public class StubDataSource {
 
     private void addAudio(MediaWrapper media, String shortBio, int releaseYear, int trackTotal, String mrl) {
         addFolders(media);
-        String albumArtistName = getArtistName(media.getAlbumArtist(), media.getArtist());
+        String albumArtistName = getArtistName(media.getAlbumArtistName(), media.getArtistName());
         Artist albumArtist = getArtistFromName(albumArtistName);
         if (albumArtist == null) {
             albumArtist = MLServiceLocator.getAbstractArtist(getUUID(), albumArtistName,
                     "", media.getArtworkMrl(), "", 0, trackTotal, trackTotal, false);
             addArtistSecure(albumArtist);
         }
-        if (media.getArtist().isEmpty()) {
+        if (media.getArtistName().isEmpty()) {
             media.setArtist(albumArtistName);
-        } else if (!media.getArtist().equals(albumArtistName)) {
-            Artist artist = getArtistFromName(media.getArtist());
+        } else if (!media.getArtistName().equals(albumArtistName)) {
+            Artist artist = getArtistFromName(media.getArtistName());
             if (artist == null) {
-                artist = MLServiceLocator.getAbstractArtist(getUUID(), media.getArtist(),
+                artist = MLServiceLocator.getAbstractArtist(getUUID(), media.getArtistName(),
                         "", media.getArtworkMrl(), "", 1, trackTotal, trackTotal, false);
                 addArtistSecure(artist);
             }
         }
-        String albumName = getAlbumName(media.getAlbum());
+        String albumName = getAlbumName(media.getAlbumName());
         Album album = getAlbumFromName(albumName, albumArtist.getId());
         if (album == null) {
             album = MLServiceLocator.getAbstractAlbum(getUUID(), albumName, releaseYear,
@@ -562,7 +562,7 @@ public class StubDataSource {
                 media.getFileName(),
                 -1L,
                 -1L,
-                media.getArtist(),
+                media.getArtistName(),
                 genre.getTitle(),
                 -1L,
                 album.getTitle(),

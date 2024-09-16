@@ -266,14 +266,14 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                             append(media.title)
                             started = true
                         }
-                        if (media.album.isNotBlank()) {
+                        if (media.albumName.isNotBlank()) {
                             if (started) append(" ${TextUtils.separator} ")
                             started = true
-                            append(media.album)
+                            append(media.albumName)
                         }
-                        if (media.artist.isNotBlank()) {
+                        if (media.artistName.isNotBlank()) {
                             if (started) append(" ${TextUtils.separator} ")
-                            append(media.artist)
+                            append(media.artistName)
                         }
                     }
                     activity.share("", activity.getString(R.string.share_track, trackInfo))

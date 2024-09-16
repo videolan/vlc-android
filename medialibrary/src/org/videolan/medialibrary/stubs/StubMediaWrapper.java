@@ -94,17 +94,17 @@ public class StubMediaWrapper extends MediaWrapper {
     }
 
     @Override
-    public Album getAlbumWrapper() {
+    public Album getAlbum() {
         return null;
     }
 
     @Override
-    public Artist getArtistWrapper() {
+    public Artist getArtist() {
         return null;
     }
 
     @Override
-    public Artist getAlbumArtistWrapper() {
+    public Artist getAlbumArtist() {
         return null;
     }
 

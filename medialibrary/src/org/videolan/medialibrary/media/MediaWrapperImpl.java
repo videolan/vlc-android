@@ -78,40 +78,40 @@ public class MediaWrapperImpl extends MediaWrapper {
     }
 
     @Override
-    public Album getAlbumWrapper() {
+    public Album getAlbum() {
         final Medialibrary ml = Medialibrary.getInstance();
         if (ml.isInitiated()) return ml.getAlbum(mAlbumId);
         return null;
     }
 
     @Override
-    public Artist getArtistWrapper() {
+    public Artist getArtist() {
         final Medialibrary ml = Medialibrary.getInstance();
         if (ml.isInitiated()) return ml.getArtist(mArtistId);
         return null;
     }
 
     @Override
-    public Artist getAlbumArtistWrapper() {
+    public Artist getAlbumArtist() {
         final Medialibrary ml = Medialibrary.getInstance();
         if (ml.isInitiated()) return ml.getArtist(mAlbumArtistId);
         return null;
     }
 
     public void setArtist(String artist) {
-        mArtist = artist;
+        mArtistName = artist;
     }
 
     public String getReferenceArtist() {
-        return mAlbumArtist == null ? mArtist : mAlbumArtist;
+        return mAlbumArtistName == null ? mArtistName : mAlbumArtistName;
     }
 
-    public String getArtist() {
-        return mArtist;
+    public String getArtistName() {
+        return mArtistName;
     }
 
     public Boolean isArtistUnknown() {
-        return mArtist == null;
+        return mArtistName == null;
     }
 
     public String getGenre() {
@@ -127,16 +127,16 @@ public class MediaWrapperImpl extends MediaWrapper {
         return mCopyright;
     }
 
-    public String getAlbum() {
-        return mAlbum;
+    public String getAlbumName() {
+        return mAlbumName;
     }
 
-    public String getAlbumArtist() {
-        return mAlbumArtist;
+    public String getAlbumArtistName() {
+        return mAlbumArtistName;
     }
 
     public Boolean isAlbumUnknown() {
-        return mAlbum == null;
+        return mAlbumName == null;
     }
 
     public int getTrackNumber() {

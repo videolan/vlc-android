@@ -507,7 +507,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             }
             CTX_ADD_SHORTCUT -> lifecycleScope.launch { createShortcut(media) }
             CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
-                val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).getArtistWrapper()
+                val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).artist
                 val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
                 i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                 i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
@@ -516,7 +516,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                 startActivity(i)
             }
             CTX_GO_TO_ALBUM_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
-                val artist = (media as MediaWrapper).getAlbumArtistWrapper()
+                val artist = (media as MediaWrapper).albumArtist
                 val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
                 i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                 i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)

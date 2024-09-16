@@ -1015,8 +1015,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 if (isPlayingPopup || !notificationShowing) return@launch
                 try {
                     val title = if (metaData == null) mw.title else metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
-                    val artist = if (metaData == null) mw.artist else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST)
-                    val album = if (metaData == null) mw.album else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM)
+                    val artist = if (metaData == null) mw.artistName else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST)
+                    val album = if (metaData == null) mw.albumName else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM)
                     var cover = if (coverOnLockscreen && metaData != null)
                         metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) else null
                     if (coverOnLockscreen && cover == null)

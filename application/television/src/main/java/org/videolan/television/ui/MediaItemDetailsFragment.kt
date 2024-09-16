@@ -152,7 +152,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         viewModel.browserFavUpdated.observe(this, Observer { newMedia ->
             val intent = Intent(requireActivity(), DetailsActivity::class.java)
             intent.putExtra(org.videolan.television.ui.EXTRA_MEDIA, newMedia)
-            intent.putExtra(EXTRA_ITEM, MediaItemDetails(newMedia.title, newMedia.artist, newMedia.album, newMedia.location, newMedia.artworkURL))
+            intent.putExtra(EXTRA_ITEM, MediaItemDetails(newMedia.title, newMedia.artistName, newMedia.albumName, newMedia.location, newMedia.artworkURL))
             startActivity(intent)
             requireActivity().finish()
         })

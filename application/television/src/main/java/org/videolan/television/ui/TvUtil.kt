@@ -253,7 +253,7 @@ object TvUtil {
     fun showMediaDetail(activity: Context, mediaWrapper: MediaWrapper, fromHistory:Boolean = false) {
         val intent = Intent(activity, DetailsActivity::class.java)
         intent.putExtra("media", mediaWrapper)
-        intent.putExtra("item", MediaItemDetails(mediaWrapper.title, mediaWrapper.artist, mediaWrapper.album, mediaWrapper.location, mediaWrapper.artworkURL))
+        intent.putExtra("item", MediaItemDetails(mediaWrapper.title, mediaWrapper.artistName, mediaWrapper.albumName, mediaWrapper.location, mediaWrapper.artworkURL))
         if (fromHistory) intent.putExtra(EXTRA_FROM_HISTORY, fromHistory)
         activity.startActivity(intent)
     }

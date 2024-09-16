@@ -351,7 +351,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val intent = Intent(requireActivity(), DetailsActivity::class.java)
         // pass the item information
         intent.putExtra(EXTRA_MEDIA, media)
-        intent.putExtra(EXTRA_ITEM, MediaItemDetails(media.title, media.artist, media.album, media.location, media.artworkURL))
+        intent.putExtra(EXTRA_ITEM, MediaItemDetails(media.title, media.artistName, media.albumName, media.location, media.artworkURL))
         startActivity(intent)
         return true
     }
