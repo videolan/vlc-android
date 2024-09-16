@@ -192,6 +192,8 @@
     <string name="wait_before_sleep">Wait for current media item to finish first</string>
     <string name="reset_on_interaction">Reset on any interaction</string>
     <string name="default_sleep_timer_summary">%1$s, wait media end: %2$s, reset on interaction: %3$s</string>
+    <string name="video_player_remote">Video player remote</string>
+    <string name="remote_keyboard_navigation">Keyboard navigation</string>
 
     <string name="server_add_title">Add a new server to favorites</string>
     <string name="server_domain_hint">Server address (domain name or IP)</string>

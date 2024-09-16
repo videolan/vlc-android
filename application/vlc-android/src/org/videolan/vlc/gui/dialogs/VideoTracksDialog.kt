@@ -61,6 +61,8 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
     override fun initialFocusedView(): View = binding.subtitleTracks.emptyView
 
+    override fun allowRemote() = true
+
     lateinit var menuItemListener: (VideoTrackOption) -> Unit
     lateinit var trackSelectionListener: (String, TrackType) -> Unit
 

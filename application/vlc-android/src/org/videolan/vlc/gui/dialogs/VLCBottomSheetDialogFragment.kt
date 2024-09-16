@@ -3,18 +3,24 @@ package org.videolan.vlc.gui.dialogs
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import android.view.inputmethod.BaseInputConnection
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.video.VideoPlayerActivity.Companion.videoRemoteFlow
 import org.videolan.vlc.util.isTalkbackIsEnabled
 
 abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -26,11 +32,41 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
+    private var videoRemoteJob: Job? = null
     var onDismissListener: DialogInterface.OnDismissListener? = null
 
     fun inflate(inflater: LayoutInflater, container: ViewGroup?, @LayoutRes layout: Int): View? {
         return inflater.inflate(layout, container, false)
 
+    }
+
+    override fun onStart() {
+        if (allowRemote()) {
+            shouldInterceptRemote.postValue(true)
+            videoRemoteJob = lifecycleScope.launch {
+                videoRemoteFlow.collect { action ->
+                    when (action) {
+                        "up" -> KeyEvent.KEYCODE_DPAD_UP
+                        "down" -> KeyEvent.KEYCODE_DPAD_DOWN
+                        "right" -> KeyEvent.KEYCODE_DPAD_RIGHT
+                        "left" -> KeyEvent.KEYCODE_DPAD_LEFT
+                        "center" -> KeyEvent.KEYCODE_DPAD_CENTER
+                        "back" -> KeyEvent.KEYCODE_BACK
+                        else -> null
+                    }?.let { keyCode ->
+                        simulateKeyPress(keyCode)
+                        videoRemoteFlow.emit(null)
+                    }
+                }
+            }
+        }
+        super.onStart()
+    }
+
+    override fun onStop() {
+        if (allowRemote()) shouldInterceptRemote.postValue(false)
+        videoRemoteJob?.cancel()
+        super.onStop()
     }
 
     /**
@@ -55,6 +91,19 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
 
 
+    }
+
+    private fun simulateKeyPress(key: Int) {
+        view?.let {
+            val inputConnection = BaseInputConnection(
+                it,
+                true
+            )
+            val downEvent = KeyEvent(KeyEvent.ACTION_DOWN, key)
+            val upEvent = KeyEvent(KeyEvent.ACTION_UP, key)
+            inputConnection.sendKeyEvent(downEvent)
+            inputConnection.sendKeyEvent(upEvent)
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -103,6 +152,12 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
      * Both fields [isFocusable] and [isFocusableInTouchMode] will be set to true
      */
     abstract fun initialFocusedView(): View
+
+    open fun allowRemote() = false
+
+    companion object {
+        val shouldInterceptRemote = MutableLiveData(false)
+    }
 
 
 }

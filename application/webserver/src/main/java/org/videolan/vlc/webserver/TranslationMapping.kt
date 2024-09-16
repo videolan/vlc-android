@@ -138,5 +138,7 @@ object TranslationMapping {
         RESET_ON_INTERACTION(R.string.reset_on_interaction),
         HOURS(R.string.talkback_hours),
         MINUTES(R.string.talkback_minutes),
+        VIDEO_PLAYER_REMOTE(R.string.video_player_remote),
+        REMOTE_KEYBOARD_NAVIGATION(R.string.remote_keyboard_navigation),
     }
 }

@@ -22,12 +22,19 @@
 
 package org.videolan.vlc.gui.dialogs
 
+import android.app.Activity
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.BaseInputConnection
 import androidx.core.content.edit
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
 import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
 import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
@@ -36,6 +43,7 @@ import org.videolan.tools.SLEEP_TIMER_WAIT
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.video.VideoPlayerActivity.Companion.videoRemoteFlow
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.Calendar
 
@@ -48,6 +56,7 @@ class SleepTimerDialog : PickTimeFragment() {
     private val playlistModel by lazy { PlaylistModel.get(this) }
 
     override fun showTimeOnly() = false
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -72,6 +81,7 @@ class SleepTimerDialog : PickTimeFragment() {
         }
         binding.timPicWaitCheckbox.isChecked = playlistModel.service?.waitForMediaEnd ?: false
         binding.timPicResetCheckbox.isChecked = playlistModel.service?.resetOnInteraction ?: false
+
     }
 
     override fun executeAction() {

@@ -73,6 +73,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
     override fun needToManageOrientation() = true
 
     override fun initialFocusedView(): View = binding.equalizerContainer
+    override fun allowRemote() = true
 
     private lateinit var equalizer: MediaPlayer.Equalizer
     private var customCount = 0

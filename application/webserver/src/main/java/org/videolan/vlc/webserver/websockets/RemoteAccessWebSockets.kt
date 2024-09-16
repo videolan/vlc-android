@@ -45,6 +45,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.REMOTE_ACCESS_PLAYBACK_CONTROL
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.webserver.BuildConfig
 import org.videolan.vlc.webserver.RemoteAccessServer
 import org.videolan.vlc.webserver.ssl.SecretGenerator
@@ -282,6 +283,16 @@ object RemoteAccessWebSockets {
                     val index = incomingMessage.id!!
                     if (index > 0)
                         service?.moveItem(index, index - 1)
+                } else return false
+
+            }
+            "remote" -> {
+                if (playbackControlAllowedOrSend(settings)) {
+                    incomingMessage.stringValue?.let {
+                       AppScope.launch {
+                           VideoPlayerActivity.videoRemoteFlow.emit(it)
+                       }
+                    }
                 } else return false
 
             }

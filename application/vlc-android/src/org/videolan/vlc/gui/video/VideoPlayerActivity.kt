@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.R.attr.keycode
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
@@ -64,6 +65,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
+import android.view.inputmethod.BaseInputConnection
 import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -101,8 +103,10 @@ import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -183,6 +187,7 @@ import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment.Companion.shouldInterceptRemote
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.KeycodeListener
@@ -224,6 +229,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var hasPhysicalNotch: Boolean = false
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope: CoroutineScope
+    private var videoRemoteJob: Job? = null
     var service: PlaybackService? = null
     lateinit var medialibrary: Medialibrary
     var videoLayout: VLCVideoLayout? = null
@@ -881,12 +887,48 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         super.onWindowFocusChanged(hasFocus)
     }
 
+    private fun simulateKeyPress(context: Context, key: Int) {
+        val a = context as Activity
+        a.window.decorView.rootView
+        val inputConnection = BaseInputConnection(
+            a.window.decorView.rootView,
+            true
+        )
+        val downEvent = KeyEvent(KeyEvent.ACTION_DOWN, key)
+        val upEvent = KeyEvent(KeyEvent.ACTION_UP, key)
+        inputConnection.sendKeyEvent(downEvent)
+        inputConnection.sendKeyEvent(upEvent)
+    }
+
     override fun onStart() {
         medialibrary.pauseBackgroundOperations()
         super.onStart()
         startedScope = MainScope()
         PlaybackService.start(this)
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(startedScope)
+        videoRemoteJob = lifecycleScope.launch {
+            videoRemoteFlow.collect { action ->
+                when (action) {
+                    "up" -> KeyEvent.KEYCODE_DPAD_UP
+                    "down" -> KeyEvent.KEYCODE_DPAD_DOWN
+                    "right" -> KeyEvent.KEYCODE_DPAD_RIGHT
+                    "left" -> KeyEvent.KEYCODE_DPAD_LEFT
+                    "center" -> KeyEvent.KEYCODE_DPAD_CENTER
+                    "back" -> KeyEvent.KEYCODE_BACK
+                    "skip-next" -> KeyEvent.KEYCODE_MEDIA_NEXT
+                    "skip-previous" -> KeyEvent.KEYCODE_MEDIA_PREVIOUS
+                    "pip" -> KeyEvent.KEYCODE_MEDIA_PREVIOUS
+                    "play", "pause" -> KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                    else -> null
+                }?.let { keyCode ->
+                    if (shouldInterceptRemote.value == true) return@let
+                    simulateKeyPress(this@VideoPlayerActivity, keyCode)
+                    videoRemoteFlow.emit(null)
+                }
+
+
+            }
+        }
         restoreBrightness()
         val filter = IntentFilter(PLAY_FROM_SERVICE)
         filter.addAction(EXIT_PLAYER)
@@ -934,6 +976,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         previousMediaPath = null
         addedExternalSubs.clear()
         medialibrary.resumeBackgroundOperations()
+        videoRemoteJob?.cancel()
     }
 
     private fun saveBrightness() {
@@ -2487,6 +2530,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         const val FADE_OUT_SCREENSHOT = 14
         private const val KEY_REMAINING_TIME_DISPLAY = "remaining_time_display"
         const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
+        val videoRemoteFlow = MutableStateFlow<String?>(null)
 
         private const val LOADING_ANIMATION_DELAY = 1000
 

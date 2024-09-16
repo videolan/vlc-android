@@ -68,6 +68,8 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         return true
     }
 
+    override fun allowRemote() = true
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DialogTimePickerBinding.inflate(inflater, container, false)

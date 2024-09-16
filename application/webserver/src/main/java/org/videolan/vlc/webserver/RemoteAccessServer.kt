@@ -591,10 +591,11 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 withContext(Dispatchers.Main) {
                     sleepTimer = playerSleepTime.value?.time?.time ?: 0L
                 }
+                val isVideoPlaying = service.playlistManager.player.isVideoPlaying()
                 val waitForMediaEnd = service.waitForMediaEnd
                 val resetOnInteraction = service.resetOnInteraction
                 val nowPlaying = NowPlaying(media.title ?: "", media.artist
-                        ?: "", service.isPlaying, service.getTime(), service.length, media.id, media.artworkURL
+                        ?: "", service.isPlaying, isVideoPlaying, service.getTime(), service.length, media.id, media.artworkURL
                         ?: "", media.uri.toString(), getVolume(), speed, sleepTimer, waitForMediaEnd, resetOnInteraction, service.isShuffling, service.repeatType, bookmarks = bookmarks.map { WSBookmark(it.id, it.title, it.time) }, chapters = chapters.map { WSChapter(it.name, it.duration) })
                 return nowPlaying
 
@@ -747,7 +748,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     }
 
     abstract class WSMessage(val type: String)
-    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val progress: Long,
+    data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val isVideoPlaying: Boolean, val progress: Long,
                           val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val speed: Float,
                           val sleepTimer: Long, val waitForMediaEnd:Boolean, val resetOnInteraction:Boolean, val shuffle: Boolean, val repeat: Int,
                           val shouldShow: Boolean = PlaylistManager.playingState.value ?: false,
