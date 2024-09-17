@@ -1433,7 +1433,7 @@ private fun getProviderDescriptions(context: Context, scope: CoroutineScope, pro
                                 val unparsedDescription = pair.second
                                 val folders = unparsedDescription.getFolderNumber()
                                 val files = unparsedDescription.getFilesNumber()
-                                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                                "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.SEPARATOR} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
                             }
                     if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
                         RemoteAccessWebSockets.sendToAll(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc))
@@ -1444,7 +1444,7 @@ private fun getProviderDescriptions(context: Context, scope: CoroutineScope, pro
                                 val unparsedDescription = pair.second
                                 val folders = unparsedDescription.getFolderNumber()
                                 val files = unparsedDescription.getFilesNumber()
-                    val desc = "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                    val desc = "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.SEPARATOR} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
                     if (desc.isNotEmpty()) scope.launch(Dispatchers.IO) {
                         RemoteAccessWebSockets.sendToAll(RemoteAccessServer.BrowserDescription(datasetEntry.uri.toString(), desc))
                     }
@@ -1487,7 +1487,7 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
                 val folders = unparsedDescription.getFolderNumber()
                 val files = unparsedDescription.getFilesNumber()
                 if (folders > 0 && files > 0) {
-                    "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.separator} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
+                    "${context.resources.getQuantityString(org.videolan.vlc.R.plurals.subfolders_quantity, folders, folders)} ${TextUtils.SEPARATOR} ${context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)}"
                 } else if (files > 0) {
                     context.resources.getQuantityString(org.videolan.vlc.R.plurals.mediafiles_quantity, files, files)
                 } else if (folders > 0) {

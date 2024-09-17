@@ -341,7 +341,7 @@ object MediaUtils {
         val artist = getMediaArtist(ctx, media)
         val isAlbumUnknown = album == getMediaString(ctx, R.string.unknown_album)
         val isArtistUnknown = artist == getMediaString(ctx, R.string.unknown_artist)
-        return if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
+        return if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString(artist.markBidi(), album.markBidi()) else null
     }
 
     fun getQueuePosition(mediaPosition: Int, mediaSize: Int, shortQueue: Boolean = false): String? {

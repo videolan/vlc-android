@@ -267,12 +267,12 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                             started = true
                         }
                         if (media.albumName.isNotBlank()) {
-                            if (started) append(" ${TextUtils.separator} ")
+                            if (started) append(" ${TextUtils.SEPARATOR} ")
                             started = true
                             append(media.albumName)
                         }
                         if (media.artistName.isNotBlank()) {
-                            if (started) append(" ${TextUtils.separator} ")
+                            if (started) append(" ${TextUtils.SEPARATOR} ")
                             append(media.artistName)
                         }
                     }

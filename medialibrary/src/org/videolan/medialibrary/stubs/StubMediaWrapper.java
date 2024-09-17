@@ -31,7 +31,7 @@ public class StubMediaWrapper extends MediaWrapper {
             if (hasArtistMeta) {
                 sb.append(artist);
                 if (hasAlbumMeta)
-                    sb.append(" - ");
+                    sb.append(" · ");
             }
             if (hasAlbumMeta)
                 sb.append(album);

@@ -483,7 +483,7 @@ class MediaSessionBrowser {
                         when {
                             media.type == MediaWrapper.TYPE_STREAM -> media.uri.toString()
                             parentId.startsWith(ID_ALBUM) -> getMediaSubtitle(media)
-                            else -> TextUtils.separatedString('-', getMediaArtist(context, media), getMediaAlbum(context, media))
+                            else -> TextUtils.separatedString(getMediaArtist(context, media), getMediaAlbum(context, media))
                         }
                     }
                     MediaLibraryItem.TYPE_PLAYLIST -> res.getString(R.string.track_number, libraryItem.tracksCount)
@@ -670,7 +670,7 @@ class MediaSessionBrowser {
             } else if (endTitleSize > halfLabelSize) {
                 endTitleSize = (maxLabelSize - beginTitleSize).coerceAtMost(endTitleSize)
             }
-            return TextUtils.separatedString(beginTitle.abbreviate(beginTitleSize).markBidi(), endTitle.abbreviate(endTitleSize).markBidi())
+            return TextUtils.separatedString(TextUtils.EN_DASH, beginTitle.abbreviate(beginTitleSize).markBidi(), endTitle.abbreviate(endTitleSize).markBidi())
         }
 
         private fun getPlayAllBuilder(ctx: Context, mediaId: String, @StringRes title: Int, trackCount: Int, uri: Uri? = null): MediaDescriptionCompat.Builder {

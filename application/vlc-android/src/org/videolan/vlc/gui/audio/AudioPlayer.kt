@@ -556,7 +556,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                             R.string.audio_queue_progress,
                             if (totalTimeText.isNullOrEmpty()) progressTimeDescription else getString(R.string.talkback_out_of, progressTimeDescription, totalTimeDescription)
                     )
-                Pair("$textTrack  ${TextUtils.separator}  $textProgress", "$textTrackDescription. $textDescription")
+                Pair("$textTrack  ${TextUtils.SEPARATOR}  $textProgress", "$textTrackDescription. $textDescription")
             }
             binding.audioPlayProgress.text = text.first
             binding.audioPlayProgress.contentDescription = text.second

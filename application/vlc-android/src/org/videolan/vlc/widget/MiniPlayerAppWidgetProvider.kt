@@ -471,7 +471,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
     private fun setupTexts(context: Context, views: RemoteViews, widgetType: WidgetType, title: String?, artist: String?) {
         log(-1, WidgetLogType.INFO, "setupTexts: $title /// $artist")
         views.setTextViewText(R.id.songName, title)
-        views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) "${if (widgetType == WidgetType.MACRO) "" else " ${TextUtils.separator} "}$artist" else artist)
+        views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) "${if (widgetType == WidgetType.MACRO) "" else " ${TextUtils.SEPARATOR} "}$artist" else artist)
         if (title == context.getString(R.string.widget_default_text)) {
             views.setViewVisibility(R.id.app_name, View.VISIBLE)
             views.setViewVisibility(R.id.songName, View.GONE)

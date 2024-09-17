@@ -183,7 +183,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
             if (hasArtistMeta) {
                 sb.append(artist);
                 if (hasAlbumMeta)
-                    sb.append(" - ");
+                    sb.append(" · ");
             }
             if (hasAlbumMeta)
                 sb.append(album);
