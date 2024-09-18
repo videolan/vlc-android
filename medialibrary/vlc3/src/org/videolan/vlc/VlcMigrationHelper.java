@@ -29,6 +29,7 @@ import static org.videolan.libvlc.util.AndroidUtil.isMarshMallowOrLater;
 import android.os.Build;
 
 import org.videolan.libvlc.interfaces.IMedia;
+import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,4 +46,17 @@ public class VlcMigrationHelper {
     public static final boolean isLolliPopOrLater = isMarshMallowOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final boolean isKitKatOrLater = isLolliPopOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     public static final boolean isJellyBeanMR2OrLater = isKitKatOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+
+    public enum AudioOutput {
+        OPENSLES, AUDIOTRACK, ALL
+    }
+
+    public static AudioOutput getAudioOutputFromDevice() {
+        HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
+        if (aout == HWDecoderUtil.AudioOutput.OPENSLES)
+            return AudioOutput.OPENSLES;
+        else if (aout == HWDecoderUtil.AudioOutput.AUDIOTRACK)
+            return AudioOutput.AUDIOTRACK;
+        return AudioOutput.ALL;
+    }
 }

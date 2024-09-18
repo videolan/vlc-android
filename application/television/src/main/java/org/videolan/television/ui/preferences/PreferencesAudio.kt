@@ -40,7 +40,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.tools.KEY_PLAYBACK_RATE
@@ -51,6 +50,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
@@ -92,8 +92,8 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = false
         findPreference<Preference>(AUDIO_DUCKING)?.isVisible = !AndroidUtil.isOOrLater
 
-        val aout = HWDecoderUtil.getAudioOutputFromDevice()
-        if (aout != HWDecoderUtil.AudioOutput.ALL) {
+        val aout = VlcMigrationHelper.getAudioOutputFromDevice()
+        if (aout != VlcMigrationHelper.AudioOutput.ALL) {
             /* no AudioOutput choice */
             aoutPref?.isVisible = false
         }
