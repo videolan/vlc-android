@@ -52,6 +52,7 @@ import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
 
@@ -317,7 +318,7 @@ object Permissions {
                 askWriteStoragePermission(activity, false, callback)
                 return false
             }
-        } else if (AndroidUtil.isLolliPopOrLater && WriteExternalDelegate.needsWritePermission(uri)) {
+        } else if (VlcMigrationHelper.isLolliPopOrLater && WriteExternalDelegate.needsWritePermission(uri)) {
             WriteExternalDelegate.askForExtWrite(activity, uri, callback)
             return false
         }

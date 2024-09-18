@@ -38,4 +38,8 @@ public class VlcMigrationHelper {
         }
         return Arrays.asList(tracks);
     }
+
+    public static final boolean isLolliPopOrLater = true;
+    public static final boolean isKitKatOrLater = true;
+    public static final boolean isJellyBeanMR2OrLater = true;
 }

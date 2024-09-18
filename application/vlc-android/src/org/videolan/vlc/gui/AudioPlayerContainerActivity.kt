@@ -168,7 +168,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
            restoreBookmarks =  savedInstanceState.getBoolean(BOOKMARK_VISIBLE, false)
         }
         super.onCreate(savedInstanceState)
-        if (AndroidUtil.isLolliPopOrLater && this is MainActivity) WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (VlcMigrationHelper.isLolliPopOrLater && this is MainActivity) WindowCompat.setDecorFitsSystemWindows(window, false)
 
         volumeControlStream = AudioManager.STREAM_MUSIC
         registerLiveData()
@@ -249,7 +249,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
             val needToElevate = (tabLayout?.layoutParams?.height != 0) || navigationRail?.visibility ?: View.GONE != View.GONE
-            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (needToElevate) 8.dp.toFloat() else 0.dp.toFloat()
+            if (VlcMigrationHelper.isLolliPopOrLater) appBarLayout.elevation = if (needToElevate) 8.dp.toFloat() else 0.dp.toFloat()
         }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
         (audioPlayerContainer.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = bottomInset

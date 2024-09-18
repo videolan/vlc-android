@@ -24,6 +24,10 @@
 
 package org.videolan.vlc;
 
+import static org.videolan.libvlc.util.AndroidUtil.isMarshMallowOrLater;
+
+import android.os.Build;
+
 import org.videolan.libvlc.interfaces.IMedia;
 
 import java.util.ArrayList;
@@ -37,4 +41,8 @@ public class VlcMigrationHelper {
         }
         return result;
     }
+
+    public static final boolean isLolliPopOrLater = isMarshMallowOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    public static final boolean isKitKatOrLater = isLolliPopOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    public static final boolean isJellyBeanMR2OrLater = isKitKatOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 }

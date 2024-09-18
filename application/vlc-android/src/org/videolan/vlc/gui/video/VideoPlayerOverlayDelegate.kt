@@ -381,7 +381,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (dim || player.isLocked) {
             player.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             navbar = navbar or (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LOW_PROFILE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-            if (AndroidUtil.isKitKatOrLater) visibility = visibility or View.SYSTEM_UI_FLAG_IMMERSIVE
+            if (VlcMigrationHelper.isKitKatOrLater) visibility = visibility or View.SYSTEM_UI_FLAG_IMMERSIVE
             visibility = visibility or View.SYSTEM_UI_FLAG_FULLSCREEN
         } else {
             player.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)

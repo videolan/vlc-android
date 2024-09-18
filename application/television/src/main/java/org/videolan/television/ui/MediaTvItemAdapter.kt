@@ -28,6 +28,7 @@ import org.videolan.television.ui.browser.TvAdapterUtils
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
@@ -203,7 +204,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                 }
             }
             binding.showSeen = seenMediaMarkerVisible
-            if (AndroidUtil.isLolliPopOrLater) binding.container.clipToOutline = true
+            if (VlcMigrationHelper.isLolliPopOrLater) binding.container.clipToOutline = true
         }
 
         override fun recycle() {

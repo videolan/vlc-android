@@ -38,7 +38,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
@@ -46,6 +45,7 @@ import org.videolan.tools.dp
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -378,7 +378,7 @@ fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int, width: Int = -1,
     }
     return when {
         drawable is BitmapDrawable -> drawable.bitmap
-        drawable is VectorDrawableCompat || (AndroidUtil.isLolliPopOrLater && drawable is VectorDrawable) -> {
+        drawable is VectorDrawableCompat || (VlcMigrationHelper.isLolliPopOrLater && drawable is VectorDrawable) -> {
             val bitmap = if (width > 0 && height > 0)
                 Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             else

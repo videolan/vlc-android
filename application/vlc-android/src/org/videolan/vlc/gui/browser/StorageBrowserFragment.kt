@@ -39,7 +39,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -48,6 +47,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
@@ -92,7 +92,7 @@ class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibr
         super.onViewCreated(view, savedInstanceState)
         if (isRootDirectory && Settings.showTvUi) {
             snack = com.google.android.material.snackbar.Snackbar.make(view, R.string.tv_settings_hint, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
-            if (AndroidUtil.isLolliPopOrLater) snack?.view?.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
+            if (VlcMigrationHelper.isLolliPopOrLater) snack?.view?.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         }
     }
 

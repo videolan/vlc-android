@@ -92,6 +92,7 @@ import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.*
@@ -292,7 +293,7 @@ object UiTools {
     fun snacker(activity:Activity, message: String) {
         val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -306,7 +307,7 @@ object UiTools {
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(confirmMessage) { action.invoke() }
         if (overAudioPlayer) snack.setAnchorView(R.id.time)
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -316,7 +317,7 @@ object UiTools {
         val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(R.string.ok) { launch { action.invoke() } }
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -333,7 +334,7 @@ object UiTools {
                     sHandler.removeCallbacks(action)
                     cancelAction.invoke()
                 }
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         if (overAudioPlayer) snack.setAnchorView(R.id.time)
         snack.show()
@@ -354,7 +355,7 @@ object UiTools {
                         PreferencesActivity.launchWithPref(activity, "include_missing")
                     }
                 }
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -812,7 +813,7 @@ object UiTools {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     fun setRotationAnimation(activity: Activity) {
-        if (!AndroidUtil.isJellyBeanMR2OrLater) return
+        if (!VlcMigrationHelper.isJellyBeanMR2OrLater) return
         val win = activity.window
         val winParams = win.attributes
         winParams.rotationAnimation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.ROTATION_ANIMATION_SEAMLESS else WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT

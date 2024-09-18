@@ -178,6 +178,7 @@ import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.getAllTracks
 import org.videolan.vlc.getSelectedVideoTrack
 import org.videolan.vlc.gui.DialogActivity
@@ -330,7 +331,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
         get() {
             val pm = applicationContext.getSystemService<PowerManager>()!!
-            return if (AndroidUtil.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
+            return if (VlcMigrationHelper.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
         }
 
     val playlistObserver = Observer<List<MediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) overlayDelegate.playlistAdapter.update(mediaWrappers) }
@@ -672,7 +673,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      * @return the flag corresponding to the gesture the user wants to use
      */
     private fun generateTouchFlags() = if (!isTv) {
-        val audioTouch = (!AndroidUtil.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
+        val audioTouch = (!VlcMigrationHelper.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
         val brightnessTouch = !AndroidDevices.isChromeBook && settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)
         ((if (audioTouch) TOUCH_FLAG_AUDIO_VOLUME else 0)
                 + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
@@ -2283,7 +2284,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     fun getScreenOrientation(mode: PlayerOrientationMode): Int {
         return if (!mode.locked) {
-            if (AndroidUtil.isJellyBeanMR2OrLater)
+            if (VlcMigrationHelper.isJellyBeanMR2OrLater)
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
             else
                 ActivityInfo.SCREEN_ORIENTATION_SENSOR

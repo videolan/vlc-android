@@ -22,6 +22,7 @@ import org.videolan.television.databinding.MediaBrowserTvItemBinding
 import org.videolan.television.databinding.MediaBrowserTvItemListBinding
 import org.videolan.television.ui.browser.TvAdapterUtils
 import org.videolan.tools.Settings
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
@@ -154,7 +155,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
                     }
                 }
             }
-            if (AndroidUtil.isLolliPopOrLater) binding.container.clipToOutline = true
+            if (VlcMigrationHelper.isLolliPopOrLater) binding.container.clipToOutline = true
             binding.showSeen = seenMediaMarkerVisible
         }
 

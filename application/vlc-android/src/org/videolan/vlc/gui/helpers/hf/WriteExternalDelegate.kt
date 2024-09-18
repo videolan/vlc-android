@@ -15,12 +15,12 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.launch
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.util.FileUtils
 
 class WriteExternalDelegate : BaseHeadlessFragment() {
@@ -104,7 +104,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
 
         fun needsWritePermission(uri: Uri) : Boolean {
             val path = uri.path ?: return false
-            return AndroidUtil.isLolliPopOrLater && ("file" == uri.scheme || uri.scheme == null)
+            return VlcMigrationHelper.isLolliPopOrLater && ("file" == uri.scheme || uri.scheme == null)
                     && path.isNotEmpty() && path.startsWith('/')
                     && !path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                     && !(FileUtils.findFile(uri)?.canWrite() ?: false)

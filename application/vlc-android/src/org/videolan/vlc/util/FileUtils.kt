@@ -47,6 +47,7 @@ import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.media.MediaUtils
 import java.io.*
 import java.lang.Runnable
@@ -228,7 +229,7 @@ object FileUtils {
 
     @WorkerThread
     fun deleteFile(uri: Uri): Boolean {
-        if (isExternalStorageManager() || !AndroidUtil.isLolliPopOrLater || uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.path)
+        if (isExternalStorageManager() || !VlcMigrationHelper.isLolliPopOrLater || uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.path)
         val docFile = findFile(uri)
         if (docFile != null)
             try {

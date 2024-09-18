@@ -1029,7 +1029,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                             isSeekable, speed, isPodcastMode, seekInCompactView, enabledActions,
                             sessionToken, sessionPendingIntent)
                     if (isPlayingPopup) return@launch
-                    if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
+                    if (!VlcMigrationHelper.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {
                             ctx.launchForeground(Intent(ctx, PlaybackService::class.java)) {
                                 startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)

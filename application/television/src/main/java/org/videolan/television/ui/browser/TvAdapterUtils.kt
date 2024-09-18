@@ -30,9 +30,9 @@ import android.graphics.drawable.TransitionDrawable
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.television.ui.FocusableConstraintLayout
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 
 object TvAdapterUtils {
 
@@ -45,14 +45,14 @@ object TvAdapterUtils {
                 newWidth--
             }
             val scale = newWidth.toFloat() / itemSize
-            if (AndroidUtil.isLolliPopOrLater)
+            if (VlcMigrationHelper.isLolliPopOrLater)
                 container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
             else
                 container.animate().scaleX(scale).scaleY(scale)
 
             listener()
         } else {
-            if (AndroidUtil.isLolliPopOrLater)
+            if (VlcMigrationHelper.isLolliPopOrLater)
                 container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
             else
                 container.animate().scaleX(1f).scaleY(1f)
