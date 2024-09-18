@@ -1120,7 +1120,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             height = it.getHeight()
                         }
                         if (width == 0) width = surface.width
-                        if (height == 0) height = surface.width
+                        if (height == 0) height = surface.height
                         try {
                             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
                             val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
