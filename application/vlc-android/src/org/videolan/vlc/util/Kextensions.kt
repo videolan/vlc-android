@@ -443,7 +443,7 @@ fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.l
  * @return a string having exactly [nbOfDigits] digits at the start
  */
 fun String?.sanitizeStringForAlphaCompare(nbOfDigits: Int): String? {
-    if (this == null) return null
+    if (isNullOrEmpty()) return this
     if (first().isDigit()) return buildString {
         var numberOfPrependingZeros =0
         for (c in this@sanitizeStringForAlphaCompare) {
