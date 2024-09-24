@@ -1297,6 +1297,17 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         }
                     }
                 }
+
+                // try video cover
+                RemoteAccessServer.getInstance(appContext).service?.currentMediaWrapper?.let {
+                    ThumbnailsProvider.getVideoThumbnail(it, 512)?.let {
+                        BitmapUtil.encodeImage(it)?.let {
+                            call.respondBytes(ContentType.Image.PNG) { it }
+                            return@get
+                        }
+                    }
+                }
+
                 // nothing found . Falling back on the no media bitmap
                 appContext.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512)?.let {
 
