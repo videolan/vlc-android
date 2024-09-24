@@ -49,6 +49,11 @@ platform :android do
         }
         return files
     end
+    def getAabList()
+        files = Array.new
+        files.push(@apkPath+"app-release-signed.aab")
+        return files
+    end
 
   desc "Runs all the tests"
   lane :test do
@@ -84,6 +89,7 @@ platform :android do
 
   lane :deploy_internal do |options|
     checkAPKFileExists options[:version], false
+    upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, track: 'internal', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", aab_paths:getAabList())
     upload_to_play_store(skip_upload_metadata:true, skip_upload_changelogs:true, track: 'internal', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:getFileList(options[:version]))
     slack(message: 'Successfully created a new internal draft for '+options[:version])
   end
