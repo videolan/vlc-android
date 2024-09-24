@@ -1,3 +1,11 @@
+Changes between 3.6.0 Beta 4 and 3.6.0 Beta 5:
+------------------
+ * Remote access video player remote
+ * Remote access advanced media settings
+ * PiP improvements
+ * Audio player chapter navigation
+ * Crash fixes
+
 Changes between 3.6.0 Beta 3 and 3.6.0 Beta 4:
 ------------------
  * Remote access: multiple addition and improvements
