@@ -350,6 +350,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                 true
             } else false
         }
+        input.requestFocus()
         val window = saveEqualizer.window
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
