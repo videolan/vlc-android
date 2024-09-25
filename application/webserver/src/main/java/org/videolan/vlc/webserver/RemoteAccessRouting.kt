@@ -26,6 +26,8 @@ package org.videolan.vlc.webserver
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.text.format.Formatter
@@ -1189,6 +1191,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         // Get a media artwork
         get("/artwork") {
             var type = call.request.queryParameters["type"]
+            val isBig = type?.endsWith("_big") == true
             if (type in arrayOf("folder", "network", "folder_big", "network_big")) {
                 call.request.queryParameters["artwork"]?.let { artworkUrl ->
                     if (artworkUrl.startsWith("http")) {
@@ -1201,7 +1204,9 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         }
                     }
                 }
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
+                val size = if (isBig) 256 else 54
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, if (isBig) R.drawable.ic_folder_big else  R.drawable.ic_folder,
+                    size, size), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
@@ -1219,7 +1224,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                             }
                         }
                 }
-                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (type?.endsWith("_big") == true) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext,  if (isBig) R.drawable.ic_folder_big else  R.drawable.ic_folder, 256, 256), true)?.let {
                     call.respondBytes(ContentType.Image.PNG) { it }
                     return@get
                 }
@@ -1258,8 +1263,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: RemoteAccessServer.getInstance(appContext).service?.coverArt
 
                 var bigVariant = "0"
-                if (type?.endsWith("_big") == true) {
-                    type = type.substring(0, type.length -4)
+                if (isBig) {
+                    type = type!!.substring(0, type.length -4)
                     bigVariant = "1"
                 }
                 //check by id and use the ArtworkProvider if provided
