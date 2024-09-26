@@ -139,8 +139,9 @@ object AccessControl {
     private fun getSignature(ctx: Context, callingPackage: String): String? {
         try {
             val packageInfo = ctx.packageManager.getPackageInfoCompat(callingPackage, PackageManager.GET_SIGNATURES)
-            if (packageInfo.signatures != null && packageInfo.signatures.size == 1) {
-                return genSigSha256(packageInfo.signatures[0].toByteArray())
+            val signatures = packageInfo.signatures
+            if (signatures != null && signatures.size == 1) {
+                return genSigSha256(signatures[0].toByteArray())
             }
         } catch (e: PackageManager.NameNotFoundException) {
             Log.e(TAG, "Calling package name not found: $callingPackage", e)

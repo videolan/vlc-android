@@ -85,10 +85,12 @@ object ThumbnailsProvider {
         var bitmap = synchronized(lock) {
             if (media.uri.scheme.isSchemeFile()) ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND) else null
         }
-        if (bitmap != null) {
-            val emptyBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
-            if (bitmap.sameAs(emptyBitmap)) { // myBitmap is empty/blank3
-                bitmap = null
+        bitmap?.let { bmp ->
+            bmp.config?.let { config ->
+                val emptyBitmap = Bitmap.createBitmap(bmp.width, bmp.height, config)
+                if (bmp.sameAs(emptyBitmap)) { // myBitmap is empty/blank3
+                    bitmap = null
+                }
             }
         }
         if (bitmap != null) {
@@ -96,7 +98,7 @@ object ThumbnailsProvider {
             if (hasCache) {
                 media.setThumbnail(thumbPath)
                 if (media.id > 0) {
-                    BitmapUtil.saveOnDisk(bitmap, thumbPath)
+                    BitmapUtil.saveOnDisk(bitmap!!, thumbPath)
                     media.artworkURL = thumbPath
                 }
             }
@@ -261,7 +263,7 @@ object ThumbnailsProvider {
                 overlayHeight = minHeight
             }
         }
-        val bmOverlay = Bitmap.createBitmap(overlayWidth, overlayHeight, sourcesImages[0].config)
+        val bmOverlay = Bitmap.createBitmap(overlayWidth, overlayHeight, sourcesImages[0].config!!)
 
         val canvas = Canvas(bmOverlay)
         when (count) {

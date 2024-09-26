@@ -103,9 +103,9 @@ class AboutVersionDialog : VLCBottomSheetDialogFragment() {
                 requireActivity().packageManager.getPackageInfo(
                     requireActivity().packageName,
                     PackageManager.GET_SIGNING_CERTIFICATES
-                ).signingInfo.apkContentsSigners
+                ).signingInfo?.apkContentsSigners
         var signer = requireActivity().getString(R.string.unknown)
-        signatures.forEach {
+        signatures?.forEach {
             try {
                 val md = MessageDigest.getInstance("SHA1")
                 md.update(it.toByteArray())
