@@ -201,6 +201,8 @@
     <string name="wait_before_sleep">Attendi che l\'elemento multimediale corrente finisca per primo</string>
     <string name="reset_on_interaction">Ripristina a ogni interazione</string>
     <string name="default_sleep_timer_summary">%1$s, attendi la fine del media: %2$s, ripristina a ogni interazione: %3$s</string>
+    <string name="video_player_remote">Telecomando del lettore video</string>
+    <string name="remote_keyboard_navigation">Navigazione da tastiera</string>
 
     <string name="server_add_title">Aggiungi un nuovo server ai preferiti</string>
     <string name="server_domain_hint">Indirizzo server (nome dominio o IP)</string>
@@ -600,6 +602,7 @@
     <string name="current_chapter">Capitolo: %s</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
     <string name="confirm_resume_title">Riprendi video riprodotti</string>
+    <string name="confirm_resume_audio_title">Riprendi audio riprodotti</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
     <string name="medialibrary">Raccolta multimediale</string>
@@ -883,6 +886,8 @@
     <string name="invalid_file">File non valido. Non può essere condiviso.</string>
     <string name="share_file">Condividi %s</string>
     <string name="share_message">Ecco %s</string>
+    <string name="share_track_info">Condividi le informazioni della traccia</string>
+    <string name="share_track">Attualmente sto ascoltando %s</string>
     <string name="find_metadata">Trova metadati</string>
     <string name="moviepedia_hint">Cerca metadati</string>
     <string name="moviepedia_result">Risultati video</string>

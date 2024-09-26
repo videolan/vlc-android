@@ -191,6 +191,8 @@
     <string name="wait_before_sleep">Önce geçerli ortam ögesinin sona ermesi beklensin</string>
     <string name="reset_on_interaction">Herhangi bir etkileşimde sıfırlansın</string>
     <string name="default_sleep_timer_summary">%1$s, ortam sonunda bekleme: %2$s, etkileşimde sıfırlama: %3$s</string>
+    <string name="video_player_remote">Görüntü oynatıcı kumandası</string>
+    <string name="remote_keyboard_navigation">Klavye gezinmesi</string>
 
     <string name="server_add_title">Sık kullanılanlara yeni sunucu ekle</string>
     <string name="server_domain_hint">Sunucu adresi (etki alanı ya da IP)</string>
@@ -584,10 +586,13 @@
     <string name="search_global">Tüm ortam kitaplığında ara</string>
     <string name="playlist_save">Listeyi kaydet</string>
     <string name="playlist_name_hint">Liste adı</string>
+    <string name="chapters">Bölümler</string>
+    <string name="notset">Ayarlanmamış</string>
     <string name="go_to_chapter">Bölüme git…</string>
     <string name="current_chapter">Bölüm: %s</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
     <string name="confirm_resume_title">Oynatılan görüntüler sürdürülsün</string>
+    <string name="confirm_resume_audio_title">Oynatılan sesi sürdür</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
     <string name="tv_ui_summary">Kullanıcı arayüzünü TV uyumlu temaya dönüştürür</string>
     <string name="medialibrary">Ortam kitaplığı</string>
@@ -869,6 +874,8 @@
     <string name="invalid_file">Dosya geçersiz olduğundan paylaşılamaz.</string>
     <string name="share_file">%s paylaş</string>
     <string name="share_message">Şurada: %s</string>
+    <string name="share_track_info">Kayıt bilgilerini paylaş</string>
+    <string name="share_track">Şu anda %s dinleniyor</string>
     <string name="find_metadata">Üst verileri bul</string>
     <string name="moviepedia_hint">Üst veri arama</string>
     <string name="moviepedia_result">Görüntü sonuçları</string>

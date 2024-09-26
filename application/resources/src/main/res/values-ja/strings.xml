@@ -181,6 +181,8 @@
     <string name="wait_before_sleep">現在のメディア項目が最初に終了するのを待つ</string>
     <string name="reset_on_interaction">すべてのインタラクションでリセット</string>
     <string name="default_sleep_timer_summary">%1$s, メディアの終了待ち: %2$s, インタラクションでリセット: %3$s</string>
+    <string name="video_player_remote">リモートビデオプレイヤー</string>
+    <string name="remote_keyboard_navigation">キーボードナビゲーション</string>
 
     <string name="server_add_title">お気に入りにサーバーを追加</string>
     <string name="server_domain_hint">サーバーアドレス(ドメイン名またはIP)</string>
@@ -580,6 +582,7 @@
     <string name="current_chapter">チャプター: %s</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
     <string name="confirm_resume_title">再生していたビデオを再開</string>
+    <string name="confirm_resume_audio_title">再生していたオーディオを再開</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
     <string name="tv_ui_summary">TVのテーマにUIを変更</string>
     <string name="medialibrary">メディアライブラリ</string>
@@ -859,6 +862,8 @@
     <string name="invalid_file">ファイルが無効です。共有できません。</string>
     <string name="share_file">%sを共有</string>
     <string name="share_message">%sはここに</string>
+    <string name="share_track_info">トラックの情報を共有</string>
+    <string name="share_track">現在視聴中 %s</string>
     <string name="find_metadata">メタデータの検索</string>
     <string name="moviepedia_hint">メタデータを検索</string>
     <string name="moviepedia_result">ビデオの検索結果</string>

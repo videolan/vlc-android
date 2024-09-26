@@ -191,6 +191,8 @@
     <string name="wait_before_sleep">Bis das aktuelle Medienelement zuerst fertig ist warten</string>
     <string name="reset_on_interaction">Bei jeder Interaktion zurücksetzen</string>
     <string name="default_sleep_timer_summary">%1$s, warten auf Medienende: %2$s, Zurücksetzen bei Interaktion: %3$s</string>
+    <string name="video_player_remote">Videoplayer-Fernbedienung</string>
+    <string name="remote_keyboard_navigation">Tastaturnavigation</string>
 
     <string name="server_add_title">Einen neuen Server zu den Favoriten hinzufügen</string>
     <string name="server_domain_hint">Serveradresse (Domainname oder IP)</string>
@@ -584,10 +586,13 @@
     <string name="search_global">Suche in allen Medienbibliotheken</string>
     <string name="playlist_save">Wiedergabeliste speichern</string>
     <string name="playlist_name_hint">Name der Wiedergabeliste</string>
+    <string name="chapters">Kapitel</string>
+    <string name="notset">Nicht festgelegt</string>
     <string name="go_to_chapter">Wechsle zum Kapitel…</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
     <string name="confirm_resume_title">Wiedergegebene Videos fortsetzen</string>
+    <string name="confirm_resume_audio_title">Wiedergegebenes Audio fortsetzen</string>
     <string name="tv_ui_title">Android-TV-Schnittstelle</string>
     <string name="tv_ui_summary">Benutzeroberfläche zum TV angepassten Design ändern</string>
     <string name="medialibrary">Medienbibliothek</string>
@@ -869,6 +874,8 @@
     <string name="invalid_file">Ungültige Datei, kann nicht geteilt werden.</string>
     <string name="share_file">%s teilen</string>
     <string name="share_message">Hier ist %s</string>
+    <string name="share_track_info">Die Titel-Informationen teilen</string>
+    <string name="share_track">Derzeit höre ich %s</string>
     <string name="find_metadata">Metadaten finden</string>
     <string name="moviepedia_hint">Metadaten suchen</string>
     <string name="moviepedia_result">Video-Ergebnisse</string>

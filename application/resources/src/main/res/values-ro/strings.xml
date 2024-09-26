@@ -201,7 +201,6 @@
     <string name="wait_before_sleep">Așteaptă ca elementul media actual să se termine primul</string>
     <string name="reset_on_interaction">Resetează orice interacțiune</string>
     <string name="default_sleep_timer_summary">%1$s, așteaptă sfârșitul fișierului media: %2$s, resetare la interacțiune: %3$s</string>
-
     <string name="server_add_title">Adaugă un server nou la favorite</string>
     <string name="server_domain_hint">Adresa serverului (nume domeniu sau IP)</string>
     <string name="server_share_hint">Numele rețelei partajate (sau adresa IP)</string>
@@ -594,10 +593,13 @@
     <string name="search_global">Caută în toate bibliotecile media</string>
     <string name="playlist_save">Salvare Playlist</string>
     <string name="playlist_name_hint">Numele listei de redare</string>
+    <string name="chapters">Capitole</string>
+    <string name="notset">Nu e setat</string>
     <string name="go_to_chapter">Dute la capitolul…</string>
     <string name="current_chapter">Chapter: %s</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
     <string name="confirm_resume_title">Reluare a fisierelor video redate</string>
+    <string name="confirm_resume_audio_title">Reia fișierul audio redat</string>
     <string name="tv_ui_title">Interfata Android TV</string>
     <string name="tv_ui_summary">Schimbă interfața UI în tema TV adaptată</string>
     <string name="medialibrary">Biblioteca media</string>
@@ -881,6 +883,8 @@
     <string name="invalid_file">Fișier invalid. Nu poate fi partajat.</string>
     <string name="share_file">Partajare %s</string>
     <string name="share_message">Aici este %s</string>
+    <string name="share_track_info">Distribuie informațiile pistei</string>
+    <string name="share_track">În prezent asculți %s</string>
     <string name="find_metadata">Găsiți metadatele</string>
     <string name="moviepedia_hint">Căutare metadate</string>
     <string name="moviepedia_result">Rezultate video</string>

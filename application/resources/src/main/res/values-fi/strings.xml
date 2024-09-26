@@ -191,6 +191,8 @@
     <string name="wait_before_sleep">Odota, että nykyinen media valmistuu ensin</string>
     <string name="reset_on_interaction">Nollaa kaikissa tilanteissa</string>
     <string name="default_sleep_timer_summary">%1$s, odota median päättymistä: %2$s, nollaa tilanne: %3$s</string>
+    <string name="video_player_remote">Video kaukosäädin</string>
+    <string name="remote_keyboard_navigation">Navigointi näppäimistöllä</string>
 
     <string name="server_add_title">Lisää uusi serveri suosikkeihin</string>
     <string name="server_domain_hint">Serverin osoite (domain tai IP-osoite)</string>
@@ -594,10 +596,13 @@ Käynnistätkö uudelleen?</string>
     <string name="search_global">Hae koko mediakirjastosta</string>
     <string name="playlist_save">Tallenna soittolista</string>
     <string name="playlist_name_hint">Soittolistan nimi</string>
+    <string name="chapters">Luvut</string>
+    <string name="notset">Ei asetettu</string>
     <string name="go_to_chapter">Siirry lukuun...</string>
     <string name="current_chapter">Luku: %s</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
-    <string name="confirm_resume_title">Jatka toistettuja videoita</string>
+    <string name="confirm_resume_title">Jatka toistettua videota</string>
+    <string name="confirm_resume_audio_title">Jatka toistettua audiota</string>
     <string name="tv_ui_title">Android TV käyttöliittymä</string>
     <string name="tv_ui_summary">Vaihda TV:n mukaiseen vaakanäkymään</string>
     <string name="medialibrary">Mediakirjasto</string>
@@ -888,6 +893,8 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="invalid_file">Virheellinen tiedosto. Ei voi jakaa.</string>
     <string name="share_file">Jaa %s</string>
     <string name="share_message">Täällä on %s</string>
+    <string name="share_track_info">Jaa raidan tiedot</string>
+    <string name="share_track">Kuuntelet %s</string>
     <string name="find_metadata">Löydä metatiedot</string>
     <string name="moviepedia_hint">Etsi metatiedot</string>
     <string name="moviepedia_result">Videon tuloksia</string>

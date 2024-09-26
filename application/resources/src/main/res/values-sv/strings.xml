@@ -191,6 +191,8 @@
     <string name="wait_before_sleep">Vänta på att nuvarande mediaobjekt slutförs först</string>
     <string name="reset_on_interaction">Återställ vid interaktion</string>
     <string name="default_sleep_timer_summary">%1$s, vänta på att media ska sluta: %2$s, återställ vid interaktion: %3$s</string>
+    <string name="video_player_remote">Fjärrkontroll för videospelare</string>
+    <string name="remote_keyboard_navigation">Tangentbordsnavigering</string>
 
     <string name="server_add_title">Lägg till en ny server i favoriter</string>
     <string name="server_domain_hint">Serveradress (domännamn eller IP)</string>
@@ -590,6 +592,7 @@
     <string name="current_chapter">Kapitel: %s</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
     <string name="confirm_resume_title">Återuppta uppspelade videor</string>
+    <string name="confirm_resume_audio_title">Återuppta uppspelat ljud</string>
     <string name="tv_ui_title">Android TV-gränssnitt</string>
     <string name="tv_ui_summary">Ändra gränssnitt till TV-anpassat tema</string>
     <string name="medialibrary">Mediabibliotek</string>
@@ -871,6 +874,8 @@
     <string name="invalid_file">Ogiltig fil. Kan inte delas.</string>
     <string name="share_file">Dela %s</string>
     <string name="share_message">Här är %s</string>
+    <string name="share_track_info">Dela spårinformation</string>
+    <string name="share_track">Lyssnar nu på %s</string>
     <string name="find_metadata">Hitta metadata</string>
     <string name="moviepedia_hint">Sök metadata</string>
     <string name="moviepedia_result">Videoresultat</string>

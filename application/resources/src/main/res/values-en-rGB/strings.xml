@@ -191,7 +191,6 @@
     <string name="wait_before_sleep">Wait for current media item to finish first</string>
     <string name="reset_on_interaction">Reset on any interaction</string>
     <string name="default_sleep_timer_summary">%1$s, wait media end: %2$s, reset on interaction: %3$s</string>
-
     <string name="server_add_title">Add a new server to favourites</string>
     <string name="server_domain_hint">Server address (domain name or IP)</string>
     <string name="server_share_hint">Network share name (or IP address)</string>
@@ -584,10 +583,13 @@
     <string name="search_global">Search in all media library</string>
     <string name="playlist_save">Save Playlist</string>
     <string name="playlist_name_hint">Playlist name</string>
+    <string name="chapters">Chapters</string>
+    <string name="notset">Not set</string>
     <string name="go_to_chapter">Go to chapter…</string>
     <string name="current_chapter">Chapter: %s</string>
     <string name="confirm_resume">Resume from last position?</string>
     <string name="confirm_resume_title">Resume played videos</string>
+    <string name="confirm_resume_audio_title">Resume played audio</string>
     <string name="tv_ui_title">Android TV interface</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
     <string name="medialibrary">Media library</string>
@@ -869,6 +871,8 @@
     <string name="invalid_file">Invalid file. Cannot be shared.</string>
     <string name="share_file">Share %s</string>
     <string name="share_message">Here is %s</string>
+    <string name="share_track_info">Share the track info</string>
+    <string name="share_track">Currently listening to %s</string>
     <string name="find_metadata">Find metadata</string>
     <string name="moviepedia_hint">Search metadata</string>
     <string name="moviepedia_result">Video results</string>

@@ -211,6 +211,8 @@
     <string name="wait_before_sleep">Зачекайте, поки завершиться поточне медіа</string>
     <string name="reset_on_interaction">Відновлювати за будь-якої взаємодії</string>
     <string name="default_sleep_timer_summary">%1$s, очікувати кінця медіа: %2$s, відновлювати при взаємодії: %3$s</string>
+    <string name="video_player_remote">Віддалено відеопрогравач</string>
+    <string name="remote_keyboard_navigation">Навігація клавіатурою</string>
 
     <string name="server_add_title">Додати новий сервер до обраного</string>
     <string name="server_domain_hint">Адреса сервера (назва домену чи IP)</string>
@@ -604,10 +606,13 @@
     <string name="search_global">Пошук у всіх бібліотеках</string>
     <string name="playlist_save">Зберегти список відтворення</string>
     <string name="playlist_name_hint">Назва списку відтворення</string>
+    <string name="chapters">Частини</string>
+    <string name="notset">Не встановлено</string>
     <string name="go_to_chapter">Перейти до глави…</string>
     <string name="current_chapter">Розділ: %s</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
     <string name="confirm_resume_title">Відновити відтворене відео</string>
+    <string name="confirm_resume_audio_title">Відновити відтворене аудіо</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
     <string name="tv_ui_summary">Змінити інтерфейс на тему під ТБ</string>
     <string name="medialibrary">Медіа бібліотека</string>
@@ -893,6 +898,8 @@
     <string name="invalid_file">Недійсний файл. Не можна поширити.</string>
     <string name="share_file">Поширити %s</string>
     <string name="share_message">Тут %s</string>
+    <string name="share_track_info">Поділитися інформацією про доріжку</string>
+    <string name="share_track">Наразі слухаємо %s</string>
     <string name="find_metadata">Знайти метадані</string>
     <string name="moviepedia_hint">Пошук метаданих</string>
     <string name="moviepedia_result">Відео результати</string>

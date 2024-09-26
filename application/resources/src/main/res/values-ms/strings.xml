@@ -179,7 +179,8 @@
     <string name="jump_to_time">Lompat ke Masa</string>
     <string name="subtitle_select">Pilih fail sari kata</string>
     <string name="wait_before_sleep">Tunggu item media semasa selesai dahulu</string>
-
+    <string name="reset_on_interaction">Tetap semula pada mana-mana interaksi</string>
+    <string name="default_sleep_timer_summary">%1$s, tunggu media tamat: %2$s, tetap semula ketika berinteraksi: %3$s</string>
     <string name="server_add_title">Tambah satu pelayan baharu ke kegemaran</string>
     <string name="server_domain_hint">Alamat pelayan (nama domain atau IP)</string>
     <string name="server_share_hint">Nama perkongsian rangkaian (atau alamat IP)</string>
@@ -358,6 +359,11 @@
     <string name="browser_show_hidden_files_title">Tunjuk fail tersembunyi</string>
     <string name="albums_show_track_numbers">Tunjuk nombor trek</string>
     <string name="enable_video_screenshot">Ambil tangkap layar</string>
+    <string name="enable_tap_and_hold_fastplay_title">Dayakan Fastplay</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Ketik dan tahan untuk tingkatkan kelajuan main balik</string>
+    <string name="fastplay_speed_title">Kelajuan Fastplay</string>
+    <string name="fastplay_title">Dimainkan pada %sx</string>
+    <string name="fastplay_subtitle">Lepas untuk henti</string>
 
     <string name="subtitles_prefs_category">Sari kata</string>
     <string name="subtitles_size_title">Saiz Sari Kata</string>
@@ -427,6 +433,8 @@
     <string name="audio_ducking_summary">Bantu mendengar pemberitahuan audio, arahan pengemudian atau percakapan pembantu</string>
     <string name="casting_category">Penyiaran</string>
     <string name="remote_access">Capaian jauh</string>
+    <string name="remote_access_version_title">Versi capaian jauh</string>
+    <string name="remote_access_hash_title">Cincangan capaian jauh</string>
     <string name="remote_access_status">Status pelayan</string>
     <string name="remote_access_status_summary">Ketika untuk melihat status pelayan</string>
     <string name="remote_access_connections">Sambungan</string>
@@ -512,6 +520,8 @@
     <string name="restart_message">Perubahan akan berkesan sebaik sahaja aplikasi dimulakan semula.\n\nMula Semula sekarang?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Kemudian</string>
+    <string name="browser_show_all_title">Hanya tunjuk fail multimedia</string>
+
     <string name="developer_prefs_category">Pembangun</string>
     <string name="enable_verbose_mode">Berjela</string>
     <string name="enable_verbose_mode_summary">TIngkatkan kejelaan (logcat)</string>
@@ -530,6 +540,8 @@
     <string name="http_user_agent">Ejen pengguna HTTP</string>
     <string name="custom_libvlc_options">Pilihan libVLC suai</string>
     <string name="custom_libvlc_options_invalid">Pilihan libVLC tidak sah!</string>
+    <string name="dav1d_thread_number">Nombor jaluran Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Nombor jaluran tidak sah! (>=1)</string>
 
     <string name="serious_crash">Malangnya, satu ralat yang serius telah berlaku dan VLC perlu ditutup.</string>
     <string name="help_us_send_log">Bantu kami mempertingkatkan VLC dengan menghantar log kerosakan berikut:</string>
@@ -561,10 +573,13 @@
     <string name="search_global">Gelintar dalam semua pustaka media</string>
     <string name="playlist_save">Simpan Senarai Main</string>
     <string name="playlist_name_hint">Senarai main</string>
+    <string name="chapters">Bab</string>
+    <string name="notset">Tidak ditetapkan</string>
     <string name="go_to_chapter">Pergi ke bab…</string>
     <string name="current_chapter">Bab: %s</string>
     <string name="confirm_resume">Sambung dari kedudukan terakhir?</string>
     <string name="confirm_resume_title">Sambung semula video yang telah dimainkan</string>
+    <string name="confirm_resume_audio_title">Sambung semula audio yang telah dimainkan</string>
     <string name="tv_ui_title">Antara muka Android TV</string>
     <string name="tv_ui_summary">Ubah UI ke tema tersuai TV</string>
     <string name="medialibrary">Pustaka media</string>
@@ -574,6 +589,21 @@
     <string name="whats_new_title">Terbaharu di VLC untuk Android %s</string>
     <string name="whats_new_36_webserver_text">Dengan cari capaian jauh baharu, kawal VLC untuk Android dari mana-mana peranti.\nHantar media anda dengan kedua-dua cara, kawal main balik anda dan banyak lagi!</string>
     <string name="whats_new_36_favorites_text">Kini anda boleh tentukan media, senarai main, artis atau album kegemaran anda. \nCari kandungan kegemaran anda dengan cara menapis kandungan ikut kegemaran sahaja!</string>
+
+<!--    update-->
+    <string name="update_title">Kemas kini tersedia</string>
+    <string name="install_nightly_title">Pasang versi semalaman</string>
+    <string name="update_text">Satu keluaran semalaman baharu VLC untuk Android telah tersedia!\n\nAnda melihat ini kerana anda menggunakan binaan semalaman.</string>
+    <string name="install_text">Versi semalaman telah dikemas kini secara automatik setiap hari dengan ciri-ciri dan pembaikan terkini.\n\nMuat turun sekarang?</string>
+
+    <string name="open_in_browser">Buka dalam pelayar</string>
+    <string name="install">Pasang</string>
+    <string name="install_nightly">Pasang versi semalaman</string>
+    <string name="install_nightly_alert">Binaan semalaman merupakan versi eskperimental yang dikemas kini setiap hari.\n\nJangkakan ciri-ciri baharu bersama-sama pepijat baharu!</string>
+    <string name="nightly_version">Versi ditemui: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Anda menggunakan versi semalaman. Anda mahu melihat kemas kini secara berkala?</string>
+    <string name="update_nightly">Auto kemas kini</string>
+    <string name="update_nightly_summary">Gelintar kemas kini semalaman secara berkala</string>
 
 
     <!-- Accessibility -->
@@ -829,6 +859,8 @@
     <string name="invalid_file">Fail tidak sah. Tidak dapat dikongsikan.</string>
     <string name="share_file">Kongsi %s</string>
     <string name="share_message">Di sini ialah %s</string>
+    <string name="share_track_info">Kongsi maklumat trek</string>
+    <string name="share_track">Buat masa ini mendengar %s</string>
     <string name="find_metadata">Cari metadata</string>
     <string name="moviepedia_hint">Gelintar metadata</string>
     <string name="moviepedia_result">Keputusan video</string>
@@ -922,6 +954,7 @@
     <string name="mark_as_played">Tanda sebagai telah dimainkan</string>
     <string name="mark_as_not_played">Tanda sebagai tidak dimainkan</string>
     <string name="mark_all_as_played">Tanda semua sebagai telah dimainkan</string>
+    <string name="mark_all_as_not_played">Tanda semua sebagai tidak dimainkan</string>
     <string name="new_group">Kumpulan baharu</string>
     <string name="new_group_desc">Cipta satu kumpulan baharu</string>
 
@@ -1201,4 +1234,24 @@
     <string name="podcast_mode_help">Kawalan podcast muncul ketika trek tunggal dimainkan dengan memenuhi kriteria berikut:\n\t• Jangka masa lebih daripada 60 min\n\t• Jangka masa lebih daripada 15 min tanpa nama album\n\t• Genre ialah %s</string>
     <string name="voice_control">Kawalan suara</string>
     <string name="voice_control_help">VLC boleh dikawal menerusi Pembantu Google dengan menyebut perintah berikut:\n\t• Play, Pause, Stop, Previous, Next\n\t• Rewind, Fast Forward, Repeat &lt;all|one|off&gt;\n\t• Jump to &lt;time&gt;, Skip &lt;duration&gt;\n\t• What\'s this &lt;artist|album|song&gt;\n\t• Play [artist|album|song|genre|playlist] &lt;name&gt;</string>
+
+    <string name="network" >Rangkaian</string>
+    <string name="metered_connection">Tindakan untuk strim ketika sambungan bermeter</string>
+    <string name="metered_do_nothing">Jangan buat apa-apa</string>
+    <string name="metered_stop">Henti main balik</string>
+    <string name="metered_warn">Beri amaran (amaran mungkin terlepas untuk main balik audio)</string>
+    <string name="metered_connection_stopped">Media dihentikan kerana sambungan bermeter</string>
+    <string name="metered_connection_warning">Sambungan anda bermeter. Bayaran mungkin dikenakan.</string>
+    <string name="adding">Menambah</string>
+    <string name="to">ke</string>
+    <string name="device">Peranti</string>
+    <string name="connected_device">Peranti bersambung</string>
+    <string name="model">Model peranti</string>
+    <string name="prefs_app_data">Data aplikasi</string>
+    <string name="export_settings_summary">Eskport tetapan anda ke fail untuk mengimportnya kemudian</string>
+    <string name="export_settings">Tetapan eksport</string>
+    <string name="restore_settings_summary">Pulihkan tetapan anda daripada eksport terdahulu</string>
+    <string name="restore_settings">Pulih tetapan</string>
+    <string name="export_settings_success">Tetapan berjaya dieksport ke dalam root storan dalaman</string>
+    <string name="export_settings_failure">Ada masalah berlaku ketika mengeksport tetapan anda</string>
 </resources>

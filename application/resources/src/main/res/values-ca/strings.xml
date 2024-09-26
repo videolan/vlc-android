@@ -191,7 +191,6 @@
     <string name="wait_before_sleep">Espereu que acabi primer l\'actual element multimèdia</string>
     <string name="reset_on_interaction">Restableix en qualsevol interacció</string>
     <string name="default_sleep_timer_summary">%1$s, espera el final del multimèdia: %2$s, restableix en interacció: %3$s</string>
-
     <string name="server_add_title">Afegeix un servidor als preferits</string>
     <string name="server_domain_hint">Adreça del servidor (nom de domini o IP)</string>
     <string name="server_share_hint">Nom del recurs compartit de xarxa (o adreça IP)</string>
@@ -584,10 +583,13 @@
     <string name="search_global">Cerca en tota la Mediateca</string>
     <string name="playlist_save">Desa la llista de reproducció</string>
     <string name="playlist_name_hint">Nom de la llista de reproducció</string>
+    <string name="chapters">Capítols</string>
+    <string name="notset">No definit</string>
     <string name="go_to_chapter">Vés al capítol…</string>
     <string name="current_chapter">Capítol: %s</string>
     <string name="confirm_resume">Reprèn des de l\'última posició?</string>
     <string name="confirm_resume_title">Reprèn els vídeos reproduits</string>
+    <string name="confirm_resume_audio_title">Reprèn l\'àudio reproduït</string>
     <string name="tv_ui_title">Interfície Android TV</string>
     <string name="tv_ui_summary">Canvia la interfície d\'usuari al tema adaptat per a TV</string>
     <string name="medialibrary">Mediateca</string>
@@ -869,6 +871,8 @@
     <string name="invalid_file">Fitxer invàlid. No pot ser compartit.</string>
     <string name="share_file">Comparteix %s</string>
     <string name="share_message">Aquí és %s</string>
+    <string name="share_track_info">Comparteix la informació de la pista</string>
+    <string name="share_track">Actualment escoltant %s</string>
     <string name="find_metadata">Trobar metadades</string>
     <string name="moviepedia_hint">Buscar metadades</string>
     <string name="moviepedia_result">Resultats del vídeo</string>

@@ -201,7 +201,6 @@
     <string name="wait_before_sleep">Aguardar que o item multimédia atual termine primeiro</string>
     <string name="reset_on_interaction">Repor em qualquer interação</string>
     <string name="default_sleep_timer_summary">%1$s, esperar fim do média: %2$s, repor a interação: %3$s</string>
-
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
     <string name="server_domain_hint">Endereço do servidor (nome do domínio ou IP)</string>
     <string name="server_share_hint">Nome da partilha de rede (ou endereço de IP)</string>
@@ -594,10 +593,13 @@
     <string name="search_global">Pesquisar em toda a mediateca</string>
     <string name="playlist_save">Guardar lista de reprodução</string>
     <string name="playlist_name_hint">Nome da lista de reprodução</string>
+    <string name="chapters">Capítulos</string>
+    <string name="notset">Não definido</string>
     <string name="go_to_chapter">Ir para o capítulo…</string>
     <string name="current_chapter">Capítulo: %s</string>
     <string name="confirm_resume">Retomar da última posição?</string>
     <string name="confirm_resume_title">Retomar vídeos reproduzidos</string>
+    <string name="confirm_resume_audio_title">Retomar o áudio reproduzido</string>
     <string name="tv_ui_title">Interface Android TV</string>
     <string name="tv_ui_summary">Alterar interface para o tema adaptado de TV</string>
     <string name="medialibrary">Mediateca</string>
@@ -881,6 +883,8 @@
     <string name="invalid_file">Ficheiro inválido. Não pode ser partilhado.</string>
     <string name="share_file">Partilhar %s</string>
     <string name="share_message">Aqui está %s</string>
+    <string name="share_track_info">Partilhar a informação da faixa</string>
+    <string name="share_track">Atualmente a ouvir %s</string>
     <string name="find_metadata">Encontrar metadados</string>
     <string name="moviepedia_hint">Pesquisar metadados</string>
     <string name="moviepedia_result">Resultados de vídeo</string>

@@ -67,7 +67,7 @@
     <string name="confirm_delete">Pašalinti rinkmeną „%1$s“?</string>
     <string name="confirm_delete_message">Šis veiksmas yra negrįžtamas ir jo negalima bus anuliuoti.</string>
     <string name="confirm_delete_album">Pašalinti albumą „%1$s“?</string>
-    <string name="confirm_delete_several_media">Pašalinti šias rinkmenas: %1$d?</string>
+    <string name="confirm_delete_several_media">Pašalinti šias %1$d rinkmenas?</string>
     <string name="confirm_delete_folder">Pašalinti aplanką „%1$s“ ir jo turinį?</string>
     <string name="confirm_delete_folders">Pašalinti šiuos %1$s aplankus ir visą jų turinį?</string>
     <string name="confirm_delete_files">Pašalinti šias %1$s rinkmenas?</string>
@@ -211,6 +211,8 @@
     <string name="wait_before_sleep">Palaukti, kol bus pabaigtas dabartinis medijos elementas</string>
     <string name="reset_on_interaction">Atkurti esant bet kokiai sąveikai</string>
     <string name="default_sleep_timer_summary">%1$s, laukti kūrinio pabaigos: %2$s, atkurti sąveikaujant: %3$s</string>
+    <string name="video_player_remote">Nuotolinio valdymo pultas</string>
+    <string name="remote_keyboard_navigation">Naršymas klaviatūra</string>
 
     <string name="server_add_title">Pridėti naują mėgst. serverį</string>
     <string name="server_domain_hint">Serverio adresas (domeno vardas ar IP)</string>
@@ -296,7 +298,7 @@
     <string name="app_name_full">VLC, skirta „Android“ sistemai</string>
     <string name="revision">Revizija</string>
     <string name="about">Apie</string>
-    <string name="about_vlc_text">VLC, skirta „Android“ sistemai, yra VLC medijos leistuvės (populiarios atvirojo kodo medijos leistuvės) prievadas. „Android“™ versija gali skaityti visas rinkmenas ir tinklo srautus.</string>
+    <string name="about_vlc_text">VLC, skirta „Android“™ sistemai, yra VLC medijos leistuvės (populiarios atvirojo kodo medijos leistuvės) prievadas. „Android“™ versija gali skaityti visas rinkmenas ir tinklo srautus.</string>
     <string name="authors">Kūrėjai</string>
     <string name="vlc_authors">ir VLC autoriai.</string>
     <string name="is_compiled_by">Parengė</string>
@@ -376,7 +378,7 @@
     <string name="enable_android_auto_speed_buttons">„Android Auto“ grojimo greitis</string>
     <string name="enable_android_auto_speed_buttons_summary">Greičio valdiklį rodyti iškylančiame meniu</string>
     <string name="enable_android_auto_seek_buttons">„Android Auto“ prasukimo mygtukai</string>
-    <string name="enable_android_auto_seek_buttons_summary">Rodyti prasukimo „atgal“ ir „pirmyn“ mygtukus iškylančiame meniu. Prieš įjungdami pabandykite palaikyti nuspaudę ant vairo esančius mygtukus.</string>
+    <string name="enable_android_auto_seek_buttons_summary">Rodyti prasukimo „atgal“ ir „pirmyn“ mygtukus iškylančiame meniu. Prieš įjungdami pabandykite palaikyti nuspaudę ant vairo esančius mygtukus</string>
     <string name="enable_double_tap_seek_title">Vaizdo įrašo prasukimas bakstelėjus du kartus</string>
     <string name="enable_double_tap_seek_summary">Prasukti vaizdo įrašą 10 sekundžių, du kartus bakstelėjus ekrano kraštą</string>
     <string name="enable_double_tap_play_title">Grojimo paleidimas / pristabdymas du kartus bakstelėjus</string>
@@ -596,7 +598,7 @@
 
     <string name="audio_delay">Garso vėlinimas</string>
     <string name="spu_delay">Subtitrų vėlinimas</string>
-    <string name="network_shares_discovery">Ieškoma tinklo išteklių</string>
+    <string name="network_shares_discovery">Ieškoma bendrinamų tinklo išteklių</string>
     <string name="network_empty">Katalogas tuščias.</string>
     <string name="network_connection_needed">Nėra ryšio su vietiniu tinklu.</string>
     <string name="search_hint">Ieškoti kūrinio</string>
@@ -609,14 +611,15 @@
     <string name="go_to_chapter">Eiti į skyrių...</string>
     <string name="current_chapter">Skyrius: %s</string>
     <string name="confirm_resume">Tęsti nuo paskutinės padėties?</string>
-    <string name="confirm_resume_title">Tęsti vaizdo įrašų peržiūrą</string>
+    <string name="confirm_resume_title">Tęsti vaizdo įrašų grojimą</string>
+    <string name="confirm_resume_audio_title">Tęsti garso įrašų grojimą</string>
     <string name="tv_ui_title">„Android TV“ sąsaja</string>
     <string name="tv_ui_summary">Pakeisti naudotojo sąsają į TV skirtąjį apipavidalinimą</string>
     <string name="medialibrary">Mediateka</string>
     <string name="medialibrary_directories">Mediatekos aplankai</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Kas naujo VLC, skirtoje „Android“ sistemai: %s</string>
+    <string name="whats_new_title">Kas naujo VLC, skirtoje „Android“ sistemai %s</string>
     <string name="whats_new_36_webserver_text">Naudojant naują nuotolinės prieigos funkciją, galima valdyti VLC, skirtą „Android“ sistemai, iš bet kurio kito įrenginio.\nSiųsti ir priimti rinkmenas, valdyti atkūrimą ir dar daugiau!</string>
     <string name="whats_new_36_favorites_text">Dabar galite įtraukti į „Mėgstamiausius“ savo kūrinius, grojaraščius, atlikėjus arba albumus.\nRaskite pageidaujamą turinį filtruodami jį „Mėgstamiausiuose“!</string>
 
@@ -700,7 +703,7 @@
     <string name="opengl_off">Visada išjungta</string>
     <string name="network_favorites">Tinklo mėgstamiausi</string>
     <string name="network_shared_folders">Bendrinami aplankai</string>
-    <string name="encryption_warning">Įspėjimas, šiai „Android“ versijai šifravimas negalimas, slaptažodis bus saugomas neužšifruotas</string>
+    <string name="encryption_warning">Dėmesio, šiai „Android“ versijai šifravimas negalimas, slaptažodis bus saugomas neužšifruotas</string>
     <string name="store_password">Įsiminti slaptažodį</string>
     <string name="add_to_playlist">Įtraukti į grojaraštį</string>
     <string name="popup_playback_title">Groti vaizdo įrašą iškylančiame lange</string>
@@ -799,7 +802,7 @@
     <string name="next">Toliau</string>
     <string name="skip">Praleisti</string>
     <string name="next_step">Toliau</string>
-    <string name="download">Parsisiunčiama</string>
+    <string name="download">Atsisiųsti</string>
     <string name="ctx_player_video_track">Vaizdo įr. takelis</string>
     <string name="ctx_player_audio_track">Garso takelis</string>
     <string name="ctx_player_subs_track">Subtitrų takelis</string>
@@ -891,10 +894,12 @@
     <string name="scanned_directory_added">Katalogas „%s“ išžvalgytas</string>
     <string name="video_group_size_summary">Grupuoti pagal pirmas %s raides</string>
     <string name="url_copied_to_clipboard">Nuoroda nukopijuota į iškarpinę</string>
-    <string name="share">Dalintis</string>
-    <string name="invalid_file">Neteisinga rinkmena. Ja negalima pasidalinti.</string>
-    <string name="share_file">Dalintis %s</string>
+    <string name="share">Bendrinti</string>
+    <string name="invalid_file">Neleistina rinkmena. Jos bendrinimas negalimas.</string>
+    <string name="share_file">Bendrinti %s</string>
     <string name="share_message">Čia yra %s</string>
+    <string name="share_track_info">Bendrinti takelio informaciją</string>
+    <string name="share_track">Šiuo metu klausausi: „%s“.</string>
     <string name="find_metadata">Rasti „meta“ žymenis</string>
     <string name="moviepedia_hint">Ieškoti „meta“ žymių</string>
     <string name="moviepedia_result">Paieškos rezultatai</string>
@@ -1227,15 +1232,15 @@
     <string name="ra_file">Rinkmena</string>
     <string name="ra_upload_remaining">Siunčiamos rinkmenos: %s</string>
     <string name="ra_upload_all">Siųsti viską</string>
-    <string name="ra_drop_files_tip">Numeskite rinkmenas bet kurioje vietoje, kad galėtumėte juos nusiųsti į savo įrenginį</string>
+    <string name="ra_drop_files_tip">Numeskite rinkmenas bet kurioje vietoje, kad galėtumėte jas nusiųsti į savo įrenginį</string>
     <string name="ra_prepare_download">Rengiamas Jūsų atsisiuntimas</string>
     <string name="ra_forbidden">Turinys yra išjungtas nuostatose</string>
     <string name="ra_playback_forbidden">Atkūrimo valdymas išjungtas nuostatose</string>
-    <string name="ra_code_requested_explanation">Dėl serverio saugumo jo prieiga yra ribota.\nĮveskite kodą, rodomą pranešimuose</string>
+    <string name="ra_code_requested_explanation">Saugumo sumetimais Jūsų serveris yra apribotas.\nĮveskite kodą, rodomą pranešime</string>
     <string name="ra_ssl_explanation_title">Nesaugus ryšys</string>
     <string name="ra_ssl_explanation">Jūsų ryšys nėra saugus.</string>
     <string name="ra_ssl_explanation_browser">Dėl naršyklėje naudojamų saugos priemonių kitame puslapyje gausite saugos įspėjimą.</string>
-    <string name="ra_ssl_explanation_accept">Nepamirškite priimti sertifikato, kad galėtumėte naudotis nuotoline prieiga</string>
+    <string name="ra_ssl_explanation_accept">Norėdami naudotis nuotoline prieiga būtinai priimkite sertifikatą</string>
     <string name="ra_ssl_button">Naudoti saugų ryšį</string>
     <string name="ra_new_code">Siųsti naują kodą</string>
     <string name="home">Pradžia</string>
@@ -1263,9 +1268,9 @@
     <string name="ra_log_web">Nuotolinės prieigos žurnalas</string>
     <string name="ra_log_crash">Gedimų žurnalas</string>
     <string name="ra_log_mobile">Įrenginio žurnalas</string>
-    <string name="ra_log_current">Dabartiniai vietiniai žurnalai</string>
+    <string name="ra_log_current">Esami vietiniai žurnalai</string>
     <string name="ra_invalid_login">Turite prisijungti savo įrenginyje</string>
-    <string name="ra_invalid_otp">Pateiktas neleistinas kodas</string>
+    <string name="ra_invalid_otp">Pateiktas neteisingas kodas</string>
     <string name="learn_more">Sužinoti daugiau</string>
 
     <!-- car screens -->

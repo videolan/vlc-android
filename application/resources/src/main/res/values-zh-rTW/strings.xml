@@ -181,6 +181,8 @@
     <string name="wait_before_sleep">等待目前媒體項目先完成</string>
     <string name="reset_on_interaction">任何互動時重設</string>
     <string name="default_sleep_timer_summary">%1$s，等待媒體結束：%2$s，互動時重設：%3$s</string>
+    <string name="video_player_remote">影片播放器遠端</string>
+    <string name="remote_keyboard_navigation">鍵盤導覽</string>
 
     <string name="server_add_title">新增伺服器至收藏</string>
     <string name="server_domain_hint">伺服器地址（網域名稱或 IP 位址）</string>
@@ -580,6 +582,7 @@
     <string name="current_chapter">章節：%s</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
     <string name="confirm_resume_title">恢復播放過的影片</string>
+    <string name="confirm_resume_audio_title">繼續播放過的音訊</string>
     <string name="tv_ui_title">Android TV 介面</string>
     <string name="tv_ui_summary">將介面更改至適合電視的主題</string>
     <string name="medialibrary">媒體櫃</string>
@@ -859,6 +862,8 @@
     <string name="invalid_file">無效的檔案。無法分享。</string>
     <string name="share_file">分享 %s</string>
     <string name="share_message">這是 %s</string>
+    <string name="share_track_info">分享軌道資訊</string>
+    <string name="share_track">目前正在聆聽 %s</string>
     <string name="find_metadata">尋找詮釋資料</string>
     <string name="moviepedia_hint">搜尋詮釋資料</string>
     <string name="moviepedia_result">視訊結果</string>

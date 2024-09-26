@@ -191,7 +191,6 @@
     <string name="wait_before_sleep">Várakozás az aktuális média befejezésére</string>
     <string name="reset_on_interaction">Visszaállítás bármilyen interakcióra</string>
     <string name="default_sleep_timer_summary">%1$s, várakozás a média befejezésére: %2$s, visszaállítás interakcióra: %3$s</string>
-
     <string name="server_add_title">Új kiszolgáló hozzáadása a kedvencekhez</string>
     <string name="server_domain_hint">Kiszolgálócím (doménnév vagy IP-cím)</string>
     <string name="server_share_hint">Hálózati megosztás neve (vagy IP-címe)</string>
@@ -584,10 +583,13 @@
     <string name="search_global">Keresés a médiatárban</string>
     <string name="playlist_save">Lejátszólista mentése</string>
     <string name="playlist_name_hint">Lejátszólista neve</string>
+    <string name="chapters">Fejezetek</string>
+    <string name="notset">Nincs beállítva</string>
     <string name="go_to_chapter">Fejezethez ugrás…</string>
     <string name="current_chapter">Fejezet: %s</string>
     <string name="confirm_resume">Folytatja az utolsó pozícióról?</string>
     <string name="confirm_resume_title">Lejátszott videók folytatása</string>
+    <string name="confirm_resume_audio_title">Lejátszott hang folytatása</string>
     <string name="tv_ui_title">Android TV felület</string>
     <string name="tv_ui_summary">Felület módosítása a TV-re szabott témára</string>
     <string name="medialibrary">Médiatár</string>
@@ -609,6 +611,11 @@
     <string name="install_nightly">A napi verzió telepítése</string>
     <string name="install_nightly_alert">A napi összeállítások naponta frissülő kísérleti verziók.\n\nÚj funkciókra, de új hibákra is számítson!</string>
     <string name="nightly_version">Talált verzió: %2$s - %1$s</string>
+    <string name="update_nightly_alert">A nightly verziót futtatja. Szeretne időnként frissítéseket keresni?</string>
+    <string name="update_nightly">Automatikus frissítés</string>
+    <string name="update_nightly_summary">Nightly frissítések keresése időnként</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">További műveletek</string>
     <string name="back_quit_lock">Nyomja meg még egyszer a Vissza gombot a videóból kilépéshez</string>
@@ -864,6 +871,8 @@
     <string name="invalid_file">Érvénytelen fájl. Nem osztható meg.</string>
     <string name="share_file">%s megosztása</string>
     <string name="share_message">Itt van: %s</string>
+    <string name="share_track_info">Sávinformáció megosztása</string>
+    <string name="share_track">Jelenleg ezt hallgatja: %s</string>
     <string name="find_metadata">Metaadatok keresése</string>
     <string name="moviepedia_hint">Metaadatok keresése</string>
     <string name="moviepedia_result">Videótalálatok</string>
@@ -1252,4 +1261,11 @@
     <string name="device">Eszköz</string>
     <string name="connected_device">Csatlakoztatott eszköz</string>
     <string name="model">Eszközmodell</string>
-    </resources>
+    <string name="prefs_app_data">Alkalmazásadatok</string>
+    <string name="export_settings_summary">A beállítások fájlba exportálása a későbbi importáláshoz</string>
+    <string name="export_settings">Beállítások exportálása</string>
+    <string name="restore_settings_summary">A beállítások helyreállítása egy korábbi exportból</string>
+    <string name="restore_settings">Beállítások helyreállítása</string>
+    <string name="export_settings_success">A beállítások sikeresen exportálva lettek a belső tároló gyökerébe</string>
+    <string name="export_settings_failure">Hiba történt a beállítások exportálása során</string>
+</resources>

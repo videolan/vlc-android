@@ -206,6 +206,8 @@
     <string name="wait_before_sleep">להמתין לסיום פריט המדיה הנוכחי</string>
     <string name="reset_on_interaction">איפוס עם כל מחוות תפעול</string>
     <string name="default_sleep_timer_summary">%1$s, המתנה לסיום המדיה: %2$s, איפוס עם תפעול: %3$s</string>
+    <string name="video_player_remote">שלט לנגן הווידאו</string>
+    <string name="remote_keyboard_navigation">ניווט עם מקלדת</string>
 
     <string name="server_add_title">הוספת שרת חדש למועדפים</string>
     <string name="server_domain_hint">כתובת השרת (שם מתחם או IP)</string>
@@ -605,6 +607,7 @@
     <string name="current_chapter">פרק: %s</string>
     <string name="confirm_resume">להמשיך מהמיקום האחרון?</string>
     <string name="confirm_resume_title">להמשיך סרטונים שנעצרו</string>
+    <string name="confirm_resume_audio_title">להמשיך קטע שמע שהתנגן</string>
     <string name="tv_ui_title">מנשק טלוויזיית אנדרויד</string>
     <string name="tv_ui_summary">החלפת מנשק המשתמש לערכת נושא תואמת טלוויזייה</string>
     <string name="medialibrary">ספריית מדיה</string>
@@ -888,6 +891,8 @@
     <string name="invalid_file">קובץ פגום. לא ניתן לשתף</string>
     <string name="share_file">שיתוף %s</string>
     <string name="share_message">הנה %s</string>
+    <string name="share_track_info">שיתוף פרטי הרצועה</string>
+    <string name="share_track">כרגע בהאזנה ל־%s</string>
     <string name="find_metadata">איתור נתוני על</string>
     <string name="moviepedia_hint">חיפוש נתוני על</string>
     <string name="moviepedia_result">תוצאות וידאו</string>
