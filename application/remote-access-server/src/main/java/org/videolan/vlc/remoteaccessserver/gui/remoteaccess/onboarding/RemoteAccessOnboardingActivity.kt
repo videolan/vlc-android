@@ -27,8 +27,12 @@ package org.videolan.vlc.remoteaccessserver.gui.remoteaccess.onboarding
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.commit
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
@@ -40,7 +44,21 @@ class RemoteAccessOnboardingActivity : AppCompatActivity(), OnboardingFragmentLi
     private lateinit var skipButton: Button
     private val viewModel: RemoteAccessOnboardingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updatePadding(
+                left = bars.left,
+                top = bars.top,
+                right = bars.right,
+                bottom = bars.bottom,
+            )
+            WindowInsetsCompat.CONSUMED
+        }
         setContentView(R.layout.activity_onboarding)
         showFragment(viewModel.currentFragment)
     }

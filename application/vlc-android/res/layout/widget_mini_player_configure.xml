@@ -24,76 +24,91 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:vlc="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/coordinator"
+    <LinearLayout xmlns:vlc="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <include layout="@layout/toolbar" />
-
-        <androidx.core.widget.NestedScrollView
+        <View
+                android:id="@+id/status_view"
+                android:background="?attr/background_default"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                vlc:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:layout_height="28dp" />
 
-            <LinearLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/coordinator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <include layout="@layout/toolbar" />
+
+            <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:fillViewport="true"
+                    vlc:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <LinearLayout
+                        android:id="@+id/widget_mini_player_scroll"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
-
-                    <ImageView
-                            android:id="@+id/widget_preview"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="24dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
                     <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="?attr/widget_preview_rounded_bg"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="24dp"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
                             android:orientation="vertical">
-                        <TextView
+
+
+                        <ImageView
+                                android:id="@+id/widget_preview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-medium"
-                                android:textSize="18sp"
-                                android:textColor="?attr/font_default"
-                                android:text="@string/widget_preview"/>
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="24dp" />
 
-                        <androidx.appcompat.widget.SwitchCompat
-                                android:layout_width="match_parent"
+                        <LinearLayout
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/preview_playing"
-                                android:checked="true"
-                                android:text="@string/playing" />
+                                android:layout_gravity="end"
+                                android:layout_marginTop="24dp"
+                                android:background="?attr/widget_preview_rounded_bg"
+                                android:orientation="vertical"
+                                android:paddingLeft="16dp"
+                                android:paddingTop="8dp"
+                                android:paddingRight="16dp"
+                                android:paddingBottom="8dp">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/widget_preview"
+                                    android:textColor="?attr/font_default"
+                                    android:textSize="18sp" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/preview_playing"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="@string/playing" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
+
+                    <FrameLayout
+                            android:id="@+id/fragment_placeholder"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/background_default" />
                 </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    </LinearLayout>
 
-                <FrameLayout
-                        android:background="?attr/background_default"
-                        android:id="@+id/fragment_placeholder"
-                        android:layout_width="fill_parent"
-                        android:layout_height="match_parent" />
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

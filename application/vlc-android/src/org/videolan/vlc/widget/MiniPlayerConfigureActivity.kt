@@ -36,8 +36,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
+import android.widget.LinearLayout
+import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
@@ -62,12 +68,34 @@ class MiniPlayerConfigureActivity : BaseActivity() {
     override val displayTitle = true
     private lateinit var binding: WidgetMiniPlayerConfigureBinding
     var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    override var isEdgeToEdge = false
     override fun getSnackAnchorView(overAudioPlayer: Boolean) = binding.coordinator
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
         binding = WidgetMiniPlayerConfigureBinding.inflate(layoutInflater)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.statusView) { v, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updateLayoutParams {
+                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Set height to: ${bars.top}")
+                v.layoutParams.height = bars.top
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.fragmentPlaceholder) { v, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updatePadding(
+                bottom = bars.bottom
+            )
+            WindowInsetsCompat.CONSUMED
+        }
         setContentView(binding.root)
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Launching MiniPlayerConfigureActivity")
 
