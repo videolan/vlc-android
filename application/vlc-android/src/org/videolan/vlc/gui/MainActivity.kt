@@ -26,10 +26,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -40,7 +38,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,7 +54,6 @@ import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_LAST_SESSION_CRASHED
 import org.videolan.tools.KEY_MEDIALIBRARY_AUTO_RESCAN
-import org.videolan.tools.KEY_METERED_CONNECTION
 import org.videolan.tools.KEY_OBSOLETE_RESTORE_FILE_WARNED
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.PERMISSION_NEVER_ASK
@@ -74,7 +70,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
-import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.dialogs.UPDATE_DATE
