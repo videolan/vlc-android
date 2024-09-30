@@ -23,7 +23,10 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
+import android.media.AudioManager
 import android.os.Bundle
+import androidx.core.content.getSystemService
+import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
@@ -55,8 +58,10 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val audioBoostPref = findPreference<CheckBoxPreference>(AUDIO_BOOST)
+        val volumeGesturePref = findPreference<CheckBoxPreference>(ENABLE_VOLUME_GESTURE)
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
-        findPreference<Preference>(AUDIO_BOOST)?.isVisible = !AndroidDevices.isAndroidTv
+        audioBoostPref?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_DOUBLE_TAP_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_DOUBLE_TAP_PLAY)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_SCALE_GESTURE)?.isVisible = !AndroidDevices.isAndroidTv
@@ -64,11 +69,20 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         findPreference<Preference>(ENABLE_FASTPLAY)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(FASTPLAY_SPEED)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(SCREENSHOT_MODE)?.isVisible = !AndroidDevices.isAndroidTv
-        findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
+        volumeGesturePref?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
         findPreference<Preference>(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY)?.title = getString(if (AndroidDevices.isAndroidTv) R.string.video_key_jump_delay else R.string.video_double_tap_jump_delay)
         updateHudTimeoutSummary()
+        val audiomanager = requireActivity().getSystemService<AudioManager>()!!
+        if (audiomanager.isVolumeFixed) {
+            audioBoostPref?.isChecked = false
+            audioBoostPref?.isEnabled = false
+            audioBoostPref?.summary = getString(R.string.system_volume_disabled, audioBoostPref?.summary)
+            volumeGesturePref?.isChecked = false
+            volumeGesturePref?.isEnabled = false
+            volumeGesturePref?.summary = getString(R.string.system_volume_disabled, volumeGesturePref?.summary)
+        }
 
     }
 
