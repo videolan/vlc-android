@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui.dialogs
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -91,6 +93,17 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
 
 
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        if (AndroidDevices.isChromeBook) bottomSheetDialog.setOnShowListener {
+            bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+                ?.let { bottomSheet ->
+                    BottomSheetBehavior.from(bottomSheet).isDraggable = false
+                }
+        }
+        return bottomSheetDialog
     }
 
     private fun simulateKeyPress(key: Int) {
