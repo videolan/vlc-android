@@ -41,7 +41,6 @@ import android.os.Handler
 import android.os.Looper
 import android.renderscript.*
 import android.text.TextUtils
-import android.util.Log
 import android.view.*
 import android.view.animation.*
 import android.view.inputmethod.InputMethodManager
@@ -85,7 +84,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -779,22 +777,19 @@ object UiTools {
                 DragEvent.ACTION_DROP -> {
                     val clipData = event.clipData ?: return@OnDragListener false
                     val itemsCount = clipData.itemCount
+                    val uriList = mutableListOf<MediaWrapper>()
                     for (i in 0 until itemsCount) {
                         val permissions = activity.requestDragAndDropPermissions(event)
                         if (permissions != null) {
                             val item = clipData.getItemAt(i)
-                            if (item.uri != null)
-                                MediaUtils.openUri(activity, item.uri)
-                            else if (item.text != null) {
-                                val uri = item.text.toString().toUri()
-                                val media = MLServiceLocator.getAbstractMediaWrapper(uri)
-                                if ("file" != uri.scheme)
-                                    media.type = MediaWrapper.TYPE_STREAM
-                                MediaUtils.openMedia(activity, media)
-                            }
-                            return@OnDragListener true
+                            val uri = item.uri ?: item.text.toString().toUri()
+                            val media = MLServiceLocator.getAbstractMediaWrapper(uri)
+                            if ("file" != uri.scheme)
+                                media.type = MediaWrapper.TYPE_STREAM
+                            uriList.add(media)
                         }
                     }
+                    MediaUtils.openList(activity, uriList, 0)
                     false
                 }
                 else -> false
