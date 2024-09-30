@@ -1269,10 +1269,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 exitOK()
                 return true
             }
-            KeyEvent.KEYCODE_P -> {
-                takeScreenshot()
-                return true
-            }
             KeyEvent.KEYCODE_DPAD_LEFT -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
@@ -1422,15 +1418,24 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun next() {
-        service?.next()
+        if (service?.hasNext() == true) {
+            service?.next()
+            overlayDelegate.showInfo(getString(R.string.next), 1000)
+        }
     }
 
     override fun previous() {
-        service?.previous(false)
+        service?.let { service ->
+            service.previous(false)
+            overlayDelegate.showInfo(getString(R.string.previous), 1000)
+        }
     }
 
     override fun stop() {
-        service?.stop()
+        service?.let { service ->
+            service.stop()
+            overlayDelegate.showInfo(getString(R.string.stop), 1000)
+        }
     }
 
     override fun seek(delta: Int) {
