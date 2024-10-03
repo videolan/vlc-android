@@ -309,7 +309,7 @@ def changelog() {
                 if (started && !line?.trim()) break
                 if (started) {
                     if (output != "") output += "\\n"
-                    output += line.trim()
+                    output += line.trim().replaceAll(/(@|'|"|\\/|\(|\)|=|\?)/, /\\$0/)
                 }
                 if (line.contains("---")) started = true
             }
