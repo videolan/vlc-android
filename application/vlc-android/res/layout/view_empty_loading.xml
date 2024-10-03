@@ -27,8 +27,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline12"
@@ -131,23 +130,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/permission_ask_again"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintEnd_toStartOf="@+id/pickFile"
+            app:layout_constraintEnd_toEndOf="@+id/noMediaButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/permissionTextView" />
+            app:layout_constraintStart_toStartOf="@+id/noMediaButton"
+            app:layout_constraintTop_toBottomOf="@+id/permissionTextView"
+            app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
             android:id="@+id/pickFile"
             style="?attr/empty_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/pick_file"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/noMediaButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/grantPermissionButton"
-            app:layout_constraintTop_toBottomOf="@+id/permissionTextView" />
+            app:layout_constraintStart_toStartOf="@+id/noMediaButton"
+            app:layout_constraintTop_toBottomOf="@+id/grantPermissionButton" />
 
     <TextView
             android:id="@+id/loadingTitle"
