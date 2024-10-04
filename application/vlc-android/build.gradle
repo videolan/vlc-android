@@ -76,11 +76,6 @@ android {
             buildConfigField "boolean", "NO_TV", "false"
             multiDexEnabled true
         }
-        noTv {
-            initWith release
-            matchingFallbacks = ['release']
-            buildConfigField "boolean", "NO_TV", "true"
-        }
         vlcBundle {
             initWith release
             matchingFallbacks = ['release']

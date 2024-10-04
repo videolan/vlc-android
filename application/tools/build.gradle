@@ -17,10 +17,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        noTv {
-            initWith release
-            matchingFallbacks = ['release']
-        }
         vlcBundle {
             initWith release
             matchingFallbacks = ['release']

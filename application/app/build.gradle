@@ -80,10 +80,6 @@ android {
             signingConfig = signingConfigs.release
             matchingFallbacks = ['release']
         }
-        noTv {
-            initWith release
-            matchingFallbacks = ['release']
-        }
         vlcBundle {
             initWith release
             matchingFallbacks = ['release']
@@ -125,7 +121,6 @@ android {
     }
 
     def abiCodes = ['armeabi-v7a': 5, 'arm64-v8a': 6, 'x86': 7, 'x86_64': 8]
-    def abiCodesNoTv = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4]
     lint {
         abortOnError false
         disable 'MissingTranslation', 'ExtraTranslation'
@@ -139,9 +134,6 @@ android {
             def abiName = System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
             if (outputAbi != null) abiName = outputAbi
             def versionCode = abiCodes.get(abiName, 0)
-            if (variant.buildType.name == "noTv") {
-                versionCode = abiCodesNoTv.get(abiName, 0)
-            }
             if (variant.buildType.name == "vlcBundle") {
                 versionCode = 9
             }
@@ -150,7 +142,6 @@ android {
             def outputName = "VLC-Android-"
             outputName += variant.versionName.replace(" ", "-")
             if (variant.buildType.name == "debug") outputName += "-debug"
-            if (variant.buildType.name == "noTv") outputName += "-no-tv"
             outputName += "-" + abiName + ".apk"
             output.outputFileName = outputName
         }

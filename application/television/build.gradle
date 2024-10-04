@@ -33,10 +33,6 @@ android {
             initWith debug
             matchingFallbacks = ['debug']
         }
-        noTv {
-            initWith release
-            matchingFallbacks = ['release']
-        }
         vlcBundle {
             initWith release
             matchingFallbacks = ['release']
