@@ -484,7 +484,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <nl.dionsegijn.konfetti.KonfettiView
+        <nl.dionsegijn.konfetti.xml.KonfettiView
                 android:id="@+id/konfetti"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

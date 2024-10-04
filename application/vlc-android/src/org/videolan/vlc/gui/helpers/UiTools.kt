@@ -72,9 +72,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
-import nl.dionsegijn.konfetti.KonfettiView
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.Rotation
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
+import nl.dionsegijn.konfetti.xml.KonfettiView
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
@@ -104,6 +108,7 @@ import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.openLinkIfPossible
 import java.security.SecureRandom
+import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
 object UiTools {
@@ -404,30 +409,38 @@ object UiTools {
                 logo.animate().translationY(0F).setStartDelay(75).setDuration(300).setInterpolator(OvershootInterpolator(3.0F)).withEndAction {
                     logoAnimationRunning = false
                 }
-                konfettiView.build()
-                        .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
-                        .setDirection(315.0, 360.0)
-                        .setSpeed(3f, 9f)
-                        .setFadeOutEnabled(true)
-                        .setTimeToLive(2000L)
-                        .addShapes(Shape.Circle, Shape.Square)
-                        .addSizes(Size(4))
-                        .setPosition(logo.x + logo.width - 12.dp, logo.x + logo.width - 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
-                        .setRotationEnabled(false)
-                        .setDelay(275)
-                        .burst(iter * 30)
-                konfettiView.build()
-                        .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
-                        .setDirection(180.0, 225.0)
-                        .setSpeed(3f, 9f)
-                        .setFadeOutEnabled(true)
-                        .setTimeToLive(2000L)
-                        .addShapes(Shape.Circle, Shape.Square)
-                        .addSizes(Size(4))
-                        .setPosition(logo.x + 12.dp, logo.x + 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
-                        .setRotationEnabled(false)
-                        .setDelay(275)
-                        .burst(iter * 30)
+                val partyRight = Party(
+                    colors = listOf(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500)),
+                    angle = 0,
+                    spread = 60,
+                    speed = 3f,
+                    maxSpeed = 18f,
+                    fadeOutEnabled = true,
+                    timeToLive = 2000L,
+                    rotation = Rotation(enabled = false),
+                    shapes = listOf(Shape.Circle),
+                    size = listOf(Size(4), Size(3), Size(2)),
+                    delay = 275,
+                    position = Position.Absolute(logo.x + logo.width - 12.dp, logo.y + logo.height - 24.dp).between(Position.Absolute(logo.x + logo.width - 12.dp, logo.y + logo.height + 24.dp)),
+                    emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(iter*30)
+                )
+                konfettiView.start(partyRight)
+                val partyLeft = Party(
+                    colors = listOf(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500)),
+                    angle = 180,
+                    spread = 60,
+                    speed = 3f,
+                    maxSpeed = 18f,
+                    fadeOutEnabled = true,
+                    timeToLive = 2000L,
+                    rotation = Rotation(enabled = false),
+                    shapes = listOf(Shape.Circle),
+                    size = listOf(Size(4), Size(3), Size(2)),
+                    delay = 275,
+                    position = Position.Absolute(logo.x + 12.dp, logo.y + logo.height - 24.dp).between(Position.Absolute(logo.x + 12.dp, logo.y + logo.height + 24.dp)),
+                    emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(iter*30)
+                )
+                konfettiView.start(partyLeft)
             }
         }
 
