@@ -1,35 +1,11 @@
-Changes between 3.6.0 Beta 4 and 3.6.0 Beta 6:
-------------------
- * Remote access video player remote
- * Remote access advanced media settings
- * PiP improvements
- * Audio player chapter navigation
- * Crash fixes
-
-Changes between 3.6.0 Beta 3 and 3.6.0 Beta 4:
-------------------
- * Remote access: multiple addition and improvements
- * Nightly auto update
- * Video player: tap to fast play
- * Improve the PiP mode
- * Improve dav1d integration
- * Crash fixes and memory leaks
-
-Changes between 3.6.0 Beta 1 and 3.6.0 Beta 3:
-------------------
- * Remote access: more content and improvements
- * Warning for metered connections
- * Icons rework
- * Browser interface rework
- * Rework the add to playlist dialog
- * Playback behavior fixes
- * Android Auto improvements
- * Crash fixes and memory leaks
-
 Changes between 3.5.4 and 3.6.0 Beta 1:
 ------------------
  * Remote access: take control of your VLC for Android from any device
  * Favorite any media and filter your medialibrary content by favorite
+ * Video player: tap to fast play
+ * Warning for metered connections
+ * PiP improvements
+ * Audio player chapter navigation
  * UI improvements
  * Crash fixes
 
