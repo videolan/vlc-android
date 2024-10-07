@@ -293,6 +293,7 @@
     <string name="about_license_text" translatable="false"></string>
     <string name="vlc_authors">and VLC Authors.</string>
     <string name="is_compiled_by">Compiled by</string>
+    <string name="is_signed_by">Signed by</string>
     <string name="sources">Source code</string>
     <string name="libraries">Libraries</string>
     <string name="feedback_forum">Feedback forum</string>

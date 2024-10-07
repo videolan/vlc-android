@@ -105,6 +105,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/compiled_by" />
 
+            <TextView
+                    android:id="@+id/textView31"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/is_signed_by"
+                    android:textColor="?attr/font_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/signed_by"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/signed_by" />
+
             <View
                     android:id="@+id/divider"
                     android:layout_width="0dp"
@@ -113,7 +124,7 @@
                     android:background="?attr/default_divider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/compiled_by" />
+                    app:layout_constraintTop_toBottomOf="@+id/signed_by" />
 
             <TextView
                     android:id="@+id/textView29"
@@ -218,6 +229,18 @@
                     app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
                     app:layout_constraintTop_toBottomOf="@+id/revision"
                     tools:text="Gitlab runner" />
+
+            <TextView
+                    android:id="@+id/signed_by"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="?attr/font_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/compilation_barrier"
+                    app:layout_constraintTop_toBottomOf="@+id/compiled_by"
+                    tools:text="VideoLAN" />
 
             <TextView
                     android:id="@+id/remote_access_version"

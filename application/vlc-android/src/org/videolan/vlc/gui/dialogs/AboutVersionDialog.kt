@@ -21,7 +21,10 @@
  */
 package org.videolan.vlc.gui.dialogs
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +32,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogAboutVersionBinding
+import java.security.MessageDigest
+
 
 /**
  * Dialog showing the info of the current version
@@ -77,6 +82,45 @@ class AboutVersionDialog : VLCBottomSheetDialogFragment() {
             whatsNewDialog.show(requireActivity().supportFragmentManager, "fragment_whats_new")
             dismiss()
         }
+
+
+        val signatures =
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) requireActivity().packageManager.getPackageInfo(
+                requireActivity().packageName,
+                PackageManager.GET_SIGNATURES
+            ).signatures
+            else
+                requireActivity().packageManager.getPackageInfo(
+                    requireActivity().packageName,
+                    PackageManager.GET_SIGNING_CERTIFICATES
+                ).signingInfo.apkContentsSigners
+        var signer = requireActivity().getString(R.string.unknown)
+        signatures.forEach {
+            try {
+                val md = MessageDigest.getInstance("SHA1")
+                md.update(it.toByteArray())
+
+                val digest = md.digest()
+                val toRet = java.lang.StringBuilder()
+                for (i in digest.indices) {
+                    if (i != 0) toRet.append(":")
+                    val b = digest[i].toInt() and 0xff
+                    val hex = Integer.toHexString(b)
+                    if (hex.length == 1) toRet.append("0")
+                    toRet.append(hex)
+                }
+                when (toRet.toString().uppercase()) {
+                    "AC:5A:BC:F1:99:AC:86:61:6A:79:65:CB:84:59:94:89:A5:A7:3F:86" -> signer = "VideoLAN nightly"
+                    "4D:D5:44:A7:51:D3:D5:4C:17:D8:7E:1D:D3:60:F0:C6:40:A5:C1:50" -> signer = "Google"
+                    "EE:FB:C9:81:42:83:43:BB:DD:FF:F6:B2:3B:6B:D8:71:73:51:41:0C" -> signer = "VideoLAN"
+                    "40:80:86:F9:AE:A6:52:A8:61:44:70:4F:11:79:9A:CA:BA:31:C7:A0" -> signer = "F-Droid"
+                }
+                Log.i(this::class.java.simpleName, "Found signature. Fingerprint: $toRet")
+            } catch (e: Exception) {
+                Log.e("Signature",e.message, e)
+            }
+        }
+        binding.signedBy.text = signer
     }
 
 
