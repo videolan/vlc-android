@@ -1,3 +1,7 @@
+Changes between 3.5.5 and 3.5.6:
+------------------
+ * Fix crash on startup
+
 Changes between 3.5.4 and 3.5.5:
 ------------------
  * Target Android 34
