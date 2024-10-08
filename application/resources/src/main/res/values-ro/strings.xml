@@ -177,6 +177,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Limbă: %1$s\n</string>
     <string name="volume">Volum</string>
+    <string name="system_volume_disabled">%s\nNu există acces la volumul sistemului</string>
     <string name="sound_on">Sunet pornit</string>
     <string name="sound_off">Sunet oprit</string>
     <string name="brightness">Luminozitate</string>
@@ -201,6 +202,9 @@
     <string name="wait_before_sleep">Așteaptă ca elementul media actual să se termine primul</string>
     <string name="reset_on_interaction">Resetează orice interacțiune</string>
     <string name="default_sleep_timer_summary">%1$s, așteaptă sfârșitul fișierului media: %2$s, resetare la interacțiune: %3$s</string>
+    <string name="video_player_remote">Player-ul video de la distanță</string>
+    <string name="remote_keyboard_navigation">Navigare prin tastatură</string>
+
     <string name="server_add_title">Adaugă un server nou la favorite</string>
     <string name="server_domain_hint">Adresa serverului (nume domeniu sau IP)</string>
     <string name="server_share_hint">Numele rețelei partajate (sau adresa IP)</string>
@@ -289,6 +293,7 @@
     <string name="authors">Autori</string>
     <string name="vlc_authors">și autorii VLC.</string>
     <string name="is_compiled_by">este compilată de:</string>
+    <string name="is_signed_by">Semnat de</string>
     <string name="sources">Surse</string>
     <string name="libraries">Biblioteci</string>
     <string name="feedback_forum">Forum feedback</string>

@@ -168,6 +168,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Sprache: %1$s\n</string>
     <string name="volume">Lautstärke</string>
+    <string name="system_volume_disabled">%s\nKein Zugriff auf die Systemlautstärke</string>
     <string name="sound_on">Ton an</string>
     <string name="sound_off">Ton aus</string>
     <string name="brightness">Helligkeit</string>
@@ -282,6 +283,7 @@
     <string name="authors">Autoren</string>
     <string name="vlc_authors">und VLC-Autoren.</string>
     <string name="is_compiled_by">Kompiliert durch</string>
+    <string name="is_signed_by">Unterzeichnet von</string>
     <string name="sources">Quellcode</string>
     <string name="libraries">Bibliotheken</string>
     <string name="feedback_forum">Bewertungsportal</string>

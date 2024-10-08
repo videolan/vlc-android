@@ -201,6 +201,9 @@
     <string name="wait_before_sleep">Attendez que le multimédia en cours se termine</string>
     <string name="reset_on_interaction">Réinitialiser en cas d’interaction</string>
     <string name="default_sleep_timer_summary">%1$s, attendre la fin du média : %2$s, réinitialiser lors de l’interaction : %3$s</string>
+    <string name="video_player_remote">Télécommande du lecteur vidéo</string>
+    <string name="remote_keyboard_navigation">Navigation au clavier</string>
+
     <string name="server_add_title">Ajouter un serveur aux favoris</string>
     <string name="server_domain_hint">Adresse du serveur (domaine ou adresse IP)</string>
     <string name="server_share_hint">Nom du partage réseau (ou adresse IP)</string>

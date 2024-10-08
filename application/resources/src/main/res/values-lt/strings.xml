@@ -49,7 +49,7 @@
     <string name="play_as_video">Groti kaip vaizdo įr.</string>
     <string name="return_to_video">Norėdami atstatyti vaizdo įrašą, palaikykite nuspaudę viršelį</string>
     <string name="video_app_switch_title">Foninė / „vaizdo-vaizde“ veiksena</string>
-    <string name="video_app_switch_summary">Pasirinkite VLC elgseną, kai grojant vaizdo įrašą persijungiate į kitą programą</string>
+    <string name="video_app_switch_summary">Pasirinkti VLC elgseną, kai grojant vaizdo įrašą persijungiama į kitą programą</string>
     <string name="play_pip_title">Vaizdo įr. rodyti mažame iškylančiame langelyje virš kitos programos – „vaizdo-vaizde“ veiksenoje</string>
     <string name="play_as_audio_background">Vaizdo įr. groti fone</string>
     <string name="append">Įtraukti į grojimo eilę</string>
@@ -186,6 +186,7 @@
     <string name="track_codec_info">Kodavimo priemonė: %1$s\n</string>
     <string name="track_language_info">Kalba: %1$s\n</string>
     <string name="volume">Garsumas</string>
+    <string name="system_volume_disabled">%s\nNėra prieigos prie sistemos garsumo nuostatų</string>
     <string name="sound_on">Garsas įjungtas</string>
     <string name="sound_off">Nutildyta</string>
     <string name="brightness">Ryškumas</string>
@@ -302,6 +303,7 @@
     <string name="authors">Kūrėjai</string>
     <string name="vlc_authors">ir VLC autoriai.</string>
     <string name="is_compiled_by">Parengė</string>
+    <string name="is_signed_by">Pasirašyta</string>
     <string name="sources">Pirminis kodas</string>
     <string name="libraries">Bibliotekos</string>
     <string name="feedback_forum">Grįžtamojo ryšio forumas</string>
@@ -312,7 +314,7 @@
     <string name="prefs_opened_on_phone">Nuostatos atidarytos telefone</string>
     <string name="open_on_phone">Atidaryti telefono ekrane</string>
 
-    <string name="directories_summary">Pasirinkite katalogus, kuriuos norite įtraukti į mediateką</string>
+    <string name="directories_summary">Pasirinkti katalogus, kurie bus įtraukti į mediateką</string>
     <string name="add_custom_path">Pridėti savitą kelią</string>
     <string name="add_custom_path_description">Įtraukti papildomą žvalgytiną katalogą:</string>
     <string name="remove_custom_path">Pašalinti papildomą kelią</string>
@@ -461,7 +463,7 @@
     <string name="replaygain_track">Takelio</string>
     <string name="replaygain_album">Albumo</string>
     <string name="aout">Garso išvedimas</string>
-    <string name="aout_summary">Nustatykite VLC naudojamą garso išvedimo metodą</string>
+    <string name="aout_summary">Nustatyti VLC naudojamą garso išvedimo metodą</string>
     <string name="audio_ducking_title">Pritildyti VLC gaunant pranešimus</string>
     <string name="audio_ducking_summary">Padeda išgirsti garsinius pranešimus, navigacijos instrukcijas ar pagalbininko kalbą</string>
     <string name="casting_category">Transliacija</string>
@@ -492,7 +494,7 @@
     <string name="casting_passthrough_title">Garso perdavimas</string>
     <string name="casting_passthrough_summary">Leisti televizoriui tvarkyti garso perdavimą</string>
     <string name="casting_conversion_quality_title">Konversijos kokybė</string>
-    <string name="casting_conversion_quality_summary">Nustatykite perdavimo kokybę, kuomet transliuojama į kitą ekraną</string>
+    <string name="casting_conversion_quality_summary">Nustatyti perdavimo kokybę, kuomet transliuojama į kitą ekraną</string>
     <string name="casting_quality_high">Gera</string>
     <string name="casting_quality_medium">Vidutinė</string>
     <string name="casting_quality_low">Prasta</string>
@@ -641,7 +643,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">Daugiau veiksmų</string>
-    <string name="back_quit_lock">Norėdami išeiti iš vaizdo įrašo, dar kartą paspauskite išėjimo mygtuką</string>
+    <string name="back_quit_lock">Norėdami išeiti iš vaizdo įrašo, dar kartą bakstelėkite išėjimo mygtuką</string>
     <string name="stream_deleted">Srautas pašalintas</string>
     <string name="no_subs_found">Šiame kataloge subtitrų nerasta</string>
     <string name="music_now_playing">Dabar groja</string>
@@ -767,7 +769,7 @@
     <string name="audio_task_cleared_title">Sustabdyti išmetus</string>
     <string name="audio_task_cleared_summary">Sustabdyti atkūrimą, kai programa išmetama</string>
     <string name="audio_resume_card_title">Rodyti grojaraščio patarimus</string>
-    <string name="audio_resume_card_summary">Paleidus leistuvę rodyti garso įr. tęsimo pranešimą</string>
+    <string name="audio_resume_card_summary">Paleidus leistuvę rodyti garso įrašo tęsimo pranešimą</string>
     <string name="playback_rewind">Atsukti atgal</string>
     <string name="playback_forward">Prasukti priekin</string>
     <string name="ml_wizard_scan_checkbox">Žvalgyti įrenginį ieškant kūrinių</string>
@@ -1005,7 +1007,7 @@
     <string name="air_action_next">Kitas elementas</string>
     <string name="air_action_previous">Ankstesnis elementas</string>
     <string name="allow_otg">Leisti OTG prieigą</string>
-    <string name="allow_otg_description">Pasirinkite žvalgytiną OTG diską.</string>
+    <string name="allow_otg_description">Pasirinkti žvalgytiną OTG diską.</string>
     <string name="timeout_infinite">Nepranykstantis</string>
     <string name="video_hud_timeout">Vaizdo grotuvo valdiklių slėpimo laikas</string>
     <string name="video_hud_timeout_summary">%ss</string>
@@ -1021,7 +1023,7 @@
     <string name="no_sub_renderer">Transliacijos metu subtitrai nepalaikomi</string>
     <string name="enqueuing">Įkeliami Jūsų kūriniai</string>
     <string name="soundfont">MIDI SoundFont</string>
-    <string name="soundfont_summary">Pasirinkite „SoundFont“ rinkmeną MIDI garso takelių grojimui</string>
+    <string name="soundfont_summary">Pasirinkti „SoundFont“ rinkmeną MIDI garso takelių grojimui</string>
     <string name="missing_media_snack">Trūksta kai kurių kūrinių. Paslėpti visus trūkstamus kūrinius?</string>
     <string name="browser_show_missing_media">Rodyti trūkstamus kūrinius</string>
     <string name="browser_show_missing_media_summary">Rodyti žiniatinklio kūrinius, net jei jų nėra</string>

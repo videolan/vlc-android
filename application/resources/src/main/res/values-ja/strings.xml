@@ -159,6 +159,7 @@
     <string name="track_codec_info">コーデック: %1$s\n</string>
     <string name="track_language_info">言語: %1$s\n</string>
     <string name="volume">ボリューム</string>
+    <string name="system_volume_disabled">%s\nシステムボリュームにアクセスできません</string>
     <string name="sound_on">サウンドオン</string>
     <string name="sound_off">サウンドオフ</string>
     <string name="brightness">明るさ</string>
@@ -272,6 +273,7 @@
     <string name="authors">作成者</string>
     <string name="vlc_authors">およびVLCの著作者。</string>
     <string name="is_compiled_by">コンパイラー</string>
+    <string name="is_signed_by">署名</string>
     <string name="sources">ソースコード</string>
     <string name="libraries">ライブラリ</string>
     <string name="feedback_forum">フィードバックフォーム</string>

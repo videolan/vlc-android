@@ -168,6 +168,7 @@
     <string name="track_codec_info">Kodlayıcı/Çözücü: %1$s\n</string>
     <string name="track_language_info">Dil: %1$s\n</string>
     <string name="volume">Ses düzeyi</string>
+    <string name="system_volume_disabled">%s\nSistem birimine erişim izni yok</string>
     <string name="sound_on">Ses açık</string>
     <string name="sound_off">Ses kapalı</string>
     <string name="brightness">Parlaklık</string>
@@ -282,6 +283,7 @@
     <string name="authors">Geliştirenler</string>
     <string name="vlc_authors">ve VLC geliştiricileri.</string>
     <string name="is_compiled_by">Derleyici</string>
+    <string name="is_signed_by">İmzalayan</string>
     <string name="sources">Kaynak kodu</string>
     <string name="libraries">Kitaplıklar</string>
     <string name="feedback_forum">Geri bildirim forumu</string>

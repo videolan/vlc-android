@@ -168,6 +168,7 @@
     <string name="track_codec_info">Koodekki: %1$s\n</string>
     <string name="track_language_info">Kieli: %1$s\n</string>
     <string name="volume">Voimakkuus</string>
+    <string name="system_volume_disabled">%s\nEi oikeuksia voimakkuuteen</string>
     <string name="sound_on">Ääni päälle</string>
     <string name="sound_off">Ääni pois</string>
     <string name="brightness">Kirkkaus</string>
@@ -1016,7 +1017,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="no_sub_renderer">Tekstityksiä ei vielä tueta suoratoiston aikana</string>
     <string name="enqueuing">Ladataan mediaa</string>
     <string name="soundfont">MIDI SoundFont</string>
-    <string name="soundfont_summary">Valitse SoundFont-tiedosto toistaaksesi midi-raitoja</string>
+    <string name="soundfont_summary">Valitse SoundFont-tiedosto midi-toistoon</string>
     <string name="missing_media_snack">Media puuttuu. Piilotetaanko kaikki puuttuvat mediat?</string>
     <string name="browser_show_missing_media">Näytä puuttuva media</string>
     <string name="browser_show_missing_media_summary">Näytä kaukaiset mediat, vaikka he eivät olisikaan läsnä</string>

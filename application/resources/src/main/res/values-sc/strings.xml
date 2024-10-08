@@ -50,7 +50,7 @@
     <string name="video_app_switch_summary">Seletziona su cumportamentu de VLC cando colas a un\'àtera aplicatzione dae sa riprodutzione de unu vìdeu</string>
     <string name="play_pip_title">Riprodui su vìdeu in modalidade Picture-in-Picture</string>
     <string name="play_as_audio_background">Riprodui su vìdeu in modalidade in s\'isfundu</string>
-    <string name="append">Annanghe a sa lista de riprodutzione</string>
+    <string name="append">Annanghe a s\'elencu de riprodutzione</string>
     <string name="insert_next">Inserta a pustis</string>
     <string name="play_all">Riprodui totu</string>
     <string name="append_all">Annanghe totu</string>
@@ -191,6 +191,8 @@
     <string name="wait_before_sleep">In antis iseta chi s\'elementu multimediale atuale agabbet</string>
     <string name="reset_on_interaction">Reseta a cada interatzione</string>
     <string name="default_sleep_timer_summary">%1$s, iseta sa fine de su mèdiu: %2$s, reseta a cada interatzione: %3$s</string>
+    <string name="video_player_remote">Telecumandu de su letore vìdeu</string>
+    <string name="remote_keyboard_navigation">Navigatzione dae tecladu</string>
 
     <string name="server_add_title">Annanghe unu server nou a sos preferidos</string>
     <string name="server_domain_hint">Indiritzu server (nùmene domìniu o IP)</string>
@@ -221,11 +223,11 @@
 
     <string name="playback_history_title">Cronologia de riprodutzione</string>
     <string name="playback_history_summary">Sarva totu sos documentos multimediales riproduidos in sa  setzione Cronologia</string>
-    <string name="video_resume_playback_title">Cronologia de sa lista de riprodutzione de vìdeos</string>
-    <string name="video_resume_playback_summary">Permite su sarvamentu de sa lista de riprodutzione de vìdeos pro sighire a pustis</string>
-    <string name="audio_resume_playback_title">Cronologia de sa lista de riprodutzione àudio</string>
+    <string name="video_resume_playback_title">Cronologia de s\'elencu de riprodutzione de vìdeos</string>
+    <string name="video_resume_playback_summary">Permite su sarvamentu de s\'elencu de riprodutzione de vìdeos pro sighire a pustis</string>
+    <string name="audio_resume_playback_title">Cronologia de s\'elencu de riprodutzione àudio</string>
     <string name="audio_resume_playback_warning">S\'inabilitatzione de sa cronologia de riprodutzione àudio diat pòdere causare de unos cantos problemas de cumportamentu.\nA pustis de l\'àere disabilitada dias pòdere no èssere in gradu de torrare a sighire sa riprodutzione dae:\n\n\t- un dispositivu bluetooth\n\t- su widget\n\t- sa notìfica multimediale</string>
-    <string name="audio_resume_playback_summary">Permite su sarvamentu de sa lista de riprodutzione àudio pro torrare a sighire prus a tardu</string>
+    <string name="audio_resume_playback_summary">Permite su sarvamentu de s\'elencu de riprodutzione àudio pro torrare a sighire prus a tardu</string>
     <string name="playback_speed_title">Sarva sa lestresa de riprodutzione</string>
     <string name="playback_speed_summary">Sarva sa lestresa de riprodutzione intre sos cuntenutos multimediales</string>
 
@@ -584,10 +586,13 @@
     <string name="search_global">Chirca in totu sa biblioteca multimediale</string>
     <string name="playlist_save">Sarva s\'iscalita</string>
     <string name="playlist_name_hint">Nùmene de s\'iscalita</string>
+    <string name="chapters">Capìtulos</string>
+    <string name="notset">No impostadu</string>
     <string name="go_to_chapter">Bae a su capìtulu…</string>
     <string name="current_chapter">Capìtulu: %s</string>
     <string name="confirm_resume">Cheres sighire dae s\'ùrtima positzione?</string>
     <string name="confirm_resume_title">Sighi cun sos vìdeos riproduidos</string>
+    <string name="confirm_resume_audio_title">Sighi cun s\'àudio riproduidu</string>
     <string name="tv_ui_title">Interfache Android TV</string>
     <string name="tv_ui_summary">Càmbia s\'interfache cun unu tema adatadu a sa TV</string>
     <string name="medialibrary">Biblioteca multimediale</string>
@@ -869,6 +874,8 @@
     <string name="invalid_file">Documentu non vàlidu. Non podet èssere cumpartzidu.</string>
     <string name="share_file">Cumpartzi %s</string>
     <string name="share_message">Inoghe b\'at %s</string>
+    <string name="share_track_info">Cumpartzi sas informatziones de sa rasta</string>
+    <string name="share_track">Como ascurtende %s</string>
     <string name="find_metadata">Agata metadatos</string>
     <string name="moviepedia_hint">Chirca metadatos</string>
     <string name="moviepedia_result">Risultados intre sos vìdeos</string>

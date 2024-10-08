@@ -159,6 +159,7 @@
     <string name="track_codec_info">編解碼器：%1$s\n</string>
     <string name="track_language_info">語言：%1$s\n</string>
     <string name="volume">音量</string>
+    <string name="system_volume_disabled">%s\n無法存取系統儲存區</string>
     <string name="sound_on">聲音開啟</string>
     <string name="sound_off">聲音關閉</string>
     <string name="brightness">亮度</string>
@@ -272,6 +273,7 @@
     <string name="authors">作者</string>
     <string name="vlc_authors">和 VLC 作者。</string>
     <string name="is_compiled_by">編譯由：</string>
+    <string name="is_signed_by">簽署者為</string>
     <string name="sources">原始碼</string>
     <string name="libraries">函式庫</string>
     <string name="feedback_forum">回饋討論區</string>

@@ -186,6 +186,7 @@
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Jazyk: %1$s\n</string>
     <string name="volume">Hlasitosť</string>
+    <string name="system_volume_disabled">%s\nŽiadny prístup k systémovej jednotke</string>
     <string name="sound_on">Zap. zvuk</string>
     <string name="sound_off">Vyp. zvuk</string>
     <string name="brightness">Jas</string>
@@ -211,6 +212,9 @@
     <string name="wait_before_sleep">Počkajte na skončenie aktuálnej mediálnej položky</string>
     <string name="reset_on_interaction">Reset pri akejkoľvek interakcii</string>
     <string name="default_sleep_timer_summary">%1$s, počkať na koniec média: %2$s, reset pri interakcii: %3$s</string>
+    <string name="video_player_remote">Prehrávač videa - vzdialený</string>
+    <string name="remote_keyboard_navigation">Navigovanie pomocou klávesnice</string>
+
     <string name="server_add_title">Pridať nový server do obľúbených</string>
     <string name="server_domain_hint">Adresa servera (názov domény alebo IP)</string>
     <string name="server_share_hint">Názov zdieľania v sieti (alebo IP adresa)</string>
@@ -299,6 +303,7 @@
     <string name="authors">Autori</string>
     <string name="vlc_authors">a autori VLC</string>
     <string name="is_compiled_by">Skompilované</string>
+    <string name="is_signed_by">Podpis: </string>
     <string name="sources">Zdrojový kód</string>
     <string name="libraries">Knižnice</string>
     <string name="feedback_forum">Fórum pre spätnú väzbu</string>

@@ -168,6 +168,7 @@
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Språk: %1$s\n</string>
     <string name="volume">Volym</string>
+    <string name="system_volume_disabled">%s\nIngen åtkomst till systemvolymen</string>
     <string name="sound_on">Ljud på</string>
     <string name="sound_off">Ljud av</string>
     <string name="brightness">Ljusstyrka</string>
@@ -282,6 +283,7 @@
     <string name="authors">Författare</string>
     <string name="vlc_authors">och VLC:s upphovsmän.</string>
     <string name="is_compiled_by">Kompilerad av</string>
+    <string name="is_signed_by">Signerad av</string>
     <string name="sources">Källkod</string>
     <string name="libraries">Bibliotek</string>
     <string name="feedback_forum">Återkopplingsforum</string>
