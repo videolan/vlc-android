@@ -169,7 +169,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
         }
         binding.btnShuffle.setOnClickListener {
-            viewModel.playlist?.let { MediaUtils.playTracks(this, it, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true) }
+            viewModel.playlist?.let { if (it.tracksCount > 0) MediaUtils.playTracks(this, it, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true) }
         }
         binding.btnAddPlaylist.setOnClickListener {
             viewModel.playlist?.let { addToPlaylist(it.tracks.toList()) }
