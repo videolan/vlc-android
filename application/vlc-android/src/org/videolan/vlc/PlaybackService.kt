@@ -643,7 +643,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             addAction(ACTION_CAR_MODE_EXIT)
             addAction(CUSTOM_ACTION)
         }
-        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+        registerReceiverCompat(receiver, filter, false)
         if (CarConnectionHandler.preferCarConnectionHandler()) {
             carConnectionHandler = CarConnectionHandler(contentResolver)
             carConnectionHandler.connectionType.observeForever {

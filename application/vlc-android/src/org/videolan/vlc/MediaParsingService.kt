@@ -134,7 +134,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         val filter = IntentFilter()
         filter.addAction(ACTION_PAUSE_SCAN)
         filter.addAction(ACTION_RESUME_SCAN)
-        registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+        registerReceiverCompat(receiver, filter, false)
         val pm = applicationContext.getSystemService<PowerManager>()!!
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsingService")
 
