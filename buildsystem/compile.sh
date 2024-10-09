@@ -193,7 +193,7 @@ init_local_props() {
     # or fix it if it was modified (by Android Studio, for example).
     echo_props() {
         echo "sdk.dir=$ANDROID_SDK"
-        echo "ndk.dir=$ANDROID_NDK"
+        echo "android.ndkPath=$ANDROID_NDK"
     }
     # first check if the file just needs to be created for the first time
     if [ ! -f "$1" ]; then
@@ -231,7 +231,7 @@ init_local_props() {
         temp_props="$1.tmp"
         while IFS= read -r LINE || [ -n "$LINE" ]; do
             line_sdk_dir="${LINE#sdk.dir=}"
-            line_ndk_dir="${LINE#ndk.dir=}"
+            line_ndk_dir="${LINE#android.ndkPath=}"
             if [ "x$line_sdk_dir" = "x$LINE" -a "x$line_ndk_dir" = "x$LINE" ]; then
                 echo "$LINE"
             fi
@@ -239,9 +239,9 @@ init_local_props() {
         echo_props >> "$temp_props"
         mv -f -- "$temp_props" "$1"
     }
-    echo "local.properties: Contains incompatible sdk.dir and/or ndk.dir properties. Replacing..."
+    echo "local.properties: Contains incompatible sdk.dir and/or android.ndkPath properties. Replacing..."
     replace_props "$1"
-    echo "local.properties: Finished replacing sdk.dir and/or ndk.dir with current environment variables."
+    echo "local.properties: Finished replacing sdk.dir and/or android.ndkPath with current environment variables."
     )
 }
 init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
