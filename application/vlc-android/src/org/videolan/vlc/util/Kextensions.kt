@@ -135,16 +135,19 @@ fun FragmentActivity.share(medias: List<MediaWrapper>) = lifecycleScope.launch {
     val intentShareFile = Intent(Intent.ACTION_SEND_MULTIPLE)
     val uris = arrayListOf<Uri>()
     val title = if (medias.size == 1) medias[0].title else resources.getQuantityString(R.plurals.media_quantity, medias.size, medias.size)
+    var hasVideo = false
+    var hasAudio = false
     withContext(Dispatchers.IO) {
         medias.filter { it.uri.path != null && File(it.uri.path!!).exists() }.forEach {
             val file = File(it.uri.path!!)
+            if (it.type == TYPE_VIDEO) hasVideo = true else hasAudio = true
             uris.add(FileProvider.getUriForFile(this@share, "$packageName.provider", file))
         }
     }
 
     if (isStarted())
         if (uris.isNotEmpty()) {
-            intentShareFile.type = "*/*"
+            intentShareFile.type = if (hasAudio && !hasVideo) "audio/*" else if(hasVideo && !hasAudio) "video/*" else "*/*"
             intentShareFile.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
             intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
             intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, title))
