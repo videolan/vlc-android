@@ -166,7 +166,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         menu.findItem(R.id.rename_group).isVisible = viewModel.group != null
         menu.findItem(R.id.ungroup).isVisible = viewModel.group != null
         menu.findItem(R.id.ml_menu_sortby).isVisible = false
-        menu.findItem(R.id.ml_menu_display_options).isVisible = parentFragment is VideoBrowserFragment
+        menu.findItem(R.id.ml_menu_display_options).isVisible = true
         if (requireActivity().isTalkbackIsEnabled()) menu.findItem(R.id.play_all).isVisible = true
     }
 
