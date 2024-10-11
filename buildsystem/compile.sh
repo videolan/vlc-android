@@ -375,10 +375,6 @@ else
         TARGET="bundle${BUILDTYPE}"
         GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
     fi
-    if [ "$BUILDTYPE" = "NoTv" -a "$ACTION" = "assemble" ]; then
-        TARGET="bundle${BUILDTYPE}"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
-    fi
     if [ "$TEST" = 1 ]; then
         TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
         GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET

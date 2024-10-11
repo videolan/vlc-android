@@ -107,7 +107,7 @@ android {
             gradle.startParameter.taskNames.find {
                 // Enable split for release builds in different build flavors
                 // (assemblePaidRelease, assembleFreeRelease, etc.).
-                if (it.toLowerCase() ==~ /assemble.*Release/.toLowerCase() || it.toLowerCase() ==~ /assembleNoTv/.toLowerCase()) {
+                if (it.toLowerCase() ==~ /assemble.*Release/.toLowerCase()) {
                     isReleaseBuild = true
                     return true // break
                 }
