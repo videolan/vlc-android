@@ -1,13 +1,18 @@
 package org.videolan.vlc.gui.onboarding
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.edit
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +30,7 @@ import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.hf.NotificationDelegate.Companion.getNotificationPermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.Permissions
+
 
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
@@ -92,11 +98,36 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         finish()
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1000) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                viewModel.permissionAlreadyAsked = true
+                onNext()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun askPermission() {
+
         lifecycleScope.launch {
             val onlyMedia = viewModel.permissionType == PermissionType.MEDIA
             viewModel.permissionAlreadyAsked = true
-            getStoragePermission(withDialog = false, onlyMedia = onlyMedia)
+            if (onlyMedia) {
+                ActivityCompat.requestPermissions(
+                    this@OnboardingActivity, arrayOf<String>(
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.READ_MEDIA_VIDEO
+                    ), 1000
+                )
+                return@launch
+            } else getStoragePermission(withDialog = false, onlyMedia = false)
             onNext()
         }
     }
@@ -115,7 +146,16 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     override fun onNext() {
         when(viewModel.currentFragment) {
             FragmentName.WELCOME -> if (Permissions.canReadStorage(this)) showFragment(FragmentName.SCAN) else showFragment(FragmentName.ASK_PERMISSION)
-            FragmentName.ASK_PERMISSION -> if(viewModel.permissionType != PermissionType.NONE && !viewModel.permissionAlreadyAsked) askPermission() else showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION)
+            FragmentName.ASK_PERMISSION -> {
+//                if (viewModel.permissionType == PermissionType.MEDIA && Permissions.isStoragePermissionIncomplete(
+//                        this
+//                    )
+//                ) askPermission()
+//                else
+                    if (viewModel.permissionType != PermissionType.NONE && !viewModel.permissionAlreadyAsked) askPermission() else showFragment(
+                    if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.NO_PERMISSION
+                )
+            }
             FragmentName.NO_PERMISSION -> showFragment(if (Permissions.canReadStorage(applicationContext)) FragmentName.SCAN else FragmentName.THEME)
             FragmentName.NOTIFICATION_PERMISSION -> if(!Permissions.canSendNotifications(applicationContext) && !viewModel.notificationPermissionAlreadyAsked) askNotificationPermission() else showFragment(FragmentName.THEME)
             FragmentName.SCAN -> if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S && !Permissions.canSendNotifications(applicationContext)) showFragment(FragmentName.NOTIFICATION_PERMISSION) else showFragment(FragmentName.THEME)
