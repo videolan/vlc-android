@@ -15,6 +15,7 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
     override fun canSortByInsertionDate() = true
     override fun canSortByLastModified() = true
     override fun canSortByMediaNumber() = true
+    override val isVideoPermDependant = true
 
     override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, onlyFavorites, getTotalCount(), 0)
 

@@ -36,6 +36,7 @@ class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Cont
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = folder == null
     override fun canSortByInsertionDate() = group == null
+    override val isVideoPermDependant = true
 
     override fun getTotalCount() = if (model.filterQuery == null) when {
         folder !== null -> folder.mediaCount(Folder.TYPE_FOLDER_VIDEO)

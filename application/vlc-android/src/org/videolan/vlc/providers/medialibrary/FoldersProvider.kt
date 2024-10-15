@@ -26,6 +26,9 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 class FoldersProvider(context: Context, model: SortableModel, val type: Int) : MedialibraryProvider<Folder>(context, model) {
+
+    override val isVideoPermDependant = true
+
     override fun getAll() : Array<Folder> = medialibrary.getFolders(type, sort, desc, Settings.includeMissing, onlyFavorites, getTotalCount(), 0)
 
     override fun getTotalCount() = if (model.filterQuery.isNullOrEmpty()) medialibrary.getFoldersCount(type) else medialibrary.getFoldersCount(model.filterQuery)

@@ -28,6 +28,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 class ArtistsProvider(context: Context, model: SortableModel, var showAll: Boolean) : MedialibraryProvider<Artist>(context, model) {
+    override val isAudioPermDependant = true
 
     override fun getAll() : Array<Artist> = medialibrary.getArtists(showAll, sort, desc, Settings.includeMissing, onlyFavorites)
 

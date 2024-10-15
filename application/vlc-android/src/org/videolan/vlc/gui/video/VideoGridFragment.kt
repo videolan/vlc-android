@@ -25,6 +25,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -147,6 +148,15 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         lifecycleScope.launch {
             waitForML()
             viewModel.provider.pagedList.observe(this@VideoGridFragment) {
+//                if (!Permissions.canReadVideos(AppContextProvider.appContext)) {
+//                    if (viewModel.provider.isEmpty())
+//                        viewModel.provider.clear()
+//                    else
+//                        lifecycleScope.launch(Dispatchers.Main) {
+//                            updateEmptyView()
+//                        }
+//                    return@observe
+//                }
                 @Suppress("UNCHECKED_CAST")
                 (it as? PagedList<MediaLibraryItem>)?.let { pagedList -> videoListAdapter.submitList(pagedList) }
                 updateEmptyView()

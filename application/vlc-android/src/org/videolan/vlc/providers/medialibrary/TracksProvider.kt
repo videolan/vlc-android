@@ -40,6 +40,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun canSortByName() = parent !is Playlist
     override fun canSortByFileNameName() = parent !is Playlist
     override fun canSortByTrackId() = parent is Album
+    override val isAudioPermDependant = true
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_DEFAULT)
