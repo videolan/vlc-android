@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
+import org.videolan.vlc.util.Permissions
 
 class EmptyLoadingStateView : FrameLayout {
 
@@ -158,14 +159,14 @@ class EmptyLoadingStateView : FrameLayout {
                 EmptyLoadingState.MISSING_AUDIO_PERMISSION -> ActivityCompat.requestPermissions(
                     context as Activity, arrayOf(
                         Manifest.permission.READ_MEDIA_AUDIO
-                    ), 1000
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                 )
 
                 EmptyLoadingState.MISSING_VIDEO_PERMISSION -> ActivityCompat.requestPermissions(
                     context as Activity, arrayOf(
                         Manifest.permission.READ_MEDIA_VIDEO,
                         Manifest.permission.READ_MEDIA_IMAGES
-                    ), 1000
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                 )
 
                 else -> (context as? FragmentActivity)?.askStoragePermission(false, null)

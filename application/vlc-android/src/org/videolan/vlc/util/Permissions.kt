@@ -64,6 +64,8 @@ object Permissions {
     const val PERMISSION_WRITE_STORAGE_TAG = 253
     const val MANAGE_EXTERNAL_STORAGE = 256
 
+    const val FINE_STORAGE_PERMISSION_REQUEST_CODE = 100001
+
 
     const val PERMISSION_SYSTEM_RINGTONE = 42
     private const val PERMISSION_SYSTEM_BRIGHTNESS = 43

@@ -104,7 +104,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1000) {
+        if (requestCode == Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 viewModel.permissionAlreadyAsked = true
                 onNext()
@@ -124,7 +124,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
                         Manifest.permission.READ_MEDIA_AUDIO,
                         Manifest.permission.READ_MEDIA_IMAGES,
                         Manifest.permission.READ_MEDIA_VIDEO
-                    ), 1000
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                 )
                 return@launch
             } else getStoragePermission(withDialog = false, onlyMedia = false)
