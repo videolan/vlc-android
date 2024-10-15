@@ -839,6 +839,8 @@
     <string name="welcome_title">Welcome to VLC!</string>
     <string name="welcome_subtitle">The free and open source multimedia player</string>
     <string name="permission_media">VLC needs your permission to access media on your device</string>
+    <string name="permission_video">VLC needs your permission to access video media on your device</string>
+    <string name="permission_audio">VLC needs your permission to access audio media on your device</string>
     <string name="medialibrary_scan_explanation">VLC can automatically scan your device to organize your media collection.</string>
     <string name="onboarding_theme_title">Make yourself at home</string>
     <string name="done">Done</string>

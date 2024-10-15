@@ -349,6 +349,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.emptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: if (viewModel.provider.onlyFavorites) getString(R.string.nofav) else getString(R.string.nomedia)
         binding.emptyLoading.state = when {
             !Permissions.canReadStorage(AppContextProvider.appContext) && empty -> EmptyLoadingState.MISSING_PERMISSION
+            !Permissions.canReadVideos(AppContextProvider.appContext) && empty -> EmptyLoadingState.MISSING_VIDEO_PERMISSION
             empty && working -> EmptyLoadingState.LOADING
             empty && !working && viewModel.provider.onlyFavorites -> EmptyLoadingState.EMPTY_FAVORITES
             empty && !working && viewModel.filterQuery == null -> EmptyLoadingState.EMPTY

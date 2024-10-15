@@ -108,6 +108,23 @@ object Permissions {
                 ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
     }
 
+    fun canReadVideos(context: Context): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isExternalStorageManager() ||
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_MEDIA_VIDEO
+                ) == PackageManager.PERMISSION_GRANTED
+
+    }
+    fun canReadAudios(context: Context): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isExternalStorageManager() ||
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_MEDIA_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun isAnyFileFinePermissionGranted(context: Context) = (
             ContextCompat.checkSelfPermission(

@@ -46,6 +46,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.util.waitForML
@@ -359,6 +360,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         binding.audioEmptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: if (viewModel.providers[currentTab].onlyFavorites) getString(R.string.nofav) else getString(R.string.nomedia)
         binding.audioEmptyLoading.state = when {
             !Permissions.canReadStorage(requireActivity()) && empty -> EmptyLoadingState.MISSING_PERMISSION
+            !Permissions.canReadAudios(AppContextProvider.appContext) && empty -> EmptyLoadingState.MISSING_AUDIO_PERMISSION
             viewModel.providers[currentTab].loading.value == true && empty -> EmptyLoadingState.LOADING
             emptyAt(currentTab) && viewModel.filterQuery?.isNotEmpty() == true -> EmptyLoadingState.EMPTY_SEARCH
             emptyAt(currentTab) && viewModel.providers[currentTab].onlyFavorites -> EmptyLoadingState.EMPTY_FAVORITES
