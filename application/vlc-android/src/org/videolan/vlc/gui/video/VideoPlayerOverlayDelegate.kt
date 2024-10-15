@@ -956,11 +956,16 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.swipeToUnlock.setVisible()
             //make sure the title and unlock views are not conflicting with the cutout / gestures
             (playerUiContainer.layoutParams as? FrameLayout.LayoutParams)?.let {
-                it.topMargin =
-                    player.window.decorView.rootWindowInsets.displayCutout?.safeInsetTop ?: 0
-                it.bottomMargin =
-                    (player.window.decorView.rootWindowInsets.displayCutout?.safeInsetBottom
-                        ?: 0) + 24.dp
+                if (AndroidUtil.isPOrLater) {
+                    it.topMargin =
+                        player.window.decorView.rootWindowInsets.displayCutout?.safeInsetTop ?: 0
+                    it.bottomMargin =
+                        (player.window.decorView.rootWindowInsets.displayCutout?.safeInsetBottom
+                            ?: 0) + 24.dp
+                } else {
+                    it.topMargin = 0
+                    it.bottomMargin = 24.dp
+                }
             }
 
         }
