@@ -84,6 +84,9 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
 
     fun removePopup() {
         service.isInPiPMode.removeObserver(observer)
+        // If the popup is killed from the x button, isInPiPMode will still be true
+        // and when reopening the app will restart the video player
+        service.isInPiPMode.value = false
         hideNotification()
         val view = rootView ?: return
         service.removeCallback(this)

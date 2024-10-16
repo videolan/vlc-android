@@ -959,7 +959,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         cleanUI()
         stopPlayback()
         service?.playlistManager?.videoStatsOn?.postValue(false)
-        if (isInteractive)
+        val isPlayingPopup = service?.isPlayingPopup ?: false
+        if (isInteractive && !isPlayingPopup)
             service?.isInPiPMode?.value = false
 
         if (savedTime != -1L) settings.putSingle(VIDEO_RESUME_TIME, savedTime)
