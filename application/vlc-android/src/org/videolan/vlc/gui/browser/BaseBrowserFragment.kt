@@ -198,17 +198,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         isRootDirectory = defineIsRoot()
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
-        lifecycleScope.launch(Dispatchers.Main) {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                needRefresh.observe(this@BaseBrowserFragment) {
-
-                    if (it) {
-                        viewModel.refreshMW()
-                        needRefresh.postValue(false)
-                    }
-                }
-            }
-        }
     }
 
     private fun manageDisplay() {
@@ -288,6 +277,17 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
 
         inCards = Settings.getInstance(requireActivity()).getBoolean(BROWSER_DISPLAY_IN_CARDS, false)
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                needRefresh.observe(viewLifecycleOwner) {
+
+                    if (it) {
+                        viewModel.refreshMW()
+                        needRefresh.postValue(false)
+                    }
+                }
+            }
+        }
     }
 
     override fun onDisplaySettingChanged(key: String, value: Any) {
