@@ -64,9 +64,12 @@ class RemoteAccessOnboardingContentFragment : RemoteAccessOnboardingFragment() {
         animationLoop.playSequentially(appearingSets.toMutableList() as List<Animator>?)
         animationLoop.doOnEnd {
             lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    delay(2000)
-                    animationLoop.start()
+                try {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        delay(2000)
+                        animationLoop.start()
+                    }
+                } catch (_: IllegalStateException) {
                 }
             }
         }
