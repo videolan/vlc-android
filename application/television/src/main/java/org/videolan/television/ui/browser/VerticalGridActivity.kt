@@ -23,6 +23,7 @@ package org.videolan.television.ui.browser
 import android.annotation.TargetApi
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ import org.videolan.television.databinding.TvVerticalGridBinding
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.browser.interfaces.BrowserActivityInterface
 import org.videolan.television.ui.browser.interfaces.DetailsFragment
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
@@ -84,6 +86,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 finish()
                 return
             }
+            if (!::fragment.isInitialized && BuildConfig.BETA) Log.i("VerticalGridActivity", "Fragment not initialized: $type")
             supportFragmentManager.beginTransaction()
                     .add(R.id.tv_fragment_placeholder, fragment as Fragment)
                     .commit()
