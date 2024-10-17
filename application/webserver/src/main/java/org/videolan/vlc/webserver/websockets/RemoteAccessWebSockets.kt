@@ -379,7 +379,10 @@ object RemoteAccessWebSockets {
     private fun addToQueue(wsMessage: RemoteAccessServer.WSMessage) {
         val typesDuplicates = arrayOf("now-playing", "play-queue", "auth", "volume", "player-status", "login-needed", "ml-refresh-needed", "playback-control-forbidden")
         if (wsMessage.type in typesDuplicates) {
-            messageQueue.removeIf { it.type == wsMessage.type }
+            try {
+                messageQueue.removeIf { it.type == wsMessage.type }
+            } catch (_: ConcurrentModificationException) {
+            }
         }
         messageQueue.add(wsMessage)
     }
