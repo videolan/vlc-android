@@ -101,6 +101,19 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
 
     private fun updateStorageState() {
 
+        //Notification
+
+        binding.notificationPermissionCheck.setImageDrawable(ContextCompat.getDrawable(requireActivity(), if (Permissions.canSendNotifications(requireActivity())) R.drawable.ic_permission_check_checked else R.drawable.ic_permission_check_unchecked))
+        binding.notificationPermissionContainer.setOnClickListener {
+            if (Permissions.canSendNotifications(requireActivity())) {
+                Permissions.showAppSettingsPage(requireActivity())
+            } else ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(
+                    Manifest.permission.POST_NOTIFICATIONS
+                ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+            )
+        }
+
 
         // radio states
         arrayOf(

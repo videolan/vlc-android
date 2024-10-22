@@ -49,17 +49,63 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:id="@+id/textView37"
+                    android:id="@+id/textView38"
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="@string/manage_storage_permission"
+                    android:text="@string/notification_permission"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/permission_title" />
+
+            <LinearLayout
+                    android:id="@+id/notification_permission_container"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView38">
+
+                <ImageView
+                        android:id="@+id/notification_permission_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_permission_check_checked" />
+
+                <TextView
+                        android:id="@+id/textView39"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/notification_permission"
+                        android:textColor="?attr/font_default"
+                        android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/textView37"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/manage_storage_permission"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_permission_container" />
 
             <TextView
                     android:id="@+id/file_access_explanation"
@@ -107,10 +153,11 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     android:enabled="true"
-                    android:paddingStart="16dp"
+                    android:paddingStart="24dp"
                     android:text="@string/permission_no_access"
                     android:textColor="?attr/font_default"
                     android:textSize="16sp"
@@ -127,7 +174,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     android:enabled="true"
-                    android:paddingStart="16dp"
+                    android:paddingStart="24dp"
                     android:text="@string/permission_media_title"
                     android:textColor="?attr/font_default"
                     android:textSize="16sp"
@@ -172,7 +219,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     android:enabled="true"
-                    android:paddingStart="16dp"
+                    android:paddingStart="24dp"
                     android:text="@string/permission_all_title"
                     android:textColor="?attr/font_default"
                     android:textSize="16sp"
