@@ -1113,6 +1113,14 @@
     <string name="notification_permission">Notification permission</string>
     <string name="notification_permission_explanation">VLC needs your permission to send notifications.\nThe app will only notify you when scanning your media or using the custom video Picture in Picture.\nRefusing it won\'t prevent VLC to work, however the notifications will be hidden.</string>
     <string name="permission">Permission</string>
+    <string name="permission_no_access">No file access</string>
+    <string name="permissions">Permissions</string>
+    <string name="permissions_summary">List of all the permissions</string>
+    <string name="manage_storage_permission">File permissions</string>
+    <string name="permission_media_title">Access to standard media</string>
+    <string name="permission_all_title">All file access</string>
+    <string name="permission_all_warning">To enable this, you have to disable the standard media file access first</string>
+    <string name="permission_media_warning">To enable this, you have to disable the full file permission first</string>
     <string name="customize">Customize</string>
     <string name="selection_count">%d selected</string>
     <string name="control_setting">Control settings</string>

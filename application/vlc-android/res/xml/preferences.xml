@@ -50,6 +50,12 @@
                 android:summary="%s"
                 android:title="@string/metered_connection"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/permissions">
+        <PreferenceScreen
+                android:key="permissions"
+                android:summary="@string/permissions_summary"
+                android:title="@string/permissions"/>
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/history">
         <CheckBoxPreference

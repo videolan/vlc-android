@@ -77,6 +77,7 @@
         <item name="primary_focus">@color/orange_800_transparent_20</item>
         <item name="swipe_refresh_background">?attr/background_default</item>
         <item name="dialogButtonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog</item>
+        <item name="permission_explanation_background">@color/grey200</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
@@ -269,6 +270,7 @@
         <item name="primary_focus">@color/orange_500_transparent_20</item>
         <item name="swipe_refresh_background">?attr/background_default_darker</item>
         <item name="dialogButtonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog</item>
+        <item name="permission_explanation_background">@color/grey800</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>

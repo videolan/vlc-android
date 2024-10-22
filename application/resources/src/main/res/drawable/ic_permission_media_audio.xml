@@ -1,0 +1,56 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_permission_media_audio.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+  <path
+      android:pathData="M16,16m-14,0a14,14 0,1 1,28 0a14,14 0,1 1,-28 0"
+      android:strokeWidth="0.294741"
+      android:fillColor="@color/grey600"/>
+  <path
+      android:pathData="M25,25m-6,0a6,6 135,1 1,12 0a6,6 135,1 1,-12 0"
+      android:strokeWidth="0.141"
+          android:fillColor="?attr/colorPrimary"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+  <path
+      android:pathData="m24.143,27.572 l4.723,-4.723 -0.606,-0.606 -4.117,4.117 -1.818,-1.818 -0.606,0.606z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2.492"
+      android:fillColor="@color/white"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M18.134,6.25C16.95,6.268 16,7.233 16,8.417v2.167,7.081c-0.659,-0.38 -1.406,-0.581 -2.167,-0.581 -2.393,0 -4.333,1.94 -4.333,4.333 0,2.393 1.94,4.333 4.333,4.333 2.393,0 4.333,-1.94 4.333,-4.333L18.167,10.583L20.366,10.583C21.55,10.565 22.5,9.601 22.5,8.417L22.5,6.25ZM13.801,19.25c0.011,-0 0.022,-0 0.033,0 1.197,0 2.167,0.97 2.167,2.167 0,1.197 -0.97,2.167 -2.167,2.167 -1.197,0 -2.167,-0.97 -2.167,-2.167 -0,-1.184 0.95,-2.149 2.134,-2.167z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2.12898"
+      android:fillColor="@color/white"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="butt"/>
+</vector>

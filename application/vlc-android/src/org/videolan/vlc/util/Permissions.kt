@@ -127,6 +127,36 @@ object Permissions {
 
     }
 
+    fun hasAudioPermission(context: Context) = (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+            )
+    fun hasVideoPermission(context: Context) = (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_VIDEO
+            ) == PackageManager.PERMISSION_GRANTED
+            )
+
+    fun hasAnyFileFineAccess(context: Context) = (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+            ||
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_VIDEO
+            ) == PackageManager.PERMISSION_GRANTED
+            ||
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun isAnyFileFinePermissionGranted(context: Context) = (
             ContextCompat.checkSelfPermission(

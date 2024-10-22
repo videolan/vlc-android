@@ -81,6 +81,7 @@
     <attr name="widget_preview_rounded_bg" format="reference" />
     <attr name="swipe_refresh_background" format="reference|color" />
     <attr name="dialogButtonStyle" format="reference" />
+    <attr name="permission_explanation_background" format="color" />
 
     <!--Main Icons-->
     <attr name="gridview_progressbar" format="reference" />
