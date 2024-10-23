@@ -12,18 +12,21 @@
     </string-array>
 
     <string-array name="language_entries">
+        <item>Afrikaans</item>
         <item>Albanian</item>
         <item>Arabic</item>
+        <item>Aragonese</item>
         <item>Armenian</item>
+        <item>Asturian</item>
         <item>Basque</item>
+        <item>Belarusian</item>
         <item>Bengali</item>
         <item>Bosnian</item>
         <item>Breton</item>
         <item>Bulgarian</item>
         <item>Burmese</item>
         <item>Catalan</item>
-        <item>Chinese</item>
-        <item>Croatian</item>
+        <item>Chinese (simplified)</item>
         <item>Czech</item>
         <item>Danish</item>
         <item>Dutch</item>
@@ -32,12 +35,13 @@
         <item>Estonian</item>
         <item>Finnish</item>
         <item>French</item>
-        <item>Galician</item>
         <item>Georgian</item>
         <item>German</item>
+        <item>Galician</item>
         <item>Greek</item>
         <item>Hebrew</item>
         <item>Hindi</item>
+        <item>Croatian</item>
         <item>Hungarian</item>
         <item>Icelandic</item>
         <item>Indonesian</item>
@@ -50,16 +54,15 @@
         <item>Lithuanian</item>
         <item>Luxembourgish</item>
         <item>Macedonian</item>
-        <item>Malay</item>
         <item>Malayalam</item>
+        <item>Malay</item>
+        <item>Manipuri</item>
         <item>Mongolian</item>
         <item>Norwegian</item>
         <item>Occitan</item>
         <item>Persian</item>
         <item>Polish</item>
         <item>Portuguese</item>
-        <item>Brazilian Portuguese</item>
-        <item>Romanian</item>
         <item>Russian</item>
         <item>Serbian</item>
         <item>Sinhalese</item>
@@ -69,82 +72,97 @@
         <item>Swahili</item>
         <item>Swedish</item>
         <item>Syriac</item>
-        <item>Tagalog</item>
         <item>Tamil</item>
         <item>Telugu</item>
+        <item>Tagalog</item>
         <item>Thai</item>
         <item>Turkish</item>
         <item>Ukrainian</item>
         <item>Urdu</item>
+        <item>Uzbek</item>
         <item>Vietnamese</item>
+        <item>Romanian</item>
+        <item>Portuguese (Brazilian)</item>
+        <item>Montenegrin</item>
+        <item>Chinese (traditional)</item>
+        <item>Chinese bilingual</item>
     </string-array>
 
     <string-array name="language_values">
-        <item>alb</item>
-        <item>ara</item>
-        <item>arm</item>
-        <item>baq</item>
-        <item>ben</item>
-        <item>bos</item>
-        <item>bre</item>
-        <item>bul</item>
-        <item>bur</item>
-        <item>cat</item>
-        <item>chi</item>
-        <item>hrv</item>
-        <item>cze</item>
-        <item>dan</item>
-        <item>dut</item>
-        <item>eng</item>
-        <item>epo</item>
-        <item>est</item>
-        <item>fin</item>
-        <item>fre</item>
-        <item>glg</item>
-        <item>geo</item>
-        <item>ger</item>
-        <item>ell</item>
-        <item>heb</item>
-        <item>hin</item>
-        <item>hun</item>
-        <item>ice</item>
-        <item>ind</item>
-        <item>ita</item>
-        <item>jpn</item>
-        <item>kaz</item>
-        <item>khm</item>
-        <item>kor</item>
-        <item>lav</item>
-        <item>lit</item>
-        <item>ltz</item>
-        <item>mac</item>
-        <item>may</item>
-        <item>mal</item>
-        <item>mon</item>
-        <item>nor</item>
-        <item>oci</item>
-        <item>per</item>
-        <item>pol</item>
-        <item>por</item>
-        <item>pob</item>
-        <item>rum</item>
-        <item>rus</item>
-        <item>scc</item>
-        <item>sin</item>
-        <item>slo</item>
-        <item>slv</item>
-        <item>spa</item>
-        <item>swa</item>
-        <item>swe</item>
-        <item>syr</item>
-        <item>tgl</item>
-        <item>tam</item>
-        <item>tel</item>
-        <item>tha</item>
-        <item>tur</item>
-        <item>ukr</item>
-        <item>urd</item>
-        <item>vie</item>
+        <item>af</item>
+        <item>sq</item>
+        <item>ar</item>
+        <item>an</item>
+        <item>hy</item>
+        <item>at</item>
+        <item>eu</item>
+        <item>be</item>
+        <item>bn</item>
+        <item>bs</item>
+        <item>br</item>
+        <item>bg</item>
+        <item>my</item>
+        <item>ca</item>
+        <item>zh-cn</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>nl</item>
+        <item>en</item>
+        <item>eo</item>
+        <item>et</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>ka</item>
+        <item>de</item>
+        <item>gl</item>
+        <item>el</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hr</item>
+        <item>hu</item>
+        <item>is</item>
+        <item>id</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>kk</item>
+        <item>km</item>
+        <item>ko</item>
+        <item>lv</item>
+        <item>lt</item>
+        <item>lb</item>
+        <item>mk</item>
+        <item>ml</item>
+        <item>ms</item>
+        <item>ma</item>
+        <item>mn</item>
+        <item>no</item>
+        <item>oc</item>
+        <item>fa</item>
+        <item>pl</item>
+        <item>pt-pt</item>
+        <item>ru</item>
+        <item>sr</item>
+        <item>si</item>
+        <item>sk</item>
+        <item>sl</item>
+        <item>es</item>
+        <item>sw</item>
+        <item>sv</item>
+        <item>sy</item>
+        <item>ta</item>
+        <item>te</item>
+        <item>tl</item>
+        <item>th</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>ur</item>
+        <item>uz</item>
+        <item>vi</item>
+        <item>ro</item>
+        <item>pt-br</item>
+        <item>me</item>
+        <item>zh-tw</item>
+        <item>ze</item>
     </string-array>
 
     <string-array name="subtitles_size_entries">

@@ -14,7 +14,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.resources.opensubtitles.Data
+import org.videolan.resources.opensubtitles.OpenSubV1
 import org.videolan.resources.opensubtitles.OpenSubtitle
+import org.videolan.resources.opensubtitles.OpenSubtitleClient
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.NoConnectivityException
 import org.videolan.tools.CoroutineContextProvider
@@ -44,7 +47,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableError = ObservableField<Boolean>()
     val observableResultDescription = ObservableField<Spanned>()
 
-    private val apiResultLiveData: MutableLiveData<List<OpenSubtitle>> = MutableLiveData()
+    private val apiResultLiveData: MutableLiveData<List<Data>> = MutableLiveData()
     private val downloadedLiveData = ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri).map { list ->
         list.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "") }
     }
@@ -100,17 +103,18 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         downloadedResult.orEmpty() + downloadingResult?.toList().orEmpty()
     }
 
-    private suspend fun updateListState(apiResultLiveData: List<OpenSubtitle>?, history: List<SubtitleItem>?): MutableList<SubtitleItem> = withContext(coroutineContextProvider.Default) {
+    private suspend fun updateListState(apiResultLiveData: List<Data>?, history: List<SubtitleItem>?): MutableList<SubtitleItem> = withContext(coroutineContextProvider.Default) {
         val list = mutableListOf<SubtitleItem>()
         apiResultLiveData?.forEach { openSubtitle ->
-            val exist = history?.find { it.idSubtitle == openSubtitle.idSubtitle }
+            val exist = history?.find { it.idSubtitle == openSubtitle.attributes.subtitleId }
             val state = exist?.state ?: State.NotDownloaded
-            list.add(SubtitleItem(openSubtitle.idSubtitle, mediaUri, openSubtitle.subLanguageID, openSubtitle.movieReleaseName, state, openSubtitle.zipDownloadLink))
+            if (openSubtitle.attributes.files.isNotEmpty())
+            list.add(SubtitleItem(openSubtitle.attributes.subtitleId, mediaUri, openSubtitle.attributes.language, openSubtitle.attributes.featureDetails.movieName, state, OpenSubtitleClient.getDownloadLink(openSubtitle.attributes.files.first().fileId)))
         }
         list
     }
 
-    private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): List<OpenSubtitle> {
+    private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): OpenSubV1 {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by name with $name")
         val builder = StringBuilder(context.getString(R.string.sub_result_by_name, "<i>$name</i>"))
         season?.let { builder.append(" - ").append(context.getString(R.string.sub_result_by_name_season, "<i>$it</i>")) }
@@ -120,7 +124,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         return OpenSubtitleRepository.getInstance().queryWithName(name, episode, season, languageIds)
     }
 
-    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): List<OpenSubtitle> {
+    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): OpenSubV1 {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by hash with $movieHash")
         manualSearchEnabled.set(false)
         observableResultDescription.set(context.getString(R.string.sub_result_by_file).toSpanned())
@@ -151,17 +155,17 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                         if (videoFile.exists()) {
                             val hash = FileUtils.computeHash(videoFile)
                             val fileLength = videoFile.length()
-                            val hashSubs = getSubtitleByHash(fileLength, hash, observableSearchLanguage.get())
+                            val hashSubs = getSubtitleByHash(fileLength, hash, observableSearchLanguage.get()).data
                             // No result for hash. Falling back to name search
-                            if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get()) else hashSubs
+                            if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get()).data else hashSubs
                         } else {
-                            getSubtitleByName(name, null, null, observableSearchLanguage.get())
+                            getSubtitleByName(name, null, null, observableSearchLanguage.get()).data
                         }
 
                     }
                 } else {
                     observableSearchName.get()?.let {
-                        getSubtitleByName(it, observableSearchEpisode.get()?.toInt(), observableSearchSeason.get()?.toInt(), observableSearchLanguage.get())
+                        getSubtitleByName(it, observableSearchEpisode.get()?.toInt(), observableSearchSeason.get()?.toInt(), observableSearchLanguage.get()).data
                     } ?: listOf()
                 }
                 if (isActive) apiResultLiveData.postValue(subs)
