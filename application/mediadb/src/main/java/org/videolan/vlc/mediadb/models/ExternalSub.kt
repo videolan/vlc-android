@@ -28,5 +28,6 @@ data class ExternalSub (
     val subtitlePath: String,
     val mediaPath: String,
     val subLanguageID: String,
-    val movieReleaseName: String
+    val movieReleaseName: String,
+    val hearingImpaired: Boolean
 )

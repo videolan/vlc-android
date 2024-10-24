@@ -10,23 +10,35 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
     */
 
 
-    suspend fun queryWithHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): OpenSubV1 {
-        val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
+    suspend fun queryWithHash(
+        movieByteSize: Long,
+        movieHash: String?,
+        languageIds: List<String>?,
+        hearingImpaired: Boolean
+    ): OpenSubV1 {
+        val actualLanguageIds =
+            languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this }
+                ?: setOf("")
         return openSubtitleService.query(
 //                    movieByteSize = movieByteSize.toString(),
-                    movieHash = movieHash ?: "",
-                    languageId = actualLanguageIds.joinToString(","))
+            movieHash = movieHash ?: "",
+            languageId = actualLanguageIds.sorted().joinToString(","),
+            hearingImpaired = if (hearingImpaired) "only" else "include"
+        )
     }
 
-    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): OpenSubV1 {
+    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
         val actualEpisode = episode ?: 0
         val actualSeason = season ?: 0
         val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         return openSubtitleService.query(
-                    name = name,
-                    episode = actualEpisode,
-                    season = actualSeason,
-                    languageId = actualLanguageIds.joinToString(","))
+            name = name,
+            episode = actualEpisode,
+            season = actualSeason,
+            languageId = actualLanguageIds.sorted().joinToString(","),
+            hearingImpaired = if (hearingImpaired) "only" else "include"
+        )
+
     }
 
     companion object {

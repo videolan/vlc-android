@@ -18,13 +18,15 @@ interface IOpenSubtitleService {
 
 
     @GET("subtitles")
-    suspend fun query( @Query("languages") languageId: String = "",
-                       @Query("movieHash") movieHash: String? = null,
-                       @Query("query") name: String? = null,
-                       @Query("imdb_id") imdbId: String? = null ,
-                       @Query("episode_number") episode: Int? = null,
-                       @Query("season_number") season: Int? = null,
-                       ): OpenSubV1
+    suspend fun query(
+        @Query("episode_number") episode: Int? = null,
+        @Query("hearing_impaired") hearingImpaired: String,
+        @Query("imdb_id") imdbId: String? = null,
+        @Query("languages") languageId: String = "",
+        @Query("moviehash") movieHash: String? = null,
+        @Query("query") name: String? = null,
+        @Query("season_number") season: Int? = null,
+    ): OpenSubV1
 
 }
 

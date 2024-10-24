@@ -17,9 +17,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:focusable="true"
             android:background="?attr/selectableItemBackground"
+            android:focusable="true"
+            android:minHeight="50dp"
             android:nextFocusRight="@+id/download_sub"
             android:nextFocusForward="@+id/download_sub">
 
@@ -34,16 +34,29 @@
                 android:text="@{subtitleItem.movieReleaseName.trim()}"
                 android:textColor="?attr/font_default"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/language"
+                app:layout_constraintEnd_toStartOf="@+id/imageView20"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Attack.on.Titan.S02E01.DUBBED.HDTV.x264-W4F" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:visibility="@{subtitleItem.hearingImpaired ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/sub_title"
+                app:layout_constraintStart_toEndOf="@+id/sub_title"
+                app:layout_constraintTop_toTopOf="@+id/sub_title"
+                app:srcCompat="@drawable/ic_hearing_impaired" />
+
         <TextView
                 android:id="@+id/language"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_vertical"
@@ -52,9 +65,9 @@
                 android:textColor="?attr/font_default"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/barrier"
+                app:layout_constraintEnd_toStartOf="@+id/download_sub"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/sub_title"
+                app:layout_constraintStart_toEndOf="@+id/imageView20"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="En" />
 
@@ -63,14 +76,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
                 android:importantForAccessibility="no"
                 android:padding="4dp"
                 android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_done : @drawable/ic_download_subtitles }"
                 android:visibility="@{subtitleItem.state == State.Downloading ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/language"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/ic_download_subtitles" />
 

@@ -976,6 +976,7 @@
     <string name="sub_result_by_name">Results for %s</string>
     <string name="sub_result_by_name_season">Season %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
+    <string name="sub_result_by_name_hearing_impaired">only hearing impaired</string>
 
     <string name="sub_result_by_file">Results for your file</string>
     <string name="donate">Help VLC</string>

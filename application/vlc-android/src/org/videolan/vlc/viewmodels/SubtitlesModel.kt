@@ -29,6 +29,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.repository.ExternalSubRepository
+import org.videolan.vlc.util.TextUtils
 import java.io.File
 import java.util.*
 
@@ -39,6 +40,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
     val observableSearchLanguage = ObservableField<List<String>>()
+    val observableSearchHearingImpaired = ObservableField<Boolean>()
     private var previousSearchLanguage: List<String>? = null
     val manualSearchEnabled = ObservableBoolean(false)
 
@@ -49,7 +51,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
 
     private val apiResultLiveData: MutableLiveData<List<Data>> = MutableLiveData()
     private val downloadedLiveData = ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri).map { list ->
-        list.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "") }
+        list.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "", it.hearingImpaired) }
     }
 
     private val downloadingLiveData = ExternalSubRepository.getInstance(context).downloadingSubtitles
@@ -109,26 +111,28 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
             val exist = history?.find { it.idSubtitle == openSubtitle.attributes.subtitleId }
             val state = exist?.state ?: State.NotDownloaded
             if (openSubtitle.attributes.files.isNotEmpty())
-            list.add(SubtitleItem(openSubtitle.attributes.subtitleId, mediaUri, openSubtitle.attributes.language, openSubtitle.attributes.featureDetails.movieName, state, OpenSubtitleClient.getDownloadLink(openSubtitle.attributes.files.first().fileId)))
+            list.add(SubtitleItem(openSubtitle.attributes.subtitleId, mediaUri, openSubtitle.attributes.language, openSubtitle.attributes.featureDetails.movieName, state, OpenSubtitleClient.getDownloadLink(openSubtitle.attributes.files.first().fileId), openSubtitle.attributes.hearingImpaired))
         }
         list
     }
 
-    private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): OpenSubV1 {
+    private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by name with $name")
         val builder = StringBuilder(context.getString(R.string.sub_result_by_name, "<i>$name</i>"))
-        season?.let { builder.append(" - ").append(context.getString(R.string.sub_result_by_name_season, "<i>$it</i>")) }
-        episode?.let { builder.append(" - ").append(context.getString(R.string.sub_result_by_name_episode, "<i>$it</i>")) }
+        season?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_season, "<i>$it</i>")) }
+        episode?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_episode, "<i>$it</i>")) }
+        languageIds?.let { if (languageIds.isNotEmpty()) builder.append(" ${TextUtils.SEPARATOR} ").append("<i>${it.joinToString(", ")}</i>") }
+        if (hearingImpaired) builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_hearing_impaired))
         observableResultDescription.set(Html.fromHtml(builder.toString()))
         manualSearchEnabled.set(true)
-        return OpenSubtitleRepository.getInstance().queryWithName(name, episode, season, languageIds)
+        return OpenSubtitleRepository.getInstance().queryWithName(name, episode, season, languageIds, hearingImpaired)
     }
 
-    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): OpenSubV1 {
+    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by hash with $movieHash")
         manualSearchEnabled.set(false)
         observableResultDescription.set(context.getString(R.string.sub_result_by_file).toSpanned())
-        return OpenSubtitleRepository.getInstance().queryWithHash(movieByteSize, movieHash, languageIds)
+        return OpenSubtitleRepository.getInstance().queryWithHash(movieByteSize, movieHash, languageIds, hearingImpaired)
     }
 
     fun onRefresh() {
@@ -155,17 +159,17 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                         if (videoFile.exists()) {
                             val hash = FileUtils.computeHash(videoFile)
                             val fileLength = videoFile.length()
-                            val hashSubs = getSubtitleByHash(fileLength, hash, observableSearchLanguage.get()).data
+                            val hashSubs = getSubtitleByHash(fileLength, hash, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
                             // No result for hash. Falling back to name search
-                            if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get()).data else hashSubs
+                            if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data else hashSubs
                         } else {
-                            getSubtitleByName(name, null, null, observableSearchLanguage.get()).data
+                            getSubtitleByName(name, null, null, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
                         }
 
                     }
                 } else {
                     observableSearchName.get()?.let {
-                        getSubtitleByName(it, observableSearchEpisode.get()?.toInt(), observableSearchSeason.get()?.toInt(), observableSearchLanguage.get()).data
+                        getSubtitleByName(it, observableSearchEpisode.get()?.toInt(), observableSearchSeason.get()?.toInt(), observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
                     } ?: listOf()
                 }
                 if (isActive) apiResultLiveData.postValue(subs)

@@ -88,7 +88,8 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
                         it,
                         mediaUri.path!!,
                         subLanguageID,
-                        movieReleaseName
+                        movieReleaseName,
+                        hearingImpaired
                     )
                 }
                 else

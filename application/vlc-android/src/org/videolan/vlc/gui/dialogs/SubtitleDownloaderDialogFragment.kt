@@ -152,6 +152,8 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
         })
+        //todo
+        viewModel.observableSearchHearingImpaired.set(true)
 
         binding.retryButton.setOnClickListener {
             viewModel.onRefresh()

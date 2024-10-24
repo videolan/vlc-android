@@ -8,7 +8,8 @@ data class SubtitleItem (
         val subLanguageID: String,
         val movieReleaseName: String,
         val state: State,
-        val zipDownloadLink: String
+        val zipDownloadLink: String,
+        val hearingImpaired: Boolean
 )
 
 enum class State {
