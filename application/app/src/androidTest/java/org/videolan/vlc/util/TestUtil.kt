@@ -25,8 +25,6 @@ import androidx.core.net.toUri
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.TYPE_NETWORK_FAV
-import org.videolan.resources.opensubtitles.OpenSubtitle
-import org.videolan.resources.opensubtitles.QueryParameters
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 
@@ -112,24 +110,4 @@ object TestUtil {
             movieReleaseName: String,
             zipDownloadLink: String): SubtitleItem = SubtitleItem(idSubtitle, mediaUri, subLanguageID, movieReleaseName, State.Downloading, zipDownloadLink)
 
-    fun createDownloadingSubtitleItem(
-            idSubtitle: String,
-            mediaPath: String,
-            subLanguageID: String,
-            movieReleaseName: String,
-            zipDownloadLink: String): SubtitleItem = createDownloadingSubtitleItem(idSubtitle, mediaPath.toUri(), subLanguageID, movieReleaseName, zipDownloadLink)
-
-    fun createOpenSubtitle(
-            idSubtitle: String,
-            subLanguageID: String,
-            movieReleaseName: String,
-            zipDownloadLink: String) = OpenSubtitle(
-                idSubtitle = idSubtitle, subLanguageID = subLanguageID, movieReleaseName = movieReleaseName, zipDownloadLink = zipDownloadLink,
-                idMovie = "", idMovieImdb = "", idSubMovieFile = "", idSubtitleFile = "", infoFormat = "", infoOther = "", infoReleaseGroup = "",
-                userID = "", iSO639 = "", movieFPS = "", languageName = "", subActualCD = "", subSumVotes = "", subAuthorComment = "", subComments = "",
-                score = 0.0, seriesEpisode = "", seriesIMDBParent = "", seriesSeason = "", subAddDate = "", subAutoTranslation = "", subBad = "", subDownloadLink = "",
-                subDownloadsCnt = "", subEncoding = "", subFeatured = "", subFileName = "", subForeignPartsOnly = "", subFormat = "", subFromTrusted = "", subHash = "",
-                subHD = "", subHearingImpaired = "", subLastTS = "", subRating = "", subSize = "", subSumCD = "", subtitlesLink = "", subTranslator = "", subTSGroup = "",
-                subTSGroupHash = "", movieByteSize = "", movieHash = "", movieTimeMS = "", queryParameters = QueryParameters("", "", ""), queryNumber = "",
-                userNickName = "", userRank = "", matchedBy = "", movieImdbRating = "", movieKind = "", movieName = "", movieNameEng = "", movieYear = "")
 }

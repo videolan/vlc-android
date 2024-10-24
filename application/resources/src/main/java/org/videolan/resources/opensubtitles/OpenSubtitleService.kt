@@ -3,7 +3,6 @@ package org.videolan.resources.opensubtitles
 import android.util.Log
 import com.moczul.ok2curl.CurlInterceptor
 import com.moczul.ok2curl.logger.Logger
-import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request

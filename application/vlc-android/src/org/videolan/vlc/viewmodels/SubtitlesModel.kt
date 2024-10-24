@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.resources.opensubtitles.Data
 import org.videolan.resources.opensubtitles.OpenSubV1
-import org.videolan.resources.opensubtitles.OpenSubtitle
 import org.videolan.resources.opensubtitles.OpenSubtitleClient
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.NoConnectivityException

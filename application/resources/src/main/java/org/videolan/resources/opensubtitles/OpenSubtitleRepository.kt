@@ -20,7 +20,6 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
             languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this }
                 ?: setOf("")
         return openSubtitleService.query(
-//                    movieByteSize = movieByteSize.toString(),
             movieHash = movieHash ?: "",
             languageId = actualLanguageIds.sorted().joinToString(","),
             hearingImpaired = if (hearingImpaired) "only" else "include"
