@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.mediadb.models
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 @Entity(tableName = "external_subtitles_table", primaryKeys = ["mediaPath", "idSubtitle"])
@@ -29,5 +30,6 @@ data class ExternalSub (
     val mediaPath: String,
     val subLanguageID: String,
     val movieReleaseName: String,
+    @ColumnInfo(defaultValue = "0")
     val hearingImpaired: Boolean
 )
