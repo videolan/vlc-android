@@ -8,7 +8,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 object LocaleUtils {
-    fun getLocalesUsedInProject(projectLocales: Array<String>, defaultLocaleText: String): LocalePair {
+    fun getLocalesUsedInProject(
+        projectLocales: Array<String>,
+        defaultLocaleText: String
+    ): LocalePair {
 
         val localesEntry = arrayOfNulls<String>(projectLocales.size)
         for (i in projectLocales.indices) {
@@ -22,7 +25,8 @@ object LocaleUtils {
             if (displayCountry.isEmpty()) {
                 localesEntry[i] = displayLanguage.firstLetterUppercase()
             } else {
-                localesEntry[i] = "${displayLanguage.firstLetterUppercase()} - ${displayCountry.firstLetterUppercase()}"
+                localesEntry[i] =
+                    "${displayLanguage.firstLetterUppercase()} - ${displayCountry.firstLetterUppercase()}"
             }
         }
 
@@ -32,7 +36,8 @@ object LocaleUtils {
             localeTreeMap[localesEntry[i]!!] = projectLocales[i]
         }
 
-        val finalLocaleEntries = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, defaultLocaleText) }
+        val finalLocaleEntries =
+            ArrayList<String>(localeTreeMap.size + 1).apply { add(0, defaultLocaleText) }
         val finalLocaleEntryValues = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, "") }
 
         var i = 1
@@ -61,7 +66,8 @@ object LocaleUtils {
         for (separator in separators) {
             //see if there is a language and a country
             if (string.contains(separator)) {
-                val splittedLocale = string.split(separator.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val splittedLocale =
+                    string.split(separator.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 if (splittedLocale.size == 2) {
                     return Locale(splittedLocale[0], splittedLocale[1])
                 }

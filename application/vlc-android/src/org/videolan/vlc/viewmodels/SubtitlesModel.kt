@@ -21,6 +21,7 @@ import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.NoConnectivityException
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.FileUtils
+import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -47,6 +48,22 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableMessage = ObservableField<String>()
     val observableError = ObservableField<Boolean>()
     val observableResultDescription = ObservableField<Spanned>()
+    val oldLanguagesMigration by lazy {
+        val newLangCodes =  context.resources.getStringArray(R.array.language_values)
+        val oldLangCodes =  context.resources.getStringArray(R.array.old_language_values)
+        val newLangEntries =  context.resources.getStringArray(R.array.language_entries)
+        val oldLangEntries =  context.resources.getStringArray(R.array.old_language_entries)
+        val mapping = HashMap<String, String>()
+        for (i in oldLangCodes.indices) {
+            for (j in newLangCodes.indices) {
+                if (newLangEntries[j] == oldLangEntries[i]) {
+                    mapping[oldLangCodes[i]] = newLangCodes[j]
+                    break
+                }
+            }
+        }
+        mapping
+    }
 
     private val apiResultLiveData: MutableLiveData<List<Data>> = MutableLiveData()
     private val downloadedLiveData = ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri).map { list ->
@@ -197,11 +214,15 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
 
     fun getLastUsedLanguage(): List<String> {
         val language = try {
-            Locale.getDefault().isO3Language
+            Locale.getDefault().language
         } catch (e: MissingResourceException) {
-            "eng"
+            "en"
         }
-        return Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(language))?.map { it.getCompliantLanguageID() } ?: emptyList()
+        return Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(language))?.map { if (it.length > 2) migrateFromOld(it) ?: it else it } ?: emptyList()
+    }
+
+    private fun migrateFromOld(it: String?): String? {
+        return oldLanguagesMigration[it]
     }
 
     fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).putSingle(LAST_USED_LANGUAGES, lastUsedLanguages)
