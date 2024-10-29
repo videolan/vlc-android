@@ -1,5 +1,6 @@
 package org.videolan.resources.opensubtitles
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 data class QueryParameters(
         @field:Json(name = "query") val query: String,
@@ -7,136 +8,143 @@ data class QueryParameters(
         @field:Json(name = "season") val season: String
 )
 
+
 data class OpenSubV1(
         @field:Json(name = "data")
         val `data`: List<Data>,
         @field:Json(name = "page")
-        val page: Int,
+        val page: Int?,
         @field:Json(name = "per_page")
-        val perPage: Int,
+        val perPage: Int?,
         @field:Json(name = "total_count")
-        val totalCount: Int,
+        val totalCount: Int?,
         @field:Json(name = "total_pages")
-        val totalPages: Int
+        val totalPages: Int?
 )
+
 
 data class Data(
         @field:Json(name = "attributes")
         val attributes: Attributes,
         @field:Json(name = "id")
-        val id: String,
+        val id: String?,
         @field:Json(name = "type")
-        val type: String
+        val type: String?
 )
+
 
 data class Attributes(
         @field:Json(name = "ai_translated")
-        val aiTranslated: Boolean,
+        val aiTranslated: Boolean?,
         @field:Json(name = "comments")
-        val comments: String,
+        val comments: String?,
         @field:Json(name = "download_count")
-        val downloadCount: Long,
+        val downloadCount: Long = 0L,
         @field:Json(name = "feature_details")
         val featureDetails: FeatureDetails,
+        @field:Json(name = "file_hashes")
+        val fileHashes: List<String?>?,
         @field:Json(name = "files")
         val files: List<File>,
         @field:Json(name = "foreign_parts_only")
-        val foreignPartsOnly: Boolean,
+        val foreignPartsOnly: Boolean?,
         @field:Json(name = "fps")
-        val fps: Double,
+        val fps: Double?,
         @field:Json(name = "from_trusted")
-        val fromTrusted: Boolean,
+        val fromTrusted: Boolean?,
         @field:Json(name = "hd")
-        val hd: Boolean,
+        val hd: Boolean?,
         @field:Json(name = "hearing_impaired")
-        val hearingImpaired: Boolean,
+        val hearingImpaired: Boolean = false,
         @field:Json(name = "language")
         val language: String,
         @field:Json(name = "legacy_subtitle_id")
-        val legacySubtitleId: Int,
+        val legacySubtitleId: Int?,
         @field:Json(name = "legacy_uploader_id")
-        val legacyUploaderId: Int,
+        val legacyUploaderId: Int?,
         @field:Json(name = "machine_translated")
-        val machineTranslated: Boolean,
-        @field:Json(name = "moviehash_match")
-        val moviehashMatch: Boolean,
+        val machineTranslated: Boolean?,
         @field:Json(name = "nb_cd")
-        val nbCd: Int,
+        val nbCd: Int?,
         @field:Json(name = "new_download_count")
-        val newDownloadCount: Int,
+        val newDownloadCount: Int?,
         @field:Json(name = "ratings")
-        val ratings: Int,
+        val ratings: Int = 0,
         @field:Json(name = "related_links")
-        val relatedLinks: List<RelatedLink>,
+        val relatedLinks: List<RelatedLink?>?,
         @field:Json(name = "release")
-        val release: String,
+        val release: String?,
         @field:Json(name = "slug")
-        val slug: String,
+        val slug: String?,
         @field:Json(name = "subtitle_id")
         val subtitleId: String,
         @field:Json(name = "upload_date")
-        val uploadDate: String,
+        val uploadDate: String?,
         @field:Json(name = "uploader")
-        val uploader: Uploader,
+        val uploader: Uploader?,
         @field:Json(name = "url")
-        val url: String,
+        val url: String?,
         @field:Json(name = "votes")
-        val votes: Int
+        val votes: Int?
 )
+
 
 data class FeatureDetails(
         @field:Json(name = "episode_number")
-        val episodeNumber: Int,
+        val episodeNumber: Int?,
         @field:Json(name = "feature_id")
-        val featureId: Int,
+        val featureId: Int?,
         @field:Json(name = "feature_type")
-        val featureType: String,
+        val featureType: String?,
         @field:Json(name = "imdb_id")
-        val imdbId: Int,
+        val imdbId: Int?,
         @field:Json(name = "movie_name")
-        val movieName: String,
+        val movieName: String?,
         @field:Json(name = "parent_feature_id")
-        val parentFeatureId: Int,
+        val parentFeatureId: Int?,
         @field:Json(name = "parent_imdb_id")
-        val parentImdbId: Int,
+        val parentImdbId: Int?,
         @field:Json(name = "parent_title")
-        val parentTitle: String,
+        val parentTitle: String?,
         @field:Json(name = "parent_tmdb_id")
-        val parentTmdbId: Int,
+        val parentTmdbId: Int?,
         @field:Json(name = "season_number")
-        val seasonNumber: Int,
+        val seasonNumber: Int?,
         @field:Json(name = "title")
         val title: String,
         @field:Json(name = "tmdb_id")
-        val tmdbId: Int? = null,
+        val tmdbId: Int?,
         @field:Json(name = "year")
-        val year: Int
+        val year: Int?
 )
+
 
 data class File(
         @field:Json(name = "cd_number")
-        val cdNumber: Int,
+        val cdNumber: Int?,
         @field:Json(name = "file_id")
         val fileId: Int,
         @field:Json(name = "file_name")
         val fileName: String
 )
 
+
 data class RelatedLink(
         @field:Json(name = "img_url")
-        val imgUrl: String,
+        val imgUrl: String?,
         @field:Json(name = "label")
-        val label: String,
+        val label: String?,
         @field:Json(name = "url")
-        val url: String
+        val url: String?
 )
+
 
 data class Uploader(
         @field:Json(name = "name")
-        val name: String,
+        val name: String?,
         @field:Json(name = "rank")
-        val rank: String,
+        val rank: String?,
         @field:Json(name = "uploader_id")
-        val uploaderId: Int? = null
+        val uploaderId: Int?
 )
 

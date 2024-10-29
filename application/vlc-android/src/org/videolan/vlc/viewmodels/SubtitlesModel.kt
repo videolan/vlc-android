@@ -132,7 +132,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                         openSubtitle.attributes.subtitleId,
                         mediaUri,
                         openSubtitle.attributes.language,
-                        openSubtitle.attributes.featureDetails.movieName,
+                        openSubtitle.attributes.featureDetails.title,
                         state,
                         OpenSubtitleClient.getDownloadLink(openSubtitle.attributes.files.first().fileId),
                         openSubtitle.attributes.hearingImpaired,
