@@ -422,7 +422,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         R.id.action_video_append -> MediaUtils.appendMedia(activity, list)
                         R.id.action_video_share -> requireActivity().share(list)
                         R.id.action_video_info -> showInfoDialog(list.first())
-                        R.id.action_video_download_subtitles -> MediaUtils.getSubs(requireActivity(), list)
                         R.id.action_video_play_audio -> {
                             for (media in list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                             MediaUtils.openList(activity, list, 0)

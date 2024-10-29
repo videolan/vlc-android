@@ -166,8 +166,44 @@ data class DownloadLink(
     val resetTimeUtc: String
 )
 
+@JsonClass(generateAdapter = true)
+data class LoginResult(
+    @Json(name = "base_url")
+    val baseUrl: String,
+    @Json(name = "status")
+    val status: Int,
+    @Json(name = "token")
+    val token: String,
+    @Json(name = "user")
+    val user: User
+)
+
+@JsonClass(generateAdapter = true)
+data class User(
+    @Json(name = "allowed_downloads")
+    val allowedDownloads: Int,
+    @Json(name = "allowed_translations")
+    val allowedTranslations: Int,
+    @Json(name = "ext_installed")
+    val extInstalled: Boolean,
+    @Json(name = "level")
+    val level: String,
+    @Json(name = "user_id")
+    val userId: Int,
+    @Json(name = "vip")
+    val vip: Boolean?
+)
+
+
 data class DownloadLinkBody(
     @field:Json(name = "file_id")
     val fileId: Long,
+)
+
+data class LoginBody(
+    @field:Json(name = "username")
+    val username: String,
+    @field:Json(name = "password")
+    val password: String
 )
 

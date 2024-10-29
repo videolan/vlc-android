@@ -24,6 +24,7 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
+import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableList
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
@@ -48,8 +49,8 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     private lateinit var downloadAdapter: SubtitlesAdapter
     private lateinit var historyAdapter: SubtitlesAdapter
     private lateinit var binding: SubtitleDownloaderDialogBinding
-    private lateinit var uris: List<Uri>
-    private lateinit var names: List<String>
+    private lateinit var uris: Uri
+    private lateinit var names: String
     private lateinit var viewModel: SubtitlesModel
     private lateinit var toast: Toast
 
@@ -96,13 +97,12 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        uris = savedInstanceState?.parcelableList<Uri>(MEDIA_PATHS)?.toList()
-                ?: arguments?.parcelableList<Uri>(MEDIA_PATHS)?.toList() ?: listOf()
-        names = savedInstanceState?.getStringArrayList(MEDIA_NAMES)?.toList()
-                ?: arguments?.getStringArrayList(MEDIA_NAMES)?.toList() ?: listOf()
+        uris = savedInstanceState?.parcelable<Uri>(MEDIA_PATHS)
+                ?: arguments?.parcelable<Uri>(MEDIA_PATHS) ?: throw IllegalStateException("Missing uri")
+        names = savedInstanceState?.getString(MEDIA_NAMES)
+                ?: arguments?.getString(MEDIA_NAMES) ?: throw IllegalStateException("Missing name")
 
-        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0], names[0]))[uris[0].path!!, SubtitlesModel::class.java]
-        if (uris.isEmpty()) dismiss()
+        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris, names))[uris.path!!, SubtitlesModel::class.java]
     }
 
     override fun onResume() {
@@ -115,17 +115,9 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         binding = SubtitleDownloaderDialogBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
 
-        if (uris.size < 2) {
-            binding.subDownloadNext.visibility = View.GONE
-        }
 
-        binding.subDownloadNext.setOnClickListener {
-            if (uris.size > 1)
-                MediaUtils.showSubtitleDownloaderDialogFragment(requireActivity(), uris.takeLast(uris.size - 1), names.takeLast(names.size - 1))
-            dismiss()
-        }
 
-        binding.movieName.text = names.firstOrNull() ?: uris[0].lastPathSegment
+        binding.movieName.text = names ?: uris.lastPathSegment
         state = SubDownloadDialogState.Download
 
         downloadAdapter = SubtitlesAdapter(listEventActor)
@@ -208,8 +200,8 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(MEDIA_PATHS, ArrayList(uris))
-        outState.putStringArrayList(MEDIA_NAMES, ArrayList(names))
+        outState.putParcelable(MEDIA_PATHS, uris)
+        outState.putString(MEDIA_NAMES, names)
     }
 
     private fun focusOnView(scrollView: NestedScrollView) {
@@ -217,9 +209,9 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(mediaUris: List<Uri>, mediaTitles:List<String>): SubtitleDownloaderDialogFragment {
+        fun newInstance(mediaUri: Uri, mediaTitles:String): SubtitleDownloaderDialogFragment {
             return SubtitleDownloaderDialogFragment().apply {
-                arguments = bundleOf(MEDIA_PATHS to ArrayList(mediaUris), MEDIA_NAMES to mediaTitles)
+                arguments = bundleOf(MEDIA_PATHS to mediaUri, MEDIA_NAMES to mediaTitles)
             }
         }
     }
