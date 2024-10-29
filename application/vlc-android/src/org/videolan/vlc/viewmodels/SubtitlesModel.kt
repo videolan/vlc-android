@@ -67,7 +67,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
 
     private val apiResultLiveData: MutableLiveData<List<Data>> = MutableLiveData()
     private val downloadedLiveData = ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri).map { list ->
-        list.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "", it.hearingImpaired, 0, 0) }
+        list.map { SubtitleItem(it.idSubtitle, -1, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "", it.hearingImpaired, 0, 0) }
     }
 
     private val downloadingLiveData = ExternalSubRepository.getInstance(context).downloadingSubtitles
@@ -130,11 +130,12 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                 list.add(
                     SubtitleItem(
                         openSubtitle.attributes.subtitleId,
+                        openSubtitle.attributes.files.first().fileId,
                         mediaUri,
                         openSubtitle.attributes.language,
                         openSubtitle.attributes.featureDetails.title,
                         state,
-                        OpenSubtitleClient.getDownloadLink(openSubtitle.attributes.files.first().fileId),
+                        "",
                         openSubtitle.attributes.hearingImpaired,
                         openSubtitle.attributes.ratings,
                         openSubtitle.attributes.downloadCount

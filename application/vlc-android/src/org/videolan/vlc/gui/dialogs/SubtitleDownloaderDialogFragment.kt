@@ -4,7 +4,11 @@ import android.content.DialogInterface
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -14,9 +18,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
+import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.parcelableList
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
@@ -56,7 +63,15 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     private val listEventActor = lifecycleScope.actor<SubtitleEvent> {
         for (subtitleEvent in channel) if (isActive) when (subtitleEvent) {
             is SubtitleClick -> when (subtitleEvent.item.state) {
-                State.NotDownloaded -> VLCDownloadManager.download(requireActivity(), subtitleEvent.item)
+                State.NotDownloaded -> {
+                     withContext(Dispatchers.IO) {
+                        val downloadLink = OpenSubtitleRepository.getInstance()
+                            .getDownloadLink(subtitleEvent.item.fileId)
+                         subtitleEvent.item.zipDownloadLink = downloadLink.link
+                         subtitleEvent.item.fileName = downloadLink.fileName
+                    }
+                    VLCDownloadManager.download(requireActivity(), subtitleEvent.item, true)
+                }
                 State.Downloaded -> deleteSubtitleDialog(requireActivity(), DialogInterface.OnClickListener { _, _ ->
                     subtitleEvent.item.mediaUri.path?.let { viewModel.deleteSubtitle(it, subtitleEvent.item.idSubtitle) }
                 }
@@ -153,7 +168,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
             }
         })
         //todo
-        viewModel.observableSearchHearingImpaired.set(true)
+        viewModel.observableSearchHearingImpaired.set(false)
 
         binding.retryButton.setOnClickListener {
             viewModel.onRefresh()

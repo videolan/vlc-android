@@ -5,14 +5,16 @@ import org.videolan.tools.readableNumber
 
 data class SubtitleItem(
     val idSubtitle: String,
+    val fileId: Long,
     val mediaUri: Uri,
     val subLanguageID: String,
     val movieReleaseName: String,
     val state: State,
-    val zipDownloadLink: String,
+    var zipDownloadLink: String,
     val hearingImpaired: Boolean,
     val rating: Int,
-    val downloadNumber: Long
+    val downloadNumber: Long,
+    var fileName: String = ""
 ) {
     fun getReadableDownloadNumber() = downloadNumber.readableNumber()
 }

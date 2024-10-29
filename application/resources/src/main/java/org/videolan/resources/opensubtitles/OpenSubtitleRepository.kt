@@ -40,6 +40,11 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
 
     }
 
+    suspend fun getDownloadLink(fileId: Long): DownloadLink {
+        val query =  openSubtitleService.queryDownloadUrl(DownloadLinkBody(fileId))
+        return query.body() ?: throw Exception("No body")
+    }
+
     companion object {
         // To ensure the instance can be overridden in tests.
         var instance = lazy { OpenSubtitleRepository(OpenSubtitleClient.instance) }

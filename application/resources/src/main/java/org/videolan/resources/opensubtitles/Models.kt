@@ -1,11 +1,12 @@
 package org.videolan.resources.opensubtitles
+
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 data class QueryParameters(
-        @field:Json(name = "query") val query: String,
-        @field:Json(name = "episode") val episode: String,
-        @field:Json(name = "season") val season: String
+    @field:Json(name = "query") val query: String,
+    @field:Json(name = "episode") val episode: String,
+    @field:Json(name = "season") val season: String
 )
 
 
@@ -123,7 +124,7 @@ data class File(
         @field:Json(name = "cd_number")
         val cdNumber: Int?,
         @field:Json(name = "file_id")
-        val fileId: Int,
+        val fileId: Long,
         @field:Json(name = "file_name")
         val fileName: String
 )
@@ -146,5 +147,27 @@ data class Uploader(
         val rank: String?,
         @field:Json(name = "uploader_id")
         val uploaderId: Int?
+)
+
+data class DownloadLink(
+    @field:Json(name = "file_name")
+    val fileName: String,
+    @field:Json(name = "link")
+    val link: String,
+    @field:Json(name = "message")
+    val message: String,
+    @field:Json(name = "remaining")
+    val remaining: Int,
+    @field:Json(name = "requests")
+    val requests: Int,
+    @field:Json(name = "reset_time")
+    val resetTime: String,
+    @field:Json(name = "reset_time_utc")
+    val resetTimeUtc: String
+)
+
+data class DownloadLinkBody(
+    @field:Json(name = "file_id")
+    val fileId: Long,
 )
 

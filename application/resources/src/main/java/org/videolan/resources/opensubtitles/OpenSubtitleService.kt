@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
 
 private const val BASE_URL = "https://api.opensubtitles.com/api/v1/"
-private const val USER_AGENT = "VLSub v0.9"
+const val USER_AGENT = "VLSub v0.9"
 
 private fun buildClient() = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -46,6 +46,7 @@ private class UserAgentInterceptor(val userAgent: String): Interceptor {
         val userAgentRequest: Request = request.newBuilder()
             .header("User-Agent", userAgent)
             .header("Api-Key", BuildConfig.VLC_OPEN_SUBTITLES_API_KEY)
+            .header("Accept", "application/json")
             .build()
         return chain.proceed(userAgentRequest)
     }
@@ -54,6 +55,5 @@ private class UserAgentInterceptor(val userAgent: String): Interceptor {
 interface OpenSubtitleClient {
     companion object {
         val instance: IOpenSubtitleService by lazy { buildClient() }
-        fun getDownloadLink(id:Int) = "${BASE_URL}download?file_id=$id"
     }
 }

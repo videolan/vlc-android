@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -17,12 +18,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.Extensions
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.opensubtitles.USER_AGENT
 import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.tools.isStarted
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.gui.helpers.hf.getExtWritePermission
 import org.videolan.vlc.repository.ExternalSubRepository
+import java.io.File
 
 
 object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
@@ -62,10 +66,12 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         AppContextProvider.appContext.applicationContext.unregisterReceiver(this)
     }
 
-    suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem) {
+    suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem, useOpenSubtitlesHeader: Boolean = false) {
         val request = DownloadManager.Request(subtitleItem.zipDownloadLink.toUri())
         request.setDescription(subtitleItem.movieReleaseName)
         request.setTitle(context.resources.getString(R.string.download_subtitle_title))
+       if (useOpenSubtitlesHeader) request.addRequestHeader("User-Agent", USER_AGENT)
+       if (useOpenSubtitlesHeader) request.addRequestHeader("Api-Key", org.videolan.resources.BuildConfig.VLC_OPEN_SUBTITLES_API_KEY)
         request.setDestinationInExternalFilesDir(context, getDownloadPath(subtitleItem), "")
         val id = downloadManager.enqueue(request)
         val deferred = CompletableDeferred<SubDlResult>().also { dlDeferred = it }
@@ -78,14 +84,13 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
 
     private suspend fun downloadSuccessful(id:Long, subtitleItem: SubtitleItem, localUri: String, context: FragmentActivity) {
         val extractDirectory = getFinalDirectory(context, subtitleItem) ?: return
-        val downloadedPaths = FileUtils.unpackZip(localUri, extractDirectory)
-        subtitleItem.run {
-            ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
-            downloadedPaths.forEach {
-                if (Extensions.SUBTITLES.contains(".${it.split('.').last()}")) {
+        FileUtils.copyFile(localUri, "$extractDirectory/${subtitleItem.fileName}")?.let {dest ->
+            subtitleItem.run {
+                ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
+                if (Extensions.SUBTITLES.contains(".${dest.split('.').last()}")) {
                     ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(
                         idSubtitle,
-                        it,
+                        dest,
                         mediaUri.path!!,
                         subLanguageID,
                         movieReleaseName,
@@ -94,7 +99,8 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
                 }
                 else
                     Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
-            }
+        }
+
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
         }
     }
@@ -113,13 +119,18 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
     }
 
-    private fun getDownloadPath(subtitleItem: SubtitleItem) = "VLC/${subtitleItem.movieReleaseName}_${subtitleItem.idSubtitle}.zip"
+    private fun getDownloadPath(subtitleItem: SubtitleItem) = "VLC/${subtitleItem.movieReleaseName}_${subtitleItem.fileName}.zip"
 
     private fun getDownloadState(downloadId: Long): Pair<Int, String> {
         val query = DownloadManager.Query()
         query.setFilterById(downloadId)
         val cursor = downloadManager.query(query)
         cursor.moveToFirst()
+        val reasonIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON)
+        val reason = cursor.getInt(reasonIndex)
+        if (BuildConfig.DEBUG) Log.d("VLCDownloadManager", "Reason: $reason")
+
+
         val statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
 
         val status = if (statusIndex != -1)

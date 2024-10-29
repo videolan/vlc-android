@@ -1,7 +1,9 @@
 package org.videolan.resources.opensubtitles
 
-import org.videolan.resources.opensubtitles.OpenSubV1
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface IOpenSubtitleService {
@@ -15,6 +17,9 @@ interface IOpenSubtitleService {
         @Query("query") name: String? = null,
         @Query("season_number") season: Int? = null,
     ): OpenSubV1
+
+    @POST("download")
+    suspend fun queryDownloadUrl( @Body downloadLinkBody: DownloadLinkBody): Response<DownloadLink>
 
 }
 
