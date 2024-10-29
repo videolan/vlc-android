@@ -67,7 +67,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
 
     private val apiResultLiveData: MutableLiveData<List<Data>> = MutableLiveData()
     private val downloadedLiveData = ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri).map { list ->
-        list.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "", it.hearingImpaired) }
+        list.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "", it.hearingImpaired, 0, 0) }
     }
 
     private val downloadingLiveData = ExternalSubRepository.getInstance(context).downloadingSubtitles
@@ -126,8 +126,21 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         apiResultLiveData?.forEach { openSubtitle ->
             val exist = history?.find { it.idSubtitle == openSubtitle.attributes.subtitleId }
             val state = exist?.state ?: State.NotDownloaded
-            if (openSubtitle.attributes.files.isNotEmpty())
-            list.add(SubtitleItem(openSubtitle.attributes.subtitleId, mediaUri, openSubtitle.attributes.language, openSubtitle.attributes.featureDetails.movieName, state, OpenSubtitleClient.getDownloadLink(openSubtitle.attributes.files.first().fileId), openSubtitle.attributes.hearingImpaired))
+            if (openSubtitle.attributes.files.isNotEmpty()) {
+                list.add(
+                    SubtitleItem(
+                        openSubtitle.attributes.subtitleId,
+                        mediaUri,
+                        openSubtitle.attributes.language,
+                        openSubtitle.attributes.featureDetails.movieName,
+                        state,
+                        OpenSubtitleClient.getDownloadLink(openSubtitle.attributes.files.first().fileId),
+                        openSubtitle.attributes.hearingImpaired,
+                        openSubtitle.attributes.ratings,
+                        openSubtitle.attributes.downloadCount
+                    )
+                )
+            }
         }
         list
     }

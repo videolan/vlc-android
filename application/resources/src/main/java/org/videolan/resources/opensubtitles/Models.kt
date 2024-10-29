@@ -35,7 +35,7 @@ data class Attributes(
         @field:Json(name = "comments")
         val comments: String,
         @field:Json(name = "download_count")
-        val downloadCount: Int,
+        val downloadCount: Long,
         @field:Json(name = "feature_details")
         val featureDetails: FeatureDetails,
         @field:Json(name = "files")

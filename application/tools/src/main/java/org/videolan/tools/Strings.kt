@@ -110,6 +110,12 @@ fun String.abbreviate(maxLen: Int): String {
     else trimmed
 }
 
+fun Long.readableNumber(): String {
+    if (this <= 1000) return toString()
+    if (this <= 1000000) return (this / 1000).toString() + "K"
+    return (this / 1000000).toString() + "M"
+}
+
 fun String.markBidi(): String {
     //right-to-left isolate
     val rli = "\u2067"
