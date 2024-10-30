@@ -716,6 +716,17 @@
     <string name="popup_playback">Playing in a Pop-Up window</string>
     <string name="popup_expand">Expand video</string>
     <string name="download_subtitles">Download subtitles</string>
+    <string name="open_subtitles_login_title">Open subtitles login</string>
+    <string name="open_subtitles_not_logged_in">You are not logged in</string>
+    <string name="open_subtitles_logged_in">Welcome %1$s</string>
+    <string name="open_subtitles_vip">You are a VIP OpenSubtitles user</string>
+    <string name="open_subtitles_log_out">Log out</string>
+    <string name="open_subtitles_username">Username</string>
+    <string name="open_subtitles_password">Password</string>
+    <string name="open_subtitles_is_vip">VIP account</string>
+    <string name="open_subtitles_is_not_vip">Standard account</string>
+    <string name="login_error">Invalid credentials</string>
+    <string name="unknown_error">Unexpected error</string>
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
     <string name="apply_to_bt">Apply to bluetooth device</string>

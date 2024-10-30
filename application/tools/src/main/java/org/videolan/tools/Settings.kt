@@ -246,6 +246,10 @@ const val ALBUMS_SHOW_TRACK_NUMBER = "albums_show_track_number"
 //widgets
 const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
 
+//OpenSubtitles
+const val KEY_OPEN_SUBTITLES_USER = "open_subtitles_user"
+
+
 const val KEY_SAFE_MODE_PIN = "safe_mode_pin"
 const val KEY_RESTRICT_SETTINGS = "restrict_settings"
 const val KEY_SAFE_MODE = "safe_mode"

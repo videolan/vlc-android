@@ -1,5 +1,7 @@
 package org.videolan.resources.opensubtitles
 
+import retrofit2.Response
+
 class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleService) {
 
     /*
@@ -41,8 +43,11 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
     }
 
     suspend fun getDownloadLink(fileId: Long): DownloadLink {
-        val query =  openSubtitleService.queryDownloadUrl(DownloadLinkBody(fileId))
-        return query.body() ?: throw Exception("No body")
+        return openSubtitleService.queryDownloadUrl(DownloadLinkBody(fileId))
+    }
+
+    fun login(username: String, password: String): Response<OpenSubtitleAccount> {
+        return openSubtitleService.login(LoginBody(username, password)).execute()
     }
 
     companion object {

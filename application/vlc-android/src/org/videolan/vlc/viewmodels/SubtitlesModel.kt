@@ -1,6 +1,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.text.Html
 import android.text.Spanned
@@ -9,19 +10,25 @@ import androidx.core.text.toSpanned
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUser
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUserUtil
 import org.videolan.resources.opensubtitles.Data
 import org.videolan.resources.opensubtitles.OpenSubV1
-import org.videolan.resources.opensubtitles.OpenSubtitleClient
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.NoConnectivityException
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.FileUtils
-import org.videolan.tools.LocaleUtils
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -31,7 +38,28 @@ import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.util.TextUtils
 import java.io.File
-import java.util.*
+import java.util.Locale
+import java.util.MissingResourceException
+import kotlin.collections.HashMap
+import kotlin.collections.List
+import kotlin.collections.MutableList
+import kotlin.collections.emptyList
+import kotlin.collections.filter
+import kotlin.collections.find
+import kotlin.collections.first
+import kotlin.collections.forEach
+import kotlin.collections.get
+import kotlin.collections.indices
+import kotlin.collections.isNotEmpty
+import kotlin.collections.joinToString
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.mutableListOf
+import kotlin.collections.orEmpty
+import kotlin.collections.plus
+import kotlin.collections.set
+import kotlin.collections.setOf
+import kotlin.collections.toList
 
 private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
@@ -41,6 +69,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableSearchSeason = ObservableField<String>()
     val observableSearchLanguage = ObservableField<List<String>>()
     val observableSearchHearingImpaired = ObservableField<Boolean>()
+    val observableUser = ObservableField<OpenSubtitlesUser>()
     private var previousSearchLanguage: List<String>? = null
     val manualSearchEnabled = ObservableBoolean(false)
 
@@ -233,6 +262,24 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
             "en"
         }
         return Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(language))?.map { if (it.length > 2) migrateFromOld(it) ?: it else it } ?: emptyList()
+    }
+
+    fun login(settings: SharedPreferences, username: String, password: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val call = OpenSubtitleRepository.getInstance().login(username, password)
+                if (call.isSuccessful) {
+                    val userResult = call.body()
+                    if (userResult != null) {
+                        val openSubtitlesUser = OpenSubtitlesUser(true, userResult, username = username)
+                        OpenSubtitlesUserUtil.save(settings, openSubtitlesUser)
+                        observableUser.set(openSubtitlesUser)
+                        return@withContext
+                    }
+                }
+                observableUser.set(OpenSubtitlesUser(false, null, errorMessage = if (call.code() == 401) context.getString(R.string.login_error) else context.getString(R.string.unknown_error)))
+            }
+        }
     }
 
     private fun migrateFromOld(it: String?): String? {

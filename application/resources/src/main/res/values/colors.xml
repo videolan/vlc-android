@@ -20,6 +20,7 @@
     <color name="orange800">#ff610a</color>
     <color name="orange900">#ff5014</color>
 
+    <color name="red500transparent25">#40ff0000</color>
     <color name="red500transparent">#b4ff0000</color>
     <color name="orange500transparent">#b4ff8800</color>
     <color name="orange500focus">#86ff8800</color>

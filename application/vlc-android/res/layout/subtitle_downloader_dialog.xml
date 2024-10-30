@@ -90,14 +90,14 @@
                     android:contentDescription="@string/talkback_subtitle_history"
                     android:selected="@{state == state.History}"
                     app:layout_constraintBottom_toBottomOf="@+id/movieName"
-                    app:layout_constraintEnd_toStartOf="@+id/sub_download_next"
+                    app:layout_constraintEnd_toStartOf="@+id/sub_login"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/sub_download_search"
                     app:layout_constraintTop_toTopOf="@+id/movieName"
                     app:srcCompat="@drawable/ic_history" />
 
             <ImageView
-                    android:id="@+id/sub_download_next"
+                    android:id="@+id/sub_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -106,10 +106,11 @@
                     android:padding="4dp"
                     app:layout_constraintBottom_toBottomOf="@+id/movieName"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:selected="@{state == state.Login}"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/sub_download_history"
                     app:layout_constraintTop_toTopOf="@+id/movieName"
-                    app:srcCompat="@drawable/ic_sub_next" />
+                    app:srcCompat="@drawable/ic_account" />
 
 
             <TextView
@@ -200,7 +201,7 @@
                     android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/movieName">
+                    app:layout_constraintTop_toBottomOf="@+id/subs_download_list">
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/name"
@@ -292,6 +293,124 @@
                     android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/seasonContainer" />
+
+            <TextView
+                    android:id="@+id/textView37"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/open_subtitles_login_title"
+                    android:textColor="?attr/font_default"
+                    android:textSize="16sp"
+                    android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cancel_button" />
+
+            <TextView
+                    android:id="@+id/loginDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{viewmodel.observableUser.get().logged ? @{@string/open_subtitles_logged_in(viewmodel.observableUser.get().username)} : @string/open_subtitles_not_logged_in}"
+                    android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+            <TextView
+                    android:id="@+id/vipDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{viewmodel.observableUser.get().isVip() ? @string/open_subtitles_is_vip : @string/open_subtitles_is_not_vip}"
+                    android:visibility="@{state == state.Login &amp;&amp; viewmodel.observableUser.get().logged ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/loginDescription" />
+
+            <TextView
+                    android:id="@+id/error"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_corners_permissions_warning"
+                    android:padding="12dp"
+                    android:text="@{viewmodel.observableUser.get().errorMessage}"
+                    android:textSize="16sp"
+                    android:visibility="@{state == state.Login &amp;&amp; !TextUtils.isEmpty(viewmodel.observableUser.get().errorMessage) ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordContainer" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/usernameContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="@{state == state.Login &amp;&amp; !viewmodel.observableUser.get().logged ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vipDescription">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:focusable="true"
+                        android:hint="@string/open_subtitles_username"
+                        android:imeOptions="actionDone"
+                        android:nextFocusRight="@+id/search_button"
+                        android:nextFocusDown="@+id/search_button"
+                        android:nextFocusForward="@+id/search_button"
+                        android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="@{state == state.Login &amp;&amp; !viewmodel.observableUser.get().logged ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/usernameContainer">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:focusable="true"
+                        android:hint="@string/open_subtitles_password"
+                        android:imeOptions="actionDone"
+                        android:nextFocusRight="@+id/search_button"
+                        android:nextFocusDown="@+id/search_button"
+                        android:nextFocusForward="@+id/search_button"
+                        android:password="true"
+                        android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{viewmodel.observableUser.get().logged ? @string/open_subtitles_log_out : @string/login}"
+                    android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/error" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

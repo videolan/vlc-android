@@ -3,13 +3,6 @@ package org.videolan.resources.opensubtitles
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-data class QueryParameters(
-    @field:Json(name = "query") val query: String,
-    @field:Json(name = "episode") val episode: String,
-    @field:Json(name = "season") val season: String
-)
-
-
 data class OpenSubV1(
         @field:Json(name = "data")
         val `data`: List<Data>,
@@ -166,31 +159,29 @@ data class DownloadLink(
     val resetTimeUtc: String
 )
 
-@JsonClass(generateAdapter = true)
-data class LoginResult(
-    @Json(name = "base_url")
-    val baseUrl: String,
-    @Json(name = "status")
-    val status: Int,
-    @Json(name = "token")
-    val token: String,
-    @Json(name = "user")
-    val user: User
+data class OpenSubtitleAccount(
+    @field:Json(name = "base_url")
+    val baseUrl: String?,
+    @field:Json(name = "status")
+    val status: Int?,
+    @field:Json(name = "token")
+    val token: String?,
+    @field:Json(name = "user")
+    val user: User?
 )
 
-@JsonClass(generateAdapter = true)
 data class User(
-    @Json(name = "allowed_downloads")
-    val allowedDownloads: Int,
-    @Json(name = "allowed_translations")
-    val allowedTranslations: Int,
-    @Json(name = "ext_installed")
-    val extInstalled: Boolean,
-    @Json(name = "level")
-    val level: String,
-    @Json(name = "user_id")
-    val userId: Int,
-    @Json(name = "vip")
+    @field:Json(name = "allowed_downloads")
+    val allowedDownloads: Int?,
+    @field:Json(name = "allowed_translations")
+    val allowedTranslations: Int?,
+    @field:Json(name = "ext_installed")
+    val extInstalled: Boolean?,
+    @field:Json(name = "level")
+    val level: String?,
+    @field:Json(name = "user_id")
+    val userId: Int?,
+    @field:Json(name = "vip")
     val vip: Boolean?
 )
 
