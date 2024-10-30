@@ -43,8 +43,8 @@ fi
 
 MEDIALIBRARY_MODULE_DIR=${SRC_DIR}/medialibrary
 MEDIALIBRARY_BUILD_DIR=${MEDIALIBRARY_MODULE_DIR}/medialibrary
-SQLITE_RELEASE="sqlite-autoconf-3340100"
-SQLITE_SHA1="c20286e11fe5c2e3712ce74890e1692417de6890"
+SQLITE_RELEASE="sqlite-autoconf-3460100"
+SQLITE_SHA512SUM="a5ba5af9c8d6440d39ba67e3d5903c165df3f1d111e299efbe7c1cca4876d4d5aecd722e0133670daa6eb5cbf8a85c6a3d9852ab507a393615fb5245a3e1a743"
 
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   echo -e "\e[1m\e[32msqlite source not found, downloading\e[0m"
@@ -53,14 +53,13 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
   wget https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz
-    if [ ! "`sha1sum ${SQLITE_RELEASE}.tar.gz`" = "${SQLITE_SHA1}  ${SQLITE_RELEASE}.tar.gz" ]; then
+    if [ ! "$(sha512sum ${SQLITE_RELEASE}.tar.gz)" = "${SQLITE_SHA512SUM}  ${SQLITE_RELEASE}.tar.gz" ]; then
     echo "Wrong sha1 for ${SQLITE_RELEASE}.tar.gz"
     exit 1
   fi
   tar -xozf ${SQLITE_RELEASE}.tar.gz
   rm -f ${SQLITE_RELEASE}.tar.gz
   cd ${SQLITE_RELEASE}
-  patch -p1 < ${SRC_DIR}/buildsystem/patches/sqlite/e0a9935be1c506646566f6b7845eb381bb219e16.patch
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then
