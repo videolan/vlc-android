@@ -101,6 +101,12 @@ android {
         manifest.srcFile 'flavors/release/AndroidManifest.xml'
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     splits {
         abi {
             def isReleaseBuild = false
