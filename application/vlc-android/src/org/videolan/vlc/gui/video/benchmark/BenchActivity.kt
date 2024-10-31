@@ -27,17 +27,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
+import androidx.core.content.FileProvider
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.resources.BuildConfig
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.tools.AppScope
@@ -48,6 +52,8 @@ import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.gui.video.PlayerOrientationMode
 import org.videolan.vlc.media.PlaylistManager
 import java.io.*
+import java.text.SimpleDateFormat
+import java.util.Date
 
 /**
  * BenchActivity is a class that overrides VideoPlayerActivity through ShallowVideoPlayer.
@@ -113,6 +119,8 @@ class BenchActivity : ShallowVideoPlayer() {
     private var position = 0f
     private var positionCounter = 0
 
+    /* Extract stacktrace or not */
+    private var getStacktrace: Boolean = false
     /* File in which vlc will store logs in case of a crash or freeze */
     private var stacktraceFile: String? = null
 
@@ -176,10 +184,6 @@ class BenchActivity : ShallowVideoPlayer() {
             return
         }
 
-        if (intent.hasExtra(EXTRA_STACKTRACE_FILE)) {
-            stacktraceFile = intent.getStringExtra(EXTRA_STACKTRACE_FILE)
-        }
-
         timeLimit = intent.getLongExtra(EXTRA_TIME_LIMIT, 0L)
         when (intent.getStringExtra(EXTRA_ACTION)) {
             EXTRA_ACTION_PLAYBACK -> {
@@ -206,6 +210,9 @@ class BenchActivity : ShallowVideoPlayer() {
                 isSpeed = true
             }
         }
+
+        if (intent.hasExtra(EXTRA_STACKTRACE_FILE))
+            getStacktrace = intent.getBooleanExtra(EXTRA_STACKTRACE_FILE, false)
 
         orientationMode = PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
         requestedOrientation = getScreenOrientation(orientationMode)
@@ -467,45 +474,55 @@ class BenchActivity : ShallowVideoPlayer() {
         Log.e(TAG, "errorFinish: $resultString")
         val sendIntent = Intent()
         sendIntent.putExtra("Error", resultString)
-        getStackTrace()
-        setResult(RESULT_FAILED, sendIntent)
-        super.finish()
+        AppScope.launch {
+            if (getStacktrace) {
+                val uri = getStackTrace()
+                if (uri != null) {
+                    sendIntent.putExtra("stacktrace_uri", uri)
+                    val packageName = if (BuildConfig.DEBUG)
+                        "org.videolan.vlcbenchmark.debug"
+                    else "org.videolan.vlcbenchmark"
+                    grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+            }
+            setResult(RESULT_FAILED, sendIntent)
+            super.finish()
+        }
     }
 
     /**
      * Method reading vlc-android logs so that the benchmark can get the cause
      * of the crash / freeze
      */
-    private fun getStackTrace() = AppScope.launch(Dispatchers.IO) {
-        if (stacktraceFile != null) {
-            try {
-                val pid = android.os.Process.myPid()
-                /*Displays priority, tag, and PID of the process issuing the message from this pid*/
-                val process = Runtime.getRuntime().exec("logcat -d -v brief --pid=$pid")
-                val bufferedReader = BufferedReader(
-                        InputStreamReader(process.inputStream))
-                var line = bufferedReader.readLine()
-                val stacktraceContent = StringBuilder()
-                while (line != null) {
-                    stacktraceContent.append(line)
-                    line = bufferedReader.readLine()
-                }
-                val outputFile = File(stacktraceFile!!)
-                val fileOutputStream = FileOutputStream(outputFile)
-                fileOutputStream.write(stacktraceContent.toString().toByteArray(Charsets.UTF_8))
-                fileOutputStream.close()
-                bufferedReader.close()
-                /* Clear logs, so that next test is not polluted by current one */
-                ProcessBuilder()
-                        .command("logcat", "-c")
-                        .redirectErrorStream(true)
-                        .start()
-            } catch (ex: IOException) {
-                Log.e(TAG, ex.toString())
+    private suspend fun getStackTrace() : Uri? = withContext(Dispatchers.IO) {
+        val stacktraceFile = "${SimpleDateFormat("yyyy-MM-dd_HH-mm").format(Date(System.currentTimeMillis()))}.log"
+        try {
+            val pid = android.os.Process.myPid()
+            /*Displays priority, tag, and PID of the process issuing the message from this pid*/
+            val process = Runtime.getRuntime().exec("logcat -d -v brief --pid=$pid")
+            val bufferedReader = BufferedReader(
+                InputStreamReader(process.inputStream))
+            var line = bufferedReader.readLine()
+            val stacktraceContent = StringBuilder()
+            while (line != null) {
+                stacktraceContent.append(line + "\n")
+                line = bufferedReader.readLine()
             }
-        } else {
-            Log.e(TAG, "getStackTrace: There was no stacktrace file provided")
+            val outputFile = File(filesDir, stacktraceFile)
+            val fileOutputStream = FileOutputStream(outputFile)
+            fileOutputStream.write(stacktraceContent.toString().toByteArray(Charsets.UTF_8))
+            fileOutputStream.close()
+            bufferedReader.close()
+            /* Clear logs, so that next test is not polluted by current one */
+            ProcessBuilder()
+                .command("logcat", "-c")
+                .redirectErrorStream(true)
+                .start()
+            return@withContext FileProvider.getUriForFile(this@BenchActivity, applicationContext.packageName + ".provider", outputFile)
+        } catch (ex: IOException) {
+            Log.e(TAG, ex.toString())
         }
+        return@withContext null
     }
 
     /**
@@ -604,7 +621,7 @@ class BenchActivity : ShallowVideoPlayer() {
         private const val EXTRA_ACTION_SPEED = "extra_benchmark_action_speed"
         private const val EXTRA_ACTION = "extra_benchmark_action"
         private const val EXTRA_HARDWARE = "extra_benchmark_disable_hardware"
-        private const val EXTRA_STACKTRACE_FILE = "stacktrace_file"
+        private const val EXTRA_STACKTRACE_FILE = "extra_stacktrace_file"
         private const val EXTRA_TIME_LIMIT = "extra_benchmark_time_limit"
 
         private const val ACTION_TRIGGER_SCREENSHOT = "org.videolan.vlcbenchmark.TRIGGER_SCREENSHOT"
