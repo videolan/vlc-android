@@ -24,6 +24,9 @@ interface IOpenSubtitleService {
     @POST("login")
     fun login( @Body loginBody: LoginBody): Call<OpenSubtitleAccount>
 
+    @GET("infos/user")
+    fun userInfo(): Call<UserInfo>
+
 }
 
 

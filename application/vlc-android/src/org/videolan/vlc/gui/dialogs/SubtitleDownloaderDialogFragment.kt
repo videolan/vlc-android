@@ -25,8 +25,8 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesLimit
-import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUser
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUtils
+import org.videolan.resources.opensubtitles.OpenSubtitleClient
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.Settings
@@ -124,8 +124,11 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         settings = Settings.getInstance(requireContext())
+        val token = OpenSubtitlesUtils.getUser(settings).account?.token
+        if (!token.isNullOrEmpty()) OpenSubtitleClient.authorizationToken = token
         binding = SubtitleDownloaderDialogBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
+       if (!token.isNullOrEmpty()) viewModel.checkUserInfos(settings)
 
         binding.subLogin.setOnClickListener {
             state = SubDownloadDialogState.Login
@@ -133,9 +136,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         binding.loginButton.setOnClickListener {
             if (viewModel.observableUser.get()?.logged == true) {
-                val user = OpenSubtitlesUser()
-                OpenSubtitlesUtils.saveUser(settings, user)
-                viewModel.observableUser.set(user)
+                viewModel.logout(settings)
             }else {
                 viewModel.login(
                     settings,

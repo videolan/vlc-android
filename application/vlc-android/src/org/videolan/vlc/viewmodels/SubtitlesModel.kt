@@ -284,6 +284,34 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         }
     }
 
+    fun checkUserInfos(settings: SharedPreferences) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val callInfo = OpenSubtitleRepository.getInstance().userInfo()
+                if (callInfo.isSuccessful) {
+                    val userInfo = callInfo.body()
+                    if (userInfo != null) {
+                        val limit = OpenSubtitlesUtils.getLimit(settings)
+                        limit.max = userInfo.data.allowedDownloads
+                        limit.requests = userInfo.data.downloadsCount
+                        OpenSubtitlesUtils.saveLimit(settings, limit)
+                        observableLimit.set(limit)
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun logout(settings: SharedPreferences) {
+        val user = OpenSubtitlesUser()
+        OpenSubtitlesUtils.saveUser(settings, user)
+        observableUser.set(user)
+        val limit = OpenSubtitlesLimit()
+        OpenSubtitlesUtils.saveLimit(settings, limit)
+        observableLimit.set(limit)
+    }
+
     private fun migrateFromOld(it: String?): String? {
         return oldLanguagesMigration[it]
     }

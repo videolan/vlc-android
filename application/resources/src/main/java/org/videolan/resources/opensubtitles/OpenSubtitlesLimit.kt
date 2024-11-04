@@ -27,8 +27,8 @@ package main.java.org.videolan.resources.opensubtitles
 import java.util.Date
 
 data class OpenSubtitlesLimit (
-    val requests: Int = 0,
-    val max: Int = 5,
+    var requests: Int = 0,
+    var max: Int = 5,
     val resetTime: Date? = null
 ) {
     private fun getRemaining(): Int {

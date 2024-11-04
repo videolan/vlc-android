@@ -50,6 +50,10 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         return openSubtitleService.login(LoginBody(username, password)).execute()
     }
 
+    fun userInfo(): Response<UserInfo> {
+        return openSubtitleService.userInfo().execute()
+    }
+
     companion object {
         // To ensure the instance can be overridden in tests.
         var instance = lazy { OpenSubtitleRepository(OpenSubtitleClient.instance) }

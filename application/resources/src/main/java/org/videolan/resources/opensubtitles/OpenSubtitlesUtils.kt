@@ -28,6 +28,8 @@ import android.content.SharedPreferences
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import org.videolan.resources.opensubtitles.IOpenSubtitleService
+import org.videolan.resources.opensubtitles.OpenSubtitleClient
 import org.videolan.tools.KEY_OPEN_SUBTITLES_LIMIT
 import org.videolan.tools.KEY_OPEN_SUBTITLES_USER
 import org.videolan.tools.putSingle
@@ -61,6 +63,7 @@ object OpenSubtitlesUtils {
     fun saveUser(settings: SharedPreferences, user: OpenSubtitlesUser) {
         val jsonAdapter = getUserAdapter()
         settings.putSingle(KEY_OPEN_SUBTITLES_USER, jsonAdapter.toJson(user))
+        OpenSubtitleClient.authorizationToken = user.account?.token ?: ""
     }
 
     private fun getUserAdapter(): JsonAdapter<OpenSubtitlesUser> {

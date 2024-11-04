@@ -170,6 +170,29 @@ data class OpenSubtitleAccount(
     val user: User?
 )
 
+data class UserInfo(
+    @field:Json(name = "data")
+    val `data`: UserInfoData
+)
+
+data class UserInfoData(
+    @field:Json(name = "allowed_downloads")
+    val allowedDownloads: Int,
+    @field:Json(name = "downloads_count")
+    val downloadsCount: Int,
+    @field:Json(name = "ext_installed")
+    val extInstalled: Boolean,
+    @field:Json(name = "level")
+    val level: String,
+    @field:Json(name = "remaining_downloads")
+    val remainingDownloads: Int,
+    @field:Json(name = "user_id")
+    val userId: Int,
+    @field:Json(name = "vip")
+    val vip: Boolean
+)
+
+
 data class User(
     @field:Json(name = "allowed_downloads")
     val allowedDownloads: Int?,
