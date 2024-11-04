@@ -3,6 +3,8 @@ package org.videolan.resources.opensubtitles
 import android.util.Log
 import com.moczul.ok2curl.CurlInterceptor
 import com.moczul.ok2curl.logger.Logger
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -13,6 +15,7 @@ import org.videolan.resources.BuildConfig
 import org.videolan.resources.util.ConnectivityInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 
@@ -35,7 +38,11 @@ private fun buildClient() = Retrofit.Builder()
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build())
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(
+            Moshi.Builder()
+                .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+                .build()
+        ))
         .build()
         .create(IOpenSubtitleService::class.java)
 

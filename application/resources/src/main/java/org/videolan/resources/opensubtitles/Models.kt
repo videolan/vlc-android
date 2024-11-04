@@ -1,7 +1,7 @@
 package org.videolan.resources.opensubtitles
 
 import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import java.util.Date
 
 data class OpenSubV1(
         @field:Json(name = "data")
@@ -156,7 +156,7 @@ data class DownloadLink(
     @field:Json(name = "reset_time")
     val resetTime: String,
     @field:Json(name = "reset_time_utc")
-    val resetTimeUtc: String
+    val resetTimeUtc: Date
 )
 
 data class OpenSubtitleAccount(

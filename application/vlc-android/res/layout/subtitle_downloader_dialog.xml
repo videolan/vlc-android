@@ -49,6 +49,14 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Game of Thrones - S01e01" />
 
+            <TextView
+                    android:id="@+id/limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.observableLimit.get().getRemainingText()}"
+                    app:layout_constraintStart_toStartOf="@+id/movieName"
+                    app:layout_constraintTop_toBottomOf="@+id/movieName" />
+
             <org.videolan.vlc.gui.view.LanguageSelector
                     android:id="@+id/language_list_spinner"
                     android:layout_width="wrap_content"

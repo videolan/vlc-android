@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  OpensubtitleUser.kt
+ *  OpenSubtitlesLimit.kt
  * *************************************************************************
  * Copyright © 2024 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -24,19 +24,19 @@
 
 package main.java.org.videolan.resources.opensubtitles
 
-import android.content.SharedPreferences
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import org.videolan.resources.opensubtitles.OpenSubtitleAccount
-import org.videolan.tools.KEY_OPEN_SUBTITLES_USER
-import org.videolan.tools.putSingle
+import java.util.Date
 
-data class OpenSubtitlesUser(
-    val logged: Boolean = false,
-    val account: OpenSubtitleAccount? = null,
-    val username: String = "",
-    val errorMessage: String? = null
+data class OpenSubtitlesLimit (
+    val requests: Int = 0,
+    val max: Int = 5,
+    val resetTime: Date? = null
 ) {
-    fun isVip()  = account?.user?.vip ?: false
+    private fun getRemaining(): Int {
+        if (resetTime != null && Date().after(resetTime)) return max
+        return max - requests
+    }
+    fun getRemainingText(): String {
+        val remaining = getRemaining()
+        return "$remaining/$max"
+    }
 }

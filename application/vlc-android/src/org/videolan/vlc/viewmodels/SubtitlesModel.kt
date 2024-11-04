@@ -21,8 +21,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesLimit
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUser
-import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUserUtil
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUtils
 import org.videolan.resources.opensubtitles.Data
 import org.videolan.resources.opensubtitles.OpenSubV1
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
@@ -70,6 +71,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableSearchLanguage = ObservableField<List<String>>()
     val observableSearchHearingImpaired = ObservableField<Boolean>()
     val observableUser = ObservableField<OpenSubtitlesUser>()
+    val observableLimit = ObservableField<OpenSubtitlesLimit>()
     private var previousSearchLanguage: List<String>? = null
     val manualSearchEnabled = ObservableBoolean(false)
 
@@ -272,7 +274,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                     val userResult = call.body()
                     if (userResult != null) {
                         val openSubtitlesUser = OpenSubtitlesUser(true, userResult, username = username)
-                        OpenSubtitlesUserUtil.save(settings, openSubtitlesUser)
+                        OpenSubtitlesUtils.saveUser(settings, openSubtitlesUser)
                         observableUser.set(openSubtitlesUser)
                         return@withContext
                     }

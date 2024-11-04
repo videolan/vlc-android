@@ -248,6 +248,7 @@ const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
 
 //OpenSubtitles
 const val KEY_OPEN_SUBTITLES_USER = "open_subtitles_user"
+const val KEY_OPEN_SUBTITLES_LIMIT = "open_subtitles_limit"
 
 
 const val KEY_SAFE_MODE_PIN = "safe_mode_pin"

@@ -24,8 +24,9 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesLimit
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUser
-import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUserUtil
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUtils
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.Settings
@@ -71,6 +72,13 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
                      withContext(Dispatchers.IO) {
                         val downloadLink = OpenSubtitleRepository.getInstance()
                             .getDownloadLink(subtitleEvent.item.fileId)
+                         val openSubtitlesLimit = OpenSubtitlesLimit(
+                             downloadLink.requests,
+                             downloadLink.requests + downloadLink.remaining,
+                             downloadLink.resetTimeUtc
+                         )
+                         OpenSubtitlesUtils.saveLimit(settings, openSubtitlesLimit)
+                         viewModel.observableLimit.set(openSubtitlesLimit)
                          subtitleEvent.item.zipDownloadLink = downloadLink.link
                          subtitleEvent.item.fileName = downloadLink.fileName
                     }
@@ -126,7 +134,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         binding.loginButton.setOnClickListener {
             if (viewModel.observableUser.get()?.logged == true) {
                 val user = OpenSubtitlesUser()
-                OpenSubtitlesUserUtil.save(settings, user)
+                OpenSubtitlesUtils.saveUser(settings, user)
                 viewModel.observableUser.set(user)
             }else {
                 viewModel.login(
@@ -181,7 +189,8 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         })
         //todo
         viewModel.observableSearchHearingImpaired.set(false)
-        viewModel.observableUser.set(OpenSubtitlesUserUtil.get(settings))
+        viewModel.observableUser.set(OpenSubtitlesUtils.getUser(settings))
+        viewModel.observableLimit.set(OpenSubtitlesUtils.getLimit(settings))
 
         binding.retryButton.setOnClickListener {
             viewModel.onRefresh()
