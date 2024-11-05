@@ -70,6 +70,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableSearchSeason = ObservableField<String>()
     val observableSearchLanguage = ObservableField<List<String>>()
     val observableSearchHearingImpaired = ObservableField<Boolean>()
+    val observableInEditMode = ObservableField<Boolean>()
     val observableUser = ObservableField<OpenSubtitlesUser>()
     val observableLimit = ObservableField<OpenSubtitlesLimit>()
     private var previousSearchLanguage: List<String>? = null
@@ -182,7 +183,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         val builder = StringBuilder(context.getString(R.string.sub_result_by_name, "<i>$name</i>"))
         season?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_season, "<i>$it</i>")) }
         episode?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_episode, "<i>$it</i>")) }
-        languageIds?.let { if (languageIds.isNotEmpty()) builder.append(" ${TextUtils.SEPARATOR} ").append("<i>${it.joinToString(", ")}</i>") }
+        languageIds?.let { languages -> if (languageIds.isNotEmpty()) builder.append(" ${TextUtils.SEPARATOR} ").append("<i>${languages.joinToString(", "){ it.uppercase()} }</i>") }
         if (hearingImpaired) builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_hearing_impaired))
         observableResultDescription.set(Html.fromHtml(builder.toString()))
         manualSearchEnabled.set(true)
@@ -229,7 +230,17 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                     }
                 } else {
                     observableSearchName.get()?.let {
-                        getSubtitleByName(it, observableSearchEpisode.get()?.toInt(), observableSearchSeason.get()?.toInt(), observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
+                        val episode = try {
+                            observableSearchEpisode.get()?.toIntOrNull()
+                        } catch (e: NumberFormatException) {
+                            null
+                        }
+                        val season = try {
+                            observableSearchSeason.get()?.toIntOrNull()
+                        } catch (e: NumberFormatException) {
+                            null
+                        }
+                        getSubtitleByName(it, episode, season, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
                     } ?: listOf()
                 }
                 if (isActive) apiResultLiveData.postValue(subs)

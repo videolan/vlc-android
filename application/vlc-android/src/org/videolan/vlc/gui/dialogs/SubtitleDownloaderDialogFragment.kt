@@ -133,7 +133,10 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
        if (!token.isNullOrEmpty()) viewModel.checkUserInfos(settings)
 
         binding.subLogin.setOnClickListener {
-            state = SubDownloadDialogState.Login
+            state = if (state == SubDownloadDialogState.Login)
+                SubDownloadDialogState.Download
+            else
+                SubDownloadDialogState.Login
         }
 
         binding.loginButton.setOnClickListener {
@@ -148,7 +151,6 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
             }
         }
 
-        binding.movieName.text = names ?: uris.lastPathSegment
         state = SubDownloadDialogState.Download
 
         downloadAdapter = SubtitlesAdapter(listEventActor)
@@ -167,17 +169,27 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
             viewModel.search(false)
             focusOnView(binding.scrollView)
             state = SubDownloadDialogState.Download
+            viewModel.observableInEditMode.set(false)
 
         }
         binding.cancelButton.setOnClickListener {
-            state = SubDownloadDialogState.Download
+            viewModel.observableInEditMode.set(false)
         }
 
-        binding.subDownloadSearch.setOnClickListener {
-            UiTools.setKeyboardVisibility(binding.name, true)
-            binding.name.requestFocus()
-            state = SubDownloadDialogState.Search
-        }
+        binding.openSubEdit.setOnClickListener {
+            if (viewModel.observableInEditMode.get() == false) {
+                //fill form
+                val name = when {
+                    viewModel.observableSearchName.get().isNullOrBlank() -> names
+                    else -> viewModel.observableSearchName.get()
+                }
+                binding.name.setText(name)
+                binding.season.setText(viewModel.observableSearchSeason.get())
+                binding.episode.setText(viewModel.observableSearchEpisode.get())
+                binding.checkBox.isChecked = viewModel.observableSearchHearingImpaired.get() == true
+            }
+        viewModel.observableInEditMode.set(viewModel.observableInEditMode.get()?.not())
+    }
 
         binding.subDownloadHistory.setOnClickListener {
             state = if (state == SubDownloadDialogState.History) SubDownloadDialogState.Download else SubDownloadDialogState.History
@@ -190,7 +202,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
         })
-        //todo
+        viewModel.observableInEditMode.set(false)
         viewModel.observableSearchHearingImpaired.set(false)
         viewModel.observableUser.set(user)
         viewModel.observableLimit.set(OpenSubtitlesUtils.getLimit(settings))
@@ -253,6 +265,5 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 enum class SubDownloadDialogState {
     Download,
     History,
-    Search,
     Login
 }

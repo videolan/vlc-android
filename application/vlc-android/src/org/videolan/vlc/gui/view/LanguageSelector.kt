@@ -24,13 +24,13 @@
 
 package org.videolan.vlc.gui.view
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.videolan.vlc.R
 
 class LanguageSelector: ConstraintLayout, DialogInterface.OnDismissListener, DialogInterface.OnMultiChoiceClickListener {
@@ -43,8 +43,8 @@ class LanguageSelector: ConstraintLayout, DialogInterface.OnDismissListener, Dia
             return selection.mapIndexed { index, b -> Pair(index, b) }.filter { it.second }.map { it.first }
         }
 
-    val badge: TextView by lazy {
-        findViewById<TextView>(R.id.badge)
+    val languageText: TextView by lazy {
+        findViewById(R.id.language_text)
     }
 
     constructor(context: Context) : super(context) {
@@ -65,7 +65,7 @@ class LanguageSelector: ConstraintLayout, DialogInterface.OnDismissListener, Dia
         LayoutInflater.from(context).inflate(R.layout.language_spinner, this, true)
         selection.addAll(allEntriesOfLanguages.map { false })
         setOnClickListener {
-            val builder = AlertDialog.Builder(context)
+            val builder = MaterialAlertDialogBuilder(context)
             builder.setOnDismissListener(this)
             builder.setMultiChoiceItems(allEntriesOfLanguages, selection.toBooleanArray(), this)
                     .setPositiveButton(R.string.done) { dialogInterface: DialogInterface, _: Int ->
@@ -98,7 +98,8 @@ class LanguageSelector: ConstraintLayout, DialogInterface.OnDismissListener, Dia
     }
 
     private fun updateBadge() {
-        badge.text = if (selectedIndices.isNotEmpty()) selectedIndices.size.toString() else "+"
+        languageText.text =
+            selectedIndices.joinToString(", ") { allValuesOfLanguages[it].uppercase() }
     }
 
     fun setOnItemsSelectListener(onItemSelectListener: OnItemSelectListener) {
