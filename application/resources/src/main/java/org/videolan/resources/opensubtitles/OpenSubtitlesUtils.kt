@@ -64,6 +64,7 @@ object OpenSubtitlesUtils {
         val jsonAdapter = getUserAdapter()
         settings.putSingle(KEY_OPEN_SUBTITLES_USER, jsonAdapter.toJson(user))
         OpenSubtitleClient.authorizationToken = user.account?.token ?: ""
+        OpenSubtitleClient.userDomain = user.account?.baseUrl
     }
 
     private fun getUserAdapter(): JsonAdapter<OpenSubtitlesUser> {

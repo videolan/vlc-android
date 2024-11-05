@@ -6,6 +6,7 @@ import com.moczul.ok2curl.logger.Logger
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUtils
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -24,28 +25,33 @@ private const val BASE_URL = "https://api.opensubtitles.com/api/v1/"
 const val USER_AGENT = "VLSub v0.9"
 
 private fun buildClient() = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                })
-                .addInterceptor(UserAgentInterceptor(USER_AGENT))
-                .addInterceptor(ConnectivityInterceptor(AppContextProvider.appContext))
+    .baseUrl(BASE_URL)
+    .client(
+        OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .addInterceptor(DomainInterceptor())
+            .addInterceptor(UserAgentInterceptor(USER_AGENT))
+            .addInterceptor(ConnectivityInterceptor(AppContextProvider.appContext))
             .addInterceptor(CurlInterceptor(object : Logger {
                 override fun log(message: String) {
                     Log.v("Ok2Curl", message)
                 }
             }))
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .build())
-        .addConverterFactory(MoshiConverterFactory.create(
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .build()
+    )
+    .addConverterFactory(
+        MoshiConverterFactory.create(
             Moshi.Builder()
                 .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
                 .build()
-        ))
-        .build()
-        .create(IOpenSubtitleService::class.java)
+        )
+    )
+    .build()
+    .create(IOpenSubtitleService::class.java)
 
 private class UserAgentInterceptor(val userAgent: String): Interceptor {
 
@@ -60,9 +66,29 @@ private class UserAgentInterceptor(val userAgent: String): Interceptor {
     }
 }
 
+class DomainInterceptor : Interceptor {
+
+    @Throws(Exception::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val newBuilder = request.newBuilder()
+        OpenSubtitleClient.userDomain?.let {
+            newBuilder.url(
+                    request.url.toString()
+                        .replace("api.opensubtitles.com", it)
+                        .toHttpUrlOrNull() ?: request.url
+                )
+        }
+        return chain.proceed(
+            newBuilder.build()
+        )
+    }
+}
+
 interface OpenSubtitleClient {
     companion object {
         val instance: IOpenSubtitleService by lazy { buildClient() }
         var authorizationToken:String = ""
+        var userDomain:String? = null
     }
 }

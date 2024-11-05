@@ -124,8 +124,10 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         settings = Settings.getInstance(requireContext())
-        val token = OpenSubtitlesUtils.getUser(settings).account?.token
+        val user = OpenSubtitlesUtils.getUser(settings)
+        val token = user.account?.token
         if (!token.isNullOrEmpty()) OpenSubtitleClient.authorizationToken = token
+        OpenSubtitleClient.userDomain = user.account?.baseUrl
         binding = SubtitleDownloaderDialogBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
        if (!token.isNullOrEmpty()) viewModel.checkUserInfos(settings)
@@ -190,7 +192,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         })
         //todo
         viewModel.observableSearchHearingImpaired.set(false)
-        viewModel.observableUser.set(OpenSubtitlesUtils.getUser(settings))
+        viewModel.observableUser.set(user)
         viewModel.observableLimit.set(OpenSubtitlesUtils.getLimit(settings))
 
         binding.retryButton.setOnClickListener {
