@@ -189,11 +189,11 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         return OpenSubtitleRepository.getInstance().queryWithName(name, episode, season, languageIds, hearingImpaired)
     }
 
-    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
+    private suspend fun getSubtitleByHash(movieHash: String?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by hash with $movieHash")
         manualSearchEnabled.set(false)
         observableResultDescription.set(context.getString(R.string.sub_result_by_file).toSpanned())
-        return OpenSubtitleRepository.getInstance().queryWithHash(movieByteSize, movieHash, languageIds, hearingImpaired)
+        return OpenSubtitleRepository.getInstance().queryWithHash(movieHash, languageIds, hearingImpaired)
     }
 
     fun onRefresh() {
@@ -219,8 +219,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                         val videoFile = File(mediaUri.path)
                         if (videoFile.exists()) {
                             val hash = FileUtils.computeHash(videoFile)
-                            val fileLength = videoFile.length()
-                            val hashSubs = getSubtitleByHash(fileLength, hash, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
+                            val hashSubs = getSubtitleByHash(hash, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
                             // No result for hash. Falling back to name search
                             if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data else hashSubs
                         } else {

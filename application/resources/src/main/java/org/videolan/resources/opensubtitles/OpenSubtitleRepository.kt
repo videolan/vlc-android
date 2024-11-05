@@ -13,7 +13,6 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
 
 
     suspend fun queryWithHash(
-        movieByteSize: Long,
         movieHash: String?,
         languageIds: List<String>?,
         hearingImpaired: Boolean
