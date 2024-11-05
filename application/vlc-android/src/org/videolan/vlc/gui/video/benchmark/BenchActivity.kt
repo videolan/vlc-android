@@ -45,6 +45,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.gui.video.PlayerOrientationMode
 import org.videolan.vlc.media.PlaylistManager
 import java.io.*
 
@@ -206,10 +207,8 @@ class BenchActivity : ShallowVideoPlayer() {
             }
         }
 
-        // blocking display in landscape orientation
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        // Minimum apk for benchmark is 21, so this warning is a non-issue
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        orientationMode = PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+        requestedOrientation = getScreenOrientation(orientationMode)
 
         this.registerReceiverCompat(broadcastReceiver, IntentFilter(ACTION_CONTINUE_BENCHMARK), true)
     }
