@@ -12,7 +12,7 @@ data class SubtitleItem(
     val state: State,
     var zipDownloadLink: String,
     val hearingImpaired: Boolean,
-    val rating: Int,
+    val rating: Float,
     val downloadNumber: Long,
     var fileName: String = ""
 ) {

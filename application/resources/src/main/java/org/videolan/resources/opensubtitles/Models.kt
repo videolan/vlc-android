@@ -63,7 +63,7 @@ data class Attributes(
         @field:Json(name = "new_download_count")
         val newDownloadCount: Int?,
         @field:Json(name = "ratings")
-        val ratings: Int = 0,
+        val ratings: Float = 0F,
         @field:Json(name = "related_links")
         val relatedLinks: List<RelatedLink?>?,
         @field:Json(name = "release")
@@ -93,7 +93,7 @@ data class FeatureDetails(
         @field:Json(name = "imdb_id")
         val imdbId: Int?,
         @field:Json(name = "movie_name")
-        val movieName: String?,
+        val movieName: String,
         @field:Json(name = "parent_feature_id")
         val parentFeatureId: Int?,
         @field:Json(name = "parent_imdb_id")
