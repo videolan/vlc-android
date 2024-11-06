@@ -57,6 +57,8 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     private lateinit var names: String
     private lateinit var viewModel: SubtitlesModel
     private lateinit var toast: Toast
+    private var lastUsername: String = ""
+    private var lastPassword: String = ""
 
     private var state: SubDownloadDialogState = SubDownloadDialogState.Download
         set(value) {
@@ -142,7 +144,12 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         binding.loginButton.setOnClickListener {
             if (viewModel.observableUser.get()?.logged == true) {
                 viewModel.logout(settings)
-            }else {
+            } else {
+                if (lastPassword == binding.password.text.toString() && lastUsername == binding.username.text.toString()) {
+                    return@setOnClickListener
+                }
+                lastPassword = binding.password.text.toString()
+                lastUsername = binding.username.text.toString()
                 viewModel.login(
                     settings,
                     binding.username.text.toString(),
