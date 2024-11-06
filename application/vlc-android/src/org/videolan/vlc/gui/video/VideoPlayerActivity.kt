@@ -1497,7 +1497,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private fun volumeDown() {
         service?.let { service ->
             var vol = if (service.volume > 100)
-                (service.volume.toFloat() * audioMax / 100 - 1).roundToInt()
+                (((service.volume * audioMax).div(100)) - 1)
             else
                 audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1
             vol = vol.coerceAtLeast(0).coerceAtMost(audioMax * if (isAudioBoostEnabled) 2 else 1)
