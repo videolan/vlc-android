@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
 import org.videolan.vlc.gui.view.OnItemSelectListener
 import org.videolan.vlc.util.VLCDownloadManager
+import org.videolan.vlc.util.openLinkIfPossible
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
 private const val MEDIA_PATHS = "MEDIA_PATHS"
@@ -156,6 +157,10 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
                     binding.password.text.toString()
                 )
             }
+        }
+
+        binding.registerButton.setOnClickListener {
+                requireActivity().openLinkIfPossible("https://www.opensubtitles.com/en", 512)
         }
 
         state = SubDownloadDialogState.Download

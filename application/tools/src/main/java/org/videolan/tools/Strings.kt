@@ -101,6 +101,8 @@ fun String.firstLetterUppercase(): String {
     } else Character.toUpperCase(this[0]) + substring(1).lowercase(Locale.getDefault())
 }
 
+const val FORBIDDEN_CHARS = "ha]/m(?-*"
+
 fun String.password() =  "*".repeat(length)
 
 fun String.abbreviate(maxLen: Int): String {
@@ -115,6 +117,8 @@ fun Long.readableNumber(): String {
     if (this <= 1000000) return (this / 1000).toString() + "K"
     return (this / 1000000).toString() + "M"
 }
+
+fun Int.forbiddenChars() = FORBIDDEN_CHARS.substrlng(this)
 
 fun String.markBidi(): String {
     //right-to-left isolate

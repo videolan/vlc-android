@@ -721,6 +721,7 @@
     <string name="open_subtitles_logged_in">Logged in as %1$s</string>
     <string name="open_subtitles_limits">You have %1$s remaining downloads out of %2$s. Your limit will be reset at %3$s.</string>
     <string name="open_subtitles_vip">You are a VIP OpenSubtitles user</string>
+    <string name="open_subtitles_register">Register</string>
     <string name="open_subtitles_log_out">Log out</string>
     <string name="open_subtitles_username">Username</string>
     <string name="open_subtitles_password">Password</string>
