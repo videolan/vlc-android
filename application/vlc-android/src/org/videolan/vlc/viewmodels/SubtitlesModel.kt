@@ -6,6 +6,7 @@ import android.net.Uri
 import android.text.Html
 import android.text.Spanned
 import android.util.Log
+import androidx.core.text.HtmlCompat
 import androidx.core.text.toSpanned
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
@@ -80,6 +81,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     val observableMessage = ObservableField<String>()
     val observableError = ObservableField<Boolean>()
     val observableResultDescription = ObservableField<Spanned>()
+    val observableResultDescriptionTalkback = ObservableField<String>()
     val oldLanguagesMigration by lazy {
         val newLangCodes =  context.resources.getStringArray(R.array.language_values)
         val oldLangCodes =  context.resources.getStringArray(R.array.old_language_values)
@@ -185,7 +187,19 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         episode?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_episode, "<i>$it</i>")) }
         languageIds?.let { languages -> if (languageIds.isNotEmpty()) builder.append(" ${TextUtils.SEPARATOR} ").append("<i>${languages.joinToString(", "){ it.uppercase()} }</i>") }
         if (hearingImpaired) builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_hearing_impaired))
-        observableResultDescription.set(Html.fromHtml(builder.toString()))
+        observableResultDescription.set(HtmlCompat.fromHtml(builder.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY))
+        val talkbackBuilder = StringBuilder(context.getString(R.string.sub_result_by_name, name))
+        season?.let { talkbackBuilder.append(". ").append(context.getString(R.string.sub_result_by_name_season, "$it")) }
+        episode?.let { talkbackBuilder.append(". ").append(context.getString(R.string.sub_result_by_name_episode, "$it")) }
+        val langEntries = context.resources.getStringArray(R.array.language_entries)
+        val langValues = context.resources.getStringArray(R.array.language_values)
+        languageIds?.let { languages -> if (languageIds.isNotEmpty()) talkbackBuilder.append(". ").append(
+            languages.joinToString(", "){
+                val index = langValues.indexOf(it)
+                if (index != -1) langEntries[index] else it
+            }) }
+        if (hearingImpaired) talkbackBuilder.append(". ").append(context.getString(R.string.sub_result_by_name_hearing_impaired))
+        observableResultDescriptionTalkback.set(talkbackBuilder.toString())
         manualSearchEnabled.set(true)
         return OpenSubtitleRepository.getInstance().queryWithName(name, episode, season, languageIds, hearingImpaired)
     }

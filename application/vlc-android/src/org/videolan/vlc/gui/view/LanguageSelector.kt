@@ -80,7 +80,13 @@ class LanguageSelector: ConstraintLayout, DialogInterface.OnDismissListener, Dia
         selectedIndices.forEach {
             if (it >= 0 && it < selection.size) selection[it] = true
         }
-        contentDescription = context.getString(R.string.talkback_language_selection, selection.filter { it }.size.toString())
+        contentDescription = buildString {
+            append(context.getString(R.string.talkback_language_selection, selection.filter { it }.size.toString()))
+            append(". ")
+            selection.forEachIndexed { index, selected ->
+                if (selected) append(allEntriesOfLanguages[index]).append(", ")
+            }
+        }
         updateBadge()
         listener?.onItemSelect(selectedIndices)
     }

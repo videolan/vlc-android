@@ -811,6 +811,7 @@
     <string name="rename_media">Rename %1$s</string>
     <string name="manual_search">Manual search</string>
     <string name="subtitle_search_name_hint">Name</string>
+    <string name="subtitle_query_edit">Edit subtitle search query</string>
     <string name="subtitle_search_episode_hint">Episode</string>
     <string name="subtitle_search_season_hint">Season</string>
     <string name="subtitles_download_failed">Failed to download</string>
