@@ -425,6 +425,8 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:focusable="true"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:hint="@string/open_subtitles_username"
                         android:nextFocusRight="@+id/password"
                         android:nextFocusDown="@+id/password"
