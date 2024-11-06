@@ -717,9 +717,9 @@
     <string name="popup_expand">Expand video</string>
     <string name="download_subtitles">Download subtitles</string>
     <string name="powered_opensubtitles">Powered by OpenSubtitles. Remaining downloads : %s</string>
-    <string name="open_subtitles_login_title">Open subtitles login</string>
     <string name="open_subtitles_not_logged_in">You are not logged in</string>
-    <string name="open_subtitles_logged_in">Welcome %1$s</string>
+    <string name="open_subtitles_logged_in">Logged in as %1$s</string>
+    <string name="open_subtitles_limits">You have %1$s remaining downloads out of %2$s. Your limit will be reset at %3$s.</string>
     <string name="open_subtitles_vip">You are a VIP OpenSubtitles user</string>
     <string name="open_subtitles_log_out">Log out</string>
     <string name="open_subtitles_username">Username</string>

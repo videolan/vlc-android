@@ -24,6 +24,8 @@
 
 package main.java.org.videolan.resources.opensubtitles
 
+import android.content.Context
+import android.text.format.DateFormat
 import java.util.Date
 
 data class OpenSubtitlesLimit (
@@ -31,12 +33,17 @@ data class OpenSubtitlesLimit (
     var max: Int = 5,
     val resetTime: Date? = null
 ) {
-    private fun getRemaining(): Int {
+    fun getRemaining(): Int {
         if (resetTime != null && Date().after(resetTime)) return max
         return max - requests
     }
     fun getRemainingText(): String {
         val remaining = getRemaining()
         return "$remaining/$max"
+    }
+
+    fun getResetTime(context:Context): String {
+        if (resetTime == null) return ""
+        return DateFormat.getTimeFormat(context).format(resetTime.time)
     }
 }
