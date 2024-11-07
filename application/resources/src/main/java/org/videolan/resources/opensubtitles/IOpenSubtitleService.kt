@@ -16,6 +16,7 @@ interface IOpenSubtitleService {
         @Query("moviehash") movieHash: String? = null,
         @Query("query") name: String? = null,
         @Query("season_number") season: Int? = null,
+        @Query("order_by") orderBy: String = "download_count",
     ): OpenSubV1
 
     @POST("download")
