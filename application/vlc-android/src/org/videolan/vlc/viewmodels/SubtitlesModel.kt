@@ -1,5 +1,6 @@
 package org.videolan.vlc.viewmodels
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -11,6 +12,7 @@ import androidx.core.text.toSpanned
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +27,7 @@ import kotlinx.coroutines.withContext
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesLimit
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUser
 import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUtils
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.opensubtitles.Data
 import org.videolan.resources.opensubtitles.OpenSubV1
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
@@ -32,6 +35,7 @@ import org.videolan.resources.util.NoConnectivityException
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.FileUtils
 import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -65,7 +69,7 @@ import kotlin.collections.toList
 
 private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
-class SubtitlesModel(private val context: Context, private val mediaUri: Uri, private val name:String, val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : ViewModel() {
+class SubtitlesModel(context: Context, private val mediaUri: Uri, private val name:String, val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : AndroidViewModel(context.applicationContext as Application) {
     val observableSearchName = ObservableField<String>()
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
@@ -98,6 +102,9 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         }
         mapping
     }
+
+    private fun getContext() =
+        getApplication<Application>().getContextWithLocale(AppContextProvider.locale)
 
     private val apiResultLiveData: MutableLiveData<List<Data>> = MutableLiveData()
     private val downloadedLiveData = ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri).map { list ->
@@ -182,23 +189,23 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
 
     private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by name with $name")
-        val builder = StringBuilder(context.getString(R.string.sub_result_by_name, "<i>$name</i>"))
-        season?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_season, "<i>$it</i>")) }
-        episode?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_episode, "<i>$it</i>")) }
+        val builder = StringBuilder(getContext().getString(R.string.sub_result_by_name, "<i>$name</i>"))
+        season?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(getContext().getString(R.string.sub_result_by_name_season, "<i>$it</i>")) }
+        episode?.let { builder.append(" ${TextUtils.SEPARATOR} ").append(getContext().getString(R.string.sub_result_by_name_episode, "<i>$it</i>")) }
         languageIds?.let { languages -> if (languageIds.isNotEmpty()) builder.append(" ${TextUtils.SEPARATOR} ").append("<i>${languages.joinToString(", "){ it.uppercase()} }</i>") }
-        if (hearingImpaired) builder.append(" ${TextUtils.SEPARATOR} ").append(context.getString(R.string.sub_result_by_name_hearing_impaired))
+        if (hearingImpaired) builder.append(" ${TextUtils.SEPARATOR} ").append(getContext().getString(R.string.sub_result_by_name_hearing_impaired))
         observableResultDescription.set(HtmlCompat.fromHtml(builder.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY))
-        val talkbackBuilder = StringBuilder(context.getString(R.string.sub_result_by_name, name))
-        season?.let { talkbackBuilder.append(". ").append(context.getString(R.string.sub_result_by_name_season, "$it")) }
-        episode?.let { talkbackBuilder.append(". ").append(context.getString(R.string.sub_result_by_name_episode, "$it")) }
-        val langEntries = context.resources.getStringArray(R.array.language_entries)
-        val langValues = context.resources.getStringArray(R.array.language_values)
+        val talkbackBuilder = StringBuilder(getContext().getString(R.string.sub_result_by_name, name))
+        season?.let { talkbackBuilder.append(". ").append(getContext().getString(R.string.sub_result_by_name_season, "$it")) }
+        episode?.let { talkbackBuilder.append(". ").append(getContext().getString(R.string.sub_result_by_name_episode, "$it")) }
+        val langEntries = getContext().resources.getStringArray(R.array.language_entries)
+        val langValues = getContext().resources.getStringArray(R.array.language_values)
         languageIds?.let { languages -> if (languageIds.isNotEmpty()) talkbackBuilder.append(". ").append(
             languages.joinToString(", "){
                 val index = langValues.indexOf(it)
                 if (index != -1) langEntries[index] else it
             }) }
-        if (hearingImpaired) talkbackBuilder.append(". ").append(context.getString(R.string.sub_result_by_name_hearing_impaired))
+        if (hearingImpaired) talkbackBuilder.append(". ").append(getContext().getString(R.string.sub_result_by_name_hearing_impaired))
         observableResultDescriptionTalkback.set(talkbackBuilder.toString())
         manualSearchEnabled.set(true)
         return OpenSubtitleRepository.getInstance().queryWithName(name, episode, season, languageIds, hearingImpaired)
@@ -207,7 +214,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     private suspend fun getSubtitleByHash(movieHash: String?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by hash with $movieHash")
         manualSearchEnabled.set(false)
-        observableResultDescription.set(context.getString(R.string.sub_result_by_file).toSpanned())
+        observableResultDescription.set(getContext().getString(R.string.sub_result_by_file).toSpanned())
         return OpenSubtitleRepository.getInstance().queryWithHash(movieHash, languageIds, hearingImpaired)
     }
 
@@ -259,7 +266,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                 }
                 if (isActive) apiResultLiveData.postValue(subs)
                 if (subs.isEmpty()) {
-                    observableMessage.set(context.getString(R.string.no_result))
+                    observableMessage.set(getContext().getString(R.string.no_result))
                 } else {
                     observableMessage.set("")
                 }
@@ -268,9 +275,9 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                 Log.e("SubtitlesModel", e.message, e)
                 observableError.set(true)
                 if (e is NoConnectivityException)
-                    observableMessage.set(context.getString(R.string.no_internet_connection))
+                    observableMessage.set(getContext().getString(R.string.no_internet_connection))
                 else
-                    observableMessage.set(context.getString(R.string.open_subs_download_error))
+                    observableMessage.set(getContext().getString(R.string.open_subs_download_error))
             } finally {
                 isApiLoading.postValue(false)
             }
@@ -278,7 +285,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
     }
 
     fun deleteSubtitle(mediaPath: String, idSubtitle: String) {
-        ExternalSubRepository.getInstance(context).deleteSubtitle(mediaPath, idSubtitle)
+        ExternalSubRepository.getInstance(getContext()).deleteSubtitle(mediaPath, idSubtitle)
     }
 
     fun getLastUsedLanguage(): List<String> {
@@ -287,7 +294,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         } catch (e: MissingResourceException) {
             "en"
         }
-        return Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(language))?.map { if (it.length > 2) migrateFromOld(it) ?: it else it } ?: emptyList()
+        return Settings.getInstance(getContext()).getStringSet(LAST_USED_LANGUAGES, setOf(language))?.map { if (it.length > 2) migrateFromOld(it) ?: it else it } ?: emptyList()
     }
 
     fun login(settings: SharedPreferences, username: String, password: String) {
@@ -304,7 +311,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                         return@withContext
                     }
                 }
-                observableUser.set(OpenSubtitlesUser(false, null, errorMessage = if (call.code() == 401) context.getString(R.string.login_error) else context.getString(R.string.unknown_error)))
+                observableUser.set(OpenSubtitlesUser(false, null, errorMessage = if (call.code() == 401) getContext().getString(R.string.login_error) else getContext().getString(R.string.unknown_error)))
             }
         }
     }
@@ -341,7 +348,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         return oldLanguagesMigration[it]
     }
 
-    fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).putSingle(LAST_USED_LANGUAGES, lastUsedLanguages)
+    fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(getContext()).putSingle(LAST_USED_LANGUAGES, lastUsedLanguages)
 
     class Factory(private val context: Context, private val mediaUri: Uri, private val name: String) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -350,17 +357,4 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
         }
     }
 
-    // Locale ID Control, because of OpenSubtitle support of ISO639-2 codes
-    // e.g. French ID can be 'fra' or 'fre', OpenSubtitles considers 'fre' but Android Java Locale provides 'fra'
-    private fun String.getCompliantLanguageID() = when (this) {
-        "fra" -> "fre"
-        "deu" -> "ger"
-        "zho" -> "chi"
-        "ces" -> "cze"
-        "fas" -> "per"
-        "nld" -> "dut"
-        "ron" -> "rum"
-        "slk" -> "slo"
-        else -> this
-    }
 }
