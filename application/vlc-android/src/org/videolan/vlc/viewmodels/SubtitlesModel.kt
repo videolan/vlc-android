@@ -300,6 +300,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                         val openSubtitlesUser = OpenSubtitlesUser(true, userResult, username = username)
                         OpenSubtitlesUtils.saveUser(settings, openSubtitlesUser)
                         observableUser.set(openSubtitlesUser)
+                        checkUserInfos(settings)
                         return@withContext
                     }
                 }
