@@ -518,6 +518,7 @@
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="mini_visualizer_color">@color/white_transparent_75</item>
         <item name="video_list_background">@drawable/video_list_background</item>
+        <item name="default_divider">@color/white_transparent_20</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
