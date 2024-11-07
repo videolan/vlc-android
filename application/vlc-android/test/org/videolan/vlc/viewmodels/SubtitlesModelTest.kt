@@ -244,6 +244,6 @@ class SubtitlesModelTest : BaseTest() {
                 .awaitValue(3, TimeUnit.SECONDS)
                 .assertValue { it.isEmpty() }
 
-        assertEquals(context.getString(R.string.subs_download_error), subtitlesModel.observableMessage.get())
+        assertEquals(context.getString(R.string.open_subs_download_error), subtitlesModel.observableMessage.get())
     }
 }

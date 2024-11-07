@@ -270,7 +270,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, pr
                 if (e is NoConnectivityException)
                     observableMessage.set(context.getString(R.string.no_internet_connection))
                 else
-                    observableMessage.set(context.getString(R.string.subs_download_error))
+                    observableMessage.set(context.getString(R.string.open_subs_download_error))
             } finally {
                 isApiLoading.postValue(false)
             }

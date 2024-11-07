@@ -14,6 +14,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.BuildConfig
 import org.videolan.resources.util.ConnectivityInterceptor
+import org.videolan.tools.forbiddenChars
+import org.videolan.tools.substrlng
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.Date
@@ -38,6 +40,8 @@ private fun buildClient() = Retrofit.Builder()
     )
     .build()
     .create(IOpenSubtitleService::class.java)
+
+fun getOSK() = "${BuildConfig.VLC_OPEN_SUBTITLES_API_KEY}${(-47).forbiddenChars()}Y"
 
 private fun getOkHttpClient(): OkHttpClient {
     val builder = OkHttpClient.Builder()
@@ -69,7 +73,7 @@ private class UserAgentInterceptor(val userAgent: String): Interceptor {
         val request: Request = chain.request()
         val requestBuilder = request.newBuilder()
             .header("User-Agent", userAgent)
-            .header("Api-Key", BuildConfig.VLC_OPEN_SUBTITLES_API_KEY)
+            .header("Api-Key", getOSK().substrlng(55))
             .header("Accept", "application/json")
         if (OpenSubtitleClient.authorizationToken.isNotEmpty())requestBuilder.header("Authorization", OpenSubtitleClient.authorizationToken)
         return chain.proceed(requestBuilder.build())
