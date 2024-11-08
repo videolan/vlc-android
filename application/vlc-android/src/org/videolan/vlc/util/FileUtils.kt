@@ -52,6 +52,7 @@ import org.videolan.vlc.media.MediaUtils
 import java.io.*
 import java.lang.Runnable
 import java.util.*
+import java.util.zip.CRC32
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
@@ -489,15 +490,22 @@ object FileUtils {
         }
     }
 
-    fun zipWithName(files: Array<Pair<String, String>>, zipFileName: String): Boolean {
+    fun zipWithName(files: Array<Pair<String, String>>, zipFileName: String, storeOnly: Boolean = false): Boolean {
         return try {
             File(zipFileName).parentFile?.mkdirs()
             ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFileName))).use { out ->
                 val data = ByteArray(BUFFER)
                 for (i in files.indices) {
+                    val entry = ZipEntry(files[i].second).apply {
+                        if (storeOnly) {
+                            method = ZipEntry.STORED
+                            size = File(files[i].first).length()
+                            compressedSize = size
+                            crc = computeZipChecksum(files[i].first)
+                        }
+                    }
                     val fi = FileInputStream(files[i].first)
                     BufferedInputStream(fi, BUFFER).use { origin ->
-                        val entry = ZipEntry(files[i].second)
                         out.putNextEntry(entry)
                         var count = origin.read(data, 0, BUFFER)
 
@@ -513,6 +521,21 @@ object FileUtils {
             Log.e(TAG, e.message, e)
             false
         }
+    }
+
+    private fun computeZipChecksum(inputFile: String): Long {
+        val crc32 = CRC32()
+        val data = ByteArray(BUFFER)
+        val fi = FileInputStream(inputFile)
+        BufferedInputStream(fi, BUFFER).use { origin ->
+            var count = origin.read(data, 0, BUFFER)
+
+            while (count != -1) {
+                crc32.update(data, 0, count)
+                count = origin.read(data, 0, BUFFER)
+            }
+        }
+        return crc32.value
     }
 
     @Throws(Exception::class)

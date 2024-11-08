@@ -42,7 +42,7 @@ object MediaZipUtils {
 
         val filename = "${genre.title.slugify("_")}.zip"
         val dst = File("$folder/$filename")
-        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        FileUtils.zipWithName(files.toTypedArray(), dst.path, true)
         return filename
     }
 
@@ -57,7 +57,7 @@ object MediaZipUtils {
 
         val filename = "${playlist.title.slugify("_")}.zip"
         val dst = File("$folder/$filename")
-        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        FileUtils.zipWithName(files.toTypedArray(), dst.path, true)
         return filename
     }
 
@@ -72,7 +72,7 @@ object MediaZipUtils {
 
         val filename = "${videoGroup.title.slugify("_")}.zip"
         val dst = File("$folder/$filename")
-        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        FileUtils.zipWithName(files.toTypedArray(), dst.path, true)
         return filename
     }
 
@@ -88,7 +88,7 @@ object MediaZipUtils {
 
         val filename = "${videoFolder.title.slugify("_")}.zip"
         val dst = File("$folder/$filename")
-        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        FileUtils.zipWithName(files.toTypedArray(), dst.path, true)
         return filename
     }
 
@@ -110,7 +110,7 @@ object MediaZipUtils {
 
         val filename = "${artist.title.slugify("_")}.zip"
         val dst = File("$folder/$filename")
-        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        FileUtils.zipWithName(files.toTypedArray(), dst.path, true)
         return filename
     }
 
@@ -124,7 +124,7 @@ object MediaZipUtils {
         val filename = "${album.title.slugify("_")}.zip"
         val dst = File("$folder/$filename")
         val files = generateAlbumFiles(album)
-        FileUtils.zipWithName(files.toTypedArray(), dst.path)
+        FileUtils.zipWithName(files.toTypedArray(), dst.path, true)
         return filename
     }
 
