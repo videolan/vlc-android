@@ -32,9 +32,12 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.ktor.http.CacheControl
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.content.CachingOptions
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.ApplicationStopped
@@ -48,6 +51,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.engine.sslConnector
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
+import io.ktor.server.plugins.cachingheaders.CachingHeaders
 import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.origin
@@ -477,6 +481,29 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                     timeout = Duration.ofSeconds(15)
                     maxFrameSize = Long.MAX_VALUE
                     masking = false
+                }
+                install(CachingHeaders) {
+                    options { _, content ->
+                        when (content.contentType?.withoutParameters()) {
+                            ContentType.Text.Plain,
+                            ContentType.Application.Json -> {
+                                CachingOptions(CacheControl.NoStore(CacheControl.Visibility.Private))
+                            }
+                            ContentType.Image.GIF,
+                            ContentType.Image.PNG,
+                            ContentType.Image.SVG,
+                            ContentType.Image.JPEG,
+                            ContentType.Image.XIcon,
+                            ContentType.Text.CSS,
+                            ContentType.Text.Xml,
+                            ContentType.Text.Html,
+                            ContentType.Text.JavaScript,
+                            ContentType.Application.JavaScript -> {
+                                CachingOptions(CacheControl.MaxAge(maxAgeSeconds = 86400, visibility = CacheControl.Visibility.Private))
+                            }
+                            else -> null
+                        }
+                    }
                 }
                 install(CORS) {
                     allowMethod(HttpMethod.Options)
