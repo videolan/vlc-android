@@ -432,7 +432,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 return@get
             }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(videos.size)
             videos.forEach { video ->
                 when (video) {
                     is MediaWrapper->list.add(video.toPlayQueueItem())
@@ -494,7 +494,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val albums = appContext.getFromMl { getAlbums(false, false) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(albums.size)
             albums.forEach { album ->
                 list.add(album.toPlayQueueItem())
             }
@@ -509,7 +509,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val artists = appContext.getFromMl { getArtists(settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false), false, false) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(artists.size)
             artists.forEach { artist ->
                 list.add(artist.toPlayQueueItem(appContext))
             }
@@ -524,7 +524,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val tracks = appContext.getFromMl { getAudio(Medialibrary.SORT_DEFAULT, false, false, false) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(tracks.size)
             tracks.forEach { track ->
                 list.add(track.toPlayQueueItem(defaultArtist = appContext.getString(R.string.unknown_artist)))
             }
@@ -539,7 +539,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val genres = appContext.getFromMl { getGenres(false, false) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(genres.size)
             genres.forEach { genre ->
                 list.add(genre.toPlayQueueItem(appContext))
             }
@@ -556,7 +556,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
             val album = appContext.getFromMl { getAlbum(id) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(album.tracksCount)
             album.tracks.forEach { track ->
                 list.add(track.toPlayQueueItem(album.albumArtist))
             }
@@ -574,7 +574,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
             val genre = appContext.getFromMl { getGenre(id) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(genre.tracksCount)
             genre.tracks.forEach { track ->
                 list.add(track.toPlayQueueItem())
             }
@@ -592,7 +592,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
             val playlist = appContext.getFromMl { getPlaylist(id, false, false) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(playlist.tracksCount)
             playlist.tracks.forEach { track ->
                 list.add(track.toPlayQueueItem(defaultArtist = if (track.type == MediaWrapper.TYPE_AUDIO) appContext.getString(R.string.unknown_artist) else "").apply {
                     if (track.type == MediaWrapper.TYPE_VIDEO) fileType = "video"
@@ -694,7 +694,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
             val artist = appContext.getFromMl { getArtist(id) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(artist.albumsCount)
             artist.albums.forEach { album ->
                 list.add(album.toPlayQueueItem())
             }
@@ -710,7 +710,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val playlists = appContext.getFromMl { getPlaylists(Playlist.Type.All, false) }
 
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(playlists.size)
             playlists.forEach { playlist ->
                 list.add(playlist.toPlayQueueItem(appContext))
             }
@@ -819,8 +819,9 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
             }
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
-            RemoteAccessServer.getInstance(appContext).networkSharesLiveData.getList().forEachIndexed { index, mediaLibraryItem ->
+            val networkShares = RemoteAccessServer.getInstance(appContext).networkSharesLiveData.getList()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(networkShares.size)
+            networkShares.forEachIndexed { index, mediaLibraryItem ->
                 list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite))
             }
@@ -831,7 +832,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val stream = appContext.getFromMl {
                 history(Medialibrary.HISTORY_TYPE_NETWORK)
             }
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>()
+            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(stream.size)
             stream.forEachIndexed { index, mediaLibraryItem ->
                 list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite))
