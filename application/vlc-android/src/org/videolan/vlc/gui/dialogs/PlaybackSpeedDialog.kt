@@ -62,7 +62,8 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
             if (playbackService == null || playbackService!!.currentMediaWrapper == null)
                 return
             if (fromUser) {
-                val rate = (8.0).pow(progress.toDouble() / 100.0 - 1).toFloat()
+                val coef = if (progress < 100) 4.0 else 8.0
+                val rate = (coef).pow(progress.toDouble() / 100.0 - 1).toFloat()
                 playbackService!!.setRate(rate, true)
                 updateInterface()
             }
@@ -145,7 +146,8 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     private fun setRateProgress() {
         var speed = playbackService!!.rate.toDouble()
-        speed = 100 * (1 + ln(speed) / ln(8.0))
+        val coef = if (speed < 1.0) 4.0 else 8.0
+        speed = 100 * (1 + ln(speed) / ln(coef))
         binding.playbackSpeedSeek.progress = speed.toInt()
         updateInterface()
     }
