@@ -38,9 +38,12 @@ import io.ktor.http.ContentDisposition
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
+import io.ktor.http.content.TextContent
 import io.ktor.http.content.forEachPart
 import io.ktor.http.content.streamProvider
+import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.server.auth.authenticate
 import io.ktor.server.http.content.staticFiles
@@ -57,6 +60,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -261,11 +265,11 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             json.put("type", log.type)
             jsonArray.put(json)
         }
-        call.respondText(jsonArray.toString())
+        call.respondJson(jsonArray.toString())
     }
     // Get the translation string list
     get("/translation") {
-        call.respondText(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
+        call.respondJson(TranslationMapping.generateTranslations(appContext.getContextWithLocale(AppContextProvider.locale)))
     }
     get("/secure-url") {
         call.respondText(RemoteAccessServer.getInstance(appContext).getSecureUrl(call))
@@ -438,8 +442,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
             }
             val result = RemoteAccessServer.VideoListResult(list, groupTitle)
-            val gson = Gson()
-            call.respondText(gson.toJson(result))
+            call.respondJson(Gson().toJson(result))
         }
         get("/longpolling") {
             //Empty the queue if needed
@@ -451,10 +454,14 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             //block the request until a message is received
             // The 3 second timeout is to avoid blocking forever
-            val message =  withTimeout(3000) { RemoteAccessWebSockets.onPlaybackEventChannel.receive() }
-            if (message.contains("\"type\":\"browser-description\"")) {
-                call.respondText("[$message]")
-                return@get
+            try {
+                val message = withTimeout(3000) { RemoteAccessWebSockets.onPlaybackEventChannel.receive() }
+                if (message.contains("\"type\":\"browser-description\"")) {
+                    call.respondJson("[$message]")
+                    return@get
+                }
+            } catch (e: TimeoutCancellationException) {
+                // Fall through to the next block of code
             }
             val remoteAccessServer = RemoteAccessServer.getInstance(appContext)
             val messages = arrayListOf<String>()
@@ -462,7 +469,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val isPlaying = PlaylistManager.showAudioPlayer.value ?: false
             messages.add(Gson().toJson(PlayerStatus(isPlaying)))
             remoteAccessServer.generateNowPlaying()?.let { it1 -> messages.add(Gson().toJson(it1)) }
-            call.respondText("[${messages.joinToString(",")}]")
+            call.respondJson("[${messages.joinToString(",")}]")
         }
         // Manage playback events
         get("/playback-event") {
@@ -491,8 +498,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             albums.forEach { album ->
                 list.add(album.toPlayQueueItem())
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         // List of all the artists
         get("/artist-list") {
@@ -507,8 +513,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             artists.forEach { artist ->
                 list.add(artist.toPlayQueueItem(appContext))
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         // List of all the audio tracks
         get("/track-list") {
@@ -523,8 +528,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             tracks.forEach { track ->
                 list.add(track.toPlayQueueItem(defaultArtist = appContext.getString(R.string.unknown_artist)))
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         // List of all the audio genres
         get("/genre-list") {
@@ -539,8 +543,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             genres.forEach { genre ->
                 list.add(genre.toPlayQueueItem(appContext))
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         // Get an album details
         get("/album") {
@@ -557,9 +560,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             album.tracks.forEach { track ->
                 list.add(track.toPlayQueueItem(album.albumArtist))
             }
-            val result= RemoteAccessServer.AlbumResult(list, album.title)
-            val gson = Gson()
-            call.respondText(gson.toJson(result))
+            val result = RemoteAccessServer.AlbumResult(list, album.title)
+            call.respondJson(Gson().toJson(result))
         }
         // Get a genre details
         get("/genre") {
@@ -576,9 +578,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             genre.tracks.forEach { track ->
                 list.add(track.toPlayQueueItem())
             }
-            val result= RemoteAccessServer.AlbumResult(list, genre.title)
-            val gson = Gson()
-            call.respondText(gson.toJson(result))
+            val result = RemoteAccessServer.AlbumResult(list, genre.title)
+            call.respondJson(Gson().toJson(result))
         }
         // Get an playlist details
         get("/playlist") {
@@ -597,9 +598,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     if (track.type == MediaWrapper.TYPE_VIDEO) fileType = "video"
                 })
             }
-            val result= RemoteAccessServer.PlaylistResult(list, playlist.title)
-            val gson = Gson()
-            call.respondText(gson.toJson(result))
+            val result = RemoteAccessServer.PlaylistResult(list, playlist.title)
+            call.respondJson(Gson().toJson(result))
         }
         // Create a new playlist
         post("/playlist-create") {
@@ -698,9 +698,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             artist.albums.forEach { album ->
                 list.add(album.toPlayQueueItem())
             }
-            val result= RemoteAccessServer.ArtistResult(list, listOf(), artist.title)
-            val gson = Gson()
-            call.respondText(gson.toJson(result))
+            val result = RemoteAccessServer.ArtistResult(list, listOf(), artist.title)
+            call.respondJson(Gson().toJson(result))
         }
         // List of all the playlists
         get("/playlist-list") {
@@ -715,8 +714,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             playlists.forEach { playlist ->
                 list.add(playlist.toPlayQueueItem(appContext))
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         // Search media
         get("/search") {
@@ -743,13 +741,11 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                             result.tracks?.filterNotNull()?.map { it.toPlayQueueItem() }
                                     ?: listOf(),
                     )
-                    val gson = Gson()
-                    call.respondText(gson.toJson(results))
+                    call.respondJson(Gson().toJson(results))
                 }
 
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(RemoteAccessServer.SearchResults(listOf(), listOf(), listOf(), listOf(), listOf(), listOf())))
+            call.respondJson(Gson().toJson(RemoteAccessServer.SearchResults(listOf(), listOf(), listOf(), listOf(), listOf(), listOf())))
         }
         // List of all the file storages
         get("/storage-list") {
@@ -772,9 +768,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.InternalServerError)
                 return@get
             }
-
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         // List of all the file favorites
         get("/favorite-list") {
@@ -794,8 +788,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.InternalServerError)
                 return@get
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         get("/history") {
             verifyLogin(settings)
@@ -817,8 +810,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.InternalServerError)
                 return@get
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         // List of all the network shares
         get("/network-list") {
@@ -832,8 +824,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite))
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         get("/stream-list") {
             verifyLogin(settings)
@@ -845,8 +836,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite))
             }
-            val gson = Gson()
-            call.respondText(gson.toJson(list))
+            call.respondJson(Gson().toJson(list))
         }
         //list of folders and files in a path
         get("/browse-list") {
@@ -920,8 +910,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }
 
             val result = RemoteAccessServer.BrowsingResult(list, breadcrumbItems)
-            val gson = Gson()
-            call.respondText(gson.toJson(result))
+            call.respondJson(Gson().toJson(result))
         }
         // Resume playback
         get("/resume-playback") {
@@ -1514,7 +1503,9 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
     return list
 }
 
-
+private suspend fun ApplicationCall.respondJson(text: String, status: HttpStatusCode? = null, configure: OutgoingContent.() -> Unit = {}) {
+    respond(TextContent(text, ContentType.Application.Json, status).apply(configure))
+}
 
 fun Album.toPlayQueueItem() = RemoteAccessServer.PlayQueueItem(id, title, albumArtist
         ?: "", duration, artworkMrl

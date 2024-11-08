@@ -333,7 +333,6 @@ object RemoteAccessWebSockets {
      * @return an [String] describing the volume message
      */
     private fun getVolumeMessage(context: Context, service: PlaybackService?): String {
-        val gson = Gson()
         val volume = when {
             service?.isVideoPlaying == true && service.volume > 100 -> service.volume
             else -> {
@@ -345,7 +344,7 @@ object RemoteAccessWebSockets {
                         ?: 0
             }
         }
-        return gson.toJson(RemoteAccessServer.Volume(volume))
+        return Gson().toJson(RemoteAccessServer.Volume(volume))
     }
 
     fun createTicket(): String {
