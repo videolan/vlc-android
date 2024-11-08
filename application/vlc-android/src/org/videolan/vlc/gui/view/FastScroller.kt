@@ -38,6 +38,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.text.TextUtilsCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -55,8 +57,10 @@ import org.videolan.tools.dp
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.LifecycleAwareScheduler
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.scope
+import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
 import kotlin.math.min
@@ -100,7 +104,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
     private var lastVerticalOffset: Int = 0
     private var tryCollapseAppbarOnNextScroll = false
     private var tryExpandAppbarOnNextScroll = false
-    private val hiddenTranslationX = 38.dp.toFloat()
+    private val hiddenTranslationX = if (LocaleUtil.isRtl()) -38.dp.toFloat() else 38.dp.toFloat()
 
     lateinit var scheduler: LifecycleAwareScheduler
 
@@ -126,7 +130,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
         handle = findViewById(R.id.fastscroller_handle)
         bubble = findViewById(R.id.fastscroller_bubble)
         translationX = hiddenTranslationX
-        setPadding(24.dp, 0,0,0)
+        setPadding(if(LocaleUtil.isRtl()) 0 else 24.dp, 0,0,0)
 
     }
 
@@ -271,7 +275,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
     private fun isViewContains(view: View, rx: Float, ry: Float): Boolean {
         val l = IntArray(2)
         view.getLocationOnScreen(l)
-        val x = l[0] - 32.dp
+        val x = l[0] - if (LocaleUtil.isRtl()) 0 else 32.dp
         val y = l[1] + 8.dp
         val w = view.width + 40.dp
         val h = view.height +8.dp
