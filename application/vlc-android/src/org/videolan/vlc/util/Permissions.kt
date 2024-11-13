@@ -244,17 +244,6 @@ object Permissions {
             createDialog(activity, exit)
     }
 
-    /**
-     * Display a dialog asking for the [Manifest.permission.MANAGE_EXTERNAL_STORAGE] permission if needed
-     *
-     * @param activity: the activity used to trigger the dialog
-     * @param listener: the listener for the permission result
-     */
-    fun showExternalPermissionDialog(activity: FragmentActivity, listener: (boolean: Boolean) -> Unit) {
-        if (activity.isFinishing || sAlertDialog != null && sAlertDialog!!.isShowing) return
-        sAlertDialog = createExternalManagerDialog(activity, listener)
-    }
-
     private fun createDialog(activity: FragmentActivity, exit: Boolean): Dialog {
         val dialogBuilder = android.app.AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
@@ -270,33 +259,6 @@ object Permissions {
                     .setCancelable(false)
         }
         return dialogBuilder.show()
-    }
-
-    /**
-     * Display a dialog asking for the [Manifest.permission.MANAGE_EXTERNAL_STORAGE] permission
-     *
-     * @param activity: the activity used to trigger the dialog
-     * @param listener: the listener for the permission result
-     */
-    private fun createExternalManagerDialog(activity: FragmentActivity, listener: (boolean: Boolean) -> Unit): Dialog {
-        val dialogBuilder = android.app.AlertDialog.Builder(activity)
-                .setTitle(activity.getString(R.string.allow_storage_manager_title))
-                .setMessage(activity.getString(R.string.allow_storage_manager_description, activity.getString(R.string.allow_storage_manager_explanation)))
-                .setIcon(R.drawable.ic_warning)
-                .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
-                    listener.invoke(true)
-                }.setNegativeButton(activity.getString(R.string.cancel)) { _, _ ->
-                    activity.finish()
-                    listener.invoke(false)
-                }
-                .setCancelable(false)
-        return dialogBuilder.show().apply {
-            if (activity is AppCompatActivity) activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
-                override fun onDestroy(owner: LifecycleOwner) {
-                    dismiss()
-                }
-            })
-        }
     }
 
     private fun createDialogCompat(activity: FragmentActivity, exit: Boolean): Dialog {

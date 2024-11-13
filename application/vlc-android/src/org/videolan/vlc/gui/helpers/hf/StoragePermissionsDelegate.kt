@@ -47,6 +47,7 @@ import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
+import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
@@ -134,11 +135,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             val uri = Uri.fromParts(SCHEME_PACKAGE, requireContext().packageName, null)
             val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
             if (intent.isCallable(requireActivity())) {
-               if (withDialog) Permissions.showExternalPermissionDialog(requireActivity()) { asked ->
-                    if (asked) {
-                        askAllAccessPermission(intent)
-                    }
-                } else askAllAccessPermission(intent)
+                PermissionListDialog.newInstance().show(requireActivity().supportFragmentManager, PermissionListDialog::class.simpleName)
                 return
             }
         }
