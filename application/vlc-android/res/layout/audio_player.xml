@@ -561,7 +561,7 @@
                 android:textColor="?attr/font_default"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/length"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/length" />
 
         <View
@@ -585,6 +585,7 @@
                 android:padding="0dp"
                 android:paddingStart="0dp"
                 android:paddingEnd="0dp"
+                android:layoutDirection="ltr"
                 android:progressDrawable="?attr/audio_seek_bar"
                 android:splitTrack="false"
                 android:thumb="@drawable/ic_seekbar_thumb_audio"
@@ -607,7 +608,7 @@
                 android:textColor="?attr/font_default"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/timeline"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintRight_toRightOf="parent" />
 
         <ImageView
                 android:id="@+id/shuffle"
@@ -623,10 +624,10 @@
                 android:visibility="@{can_shuffle ? View.VISIBLE : View.INVISIBLE}"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
-                app:layout_constraintEnd_toStartOf="@+id/previous"
+                app:layout_constraintRight_toLeftOf="@+id/previous"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
                 app:srcCompat="@drawable/ic_shuffle_audio" />
 
@@ -643,9 +644,9 @@
                 android:onClick="@{fragment::onPreviousClick}"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
-                app:layout_constraintEnd_toStartOf="@+id/play_pause"
+                app:layout_constraintRight_toLeftOf="@+id/play_pause"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/shuffle"
+                app:layout_constraintLeft_toRightOf="@+id/shuffle"
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
                 app:srcCompat="@drawable/ic_previous" />
 
@@ -662,9 +663,9 @@
                 android:onLongClick="@{fragment::onStopClick}"
                 android:padding="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
-                app:layout_constraintEnd_toStartOf="@+id/next"
+                app:layout_constraintRight_toLeftOf="@+id/next"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/previous" />
+                app:layout_constraintLeft_toRightOf="@+id/previous" />
 
         <ImageView
                 android:id="@+id/next"
@@ -680,9 +681,9 @@
                 android:padding="8dp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
-                app:layout_constraintEnd_toStartOf="@+id/repeat"
+                app:layout_constraintRight_toLeftOf="@+id/repeat"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/play_pause"
+                app:layout_constraintLeft_toRightOf="@+id/play_pause"
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
                 app:srcCompat="@drawable/ic_next" />
 
@@ -700,9 +701,9 @@
                 android:padding="8dp"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/next"
+                app:layout_constraintLeft_toRightOf="@+id/next"
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
                 app:srcCompat="@drawable/ic_repeat_audio" />
 
