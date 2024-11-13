@@ -179,6 +179,7 @@
                         android:max="100"
                         android:padding="0dp"
                         android:progress="@{progress}"
+                        android:layoutDirection="ltr"
                         android:secondaryProgress="0"
                         vlc:layout_constraintStart_toStartOf="parent"
                         vlc:layout_constraintEnd_toEndOf="parent"
