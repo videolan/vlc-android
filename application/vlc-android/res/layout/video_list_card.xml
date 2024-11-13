@@ -227,6 +227,7 @@
                         android:progress="@{progress}"
                         android:progressDrawable="?attr/gridview_progressbar"
                         android:secondaryProgress="0"
+                        android:layoutDirection="ltr"
                         android:visibility="@{progress == 0 || !showItemProgress ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
                         vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"

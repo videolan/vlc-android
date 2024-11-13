@@ -304,6 +304,7 @@
                         android:maxHeight="4dip"
                         android:minHeight="4dip"
                         android:progress="@{progress}"
+                        android:layoutDirection="ltr"
                         android:progressDrawable="@drawable/gridview_progressbar"
                         android:secondaryProgress="0"
                         android:visibility="@{progress == 0 || !showItemProgress ? View.GONE : View.VISIBLE}"
