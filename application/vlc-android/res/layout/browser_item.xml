@@ -250,6 +250,7 @@
                 android:layout_marginEnd="16dp"
                 android:indeterminate="false"
                 android:max="@{max}"
+                android:layoutDirection="ltr"
                 android:maxHeight="2dip"
                 android:minHeight="2dip"
                 android:progress="@{progress}"
