@@ -1937,8 +1937,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         when (v.id) {
             R.id.orientation_toggle -> toggleOrientationLock()
             R.id.playlist_toggle -> overlayDelegate.togglePlaylist()
-            R.id.player_overlay_forward -> touchDelegate.seekDelta(Settings.videoJumpDelay * 1000)
-            R.id.player_overlay_rewind -> touchDelegate.seekDelta(-Settings.videoJumpDelay * 1000)
+            R.id.player_overlay_forward -> touchDelegate.seekDelta(if (LocaleUtil.isRtl()) -Settings.videoJumpDelay * 1000  else Settings.videoJumpDelay * 1000)
+            R.id.player_overlay_rewind -> touchDelegate.seekDelta(if (LocaleUtil.isRtl()) Settings.videoJumpDelay * 1000  else -Settings.videoJumpDelay * 1000)
             R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(
                 service?.playlistManager?.getCurrentMedia(), overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
             R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues(service?.playlistManager?.getCurrentMedia())
@@ -1988,11 +1988,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 return true
             }
             R.id.player_overlay_forward -> {
-                touchDelegate.seekDelta(Settings.videoLongJumpDelay * 1000)
+                touchDelegate.seekDelta(if (LocaleUtil.isRtl()) -Settings.videoLongJumpDelay * 1000  else Settings.videoLongJumpDelay * 1000)
                 return true
             }
             R.id.player_overlay_rewind -> {
-                touchDelegate.seekDelta(-Settings.videoLongJumpDelay * 1000)
+                touchDelegate.seekDelta(if (LocaleUtil.isRtl()) Settings.videoLongJumpDelay * 1000  else -Settings.videoLongJumpDelay * 1000)
                 return true
             }
         }

@@ -193,14 +193,15 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:importantForAccessibility="no"
+                android:gravity="left"
                 android:nextFocusUp="@+id/ab_repeat_add_marker"
                 android:onClick="@{(v) -> player.toggleTimeDisplay()}"
                 android:text="@{Tools.millisToString(progress.time)}"
                 tools:text="0:32"
                 vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_seekbar"
-                vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_length"
+                vlc:layout_constraintRight_toLeftOf="@+id/player_overlay_length"
                 vlc:layout_constraintHorizontal_chainStyle="spread"
-                vlc:layout_constraintStart_toStartOf="parent" />
+                vlc:layout_constraintLeft_toLeftOf="parent" />
 
 
         <org.videolan.vlc.gui.view.FocusableTextView
@@ -217,8 +218,8 @@
                 android:onClick="@{(v) -> player.toggleTimeDisplay()}"
                 tools:text="56:37"
                 vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_seekbar"
-                vlc:layout_constraintEnd_toEndOf="parent"
-                vlc:layout_constraintStart_toEndOf="@+id/player_overlay_time"
+                vlc:layout_constraintRight_toRightOf="parent"
+                vlc:layout_constraintLeft_toRightOf="@+id/player_overlay_time"
                 vlc:length="@{progress.length}"
                 vlc:time="@{progress.time}" />
 
