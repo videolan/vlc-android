@@ -181,7 +181,10 @@ object Permissions {
      * @param context: the context to check with
      * @return true if the app has been granted the whole permissions including [Manifest.permission.MANAGE_EXTERNAL_STORAGE]
      */
-    fun hasAllAccess(context: Context) = !Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.fromParts(SCHEME_PACKAGE, context.packageName, null)).isCallable(context) || isExternalStorageManager()
+    fun hasAllAccess(context: Context) =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || (Build.VERSION.SDK_INT < Build.VERSION_CODES.R && canReadStorage(context))
+                || isExternalStorageManager()
 
     fun canCheckBluetoothDevices(context: Context): Boolean {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
