@@ -71,12 +71,12 @@ object RemoteAccessWebSockets {
                     val gson = Gson()
                     val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
                     if (BuildConfig.DEBUG) Log.i(TAG, "Received: $message")
-                    if (!BuildConfig.VLC_REMOTE_ACCESS_DEBUG && !verifyWebsocketAuth(incomingMessage)) {
+                    if (!verifyWebsocketAuth(incomingMessage)) {
                         send(Frame.Text(Gson().toJson(RemoteAccessServer.WebSocketAuthorization("forbidden", initialMessage = message))))
-                        return@webSocket
+                    } else {
+                        val service = RemoteAccessServer.getInstance(context).service
+                        manageIncomingMessages(incomingMessage, settings, service, context)
                     }
-                    val service = RemoteAccessServer.getInstance(context).service
-                    manageIncomingMessages(incomingMessage, settings, service, context)
                 } catch (e: Exception) {
                     Log.e(TAG, e.message, e)
                 }
