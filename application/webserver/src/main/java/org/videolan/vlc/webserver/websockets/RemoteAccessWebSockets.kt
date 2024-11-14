@@ -316,7 +316,8 @@ object RemoteAccessWebSockets {
      * @return true if the websocket message is allowed
      */
     private fun verifyWebsocketAuth(incomingMessage: WSIncomingMessage?): Boolean {
-        return incomingMessage?.authTicket != null && tickets.firstOrNull { incomingMessage.authTicket == it.id && System.currentTimeMillis() < it.expiration } != null
+        tickets.removeIf { it.expiration < System.currentTimeMillis() }
+        return incomingMessage?.authTicket != null && tickets.firstOrNull { incomingMessage.authTicket == it.id } != null
     }
 
     private fun playbackControlAllowedOrSend(settings: SharedPreferences): Boolean {
