@@ -89,6 +89,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         findPreference<Preference>("remote_access_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+        findPreference<Preference>("permissions_title")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -38,6 +38,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
@@ -196,7 +197,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                 binding.manageMediaPermsCheck.background  = ContextCompat.getDrawable(requireActivity(), R.drawable.rounded_corners_permissions_warning)
                 showWarning()
             } else
-                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                     if (!Permissions.hasAllAccess(requireActivity())) {
                         Permissions.checkReadStoragePermission(
                             requireActivity(),
@@ -256,7 +257,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         }
 
         //Manage view visibility for older versions
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R || AndroidDevices.isTv) {
             binding.manageMediaPermsCheck.setGone()
             binding.manageMediaVideo.setGone()
             binding.manageMediaAudio.setGone()

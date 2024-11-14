@@ -43,6 +43,7 @@ import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.ConfirmAudioPlayQueueDialog
+import org.videolan.vlc.gui.dialogs.PermissionListDialog
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -57,6 +58,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         findPreference<Preference>("casting_category")?.isVisible = false
         findPreference<Preference>(KEY_VIDEO_APP_SWITCH)?.isVisible = AndroidDevices.hasPiP
         findPreference<Preference>("remote_access_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+        findPreference<Preference>("permissions_title")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
     }
 
     override fun onStart() {
@@ -136,6 +138,10 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                         .apply()
                 val activity = activity
                 activity?.setResult(RESULT_RESTART)
+                return true
+            }
+            "permissions" -> {
+                PermissionListDialog.newInstance().show((activity as FragmentActivity).supportFragmentManager, "PermissionListDialog")
                 return true
             }
             else -> super.onPreferenceTreeClick(preference)
