@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.dialogs
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -195,14 +196,26 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                 binding.manageMediaPermsCheck.background  = ContextCompat.getDrawable(requireActivity(), R.drawable.rounded_corners_permissions_warning)
                 showWarning()
             } else
-                requireActivity().lifecycleScope.launch {
-                    val uri = Uri.fromParts(SCHEME_PACKAGE, requireContext().packageName, null)
-                    val intent = Intent(
-                        android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
-                        uri
-                    )
-                    startActivity(intent)
-                }
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+                    if (!Permissions.hasAllAccess(requireActivity())) {
+                        Permissions.checkReadStoragePermission(
+                            requireActivity(),
+                            false,
+                            forceAsking = true
+                        )
+                        binding.manageAllPermsCheck.isChecked = false
+                    }
+                    else
+                        Permissions.showAppSettingsPage(requireActivity())
+                } else
+                    requireActivity().lifecycleScope.launch {
+                        val uri = Uri.fromParts(SCHEME_PACKAGE, requireContext().packageName, null)
+                        val intent = Intent(
+                            android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                            uri
+                        )
+                        startActivity(intent)
+                    }
         }
 
         binding.manageMediaPermsCheck.setOnClickListener {
@@ -240,6 +253,19 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                     ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                 )
             }
+        }
+
+        //Manage view visibility for older versions
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+            binding.manageMediaPermsCheck.setGone()
+            binding.manageMediaVideo.setGone()
+            binding.manageMediaAudio.setGone()
+
+        }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+            binding.notificationPermissionContainer.setGone()
+            binding.notificationPermissionTitle.setGone()
         }
 
 

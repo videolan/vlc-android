@@ -49,7 +49,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:id="@+id/textView38"
+                    android:id="@+id/notification_permission_title"
                     style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView38">
+                    app:layout_constraintTop_toBottomOf="@+id/notification_permission_title">
 
                 <ImageView
                         android:id="@+id/notification_permission_check"
