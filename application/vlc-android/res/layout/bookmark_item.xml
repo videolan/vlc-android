@@ -56,7 +56,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="@{bookmark.title}"
@@ -67,7 +66,6 @@
                 app:layout_constraintEnd_toStartOf="@+id/item_more"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Bookmark 1" />
 
         <TextView
@@ -97,7 +95,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
+                android:padding="8dp"
                 android:contentDescription="@string/more_actions"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{(view) -> holder.onMoreClick(view, bookmark)}"
