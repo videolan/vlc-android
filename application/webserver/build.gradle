@@ -84,7 +84,6 @@ dependencies {
     implementation project(':application:vlc-android')
     implementation "io.ktor:ktor:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-netty:$rootProject.ext.ktorVersion"
-    implementation "io.ktor:ktor-gson:1.6.8"
     implementation "io.ktor:ktor-server-websockets:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-caching-headers:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-cors:$rootProject.ext.ktorVersion"

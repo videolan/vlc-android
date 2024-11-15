@@ -32,6 +32,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.squareup.moshi.Json
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -800,26 +801,26 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         return list
     }
 
-    abstract class WSMessage(val type: String)
+    abstract class WSMessage(val type: WSMessageType)
     data class NowPlaying(val title: String, val artist: String, val playing: Boolean, val isVideoPlaying: Boolean, val progress: Long,
                           val duration: Long, val id: Long, val artworkURL: String, val uri: String, val volume: Int, val speed: Float,
                           val sleepTimer: Long, val waitForMediaEnd:Boolean, val resetOnInteraction:Boolean, val shuffle: Boolean, val repeat: Int,
                           val shouldShow: Boolean = PlaylistManager.playingState.value ?: false,
-                          val bookmarks:List<WSBookmark> = listOf(), val chapters:List<WSChapter> = listOf()) : WSMessage("now-playing")
+                          val bookmarks: List<WSBookmark> = listOf(), val chapters: List<WSChapter> = listOf()) : WSMessage(WSMessageType.NOW_PLAYING)
 
     data class WSBookmark(val id:Long, val title: String, val time: Long)
     data class WSChapter(val title: String, val time: Long)
 
-    data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage("play-queue")
+    data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage(WSMessageType.PLAY_QUEUE)
     data class PlayQueueItem(val id: Long, val title: String, val artist: String, val duration: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false, val progress: Long = 0L, val played: Boolean = false, var fileType: String = "", val favorite: Boolean = false)
-    data class WebSocketAuthorization(val status:String, val initialMessage:String) : WSMessage("auth")
-    data class Volume(val volume: Int) : WSMessage("volume")
-    data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
-    data class LoginNeeded(val dialogOpened: Boolean) : WSMessage("login-needed")
-    data class ResumeConfirmationNeeded(val mediaTitle: String?, val consumed:Boolean) : WSMessage("resume-confirmation")
-    data class MLRefreshNeeded(val refreshNeeded: Boolean = true) : WSMessage("ml-refresh-needed")
-    data class BrowserDescription(val path: String, val description:String) : WSMessage("browser-description")
-    data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage("playback-control-forbidden")
+    data class WebSocketAuthorization(val status:String, val initialMessage:String) : WSMessage(WSMessageType.AUTH)
+    data class Volume(val volume: Int) : WSMessage(WSMessageType.VOLUME)
+    data class PlayerStatus(val playing: Boolean) : WSMessage(WSMessageType.PLAYER_STATUS)
+    data class LoginNeeded(val dialogOpened: Boolean) : WSMessage(WSMessageType.LOGIN_NEEDED)
+    data class ResumeConfirmationNeeded(val mediaTitle: String?, val consumed: Boolean) : WSMessage(WSMessageType.RESUME_CONFIRMATION)
+    data class MLRefreshNeeded(val refreshNeeded: Boolean = true) : WSMessage(WSMessageType.ML_REFRESH_NEEDED)
+    data class BrowserDescription(val path: String, val description: String) : WSMessage(WSMessageType.BROWSER_DESCRIPTION)
+    data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage(WSMessageType.PLAYBACK_CONTROL_FORBIDDEN)
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
     data class BreadcrumbItem(val title: String, val path: String)
     data class BrowsingResult(val content: List<PlayQueueItem>, val breadcrumb: List<BreadcrumbItem>)
@@ -846,4 +847,26 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
 
     data class RemoteAccessConnection(val ip: String)
 
+    enum class WSMessageType {
+        @Json(name = "now-playing")
+        NOW_PLAYING,
+        @Json(name = "play-queue")
+        PLAY_QUEUE,
+        @Json(name = "auth")
+        AUTH,
+        @Json(name = "volume")
+        VOLUME,
+        @Json(name = "player-status")
+        PLAYER_STATUS,
+        @Json(name = "login-needed")
+        LOGIN_NEEDED,
+        @Json(name = "resume-confirmation")
+        RESUME_CONFIRMATION,
+        @Json(name = "ml-refresh-needed")
+        ML_REFRESH_NEEDED,
+        @Json(name = "browser-description")
+        BROWSER_DESCRIPTION,
+        @Json(name = "playback-control-forbidden")
+        PLAYBACK_CONTROL_FORBIDDEN
+    }
 }

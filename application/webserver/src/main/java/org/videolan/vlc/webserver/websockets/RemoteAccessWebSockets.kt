@@ -29,7 +29,7 @@ import android.content.SharedPreferences
 import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import io.ktor.server.routing.Routing
 import io.ktor.server.websocket.WebSocketServerSession
 import io.ktor.server.websocket.webSocket
@@ -48,6 +48,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.webserver.BuildConfig
 import org.videolan.vlc.webserver.RemoteAccessServer
+import org.videolan.vlc.webserver.convertToJson
 import org.videolan.vlc.webserver.ssl.SecretGenerator
 import org.videolan.vlc.webserver.websockets.IncomingMessageType.*
 import java.util.Calendar
@@ -59,7 +60,7 @@ import java.util.concurrent.atomic.AtomicInteger
 object RemoteAccessWebSockets {
     private const val TAG = "VLC/HttpSharingServerWS"
 
-    val onPlaybackEventChannel = Channel<String>()
+    val onPlaybackEventChannel = Channel<RemoteAccessServer.WSMessage>()
     val messageQueue: LinkedBlockingQueue<RemoteAccessServer.WSMessage> = LinkedBlockingQueue()
     private val webSocketSessions: MutableMap<Int, WebSocketServerSession> = ConcurrentHashMap()
     private val tickets: MutableList<WSAuthTicket> = Collections.synchronizedList(mutableListOf())
@@ -71,16 +72,16 @@ object RemoteAccessWebSockets {
             try {
                 webSocketSessions[sessionId] = this
                 if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: Started session: $sessionId")
+                val moshi = Moshi.Builder().build().adapter(WSIncomingMessage::class.java)
                 // Handle a WebSocket session
                 for (frame in incoming) {
                     try {
                         frame as? Frame.Text ?: continue
                         val message = frame.readText()
-                        val gson = Gson()
-                        val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
+                        val incomingMessage = moshi.fromJson(message) ?: continue
                         if (BuildConfig.DEBUG) Log.i(TAG, "WebSockets: Received message '$message'")
                         if (!verifyWebsocketAuth(incomingMessage)) {
-                            send(Frame.Text(Gson().toJson(RemoteAccessServer.WebSocketAuthorization("forbidden", initialMessage = message))))
+                            send(Frame.Text(convertToJson(RemoteAccessServer.WebSocketAuthorization("forbidden", initialMessage = message))))
                         } else {
                             val service = RemoteAccessServer.getInstance(context).service
                             manageIncomingMessages(incomingMessage, settings, service, context)
@@ -287,7 +288,7 @@ object RemoteAccessWebSockets {
     private fun playbackControlAllowedOrSend(settings: SharedPreferences): Boolean {
         val allowed = settings.getBoolean(REMOTE_ACCESS_PLAYBACK_CONTROL, true)
         if (!allowed) {
-            val message = Gson().toJson(RemoteAccessServer.PlaybackControlForbidden())
+            val message = convertToJson(RemoteAccessServer.PlaybackControlForbidden())
             AppScope.launch { webSocketSessions.forEach { (_, session) -> session.send(Frame.Text(message)) } }
         }
         return allowed
@@ -310,7 +311,7 @@ object RemoteAccessWebSockets {
                         ?: 0
             }
         }
-        return Gson().toJson(RemoteAccessServer.Volume(volume))
+        return convertToJson(RemoteAccessServer.Volume(volume))
     }
 
     fun createTicket(): String {
@@ -320,9 +321,9 @@ object RemoteAccessWebSockets {
     }
 
    suspend fun sendToAll(messageObj: RemoteAccessServer.WSMessage) {
-       val message = Gson().toJson(messageObj)
+       val message = convertToJson(messageObj)
        addToQueue(messageObj)
-       onPlaybackEventChannel.trySend(message)
+       onPlaybackEventChannel.trySend(messageObj)
        if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: sendToAll called on ${webSocketSessions.size} sessions with message '$message'")
        webSocketSessions.forEach { (sessionId, session) ->
            try {
@@ -342,7 +343,7 @@ object RemoteAccessWebSockets {
     private fun addToQueue(wsMessage: RemoteAccessServer.WSMessage) {
         when (wsMessage.type) {
             // Duplicate browser description messages are OK
-            "browser-description" -> {}
+            RemoteAccessServer.WSMessageType.BROWSER_DESCRIPTION -> {}
             else -> messageQueue.removeIf { it.type == wsMessage.type }
         }
         messageQueue.add(wsMessage)

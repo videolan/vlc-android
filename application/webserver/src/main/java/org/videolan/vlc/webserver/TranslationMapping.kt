@@ -27,11 +27,10 @@ package org.videolan.vlc.webserver
 import android.content.Context
 import android.os.Build
 import androidx.annotation.StringRes
-import org.json.JSONObject
 import org.videolan.vlc.BuildConfig
 
 object TranslationMapping {
-    fun generateTranslations(context: Context): String {
+    fun generateTranslations(context: Context): Map<String, String> {
         val map = HashMap<String, String>()
         StringMapping.values().forEach {
             map[it.name] = context.getString(it.id).replace("%s", "{msg}")
@@ -39,7 +38,7 @@ object TranslationMapping {
         map["PORT"] = "android"
         map["DEVICE_NAME"] = "${Build.MANUFACTURER} - ${Build.MODEL}"
         map["APP_VERSION"] = BuildConfig.VLC_VERSION_NAME
-        return JSONObject(map.toMap()).toString()
+        return map
     }
 
     enum class StringMapping(@StringRes val id:Int) {
