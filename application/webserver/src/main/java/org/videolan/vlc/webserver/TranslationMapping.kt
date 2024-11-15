@@ -142,6 +142,7 @@ object TranslationMapping {
         REMOTE_KEYBOARD_NAVIGATION(R.string.remote_keyboard_navigation),
         RESUME(R.string.resume),
         CONFIRM_RESUME(R.string.confirm_resume),
+        APPLY_PLAYQUEUE(R.string.apply_playqueue),
         NO(R.string.no)
     }
 }
