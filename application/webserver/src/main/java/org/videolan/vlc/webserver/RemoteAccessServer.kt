@@ -32,7 +32,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -162,6 +161,15 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     private val loginObserver = androidx.lifecycle.Observer<Boolean> { showed ->
         AppScope.launch {
             RemoteAccessWebSockets.sendToAll(LoginNeeded(showed))
+        }
+    }
+
+    /**
+     * Observes the resume confirmation and display a dialog on the website
+     */
+    private val confirmationObserver = androidx.lifecycle.Observer<String?> { mediaTitle ->
+        AppScope.launch {
+            RemoteAccessWebSockets.sendToAll(ResumeConfirmationNeeded(mediaTitle, mediaTitle == null))
         }
     }
 
@@ -497,12 +505,14 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 AppScope.launch(Dispatchers.Main) {
                     PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver)
                     DialogActivity.loginDialogShown.observeForever(loginObserver)
+                    PlaybackService.waitConfirmation.observeForever(confirmationObserver)
                 }
             }
             environment.monitor.subscribe(ApplicationStopped) {
                 AppScope.launch(Dispatchers.Main) {
                     PlaylistManager.showAudioPlayer.removeObserver(miniPlayerObserver)
                     DialogActivity.loginDialogShown.removeObserver(loginObserver)
+                    PlaybackService.waitConfirmation.removeObserver(confirmationObserver)
                 }
                 _serverStatus.postValue(ServerStatus.STOPPED)
             }
@@ -763,6 +773,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class Volume(val volume: Int) : WSMessage("volume")
     data class PlayerStatus(val playing: Boolean) : WSMessage("player-status")
     data class LoginNeeded(val dialogOpened: Boolean) : WSMessage("login-needed")
+    data class ResumeConfirmationNeeded(val mediaTitle: String?, val consumed:Boolean) : WSMessage("resume-confirmation")
     data class MLRefreshNeeded(val refreshNeeded: Boolean = true) : WSMessage("ml-refresh-needed")
     data class BrowserDescription(val path: String, val description:String) : WSMessage("browser-description")
     data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage("playback-control-forbidden")

@@ -2330,6 +2330,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             return
         }
         service?.pause()
+        PlaybackService.waitConfirmation.postValue(confirmation.title)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_video_resume, null)
         val resumeAllCheck = dialogView.findViewById<CheckBox>(R.id.video_resume_checkbox)
@@ -2343,6 +2344,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 .setNegativeButton(R.string.no) { _, _ ->
                     if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = ResumeStatus.NEVER
                     lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceRestart = true) }
+                }
+                .setOnDismissListener {
+                    PlaybackService.waitConfirmation.postValue(null)
                 }
                 .create().apply {
                     setCancelable(false)
