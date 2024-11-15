@@ -267,6 +267,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var savedTime: Long = -1
 
     lateinit var windowLayoutInfo: WindowLayoutInfo
+    private var currentConfirmationDialog: AlertDialog? = null
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -2346,6 +2347,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceRestart = true) }
                 }
                 .setOnDismissListener {
+                    currentConfirmationDialog = null
                     PlaybackService.waitConfirmation.postValue(null)
                 }
                 .create().apply {
@@ -2357,6 +2359,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             true
                         } else false
                     }
+                currentConfirmationDialog = this
                     show()
                 }
     }
@@ -2479,7 +2482,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             service.addCallback(this)
             service.playlistManager.waitForConfirmation.observe(this) {
-                if (it != null) showConfirmResumeDialog(it)
+                if (it != null)
+                    showConfirmResumeDialog(it)
+                else
+                    currentConfirmationDialog?.dismiss()
             }
             //if (isTalkbackIsEnabled()) overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
         } else if (this.service != null) {

@@ -112,6 +112,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     val playlistTipsDelegate: AudioPlaylistTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioPlaylistTipsDelegate(this) }
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerContainerActivity) }
     val shownTips = ArrayList<Int>()
+    private var currentConfirmationDialog: AlertDialog? = null
+
     protected val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_placeholder)
 
@@ -119,7 +121,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
         get() = toolbar.menu
 
     private var observer: Observer<in WaitConfirmation?> = Observer {
-        it?.let {
+        if (it != null) {
             // Every AudioPlayerContainerActivity instance will receive this. To avoid having the
             // Dialog pop every time the user goes to previous instances, stop the
             // showConfirmationResumeDialog once it's been shown.
@@ -127,7 +129,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
                 it.used = true
                 showConfirmResumeDialog(it)
             }
-        }
+        } else
+            currentConfirmationDialog?.dismiss()
     }
 
     open fun isTransparent(): Boolean = false
@@ -276,6 +279,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
                 lifecycleScope.launch { PlaybackService.instance?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceRestart = true) }
             }
             .setOnDismissListener {
+                currentConfirmationDialog = null
                 PlaybackService.waitConfirmation.postValue(null)
             }
             .create().apply {
@@ -290,6 +294,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
                         true
                     } else false
                 }
+                currentConfirmationDialog = this
                 show()
             }
     }

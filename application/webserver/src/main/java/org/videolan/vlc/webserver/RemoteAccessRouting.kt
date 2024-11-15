@@ -26,8 +26,6 @@ package org.videolan.vlc.webserver
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.text.format.Formatter
@@ -108,6 +106,7 @@ import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.media.ResumeStatus
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.StorageProvider
@@ -981,6 +980,53 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }
             }
             call.respond(HttpStatusCode.NotFound)
+        }
+        get("/resume") {
+            val resume = (call.request.queryParameters["resume"] ?: "true") == "true"
+            val applyPlaylist = (call.request.queryParameters["applyPlaylist"] ?: "true") == "true"
+            RemoteAccessServer.getInstance(appContext).service?.let { service ->
+                service.playlistManager.waitForConfirmation.value?.let { confirmation ->
+                    scope.launch(Dispatchers.Main) {
+                        if (resume) {
+                            if (applyPlaylist) service.playlistManager.videoResumeStatus = ResumeStatus.ALWAYS
+                            service.playlistManager.playIndex(
+                                confirmation.index,
+                                confirmation.flags,
+                                forceResume = true
+                            )
+                        } else {
+                            if (applyPlaylist) service.playlistManager.videoResumeStatus =  ResumeStatus.NEVER
+                            service.playlistManager.playIndex(
+                                confirmation.index,
+                                confirmation.flags,
+                                forceRestart = true
+                            )
+                        }
+                    }
+                    service.playlistManager.waitForConfirmation.postValue(null)
+                }
+                service.playlistManager.waitForConfirmationAudio.value?.let { confirmation ->
+                    scope.launch(Dispatchers.Main) {
+                        if (resume) {
+                            if (applyPlaylist) service.playlistManager.audioResumeStatus = ResumeStatus.ALWAYS
+                            service.playlistManager.playIndex(
+                                confirmation.index,
+                                confirmation.flags,
+                                forceResume = true
+                            )
+                        } else {
+                            if (applyPlaylist) service.playlistManager.audioResumeStatus = ResumeStatus.NEVER
+                            service.playlistManager.playIndex(
+                                confirmation.index,
+                                confirmation.flags,
+                                forceRestart = true
+                            )
+                        }
+                    }
+                    service.playlistManager.waitForConfirmationAudio.postValue(null)
+                }
+            }
+            call.respond(HttpStatusCode.OK)
         }
         // Play a media
         get("/play-all") {
