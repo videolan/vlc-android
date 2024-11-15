@@ -31,7 +31,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import com.google.gson.Gson
 import io.ktor.server.routing.Routing
-import io.ktor.server.websocket.DefaultWebSocketServerSession
+import io.ktor.server.websocket.WebSocketServerSession
 import io.ktor.server.websocket.webSocket
 import io.ktor.websocket.Frame
 import io.ktor.websocket.close
@@ -50,38 +50,48 @@ import org.videolan.vlc.webserver.BuildConfig
 import org.videolan.vlc.webserver.RemoteAccessServer
 import org.videolan.vlc.webserver.ssl.SecretGenerator
 import java.util.Calendar
+import java.util.Collections
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.atomic.AtomicInteger
 
 object RemoteAccessWebSockets {
-    val messageQueue: ArrayList<RemoteAccessServer.WSMessage> = arrayListOf()
-    private const val TAG = "HttpSharingServerWS"
-    private var websocketSession: ArrayList<DefaultWebSocketServerSession> = arrayListOf()
-    private val tickets = ArrayList<WSAuthTicket>()
+    private const val TAG = "VLC/HttpSharingServerWS"
+
     val onPlaybackEventChannel = Channel<String>()
-
-
+    val messageQueue: LinkedBlockingQueue<RemoteAccessServer.WSMessage> = LinkedBlockingQueue()
+    private val webSocketSessions: MutableMap<Int, WebSocketServerSession> = ConcurrentHashMap()
+    private val tickets: MutableList<WSAuthTicket> = Collections.synchronizedList(mutableListOf())
+    private val sessionIds = AtomicInteger(0)
 
     fun Routing.setupWebSockets(context: Context, settings: SharedPreferences) {
         webSocket("/echo", protocol = "player") {
-            websocketSession.add(this)
-            // Handle a WebSocket session
-            for (frame in incoming) {
-                try {
-                    frame as? Frame.Text ?: continue
-                    val message = frame.readText()
-                    val gson = Gson()
-                    val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
-                    if (BuildConfig.DEBUG) Log.i(TAG, "Received: $message")
-                    if (!verifyWebsocketAuth(incomingMessage)) {
-                        send(Frame.Text(Gson().toJson(RemoteAccessServer.WebSocketAuthorization("forbidden", initialMessage = message))))
-                    } else {
-                        val service = RemoteAccessServer.getInstance(context).service
-                        manageIncomingMessages(incomingMessage, settings, service, context)
+            val sessionId = sessionIds.incrementAndGet()
+            try {
+                webSocketSessions[sessionId] = this
+                if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: Started session: $sessionId")
+                // Handle a WebSocket session
+                for (frame in incoming) {
+                    try {
+                        frame as? Frame.Text ?: continue
+                        val message = frame.readText()
+                        val gson = Gson()
+                        val incomingMessage = gson.fromJson(message, WSIncomingMessage::class.java)
+                        if (BuildConfig.DEBUG) Log.i(TAG, "WebSockets: Received message '$message'")
+                        if (!verifyWebsocketAuth(incomingMessage)) {
+                            send(Frame.Text(Gson().toJson(RemoteAccessServer.WebSocketAuthorization("forbidden", initialMessage = message))))
+                        } else {
+                            val service = RemoteAccessServer.getInstance(context).service
+                            manageIncomingMessages(incomingMessage, settings, service, context)
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.message, e)
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, e.message, e)
                 }
+            } finally {
+                webSocketSessions.remove(sessionId)?.close()
+                if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: Removed and closed session: $sessionId")
             }
-            websocketSession.remove(this)
         }
     }
 
@@ -143,15 +153,8 @@ object RemoteAccessWebSockets {
 
             "get-volume" -> {
                 AppScope.launch {
-                    websocketSession.forEach {
-                        it.send(
-                            Frame.Text(
-                                getVolumeMessage(
-                                    context,
-                                    service
-                                )
-                            )
-                        )
+                    webSocketSessions.forEach { (_, session) ->
+                        session.send(Frame.Text(getVolumeMessage(context, service)))
                     }
                 }
             }
@@ -316,14 +319,16 @@ object RemoteAccessWebSockets {
      * @return true if the websocket message is allowed
      */
     private fun verifyWebsocketAuth(incomingMessage: WSIncomingMessage?): Boolean {
-        tickets.removeIf { it.expiration < System.currentTimeMillis() }
-        return incomingMessage?.authTicket != null && tickets.firstOrNull { incomingMessage.authTicket == it.id } != null
+        synchronized(tickets) {
+            tickets.removeIf { it.expiration < System.currentTimeMillis() }
+            return incomingMessage?.authTicket != null && tickets.firstOrNull { incomingMessage.authTicket == it.id } != null
+        }
     }
 
     private fun playbackControlAllowedOrSend(settings: SharedPreferences): Boolean {
         val allowed = settings.getBoolean(REMOTE_ACCESS_PLAYBACK_CONTROL, true)
         val message = Gson().toJson(RemoteAccessServer.PlaybackControlForbidden())
-        if (!allowed) AppScope.launch { websocketSession.forEach { it.send(Frame.Text(message)) } }
+        if (!allowed) AppScope.launch { webSocketSessions.forEach { (_, session) -> session.send(Frame.Text(message)) } }
         return allowed
     }
 
@@ -357,18 +362,15 @@ object RemoteAccessWebSockets {
        val message = Gson().toJson(messageObj)
        addToQueue(messageObj)
        onPlaybackEventChannel.trySend(message)
-       if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: sendToAll called on ${websocketSession.size} sessions with message '$message'")
-       val iterator = ArrayList(websocketSession).iterator()
-       val toRemove = hashSetOf<DefaultWebSocketServerSession>()
-       while (iterator.hasNext()) {
-           val connection = iterator.next()
+       if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: sendToAll called on ${webSocketSessions.size} sessions with message '$message'")
+       webSocketSessions.forEach { (sessionId, session) ->
            try {
-               connection.send(Frame.Text(message))
+               session.send(Frame.Text(message))
            } catch (e: Exception) {
-               toRemove.add(connection)
+               webSocketSessions.remove(sessionId)?.close()
+               if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: Exception caught. Session removed and closed: $sessionId", e)
            }
        }
-       websocketSession.removeAll(toRemove)
    }
 
     /**
@@ -377,21 +379,20 @@ object RemoteAccessWebSockets {
      * @param wsMessage the message to send
      */
     private fun addToQueue(wsMessage: RemoteAccessServer.WSMessage) {
-        val typesDuplicates = arrayOf("now-playing", "play-queue", "auth", "volume", "player-status", "login-needed", "ml-refresh-needed", "playback-control-forbidden")
-        if (wsMessage.type in typesDuplicates) {
-            try {
-                messageQueue.removeIf { it.type == wsMessage.type }
-            } catch (_: ConcurrentModificationException) {
-            }
+        when (wsMessage.type) {
+            // Duplicate browser description messages are OK
+            "browser-description" -> {}
+            else -> messageQueue.removeIf { it.type == wsMessage.type }
         }
         messageQueue.add(wsMessage)
     }
 
     suspend fun closeAllSessions() {
-        val iterator = ArrayList(websocketSession).iterator()
-        while (iterator.hasNext()) {
-            val connection = iterator.next()
-            connection.close()
+        if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: Closing ${webSocketSessions.size} sessions")
+        webSocketSessions.forEach { (sessionId, session) ->
+            session.close()
+            if (BuildConfig.DEBUG) Log.d(TAG, "WebSockets: Closed sessionId: $sessionId")
         }
+        webSocketSessions.clear()
     }
 }

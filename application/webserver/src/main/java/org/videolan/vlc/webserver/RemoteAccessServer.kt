@@ -131,7 +131,7 @@ import java.util.Date
 import java.util.Locale
 
 
-private const val TAG = "HttpSharingServer"
+private const val TAG = "VLC/HttpSharingServer"
 private const val NOW_PLAYING_TIMEOUT = 500
 
 class RemoteAccessServer(private val context: Context) : PlaybackService.Callback, IPathOperationDelegate by PathOperationDelegate(), ICallBackHandler by CallBackDelegate()  {

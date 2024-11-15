@@ -447,9 +447,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         get("/longpolling") {
             //Empty the queue if needed
             if (RemoteAccessWebSockets.messageQueue.isNotEmpty()) {
-                val queue = RemoteAccessWebSockets.messageQueue.toArray()
-                call.respondText(Gson().toJson(queue))
-                RemoteAccessWebSockets.messageQueue.clear()
+                val queue = mutableListOf<RemoteAccessServer.WSMessage>().apply {
+                    RemoteAccessWebSockets.messageQueue.drainTo(this)
+                }
+                call.respondJson(Gson().toJson(queue))
                 return@get
             }
             //block the request until a message is received
