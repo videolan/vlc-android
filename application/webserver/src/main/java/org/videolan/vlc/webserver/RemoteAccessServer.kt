@@ -126,8 +126,8 @@ import java.security.SecureRandom
 import java.security.Security
 import java.security.cert.X509Certificate
 import java.time.Duration
+import java.util.Calendar
 import java.util.Collections
-import java.util.Date
 import java.util.Locale
 
 
@@ -326,8 +326,17 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         //If needed, we can add a setting to let the user revoking the certificate by deleting the keystore file to start all this process over
         val cert: X509Certificate
         try {
+            val cal = Calendar.getInstance()
+            // Start Date
+            // Roll back the date by one day to prevent issues with client clock time sync
+            cal.roll(Calendar.DAY_OF_MONTH, false)
+            val notBefore = cal.time
+            // Expiration Date
+            cal.add(Calendar.YEAR, 25)
+            val notAfter = cal.time
+            // Build Certificate
             val owner = X500Name("CN=vlc-android, O=VideoLAN, L=Paris, C=France")
-            val builder: X509v3CertificateBuilder = JcaX509v3CertificateBuilder(owner, BigInteger(64, random), Date(System.currentTimeMillis() - 86400000L), Date(System.currentTimeMillis() + (25 * 86400000L)), owner, keypair.public)
+            val builder: X509v3CertificateBuilder = JcaX509v3CertificateBuilder(owner, BigInteger(64, random), notBefore, notAfter, owner, keypair.public)
 
             val signer: ContentSigner = JcaContentSignerBuilder("SHA256WithRSAEncryption").build(privateKey)
             val certHolder: X509CertificateHolder = builder.build(signer)
