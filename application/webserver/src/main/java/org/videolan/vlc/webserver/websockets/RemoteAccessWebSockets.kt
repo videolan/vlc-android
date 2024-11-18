@@ -29,6 +29,7 @@ import android.content.SharedPreferences
 import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.annotation.MainThread
 import com.squareup.moshi.Moshi
 import io.ktor.server.routing.Routing
 import io.ktor.server.websocket.WebSocketServerSession
@@ -84,7 +85,9 @@ object RemoteAccessWebSockets {
                             send(Frame.Text(convertToJson(RemoteAccessServer.WebSocketAuthorization("forbidden", initialMessage = message))))
                         } else {
                             val service = RemoteAccessServer.getInstance(context).service
-                            manageIncomingMessages(incomingMessage, settings, service, context)
+                            withContext(Dispatchers.Main) {
+                                manageIncomingMessages(incomingMessage, settings, service, context)
+                            }
                         }
                     } catch (e: Exception) {
                         Log.e(TAG, e.message, e)
@@ -98,7 +101,9 @@ object RemoteAccessWebSockets {
     }
 
     /**
-     * Manage incoming messages from the client, either from websockets or long polling
+     * Manage incoming messages from the client, either from websockets or long polling.
+     *
+     * Run this handler on the main thread to simplify calls to PlaybackService.
      *
      * @param incomingMessage the incoming message
      * @param settings the shared preferences
@@ -106,7 +111,8 @@ object RemoteAccessWebSockets {
      * @param context the context
      * @return true if the message has been handled, false if playback control is not allowed
      */
-    fun manageIncomingMessages(
+    @MainThread
+    suspend fun manageIncomingMessages(
         incomingMessage: WSIncomingMessage,
         settings: SharedPreferences,
         service: PlaybackService?,
@@ -149,10 +155,8 @@ object RemoteAccessWebSockets {
                 }
             }
             GET_VOLUME -> {
-                AppScope.launch {
-                    val message = Frame.Text(getVolumeMessage(context, service))
-                    webSocketSessions.forEach { (_, session) -> session.send(message) }
-                }
+                val message = Frame.Text(getVolumeMessage(context, service))
+                webSocketSessions.forEach { (_, session) -> session.send(message) }
             }
             SET_VOLUME -> {
                 incomingMessage.id?.let { volume ->
@@ -167,49 +171,33 @@ object RemoteAccessWebSockets {
             SPEED -> incomingMessage.floatValue?.let { speed -> service?.setRate(speed, true) }
             SLEEP_TIMER -> {
                 incomingMessage.longValue?.let { sleepTimerEnd ->
-                    AppScope.launch(Dispatchers.Main) {
-                        val sleepTime = Calendar.getInstance()
-                        sleepTime.timeInMillis += sleepTimerEnd
-                        sleepTime.set(Calendar.SECOND, 0)
-                        service?.setSleepTimer(sleepTime)
-                        service?.sleepTimerInterval = sleepTimerEnd
-                    }
-                    AppScope.launch {
-                        RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { nowPlaying ->
-                            AppScope.launch { sendToAll(nowPlaying) }
-                        }
-                    }
+                    val sleepTime = Calendar.getInstance()
+                    sleepTime.timeInMillis += sleepTimerEnd
+                    sleepTime.set(Calendar.SECOND, 0)
+                    service?.setSleepTimer(sleepTime)
+                    service?.sleepTimerInterval = sleepTimerEnd
+                    RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { sendToAll(it) }
                 }
             }
             SLEEP_TIMER_WAIT -> {
                 incomingMessage.stringValue?.let { waitForMediaEnd ->
                     service?.waitForMediaEnd = (waitForMediaEnd == "true")
-                    AppScope.launch {
-                        RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { nowPlaying ->
-                            AppScope.launch { sendToAll(nowPlaying) }
-                        }
-                    }
+                    RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { sendToAll(it) }
                 }
             }
             SLEEP_TIMER_RESET -> {
                 incomingMessage.stringValue?.let { resetOnInteraction ->
                     service?.resetOnInteraction = (resetOnInteraction == "true")
-                    AppScope.launch {
-                        RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { nowPlaying ->
-                            AppScope.launch { sendToAll(nowPlaying) }
-                        }
-                    }
+                    RemoteAccessServer.getInstance(context).generateNowPlaying()?.let { sendToAll(it) }
                 }
             }
             ADD_BOOKMARK -> {
                 incomingMessage.longValue?.let { bookmarkTime ->
                     service?.let {
                         it.currentMediaWrapper?.let { media ->
-                            AppScope.launch {
-                                withContext(Dispatchers.IO) {
-                                    val bookmark = media.addBookmark(bookmarkTime)
-                                    bookmark?.setName(context.getString(R.string.bookmark_default_name, Tools.millisToString(it.getTime())))
-                                }
+                            AppScope.launch(Dispatchers.IO) {
+                                val bookmark = media.addBookmark(bookmarkTime)
+                                bookmark?.setName(context.getString(R.string.bookmark_default_name, Tools.millisToString(it.getTime())))
                             }
                         }
                     }
@@ -218,10 +206,8 @@ object RemoteAccessWebSockets {
             DELETE_BOOKMARK -> {
                 incomingMessage.longValue?.let { bookmarkTime ->
                     service?.currentMediaWrapper?.let { media ->
-                        AppScope.launch {
-                            withContext(Dispatchers.IO) {
-                                media.removeBookmark(bookmarkTime)
-                            }
+                        AppScope.launch(Dispatchers.IO) {
+                            media.removeBookmark(bookmarkTime)
                         }
                     }
                 }
@@ -230,22 +216,14 @@ object RemoteAccessWebSockets {
                 incomingMessage.longValue?.let { bookmarkTime ->
                     incomingMessage.stringValue?.let { bookmarkName ->
                         service?.currentMediaWrapper?.let { media ->
-                            AppScope.launch {
-                                withContext(Dispatchers.IO) {
-                                    media.bookmarks.firstOrNull { it.time == bookmarkTime }?.setName(bookmarkName)
-                                }
+                            AppScope.launch(Dispatchers.IO) {
+                                media.bookmarks.firstOrNull { it.time == bookmarkTime }?.setName(bookmarkName)
                             }
                         }
                     }
                 }
             }
-            PLAY_MEDIA -> {
-                incomingMessage.id?.let { index ->
-                    AppScope.launch(Dispatchers.Main) {
-                        service?.playIndex(index)
-                    }
-                }
-            }
+            PLAY_MEDIA -> incomingMessage.id?.let { index -> service?.playIndex(index) }
             DELETE_MEDIA -> incomingMessage.id?.let { index -> service?.remove(index) }
             MOVE_MEDIA_BOTTOM -> {
                 incomingMessage.id?.let { index ->
@@ -261,13 +239,7 @@ object RemoteAccessWebSockets {
                         service?.moveItem(index, index - 1)
                 }
             }
-            REMOTE -> {
-                incomingMessage.stringValue?.let { action ->
-                    AppScope.launch {
-                        VideoPlayerActivity.videoRemoteFlow.emit(action)
-                    }
-                }
-            }
+            REMOTE -> incomingMessage.stringValue?.let { action -> VideoPlayerActivity.videoRemoteFlow.emit(action) }
         }
         return true
     }

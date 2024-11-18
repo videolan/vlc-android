@@ -466,8 +466,13 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 val id = call.request.queryParameters["id"]?.toInt()
                 val longValue = call.request.queryParameters["longValue"]?.toLong()
                 val floatValue = call.request.queryParameters["floatValue"]?.toFloat()
-                val authTicket = call.request.queryParameters["authTicket"]
-                if (!RemoteAccessWebSockets.manageIncomingMessages(WSIncomingMessage(message, id, floatValue, longValue, authTicket = authTicket), settings, RemoteAccessServer.getInstance(appContext).service, appContext)) {
+                val stringValue = call.request.queryParameters["stringValue"]
+                val incomingMessage = WSIncomingMessage(message, id, floatValue, longValue, stringValue)
+                val service = RemoteAccessServer.getInstance(appContext).service
+                val result = withContext(Dispatchers.Main) {
+                    RemoteAccessWebSockets.manageIncomingMessages(incomingMessage, settings, service, appContext)
+                }
+                if (!result) {
                     call.respond(HttpStatusCode.Forbidden)
                     return@get
                 }
