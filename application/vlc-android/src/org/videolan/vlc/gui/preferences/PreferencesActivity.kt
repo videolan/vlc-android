@@ -49,6 +49,7 @@ import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.gui.preferences.search.PreferenceSearchActivity
+import org.videolan.vlc.widget.utils.refreshAllWidgets
 
 const val EXTRA_PREF_END_POINT = "extra_pref_end_point"
 class PreferencesActivity : BaseActivity() {
@@ -79,6 +80,11 @@ class PreferencesActivity : BaseActivity() {
         }
         mAppBarLayout = findViewById(R.id.appbar)
         mAppBarLayout!!.post { ViewCompat.setElevation(mAppBarLayout!!, resources.getDimensionPixelSize(R.dimen.default_appbar_elevation).toFloat()) }
+    }
+
+    override fun onStop() {
+        refreshAllWidgets()
+        super.onStop()
     }
 
     internal fun expandBar() {
