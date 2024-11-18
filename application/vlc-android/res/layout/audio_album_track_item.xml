@@ -78,9 +78,8 @@
                 android:contentDescription="@{TalkbackUtil.INSTANCE.getTrackNumber(context, item)}"
                 android:minWidth="20dp"
                 tools:text="1."
-                vlc:layout_constraintBottom_toBottomOf="@id/title"
-                vlc:layout_constraintStart_toStartOf="parent"
-                vlc:layout_constraintTop_toTopOf="@id/title" />
+                vlc:layout_constraintBaseline_toBaselineOf="@id/title"
+                vlc:layout_constraintStart_toStartOf="parent"/>
 
         <org.videolan.vlc.gui.view.MiniVisualizer
                 android:id="@+id/playing"
@@ -98,7 +97,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="4dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
@@ -113,6 +114,8 @@
                 android:id="@+id/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
                 android:contentDescription="@{TalkbackUtil.INSTANCE.getTimeAndArtist(context, item)}"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
