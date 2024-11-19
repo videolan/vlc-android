@@ -76,24 +76,12 @@ fi
 
 blue "Ready to deploy"
 
-read -p 'Enter your sonatype username: ' username
+read -sp 'Enter the token password: ' pass
 echo
-SONATYPE_USERNAME=$(xml_encode $username)
-read -sp 'Enter your sonatype password: ' pass
-echo
-SONATYPE_PASSWORD=$(xml_encode $pass)
+TOKEN_PASSWORD=$(xml_encode $pass)
 
 blue "Setup Maven credentials"
-echo "<settings xmlns=\"http://maven.apache.org/SETTINGS/1.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-  xsi:schemaLocation=\"http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd\">
-  <servers>
-    <server>
-      <id>ossrh</id>
-      <username>$SONATYPE_USERNAME</username>
-      <password>$SONATYPE_PASSWORD</password>
-    </server>
-  </servers>
-</settings>" >settings.xml
+gpg --output settings.xml --batch -d --passphrase $TOKEN_PASSWORD settings.xml.gpg
 
 if [ -z "$LIBVLC_VERSION" ]; then
   purple "No version for libvlc. Skipping"
@@ -109,7 +97,7 @@ else
     -Djavadoc=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-javadoc.jar \
     -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
     -DgroupId=org.videolan.android \
-    -Dgpg.keyname=e8f8f982a0cd726f020ced90f4b3cd9a1faeefe8 \
+    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
     -DrepositoryId=ossrh
 fi
 
@@ -127,7 +115,7 @@ else
     -Djavadoc=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-javadoc.jar \
     -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
     -DgroupId=org.videolan.android \
-    -Dgpg.keyname=e8f8f982a0cd726f020ced90f4b3cd9a1faeefe8 \
+    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
     -DrepositoryId=ossrh
 fi
 
