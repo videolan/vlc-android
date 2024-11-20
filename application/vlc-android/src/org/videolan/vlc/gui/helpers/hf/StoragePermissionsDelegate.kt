@@ -135,7 +135,13 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             val uri = Uri.fromParts(SCHEME_PACKAGE, requireContext().packageName, null)
             val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
             if (intent.isCallable(requireActivity())) {
-                PermissionListDialog.newInstance().show(requireActivity().supportFragmentManager, PermissionListDialog::class.simpleName)
+                if (withDialog)
+                    PermissionListDialog.newInstance().show(
+                        requireActivity().supportFragmentManager,
+                        PermissionListDialog::class.simpleName
+                    )
+                else
+                    askAllAccessPermission(intent)
                 return
             }
         }
