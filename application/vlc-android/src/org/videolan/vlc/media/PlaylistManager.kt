@@ -494,7 +494,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
 
         val mw = mediaList.getMedia(index) ?: return
-        if (mw.type == MediaWrapper.TYPE_VIDEO && !isAppStarted()) videoBackground = true
+        val isInCustomPiP: Boolean = service.isInPiPMode.value ?: false
+        if (mw.type == MediaWrapper.TYPE_VIDEO && !isAppStarted() && !isInCustomPiP) videoBackground = true
         val isVideoPlaying = mw.type == MediaWrapper.TYPE_VIDEO && player.isVideoPlaying()
         setRepeatTypeFromSettings()
         if (!videoBackground && isVideoPlaying) mw.addFlags(MediaWrapper.MEDIA_VIDEO)
