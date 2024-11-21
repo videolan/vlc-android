@@ -819,6 +819,7 @@
     <string name="language_to_download">Language</string>
     <string name="delete_the_selected">Delete selection</string>
     <string name="download_the_selected">Download selection</string>
+    <string name="no_sub_history">No subtitle for this media</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="next_step">Next</string>

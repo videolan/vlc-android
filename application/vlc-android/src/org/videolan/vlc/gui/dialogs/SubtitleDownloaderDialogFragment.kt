@@ -246,6 +246,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         viewModel.history.observe(this) {
             historyAdapter.setList(it)
+            viewModel.observableHistoryEmpty.set(if (it.isEmpty()) getString(R.string.no_sub_history) else "")
         }
     }
 

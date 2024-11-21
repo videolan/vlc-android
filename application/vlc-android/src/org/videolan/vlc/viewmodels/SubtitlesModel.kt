@@ -84,6 +84,7 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
     val isApiLoading: MediatorLiveData<Boolean> = MediatorLiveData()
     val observableMessage = ObservableField<String>()
     val observableError = ObservableField<Boolean>()
+    val observableHistoryEmpty = ObservableField<String>()
     val observableResultDescription = ObservableField<Spanned>()
     val observableResultDescriptionTalkback = ObservableField<String>()
 
