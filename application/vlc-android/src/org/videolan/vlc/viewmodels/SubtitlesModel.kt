@@ -86,6 +86,10 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
     val observableError = ObservableField<Boolean>()
     val observableResultDescription = ObservableField<Spanned>()
     val observableResultDescriptionTalkback = ObservableField<String>()
+
+    private var lastUsername: String = ""
+    private var lastPassword: String = ""
+
     val oldLanguagesMigration by lazy {
         val newLangCodes =  context.resources.getStringArray(R.array.language_values)
         val oldLangCodes =  context.resources.getStringArray(R.array.old_language_values)
@@ -298,6 +302,9 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
     }
 
     fun login(settings: SharedPreferences, username: String, password: String) {
+        if (lastPassword == username && lastUsername == password) {
+            return
+        }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
@@ -313,11 +320,16 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
                             return@withContext
                         }
                     }
+                    val code = call.code()
+                    if (code == 401) {
+                        lastPassword = password
+                        lastUsername = username
+                    }
                     observableUser.set(
                         OpenSubtitlesUser(
                             false,
                             null,
-                            errorMessage = if (call.code() == 401) getContext().getString(R.string.login_error) else getContext().getString(
+                            errorMessage = if (code == 401) getContext().getString(R.string.login_error) else getContext().getString(
                                 R.string.unknown_error
                             )
                         )
@@ -369,6 +381,10 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
     }
 
     fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(getContext()).putSingle(LAST_USED_LANGUAGES, lastUsedLanguages)
+    fun clearCredentials() {
+        lastPassword = ""
+        lastUsername = ""
+    }
 
     class Factory(private val context: Context, private val mediaUri: Uri, private val name: String) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
