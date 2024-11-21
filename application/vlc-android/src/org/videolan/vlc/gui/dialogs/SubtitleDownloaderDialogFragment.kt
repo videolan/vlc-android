@@ -188,6 +188,11 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
             viewModel.observableInEditMode.set(false)
         }
 
+        binding.resetButton.setOnClickListener {
+            viewModel.observableInEditMode.set(false)
+            viewModel.search(true)
+        }
+
         binding.openSubEdit.setOnClickListener {
             if (viewModel.observableInEditMode.get() == false) {
                 //fill form
