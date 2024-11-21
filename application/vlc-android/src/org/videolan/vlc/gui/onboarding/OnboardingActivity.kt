@@ -112,13 +112,11 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun askPermission() {
-
         lifecycleScope.launch {
             val onlyMedia = viewModel.permissionType == PermissionType.MEDIA
             viewModel.permissionAlreadyAsked = true
-            if (onlyMedia) {
+            if (onlyMedia && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 ActivityCompat.requestPermissions(
                     this@OnboardingActivity, arrayOf<String>(
                         Manifest.permission.READ_MEDIA_AUDIO,
@@ -127,7 +125,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
                     ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                 )
                 return@launch
-            } else getStoragePermission(withDialog = false, onlyMedia = false)
+            } else getStoragePermission(withDialog = false, onlyMedia = onlyMedia)
             onNext()
         }
     }

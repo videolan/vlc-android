@@ -46,6 +46,7 @@ import org.videolan.tools.setInvisible
 import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogPermissionsBinding
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.Permissions
 
 
@@ -128,7 +129,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
 
         when {
             Permissions.hasAllAccess(requireActivity()) -> binding.manageAllPermsCheck.isChecked = true
-            Permissions.hasAnyFileFineAccess(requireActivity()) -> binding.manageMediaPermsCheck.isChecked = true
+            Permissions.canReadStorage(requireActivity()) -> binding.manageMediaPermsCheck.isChecked = true
             else -> binding.noAccessCheck.isChecked = true
         }
 
@@ -223,17 +224,24 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
             if (Permissions.hasAnyFileFineAccess(requireActivity())) {
                 Permissions.showAppSettingsPage(requireActivity())
                 (it as RadioButton).isChecked = false
+            } else if (Permissions.canReadStorage(requireActivity())) {
+                Permissions.showAppSettingsPage(requireActivity())
+                (it as RadioButton).isChecked = false
             } else if (Permissions.hasAllAccess(requireActivity())) {
                 (it as RadioButton).isChecked = false
                 binding.manageAllPermsCheck.background  = ContextCompat.getDrawable(requireActivity(), R.drawable.rounded_corners_permissions_warning)
                 showWarning()
             } else
-                ActivityCompat.requestPermissions(
-                    requireActivity(), arrayOf(
-                        Manifest.permission.READ_MEDIA_VIDEO,
-                        Manifest.permission.READ_MEDIA_AUDIO
-                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    ActivityCompat.requestPermissions(
+                        requireActivity(), arrayOf(
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO
+                        ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+                    )
+                else lifecycleScope.launch {
+                    requireActivity().getStoragePermission(withDialog = false, onlyMedia = true)
+                }
         }
 
         binding.manageMediaAudio.setOnClickListener {
@@ -262,6 +270,11 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
             binding.manageMediaVideo.setGone()
             binding.manageMediaAudio.setGone()
 
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            binding.manageMediaAudio.setGone()
+            binding.manageMediaVideo.setGone()
         }
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {

@@ -140,7 +140,7 @@ object Permissions {
             ) == PackageManager.PERMISSION_GRANTED
             )
 
-    fun hasAnyFileFineAccess(context: Context) = (
+    fun hasAnyFileFineAccess(context: Context) = canReadStorage(context) || (
             ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.READ_MEDIA_AUDIO
