@@ -332,7 +332,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/retry"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="@{viewmodel.observableError ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewmodel.observableError &amp;&amp; state == state.Download ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/message"
                     app:layout_constraintBottom_toBottomOf="@id/subs_download_list"/>
