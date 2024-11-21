@@ -342,7 +342,10 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             invalidateActionMode()
         } else {
             if (searchView.visibility == View.VISIBLE) UiTools.setKeyboardVisibility(v, false)
-            MediaUtils.playTracks(this, viewModel.tracksProvider, position)
+            if (Settings.getInstance(this).getBoolean(FORCE_PLAY_ALL_AUDIO, false))
+                MediaUtils.playTracks(this, viewModel.tracksProvider, position)
+            else
+                MediaUtils.openMedia(this, item as MediaWrapper)
         }
     }
 
