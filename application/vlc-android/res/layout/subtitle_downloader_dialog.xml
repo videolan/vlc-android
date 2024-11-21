@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@{@string/powered_opensubtitles(viewmodel.observableLimit.get().getRemainingText())}"
+                    android:text="@string/powered_opensubtitles"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sub_download_history"
@@ -85,6 +85,7 @@
                     android:focusable="true"
                     android:padding="8dp"
                     android:selected="@{state == state.Login}"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_account" />

@@ -716,7 +716,7 @@
     <string name="popup_playback">Playing in a Pop-Up window</string>
     <string name="popup_expand">Expand video</string>
     <string name="download_subtitles">Download subtitles</string>
-    <string name="powered_opensubtitles">Powered by OpenSubtitles. Remaining downloads : %s</string>
+    <string name="powered_opensubtitles">Powered by OpenSubtitles</string>
     <string name="open_subtitles_not_logged_in">You are not logged into OpenSubtitles\nLogging in will grant you access to more downloads</string>
     <string name="open_subtitles_logged_in">Logged in as %1$s</string>
     <string name="open_subtitles_limits">You have %1$s remaining downloads out of %2$s. Your limit will be reset at %3$s.</string>
