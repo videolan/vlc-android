@@ -475,6 +475,7 @@
                         android:ems="10"
                         android:focusable="true"
                         android:hint="@string/open_subtitles_password"
+                        android:singleLine="true"
                         android:imeOptions="actionDone"
                         android:nextFocusRight="@+id/loginButton"
                         android:nextFocusDown="@+id/loginButton"
