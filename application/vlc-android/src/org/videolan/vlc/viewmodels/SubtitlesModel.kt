@@ -300,18 +300,38 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
     fun login(settings: SharedPreferences, username: String, password: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val call = OpenSubtitleRepository.getInstance().login(username, password)
-                if (call.isSuccessful) {
-                    val userResult = call.body()
-                    if (userResult != null) {
-                        val openSubtitlesUser = OpenSubtitlesUser(true, userResult, username = username)
-                        OpenSubtitlesUtils.saveUser(settings, openSubtitlesUser)
-                        observableUser.set(openSubtitlesUser)
-                        checkUserInfos(settings)
-                        return@withContext
+                try {
+                    val call = OpenSubtitleRepository.getInstance().login(username, password)
+                    if (call.isSuccessful) {
+                        val userResult = call.body()
+                        if (userResult != null) {
+                            val openSubtitlesUser =
+                                OpenSubtitlesUser(true, userResult, username = username)
+                            OpenSubtitlesUtils.saveUser(settings, openSubtitlesUser)
+                            observableUser.set(openSubtitlesUser)
+                            checkUserInfos(settings)
+                            return@withContext
+                        }
                     }
+                    observableUser.set(
+                        OpenSubtitlesUser(
+                            false,
+                            null,
+                            errorMessage = if (call.code() == 401) getContext().getString(R.string.login_error) else getContext().getString(
+                                R.string.unknown_error
+                            )
+                        )
+                    )
+                } catch (e: NoConnectivityException) {
+                    observableUser.set(
+                        OpenSubtitlesUser(
+                            false,
+                            null,
+                            errorMessage = getContext().getString(R.string.no_internet_connection)
+                        )
+                    )
                 }
-                observableUser.set(OpenSubtitlesUser(false, null, errorMessage = if (call.code() == 401) getContext().getString(R.string.login_error) else getContext().getString(R.string.unknown_error)))
+
             }
         }
     }
