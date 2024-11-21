@@ -160,7 +160,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
         }
 
         binding.registerButton.setOnClickListener {
-                requireActivity().openLinkIfPossible("https://www.opensubtitles.com/en", 512)
+                requireActivity().openLinkIfPossible("https://www.opensubtitles.com/en/users/sign_up", 512)
         }
 
         state = SubDownloadDialogState.Download
