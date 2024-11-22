@@ -58,9 +58,9 @@
             android:textColor="?attr/font_default"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline8"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             tools:text="Help title" />
 
     <TextView
@@ -74,9 +74,9 @@
             android:textColor="@color/white_transparent_50"
             android:textSize="14sp"
             app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline8"
             tools:text="Help description" />
 
@@ -261,7 +261,7 @@
             android:layout_marginEnd="24dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
@@ -300,7 +300,7 @@
             android:layout_marginStart="24dp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/guideline8"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline8"
             tools:visibility="visible" />
 

@@ -46,6 +46,7 @@ import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.view.PlayerProgress
+import org.videolan.vlc.util.LocaleUtil
 
 /**
  * Delegate to manage the video tips workflow.
@@ -233,17 +234,23 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
         clearAllAnimations()
         nextButton.setText(R.string.next_step)
 
+        // For RTL, we have to invert some constraints as the volume and brightness gestures are kept at the same side of the screen
+        val independentStart = if (LocaleUtil.isRtl()) ConstraintSet.END else ConstraintSet.START
+        val independentEnd = if (LocaleUtil.isRtl()) ConstraintSet.START else ConstraintSet.END
         when (currentTip) {
             VideoPlayerTipsStep.CONTROLS -> {
                 getTapIndicators().forEach { constraintSet.setVisibility(it.id, VISIBLE) }
                 TipsUtils.startTapAnimation(getTapIndicators().toList())
             }
             VideoPlayerTipsStep.BRIGHTNESS -> {
-                constraintSet.connect(R.id.helpTitle, ConstraintSet.START, R.id.tap_gesture_background, ConstraintSet.END, 16.dp)
-                constraintSet.connect(R.id.helpTitle, ConstraintSet.END, R.id.tipsBrightnessProgress, ConstraintSet.START, 16.dp)
+                constraintSet.clear(R.id.tap_gesture_background, independentEnd)
+                constraintSet.connect(R.id.tap_gesture_background, independentStart, ConstraintSet.PARENT_ID, independentStart, 32.dp)
+
+                constraintSet.connect(R.id.helpTitle, ConstraintSet.LEFT, R.id.tap_gesture_background, ConstraintSet.RIGHT, 16.dp)
+                constraintSet.connect(R.id.helpTitle, ConstraintSet.RIGHT, R.id.tipsBrightnessProgress, ConstraintSet.LEFT, 16.dp)
                 constraintSet.setHorizontalBias(R.id.helpTitle, 1F)
-                constraintSet.connect(R.id.helpDescription, ConstraintSet.START, R.id.tap_gesture_background, ConstraintSet.END, 16.dp)
-                constraintSet.connect(R.id.helpDescription, ConstraintSet.END, R.id.tipsBrightnessProgress, ConstraintSet.START, 16.dp)
+                constraintSet.connect(R.id.helpDescription, ConstraintSet.LEFT, R.id.tap_gesture_background, ConstraintSet.RIGHT, 16.dp)
+                constraintSet.connect(R.id.helpDescription, ConstraintSet.RIGHT, R.id.tipsBrightnessProgress, ConstraintSet.LEFT, 16.dp)
                 constraintSet.setHorizontalBias(R.id.helpDescription, 1F)
 
                 constraintSet.setVisibility(R.id.tapGesture, VISIBLE)
@@ -255,14 +262,14 @@ class VideoTipsDelegate(private val player: VideoPlayerActivity) : OnClickListen
                 currentAnimations.add(swipe(tipsBrightnessProgress, tipsBrightnessText))
             }
             VideoPlayerTipsStep.VOLUME -> {
-                constraintSet.clear(R.id.tap_gesture_background, ConstraintSet.START)
-                constraintSet.connect(R.id.tap_gesture_background, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 32.dp)
+                constraintSet.clear(R.id.tap_gesture_background, independentStart)
+                constraintSet.connect(R.id.tap_gesture_background, independentEnd, ConstraintSet.PARENT_ID, independentEnd, 32.dp)
 
-                constraintSet.connect(R.id.helpTitle, ConstraintSet.START, R.id.tipsVolumeProgress, ConstraintSet.END, 16.dp)
-                constraintSet.connect(R.id.helpTitle, ConstraintSet.END, R.id.tap_gesture_background, ConstraintSet.START, 16.dp)
+                constraintSet.connect(R.id.helpTitle, ConstraintSet.LEFT, R.id.tipsVolumeProgress, ConstraintSet.RIGHT, 16.dp)
+                constraintSet.connect(R.id.helpTitle, ConstraintSet.RIGHT, R.id.tap_gesture_background, ConstraintSet.LEFT, 16.dp)
                 constraintSet.setHorizontalBias(R.id.helpTitle, 0F)
-                constraintSet.connect(R.id.helpDescription, ConstraintSet.START, R.id.tipsVolumeProgress, ConstraintSet.END, 16.dp)
-                constraintSet.connect(R.id.helpDescription, ConstraintSet.END, R.id.tap_gesture_background, ConstraintSet.START, 16.dp)
+                constraintSet.connect(R.id.helpDescription, ConstraintSet.LEFT, R.id.tipsVolumeProgress, ConstraintSet.RIGHT, 16.dp)
+                constraintSet.connect(R.id.helpDescription, ConstraintSet.RIGHT, R.id.tap_gesture_background, ConstraintSet.LEFT, 16.dp)
                 constraintSet.setHorizontalBias(R.id.helpDescription, 0F)
 
                 constraintSet.setVisibility(R.id.tapGesture, VISIBLE)
