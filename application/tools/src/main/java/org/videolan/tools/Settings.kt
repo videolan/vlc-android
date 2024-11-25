@@ -134,6 +134,7 @@ const val ML_SCAN_OFF = 1
 
 //Remote access
 const val KEY_ENABLE_REMOTE_ACCESS = "enable_remote_access"
+const val KEY_REMOTE_ACCESS_LAST_STATE_STOPPED = "remote_access_last_state_stopped"
 const val KEY_REMOTE_ACCESS_ML_CONTENT = "remote_access_medialibrary_content"
 const val REMOTE_ACCESS_FILE_BROWSER_CONTENT = "remote_access_file_browser_content"
 const val REMOTE_ACCESS_NETWORK_BROWSER_CONTENT = "remote_access_network_browser_content"

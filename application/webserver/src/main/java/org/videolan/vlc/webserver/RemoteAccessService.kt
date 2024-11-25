@@ -25,6 +25,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -45,7 +46,9 @@ import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.registerReceiverCompat
+import org.videolan.resources.util.startForegroundCompat
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_REMOTE_ACCESS_LAST_STATE_STOPPED
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.putSingle
@@ -87,6 +90,8 @@ class RemoteAccessService : LifecycleService(), CoroutineScope by MainScope() {
             if (!::server.isInitialized) return
             when (intent.action) {
                 ACTION_STOP_SERVER -> {
+                    Settings.getInstance(this@RemoteAccessService)
+                        .putSingle(KEY_REMOTE_ACCESS_LAST_STATE_STOPPED, true)
                     startServerActor.trySend(ACTION_STOP_SERVER)
                 }
                 ACTION_DISABLE_SERVER -> {
@@ -118,14 +123,17 @@ class RemoteAccessService : LifecycleService(), CoroutineScope by MainScope() {
     override fun onCreate() {
         super.onCreate()
         if (AndroidUtil.isOOrLater) forceForeground()
-        lifecycleScope.launch(Dispatchers.IO) {
-            server = RemoteAccessServer.getInstance(applicationContext)
-            server.start()
-            withContext(Dispatchers.Main) {
-                server.serverStatus.observe(this@RemoteAccessService) {
-                    forceForeground()
-                }
-            }
+           lifecycleScope.launch(Dispatchers.IO) {
+               server = RemoteAccessServer.getInstance(applicationContext)
+               if (!Settings.getInstance(this@RemoteAccessService)
+                       .getBoolean(KEY_REMOTE_ACCESS_LAST_STATE_STOPPED, false)
+               )
+                   server.start()
+               withContext(Dispatchers.Main) {
+                   server.serverStatus.observe(this@RemoteAccessService) {
+                       forceForeground()
+                   }
+               }
         }
         val filter = IntentFilter()
         filter.addAction(ACTION_STOP_SERVER)
@@ -149,7 +157,7 @@ class RemoteAccessService : LifecycleService(), CoroutineScope by MainScope() {
         val started = ::server.isInitialized && server.serverStatus.value == ServerStatus.STARTED
         val notification = NotificationHelper.createRemoteAccessNotification(applicationContext, contentString, started)
         try {
-            startForeground(44, notification)
+            startForegroundCompat(44, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
                 Log.w("RemoteAccessService", "ForegroundServiceStartNotAllowedException caught!")
