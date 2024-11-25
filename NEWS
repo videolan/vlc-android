@@ -1,3 +1,12 @@
+Changes between 3.6.0 Beta 3 and 3.6.0 Beta 4:
+------------------
+ * Fix subtitles download
+ * Improve the permission management
+ * Allow renaming a playlist
+ * Fix some language issues
+ * Behavior and UI fixes
+ * Crash fixes
+
 Changes between 3.6.0 Beta 2 and 3.6.0 Beta 3:
 ------------------
  * Fix custom PiP
