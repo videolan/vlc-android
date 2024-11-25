@@ -206,7 +206,8 @@
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
-                        vlc:srcCompat="@drawable/ic_emoji_network" />
+                        vlc:srcCompat="@drawable/ic_emoji_network"
+                        vlc:tint="@color/white" />
 
 
                 <ImageView
@@ -221,7 +222,8 @@
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
-                        vlc:srcCompat="@drawable/ic_emoji_otg" />
+                        vlc:srcCompat="@drawable/ic_emoji_otg"
+                        vlc:tint="@color/white" />
 
                 <ImageView
                         android:id="@+id/sd_media"
@@ -235,7 +237,8 @@
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
-                        vlc:srcCompat="@drawable/ic_emoji_sd" />
+                        vlc:srcCompat="@drawable/ic_emoji_sd"
+                        vlc:tint="@color/white" />
 
                 <ImageView
                         android:id="@+id/absent_media"
@@ -249,7 +252,8 @@
                         vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
                         vlc:layout_goneMarginBottom="4dp"
-                        vlc:srcCompat="@drawable/ic_emoji_absent" />
+                        vlc:srcCompat="@drawable/ic_emoji_absent"
+                        vlc:tint="@color/white" />
 
                 <ImageView
                         android:id="@+id/ml_item_seen"
@@ -264,7 +268,8 @@
                         vlc:layout_constraintStart_toEndOf="@+id/ml_item_resolution"
                         vlc:layout_constraintTop_toTopOf="parent"
                         vlc:layout_goneMarginStart="4dp"
-                        vlc:srcCompat="@drawable/ic_check" />
+                        vlc:srcCompat="@drawable/ic_check"
+                        vlc:tint="@color/white" />
 
                 <ImageView
                         android:id="@+id/item_more"

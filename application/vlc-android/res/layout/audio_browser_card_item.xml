@@ -161,7 +161,8 @@
                         android:visibility="@{isSD ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
-                        vlc:srcCompat="@drawable/ic_emoji_sd" />
+                        vlc:srcCompat="@drawable/ic_emoji_sd"
+                        vlc:tint="@color/white" />
                 <ImageView
                         android:id="@+id/otg_media"
                         android:layout_width="wrap_content"
@@ -173,7 +174,8 @@
                         android:visibility="@{isOTG ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
-                        vlc:srcCompat="@drawable/ic_emoji_otg" />
+                        vlc:srcCompat="@drawable/ic_emoji_otg"
+                        vlc:tint="@color/white" />
 
                 <ImageView
                         android:id="@+id/network_media"
@@ -186,7 +188,8 @@
                         android:visibility="@{isNetwork ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
-                        vlc:srcCompat="@drawable/ic_emoji_network" />
+                        vlc:srcCompat="@drawable/ic_emoji_network"
+                        vlc:tint="@color/white" />
 
                 <ImageView
                         android:id="@+id/network_media_off"
@@ -199,7 +202,8 @@
                         android:visibility="@{!isPresent ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintStart_toEndOf="@+id/media_favorite"
-                        vlc:srcCompat="@drawable/ic_emoji_absent" />
+                        vlc:srcCompat="@drawable/ic_emoji_absent"
+                        vlc:tint="@color/white" />
 
                 <ImageView
                         android:id="@+id/media_favorite"
@@ -212,7 +216,8 @@
                         android:visibility="@{isFavorite ? View.VISIBLE : View.GONE}"
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         vlc:layout_constraintStart_toStartOf="parent"
-                        vlc:srcCompat="@drawable/ic_emoji_favorite_white" />
+                        vlc:srcCompat="@drawable/ic_emoji_favorite_white"
+                        vlc:tint="@color/white" />
 
                 <org.videolan.vlc.gui.view.MiniVisualizer
                         android:id="@+id/playing"
