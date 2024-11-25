@@ -192,6 +192,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                     releaseCallbacks()
                 }
                 .launchIn(AppScope)
+        Log.i(TAG, "Server stopped")
         _serverStatus.postValue(ServerStatus.STOPPED)
         settings = Settings.getInstance(context)
     }
@@ -203,6 +204,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      */
     suspend fun start() {
         clearFileDownloads()
+        Log.i(TAG, "Server connecting")
         _serverStatus.postValue(ServerStatus.CONNECTING)
         scope.launch {
             engine = generateServer()
@@ -229,6 +231,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      */
     suspend fun stop() {
         clearFileDownloads()
+        Log.i(TAG, "Server stopping")
         _serverStatus.postValue(ServerStatus.STOPPING)
         withContext(Dispatchers.IO) {
             RemoteAccessWebSockets.closeAllSessions()
@@ -502,6 +505,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         }.apply {
             environment.monitor.subscribe(ApplicationStarted) {
                 _serverStatus.postValue(ServerStatus.STARTED)
+                Log.i(TAG, "Server started")
                 AppScope.launch(Dispatchers.Main) {
                     PlaylistManager.showAudioPlayer.observeForever(miniPlayerObserver)
                     DialogActivity.loginDialogShown.observeForever(loginObserver)
