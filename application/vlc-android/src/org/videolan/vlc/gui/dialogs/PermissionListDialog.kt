@@ -40,6 +40,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import kotlinx.coroutines.launch
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.SCHEME_PACKAGE
+import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
 import org.videolan.tools.setInvisible
@@ -193,7 +194,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         }
 
         binding.manageAllPermsCheck.setOnClickListener {
-            if (Permissions.hasAnyFileFineAccess(requireActivity())) {
+            if (!Permissions.hasAllAccess(requireActivity()) && Permissions.hasAnyFileFineAccess(requireActivity())) {
                 (it as RadioButton).isChecked = false
                 binding.manageMediaPermsCheck.background  = ContextCompat.getDrawable(requireActivity(), R.drawable.rounded_corners_permissions_warning)
                 showWarning()
@@ -221,10 +222,10 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         }
 
         binding.manageMediaPermsCheck.setOnClickListener {
-            if (Permissions.hasAnyFileFineAccess(requireActivity())) {
+            if (!isExternalStorageManager() && Permissions.hasAnyFileFineAccess(requireActivity())) {
                 Permissions.showAppSettingsPage(requireActivity())
                 (it as RadioButton).isChecked = false
-            } else if (Permissions.canReadStorage(requireActivity())) {
+            } else if (!isExternalStorageManager() && Permissions.canReadStorage(requireActivity())) {
                 Permissions.showAppSettingsPage(requireActivity())
                 (it as RadioButton).isChecked = false
             } else if (Permissions.hasAllAccess(requireActivity())) {
