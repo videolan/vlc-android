@@ -33,9 +33,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline16"
@@ -123,8 +121,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="16dp"
-                    android:textColor="?attr/font_default"
                     android:text="@string/artists_show_all_title"
+                    android:textColor="?attr/font_default"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@+id/show_all_artist_group"
                     app:layout_constraintEnd_toStartOf="@+id/show_all_artist_checkbox"
@@ -139,6 +137,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/show_all_artist_group"
                     app:layout_constraintEnd_toEndOf="@+id/show_all_artist_group"
                     app:layout_constraintTop_toTopOf="@+id/show_all_artist_group" />
+
             <View
                     android:id="@+id/show_all_files_group"
                     android:layout_width="0dp"
@@ -167,8 +166,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="16dp"
-                    android:textColor="?attr/font_default"
                     android:text="@string/browser_show_all_title"
+                    android:textColor="?attr/font_default"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@+id/show_all_files_group"
                     app:layout_constraintEnd_toStartOf="@+id/show_all_files_checkbox"
@@ -183,6 +182,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/show_all_files_group"
                     app:layout_constraintEnd_toEndOf="@+id/show_all_files_group"
                     app:layout_constraintTop_toTopOf="@+id/show_all_files_group" />
+
             <View
                     android:id="@+id/show_hidden_files_group"
                     android:layout_width="0dp"
@@ -211,8 +211,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="16dp"
-                    android:textColor="?attr/font_default"
                     android:text="@string/browser_show_hidden_files_title"
+                    android:textColor="?attr/font_default"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@+id/show_hidden_files_group"
                     app:layout_constraintEnd_toStartOf="@+id/show_hidden_files_checkbox"
@@ -320,21 +320,22 @@
 
             <TextView
                     android:id="@+id/sorts_title"
+                    style="@style/Theme.VLC.BottomSheetTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:textColor="?attr/colorPrimary"
-                    style="@style/Theme.VLC.BottomSheetTitle"
                     android:text="@string/sortby"
+                    android:textColor="?attr/colorPrimary"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/video_groups_group" />
 
             <LinearLayout
                     android:id="@+id/sorts_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

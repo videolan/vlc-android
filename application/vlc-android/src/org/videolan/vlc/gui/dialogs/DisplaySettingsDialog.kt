@@ -48,6 +48,7 @@ import org.videolan.resources.GROUP_VIDEOS_FOLDER
 import org.videolan.resources.GROUP_VIDEOS_NAME
 import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDisplaySettingsBinding
 import org.videolan.vlc.databinding.SortDisplaySettingBinding
@@ -231,6 +232,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         if (showAllArtists == null) {
             binding.showAllArtistGroup.setGone()
             binding.allArtistsImage.setGone()
+            binding.showAllArtistCheckbox.setGone()
+            binding.showAllArtistText.setGone()
             return
         }
         binding.showAllArtistCheckbox.isChecked = showAllArtists!!
@@ -244,6 +247,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         if (showOnlyMultimediaFiles == null) {
             binding.showAllFilesGroup.setGone()
             binding.allFilesImage.setGone()
+            binding.showAllFilesCheckbox.setGone()
+            binding.showAllFilesText.setGone()
             return
         }
         binding.showAllFilesCheckbox.isChecked = showOnlyMultimediaFiles!!
@@ -257,6 +262,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         if (showHiddenFiles == null) {
             binding.showHiddenFilesGroup.setGone()
             binding.hiddenFilesImage.setGone()
+            binding.showHiddenFilesCheckbox.setGone()
+            binding.showHiddenFilesText.setGone()
             return
         }
         binding.showHiddenFilesCheckbox.isChecked = showHiddenFiles!!
@@ -270,6 +277,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         if (onlyFavs == null) {
             binding.onlyFavsGroup.setGone()
             binding.onlyFavsImage.setGone()
+            binding.onlyFavsText.setGone()
         } else binding.onlyFavsCheckbox.isChecked = onlyFavs!!
     }
 
