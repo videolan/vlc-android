@@ -49,6 +49,8 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.view.FastScroller
+import org.videolan.vlc.media.isOTG
+import org.videolan.vlc.media.isSD
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
@@ -135,6 +137,8 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean, private va
                 holder.binding.setVariable(BR.isNetwork, false)
                 holder.binding.setVariable(BR.isPresent, true)
                 holder.binding.setVariable(BR.isFavorite, item.isFavorite)
+                holder.binding.setVariable(BR.isSD, item.isSD())
+                holder.binding.setVariable(BR.isOTG, item.isOTG())
                 holder.binding.setVariable(BR.media, item)
             }
             is VideoGroup -> holder.itemView.scope.launch {
