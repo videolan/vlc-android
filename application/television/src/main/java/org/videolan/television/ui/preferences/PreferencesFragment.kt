@@ -56,6 +56,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         super.onCreate(savedInstanceState)
         findPreference<Preference>(SCREEN_ORIENTATION)?.isVisible = false
         findPreference<Preference>("casting_category")?.isVisible = false
+        findPreference<Preference>("android_auto_category")?.isVisible = false
         findPreference<Preference>(KEY_VIDEO_APP_SWITCH)?.isVisible = AndroidDevices.hasPiP
         findPreference<Preference>("remote_access_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         findPreference<Preference>("permissions_title")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
