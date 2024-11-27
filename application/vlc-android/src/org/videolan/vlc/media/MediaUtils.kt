@@ -503,6 +503,21 @@ object MediaUtils {
     }
 }
 
+fun Folder.isOTG(): Boolean {
+    try {
+        return Uri.parse(mMrl).isOTG()
+    } catch (_: Exception) {
+    }
+    return false
+}
+fun Folder.isSD(): Boolean {
+    try {
+        return Uri.parse(mMrl).isSD()
+    } catch (_: Exception) {
+    }
+    return false
+}
+
 @WorkerThread
 fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false, includeMissing:Boolean = true, onlyFavorites:Boolean = false): List<MediaWrapper> {
     var index = 0
