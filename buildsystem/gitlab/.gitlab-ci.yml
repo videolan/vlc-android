@@ -37,7 +37,7 @@ stages:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       changes:
         - buildsystem/compile-remoteaccess.sh
-    - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
+    - if: '$CI_COMMIT_TAG =~ /^libvlc-3.*$/'
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
 
 # This is generating the node_modules folder with the required dependencies
@@ -443,12 +443,14 @@ publish_libs:
       - job: "build-libs-armv7"
       - job: "build-libs-x86"
       - job: "build-libs-x86_64"
+      - job: "webserver-build"
     script:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
         - ./buildsystem/compile.sh --init -b
         - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
         - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
+        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p application/webserver publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
         paths:
@@ -481,8 +483,6 @@ release:
     stage: build
     rules:
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
-    needs:
-      - job: "webserver-build"
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
