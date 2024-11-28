@@ -1,8 +1,12 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'com.vanniktech.maven.publish'
 }
 
+ext {
+    library_version = "$rootProject.ext.remoteAccessVersion"
+}
 android {
     namespace 'org.videolan.vlc.webserver'
 
@@ -61,6 +65,16 @@ android {
     buildFeatures {
         buildConfig true
     }
+
+    // Make per-variant version code
+    libraryVariants.all { variant ->
+        //Custom APK name
+        variant.outputs.each { output ->
+            if (output.outputFileName != null && output.outputFileName.endsWith('.aar')) {
+                output.outputFileName = "vlc-android-remote-access-${library_version}.aar"
+            }
+        }
+    }
 }
 
 preBuild.dependsOn(webCopy)
@@ -85,3 +99,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
+
+apply from: '../../buildsystem/publish.gradle'

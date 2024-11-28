@@ -158,7 +158,9 @@ android {
 dependencies {
     implementation project(':application:vlc-android')
     implementation project(':application:television')
-    implementation project(':application:webserver')
+    devImplementation project(':application:webserver')
+    debugImplementation project(':application:webserver')
+    releaseImplementation "org.videolan.android:remoteaccess:$rootProject.ext.remoteAccessVersion"
     testImplementation project(':application:television')
     testImplementation project(':application:webserver')
 
