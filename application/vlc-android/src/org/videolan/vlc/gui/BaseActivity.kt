@@ -56,7 +56,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            FileUtils.getUri(result.data?.data)?.let { MediaUtils.openMediaNoUi(it) }
+            FileUtils.getUri(result.data?.data)?.let { MediaUtils.openMediaNoUi(this, it) }
         }
     }
 

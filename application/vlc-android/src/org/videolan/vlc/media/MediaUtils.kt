@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
@@ -169,8 +170,12 @@ object MediaUtils {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) = openMediaNoUi(AppContextProvider.appContext, MLServiceLocator.getAbstractMediaWrapper(uri))
-
+    fun openMediaNoUi(ctx: Context, uri: Uri) = AppScope.launch {
+        var media = ctx.getFromMl { getMedia(uri) }
+        if (media == null)
+            media = MLServiceLocator.getAbstractMediaWrapper(uri)
+        openMediaNoUi(ctx, media)
+    }
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
         object : BaseCallBack(context) {
@@ -470,7 +475,7 @@ object MediaUtils {
                     }
                 } ?: return@launch
                 when (mw) {
-                    is MediaWrapper -> openMediaNoUi(mw.uri)
+                    is MediaWrapper -> openMediaNoUi(context, mw.uri)
                     is Album -> playAlbum(context, mw)
                     is Artist -> playArtist(context, mw)
                 }

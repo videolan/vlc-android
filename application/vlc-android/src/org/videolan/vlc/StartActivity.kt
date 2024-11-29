@@ -142,7 +142,7 @@ class StartActivity : FragmentActivity() {
                 var uri: Uri? = FileUtils.getUri(item.uri)
                 if (uri == null && item.text != null) uri = item.text.toString().toUri()
                 if (uri != null) {
-                    MediaUtils.openMediaNoUi(uri)
+                    MediaUtils.openMediaNoUi(this, uri)
                     finish()
                     return
                 }
@@ -287,7 +287,7 @@ class StartActivity : FragmentActivity() {
                 startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT, Util.getFullScreenBundle())
                 return@launch
             } catch (ex: SecurityException) {
-                intent.data?.let { MediaUtils.openMediaNoUi(it) }
+                intent.data?.let { MediaUtils.openMediaNoUi(this@StartActivity, it) }
             }
             intent.data?.authority == getString(R.string.tv_provider_authority) -> MediaUtils.openMediaNoUiFromTvContent(this@StartActivity, intent.data)
             intent.data?.authority == "skip_to" -> PlaybackService.instance?.playIndex(intent.getIntExtra("index", 0))
@@ -296,7 +296,7 @@ class StartActivity : FragmentActivity() {
                 // As the last option, it is safer to reset the player before playing any media
                 if (PlaybackService.instance?.isPlaying == true)
                     PlaybackService.instance?.playlistManager?.player?.stop()
-                MediaUtils.openMediaNoUi(it)
+                MediaUtils.openMediaNoUi(this@StartActivity, it)
             }
         }
         finish()
