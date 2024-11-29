@@ -291,7 +291,13 @@ class StartActivity : FragmentActivity() {
             }
             intent.data?.authority == getString(R.string.tv_provider_authority) -> MediaUtils.openMediaNoUiFromTvContent(this@StartActivity, intent.data)
             intent.data?.authority == "skip_to" -> PlaybackService.instance?.playIndex(intent.getIntExtra("index", 0))
-            else -> withContext(Dispatchers.IO) { FileUtils.getUri(intent.data)}?.let { MediaUtils.openMediaNoUi(it) }
+            else -> withContext(Dispatchers.IO) { FileUtils.getUri(intent.data)}?.let {
+                // Some media might not be properly labeled
+                // As the last option, it is safer to reset the player before playing any media
+                if (PlaybackService.instance?.isPlaying == true)
+                    PlaybackService.instance?.playlistManager?.player?.stop()
+                MediaUtils.openMediaNoUi(it)
+            }
         }
         finish()
     }
