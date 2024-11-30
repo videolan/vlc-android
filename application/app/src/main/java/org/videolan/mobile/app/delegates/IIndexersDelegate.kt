@@ -1,28 +1,30 @@
-package org.videolan.mobile.app.delegates
+package org.videolan.mobile.app.delegates;
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import kotlinx.coroutines.launch
-import org.videolan.moviepedia.MediaScraper
-import org.videolan.resources.ACTION_CONTENT_INDEXING
-import org.videolan.resources.util.registerReceiverCompat
-import org.videolan.tools.AppScope
+import android.content.*;
+import org.videolan.moviepedia.MediaScraper;
+import org.videolan.resources.ACTION_CONTENT_INDEXING;
+import org.videolan.resources.util.RegisterReceiverCompat;
+import org.videolan.tools.AppScope;
 
-internal interface IIndexersDelegate {
-    fun Context.setupIndexers()
+public interface IIndexersDelegate 
+{
+    void setupIndexers(Context context);
 }
 
-internal class IndexersDelegate : BroadcastReceiver(), IIndexersDelegate {
-
-    override fun Context.setupIndexers() {
-        registerReceiverCompat(this@IndexersDelegate, IntentFilter(ACTION_CONTENT_INDEXING), false)
+public class IndexersDelegate extends BroadcastReceiver implements IIndexersDelegate 
+{
+    @Override
+    public void setupIndexers(Context context) 
+    {
+        RegisterReceiverCompat.registerReceiverCompat(this, new IntentFilter(ACTION_CONTENT_INDEXING), false);
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        AppScope.launch {
-            MediaScraper.indexListener.onIndexingDone()
-        }
+    @Override
+    public void onReceive(Context context, Intent intent) 
+    {
+        AppScope.launch(() -> 
+        {
+            MediaScraper.indexListener.onIndexingDone();
+            return null; 
+        });
     }
-}
