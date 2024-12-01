@@ -236,7 +236,16 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     }
     // Download a log file
     get("/download-logfile") {
+        verifyLogin(settings)
+        if (!settings.getBoolean(REMOTE_ACCESS_LOGS, false)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@get
+        }
         call.request.queryParameters["file"]?.let { filePath ->
+            if (getLogsFiles().none { it.path == filePath }) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             val file = File(filePath)
             if (file.exists()) {
                 call.response.header(HttpHeaders.ContentDisposition, ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, file.name).toString())
@@ -247,6 +256,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     }
     // List all log files
     get("/logfile-list") {
+        verifyLogin(settings)
         if (!settings.getBoolean(REMOTE_ACCESS_LOGS, false)) {
             call.respond(HttpStatusCode.Forbidden)
             return@get
