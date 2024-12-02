@@ -73,12 +73,12 @@ object TestUtil {
             mediaPath: String,
             subLanguageID: String,
             movieReleaseName: String): org.videolan.vlc.mediadb.models.ExternalSub {
-        return org.videolan.vlc.mediadb.models.ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName)
+        return org.videolan.vlc.mediadb.models.ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName, false)
     }
 
     fun createExternalSubsForMedia(mediaPath: String, mediaName: String, count: Int): List<org.videolan.vlc.mediadb.models.ExternalSub> {
         return (0 until count).map {
-            org.videolan.vlc.mediadb.models.ExternalSub(it.toString(), "${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName)
+            org.videolan.vlc.mediadb.models.ExternalSub(it.toString(), "${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName, false)
         }
     }
 
@@ -108,6 +108,6 @@ object TestUtil {
             mediaUri: Uri,
             subLanguageID: String,
             movieReleaseName: String,
-            zipDownloadLink: String): SubtitleItem = SubtitleItem(idSubtitle, mediaUri, subLanguageID, movieReleaseName, State.Downloading, zipDownloadLink)
+            zipDownloadLink: String): SubtitleItem = SubtitleItem(idSubtitle, -1L, mediaUri, subLanguageID, movieReleaseName, State.Downloading, zipDownloadLink, false, 0F, 0L, "")
 
 }
