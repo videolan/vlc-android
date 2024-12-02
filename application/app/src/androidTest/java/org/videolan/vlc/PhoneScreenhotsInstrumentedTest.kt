@@ -28,13 +28,17 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.SystemClock
 import android.util.Log
+import androidx.core.view.get
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
+import androidx.viewpager.widget.ViewPager
 import org.hamcrest.core.AllOf
 import org.junit.ClassRule
 import org.junit.Rule
@@ -43,6 +47,7 @@ import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
+import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.util.DpadHelper.pressHome
 import org.videolan.vlc.util.DpadHelper.pressPip
 import org.videolan.vlc.util.DpadHelper.pressStop
@@ -69,23 +74,33 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
     fun testTakeScreenshot() {
         onView(isRoot()).perform(waitId(R.id.audio_list, 5000))
         //Audio
-       // ScreenshotUtil.takeScreenshot("01_trash")
+        waitUntilLoaded { activity.findViewById(R.id.audio_list) }
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(0))
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
+        SystemClock.sleep(1500)
+        waitUntilLoaded { activity.findViewById<ViewPager>(R.id.pager).get(0).findViewById(R.id.audio_list) }
         SystemClock.sleep(500)
-        ScreenshotUtil.takeScreenshot(3, "audio_list")
-        onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(2))
-        SystemClock.sleep(500)
-        waitUntilLoaded { activity.findViewById(R.id.audio_list) }
+        ScreenshotUtil.takeScreenshot(2, "audio_list")
 
         onView(withId(R.id.ml_menu_last_playlist)).perform(click())
         onView(isRoot()).perform(waitId(R.id.audio_media_switcher, 5000))
-        onView(withId(R.id.audio_media_switcher)).perform(click())
-        SystemClock.sleep(300)
-        ScreenshotUtil.takeScreenshot(6,"audio_player_playlist")
+        activity.slideUpOrDownAudioPlayer()
+        SystemClock.sleep(1500)
+        waitUntilLoaded { activity.findViewById(R.id.songs_list) }
+        SystemClock.sleep(1500)
+        ScreenshotUtil.takeScreenshot(4,"audio_player_playlist")
         onView(withId(R.id.playlist_switch)).perform(click())
-        ScreenshotUtil.takeScreenshot(5,"audio_player")
+        ScreenshotUtil.takeScreenshot(3,"audio_player")
         onView(withId(R.id.playlist_switch)).perform(click())
+
+        onView(withId(R.id.adv_function)).perform(click())
+        waitUntilLoaded { activity.findViewById(R.id.options_list) }
+        onView(withId(R.id.options_list))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(3, click()))
+        waitId(R.id.equalizer_bands, 5000)
+        ScreenshotUtil.takeScreenshot(9,"equalizer")
+        pressBack()
+
         //close audio player
         onView(withId(R.id.header)).perform(click())
         pressStop()
@@ -97,6 +112,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
                 .perform(click())
         Log.d("Espresso", "0")
         waitUntilLoaded { activity.findViewById(R.id.video_grid) }
+        SystemClock.sleep(1500)
         Log.d("Espresso", "1")
 
         ScreenshotUtil.takeScreenshot(1, "video_list")
@@ -113,27 +129,28 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         SystemClock.sleep(1500)
         onView(withId(R.id.player_root)).perform(click())
         SystemClock.sleep(500)
-        ScreenshotUtil.takeScreenshot(2, "video_player")
+        ScreenshotUtil.takeScreenshot(6, "video_player")
         onView(withId(R.id.player_overlay_adv_function)).perform(ForceClickAction())
         SystemClock.sleep(500)
-        ScreenshotUtil.takeScreenshot(7,"video_player_advanced_options")
         disableRotateLandscape()
         SystemClock.sleep(500)
-        onView(withRecyclerView(R.id.options_list).atPositionOnView(4, R.id.option_title)).perform(click())
-//        ScreenshotUtil.takeScreenshot(9,"video_player_equalizer")
         pressBack()
         onView(withId(R.id.player_overlay_adv_function)).perform(ForceClickAction())
         onView(withRecyclerView(R.id.options_list).atPositionOnView(6, R.id.option_title)).perform(click())
         pressHome()
         pressPip()
-        ScreenshotUtil.takeScreenshot(8,"pip")
+        SystemClock.sleep(200)
+
+        ScreenshotUtil.takeScreenshot(7,"pip")
     }
 
     @Test
     fun testTakeScreenshotBrowser() {
         onView(AllOf.allOf(withId(R.id.nav_directories), withEffectiveVisibility(Visibility.VISIBLE)))
                  .perform(click())
-         ScreenshotUtil.takeScreenshot(4,"browser")
+        waitUntilLoaded { activity.findViewById<TitleListView>(R.id.network_browser_entry).findViewById(R.id.list) }
+
+        ScreenshotUtil.takeScreenshot(5,"browser")
      }
 
     private fun rotateLandscape() = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).setOrientationLeft()
