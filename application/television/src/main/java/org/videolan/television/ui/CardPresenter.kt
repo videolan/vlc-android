@@ -32,11 +32,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
+import androidx.lifecycle.lifecycleScope
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
@@ -52,7 +57,7 @@ import org.videolan.vlc.gui.helpers.*
 
 public const val FAVORITE_FLAG = 1000
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class CardPresenter(private val context: Activity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
+class CardPresenter(private val context: FragmentActivity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
 
     private var seenMediaMarkerVisible = true
     private var sDefaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_default_cone, context.theme)
@@ -94,8 +99,24 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                     loadPlaylistImageWithWidth(cardView.mainImageView, item, imageDefaultWidth.toInt(), true)
                 }
                 noArt -> {
-                    cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-                    cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
+                    if (item is MediaWrapper) {
+                        context.lifecycleScope.launch {
+                            val bitmap = withContext(Dispatchers.IO) {
+                                AudioUtil.fetchCoverBitmap(item.uri.toString(), 512)
+                            }?.let { BitmapDrawable(cardView.resources, it) }
+                            if (bitmap != null) {
+                                cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                                cardView.mainImage = bitmap
+                            } else {
+                                cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                                cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
+                            }
+                        }
+                    } else {
+                        cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                        cardView.mainImage =
+                            BitmapDrawable(cardView.resources, getDefaultImage(item))
+                    }
                 }
                 else -> loadImage(cardView, item)
             }

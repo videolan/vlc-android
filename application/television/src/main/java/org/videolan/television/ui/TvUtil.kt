@@ -311,6 +311,15 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
             }
             if (!isActive) return@launch
             blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
+        } else if (item is MediaWrapper && item.type == MediaWrapper.TYPE_ALL) {
+           val blurred = withContext(Dispatchers.IO) {
+                var cover: Bitmap? = AudioUtil.fetchCoverBitmap(item.uri.toString(), 512)
+                        ?: return@withContext null
+                cover = cover?.let { BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
+                UiTools.blurBitmap(cover, 10f)
+            }
+            if (!isActive) return@launch
+            blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
         }
     } else if (item is MediaMetadataWithImages) launch {
         val blurred = withContext(Dispatchers.IO) {
