@@ -23,6 +23,7 @@ package org.videolan.television.ui
 import android.annotation.TargetApi
 import android.app.Application
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -194,9 +195,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         }
     }
 
-    private fun loadBackdrop(url: String? = null) {
+    private fun loadBackdrop(url: String? = null, bitmap: Bitmap? = null) {
         lifecycleScope.launchWhenStarted {
             when {
+                bitmap != null -> UiTools.blurBitmap(bitmap)
                 !url.isNullOrEmpty() -> HttpImageLoader.downloadBitmap(url)
                 viewModel.media.type == MediaWrapper.TYPE_AUDIO || viewModel.media.type == MediaWrapper.TYPE_VIDEO -> {
                     withContext(Dispatchers.IO) {
@@ -390,7 +392,9 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         lifecycleScope.launchWhenStarted {
             val cover = if (viewModel.media.type == MediaWrapper.TYPE_AUDIO || viewModel.media.type == MediaWrapper.TYPE_VIDEO)
                 withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512) }
-            else null
+            else if (viewModel.media.type == MediaWrapper.TYPE_ALL) {
+              withContext(Dispatchers.IO) { AudioUtil.fetchCoverBitmap(viewModel.media.uri.toString(), 512) }
+            } else null
             val browserFavExists = browserFavRepository.browserFavExists(viewModel.mediaItemDetails.location!!.toUri())
             val isDir = viewModel.media.type == MediaWrapper.TYPE_DIR
             val canSave = isDir && withContext(Dispatchers.IO) { FileUtils.canSave(viewModel.media) }
@@ -439,6 +443,12 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 //todo reenable entry point when ready
                 if (BuildConfig.DEBUG) actionsAdapter.set(ID_GET_INFO, Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
             } else if (viewModel.media.type == MediaWrapper.TYPE_ALL) {
+                if (cover == null) {
+                    detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, R.drawable.ic_default_cone)
+                } else {
+                    detailsOverview.setImageBitmap(context, cover)
+                    loadBackdrop(null, cover)
+                }
                 if (viewModel.media.uri.retrieveParent() != null) actionsAdapter.set(ID_NAVIGATE_PARENT, Action(ID_NAVIGATE_PARENT.toLong(), res.getString(R.string.go_to_folder)))
             }
             adapter = rowsAdapter
