@@ -438,6 +438,8 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 actionsAdapter.set(ID_PLAYLIST, Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
                 //todo reenable entry point when ready
                 if (BuildConfig.DEBUG) actionsAdapter.set(ID_GET_INFO, Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
+            } else if (viewModel.media.type == MediaWrapper.TYPE_ALL) {
+                if (viewModel.media.uri.retrieveParent() != null) actionsAdapter.set(ID_NAVIGATE_PARENT, Action(ID_NAVIGATE_PARENT.toLong(), res.getString(R.string.go_to_folder)))
             }
             adapter = rowsAdapter
             detailsOverview.actionsAdapter = actionsAdapter
