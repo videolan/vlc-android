@@ -35,6 +35,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
@@ -69,6 +70,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         }
 
     companion object {
+        val hasAnyPermission = MutableLiveData<Boolean>().apply { value = false }
 
         fun newInstance(): PermissionListDialog {
             return PermissionListDialog()
@@ -84,6 +86,15 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun initialFocusedView(): View = binding.permissionTitle
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        refreshPermissionLiveData()
+        super.onCreate(savedInstanceState)
+    }
+
+    private fun refreshPermissionLiveData() {
+        hasAnyPermission.postValue(Permissions.hasAllAccess(requireActivity()) || Permissions.hasAnyFileFineAccess(requireActivity()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -104,6 +115,8 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
     }
 
     private fun updateStorageState() {
+
+        refreshPermissionLiveData()
 
         //Notification
 
