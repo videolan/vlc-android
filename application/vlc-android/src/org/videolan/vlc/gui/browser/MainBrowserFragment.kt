@@ -43,6 +43,7 @@ import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
+import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylistAsync
@@ -176,6 +177,12 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         val storageBrowserAdapter = BaseBrowserAdapter(storageBrowserContainer)
         localEntry.list.adapter = storageBrowserAdapter
         containerAdapterAssociation[storageBrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
+        PermissionListDialog.hasAnyPermission.observe(viewLifecycleOwner) {
+            if (it) {
+                localViewModel.provider.refresh()
+                favoritesViewModel.provider.refresh()
+            }
+        }
         localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 if (Permissions.canReadStorage(requireActivity())) storageBrowserAdapter.update(it)

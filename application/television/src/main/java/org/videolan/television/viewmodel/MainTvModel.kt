@@ -82,7 +82,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     var showHistory = false
         private set
     // LiveData
-    private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.browserFavorites.asLiveData(viewModelScope.coroutineContext)
+    private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.getFavDao().asLiveData(viewModelScope.coroutineContext)
     val nowPlaying: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
