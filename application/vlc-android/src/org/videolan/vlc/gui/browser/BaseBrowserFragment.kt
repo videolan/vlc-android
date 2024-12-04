@@ -707,7 +707,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
-                val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_VIDEO) FORCE_PLAY_ALL_VIDEO else FORCE_PLAY_ALL_AUDIO
+                val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO) FORCE_PLAY_ALL_AUDIO else FORCE_PLAY_ALL_VIDEO
                 if (!Settings.getInstance(requireContext()).getBoolean(forcePlayType, forcePlayType == FORCE_PLAY_ALL_VIDEO && Settings.tvUI)) {
                     lifecycleScope.launch {
                         MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))
