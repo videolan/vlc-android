@@ -37,6 +37,8 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
+import org.videolan.resources.EXTRA_FOR_ESPRESSO
+import org.videolan.resources.util.parcelableList
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
@@ -163,7 +165,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         super.onCreate(savedInstanceState)
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null)
         favoritesViewModel = BrowserFavoritesModel(requireContext())
-        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null)
+        networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, mocked = arguments?.parcelableList(EXTRA_FOR_ESPRESSO))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

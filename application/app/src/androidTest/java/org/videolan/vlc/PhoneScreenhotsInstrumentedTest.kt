@@ -26,6 +26,7 @@ package org.videolan.vlc
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
 import androidx.core.view.get
@@ -43,6 +44,7 @@ import org.hamcrest.core.AllOf
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.resources.EXTRA_FOR_ESPRESSO
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.MainActivity
@@ -167,6 +169,29 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         Settings.getInstance(context).edit().putBoolean("auto_rescan", false).putBoolean("audio_resume_card", false).commit()
         val intent = Intent().apply {
             putExtra(EXTRA_TARGET, R.id.nav_audio)
+            putParcelableArrayListExtra(
+                EXTRA_FOR_ESPRESSO, arrayListOf(
+                    MLServiceLocator.getAbstractMediaWrapper(
+                        Uri.parse("upnp://test/mock"), 0L, 0F, 0L, MediaWrapper.TYPE_ALL,
+                        null, "My NAS", -1, -1, "",
+                        "", -1, "", "",
+                        0, 0, "/storage/emulated/0/Download/upnp2.png",
+                        0, 0, 0,
+                        0, 0L, 0L,
+                        0L
+                    ),
+                    MLServiceLocator.getAbstractMediaWrapper(
+                        Uri.parse("upnp://test/mock"), 0L, 0F, 0L, MediaWrapper.TYPE_ALL,
+                        null, "My SMB server", -1, -1, "",
+                        "", -1, "", "",
+                        0, 0, "/storage/emulated/0/Download/upnp1.png",
+                        0, 0, 0,
+                        0, 0L, 0L,
+                        0L
+                    )
+
+                    )
+            )
         }
         activityTestRule.launchActivity(intent)
         activity = activityTestRule.activity
