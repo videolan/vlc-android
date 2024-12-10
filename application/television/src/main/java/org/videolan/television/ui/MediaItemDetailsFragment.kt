@@ -353,20 +353,12 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 }
                 ID_DELETE -> {
                     if (!Permissions.canWriteStorage(requireActivity())) {
-                        onDeleteFailed(viewModel.media)
+                        Permissions.askWriteStoragePermission(requireActivity(), false) {
+                            delete()
+                        }
                         return@OnActionClickedListener
                     }
-                    val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(viewModel.media))
-                    dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-                    dialog.setListener {
-                        dialog.dismiss()
-                        var preventFinish = false
-                        MediaUtils.deleteItem(requireActivity(), viewModel.media) {
-                            onDeleteFailed(it)
-                            preventFinish = true
-                        }
-                        if (!preventFinish) requireActivity().finish()
-                    }
+                    delete()
                 }
                 ID_PLAYLIST -> requireActivity().addToPlaylist(arrayListOf(viewModel.media))
                 ID_FAVORITE_ADD -> {
@@ -482,6 +474,20 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             adapter = rowsAdapter
             detailsOverview.actionsAdapter = actionsAdapter
             //    updateMetadata(mediaMetadataModel.updateLiveData.value)
+        }
+    }
+
+    private fun delete() {
+        val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(viewModel.media))
+        dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
+        dialog.setListener {
+            dialog.dismiss()
+            var preventFinish = false
+            MediaUtils.deleteItem(requireActivity(), viewModel.media) {
+                onDeleteFailed(it)
+                preventFinish = true
+            }
+            if (!preventFinish) requireActivity().finish()
         }
     }
 }
