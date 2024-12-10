@@ -70,6 +70,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.convertFavorites
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.isSchemeFile
@@ -186,7 +187,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     }
 
     private fun onDeleteFailed(item: MediaLibraryItem) {
-        if (isAdded) UiTools.snacker(requireActivity(), getString(R.string.msg_delete_failed, item.title))
+        Toast.makeText(requireActivity(), getString(R.string.msg_delete_failed, item.title), Toast.LENGTH_LONG).show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -351,6 +352,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     }
                 }
                 ID_DELETE -> {
+                    if (!Permissions.canWriteStorage(requireActivity())) {
+                        onDeleteFailed(viewModel.media)
+                        return@OnActionClickedListener
+                    }
                     val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(viewModel.media))
                     dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
                     dialog.setListener {
