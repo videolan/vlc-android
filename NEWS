@@ -1,3 +1,11 @@
+Changes between 3.6.0 Beta 4 and 3.6.0 Beta 5:
+------------------
+ * Allow deleting files on TV
+ * Multiple remote access improvements
+ * Fix 360 videos
+ * Behavior and UI fixes
+ * Crash fixes
+
 Changes between 3.6.0 Beta 3 and 3.6.0 Beta 4:
 ------------------
  * Fix subtitles download
