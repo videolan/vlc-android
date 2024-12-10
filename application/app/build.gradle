@@ -164,7 +164,7 @@ dependencies {
     implementation project(':application:television')
     devImplementation project(':application:webserver')
     debugImplementation project(':application:webserver')
-    releaseImplementation "org.videolan.android:remoteaccess:$rootProject.ext.remoteAccessVersion"
+    releaseImplementation "org.videolan.android:remote-access:$rootProject.ext.remoteAccessVersion"
     testImplementation project(':application:television')
     testImplementation project(':application:webserver')
 
