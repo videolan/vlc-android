@@ -165,6 +165,7 @@ dependencies {
     devImplementation project(':application:webserver')
     debugImplementation project(':application:webserver')
     releaseImplementation "org.videolan.android:remote-access:$rootProject.ext.remoteAccessVersion"
+    vlcBundleImplementation "org.videolan.android:remote-access:$rootProject.ext.remoteAccessVersion"
     testImplementation project(':application:television')
     testImplementation project(':application:webserver')
 
