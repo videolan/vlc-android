@@ -132,6 +132,7 @@
                         android:layout_marginEnd="16dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:padding="8dp"
+                        android:focusable="true"
                         android:selected="@{viewmodel.observableInEditMode.get()}"
                         android:contentDescription="@string/subtitle_query_edit"
                         app:layout_constraintBottom_toBottomOf="@+id/textView38"
