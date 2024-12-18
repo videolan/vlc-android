@@ -191,7 +191,6 @@
     <string name="wait_before_sleep">Itxaron uneko multimedia amaitu arte</string>
     <string name="reset_on_interaction">Berrezarri edozein interakziotan</string>
     <string name="default_sleep_timer_summary">%1$s, itxaron multimediaren bukaera: %2$s, berrezarri interakzioan:%3$s</string>
-
     <string name="server_add_title">Gehitu zerbitzari berri bat gogokoetara</string>
     <string name="server_domain_hint">Zerbitzariaren helbidea (domeinu-izena edo IPa)</string>
     <string name="server_share_hint">Sareko partekatzearen izena (edo IP helbidea)</string>
@@ -561,8 +560,6 @@
     <string name="no_result">Ez da emaitzarik aurkitu</string>
     <string name="no_internet_connection">Egiaztatu zure internet-konexioa</string>
     <string name="retry">Saiatu berriro</string>
-    <string name="subs_download_error">Zerbitzua ez dago erabilgarri. Saiatu geroago.</string>
-
     <string name="network_browsing">Sare lokala</string>
     <string name="browsing">Arakatzea</string>
 
@@ -613,9 +610,6 @@
     <string name="click_here">Egin klik hemen gehiago jakiteko.</string>
     <string name="allow_storage_access_title">Baimendu VLCri bideo- eta audio-fitxategiak atzitzea</string>
     <string name="allow_storage_access_description">VLCk baimen hauek behar ditu gailu honetako multimedia-fitxategietarako sarbidea izateko.</string>
-    <string name="allow_storage_manager_title">Baimendu VLC fitxategi guztietarako sarbidea</string>
-    <string name="allow_storage_manager_description">%s\n\nBaimena emango duzu?</string>
-    <string name="allow_storage_manager_explanation">VLCren gaitasun guztiak eta multimedia fitxategi mota guztien laguntza lortzeko, baimen hau ematea gomendatzen dizugu.</string>
     <string name="partial_content">VLC-k ezin ditu zure fitxategi guztiak atzitu</string>
     <string name="partial_content_description">Android 11rekin, aplikazioek baimen berezi bat behar dute gailuko fitxategi guztiak atzitzeko.\n\n%s</string>
     <string name="never_ask_again">Ez galdetu berriro</string>
@@ -921,7 +915,6 @@
     <string name="sub_result_by_name">%sren emaitzak</string>
     <string name="sub_result_by_name_season">%s denboraldia</string>
     <string name="sub_result_by_name_episode">Atala %s</string>
-
     <string name="sub_result_by_file">Zure fitxategiaren emaitzak</string>
     <string name="donate">Lagundu VLC</string>
     <string name="donate_desc">Lagundu boluntarioak VLC eraikitzen</string>

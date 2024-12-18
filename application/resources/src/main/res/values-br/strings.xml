@@ -221,7 +221,6 @@
     <string name="wait_before_sleep">Gortozit ma vo echuet lenn an elfenn media red da gentañ</string>
     <string name="reset_on_interaction">Adderaouekaat kement interaktadenn</string>
     <string name="default_sleep_timer_summary">%1$s, gortoz fin ar media: %2$s, adderaouiñ an interaktadenn: %3$s</string>
-
     <string name="server_add_title">Ouzhpennañ ur servijer nevez d\'ar sinedoù</string>
     <string name="server_domain_hint">Chomlec\'h ar servijer (anv an domani pe IP)</string>
     <string name="server_share_hint">Anv rannañ kenrouedad (pe chomlec\'h IP)</string>
@@ -538,8 +537,6 @@
 
     <string name="no_result">Disoc\'h ebet kavet</string>
     <string name="no_internet_connection">Gwiriekait ho kevreadenn internet</string>
-    <string name="subs_download_error">Servij dihegerz. Klaskit en-dro diwezhatoc\'h</string>
-
     <string name="network_browsing">Kenrouedad lec\'hel</string>
     <string name="browsing">Merdeiñ</string>
 
@@ -832,7 +829,6 @@
     <string name="sub_result_by_name">Disoc\'hoù evit %s</string>
     <string name="sub_result_by_name_season">Koulzad %s</string>
     <string name="sub_result_by_name_episode">Rann %s</string>
-
     <string name="sub_result_by_file">Disoc\'hoù evit ho restr</string>
     <string name="donate">Skoazellañ VLC</string>
     <string name="donate_desc">Skoazellit an dud a-youl vat a sav VLC</string>
@@ -884,4 +880,8 @@
     <string name="permission">Aotre</string>
     <string name="customize">Personelaat</string>
     <string name="disabled">Lazhet</string>
+    <string name="queue_info_before_title">A-raok an titl</string>
+    <string name="queue_info_after_title">Goude an titl</string>
+    <string name="queue_info_before_subtitle">A-raok an istitl</string>
+
     </resources>

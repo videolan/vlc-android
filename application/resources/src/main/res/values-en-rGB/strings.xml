@@ -84,6 +84,11 @@
     <string name="albums">Albums</string>
     <string name="tracks">Tracks</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Saved Bookmark</item>
+        <item quantity="other">%d Saved Bookmarks</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>
@@ -168,6 +173,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Language: %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="system_volume_disabled">%s\nNo access to system volume</string>
     <string name="sound_on">Sound On</string>
     <string name="sound_off">Sound Off</string>
     <string name="brightness">Brightness</string>
@@ -191,6 +197,9 @@
     <string name="wait_before_sleep">Wait for current media item to finish first</string>
     <string name="reset_on_interaction">Reset on any interaction</string>
     <string name="default_sleep_timer_summary">%1$s, wait media end: %2$s, reset on interaction: %3$s</string>
+    <string name="video_player_remote">Video player remote</string>
+    <string name="remote_keyboard_navigation">Keyboard navigation</string>
+
     <string name="server_add_title">Add a new server to favourites</string>
     <string name="server_domain_hint">Server address (domain name or IP)</string>
     <string name="server_share_hint">Network share name (or IP address)</string>
@@ -279,6 +288,7 @@
     <string name="authors">Authors</string>
     <string name="vlc_authors">and VLC Authors.</string>
     <string name="is_compiled_by">Compiled by</string>
+    <string name="is_signed_by">Signed by</string>
     <string name="sources">Source code</string>
     <string name="libraries">Libraries</string>
     <string name="feedback_forum">Feedback forum</string>
@@ -566,7 +576,7 @@
     <string name="no_result">No results found</string>
     <string name="no_internet_connection">Check your Internet connection</string>
     <string name="retry">Retry</string>
-    <string name="subs_download_error">Service unavailable. Please try again later</string>
+    <string name="open_subs_download_error">OpenSubtitles is currently unavailable. Please try again later</string>
 
     <string name="network_browsing">Local Network</string>
     <string name="browsing">Browsing</string>
@@ -588,6 +598,7 @@
     <string name="go_to_chapter">Go to chapter…</string>
     <string name="current_chapter">Chapter: %s</string>
     <string name="confirm_resume">Resume from last position?</string>
+    <string name="apply_playqueue">Apply for all the play queue</string>
     <string name="confirm_resume_title">Resume played videos</string>
     <string name="confirm_resume_audio_title">Resume played audio</string>
     <string name="tv_ui_title">Android TV interface</string>
@@ -634,9 +645,6 @@
     <string name="click_here">Click here to learn more.</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
-    <string name="allow_storage_manager_title">Allow VLC all file access</string>
-    <string name="allow_storage_manager_description">%s\n\nGrant permission?</string>
-    <string name="allow_storage_manager_explanation">To get all the capabilities of VLC and the support of all types of media files, we strongly suggest you to grant this permission.</string>
     <string name="partial_content">VLC cannot access all of your files</string>
     <string name="partial_content_description">Starting with Android 11, applications need a special permission to access all device\'s files.\n\n%s</string>
     <string name="never_ask_again">Never ask again</string>
@@ -687,6 +695,19 @@
     <string name="popup_playback">Playing in a Pop-Up window</string>
     <string name="popup_expand">Expand video</string>
     <string name="download_subtitles">Download subtitles</string>
+    <string name="powered_opensubtitles">Powered by OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">You are not logged into OpenSubtitles\nLogging in will grant you access to more downloads</string>
+    <string name="open_subtitles_logged_in">Logged in as %1$s</string>
+    <string name="open_subtitles_limits">You have %1$s remaining downloads out of %2$s. Your limit will be reset at %3$s.</string>
+    <string name="open_subtitles_vip">You are a VIP OpenSubtitles user</string>
+    <string name="open_subtitles_register">Register</string>
+    <string name="open_subtitles_log_out">Log out</string>
+    <string name="open_subtitles_username">Username</string>
+    <string name="open_subtitles_password">Password</string>
+    <string name="open_subtitles_is_vip">VIP account</string>
+    <string name="open_subtitles_is_not_vip">Standard account</string>
+    <string name="login_error">Invalid credentials</string>
+    <string name="unknown_error">Unexpected error</string>
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
     <string name="apply_to_bt">Apply to Bluetooth device</string>
@@ -770,12 +791,14 @@
     <string name="rename_media">Rename %1$s</string>
     <string name="manual_search">Manual search</string>
     <string name="subtitle_search_name_hint">Name</string>
+    <string name="subtitle_query_edit">Edit subtitle search query</string>
     <string name="subtitle_search_episode_hint">Episode</string>
     <string name="subtitle_search_season_hint">Season</string>
     <string name="subtitles_download_failed">Failed to download</string>
     <string name="language_to_download">Language</string>
     <string name="delete_the_selected">Delete selection</string>
     <string name="download_the_selected">Download selection</string>
+    <string name="no_sub_history">No subtitle for this media</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="next_step">Next</string>
@@ -795,6 +818,8 @@
     <string name="welcome_title">Welcome to VLC!</string>
     <string name="welcome_subtitle">The free and open source multimedia player</string>
     <string name="permission_media">VLC needs your permission to access media on your device</string>
+    <string name="permission_video">VLC needs your permission to access video media on your device</string>
+    <string name="permission_audio">VLC needs your permission to access audio media on your device</string>
     <string name="medialibrary_scan_explanation">VLC can automatically scan your device to organise your media collection.</string>
     <string name="onboarding_theme_title">Make yourself at home</string>
     <string name="done">Done</string>
@@ -947,6 +972,7 @@
     <string name="sub_result_by_name">Results for %s</string>
     <string name="sub_result_by_name_season">Season %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Only hearing impaired</string>
 
     <string name="sub_result_by_file">Results for your file</string>
     <string name="donate">Help VLC</string>
@@ -990,6 +1016,9 @@
     <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
+    <string name="go_to_album">Go to album</string>
+    <string name="go_to_artist">Go to artist</string>
+    <string name="go_to_album_artist">Go to album artist</string>
     <string name="create_shortcut">Create a launcher shortcut</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
     <string name="enqueuing">Loading your media</string>
@@ -1063,6 +1092,14 @@
     <string name="notification_permission">Notification permission</string>
     <string name="notification_permission_explanation">VLC needs your permission to send notifications.\nThe app will only notify you when scanning your media or using the custom video Picture in Picture.\nRefusing it won\'t prevent VLC to work, however the notifications will be hidden.</string>
     <string name="permission">Permission</string>
+    <string name="permission_no_access">No file access</string>
+    <string name="permissions">Permissions</string>
+    <string name="permissions_summary">List of all the permissions</string>
+    <string name="manage_storage_permission">File permissions</string>
+    <string name="permission_media_title">Access to standard media</string>
+    <string name="permission_all_title">All file access</string>
+    <string name="permission_all_warning">To enable this, you have to disable the standard media file access first</string>
+    <string name="permission_media_warning">To enable this, you have to disable the full file permission first</string>
     <string name="customize">Customise</string>
     <string name="selection_count">%d selected</string>
     <string name="control_setting">Control settings</string>
@@ -1268,4 +1305,17 @@
     <string name="restore_settings">Restore settings</string>
     <string name="export_settings_success">Settings exported successfully to the internal storage root</string>
     <string name="export_settings_failure">Something went wrong while exporting your settings</string>
+
+    <string name="queue_info">Queue information</string>
+    <string name="queue_info_none">Do not show queue position</string>
+    <string name="queue_info_before_title">Before title</string>
+    <string name="queue_info_after_title">After title</string>
+    <string name="queue_info_before_subtitle">Before subtitle</string>
+
+    <string name="title_size">Title text size</string>
+    <string name="subtitle_size">Subtitle text size</string>
+
+    <string name="queue_format">Queue format</string>
+    <string name="queue_format_short_desc">Queue position</string>
+    <string name="queue_format_long_desc">Queue position / Queue size</string>
 </resources>

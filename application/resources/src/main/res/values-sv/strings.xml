@@ -84,6 +84,11 @@
     <string name="albums">Album</string>
     <string name="tracks">Spår</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 sparat bokmärke</item>
+        <item quantity="other">%d sparade bokmärken</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
@@ -129,7 +134,7 @@
     <string name="directories">Kataloger</string>
     <string name="loading">Läser in</string>
     <string name="please_wait">Var god vänta…</string>
-    <string name="nomedia">Inga mediafiler hittades, överför några filer till din enhet eller justera dina inställningar.</string>
+    <string name="nomedia">Inga mediafiler hittades. Överför några filer till din enhet eller justera dina inställningar.</string>
     <string name="nofav">Inga favoriter hittades.</string>
     <string name="empty_search">Inga objekt hittades för sökningen %s</string>
     <string name="noplaylist">Ingen spellista hittades.</string>
@@ -571,7 +576,7 @@
     <string name="no_result">Inga resultat hittades</string>
     <string name="no_internet_connection">Kontrollera din Internetanslutning</string>
     <string name="retry">Försök igen</string>
-    <string name="subs_download_error">Tjänsten är inte tillgänglig. Försök igen senare</string>
+    <string name="open_subs_download_error">OpenSubtitles är inte tillgänglig för tillfället. Försök igen senare</string>
 
     <string name="network_browsing">Lokalt nätverk</string>
     <string name="browsing">Bläddring</string>
@@ -593,6 +598,7 @@
     <string name="go_to_chapter">Gå till kapitel…</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
+    <string name="apply_playqueue">Tillämpa på hela uppspelningskön</string>
     <string name="confirm_resume_title">Återuppta uppspelade videor</string>
     <string name="confirm_resume_audio_title">Återuppta uppspelat ljud</string>
     <string name="tv_ui_title">Android TV-gränssnitt</string>
@@ -602,8 +608,8 @@
 
     <!--What's new-->
     <string name="whats_new_title">Vad är nytt i VLC for Android %s</string>
-    <string name="whats_new_36_webserver_text">Med den nya fjärråtkomsten kan du ta kontroll över VLC for Android från en annan enhet.\nSkicka dina mediafiler åt båda håll, styra din uppspelning och mycket mer!</string>
-    <string name="whats_new_36_favorites_text">Du kan nu favoritmarkera dina mediafiler, spellistor, artist eller album,\nHitta innehållet du föredrar på ett ögonblick genom att filtrera innehållet efter endast favoriter!</string>
+    <string name="whats_new_36_webserver_text">Med denna nya funktionalitet kan du fjärrstyra VLC for Android från en annan enhet.\nSkicka dina mediafiler åt båda håll, styr din uppspelning och mycket mer!</string>
+    <string name="whats_new_36_favorites_text">Du kan nu favoritmarkera dina mediafiler, spellistor, artister och album.\nHitta innehållet du föredrar på ett ögonblick genom att filtrera innehållet efter endast favoriter!</string>
 
 <!--    update-->
     <string name="update_title">Uppdatering är tillgänglig</string>
@@ -639,9 +645,6 @@
     <string name="click_here">Klicka här för att läsa mer.</string>
     <string name="allow_storage_access_title">Tillåt VLC att få åtkomst till video- och ljudfiler</string>
     <string name="allow_storage_access_description">Du måste bevilja denna behörighet för att VLC ska kunna komma åt mediafilerna på denna enhet.</string>
-    <string name="allow_storage_manager_title">Ge VLC all filåtkomst</string>
-    <string name="allow_storage_manager_description">%s\n\nBevilja behörighet?</string>
-    <string name="allow_storage_manager_explanation">För att få alla funktioner i VLC och stöd för alla slags mediafiler rekommenderar vi att du beviljar denna behörighet.</string>
     <string name="partial_content">VLC kan inte komma åt alla dina filer</string>
     <string name="partial_content_description">Från och med Android 11 behöver appar en specialbehörighet för att komma åt alla filer på enheten.\n\n%s</string>
     <string name="never_ask_again">Fråga inte igen</string>
@@ -692,6 +695,19 @@
     <string name="popup_playback">Spelas upp i ett popupp-fönster</string>
     <string name="popup_expand">Utvidga video</string>
     <string name="download_subtitles">Ladda ned undertexter</string>
+    <string name="powered_opensubtitles">Drivs av OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Du är inte inloggad på OpenSubtitles\nDu får åtkomst till fler nedladdningar som inloggad</string>
+    <string name="open_subtitles_logged_in">Inloggad som %1$s</string>
+    <string name="open_subtitles_limits">Du har %1$s av %2$s nedladdningar kvar. Din begränsning kommer att återställas %3$s.</string>
+    <string name="open_subtitles_vip">Du är en VIP-användare på OpenSubtitles</string>
+    <string name="open_subtitles_register">Registrera</string>
+    <string name="open_subtitles_log_out">Logga ut</string>
+    <string name="open_subtitles_username">Användarnamn</string>
+    <string name="open_subtitles_password">Lösenord</string>
+    <string name="open_subtitles_is_vip">VIP-konto</string>
+    <string name="open_subtitles_is_not_vip">Standardkonto</string>
+    <string name="login_error">Ogiltiga inloggningsuppgifter</string>
+    <string name="unknown_error">Oväntat fel</string>
     <string name="browse_folder">Bläddra mapp</string>
     <string name="listen">Lyssna</string>
     <string name="apply_to_bt">Verställ på Bluetooth-enhet</string>
@@ -775,12 +791,14 @@
     <string name="rename_media">Byt namn på %1$s</string>
     <string name="manual_search">Manuell sökning</string>
     <string name="subtitle_search_name_hint">Namn</string>
+    <string name="subtitle_query_edit">Redigera sökfråga för undertexter</string>
     <string name="subtitle_search_episode_hint">Episod</string>
     <string name="subtitle_search_season_hint">Säsong</string>
     <string name="subtitles_download_failed">Misslyckades att ladda ned</string>
     <string name="language_to_download">Språk</string>
     <string name="delete_the_selected">Radera markering</string>
     <string name="download_the_selected">Ladda ned markering</string>
+    <string name="no_sub_history">Inga undertexter för denna mediafil</string>
     <string name="next">Nästa</string>
     <string name="skip">Hoppa över</string>
     <string name="next_step">Nästa</string>
@@ -799,7 +817,9 @@
     <string name="removed_from_playlist_anonymous">Objekt togs bort från spellistan</string>
     <string name="welcome_title">Välkommen till VLC!</string>
     <string name="welcome_subtitle">Den fria mediaspelaren med öppen källkod</string>
-    <string name="permission_media">VLC behöver din behörighet för att komma åt media på din enhet</string>
+    <string name="permission_media">VLC behöver din tillåtelse att komma åt media på din enhet</string>
+    <string name="permission_video">VLC behöver din tillåtelse att komma åt videofiler på din enhet</string>
+    <string name="permission_audio">VLC behöver din tillåtelse att komma åt ljudfiler på din enhet</string>
     <string name="medialibrary_scan_explanation">VLC kan automatiskt skanna din enhet för att organisera din mediasamling.</string>
     <string name="onboarding_theme_title">Känn dig som hemma</string>
     <string name="done">Färdig</string>
@@ -849,15 +869,15 @@
     <string name="display_in_grid">Visa som rutnät</string>
     <string name="dump_db_succes">Databasen sparades på den interna lagringens rotmapp</string>
     <string name="dump_db_failure">Misslyckades att spara databas</string>
-    <string name="send_crash_title">VLC-kraschrapportör</string>
+    <string name="send_crash_title">VLC-kraschrapportering</string>
     <string name="send_crash_description">Genom att skicka din krasch kommer du att hjälpa oss att förbättra VLC:s stabilitet</string>
     <string name="send_crash_warning">Säkerställ att du tar bort känslig data som du inte vill skicka</string>
     <string name="include_medialib">Inkludera din databas</string>
-    <string name="vlc_reporter">VLC-rapportör</string>
+    <string name="vlc_reporter">VLC-rapportering</string>
     <string name="welcome_beta_title">VLC-beta</string>
     <string name="welcome_beta_description">Välkommen till VLC:s betaprogarm.\nNotera att denna version kan ha vissa fel.</string>
     <string name="welcome_beta_description_bugs">Om du upptäcker ett fel, rapportera det i vårt forum eller felhanteringssystem.</string>
-    <string name="welcome_beta_description_crashes">Om du råkar ut för en krasch, använd ikonen VLC-Rapportör i din startare för att skicka den till oss.</string>
+    <string name="welcome_beta_description_crashes">Använd appen VLC-rapportering för att skicka kraschinformation till oss om du råkar ut för en krasch.</string>
     <string name="send">Skicka</string>
     <string name="send_crash_action_title">Vad vill du göra?</string>
     <string name="report_a_bug">Rapportera en bugg</string>
@@ -952,6 +972,7 @@
     <string name="sub_result_by_name">Resultat för %s</string>
     <string name="sub_result_by_name_season">Säsong %s</string>
     <string name="sub_result_by_name_episode">Episod %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Endast för hörselnedsättning</string>
 
     <string name="sub_result_by_file">Resultat för din fil</string>
     <string name="donate">Hjälp VLC</string>
@@ -995,6 +1016,9 @@
     <string name="audio_delay_bt">Ljudfördröjningen ändrades till %s ms för Bluetooth-enheten</string>
     <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
     <string name="go_to_folder">Bläddra i överordnad</string>
+    <string name="go_to_album">Gå till albumet</string>
+    <string name="go_to_artist">Gå till artisten</string>
+    <string name="go_to_album_artist">Gå till albumartisten</string>
     <string name="create_shortcut">Skapa en programstartargenväg</string>
     <string name="no_sub_renderer">Det finns ännu inget stöd för att casta med undertexter</string>
     <string name="enqueuing">Läser in dina mediafiler</string>
@@ -1066,8 +1090,16 @@
     <string name="lock_use_sensor_summary">Använd sensorn för att tillåta omvänd orientering när orienteringen är låst</string>
     <string name="start">Starta</string>
     <string name="notification_permission">Aviseringsbehörighet</string>
-    <string name="notification_permission_explanation">VLC behöver din behörighet för att skicka aviseringar.\nAppen aviserar dig endast när den söker efter media eller använder anpassad bild-i-bild för videor.\nDetta förhindrar inte VLC från att fungera om du nekar, men aviseringarna kommer inte att visas.</string>
+    <string name="notification_permission_explanation">VLC behöver din tillåtelse att skicka aviseringar.\nAppen aviserar dig endast när den söker efter media eller använder anpassad bild-i-bild för videor.\nDetta förhindrar inte VLC från att fungera om du nekar, men aviseringarna kommer inte att visas.</string>
     <string name="permission">Behörighet</string>
+    <string name="permission_no_access">Ingen filåtkomst</string>
+    <string name="permissions">Behörigheter</string>
+    <string name="permissions_summary">Lista över alla behörigheter</string>
+    <string name="manage_storage_permission">Filbehörigheter</string>
+    <string name="permission_media_title">Åtkomst till standardmedia</string>
+    <string name="permission_all_title">Åtkomst till alla filer</string>
+    <string name="permission_all_warning">För att aktivera detta måste du först inaktivera standardfilåtkomsten</string>
+    <string name="permission_media_warning">För att aktivera detta måste du först inaktivera den fullständiga filåtkomsten</string>
     <string name="customize">Anpassa</string>
     <string name="selection_count">%d markerade</string>
     <string name="control_setting">Kontrollinställningar</string>
@@ -1273,4 +1305,17 @@
     <string name="restore_settings">Återställ inställningar</string>
     <string name="export_settings_success">Inställningarna exporterades till intern lagringsrot</string>
     <string name="export_settings_failure">Någonting gick fel när dina inställningar exporterades</string>
+
+    <string name="queue_info">Köinformation</string>
+    <string name="queue_info_none">Visa inte positionen i köinformationen</string>
+    <string name="queue_info_before_title">Innan titel</string>
+    <string name="queue_info_after_title">Efter titel</string>
+    <string name="queue_info_before_subtitle">Innan undertext</string>
+
+    <string name="title_size">Titelns textstorlek</string>
+    <string name="subtitle_size">Undertextens textstorlek</string>
+
+    <string name="queue_format">Köformat</string>
+    <string name="queue_format_short_desc">Köposition</string>
+    <string name="queue_format_long_desc">Köposition/-storlek</string>
 </resources>

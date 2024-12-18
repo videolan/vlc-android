@@ -23,8 +23,12 @@
     <string name="searchable_hint">Mencari…</string>
     <string name="history">Riwayat</string>
 
-    <string name="sortby_length_asc">Utamakan durasi tersingkat</string>
-    <string name="sortby_length_desc">Utamakan durasi terlama</string>
+    <string name="sortby_length_asc">Dahulukan durasi tersingkat</string>
+    <string name="sortby_length_desc">Dahulukan durasi terlama</string>
+    <string name="sortby_number_asc">Video selengkapnya yang berada di grup</string>
+    <string name="sort_date_asc">Dahulukan yang tertua</string>
+    <string name="sort_date_desc">Dahulukan yang terbaru</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d hasil ditemukan</item>
     </plurals>
@@ -169,7 +173,6 @@
     <string name="jump_to_time">Lompat ke Waktu</string>
     <string name="subtitle_select">Pilih file terjemahan</string>
     <string name="wait_before_sleep">Tunggu hingga butir media saat ini selesai terlebih dahulu</string>
-
     <string name="server_add_title">Tambahkan server baru ke favorit</string>
     <string name="server_domain_hint">Alamat server (nama domain atau IP)</string>
     <string name="server_share_hint">Pembagian jaringan (atau alamat IP)</string>
@@ -264,6 +267,7 @@
 
     <!-- Preferences -->
     <string name="preferences">Pengaturan</string>
+    <string name="more_preferences">Setelan selengkapnya</string>
     <string name="directories_summary">Pilih direktori untuk dimasukkan ke pustaka media</string>
     <string name="add_custom_path">Tambah jejak manual</string>
     <string name="add_custom_path_description">Masukkan direktori tambahan untuk dipindai:</string>
@@ -342,7 +346,6 @@
     <string name="browser_show_hidden_files_title">Perlihatkan berkas tersembunyi</string>
     <string name="albums_show_track_numbers">Tampilkan nomor trek</string>
     <string name="enable_video_screenshot">Ambil screenshot</string>
-
     <string name="subtitles_prefs_category">Terjemahan</string>
     <string name="subtitles_size_title">Ukuran terjemahan</string>
     <string name="subtitles_presets_title">Preset Subtitle</string>
@@ -427,7 +430,7 @@
     <string name="remote_access_medialibrary_content">Isi pustaka media</string>
     <string name="remote_access_file_browser_content">Peramban berkas</string>
     <string name="remote_access_network_browser_content">Peramban jaringan</string>
-    <string name="casting_switch_title">salurkan/tampilkan pada layar lain tanpa perantara kabel</string>
+    <string name="casting_switch_title">Proyeksi nirkabel</string>
     <string name="casting_passthrough_title">Menyalurkan audio melalui perangkat lain</string>
     <string name="casting_passthrough_summary">Biarkan TV anda mengatur render audio</string>
     <string name="casting_conversion_quality_title">Kualitas konversi</string>
@@ -509,7 +512,6 @@
     <string name="dump_logcat_failure">Gagal membuang logcat.</string>
     <string name="custom_libvlc_options">Opsi kustom libVLC</string>
     <string name="custom_libvlc_options_invalid">Opsi libVLC tidak sah!</string>
-
     <string name="serious_crash">Sayang sekali, kesalahan serius telah terjadi dan VLC harus di tutup.</string>
     <string name="help_us_send_log">Bantu kami meningkatkan VLC dengan mengirimkan catatan kerusakan berikut:</string>
     <string name="restart_vlc">Nyalakan ulang VLC</string>
@@ -523,8 +525,6 @@
     <string name="no_result">Hasil tidak ditemukan</string>
     <string name="no_internet_connection">Cek koneksi internet Anda</string>
     <string name="retry">Coba lagi</string>
-    <string name="subs_download_error">Layanan tidak tersedia. Silakan ulangi kembali</string>
-
     <string name="network_browsing">Jaringan Lokal</string>
     <string name="browsing">Telusuri</string>
 
@@ -552,7 +552,7 @@
     <!--What's new-->
     <string name="whats_new_title">Apa hal yang baru di VLC untuk Android %s</string>
     <!-- Accessibility -->
-    <string name="more_actions">Aksi Lain</string>
+    <string name="more_actions">Tindakan Selengkapnya</string>
     <string name="back_quit_lock">Tekan Kembali lagi untuk menutup video</string>
     <string name="stream_deleted">Stream dihapus</string>
     <string name="no_subs_found">Tidak ada terjemahan dalam direktori ini</string>
@@ -569,9 +569,6 @@
     <string name="click_here">Klik di sini untuk mempelajari lebih lanjut.</string>
     <string name="allow_storage_access_title">Izinkan VLC untuk mengakses file video dan audio</string>
     <string name="allow_storage_access_description">VLC membutuhkan anda untuk memberi akses ke file media dalam perangkat ini.</string>
-    <string name="allow_storage_manager_title">Izinkan VLC akses ke semua file</string>
-    <string name="allow_storage_manager_description">%s\n\nBerikan Izin?</string>
-    <string name="allow_storage_manager_explanation">Untuk mendapatkan semua kemampuan dari VLC dan dukungan untuk seluruh tipe file media, kami sangat menyarankan Anda untuk memberikan izin ini.</string>
     <string name="partial_content">VLC tidak dapat mengakses semua file Anda</string>
     <string name="partial_content_description">Dimulai dengan Android 11, aplikasi membutuhkan izin khusus untuk mengakses semua file milik perangkat.\n\n%s</string>
     <string name="never_ask_again">Tidak perlu ditanyakan kembali</string>
@@ -850,7 +847,7 @@
     <string name="playlist_existing">Daftar putar %s sudah ada</string>
     <string name="new_title">Judul baru</string>
     <string name="browse">Telusuri</string>
-    <string name="more">Lebih banyak</string>
+    <string name="more">Selengkapnya</string>
     <string name="favorites">Favorit</string>
     <string name="new_stream">Siaran baru</string>
     <string name="add_to_group">Tambah ke grup video</string>
@@ -868,7 +865,6 @@
     <string name="sub_result_by_name">Hasil untuk %s</string>
     <string name="sub_result_by_name_season">Musim %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
-
     <string name="sub_result_by_file">Hasil untuk file anda</string>
     <string name="donate">Bantu VLC</string>
     <string name="donate_desc">Dukung relawan membangun VLC</string>
@@ -1065,4 +1061,6 @@
     <string name="ignore_headset_media_button_presses">Abaikan penekanan tombol media headset</string>
     <string name="ignore_headset_media_button_presses_summary">Berguna, misalnya jika Anda menggunakan headset dengan tombol fisik yang rusak</string>
     <string name="ra_onboarding_content_files">Peramban berkas</string>
+    <string name="learn_more">Pelajari lebih lanjut</string>
+
     </resources>

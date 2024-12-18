@@ -85,6 +85,12 @@
     <string name="albums">Albume</string>
     <string name="tracks">Piste</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">Un marcaj salvat</item>
+        <item quantity="few">%d marcaje salvate</item>
+        <item quantity="other">%d de marcaje salvate</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="few">%d albume</item>
@@ -581,7 +587,7 @@
     <string name="no_result">Nici un rezultat găsit</string>
     <string name="no_internet_connection">Verificați conexiunea la internet</string>
     <string name="retry">Reîncercare</string>
-    <string name="subs_download_error">Serviciul este indisponibil. Te rog încearcă mai târziu.</string>
+    <string name="open_subs_download_error">OpenSubtitles este deocamdată indisponibil. Te rugăm să încerci mai târziu.</string>
 
     <string name="network_browsing">Rețea locală</string>
     <string name="browsing">Răsfoire</string>
@@ -603,6 +609,7 @@
     <string name="go_to_chapter">Dute la capitolul…</string>
     <string name="current_chapter">Chapter: %s</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
+    <string name="apply_playqueue">Aplică pentru toată coada de redare</string>
     <string name="confirm_resume_title">Reluare a fisierelor video redate</string>
     <string name="confirm_resume_audio_title">Reia fișierul audio redat</string>
     <string name="tv_ui_title">Interfata Android TV</string>
@@ -649,9 +656,6 @@
     <string name="click_here">Apasă aici pentru a afla mai multe.</string>
     <string name="allow_storage_access_title">Permiteți VLC să acceseze fișiere video și audio</string>
     <string name="allow_storage_access_description">VLC cere permisiunea pentru a accesa fișierele media de pe acest dispozitiv.</string>
-    <string name="allow_storage_manager_title">Permiteți accesul VLC la toate fișierele</string>
-    <string name="allow_storage_manager_description">%s\nOferiți permisiunea?</string>
-    <string name="allow_storage_manager_explanation">Pentru a beneficia de toate capacitățile lui VLC și de suportul pentru toate tipurile de fișiere media, vă sugerăm cu tărie să acordați această permisiune.</string>
     <string name="partial_content">VLC nu poate accesa toate fișierele dumneavoastră</string>
     <string name="partial_content_description">Începând cu Android 11, aplicațiile au nevoie de o permisiune specială pentru a accesa toate fișierele dispozitivului.\n\n\n%s</string>
     <string name="never_ask_again">Să nu mai întrebi niciodată</string>
@@ -702,6 +706,19 @@
     <string name="popup_playback">Redare într-o fereastră Pop-Up</string>
     <string name="popup_expand">Extindeți videoclipul</string>
     <string name="download_subtitles">Descarcare subtitre</string>
+    <string name="powered_opensubtitles">Produs de OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Nu ești autentificat la OpenSubtitles\nConectarea îți va oferi acces la mai multe descărcări</string>
+    <string name="open_subtitles_logged_in">Conectat ca %1$s</string>
+    <string name="open_subtitles_limits">Ai %1$s descărcări rămase din %2$s. Limita ta va fi resetată la %3$s.</string>
+    <string name="open_subtitles_vip">Ești un utilizator VIP al OpenSubtitles</string>
+    <string name="open_subtitles_register">Înregistrare</string>
+    <string name="open_subtitles_log_out">Deconectare</string>
+    <string name="open_subtitles_username">Nume de utilizator</string>
+    <string name="open_subtitles_password">Parola</string>
+    <string name="open_subtitles_is_vip">Cont VIP</string>
+    <string name="open_subtitles_is_not_vip">Cont standard</string>
+    <string name="login_error">Acreditări invalide</string>
+    <string name="unknown_error">Eroare neașteptată</string>
     <string name="browse_folder">Incarcare dosar</string>
     <string name="listen">Asculta</string>
     <string name="apply_to_bt">Aplică la dispozitivul  bluetooth</string>
@@ -785,12 +802,14 @@
     <string name="rename_media">Redenumire %1$s</string>
     <string name="manual_search">Căutare manuală</string>
     <string name="subtitle_search_name_hint">Nume</string>
+    <string name="subtitle_query_edit">Editează interogarea de căutare a subtitrărilor</string>
     <string name="subtitle_search_episode_hint">Episod</string>
     <string name="subtitle_search_season_hint">Sezon</string>
     <string name="subtitles_download_failed">Descărcare eșuată</string>
     <string name="language_to_download">Limbă</string>
     <string name="delete_the_selected">Ștergeți selecția</string>
     <string name="download_the_selected">Descărcați selecția</string>
+    <string name="no_sub_history">Nicio subtitrare pentru acest fișier media</string>
     <string name="next">Următoarea</string>
     <string name="skip">Sari</string>
     <string name="next_step">Următorul</string>
@@ -810,6 +829,8 @@
     <string name="welcome_title">Bine ați venit la VLC!</string>
     <string name="welcome_subtitle">Playerul multimedia gratuit și open source</string>
     <string name="permission_media">VLC are nevoie de permisiunea dvs. pentru a accesa fișierele media de pe dispozitivul dvs.</string>
+    <string name="permission_video">VLC are nevoie de permisiunea ta ca să acceseze fișierele media video de pe dispozitivul tău</string>
+    <string name="permission_audio">VLC are nevoie de permisiunea ta ca să acceseze fișierele media audio de pe dispozitivul tău</string>
     <string name="medialibrary_scan_explanation">VLC vă poate scana automat dispozitivul pentru a vă organiza colecția de fișiere media.</string>
     <string name="onboarding_theme_title">Simțiți-vă ca acasă</string>
     <string name="done">Terminat</string>
@@ -964,6 +985,7 @@
     <string name="sub_result_by_name">Rezultat pentru %s</string>
     <string name="sub_result_by_name_season">Sezon %s</string>
     <string name="sub_result_by_name_episode">Episod %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Doar cu deficiențe de auz</string>
 
     <string name="sub_result_by_file">Rezultatele pentru fișierul dvs.</string>
     <string name="donate">Ajutor VLC</string>
@@ -1007,6 +1029,9 @@
     <string name="audio_delay_bt">întârzierea audio stabilită la %s ms pentru dispozitivul bluetooth</string>
     <string name="warning_stream_speed">Creșterea vitezei de redare peste 1 pentru fluxuri poate provoca bâlbâieli</string>
     <string name="go_to_folder">Răsfoiți părintele</string>
+    <string name="go_to_album">Mergi la album</string>
+    <string name="go_to_artist">Mergi la artist</string>
+    <string name="go_to_album_artist">Mergi la artistul albumului</string>
     <string name="create_shortcut">Crează o comandă rapidă pentru lansare</string>
     <string name="no_sub_renderer">Subtitrările nu sunt încă acceptate în timpul turnării</string>
     <string name="enqueuing">Se încarcă fișierele tale media</string>
@@ -1080,6 +1105,14 @@
     <string name="notification_permission">Permisiune de notificare</string>
     <string name="notification_permission_explanation">VLC are nevoie de permisiunea ta pentru a trimite notificări.\nAplicația te va notifica numai când îți vei scana fișierele media sau când vei folosi videoclipuri personalizate de tip Imagine în imagine.\nRefuzul acesteia nu va împiedica funcționarea VLC, dar notificările vor fi ascunse.</string>
     <string name="permission">Permisiune</string>
+    <string name="permission_no_access">Fără acces la fișiere</string>
+    <string name="permissions">Permisiuni</string>
+    <string name="permissions_summary">Lista tuturor permisiunilor</string>
+    <string name="manage_storage_permission">Permisiuni pentru fișiere</string>
+    <string name="permission_media_title">Acces la fișierele media standard</string>
+    <string name="permission_all_title">Acces la toate fișierele</string>
+    <string name="permission_all_warning">Ca să activezi asta, trebuie să dezactivezi întâi accesul fișierelor media</string>
+    <string name="permission_media_warning">Ca să activezi asta, trebuie să dezactivezi mai întâi permisiunea completă a fișierelor</string>
     <string name="customize">Personalizați</string>
     <string name="selection_count"> %d selectat</string>
     <string name="control_setting">Setări de control</string>
@@ -1287,4 +1320,17 @@
     <string name="restore_settings">Restaurează setările</string>
     <string name="export_settings_success">Setările au fost exportate cu succes în rădăcina de stocare internă</string>
     <string name="export_settings_failure">Ceva a mers greșit în timpul exportării setărilor tale</string>
+
+    <string name="queue_info">Informații despre coadă</string>
+    <string name="queue_info_none">Nu afișa poziția cozii</string>
+    <string name="queue_info_before_title">Înainte de titlu</string>
+    <string name="queue_info_after_title">După titlu</string>
+    <string name="queue_info_before_subtitle">Înainte de subtitrări</string>
+
+    <string name="title_size">Mărimea textului titlului</string>
+    <string name="subtitle_size">Mărimea textului subtitrărilor</string>
+
+    <string name="queue_format">Formatul cozii</string>
+    <string name="queue_format_short_desc">Poziția cozii</string>
+    <string name="queue_format_long_desc">Poziția cozii / Dimensiunea cozii</string>
 </resources>

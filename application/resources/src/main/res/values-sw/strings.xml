@@ -174,7 +174,6 @@
     <string name="jump_to_time">Ruka hadi</string>
     <string name="subtitle_select">Chagua faili ya manukuu</string>
     <string name="wait_before_sleep">Subiri midia inayocheza sasa imalize</string>
-
     <string name="server_add_title">Ongeza seva mpya kwenye vipendwa</string>
     <string name="server_domain_hint">Anwani ya seva (jina miliki au itifaki ya wavuti)</string>
     <string name="server_share_hint">Jina la ushiriki la mtandao (au anwani ya itifaki ya wavuti)</string>
@@ -341,7 +340,6 @@
     <string name="browser_show_hidden_files_title">Onyesha faili fiche</string>
     <string name="albums_show_track_numbers">Onyesha namba ya nakala</string>
     <string name="enable_video_screenshot">Nasa skrini</string>
-
     <string name="subtitles_prefs_category">Manukuu</string>
     <string name="subtitles_size_title">Ukubwa wa manukuu</string>
     <string name="subtitles_presets_title">Setiawali za manukuu</string>
@@ -489,7 +487,6 @@
     <string name="dump_logcat_failure">Imeshindwa kumbeka logcat</string>
     <string name="custom_libvlc_options">Machaguo tanafsifu ya libVLC</string>
     <string name="custom_libvlc_options_invalid">Machaguo batili ya libVLC!</string>
-
     <string name="serious_crash">Kwa bahati mbaya, kosa kubwa limefanyika ikabidi VLC ijifunge </string>
     <string name="help_us_send_log">Tusaidie kuboresha VLC kwa kututumia batli mparaganyo ifuatayo:</string>
     <string name="restart_vlc">Anzisha VLC tena</string>
@@ -503,8 +500,6 @@
     <string name="no_result">Hakuna matokeo</string>
     <string name="no_internet_connection">Angalia muunganisho wa wavuti</string>
     <string name="retry">Jaribu tena</string>
-    <string name="subs_download_error">Huduma haipatikani. Jaribu tena baadaye</string>
-
     <string name="network_browsing">Mtandao Janibu</string>
     <string name="browsing">Kuvinjari</string>
 
@@ -547,9 +542,6 @@
     <string name="click_here">Bofya hapa ujue zaidi</string>
     <string name="allow_storage_access_title">Ruhusu VLC ifikie faili za video na za usikiko</string>
     <string name="allow_storage_access_description">VLC inahitaji ruhusa yako ifikie faili za midia zilizo kwenye kifaa.</string>
-    <string name="allow_storage_manager_title">Ruhusu VLC ifikie faili zote</string>
-    <string name="allow_storage_manager_description">%s\n\nRuhusu?</string>
-    <string name="allow_storage_manager_explanation">Ili upate uwezo wote wa VLC na mwega wa aina zote za faili za midia, tunapendekeza vikali uruhusu.</string>
     <string name="partial_content">VLC haiwezi kufukia faili zako zote</string>
     <string name="partial_content_description">Kuanzia Android 11, programu zote zinahitaji ruhusa maalum zifikie faili zote za kifaa.\n\n%s</string>
     <string name="never_ask_again">Usiulizwe tena</string>
@@ -844,7 +836,6 @@
     <string name="sub_result_by_name">Matokeo ya %s</string>
     <string name="sub_result_by_name_season">Msimu wa %s</string>
     <string name="sub_result_by_name_episode">Kipindi %s</string>
-
     <string name="sub_result_by_file">Matokeo ya faili</string>
     <string name="donate">Saidia VLC</string>
     <string name="donate_desc">Saidia wanaojitolea kuunda VLC</string>

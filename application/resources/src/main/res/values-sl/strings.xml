@@ -186,6 +186,7 @@
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Jezik: %1$s\n</string>
     <string name="volume">Glasnost</string>
+    <string name="system_volume_disabled">%s\nNi dostopa do sistemske glasnosti</string>
     <string name="sound_on">Zvok je vključen</string>
     <string name="sound_off">Zvok je izključen</string>
     <string name="brightness">Svetlost</string>
@@ -211,6 +212,8 @@
     <string name="wait_before_sleep">Počakajte, da se trenutna vsebina konča</string>
     <string name="reset_on_interaction">Ponastavi ob interakciji</string>
     <string name="default_sleep_timer_summary">%1$s, čakanje na konec vsebine: %2$s, ponastavitev ob interakciji: %3$s</string>
+    <string name="video_player_remote">Daljinec video predvajalnika</string>
+    <string name="remote_keyboard_navigation">NAvigacija s tipkovnico</string>
 
     <string name="server_add_title">Dodaj nov strežnik med priljubljene</string>
     <string name="server_domain_hint">Naslov strežnika (ime domene ali naslov IP)</string>
@@ -300,6 +303,7 @@
     <string name="authors">Avtorji</string>
     <string name="vlc_authors">in avtorji programa VLC.</string>
     <string name="is_compiled_by">Prevod kode</string>
+    <string name="is_signed_by">Podpisal</string>
     <string name="sources">Izvorna koda</string>
     <string name="libraries">Knjižnice</string>
     <string name="feedback_forum">Forum odzivov</string>
@@ -587,8 +591,6 @@
     <string name="no_result">Ni najdenih zadetkov</string>
     <string name="no_internet_connection">Preverite internetno povezavo</string>
     <string name="retry">Ponovno poskusi</string>
-    <string name="subs_download_error">Storitev ni na voljo. Poskusite kasneje</string>
-
     <string name="network_browsing">Krajevno omrežje</string>
     <string name="browsing">Brskanje</string>
 
@@ -604,10 +606,13 @@
     <string name="search_global">Preišči celotno knjižnico predstavnih vsebin</string>
     <string name="playlist_save">Shrani seznam predvajanja</string>
     <string name="playlist_name_hint">ime seznama predvajanja</string>
+    <string name="chapters">Poglavja</string>
+    <string name="notset">Ni določeno</string>
     <string name="go_to_chapter">Skoči na poglavje …</string>
     <string name="current_chapter">Poglavje: %s</string>
     <string name="confirm_resume">Ali želite nadaljevati pri nazadnje ustavljenem mestu?</string>
     <string name="confirm_resume_title">Nadaljuj predvajanje videa</string>
+    <string name="confirm_resume_audio_title">Nadaljuj predvajanje zvoka</string>
     <string name="tv_ui_title">Vmesnik Android TV</string>
     <string name="tv_ui_summary">Spremeni vmesnik na temo Android TV</string>
     <string name="medialibrary">Knjižnica predstavnih vsebin</string>
@@ -652,9 +657,6 @@
     <string name="click_here">Kliknite sem za več.</string>
     <string name="allow_storage_access_title">Dovoli programu dostop do datotek videa in zvoka</string>
     <string name="allow_storage_access_description">Program zahteva odobritev dostopa do predstavnih datotek na napravi.</string>
-    <string name="allow_storage_manager_title">Omogoči dostop do vseh datotek za VLC</string>
-    <string name="allow_storage_manager_description">%s\n\nPodelim pravice?</string>
-    <string name="allow_storage_manager_explanation">Za izkoriščanje vseh možnosti, ki jih ponuja VLC in za podporo vseh vrst datotek z vsebinami, priporočamo, da dovolite dostop.</string>
     <string name="partial_content">VLC ne more dostopati do vseh datotek</string>
     <string name="partial_content_description">Od različice Android 11 je potrebno aplikacijam podeliti posebno pravico, da smejo dostopati do vseh datotek.\n\n%s</string>
     <string name="never_ask_again">Tega več ne sprašuj</string>
@@ -893,6 +895,8 @@
     <string name="invalid_file">Neveljavna datoteka. Ni je mogoče deliti.</string>
     <string name="share_file">Deli %s</string>
     <string name="share_message">Tukaj je %s</string>
+    <string name="share_track_info">Deli podatke o vsebini</string>
+    <string name="share_track">Trenutno se predvaja %s</string>
     <string name="find_metadata">Najdi metapodatke</string>
     <string name="moviepedia_hint">iskanje metapodatkov</string>
     <string name="moviepedia_result">Video rezultati</string>
@@ -967,7 +971,6 @@
     <string name="sub_result_by_name">Rezultati za %s</string>
     <string name="sub_result_by_name_season">Sezona %s</string>
     <string name="sub_result_by_name_episode">Epizoda %s</string>
-
     <string name="sub_result_by_file">Rezultati za datoteko</string>
     <string name="donate">Pomgajte VLC</string>
     <string name="donate_desc">Podprite prostovoljce, ki ustvarjajo VLC</string>
@@ -1292,4 +1295,5 @@
     <string name="restore_settings">Obnova nastavitev</string>
     <string name="export_settings_success">Nastavitve so bile uspešno izvožene v koren notranje shrambe</string>
     <string name="export_settings_failure">Pri izvažanju nastavitev je prišlo do napake</string>
-</resources>
+
+    </resources>

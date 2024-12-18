@@ -181,7 +181,6 @@
     <string name="wait_before_sleep">Đợi mục phương tiện hiện tại kết thúc trước</string>
     <string name="reset_on_interaction">Đặt lại trên mọi tương tác</string>
     <string name="default_sleep_timer_summary">%1$s, chờ phương tiện kết thúc: %2$s, đặt lại trên tương tác: %3$s</string>
-
     <string name="server_add_title">Thêm máy chủ mới vào danh sách yêu thích</string>
     <string name="server_domain_hint">Địa chỉ máy chủ (tên miền hoặc IP)</string>
     <string name="server_share_hint">Tên mạng chia sẻ (hoặc IP)</string>
@@ -557,8 +556,6 @@
     <string name="no_result">Không tìm thấy kết quả</string>
     <string name="no_internet_connection">Kiểm tra kết nối internet của bạn</string>
     <string name="retry">Thử lại</string>
-    <string name="subs_download_error">Dịch vụ không có sẵn. Hãy thử lại sau</string>
-
     <string name="network_browsing">Mạng cục bộ</string>
     <string name="browsing">Duyệt</string>
 
@@ -617,9 +614,6 @@
     <string name="click_here">Click vào đây để tìm hiểu thêm.</string>
     <string name="allow_storage_access_title">Cho phép VLC truy cập tập tin âm thanh và video</string>
     <string name="allow_storage_access_description">VLC cần bạn cấp quyền để truy cập tập tin đa phương tiện trên thiết bị.</string>
-    <string name="allow_storage_manager_title">Cho phép VLC truy cập tất cả tệp</string>
-    <string name="allow_storage_manager_description">%s\n\nCấp quyền?</string>
-    <string name="allow_storage_manager_explanation">Để tận hưởng tất cả khả năng của VLC và sự hỗ trợ tất cả các loại tệp phương tiện, chúng tôi khuyên bạn cấp quyền này.</string>
     <string name="partial_content">VLC không thể truy cập tất cả tệp</string>
     <string name="partial_content_description">Từ Android 11 trở đi, các ứng dụng cần quyền đặc biệt để truy cập tất cả tệp của thiết bị.\n\n%s</string>
     <string name="never_ask_again">Không hỏi lại</string>
@@ -928,7 +922,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="sub_result_by_name">Kết quả cho %s</string>
     <string name="sub_result_by_name_season">Phần 1%s</string>
     <string name="sub_result_by_name_episode">Tập 1%s</string>
-
     <string name="sub_result_by_file">Kết quả cho tệp của bạn</string>
     <string name="donate">Giúp VLC</string>
     <string name="donate_desc">Hỗ trợ những người tình nguyện đang xây dựng VLC</string>

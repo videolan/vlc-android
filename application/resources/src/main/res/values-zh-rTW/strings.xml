@@ -83,6 +83,10 @@
     <string name="albums">專輯</string>
     <string name="tracks">軌道</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="other">%d 個已儲存的書籤</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d 個專輯</item>
     </plurals>
@@ -561,7 +565,7 @@
     <string name="no_result">沒有找到結果</string>
     <string name="no_internet_connection">檢查您的網路連線</string>
     <string name="retry">重試</string>
-    <string name="subs_download_error">暫停服務。請稍後再試</string>
+    <string name="open_subs_download_error">OpenSubtitles 目前無法使用。請稍後再試</string>
 
     <string name="network_browsing">區域網路</string>
     <string name="browsing">瀏覽中</string>
@@ -583,6 +587,7 @@
     <string name="go_to_chapter">轉到章節...</string>
     <string name="current_chapter">章節：%s</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
+    <string name="apply_playqueue">套用至所有播放佇列</string>
     <string name="confirm_resume_title">恢復播放過的影片</string>
     <string name="confirm_resume_audio_title">繼續播放過的音訊</string>
     <string name="tv_ui_title">Android TV 介面</string>
@@ -629,9 +634,6 @@
     <string name="click_here">點擊此處以取得更多資訊。</string>
     <string name="allow_storage_access_title">允許 VLC 存取視訊與音訊檔案</string>
     <string name="allow_storage_access_description">VLC 需要您的授權才能存取這個裝置上的媒體檔案。</string>
-    <string name="allow_storage_manager_title">允許 VLC 存取所有檔案</string>
-    <string name="allow_storage_manager_description">%s\n\n授予權限？</string>
-    <string name="allow_storage_manager_explanation">要取得 VLC 的所有功能以及所有媒體檔案類型的支援，我們強烈建議您授予此權限。</string>
     <string name="partial_content">VLC 無法存取您所有的檔案</string>
     <string name="partial_content_description">從 Android 11 開始，應用程式需要特別權限才能存取裝置上所有的檔案。\n\n%s</string>
     <string name="never_ask_again">不再詢問</string>
@@ -682,6 +684,19 @@
     <string name="popup_playback">正在彈出式視窗中撥放</string>
     <string name="popup_expand">展開視訊</string>
     <string name="download_subtitles">下載字幕</string>
+    <string name="powered_opensubtitles">威力本源 OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">您尚未登入 OpenSubtitles\n登入後即可存取更多下載內容</string>
+    <string name="open_subtitles_logged_in">登入為 %1$s</string>
+    <string name="open_subtitles_limits">您的總額為 %2$s，剩餘下載量 %1$s 。您的限額將於 %3$s 重設。</string>
+    <string name="open_subtitles_vip">您是 VIP OpenSubtitles 使用者</string>
+    <string name="open_subtitles_register">註冊</string>
+    <string name="open_subtitles_log_out">登出</string>
+    <string name="open_subtitles_username">使用者名稱</string>
+    <string name="open_subtitles_password">密碼</string>
+    <string name="open_subtitles_is_vip">VIP 帳號</string>
+    <string name="open_subtitles_is_not_vip">標準帳號</string>
+    <string name="login_error">無效憑證</string>
+    <string name="unknown_error">非預期的錯誤</string>
     <string name="browse_folder">瀏覽資料夾</string>
     <string name="listen">聽</string>
     <string name="apply_to_bt">套用至藍牙裝置</string>
@@ -765,12 +780,14 @@
     <string name="rename_media">重新命名 %1$s</string>
     <string name="manual_search">手動搜尋</string>
     <string name="subtitle_search_name_hint">名稱</string>
+    <string name="subtitle_query_edit">編輯字幕搜尋查詢</string>
     <string name="subtitle_search_episode_hint">集</string>
     <string name="subtitle_search_season_hint">季</string>
     <string name="subtitles_download_failed">下載失敗</string>
     <string name="language_to_download">語言</string>
     <string name="delete_the_selected">刪除選取</string>
     <string name="download_the_selected">下載選取</string>
+    <string name="no_sub_history">此媒體無字幕</string>
     <string name="next">下一個</string>
     <string name="skip">略過</string>
     <string name="next_step">下一個</string>
@@ -790,6 +807,8 @@
     <string name="welcome_title">歡迎使用 VLC！</string>
     <string name="welcome_subtitle">自由且開源的媒體播放器</string>
     <string name="permission_media">VLC 需要您裝置的存取媒體權限</string>
+    <string name="permission_video">VLC 需要您的授權才能存取您裝置上的視訊媒體</string>
+    <string name="permission_audio">VLC 需要您的授權才能存取您裝置上的音訊媒體</string>
     <string name="medialibrary_scan_explanation">VLC 會自動掃描裝置並組織您的媒體收藏。</string>
     <string name="onboarding_theme_title">隨便自由使用</string>
     <string name="done">完成</string>
@@ -940,6 +959,7 @@
     <string name="sub_result_by_name">%s 的結果</string>
     <string name="sub_result_by_name_season">理由 %s</string>
     <string name="sub_result_by_name_episode">插曲 %s</string>
+    <string name="sub_result_by_name_hearing_impaired">僅聽力障礙</string>
 
     <string name="sub_result_by_file">您檔案的結果</string>
     <string name="donate">協助 VLC</string>
@@ -983,6 +1003,9 @@
     <string name="audio_delay_bt">藍牙裝置的音訊延遲設定為%s毫秒</string>
     <string name="warning_stream_speed">增加串流的播放速度超過 1 可能造成間斷</string>
     <string name="go_to_folder">瀏覽上一層</string>
+    <string name="go_to_album">前往專輯</string>
+    <string name="go_to_artist">前往藝人</string>
+    <string name="go_to_album_artist">前往專輯藝人</string>
     <string name="create_shortcut">建立啟動器捷徑</string>
     <string name="no_sub_renderer">投放時尚不支援字幕</string>
     <string name="enqueuing">正在載入您的媒體</string>
@@ -1056,6 +1079,14 @@
     <string name="notification_permission">通知權限</string>
     <string name="notification_permission_explanation">VLC 需您的授權才能傳送通知。\n應用程式只會在為您掃描媒體或使用自訂的「字母畫面」視訊模式時向您傳送通知。\n拒絕該權限不會影響 VLC 正常運作，只是不會顯示通知而已。</string>
     <string name="permission">權限</string>
+    <string name="permission_no_access">無法存取檔案</string>
+    <string name="permissions">權限</string>
+    <string name="permissions_summary">所有權限的清單</string>
+    <string name="manage_storage_permission">檔案權限</string>
+    <string name="permission_media_title">存取標準媒體</string>
+    <string name="permission_all_title">存取所有檔案</string>
+    <string name="permission_all_warning">要啟用此功能，您必須先停用存取標準媒體檔案</string>
+    <string name="permission_media_warning">要啟用此功能，您必須先停用完整檔案權限</string>
     <string name="customize">自訂</string>
     <string name="selection_count">已選取 %d</string>
     <string name="control_setting">控制設定</string>
@@ -1259,4 +1290,17 @@
     <string name="restore_settings">還原設定</string>
     <string name="export_settings_success">設定已成功匯出至內部儲存空間根目錄</string>
     <string name="export_settings_failure">匯出您的設定時發生問題</string>
+
+    <string name="queue_info">佇列資訊</string>
+    <string name="queue_info_none">不要顯示佇列位置</string>
+    <string name="queue_info_before_title">標題前</string>
+    <string name="queue_info_after_title">標題後</string>
+    <string name="queue_info_before_subtitle">字幕前</string>
+
+    <string name="title_size">標題文字大小</string>
+    <string name="subtitle_size">字幕文字大小</string>
+
+    <string name="queue_format">佇列格式</string>
+    <string name="queue_format_short_desc">佇列位置</string>
+    <string name="queue_format_long_desc">佇列位置 / 佇列大小</string>
 </resources>

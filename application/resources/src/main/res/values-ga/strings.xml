@@ -406,8 +406,6 @@
     <string name="no_result">Níor aimsíodh aon toradh</string>
     <string name="no_internet_connection">Dearbháil do cheangal idirlín</string>
     <string name="retry">Féach arís é</string>
-    <string name="subs_download_error">Níl an tseirbhís ar fáil. Déan arís ar ball é.</string>
-
     <string name="network_browsing">Líonra áitiúil</string>
     <string name="browsing">Ag siortú</string>
 
@@ -447,8 +445,6 @@
     <string name="click_here">Brúigh anseo chun tuilleadh eolais a chur air.</string>
     <string name="allow_storage_access_title">Lig do VLC físchomhaid agus comhaid fhuaime a rochtain</string>
     <string name="allow_storage_access_description">Caithfidh tú cead a thabhairt do VLC na comhaid mheáin ar an ngléas seo a rochtain.</string>
-    <string name="allow_storage_manager_title">Tabhair cead do VLC rochtain a fháil ar gach comhad</string>
-    <string name="allow_storage_manager_description">%s\n\nTabhair cead?</string>
     <string name="partial_content">Ní féidir le VLC gach ceann do de chuid comhaid a rochtain</string>
     <string name="never_ask_again">Ná fiafraigh riamh arís</string>
     <string name="never_show_again">Ná taispeáin é seo arís, fiú do leaganacha eile amach anseo.</string>
@@ -682,7 +678,6 @@
     <string name="sub_result_by_name">Torthaí i gcomhair %s</string>
     <string name="sub_result_by_name_season">Séasúr %s</string>
     <string name="sub_result_by_name_episode">Eipeasóid %s</string>
-
     <string name="sub_result_by_file">Torthaí do do chomhad</string>
     <string name="donate">Cabhraigh le VLC</string>
     <string name="donate_desc">Tacaigh leis na daoine atá ag tógáil VLC go deonach</string>

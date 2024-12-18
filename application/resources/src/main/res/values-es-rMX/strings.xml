@@ -449,7 +449,6 @@
     <string name="dump_logcat_failure">Fallo al tirar logcat.</string>
     <string name="custom_libvlc_options">Personalizar opciones libVLC</string>
     <string name="custom_libvlc_options_invalid">opción libVLC no valida!</string>
-
     <string name="serious_crash">Desafortunadamente, un serio error a ocurrido y VLC a tuvo que cerrar.</string>
     <string name="help_us_send_log">Ayudanos a mejorar VLC enviando el siguiente registro de error:</string>
     <string name="restart_vlc">Reiniciar VLC</string>
@@ -462,8 +461,6 @@
 
     <string name="no_result">Sin resultados</string>
     <string name="no_internet_connection">Verificar tu conexión a internet</string>
-    <string name="subs_download_error">Servicio no disponible. Intente más tarde</string>
-
     <string name="network_browsing">Red local</string>
     <string name="browsing">Explorando</string>
 
@@ -762,7 +759,6 @@
     <string name="sub_result_by_name">Resultados de %s</string>
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
-
     <string name="sub_result_by_file">Resultados de tu archivo</string>
     <string name="donate">Ayuda de VLC</string>
     <string name="donate_desc">Apoyar a los voluntarios que desarrollan VLC</string>

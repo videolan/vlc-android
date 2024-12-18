@@ -84,6 +84,11 @@
     <string name="albums">Albumi</string>
     <string name="tracks">Traccie</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 indetta arregistrata</item>
+        <item quantity="other">%d indette arregistrate</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">Un albumu</item>
         <item quantity="other">%d albumi</item>
@@ -168,6 +173,7 @@
     <string name="track_codec_info">Cudecu : %1$s\n</string>
     <string name="track_language_info">Lingua : %1$s\n</string>
     <string name="volume">Vulume</string>
+    <string name="system_volume_disabled">%s\nNisunu accessu à u vulume di u sistema</string>
     <string name="sound_on">Sonu</string>
     <string name="sound_off">Mutu</string>
     <string name="brightness">Lucidezza</string>
@@ -191,6 +197,9 @@
     <string name="wait_before_sleep">Aspettà chì u medià attuale si compii in primu</string>
     <string name="reset_on_interaction">Reinizià à ogni interazzione</string>
     <string name="default_sleep_timer_summary">%1$s, aspettà a fine di u medià : %2$s, reinizià à ogni interazzione : %3$s</string>
+    <string name="video_player_remote">Telecumanda di u lettore video</string>
+    <string name="remote_keyboard_navigation">Navigazione da a tastera</string>
+
     <string name="server_add_title">Aghjunghje un novu servitore à i favuriti</string>
     <string name="server_domain_hint">Indirizzu di u servitore (nome di duminiu o IP)</string>
     <string name="server_share_hint">Nome di spartera di reta (o indirizzu IP)</string>
@@ -279,6 +288,7 @@
     <string name="authors">Autori</string>
     <string name="vlc_authors">è l’autori di VLC.</string>
     <string name="is_compiled_by">Cumpilatu da</string>
+    <string name="is_signed_by">Firmatu da</string>
     <string name="sources">Codice di fonte</string>
     <string name="libraries">Bibliuteche</string>
     <string name="feedback_forum">Foru di ritornu d’avisu</string>
@@ -316,8 +326,8 @@
     <string name="theme_auto">Tema autumaticu</string>
     <string name="subtitle_text_encoding">Cudificazione di u testu di i sottutituli</string>
     <string name="subtitle_preferred_language">Lingua preferita di sottutitulu</string>
-    <string name="daynight_title">Modu Ghjornu-Notte</string>
-    <string name="daynight_follow_system_title">Seguità u modu sistema</string>
+    <string name="daynight_title">Modu ghjornu è notte</string>
+    <string name="daynight_follow_system_title">Seguità u modu di u sistema</string>
     <string name="no_track_preference">Nisuna preferenza di lingua</string>
     <string name="track_preference">Preferenza di traccia : %s</string>
 
@@ -566,7 +576,7 @@
     <string name="no_result">Alcunu risultatu trovu</string>
     <string name="no_internet_connection">Verificate a vostra cunnessione internet</string>
     <string name="retry">Pruvà torna</string>
-    <string name="subs_download_error">Serviziu micca dispunibule. Pruvate torna in una stonda</string>
+    <string name="open_subs_download_error">Ora OpenSubtitles ùn hè dispunibule. Provate torna in una stonda</string>
 
     <string name="network_browsing">Reta lucale</string>
     <string name="browsing">Navigazione</string>
@@ -588,6 +598,7 @@
     <string name="go_to_chapter">Và à u capitulu…</string>
     <string name="current_chapter">Capitulu : %s</string>
     <string name="confirm_resume">Vulete riprincipià da l’ultima pusizione ?</string>
+    <string name="apply_playqueue">Appiecà à tutta a fila d’attesa di lettura</string>
     <string name="confirm_resume_title">Ripiglià a lettura di e video</string>
     <string name="confirm_resume_audio_title">Ripiglià a lettura di l’audio</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
@@ -634,9 +645,6 @@
     <string name="click_here">Fate un cliccu quì per sapene di più.</string>
     <string name="allow_storage_access_title">Permette à VLC d’accede à i schedarii video è audio</string>
     <string name="allow_storage_access_description">VLC hà bisognu di stu permessu per accede à i schedarii medià nant’à st’apparechju.</string>
-    <string name="allow_storage_manager_title">Permette à VLC d’accede à tutti i schedarii</string>
-    <string name="allow_storage_manager_description">%s\n\nAccunsente u permessu ?</string>
-    <string name="allow_storage_manager_explanation">Per prufittà di tutte e pussibilità di VLC è piglià in carica tutti i tipi di medià, vi cunsigliemu forte d’accunsente à stu permessu.</string>
     <string name="partial_content">VLC ùn pò micca accede à tutti i vostri schedarii</string>
     <string name="partial_content_description">Cù Android 11 è dopu, l’appiecazioni richiedenu un permessu speziale per accede à tutti i schedarii di l’apparechju.\n\n%s</string>
     <string name="never_ask_again">Ùn mi dumandà mai più</string>
@@ -687,6 +695,19 @@
     <string name="popup_playback">Lettura in una finestra Pop-Up</string>
     <string name="popup_expand">Allargà a video</string>
     <string name="download_subtitles">Scaricà i sottutituli</string>
+    <string name="powered_opensubtitles">Funziuneghja grazia à OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Ùn site micca cunnessu à OpenSubtitles\nA cunnessione vi cuncederà l’accessu à più di scaricamenti</string>
+    <string name="open_subtitles_logged_in">Cunnessu cum’è %1$s</string>
+    <string name="open_subtitles_limits">Ci hè %1$s scaricamenti in attesa nant’à %2$s. U vostru limitu serà reiniziatu à %3$s.</string>
+    <string name="open_subtitles_vip">Site un utilizatore VIP d’OpenSubtitles</string>
+    <string name="open_subtitles_register">Inscrivesi</string>
+    <string name="open_subtitles_log_out">Discunnettesi</string>
+    <string name="open_subtitles_username">Nome d’utilizatore</string>
+    <string name="open_subtitles_password">Parolla d’intesa</string>
+    <string name="open_subtitles_is_vip">Contu VIP</string>
+    <string name="open_subtitles_is_not_vip">Contu nurmale</string>
+    <string name="login_error">Infurmazioni d’identificazione inaccettevule</string>
+    <string name="unknown_error">Sbagliu inaspettatu</string>
     <string name="browse_folder">Sfuglià u cartulare</string>
     <string name="listen">Stà à sente</string>
     <string name="apply_to_bt">Appiecà à l’apparechju bluetooth</string>
@@ -770,12 +791,14 @@
     <string name="rename_media">Rinuminà %1$s</string>
     <string name="manual_search">Ricerca manuale</string>
     <string name="subtitle_search_name_hint">Nome</string>
+    <string name="subtitle_query_edit">Mudificà a richiesta di ricerca di sottutituli</string>
     <string name="subtitle_search_episode_hint">Episodiu</string>
     <string name="subtitle_search_season_hint">Staghjone</string>
     <string name="subtitles_download_failed">Fiascu di u scaricamentu</string>
     <string name="language_to_download">Lingua</string>
     <string name="delete_the_selected">Squassà a selezzione</string>
     <string name="download_the_selected">Scaricà a selezzione</string>
+    <string name="no_sub_history">Nisunu sottutitulu per stu medià</string>
     <string name="next">Seguente</string>
     <string name="skip">Ignurà</string>
     <string name="next_step">Seguente</string>
@@ -795,6 +818,8 @@
     <string name="welcome_title">Benvenuta in VLC !</string>
     <string name="welcome_subtitle">U lettore multimedià liberu è di rigalu</string>
     <string name="permission_media">VLC hà bisognu di u vostru accunsentu per accede à i medià nant’à u vostru apparechju</string>
+    <string name="permission_video">VLC hà bisognu di u vostru accunsentu per accede à i medià video nant’à u vostru apparechju</string>
+    <string name="permission_audio">VLC hà bisognu di u vostru accunsentu per accede à i medià audio nant’à u vostru apparechju</string>
     <string name="medialibrary_scan_explanation">VLC pò analizà autumaticamente u vostru apparechju per urganizà a vostra cullezzione medià.</string>
     <string name="onboarding_theme_title">Fatelu dapervoi in casa vostra</string>
     <string name="done">Fattu</string>
@@ -947,6 +972,7 @@
     <string name="sub_result_by_name">Risultati per %s</string>
     <string name="sub_result_by_name_season">Stagione %s</string>
     <string name="sub_result_by_name_episode">Episodiu %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Solu per i cionchi</string>
 
     <string name="sub_result_by_file">Risultati per u vostru schedariu</string>
     <string name="donate">Aiutà VLC</string>
@@ -990,6 +1016,9 @@
     <string name="audio_delay_bt">Cumportu audio definitu à %s ms per l’apparechju bluetooth</string>
     <string name="warning_stream_speed">L’aumentu di a vitezza di ripruduzzione sopra 1 per i flussi pò cagiunà un barbagliulime</string>
     <string name="go_to_folder">Navigà à u livellu superiore</string>
+    <string name="go_to_album">Andà à l’albumu</string>
+    <string name="go_to_artist">Andà à l’artista</string>
+    <string name="go_to_album_artist">Andà à l’artista di l’albumu</string>
     <string name="create_shortcut">Creà un accurtatoghju per u lanciadore</string>
     <string name="no_sub_renderer">I sottutituli ùn sò ancu accettati durante a diffusione</string>
     <string name="enqueuing">Caricamentu di i vostri medià</string>
@@ -1063,6 +1092,14 @@
     <string name="notification_permission">Permessu di nutificazione</string>
     <string name="notification_permission_explanation">VLC hà bisognu di u vostru accunsentu per mandà nutificazioni.\nL’appiecazione vi nutificherà solu durante l’analisa di u vostru medià o quandu s’impiega u modu fiura-nant’à-fiura (PIP).\nRicusà stu permessu ùn impediscerà micca VLC di funziunà, ma e nutificazioni seranu piattate.</string>
     <string name="permission">Permessu</string>
+    <string name="permission_no_access">Nisunu accessu à u schedariu</string>
+    <string name="permissions">Permessi</string>
+    <string name="permissions_summary">Lista di tutti i permessi</string>
+    <string name="manage_storage_permission">Diritti d’accessu à i schedarii</string>
+    <string name="permission_media_title">Accessu à i medià classichi</string>
+    <string name="permission_all_title">Accessu à tutti i schedarii</string>
+    <string name="permission_all_warning">Per attivà sta funzione, ci vole prima à disattivà l’accessu à i medià classichi</string>
+    <string name="permission_media_warning">Per attivà sta funzione, ci vole prima à disattivà l’accessu à tutti i schedarii</string>
     <string name="customize">Persunalizà</string>
     <string name="selection_count">%d selezziunatu</string>
     <string name="control_setting">Parametri di cuntrollu</string>
@@ -1268,4 +1305,17 @@
     <string name="restore_settings">Risturà i parametri</string>
     <string name="export_settings_success">I parametri sò stati espurtati bè ver di a radica di a memoria interna</string>
     <string name="export_settings_failure">Un sbagliu hè accadutu durante l’espurtazione di i vostri parametri</string>
+
+    <string name="queue_info">Infurmazione nant’à a fila d’attesa</string>
+    <string name="queue_info_none">Ùn affissà micca a pusizione di a fila d’attesa</string>
+    <string name="queue_info_before_title">Nanzu u titulu</string>
+    <string name="queue_info_after_title">Dopu u titulu</string>
+    <string name="queue_info_before_subtitle">Nanzu u sottutitulu</string>
+
+    <string name="title_size">Dimensione di u testu di u titulu</string>
+    <string name="subtitle_size">Dimensione di u testu di u sottutitulu</string>
+
+    <string name="queue_format">Furmatu di a fila d’attesa</string>
+    <string name="queue_format_short_desc">Pusizione di a fila d’attesa</string>
+    <string name="queue_format_long_desc">Pusizione di a fila d’attesa / Dimensione di a fila d’attesa</string>
 </resources>

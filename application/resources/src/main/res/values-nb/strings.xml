@@ -457,8 +457,6 @@
     <string name="no_result">Ingen resultater funnet</string>
     <string name="no_internet_connection">Sjekk nettverkstilkoblingen</string>
     <string name="retry">Prøv på nytt</string>
-    <string name="subs_download_error">Tjenesten er ikke tilgjengelig. Vennligst forsøk igjen senere</string>
-
     <string name="network_browsing">Lokalnettverk</string>
     <string name="browsing">Utforsker</string>
 
@@ -499,7 +497,6 @@
     <string name="click_here">Klikk her for å lære mer.</string>
     <string name="allow_storage_access_title">Gi VLC tilgang til video- og lyd-filer</string>
     <string name="allow_storage_access_description">VLC behøver denne tilgangen for å kunne lese mediefilene på denne enheten.</string>
-    <string name="allow_storage_manager_title">Tillat VLC alle fil tilganger</string>
     <string name="partial_content">VLC kan ikke nå alle dine filer</string>
     <string name="never_ask_again">Aldri spør igjen</string>
     <string name="allow_settings_access_ringtone_title">La VLC velge ringetonen</string>
@@ -784,7 +781,6 @@
     <string name="sub_result_by_name">Resultater for %s</string>
     <string name="sub_result_by_name_season">Sesong %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
-
     <string name="donate">Hjelp VLC</string>
     <string name="donate_send">Start din sponsing</string>
     <string name="subscription_cancel">Du kan avslutte abonnementet i Play-Store</string>

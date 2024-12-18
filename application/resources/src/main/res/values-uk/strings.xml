@@ -86,6 +86,13 @@
     <string name="albums">Альбоми</string>
     <string name="tracks">Доріжки</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 збережена закладка</item>
+        <item quantity="few">%d збережені закладки</item>
+        <item quantity="many">%d збережених закладок</item>
+        <item quantity="other">%dзбереженої закладки</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">%d альбом</item>
         <item quantity="few">%d альбоми</item>
@@ -186,6 +193,7 @@
     <string name="track_codec_info">Кодек: %1$s\n</string>
     <string name="track_language_info">Мова: %1$s\n</string>
     <string name="volume">Гучність</string>
+    <string name="system_volume_disabled">%s\nНемає доступу до системного диску</string>
     <string name="sound_on">Звук увімкн.</string>
     <string name="sound_off">Звук вимкн.</string>
     <string name="brightness">Яскравість</string>
@@ -302,6 +310,7 @@
     <string name="authors">Автори</string>
     <string name="vlc_authors">та автори VLC.</string>
     <string name="is_compiled_by">Скомпільовано</string>
+    <string name="is_signed_by">Підписано</string>
     <string name="sources">Джерельний код</string>
     <string name="libraries">Бібліотеки</string>
     <string name="feedback_forum">Форум для відгуків</string>
@@ -589,7 +598,7 @@
     <string name="no_result">Результатів не знайдено</string>
     <string name="no_internet_connection">Перевірте ваше з\'єднання з інтернетом</string>
     <string name="retry">Повторити</string>
-    <string name="subs_download_error">Служба недоступна. Будь ласка, спробуйте знову пізніше </string>
+    <string name="open_subs_download_error">OpenSubtitles недоступні. Будь ласка, спробуйте знову пізніше </string>
 
     <string name="network_browsing">Локальна мережа</string>
     <string name="browsing">Огляд</string>
@@ -611,6 +620,7 @@
     <string name="go_to_chapter">Перейти до глави…</string>
     <string name="current_chapter">Розділ: %s</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
+    <string name="apply_playqueue">Застосувати до всіх цю чергу відтворення </string>
     <string name="confirm_resume_title">Відновити відтворене відео</string>
     <string name="confirm_resume_audio_title">Відновити відтворене аудіо</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
@@ -657,9 +667,6 @@
     <string name="click_here">Клацніть тут, щоб дізнатися більше.</string>
     <string name="allow_storage_access_title">Надати VLC доступ до відео та аудіофайлів</string>
     <string name="allow_storage_access_description">VLV потрібно, щоби ви надали цей доступ для доступу до медіафайлів на відповідному пристрої.</string>
-    <string name="allow_storage_manager_title">Дозволити VLC доступ до всіх файлів</string>
-    <string name="allow_storage_manager_description">%s\n\nНадати дозвіл?</string>
-    <string name="allow_storage_manager_explanation">Щоб отримати усі можливості VLC та підтримувати усі типи медіафайлів, ми наполегливо рекомендуємо вам надати цей дозвіл.</string>
     <string name="partial_content">VLC не має доступу  до всіх ваших файлів</string>
     <string name="partial_content_description">Починаючи з Android 11, застосунки потребують особливого дозволу для доступу до всіх файлів вашого пристрою.\nn%s</string>
     <string name="never_ask_again">Ніколи не запитувати знову</string>
@@ -710,6 +717,19 @@
     <string name="popup_playback">Відтворюється у спливному вікні</string>
     <string name="popup_expand">Розкрити відео</string>
     <string name="download_subtitles">Звантажити субтитри</string>
+    <string name="powered_opensubtitles">За підтримки OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Ви не увійшли в OpenSubtitles\nУвійшовши в систему, ви отримаєте доступ до більшої кількості завантажень</string>
+    <string name="open_subtitles_logged_in">Увійшли як %1$s</string>
+    <string name="open_subtitles_limits">У вас лишилося %1$s завантажень із %2$s. Ваша межа буде обнулена при %3$s.</string>
+    <string name="open_subtitles_vip">Ви - VIP користувач OpenSubtitles</string>
+    <string name="open_subtitles_register">Реєстр</string>
+    <string name="open_subtitles_log_out">Вихід</string>
+    <string name="open_subtitles_username">Ім’я користувача</string>
+    <string name="open_subtitles_password">Пароль</string>
+    <string name="open_subtitles_is_vip">VIP-профіль</string>
+    <string name="open_subtitles_is_not_vip">Стандартний профіль</string>
+    <string name="login_error">Недійсні облікові дані</string>
+    <string name="unknown_error">Неочікувана помилка</string>
     <string name="browse_folder">Огляд теки</string>
     <string name="listen">Прослухайте</string>
     <string name="apply_to_bt">Застосувати до пристрою bluetooth</string>
@@ -793,12 +813,14 @@
     <string name="rename_media">Перейменувати %1$s</string>
     <string name="manual_search">Ручний пошук</string>
     <string name="subtitle_search_name_hint">Назва</string>
+    <string name="subtitle_query_edit">Змінити пошуковий запит на субтитри</string>
     <string name="subtitle_search_episode_hint">Епізод</string>
     <string name="subtitle_search_season_hint">Сезон</string>
     <string name="subtitles_download_failed">Не вдалось завантажити</string>
     <string name="language_to_download">Мова</string>
     <string name="delete_the_selected">Вилучити обране</string>
     <string name="download_the_selected">Завантажити обране</string>
+    <string name="no_sub_history">Немає субтитрів для цього медіа</string>
     <string name="next">Наступний</string>
     <string name="skip">Пропустити</string>
     <string name="next_step">Далі</string>
@@ -818,6 +840,8 @@
     <string name="welcome_title">Вітаємо у VLC!</string>
     <string name="welcome_subtitle">Безкоштовний мультимедійний програвач з відкритим кодом</string>
     <string name="permission_media">VLC потребує вашого дозволу на доступ до файлів на вашому пристрої</string>
+    <string name="permission_video">VLC потребує вашого дозволу на доступ до відеофайлів на вашому пристрої</string>
+    <string name="permission_audio">VLC потребує вашого дозволу на доступ до аудіофайлів на вашому пристрої</string>
     <string name="medialibrary_scan_explanation">VLC може автоматично сканувати ваш пристрій, щоби впорядкувати вашу медіазбірку.</string>
     <string name="onboarding_theme_title">Відчувайте себе як вдома</string>
     <string name="done">Готово</string>
@@ -974,6 +998,7 @@
     <string name="sub_result_by_name">Результати для %s</string>
     <string name="sub_result_by_name_season">Сезон %s</string>
     <string name="sub_result_by_name_episode">Епізод %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Тільки з погіршеним слухом</string>
 
     <string name="sub_result_by_file">Результати для вашого файла</string>
     <string name="donate">Довідка VLC</string>
@@ -1017,6 +1042,9 @@
     <string name="audio_delay_bt">Затримка аудіо задана на %s мс для пристрою bluetooth</string>
     <string name="warning_stream_speed">Збільшення швидкості відтворення понад 1 для потоків може спричинити пригальмовування</string>
     <string name="go_to_folder">Огляд батьківської теки</string>
+    <string name="go_to_album">Перейти до альбому</string>
+    <string name="go_to_artist">Перейти до виконавця</string>
+    <string name="go_to_album_artist">Перейти до альбому спершу</string>
     <string name="create_shortcut">Створити ярлик на запуск</string>
     <string name="no_sub_renderer">Субтитри досі не підтримуються під час трансляції</string>
     <string name="enqueuing">Завантаження вашого медіа</string>
@@ -1090,6 +1118,14 @@
     <string name="notification_permission">Дозвіл на сповіщення</string>
     <string name="notification_permission_explanation">VLC потребує вашого дозволу, щоб надсилати сповіщення.\nЦей застосунок буде тільки сповіщати під час сканування вашого медіа або використання власний режим відео Картинка в картинці.\nВідмова від нього не завадить роботі VLC, однак сповіщення будуть приховані.</string>
     <string name="permission">Дозвіл</string>
+    <string name="permission_no_access">Немає доступу до файла</string>
+    <string name="permissions">Дозволи</string>
+    <string name="permissions_summary">Список усіх дозволів</string>
+    <string name="manage_storage_permission">Дозволи на файли</string>
+    <string name="permission_media_title">Доступ до стандартних медіафайлів</string>
+    <string name="permission_all_title">Доступ до усіх файлів</string>
+    <string name="permission_all_warning">Для увімкнення цього вам потрібно спершу вимкнути доступ до стандартних медіафайлів</string>
+    <string name="permission_media_warning">Для увімкнення цього вам потрібно спершу вимкнути доступ до усіх файлів</string>
     <string name="customize">Налаштувати</string>
     <string name="selection_count">%dвибрано </string>
     <string name="control_setting">Параметри управління</string>
@@ -1299,4 +1335,17 @@
     <string name="restore_settings">Відновити налаштування</string>
     <string name="export_settings_success">Налаштування успішно експортовано до кореня внутрішнього сховища</string>
     <string name="export_settings_failure">Щось пішло не так під час експорту ваших налаштувань</string>
+
+    <string name="queue_info">Інформація про чергу</string>
+    <string name="queue_info_none">Не показувати позицію у черзі</string>
+    <string name="queue_info_before_title">Перед назвою</string>
+    <string name="queue_info_after_title">Після назви</string>
+    <string name="queue_info_before_subtitle">Перед субтитрами</string>
+
+    <string name="title_size">Розмір тексту заголовка</string>
+    <string name="subtitle_size">Розмір тексту субтитрів</string>
+
+    <string name="queue_format">Формат черги</string>
+    <string name="queue_format_short_desc">Позиція у черзі</string>
+    <string name="queue_format_long_desc">Позиція у черзі / розмір черги</string>
 </resources>

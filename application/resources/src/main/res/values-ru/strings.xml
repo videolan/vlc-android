@@ -466,7 +466,6 @@
     <string name="dump_logcat_failure">Выгрузить logcat не удалось.</string>
     <string name="custom_libvlc_options">Спецпараметры libVLC</string>
     <string name="custom_libvlc_options_invalid">Заданы некорректные параметры libVLC!</string>
-
     <string name="serious_crash">К сожалению, произошла серьёзная ошибка и VLC пришлось закрыть.</string>
     <string name="help_us_send_log">Помогите нам усовершенствовать VLC, отправив протокол сбоя:</string>
     <string name="restart_vlc">Перезапустить VLC</string>
@@ -480,8 +479,6 @@
     <string name="no_result">Ничего не найдено</string>
     <string name="no_internet_connection">Проверьте ваше соединение с Интернетом</string>
     <string name="retry">Повторить</string>
-    <string name="subs_download_error">Служба недоступна, повторите попытку позже</string>
-
     <string name="network_browsing">Локальная сеть</string>
     <string name="browsing">Обзор</string>
 
@@ -524,9 +521,6 @@
     <string name="click_here">Нажмите, чтобы узнать больше.</string>
     <string name="allow_storage_access_title">Разрешить VLC обращаться к аудио- и видеофайлам</string>
     <string name="allow_storage_access_description">VLC требуется это разрешение, чтобы обращаться к медиафайлам на вашем устройстве.</string>
-    <string name="allow_storage_manager_title">Разрешить VLC доступ ко всем файлам</string>
-    <string name="allow_storage_manager_description">%s\n\nДать разрешение?</string>
-    <string name="allow_storage_manager_explanation">Мы настоятельно рекомендуем дать это разрешение, чтобы можно было использовать все возможности VLC и поддержку всех типов медиафайлов в полной мере.</string>
     <string name="partial_content">VLC не может обращаться ко всем вашим файлам</string>
     <string name="partial_content_description">Начиная с Android 11, приложениям требуется специальное разрешение, чтобы обращаться ко всем файлам на устройстве.\n\n%s</string>
     <string name="never_ask_again">Не спрашивать в дальнейшем</string>
@@ -817,7 +811,6 @@
     <string name="sub_result_by_name">Результаты для %s</string>
     <string name="sub_result_by_name_season">Сезон %s</string>
     <string name="sub_result_by_name_episode">Эпизод %s</string>
-
     <string name="sub_result_by_file">Результаты для вашего файла</string>
     <string name="donate">Помощь проекту VLC</string>
     <string name="donate_desc">Поддержите энтузиастов, создающих VLC</string>

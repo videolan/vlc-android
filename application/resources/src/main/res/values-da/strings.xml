@@ -84,6 +84,11 @@
     <string name="albums">Album</string>
     <string name="tracks">Spor</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Gemt bogmærke</item>
+        <item quantity="other">%d Gemte bogmærker</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
@@ -168,6 +173,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Sprog: %1$s\n</string>
     <string name="volume">Lydstyrke</string>
+    <string name="system_volume_disabled">%s\nIngen adgang til systemdrev</string>
     <string name="sound_on">Lyd til</string>
     <string name="sound_off">Lyd fra</string>
     <string name="brightness">Lysstyrke</string>
@@ -191,6 +197,9 @@
     <string name="wait_before_sleep">Vent først på afslutning af nuværende medie</string>
     <string name="reset_on_interaction">Nulstil ved enhver interaktion</string>
     <string name="default_sleep_timer_summary">%1$s, afvent medieafslutning: %2$s, nulstil ved interaktion: %3$s</string>
+    <string name="video_player_remote">Videoafspillerfjernbetjening</string>
+    <string name="remote_keyboard_navigation">Tastaturnavigation</string>
+
     <string name="server_add_title">Tilføj en ny server til favoritter</string>
     <string name="server_domain_hint">Serveradresse (domænenavn eller IP)</string>
     <string name="server_share_hint">Netværksdelingsnavn (eller IP-adresse)</string>
@@ -279,6 +288,7 @@
     <string name="authors">Forfattere</string>
     <string name="vlc_authors">og VLC-forfattere.</string>
     <string name="is_compiled_by">Kompileret af</string>
+    <string name="is_signed_by">Signeret af</string>
     <string name="sources">Kildekode</string>
     <string name="libraries">Biblioteker</string>
     <string name="feedback_forum">Feedbackforum</string>
@@ -566,7 +576,7 @@
     <string name="no_result">Ingen resultater fundet</string>
     <string name="no_internet_connection">Tjek din internetforbindelse</string>
     <string name="retry">Forsøg igen</string>
-    <string name="subs_download_error">Tjeneste utilgængelig. Prøv igen senere.</string>
+    <string name="open_subs_download_error">OpenSubtitles er ikke tilgængeligt lige nu. Prøv senere</string>
 
     <string name="network_browsing">Lokalt netværk</string>
     <string name="browsing">Gennemser</string>
@@ -588,6 +598,7 @@
     <string name="go_to_chapter">Gå til kapitel…</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="confirm_resume">Genoptag fra sidste position?</string>
+    <string name="apply_playqueue">Ansøg om hele afspilningskøen</string>
     <string name="confirm_resume_title">Genoptag afspilning af videoer</string>
     <string name="confirm_resume_audio_title">Genoptag lydafspilning</string>
     <string name="tv_ui_title">Android TV-grænseflade</string>
@@ -634,9 +645,6 @@
     <string name="click_here">Klik her for at få mere at vide.</string>
     <string name="allow_storage_access_title">Tillad at VLC tilgår video- og lydfiler</string>
     <string name="allow_storage_access_description">VLC kræver at du giver rettigheder til at tilgå mediefilerne på denne enhed.</string>
-    <string name="allow_storage_manager_title">Tillad VLC adgang til alle filer</string>
-    <string name="allow_storage_manager_description">%s\n\nGiv tilladelse?</string>
-    <string name="allow_storage_manager_explanation">For at få alle VLC funktioner og understøttelse af alle typer mediefiler, anbefales det at  give denne tilladelse.</string>
     <string name="partial_content">VLC kan ikke tilgå alle filer</string>
     <string name="partial_content_description">Fra Android 11 skal applikationer have særlig tilladelse for at få adgang til alle enhedens filer.\n\n%s</string>
     <string name="never_ask_again">Spørg ikke igen</string>
@@ -687,6 +695,19 @@
     <string name="popup_playback">Afspiller i et pop op-vindue</string>
     <string name="popup_expand">Udvid video</string>
     <string name="download_subtitles">Download undertekster</string>
+    <string name="powered_opensubtitles">Oversat af OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Du er ikke logget på OpenSubtitles\nLog ind for at få adgang til flere downloads</string>
+    <string name="open_subtitles_logged_in">Logged på som %1$s</string>
+    <string name="open_subtitles_limits">Du har %1$s downloads tilbage ud af %2$s. Din grænse nulstilles ved %3$s.</string>
+    <string name="open_subtitles_vip">Du er en VIP OpenSubtitles bruger</string>
+    <string name="open_subtitles_register">Registrér</string>
+    <string name="open_subtitles_log_out">Log af</string>
+    <string name="open_subtitles_username">Brugernavn</string>
+    <string name="open_subtitles_password">Kodeord</string>
+    <string name="open_subtitles_is_vip">VIP konto</string>
+    <string name="open_subtitles_is_not_vip">Standardkonto</string>
+    <string name="login_error">Ugyldige brugeroplysninger</string>
+    <string name="unknown_error">Uventet fejl (den værste slags)</string>
     <string name="browse_folder">Gennemse mappe</string>
     <string name="listen">Lyt</string>
     <string name="apply_to_bt">Tilføj til bluetooth enhed</string>
@@ -770,12 +791,14 @@
     <string name="rename_media">Omdøb %1$s</string>
     <string name="manual_search">Manuel søgning</string>
     <string name="subtitle_search_name_hint">Navn</string>
+    <string name="subtitle_query_edit">Redigér undertekstsøgestreng</string>
     <string name="subtitle_search_episode_hint">Episode</string>
     <string name="subtitle_search_season_hint">Sæson</string>
     <string name="subtitles_download_failed">Kunne ikke downloade</string>
     <string name="language_to_download">Sprog</string>
     <string name="delete_the_selected">Slet valgte</string>
     <string name="download_the_selected">Download valgte</string>
+    <string name="no_sub_history">Ingen undertekster til dette medie</string>
     <string name="next">Næste</string>
     <string name="skip">Spring over</string>
     <string name="next_step">Næste</string>
@@ -795,6 +818,8 @@
     <string name="welcome_title">Velkommen til VLC!</string>
     <string name="welcome_subtitle">Den frie og open source multimedieafspiller</string>
     <string name="permission_media">VLC har brug for din tilladelse til at tilgå medier på din enhed</string>
+    <string name="permission_video">VLC har brug for din tilladelse for at tilgå videomediefiler på din enhed</string>
+    <string name="permission_audio">VLC har brug for din tilladelse for at tilgå lydmediefiler på din enhed</string>
     <string name="medialibrary_scan_explanation">VLC kan automatisk skanne din enhed for at organisere din mediesamling.</string>
     <string name="onboarding_theme_title">Gør dit selv tilrette</string>
     <string name="done">Færdig</string>
@@ -947,6 +972,7 @@
     <string name="sub_result_by_name">Resultater for %s</string>
     <string name="sub_result_by_name_season">Sæson %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Kun for hørehæmmede</string>
 
     <string name="sub_result_by_file">Resultater for din fil</string>
     <string name="donate">Hjælp VLC</string>
@@ -990,6 +1016,9 @@
     <string name="audio_delay_bt">Lydforsinkelse sat til %s ms for bluetooth-enheden</string>
     <string name="warning_stream_speed">Stigende afspilningshastighed over 1 til vandløb kan medføre stammen</string>
     <string name="go_to_folder">Gennemse forrige</string>
+    <string name="go_to_album">Gå til album</string>
+    <string name="go_to_artist">Gå til kunstner</string>
+    <string name="go_to_album_artist">Gå til albumkunstner</string>
     <string name="create_shortcut">Skab en startgenvej</string>
     <string name="no_sub_renderer">Undertekster understøttes endnu ikke under casting</string>
     <string name="enqueuing">Indlæser dine medier</string>
@@ -1063,6 +1092,14 @@
     <string name="notification_permission">Notifikationstilladelse</string>
     <string name="notification_permission_explanation">VLC har brug for din tilladelse til at sende notifikationer.\nApp\'en vil kun notificere dig, når dine medier skannes eller under anvendelse af den brugertilpassede video Billede i Billede.\nSiger du nej, vil VLC fortsat fungere, men notifikationer vil være skjult.</string>
     <string name="permission">Tilladelse</string>
+    <string name="permission_no_access">Ingen filadgang</string>
+    <string name="permissions">Tilladelser</string>
+    <string name="permissions_summary">Liste med alle tilladelser</string>
+    <string name="manage_storage_permission">Filtilladelser</string>
+    <string name="permission_media_title">Adgang til standardmedie</string>
+    <string name="permission_all_title">Al filadgang</string>
+    <string name="permission_all_warning">For at slå det til skal du slå standardadgang til mediefiler fra først</string>
+    <string name="permission_media_warning">For at slå det til skal du slå fulde filrettigheder fra først</string>
     <string name="customize">Tilpas</string>
     <string name="selection_count">%d markeret</string>
     <string name="control_setting">Kontrolindstillinger</string>
@@ -1268,4 +1305,17 @@
     <string name="restore_settings">Gendan indstillinger</string>
     <string name="export_settings_success">Indstillinger eksporteret med succes til internt rodlager</string>
     <string name="export_settings_failure">Noget gik galt under eksport af indstillinger</string>
+
+    <string name="queue_info">Køinformation</string>
+    <string name="queue_info_none">Vis ikke køposition</string>
+    <string name="queue_info_before_title">Før titel</string>
+    <string name="queue_info_after_title">Efter titel</string>
+    <string name="queue_info_before_subtitle">Før undertitel</string>
+
+    <string name="title_size">Titeltekststørrelse</string>
+    <string name="subtitle_size">Undertiteltekststørrelse</string>
+
+    <string name="queue_format">Køformat</string>
+    <string name="queue_format_short_desc">Køposition</string>
+    <string name="queue_format_long_desc">Køposition / Køstørrelse</string>
 </resources>

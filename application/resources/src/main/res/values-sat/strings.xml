@@ -404,7 +404,6 @@
     <string name="dump_logcat_failure">ᱞᱚᱜᱽᱠᱮᱴ ᱰᱟᱹᱢᱼᱯ ᱰᱤᱜᱟᱹᱣ ᱮᱱᱟ ᱾</string>
     <string name="custom_libvlc_options">ᱠᱟᱹᱥᱴᱚᱢ libVLC ᱚᱯᱥᱚᱱᱠᱚ</string>
     <string name="custom_libvlc_options_invalid">ᱵᱷᱩᱞ libVLC ᱚᱯᱥᱚᱱᱠᱚ!</string>
-
     <string name="serious_crash">ᱟᱹᱱᱷᱚᱨᱪᱩᱱᱮᱴᱞᱭ, ᱟᱹᱰᱤ ᱜᱚᱢᱵᱷᱤᱨ ᱵᱷᱩᱞ ᱦᱩᱭ ᱟᱠᱟᱱᱟ ᱟᱨ VLC ᱵᱚᱸᱫ ᱛᱮ ᱦᱩᱭᱩᱜᱼᱟ ᱾</string>
     <string name="help_us_send_log">ᱞᱟᱛᱟᱨ ᱨᱮᱭᱟᱜ ᱠᱨᱮᱥ ᱞᱳᱜᱽ ᱠᱩᱞ ᱠᱟᱛᱮᱡ VLC ᱩᱛᱷᱱᱟᱹᱣ ᱨᱮ ᱜᱚᱲᱚ ᱟᱞᱮ ᱢᱮ:</string>
     <string name="restart_vlc">VLC ᱫᱚᱦᱲᱟ ᱮᱦᱚᱵ ᱢᱮ</string>
@@ -417,8 +416,6 @@
 
     <string name="no_result">ᱚᱠᱟ ᱰᱤᱜᱞᱟᱹᱨ ᱵᱟᱭ ᱧᱟᱢ ᱞᱮᱱᱟ</string>
     <string name="no_internet_connection">ᱟᱢᱟᱜ ᱤᱱᱴᱚᱨᱱᱮᱴ ᱡᱩᱲᱟᱹᱣ ᱧᱮᱞ ᱛᱟᱢ</string>
-    <string name="subs_download_error">ᱥᱟᱹᱨᱣᱤᱥ ᱵᱟᱹᱱᱩᱜᱼᱟ ᱾ ᱫᱚᱭᱟᱠᱟᱛᱮ ᱛᱟᱭᱚᱢ ᱛᱮ ᱫᱩᱦᱲᱟᱹ ᱪᱮᱥᱴᱟᱭ ᱢᱮ</string>
-
     <string name="network_browsing">ᱞᱚᱠᱟᱞ ᱱᱮᱴᱣᱟᱨᱠ</string>
     <string name="browsing">ᱵᱨᱟᱩᱡᱽᱤᱝ</string>
 
@@ -659,7 +656,6 @@
 
     <string name="swipe_unlock">ᱟᱱᱞᱚᱠ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱥᱣᱟᱤᱯ ᱢᱮ</string>
     <string name="sub_result_by_name_episode">ᱮᱯᱤᱥᱚᱰ %s</string>
-
     <string name="donate">VLC ᱜᱚᱲᱚᱟᱭ ᱢᱮ</string>
     <string name="tip_jar">VLC ᱜᱚᱲᱚ ᱞᱮᱢ</string>
     <string name="thank_you">ᱟᱢ ᱥᱟᱨᱦᱟᱣ</string>

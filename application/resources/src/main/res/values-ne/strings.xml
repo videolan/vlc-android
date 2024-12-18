@@ -324,7 +324,6 @@
     <string name="popup_keepscreen_summary">भिडियो पज हुँदा समेत पप-अप प्रदर्शित हुँदा स्क्रिन सधैँ अन राख्नुहोस्</string>
     <string name="browser_show_hidden_files_title">लुकेका फाइलहरू देखाउनुहोस्</string>
     <string name="enable_video_screenshot">स्क्रिशट लिनुहोस्</string>
-
     <string name="subtitles_prefs_category">उपशीर्षकहरू</string>
     <string name="subtitles_size_title">उपशीर्षकको आकार</string>
     <string name="subtitles_size_small">सानो</string>
@@ -397,7 +396,6 @@
     <string name="clear_log">लग खाली गर्नुहोस्</string>
     <string name="copy_to_clipboard">क्लिपबोर्डमा प्रतिलिपीगर्नुहोस्</string>
     <string name="custom_libvlc_options_invalid">अमान्य libVLC विकल्पहरू!</string>
-
     <string name="serious_crash">संयोगवश, गम्भीर त्रुटि भयो र VLC बन्द गर्नुपर्‍यो।</string>
     <string name="help_us_send_log">निम्न त्रुटिलग पठाएर VLC लाई राम्रो बनाउन सहयोग गर्नुहोस:</string>
     <string name="restart_vlc">VLCलाई फेरि सुरु गर्नुहोस</string>
@@ -411,8 +409,6 @@
     <string name="no_result">कुनै नतिजा फेला परेन</string>
     <string name="no_internet_connection">तपाईँको इन्टरनेट जडान जाँच गर्नुहोस्</string>
     <string name="retry">पुनः प्रयास गर्नुहोस्</string>
-    <string name="subs_download_error">सेवा उपलब्ध छैन। कृपया केही समयपछि प्रयास गर्नुहोस्</string>
-
     <string name="network_browsing">लोकल नेटवर्क</string>
     <string name="browsing">ब्राउजिङ</string>
 
@@ -643,7 +639,6 @@
     <string name="sub_result_by_name">%s का लागि नतिजाहरू</string>
     <string name="sub_result_by_name_season">सिजन %s</string>
     <string name="sub_result_by_name_episode">श्रृङ्खला %s </string>
-
     <string name="sub_result_by_file">तपाईँको फाइलको लागि नतिजा</string>
     <string name="donate">VLC मद्दत</string>
     <string name="donate_desc">VLC निर्माण गर्न स्वयंसेवकहरूलाई सहायता गर्नुहोस्</string>

@@ -556,8 +556,6 @@
     <string name="no_result">Tiada keputusan ditemui</string>
     <string name="no_internet_connection">Periksa sambungan internet anda</string>
     <string name="retry">Cuba lagi</string>
-    <string name="subs_download_error">Perkhidmatan tidak tersedia. Cuba sekali lagi nanti</string>
-
     <string name="network_browsing">Rangkaian Setempat</string>
     <string name="browsing">Pelayaran</string>
 
@@ -624,9 +622,6 @@
     <string name="click_here">Klik di sini untuk ketahui lebih lanjut.</string>
     <string name="allow_storage_access_title">Benarkan VLC mencapai fail video dan audio</string>
     <string name="allow_storage_access_description">VLC memerlukan keizinan anda untuk mencapai fail media dalam peranti ini.</string>
-    <string name="allow_storage_manager_title">Benarkan VLC mencapai semua fail</string>
-    <string name="allow_storage_manager_description">%s\n\nBeri keizinan?</string>
-    <string name="allow_storage_manager_explanation">Untuk mendapatkan semua keupayaan VLC dan sokongan bagi semua jenis media fail, kami sangat sarankan anda memberi keizinan ini.</string>
     <string name="partial_content">VLC tidak dapat mencapai semua fail anda</string>
     <string name="partial_content_description">Bermula dengan Android 11, aplikasi perlu dapatkan keizinan untuk mencapai semua fail peranti.\n\n %s</string>
     <string name="never_ask_again">Jangan tanya lagi</string>
@@ -935,7 +930,6 @@
     <string name="sub_result_by_name">Keputusan untuk %s</string>
     <string name="sub_result_by_name_season">Musim %s</string>
     <string name="sub_result_by_name_episode">Episod %s</string>
-
     <string name="sub_result_by_file">Keputusan untuk fail anda</string>
     <string name="donate">Bantu VLC</string>
     <string name="donate_desc">Sokong para sukarelawan yang membina VLC</string>
@@ -1254,4 +1248,5 @@
     <string name="restore_settings">Pulih tetapan</string>
     <string name="export_settings_success">Tetapan berjaya dieksport ke dalam root storan dalaman</string>
     <string name="export_settings_failure">Ada masalah berlaku ketika mengeksport tetapan anda</string>
-</resources>
+
+    </resources>

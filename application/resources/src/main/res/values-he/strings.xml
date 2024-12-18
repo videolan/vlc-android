@@ -86,6 +86,12 @@
     <string name="albums">אלבומים</string>
     <string name="tracks">רצועות</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">סימנייה שמורה</item>
+        <item quantity="two">%d סימניות שמורות</item>
+        <item quantity="other">%d סימניות שמורות</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">אלבום אחד</item>
         <item quantity="two">%d אלבומים</item>
@@ -181,6 +187,7 @@
     <string name="track_codec_info">מפענח: %1$s\n</string>
     <string name="track_language_info">שפה: %1$s\n</string>
     <string name="volume">עצמת שמע</string>
+    <string name="system_volume_disabled">%s\nאין גישה לכרך המערכת</string>
     <string name="sound_on">שמע פעיל</string>
     <string name="sound_off">שמע כבוי</string>
     <string name="brightness">בהירות</string>
@@ -297,6 +304,7 @@
     <string name="authors">יוצרים</string>
     <string name="vlc_authors">ויוצרי VLC.</string>
     <string name="is_compiled_by">נבנה על ידי</string>
+    <string name="is_signed_by">נחתם על ידי</string>
     <string name="sources">קוד המקור</string>
     <string name="libraries">ספריות</string>
     <string name="feedback_forum">פורום משוב</string>
@@ -584,7 +592,7 @@
     <string name="no_result">לא נמצאו תוצאות</string>
     <string name="no_internet_connection">נא לבדוק את החיבור שלך לאינטרנט</string>
     <string name="retry">לנסות שוב</string>
-    <string name="subs_download_error">השירות אינו זמין. נא לנסות שוב מאוחר יותר</string>
+    <string name="open_subs_download_error">OpenSubtitles לא זמין כרגע. נא לנסות שוב מאוחר יותר</string>
 
     <string name="network_browsing">רשת מקומית</string>
     <string name="browsing">עיון</string>
@@ -606,6 +614,7 @@
     <string name="go_to_chapter">מעבר לפרק…</string>
     <string name="current_chapter">פרק: %s</string>
     <string name="confirm_resume">להמשיך מהמיקום האחרון?</string>
+    <string name="apply_playqueue">החלה על כל תור הנגינה</string>
     <string name="confirm_resume_title">להמשיך סרטונים שנעצרו</string>
     <string name="confirm_resume_audio_title">להמשיך קטע שמע שהתנגן</string>
     <string name="tv_ui_title">מנשק טלוויזיית אנדרויד</string>
@@ -652,9 +661,6 @@
     <string name="click_here">לחיצה כאן תציג מידע נוסף.</string>
     <string name="allow_storage_access_title">יש לאפשר ל־VLC לגשת לקובצי סרטונים ושמע</string>
     <string name="allow_storage_access_description">ל־VLC נדרשת ההרשאה הזאת כדי לגשת לקובצי המדיה בהתקן זה.</string>
-    <string name="allow_storage_manager_title">לאפשר ל־VLC גישה לכל הקבצים</string>
-    <string name="allow_storage_manager_description">%s\n\nלהעניק הרשאה?</string>
-    <string name="allow_storage_manager_explanation">כדי לקבל את כל היכולות של VLC ואת התמיכה בכל סוגי קובצי המדיה, אנו ממליצים בחום להעניק את ההרשאה הזאת.</string>
     <string name="partial_content">ל־VLC אין גישה לכל הקבצים שלך</string>
     <string name="partial_content_description">החל מ־Android 11, יישומים זקוקים להרשאה מיוחדת כדי לגשת לכל הקבצים במכשיר.\n\n%s</string>
     <string name="never_ask_again">לעולם לא לשאול שוב</string>
@@ -705,6 +711,19 @@
     <string name="popup_playback">מתנגן במצב חלונית</string>
     <string name="popup_expand">הרחבת הסרטון</string>
     <string name="download_subtitles">הורדת כתוביות</string>
+    <string name="powered_opensubtitles">מופעל על גבי OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">לא נכנסת ל־OpenSubtitles\nכניסה תעניק לך גישה להורדות נוספות</string>
+    <string name="open_subtitles_logged_in">נכנסת בתור %1$s</string>
+    <string name="open_subtitles_limits">נותרו לך %1$s הורדות מתוך %2$s. המגבלה שלך תתאפס ב־%3$s.</string>
+    <string name="open_subtitles_vip">יש לך מינוי אח״מים (VIP) ל־OpenSubtitles</string>
+    <string name="open_subtitles_register">הרשמה</string>
+    <string name="open_subtitles_log_out">יציאה</string>
+    <string name="open_subtitles_username">שם משתמש</string>
+    <string name="open_subtitles_password">סיסמה</string>
+    <string name="open_subtitles_is_vip">חשבון אח״מים (VIP)</string>
+    <string name="open_subtitles_is_not_vip">חשבון רגיל</string>
+    <string name="login_error">פרטי גישה שגויים</string>
+    <string name="unknown_error">שגיאה מפתיעה</string>
     <string name="browse_folder">עיון בתיקייה</string>
     <string name="listen">האזנה</string>
     <string name="apply_to_bt">החלה על התקן Bluetooth</string>
@@ -788,12 +807,14 @@
     <string name="rename_media">שינוי השם של %1$s</string>
     <string name="manual_search">חיפוש ידני</string>
     <string name="subtitle_search_name_hint">שם</string>
+    <string name="subtitle_query_edit">עריכת שאילתת חיפוש כתוביות</string>
     <string name="subtitle_search_episode_hint">פרק</string>
     <string name="subtitle_search_season_hint">עונה</string>
     <string name="subtitles_download_failed">ההורדה נכשלה</string>
     <string name="language_to_download">שפה</string>
     <string name="delete_the_selected">מחיקת הבחירה</string>
     <string name="download_the_selected">הורדת הבחירה</string>
+    <string name="no_sub_history">אין כתוביות לסוג המדיה הזה</string>
     <string name="next">הבא</string>
     <string name="skip">דילוג</string>
     <string name="next_step">הבא</string>
@@ -813,6 +834,8 @@
     <string name="welcome_title">ברוך בואך אל VLC!</string>
     <string name="welcome_subtitle">נגן המולטימדיה החופשי בקוד פתוח</string>
     <string name="permission_media">ל־VLC נדרשת הרשאתך כדי לגשת למדיה במכשיר שלך</string>
+    <string name="permission_video">ל־VLC דרושה הרשאה כדי לגשת למדיה מסוג וידאו במכשיר שלך</string>
+    <string name="permission_audio">ל־VLC דרושה הרשאה כדי לגשת למדיה מסוג שמע במכשיר שלך</string>
     <string name="medialibrary_scan_explanation">ל־VLC יש אפשרות לסרוק את ההתקן שלך אוטומטית כדי לארגן את אוסף המדיה שלך.</string>
     <string name="onboarding_theme_title">להרגיש כמו בבית</string>
     <string name="done">סיום</string>
@@ -967,6 +990,7 @@
     <string name="sub_result_by_name">תוצאות עבור %s</string>
     <string name="sub_result_by_name_season">עונה %s</string>
     <string name="sub_result_by_name_episode">פרק %s</string>
+    <string name="sub_result_by_name_hearing_impaired">לכבדי שמיעה בלבד</string>
 
     <string name="sub_result_by_file">תוצאות לקובץ שלך</string>
     <string name="donate">סיוע ל־VLC</string>
@@ -1010,6 +1034,9 @@
     <string name="audio_delay_bt">השהיית התקן ה־Bluetooth הוגדרה ל־%s מילישניות</string>
     <string name="warning_stream_speed">הגברת מהירות הנגינה מעבר ל־1 עבור תזרימים עשויה לגרום לגמגום</string>
     <string name="go_to_folder">עיון בהורה</string>
+    <string name="go_to_album">מעבר לאלבום</string>
+    <string name="go_to_artist">מעבר לאומן</string>
+    <string name="go_to_album_artist">מעבר לאומן האלבום</string>
     <string name="create_shortcut">יצירת קיצור דרך למשגר</string>
     <string name="no_sub_renderer">עדיין אין תמיכה בכתוביות כחלק מתזרים</string>
     <string name="enqueuing">המדיה שלך נטענת</string>
@@ -1083,6 +1110,14 @@
     <string name="notification_permission">הרשאה להתראות</string>
     <string name="notification_permission_explanation">ל־VLC דרושה הרשאתך לשלוח התראות.\nהיישומון יודיע לך רק כאשר המדיה שלך נסרקת או שנעשה שימוש בסרטון מותאם עם תמונה בתוך תמונה.\nסירוב להרשאה לא ימנע מ־VLC לעבוד אך ההתראות תוסתרנה.</string>
     <string name="permission">הרשאה</string>
+    <string name="permission_no_access">אין גישה לקבצים</string>
+    <string name="permissions">הרשאות</string>
+    <string name="permissions_summary">רשימת כל ההרשאות</string>
+    <string name="manage_storage_permission">הרשאות קבצים</string>
+    <string name="permission_media_title">גישה למדיה רגילה</string>
+    <string name="permission_all_title">גישה לכל הקבצים</string>
+    <string name="permission_all_warning">כדי להפעיל את זה, צריך להשבית קודם את הגישה לקובצי מדיה רגילים</string>
+    <string name="permission_media_warning">כדי להפעיל את זה, צריך להשבית קודם את ההרשאה לכל הקבצים</string>
     <string name="customize">התאמה אישית</string>
     <string name="selection_count">%d נבחרו</string>
     <string name="control_setting">בקרת הגדרות</string>
@@ -1292,4 +1327,17 @@
     <string name="restore_settings">שחזור הגדרות</string>
     <string name="export_settings_success">ההגדרות יוצאו בהצלחה לשורש האחסון הפנימי</string>
     <string name="export_settings_failure">משהו השתבש בעת ייצוא ההגדרות שלך</string>
+
+    <string name="queue_info">פרטי תור</string>
+    <string name="queue_info_none">לא להציג את המקום בתור</string>
+    <string name="queue_info_before_title">לפני הכותרת</string>
+    <string name="queue_info_after_title">אחרי הכותרת</string>
+    <string name="queue_info_before_subtitle">לפי הכתובית</string>
+
+    <string name="title_size">גודל כתב הכותרת</string>
+    <string name="subtitle_size">גודל כתב כתובית</string>
+
+    <string name="queue_format">צורת תור</string>
+    <string name="queue_format_short_desc">מקום בתור</string>
+    <string name="queue_format_long_desc">מקום בתור / גודל התור</string>
 </resources>

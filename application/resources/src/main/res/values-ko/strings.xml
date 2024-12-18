@@ -168,7 +168,6 @@
     <string name="jump_to_time">시간으로 이동하기</string>
     <string name="subtitle_select">자막 파일 선택하기</string>
     <string name="wait_before_sleep">현재 미디어 항목이 먼저 완료될 때까지 대기하기</string>
-
     <string name="server_add_title">즐겨찾기에 새로운 서버 추가하기</string>
     <string name="server_domain_hint">서버 주소 (도메인 이름 또는 IP)</string>
     <string name="server_share_hint">네트워크 공유 이름 (또는 IP 주소)</string>
@@ -338,7 +337,6 @@
     <string name="browser_show_hidden_files_title">숨김 파일 표시</string>
     <string name="albums_show_track_numbers">트랙 번호 표시하기</string>
     <string name="enable_video_screenshot">스크린숏 찍기</string>
-
     <string name="subtitles_prefs_category">자막</string>
     <string name="subtitles_size_title">자막 크기</string>
     <string name="subtitles_presets_title">자막 프리셋</string>
@@ -498,7 +496,6 @@
     <string name="dump_logcat_failure">Logcat 덤프에 실패했습니다.</string>
     <string name="custom_libvlc_options">사용자 지정 libVLC 옵션</string>
     <string name="custom_libvlc_options_invalid">잘못된 libVLC 옵션입니다!</string>
-
     <string name="serious_crash">VLC에 심각한 오류가 발생해서 종료되었습니다.</string>
     <string name="help_us_send_log">다음의 충돌 로그를 보내서 VLC를 개선하도록 도와주세요:</string>
     <string name="restart_vlc">VLC 재시작하기</string>
@@ -512,8 +509,6 @@
     <string name="no_result">검색된 결과가 없습니다</string>
     <string name="no_internet_connection">인터넷 연결 상태를 확인하세요</string>
     <string name="retry">재시도</string>
-    <string name="subs_download_error">현재 서비스를 이용할 수 없습니다. 다시 시도해주세요</string>
-
     <string name="network_browsing">로컬 네트워크</string>
     <string name="browsing">찾아보기</string>
 
@@ -556,9 +551,6 @@
     <string name="click_here">여기를 눌러 더 알아보세요.</string>
     <string name="allow_storage_access_title">VLC에서 비디오과 오디오 파일에 접근합니다</string>
     <string name="allow_storage_access_description">이 장치에서 VLC가 미디어 파일에 접근하려면 사용자의 승인이 필요합니다.</string>
-    <string name="allow_storage_manager_title">VLC 모든 파일 액세스 허용</string>
-    <string name="allow_storage_manager_description">%s\n\n권한을 부여하시겠습니까?</string>
-    <string name="allow_storage_manager_explanation">VLC의 모든 기능과 모든 유형의 미디어 파일 지원을 얻으려면 이 권한을 부여하는 것이 좋습니다.</string>
     <string name="partial_content">VLC가 일부 파일에 액세스할 수 없습니다</string>
     <string name="partial_content_description">Android 11부터 응용프로그램은 모든 기기의 파일에 액세스하려면 특별한 권한이 필요합니다.\n\n%s</string>
     <string name="never_ask_again">다시 묻지 않음</string>
@@ -859,7 +851,6 @@
     <string name="sub_result_by_name">%s에 대한 결과</string>
     <string name="sub_result_by_name_season">시즌 %s</string>
     <string name="sub_result_by_name_episode">에피소드 %s</string>
-
     <string name="sub_result_by_file">파일에 대한 결과</string>
     <string name="donate">VLC에 도움 주기</string>
     <string name="donate_desc">VLC 개발 자원자들을 지원하기</string>

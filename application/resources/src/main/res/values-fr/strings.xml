@@ -85,6 +85,12 @@
     <string name="albums">Albums</string>
     <string name="tracks">Pistes</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Favori sauvegardé</item>
+        <item quantity="many">%d Favoris sauvegardés</item>
+        <item quantity="other">%d Favoris sauvegardés</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="many">%d albums</item>
@@ -177,6 +183,7 @@
     <string name="track_codec_info">Codec : %1$s\n</string>
     <string name="track_language_info">Langue : %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="system_volume_disabled">%s\nPas d’accès au volume système</string>
     <string name="sound_on">Son</string>
     <string name="sound_off">Muet</string>
     <string name="brightness">Luminosité</string>
@@ -292,6 +299,7 @@
     <string name="authors">Auteurs</string>
     <string name="vlc_authors">et les auteurs de VLC</string>
     <string name="is_compiled_by">Compilé par</string>
+    <string name="is_signed_by">Signé par</string>
     <string name="sources">Code source</string>
     <string name="libraries">Bibliothèques</string>
     <string name="feedback_forum">Forum d’entraide</string>
@@ -579,7 +587,7 @@
     <string name="no_result">Aucun résultat trouvé</string>
     <string name="no_internet_connection">Vérifiez votre connexion Internet</string>
     <string name="retry">Réessayer</string>
-    <string name="subs_download_error">Service indisponible. Veuillez réessayer plus tard</string>
+    <string name="open_subs_download_error">OpenSubtitles est actuellement indisponible. Veuillez réessayer plus tard</string>
 
     <string name="network_browsing">Réseau local</string>
     <string name="browsing">Navigation</string>
@@ -601,6 +609,7 @@
     <string name="go_to_chapter">Aller au chapitre…</string>
     <string name="current_chapter">Chapitre : %s</string>
     <string name="confirm_resume">Reprendre depuis la dernière position ?</string>
+    <string name="apply_playqueue">Appliquer pour toute la file d’attente</string>
     <string name="confirm_resume_title">Reprendre les vidéos lues</string>
     <string name="confirm_resume_audio_title">Reprise de l’audio lu</string>
     <string name="tv_ui_title">Interface Android TV</string>
@@ -647,9 +656,6 @@
     <string name="click_here">Cliquez ici pour en savoir plus.</string>
     <string name="allow_storage_access_title">Permettre l’accès aux fichiers vidéos et audios à VLC</string>
     <string name="allow_storage_access_description">VLC a besoin de votre permission pour accéder aux fichiers multimédias de cet appareil.</string>
-    <string name="allow_storage_manager_title">Autoriser VLC à accéder à tous les fichiers</string>
-    <string name="allow_storage_manager_description">%s\n\nAccorder la permission ?</string>
-    <string name="allow_storage_manager_explanation">Pour bénéficier de toutes les capacités de VLC et de la prise en charge de tous les types de fichiers multimédias, nous vous conseillons vivement d’accorder cette autorisation.</string>
     <string name="partial_content">VLC ne peut pas accéder à tous vos fichiers</string>
     <string name="partial_content_description">À partir d’Android 11, les applications ont besoin d’une autorisation spéciale pour accéder à tous les fichiers de l’appareil.\n\n%s</string>
     <string name="never_ask_again">Ne plus jamais demander</string>
@@ -700,6 +706,19 @@
     <string name="popup_playback">Lecture dans une fenêtre popup</string>
     <string name="popup_expand">Maximiser la vidéo</string>
     <string name="download_subtitles">Télécharger des sous-titres</string>
+    <string name="powered_opensubtitles">Développé par OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Vous n’êtes pas connecté à OpenSubtitles.\nEn vous connectant, vous aurez accès à plus de téléchargements</string>
+    <string name="open_subtitles_logged_in">Connecté en tant que %1$s</string>
+    <string name="open_subtitles_limits">Il reste %1$s à télécharger sur %2$s. Votre limite sera réinitialisée à %3$s.</string>
+    <string name="open_subtitles_vip">Vous êtes un utilisateur VIP d’OpenSubtitles</string>
+    <string name="open_subtitles_register">S’inscrire</string>
+    <string name="open_subtitles_log_out">Se déconnecter</string>
+    <string name="open_subtitles_username">Nom d’utilisateur</string>
+    <string name="open_subtitles_password">Mot de passe</string>
+    <string name="open_subtitles_is_vip">Compte VIP</string>
+    <string name="open_subtitles_is_not_vip">Compte standard</string>
+    <string name="login_error">Informations d’identification invalides</string>
+    <string name="unknown_error">Erreur inattendue</string>
     <string name="browse_folder">Ouvrir le dossier</string>
     <string name="listen">Écouter</string>
     <string name="apply_to_bt">Appliquer au périphérique Bluetooth</string>
@@ -783,12 +802,14 @@
     <string name="rename_media">Renommer %1$s</string>
     <string name="manual_search">Recherche manuelle</string>
     <string name="subtitle_search_name_hint">Nom</string>
+    <string name="subtitle_query_edit">Modifier la requête de recherche de sous-titres</string>
     <string name="subtitle_search_episode_hint">Épisode</string>
     <string name="subtitle_search_season_hint">Saison</string>
     <string name="subtitles_download_failed">Échec du téléchargement</string>
     <string name="language_to_download">Langue</string>
     <string name="delete_the_selected">Supprimer la sélection</string>
     <string name="download_the_selected">Télécharger la sélection</string>
+    <string name="no_sub_history">Pas de sous-titre pour ce média</string>
     <string name="next">Suivant</string>
     <string name="skip">Passer</string>
     <string name="next_step">Suivant</string>
@@ -808,6 +829,8 @@
     <string name="welcome_title">Bienvenue dans VLC !</string>
     <string name="welcome_subtitle">Le lecteur multimédia gratuit et libre</string>
     <string name="permission_media">VLC a besoin de votre permission pour accéder aux médias sur votre appareil</string>
+    <string name="permission_video">VLC a besoin de votre autorisation pour accéder aux médias vidéo sur votre appareil</string>
+    <string name="permission_audio">VLC a besoin de votre autorisation pour accéder aux médias audio sur votre appareil</string>
     <string name="medialibrary_scan_explanation">VLC peut analyser automatiquement votre appareil pour organiser votre collection de médias.</string>
     <string name="onboarding_theme_title">Faites comme chez vous</string>
     <string name="done">Terminé</string>
@@ -962,6 +985,7 @@
     <string name="sub_result_by_name">Résultats pour %s</string>
     <string name="sub_result_by_name_season">Saison %s</string>
     <string name="sub_result_by_name_episode">Épisode %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Malentendants uniquement</string>
 
     <string name="sub_result_by_file">Résultats pour votre fichier</string>
     <string name="donate">Aider VLC</string>
@@ -1005,6 +1029,9 @@
     <string name="audio_delay_bt">Le retard audio est réglé sur %s ms pour le périphérique Bluetooth.</string>
     <string name="warning_stream_speed">L’augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
     <string name="go_to_folder">Parcourir le parent</string>
+    <string name="go_to_album">Accéder à l’album</string>
+    <string name="go_to_artist">Accéder à l’artiste</string>
+    <string name="go_to_album_artist">Accéder à l’artiste de l’album</string>
     <string name="create_shortcut">Créer un raccourci pour le lanceur</string>
     <string name="no_sub_renderer">Les sous-titres ne sont pas encore pris en charge lors du casting</string>
     <string name="enqueuing">Chargement de votre média</string>
@@ -1078,6 +1105,14 @@
     <string name="notification_permission">Autorisation de notification</string>
     <string name="notification_permission_explanation">VLC a besoin de votre autorisation pour envoyer des notifications.\nL’application vous notifiera uniquement lorsque vous analyserez vos médias ou que vous utiliserez l’incrustation vidéo.\nRefuser cette autorisation n’empêchera pas VLC de fonctionner, mais les notifications seront masquées.</string>
     <string name="permission">Permission</string>
+    <string name="permission_no_access">Pas d’accès au fichier</string>
+    <string name="permissions">Autorisations</string>
+    <string name="permissions_summary">Liste de toutes les autorisations</string>
+    <string name="manage_storage_permission">Droits d’accès aux fichiers</string>
+    <string name="permission_media_title">Accès aux médias standards</string>
+    <string name="permission_all_title">Accès à tous les fichiers</string>
+    <string name="permission_all_warning">Pour activer cette fonction, vous devez d’abord désactiver l’accès standard aux fichiers multimédias</string>
+    <string name="permission_media_warning">Pour activer cette fonction, vous devez d’abord désactiver les droits d’accès à tous les fichiers</string>
     <string name="customize">Personnaliser</string>
     <string name="selection_count">%d sélectionné</string>
     <string name="control_setting">Paramètres de contrôle</string>
@@ -1285,4 +1320,17 @@
     <string name="restore_settings">Restaurer les paramètres</string>
     <string name="export_settings_success">Paramètres exportés avec succès vers le stockage interne root</string>
     <string name="export_settings_failure">Une erreur s’est produite lors de l’exportation de vos paramètres</string>
+
+    <string name="queue_info">Informations sur la file d’attente</string>
+    <string name="queue_info_none">Ne pas afficher la position de la file d’attente</string>
+    <string name="queue_info_before_title">Avant le titre</string>
+    <string name="queue_info_after_title">Après le titre</string>
+    <string name="queue_info_before_subtitle">Avant le sous-titre</string>
+
+    <string name="title_size">Taille du texte du titre</string>
+    <string name="subtitle_size">Taille du texte du sous-titre</string>
+
+    <string name="queue_format">Format de la file d’attente</string>
+    <string name="queue_format_short_desc">Position dans la file d’attente</string>
+    <string name="queue_format_long_desc">Position dans la file d’attente / Taille de la file d’attente</string>
 </resources>

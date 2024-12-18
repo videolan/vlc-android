@@ -211,7 +211,6 @@
     <string name="wait_before_sleep">Počkejte na skončení aktuální mediální položky</string>
     <string name="reset_on_interaction">Reset při jakékoliv interakci</string>
     <string name="default_sleep_timer_summary">%1$s, počkat na konec média %2$s, reset při interakci: %3$s</string>
-
     <string name="server_add_title">Přidat nový server do Oblíbené</string>
     <string name="server_domain_hint">Adresa serveru (název domény nebo IP adresa)</string>
     <string name="server_share_hint">Sdílené síťové umístění (název sítě nebo IP adresa)</string>
@@ -581,8 +580,6 @@
     <string name="no_result">Žádné výsledky</string>
     <string name="no_internet_connection">Zkontrolujte internetové připojení.</string>
     <string name="retry">Opakovat</string>
-    <string name="subs_download_error">Služba není dostupná. Zkuste to později znovu.</string>
-
     <string name="network_browsing">Místní síť</string>
     <string name="browsing">Procházet…</string>
 
@@ -630,9 +627,6 @@
     <string name="click_here">Klikněte zde pro více informací.</string>
     <string name="allow_storage_access_title">Povolit aplikaci VLC přístup k video a zvukovým souborům</string>
     <string name="allow_storage_access_description">Aplikace VLC vyžaduje oprávnění pro přístup k multimediálním souborům na tomto zařízení.</string>
-    <string name="allow_storage_manager_title">Povolit aplikaci VLC přístup k souborům</string>
-    <string name="allow_storage_manager_description">%s\n\nChcete povolit oprávnění?</string>
-    <string name="allow_storage_manager_explanation">Doporučujeme povolit toto oprávnění pro získání všech možnosti VLC a pro podporu všech typů mediálních souborů.</string>
     <string name="partial_content">VLC nemá přístup ke všem souborům</string>
     <string name="partial_content_description">Od Androidu 11 potřebují aplikace pro přístup k souborům v zařízení speciální oprávnění.\n\n%s</string>
     <string name="never_ask_again">Znovu se nedotazovat</string>
@@ -946,7 +940,6 @@
     <string name="sub_result_by_name">Výsledky pro %s</string>
     <string name="sub_result_by_name_season">Řada %s</string>
     <string name="sub_result_by_name_episode">Epizoda %s</string>
-
     <string name="sub_result_by_file">Výsledky pro Váš soubor</string>
     <string name="donate">Přispět VLC</string>
     <string name="donate_desc">Podpořte dobrovolné tvůrce aplikace VLC</string>

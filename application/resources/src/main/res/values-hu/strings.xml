@@ -84,6 +84,11 @@
     <string name="albums">Albumok</string>
     <string name="tracks">Számok</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 mentett könyvjelző</item>
+        <item quantity="other">%d mentett könyvjelző</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
@@ -168,6 +173,7 @@
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Nyelv: %1$s\n</string>
     <string name="volume">Hangerő</string>
+    <string name="system_volume_disabled">%s\nNincs hozzáférés a rendszerkötethez</string>
     <string name="sound_on">Hang be</string>
     <string name="sound_off">Hang ki</string>
     <string name="brightness">Fényerő</string>
@@ -191,6 +197,9 @@
     <string name="wait_before_sleep">Várakozás az aktuális média befejezésére</string>
     <string name="reset_on_interaction">Visszaállítás bármilyen interakcióra</string>
     <string name="default_sleep_timer_summary">%1$s, várakozás a média befejezésére: %2$s, visszaállítás interakcióra: %3$s</string>
+    <string name="video_player_remote">Videólejátszó-távirányító</string>
+    <string name="remote_keyboard_navigation">Billentyűzetes navigáció</string>
+
     <string name="server_add_title">Új kiszolgáló hozzáadása a kedvencekhez</string>
     <string name="server_domain_hint">Kiszolgálócím (doménnév vagy IP-cím)</string>
     <string name="server_share_hint">Hálózati megosztás neve (vagy IP-címe)</string>
@@ -279,6 +288,7 @@
     <string name="authors">Szerzők</string>
     <string name="vlc_authors">és a VLC szerzői.</string>
     <string name="is_compiled_by">Fordította:</string>
+    <string name="is_signed_by">Aláírta:</string>
     <string name="sources">Forráskód</string>
     <string name="libraries">Programkönyvtárak</string>
     <string name="feedback_forum">Visszajelző fórum</string>
@@ -566,7 +576,7 @@
     <string name="no_result">Nincs találat</string>
     <string name="no_internet_connection">Ellenőrizze az internetkapcsolatát</string>
     <string name="retry">Újra</string>
-    <string name="subs_download_error">A szolgáltatás nem érhető el, próbálja újra később</string>
+    <string name="open_subs_download_error">Az OpenSubtitles jelenleg nem érhető el. Próbálja újra később.</string>
 
     <string name="network_browsing">Helyi hálózat</string>
     <string name="browsing">Tallózás</string>
@@ -588,6 +598,7 @@
     <string name="go_to_chapter">Fejezethez ugrás…</string>
     <string name="current_chapter">Fejezet: %s</string>
     <string name="confirm_resume">Folytatja az utolsó pozícióról?</string>
+    <string name="apply_playqueue">Alkalmazás a teljes lejátszási sorra</string>
     <string name="confirm_resume_title">Lejátszott videók folytatása</string>
     <string name="confirm_resume_audio_title">Lejátszott hang folytatása</string>
     <string name="tv_ui_title">Android TV felület</string>
@@ -634,9 +645,6 @@
     <string name="click_here">Kattintson ide, hogy többet tudjon meg.</string>
     <string name="allow_storage_access_title">A VLC hozzáférhet a videó- és hangfájlokhoz</string>
     <string name="allow_storage_access_description">A VLC-nek szüksége van erre az engedélyre a médiafájlok eléréséhez az eszközén.</string>
-    <string name="allow_storage_manager_title">Engedélyezés, hogy a VLC elérje az összes fájlt</string>
-    <string name="allow_storage_manager_description">%s\n\nMegadja az engedélyt?</string>
-    <string name="allow_storage_manager_explanation">A VLC összes képességének kiaknázásához, és az összes médiafájltípus támogatásához erősen javasoljuk, hogy adja meg ezt az engedélyt.</string>
     <string name="partial_content">A VLC nem éri el az összes fájlját</string>
     <string name="partial_content_description">Az Android 11-től kezdve az alkalmazásoknak egy speciális engedélyre van szükségük az eszköz összes fájljának eléréséhez.\n\n%s</string>
     <string name="never_ask_again">Ne kérdezze újra</string>
@@ -687,6 +695,19 @@
     <string name="popup_playback">Lejátszás egy felugró ablakban</string>
     <string name="popup_expand">Videó kinagyítása</string>
     <string name="download_subtitles">Feliratok letöltése</string>
+    <string name="powered_opensubtitles">Üzemelteti az OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Nincs bejelentkezve az OpenSubtitles-be\nA bejelentkezéssel több letöltéshez is hozzáférhet</string>
+    <string name="open_subtitles_logged_in">Bejelentkezve, mint %1$s</string>
+    <string name="open_subtitles_limits">Még %1$s/%2$s letöltése van hátra. Korlátja visszaáll: %3$s.</string>
+    <string name="open_subtitles_vip">Ön VIP OpenSubtitles felhasználó</string>
+    <string name="open_subtitles_register">Regisztráció</string>
+    <string name="open_subtitles_log_out">Kijelentkezés</string>
+    <string name="open_subtitles_username">Felhasználónév</string>
+    <string name="open_subtitles_password">Jelszó</string>
+    <string name="open_subtitles_is_vip">VIP előfizetés</string>
+    <string name="open_subtitles_is_not_vip">Standard előfizetés</string>
+    <string name="login_error">Érvénytelen hitelesítő adatok</string>
+    <string name="unknown_error">Váratlan hiba</string>
     <string name="browse_folder">Mappa tallózása</string>
     <string name="listen">Hallgatás</string>
     <string name="apply_to_bt">Alkalmazás bluetoothos eszközre</string>
@@ -770,12 +791,14 @@
     <string name="rename_media">%1$s átnevezése</string>
     <string name="manual_search">Kézi keresés</string>
     <string name="subtitle_search_name_hint">Név</string>
+    <string name="subtitle_query_edit">Feliratkeresési lekérdezés szerkesztése</string>
     <string name="subtitle_search_episode_hint">Epizód</string>
     <string name="subtitle_search_season_hint">Évad</string>
     <string name="subtitles_download_failed">A letöltés sikertelen</string>
     <string name="language_to_download">Nyelv</string>
     <string name="delete_the_selected">Kiválasztás törlése</string>
     <string name="download_the_selected">Kiválasztás letöltése</string>
+    <string name="no_sub_history">Nincs felirat ehhez a médiához</string>
     <string name="next">Következő</string>
     <string name="skip">Kihagyás</string>
     <string name="next_step">Következő</string>
@@ -795,6 +818,8 @@
     <string name="welcome_title">Üdvözli a VLC!</string>
     <string name="welcome_subtitle">A szabad és nyílt forráskódú multimédialejátszó</string>
     <string name="permission_media">A VLC-nek az engedélyére van szüksége, hogy elérje az eszközén található médiafájlokat</string>
+    <string name="permission_video">A VLC-nek az engedélyére van szüksége ahhoz, hogy hozzáférjen a videófájlokhoz az eszközén</string>
+    <string name="permission_audio">A VLC-nek az engedélyére van szüksége ahhoz, hogy hozzáférjen a hangfájlokhoz az eszközén</string>
     <string name="medialibrary_scan_explanation">A VLC automatikusan át tudja vizsgálni az eszközét, hogy rendszerezze a médiagyűjteményét.</string>
     <string name="onboarding_theme_title">Érezze magát otthon</string>
     <string name="done">Kész</string>
@@ -947,6 +972,7 @@
     <string name="sub_result_by_name">Találatok erre: %s</string>
     <string name="sub_result_by_name_season">%s. évad</string>
     <string name="sub_result_by_name_episode">%s. epizód</string>
+    <string name="sub_result_by_name_hearing_impaired">Csak hallássérültek</string>
 
     <string name="sub_result_by_file">Találatok a fájlhoz</string>
     <string name="donate">Segítse a VLC-t</string>
@@ -990,6 +1016,9 @@
     <string name="audio_delay_bt">A bluetoothos eszköz számára a hangkésleltetés %sms-ra állítva</string>
     <string name="warning_stream_speed">A lejátszási sebesség 1 fölé állítása akadozást okozhat a közvetítéseknél</string>
     <string name="go_to_folder">Szülő tallózása</string>
+    <string name="go_to_album">Ugrás az albumhoz</string>
+    <string name="go_to_artist">Ugrás az előadóhoz</string>
+    <string name="go_to_album_artist">Ugrás az album előadójához</string>
     <string name="create_shortcut">Indítóikon létrehozása</string>
     <string name="no_sub_renderer">A feliratok megjelenítése még nem támogatott vetítés közben</string>
     <string name="enqueuing">A médiafájl betöltése</string>
@@ -1063,6 +1092,14 @@
     <string name="notification_permission">Értesítések engedély</string>
     <string name="notification_permission_explanation">A VLC-nek engedélyre van szüksége van az értesítések küldéséhez.\nAz alkalmazás csak akkor értesít, ha beolvassa a médiát, vagy használja a Kép a képben videót.\nAz elutasítás nem akadályozza meg a VLC működését, azonban az értesítések el lesznek rejtve.</string>
     <string name="permission">Engedély</string>
+    <string name="permission_no_access">Nincs hozzáférés a fájlokhoz</string>
+    <string name="permissions">Engedélyek</string>
+    <string name="permissions_summary">Az összes engedély listája</string>
+    <string name="manage_storage_permission">Fájlengedélyek</string>
+    <string name="permission_media_title">Hozzáférés a szabványos médiához</string>
+    <string name="permission_all_title">Hozzáférés minden fájlhoz</string>
+    <string name="permission_all_warning">Ennek engedélyezéséhez először le kell tiltania a szabványos médiafájlok elérését</string>
+    <string name="permission_media_warning">Ennek engedélyezéséhez először le kell tiltania az összes fájlhoz való elérést</string>
     <string name="customize">Testreszabás</string>
     <string name="selection_count">%d kiválasztva</string>
     <string name="control_setting">Vezérlési beállítások</string>
@@ -1268,4 +1305,17 @@
     <string name="restore_settings">Beállítások helyreállítása</string>
     <string name="export_settings_success">A beállítások sikeresen exportálva lettek a belső tároló gyökerébe</string>
     <string name="export_settings_failure">Hiba történt a beállítások exportálása során</string>
+
+    <string name="queue_info">Lejátszási sor információi</string>
+    <string name="queue_info_none">Ne jelenítse meg a pozíciót a lejátszási sorban</string>
+    <string name="queue_info_before_title">Cím előtt</string>
+    <string name="queue_info_after_title">Cím után</string>
+    <string name="queue_info_before_subtitle">Felirat előtt</string>
+
+    <string name="title_size">Cím szövegmérete</string>
+    <string name="subtitle_size">Felirat szövegmérete</string>
+
+    <string name="queue_format">Lejátszási sor formátuma</string>
+    <string name="queue_format_short_desc">Pozíció a lejátszási sorban</string>
+    <string name="queue_format_long_desc">Pozíció a lejátszási sorban / méret</string>
 </resources>

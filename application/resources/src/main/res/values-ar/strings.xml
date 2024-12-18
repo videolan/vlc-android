@@ -534,8 +534,6 @@
     <string name="no_result">ليس هناك نتائج</string>
     <string name="no_internet_connection">تحقق من اتصال الإنترنت</string>
     <string name="retry">إعادة</string>
-    <string name="subs_download_error">الخدمة غير متوفرة. الرجاء معاودة المحاولة في وقت لاحق</string>
-
     <string name="network_browsing">الشبكة المحلية</string>
     <string name="browsing">تصفح</string>
 
@@ -886,7 +884,6 @@
     <string name="sub_result_by_name">نتائج لـ %s</string>
     <string name="sub_result_by_name_season">الموسم %s</string>
     <string name="sub_result_by_name_episode">الحلقة %s</string>
-
     <string name="sub_result_by_file">نتائج لملفك</string>
     <string name="donate">مساعدة VLC</string>
     <string name="donate_desc">دعم المتطوعين لبناء VLC</string>
@@ -1062,4 +1059,5 @@
     <string name="restore_settings">استعادة الإعدادات</string>
     <string name="export_settings_success">تم تصدير الإعدادات بنجاح إلى جذر التخزين الداخلي</string>
     <string name="export_settings_failure">حدث خطأ أثناء تصدير الإعدادات</string>
-</resources>
+
+    </resources>

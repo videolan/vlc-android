@@ -52,7 +52,7 @@
     <string name="video_app_switch_summary">Vyberte si úkon VLC, ktorý prebehne pri prepnutí na inú aplikáciu počas prehrávania videa</string>
     <string name="play_pip_title">Prehrať videá v režime obrazu v obraze</string>
     <string name="play_as_audio_background">Prehrávať videá na pozadí</string>
-    <string name="append">Pridať do fronty prehrávania</string>
+    <string name="append">Pridať do frontu prehrávania</string>
     <string name="insert_next">Vložiť ako ďalšie</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
@@ -85,6 +85,13 @@
     <string name="artists">Umelci</string>
     <string name="albums">Albumy</string>
     <string name="tracks">Stopy</string>
+
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 uložená záložka</item>
+        <item quantity="few">%d uložené záložky</item>
+        <item quantity="many">%d uložených záložiek</item>
+        <item quantity="other">Uložených záložiek: %d</item>
+    </plurals>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -591,7 +598,7 @@
     <string name="no_result">Nenašli sa žiadne výsledky</string>
     <string name="no_internet_connection">Skontrolujte pripojenie na internet</string>
     <string name="retry">Opakovať</string>
-    <string name="subs_download_error">Služba nie je dostupná. Prosím, skúste to neskôr</string>
+    <string name="open_subs_download_error">Portál OpenSubtitles je momentálne nedostupný. Skúste to neskôr, prosím</string>
 
     <string name="network_browsing">Lokálna sieť</string>
     <string name="browsing">Prehliadanie</string>
@@ -613,6 +620,7 @@
     <string name="go_to_chapter">Prejsť na kapitolu…</string>
     <string name="current_chapter">Kapitola: %s</string>
     <string name="confirm_resume">Pokračovať od poslednej pozície?</string>
+    <string name="apply_playqueue">Použiť pre celý front prehrávania</string>
     <string name="confirm_resume_title">Pokračovať v prehrávaných videách</string>
     <string name="confirm_resume_audio_title">Pokračovať v prehrávaní zvuku</string>
     <string name="tv_ui_title">Rozhranie Android TV</string>
@@ -659,9 +667,6 @@
     <string name="click_here">Ak chcete zistiť viac informácií, kliknite sem.</string>
     <string name="allow_storage_access_title">Povoliť prístup VLC k zvukovým a video-súborom</string>
     <string name="allow_storage_access_description">VLC potrebuje toto oprávnenie na prístup k mediálnym súborom na tomto zariadení.</string>
-    <string name="allow_storage_manager_title">Povoliť VLC prístup ku všetkým súborom</string>
-    <string name="allow_storage_manager_description">%s\n\nUdeliť oprávnenie?</string>
-    <string name="allow_storage_manager_explanation">Pre využitie všetkých schopností aplikácie VLC a kvôli podpore všetkých typov médií dôrazne odporúčame toto povolenie udeliť.</string>
     <string name="partial_content">VLC nemôže pristupovať ku všetkým vašim súborom</string>
     <string name="partial_content_description">Počínajúc systémom Android 11 vyžadujú aplikácie osobitné povolenie na prístup ku všetkým súborom zariadenia.\n\n%s</string>
     <string name="never_ask_again">Už sa nikdy nepýtať</string>
@@ -712,6 +717,19 @@
     <string name="popup_playback">Prehrávanie vo vyskakovacom okne</string>
     <string name="popup_expand">Rozbaliť video</string>
     <string name="download_subtitles">Stiahnuť titulky</string>
+    <string name="powered_opensubtitles">Poskytuje: OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Nie ste prihlásený na portál OpenSubtitles\nPrihlásením si môžete sprístupniť viac sťahovaní</string>
+    <string name="open_subtitles_logged_in">Prihlásený ako: %1$s</string>
+    <string name="open_subtitles_limits">Zostáva %1$s stiahnutí z celkového počtu %2$s. Reset limitu prebehne: %3$s.</string>
+    <string name="open_subtitles_vip">Ste VIP používateľ portálu OpenSubtitles</string>
+    <string name="open_subtitles_register">Zaregistrovať</string>
+    <string name="open_subtitles_log_out">Odhlásiť</string>
+    <string name="open_subtitles_username">Meno používateľa</string>
+    <string name="open_subtitles_password">Heslo</string>
+    <string name="open_subtitles_is_vip">VIP konto</string>
+    <string name="open_subtitles_is_not_vip">Štandardné konto</string>
+    <string name="login_error">Neplatné prihlasovacie údaje</string>
+    <string name="unknown_error">Neočakávaná chyba</string>
     <string name="browse_folder">Prehľadávať priečinok</string>
     <string name="listen">Vypočuť</string>
     <string name="apply_to_bt">Použiť na zariadenie bluetooth</string>
@@ -795,12 +813,14 @@
     <string name="rename_media">Premenovať %1$s</string>
     <string name="manual_search">Manuálne vyhľadávanie</string>
     <string name="subtitle_search_name_hint">Názov</string>
+    <string name="subtitle_query_edit">Upraviť front vyhľadávania titulkov</string>
     <string name="subtitle_search_episode_hint">Epizóda</string>
     <string name="subtitle_search_season_hint">Sezóna</string>
     <string name="subtitles_download_failed">Sťahovanie bolo neúspešné</string>
     <string name="language_to_download">Jazyk</string>
     <string name="delete_the_selected">Vymazať výber</string>
     <string name="download_the_selected">Stiahnuť výber</string>
+    <string name="no_sub_history">Pre toto médium nie sú dostupné titulky</string>
     <string name="next">Ďalej</string>
     <string name="skip">Preskočiť</string>
     <string name="next_step">Ďalej</string>
@@ -820,6 +840,8 @@
     <string name="welcome_title">Vitajte vo VLC!</string>
     <string name="welcome_subtitle">Voľne šíriteľnom multimediálnom prehrávači s otvoreným zdrojovým kódom</string>
     <string name="permission_media">VLC potrebuje Vaše povolenie na prístup k mediálnym súborom v zariadení</string>
+    <string name="permission_video">VLC potrebuje oprávnenie na prístup k video súborom vo vašom zariadení</string>
+    <string name="permission_audio">VLC potrebuje oprávnenie na prístup k zvukovým súborom vo vašom zariadení</string>
     <string name="medialibrary_scan_explanation">VLC môže automaticky preskúmať vaše zariadenie a zorganizovať Vašu zbierku médií.</string>
     <string name="onboarding_theme_title">Cíťte sa tu ako doma</string>
     <string name="done">Hotovo</string>
@@ -976,6 +998,7 @@
     <string name="sub_result_by_name">Výsledky pre %s</string>
     <string name="sub_result_by_name_season">Séria %s</string>
     <string name="sub_result_by_name_episode">Epizóda %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Len sluchovo postihnutí</string>
 
     <string name="sub_result_by_file">Výsledky pre váš súbor</string>
     <string name="donate">Pomoc pre VLC</string>
@@ -1019,6 +1042,9 @@
     <string name="audio_delay_bt">Pre zariadenie bluetooth nastavte oneskorenie zvuku na %s ms</string>
     <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
     <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
+    <string name="go_to_album">Prejsť na album</string>
+    <string name="go_to_artist">Prejsť na umelca</string>
+    <string name="go_to_album_artist">Prejsť na umelca albumu</string>
     <string name="create_shortcut">Vytvoriť odkaz v spúšťači</string>
     <string name="no_sub_renderer">Počas streamovania (castingu) ešte nie sú podporované titulky</string>
     <string name="enqueuing">Načítanie vášho média</string>
@@ -1092,6 +1118,14 @@
     <string name="notification_permission">Oprávnenie pre notifikácie</string>
     <string name="notification_permission_explanation">Aplikácia VLC potrebuje oprávnenie na zasielanie notifikácií.\nAplikácia vás upozorní iba pri skenovaní vašich médií alebo použití používateľského videa v režime obraz v obraze.\nOdmietnutie notifikácií nezabráni fungovaniu VLC, notifikácie však zostanú skryté.</string>
     <string name="permission">Oprávnenie</string>
+    <string name="permission_no_access">Žiadny prístup k súboru</string>
+    <string name="permissions">Oprávnenia</string>
+    <string name="permissions_summary">Zoznam všetkých oprávnení</string>
+    <string name="manage_storage_permission">Súborové oprávnenia</string>
+    <string name="permission_media_title">Prístup k štandardným médiám</string>
+    <string name="permission_all_title">Prístup ku všetkým súborom</string>
+    <string name="permission_all_warning">Ak chcete aktivovať túto voľbu, musíte najskôr deaktivovať prístup k štandardným mediálnym súborom</string>
+    <string name="permission_media_warning">Ak chcete aktivovať túto voľbu, musíte najskôr deaktivovať úplné oprávnenia pre súbor</string>
     <string name="customize">Prispôsobiť</string>
     <string name="selection_count">vybrané: %d</string>
     <string name="control_setting">Nastavenia ovládania</string>
@@ -1301,4 +1335,17 @@
     <string name="restore_settings">Obnoviť nastavenia</string>
     <string name="export_settings_success">Nastavenia boli úspešne exportované do hlavného interného úložiska</string>
     <string name="export_settings_failure">Počas exportovania nastavení došlo k chybe</string>
+
+    <string name="queue_info">Informácia o fronte</string>
+    <string name="queue_info_none">Nezobrazovať pozíciu frontu</string>
+    <string name="queue_info_before_title">Pred názvom</string>
+    <string name="queue_info_after_title">Za názvom</string>
+    <string name="queue_info_before_subtitle">Pred titulkom</string>
+
+    <string name="title_size">Veľkosť textu pre názov</string>
+    <string name="subtitle_size">Veľkosť textu pre titulky</string>
+
+    <string name="queue_format">Formát frontu</string>
+    <string name="queue_format_short_desc">Pozícia frontu</string>
+    <string name="queue_format_long_desc">Pozícia/veľkosť frontu</string>
 </resources>

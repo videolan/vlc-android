@@ -84,6 +84,11 @@
     <string name="albums">Àlbums</string>
     <string name="tracks">Pistes</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Preferit desat</item>
+        <item quantity="other">%d Preferits desats</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 àlbum</item>
         <item quantity="other">%d àlbums</item>
@@ -566,8 +571,6 @@
     <string name="no_result">No s\'ha trobat cap resultat</string>
     <string name="no_internet_connection">Comproveu la connexió a internet</string>
     <string name="retry">Tornar a provar</string>
-    <string name="subs_download_error">Servei no disponible. Si us plau proveu després</string>
-
     <string name="network_browsing">Xarxa local</string>
     <string name="browsing">Navegació</string>
 
@@ -634,9 +637,6 @@
     <string name="click_here">Feu clic aquí per aprendre\'n més.</string>
     <string name="allow_storage_access_title">Deixa que el VLC accedeixi als fitxers de vídeo i àudio</string>
     <string name="allow_storage_access_description">VLC necessita permís per accedir als fitxers multimèdia en aquest dispositiu.</string>
-    <string name="allow_storage_manager_title">Permetre l\'accés del VLC a tots els fitxers</string>
-    <string name="allow_storage_manager_description">%s\n\nDoneu permís?</string>
-    <string name="allow_storage_manager_explanation">Recomanem donar aquest permís per gaudir de totes les possibilitats del VLC i la compatiblitat de tota mena de fitxers multimèdia.</string>
     <string name="partial_content">El VLC no pot accedir a tots els vostres fitxers</string>
     <string name="partial_content_description">Amb l\'Android 11 cal un permís especial perquè les aplicacions accedeixin a tots els fitxers del dispositiu.\n\n%s</string>
     <string name="never_ask_again">No ho tornis a demanar</string>
@@ -687,6 +687,12 @@
     <string name="popup_playback">Reproduint en un pop-up</string>
     <string name="popup_expand">Fés gran el vídeo</string>
     <string name="download_subtitles">Baixa els subtítols</string>
+    <string name="open_subtitles_username">Nom d\'usuari</string>
+    <string name="open_subtitles_password">Contrasenya</string>
+    <string name="open_subtitles_is_vip">Compte VIP</string>
+    <string name="open_subtitles_is_not_vip">Compte estàndard</string>
+    <string name="login_error">Credencials no vàlides</string>
+    <string name="unknown_error">Error inesperat</string>
     <string name="browse_folder">Explora la carpeta</string>
     <string name="listen">Escolta</string>
     <string name="apply_to_bt">Aplica al dispositiu bluetooth</string>
@@ -795,6 +801,7 @@
     <string name="welcome_title">Us donem la benvinguda al VLC!</string>
     <string name="welcome_subtitle">El reproductor multimèdia gratuït i de codi lliure</string>
     <string name="permission_media">VLC necessita el vostre permís per accedir als arxius multimèdia en aquest dispositiu.</string>
+    <string name="permission_video">VLC necessita el vostre permís per accedir als vídeos del vostre dispositiu</string>
     <string name="medialibrary_scan_explanation">VLC pot cercar automàticament el vostre dispositiu per organitzar la col·lecció de medis</string>
     <string name="onboarding_theme_title">Sentiu-vos com a casa</string>
     <string name="done">Fet</string>
@@ -947,7 +954,6 @@
     <string name="sub_result_by_name">Resultats per a %s</string>
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodi %s</string>
-
     <string name="sub_result_by_file">Resultats del vostre fitxer</string>
     <string name="donate">ajut VLC</string>
     <string name="donate_desc">Donar suport als voluntaris en la creació de VLC</string>
@@ -990,6 +996,8 @@
     <string name="audio_delay_bt">El retard d\'àudio s\'ha definit a %s ms per al dispositiu bluetooth</string>
     <string name="warning_stream_speed">Incrementar la velocitat de reproducció a les retransmissions per sobre d\'1, pot generar talls intermitents</string>
     <string name="go_to_folder">Carpeta pare</string>
+    <string name="go_to_album">Anar a l\'àlbum</string>
+    <string name="go_to_artist">Anar a l\'artista</string>
     <string name="create_shortcut">Crear una drecera pel llançador</string>
     <string name="no_sub_renderer">Els subtítols no estan disponibles en directe. </string>
     <string name="enqueuing">S\'estan carregant els vostres fitxers multimèdia</string>
@@ -1268,4 +1276,5 @@
     <string name="restore_settings">Restaurar la configuració</string>
     <string name="export_settings_success">S\'ha exportat la configuració satisfactòriament a l’arrel de l’emmagatzematge intern </string>
     <string name="export_settings_failure">Alguna cosa ha fallat durant l\'exportació de la configuració</string>
-</resources>
+
+    </resources>

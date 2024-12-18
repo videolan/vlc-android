@@ -84,6 +84,11 @@
     <string name="albums">Albumit</string>
     <string name="tracks">Raidat</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 kirjanmerkki</item>
+        <item quantity="other">%d kirjanmerkkiä</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 levy</item>
         <item quantity="other">%d levyä</item>
@@ -288,6 +293,7 @@ Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
     <string name="authors">Tekijät</string>
     <string name="vlc_authors">ja VLC-tekijät</string>
     <string name="is_compiled_by">Koonnut</string>
+    <string name="is_signed_by">Allekirjoittanut</string>
     <string name="sources">Lähdekoodi</string>
     <string name="libraries">Kirjastot</string>
     <string name="feedback_forum">Palaute foorumi</string>
@@ -580,7 +586,7 @@ Käynnistätkö uudelleen?</string>
     <string name="no_result">Tuloksia ei löytynyt</string>
     <string name="no_internet_connection">Tarkista internetyhteys</string>
     <string name="retry">Yritä uudelleen</string>
-    <string name="subs_download_error">Palvelu ei saatavilla. Yritä myöhemmin uudelleen</string>
+    <string name="open_subs_download_error">OpenSubtitles ei ole tällä hetkellä käytettävissä. Yritä myöhemmin</string>
 
     <string name="network_browsing">Lähiverkko</string>
     <string name="browsing">Selaa</string>
@@ -602,6 +608,7 @@ Käynnistätkö uudelleen?</string>
     <string name="go_to_chapter">Siirry lukuun...</string>
     <string name="current_chapter">Luku: %s</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
+    <string name="apply_playqueue">Lisää kaikki soittojonoon</string>
     <string name="confirm_resume_title">Jatka toistettua videota</string>
     <string name="confirm_resume_audio_title">Jatka toistettua audiota</string>
     <string name="tv_ui_title">Android TV käyttöliittymä</string>
@@ -656,9 +663,6 @@ Riippuen käynnistyksestä saatat joutua poistamaan tai korvaamaan vanhat.</stri
     <string name="click_here">Paina saadaksesi lisätietoja.</string>
     <string name="allow_storage_access_title">Salli VLC:lle pääsy videoon ja audioon </string>
     <string name="allow_storage_access_description">Sinun tarvitsee myöntää VLC:lle oikeudet siirtyä tämän laitteen mediatiedostoihin.</string>
-    <string name="allow_storage_manager_title">Salli VLC:lle käyttö kaikille tiedostoille</string>
-    <string name="allow_storage_manager_description">%s\n\nMyönnetäänkö lupa?</string>
-    <string name="allow_storage_manager_explanation">Saadaksesi VLC:n kaikki ominaisuudet ja mediatiedostojen laajan tuen, suosittelemme, että myönnät tämän luvan.</string>
     <string name="partial_content">VLC ei voi käyttää kaikkia tiedostojasi</string>
     <string name="partial_content_description">Android 11 alkaen, sovellukset tarvitsevat erityisluvan käyttää kaikkia laitteen tiedostoja.\n\n%s</string>
     <string name="never_ask_again">Älä kysy uudestaan</string>
@@ -710,6 +714,19 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="popup_playback">Toistetaan ilmoitusikkunasta</string>
     <string name="popup_expand">Laajenna video</string>
     <string name="download_subtitles">Lataa tekstitys</string>
+    <string name="powered_opensubtitles">Tarjoaa OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Et ole kirjautunut OpenSubtitlesiin\nKirjautuminen antaa pääsyn useampaan lataukseen</string>
+    <string name="open_subtitles_logged_in">Kirjautunut %1$s</string>
+    <string name="open_subtitles_limits">Sinulla on %1$s latausta jäljellä %2$s:sta. Limiitti nollataan %3$s.</string>
+    <string name="open_subtitles_vip">Olet VIP OpenSubtitles asiakas</string>
+    <string name="open_subtitles_register">Rekisteröidy</string>
+    <string name="open_subtitles_log_out">Kirjaudu ulos</string>
+    <string name="open_subtitles_username">Käyttäjänimi</string>
+    <string name="open_subtitles_password">Salasana</string>
+    <string name="open_subtitles_is_vip">VIP-tunnus</string>
+    <string name="open_subtitles_is_not_vip">Tavallinen tunnus</string>
+    <string name="login_error">Virheelliset kirjautumistiedot</string>
+    <string name="unknown_error">Odottamaton virhe</string>
     <string name="browse_folder">Selaa kansiota</string>
     <string name="listen">Kuuntele</string>
     <string name="apply_to_bt">Käytä bluetooth laitetta</string>
@@ -793,12 +810,14 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="rename_media">Niemeä %1$s</string>
     <string name="manual_search">Manuaalinen haku</string>
     <string name="subtitle_search_name_hint">Nimi</string>
+    <string name="subtitle_query_edit">Muokkaa tekstityksen hakua</string>
     <string name="subtitle_search_episode_hint">Jakso</string>
     <string name="subtitle_search_season_hint">Kausi</string>
     <string name="subtitles_download_failed">Lataus epäonnistui</string>
     <string name="language_to_download">Kieli</string>
     <string name="delete_the_selected">Poista valinta</string>
     <string name="download_the_selected">Lataa valinta</string>
+    <string name="no_sub_history">Medialle ei ole tekstitystä</string>
     <string name="next">Seuraava</string>
     <string name="skip">Ohita</string>
     <string name="next_step">Seuraava</string>
@@ -818,6 +837,8 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="welcome_title">Tervetuloa, tämä on VLC!</string>
     <string name="welcome_subtitle">Ilmainen ja avoimen lähdekoodin multimediasoitin</string>
     <string name="permission_media">VLC tarvitsee luvan käyttääkseen laitteesi mediaa</string>
+    <string name="permission_video">VLC tarvitsee luvan käyttääkseen videomediaa laitteellasi</string>
+    <string name="permission_audio">VLC tarvitsee luvan käyttääkseen audiomediaa laitteellasi</string>
     <string name="medialibrary_scan_explanation">VLC voi hakea laitteesi median automaattisesti ja järjestää sen kokoelmaksi.</string>
     <string name="onboarding_theme_title">Ole kuin kotonasi</string>
     <string name="done">Valmis</string>
@@ -970,6 +991,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="sub_result_by_name">Tulokset %s</string>
     <string name="sub_result_by_name_season">Kausi %s</string>
     <string name="sub_result_by_name_episode">Jakso %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Kuulovammaisille</string>
 
     <string name="sub_result_by_file">Tulokset tiedostollesi</string>
     <string name="donate">Auta VLC:tä</string>
@@ -1013,6 +1035,9 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="audio_delay_bt">Ääniviive %s ms on asetettu bluetooth laitteille</string>
     <string name="warning_stream_speed">Toistonopeuden nostaminen suoratoistolle yli 1:den voi aiheuttaa änkytystä</string>
     <string name="go_to_folder">Selaa yläkansiota</string>
+    <string name="go_to_album">Siirry albumiin</string>
+    <string name="go_to_artist">Siirry artistiin</string>
+    <string name="go_to_album_artist">Siirry albumin artistiin</string>
     <string name="create_shortcut">Luo ohjelman pikakuvake</string>
     <string name="no_sub_renderer">Tekstityksiä ei vielä tueta suoratoiston aikana</string>
     <string name="enqueuing">Ladataan mediaa</string>
@@ -1088,6 +1113,14 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
 Sovellus ilmoittaa sinulle vain, kun se hakee mediaa tai käyttää mukautettua kuva kuvassa videota.
 Kieltäminen ei estä VLC:tä toimimasta, mutta ilmoitukset piilotetaan.</string>
     <string name="permission">Luvat</string>
+    <string name="permission_no_access">Ei pääsyä tiedostoihin</string>
+    <string name="permissions">Luvat</string>
+    <string name="permissions_summary">Lista kaikista luvista</string>
+    <string name="manage_storage_permission">Tiedostojen luvat</string>
+    <string name="permission_media_title">Pääsy tavalliseen mediaan</string>
+    <string name="permission_all_title">Kaikki tiedostoluvat</string>
+    <string name="permission_all_warning">Jotta tämä voidaan ottaa käyttöön, poista ensin normaali mediatiedostojen käyttöoikeus</string>
+    <string name="permission_media_warning">Jotta tämä voidaan ottaa käyttöön, poista ensin täydet tiedostoluvat</string>
     <string name="customize">Mukauta</string>
     <string name="selection_count">%d valittu</string>
     <string name="control_setting">Säätimet</string>
@@ -1297,4 +1330,17 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="restore_settings">Palauta asetukset</string>
     <string name="export_settings_success">Asetukset vietiin sisäisen tallennustilan juureen</string>
     <string name="export_settings_failure">Jotain meni vikaan vietäessä asetuksia</string>
+
+    <string name="queue_info">Jonon tiedot</string>
+    <string name="queue_info_none">Älä näytä sijaintia jonossa</string>
+    <string name="queue_info_before_title">Ennen nimeä</string>
+    <string name="queue_info_after_title">Jälkeen nimen</string>
+    <string name="queue_info_before_subtitle">Ennen tekstitystä</string>
+
+    <string name="title_size">Nimen tekstikoko</string>
+    <string name="subtitle_size">Tekstityksen koko</string>
+
+    <string name="queue_format">Jonon formaatti</string>
+    <string name="queue_format_short_desc">Jonon sijainti</string>
+    <string name="queue_format_long_desc">Jonon sijainti / jonon koko</string>
 </resources>

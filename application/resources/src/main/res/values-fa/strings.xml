@@ -174,7 +174,6 @@
     <string name="jump_to_time">پرش به زمان</string>
     <string name="subtitle_select">انتخاب فایل زیرنویس</string>
     <string name="wait_before_sleep">لطفا صبر کنید تا رسانه فعلی تمام شود</string>
-
     <string name="server_add_title">یک سرور جدید به موارد دلخواه اضافه کنید</string>
     <string name="server_domain_hint">آدرس سرور (نام دامنه یا IP)</string>
     <string name="server_share_hint">نام اشتراک شبکه (یا آدرس IP)</string>
@@ -348,7 +347,6 @@
     <string name="browser_show_hidden_files_title">نمایش فایل های مخفی</string>
     <string name="albums_show_track_numbers">شماره قطعه را نشان بده</string>
     <string name="enable_video_screenshot">از صفحه عکس بگیر</string>
-
     <string name="subtitles_prefs_category">زیرنویس‌ ها</string>
     <string name="subtitles_size_title">اندازه زیرنویس‌ ها</string>
     <string name="subtitles_presets_title">پیش فرض زیرنویس‌ها</string>
@@ -482,7 +480,6 @@
     <string name="dump_logcat_failure">استخراج گزارش انجام نشد</string>
     <string name="custom_libvlc_options">گزینه های سفارشی کتابخانه VLC</string>
     <string name="custom_libvlc_options_invalid">گزینه های کتابخانه VLC اشتباه است</string>
-
     <string name="serious_crash">متاسفانه یک خطای جدی اتفاق داده است و VLC باید بسته شود</string>
     <string name="help_us_send_log">با ارسال گزارش زیر به ما در بهبود VLC کمک کنید :</string>
     <string name="restart_vlc">بستن کامل VLC و اجرای دوباره آن</string>
@@ -496,8 +493,6 @@
     <string name="no_result">هیچ نتیجه‌ ای یافت نشد</string>
     <string name="no_internet_connection">اتصال اینترنت خود را بررسی کنید</string>
     <string name="retry">تلاش مجدد</string>
-    <string name="subs_download_error">سرویس در دسترس نیست لطفا دوباره امتحان کنید</string>
-
     <string name="network_browsing">شبکه محلی</string>
     <string name="browsing">در حال جستجو</string>
 
@@ -541,10 +536,6 @@
     <string name="click_here">برای یادگیری بیشتر، کلیک کنید.</string>
     <string name="allow_storage_access_title">به VLC اجازه دهید تا به فایل های ویدیویی و صدا دسترسی داشته باشد</string>
     <string name="allow_storage_access_description">پخش کننده VLC به مجوز شما برای دسترسی به فایل های رسانه ای این دستگاه نیاز دارد</string>
-    <string name="allow_storage_manager_title">به VLC اجازه دسترسی به تمام فایل‌ها را بده</string>
-    <string name="allow_storage_manager_description">%s
-
-اجازه دسترسی بدهیم؟</string>
     <string name="partial_content">VLC نمی‌تواند به تمامی فایل‌های شما دسترسی یابد.</string>
     <string name="never_ask_again">دوباره نپرس</string>
     <string name="allow_settings_access_ringtone_title">به VLC اجازه دهید که آهنگ زنگ گوشی را تغییر دهد</string>
@@ -801,7 +792,6 @@
     <string name="sub_result_by_name">نتایج برای %s</string>
     <string name="sub_result_by_name_season">فصل %s</string>
     <string name="sub_result_by_name_episode">قسمت %s</string>
-
     <string name="sub_result_by_file">نتایج برای پرونده‌تان</string>
     <string name="donate">کمک به وی‌ال‌سی</string>
     <string name="donate_desc">از داوطلبان ساخت وی‌ال‌سی پشتیبانی کنید</string>

@@ -398,7 +398,6 @@
     <string name="dump_logcat_failure">Produciuse un erro ao descargar o rexistro de logcat</string>
     <string name="custom_libvlc_options">Opcións de libVLC personalizadas</string>
     <string name="custom_libvlc_options_invalid">As opcións de libVLC non son válidas.</string>
-
     <string name="serious_crash">Produciuse un erro grave e houbo que pechar o VLC.</string>
     <string name="help_us_send_log">Axúdenos a mellorar o VLC enviando o seguinte informe de erro:</string>
     <string name="restart_vlc">Reiniciar o VLC</string>
@@ -411,8 +410,6 @@
 
     <string name="no_result">Non hai resultados</string>
     <string name="no_internet_connection">Comprobe a conexión de internet</string>
-    <string name="subs_download_error">Servizo non dispoñíbel. Ténteo máis tarde.</string>
-
     <string name="network_browsing">Rede local</string>
     <string name="browsing">Examinando</string>
 
@@ -721,7 +718,6 @@
     <string name="sub_result_by_name">Resultados de %s</string>
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
-
     <string name="sub_result_by_file">Resultados para o seu ficheiro</string>
     <string name="donate">Axude ao VLC</string>
     <string name="donate_desc">Apoie os voluntarios que desenvolven o VLC</string>

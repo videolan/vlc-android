@@ -181,7 +181,6 @@
     <string name="wait_before_sleep">先等待当前媒体项目播放结束</string>
     <string name="reset_on_interaction">有任何交互时重置</string>
     <string name="default_sleep_timer_summary">%1$s, 等待媒体结束: %2$s, 交互时重置: %3$s</string>
-
     <string name="server_add_title">向收藏夹添加新的服务器</string>
     <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
     <string name="server_share_hint">网络共享名称 (或 IP 地址)</string>
@@ -557,8 +556,6 @@
     <string name="no_result">未找到结果</string>
     <string name="no_internet_connection">请检查网络连接</string>
     <string name="retry">重试</string>
-    <string name="subs_download_error">服务不可用，请稍后再试</string>
-
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 
@@ -617,9 +614,6 @@
     <string name="click_here">点击了解更多信息。</string>
     <string name="allow_storage_access_title">允许 VLC 访问视频与音频文件</string>
     <string name="allow_storage_access_description">VLC 需要您授权方可访问该设备上的媒体文件。</string>
-    <string name="allow_storage_manager_title">允许 VLC 访问所有文件</string>
-    <string name="allow_storage_manager_description">%s\n\n是否授予权限?</string>
-    <string name="allow_storage_manager_explanation">为了充分发挥 VLC 的全部功能，以及支持各类结构复杂的媒体文件，我们强烈建议您授予此权限。</string>
     <string name="partial_content">VLC 无法访问您的所有文件</string>
     <string name="partial_content_description">对于 Android 11 及更高版本，应用需要经过您的特别授权，才能访问设备上的所有文件。\n\n%s</string>
     <string name="never_ask_again">不再询问</string>
@@ -926,7 +920,6 @@
     <string name="sub_result_by_name">｢%s｣ 的结果</string>
     <string name="sub_result_by_name_season">第 %s 季</string>
     <string name="sub_result_by_name_episode">第 %s 集</string>
-
     <string name="sub_result_by_file">文件搜索结果</string>
     <string name="donate">帮助 VLC</string>
     <string name="donate_desc">支持 VLC 背后的志愿者们</string>

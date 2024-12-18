@@ -349,7 +349,6 @@
     <string name="dump_logcat_failure">การถ่ายโอนข้อมูล Logcat ล้มเหลว</string>
     <string name="custom_libvlc_options">ตัวเลือก libVLC ที่กำหนดเอง</string>
     <string name="custom_libvlc_options_invalid">ตัวเลือก libVLC ไม่ถูกต้อง!</string>
-
     <string name="serious_crash">ขออภัย เกิดข้อผิดพลาดร้ายแรงขึ้นซึ่งทำให้ VLC ต้องปิดไป</string>
     <string name="help_us_send_log">ช่วยเราปรับปรุง VLC ได้โดยการส่งไฟล์บันทึกความล้มเหลวดังกล่าวมาให้เรา:</string>
     <string name="restart_vlc">เปิด VLC ใหม่</string>
@@ -362,8 +361,6 @@
 
     <string name="no_result">ไม่พบผลลัพธ์</string>
     <string name="no_internet_connection">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ</string>
-    <string name="subs_download_error">บริการไม่พร้อมใช้งาน โปรดลองอีกครั้งภายหลัง</string>
-
     <string name="network_browsing">เครือข่ายเฉพาะที่</string>
     <string name="browsing">เรียกดู</string>
 
@@ -657,7 +654,6 @@
     <string name="sub_result_by_name">ผลลัพธ์สำหรับ %s</string>
     <string name="sub_result_by_name_season">ซีซัน %s</string>
     <string name="sub_result_by_name_episode">ตอน %s</string>
-
     <string name="sub_result_by_file">ผลลัพธ์สำหรับไฟล์ของคุณ</string>
     <string name="donate">ช่วย VLC</string>
     <string name="donate_desc">ร่วมสนับสนุนอาสาสมัครที่สร้าง VLC</string>

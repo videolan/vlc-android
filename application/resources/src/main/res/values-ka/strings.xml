@@ -174,7 +174,6 @@
     <string name="jump_to_time">გადასვლა დროზე</string>
     <string name="subtitle_select">აირჩიეთ ქვეწარწერების ფაილი</string>
     <string name="wait_before_sleep">გაშვებული ფაილის დასრულებამდე მოცდა</string>
-
     <string name="server_add_title">ახალი სერვერის დამატება რჩეულებში</string>
     <string name="server_domain_hint">სერვერის მისამართი (დომენის სახელი ან IP)</string>
     <string name="server_share_hint">ქსელის გაზიარების სახელი (ან IP მისამართი)</string>
@@ -343,7 +342,6 @@
     <string name="browser_show_hidden_files_title">დამალული ფაილების გამოჩენა</string>
     <string name="albums_show_track_numbers">ჩანაწერის ნომრების ჩვენება</string>
     <string name="enable_video_screenshot">ეკრანის სურათი</string>
-
     <string name="subtitles_prefs_category">ქვეწარწერები</string>
     <string name="subtitles_size_title">ქვეწარწერის ზომა</string>
     <string name="subtitles_presets_title">ქვეწარწერების მზა პარამეტრები</string>
@@ -490,7 +488,6 @@
     <string name="dump_logcat_failure">ვერ მოხერხდა აღრიცხვების გადატანა</string>
     <string name="custom_libvlc_options">მორგებული libVLC-პარამეტრები</string>
     <string name="custom_libvlc_options_invalid">არასწორი libVLC-პარამეტრები!</string>
-
     <string name="serious_crash">სამწუხაროდ, მძიმე შეცდომა წარმოიშვა და VLC გაითიშა.</string>
     <string name="help_us_send_log">დაგვეხმარეთ, გავაუმჯობესოთ VLC, ამ უეცარი გათიშვის შესახებ, მოხსენების გამოგზავნით:</string>
     <string name="restart_vlc">კვლავ გაეშვას VLC</string>
@@ -504,8 +501,6 @@
     <string name="no_result">შედეგები არაა</string>
     <string name="no_internet_connection">შეამოწმეთ ქსელთან კავშირი</string>
     <string name="retry">გამეორება</string>
-    <string name="subs_download_error">მომსახურება მიუწვდომელია. გთხოვთ ცადოთ მოგვიანებით</string>
-
     <string name="network_browsing">ადგილობრივი ქსელი</string>
     <string name="browsing">არჩევა</string>
 
@@ -548,9 +543,6 @@
     <string name="click_here">ვრცლად იხილეთ აქ.</string>
     <string name="allow_storage_access_title">დართეთ ნება VLC-ს, ხმოვან და ვიდეოფაილებთან წვდომის</string>
     <string name="allow_storage_access_description">VLC საჭიროებს ამ ნებართვას მოწყობილობის ფაილებთან წვდომისთვის.</string>
-    <string name="allow_storage_manager_title">დართეთ ნება VLC-ს ყველა ფაილთან წვდომის</string>
-    <string name="allow_storage_manager_description">%s\n\nრთავთ ნებას?</string>
-    <string name="allow_storage_manager_explanation">VLC-ს სრულყოფილად გამოსაყენებლად და ყველა სახის ფაილის გასაშვებად დაჟინებით გირჩევთ, მისცეთ ნებართვა.</string>
     <string name="partial_content">VLC ვერ ახერხებს ყველა ფაილთან წვდომას.</string>
     <string name="partial_content_description">Android 11-იდან მოყოლებული, აპები საჭიროებს საგანგებო ნებართვებს მოწყობილობის ყველა ფაილთან წვდომისთვის.\n\n%s</string>
     <string name="never_ask_again">მომავალში შეკითხვის გარეშე</string>
@@ -849,7 +841,6 @@
     <string name="sub_result_by_name">%s შედეგები</string>
     <string name="sub_result_by_name_season">სეზონი %s</string>
     <string name="sub_result_by_name_episode">სერია %s</string>
-
     <string name="sub_result_by_file">შედეგები თქვენი ფაილისთვის</string>
     <string name="donate">დაეხმარეთ VLC-ს</string>
     <string name="donate_desc">მხარი დაუჭირეთ VLC-ს მოხალისეებს</string>

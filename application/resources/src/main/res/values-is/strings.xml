@@ -25,6 +25,9 @@
 
     <string name="sortby_length_asc">Stysta fyrst</string>
     <string name="sortby_length_desc">Lengsta fyrst</string>
+    <string name="sort_date_asc">Elstu fyrst</string>
+    <string name="sort_date_desc">Nýjustu fyrst</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d niðurstaða fannst</item>
         <item quantity="other">%d niðurstöður fundust</item>
@@ -128,6 +131,8 @@
     <string name="nosubfolder">Engar undirmöppur</string>
     <string name="directorynotfound">Skráaslóðin \'%1$s\' fannst ekki.</string>
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
+    <string name="cant_ban_root">Þú getur ekki bannað rótarmöppu</string>
+
     <string name="cover_art">Umslög</string>
     <string name="shuffle_all_title">Stokka allt</string>
     <string name="shuffle_title">Stokkunarhamur</string>
@@ -177,6 +182,7 @@
     <string name="sleep_in">Sofa lengur</string>
     <string name="jump_to_time">Hoppa á tíma</string>
     <string name="subtitle_select">Veldu skjátextaskrá</string>
+    <string name="video_player_remote">Myndspilarafjarstýring</string>
     <string name="server_add_title">Bæta nýjum þjóni í eftirlæti</string>
     <string name="server_domain_hint">Vistfang þjóns (heiti léns eða IP-tala)</string>
     <string name="server_share_hint">Nafn netsameignar (eða IP vistfang)</string>
@@ -281,6 +287,7 @@
     <string name="screen_orientation_portrait">Lóðrétt</string>
     <string name="screen_orientation_landscape">Lárétt</string>
     <string name="enable_black_theme">Svart þema</string>
+    <string name="dark_theme">Dökkt þema</string>
     <string name="theme_auto">Sjálfvirkt þema</string>
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="subtitle_preferred_language">Umbeðið tungumál skjátexta</string>
@@ -328,6 +335,7 @@
     <string name="browser_show_hidden_files_title">Birta faldar skrár</string>
     <string name="albums_show_track_numbers">Sýna spornúmer</string>
     <string name="enable_video_screenshot">Taka skjámynd</string>
+    <string name="fastplay_subtitle">Sleppa til að stoppa</string>
 
     <string name="subtitles_prefs_category">Skjátextar</string>
     <string name="subtitles_size_title">Stærð skjátexta</string>
@@ -446,6 +454,7 @@
     <string name="auto_rescan">Sjálfvirk endurskönnun</string>
     <string name="auto_rescan_summary">Skanna tækið sjálfvirkt við ræsingu forritsins eftir nýjum eða eyddum margmiðlunargögnum</string>
     <string name="dump_media_db">Demba gagnagrunni yfir margmiðlunarefni</string>
+    <string name="dump_app_db">Demba gagnagrunni forrits</string>
     <string name="dump_media_db_summary">Afrita gagnagrunn á rót innri gagnageymslu</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
     <string name="clear_media_database_summary">Hreinsar gagnagrunninn til að byrja frá grunni</string>
@@ -457,10 +466,15 @@
     <string name="resume_playback_summary">Annars haldast í bið</string>
     <string name="blurred_cover_background_title">Móðað plötuumslag í bakgrunni</string>
     <string name="blurred_cover_background_summary">Móðað plötuumslag í bakgrunni tónlistarspilara</string>
+    <string name="force_shuffle_title">Þvinga uppstokkun</string>
+    <string name="force_shuffle_summary">Þvinga uppstokkun þegar spilun hefst</string>
+    <string name="network_caching_popup">Gildið verður að vera á milli 0 og 60000 ms</string>
     <string name="quit">Hætta og endurræsa forrit</string>
     <string name="restart_message">Breytingar munu taka gildi eftir að forritið hefur verið endurræst.\n\nEndurræsa núna?</string>
     <string name="restart_message_OK">Í lagi</string>
     <string name="restart_message_Later">Seinna</string>
+    <string name="browser_show_all_title">Sýna eingöngu margmiðlunarskrár</string>
+
     <string name="developer_prefs_category">Forritari</string>
     <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
     <string name="enable_verbose_mode_summary">Auktu magn upplýsinga (verbosity / logcat)</string>
@@ -475,9 +489,9 @@
     <string name="dump_logcat">Demba logcat annál</string>
     <string name="dump_logcat_success">Tókst að demba logcat í %1$s!</string>
     <string name="dump_logcat_failure">Mistókst að demba logcat.</string>
+    <string name="http_user_agent">HTTP aðgangsbúnaður</string>
     <string name="custom_libvlc_options">Sérsniðnir libVLC valkostir</string>
     <string name="custom_libvlc_options_invalid">Ógildir libVLC valkostir!</string>
-
     <string name="serious_crash">Því miður kom upp alvarleg villa og loka varð VLC.</string>
     <string name="help_us_send_log">Hjálpaðu okkur við að bæta VLC með því að senda inn eftirfarandi hrunskýrslu:</string>
     <string name="restart_vlc">Endurræsa VLC</string>
@@ -491,7 +505,7 @@
     <string name="no_result">Engar niðurstöður fundust</string>
     <string name="no_internet_connection">Athugaðu með nettenginguna þína</string>
     <string name="retry">Reyna aftur</string>
-    <string name="subs_download_error">Þjónusta ekki tiltæk. Reyndu aftur síðar</string>
+    <string name="open_subs_download_error">OpenSubtitles er ekki tiltækt eins og er. Vinsamlegast reyndu aftur síðar</string>
 
     <string name="network_browsing">Staðarnet</string>
     <string name="browsing">Vafur</string>
@@ -508,6 +522,7 @@
     <string name="search_global">Leita í öllum margmiðlunarsöfnum</string>
     <string name="playlist_save">Vista spilunarlista</string>
     <string name="playlist_name_hint">Heiti spilunarlista</string>
+    <string name="chapters">Kaflar</string>
     <string name="go_to_chapter">Fara á kafla…</string>
     <string name="current_chapter">Kafli: %s</string>
     <string name="confirm_resume">Halda áfram frá síðustu stöðu?</string>
@@ -517,6 +532,10 @@
     <string name="medialibrary">Margmiðlunarsafn</string>
     <string name="medialibrary_directories">Möppur fyrir margmiðlunarsöfn</string>
 
+    <!--    update-->
+    <string name="update_title">Uppfærsla tiltæk</string>
+    <string name="open_in_browser">Opna í vafra</string>
+    <string name="install">Setja upp</string>
     <!-- Accessibility -->
     <string name="more_actions">Fleiri aðgerðir</string>
     <string name="back_quit_lock">Ýttu aftur á til baka til að fara út úr myndskeiði</string>
@@ -532,8 +551,6 @@
     <string name="click_here">Smelltu hér til að sjá nánari upplýsingar.</string>
     <string name="allow_storage_access_title">Leyfa VLC að fá aðgang að hljóð- og myndskeiðaskrám</string>
     <string name="allow_storage_access_description">VLC þarf að fá þessa heimild hjá þér til að fá aðgang að margmiðlunarskrám á þessu tæki.</string>
-    <string name="allow_storage_manager_title">Leyfa VLC aðgang að öllum skrám</string>
-    <string name="allow_storage_manager_description">%s\n\nVeita heimild?</string>
     <string name="never_ask_again">Ekki spyrja aftur</string>
     <string name="allow_settings_access_ringtone_title">Leyfa VLC að setja hringitón</string>
     <string name="allow_settings_access_ringtone_description">VLC þarf að fá þessa heimild hjá þér til að setja þetta lag upp sem hringitón.</string>
@@ -818,7 +835,6 @@
     <string name="sub_result_by_name">Niðurstöður fyrir %s</string>
     <string name="sub_result_by_name_season">Árgangur %s</string>
     <string name="sub_result_by_name_episode">Þáttur %s</string>
-
     <string name="sub_result_by_file">Niðurstöður fyrir skrána þína</string>
     <string name="donate">Hjálpa VLC</string>
     <string name="donate_desc">Styddu við sjálfboðaliðana sem þróa VLC</string>

@@ -86,6 +86,13 @@
     <string name="albums">Albumai</string>
     <string name="tracks">Takeliai</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 išsaugota žymelė</item>
+        <item quantity="few">%d išsaugotos žymelės</item>
+        <item quantity="many">%d išsaugotų žymelių</item>
+        <item quantity="other">%d išsaugotų žymelių</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 albumas</item>
         <item quantity="few">%d albumai</item>
@@ -591,7 +598,7 @@
     <string name="no_result">Nerasta</string>
     <string name="no_internet_connection">Patikrinkite interneto ryšį</string>
     <string name="retry">Pakartoti</string>
-    <string name="subs_download_error">Paslauga nepasiekiama. Pabandykite dar kartą vėliau</string>
+    <string name="open_subs_download_error">„OpenSubtitles“ šiuo metu nepasiekiamas. Bandykite dar kartą vėliau</string>
 
     <string name="network_browsing">Vietinis tinklas</string>
     <string name="browsing">Naršymas</string>
@@ -613,6 +620,7 @@
     <string name="go_to_chapter">Eiti į skyrių...</string>
     <string name="current_chapter">Skyrius: %s</string>
     <string name="confirm_resume">Tęsti nuo paskutinės padėties?</string>
+    <string name="apply_playqueue">Pritaikyti visai grojimo eilei</string>
     <string name="confirm_resume_title">Tęsti vaizdo įrašų grojimą</string>
     <string name="confirm_resume_audio_title">Tęsti garso įrašų grojimą</string>
     <string name="tv_ui_title">„Android TV“ sąsaja</string>
@@ -659,9 +667,6 @@
     <string name="click_here">Norėdami sužinoti daugiau, bakstelėkite čia.</string>
     <string name="allow_storage_access_title">Leisti VLC programai pasiekti vaizdo ir garso kūrinius</string>
     <string name="allow_storage_access_description">VLC reikia Jūsų leidimo pasiekti įrenginyje esančius kūrinius.</string>
-    <string name="allow_storage_manager_title">Leisti VLC pasiekti visas rinkmenas</string>
-    <string name="allow_storage_manager_description">%s\n\nSuteikti leidimą?</string>
-    <string name="allow_storage_manager_explanation">Norėdami pasinaudoti visomis VLC galimybėmis ir visų tipų medijos rinkmenų palaikymu, primygtinai rekomenduojame suteikti šį leidimą.</string>
     <string name="partial_content">VLC negali pasiekti visų Jūsų rinkmenų</string>
     <string name="partial_content_description">Pradedant nuo „Android“ 11 versijos, programoms reikia specialaus leidimo pasiekti visas įrenginio rinkmenas.\n\n%s</string>
     <string name="never_ask_again">Niekada daugiau neklausti</string>
@@ -712,6 +717,19 @@
     <string name="popup_playback">Grojama iškylančiame lange</string>
     <string name="popup_expand">Išplėsti vaizdą</string>
     <string name="download_subtitles">Parsisiųsti subtitrus</string>
+    <string name="powered_opensubtitles">Teikiama naudojant „OpenSubtitles“</string>
+    <string name="open_subtitles_not_logged_in">Nesate prisijungęs prie „OpenSubtitles“.\nPrisijungęs gausite prieigą prie daugiau atsisiuntimų</string>
+    <string name="open_subtitles_logged_in">Esate prisijungęs kaip „%1$s“</string>
+    <string name="open_subtitles_limits">Liko atsisiuntimų %1$s iš %2$s. Jūsų limitas bus nustatytas iš naujo: %3$s.</string>
+    <string name="open_subtitles_vip">Esate VIP „OpenSubtitles“ naudotojas</string>
+    <string name="open_subtitles_register">Registruotis</string>
+    <string name="open_subtitles_log_out">Atsijungti</string>
+    <string name="open_subtitles_username">Naudotojo vardas</string>
+    <string name="open_subtitles_password">Slaptažodis</string>
+    <string name="open_subtitles_is_vip">VIP paskyra</string>
+    <string name="open_subtitles_is_not_vip">Standartinė paskyra</string>
+    <string name="login_error">Netinkami kredencialai</string>
+    <string name="unknown_error">Netikėta klaida</string>
     <string name="browse_folder">Atverti aplanką</string>
     <string name="listen">Perklausyti</string>
     <string name="apply_to_bt">Pritaikyti „Bluetooth“ įrenginiui</string>
@@ -795,12 +813,14 @@
     <string name="rename_media">Pervardyti „%1$s“</string>
     <string name="manual_search">Rankinė paieška</string>
     <string name="subtitle_search_name_hint">Pavadinimas</string>
+    <string name="subtitle_query_edit">Redaguoti subtitrų paieškos užklausą</string>
     <string name="subtitle_search_episode_hint">Epizodas</string>
     <string name="subtitle_search_season_hint">Sezonas</string>
     <string name="subtitles_download_failed">Nepavyko atsisiųsti</string>
     <string name="language_to_download">Kalba</string>
     <string name="delete_the_selected">Pašalinti pasirinktus</string>
     <string name="download_the_selected">Atsisiųsti pasirinktus</string>
+    <string name="no_sub_history">Subtitrų nerasta</string>
     <string name="next">Toliau</string>
     <string name="skip">Praleisti</string>
     <string name="next_step">Toliau</string>
@@ -820,6 +840,8 @@
     <string name="welcome_title">Sveiki, Jus sveikina VLC!</string>
     <string name="welcome_subtitle">Nemokama atviro kodo įvairialypės terpės leistuvė</string>
     <string name="permission_media">VLC programai reikia Jūsų leidimo prieiti prie įrenginyje esančių kūrinių</string>
+    <string name="permission_video">VLC programai reikia Jūsų leidimo prieiti prie įrenginyje esančių vaizdo įrašų</string>
+    <string name="permission_audio">VLC programai reikia Jūsų leidimo prieiti prie įrenginyje esančių garso įrašų</string>
     <string name="medialibrary_scan_explanation">VLC gali automatiškai žvalgyti ir atnaujinti kūrinių sąrašus.</string>
     <string name="onboarding_theme_title">Pritaikykite VLC</string>
     <string name="done">Atlikta</string>
@@ -976,6 +998,7 @@
     <string name="sub_result_by_name">Rezultatai %s</string>
     <string name="sub_result_by_name_season">Sezonas %s</string>
     <string name="sub_result_by_name_episode">Epizodas %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Rodyti tik skirtus asmenims su klausos negalia</string>
 
     <string name="sub_result_by_file">Jūsų paieškos rezultatai</string>
     <string name="donate">Padėti VLC</string>
@@ -1019,6 +1042,9 @@
     <string name="audio_delay_bt">Pritaikyti %s ms garso vėlinimą „Bluetooth“ įrenginiui</string>
     <string name="warning_stream_speed">Padidinus srautų atkūrimo greitį virš 1, gali atsirasti mikčiojimas</string>
     <string name="go_to_folder">Naršyti katalogą</string>
+    <string name="go_to_album">Eiti į Albumai</string>
+    <string name="go_to_artist">Eiti į Atlikėjai</string>
+    <string name="go_to_album_artist">Eiti į Albumo atlikėjai</string>
     <string name="create_shortcut">Pridėti prie pagrind. ekrano</string>
     <string name="no_sub_renderer">Transliacijos metu subtitrai nepalaikomi</string>
     <string name="enqueuing">Įkeliami Jūsų kūriniai</string>
@@ -1092,6 +1118,14 @@
     <string name="notification_permission">Pranešimų leidimas</string>
     <string name="notification_permission_explanation">VLC reikia Jūsų leidimo siųsti pranešimus.\nPrograma Jums praneš tik tada, kai vykdys medijos nuskaitymą arba naudos tinkintą „vaizdo-vaizde“ langą.\nAtsisakymas netrukdys VLC veikti, tačiau paslėps programos pranešimus.</string>
     <string name="permission">Leidimas</string>
+    <string name="permission_no_access">Atmesti prieigą prie visų rinkmenų</string>
+    <string name="permissions">Leidimai</string>
+    <string name="permissions_summary">Visų leidimų sąrašas</string>
+    <string name="manage_storage_permission">Rinkmenų leidimai</string>
+    <string name="permission_media_title">Prieiga prie standartinės medijos</string>
+    <string name="permission_all_title">Suteikti prieigą prie visų rinkmenų</string>
+    <string name="permission_all_warning">Norėdami tai įgalinti, pirmiausia turite išjungti prieigą prie standartinės medijos</string>
+    <string name="permission_media_warning">Norėdami tai įgalinti, pirmiausia turite išjungti prieigą prie visų rinkmenų</string>
     <string name="customize">Derinti</string>
     <string name="selection_count">Pasirinkote: %d </string>
     <string name="control_setting">Valdiklių nuostatos</string>
@@ -1301,4 +1335,17 @@
     <string name="restore_settings">Atkurti nuostatas</string>
     <string name="export_settings_success">Nuostatos sėkmingai eksportuotos į vidinės saugyklos šakninį katalogą</string>
     <string name="export_settings_failure">Eksportuojant nuostatas įvyko klaida</string>
+
+    <string name="queue_info">Eigos informacija</string>
+    <string name="queue_info_none">Nerodyti eigos pozicijos</string>
+    <string name="queue_info_before_title">Rodyti prieš pavadinimą</string>
+    <string name="queue_info_after_title">Rodyti po pavadinimo</string>
+    <string name="queue_info_before_subtitle">Rodyti prieš subtitrus</string>
+
+    <string name="title_size">Pavadinimo teksto dydis</string>
+    <string name="subtitle_size">Subtitrų teksto dydis</string>
+
+    <string name="queue_format">Eigos formatas</string>
+    <string name="queue_format_short_desc">Eigos pozicija</string>
+    <string name="queue_format_long_desc">Eigos pozicija / Eigos dydis</string>
 </resources>

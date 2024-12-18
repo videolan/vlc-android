@@ -177,6 +177,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Idioma: %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="system_volume_disabled">%s\nSem acesso ao volume do sistema</string>
     <string name="sound_on">Som ativado</string>
     <string name="sound_off">Som desativado</string>
     <string name="brightness">Brilho</string>
@@ -201,6 +202,9 @@
     <string name="wait_before_sleep">Aguardar que o item multimédia atual termine primeiro</string>
     <string name="reset_on_interaction">Repor em qualquer interação</string>
     <string name="default_sleep_timer_summary">%1$s, esperar fim do média: %2$s, repor a interação: %3$s</string>
+    <string name="video_player_remote">Acesso remoto do reprodutor de vídeo</string>
+    <string name="remote_keyboard_navigation">Navegação por teclado</string>
+
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
     <string name="server_domain_hint">Endereço do servidor (nome do domínio ou IP)</string>
     <string name="server_share_hint">Nome da partilha de rede (ou endereço de IP)</string>
@@ -289,6 +293,7 @@
     <string name="authors">Autores</string>
     <string name="vlc_authors">e autores do VLC.</string>
     <string name="is_compiled_by">Compilado por</string>
+    <string name="is_signed_by">Assinado por</string>
     <string name="sources">Código-fonte</string>
     <string name="libraries">Bibliotecas</string>
     <string name="feedback_forum">Fórum de comentários</string>
@@ -337,7 +342,7 @@
     <string name="interface_secondary_display_category_title">Ecrã secundário</string>
     <string name="interface_secondary_display_category_summary">Definições para quando são ligados ecrãs secundários (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Preferir clonar</string>
-    <string name="enable_clone_mode_summary">Clonar o ecrã do dispositivo sem comando</string>
+    <string name="enable_clone_mode_summary">Clonar o ecrã do dispositivo sem controlo remoto</string>
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
@@ -576,8 +581,6 @@
     <string name="no_result">Não existem resultados</string>
     <string name="no_internet_connection">Verifique a sua ligação à Internet</string>
     <string name="retry">Voltar a tentar</string>
-    <string name="subs_download_error">Serviço indisponível. Por favor tente mais tarde</string>
-
     <string name="network_browsing">Rede local</string>
     <string name="browsing">Navegação</string>
 
@@ -644,9 +647,6 @@
     <string name="click_here">Clique aqui para saber mais.</string>
     <string name="allow_storage_access_title">Permitir que o VLC aceda a ficheiros de vídeo e áudio</string>
     <string name="allow_storage_access_description">O VLC necessita desta permissão para aceder aos ficheiros multimédia do dispositivo.</string>
-    <string name="allow_storage_manager_title">Permitir que o VLC aceda a todos os ficheiros</string>
-    <string name="allow_storage_manager_description">%s\n\nConceder permissão?</string>
-    <string name="allow_storage_manager_explanation">Para obter todas as funcionalidades do VLC e o suporte a todos os tipos de ficheiros multimédia, recomendamos fortemente que a permissão seja concedida.</string>
     <string name="partial_content">O VLC não consegue aceder a todos os seus ficheiros</string>
     <string name="partial_content_description">A partir do Android 11, as aplicações precisam de permissão especial para aceder a todos os ficheiros de um dispositivo.\n\n%s</string>
     <string name="never_ask_again">Não perguntar novamente</string>
@@ -959,7 +959,6 @@
     <string name="sub_result_by_name">Resultados para %s</string>
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episódio %s</string>
-
     <string name="sub_result_by_file">Resultados para o ficheiro</string>
     <string name="donate">Ajudar o VLC</string>
     <string name="donate_desc">Ajudar os voluntários a construir o VLC</string>
@@ -1282,4 +1281,5 @@
     <string name="restore_settings">Restaurar definições</string>
     <string name="export_settings_success">Definições exportadas com êxito para a raiz do armazenamento interno</string>
     <string name="export_settings_failure">Algo correu mal ao exportar as suas definições</string>
-</resources>
+
+    </resources>

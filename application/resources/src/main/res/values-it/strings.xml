@@ -85,6 +85,12 @@
     <string name="albums">Album</string>
     <string name="tracks">Tracce</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 segnalibro aggiunto</item>
+        <item quantity="many">%d segnalibri aggiunti</item>
+        <item quantity="other">%d segnalibri aggiunti</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">Un album</item>
         <item quantity="many">%d album</item>
@@ -581,7 +587,7 @@
     <string name="no_result">Nessun risultato trovato</string>
     <string name="no_internet_connection">Controlla la tua connessione a Internet</string>
     <string name="retry">Riprova</string>
-    <string name="subs_download_error">Servizio non disponibile. Riprova più tardi</string>
+    <string name="open_subs_download_error">OpenSubtitles non è al momento disponibile. Riprova più tardi</string>
 
     <string name="network_browsing">Rete locale</string>
     <string name="browsing">Navigazione</string>
@@ -603,6 +609,7 @@
     <string name="go_to_chapter">Vai al capitolo…</string>
     <string name="current_chapter">Capitolo: %s</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
+    <string name="apply_playqueue">Si applica a tutta la coda di riproduzione</string>
     <string name="confirm_resume_title">Riprendi video riprodotti</string>
     <string name="confirm_resume_audio_title">Riprendi audio riprodotti</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
@@ -649,9 +656,6 @@
     <string name="click_here">Fai clic qui per saperne di più.</string>
     <string name="allow_storage_access_title">Consenti a VLC di accedere ai file video e audio</string>
     <string name="allow_storage_access_description">VLC ha bisogno di questo permesso per accedere ai file multimediali su questo dispositivo.</string>
-    <string name="allow_storage_manager_title">Consenti a VLC l\'accesso a tutti i file</string>
-    <string name="allow_storage_manager_description">%s\n\nVuoi accordare il permesso?</string>
-    <string name="allow_storage_manager_explanation">Per ottenere tutte le funzionalità di VLC e il supporto di tutti i tipi di file multimediali, ti consigliamo vivamente di concedere questo permesso.</string>
     <string name="partial_content">VLC non può accedere a tutti i tuoi file</string>
     <string name="partial_content_description">A partire da Android 11, le applicazioni richiedono un\'autorizzazione speciale per accedere a tutti i file del dispositivo.\n\n%s</string>
     <string name="never_ask_again">Non chiedere ancora</string>
@@ -702,6 +706,19 @@
     <string name="popup_playback">Riproduzione in una finestra a comparsa</string>
     <string name="popup_expand">Espandi video</string>
     <string name="download_subtitles">Scarica sottotitoli</string>
+    <string name="powered_opensubtitles">Fornito da OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Non hai effettuato l\'accesso a OpenSubtitles\nL\'accesso ti consentirà di accedere a più scaricamenti</string>
+    <string name="open_subtitles_logged_in">Accesso eseguito come %1$s</string>
+    <string name="open_subtitles_limits">Hai %1$s scaricamenti rimanenti di %2$s. Il tuo limite sarà ripristinato a %3$s.</string>
+    <string name="open_subtitles_vip">Sei un utente VIP di OpenSubtitles</string>
+    <string name="open_subtitles_register">Registrati</string>
+    <string name="open_subtitles_log_out">Esci</string>
+    <string name="open_subtitles_username">Nome utente</string>
+    <string name="open_subtitles_password">Password</string>
+    <string name="open_subtitles_is_vip">Account VIP</string>
+    <string name="open_subtitles_is_not_vip">Account standard</string>
+    <string name="login_error">Credenziali non valide</string>
+    <string name="unknown_error">Errore inatteso</string>
     <string name="browse_folder">Sfoglia cartella</string>
     <string name="listen">Ascolta</string>
     <string name="apply_to_bt">Applica al dispositivo Bluetooth</string>
@@ -785,12 +802,14 @@
     <string name="rename_media">Rinomina %1$s</string>
     <string name="manual_search">Ricerca manuale</string>
     <string name="subtitle_search_name_hint">Nome</string>
+    <string name="subtitle_query_edit">Modifica la query di ricerca dei sottotitoli</string>
     <string name="subtitle_search_episode_hint">Episodio</string>
     <string name="subtitle_search_season_hint">Stagione</string>
     <string name="subtitles_download_failed">Scaricamento non riuscito</string>
     <string name="language_to_download">Lingua</string>
     <string name="delete_the_selected">Elimina selezione</string>
     <string name="download_the_selected">Scarica selezione</string>
+    <string name="no_sub_history">Nessun sottotitolo per questo media</string>
     <string name="next">Successiva</string>
     <string name="skip">Salta</string>
     <string name="next_step">Successivo</string>
@@ -810,6 +829,8 @@
     <string name="welcome_title">Benvenuti in VLC!</string>
     <string name="welcome_subtitle">Il lettore multimediale libero e con codice sorgente aperto</string>
     <string name="permission_media">VLC ha bisogno del tuo permesso per accedere ai file multimediali sul tuo dispositivo</string>
+    <string name="permission_video">VLC ha bisogno del tuo permesso per accedere ai video sul tuo dispositivo</string>
+    <string name="permission_audio">VLC ha bisogno del tuo permesso per accedere ai file audio sul tuo dispositivo</string>
     <string name="medialibrary_scan_explanation">VLC analizzerà automaticamente il dispositivo per organizzare la tua collezione multimediale.</string>
     <string name="onboarding_theme_title">Sentiti come a casa</string>
     <string name="done">Completato</string>
@@ -964,6 +985,7 @@
     <string name="sub_result_by_name">Risultati per %s</string>
     <string name="sub_result_by_name_season">Stagione %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Solo per non udenti</string>
 
     <string name="sub_result_by_file">Risultati per il tuo file</string>
     <string name="donate">Aiuta VLC</string>
@@ -1007,6 +1029,9 @@
     <string name="audio_delay_bt">Ritardo audio impostato a %s ms per il dispositivo Bluetooth</string>
     <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
     <string name="go_to_folder">Sfoglia superiore</string>
+    <string name="go_to_album">Vai all\'album</string>
+    <string name="go_to_artist">Vai all\'artista</string>
+    <string name="go_to_album_artist">Vai all\'artista dell\'album</string>
     <string name="create_shortcut">Crea una scorciatoia per l\'esecutore</string>
     <string name="no_sub_renderer">I sottotitoli non sono ancora supportati durante la trasmissione</string>
     <string name="enqueuing">Caricamento dei tuoi media</string>
@@ -1080,6 +1105,14 @@
     <string name="notification_permission">Permessi notifiche</string>
     <string name="notification_permission_explanation">VLC ha bisogno della tua autorizzazione per inviare notifiche.\nL\'applicazione ti avviserà solo durante la scansione dei tuoi file multimediali o utilizzando il video personalizzato Picture in Picture.\nIl rifiuto non impedirà a VLC di funzionare, tuttavia le notifiche saranno nascoste.</string>
     <string name="permission">Permesso</string>
+    <string name="permission_no_access">Nessun accesso ai file</string>
+    <string name="permissions">Permessi</string>
+    <string name="permissions_summary">Elenco di tutti i permessi</string>
+    <string name="manage_storage_permission">Permessi sui file</string>
+    <string name="permission_media_title">Accesso ai file multimediali standard</string>
+    <string name="permission_all_title">Accesso a tutti i file</string>
+    <string name="permission_all_warning">Per abilitarlo, devi prima disabilitare l\'accesso standard ai file multimediali</string>
+    <string name="permission_media_warning">Per abilitarlo, devi prima disabilitare l\'accesso completo ai file</string>
     <string name="customize">Personalizza</string>
     <string name="selection_count">%d selezionati</string>
     <string name="control_setting">Impostazioni di controllo</string>
@@ -1287,4 +1320,17 @@
     <string name="restore_settings">Ripristina le impostazioni</string>
     <string name="export_settings_success">Impostazioni esportate correttamente nella radice dell\'archiviazione interna</string>
     <string name="export_settings_failure">Si è verificato un problema durante l\'esportazione delle impostazioni</string>
+
+    <string name="queue_info">Informazioni sulla coda</string>
+    <string name="queue_info_none">Non mostrare la posizione della coda</string>
+    <string name="queue_info_before_title">Prima del titolo</string>
+    <string name="queue_info_after_title">Dopo il titolo</string>
+    <string name="queue_info_before_subtitle">Prima del sottotitolo</string>
+
+    <string name="title_size">Dimensione testo del titolo</string>
+    <string name="subtitle_size">Dimensione testo del sottotitolo</string>
+
+    <string name="queue_format">Formato della coda</string>
+    <string name="queue_format_short_desc">Posizione della coda</string>
+    <string name="queue_format_long_desc">Posizione della coda / Dimensione della coda</string>
 </resources>

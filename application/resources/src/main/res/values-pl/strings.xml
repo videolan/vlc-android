@@ -315,7 +315,6 @@
     <string name="browser_show_hidden_files_title">Pokaż ukryte pliki</string>
     <string name="albums_show_track_numbers">Pokaż numery ścieżek</string>
     <string name="enable_video_screenshot">Zrób zrzut ekranu</string>
-
     <string name="subtitles_prefs_category">Napisy</string>
     <string name="subtitles_size_title">Rozmiar napisów</string>
     <string name="subtitles_presets_title">Presety napisów</string>
@@ -433,7 +432,6 @@
     <string name="dump_logcat_failure">Nie udało się zrzucić dziennika zdarzeń.</string>
     <string name="custom_libvlc_options">Własne opcje libVLC</string>
     <string name="custom_libvlc_options_invalid">Nieprawidłowe opcje libVLC!</string>
-
     <string name="serious_crash">Niestety, wystąpił poważny błąd i aplikacja VLC została zamknięta.</string>
     <string name="help_us_send_log">Pomóż nam ulepszyć VLC przez wysłanie dziennika awarii:</string>
     <string name="restart_vlc">Uruchom ponownie VLC</string>
@@ -447,8 +445,6 @@
     <string name="no_result">Nie znaleziono wyników</string>
     <string name="no_internet_connection">Sprawdź swoje połączenie internetowe</string>
     <string name="retry">Ponów</string>
-    <string name="subs_download_error">Serwis niedostępny, spróbuj ponownie później</string>
-
     <string name="network_browsing">Sieć lokalna</string>
     <string name="browsing">Przeglądanie</string>
 
@@ -760,7 +756,6 @@
     <string name="sub_result_by_name">Wyniki dla %s</string>
     <string name="sub_result_by_name_season">Sezon %s</string>
     <string name="sub_result_by_name_episode">Odcinek %s</string>
-
     <string name="sub_result_by_file">Wyniki dla Twojego pliku</string>
     <string name="donate">Pomóż VLC</string>
     <string name="donate_desc">Wspieraj wolontariuszy tworzących VLC</string>

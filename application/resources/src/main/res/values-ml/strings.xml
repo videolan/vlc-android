@@ -476,8 +476,6 @@
     <string name="no_result">ഫലങ്ങൾ ലഭ്യമല്ല </string>
     <string name="no_internet_connection">നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക </string>
     <string name="retry">വീണ്ടും ശ്രമിക്കുക</string>
-    <string name="subs_download_error">സേവനം ലഭ്യമല്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക</string>
-
     <string name="network_browsing">പ്രാദേശിക ശ്രിന്ഘല </string>
     <string name="browsing">ബ്രൗസിങ് </string>
 
@@ -520,9 +518,6 @@
     <string name="click_here">കൂടുതലറിയാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക.</string>
     <string name="allow_storage_access_title">വീഡിയോ, ശബ്ദ ഫയലുകൾ ഉപയോഗിക്കാൻ വിഎൽസി യെ അനുവദിക്കുക </string>
     <string name="allow_storage_access_description">ഈ ഉപകരണത്തിലെ മീഡിയ ഫയലുകൾ കൈകാര്യം ചെയ്യാൻ വിഎൽസി ക്ക് ഈ അനുവാദം നൽകുക </string>
-    <string name="allow_storage_manager_title">വിഎൽസി യെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ അനുവദിക്കുക</string>
-    <string name="allow_storage_manager_description">%s\n\nഅനുമതി നൽകണോ?</string>
-    <string name="allow_storage_manager_explanation">വിഎൽസിയുടെ എല്ലാ കഴിവുകളും എല്ലാത്തരം മീഡിയ ഫയലുകളുടെയും പിന്തുണയും ലഭിക്കുന്നതിന്, ഈ അനുമതി നൽകാൻ ഞങ്ങൾ ശക്തമായി നിർദ്ദേശിക്കുന്നു.</string>
     <string name="partial_content">വിഎൽസി ക്ക് നിങ്ങളുടെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ കഴിയുന്നില്ല</string>
     <string name="partial_content_description">ആൻഡ്രോയിഡ് 11 മുതൽ, ഉപകരണത്തിന്റെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ അപ്ലിക്കേഷനുകൾക്ക് പ്രത്യേക അനുമതി ആവശ്യമാണ്.\n\n%s</string>
     <string name="never_ask_again">ഇനി ഒരിക്കലും ചോദിക്കരുത്</string>
@@ -811,7 +806,6 @@
     <string name="sub_result_by_name">%s എന്നതിനായുള്ള ഫലങ്ങൾ</string>
     <string name="sub_result_by_name_season">സീസൺ %s</string>
     <string name="sub_result_by_name_episode">എപ്പിസോഡ് %s</string>
-
     <string name="sub_result_by_file">നിങ്ങളുടെ ഫയലിനായുള്ള ഫലങ്ങൾ</string>
     <string name="donate">VLC-യെ സഹായിക്കുക</string>
     <string name="donate_desc">VLC നിർമ്മിക്കുന്ന സന്നദ്ധപ്രവർത്തകരെ പിന്തുണയ്ക്കുക</string>

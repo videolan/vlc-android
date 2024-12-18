@@ -84,6 +84,11 @@
     <string name="albums">Albümler</string>
     <string name="tracks">Kayıtlar</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 yer imi kaydedilmiş</item>
+        <item quantity="other">%d yer imi kaydedilmiş</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 albüm</item>
         <item quantity="other">%d albüm</item>
@@ -571,7 +576,7 @@
     <string name="no_result">Herhangi bir sonuç bulunamadı</string>
     <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
     <string name="retry">Yeniden dene</string>
-    <string name="subs_download_error">Hizmet kullanılamıyor. Lütfen bir süre sonra yeniden deneyin</string>
+    <string name="open_subs_download_error">OpenSubtitles şu anda kullanılamıyor. Lütfen bir süre sonra yeniden deneyin</string>
 
     <string name="network_browsing">Yerel ağ</string>
     <string name="browsing">Göz at</string>
@@ -593,6 +598,7 @@
     <string name="go_to_chapter">Bölüme git…</string>
     <string name="current_chapter">Bölüm: %s</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
+    <string name="apply_playqueue">Oynatma kuyruğunun tümüne uygula</string>
     <string name="confirm_resume_title">Oynatılan görüntüler sürdürülsün</string>
     <string name="confirm_resume_audio_title">Oynatılan sesi sürdür</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
@@ -639,9 +645,6 @@
     <string name="click_here">Ayrıntılı bilgi almak için buraya tıklayın.</string>
     <string name="allow_storage_access_title">VLC, görüntü ve ses dosyalarına erişebilsin</string>
     <string name="allow_storage_access_description">VLC bu aygıttaki ortam dosyalarına erişmek için bu izne gerek duyar.</string>
-    <string name="allow_storage_manager_title">VLC, tüm dosyalara erişebilsin</string>
-    <string name="allow_storage_manager_description">%s\n\nİzin verilsin mi?</string>
-    <string name="allow_storage_manager_explanation">Tüm VLC özelliklerini kullanmak ve her tür ortam dosyasını desteklemek için bu izni vermeniz önerilir.</string>
     <string name="partial_content">VLC, tüm dosyalarınıza erişemiyor</string>
     <string name="partial_content_description">Android 11 sürümünden başlayarak, uygulamaların tüm aygıt dosyalarına erişebilmesi için özel izin verilmelidir.\n\n%s</string>
     <string name="never_ask_again">Bir daha sorma</string>
@@ -692,6 +695,20 @@
     <string name="popup_playback">Açılan pencerede oynatılıyor</string>
     <string name="popup_expand">Görüntüyü genişlet</string>
     <string name="download_subtitles">Alt yazıları indir</string>
+    <string name="powered_opensubtitles">OpenSubtitles tarafından sunuluyor</string>
+    <string name="open_subtitles_not_logged_in">OpenSubtitles oturumu açmamışsınız\n.Oturum açarsanız daha fazla indirmeye erişebileceksiniz</string>
+    <string name="open_subtitles_logged_in">%1$s olarak oturum açıldı</string>
+    <string name="open_subtitles_limits">
+%1$s / %2$s indirme hakkınız kaldı. Sınırlamanız %3$s zamanında sıfırlanacak.</string>
+    <string name="open_subtitles_vip">Bir VIP OpenSubtitles kullanıcısısınız</string>
+    <string name="open_subtitles_register">Hesap aç</string>
+    <string name="open_subtitles_log_out">Oturumu kapat</string>
+    <string name="open_subtitles_username">Kullanıcı adı</string>
+    <string name="open_subtitles_password">Parola</string>
+    <string name="open_subtitles_is_vip">VIP hesabı</string>
+    <string name="open_subtitles_is_not_vip">Standard hesap</string>
+    <string name="login_error">Kimlik doğrulama bilgileri geçersiz</string>
+    <string name="unknown_error">Beklenmeyen sorun</string>
     <string name="browse_folder">Klasöre göz at</string>
     <string name="listen">Dinle</string>
     <string name="apply_to_bt">Bluetooth aygıtlara uygulanır</string>
@@ -775,12 +792,14 @@
     <string name="rename_media">%1$s yeniden adlandır</string>
     <string name="manual_search">El ile arama</string>
     <string name="subtitle_search_name_hint">Ad</string>
+    <string name="subtitle_query_edit">Alt yazı arama sorgusunu düzenle</string>
     <string name="subtitle_search_episode_hint">Bölüm</string>
     <string name="subtitle_search_season_hint">Sezon</string>
     <string name="subtitles_download_failed">İndirilemedi</string>
     <string name="language_to_download">Dil</string>
     <string name="delete_the_selected">Seçimi sil</string>
     <string name="download_the_selected">Seçimi indir</string>
+    <string name="no_sub_history">Bu ortam için bir alt yazı bulunamadı</string>
     <string name="next">Sonraki</string>
     <string name="skip">Atla</string>
     <string name="next_step">Sonraki</string>
@@ -800,6 +819,8 @@
     <string name="welcome_title">VLC\'ye hoş geldiniz!</string>
     <string name="welcome_subtitle">Özgür ve açık kaynaklı çoklu ortam oynatıcısı</string>
     <string name="permission_media">VLC, aygıtınızdaki ortamlara erişmek için izninizi istiyor</string>
+    <string name="permission_video">VLC, aygıtınızdaki görüntü ortamlarına erişmek için izninizi istiyor</string>
+    <string name="permission_audio">VLC, aygıtınızdaki ses ortamlarına erişmek için izninizi istiyor</string>
     <string name="medialibrary_scan_explanation">VLC, ortam derlemenizi düzenlemek için aygıtınızı otomatik olarak tarayabilir.</string>
     <string name="onboarding_theme_title">Kendinizi evinizde hissedin</string>
     <string name="done">Bitti</string>
@@ -952,6 +973,7 @@
     <string name="sub_result_by_name">%s için sonuçlar</string>
     <string name="sub_result_by_name_season">%s. sezon</string>
     <string name="sub_result_by_name_episode">%s. bölüm</string>
+    <string name="sub_result_by_name_hearing_impaired">Yalnızca işitme engelli</string>
 
     <string name="sub_result_by_file">Dosyanızın sonuçları</string>
     <string name="donate">VLC projesine destek olun</string>
@@ -995,6 +1017,9 @@
     <string name="audio_delay_bt">Bluetooth aygıtı için ses gecikmesi %s ms olarak ayarlandı</string>
     <string name="warning_stream_speed">Akışlarda oynatma hızının 1 üzerine çıkarılması takılmaya neden olabilir</string>
     <string name="go_to_folder">Üst ögeye göz at</string>
+    <string name="go_to_album">Albüme git</string>
+    <string name="go_to_artist">Sanatçıya git</string>
+    <string name="go_to_album_artist">Albüm sanatçısına git</string>
     <string name="create_shortcut">Başlatıcı kısayolu oluştur</string>
     <string name="no_sub_renderer">Henüz yayın sırasında alt yazı desteği sunulmuyor</string>
     <string name="enqueuing">Ortamınız yükleniyor</string>
@@ -1068,6 +1093,14 @@
     <string name="notification_permission">Bildirim izni</string>
     <string name="notification_permission_explanation">VLC uygulamasının bildirim gönderebilmesi için izin vermeniz gerekiyor.\nUygulama, yalnızca ortamınızı tararken veya özel görüntüde görüntü içinde görüntü kullanırken sizi bilgilendirir.\nBu izni reddetmek VLC uygulamasının çalışmasını engellemez, ancak bildirimler gizlenir.</string>
     <string name="permission">İzin</string>
+    <string name="permission_no_access">Dosyalara erişme izni yok</string>
+    <string name="permissions">İzinler</string>
+    <string name="permissions_summary">Tüm izinlerin listesi</string>
+    <string name="manage_storage_permission">Dosya izinleri</string>
+    <string name="permission_media_title">Standart ortamlara erişme izni</string>
+    <string name="permission_all_title">Tüm dosyalara erişme izni</string>
+    <string name="permission_all_warning">Bunu açmak için önce standart ortam dosyalarına erişme iznini kapatmalısınız</string>
+    <string name="permission_media_warning">Bunu açmak için önce tüm dosyalara erişme iznini kapatmalısınız</string>
     <string name="customize">Özelleştir</string>
     <string name="selection_count">%d seçilmiş</string>
     <string name="control_setting">Denetim ayarları</string>
@@ -1273,4 +1306,17 @@
     <string name="restore_settings">Ayarları geri yükle</string>
     <string name="export_settings_success">Ayarlar iç depolama alanı kök klasörüne dışa aktarıldı</string>
     <string name="export_settings_failure">Ayarlarınız dışa aktarılırken bir sorun çıktı</string>
+
+    <string name="queue_info">Kuyruk bilgileri</string>
+    <string name="queue_info_none">Kuyruk konumu görüntülenmesin</string>
+    <string name="queue_info_before_title">Başlıktan önce</string>
+    <string name="queue_info_after_title">Başlıktan sonra</string>
+    <string name="queue_info_before_subtitle">Alt yazıdan önce</string>
+
+    <string name="title_size">Başlık yazı boyutu</string>
+    <string name="subtitle_size">Alt yazı boyutu</string>
+
+    <string name="queue_format">Kuyruk biçimi</string>
+    <string name="queue_format_short_desc">Kuyruk konumu</string>
+    <string name="queue_format_long_desc">Kuyruk konumu / Kuyruk boyutu</string>
 </resources>

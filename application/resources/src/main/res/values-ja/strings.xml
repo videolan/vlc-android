@@ -83,6 +83,10 @@
     <string name="albums">アルバム</string>
     <string name="tracks">トラック</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="other">%d のブックマークを保存しました</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d アルバム</item>
     </plurals>
@@ -561,7 +565,7 @@
     <string name="no_result">結果がみつかりません</string>
     <string name="no_internet_connection">インターネット接続を確認してください</string>
     <string name="retry">再試行</string>
-    <string name="subs_download_error">サービスは利用できません。あとで再試行してください</string>
+    <string name="open_subs_download_error">OpenSubtitles は現在利用できません。あとで再試行してください。</string>
 
     <string name="network_browsing">ローカルネットワーク</string>
     <string name="browsing">ブラウジング</string>
@@ -583,6 +587,7 @@
     <string name="go_to_chapter">チャプター指定…</string>
     <string name="current_chapter">チャプター: %s</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
+    <string name="apply_playqueue">すべての再生キューに適用</string>
     <string name="confirm_resume_title">再生していたビデオを再開</string>
     <string name="confirm_resume_audio_title">再生していたオーディオを再開</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
@@ -629,9 +634,6 @@
     <string name="click_here">ここをクリックすると詳細を表示します。</string>
     <string name="allow_storage_access_title">VLCがビデオとオーディオファイルにアクセスすることを許可</string>
     <string name="allow_storage_access_description">このデバイスのメディアファイルにアクセスするためにVLCに許可を与える必要があります。</string>
-    <string name="allow_storage_manager_title">VLCにすべてのファイルへのアクセスを許可</string>
-    <string name="allow_storage_manager_description">%s\n\n権限を付与しますか?</string>
-    <string name="allow_storage_manager_explanation">VLCのすべての機能を使用し、すべてのタイプのメディアファイルをサポートするためには、この権限を与えることを強く推奨いたします。</string>
     <string name="partial_content">VLCがすべてのファイルにアクセスできません</string>
     <string name="partial_content_description">Android 11で使用する場合、アプリケーションはデバイスのすべてのファイルにアクセスするために特別な権限が必要です。\n\n%s</string>
     <string name="never_ask_again">問い合わせない</string>
@@ -682,6 +684,19 @@
     <string name="popup_playback">ポップアップウィンドウで再生中</string>
     <string name="popup_expand">ビデオを拡大</string>
     <string name="download_subtitles">字幕をダウンロード</string>
+    <string name="powered_opensubtitles">Powered by OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">OpenSubtitles にログインしていません\nログインすることで多くのダウンロードが行えるようになります</string>
+    <string name="open_subtitles_logged_in">%1$s としてログイン</string>
+    <string name="open_subtitles_limits">ダウンロード数 %2$s のうち %1$s が残っています。制限は %3$s でリセットされます。</string>
+    <string name="open_subtitles_vip">あなたは OpenSubtitles のVIPユーザーです</string>
+    <string name="open_subtitles_register">登録</string>
+    <string name="open_subtitles_log_out">ログアウト</string>
+    <string name="open_subtitles_username">ユーザー名</string>
+    <string name="open_subtitles_password">パスワード</string>
+    <string name="open_subtitles_is_vip">VIPアカウント</string>
+    <string name="open_subtitles_is_not_vip">標準アカウント</string>
+    <string name="login_error">無効なクレデンシャル</string>
+    <string name="unknown_error">予期しないエラー</string>
     <string name="browse_folder">フォルダーの参照</string>
     <string name="listen">Listen</string>
     <string name="apply_to_bt">bluetoothデバイスへ適用</string>
@@ -765,12 +780,14 @@
     <string name="rename_media">変名 %1$s</string>
     <string name="manual_search">手動による検索</string>
     <string name="subtitle_search_name_hint">名前</string>
+    <string name="subtitle_query_edit">字幕の検索クエリを編集</string>
     <string name="subtitle_search_episode_hint">エピソード</string>
     <string name="subtitle_search_season_hint">シーズン</string>
     <string name="subtitles_download_failed">ダウンロードに失敗</string>
     <string name="language_to_download">言語</string>
     <string name="delete_the_selected">削除するものを選択</string>
     <string name="download_the_selected">ダウンロードするものを選択</string>
+    <string name="no_sub_history">このメディアに字幕はありません</string>
     <string name="next">次へ</string>
     <string name="skip">スキップ</string>
     <string name="next_step">次へ</string>
@@ -790,6 +807,8 @@
     <string name="welcome_title">VLCにようこそ!</string>
     <string name="welcome_subtitle">フリーでオープンソースのマルチメディアプレイヤー</string>
     <string name="permission_media">デバイスのメディアにアクセスするために許可が必要です</string>
+    <string name="permission_video">デバイスのビデオメディアにアクセスするために許可が必要です</string>
+    <string name="permission_audio">デバイスのオーディオメディアにアクセスするために許可が必要です</string>
     <string name="medialibrary_scan_explanation">メディアコレクションを整理するために自動的にデバイス上のメディアを検索します。</string>
     <string name="onboarding_theme_title">ご家庭での個人的な利用</string>
     <string name="done">完了</string>
@@ -940,6 +959,7 @@
     <string name="sub_result_by_name">%s に対する結果</string>
     <string name="sub_result_by_name_season">シーズン %s</string>
     <string name="sub_result_by_name_episode">エピソード %s</string>
+    <string name="sub_result_by_name_hearing_impaired">聴覚障害のみ</string>
 
     <string name="sub_result_by_file">あなたのファイルに対する結果</string>
     <string name="donate">VLCを支援</string>
@@ -983,6 +1003,9 @@
     <string name="audio_delay_bt">bluetoothデバイスのオーディオに %s ミリ秒の遅延を適用</string>
     <string name="warning_stream_speed">再生速度を1以上にすると音声の途切れが発生することがあります</string>
     <string name="go_to_folder">親をブラウズ</string>
+    <string name="go_to_album">アルバムに移動</string>
+    <string name="go_to_artist">アーティストに移動</string>
+    <string name="go_to_album_artist">アルバムアーティストに移動</string>
     <string name="create_shortcut">ランチャーのショートカットを作成</string>
     <string name="no_sub_renderer">キャスト中の字幕はまだサポートされていません</string>
     <string name="enqueuing">メディアを読み込み中</string>
@@ -1056,6 +1079,14 @@
     <string name="notification_permission">通知権限</string>
     <string name="notification_permission_explanation">VLCは通知を送信するために許可が必要です。\nアプリケーションがメディアをスキャンする時、およびカスタムのピクチャーインピクチャーを使用する時のみ通知を行います。\n通知を拒否してもVLCは動作しますが、通知が行われなくなります。</string>
     <string name="permission">権限</string>
+    <string name="permission_no_access">ファイルアクセスがありません</string>
+    <string name="permissions">権限</string>
+    <string name="permissions_summary">すべての権限を表示</string>
+    <string name="manage_storage_permission">ファイルの権限</string>
+    <string name="permission_media_title">標準メディアへのアクセス</string>
+    <string name="permission_all_title">すべてのファイルアクセス</string>
+    <string name="permission_all_warning">この機能を有効にする前に、標準メディアファイルのアクセスを無効にする必要があります</string>
+    <string name="permission_media_warning">この機能を有効にする前に、すべてのファイル権限を無効にする必要があります</string>
     <string name="customize">カスタマイズ</string>
     <string name="selection_count">%d 選択されました</string>
     <string name="control_setting">制御設定</string>
@@ -1259,4 +1290,17 @@
     <string name="restore_settings">設定をリストアする</string>
     <string name="export_settings_success">内部ストレージのルートに設定が正常にエクスポートされました</string>
     <string name="export_settings_failure">設定をエクスポート中に何らかの異常が発生しました</string>
+
+    <string name="queue_info">キュー情報</string>
+    <string name="queue_info_none">キューの位置を非表示</string>
+    <string name="queue_info_before_title">タイトルの前</string>
+    <string name="queue_info_after_title">タイトルの後</string>
+    <string name="queue_info_before_subtitle">字幕の前</string>
+
+    <string name="title_size">タイトルのテキストサイズ</string>
+    <string name="subtitle_size">字幕のテキストサイズ</string>
+
+    <string name="queue_format">キューフォーマット</string>
+    <string name="queue_format_short_desc">キューの位置</string>
+    <string name="queue_format_long_desc">キューの位置/キューのサイズ</string>
 </resources>
