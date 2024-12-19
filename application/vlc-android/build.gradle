@@ -181,7 +181,7 @@ dependencies {
     api "androidx.window:window:$rootProject.ext.windowVersion"
     api "androidx.media:media:$rootProject.ext.mediaVersion"
     api 'androidx.gridlayout:gridlayout:1.0.0'
-    api "androidx.car.app:app:1.3.0-rc01"
+    api "androidx.car.app:app:$rootProject.ext.carVersion"
 
     kapt ("org.xerial:sqlite-jdbc:jdbcVersion")
     kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")

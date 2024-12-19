@@ -63,6 +63,7 @@ ext {
     constraintLayoutVersion = '2.1.4'
     windowVersion = '1.1.0'
     mediaVersion = '1.6.0'
+    carVersion = '1.7.0-beta03'
     jdbcVersion =  '3.36.0'
     viewPager2Version = "1.0.0"
     archVersion = '2.2.0'
