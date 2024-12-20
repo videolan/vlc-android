@@ -124,11 +124,14 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         binding.notificationPermissionContainer.setOnClickListener {
             if (Permissions.canSendNotifications(requireActivity())) {
                 Permissions.showAppSettingsPage(requireActivity())
-            } else ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(
-                    Manifest.permission.POST_NOTIFICATIONS
-                ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
-            )
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(), arrayOf(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+                )
+                Permissions.timeAsked = System.currentTimeMillis()
+            }
         }
 
 
@@ -246,14 +249,15 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                 binding.manageAllPermsCheck.background  = ContextCompat.getDrawable(requireActivity(), R.drawable.rounded_corners_permissions_warning)
                 showWarning()
             } else
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     ActivityCompat.requestPermissions(
                         requireActivity(), arrayOf(
                             Manifest.permission.READ_MEDIA_VIDEO,
                             Manifest.permission.READ_MEDIA_AUDIO
                         ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                     )
-                else lifecycleScope.launch {
+                    Permissions.timeAsked = System.currentTimeMillis()
+                } else lifecycleScope.launch {
                     requireActivity().getStoragePermission(withDialog = false, onlyMedia = true)
                 }
         }
@@ -265,6 +269,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                         Manifest.permission.READ_MEDIA_AUDIO
                     ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                 )
+                Permissions.timeAsked = System.currentTimeMillis()
             }
         }
 
@@ -275,6 +280,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                         Manifest.permission.READ_MEDIA_VIDEO
                     ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                 )
+                Permissions.timeAsked = System.currentTimeMillis()
             }
         }
 

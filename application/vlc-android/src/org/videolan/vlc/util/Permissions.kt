@@ -59,6 +59,7 @@ import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
 
 object Permissions {
 
+    var timeAsked: Long = -1L
     const val PERMISSION_STORAGE_TAG = 255
     const val PERMISSION_SETTINGS_TAG = 254
     const val PERMISSION_WRITE_STORAGE_TAG = 253
