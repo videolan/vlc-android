@@ -161,6 +161,21 @@
                     app:chipSpacing="16dp">
 
                 <com.google.android.material.chip.Chip
+                        android:id="@+id/orientation_quick_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:textStartPadding="0dp"
+                        app:textEndPadding="0dp"
+                        app:chipStartPadding="4dp"
+                        app:chipEndPadding="4dp"
+                        android:padding="4dp"
+                        app:iconStartPadding="4dp"
+                        app:iconEndPadding="4dp"
+                        android:onClick="onClick"
+                        app:chipBackgroundColor="@color/playerbackground"
+                        app:chipIcon="@drawable/ic_player_lock_portrait"
+                        app:chipIconTint="@color/white"/>
+                <com.google.android.material.chip.Chip
                         android:id="@+id/playback_speed_quick_action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

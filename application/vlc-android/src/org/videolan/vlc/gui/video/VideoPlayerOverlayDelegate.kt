@@ -705,6 +705,36 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             }
             hudBinding.orientationToggle.setImageDrawable(ContextCompat.getDrawable(player, drawable))
         }
+        if (::hudRightBinding.isInitialized) {
+            if (player.orientationMode.locked) {
+                val drawable = if (player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+                    R.drawable.ic_player_lock_landscape
+                } else {
+                    R.drawable.ic_player_lock_portrait
+                }
+                hudRightBinding.orientationQuickAction.setVisible()
+                hudRightBinding.orientationQuickAction.chipIcon = ContextCompat.getDrawable(player, drawable)
+            } else hudRightBinding.orientationQuickAction.setGone()
+        }
+    }
+
+    fun nextOrientation() {
+        val orientations = arrayOf(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
+        val orientation = when (player.orientationMode.orientation) {
+            ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> orientations[0]
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT -> orientations[1]
+            else -> orientations[orientations.indexOf(player.orientationMode.orientation) + 1]
+        }
+        player.setOrientation(orientation)
+        val string = when (orientation) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> player.getString(R.string.screen_orientation_portrait)
+            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> player.getString(R.string.screen_orientation_portrait_reverse)
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> player.getString(R.string.screen_orientation_landscape)
+            else -> player.getString(R.string.screen_orientation_landscape_reverse)
+        }
+        showInfo(string, 1000)
+        updateOrientationIcon()
+        showOverlay()
     }
 
     fun updateRendererVisibility() {

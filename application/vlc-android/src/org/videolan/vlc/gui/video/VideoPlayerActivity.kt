@@ -1978,6 +1978,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayDelegate.hideOverlay(false)
                 takeScreenshot()
             }
+            R.id.orientation_quick_action -> {
+                overlayDelegate.nextOrientation()
+            }
         }
     }
 
