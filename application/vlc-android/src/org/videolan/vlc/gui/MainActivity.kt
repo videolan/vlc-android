@@ -160,6 +160,7 @@ class MainActivity : ContentActivity(),
             }?.show()
             settings.putSingle(PERMISSION_NEXT_ASK, System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2))
         }
+        updateIncognitoModeIcon()
         configurationChanged(getScreenWidth())
     }
 
