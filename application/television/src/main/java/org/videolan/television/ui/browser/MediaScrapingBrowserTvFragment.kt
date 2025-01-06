@@ -39,7 +39,11 @@ import org.videolan.resources.CATEGORY_VIDEOS
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.resources.util.getFromMl
-import org.videolan.television.ui.*
+import org.videolan.television.ui.MediaScrapingTvItemAdapter
+import org.videolan.television.ui.MediaScrapingTvshowDetailsActivity
+import org.videolan.television.ui.TV_SHOW_ID
+import org.videolan.television.ui.TvItemAdapter
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.viewmodel.MediaScrapingBrowserViewModel
 import org.videolan.television.viewmodel.getMoviepediaBrowserModel
 import org.videolan.vlc.R
@@ -69,17 +73,18 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
     }
 
     companion object {
-        fun newInstance(type: Long) =
-                MediaScrapingBrowserTvFragment().apply {
-                    arguments = bundleOf(CATEGORY to type)
-                }
+        fun newInstance(type: Long) = MediaScrapingBrowserTvFragment().apply {
+            arguments = bundleOf(CATEGORY to type)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getMoviepediaBrowserModel(arguments?.getLong(CATEGORY, HEADER_MOVIES)
-                ?: HEADER_MOVIES)
+        viewModel = getMoviepediaBrowserModel(
+            arguments?.getLong(CATEGORY, HEADER_MOVIES)
+                ?: HEADER_MOVIES
+        )
 
         (viewModel.provider as MediaScrapingProvider).pagedList.observe(this) { items ->
             binding.emptyLoading.post {
@@ -88,7 +93,8 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
                 binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
 
                 //headers
-                val nbColumns = if ((viewModel as MediaScrapingBrowserViewModel).sort == Medialibrary.SORT_ALPHA || (viewModel as MediaScrapingBrowserViewModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
+                val nbColumns =
+                    if ((viewModel as MediaScrapingBrowserViewModel).sort == Medialibrary.SORT_ALPHA || (viewModel as MediaScrapingBrowserViewModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
 
                 binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
                 headerAdapter.sortType = (viewModel as MediaScrapingBrowserViewModel).sort
@@ -112,6 +118,7 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
                 intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
                 requireActivity().startActivity(intent)
             }
+
             else -> {
                 item.metadata.mlId?.let {
                     lifecycleScope.launchWhenStarted {
@@ -130,6 +137,7 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
                 intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
                 requireActivity().startActivity(intent)
             }
+
             else -> {
                 item.metadata.mlId?.let {
                     lifecycleScope.launchWhenStarted {

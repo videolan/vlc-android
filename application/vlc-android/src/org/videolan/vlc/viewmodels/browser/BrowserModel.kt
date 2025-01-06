@@ -54,16 +54,17 @@ const val TYPE_PICKER = 2L
 const val TYPE_STORAGE = 3L
 
 open class BrowserModel(
-        context: Context,
-        val url: String?,
-        val type: Long,
-        private val showDummyCategory: Boolean,
-        pickerType: PickerType = PickerType.SUBTITLE,
-        coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
+    context: Context,
+    val url: String?,
+    val type: Long,
+    private val showDummyCategory: Boolean,
+    pickerType: PickerType = PickerType.SUBTITLE,
+    coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
 ) : BaseModel<MediaLibraryItem>(
-        context, coroutineContextProvider),
-        TvBrowserModel<MediaLibraryItem>,
-        IPathOperationDelegate by PathOperationDelegate() {
+    context, coroutineContextProvider
+),
+    TvBrowserModel<MediaLibraryItem>,
+    IPathOperationDelegate by PathOperationDelegate() {
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 
@@ -87,7 +88,9 @@ open class BrowserModel(
      */
     fun reSort() {
         viewModelScope.launch {
-            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) } }
+            dataset.value = withContext(coroutineContextProvider.Default) {
+                dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) }
+            }
         }
     }
 
@@ -109,7 +112,9 @@ open class BrowserModel(
             desc = if (sort == Medialibrary.SORT_DEFAULT) false else !desc
             provider.sort = sort
             provider.desc = desc
-            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) } }
+            dataset.value = withContext(coroutineContextProvider.Default) {
+                dataset.value.apply { provider.sort(this) }.also { provider.computeHeaders(dataset.value) }
+            }
             settings.putSingle(sortKey, sort)
             settings.putSingle("${sortKey}_desc", desc)
         }
@@ -138,7 +143,13 @@ open class BrowserModel(
 
     suspend fun customDirectoryExists(path: String) = DirectoryRepository.getInstance(context).customDirectoryExists(path)
 
-    class Factory(val context: Context, val url: String?, private val type: Long, private val showDummyCategory: Boolean = true, private val pickerType: PickerType = PickerType.SUBTITLE) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(
+        val context: Context,
+        val url: String?,
+        private val type: Long,
+        private val showDummyCategory: Boolean = true,
+        private val pickerType: PickerType = PickerType.SUBTITLE
+    ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return BrowserModel(context.applicationContext, url, type, showDummyCategory = showDummyCategory, pickerType = pickerType) as T
@@ -149,7 +160,9 @@ open class BrowserModel(
 
     suspend fun toggleBanState(path: String) = withContext(Dispatchers.IO) {
         val bannedFolders = Medialibrary.getInstance().bannedFolders()
-        if (MedialibraryUtils.isStrictlyBanned(path, bannedFolders.toList())) Medialibrary.getInstance().unbanFolder(path) else if (!MedialibraryUtils.isBanned(path, bannedFolders.toList())) Medialibrary.getInstance().banFolder(path)
+        if (MedialibraryUtils.isStrictlyBanned(path, bannedFolders.toList())) Medialibrary.getInstance()
+            .unbanFolder(path) else if (!MedialibraryUtils.isBanned(path, bannedFolders.toList())) Medialibrary.getInstance()
+            .banFolder(path)
     }
 
     fun refreshMedia(mw: MediaWrapper, timeChanged: Long) {
@@ -181,4 +194,7 @@ open class BrowserModel(
 fun Fragment.getBrowserModel(category: Long, url: String?, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
     ViewModelProvider(this, NetworkModel.Factory(requireContext(), url)).get(NetworkModel::class.java)
 else
-    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)
+    ViewModelProvider(
+        this,
+        BrowserModel.Factory(requireContext(), url, category, showDummyCategory = showDummyCategory)
+    ).get(BrowserModel::class.java)

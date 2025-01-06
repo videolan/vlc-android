@@ -35,13 +35,26 @@ import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
 import androidx.leanback.widget.ListRow
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.resources.*
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.HEADER_CATEGORIES
+import org.videolan.resources.HEADER_DIRECTORIES
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_SERVER
+import org.videolan.resources.HEADER_STREAM
+import org.videolan.resources.UPDATE_DESCRIPTION
+import org.videolan.resources.UPDATE_SEEN
+import org.videolan.resources.UPDATE_THUMB
+import org.videolan.resources.UPDATE_TIME
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
@@ -61,7 +74,6 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-import java.util.*
 
 object TvUtil {
 
@@ -76,12 +88,12 @@ object TvUtil {
         override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
             if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return oldItem.description == newItem.description
             val oldMedia = oldItem as? MediaWrapper
-                    ?: return true
+                ?: return true
             val newMedia = newItem as? MediaWrapper
-                    ?: return true
+                ?: return true
             return oldMedia === newMedia || (oldMedia.time == newMedia.time
-                    && oldMedia.artworkMrl == newMedia.artworkMrl
-                    && oldMedia.seen == newMedia.seen)
+                && oldMedia.artworkMrl == newMedia.artworkMrl
+                && oldMedia.seen == newMedia.seen)
         }
 
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any {
@@ -95,9 +107,11 @@ object TvUtil {
     }
 
     var metadataDiffCallback = object : DiffCallback<MediaMetadataWithImages>() {
-        override fun areItemsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId
+        override fun areItemsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) =
+            oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId
 
-        override fun areContentsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId && oldItem.metadata.title == newItem.metadata.title && oldItem.metadata.currentPoster == newItem.metadata.currentPoster
+        override fun areContentsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) =
+            oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId && oldItem.metadata.title == newItem.metadata.title && oldItem.metadata.currentPoster == newItem.metadata.currentPoster
     }
 
     val listDiffCallback: DiffCallback<ListRow> = object : DiffCallback<ListRow>() {
@@ -133,6 +147,7 @@ object TvUtil {
 
     @Suppress("UNCHECKED_CAST")
     fun openMedia(activity: FragmentActivity, item: Any?) {
+        println("vorobeij TvUtil.openMedia ([$activity, ${(item as? MediaWrapper)}])")
         when (item) {
             is MediaWrapper -> when (item.type) {
                 MediaWrapper.TYPE_DIR -> {
@@ -141,29 +156,37 @@ object TvUtil {
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
+
                 else -> {
-                   MediaUtils.openMedia(activity, item)
+                    MediaUtils.openMedia(activity, item)
                 }
             }
+
             is DummyItem -> when (item.id) {
                 HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
-                HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+
+                HEADER_SERVER -> activity.startActivity(
+                    Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }
+
             is MediaLibraryItem -> openAudioCategory(activity, item)
         }
     }
 
     fun openMedia(activity: FragmentActivity, item: Any?, model: BrowserModel) {
+        println("vorobeij TvUtil.openMedia ([activity, $item, model])")
         when (item) {
             is MediaWrapper -> when (item.type) {
                 MediaWrapper.TYPE_AUDIO -> {
@@ -171,38 +194,47 @@ object TvUtil {
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
+
                 MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
+
                 else -> {
                     model.run {
                         if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI)) {
                             MediaUtils.openMedia(activity, item)
-                        } else {
+                        } else { // todo
                             val list = (dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }
+                            println("vorobeij TvUtil.openMedia ([]) $list")
                             val position = list.getposition(item)
                             MediaUtils.openList(activity, list, position)
                         }
                     }
                 }
             }
+
             is DummyItem -> when (item.id) {
                 HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
-                HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+
+                HEADER_SERVER -> activity.startActivity(
+                    Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }
+
             is MediaLibraryItem -> openAudioCategory(activity, item)
         }
     }
@@ -218,12 +250,14 @@ object TvUtil {
                         playAudioList(activity, list, list.getposition(item))
                     })
                 }
+
                 MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
+
                 else -> {
                     provider.loadPagedList(activity, {
                         (provider.getAll().toList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
@@ -232,28 +266,43 @@ object TvUtil {
                     })
                 }
             }
+
             is DummyItem -> when (item.id) {
                 HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
-                HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+
+                HEADER_SERVER -> activity.startActivity(
+                    Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }
+
             is MediaLibraryItem -> openAudioCategory(activity, item)
         }
     }
 
-    fun showMediaDetail(activity: Context, mediaWrapper: MediaWrapper, fromHistory:Boolean = false) {
+    fun showMediaDetail(activity: Context, mediaWrapper: MediaWrapper, fromHistory: Boolean = false) {
         val intent = Intent(activity, DetailsActivity::class.java)
         intent.putExtra("media", mediaWrapper)
-        intent.putExtra("item", MediaItemDetails(mediaWrapper.title, mediaWrapper.artistName, mediaWrapper.albumName, mediaWrapper.location, mediaWrapper.artworkURL))
+        intent.putExtra(
+            "item",
+            MediaItemDetails(
+                mediaWrapper.title,
+                mediaWrapper.artistName,
+                mediaWrapper.albumName,
+                mediaWrapper.location,
+                mediaWrapper.artworkURL
+            )
+        )
         if (fromHistory) intent.putExtra(EXTRA_FROM_HISTORY, fromHistory)
         activity.startActivity(intent)
     }
@@ -271,10 +320,12 @@ object TvUtil {
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 context.startActivity(intent)
             }
+
             MediaLibraryItem.TYPE_MEDIA -> {
                 val list = ArrayList<MediaWrapper>().apply { add(mediaLibraryItem as MediaWrapper) }
                 playAudioList(context, list, 0)
             }
+
             else -> {
                 val intent = Intent(context, VerticalGridActivity::class.java)
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
@@ -289,14 +340,14 @@ object TvUtil {
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, item: Any?) {
     clearBackground(activity, bm)
-    if (bm === null || item === null)  return
+    if (bm === null || item === null) return
     val screenRatio: Float = activity.getScreenWidth().toFloat() / activity.getScreenHeight()
     if (item is MediaLibraryItem) launch {
         val artworkMrl = item.artworkMrl
         if (!artworkMrl.isNullOrEmpty()) {
             val blurred = withContext(Dispatchers.IO) {
                 var cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
-                        ?: return@withContext null
+                    ?: return@withContext null
                 cover = BitmapUtil.centerCrop(cover, cover.width, (cover.width / screenRatio).toInt())
                 UiTools.blurBitmap(cover, 10f)
             }
@@ -305,16 +356,16 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
         } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
             val blurred = withContext(Dispatchers.IO) {
                 var cover: Bitmap? = ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${item.id}_512", item.tracks.toList(), 512)
-                        ?: return@withContext null
+                    ?: return@withContext null
                 cover = cover?.let { BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch
             blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
         } else if (item is MediaWrapper && item.type == MediaWrapper.TYPE_ALL) {
-           val blurred = withContext(Dispatchers.IO) {
+            val blurred = withContext(Dispatchers.IO) {
                 var cover: Bitmap? = AudioUtil.fetchCoverBitmap(item.uri.toString(), 512)
-                        ?: return@withContext null
+                    ?: return@withContext null
                 cover = cover?.let { BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
                 UiTools.blurBitmap(cover, 10f)
             }

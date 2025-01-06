@@ -30,7 +30,13 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.generateResolutionClass
 
-class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private val showProtocol: Boolean, private var inGrid: Boolean = true) : DiffUtilAdapter<MediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(
+    private val eventsHandler: IEventsHandler<MediaLibraryItem>,
+    var itemSize: Int,
+    private val showProtocol: Boolean,
+    private var inGrid: Boolean = true
+) : DiffUtilAdapter<MediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(), FastScroller.SeparatedAdapter,
+    TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
@@ -46,7 +52,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
     private val defaultCover: BitmapDrawable?
     private var focusListener: FocusListener? = null
-    private var seenMediaMarkerVisible: Boolean  =true
+    private var seenMediaMarkerVisible: Boolean = true
 
     init {
         val ctx = when (eventsHandler) {
@@ -56,16 +62,24 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
         }
         defaultCover = ctx?.let { BitmapDrawable(it.resources, getBitmapFromDrawable(it, R.drawable.ic_unknown_big)) }
         seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean("media_seen", true) }
-                ?: true
+            ?: true
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
         return if (inGrid)
-            MediaItemTVViewHolder(MediaBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler, showProtocol) as MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>
+            MediaItemTVViewHolder(
+                MediaBrowserTvItemBinding.inflate(inflater, parent, false),
+                eventsHandler,
+                showProtocol
+            ) as MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>
         else
-            MediaItemTVListViewHolder(MediaBrowserTvItemListBinding.inflate(inflater, parent, false), eventsHandler, showProtocol) as MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>
+            MediaItemTVListViewHolder(
+                MediaBrowserTvItemListBinding.inflate(inflater, parent, false),
+                eventsHandler,
+                showProtocol
+            ) as MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -83,12 +97,19 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
         }
     }
 
-    override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(
+        holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
         if (payloads.isNullOrEmpty()) onBindViewHolder(holder, position)
         else for (payload in payloads) {
             when (holder.binding) {
-                is MediaBrowserTvItemBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemBinding).description =  payload else onBindViewHolder(holder, position)
-                is MediaBrowserTvItemListBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemListBinding).description = payload else onBindViewHolder(holder, position)
+                is MediaBrowserTvItemBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemBinding).description =
+                    payload else onBindViewHolder(holder, position)
+
+                is MediaBrowserTvItemListBinding -> if (payload is String) (holder.binding as MediaBrowserTvItemListBinding).description =
+                    payload else onBindViewHolder(holder, position)
             }
 
         }
@@ -114,7 +135,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             return oldList[oldItemPosition].description == newList[newItemPosition].description
-                    && oldList[oldItemPosition].title == newList[newItemPosition].title
+                && oldList[oldItemPosition].title == newList[newItemPosition].title
         }
 
         override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = arrayListOf(UPDATE_PAYLOAD)
@@ -124,11 +145,10 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
     @RequiresApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(
-            binding: MediaBrowserTvItemBinding,
-            override val eventsHandler: IEventsHandler<MediaLibraryItem>,
-            private val showProtocol: Boolean
-    ) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding)
-    {
+        binding: MediaBrowserTvItemBinding,
+        override val eventsHandler: IEventsHandler<MediaLibraryItem>,
+        private val showProtocol: Boolean
+    ) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding) {
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 
@@ -215,9 +235,9 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemTVListViewHolder(
-            binding: MediaBrowserTvItemListBinding,
-            override val eventsHandler: IEventsHandler<MediaLibraryItem>,
-            private val showProtocol: Boolean
+        binding: MediaBrowserTvItemListBinding,
+        override val eventsHandler: IEventsHandler<MediaLibraryItem>,
+        private val showProtocol: Boolean
     ) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemListBinding>(binding) {
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)

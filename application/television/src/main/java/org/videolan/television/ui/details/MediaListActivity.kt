@@ -76,7 +76,12 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
 
         binding.play.requestFocus()
-        binding.play.setOnClickListener { if (item is Playlist) TvUtil.playPlaylist(this, item as Playlist)  else TvUtil.playMedia(this, item.tracks.toMutableList())}
+        binding.play.setOnClickListener {
+            if (item is Playlist) TvUtil.playPlaylist(this, item as Playlist) else TvUtil.playMedia(
+                this,
+                item.tracks.toMutableList()
+            )
+        }
         binding.append.setOnClickListener { MediaUtils.appendMedia(this, item.tracks) }
         binding.insertNext.setOnClickListener { MediaUtils.insertNext(this, item.tracks) }
         binding.addPlaylist.setOnClickListener { addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS) }
@@ -124,7 +129,11 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
     }
 
     override fun onClickPlay(v: View, position: Int) {
-        if (item is Playlist) TvUtil.playPlaylist(this, item as Playlist, position)  else  TvUtil.playMedia(this, item.tracks.toList(), position)
+        if (item is Playlist) TvUtil.playPlaylist(this, item as Playlist, position) else TvUtil.playMedia(
+            this,
+            item.tracks.toList(),
+            position
+        )
     }
 
     override fun onClickPlayNext(v: View, position: Int) {
@@ -167,4 +176,5 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
     }
 }
 
-internal fun MediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
+internal fun MediaListActivity.getViewModel(playlist: MediaLibraryItem) =
+    ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)

@@ -62,9 +62,9 @@ class GenericCardPresenter @JvmOverloads constructor(context: Context, cardTheme
 }
 
 data class GenericCardItem(
-        val id: Long,
-        val title: String,
-        val content: String,
-        val icon: Int,
-        val color: Int
+    val id: Long,
+    val title: String,
+    val content: String,
+    val icon: Int,
+    val color: Int
 )

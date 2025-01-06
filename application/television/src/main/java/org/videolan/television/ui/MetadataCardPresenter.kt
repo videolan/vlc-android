@@ -123,7 +123,8 @@ class MetadataCardPresenter(private val context: Activity) : Presenter() {
             holder.resolution.text = generateResolutionClass(media.width, media.height)
         }
         holder.resolution.visibility = if (mediaMetadataWithImages.media != null) View.VISIBLE else View.GONE
-        holder.seenBadge.visibility = if (mediaMetadataWithImages.media?.seen != null && mediaMetadataWithImages.media?.seen!! > 0L) View.VISIBLE else View.GONE
+        holder.seenBadge.visibility =
+            if (mediaMetadataWithImages.media?.seen != null && mediaMetadataWithImages.media?.seen!! > 0L) View.VISIBLE else View.GONE
         var progress = 0
         var max = 0
         mediaMetadataWithImages.media?.let { media ->

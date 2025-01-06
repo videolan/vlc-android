@@ -32,7 +32,24 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.CATEGORY
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_ARTISTS
+import org.videolan.resources.CATEGORY_GENRES
+import org.videolan.resources.CATEGORY_PLAYLISTS
+import org.videolan.resources.CATEGORY_SONGS
+import org.videolan.resources.CATEGORY_VIDEOS
+import org.videolan.resources.FAVORITE_TITLE
+import org.videolan.resources.HEADER_CATEGORIES
+import org.videolan.resources.HEADER_DIRECTORIES
+import org.videolan.resources.HEADER_MOVIES
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_PLAYLISTS
+import org.videolan.resources.HEADER_TV_SHOW
+import org.videolan.resources.HEADER_VIDEO
+import org.videolan.resources.ITEM
+import org.videolan.resources.KEY_CURRENT_MEDIA
+import org.videolan.resources.KEY_URI
 import org.videolan.resources.util.parcelable
 import org.videolan.television.R
 import org.videolan.television.databinding.TvVerticalGridBinding
@@ -49,7 +66,7 @@ import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
     private lateinit var fragment: BrowserFragmentInterface
-    private lateinit var binding : TvVerticalGridBinding
+    private lateinit var binding: TvVerticalGridBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,39 +74,63 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
         setContentView(binding.root)
         if (savedInstanceState == null) {
             val type = intent.getLongExtra(MainTvActivity.BROWSER_TYPE, -1)
-            if (type == HEADER_VIDEO) {
-                fragment = MediaBrowserTvFragment.newInstance(CATEGORY_VIDEOS, null)
-            } else if (type == HEADER_CATEGORIES) {
-                val audioCategory = intent.getLongExtra(CATEGORY, CATEGORY_SONGS)
-                val item = intent.parcelable<MediaLibraryItem>(ITEM)
-                when (audioCategory) {
-                    CATEGORY_SONGS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
-                    CATEGORY_ALBUMS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
-                    CATEGORY_ARTISTS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ARTISTS, item)
-                    CATEGORY_GENRES -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_GENRES, item)
+            when (type) {
+                HEADER_VIDEO -> {
+                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_VIDEOS, null)
                 }
-            } else if (type == HEADER_NETWORK) {
-                var uri = intent.data
-                if (uri == null) uri = intent.parcelable(KEY_URI)
 
-                val item = if (uri == null) null else MLServiceLocator.getAbstractMediaWrapper(uri)
-                if (item != null && intent.hasExtra(FAVORITE_TITLE)) item.title = intent.getStringExtra(FAVORITE_TITLE)
+                HEADER_CATEGORIES -> {
+                    val audioCategory = intent.getLongExtra(CATEGORY, CATEGORY_SONGS)
+                    val item = intent.parcelable<MediaLibraryItem>(ITEM)
+                    when (audioCategory) {
+                        CATEGORY_SONGS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
+                        CATEGORY_ALBUMS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
+                        CATEGORY_ARTISTS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ARTISTS, item)
+                        CATEGORY_GENRES -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_GENRES, item)
+                    }
+                }
 
-                fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item, item === null)
-            } else if (type == HEADER_MOVIES || type == HEADER_TV_SHOW) {
-                fragment = MediaScrapingBrowserTvFragment.newInstance(type)
-            } else if (type == HEADER_DIRECTORIES) {
-                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) }, true)
-            } else if (type == HEADER_PLAYLISTS) {
-                fragment = MediaBrowserTvFragment.newInstance(CATEGORY_PLAYLISTS, null)
-            } else {
-                finish()
-                return
+                HEADER_NETWORK -> {
+                    var uri = intent.data
+                    if (uri == null) uri = intent.parcelable(KEY_URI)
+
+                    val item = if (uri == null) null else MLServiceLocator.getAbstractMediaWrapper(uri)
+                    if (item != null && intent.hasExtra(FAVORITE_TITLE)) item.title = intent.getStringExtra(FAVORITE_TITLE)
+
+                    fragment = FileBrowserTvFragment.newInstance(
+                        type = TYPE_NETWORK,
+                        item = item,
+                        selectedItem = null,
+                        root = item === null
+                    )
+                }
+
+                HEADER_MOVIES, HEADER_TV_SHOW -> {
+                    fragment = MediaScrapingBrowserTvFragment.newInstance(type)
+                }
+
+                HEADER_DIRECTORIES -> {
+                    fragment = FileBrowserTvFragment.newInstance(
+                        type = TYPE_FILE,
+                        item = intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) },
+                        selectedItem = intent.getStringExtra(KEY_CURRENT_MEDIA),
+                        root = true
+                    )
+                }
+
+                HEADER_PLAYLISTS -> {
+                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_PLAYLISTS, null)
+                }
+
+                else -> {
+                    finish()
+                    return
+                }
             }
             if (!::fragment.isInitialized && BuildConfig.BETA) Log.i("VerticalGridActivity", "Fragment not initialized: $type")
             supportFragmentManager.beginTransaction()
-                    .add(R.id.tv_fragment_placeholder, fragment as Fragment)
-                    .commit()
+                .add(R.id.tv_fragment_placeholder, fragment as Fragment)
+                .commit()
         }
     }
 

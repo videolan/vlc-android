@@ -65,11 +65,15 @@ class MediaScrapingTvActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tv_next)
 
-        fragment = MediaScrapingTvFragment().apply { arguments = bundleOf(MEDIA to
-                intent.parcelable<MediaWrapper>(MEDIA)) }
+        fragment = MediaScrapingTvFragment().apply {
+            arguments = bundleOf(
+                MEDIA to
+                    intent.parcelable<MediaWrapper>(MEDIA)
+            )
+        }
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_placeholder, fragment)
-                .commit()
+            .replace(R.id.fragment_placeholder, fragment)
+            .commit()
 
 
         emptyView = findViewById(R.id.empty)

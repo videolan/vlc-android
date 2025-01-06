@@ -58,7 +58,11 @@ class OnboardingFragment : OnboardingSupportFragment() {
     override fun getPageDescription(pageIndex: Int) = when (pageIndex) {
         0 -> getString(R.string.welcome_subtitle)
         1 -> getString(R.string.permission_media)
-        else -> if (canReadStorage(requireActivity()))getString(R.string.onboarding_permission_given) else "${getString(R.string.permission_expanation_no_allow)}\n${getString(R.string.permission_expanation_allow)}"
+        else -> if (canReadStorage(requireActivity())) getString(R.string.onboarding_permission_given) else "${getString(R.string.permission_expanation_no_allow)}\n${
+            getString(
+                R.string.permission_expanation_allow
+            )
+        }"
     }
 
 

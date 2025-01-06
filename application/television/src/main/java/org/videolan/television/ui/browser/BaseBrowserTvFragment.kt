@@ -30,7 +30,12 @@ import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent.*
+import android.view.KeyEvent.KEYCODE_BACK
+import android.view.KeyEvent.KEYCODE_DPAD_DOWN
+import android.view.KeyEvent.KEYCODE_DPAD_LEFT
+import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
+import android.view.KeyEvent.KEYCODE_DPAD_UP
+import android.view.KeyEvent.KEYCODE_MENU
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -50,7 +55,14 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.HeadersIndex
 import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
-import org.videolan.television.ui.*
+import org.videolan.television.ui.MediaBrowserAnimatorDelegate
+import org.videolan.television.ui.MediaHeaderAdapter
+import org.videolan.television.ui.MediaTvItemAdapter
+import org.videolan.television.ui.TvItemAdapter
+import org.videolan.television.ui.TvUtil
+import org.videolan.television.ui.clearBackground
+import org.videolan.television.ui.setAnimator
+import org.videolan.television.ui.updateBackground
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -69,8 +81,8 @@ private const val TAG = "MediaBrowserTvFragment"
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, IEventsHandler<T>,
-        PopupMenu.OnMenuItemClickListener, MediaHeaderAdapter.OnHeaderSelected,
-        VerticalGridActivity.OnKeyPressedListener {
+    PopupMenu.OnMenuItemClickListener, MediaHeaderAdapter.OnHeaderSelected,
+    VerticalGridActivity.OnKeyPressedListener {
 
     abstract fun getTitle(): String
     abstract fun getCategory(): Long
@@ -92,7 +104,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     private var inGrid = true
     protected var restarted = false
         private set
-    private var previouslySelectedItem:Int = 0
+    private var previouslySelectedItem: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = SongBrowserBinding.inflate(inflater, container, false)
@@ -110,7 +122,12 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         //overscan
         val hp = TvUtil.getOverscanHorizontal(requireContext())
         val vp = TvUtil.getOverscanVertical(requireContext())
-        binding.headerList.setPadding(binding.list.paddingLeft + hp, binding.list.paddingTop + vp, binding.list.paddingRight + hp, binding.list.paddingBottom + vp)
+        binding.headerList.setPadding(
+            binding.list.paddingLeft + hp,
+            binding.list.paddingTop + vp,
+            binding.list.paddingRight + hp,
+            binding.list.paddingBottom + vp
+        )
 
         val lp = (binding.imageButtonSettings.layoutParams as ConstraintLayout.LayoutParams)
         lp.leftMargin += hp
@@ -125,6 +142,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 is MediaLibraryItem -> if (getCategory() == TYPE_NETWORK || getCategory() == TYPE_FILE) {
                     ""
                 } else it.title
+
                 else -> ""
             }
 
@@ -149,19 +167,31 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         binding.imageButtonDisplay.setOnClickListener(displayClick)
 
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
-        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, spacing, true, viewModel.nbColumns, viewModel.provider)
+        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(
+            resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height),
+            spacing,
+            spacing,
+            true,
+            viewModel.nbColumns,
+            viewModel.provider
+        )
         inGrid = Settings.getInstance(requireActivity()).getBoolean(getDisplayPrefId(), true)
         setupDisplayIcon()
         setupLayoutManager()
 
 
         //size of an item
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - binding.list.paddingLeft - binding.list.paddingRight, viewModel.nbColumns, spacing, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(
+            requireActivity().getScreenWidth() - binding.list.paddingLeft - binding.list.paddingRight,
+            viewModel.nbColumns,
+            spacing,
+            spacing
+        )
 
         adapter = provideAdapter(this, itemSize)
         adapter.displaySwitch(inGrid)
 
-        recyclerSectionItemGridDecoration?.let { binding.list.addItemDecoration(it)}
+        recyclerSectionItemGridDecoration?.let { binding.list.addItemDecoration(it) }
 
         //header list
         binding.headerListContainer.visibility = View.GONE
@@ -189,7 +219,14 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             gridLayoutManager = object : GridLayoutManager(requireActivity(), viewModel.nbColumns) {
                 override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean) = false
 
-                override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
+                override fun requestChildRectangleOnScreen(
+                    parent: RecyclerView,
+                    child: View,
+                    rect: Rect,
+                    immediate: Boolean,
+                    focusedChildVisible: Boolean
+                ) = false
+
                 override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
                     super.onLayoutChildren(recycler, state)
                     if (previouslySelectedItem != -1 && binding.list.adapter?.itemCount ?: 0 > previouslySelectedItem) {
@@ -213,7 +250,10 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                         val firstSection = viewModel.provider.getPositionForSection(position)
                         val nbItems = position - firstSection
                         if (BuildConfig.DEBUG)
-                            Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + (viewModel.nbColumns - nbItems % viewModel.nbColumns))
+                            Log.d(
+                                "SongsBrowserFragment",
+                                "Position: " + position + " nb items: " + nbItems + " span: " + (viewModel.nbColumns - nbItems % viewModel.nbColumns)
+                            )
 
                         return viewModel.nbColumns - nbItems % viewModel.nbColumns
                     }
@@ -342,34 +382,42 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 sortBy(Medialibrary.SORT_ALPHA)
                 return true
             }
+
             R.id.ml_menu_sortby_filename -> {
                 sortBy(Medialibrary.SORT_FILENAME)
                 return true
             }
+
             R.id.ml_menu_sortby_length -> {
                 sortBy(Medialibrary.SORT_DURATION)
                 return true
             }
+
             R.id.ml_menu_sortby_date -> {
                 sortBy(Medialibrary.SORT_RELEASEDATE)
                 return true
             }
+
             R.id.ml_menu_sortby_last_modified -> {
                 sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
+
             R.id.ml_menu_sortby_artist_name -> {
                 sortBy(Medialibrary.SORT_ARTIST)
                 return true
             }
+
             R.id.ml_menu_sortby_album_name -> {
                 sortBy(Medialibrary.SORT_ALBUM)
                 return true
             }
+
             R.id.ml_menu_sortby_number -> {
                 sortBy(Medialibrary.SORT_FILESIZE)
                 return super.onOptionsItemSelected(item)
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -405,6 +453,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             animationDelegate.expandExtendedFAB()
             true
         }
+
         KEYCODE_BACK -> {
             if (binding.headerListContainer.visibility == View.VISIBLE) {
                 hideHeaderSelectionScreen()
@@ -422,12 +471,14 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 false
             } else true
         }
+
         KEYCODE_DPAD_RIGHT, KEYCODE_DPAD_LEFT -> {
             if (!inGrid && binding.list.hasFocus() && animationDelegate.isScrolled()) {
                 binding.imageButtonSettings.requestFocusFromTouch()
                 true
             } else false
         }
+
         else -> false
     }
 

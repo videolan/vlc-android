@@ -35,6 +35,7 @@ import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.vlc.R
 
 const val RESTART_CODE = 10001
+
 abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
 
     protected abstract fun getXml(): Int
@@ -46,8 +47,8 @@ abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
 
     protected fun loadFragment(fragment: Fragment) {
         activity.fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
-                .addToBackStack("main")
-                .commit()
+            .addToBackStack("main")
+            .commit()
     }
 
     protected fun buildPreferenceDialogFragment(preference: Preference): PreferenceDialogFragment? {

@@ -54,13 +54,12 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.generateResolutionClass
 
 class MediaScrapingTvItemAdapter(
-        type: Long,
-        private val eventsHandler: IEventsHandler<MediaMetadataWithImages>,
-        var itemSize: Int,
-        private var inGrid: Boolean = true
+    type: Long,
+    private val eventsHandler: IEventsHandler<MediaMetadataWithImages>,
+    var itemSize: Int,
+    private var inGrid: Boolean = true
 ) : PagedListAdapter<MediaMetadataWithImages, MediaScrapingTvItemAdapter.AbstractMediaScrapingItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
-        FastScroller.SeparatedAdapter, TvItemAdapter
-{
+    FastScroller.SeparatedAdapter, TvItemAdapter {
     override var focusNext = -1
     override fun displaySwitch(inGrid: Boolean) {
         this.inGrid = inGrid
@@ -81,8 +80,14 @@ class MediaScrapingTvItemAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaScrapingItemViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
         @Suppress("UNCHECKED_CAST")
-        return if (inGrid) MovieItemTVViewHolder(MovieBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>
-        else MovieItemTVListViewHolder(MovieBrowserTvItemListBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>
+        return if (inGrid) MovieItemTVViewHolder(
+            MovieBrowserTvItemBinding.inflate(inflater, parent, false),
+            eventsHandler
+        ) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>
+        else MovieItemTVListViewHolder(
+            MovieBrowserTvItemListBinding.inflate(inflater, parent, false),
+            eventsHandler
+        ) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -139,6 +144,7 @@ class MediaScrapingTvItemAdapter(
     companion object {
 
         private const val TAG = "VLC/MediaTvItemAdapter"
+
         /**
          * Awful hack to workaround the [PagedListAdapter] not keeping track of notifyItemMoved operations
          */
@@ -146,7 +152,8 @@ class MediaScrapingTvItemAdapter(
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MediaMetadataWithImages>() {
             override fun areItemsTheSame(
-                    oldMedia: MediaMetadataWithImages, newMedia: MediaMetadataWithImages) = if (preventNextAnim) true
+                oldMedia: MediaMetadataWithImages, newMedia: MediaMetadataWithImages
+            ) = if (preventNextAnim) true
             else oldMedia === newMedia
 
             override fun areContentsTheSame(oldMedia: MediaMetadataWithImages, newMedia: MediaMetadataWithImages) = false
@@ -171,7 +178,7 @@ class MediaScrapingTvItemAdapter(
 
         fun onLongClick(view: View): Boolean {
             return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) }
-                    ?: false
+                ?: false
         }
 
         fun onImageClick(v: View) {
@@ -195,8 +202,8 @@ class MediaScrapingTvItemAdapter(
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MovieItemTVViewHolder(
-            binding: MovieBrowserTvItemBinding,
-            override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
+        binding: MovieBrowserTvItemBinding,
+        override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
     ) : AbstractMediaScrapingItemViewHolder<MovieBrowserTvItemBinding>(binding) {
         override fun getItem(layoutPosition: Int) = this@MediaScrapingTvItemAdapter.getItem(layoutPosition)
 
@@ -270,8 +277,8 @@ class MediaScrapingTvItemAdapter(
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MovieItemTVListViewHolder(
-            binding: MovieBrowserTvItemListBinding,
-            override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
+        binding: MovieBrowserTvItemListBinding,
+        override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
     ) : AbstractMediaScrapingItemViewHolder<MovieBrowserTvItemListBinding>(binding) {
         override fun getItem(layoutPosition: Int) = this@MediaScrapingTvItemAdapter.getItem(layoutPosition)
 

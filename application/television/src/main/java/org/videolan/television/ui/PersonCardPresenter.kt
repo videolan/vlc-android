@@ -100,7 +100,7 @@ class PersonCardPresenter(private val context: Activity) : Presenter() {
         val person = item as Person
         holder.cardView.titleText = person.name
         person.image?.let { holder.updateCardViewImage(it.toUri()) }
-                ?: holder.updateCardViewImage(defaultCardImage)
+            ?: holder.updateCardViewImage(defaultCardImage)
     }
 
     override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {}

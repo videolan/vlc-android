@@ -2,10 +2,10 @@ package org.videolan.television.ui.browser
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import org.videolan.television.R
-import org.videolan.vlc.gui.network.MRLPanelFragment
-import org.videolan.television.ui.MainTvActivity
 import org.videolan.resources.HEADER_STREAM
+import org.videolan.television.R
+import org.videolan.television.ui.MainTvActivity
+import org.videolan.vlc.gui.network.MRLPanelFragment
 
 class TVActivity : BaseTvActivity() {
 
@@ -23,10 +23,10 @@ class TVActivity : BaseTvActivity() {
                 return
             }
             supportFragmentManager.beginTransaction()
-                    .add(R.id.tv_fragment_placeholder, fragment)
-                    .commit()
+                .add(R.id.tv_fragment_placeholder, fragment)
+                .commit()
         }
     }
 
-    override fun refresh() { }
+    override fun refresh() {}
 }

@@ -26,6 +26,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CATEGORY
 import org.videolan.resources.ITEM
+import org.videolan.resources.KEY_CURRENT_MEDIA
 import org.videolan.resources.util.parcelable
 import org.videolan.television.R
 import org.videolan.television.ui.FileTvItemAdapter
@@ -64,6 +65,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     private val dialogsDelegate by lazy(LazyThreadSafetyMode.NONE) { DialogDelegate() }
 
     var mrl: String? = null
+    var selectedUri: String? = null
 
     override fun getTitle() = when (getCategory()) {
         TYPE_FILE -> getString(R.string.directories)
@@ -77,7 +79,14 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         val fileTvItemAdapter = FileTvItemAdapter(this, itemSize, isRootLevel && getCategory() == TYPE_NETWORK)
         // restore the position from the source when navigating from Arian
         dataObserver = fileTvItemAdapter.onAnyChange {
+            val selectedMediaResource = selectedUri?.let { selectedUri ->
+                fileTvItemAdapter.dataset.firstOrNull { it.uri.toString() == selectedUri }
+            }
+            selectedMediaResource?.let {
+                (viewModel as IPathOperationDelegate).setSource(selectedMediaResource)
+            }
             val source = (viewModel as IPathOperationDelegate).getSource()
+
             val selectedIndex = if (source != null) {
                 if (fileTvItemAdapter.dataset.contains(source)) {
                     //the source has been found because we are on its direct parent
@@ -93,12 +102,15 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                     index
                 }
             } else null
+
             if (selectedIndex != null) {
-                val lm = binding.list.layoutManager as LinearLayoutManager
-                lm.scrollToPosition(selectedIndex)
-                lm.getChildAt(selectedIndex)?.let {
-                    it.requestFocus()
-                    (viewModel as IPathOperationDelegate).consumeSource()
+                binding.list.post {
+                    val lm = binding.list.layoutManager as LinearLayoutManager
+                    lm.scrollToPosition(selectedIndex)
+                    binding.list.post {
+                        val v = lm.findViewByPosition(selectedIndex)
+                        v?.requestFocus()
+                    }
                 }
             }
         }
@@ -114,6 +126,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
         (currentItem as? MediaWrapper)?.run { mrl = location }
+        selectedUri = arguments?.getString(KEY_CURRENT_MEDIA)
         val category = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
         viewModel = getBrowserModel(category = category, url = mrl)
 
@@ -128,7 +141,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (viewModel as BrowserModel).dataset.observe(viewLifecycleOwner) { items ->
+        (viewModel as BrowserModel).dataset.observe(viewLifecycleOwner) { items: MutableList<MediaLibraryItem> ->
             if (items == null) return@observe
             val lm = binding.list.layoutManager as LinearLayoutManager
             val selectedItem = lm.focusedChild
@@ -144,7 +157,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
 
             //headers
-            val nbColumns = if ((viewModel as BrowserModel).sort == Medialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
+            val nbColumns =
+                if ((viewModel as BrowserModel).sort == Medialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
 
             binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as BrowserModel).sort
@@ -180,7 +194,11 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             binding.ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             binding.ariane.adapter = PathAdapter(this@FileBrowserTvFragment, this)
             if (binding.ariane.itemDecorationCount == 0) {
-                val did = object : VLCDividerItemDecoration(requireActivity(), HORIZONTAL, VectorDrawableCompat.create(requireActivity().resources, R.drawable.ic_divider, requireActivity().theme)!!) {
+                val did = object : VLCDividerItemDecoration(
+                    requireActivity(),
+                    HORIZONTAL,
+                    VectorDrawableCompat.create(requireActivity().resources, R.drawable.ic_divider, requireActivity().theme)!!
+                ) {
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                         val position = parent.getChildAdapterPosition(view)
                         // hide the divider for the last child
@@ -287,8 +305,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         val ft = ctx.supportFragmentManager.beginTransaction()
         val next = newInstance(getCategory(), media)
         (viewModel as BrowserModel).saveList(media)
-        if (save) ft.addToBackStack(if (mrl == null) "root" else viewModel.currentItem?.title
-                ?: FileUtils.getFileNameFromPath(mrl))
+        if (save) ft.addToBackStack(
+            if (mrl == null) "root" else viewModel.currentItem?.title
+                ?: FileUtils.getFileNameFromPath(mrl)
+        )
         ft.replace(R.id.tv_fragment_placeholder, next, media.title)
         ft.commit()
     }
@@ -320,16 +340,22 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                 binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_tv_browser_favorite else R.drawable.ic_tv_browser_favorite_outline)
                 binding.favoriteButton.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
                 binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_favorite else R.drawable.ic_fabtvmini_favorite_outline)
-                binding.imageButtonFavorite.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
+                binding.imageButtonFavorite.contentDescription =
+                    getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
             }
         }
     }
 
     companion object {
-        fun newInstance(type: Long, item: MediaLibraryItem?, root: Boolean = false) =
-                FileBrowserTvFragment().apply {
-                    arguments = bundleOf(CATEGORY to type, ITEM to item, "rootLevel" to root)
-                }
+        fun newInstance(type: Long, item: MediaLibraryItem?, selectedItem: String? = null, root: Boolean = false) =
+            FileBrowserTvFragment().apply {
+                arguments = bundleOf(
+                    CATEGORY to type,
+                    ITEM to item,
+                    "rootLevel" to root,
+                    KEY_CURRENT_MEDIA to selectedItem
+                )
+            }
     }
 
     override fun fireDialog(dialog: Dialog) {
@@ -338,7 +364,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     }
 
     override fun dialogCanceled(dialog: Dialog?) {
-        when(dialog) {
+        when (dialog) {
             is Dialog.LoginDialog -> goBack()
             is Dialog.ErrorMessage -> {
                 view?.let { Snackbar.make(it, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show() }
@@ -352,7 +378,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         if (activity?.isStarted() != true) return
         if (tag == "root") {
             activity.finish()
-        } else if  (!activity.isFinishing && !activity.isDestroyed) {
+        } else if (!activity.isFinishing && !activity.isDestroyed) {
             activity.supportFragmentManager.popBackStack()
         }
     }

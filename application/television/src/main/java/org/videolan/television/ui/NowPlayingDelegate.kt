@@ -34,7 +34,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 
-class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callback by EmptyPBSCallback {
+class NowPlayingDelegate(private val model: MainTvModel) : PlaybackService.Callback by EmptyPBSCallback {
     private var service: PlaybackService? = null
 
     private val nowPlayingObserver = Observer<Boolean> { updateCurrent() }
@@ -42,8 +42,8 @@ class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callba
     init {
         PlaylistManager.showAudioPlayer.observeForever(nowPlayingObserver)
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
-                .onCompletion { service?.removeCallback(this@NowPlayingDelegate) }
-                .launchIn(model.viewModelScope)
+            .onCompletion { service?.removeCallback(this@NowPlayingDelegate) }
+            .launchIn(model.viewModelScope)
     }
 
     fun onClear() {

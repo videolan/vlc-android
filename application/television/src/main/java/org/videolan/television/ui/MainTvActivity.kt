@@ -70,7 +70,7 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        scheduler =  LifecycleAwareScheduler(this)
+        scheduler = LifecycleAwareScheduler(this)
 
         Util.checkCpuCompatibility(this)
 
@@ -82,7 +82,7 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
         lifecycleScope.launch {
             AutoUpdate.clean(this@MainTvActivity.application)
             if (!Settings.getInstance(this@MainTvActivity).getBoolean(KEY_SHOW_UPDATE, true)) return@launch
-            AutoUpdate.checkUpdate(this@MainTvActivity.application) {url, date ->
+            AutoUpdate.checkUpdate(this@MainTvActivity.application) { url, date ->
                 val updateDialog = UpdateDialog().apply {
                     arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
                 }
@@ -97,7 +97,8 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
             when (resultCode) {
                 RESULT_RESCAN -> this.reloadLibrary()
                 RESULT_RESTART, RESULT_RESTART_APP -> {
-                    val intent = Intent(this, if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainTvActivity::class.java)
+                    val intent =
+                        Intent(this, if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainTvActivity::class.java)
                     finish()
                     startActivity(intent)
                 }

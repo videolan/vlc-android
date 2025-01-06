@@ -21,7 +21,6 @@
 package org.videolan.television.ui
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -47,23 +46,46 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.models.resolver.ResolverMedia
-import org.videolan.resources.*
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.BuildConfig
+import org.videolan.resources.CATEGORY_NOW_PLAYING
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
+import org.videolan.resources.UPDATE_DESCRIPTION
+import org.videolan.resources.UPDATE_SEEN
+import org.videolan.resources.UPDATE_THUMB
+import org.videolan.resources.UPDATE_TIME
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.getLocaleLanguages
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.downloadIcon
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.getTvIconRes
+import org.videolan.vlc.gui.helpers.loadImage
+import org.videolan.vlc.gui.helpers.loadPlaylistImageWithWidth
 
 
 public const val FAVORITE_FLAG = 1000
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class CardPresenter(private val context: FragmentActivity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
+class CardPresenter(
+    private val context: FragmentActivity,
+    private val isPoster: Boolean = false,
+    private val fromHistory: Boolean = false
+) : Presenter() {
 
     private var seenMediaMarkerVisible = true
     private var sDefaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_default_cone, context.theme)
 
     private val imageDefaultWidth: Float by lazy { context.resources.getDimension(R.dimen.tv_grid_card_thumb_width) }
-    private val seenDrawable: Drawable? by lazy { VectorDrawableCompat.create(context.resources, R.drawable.ic_seen_tv_normal, context.theme) }
+    private val seenDrawable: Drawable? by lazy {
+        VectorDrawableCompat.create(
+            context.resources,
+            R.drawable.ic_seen_tv_normal,
+            context.theme
+        )
+    }
 
     init {
         seenMediaMarkerVisible = Settings.getInstance(context).getBoolean("media_seen", true)
@@ -81,7 +103,8 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
             val noArt = item.artworkMrl.isNullOrEmpty()
             if (item is MediaWrapper) {
                 if (BuildConfig.DEBUG) Log.d("CardPresenter", "ITEM: ${item.title} // meta = ${item.hasFlag(FAVORITE_FLAG)}")
-                if (item.hasFlag(FAVORITE_FLAG)) cardView.badgeImage = ContextCompat.getDrawable(cardView.context, R.drawable.ic_favorite_tv_badge)
+                if (item.hasFlag(FAVORITE_FLAG)) cardView.badgeImage =
+                    ContextCompat.getDrawable(cardView.context, R.drawable.ic_favorite_tv_badge)
                 val folder = item.type == MediaWrapper.TYPE_DIR
                 val video = item.type == MediaWrapper.TYPE_VIDEO
                 if (!folder && (video && !item.isThumbnailGenerated)) {
@@ -98,6 +121,7 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
                     cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
                     loadPlaylistImageWithWidth(cardView.mainImageView, item, imageDefaultWidth.toInt(), true)
                 }
+
                 noArt -> {
                     if (item is MediaWrapper) {
                         context.lifecycleScope.launch {
@@ -118,6 +142,7 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
                             BitmapDrawable(cardView.resources, getDefaultImage(item))
                     }
                 }
+
                 else -> loadImage(cardView, item)
             }
         }
@@ -125,13 +150,17 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
         private fun getDefaultImage(mediaLibraryItem: MediaLibraryItem): Bitmap? {
             var picture: Bitmap?
             val res = cardView.resources
-            picture = if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (mediaLibraryItem as MediaWrapper).type == MediaWrapper.TYPE_DIR) {
-                if (mediaLibraryItem.uri.scheme == "file")
-                    context.getBitmapFromDrawable(R.drawable.ic_folder_big)
-                else
-                    context.getBitmapFromDrawable(R.drawable.ic_network_big)
-            } else
-                AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.artworkMrl), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width))
+            picture =
+                if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (mediaLibraryItem as MediaWrapper).type == MediaWrapper.TYPE_DIR) {
+                    if (mediaLibraryItem.uri.scheme == "file")
+                        context.getBitmapFromDrawable(R.drawable.ic_folder_big)
+                    else
+                        context.getBitmapFromDrawable(R.drawable.ic_network_big)
+                } else
+                    AudioUtil.readCoverBitmap(
+                        Uri.decode(mediaLibraryItem.artworkMrl),
+                        res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
+                    )
             if (picture == null) picture = getBitmapFromDrawable(context, getTvIconRes(mediaLibraryItem))
             return picture
         }
@@ -167,25 +196,29 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
                 holder.cardView.contentText = item.description
                 holder.updateCardViewImage(item)
                 if (seenMediaMarkerVisible
-                        && item.type == MediaWrapper.TYPE_VIDEO
-                        && item.seen > 0L)
+                    && item.type == MediaWrapper.TYPE_VIDEO
+                    && item.seen > 0L
+                )
                     holder.cardView.badgeImage = seenDrawable
                 holder.view.setOnLongClickListener { v ->
                     TvUtil.showMediaDetail(v.context, item, fromHistory)
                     true
                 }
             }
+
             is ResolverMedia -> {
                 holder.cardView.titleText = item.title()
                 holder.cardView.contentText = item.getCardSubtitle()
 
                 holder.updateCardViewImage(item.imageUri(context.getLocaleLanguages()))
             }
+
             is MediaLibraryItem -> {
                 holder.cardView.titleText = item.title
                 holder.cardView.contentText = item.description
                 holder.updateCardViewImage(item)
             }
+
             is String -> {
                 holder.cardView.titleText = item
                 holder.cardView.contentText = ""
@@ -217,6 +250,7 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
                         Tools.setMediaDescription(item)
                         holder.cardView.contentText = media.description
                     }
+
                     UPDATE_THUMB -> loadImage(holder.cardView, media)
                     UPDATE_TIME -> {
                         val mediaWrapper = item as MediaWrapper
@@ -224,10 +258,12 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
                         holder.cardView.contentText = mediaWrapper.description
                         if (mediaWrapper.time <= 0) {
                             if (seenMediaMarkerVisible && item.type == MediaWrapper.TYPE_VIDEO
-                                    && item.seen > 0L)
+                                && item.seen > 0L
+                            )
                                 holder.cardView.badgeImage = seenDrawable
                         }
                     }
+
                     UPDATE_SEEN -> {
                         val mw = item as MediaWrapper
                         if (seenMediaMarkerVisible && mw.type == MediaWrapper.TYPE_VIDEO && mw.seen > 0L)

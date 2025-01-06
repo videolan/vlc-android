@@ -36,11 +36,13 @@ import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 class PlaylistAdapter
-internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val model: PlaylistModel) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>() {
+internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val model: PlaylistModel) :
+    DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>() {
     var selectedItem = -1
         private set
     private var currentPlayingVisu: MiniVisualizer? = null
-    private var defaultCoverAudio: BitmapDrawable = BitmapDrawable(audioPlayerActivity.resources, getBitmapFromDrawable(audioPlayerActivity, R.drawable.ic_song_background))
+    private var defaultCoverAudio: BitmapDrawable =
+        BitmapDrawable(audioPlayerActivity.resources, getBitmapFromDrawable(audioPlayerActivity, R.drawable.ic_song_background))
 
     inner class ViewHolder(vdb: TvPlaylistItemBinding) : SelectorViewHolder<TvPlaylistItemBinding>(vdb), View.OnClickListener {
         init {

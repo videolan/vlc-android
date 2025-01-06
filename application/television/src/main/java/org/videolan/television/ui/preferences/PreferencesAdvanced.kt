@@ -42,6 +42,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
+import java.io.File
+import java.io.IOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -62,7 +64,6 @@ import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST_RESUME
 import org.videolan.resources.ROOM_DATABASE
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.VLCInstance
-import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.Settings
@@ -89,10 +90,9 @@ import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.deleteAllWatchNext
-import java.io.File
-import java.io.IOException
 
 private const val FILE_PICKER_RESULT_CODE = 10000
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
     override fun getXml(): Int {
@@ -120,7 +120,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             }
             return
         }
-        if (!BuildConfig.DEBUG) findPreference<Preference>("show_update")?.isVisible  = false
+        if (!BuildConfig.DEBUG) findPreference<Preference>("show_update")?.isVisible = false
         super.onDisplayPreferenceDialog(preference)
     }
 
@@ -143,50 +143,59 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 startActivity(intent)
                 return true
             }
+
             "nightly_install" -> {
 
                 val appCompatActivity = activity as PreferencesActivity
                 android.app.AlertDialog.Builder(appCompatActivity)
-                        .setTitle(resources.getString(R.string.install_nightly))
-                        .setMessage(resources.getString(R.string.install_nightly_alert))
-                        .setPositiveButton(R.string.ok){ _, _ ->
-                            appCompatActivity.lifecycleScope.launch {
-                                AutoUpdate.checkUpdate(appCompatActivity.application, true) {url, date ->
-                                    val updateDialog = UpdateDialog().apply {
-                                        arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time, NEW_INSTALL to true)
-                                    }
-                                    updateDialog.show(appCompatActivity.supportFragmentManager, "fragment_update")
+                    .setTitle(resources.getString(R.string.install_nightly))
+                    .setMessage(resources.getString(R.string.install_nightly_alert))
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        appCompatActivity.lifecycleScope.launch {
+                            AutoUpdate.checkUpdate(appCompatActivity.application, true) { url, date ->
+                                val updateDialog = UpdateDialog().apply {
+                                    arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time, NEW_INSTALL to true)
                                 }
+                                updateDialog.show(appCompatActivity.supportFragmentManager, "fragment_update")
                             }
                         }
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
+                    }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
                 return true
             }
 
             "clear_history" -> {
-                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history))
+                val dialog = ConfirmDeleteDialog.newInstance(
+                    title = getString(R.string.clear_playback_history),
+                    description = getString(R.string.clear_history_message),
+                    buttonText = getString(R.string.clear_history)
+                )
                 dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
                 dialog.setListener {
                     Medialibrary.getInstance().clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
                     Settings.getInstance(activity).edit()
-                            .remove(KEY_AUDIO_LAST_PLAYLIST)
-                            .remove(KEY_MEDIA_LAST_PLAYLIST)
-                            .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
-                            .remove(KEY_CURRENT_AUDIO)
-                            .remove(KEY_CURRENT_MEDIA)
-                            .remove(KEY_CURRENT_MEDIA_RESUME)
-                            .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
-                            .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
-                            .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
-                            .apply()
+                        .remove(KEY_AUDIO_LAST_PLAYLIST)
+                        .remove(KEY_MEDIA_LAST_PLAYLIST)
+                        .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
+                        .remove(KEY_CURRENT_AUDIO)
+                        .remove(KEY_CURRENT_MEDIA)
+                        .remove(KEY_CURRENT_MEDIA_RESUME)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
+                        .apply()
                 }
                 return true
             }
 
             "clear_app_data" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_app_data), description = getString(R.string.clear_app_data_message), buttonText = getString(R.string.clear))
+                    val dialog = ConfirmDeleteDialog.newInstance(
+                        title = getString(R.string.clear_app_data),
+                        description = getString(R.string.clear_app_data_message),
+                        buttonText = getString(R.string.clear)
+                    )
                     dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
                     dialog.setListener { (activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).clearApplicationUserData() }
                 } else {
@@ -203,20 +212,20 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 if (medialibrary.isWorking) {
                     activity?.let {
                         Toast.makeText(
-                                it,
-                                R.string.settings_ml_block_scan,
-                                Toast.LENGTH_LONG
+                            it,
+                            R.string.settings_ml_block_scan,
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 } else {
                     val dialog = ConfirmDeleteDialog.newInstance(
-                            title = getString(R.string.clear_media_db),
-                            description = getString(R.string.clear_media_db_message),
-                            buttonText = getString(R.string.clear)
+                        title = getString(R.string.clear_media_db),
+                        description = getString(R.string.clear_media_db_message),
+                        buttonText = getString(R.string.clear)
                     )
                     dialog.show(
-                            (activity as FragmentActivity).supportFragmentManager,
-                            RenameDialog::class.simpleName
+                        (activity as FragmentActivity).supportFragmentManager,
+                        RenameDialog::class.simpleName
                     )
                     dialog.setListener {
                         launch {
@@ -228,7 +237,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                                 try {
                                     activity.getExternalFilesDir(null)?.let {
                                         val files =
-                                                File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
+                                            File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
                                         files?.forEach { file ->
                                             if (file.isFile) FileUtils.deleteFile(file)
                                         }
@@ -262,7 +271,11 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
                                 FileUtils.copyFile(db, dst)
                             }
-                            Toast.makeText(activity, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                activity,
+                                getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                 }
@@ -282,11 +295,16 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                                 FileUtils.zip(files, dst.path)
 
                         }
-                        Toast.makeText(activity, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            activity,
+                            getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
                 return true
             }
+
             "export_settings" -> {
                 val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + EXPORT_SETTINGS_FILE)
                 launch(Dispatchers.IO) {
@@ -296,6 +314,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
                 return true
             }
+
             "restore_settings" -> {
                 val filePickerIntent = Intent(activity, FilePickerActivity::class.java)
                 filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SETTINGS.ordinal)
@@ -335,7 +354,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         val newValue = origValue.coerceIn(0, 60000)
                         putInt("network_caching_value", newValue)
                         findPreference<EditTextPreference>(key)?.let { it.text = newValue.toString() }
-                        if (origValue != newValue) activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
+                        if (origValue != newValue) activity?.let {
+                            Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show()
+                        }
                     } catch (e: NumberFormatException) {
                         putInt("network_caching_value", 0)
                         findPreference<EditTextPreference>(key)?.let { it.text = "0" }
@@ -361,7 +382,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
             DAV1D_THREAD_NUMBER -> {
                 val threadNumber = sharedPreferences.getString(key, "") ?: ""
-                if (threadNumber != "" ) {
+                if (threadNumber != "") {
                     if ((threadNumber.isDigitsOnly() && threadNumber.toInt() < 1) || !threadNumber.isDigitsOnly()) {
                         UiTools.snacker(activity, R.string.dav1d_thread_number_invalid)
                         sharedPreferences.putSingle(DAV1D_THREAD_NUMBER, "")

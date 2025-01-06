@@ -27,7 +27,11 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
-import android.view.*
+import android.view.InputDevice
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
@@ -35,6 +39,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -52,17 +57,22 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.BookmarkListDelegate
+import org.videolan.vlc.gui.helpers.KeycodeListener
+import org.videolan.vlc.gui.helpers.MediaComparators
+import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
-import kotlin.math.absoluteValue
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
+class AudioPlayerActivity : BaseTvActivity(), KeycodeListener {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
@@ -187,7 +197,8 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
         }
 
         wasPlaying = state.playing
-        binding.buttonPlay.contentDescription = getString(if (state.playing) org.videolan.vlc.R.string.pause else org.videolan.vlc.R.string.play)
+        binding.buttonPlay.contentDescription =
+            getString(if (state.playing) org.videolan.vlc.R.string.pause else org.videolan.vlc.R.string.play)
 
         val mw = model.currentMediaWrapper
         lifecycleScope.launch {
@@ -197,11 +208,14 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             }
             binding.mediaTitle.text = state.title
             binding.mediaArtist.text = state.artist
-            binding.buttonShuffle.setImageResource(if (shuffling)
-                R.drawable.ic_shuffle_on
-            else
-                R.drawable.ic_shuffle_audio)
-            binding.buttonShuffle.contentDescription = getString(if (shuffling) org.videolan.vlc.R.string.shuffle_on else org.videolan.vlc.R.string.shuffle)
+            binding.buttonShuffle.setImageResource(
+                if (shuffling)
+                    R.drawable.ic_shuffle_on
+                else
+                    R.drawable.ic_shuffle_audio
+            )
+            binding.buttonShuffle.contentDescription =
+                getString(if (shuffling) org.videolan.vlc.R.string.shuffle_on else org.videolan.vlc.R.string.shuffle)
             if (mw == null || currentCoverArt == mw.artworkMrl) return@launch
             currentCoverArt = mw.artworkMrl
             updateBackground()
@@ -216,7 +230,12 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             binding.background.clearColorFilter()
             binding.background.setImageResource(0)
         } else {
-            UiTools.blurView(binding.background, cover, 15F, UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
+            UiTools.blurView(
+                binding.background,
+                cover,
+                15F,
+                UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint)
+            )
             binding.albumCover.setImageBitmap(cover)
         }
     }
@@ -334,7 +353,8 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
                 bookmarkListDelegate = BookmarkListDelegate(this, it, bookmarkModel)
                 bookmarkListDelegate.visibilityListener = {
                     if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
-                    binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
+                    binding.playlist.descendantFocusability =
+                        if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
                     binding.playlist.isFocusable = !bookmarkListDelegate.visible
                     binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
                     binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
@@ -361,10 +381,12 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
                 binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
             }
+
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
                 binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
             }
+
             PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
@@ -380,11 +402,13 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
                 binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
             }
+
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
                 binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
             }
+
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)

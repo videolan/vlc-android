@@ -45,7 +45,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.TextUtils
 
-class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
+class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener,
+    CoroutineScope by MainScope() {
 
     private lateinit var settings: SharedPreferences
     private lateinit var medialibraryContentPreference: MultiSelectListPreference
@@ -56,7 +57,7 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(!settings.getBoolean(REMOTE_ACCESS_ONBOARDING,  false)) {
+        if (!settings.getBoolean(REMOTE_ACCESS_ONBOARDING, false)) {
             settings.putSingle(REMOTE_ACCESS_ONBOARDING, true)
             startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(activity, REMOTE_ACCESS_ONBOARDING) })
         }
@@ -81,7 +82,8 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
     }
 
     private fun manageMLContentSummary() {
-        val value = settings.getStringSet(KEY_REMOTE_ACCESS_ML_CONTENT, resources.getStringArray(R.array.remote_access_content_values).toSet())!!
+        val value =
+            settings.getStringSet(KEY_REMOTE_ACCESS_ML_CONTENT, resources.getStringArray(R.array.remote_access_content_values).toSet())!!
         val values = resources.getStringArray(R.array.remote_access_content_values)
         val entries = resources.getStringArray(R.array.remote_access_content_entries)
         val currentValues = mutableListOf<String>()
@@ -93,8 +95,10 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
             if (!value.contains(it)) currentDisabledValues.add(entries[values.indexOf(it)])
         }
         val currentString = if (currentValues.isEmpty()) "-" else TextUtils.separatedString(currentValues.toTypedArray())
-        val currentDisabledString = if (currentDisabledValues.isEmpty()) "-" else TextUtils.separatedString(currentDisabledValues.toTypedArray())
-        medialibraryContentPreference.summary = getString(R.string.remote_access_medialibrary_content_summary, currentString, currentDisabledString)
+        val currentDisabledString =
+            if (currentDisabledValues.isEmpty()) "-" else TextUtils.separatedString(currentDisabledValues.toTypedArray())
+        medialibraryContentPreference.summary =
+            getString(R.string.remote_access_medialibrary_content_summary, currentString, currentDisabledString)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -111,7 +115,7 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
         when (key) {
             KEY_ENABLE_REMOTE_ACCESS -> {
                 val serverEnabled = sharedPreferences?.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false)
-                        ?: false
+                    ?: false
                 Settings.remoteAccessEnabled.postValue(serverEnabled)
                 if (serverEnabled) {
                     activity.startRemoteAccess()
@@ -119,12 +123,15 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
                     activity.stopRemoteAccess()
                 }
             }
+
             KEY_REMOTE_ACCESS_ML_CONTENT -> {
                 manageMLContentSummary()
             }
+
             REMOTE_ACCESS_NETWORK_BROWSER_CONTENT -> {
                 activity.restartRemoteAccess()
             }
+
             REMOTE_ACCESS_FILE_BROWSER_CONTENT, REMOTE_ACCESS_PLAYBACK_CONTROL -> {
 
             }

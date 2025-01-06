@@ -59,6 +59,7 @@ abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
 
     private lateinit var mediaLibrary: Medialibrary
     private lateinit var settings: SharedPreferences
+
     @Volatile
     private var currentlyVisible = false
     private val dialogsDelegate = DialogDelegate()
@@ -102,7 +103,7 @@ abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
     }
 
     override fun dialogCanceled(dialog: Dialog?) {
-        when(dialog) {
+        when (dialog) {
             is Dialog.ErrorMessage -> {
                 Snackbar.make(window.decorView, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show()
             }
@@ -152,12 +153,14 @@ abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
                 if (resultCode == ConfirmationTvActivity.ACTION_ID_NEGATIVE) finish() else {
 
                     try {
-                        val name = ComponentName("com.android.tv.settings",
-                                "com.android.tv.settings.connectivity.NetworkActivity")
+                        val name = ComponentName(
+                            "com.android.tv.settings",
+                            "com.android.tv.settings.connectivity.NetworkActivity"
+                        )
                         val i = Intent(Intent.ACTION_MAIN)
                         i.addCategory(Intent.CATEGORY_LAUNCHER)
                         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
                         i.component = name
                         startActivity(i)
                     } catch (e: Exception) {
@@ -165,6 +168,7 @@ abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
                     }
                 }
             }
+
             REQUEST_CODE_RESTART_APP -> {
                 android.os.Process.killProcess(android.os.Process.myPid())
             }

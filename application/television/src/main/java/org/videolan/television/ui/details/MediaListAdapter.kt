@@ -19,7 +19,8 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.interfaces.ITVEventsHandler
 import org.videolan.vlc.util.ModelsHelper.getDiscNumberString
 
-class MediaListAdapter(private val type: Int, private val listener: ITVEventsHandler) : DiffUtilAdapter<MediaWrapper, MediaListAdapter.MediaListViewHolder>(), TvFocusableAdapter {
+class MediaListAdapter(private val type: Int, private val listener: ITVEventsHandler) :
+    DiffUtilAdapter<MediaWrapper, MediaListAdapter.MediaListViewHolder>(), TvFocusableAdapter {
 
     private var focusListener: FocusListener? = null
 
@@ -42,14 +43,17 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
         val item = getItem(position)
         holder.binding.item = item
         holder.binding.holder = holder
-        holder.binding.subtitle = if (item.getDiscNumberString() != null) "${item.artistName} · ${item.getDiscNumberString()}" else item.artistName
+        holder.binding.subtitle =
+            if (item.getDiscNumberString() != null) "${item.artistName} · ${item.getDiscNumberString()}" else item.artistName
 
         val moveVisibility = if (type == MediaLibraryItem.TYPE_ALBUM) View.GONE else View.VISIBLE
-        holder.binding.itemMoveDown.visibility = if (moveVisibility == View.VISIBLE && position == itemCount - 1) View.INVISIBLE else moveVisibility
+        holder.binding.itemMoveDown.visibility =
+            if (moveVisibility == View.VISIBLE && position == itemCount - 1) View.INVISIBLE else moveVisibility
         holder.binding.itemMoveUp.visibility = if (moveVisibility == View.VISIBLE && position == 0) View.INVISIBLE else moveVisibility
         holder.binding.itemRemove.visibility = moveVisibility
         holder.binding.itemSelector.contentDescription = holder.binding.itemSelector.context.getString(R.string.play_media, item.title)
-        if (type == MediaLibraryItem.TYPE_ALBUM) (holder.binding.itemAddPlaylist.layoutParams as ConstraintLayout.LayoutParams).marginEnd = 0
+        if (type == MediaLibraryItem.TYPE_ALBUM) (holder.binding.itemAddPlaylist.layoutParams as ConstraintLayout.LayoutParams).marginEnd =
+            0
 
     }
 
@@ -72,10 +76,19 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    inner class MediaListViewHolder(binding: ActivityMediaListTvItemBinding, @Suppress("UNUSED_PARAMETER") type: Int) : SelectorViewHolder<ActivityMediaListTvItemBinding>(binding) {
+    inner class MediaListViewHolder(binding: ActivityMediaListTvItemBinding, @Suppress("UNUSED_PARAMETER") type: Int) :
+        SelectorViewHolder<ActivityMediaListTvItemBinding>(binding) {
 
         init {
-            val fadableViews = arrayOf(binding.itemMoveDown, binding.itemMoveUp, binding.itemAddPlaylist, binding.itemInsertNext, binding.itemAppend, binding.itemSelector, binding.itemRemove)
+            val fadableViews = arrayOf(
+                binding.itemMoveDown,
+                binding.itemMoveUp,
+                binding.itemAddPlaylist,
+                binding.itemInsertNext,
+                binding.itemAppend,
+                binding.itemSelector,
+                binding.itemRemove
+            )
             val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
                 val alpha = if (!hasFocus) 0f else 1f
                 fadableViews.forEach { it.animate().alpha(alpha) }

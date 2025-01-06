@@ -38,14 +38,20 @@ import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.browser.BaseBrowserTvFragment
 import org.videolan.vlc.BuildConfig
 
-internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
+internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, private val cl: ConstraintLayout) :
+    RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
 
     private val scrolledUpConstraintSet = ConstraintSet()
     private val scrolledDownFABCollapsedConstraintSet = ConstraintSet()
     private val scrolledDownFABExpandedConstraintSet = ConstraintSet()
     private val headerVisibleConstraintSet = ConstraintSet()
 
-    private val constraintSets = arrayOf(scrolledUpConstraintSet, scrolledDownFABCollapsedConstraintSet, scrolledDownFABExpandedConstraintSet, headerVisibleConstraintSet)
+    private val constraintSets = arrayOf(
+        scrolledUpConstraintSet,
+        scrolledDownFABCollapsedConstraintSet,
+        scrolledDownFABExpandedConstraintSet,
+        headerVisibleConstraintSet
+    )
 
     private val transition = ChangeBounds().apply {
         interpolator = AccelerateDecelerateInterpolator()
@@ -80,14 +86,17 @@ internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, pri
          * Initial state : Visible fake toolbar + no fab
          */
         SCROLLED_UP,
+
         /**
          * Scrolled state with collapsed FAB
          */
         SCROLLED_DOWN_FAB_COLLAPSED,
+
         /**
          * Scrolled state with expanded FAB
          */
         SCROLLED_DOWN_FAB_EXPANDED,
+
         /**
          * Header visible : no toolbar no FAB
          */
@@ -192,41 +201,111 @@ internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, pri
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
 
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.displayButton,
+            ConstraintSet.START,
+            R.id.imageButtonSettings,
+            ConstraintSet.START
+        )
         scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.displayButton,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonSettings,
+            ConstraintSet.BOTTOM
+        )
 
         scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.headerButton,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonSettings,
+            ConstraintSet.BOTTOM
+        )
 
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.favoriteButton,
+            ConstraintSet.START,
+            R.id.imageButtonSettings,
+            ConstraintSet.START
+        )
         scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.favoriteButton,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonSettings,
+            ConstraintSet.BOTTOM
+        )
 
         //New constraints for the action description labels (they will be reused when expanding the FAB)
         scrolledDownFABCollapsedConstraintSet.clear(R.id.sortDescription, ConstraintSet.START)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.END, R.id.imageButtonSort, ConstraintSet.START)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.TOP, R.id.imageButtonSort, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.BOTTOM, R.id.imageButtonSort, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.sortDescription,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonSort,
+            ConstraintSet.BOTTOM
+        )
 
         scrolledDownFABCollapsedConstraintSet.clear(R.id.displayDescription, ConstraintSet.START)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayDescription, ConstraintSet.END, R.id.imageButtonDisplay, ConstraintSet.START)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayDescription, ConstraintSet.TOP, R.id.imageButtonDisplay, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayDescription, ConstraintSet.BOTTOM, R.id.imageButtonDisplay, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.displayDescription,
+            ConstraintSet.END,
+            R.id.imageButtonDisplay,
+            ConstraintSet.START
+        )
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.displayDescription,
+            ConstraintSet.TOP,
+            R.id.imageButtonDisplay,
+            ConstraintSet.TOP
+        )
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.displayDescription,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonDisplay,
+            ConstraintSet.BOTTOM
+        )
 
         scrolledDownFABCollapsedConstraintSet.clear(R.id.headerDescription, ConstraintSet.START)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerDescription, ConstraintSet.END, R.id.imageButtonHeader, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.headerDescription,
+            ConstraintSet.END,
+            R.id.imageButtonHeader,
+            ConstraintSet.START
+        )
         scrolledDownFABCollapsedConstraintSet.connect(R.id.headerDescription, ConstraintSet.TOP, R.id.imageButtonHeader, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerDescription, ConstraintSet.BOTTOM, R.id.imageButtonHeader, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.headerDescription,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonHeader,
+            ConstraintSet.BOTTOM
+        )
 
         scrolledDownFABCollapsedConstraintSet.clear(R.id.favoriteDescription, ConstraintSet.START)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteDescription, ConstraintSet.END, R.id.imageButtonFavorite, ConstraintSet.START)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteDescription, ConstraintSet.TOP, R.id.imageButtonFavorite, ConstraintSet.TOP)
-        scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteDescription, ConstraintSet.BOTTOM, R.id.imageButtonFavorite, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.favoriteDescription,
+            ConstraintSet.END,
+            R.id.imageButtonFavorite,
+            ConstraintSet.START
+        )
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.favoriteDescription,
+            ConstraintSet.TOP,
+            R.id.imageButtonFavorite,
+            ConstraintSet.TOP
+        )
+        scrolledDownFABCollapsedConstraintSet.connect(
+            R.id.favoriteDescription,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonFavorite,
+            ConstraintSet.BOTTOM
+        )
 
         // Title escapes by the top of the screen
         scrolledDownFABCollapsedConstraintSet.connect(R.id.title, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -246,10 +325,25 @@ internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, pri
         scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonSort, ConstraintSet.TOP)
         scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonDisplay, ConstraintSet.TOP)
         scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonFavorite, ConstraintSet.TOP)
-        scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonHeader, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.TOP)
+        scrolledDownFABExpandedConstraintSet.connect(
+            R.id.imageButtonHeader,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonSettings,
+            ConstraintSet.TOP
+        )
         scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonSort, ConstraintSet.BOTTOM, R.id.imageButtonHeader, ConstraintSet.TOP)
-        scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonFavorite, ConstraintSet.BOTTOM, R.id.imageButtonSort, ConstraintSet.TOP)
-        scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonDisplay, ConstraintSet.BOTTOM, R.id.imageButtonFavorite, ConstraintSet.TOP)
+        scrolledDownFABExpandedConstraintSet.connect(
+            R.id.imageButtonFavorite,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonSort,
+            ConstraintSet.TOP
+        )
+        scrolledDownFABExpandedConstraintSet.connect(
+            R.id.imageButtonDisplay,
+            ConstraintSet.BOTTOM,
+            R.id.imageButtonFavorite,
+            ConstraintSet.TOP
+        )
 
         scrolledDownFABExpandedConstraintSet.setAlpha(R.id.displayDescription, 1f)
         scrolledDownFABExpandedConstraintSet.setAlpha(R.id.sortDescription, 1f)

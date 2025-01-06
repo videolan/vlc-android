@@ -52,6 +52,7 @@ private const val SUBTITLE_COLOR_RESULT = 1
 private const val SUBTITLE_BACKGROUND_COLOR_RESULT = 2
 private const val SUBTITLE_SHADOW_COLOR_RESULT = 3
 private const val SUBTITLE_OUTLINE_COLOR_RESULT = 4
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
 
@@ -124,11 +125,13 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
                     subtitlesShadowEnabled.isChecked = false
                     subtitlesOutlineEnabled.isChecked = false
                 }
+
                 "3" -> {
                     subtitlesBackgroundEnabled.isChecked = true
                     subtitlesBackgroundOpacity.value = 128
                     subtitlesShadowEnabled.isChecked = false
                 }
+
                 "4" -> subtitlesColor.saveValue(Color.YELLOW)
                 "5" -> {
                     subtitlesColor.saveValue(Color.YELLOW)
@@ -197,13 +200,13 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
         if (data == null) return
 
         if (resultCode == Activity.RESULT_OK && data.hasExtra(COLOR_PICKER_SELECTED_COLOR)) {
-           when (requestCode) {
-               SUBTITLE_COLOR_RESULT -> subtitlesColor
-               SUBTITLE_SHADOW_COLOR_RESULT -> subtitlesShadowColor
-               SUBTITLE_OUTLINE_COLOR_RESULT -> subtitlesOutlineColor
-               SUBTITLE_BACKGROUND_COLOR_RESULT -> subtitlesBackgroundColor
-               else -> null
-           }?.saveValue(data.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0))
+            when (requestCode) {
+                SUBTITLE_COLOR_RESULT -> subtitlesColor
+                SUBTITLE_SHADOW_COLOR_RESULT -> subtitlesShadowColor
+                SUBTITLE_OUTLINE_COLOR_RESULT -> subtitlesOutlineColor
+                SUBTITLE_BACKGROUND_COLOR_RESULT -> subtitlesBackgroundColor
+                else -> null
+            }?.saveValue(data.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0))
         }
     }
 
@@ -233,6 +236,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
                 }
                 managePreferenceVisibilities()
             }
+
             "subtitle_preferred_language" -> updatePreferredSubtitleTrack()
         }
     }

@@ -97,7 +97,10 @@ class MediaImageCardPresenter(private val context: Activity, private val imageTy
         cardView.isFocusable = true
         cardView.isFocusableInTouchMode = true
         cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.lb_details_overview_bg_color))
-        cardView.setMainImageDimensions(if (imageType == MediaImageType.POSTER) CARD_WIDTH_POSTER else CARD_WIDTH_BACKDROP, if (imageType == MediaImageType.POSTER) CARD_HEIGHT_POSTER else CARD_HEIGHT_BACKDROP)
+        cardView.setMainImageDimensions(
+            if (imageType == MediaImageType.POSTER) CARD_WIDTH_POSTER else CARD_WIDTH_BACKDROP,
+            if (imageType == MediaImageType.POSTER) CARD_HEIGHT_POSTER else CARD_HEIGHT_BACKDROP
+        )
         return ViewHolder(cardView)
     }
 

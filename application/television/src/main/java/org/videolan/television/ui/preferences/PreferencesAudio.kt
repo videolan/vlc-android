@@ -36,6 +36,9 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -60,9 +63,6 @@ import org.videolan.vlc.isVLC4
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.LocaleUtil
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.Locale
 
 private const val TAG = "VLC/PreferencesAudio"
 private const val FILE_PICKER_RESULT_CODE = 10000
@@ -153,6 +153,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
+
             "audio_digital_output" -> updatePassThroughSummary()
             "audio_preferred_language" -> updatePreferredAudioTrack()
             "audio-replay-gain-enable", "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> launch { restartLibVLC() }
@@ -174,6 +175,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                     } else launch { restartLibVLC() }
                 }
             }
+
             KEY_PLAYBACK_SPEED_PERSIST -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE, 1.0f)
         }
     }
@@ -196,17 +198,21 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-            if (data == null) return
-            if (requestCode == FILE_PICKER_RESULT_CODE) {
-                if (data.hasExtra(EXTRA_MRL)) {
-                    launch {
-                        MediaUtils.useAsSoundFont(activity, Uri.parse(data.getStringExtra(
-                            EXTRA_MRL
-                        )))
-                        VLCInstance.restart()
-                    }
-                    UiTools.restartDialog(activity!!, true, RESTART_CODE, this)
+        if (data == null) return
+        if (requestCode == FILE_PICKER_RESULT_CODE) {
+            if (data.hasExtra(EXTRA_MRL)) {
+                launch {
+                    MediaUtils.useAsSoundFont(
+                        activity, Uri.parse(
+                            data.getStringExtra(
+                                EXTRA_MRL
+                            )
+                        )
+                    )
+                    VLCInstance.restart()
                 }
+                UiTools.restartDialog(activity!!, true, RESTART_CODE, this)
+            }
         }
     }
 

@@ -26,37 +26,67 @@ import android.app.Application
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.repository.MediaMetadataRepository
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_ARTISTS
+import org.videolan.resources.CATEGORY_GENRES
+import org.videolan.resources.CATEGORY_NOW_PLAYING
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
+import org.videolan.resources.CATEGORY_SONGS
+import org.videolan.resources.FAVORITE_TITLE
+import org.videolan.resources.HEADER_DIRECTORIES
+import org.videolan.resources.HEADER_MOVIES
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_PERMISSION
+import org.videolan.resources.HEADER_PLAYLISTS
+import org.videolan.resources.HEADER_SERVER
+import org.videolan.resources.HEADER_STREAM
+import org.videolan.resources.HEADER_TV_SHOW
+import org.videolan.resources.HEADER_VIDEO
+import org.videolan.resources.KEY_CURRENT_MEDIA
 import org.videolan.resources.util.getFromMl
 import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.NowPlayingDelegate
-import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.retrieveParent
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
-import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.repository.BrowserFavRepository
@@ -69,7 +99,7 @@ private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "MainTvModel"
 
 class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedialibraryReadyListener,
-        Medialibrary.OnDeviceChangeListener {
+    Medialibrary.OnDeviceChangeListener {
 
     val context = getApplication<Application>().getContextWithLocale(AppContextProvider.locale)
     private val medialibrary = Medialibrary.getInstance()
@@ -81,6 +111,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     private var updatedFavoriteList: List<MediaWrapper> = listOf()
     var showHistory = false
         private set
+
     // LiveData
     private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.getFavDao().asLiveData(viewModelScope.coroutineContext)
     val nowPlaying: LiveData<List<MediaLibraryItem>> = MutableLiveData()
@@ -152,7 +183,13 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     private fun updateVideos() = viewModelScope.launch {
         if (!Permissions.canReadStorage(context)) {
             (videos as MutableLiveData).value =
-                listOf(DummyItem(HEADER_PERMISSION, context.getString(R.string.permission_media), context.getString(R.string.permission_ask_again)))
+                listOf(
+                    DummyItem(
+                        HEADER_PERMISSION,
+                        context.getString(R.string.permission_media),
+                        context.getString(R.string.permission_ask_again)
+                    )
+                )
             return@launch
         }
         val allMovies = withContext(Dispatchers.IO) { mediaMetadataRepository.getMovieCount() }
@@ -160,16 +197,34 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         val videoNb = context.getFromMl { videoCount }
         context.getFromMl {
             getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, NUM_ITEMS_PREVIEW, 0)
-        }.let {
+        }.let { pagedVideos: Array<MediaWrapper> ->
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
-                add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, videoNb, videoNb)))
+                add(
+                    DummyItem(
+                        HEADER_VIDEO,
+                        context.getString(R.string.videos_all),
+                        context.resources.getQuantityString(R.plurals.videos_quantity, videoNb, videoNb)
+                    )
+                )
                 if (allMovies > 0) {
-                    add(DummyItem(HEADER_MOVIES, context.getString(R.string.header_movies), context.resources.getQuantityString(R.plurals.movies_quantity, allMovies, allMovies)))
+                    add(
+                        DummyItem(
+                            HEADER_MOVIES,
+                            context.getString(R.string.header_movies),
+                            context.resources.getQuantityString(R.plurals.movies_quantity, allMovies, allMovies)
+                        )
+                    )
                 }
                 if (allTvshows > 0) {
-                    add(DummyItem(HEADER_TV_SHOW, context.getString(R.string.header_tvshows), context.resources.getQuantityString(R.plurals.tvshow_quantity, allTvshows, allTvshows)))
+                    add(
+                        DummyItem(
+                            HEADER_TV_SHOW,
+                            context.getString(R.string.header_tvshows),
+                            context.resources.getQuantityString(R.plurals.tvshow_quantity, allTvshows, allTvshows)
+                        )
+                    )
                 }
-                addAll(it)
+                addAll(pagedVideos)
             }
         }
     }
@@ -243,11 +298,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         if (!showInternalStorage && directories.isNotEmpty()) directories.removeAt(0)
         directories.forEach { if (it.location.scanAllowed()) list.add(it) }
 
-        if (networkMonitor.isLan) {
-            list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
-            list.add(DummyItem(HEADER_STREAM, context.getString(R.string.streams), null))
-            list.add(DummyItem(HEADER_SERVER, context.getString(R.string.server_add_title), null))
-        }
         (browsers as MutableLiveData).value = list
         delay(500L)
     }
@@ -284,13 +334,18 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     activity.startActivity(intent)
                 }
+
                 else -> {
-                    MediaUtils.openMedia(activity, item)
-                    if (item.type == MediaWrapper.TYPE_AUDIO) {
-                        activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
-                    }
+                    val intent = Intent(activity, VerticalGridActivity::class.java)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                    intent.putExtra(FAVORITE_TITLE, item.title)
+                    intent.data = item.uri.retrieveParent()
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.putExtra(KEY_CURRENT_MEDIA, item.uri.toString())
+                    activity.startActivity(intent)
                 }
             }
+
             is DummyItem -> when (item.id) {
                 HEADER_PERMISSION -> activity.askStoragePermission(false, null)
                 HEADER_STREAM -> {
@@ -298,14 +353,19 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
-                HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+
+                HEADER_SERVER -> activity.startActivity(
+                    Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }
+
             is MediaMetadataWithImages -> {
                 item.metadata.mlId?.let {
                     viewModelScope.launch {
@@ -315,18 +375,29 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                             val intent = Intent(activity, org.videolan.television.ui.DetailsActivity::class.java)
                             // pass the item information
                             intent.putExtra("media", it)
-                            intent.putExtra("item", org.videolan.television.ui.MediaItemDetails(it.title, it.artistName, it.albumName, it.location, it.artworkURL))
+                            intent.putExtra(
+                                "item",
+                                org.videolan.television.ui.MediaItemDetails(
+                                    it.title,
+                                    it.artistName,
+                                    it.albumName,
+                                    it.location,
+                                    it.artworkURL
+                                )
+                            )
                             activity.startActivity(intent)
                         }
                     }
                 }
             }
+
             is MediaLibraryItem -> org.videolan.television.ui.TvUtil.openAudioCategory(activity, item)
         }
     }
 
     companion object {
-        fun Fragment.getMainTvModel() = ViewModelProvider(requireActivity(), Factory(requireActivity().application)).get(MainTvModel::class.java)
+        fun Fragment.getMainTvModel() =
+            ViewModelProvider(requireActivity(), Factory(requireActivity().application)).get(MainTvModel::class.java)
     }
 
     class Factory(private val app: Application) : ViewModelProvider.NewInstanceFactory() {

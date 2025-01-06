@@ -39,6 +39,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.absoluteValue
 import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.television.R
@@ -46,7 +47,6 @@ import org.videolan.television.databinding.ActivityColorPickerBinding
 import org.videolan.television.databinding.ColorPickerItemBinding
 import org.videolan.tools.dp
 import org.videolan.vlc.gui.DiffUtilAdapter
-import kotlin.math.absoluteValue
 
 const val COLOR_PICKER_SELECTED_COLOR = "color_picker_selected_color"
 const val COLOR_PICKER_TITLE = "color_picker_title"
@@ -60,7 +60,7 @@ class ColorPickerActivity : AppCompatActivity() {
         applyOverscanMargin(this)
 
         binding.colorPickerTitle.text = intent.extras?.getString(COLOR_PICKER_TITLE)
-                ?: getString(R.string.subtitles_color)
+            ?: getString(R.string.subtitles_color)
         val previousColor = intent.extras?.getInt(COLOR_PICKER_SELECTED_COLOR) ?: Color.BLACK
         binding.oldColor.color = previousColor
         binding.newColor.color = previousColor
@@ -100,7 +100,13 @@ class ColorPickerActivity : AppCompatActivity() {
                 //add a separator before the color variants
                 val firstChild = parent.getChildAt(colors.size)
                 val lastChild = parent.getChildAt(parent.adapter!!.itemCount - 1)
-                c.drawLine(firstChild.left.toFloat(), firstChild.top.toFloat() - 16.dp, lastChild.right.toFloat(), firstChild.top.toFloat() - 16.dp, paint)
+                c.drawLine(
+                    firstChild.left.toFloat(),
+                    firstChild.top.toFloat() - 16.dp,
+                    lastChild.right.toFloat(),
+                    firstChild.top.toFloat() - 16.dp,
+                    paint
+                )
 
             }
         })
@@ -112,7 +118,9 @@ class ColorPickerActivity : AppCompatActivity() {
         grid.adapter = colorAdapter
 
         binding.colorPickerButtonOk.setOnClickListener {
-            setResult(RESULT_OK, Intent(Intent.ACTION_PICK).apply { putExtra(COLOR_PICKER_SELECTED_COLOR, colorAdapter.getSelectedColor()) })
+            setResult(
+                RESULT_OK,
+                Intent(Intent.ACTION_PICK).apply { putExtra(COLOR_PICKER_SELECTED_COLOR, colorAdapter.getSelectedColor()) })
             finish()
         }
 
@@ -238,7 +246,12 @@ class ColorPickerActivity : AppCompatActivity() {
      * @property selectedIndex the main color selected index (between 0 and 99)
      * @property selectedVariantIndex the selected color variant index (between 0 and 19)
      */
-    inner class ColorAdapter(private val colors: List<Int>, private var selectedIndex: Int, private var selectedVariantIndex: Int, private val colorSelectionListener: (Int) -> Unit) : DiffUtilAdapter<Int, ColorPickerViewHolder>() {
+    inner class ColorAdapter(
+        private val colors: List<Int>,
+        private var selectedIndex: Int,
+        private var selectedVariantIndex: Int,
+        private val colorSelectionListener: (Int) -> Unit
+    ) : DiffUtilAdapter<Int, ColorPickerViewHolder>() {
 
 
         // tracks the focus restoration upon item changes
@@ -247,10 +260,14 @@ class ColorPickerActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ColorPickerViewHolder, position: Int) {
             val adapterPosition = holder.absoluteAdapterPosition
-            val color = if (adapterPosition in colors.indices) colors[adapterPosition] else getVariantColor(colors[selectedIndex], adapterPosition - colors.size)
+            val color = if (adapterPosition in colors.indices) colors[adapterPosition] else getVariantColor(
+                colors[selectedIndex],
+                adapterPosition - colors.size
+            )
             holder.binding.colorPicker.color = color
 
-            val selected = if (adapterPosition in colors.indices) selectedIndex == adapterPosition else adapterPosition - colors.size == selectedVariantIndex
+            val selected =
+                if (adapterPosition in colors.indices) selectedIndex == adapterPosition else adapterPosition - colors.size == selectedVariantIndex
             holder.binding.colorPicker.currentlySelected = selected
             holder.binding.colorPicker.setOnFocusChangeListener { _, hasFocus ->
                 if (!waitingForFocusRestore && hasFocus) currentFocusPosition = adapterPosition
@@ -273,7 +290,8 @@ class ColorPickerActivity : AppCompatActivity() {
             if (payloads.isEmpty()) onBindViewHolder(holder, position)
             else for (payload in payloads) {
                 if (payload == UPDATE_PAYLOAD) {
-                    holder.binding.colorPicker.currentlySelected = selectedIndex == position || position - colors.size == selectedVariantIndex
+                    holder.binding.colorPicker.currentlySelected =
+                        selectedIndex == position || position - colors.size == selectedVariantIndex
                     if (position == currentFocusPosition) holder.binding.colorPicker.requestFocus()
                 }
 
@@ -281,7 +299,14 @@ class ColorPickerActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorPickerViewHolder {
-            return ColorPickerViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.color_picker_item, parent, false) as ColorPickerItemBinding) { position, view ->
+            return ColorPickerViewHolder(
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    R.layout.color_picker_item,
+                    parent,
+                    false
+                ) as ColorPickerItemBinding
+            ) { position, view ->
                 waitingForFocusRestore = true
                 view.clearFocus()
                 if (position in colors.indices) {
@@ -317,7 +342,8 @@ class ColorPickerActivity : AppCompatActivity() {
         }
     }
 
-    inner class ColorPickerViewHolder(val binding: ColorPickerItemBinding, private val listener: (Int, View) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+    inner class ColorPickerViewHolder(val binding: ColorPickerItemBinding, private val listener: (Int, View) -> Unit) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.colorPicker.setOnClickListener {

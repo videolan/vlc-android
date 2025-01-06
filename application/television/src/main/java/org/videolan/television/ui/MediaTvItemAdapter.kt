@@ -38,7 +38,13 @@ import org.videolan.vlc.util.isOTG
 import org.videolan.vlc.util.isSD
 import org.videolan.vlc.util.isSchemeFile
 
-class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private var inGrid: Boolean = true) : PagedListAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, TvItemAdapter {
+class MediaTvItemAdapter(
+    type: Int,
+    private val eventsHandler: IEventsHandler<MediaLibraryItem>,
+    var itemSize: Int,
+    private var inGrid: Boolean = true
+) : PagedListAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
+    FastScroller.SeparatedAdapter, TvItemAdapter {
     override var focusNext = -1
     override fun displaySwitch(inGrid: Boolean) {
         this.inGrid = inGrid
@@ -46,7 +52,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
 
     private val defaultCover: BitmapDrawable?
     private var focusListener: FocusListener? = null
-    private var seenMediaMarkerVisible: Boolean  =true
+    private var seenMediaMarkerVisible: Boolean = true
 
     init {
         val ctx: Context? = when (eventsHandler) {
@@ -56,16 +62,22 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
         defaultCover = ctx?.let { getMediaIconDrawable(it, type, true) }
         seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean("media_seen", true) }
-                ?: true
+            ?: true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
         @Suppress("UNCHECKED_CAST")
         return if (inGrid)
-            MediaItemTVViewHolder(MediaBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaItemViewHolder<ViewDataBinding>
+            MediaItemTVViewHolder(
+                MediaBrowserTvItemBinding.inflate(inflater, parent, false),
+                eventsHandler
+            ) as AbstractMediaItemViewHolder<ViewDataBinding>
         else
-            MediaItemTVListViewHolder(MediaBrowserTvItemListBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaItemViewHolder<ViewDataBinding>
+            MediaItemTVListViewHolder(
+                MediaBrowserTvItemListBinding.inflate(inflater, parent, false),
+                eventsHandler
+            ) as AbstractMediaItemViewHolder<ViewDataBinding>
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -84,10 +96,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
     }
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
-        if (!payloads.isNullOrEmpty() && payloads[0] is MediaLibraryItem)  {
+        if (!payloads.isNullOrEmpty() && payloads[0] is MediaLibraryItem) {
             val isSelected = (payloads[0] as MediaLibraryItem).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
-                holder.setCoverlay(isSelected)
-                holder.selectView(isSelected)
+            holder.setCoverlay(isSelected)
+            holder.selectView(isSelected)
         } else onBindViewHolder(holder, position)
     }
 
@@ -117,6 +129,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
     companion object {
 
         private const val TAG = "VLC/MediaTvItemAdapter"
+
         /**
          * Awful hack to workaround the [PagedListAdapter] not keeping track of notifyItemMoved operations
          */
@@ -124,7 +137,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MediaLibraryItem>() {
             override fun areItemsTheSame(
-                    oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem) = if (preventNextAnim)  true
+                oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem
+            ) = if (preventNextAnim) true
             else oldMedia === newMedia || oldMedia.itemType == newMedia.itemType && oldMedia.equals(newMedia)
 
             override fun areContentsTheSame(oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem) = false
@@ -179,11 +193,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(
-            binding: MediaBrowserTvItemBinding,
-            override val eventsHandler: IEventsHandler<MediaLibraryItem>
-    ) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding)
-    {
-        override fun getItem(layoutPosition: Int) =  this@MediaTvItemAdapter.getItem(layoutPosition)
+        binding: MediaBrowserTvItemBinding,
+        override val eventsHandler: IEventsHandler<MediaLibraryItem>
+    ) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding) {
+        override fun getItem(layoutPosition: Int) = this@MediaTvItemAdapter.getItem(layoutPosition)
         override fun getView() = binding.container
 
         init {
@@ -240,7 +253,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                     binding.max = max
                 }
             }
-            if (item is Genre)  description = binding.container.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
+            if (item is Genre) description =
+                binding.container.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
 
             binding.progress = progress
             binding.isSquare = isSquare
@@ -252,7 +266,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.isSD = isSD()
             binding.isOTG = isOTG()
             binding.isPresent = isPresent()
-            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Card Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
+            if (BuildConfig.DEBUG) Log.d(
+                this::class.java.simpleName,
+                "Card Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}"
+            )
             binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
             binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
@@ -264,8 +281,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemTVListViewHolder(
-            binding: MediaBrowserTvItemListBinding,
-            override val eventsHandler: IEventsHandler<MediaLibraryItem>
+        binding: MediaBrowserTvItemListBinding,
+        override val eventsHandler: IEventsHandler<MediaLibraryItem>
     ) : AbstractMediaItemViewHolder<MediaBrowserTvItemListBinding>(binding) {
         override fun getItem(layoutPosition: Int) = this@MediaTvItemAdapter.getItem(layoutPosition)
 
@@ -325,7 +342,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                     binding.max = max
                 }
             }
-            if (item is Genre)  description = binding.container.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
+            if (item is Genre) description =
+                binding.container.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
 
             binding.progress = progress
             binding.isSquare = isSquare
@@ -336,7 +354,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.isSD = isSD()
             binding.isOTG = isOTG()
             binding.isPresent = isPresent()
-            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
+            if (BuildConfig.DEBUG) Log.d(
+                this::class.java.simpleName,
+                "Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}"
+            )
             binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
             binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE

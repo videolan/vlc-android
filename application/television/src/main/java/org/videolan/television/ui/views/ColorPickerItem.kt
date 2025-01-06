@@ -40,7 +40,7 @@ import org.videolan.vlc.R
  * Custom view showing a color item. The color is drawn on the view canvas and the view i selectable
  */
 class ColorPickerItem @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     init {
@@ -51,19 +51,19 @@ class ColorPickerItem @JvmOverloads constructor(
     /**
      * Change the selection state and manages the addition/removal of the icon
      */
-    var currentlySelected:Boolean = false
-    set(value) {
-        field = value
-        if (value) addView(ImageView(context).apply {
-            setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check))
-            val lp = LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.gravity = Gravity.CENTER
-            layoutParams = lp
-            setPadding(2.dp, 2.dp,2.dp, 2.dp)
-            background = ContextCompat.getDrawable(context, R.drawable.round_black_transparent_50)
-        })
-        else removeAllViews()
-    }
+    var currentlySelected: Boolean = false
+        set(value) {
+            field = value
+            if (value) addView(ImageView(context).apply {
+                setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check))
+                val lp = LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                lp.gravity = Gravity.CENTER
+                layoutParams = lp
+                setPadding(2.dp, 2.dp, 2.dp, 2.dp)
+                background = ContextCompat.getDrawable(context, R.drawable.round_black_transparent_50)
+            })
+            else removeAllViews()
+        }
 
     private val paint by lazy {
         Paint().apply {

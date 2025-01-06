@@ -41,7 +41,7 @@ class SearchActivity : BaseTvActivity() {
         emptyView = findViewById(R.id.empty)
     }
 
-    override fun refresh() { }
+    override fun refresh() {}
 
     fun updateEmptyView(empty: Boolean) {
         emptyView!!.visibility = if (empty) View.VISIBLE else View.GONE

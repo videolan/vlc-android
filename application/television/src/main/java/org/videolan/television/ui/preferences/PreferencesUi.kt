@@ -39,7 +39,20 @@ import org.videolan.medialibrary.Tools
 import org.videolan.resources.AppContextProvider
 import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
-import org.videolan.tools.*
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_SHOW_HEADERS
+import org.videolan.tools.LIST_TITLE_ELLIPSIZE
+import org.videolan.tools.LocaleUtils
+import org.videolan.tools.PREF_TV_UI
+import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
+import org.videolan.tools.Settings
+import org.videolan.tools.TV_FOLDERS_FIRST
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
@@ -132,9 +145,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+
             "default_sleep_timer" -> {
                 val newFragment = SleepTimerDialog.newInstance(true)
-                newFragment.onDismissListener  = DialogInterface.OnDismissListener { manageSleepTimerSummary() }
+                newFragment.onDismissListener = DialogInterface.OnDismissListener { manageSleepTimerSummary() }
                 newFragment.show((activity as FragmentActivity).supportFragmentManager, "time")
             }
 
@@ -143,20 +157,26 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+
             "media_seen" -> (activity as PreferencesActivity).setRestart()
         }
         return super.onPreferenceTreeClick(preference)
     }
 
     private fun manageSleepTimerSummary() {
-        val interval = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL,  -1L)
+        val interval = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
         if (interval == -1L) {
             sleepTimerPreference.summary = getString(R.string.disabled)
             return
         }
-        val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT,  false)
-        val reset = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION,  false)
-        sleepTimerPreference.summary = getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), if (wait) "true" else "false", if (reset) "true" else "false")
+        val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
+        val reset = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
+        sleepTimerPreference.summary = getString(
+            R.string.default_sleep_timer_summary,
+            Tools.millisToString(interval),
+            if (wait) "true" else "false",
+            if (reset) "true" else "false"
+        )
     }
 
     private fun prepareLocaleList() {

@@ -77,6 +77,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import androidx.media.utils.MediaConstants
+import java.util.ArrayDeque
+import java.util.Calendar
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -191,9 +194,6 @@ import org.videolan.vlc.widget.VLCAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
 import videolan.org.commontools.LiveEvent
-import java.util.ArrayDeque
-import java.util.Calendar
-import kotlin.math.absoluteValue
 
 private const val TAG = "VLC/PlaybackService"
 
@@ -1485,7 +1485,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     @MainThread
-    fun load(mediaList: List<MediaWrapper>, position: Int) = lifecycleScope.launch { playlistManager.load(mediaList, position) }
+    fun load(mediaList: List<MediaWrapper>, position: Int): Job {
+        return lifecycleScope.launch { playlistManager.load(mediaList, position) }
+    }
 
     private fun updateMediaQueue() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
@@ -1608,7 +1610,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     @MainThread
-    fun load(media: MediaWrapper, position: Int = 0) = load(listOf(media), position)
+    fun load(media: MediaWrapper, position: Int = 0): Job {
+        return load(listOf(media), position)
+    }
 
     /**
      * Play a media from the media list (playlist)
