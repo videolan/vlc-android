@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_folder_usb.xml
+  ~ **************************************************************************
+  ~ Copyright © 2025 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M8,8C5.8,8 4.02,9.8 4.02,12L4,36C4,38.2 5.8,40 8,40L40,40C42.2,40 44,38.2 44,36L44,16C44,13.8 42.2,12 40,12L24,12L20,8L8,8zM8,12L18.34,12L22.34,16L40,16L40,36L8,36L8,12zM30,17.75L27.75,20.75L29.25,20.75L29.25,26.75L27,26.75L27,25.197C27.525,24.92 27.9,24.388 27.9,23.75C27.9,22.843 27.157,22.1 26.25,22.1C25.343,22.1 24.6,22.843 24.6,23.75C24.6,24.388 24.975,24.92 25.5,25.197L25.5,26.75C25.5,27.583 26.167,28.25 27,28.25L29.25,28.25L29.25,30.537C28.718,30.815 28.35,31.362 28.35,32C28.35,32.915 29.093,33.65 30,33.65C30.907,33.65 31.65,32.915 31.65,32C31.65,31.362 31.282,30.815 30.75,30.537L30.75,28.25L33,28.25C33.833,28.25 34.5,27.583 34.5,26.75L34.5,25.25L35.25,25.25L35.25,22.25L32.25,22.25L32.25,25.25L33,25.25L33,26.75L30.75,26.75L30.75,20.75L32.25,20.75L30,17.75z"
+      android:strokeWidth="1"
+      android:fillColor="@color/grey700"/>
+</vector>
