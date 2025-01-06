@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ *************************************************************************
-  ~  round_background.xml
+  ~  round_background_dark.xml
   ~ **************************************************************************
-  ~ Copyright © 2023 VLC authors and VideoLAN
+  ~ Copyright © 2025 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -25,6 +25,6 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
         android:shape="oval">
-    <solid android:color="@color/white" />
+    <solid android:color="@color/grey850" />
 
 </shape>

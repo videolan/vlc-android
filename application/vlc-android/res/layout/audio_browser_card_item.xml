@@ -225,7 +225,7 @@
                         android:layout_height="48dp"
                         android:padding="8dp"
                         vlc:bar_color="?attr/mini_visualizer_color"
-                        android:background="@drawable/round_background"
+                        android:background="?attr/round_background"
                         vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
                         vlc:layout_constraintEnd_toEndOf="parent"
                         vlc:layout_constraintStart_toStartOf="@+id/media_cover"

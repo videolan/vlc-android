@@ -48,6 +48,7 @@
         <item name="audio_list_background">@drawable/audio_list_background</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar</item>
         <item name="mini_visualizer_color">@color/mini_visualizer</item>
+        <item name="round_background">@drawable/round_background</item>
         <item name="bottom_sheet_background">@color/white</item>
         <item name="bookmark_background">@color/white_transparent_90</item>
         <item name="bottom_sheet_radius">16dp</item>
@@ -241,6 +242,7 @@
         <item name="audio_list_background">@drawable/audio_list_background_black</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar_black</item>
         <item name="mini_visualizer_color">@color/white_transparent_75</item>
+        <item name="round_background">@drawable/round_background_dark</item>
         <item name="bottom_sheet_background">@color/grey875</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="bottom_sheet_radius">16dp</item>
