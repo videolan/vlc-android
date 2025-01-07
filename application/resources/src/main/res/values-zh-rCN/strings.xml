@@ -83,6 +83,10 @@
     <string name="albums">专辑</string>
     <string name="tracks">轨道</string>
 
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="other">%d 则书签</item>
+    </plurals>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d 张专辑</item>
     </plurals>
@@ -159,6 +163,7 @@
     <string name="track_codec_info">编解码器: %1$s\n</string>
     <string name="track_language_info">语言: %1$s\n</string>
     <string name="volume">音量</string>
+    <string name="system_volume_disabled">%s\n没有系统卷的访问权限</string>
     <string name="sound_on">声音开启</string>
     <string name="sound_off">声音关闭</string>
     <string name="brightness">亮度</string>
@@ -181,6 +186,9 @@
     <string name="wait_before_sleep">先等待当前媒体项目播放结束</string>
     <string name="reset_on_interaction">有任何交互时重置</string>
     <string name="default_sleep_timer_summary">%1$s, 等待媒体结束: %2$s, 交互时重置: %3$s</string>
+    <string name="video_player_remote">视频播放器远程控制</string>
+    <string name="remote_keyboard_navigation">键盘导航</string>
+
     <string name="server_add_title">向收藏夹添加新的服务器</string>
     <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
     <string name="server_share_hint">网络共享名称 (或 IP 地址)</string>
@@ -269,6 +277,7 @@
     <string name="authors">作者</string>
     <string name="vlc_authors">及 VLC 全体作者。</string>
     <string name="is_compiled_by">编译软件</string>
+    <string name="is_signed_by">签名者</string>
     <string name="sources">源代码</string>
     <string name="libraries">库</string>
     <string name="feedback_forum">反馈论坛</string>
@@ -556,6 +565,8 @@
     <string name="no_result">未找到结果</string>
     <string name="no_internet_connection">请检查网络连接</string>
     <string name="retry">重试</string>
+    <string name="open_subs_download_error">OpenSubtitles 暂不可用。请稍后再试</string>
+
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 
@@ -571,10 +582,14 @@
     <string name="search_global">在所有媒体库中搜索媒体</string>
     <string name="playlist_save">保存播放列表</string>
     <string name="playlist_name_hint">播放列表名称</string>
+    <string name="chapters">章节</string>
+    <string name="notset">未设置</string>
     <string name="go_to_chapter">转到章节…</string>
     <string name="current_chapter">章节: %s</string>
     <string name="confirm_resume">是否从上次播放到的位置继续播放？</string>
+    <string name="apply_playqueue">应用到所有播放队列</string>
     <string name="confirm_resume_title">继续播放视频</string>
+    <string name="confirm_resume_audio_title">继续播放音频</string>
     <string name="tv_ui_title">Android TV 界面</string>
     <string name="tv_ui_summary">将界面改为适合电视的主题</string>
     <string name="medialibrary">媒体库</string>
@@ -596,6 +611,11 @@
     <string name="install_nightly">安装每日构建版</string>
     <string name="install_nightly_alert">每日构建版是每天更新的实验性版本。\n\n您可以享用最新的功能，但也可能遇到全新的 bug!</string>
     <string name="nightly_version">发现版本: %2$s - %1$s</string>
+    <string name="update_nightly_alert">您正在使用每日构建版本。是否希望定期查询更新版本?</string>
+    <string name="update_nightly">自动更新</string>
+    <string name="update_nightly_summary">定期查询每日构建版本更新</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">更多操作</string>
     <string name="back_quit_lock">再次按「返回」可退出视频</string>
@@ -664,6 +684,19 @@
     <string name="popup_playback">正在浮层窗口播放视频</string>
     <string name="popup_expand">展开视频</string>
     <string name="download_subtitles">下载字幕</string>
+    <string name="powered_opensubtitles">此项功能由 OpenSubtitles 提供</string>
+    <string name="open_subtitles_not_logged_in">您尚未登录 OpenSubtitles 账号\n登录后可享用更多的下载次数</string>
+    <string name="open_subtitles_logged_in">已登录账号 %1$s</string>
+    <string name="open_subtitles_limits">您剩余 %1$s 次下载机会，总下载配额为 %2$s。下次重置时间为 %3$s。</string>
+    <string name="open_subtitles_vip">您是 OpenSubtitles 的 VIP 用户</string>
+    <string name="open_subtitles_register">注册</string>
+    <string name="open_subtitles_log_out">退出登录</string>
+    <string name="open_subtitles_username">用户名</string>
+    <string name="open_subtitles_password">密码</string>
+    <string name="open_subtitles_is_vip">VIP 账号</string>
+    <string name="open_subtitles_is_not_vip">标准账号</string>
+    <string name="login_error">无效的登录凭据</string>
+    <string name="unknown_error">未知错误</string>
     <string name="browse_folder">浏览文件夹</string>
     <string name="listen">收听</string>
     <string name="apply_to_bt">应用到蓝牙设备</string>
@@ -747,12 +780,14 @@
     <string name="rename_media">重命名 %1$s</string>
     <string name="manual_search">手动搜索</string>
     <string name="subtitle_search_name_hint">名称</string>
+    <string name="subtitle_query_edit">编辑字幕搜索关键词</string>
     <string name="subtitle_search_episode_hint">集</string>
     <string name="subtitle_search_season_hint">季</string>
     <string name="subtitles_download_failed">下载失败</string>
     <string name="language_to_download">语言</string>
     <string name="delete_the_selected">删除选中项</string>
     <string name="download_the_selected">下载选中项</string>
+    <string name="no_sub_history">未找到适合此媒体的字幕</string>
     <string name="next">下一项</string>
     <string name="skip">跳过</string>
     <string name="next_step">继续</string>
@@ -772,6 +807,8 @@
     <string name="welcome_title">欢迎使用 VLC!</string>
     <string name="welcome_subtitle">自由开源的多媒体播放器</string>
     <string name="permission_media">VLC 需要您的许可，才能访问设备中的媒体</string>
+    <string name="permission_video">VLC 需要您的许可，才能访问您设备上的视频文件</string>
+    <string name="permission_audio">VLC 需要您的许可，才能访问您设备上的音频文件</string>
     <string name="medialibrary_scan_explanation">VLC 可自动扫描您的设备，构建您的媒体库。</string>
     <string name="onboarding_theme_title">就像在自己家</string>
     <string name="done">完成</string>
@@ -846,6 +883,8 @@
     <string name="invalid_file">无效文件。无法分享。</string>
     <string name="share_file">分享 %s</string>
     <string name="share_message">这是 %s</string>
+    <string name="share_track_info">分享轨道信息</string>
+    <string name="share_track">正在欣赏 %s</string>
     <string name="find_metadata">查找元数据</string>
     <string name="moviepedia_hint">搜索元数据</string>
     <string name="moviepedia_result">视频结果</string>
@@ -920,6 +959,8 @@
     <string name="sub_result_by_name">｢%s｣ 的结果</string>
     <string name="sub_result_by_name_season">第 %s 季</string>
     <string name="sub_result_by_name_episode">第 %s 集</string>
+    <string name="sub_result_by_name_hearing_impaired">只显示听觉辅助内容</string>
+
     <string name="sub_result_by_file">文件搜索结果</string>
     <string name="donate">帮助 VLC</string>
     <string name="donate_desc">支持 VLC 背后的志愿者们</string>
@@ -962,6 +1003,9 @@
     <string name="audio_delay_bt">已将蓝牙设备的音频延时设为 %s ms</string>
     <string name="warning_stream_speed">将流的回放速度加快到1以上可能会导致播放卡顿</string>
     <string name="go_to_folder">浏览所在目录</string>
+    <string name="go_to_album">转到专辑</string>
+    <string name="go_to_artist">转到艺人</string>
+    <string name="go_to_album_artist">转到专辑艺人</string>
     <string name="create_shortcut">创建启动器快捷方式</string>
     <string name="no_sub_renderer">暂未支持在投屏的同时投放字幕</string>
     <string name="enqueuing">正在加载媒体</string>
@@ -1036,6 +1080,14 @@
     <string name="notification_permission">通知权限</string>
     <string name="notification_permission_explanation">VLC 需要您的授权，方可发送通知。\n应用只会在为您扫描媒体文件或者自定义 ｢画中画｣ 视频模式时向您发送通知。\n拒绝该权限不会影响 VLC 的正常运行，只是不显示通知信息而已。</string>
     <string name="permission">权限</string>
+    <string name="permission_no_access">没有文件权限</string>
+    <string name="permissions">权限</string>
+    <string name="permissions_summary">所有权限的列表</string>
+    <string name="manage_storage_permission">文件权限</string>
+    <string name="permission_media_title">仅有常规媒体权限</string>
+    <string name="permission_all_title">完整访问权限</string>
+    <string name="permission_all_warning">要启用该项，请先禁用常规媒体文件权限</string>
+    <string name="permission_media_warning">要启用该项，请先禁用完整文件权限</string>
     <string name="customize">自定义</string>
     <string name="selection_count">选中了 %d 个</string>
     <string name="control_setting">控制设置</string>
@@ -1232,4 +1284,24 @@
     <string name="device">设备</string>
     <string name="connected_device">已连接设备</string>
     <string name="model">设备型号</string>
-    </resources>
+    <string name="prefs_app_data">应用程序数据</string>
+    <string name="export_settings_summary">将设置参数导出为单独的文件，以便以后再导入</string>
+    <string name="export_settings">导出设置</string>
+    <string name="restore_settings_summary">使用之前导出的文件恢复您的设置参数</string>
+    <string name="restore_settings">恢复设置</string>
+    <string name="export_settings_success">设置参数已成功导出到内部存储根目录</string>
+    <string name="export_settings_failure">导出设置参数时出现错误</string>
+
+    <string name="queue_info">队列信息</string>
+    <string name="queue_info_none">不要显示队列位置</string>
+    <string name="queue_info_before_title">标题之前</string>
+    <string name="queue_info_after_title">标题之后</string>
+    <string name="queue_info_before_subtitle">字幕之前</string>
+
+    <string name="title_size">标题文字大小</string>
+    <string name="subtitle_size">字幕文字大小</string>
+
+    <string name="queue_format">队列格式</string>
+    <string name="queue_format_short_desc">队列位置</string>
+    <string name="queue_format_long_desc">队列位置 / 队列总长</string>
+</resources>

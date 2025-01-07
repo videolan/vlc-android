@@ -696,7 +696,7 @@
     <string name="popup_expand">Videó kinagyítása</string>
     <string name="download_subtitles">Feliratok letöltése</string>
     <string name="powered_opensubtitles">Üzemelteti az OpenSubtitles</string>
-    <string name="open_subtitles_not_logged_in">Nincs bejelentkezve az OpenSubtitles-be\nA bejelentkezéssel több letöltéshez is hozzáférhet</string>
+    <string name="open_subtitles_not_logged_in">Nincs bejelentkezve az OpenSubtitlesbe\nA bejelentkezéssel több letöltéshez is hozzáférhet</string>
     <string name="open_subtitles_logged_in">Bejelentkezve, mint %1$s</string>
     <string name="open_subtitles_limits">Még %1$s/%2$s letöltése van hátra. Korlátja visszaáll: %3$s.</string>
     <string name="open_subtitles_vip">Ön VIP OpenSubtitles felhasználó</string>

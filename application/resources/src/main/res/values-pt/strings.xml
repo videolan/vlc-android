@@ -199,10 +199,10 @@
     <string name="sleep_in">Silenciar em</string>
     <string name="jump_to_time">Saltar para o tempo</string>
     <string name="subtitle_select">Selecionar ficheiro de legendas</string>
-    <string name="wait_before_sleep">Aguardar que o item multimédia atual termine primeiro</string>
-    <string name="reset_on_interaction">Repor em qualquer interação</string>
+    <string name="wait_before_sleep">Aguarde até que o item de multimédia atual termine primeiro</string>
+    <string name="reset_on_interaction">Reiniciar com qualquer interação</string>
     <string name="default_sleep_timer_summary">%1$s, esperar fim do média: %2$s, repor a interação: %3$s</string>
-    <string name="video_player_remote">Acesso remoto do reprodutor de vídeo</string>
+    <string name="video_player_remote">Reprodutor de vídeo remoto</string>
     <string name="remote_keyboard_navigation">Navegação por teclado</string>
 
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
@@ -316,7 +316,7 @@
     <string name="hardware_acceleration_decoding">Aceleração da descodificação</string>
     <string name="hardware_acceleration_full">Aceleração completa</string>
     <string name="dev_hardware_decoder">Descodificador de hardware avançado</string>
-    <string name="dev_hardware_decoder_summary">Forçar descodificador de hardware, apenas para utilizadores avançados</string>
+    <string name="dev_hardware_decoder_summary">Forçar descodificador de \'\'hardware\'\', apenas para os utilizadores avançados</string>
     <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientação do ecrã do vídeo</string>
     <string name="screen_orientation_sensor">Automática (sensor)</string>

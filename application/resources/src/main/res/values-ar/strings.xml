@@ -49,6 +49,7 @@
     <string name="play_from_start">شغّل من البداية</string>
     <string name="play_as_audio">شغّل كصوت</string>
     <string name="play_as_video">شغّل كڤديو</string>
+    <string name="return_to_video">اضغط لفترة طويلة على الغلاف لاستعادة الفيديو</string>
     <string name="video_app_switch_title">وضع الخلفية/صورة في صورة</string>
     <string name="video_app_switch_summary">اختر سلوك VLC عند الانتقال من تشغيل الڤديو إلى تطبيق آخر</string>
     <string name="play_pip_title">شغّل الڤديوهات في وضع ”صورة داخل صورة“</string>
@@ -228,6 +229,10 @@
     <string name="jump_to_time">اقفز زمنيًا إلى</string>
     <string name="subtitle_select">اختر ملف ترجمة</string>
     <string name="wait_before_sleep">انتظر حتى انتهاء عنصر الوسائط الحالي أولاً</string>
+    <string name="reset_on_interaction">إعادة الضبط على أي تفاعل</string>
+    <string name="video_player_remote">مشغل الفيديو عن بعد</string>
+    <string name="remote_keyboard_navigation">التنقل عبر لوحة المفاتيح</string>
+
     <string name="server_add_title">أضِف خادوما جديدا إلى المفضلة</string>
     <string name="server_domain_hint">عنوان الخادوم (اسم النطاق أو IP)</string>
     <string name="server_share_hint">اسم مشاركة الشبكة (او عنوان آي بي IP )</string>
@@ -258,8 +263,13 @@
     <string name="playback_history_title">تأريخ التشغيل</string>
     <string name="playback_history_summary">احفظ كل الوسائط المشغّلة في قسم التأريخ</string>
     <string name="video_resume_playback_title">سجل قائمة تشغيل الفيديو</string>
+    <string name="video_resume_playback_summary">السماح بحفظ قائمة تشغيل الفيديو لاستئنافها لاحقًا</string>
     <string name="audio_resume_playback_title">سجل قائمة تشغيل الصوت</string>
+    <string name="audio_resume_playback_warning">قد يؤدي تعطيل سجل قائمة تشغيل الصوت إلى بعض مشكلات السلوك.\nبعد تعطيله، قد لا تتمكن من استئناف التشغيل من:\n\n\t- جهاز بلوتوث\n\t- الأداة\n\t- إشعار الوسائط</string>
+    <string name="audio_resume_playback_summary">السماح بحفظ قائمة تشغيل الصوت لاستئنافها لاحقًا</string>
     <string name="playback_speed_title">احفظ سرعة التشغيل</string>
+    <string name="playback_speed_summary">الحفاظ على سرعة التشغيل بين الوسائط</string>
+
     <string name="play_button">زر التشغيل</string>
 
     <!-- Tips -->
@@ -277,10 +287,14 @@
     <string name="tap_to_previous_next">يُرجى اللمس للذهاب إلى السابق (أو اللاحق)</string>
     <string name="lock_orientation">الاتجاه</string>
     <string name="lock_orientation_description">يُرجى اللمس لتعطيل (أو تفعيل) الاتجاه</string>
+    <string name="aspect_ratio">نسبة العرض إلى الارتفاع</string>
+    <string name="aspect_ratio_description">انقر لتغيير نسبة العرض إلى الارتفاع للفيديو</string>
     <string name="advanced_options">الخيارات المتقدمة</string>
     <string name="advanced_options_description">مثلا تحديد سرعة التشغيل، وضع التكرار، …</string>
+    <string name="tips_swipe">اسحب للأعلى أو للأسفل</string>
     <string name="tips_swipe_horizontal">اسحب لليسار أو لليمين</string>
     <string name="tips_playlist">قائمة التشغيل</string>
+    <string name="tips_hold_seek">اضغط مطولا\" للبحث</string>
     <string name="pause_description">اللمس مرتين للتوقف المؤقت</string>
     <string name="seek_tap_description">انقر مرتين للانتقال إلى الأمام أو الخلف لمدة 10 ثوانٍ</string>
     <string name="close">إغلاق</string>

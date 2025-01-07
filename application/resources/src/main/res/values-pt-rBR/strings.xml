@@ -15,10 +15,22 @@
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Adicionado recentemente</string>
     <string name="sortby_insertion">Data de inclusão</string>
+    <string name="sortby_date_last_modified">Adicionado recentemente</string>
+    <string name="sortby_date_insertion">Data de inclusão</string>
+    <string name="sortby_date_release">Data de lançamento</string>
     <string name="sortby_media_number">Número da mídia</string>
     <string name="sortby_number">Núm. de trilhas</string>
     <string name="searchable_hint">Pesquisar…</string>
     <string name="history">Histórico</string>
+
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
+    <string name="sortby_length_asc">Mais curto primeiro</string>
+    <string name="sortby_length_desc">Mais longo primeiro</string>
+    <string name="sortby_number_asc">Mais vídeos no grupo</string>
+    <string name="sortby_number_desc">Menos vídeos no grupo</string>
+    <string name="sort_date_asc">Mais antigo primeiro</string>
+    <string name="sort_date_desc">Mais recente primeiro</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
@@ -39,6 +51,7 @@
     <string name="video_app_switch_summary">Selecionar o comportamento para quando alternar da reprodução de vídeos para outro aplicativo</string>
     <string name="play_pip_title">Reproduzir vídeos em modo de mini tela</string>
     <string name="play_as_audio_background">Reproduzir vídeos em segundo plano</string>
+    <string name="append">Adicionar à fila de reprodução</string>
     <string name="insert_next">Inserir como próximo</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Adicionar todos</string>
@@ -71,6 +84,12 @@
     <string name="artists">Artistas</string>
     <string name="albums">Álbuns</string>
     <string name="tracks">Trilhas</string>
+
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Favorito Salvo</item>
+        <item quantity="many">%d Favoritos Salvos</item>
+        <item quantity="other">%d Favoritos Salvos</item>
+    </plurals>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
@@ -126,11 +145,14 @@
     <string name="loading">Carregando</string>
     <string name="please_wait">Por favor, aguarde…</string>
     <string name="nomedia">Arquivos de mídia não encontrados. Por favor, transfira alguns arquivos para o seu dispositivo ou ajuste suas preferências.</string>
+    <string name="nofav">Nenhum favorito encontrado.</string>
     <string name="empty_search">Nenhum item encontrado ao pesquisar %s</string>
     <string name="noplaylist">Não foi possível encontrar uma lista de reprodução.</string>
     <string name="nosubfolder">Nenhuma sub pasta</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Você não possui histórico de reprodução.</string>
+    <string name="cant_ban_root">Não é possível banir uma pasta raiz</string>
+
     <string name="cover_art">Capa</string>
     <string name="shuffle_all_title">Todos em aleatório</string>
     <string name="shuffle_title">Modo aleatório</string>
@@ -138,6 +160,7 @@
     <string name="shuffle_on">Habilitar o Aleatório</string>
     <string name="shuffle_play">Aleatório</string>
     <string name="repeat_title">Modo contínuo</string>
+    <string name="repeat_none">Não repetir</string>
     <string name="repeat_single">Repetir uma</string>
     <string name="repeat_all">Repetir todas</string>
     <string name="previous">Anterior</string>
@@ -160,6 +183,7 @@
     <string name="track_codec_info">Codificador: %1$s\n</string>
     <string name="track_language_info">Idioma: %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="system_volume_disabled">%s\nSem acesso ao volume de sistema</string>
     <string name="sound_on">Habilitar o Som</string>
     <string name="sound_off">Desabilitar o Som</string>
     <string name="brightness">Brilho</string>
@@ -181,6 +205,12 @@
     <string name="sleep_in">Hibernar</string>
     <string name="jump_to_time">Ir ao Ponto</string>
     <string name="subtitle_select">Selecionar arquivo de legenda</string>
+    <string name="wait_before_sleep">Aguarde primeiro a mídia atual terminar</string>
+    <string name="reset_on_interaction">Reiniciar em qualquer interação</string>
+    <string name="default_sleep_timer_summary">%1$s, aguardar até o término da mídia: %2$s, reiniciar em interações: %3$s</string>
+    <string name="video_player_remote">Reprodutor de vídeo remoto</string>
+    <string name="remote_keyboard_navigation">Navegação por teclado</string>
+
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
     <string name="server_domain_hint">Endereço do servidor (nome ou IP)</string>
     <string name="server_share_hint">Nome do compartilhamento de rede (ou endereço IP)</string>
@@ -210,7 +240,14 @@
 
     <string name="playback_history_title">Histórico de reprodução</string>
     <string name="playback_history_summary">Salvar as mídias reproduzidas na seção Histórico</string>
+    <string name="video_resume_playback_title">Histórico da fila de reprodução de vídeo</string>
+    <string name="video_resume_playback_summary">Permitir salvar a fila de reprodução de vídeo para retomar mais tarde</string>
+    <string name="audio_resume_playback_title">Histórico da fila de reprodução de áudio</string>
+    <string name="audio_resume_playback_warning">Desabilitar o histórico da fila de reprodução de áudio pode levar a algumas situações.\nApós desabilitar pode não ser mais possível retomar a reprodução de:\n\n\t- um dispositivo bluetooth\n\t- o ícone dinâmico\n\t- a notificação de mídia</string>
+    <string name="audio_resume_playback_summary">Permitir salvar a fila de reprodução de áudio para retomar depois</string>
     <string name="playback_speed_title">Salvar a Velocidade de Reprodução</string>
+    <string name="playback_speed_summary">Manter a velocidade de reprodução entre mídias</string>
+
     <string name="play_button">Botão de Reprodução</string>
 
     <!-- Tips -->
@@ -262,16 +299,23 @@
     <string name="authors">Autores</string>
     <string name="vlc_authors">e autores do VLC.</string>
     <string name="is_compiled_by">Compilado por</string>
+    <string name="is_signed_by">Assinado por</string>
     <string name="sources">Código fonte</string>
     <string name="libraries">Bibliotecas</string>
     <string name="feedback_forum">Fórum de avaliação</string>
 
     <!-- Preferences -->
     <string name="preferences">Configurações</string>
+    <string name="more_preferences">Mais configurações</string>
+    <string name="prefs_opened_on_phone">Configurações abertas no telefone</string>
+    <string name="open_on_phone">Abrir na tela do telefone</string>
+
     <string name="directories_summary">Selecione pastas para incluir na biblioteca de mídias</string>
     <string name="add_custom_path">Adicionar um caminho personalizado</string>
     <string name="add_custom_path_description">Preencha uma pasta personalizada para verificação:</string>
     <string name="remove_custom_path">Excluir caminho personalizado</string>
+    <string name="group_ban_folder">Banir pasta da biblioteca de mídias</string>
+
     <string name="hardware_acceleration">Aceleração por Hardware</string>
     <string name="hardware_acceleration_summary">Desabilitado: maior estabilidade\nDecodificação: pode aumentar o desempenho\nTotal: pode aumentar mais ainda o desempenho</string>
     <string name="hardware_acceleration_disabled">Desabilitado</string>
@@ -283,10 +327,13 @@
     <string name="screen_orientation">Orientação da tela do vídeo</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
     <string name="screen_orientation_portrait">Retrato</string>
+    <string name="screen_orientation_portrait_reverse">Retrato invertido</string>
     <string name="screen_orientation_landscape">Paisagem</string>
     <string name="screen_orientation_landscape_reverse">Paisagem invertida</string>
+    <string name="screen_orientation_landscape_sensor">Paisagem (sensor)</string>
     <string name="screen_orientation_last_locked">Última orientação travada</string>
     <string name="enable_black_theme">Tema escuro</string>
+    <string name="dark_theme">Tema escuro</string>
     <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="subtitle_preferred_language">Idioma preferido para a legenda</string>
@@ -313,7 +360,9 @@
     <string name="media_seen">Exibir marcador em vídeo visto</string>
     <string name="media_seen_summary">Marca um vídeo como visto quando reproduzido até o fim</string>
     <string name="force_play_all_summary">Reproduz todos os vídeos, iniciando pelo que você clicar.</string>
+    <string name="force_play_all_audio_summary">Reproduzir todos os áudios, começando com o que foi clicado</string>
     <string name="force_play_all_title">Modo de lista de reprodução de vídeos</string>
+    <string name="force_play_all_audio_title">Modo de lista de reprodução de áudio</string>
     <string name="save_brightness_summary">Manter o nível de brilho entre as mídias</string>
     <string name="save_brightness_title">Salvar o nivel de brilho</string>
     <string name="save_audiodelay_summary">Salvar o atraso individual de áudio para cada vídeo</string>
@@ -333,19 +382,45 @@
     <string name="enable_double_tap_play_title">Duplo toque para reproduzir/pausar</string>
     <string name="enable_double_tap_play_summary">Duplo toque no centro da tela para reproduzir ou pausar</string>
     <string name="enable_swipe_seek_title">Deslizar para pesquisar</string>
+    <string name="enable_swipe_seek_summary">Deslize seus dedos pela tela para pesquisar</string>
+    <string name="enable_scale_gesture_title">Ampliação usando dois dedos</string>
+    <string name="enable_scale_gesture_summary">Ampliação e Redução usando dois dedos</string>
     <string name="popup_keepscreen_title">Manter a tela ativa no modo Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manter a tela ativa enquanto um Pop-Up é exibido, mesmo se o vídeo estiver pausado</string>
     <string name="browser_show_hidden_files_title">Exibir arquivos ocultos</string>
+    <string name="albums_show_track_numbers">Exibir números de trilha</string>
+    <string name="enable_video_screenshot">Capturar a tela</string>
+    <string name="enable_tap_and_hold_fastplay_title">Habilitar o Fastplay</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Toque e segure para aumentar a velocidade de reprodução</string>
+    <string name="fastplay_speed_title">Velocidade do Fastplay</string>
+    <string name="fastplay_title">Reproduzindo a %sx</string>
+    <string name="fastplay_subtitle">Liberar para parar</string>
+
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho da Legenda</string>
+    <string name="subtitles_presets_title">Padrões de legendas</string>
     <string name="subtitles_size_small">Pequeno</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Grande</string>
     <string name="subtitles_size_huge">Imenso</string>
+    <string name="subtitles_font_style">Estilo de fonte da legenda</string>
     <string name="subtitles_color_title">Cor da Legenda</string>
+    <string name="subtitles_opacity">Opacidade</string>
+    <string name="subtitles_color">Cor</string>
+    <string name="subtitles_size">Tamanho</string>
+    <string name="subtitles_background_color_title">Fundo da legenda</string>
     <string name="subtitles_background_title">Fundo da Legenda</string>
+    <string name="subtitle_decoration_none">Nenhum</string>
+    <string name="subtitle_decoration_shadow">Sombra</string>
     <string name="subtitles_bold_title">Legenda em negrito</string>
     <string name="subtitles_autoload_title">Carregar legenda automaticamente</string>
+    <string name="previous_color">Cor anterior</string>
+    <string name="new_color">Nova cor</string>
+    <string name="subtitles_preset_default">Padrão</string>
+    <string name="subtitles_preset_default_large">Texto grande</string>
+    <string name="subtitles_yellow">Amarelo</string>
+    <string name="subtitles_yellow_background">Amarelo com segundo plano</string>
+
     <string name="audio_prefs_category">Áudio</string>
     <string name="lockscreen_cover_title">Capa da mídia na Tela de Bloqueio</string>
     <string name="lockscreen_cover_summary">Quando disponível, define a capa da mídia atual como papel de parede</string>
@@ -382,6 +457,9 @@
     <string name="audio_ducking_title">Reduzir o volume do VLC em notificações</string>
     <string name="audio_ducking_summary">Ajuda a ouvir notificações de áudio, instruções de navegação ou assistência por voz</string>
     <string name="casting_category">Conversão</string>
+    <string name="remote_access">Acesso remoto</string>
+    <string name="remote_access_version_title">Versão do acesso remoto</string>
+    <string name="remote_access_connections">Conexões</string>
     <string name="casting_switch_title">Conversão sem fio</string>
     <string name="casting_passthrough_title">Passagem Direta de Áudio</string>
     <string name="casting_passthrough_summary">Permite à sua TV gerenciar a geração de áudio</string>
@@ -501,10 +579,10 @@
     <string name="music_now_playing">Reproduzindo</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Dispositivo VLC Branco</string>
-    <string name="widget_name_b">Dispositivo VLC Preto</string>
+    <string name="widget_name_w">Controle VLC Branco</string>
+    <string name="widget_name_b">Controle VLC Preto</string>
     <string name="widget_name_mini_player">Mini reprodutor VLC</string>
-    <string name="widget_old_text">Atualizamos nossas ferramentas!</string>
+    <string name="widget_old_text">Atualizamos nossas controles!</string>
     <string name="widget_old_description_start">Boa notícia! Lançamos controles melhorados.\nEles fornecem mais interatividade e personalização</string>
     <string name="widget_old_description_end">Detectamos que já há controles em sua tela inicial. Infelizmente, eles não são compatíveis com nossos controles melhorados.\nDependendo da sua tela inicial, será necessário removê-los para substituí-los.</string>
     <string name="allow_storage_access_title">Permitir que o VLC acesse arquivos de áudio e vídeo</string>
@@ -525,6 +603,11 @@
     <string name="permission_expanation_allow">Será possível apenas reproduzir transmissões ou mídias de rede</string>
     <string name="exit_app">Fechar o VLC</string>
     <string name="exit_app_msg">Tem certeza de que deseja fechar o VLC?</string>
+    <string name="widget_explanation_title">Controles do VLC</string>
+    <string name="widget_explanation_size">Os controles vêm em tamanhos e tipos diferentes</string>
+    <string name="widget_explanation_resize">Para mudar o tipo de um controle, pressione e segure sobre ele e use os manipuladores para redimensioná-lo para o tamanho desejado</string>
+    <string name="widget_explanation_end">Os controles são amplamente personalizáveis. Libere sua criatividade e faça-os parecer com seu jeito!</string>
+
     <!-- fast scroller -->
     <string name="fastscroller_track">Trilha FastScroller</string>
     <string name="fastscroller_handle">Manipulador FastScroller</string>
@@ -902,16 +985,29 @@
     <string name="undo">Desfazer</string>
     <string name="add_server_favorite">Adicionar um servidor favorito</string>
     <string name="widget_theme">Tema do controle</string>
+    <string name="widget_preferences">Configurar controle</string>
     <string name="custom">Personalizado</string>
+    <string name="widget_type">Tipo de controle</string>
+    <string name="widget_type_pill">Pílula</string>
+    <string name="widget_type_normal">Normal</string>
+    <string name="widget_type_circle">Círculo</string>
+    <string name="widget_type_large">Grande</string>
+    <string name="widget_type_error">Este tipo de controle é grande demais para o tamanho de um controle. Pode levar a problemas de visualização</string>
     <string name="opacity">Opacidade</string>
     <string name="widget_background">Segundo Plano</string>
     <string name="widget_foreground">Primeiro Plano</string>
     <string name="configure_widget">Configuração do controle</string>
     <string name="widget_preview">Visualização do controle</string>
     <string name="widget_forward_delay">Atraso do avanço</string>
+    <string name="widget_show_seek">Exibir botões de busca</string>
+    <string name="widget_show_cover">Exibir capa</string>
     <string name="widget_rewind_delay">Atraso do retrocesso</string>
     <string name="widget_show_configure">Exibir ícone de configuração</string>
+    <string name="widget_show_configure_summary">Mesmo se não exibido, é possível tocar o canto superior direito para abrir a configuração</string>
+    <string name="seek_backward_content_description">Retroagir %s segundos atrás</string>
+    <string name="seek_forward_content_description">Avançar %s segundos à frente</string>
     <string name="open_vlc">Abrir o VLC</string>
+    <string name="playing">Reproduzindo</string>
     <string name="talkback_playlist">Lista de reprodução: %s</string>
     <string name="talkback_folder">Pasta: %s</string>
     <string name="talkback_file">Arquivo: %s</string>

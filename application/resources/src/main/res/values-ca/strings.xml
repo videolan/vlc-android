@@ -173,6 +173,7 @@
     <string name="track_codec_info">Còdec: %1$s\n</string>
     <string name="track_language_info">Llengua: %1$s\n</string>
     <string name="volume">Volum</string>
+    <string name="system_volume_disabled">%s\nNo hi ha accés al volum del sistema</string>
     <string name="sound_on">Engega el so</string>
     <string name="sound_off">Apaga el so</string>
     <string name="brightness">Brillantor</string>
@@ -196,6 +197,9 @@
     <string name="wait_before_sleep">Espereu que acabi primer l\'actual element multimèdia</string>
     <string name="reset_on_interaction">Restableix en qualsevol interacció</string>
     <string name="default_sleep_timer_summary">%1$s, espera el final del multimèdia: %2$s, restableix en interacció: %3$s</string>
+    <string name="video_player_remote">Reproductor de vídeo remot</string>
+    <string name="remote_keyboard_navigation">Navegació amb teclat</string>
+
     <string name="server_add_title">Afegeix un servidor als preferits</string>
     <string name="server_domain_hint">Adreça del servidor (nom de domini o IP)</string>
     <string name="server_share_hint">Nom del recurs compartit de xarxa (o adreça IP)</string>
@@ -284,6 +288,7 @@
     <string name="authors">Autors</string>
     <string name="vlc_authors">i autors del VLC</string>
     <string name="is_compiled_by">Compilat per</string>
+    <string name="is_signed_by">Signat per</string>
     <string name="sources">Codi font</string>
     <string name="libraries">Biblioteques</string>
     <string name="feedback_forum">Fòrum de feedback</string>
@@ -571,6 +576,8 @@
     <string name="no_result">No s\'ha trobat cap resultat</string>
     <string name="no_internet_connection">Comproveu la connexió a internet</string>
     <string name="retry">Tornar a provar</string>
+    <string name="open_subs_download_error">OpenSubtitles no està disponible actualment. Torneu-ho a provar més tard</string>
+
     <string name="network_browsing">Xarxa local</string>
     <string name="browsing">Navegació</string>
 
@@ -591,6 +598,7 @@
     <string name="go_to_chapter">Vés al capítol…</string>
     <string name="current_chapter">Capítol: %s</string>
     <string name="confirm_resume">Reprèn des de l\'última posició?</string>
+    <string name="apply_playqueue">Sol·licita tota la cua de reproducció</string>
     <string name="confirm_resume_title">Reprèn els vídeos reproduits</string>
     <string name="confirm_resume_audio_title">Reprèn l\'àudio reproduït</string>
     <string name="tv_ui_title">Interfície Android TV</string>
@@ -687,6 +695,13 @@
     <string name="popup_playback">Reproduint en un pop-up</string>
     <string name="popup_expand">Fés gran el vídeo</string>
     <string name="download_subtitles">Baixa els subtítols</string>
+    <string name="powered_opensubtitles">Desenvolupat per OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">No heu iniciat sessió a OpenSubtitles\nSi inicieu sessió us permetrà accedir a més descàrregues</string>
+    <string name="open_subtitles_logged_in">Heu iniciat sessió com a %1$s</string>
+    <string name="open_subtitles_limits">Us queden %1$s descàrregues pendents d\'un total de%2$s. El vostre límit es restablirà a %3$s.</string>
+    <string name="open_subtitles_vip">Sou usuari VIP de OpenSubtitles</string>
+    <string name="open_subtitles_register">Registreu-vos</string>
+    <string name="open_subtitles_log_out">Tanca la sessió</string>
     <string name="open_subtitles_username">Nom d\'usuari</string>
     <string name="open_subtitles_password">Contrasenya</string>
     <string name="open_subtitles_is_vip">Compte VIP</string>
@@ -776,12 +791,14 @@
     <string name="rename_media">Canvia el nom %1$s</string>
     <string name="manual_search">Cerca manual</string>
     <string name="subtitle_search_name_hint">Nom</string>
+    <string name="subtitle_query_edit">Edita la consulta de cerca de subtítols</string>
     <string name="subtitle_search_episode_hint">Episodi</string>
     <string name="subtitle_search_season_hint">Temporada</string>
     <string name="subtitles_download_failed">No s\'ha pogut baixar</string>
     <string name="language_to_download">Llengua</string>
     <string name="delete_the_selected">Elimina la selecció</string>
     <string name="download_the_selected">Baixa la selecció</string>
+    <string name="no_sub_history">No hi ha subtítols per a aquest mitjà</string>
     <string name="next">Endavant</string>
     <string name="skip">Omet</string>
     <string name="next_step">Següent</string>
@@ -802,6 +819,7 @@
     <string name="welcome_subtitle">El reproductor multimèdia gratuït i de codi lliure</string>
     <string name="permission_media">VLC necessita el vostre permís per accedir als arxius multimèdia en aquest dispositiu.</string>
     <string name="permission_video">VLC necessita el vostre permís per accedir als vídeos del vostre dispositiu</string>
+    <string name="permission_audio">VLC necessita el vostre permís per accedir als àudios del vostre dispositiu</string>
     <string name="medialibrary_scan_explanation">VLC pot cercar automàticament el vostre dispositiu per organitzar la col·lecció de medis</string>
     <string name="onboarding_theme_title">Sentiu-vos com a casa</string>
     <string name="done">Fet</string>
@@ -954,6 +972,8 @@
     <string name="sub_result_by_name">Resultats per a %s</string>
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodi %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Només amb discapacitat auditiva</string>
+
     <string name="sub_result_by_file">Resultats del vostre fitxer</string>
     <string name="donate">ajut VLC</string>
     <string name="donate_desc">Donar suport als voluntaris en la creació de VLC</string>
@@ -998,6 +1018,7 @@
     <string name="go_to_folder">Carpeta pare</string>
     <string name="go_to_album">Anar a l\'àlbum</string>
     <string name="go_to_artist">Anar a l\'artista</string>
+    <string name="go_to_album_artist">Anar a l\'àlbum de l\'artista</string>
     <string name="create_shortcut">Crear una drecera pel llançador</string>
     <string name="no_sub_renderer">Els subtítols no estan disponibles en directe. </string>
     <string name="enqueuing">S\'estan carregant els vostres fitxers multimèdia</string>
@@ -1071,6 +1092,14 @@
     <string name="notification_permission">Permís de notificació</string>
     <string name="notification_permission_explanation">Al VLC li cal el vostre permís per enviar notificacions.\nL\'app només us notificarà quan escanegi els vostres multimèdia o quan utilitzi el vídeo personalitzat a Imatges.\nEncara que es refusi, el VLC seguirà treballant, però les notificacions quedaran amagades.</string>
     <string name="permission">Permís</string>
+    <string name="permission_no_access">Sense accés al fitxer</string>
+    <string name="permissions">Permisos</string>
+    <string name="permissions_summary">Llista de tots els permisos</string>
+    <string name="manage_storage_permission">Permisos del fitxer</string>
+    <string name="permission_media_title">Accés a mitjans estàndard</string>
+    <string name="permission_all_title">Accés a tots els fitxers</string>
+    <string name="permission_all_warning">Per habilitar-ho, primer heu de desactivar l\'accés als fitxers multimèdia estàndard</string>
+    <string name="permission_media_warning">Per habilitar-ho, primer heu de desactivar el permís complet del fitxer</string>
     <string name="customize">Personalitza</string>
     <string name="selection_count">%d seleccionat </string>
     <string name="control_setting">Configuració de control</string>
@@ -1277,4 +1306,16 @@
     <string name="export_settings_success">S\'ha exportat la configuració satisfactòriament a l’arrel de l’emmagatzematge intern </string>
     <string name="export_settings_failure">Alguna cosa ha fallat durant l\'exportació de la configuració</string>
 
-    </resources>
+    <string name="queue_info">Informació de la cua</string>
+    <string name="queue_info_none">No mostris la posició de la cua</string>
+    <string name="queue_info_before_title">Abans del títol</string>
+    <string name="queue_info_after_title">Després del títol</string>
+    <string name="queue_info_before_subtitle">Abans del subtítol</string>
+
+    <string name="title_size">Mida del text del títol</string>
+    <string name="subtitle_size">Mida del text del subtítol</string>
+
+    <string name="queue_format">Format de la cua</string>
+    <string name="queue_format_short_desc">Posició de la cua</string>
+    <string name="queue_format_long_desc">Posició de la cua / Mida de la cua</string>
+</resources>
