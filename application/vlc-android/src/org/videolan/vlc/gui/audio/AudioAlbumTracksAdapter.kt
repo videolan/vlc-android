@@ -109,6 +109,7 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
         override fun recycle() {
             binding.cover = defaultCover
             binding.title.isSelected = false
+            binding.trackNumber.text = ""
         }
 
         override fun getMiniVisu() = binding.playing
