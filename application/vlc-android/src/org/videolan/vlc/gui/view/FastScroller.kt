@@ -173,7 +173,8 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
      * Hides the bubble containing the section letter
      */
     private fun hideBubble() {
-        if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "hideBubble on thread ${Thread.currentThread()}")
+        if (BuildConfig.DEBUG && LifecycleAwareScheduler.LIFECYLE_LOG_ENABLED)
+            Log.d(LifecycleAwareScheduler.LIFECYCLE_TAG, "hideBubble on thread ${Thread.currentThread()}")
         currentAnimator = AnimatorSet()
         bubble.pivotX = bubble.width.toFloat()
         bubble.pivotY = bubble.height.toFloat()

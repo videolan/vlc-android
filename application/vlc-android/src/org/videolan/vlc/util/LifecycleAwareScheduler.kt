@@ -74,7 +74,8 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
     private val timeTasks = HashMap<String, TimerTask>()
 
     init {
-        if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "Creating LifecycleAwareScheduler for $callback")
+        if (BuildConfig.DEBUG && LIFECYLE_LOG_ENABLED)
+            Log.d(LIFECYCLE_TAG, "Creating LifecycleAwareScheduler for $callback")
     }
 
     /**
@@ -98,7 +99,8 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      */
     fun scheduleAction(id: String, delay: Long, data:Bundle = Bundle()) {
         if (canceled) return
-        if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "Scheduling action for $callback on thread ${Thread.currentThread()} with id $id")
+        if (BuildConfig.DEBUG && LIFECYLE_LOG_ENABLED)
+            Log.d(LIFECYCLE_TAG, "Scheduling action for $callback on thread ${Thread.currentThread()} with id $id")
         callback.lifecycle.addObserver(this@LifecycleAwareScheduler)
         if (timeTasks.keys.contains(id)) cancelAction(id)
         timeTasks[id] = timerTask {
@@ -132,7 +134,8 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
      * @return true if an action has been canceled, false otherwise
      */
     fun cancelAction(id: String): Boolean {
-        if (BuildConfig.DEBUG) Log.d("LifecycleAwareScheduler", "Canceling action for $callback on thread ${Thread.currentThread()} with id $id")
+        if (BuildConfig.DEBUG && LIFECYLE_LOG_ENABLED)
+            Log.d(LIFECYCLE_TAG, "Canceling action for $callback on thread ${Thread.currentThread()} with id $id")
         if (timeTasks.keys.contains(id)) {
             timeTasks[id]?.cancel()
             callback.onTaskCancelled(id)
@@ -163,5 +166,10 @@ class LifecycleAwareScheduler(private val callback: SchedulerCallback) : Default
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         discardTimer()
+    }
+
+    companion object {
+        const val LIFECYCLE_TAG = "LifecycleAwareScheduler"
+        const val LIFECYLE_LOG_ENABLED = false
     }
 }
