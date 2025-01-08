@@ -108,6 +108,7 @@ import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.openLinkIfPossible
+import org.videolan.vlc.util.trackNumberText
 import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
@@ -973,6 +974,11 @@ fun selectedElevation(v: View, isSelected: Boolean?) {
         val elevation = if (isSelected == true) 0.dp else 4.dp
         if (v is CardView) v.cardElevation = elevation.toFloat() else v.elevation = elevation.toFloat()
     }
+}
+
+@BindingAdapter("trackNumber")
+fun trackNumber(v: View, media: MediaWrapper) {
+    (v as? TextView)?.text = media.trackNumberText()
 }
 
 fun BaseActivity.applyTheme() {

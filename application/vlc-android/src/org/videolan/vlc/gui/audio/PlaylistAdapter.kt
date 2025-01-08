@@ -71,6 +71,7 @@ private const val ACTION_MOVED = "action_moved"
 
 class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter, SchedulerCallback {
 
+    var showTrackNumbers: Boolean = false
     private var defaultCoverVideo: BitmapDrawable
     private var defaultCoverAudio: BitmapDrawable
     private var model: PlaylistModel? = null
@@ -130,6 +131,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
         holder.binding.stopAfter.visibility = if (stopAfter == position) View.VISIBLE else View.GONE
         holder.binding.stopAfterThis = (position == stopAfter)
+        holder.binding.showTrackNumbers = showTrackNumbers
         if (currentIndex == position) {
             if (model?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE

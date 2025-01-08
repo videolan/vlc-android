@@ -36,6 +36,10 @@
                 type="java.lang.Boolean" />
 
         <variable
+                name="showTrackNumbers"
+                type="java.lang.Boolean" />
+
+        <variable
                 name="masked"
                 type="java.lang.Boolean" />
 
@@ -99,6 +103,22 @@
                 app:layout_constraintTop_toTopOf="@+id/coverImage" />
 
         <TextView
+                android:id="@+id/track_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:trackNumber="@{media}"
+                android:minWidth="20dp"
+                android:gravity="end"
+                android:textColor="?attr/font_default"
+                android:textSize="14sp"
+                android:visibility="@{!showTrackNumbers  ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toStartOf="@+id/audio_item_title"
+                app:layout_constraintStart_toEndOf="@+id/coverImage"
+                app:layout_constraintBaseline_toBaselineOf="@+id/audio_item_title"
+                tools:text="1." />
+
+        <TextView
                 android:id="@+id/audio_item_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -119,7 +139,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/audio_item_subtitle"
                 app:layout_constraintEnd_toEndOf="@+id/selector"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/coverImage"
+                app:layout_constraintStart_toEndOf="@+id/track_number"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Symphonie n°1" />

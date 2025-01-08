@@ -157,6 +157,7 @@ fun FragmentActivity.share(medias: List<MediaWrapper>) = lifecycleScope.launch {
 
 fun MediaWrapper?.isMedia() = this != null && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
 fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == MediaWrapper.TYPE_DIR || type == MediaWrapper.TYPE_PLAYLIST)
+fun MediaWrapper.trackNumberText() = if (trackNumber > 0) "$trackNumber." else ""
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 

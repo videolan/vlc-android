@@ -31,7 +31,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -229,6 +228,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.audioPlayProgress.visibility = if (!shouldHidePlayProgress()) View.VISIBLE else View.GONE
 
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
+        }
+        Settings.audioShowTrackNumbers.observe(viewLifecycleOwner) { showTrackNumbers ->
+            playlistAdapter.showTrackNumbers = showTrackNumbers
+            (binding.songsList.layoutManager as? LinearLayoutManager)?.let {
+                playlistAdapter.notifyItemRangeChanged(it.findFirstVisibleItemPosition(), it.findLastCompletelyVisibleItemPosition())
+            }
         }
 
         abRepeatAddMarker.setOnClickListener {

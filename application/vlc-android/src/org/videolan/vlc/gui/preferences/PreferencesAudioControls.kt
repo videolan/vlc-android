@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.preferences
 import android.content.SharedPreferences
 import org.videolan.tools.KEY_AUDIO_JUMP_DELAY
 import org.videolan.tools.KEY_AUDIO_LONG_JUMP_DELAY
+import org.videolan.tools.KEY_AUDIO_SHOW_TRACK_NUMBERS
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -55,6 +56,9 @@ class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnS
             }
             KEY_AUDIO_LONG_JUMP_DELAY -> {
                 Settings.audioLongJumpDelay = sharedPreferences.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
+            }
+            KEY_AUDIO_SHOW_TRACK_NUMBERS -> {
+                Settings.audioShowTrackNumbers.postValue(sharedPreferences.getBoolean(KEY_AUDIO_SHOW_TRACK_NUMBERS, false))
             }
         }
         Settings.onAudioControlsChanged()
