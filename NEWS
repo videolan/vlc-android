@@ -1,3 +1,8 @@
+Changes between 3.6.0 Beta 6 and 3.6.0:
+------------------
+ * Improve the orientation user experience in the video player
+ * Behavior and crash fixes
+
 Changes between 3.6.0 Beta 5 and 3.6.0 Beta 6:
 ------------------
  * Fix the remote access not included in the app bundle
