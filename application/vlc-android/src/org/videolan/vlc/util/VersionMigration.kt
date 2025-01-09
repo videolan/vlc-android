@@ -36,8 +36,8 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.FORCE_PLAY_ALL_AUDIO
-import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
+import org.videolan.tools.PLAYLIST_MODE_AUDIO
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_CURRENT_MAJOR_VERSION
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
@@ -53,11 +53,15 @@ import org.videolan.vlc.isVLC4
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 12
+private const val CURRENT_VERSION = 13
 
 object VersionMigration {
 
     val currentMajorVersion = if (isVLC4()) 4 else 3
+
+    // Used for migration 13, old parameter constants
+    private const val FORCE_PLAY_ALL_VIDEO = "force_play_all_video"
+    private const val FORCE_PLAY_ALL_AUDIO = "force_play_all_audio"
 
     suspend fun migrateVersion(context: Context) {
         val settings = Settings.getInstance(context)
@@ -102,6 +106,10 @@ object VersionMigration {
 
         if (lastVersion < 12) {
             migrateToVersion12(settings)
+        }
+
+        if (lastVersion < 13) {
+            migrateToVersion13(settings)
         }
 
         //Major version upgrade
@@ -235,8 +243,8 @@ object VersionMigration {
         if (settings.contains("force_play_all"))
             settings.edit {
                 val oldSetting = settings.getBoolean("force_play_all", false)
-                putBoolean(FORCE_PLAY_ALL_VIDEO, oldSetting)
-                putBoolean(FORCE_PLAY_ALL_AUDIO, oldSetting)
+                putBoolean(PLAYLIST_MODE_VIDEO, oldSetting)
+                putBoolean(PLAYLIST_MODE_AUDIO, oldSetting)
                 remove("force_play_all")
             }
     }
@@ -305,6 +313,26 @@ object VersionMigration {
                 putBoolean("browser_show_only_multimedia", !settings.getBoolean("browser_show_all_files", true))
                 remove("browser_show_all_files")
             }
+    }
+    private val TAG = this::class.java.name
+    /**
+     * Migrate after refactor to move all FORCE_PLAY_ALL_VIDEO/AUDIO to PLAYLIST_MODE_VIDEO/AUDIO
+     * This is to have the constant name and setting name more similar
+     */
+    private fun migrateToVersion13(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 13: refactor to move all FORCE_PLAY_ALL_VIDEO/AUDIO to PLAYLIST_MODE_VIDEO/AUDIO")
+        if (settings.contains(FORCE_PLAY_ALL_VIDEO)) {
+            settings.edit(true) {
+                putBoolean(PLAYLIST_MODE_VIDEO, settings.getBoolean(FORCE_PLAY_ALL_VIDEO, false))
+                remove(FORCE_PLAY_ALL_VIDEO)
+            }
+        }
+        if (settings.contains(FORCE_PLAY_ALL_AUDIO)) {
+            settings.edit(true) {
+                putBoolean(PLAYLIST_MODE_AUDIO, settings.getBoolean(FORCE_PLAY_ALL_AUDIO, false))
+                remove(FORCE_PLAY_ALL_AUDIO)
+            }
+        }
     }
 
     /**

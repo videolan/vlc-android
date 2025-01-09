@@ -32,7 +32,7 @@ import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.gui.helpers.UiTools
@@ -137,7 +137,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         PlaylistManager.playingAsAudio = false
         val settings = Settings.getInstance(context)
-        if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI) || forceAll)) {
+        if (!fromStart && (settings.getBoolean(PLAYLIST_MODE_VIDEO, Settings.tvUI) || forceAll)) {
             when(val prov = provider) {
                 is VideosProvider -> MediaUtils.playAll(context, prov, position, false)
                 is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false)

@@ -46,7 +46,7 @@ import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.details.MediaListActivity
-import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.Settings
 import org.videolan.tools.getposition
@@ -179,7 +179,7 @@ object TvUtil {
                 }
                 else -> {
                     model.run {
-                        if (!Settings.getInstance(activity).getBoolean(FORCE_PLAY_ALL_VIDEO, Settings.tvUI)) {
+                        if (!Settings.getInstance(activity).getBoolean(PLAYLIST_MODE_VIDEO, Settings.tvUI)) {
                             MediaUtils.openMedia(activity, item)
                         } else {
                             val list = (dataset.getList().filterIsInstance<MediaWrapper>()).filter { it.type != MediaWrapper.TYPE_DIR }

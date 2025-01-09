@@ -435,7 +435,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 return
             }
             Log.d(TAG, "onClick: skbench: ")
-            if (Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_AUDIO, false)) {
+            if (Settings.getInstance(requireContext()).getBoolean(PLAYLIST_MODE_AUDIO, false)) {
                 MediaUtils.playAll(activity,
                     viewModel.providers[currentTab] as MedialibraryProvider<MediaWrapper>, position, false)
             } else {

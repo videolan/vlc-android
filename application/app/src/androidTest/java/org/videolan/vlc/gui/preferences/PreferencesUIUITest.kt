@@ -102,7 +102,7 @@ class PreferencesUIUITest: BasePreferenceUITest() {
 
     @Test
     fun checkVideoPlaylistMode() {
-        val key = FORCE_PLAY_ALL_VIDEO
+        val key = PLAYLIST_MODE_VIDEO
 
         checkToggleWorks(key, settings)
     }

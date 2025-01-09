@@ -286,7 +286,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             startActivity(i)
         } else {
             if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)
-            if (Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_AUDIO, false))
+            if (Settings.getInstance(requireContext()).getBoolean(PLAYLIST_MODE_AUDIO, false))
                 MediaUtils.playAll(activity, viewModel.tracksProvider, position, false)
             else
                 MediaUtils.openMedia(v.context, item as MediaWrapper)

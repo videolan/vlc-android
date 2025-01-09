@@ -153,8 +153,8 @@ const val PREF_WIDGETS_TIPS_SHOWN = "widgets_tips_shown"
 const val PREF_RESTORE_VIDEO_TIPS_SHOWN = "pref_restore_video_tips_shown"
 
 const val PREF_TV_UI = "tv_ui"
-const val FORCE_PLAY_ALL_VIDEO = "force_play_all_video"
-const val FORCE_PLAY_ALL_AUDIO = "force_play_all_audio"
+const val PLAYLIST_MODE_VIDEO = "playlist_mode_video"
+const val PLAYLIST_MODE_AUDIO = "playlist_mode_audio"
 
 const val SCREEN_ORIENTATION = "screen_orientation"
 const val VIDEO_RESUME_TIME = "VideoResumeTime"

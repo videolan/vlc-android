@@ -80,8 +80,8 @@ import org.videolan.resources.util.parcelable
 import org.videolan.tools.BROWSER_DISPLAY_IN_CARDS
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
-import org.videolan.tools.FORCE_PLAY_ALL_AUDIO
-import org.videolan.tools.FORCE_PLAY_ALL_VIDEO
+import org.videolan.tools.PLAYLIST_MODE_AUDIO
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
@@ -707,8 +707,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
-                val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO) FORCE_PLAY_ALL_AUDIO else FORCE_PLAY_ALL_VIDEO
-                if (!Settings.getInstance(requireContext()).getBoolean(forcePlayType, forcePlayType == FORCE_PLAY_ALL_VIDEO && Settings.tvUI)) {
+                val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO) PLAYLIST_MODE_AUDIO else PLAYLIST_MODE_VIDEO
+                if (!Settings.getInstance(requireContext()).getBoolean(forcePlayType, forcePlayType == PLAYLIST_MODE_VIDEO && Settings.tvUI)) {
                     lifecycleScope.launch {
                         MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))
                     }

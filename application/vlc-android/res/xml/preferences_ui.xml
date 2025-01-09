@@ -83,7 +83,7 @@
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="false"
-                android:key="force_play_all_video"
+                android:key="playlist_mode_video"
                 android:summary="@string/force_play_all_summary"
                 android:title="@string/force_play_all_title"/>
         <CheckBoxPreference
@@ -107,7 +107,7 @@
         <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
-            android:key="force_play_all_audio"
+            android:key="playlist_mode_audio"
             android:summary="@string/force_play_all_audio_summary"
             android:title="@string/force_play_all_audio_title"/>
         <CheckBoxPreference

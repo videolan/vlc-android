@@ -58,7 +58,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Settings.getInstance(activity).run {
-            if (!contains(FORCE_PLAY_ALL_VIDEO)) putSingle(FORCE_PLAY_ALL_VIDEO, true)
+            if (!contains(PLAYLIST_MODE_VIDEO)) putSingle(PLAYLIST_MODE_VIDEO, true)
         }
         super.onCreate(savedInstanceState)
         tvUiPref = findPreference(PREF_TV_UI)!!
