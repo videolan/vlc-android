@@ -511,6 +511,7 @@
     <string name="tv_folders_first_summary">Show folders and then files in the file browser</string>
     <string name="tv_show_hidden_files">Show hidden files</string>
     <string name="tv_show_hidden_files_summary">Show hidden files in the file browser</string>
+    <string name="ab_repeat_fastseek_warning">Fast seek is enabled. It can lead to precision issues</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No extension detected</string>

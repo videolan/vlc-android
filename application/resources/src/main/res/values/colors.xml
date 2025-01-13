@@ -22,6 +22,7 @@
 
     <color name="red500transparent25">#40ff0000</color>
     <color name="red500transparent">#b4ff0000</color>
+    <color name="red200">#EF9A9A</color>
     <color name="orange500transparent">#b4ff8800</color>
     <color name="orange500focus">#86ff8800</color>
     <color name="orange200transparent">#64ffca7d</color>

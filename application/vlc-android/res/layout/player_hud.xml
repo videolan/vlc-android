@@ -172,6 +172,20 @@
                 vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_title"
                 vlc:srcCompat="@drawable/ic_abrepeat_reset_circle" />
 
+        <ImageView
+                android:id="@+id/fast_seek_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                tools:visibility="visible"
+                vlc:layout_constraintBottom_toBottomOf="@+id/ab_repeat_stop"
+                vlc:layout_constraintStart_toEndOf="@+id/ab_repeat_stop"
+                vlc:layout_constraintTop_toTopOf="@+id/ab_repeat_stop"
+                vlc:srcCompat="@drawable/ic_abrepeat_warning" />
+
+
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/bookmarks_stub"
                 android:layout_width="0dp"
