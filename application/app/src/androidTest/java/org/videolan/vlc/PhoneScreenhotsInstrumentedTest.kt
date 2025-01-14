@@ -44,6 +44,8 @@ import org.hamcrest.core.AllOf
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.EXTRA_FOR_ESPRESSO
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.Settings
@@ -53,6 +55,7 @@ import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.util.DpadHelper.pressHome
 import org.videolan.vlc.util.DpadHelper.pressPip
 import org.videolan.vlc.util.DpadHelper.pressStop
+import org.videolan.vlc.util.DummyMediaWrapperProvider
 import org.videolan.vlc.util.ScreenshotUtil
 import org.videolan.vlc.util.UiUtils.waitId
 import org.videolan.vlc.util.UiUtils.waitUntilLoaded
@@ -83,6 +86,11 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         waitUntilLoaded { activity.findViewById<ViewPager>(R.id.pager).get(0).findViewById(R.id.audio_list) }
         SystemClock.sleep(500)
         ScreenshotUtil.takeScreenshot(2, "audio_list")
+        onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(2))
+        waitUntilLoaded { activity.findViewById<ViewPager>(R.id.pager).get(2).findViewById(R.id.audio_list) }
+        SystemClock.sleep(1500)
+        //We use the audio list as PiP background. The PiP img is static
+        ScreenshotUtil.takeScreenshot(7,"pip_video")
 
         onView(withId(R.id.ml_menu_last_playlist)).perform(click())
         onView(isRoot()).perform(waitId(R.id.audio_media_switcher, 5000))
@@ -124,7 +132,6 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         onView(rvMatcher.atPosition(2)).perform(click())
         Log.d("Espresso", "3")
 
-        rotateLandscape()
         onView(isRoot()).perform(orientationLandscape())
         onView(isRoot()).perform(waitId(R.id.player_root, 5000))
 
@@ -132,18 +139,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         onView(withId(R.id.player_root)).perform(click())
         SystemClock.sleep(500)
         ScreenshotUtil.takeScreenshot(6, "video_player")
-        onView(withId(R.id.player_overlay_adv_function)).perform(ForceClickAction())
-        SystemClock.sleep(500)
-        disableRotateLandscape()
-        SystemClock.sleep(500)
-        pressBack()
-        onView(withId(R.id.player_overlay_adv_function)).perform(ForceClickAction())
-        onView(withRecyclerView(R.id.options_list).atPositionOnView(6, R.id.option_title)).perform(click())
-        pressHome()
-        pressPip()
-        SystemClock.sleep(200)
 
-        ScreenshotUtil.takeScreenshot(7,"pip")
     }
 
     @Test
@@ -195,8 +191,5 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         }
         activityTestRule.launchActivity(intent)
         activity = activityTestRule.activity
-        if (activity.isTablet()) {
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
     }
 }
