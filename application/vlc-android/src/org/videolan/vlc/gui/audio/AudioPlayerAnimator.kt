@@ -43,6 +43,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.tools.AUDIO_HINGE_ON_RIGHT
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -226,6 +227,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                 if (cover == null) setDefaultBackground()
                 else {
                     UiTools.blurView(binding.backgroundView, cover, 15F, UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
+                    binding.backgroundView.setVisible()
                 }
             }
         } else {
