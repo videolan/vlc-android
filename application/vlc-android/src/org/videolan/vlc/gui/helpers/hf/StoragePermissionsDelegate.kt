@@ -46,13 +46,19 @@ import org.videolan.resources.EXTRA_UPGRADE
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.tools.*
+import org.videolan.tools.INITIAL_PERMISSION_ASKED
+import org.videolan.tools.KEY_TV_ONBOARDING_DONE
+import org.videolan.tools.Settings
+import org.videolan.tools.isCallable
+import org.videolan.tools.putSingle
+import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
 import videolan.org.commontools.LiveEvent
+
 
 private const val WRITE_ACCESS = "write"
 private const val WITH_DIALOG = "with_dialog"
@@ -135,7 +141,8 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             val uri = Uri.fromParts(SCHEME_PACKAGE, requireContext().packageName, null)
             val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
             if (intent.isCallable(requireActivity())) {
-                if (withDialog)
+                //StartActivity doesn't have the right theme for the dialog. Fallback to no dialog
+                if (withDialog && requireActivity() !is StartActivity)
                     PermissionListDialog.newInstance().show(
                         requireActivity().supportFragmentManager,
                         PermissionListDialog::class.simpleName
