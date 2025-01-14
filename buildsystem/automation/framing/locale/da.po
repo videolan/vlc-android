@@ -1,0 +1,41 @@
+# 
+# Translators:
+# Lars Lyngby <larslyngby@hotmail.com>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Lars Lyngby <larslyngby@hotmail.com>, 2024\n"
+"Language-Team: Danish (https://app.transifex.com/yaron/teams/16553/da/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Afspil alle videoformater"
+
+msgid "Phone audio list"
+msgstr "Afspil alle lydformater"
+
+msgid "Phone audio player"
+msgstr "Intuitiv lydafspiller"
+
+msgid "Phone audio playlist"
+msgstr "Lydequalizer til din særegne smag"
+
+msgid "Phone Browser"
+msgstr "Letanvendelig filbrowser"
+
+msgid "Video player"
+msgstr "Videoafspiller med bevægelsesstyring og andre avancerede muligheder"
+
+msgid "Video pip"
+msgstr "Bliv ved med at se popupafspilleren mens andre apps også bruges"
+
+msgid "All devices"
+msgstr "Afspil overalt på alle dine Android-enheder"

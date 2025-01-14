@@ -1,0 +1,43 @@
+# 
+# Translators:
+# Balázs Meskó <meskobalazs@mailbox.org>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>, 2024\n"
+"Language-Team: Hungarian (https://app.transifex.com/yaron/teams/16553/hu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Játssza le az összes videóformátumot"
+
+msgid "Phone audio list"
+msgstr "Játssza le az összes hangformátumot"
+
+msgid "Phone audio player"
+msgstr "Intuitív hanglejátszó"
+
+msgid "Phone audio playlist"
+msgstr "Hangszínszabályzó a hang saját ízlésére szabásához"
+
+msgid "Phone Browser"
+msgstr "Könnyen használható fájlböngésző"
+
+msgid "Video player"
+msgstr "Videólejátszó gesztusvezérléssel és egyéb fejlett lehetőségekkel"
+
+msgid "Video pip"
+msgstr ""
+"Nézze tovább a felugró ablakos lejátszóban, miközben más alkalmazásokat "
+"használ"
+
+msgid "All devices"
+msgstr "Játsszon le mindenhol, az összes androidos eszközén"

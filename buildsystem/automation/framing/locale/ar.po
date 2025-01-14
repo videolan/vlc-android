@@ -1,0 +1,42 @@
+# 
+# Translators:
+# Wissam Abi Zeid <wissam.aaz@gmail.com>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Wissam Abi Zeid <wissam.aaz@gmail.com>, 2024\n"
+"Language-Team: Arabic (https://app.transifex.com/yaron/teams/16553/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "تشغيل جميع صيغ الفيديو"
+
+msgid "Phone audio list"
+msgstr "تشغيل جميع صيغ الصوت"
+
+msgid "Phone audio player"
+msgstr "مشغل صوتي بديهي"
+
+msgid "Phone audio playlist"
+msgstr "مُعادل الصوت للحصول على صوت يناسب ذوقك"
+
+msgid "Phone Browser"
+msgstr "متصفح ملفات سهل الاستخدام"
+
+msgid "Video player"
+msgstr "مشغل فيديو مع عناصر تحكم بالإيماءات وخيارات متقدمة أخرى"
+
+msgid "Video pip"
+msgstr ""
+"استمر في المشاهدة باستخدام مشغل النافذة المنبثقة أثناء استخدام تطبيقات أخرى"
+
+msgid "All devices"
+msgstr "العب في أي مكان على جميع أجهزة أندرويد الخاصة بك"

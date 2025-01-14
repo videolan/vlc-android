@@ -1,0 +1,45 @@
+# 
+# Translators:
+# Marián Hikaník <podnety@mojepreklady.net>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2024\n"
+"Language-Team: Slovak (https://app.transifex.com/yaron/teams/16553/sk/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Prehrať všetky formáty videa"
+
+msgid "Phone audio list"
+msgstr "Prehrať všetky zvukové formáty"
+
+msgid "Phone audio player"
+msgstr "Intuitívny audio prehrávač"
+
+msgid "Phone audio playlist"
+msgstr "Zvukový ekvalizér pre zvuk podľa vašej chuti"
+
+msgid "Phone Browser"
+msgstr "Ľahké používanie prehliadača súborov"
+
+msgid "Video player"
+msgstr ""
+"Prehrávač videa s ovládaním pomocou gest a inými pokročilými možnosťami"
+
+msgid "Video pip"
+msgstr ""
+"Sledovanie pomocou vyskakovacieho prehrávača, počas používania iných "
+"aplikácií"
+
+msgid "All devices"
+msgstr ""
+"Prehrávajte všade, na všetkých svojich zariadeniach so systémom Android"

@@ -1,0 +1,41 @@
+# 
+# Translators:
+# 黃柏諺 <s8321414@gmail.com>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2024\n"
+"Language-Team: Chinese (Taiwan) (https://app.transifex.com/yaron/teams/16553/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "播放所有視訊格式"
+
+msgid "Phone audio list"
+msgstr "播放所有音訊格式"
+
+msgid "Phone audio player"
+msgstr "直觀的音訊播放器"
+
+msgid "Phone audio playlist"
+msgstr "音訊等化器可提供符合您口味的音效"
+
+msgid "Phone Browser"
+msgstr "易於使用的檔案瀏覽器"
+
+msgid "Video player"
+msgstr "有手勢控制與其他進階選項的視訊播放器"
+
+msgid "Video pip"
+msgstr "使用其他應用程式時，可透過彈出式播放器繼續觀看"
+
+msgid "All devices"
+msgstr "在所有 Android 裝置上隨處播放"

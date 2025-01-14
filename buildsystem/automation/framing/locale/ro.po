@@ -1,0 +1,44 @@
+# 
+# Translators:
+# Andrei Miloiu, 2024
+# KRISTINA FARKAS, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: KRISTINA FARKAS, 2024\n"
+"Language-Team: Romanian (https://app.transifex.com/yaron/teams/16553/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Redă toate formatele video"
+
+msgid "Phone audio list"
+msgstr "Redă toate formatele audio"
+
+msgid "Phone audio player"
+msgstr "Redă audio intuitiv"
+
+msgid "Phone audio playlist"
+msgstr "Egalizator audio pentru un sunet pe gustul tău"
+
+msgid "Phone Browser"
+msgstr "Navigator de fișiere ușor de folosit"
+
+msgid "Video player"
+msgstr "Player video cu comenzi prin gesturi și alte opțiuni avansate"
+
+msgid "Video pip"
+msgstr ""
+"Continuă să urmărești cu player-ul pop-up în timp ce folosești alte "
+"aplicații"
+
+msgid "All devices"
+msgstr "Redă oriunde pe toate dispozitivelele tale Android"

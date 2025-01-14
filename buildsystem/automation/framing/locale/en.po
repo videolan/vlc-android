@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Play all video formats"
+
+msgid "Phone audio list"
+msgstr "Play all audio formats"
+
+msgid "Phone audio player"
+msgstr "Intuitive audio player"
+
+msgid "Phone audio playlist"
+msgstr "Audio equalizer for a sound to your taste"
+
+msgid "Phone Browser"
+msgstr "Easy to use file browser"
+
+msgid "Video player"
+msgstr "Video player with gesture controls and other advanced options"
+
+msgid "Video pip"
+msgstr "Keep watching with the popup player while using other apps"
+
+msgid "All devices"
+msgstr "Play everywhere on all of your Android devices"

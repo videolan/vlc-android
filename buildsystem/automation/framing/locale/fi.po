@@ -1,0 +1,41 @@
+# 
+# Translators:
+# Kimmo Kujansuu <mrkujansuu@gmail.com>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>, 2024\n"
+"Language-Team: Finnish (https://app.transifex.com/yaron/teams/16553/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Toista kaikki videoformaatit"
+
+msgid "Phone audio list"
+msgstr "Toista kaikki audioformaatit"
+
+msgid "Phone audio player"
+msgstr "Intuitiivinen audiosoitin"
+
+msgid "Phone audio playlist"
+msgstr "Taajuuskorjain makuusi sopivan äänen saamiseksi"
+
+msgid "Phone Browser"
+msgstr "Helppokäyttöinen tiedostoselain"
+
+msgid "Video player"
+msgstr "Videosoitin eleohjauksella ja edistyneillä vaihtoehdoilla"
+
+msgid "Video pip"
+msgstr "Jatka katselua ikkunassa, samalla kun käytät muita sovelluksia"
+
+msgid "All devices"
+msgstr "Toista kaikkialla, kaikilla Android-laitteillasi"

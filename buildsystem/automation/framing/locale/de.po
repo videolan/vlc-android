@@ -1,0 +1,41 @@
+# 
+# Translators:
+# Mario Siegmann <mario_siegmann@web.de>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>, 2024\n"
+"Language-Team: German (https://app.transifex.com/yaron/teams/16553/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Alle Videoformate abspielen"
+
+msgid "Phone audio list"
+msgstr "Alle Audioformate abspielen"
+
+msgid "Phone audio player"
+msgstr "Intuitiver Audioplayer"
+
+msgid "Phone audio playlist"
+msgstr "Audio-Equalizer für einen Klang ganz nach Ihrem Geschmack"
+
+msgid "Phone Browser"
+msgstr "Einfach zu bedienender Dateibrowser"
+
+msgid "Video player"
+msgstr "Videoplayer mit Gestensteuerung und anderen erweiterten Optionen"
+
+msgid "Video pip"
+msgstr "Mit dem Popup-Player weiterschauen, während Sie andere Apps verwenden"
+
+msgid "All devices"
+msgstr "Spielen Sie überall auf all Ihren Android-Geräten"

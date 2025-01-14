@@ -1,0 +1,45 @@
+# 
+# Translators:
+# Angelos Chraniotis, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Angelos Chraniotis, 2024\n"
+"Language-Team: Greek (https://app.transifex.com/yaron/teams/16553/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Αναπαραγωγή όλων των τύπων βίντεο"
+
+msgid "Phone audio list"
+msgstr "Αναπαραγωγή όλων των τύπων ήχου"
+
+msgid "Phone audio player"
+msgstr "Διαισθητική αναπαραγωγή αρχείων ήχου"
+
+msgid "Phone audio playlist"
+msgstr "Ισοσταθμιστής για την προσαρμογή ήχου στα γούστα σας"
+
+msgid "Phone Browser"
+msgstr "Εύχρηστος περιηγητής αρχείων"
+
+msgid "Video player"
+msgstr ""
+"Αναπαραγωγή βίντεο με χειρισμό μέσω χειρονομιών και άλλων προηγμένων "
+"επιλογών"
+
+msgid "Video pip"
+msgstr ""
+"Συνεχίστε την παρακολούθηση με την αναδυόμενη αναπαραγωγή, κατά την χρήση "
+"άλλων εφαρμογών"
+
+msgid "All devices"
+msgstr "Αναπαραγωγή παντού, σε όλες τις Android συσκευές σας"
