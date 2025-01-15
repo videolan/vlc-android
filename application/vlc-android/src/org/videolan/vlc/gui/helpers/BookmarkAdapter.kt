@@ -110,7 +110,8 @@ class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             return try {
-                 oldList[oldItemPosition] == newList[newItemPosition]
+                 oldList[oldItemPosition] == newList[newItemPosition] && oldList[oldItemPosition].title == newList[newItemPosition].title &&
+                         oldList[oldItemPosition].time == newList[newItemPosition].time
             } catch (e: Exception) {
                 false
             }
