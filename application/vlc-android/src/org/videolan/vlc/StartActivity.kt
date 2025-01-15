@@ -297,7 +297,12 @@ class StartActivity : FragmentActivity() {
         }
         // Remove FLAG_ACTIVITY_FORWARD_RESULT that is incompatible with startActivityForResult
         intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT.inv() and intent.flags
-        if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
+
+        // If data shared with content scheme then it should be from a provider and might
+        // be read without permissions.
+        // If not should check for permission, and ask them if we don't have them
+        if ((intent.data != null && intent.data!!.scheme == "content" && FileUtils.getUri(intent.data) != null)
+            || (Permissions.canReadStorage(applicationContext) || getStoragePermission())) when {
             intent.type?.startsWith("video") == true -> try {
                 startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT, Util.getFullScreenBundle())
                 return@launch

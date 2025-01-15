@@ -450,11 +450,9 @@ object MediaUtils {
                 if (!it.isNull(nameIndex)) mw.title = it.getString(nameIndex)
             }
         }
-    } catch (ignored: UnsupportedOperationException) {
-    } catch (ignored: IllegalArgumentException) {
-    } catch (ignored: NullPointerException) {
-    } catch (ignored: IllegalStateException) {
-    } catch (ignored: SecurityException) {}
+    } catch (e: Exception) {
+        Log.e(TAG, "retrieveMediaTitle: e: $e")
+    }
 
     fun deletePlaylist(playlist: Playlist) = AppScope.launch(Dispatchers.IO) { playlist.delete() }
 

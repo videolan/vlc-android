@@ -94,11 +94,16 @@ object FileUtils {
         try {
             val proj = arrayOf(MediaStore.Images.Media.DATA)
             cursor = AppContextProvider.appContext.contentResolver.query(contentUri, proj, null, null, null)
+
             if (cursor == null || cursor.count == 0)
                 return ""
             val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             cursor.moveToFirst()
-            return Uri.fromFile(File(cursor.getString(columnIndex))).toString()
+            val file = File(cursor.getString(columnIndex))
+            if (!file.canRead() && contentUri.scheme == "content") {
+                return getFileDescriptorFromUri(contentUri).toString()
+            }
+            return Uri.fromFile(file).toString()
         } catch (e: IllegalArgumentException) {
             return ""
         } catch (e: SecurityException) {
@@ -350,94 +355,106 @@ object FileUtils {
         return null
     }
 
+    private fun getFileDescriptorFromUri(data: Uri): Uri? {
+        try {
+            val ctx = AppContextProvider.appContext
+            val inputPFD = ctx.contentResolver.openFileDescriptor(data, "r")
+            if (inputPFD == null) {
+                Log.e(TAG, "getFileDescriptorFromUri: Failed to get parcel file descriptor ")
+                return null
+            }
+            return AndroidUtil.LocationToUri("fd://" + inputPFD.fd)
+        } catch (e: Exception) {
+            Log.w(TAG, "getFileDescriptorFromUri: ${e.message}")
+        }
+        return null
+    }
 
     @WorkerThread
     fun getUri(data: Uri?): Uri? {
         var uri = data
         val ctx = AppContextProvider.appContext
         if (data != null && data.scheme == "content") {
-            // Mail-based apps - download the stream to a temporary file and play it
-            if ("com.fsck.k9.attachmentprovider" == data.host || "gmail-ls" == data.host) {
-                var inputStream: InputStream? = null
-                var os: OutputStream? = null
-                var cursor: Cursor? = null
-                try {
-                    cursor = ctx.contentResolver.query(data,
-                            arrayOf(MediaStore.MediaColumns.DISPLAY_NAME), null, null, null)
-                    if (cursor != null && cursor.moveToFirst()) {
-                        val filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)).replace("/", "")
-                        if (BuildConfig.DEBUG) Log.i(TAG, "Getting file $filename from content:// URI")
-                        inputStream = ctx.contentResolver.openInputStream(data)
-                        if (inputStream == null) {
-                            Log.i("FileUtils", "Expanding uri: $data to $data")
-                            return data
+            try {
+                if (!Permissions.canReadStorage(ctx)) {
+                    uri = getFileDescriptorFromUri(data)
+                // Mail-based apps - download the stream to a temporary file and play it
+                } else if ("com.fsck.k9.attachmentprovider" == data.host || "gmail-ls" == data.host) {
+                    var inputStream: InputStream? = null
+                    var os: OutputStream? = null
+                    var cursor: Cursor? = null
+                    try {
+                        cursor = ctx.contentResolver.query(
+                            data,
+                            arrayOf(MediaStore.MediaColumns.DISPLAY_NAME), null, null, null
+                        )
+                        if (cursor != null && cursor.moveToFirst()) {
+                            val filename =
+                                cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME))
+                                    .replace("/", "")
+                            if (BuildConfig.DEBUG) Log.i(
+                                TAG,
+                                "Getting file $filename from content:// URI"
+                            )
+                            inputStream = ctx.contentResolver.openInputStream(data)
+                            if (inputStream == null) {
+                                Log.i("FileUtils", "Expanding uri: $data to $data")
+                                return data
+                            }
+                            os =
+                                FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
+                            val buffer = ByteArray(1024)
+                            var bytesRead = inputStream.read(buffer)
+                            while (bytesRead >= 0) {
+                                os.write(buffer, 0, bytesRead)
+                                bytesRead = inputStream.read(buffer)
+                            }
+                            uri =
+                                AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
                         }
-                        os = FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
-                        val buffer = ByteArray(1024)
-                        var bytesRead = inputStream.read(buffer)
-                        while (bytesRead >= 0) {
-                            os.write(buffer, 0, bytesRead)
-                            bytesRead = inputStream.read(buffer)
-                        }
-                        uri = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Couldn't download file from mail URI: $data")
+                        return null
+                    } finally {
+                        CloseableUtils.close(inputStream)
+                        CloseableUtils.close(os)
+                        CloseableUtils.close(cursor)
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Couldn't download file from mail URI: $data")
-                    return null
-                } finally {
-                    CloseableUtils.close(inputStream)
-                    CloseableUtils.close(os)
-                    CloseableUtils.close(cursor)
-                }
-            } else if (data.host == "com.amaze.filemanager" && data.path != null) {
-                uri = Uri.parse(data.path!!.replace("/storage_root", "file://"))
-            } else if (data.authority == "media") {
-                uri = MediaUtils.getContentMediaUri(data)
-            } else if (data.authority == ctx.getString(R.string.tv_provider_authority)) {
-                val medialibrary = Medialibrary.getInstance()
-                val media = medialibrary.getMedia(data.lastPathSegment!!.toLong())
-                uri = media.uri
-            } else {
-                uri = MediaUtils.getContentMediaUri(data)
-                if (uri != null && uri != data)
-                    return uri
-                val inputPFD: ParcelFileDescriptor?
-                try {
-                    inputPFD = ctx.contentResolver.openFileDescriptor(data, "r")
-                    if (inputPFD == null) {
-                        Log.i("FileUtils", "Expanding uri: $data to $data")
-                        return data
+                } else if (data.host == "com.amaze.filemanager" && data.path != null) {
+                    uri = Uri.parse(data.path!!.replace("/storage_root", "file://"))
+                    uri?.let {
+                        if (it.path != null && !File(it.path).canRead())
+                            uri = getFileDescriptorFromUri(data)
                     }
-                    uri = AndroidUtil.LocationToUri("fd://" + inputPFD.fd)
-                    //                    Cursor returnCursor =
-                    //                            getContentResolver().query(data, null, null, null, null);
-                    //                    if (returnCursor != null) {
-                    //                        if (returnCursor.getCount() > 0) {
-                    //                            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    //                            if (nameIndex > -1) {
-                    //                                returnCursor.moveToFirst();
-                    //                                title = returnCursor.getString(nameIndex);
-                    //                            }
-                    //                        }
-                    //                        returnCursor.close();
-                    //                    }
-                } catch (e: FileNotFoundException) {
-                    Log.e(TAG, "${e.message} for $data", e)
-                    return null
-                } catch (e: IllegalArgumentException) {
-                    Log.e(TAG, "${e.message} for $data", e)
-                    return null
-                } catch (e: IllegalStateException) {
-                    Log.e(TAG, "${e.message} for $data", e)
-                    return null
-                } catch (e: NullPointerException) {
-                    Log.e(TAG, "${e.message} for $data", e)
-                    return null
-                } catch (e: SecurityException) {
-                    Log.e(TAG, "${e.message} for $data", e)
-                    return null
+                } else if (data.authority == "media") {
+                    uri = MediaUtils.getContentMediaUri(data)
+                } else if (data.authority == ctx.getString(R.string.tv_provider_authority)) {
+                    val medialibrary = Medialibrary.getInstance()
+                    val media = medialibrary.getMedia(data.lastPathSegment!!.toLong())
+                    uri = media.uri
+                } else {
+                    uri = MediaUtils.getContentMediaUri(data)
+                    if (uri != null && uri != data)
+                        return uri
+                    uri = getFileDescriptorFromUri(data)
                 }
-            }// Media or MMS URI
+            } catch (e: FileNotFoundException) {
+                Log.e(TAG, "${e.message} for $data", e)
+                return null
+            } catch (e: IllegalArgumentException) {
+                Log.e(TAG, "${e.message} for $data", e)
+                return null
+            } catch (e: IllegalStateException) {
+                Log.e(TAG, "${e.message} for $data", e)
+                return null
+            } catch (e: NullPointerException) {
+                Log.e(TAG, "${e.message} for $data", e)
+                return null
+            } catch (e: SecurityException) {
+                Log.e(TAG, "${e.message} for $data", e)
+                return null
+            }
+        // Media or MMS URI
         }
         Log.i("FileUtils", "Expanding uri: $data to $uri")
         return uri
