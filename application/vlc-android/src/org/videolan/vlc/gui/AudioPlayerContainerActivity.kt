@@ -55,7 +55,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.util.getFromMl
@@ -255,6 +254,21 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
         (audioPlayerContainer.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = bottomInset
     }
 
+    private fun updateToolbarScrollability(enabled: Boolean) {
+        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
+        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+
+        if (!enabled) {
+            params.scrollFlags = 0
+            appBarLayoutParams.behavior = null
+            appBarLayout.setLayoutParams(appBarLayoutParams)
+        } else {
+            params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+            appBarLayoutParams.behavior = AppBarLayout.Behavior()
+            appBarLayout.setLayoutParams(appBarLayoutParams)
+        }
+    }
+
     fun setTabLayoutVisibility(show: Boolean) {
         tabLayout?.layoutParams?.height = if (show) ViewGroup.LayoutParams.WRAP_CONTENT else 0
         tabLayout?.requestLayout()
@@ -347,6 +361,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
                         STATE_HIDDEN -> audioPlayerContainer.announceForAccessibility(getString(R.string.talkback_audio_player_closed))
                     }
                 }
+                updateToolbarScrollability(newState == STATE_COLLAPSED)
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
