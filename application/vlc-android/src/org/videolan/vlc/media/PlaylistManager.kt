@@ -541,6 +541,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             //todo in VLC 4.0, this should be done by using libvlc_media_player_set_time instead of start-time
             media.addOption(":start-time=${start/1000L}")
+            media.addOption(":no-sout-chromecast-video")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags, PlaybackService.hasRenderer())
             /* keeping only video during benchmark */
             if (isBenchmark) {

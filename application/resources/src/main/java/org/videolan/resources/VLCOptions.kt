@@ -75,6 +75,7 @@ object VLCOptions {
             val subtitlesEncoding = pref.getString("subtitle_text_encoding", "") ?: ""
             val frameSkip = pref.getBoolean("enable_frame_skip", false)
             val verboseMode = pref.getBoolean("enable_verbose_mode", true)
+            val castingAudioOnly = pref.getBoolean("casting_audio_only", false)
 
             var deblocking = -1
             try {
@@ -105,6 +106,7 @@ object VLCOptions {
 
 
             val opengl = Integer.parseInt(pref.getString("opengl", "-1")!!)
+            if (castingAudioOnly) options.add("--no-sout-chromecast-video")
             options.add(if (timeStreching) "--audio-time-stretch" else "--no-audio-time-stretch")
             options.add("--avcodec-skiploopfilter")
             options.add("" + deblocking)

@@ -495,6 +495,8 @@
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
     <string name="casting_passthrough_summary">Let your TV manage audio rendering</string>
+    <string name="casting_audio_only">Audio only</string>
+    <string name="casting_audio_only_summary">Cast only audio, no video</string>
     <string name="casting_conversion_quality_title">Conversion quality</string>
     <string name="casting_conversion_quality_summary">Select the conversion quality when casting on remote screen</string>
     <string name="casting_quality_high">High</string>

@@ -13,6 +13,12 @@
                 android:switchTextOn="Enabled"
                 android:title="@string/casting_switch_title"/>
         <CheckBoxPreference
+                android:key="casting_audio_only"
+                android:defaultValue="false"
+                android:summary="@string/casting_audio_only_summary"
+                android:title="@string/casting_audio_only"
+                android:dependency="enable_casting"/>
+        <CheckBoxPreference
                 android:key="casting_passthrough"
                 android:defaultValue="false"
                 android:summary="@string/casting_passthrough_summary"
