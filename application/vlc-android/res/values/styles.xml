@@ -144,8 +144,6 @@
 
     <!-- TO REVIEW -->
     <style name="Theme.VLC.PickerDialog.Dark.7" parent="Theme.Material3.Dark.Dialog">
-
-
         <item name="colorPrimary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/orange700</item>
         <item name="colorSecondary">@color/orange500</item>
@@ -196,7 +194,6 @@
 
     <!-- TO REVIEW -->
     <style name="Theme.VLC.SendCrashDialog" parent="Theme.Material3.Light.Dialog">
-
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/orange700</item>
@@ -481,7 +478,9 @@
         <item name="android:windowBackground">@color/grey200</item>
     </style>
 
-    <style name="Theme.VLC.Transparent" parent="Theme.MaterialComponents.NoActionBar">
+
+    <!-- TO REVIEW -->
+    <style name="Theme.VLC.Transparent" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
@@ -647,6 +646,7 @@
     </style>
 
 
+    <!-- TO REVIEW (Button Visuals )-->
     <style name="VLC.Onboarding.Button.Next" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textColor">@color/white</item>
     </style>
@@ -677,7 +677,7 @@
         <item name="background">@color/white</item>
     </style>
 
-    <!-- TO REVIEW -->
+    <!-- TO REVIEW (Text Visual)-->
     <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:shadowDy">0</item>
         <item name="android:shadowDx">0</item>
