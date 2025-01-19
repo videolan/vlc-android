@@ -12,7 +12,7 @@
 
     </style>
 
-    <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.VLC.Apearance" parent="Theme.Material3.Light.NoActionBar">
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents</item>
         <item name="actionMenuTextColor">@color/white</item>
@@ -21,7 +21,7 @@
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
         <item name="preferenceTheme">@style/VLCPreferenceTheme.Light</item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox
         </item>
 
         <item name="colorPrimary">@color/orange800</item>
@@ -112,7 +112,7 @@
         <item name="sliderStyle">@style/VLC.Slider</item>
     </style>
 
-    <style name="VLC.Slider" parent="Widget.MaterialComponents.Slider">
+    <style name="VLC.Slider" parent="Widget.Material3.Slider">
         <item name="labelStyle">@style/VLC.Tooltip</item>
          <item name="thumbRadius">6dp</item>
          <item name="haloRadius">12dp</item>
@@ -124,11 +124,11 @@
          <item name="haloRadius">12dp</item>
    </style>
 
-    <style name="VLC.Tooltip" parent="Widget.MaterialComponents.Tooltip">
+    <style name="VLC.Tooltip" parent="Widget.Material3.Tooltip">
         <item name="android:textAppearance">@style/TextAppearance.VLC.Tooltip</item>
         <item name="backgroundTint">@color/orange800</item>
     </style>
-    <style name="VLC.Tooltip.Dark" parent="Widget.MaterialComponents.Tooltip">
+    <style name="VLC.Tooltip.Dark" parent="Widget.Material3.Tooltip">
         <item name="android:textAppearance">@style/TextAppearance.VLC.Tooltip</item>
         <item name="backgroundTint">@color/orange500</item>
     </style>
@@ -141,7 +141,11 @@
     <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
     <style name="Theme.VLC.PickerDialog.Dark" parent="Theme.VLC.PickerDialog.Dark.7"/>
     <style name="Theme.VLC.PickerDialog.Light" parent="Theme.VLC.PickerDialog.Light.7"/>
-    <style name="Theme.VLC.PickerDialog.Dark.7" parent="Theme.MaterialComponents.Dialog">
+
+    <!-- TO REVIEW -->
+    <style name="Theme.VLC.PickerDialog.Dark.7" parent="Theme.Material3.Dark.Dialog">
+
+
         <item name="colorPrimary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/orange700</item>
         <item name="colorSecondary">@color/orange500</item>
@@ -163,7 +167,10 @@
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
     </style>
 
-    <style name="Theme.VLC.PickerDialog.Light.7" parent="Theme.MaterialComponents.Dialog">
+    <!-- TO REVIEW -->
+    <style name="Theme.VLC.PickerDialog.Light.7" parent="Theme.Material3.Light.Dialog">
+
+
         <item name="colorPrimary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/orange700</item>
         <item name="colorSecondary">@color/orange500</item>
@@ -186,7 +193,10 @@
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
     </style>
 
-    <style name="Theme.VLC.SendCrashDialog" parent="Theme.MaterialComponents.Dialog">
+
+    <!-- TO REVIEW -->
+    <style name="Theme.VLC.SendCrashDialog" parent="Theme.Material3.Light.Dialog">
+
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/orange700</item>
@@ -209,15 +219,15 @@
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
-    <style name="Theme.VLC.Apearance.Black" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.VLC.Apearance.Black" parent="Theme.Material3.Dark.NoActionBar">
         <item name="marginTopContent">50dp</item>
-        <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="toolbar_popup_style">@style/ThemeOverlay.Material3.Dark</item>
 
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
         <item name="preferenceTheme">@style/VLCPreferenceTheme.Dark</item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox
         </item>
 
         <item name="colorPrimary">@color/orange500</item>
@@ -287,7 +297,7 @@
         <item name="player_icon_color">@color/white</item>
         <item name="card_background">@color/black</item>
         <item name="default_separator">@color/grey700</item>
-        <item name="empty_button">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
+        <item name="empty_button">@style/Widget.Material3.Button.OutlinedButton</item>
 
         <item name="card_border">@color/grey800</item>
         <item name="empty_foreground">@color/grey800</item>
@@ -464,7 +474,7 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
-    <style name="Theme.VLC.NoTitleBar" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.VLC.NoTitleBar" parent="Theme.Material3.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="font_default">@color/grey900</item>
         <item name="font_light">@color/grey700</item>
@@ -475,10 +485,16 @@
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
-        <item name="colorAccent">@color/orange500</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+
+<!-- Till Here -->
+
+
+
+
 
     <style name="Theme.VLC.Transparent.NoUI" parent="Theme.VLC.Transparent">
         <item name="android:windowIsTranslucent">true</item>

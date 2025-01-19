@@ -192,4 +192,5 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$rootProject.ext.testCore"
     androidTestImplementation 'com.jraska:falcon:2.2.0'
     androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
+    implementation("com.google.android.material:material:1.11.0")
 }
