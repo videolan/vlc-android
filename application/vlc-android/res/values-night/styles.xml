@@ -6,7 +6,7 @@
 
     <style name="VLCTransparentTheme" parent="VLCTransparentThemeDark"/>
 
-    <style name="Toolbar.VLC" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface">
+    <style name="Toolbar.VLC" parent="ThemeOverlay.Material3.Toolbar.Surface">
         <item name="android:textCursorDrawable">@drawable/cursor_w</item>
         <item name="colorControlNormal">@color/grey400</item>
         <item name="popupMenuBackground">@color/grey875</item>

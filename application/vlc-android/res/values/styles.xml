@@ -489,31 +489,23 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-
-<!-- Till Here -->
-
-
-
-
-
     <style name="Theme.VLC.Transparent.NoUI" parent="Theme.VLC.Transparent">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7" />
 
-    <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.VLC.Player.7" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">shortEdges</item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox
         </item>
 
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme.Player</item>
@@ -646,7 +638,6 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="VLC.Onboarding.Text" parent="TextAppearance.AppCompat.Headline">
@@ -656,11 +647,11 @@
     </style>
 
 
-    <style name="VLC.Onboarding.Button.Next" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="VLC.Onboarding.Button.Next" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="VLC.Tips.Button.Next" parent="Widget.MaterialComponents.Button">
+    <style name="VLC.Tips.Button.Next" parent="Widget.Material3.Button">
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -677,7 +668,7 @@
         <item name="color">@color/black</item>
     </style>
 
-    <style name="Toolbar.VLC" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface">
+    <style name="Toolbar.VLC" parent="ThemeOverlay.Material3.Toolbar.Surface">
         <item name="android:textCursorDrawable">@drawable/cursor_w</item>
         <item name="colorControlNormal">@color/grey700</item>
     </style>
@@ -686,7 +677,8 @@
         <item name="background">@color/white</item>
     </style>
 
-    <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow" parent="TextAppearance.MaterialComponents.Headline5">
+    <!-- TO REVIEW -->
+    <style name="TextAppearance.Design.CollapsingToolbar.Expanded.Shadow" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:shadowDy">0</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowRadius">4</item>
@@ -694,7 +686,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="TabLayout.VLC" parent="Widget.MaterialComponents.TabLayout">
+    <style name="TabLayout.VLC" parent="Widget.Material3.TabLayout">
         <item name="android:background">?attr/background_default</item>
         <item name="tabRippleColor">?attr/colorPrimary</item>
         <item name="tabMode">scrollable</item>
@@ -780,11 +772,11 @@
     </style>
 
     <!--BottomSheet-->
-    <style name="AppBottomSheetDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+    <style name="AppBottomSheetDialogTheme" parent="ThemeOverlay.Material3.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
 
     </style>
 
@@ -793,7 +785,7 @@
 
     </style>
 
-    <style name="AppModalStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Material3.BottomSheet.Modal">
     </style>
 
     <style name="Theme.VLC.BottomSheetTitle">
@@ -810,11 +802,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="ToolbarTitleText" parent="@style/TextAppearance.MaterialComponents.Headline6">
+    <style name="ToolbarTitleText" parent="@style/TextAppearance.Material3.HeadlineLarge">
         <item name="android:textColor">?attr/colorControlNormal</item>
     </style>
 
-    <style name="VLCCardView" parent="@style/Widget.MaterialComponents.CardView">
+    <style name="VLCCardView" parent="@style/Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">4dp</item>
         <item name="background">?attr/card_background</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
@@ -851,7 +843,7 @@
 
     </style>
 
-    <style name="VLCDialogButton" parent="TextAppearance.MaterialComponents.Button">
+    <style name="VLCDialogButton" parent="TextAppearance.Material3.BodySmall">
         <item name="android:background">@drawable/button_background</item>
     </style>
 
