@@ -38,6 +38,7 @@ stages:
       changes:
         - buildsystem/compile-remoteaccess.sh
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
     - if: '$CI_COMMIT_TAG =~ /^remoteaccess-.*$/'
 
 # This is generating the node_modules folder with the required dependencies
@@ -498,6 +499,8 @@ release:
     stage: build
     rules:
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
+    needs:
+      - job: "webserver-build"
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
