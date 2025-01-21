@@ -27,14 +27,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_percent="0.5"/>
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/text_barrier"
@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:maxWidth="600dp"
             android:textColor="?attr/font_light"
@@ -63,7 +64,6 @@
             app:layout_constraintBottom_toBottomOf="@id/guideline12"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guideline12"
             tools:visibility="visible" />
 
     <TextView
