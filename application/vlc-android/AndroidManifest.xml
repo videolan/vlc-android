@@ -85,7 +85,8 @@
 
         <activity
             android:name=".StartActivity"
-            android:theme="@style/Theme.VLC.Transparent.NoUI"
+                android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode|keyboard|keyboardHidden|navigation"
+                android:theme="@style/Theme.VLC.Transparent.NoUI"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
