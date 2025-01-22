@@ -592,7 +592,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     RendererDelegate.renderers.observe(player) { updateRendererVisibility() }
                 }
 
-                hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
+                setTitle(service.currentMediaWrapper?.title)
                 manageTitleConstraints()
                 updateTitleConstraints()
                 updateHudMargins()
@@ -613,6 +613,18 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = player
             }
+        }
+    }
+
+    fun setTitle(title: String?) {
+        if (!::hudBinding.isInitialized) return
+        hudRightBinding.playerOverlayTitle.text = title
+        if (title?.startsWith("fd://") == false) {
+            hudRightBinding.playerOverlayTitle.setVisible()
+            hudRightBinding.playerOverlayTitleWarning.setGone()
+        } else {
+            hudRightBinding.playerOverlayTitle.setGone()
+            hudRightBinding.playerOverlayTitleWarning.setVisible()
         }
     }
 
@@ -654,6 +666,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     }
                 }
             }
+            hudRightBinding.playerOverlayTitleWarning.setOnClickListener(player)
         }
         if (::hudRightBinding.isInitialized){
             hudRightBinding.playerOverlayNavmenu.setOnClickListener(if (enabled) player else null)

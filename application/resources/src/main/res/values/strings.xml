@@ -842,6 +842,7 @@
     <string name="permission_video">VLC needs your permission to access video media on your device</string>
     <string name="permission_audio">VLC needs your permission to access audio media on your device</string>
     <string name="medialibrary_scan_explanation">VLC can automatically scan your device to organize your media collection.</string>
+    <string name="player_title_fd_warning">Without the storage permission, VLC cannot retrieve the media title nor save the progress</string>
     <string name="onboarding_theme_title">Make yourself at home</string>
     <string name="done">Done</string>
     <string name="onboarding_scan_title">Auto-discover your media</string>

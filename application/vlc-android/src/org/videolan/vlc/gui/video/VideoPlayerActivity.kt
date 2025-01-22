@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video
 
-import android.R.attr.keycode
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
@@ -747,7 +746,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         setIntent(intent)
         if (playbackStarted) service?.run {
             if (overlayDelegate.isHudRightBindingInitialized()) {
-                overlayDelegate.hudRightBinding.playerOverlayTitle.text = currentMediaWrapper?.title
+                overlayDelegate.setTitle(currentMediaWrapper?.title)
                         ?: return@run
             }
             var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
@@ -1707,7 +1706,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
         setESTracks()
         if (overlayDelegate.isHudRightBindingInitialized() && overlayDelegate.hudRightBinding.playerOverlayTitle.length() == 0)
-            overlayDelegate.hudRightBinding.playerOverlayTitle.text = mw.title
+            overlayDelegate.setTitle(mw.title)
         // Get possible subtitles
         observeDownloadedSubtitles()
         optionsDelegate?.setup()
@@ -1981,6 +1980,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             R.id.orientation_quick_action -> {
                 overlayDelegate.nextOrientation()
             }
+            R.id.player_overlay_title_warning -> {
+                val snackbar = UiTools.snackerMessageInfinite(this, getString(R.string.player_title_fd_warning))
+                snackbar?.setAction(R.string.ok) {
+                    snackbar.dismiss()
+                }
+                snackbar?.show()
+            }
         }
     }
 
@@ -2244,7 +2250,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             if (itemTitle != null) title = itemTitle
             if (overlayDelegate.isHudRightBindingInitialized()) {
-                overlayDelegate.hudRightBinding.playerOverlayTitle.text = title
+                overlayDelegate.setTitle(title)
             }
 
             if (wasPaused) {
