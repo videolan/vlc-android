@@ -758,6 +758,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
             }
+            if (!Permissions.canReadStorage(appContext)) {
+                call.respond(HttpStatusCode.Forbidden)
+                return@get
+            }
             //Get content synchronously
             val dataset = LiveDataset<MediaLibraryItem>()
             val provider = withContext(Dispatchers.Main) {
