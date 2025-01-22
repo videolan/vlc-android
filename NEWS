@@ -1,3 +1,8 @@
+Changes between 3.6.1 and 3.6.2:
+------------------
+ * Update the remote access dependency to fix a crash loop
+ * Fix a bug making the video played twice
+
 Changes between 3.6.0 and 3.6.1:
 ------------------
  * Behavior and crash fixes
