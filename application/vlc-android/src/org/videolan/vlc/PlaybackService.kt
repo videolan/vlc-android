@@ -1608,7 +1608,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     @MainThread
-    fun load(media: MediaWrapper, position: Int = 0) = load(listOf(media), position)
+    fun load(media: MediaWrapper) = load(listOf(media), 0)
 
     /**
      * Play a media from the media list (playlist)

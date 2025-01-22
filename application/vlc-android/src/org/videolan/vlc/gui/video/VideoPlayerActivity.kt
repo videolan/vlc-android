@@ -2233,7 +2233,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         if (displayManager.isPrimary) service.flush()
                         onPlaying()
                     } else service.playIndex(positionInPlaylist)
-                } else service.load(media, positionInPlaylist)
+                } else service.load(media)
 
                 // Get the title
                 if (itemTitle == null && "content" != uri.scheme) title = uri.lastPathSegment

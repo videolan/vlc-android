@@ -131,7 +131,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     private var nextIndex = -1
     private var prevIndex = -1
-    var startupIndex = -1    
     private var previous = Stack<Int>()
     var stopAfter = -1
     var shuffling = false
@@ -249,12 +248,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
         }
-        if (isValidPosition(position)) {
-            currentIndex = position
-        } else {
-            currentIndex = 0
-            startupIndex = if(position >= 0) position else 0
-        }
+        currentIndex = if (isValidPosition(position)) position else 0
 
         // Add handler after loading the list
         mediaList.addEventListener(this@PlaylistManager)
@@ -361,14 +355,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val size = mediaList.size()
         if (force || repeating.value != PlaybackStateCompat.REPEAT_MODE_ONE) {
             previous.push(currentIndex)
-            //startup index given?
-            if (startupIndex != -1) {
-                currentIndex = startupIndex
-                startupIndex = -1
-            } else {
-                //no startup index given, use next
-                currentIndex = nextIndex
-            }
+            currentIndex = nextIndex
             if (size == 0 || currentIndex < 0 || currentIndex >= size) {
                 Log.w(TAG, "Warning: invalid next index, aborted !")
                 stop()
