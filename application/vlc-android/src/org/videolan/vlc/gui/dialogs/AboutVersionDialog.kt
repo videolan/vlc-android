@@ -22,6 +22,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +30,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import org.videolan.tools.resIdByName
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogAboutVersionBinding
@@ -74,8 +76,16 @@ class AboutVersionDialog : VLCBottomSheetDialogFragment() {
         binding.vlcRevision.text = getString(R.string.build_vlc_revision)
         binding.libvlcRevision.text = getString(R.string.build_libvlc_revision)
         binding.libvlcVersion.text = BuildConfig.LIBVLC_VERSION
-        binding.remoteAccessVersion.text = getString(R.string.remote_access_version)
-        binding.remoteAccessRevision.text = getString(R.string.build_remote_access_revision)
+        binding.remoteAccessVersion.text = try {
+            getString(requireActivity().resIdByName("remote_access_version", "string"))
+        } catch (e: Resources.NotFoundException) {
+            "unknown"
+        }
+        binding.remoteAccessRevision.text = try {
+            getString(requireActivity().resIdByName("build_remote_access_revision", "string"))
+        } catch (e: Resources.NotFoundException) {
+            "unknown"
+        }
         binding.compiledBy.text = getString(R.string.build_host)
         binding.moreButton.setOnClickListener {
             val whatsNewDialog = WhatsNewDialog()

@@ -23,6 +23,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField 'Boolean', 'VLC_REMOTE_ACCESS_DEBUG', project.hasProperty("vlc_remote_access_debug") ? vlc_remote_access_debug : "false"
+        resValue "string", "build_remote_access_revision", remoteAccessRevision()
+        resValue "string", "remote_access_version", remoteAccessVersion()
 
     }
 
@@ -75,6 +77,36 @@ android {
             }
         }
     }
+}
+
+def remoteAccessVersion() {
+    def code = new ByteArrayOutputStream()
+    try {
+        if (file("../../remoteaccess/package.json").exists()) {
+
+            exec {
+                commandLine = ['bash', '-c', 'grep -m1 "version" ../../remoteaccess/package.json']
+                standardOutput = code
+            }
+            return code.toString().split("\"")[3]
+
+        }
+    } catch (Exception e) {
+    }
+    return "unknown"
+}
+
+def remoteAccessRevision() {
+    try {
+        def hash = new ByteArrayOutputStream()
+        exec {
+            commandLine = ['bash', '-c', 'git -C ../../remoteaccess rev-parse --short HEAD']
+            standardOutput = hash
+        }
+        return hash.toString()
+    } catch (Exception e) {
+    }
+    return "unknown"
 }
 
 preBuild.dependsOn(webCopy)

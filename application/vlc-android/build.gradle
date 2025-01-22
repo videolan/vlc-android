@@ -22,8 +22,6 @@ android {
         resValue "string", "build_revision", revision()
         resValue "string", "changelog", changelog()
         resValue "string", "dav1d_version", dav1dVersion()
-        resValue "string", "remote_access_version", remoteAccessVersion()
-        resValue "string", "build_remote_access_revision", remoteAccessRevision()
         resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.tv"
         buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
         buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
@@ -261,34 +259,6 @@ def dav1dVersion() {
         return code.toString().replaceAll(" ", "")
     }
     return "0.0.0"
-}
-
-def remoteAccessVersion() {
-    def code = new ByteArrayOutputStream()
-    if (file("../../remoteaccess/package.json").exists()) {
-        try {
-            exec {
-                commandLine = ['bash', '-c', 'grep -m1 "version" ../../remoteaccess/package.json']
-                standardOutput = code
-            }
-            return code.toString().split("\"")[3]
-        } catch (Exception e) {
-        }
-    }
-    return "unknown"
-}
-
-def remoteAccessRevision() {
-    try {
-        def hash = new ByteArrayOutputStream()
-        exec {
-            commandLine = ['bash', '-c', 'git -C ../../remoteaccess rev-parse --short HEAD']
-            standardOutput = hash
-        }
-        return hash.toString()
-    } catch (Exception e) {
-    }
-    return "unknown"
 }
 
 /**
