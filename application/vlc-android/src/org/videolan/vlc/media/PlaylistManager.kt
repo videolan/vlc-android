@@ -725,10 +725,16 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toString())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
-            val rateString = if (settings.getBoolean(PLAYBACK_HISTORY, true)) media.getMetaString(MediaWrapper.META_SPEED) else null
-            if (!rateString.isNullOrEmpty()) {
-                player.setRate(rateString.toFloat(), false)
-            }
+            restoreSpeed(media)
+        } else if (media.isPodcast) {
+            restoreSpeed(media)
+        }
+    }
+
+    private fun restoreSpeed(media: MediaWrapper) {
+        val rateString = if (settings.getBoolean(PLAYBACK_HISTORY, true)) media.getMetaString(MediaWrapper.META_SPEED) else null
+        if (!rateString.isNullOrEmpty()) {
+            player.setRate(rateString.toFloat(), false)
         }
     }
 
