@@ -489,6 +489,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_DELETE -> lifecycleScope.launch { removeItem(position, media) }
             CTX_APPEND -> MediaUtils.appendMedia(this, media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(this, media.tracks)
+            CTX_PLAY_ALL -> MediaUtils.playTracks(this, viewModel.tracksProvider, position, false)
             CTX_ADD_TO_PLAYLIST -> addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> setRingtone(media)
             CTX_SHARE -> lifecycleScope.launch { share(media) }

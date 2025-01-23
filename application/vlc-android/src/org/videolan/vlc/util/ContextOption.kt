@@ -91,7 +91,7 @@ enum class ContextOption : Flag {
         }
 
         fun createCtxPlaylistItemFlags() = createBaseFlags().apply {
-            addAll(CTX_DELETE, CTX_INFORMATION, CTX_PLAY_NEXT, CTX_SET_RINGTONE)
+            addAll(CTX_PLAY_ALL, CTX_DELETE, CTX_INFORMATION, CTX_PLAY_NEXT, CTX_SET_RINGTONE)
         }
 
         fun createCtxVideoGroupFlags() = createBaseFlags().apply {
