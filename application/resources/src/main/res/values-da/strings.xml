@@ -4,7 +4,7 @@
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
-    <string name="cancel">Annuller</string>
+    <string name="cancel">Annullér</string>
     <string name="other">Andet</string>
     <string name="sortby">Sortér efter …</string>
     <string name="sortby_name">Navn</string>
@@ -347,7 +347,7 @@
     <string name="video_transition_title">Videoovergang</string>
     <string name="video_transition_summary">Vis ny videotitel på overgang</string>
     <string name="media_seen">Vis set video-markør</string>
-    <string name="media_seen_summary">Mærk en video som set når du afspiller den til slutningen</string>
+    <string name="media_seen_summary">Markér en video som set når du afspiller den til slutningen</string>
     <string name="force_play_all_summary">Afspil alle videoer, startende med den du klikkede på</string>
     <string name="force_play_all_audio_summary">Afspil al lyd startende med den, du har valgt</string>
     <string name="force_play_all_title">Videoafspilningstilstand</string>

@@ -1,13 +1,14 @@
 # 
 # Translators:
 # Lars Lyngby <larslyngby@hotmail.com>, 2024
+# Simon T <simonpmt@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2024-12-17 11:54+0000\n"
-"Last-Translator: Lars Lyngby <larslyngby@hotmail.com>, 2024\n"
+"Last-Translator: Simon T <simonpmt@gmail.com>, 2025\n"
 "Language-Team: Danish (https://app.transifex.com/yaron/teams/16553/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +36,7 @@ msgid "Video player"
 msgstr "Videoafspiller med bevægelsesstyring og andre avancerede muligheder"
 
 msgid "Video pip"
-msgstr "Bliv ved med at se popupafspilleren mens andre apps også bruges"
+msgstr "Bliv ved med at se med popupafspilleren mens andre apps også bruges"
 
 msgid "All devices"
 msgstr "Afspil overalt på alle dine Android-enheder"

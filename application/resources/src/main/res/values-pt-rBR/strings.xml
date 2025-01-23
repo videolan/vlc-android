@@ -410,14 +410,20 @@
     <string name="subtitles_size">Tamanho</string>
     <string name="subtitles_background_color_title">Fundo da legenda</string>
     <string name="subtitles_background_title">Fundo da Legenda</string>
+    <string name="subtitles_outline_title">Contorno da legenda</string>
+    <string name="subtitles_shadow_title">Sombra da legenda</string>
+    <string name="subtitles_decoration_title">Decoração da legenda</string>
     <string name="subtitle_decoration_none">Nenhum</string>
     <string name="subtitle_decoration_shadow">Sombra</string>
+    <string name="subtitle_decoration_outline">Contorno</string>
     <string name="subtitles_bold_title">Legenda em negrito</string>
     <string name="subtitles_autoload_title">Carregar legenda automaticamente</string>
     <string name="previous_color">Cor anterior</string>
     <string name="new_color">Nova cor</string>
     <string name="subtitles_preset_default">Padrão</string>
     <string name="subtitles_preset_default_large">Texto grande</string>
+    <string name="subtitles_preset_default_largest">Texto com maiores tamanho e contraste</string>
+    <string name="subtitles_preset_white_background">Com plano de fundo</string>
     <string name="subtitles_yellow">Amarelo</string>
     <string name="subtitles_yellow_background">Amarelo com segundo plano</string>
 
@@ -459,7 +465,27 @@
     <string name="casting_category">Conversão</string>
     <string name="remote_access">Acesso remoto</string>
     <string name="remote_access_version_title">Versão do acesso remoto</string>
+    <string name="remote_access_hash_title">Código hash do acesso remoto</string>
+    <string name="remote_access_status">Status do servidor</string>
+    <string name="remote_access_status_summary">Toque para ver o status do servidor</string>
     <string name="remote_access_connections">Conexões</string>
+    <string name="remote_access_links">Links</string>
+    <string name="remote_access_active">Acesso remoto ativo</string>
+    <string name="remote_access_notification">Acesso remoto ativo em %s</string>
+    <string name="remote_access_notification_stopped">Acesso remoto inativo</string>
+    <string name="remote_access_notification_connecting">Acesso remoto conectando</string>
+    <string name="remote_access_notification_error">Erro no acesso remoto</string>
+    <string name="remote_access_notification_stopping">Acesso remoto parando</string>
+    <string name="remote_access_notification_not_init">Acesso remoto iniciando</string>
+    <string name="enable_remote_access">Habilitar o acesso remoto</string>
+    <string name="remote_access_info">Informação do acesso remoto</string>
+    <string name="remote_access_content">Conteúdo</string>
+    <string name="remote_access_medialibrary_content">Conteúdo da biblioteca de mídias</string>
+    <string name="remote_access_medialibrary_content_summary">Habilitados: %1$s\nDesabilitados: %2$s</string>
+    <string name="remote_access_file_browser_content">Explorador de arquivos</string>
+    <string name="remote_access_network_browser_content">Explorador de rede</string>
+    <string name="remote_access_playback_control">Controlar a reprodução</string>
+    <string name="remote_access_logs">Compartilhar arquivos de registro</string>
     <string name="casting_switch_title">Conversão sem fio</string>
     <string name="casting_passthrough_title">Passagem Direta de Áudio</string>
     <string name="casting_passthrough_summary">Permite à sua TV gerenciar a geração de áudio</string>
@@ -473,6 +499,11 @@
     <string name="artists_show_all_title">Exibir todos os artistas</string>
     <string name="show_headers">Exibir cabeçalhos</string>
     <string name="show_headers_summary">Dividir listas por cabeçalhos, de acordo com o tipo de ordenação</string>
+    <string name="tv_folders_first">Exibir pastas primeiro</string>
+    <string name="tv_folders_first_summary">Exibe pastas e então arquivos no explorador de arquivos</string>
+    <string name="tv_show_hidden_files">Exibir arquivos ocultos</string>
+    <string name="tv_show_hidden_files_summary">Exibe arquivos ocultos no explorador de arquivos</string>
+
     <string name="extensions_prefs_category">Extensões</string>
     <string name="extensions_empty">Nenhum complemento detectado</string>
     <string name="extension_permission_title">Ativar a nova extensão \"%1$s\"?</string>
@@ -498,6 +529,7 @@
     <string name="auto_rescan">Verificação automática</string>
     <string name="auto_rescan_summary">Verifica um dispositivo automaticamente para encontrar mídias novas ou excluídas, na inicialização do aplicativo</string>
     <string name="dump_media_db">Copiar banco de dados de mídia</string>
+    <string name="dump_app_db">Copiar banco de dados de aplicativos</string>
     <string name="dump_media_db_summary">Copia o banco de dados para a raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar banco de mídias</string>
     <string name="clear_media_database_summary">Limpa o banco de dados para reiniciar</string>
@@ -512,11 +544,15 @@
     <string name="resume_playback_summary">Caso contrário permanecer em pausa</string>
     <string name="blurred_cover_background_title">Capa borrada no segundo plano</string>
     <string name="blurred_cover_background_summary">Capa borrada no segundo plano do reprodutor de áudio</string>
+    <string name="force_shuffle_title">Forçar aleatório</string>
+    <string name="force_shuffle_summary">Força o aleatório quando iniciando uma reprodução</string>
     <string name="network_caching_popup">Este valor deve estar entre 0 e 60000 ms</string>
     <string name="quit">Fechar e reiniciar o programa</string>
     <string name="restart_message">As modificações terão efeito quando o aplicativo for reiniciado.\n\nReiniciar agora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Mais tarde</string>
+    <string name="browser_show_all_title">Exibir apenas arquivos multimídia</string>
+
     <string name="developer_prefs_category">Desenvolvedor</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
     <string name="enable_verbose_mode_summary">Aumentar o detalhamento (logcat)</string>
@@ -532,6 +568,7 @@
     <string name="dump_logcat">Despejar os registros do logcat</string>
     <string name="dump_logcat_success">O logcat despejou os registros com sucesso em %1$s!</string>
     <string name="dump_logcat_failure">Falha ao despejar os registros do logcat.</string>
+    <string name="http_user_agent">Agente de usuário HTTP</string>
     <string name="custom_libvlc_options">Opções personalizadas do libVLC</string>
     <string name="custom_libvlc_options_invalid">Opções inválidas do libVLC!</string>
     <string name="serious_crash">Infelizmente ocorreu um erro severo e o VLC precisou ser fechado.</string>
@@ -547,6 +584,8 @@
     <string name="no_result">Nenhum resultado encontrado</string>
     <string name="no_internet_connection">Verifique a sua conexão com a Internet</string>
     <string name="retry">Tentar novamente</string>
+    <string name="open_subs_download_error">O OpenSubtitles está indisponível. Por favor, tente novamente mais tarde</string>
+
     <string name="network_browsing">Rede</string>
     <string name="browsing">Procurando</string>
 
@@ -562,15 +601,21 @@
     <string name="search_global">Procurar em toda a biblioteca de mídias</string>
     <string name="playlist_save">Salvar Lista de Reprodução</string>
     <string name="playlist_name_hint">Nome da Lista de Reprodução</string>
+    <string name="chapters">Capítulos</string>
+    <string name="notset">Não definido</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
     <string name="current_chapter">Capítulo: %s</string>
     <string name="confirm_resume">Continuar a reprodução da última posição?</string>
+    <string name="apply_playqueue">Aplicar a toda a fila de reprodução</string>
     <string name="confirm_resume_title">Retomar vídeos já reproduzidos</string>
     <string name="tv_ui_title">Interface do Android TV</string>
     <string name="tv_ui_summary">Alterar a interface de usuário para o tema TV</string>
     <string name="medialibrary">Biblioteca de mídias</string>
     <string name="medialibrary_directories">Pastas da biblioteca de mídias</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">O que há de novo no VLC para Android %s</string>
+    <string name="install">Instalar</string>
     <!-- Accessibility -->
     <string name="more_actions">Mais Ações</string>
     <string name="back_quit_lock">Pressione Voltar novamente para fechar o vídeo</string>
@@ -584,7 +629,9 @@
     <string name="widget_name_mini_player">Mini reprodutor VLC</string>
     <string name="widget_old_text">Atualizamos nossas controles!</string>
     <string name="widget_old_description_start">Boa notícia! Lançamos controles melhorados.\nEles fornecem mais interatividade e personalização</string>
+    <string name="whats_next">E agora?</string>
     <string name="widget_old_description_end">Detectamos que já há controles em sua tela inicial. Infelizmente, eles não são compatíveis com nossos controles melhorados.\nDependendo da sua tela inicial, será necessário removê-los para substituí-los.</string>
+    <string name="click_here">Clique aqui para aprender mais</string>
     <string name="allow_storage_access_title">Permitir que o VLC acesse arquivos de áudio e vídeo</string>
     <string name="allow_storage_access_description">O VLC precisa que você conceda esta permissão para acessar os arquivos de mídia deste dispositivo.</string>
     <string name="partial_content">O VLC não consegue acessar todos os seus arquivos</string>
