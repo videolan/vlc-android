@@ -1,5 +1,7 @@
 package org.videolan.vlc.gui
 
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -24,6 +26,7 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
     MultiSelectAdapter<MediaLibraryItem> {
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
 
+    var defaultCover:BitmapDrawable? = null
 
     interface ClickHandler {
         fun onClick(item: MediaLibraryItem, position: Int)
@@ -44,6 +47,9 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
         holder.binding.imageWidth = 48.dp
         (getItem(position) as? DummyItem)?.let {
             holder.binding.cover =  getDummyItemIcon(holder.itemView.context, it)
+        }
+        if (defaultCover != null) {
+            holder.binding.cover = defaultCover
         }
     }
 

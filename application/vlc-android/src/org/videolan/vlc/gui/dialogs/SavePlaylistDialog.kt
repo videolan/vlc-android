@@ -41,9 +41,13 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableArray
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.DependencyProvider
+import org.videolan.tools.PLAYLIST_REPLACE
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogPlaylistBinding
 import org.videolan.vlc.gui.SimpleAdapter
@@ -59,9 +63,8 @@ import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
-import java.util.*
+import java.util.LinkedList
 import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.collections.ArrayList
 
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
@@ -105,6 +108,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         medialibrary = Medialibrary.getInstance()
         adapter = SimpleAdapter(this)
+        adapter.defaultCover = UiTools.getDefaultPlaylistDrawable(requireActivity())
         newTracks = try {
             @Suppress("UNCHECKED_CAST")
             val tracks = requireArguments().parcelableArray<MediaWrapper>(KEY_NEW_TRACKS) as Array<MediaWrapper>
