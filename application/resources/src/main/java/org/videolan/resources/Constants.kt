@@ -124,6 +124,7 @@ const val KEY_MRL = "mrl"
 
 // AUDIO category
 const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
+const val KEY_AUDIO_ALBUM_SONG_CURRENT_TAB = "key_audio_album_song_current_tab"
 
 // Playback settings category
 const val KEY_AUDIO_LAST_PLAYLIST = "audio_list"
