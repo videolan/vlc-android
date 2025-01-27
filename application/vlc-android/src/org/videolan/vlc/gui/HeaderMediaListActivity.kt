@@ -76,8 +76,11 @@ import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
@@ -283,6 +286,13 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                     }
                     if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
                 }
+            }
+        }
+        supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, this) { key, bundle ->
+            lifecycleScope.launch {
+                val item: MediaWrapper = bundle.parcelable(RENAME_DIALOG_MEDIA) ?: return@launch
+                val name: String = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@launch
+                viewModel.rename(item, name)
             }
         }
     }
@@ -552,11 +562,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_RENAME -> {
                 val dialog = RenameDialog.newInstance(media)
                 dialog.show(this.supportFragmentManager, RenameDialog::class.simpleName)
-                dialog.setListener { item, name ->
-                    lifecycleScope.launch {
-                       viewModel.rename(item as MediaWrapper, name)
-                    }
-                }
             }
             CTX_COPY -> {
                 copy(media.title, media.location)

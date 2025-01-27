@@ -127,7 +127,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     private var hingeSnackShown: Boolean = false
 
     var enableSubs = true
-    private var bookmarkListDelegate: BookmarkListDelegate? = null
+    var bookmarkListDelegate: BookmarkListDelegate? = null
 
     fun isHudBindingInitialized() = ::hudBinding.isInitialized
     fun isHudRightBindingInitialized() = ::hudRightBinding.isInitialized

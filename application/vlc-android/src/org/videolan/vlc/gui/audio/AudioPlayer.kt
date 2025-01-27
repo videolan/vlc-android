@@ -59,8 +59,11 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -68,8 +71,11 @@ import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.*
@@ -278,6 +284,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
 
         setBottomMargin()
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val media = bundle.parcelable<MediaLibraryItem>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
+            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
+            bookmarkListDelegate.renameBookmark(media as Bookmark, name)
+        }
     }
 
     override fun onDestroy() {

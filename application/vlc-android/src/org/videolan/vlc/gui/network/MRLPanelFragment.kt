@@ -37,11 +37,18 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.Bookmark
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.Settings
 import org.videolan.tools.isValidUrl
 import org.videolan.tools.setVisible
@@ -50,9 +57,13 @@ import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.viewmodels.StreamsModel
+import java.io.File
 
 const val TAG = "VLC/MrlPanelFragment"
 
@@ -114,6 +125,11 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
         recyclerView.adapter = adapter
         viewModel.dataset.observe(requireActivity()) { adapter.update(it) }
         viewModel.loading.observe(requireActivity()) { (activity as? MainActivity)?.refreshing = it }
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val media = bundle.parcelable<MediaWrapper>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
+            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
+            renameStream(media, name)
+        }
     }
 
     override fun onResume() {

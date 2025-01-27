@@ -37,9 +37,14 @@ import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.*
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.helpers.Click
 import org.videolan.vlc.gui.helpers.ImageClick
 import org.videolan.vlc.gui.helpers.LongClick
@@ -188,6 +193,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         multiSelectHelper = historyAdapter.multiSelectHelper
         historyEntry.list.requestFocus()
         registerForContextMenu(historyEntry.list)
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val media = bundle.parcelable<MediaWrapper>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
+            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
+            renameStream(media, name)
+        }
     }
 
     private fun manageDonationVisibility() {

@@ -86,12 +86,15 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.CONFIRM_ADD_TO_GROUP_RESULT
 import org.videolan.vlc.gui.dialogs.CONFIRM_PERMISSION_CHANGED
+import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
 import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
 import org.videolan.vlc.gui.dialogs.KEY_PERMISSION_CHANGED
 import org.videolan.vlc.gui.dialogs.ONLY_FAVS
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.VIDEO_GROUPING
@@ -328,6 +331,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     if (viewModel.groupingType == VideoGroupingType.NONE) requireActivity().finish()
                     activity?.open(it)
                 }
+            }
+        }
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val media = bundle.parcelable<MediaLibraryItem>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
+            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
+            viewModel.renameGroup(media as VideoGroup, name)
+            (activity as? AppCompatActivity)?.run {
+                supportActionBar?.title = name
             }
         }
         requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_PERMISSION_CHANGED, viewLifecycleOwner) { requestKey, bundle ->
@@ -677,12 +688,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun renameGroup(media: VideoGroup) {
         val dialog = RenameDialog.newInstance(media)
-        dialog.setListener { item, name ->
-            viewModel.renameGroup(item as VideoGroup, name)
-                (activity as? AppCompatActivity)?.run {
-                    supportActionBar?.title = name
-                }
-        }
         dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 

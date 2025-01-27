@@ -139,13 +139,6 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
                 R.id.bookmark_rename -> {
                     val dialog = RenameDialog.newInstance(bookmark)
                     dialog.show(activity.supportFragmentManager, RenameDialog::class.simpleName)
-                    dialog.setListener { media, name ->
-                        activity.lifecycleScope.launch {
-                            val bookmarks = bookmarkModel.rename(media as Bookmark, name)
-                            adapter.update(bookmarks)
-                            bookmarkModel.refresh()
-                        }
-                    }
                     true
                 }
                 R.id.bookmark_delete -> {
@@ -167,5 +160,13 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
         constraintSet.clone(rootView)
         constraintSet.setGuidelineBegin(R.id.progressbar_guideline, y.toInt())
         constraintSet.applyTo(rootView)
+    }
+
+    fun renameBookmark(media:Bookmark, name:String) {
+        activity.lifecycleScope.launch {
+            val bookmarks = bookmarkModel.rename(media, name)
+            adapter.update(bookmarks)
+            bookmarkModel.refresh()
+        }
     }
 }

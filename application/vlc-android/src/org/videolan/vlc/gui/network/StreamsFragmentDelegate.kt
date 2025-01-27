@@ -116,9 +116,14 @@ class StreamsFragmentDelegate : IStreamsFragmentDelegate, CtxActionReceiver {
 
     private fun renameStream(position: Int) {
         val dialog = RenameDialog.newInstance(viewModel.dataset.get(position))
-        dialog.setListener { media, name -> viewModel.rename(media as MediaWrapper, name) }
         dialog.show(fragment.requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
+
+    override fun renameStream(media: MediaWrapper, name: String) {
+        viewModel.rename(media, name)
+    }
+
+
 }
 
 interface KeyboardListener {
@@ -130,4 +135,5 @@ interface IStreamsFragmentDelegate : CtxActionReceiver {
     fun showContext(position: Int)
     fun getlistEventActor(): SendChannel<MrlAction>
     fun playMedia(mw: MediaWrapper)
+    fun renameStream(media: MediaWrapper, name: String)
 }

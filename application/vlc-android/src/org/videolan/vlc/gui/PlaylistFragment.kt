@@ -39,6 +39,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.parcelable
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.putSingle
@@ -122,6 +123,13 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
         (parentFragment as? VideoBrowserFragment)?.playlistOnlyFavorites = viewModel.provider.onlyFavorites
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val media = bundle.parcelable<MediaLibraryItem>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
+            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
+            lifecycleScope.launch {
+                viewModel.rename(media, name)
+            }
+        }
     }
 
     override fun onDisplaySettingChanged(key: String, value: Any) {
@@ -248,13 +256,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             CTX_PLAY_ALL -> MediaUtils.playAll(activity, viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
             CTX_RENAME -> {
                 val media = getCurrentAdapter()?.getItem(position) ?: return
-                    val dialog = RenameDialog.newInstance(media)
-                    dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
-                    dialog.setListener { item, name ->
-                        lifecycleScope.launch {
-                            viewModel.rename(media, name)
-                        }
-                }
+                val dialog = RenameDialog.newInstance(media)
+                dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
             }
             else -> super.onCtxAction(position, option)
         }
