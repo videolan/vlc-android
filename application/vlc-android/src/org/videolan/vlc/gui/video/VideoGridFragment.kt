@@ -68,6 +68,8 @@ import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.UPDATE_SEEN
 import org.videolan.resources.util.parcelable
+import org.videolan.resources.util.parcelableArray
+import org.videolan.resources.util.parcelableList
 import org.videolan.resources.util.waitForML
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.PLAYBACK_HISTORY
@@ -81,6 +83,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
+import org.videolan.vlc.gui.dialogs.AddToGroupDialog
+import org.videolan.vlc.gui.dialogs.CONFIRM_ADD_TO_GROUP_RESULT
 import org.videolan.vlc.gui.dialogs.CONFIRM_PERMISSION_CHANGED
 import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -316,6 +320,16 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
 
         (parentFragment as? VideoBrowserFragment)?.videoGridOnlyFavorites = viewModel.provider.onlyFavorites
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_ADD_TO_GROUP_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            lifecycleScope.launch {
+                val selection = bundle.parcelableArray<MediaWrapper>(AddToGroupDialog.KEY_TRACKS) ?: arrayOf()
+                viewModel.createGroup(selection.toList())?.let {
+                    // we already are in a group. Finishing to avoid stacking multiple group activities
+                    if (viewModel.groupingType == VideoGroupingType.NONE) requireActivity().finish()
+                    activity?.open(it)
+                }
+            }
+        }
         requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_PERMISSION_CHANGED, viewLifecycleOwner) { requestKey, bundle ->
             val changed = bundle.getBoolean(KEY_PERMISSION_CHANGED)
             if (changed) viewModel.refresh()
@@ -560,15 +574,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     private fun addToGroup(selection: List<MediaLibraryItem>) {
-        requireActivity().addToGroup(selection.getAll(), selection.size == 1) {
-            lifecycleScope.launch {
-                viewModel.createGroup(selection.getAll())?.let {
-                    // we already are in a group. Finishing to avoid stacking multiple group activities
-                    if (viewModel.groupingType == VideoGroupingType.NONE) requireActivity().finish()
-                    activity?.open(it)
-                }
-            }
-        }
+        requireActivity().addToGroup(selection.getAll(), selection.size == 1)
     }
 
     override fun onDestroyActionMode(mode: ActionMode) {
@@ -608,7 +614,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
                 CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
-                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media), true) {}
+                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media), true)
                 CTX_GROUP_SIMILAR -> lifecycleScope.launch { if (!requireActivity().showPinIfNeeded()) viewModel.groupSimilar(media) }
                 CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
                 CTX_MARK_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
@@ -640,7 +646,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_UNGROUP -> lifecycleScope.launch { if (!requireActivity().showPinIfNeeded()) viewModel.ungroup(media) }
                 CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
                 CTX_MARK_ALL_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
-                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media).getAll(), true) {}
+                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media).getAll(), true)
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD
                 }

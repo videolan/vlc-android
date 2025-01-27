@@ -544,12 +544,11 @@ object UiTools {
         return false
     }
 
-    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>, forbidNewGroup:Boolean , newGroupListener: ()->Unit) {
+    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>, forbidNewGroup:Boolean) {
         if (!isStarted()) return
         val addToGroupDialog = AddToGroupDialog()
         addToGroupDialog.arguments = bundleOf(AddToGroupDialog.KEY_TRACKS to tracks.toTypedArray(), AddToGroupDialog.FORBID_NEW_GROUP to forbidNewGroup)
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
-        addToGroupDialog.newGroupListener = newGroupListener
     }
 
     /**

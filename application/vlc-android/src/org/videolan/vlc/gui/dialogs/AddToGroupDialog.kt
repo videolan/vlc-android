@@ -28,6 +28,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -50,6 +52,8 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import java.util.*
 
+const val CONFIRM_ADD_TO_GROUP_RESULT = "CONFIRM_ADD_TO_GROUP_RESULT"
+
 class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
@@ -57,7 +61,6 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
 
     private lateinit var viewModel: VideosViewModel
     private var forbidNewGroup: Boolean = true
-    lateinit var newGroupListener: () -> Unit
     private var isLoading: Boolean = false
         set(value) {
             field = value
@@ -157,7 +160,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
     override fun onClick(item: MediaLibraryItem, position: Int) {
         when (item) {
             is DummyItem -> {
-                newGroupListener.invoke()
+                setFragmentResult(CONFIRM_ADD_TO_GROUP_RESULT, bundleOf(KEY_TRACKS to newTrack))
                 dismiss()
             }
             else -> addToGroup(item as VideoGroup)
