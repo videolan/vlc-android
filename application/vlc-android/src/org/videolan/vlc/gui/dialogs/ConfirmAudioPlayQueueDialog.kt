@@ -27,9 +27,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import org.videolan.vlc.R
 
+const val CONFIRM_AUDIO_PLAY_QUEUE_DIALOG_RESULT = "CONFIRM_AUDIO_PLAY_QUEUE_DIALOG_RESULT"
 
 class ConfirmAudioPlayQueueDialog : VLCBottomSheetDialogFragment() {
 
@@ -49,7 +52,8 @@ class ConfirmAudioPlayQueueDialog : VLCBottomSheetDialogFragment() {
         acceptButton = view.findViewById(R.id.accept_button)
         cancelButton = view.findViewById(R.id.cancel_button)
         acceptButton.setOnClickListener {
-            listener.invoke()
+            if (::listener.isInitialized) listener.invoke()
+            setFragmentResult(CONFIRM_AUDIO_PLAY_QUEUE_DIALOG_RESULT, bundleOf())
             dismiss()
         }
         cancelButton.setOnClickListener { dismiss() }
