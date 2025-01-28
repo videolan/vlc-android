@@ -61,7 +61,7 @@ android {
     }
 
     task webCopy(type: Copy) {
-        from '../../remoteaccess/dist'
+        from 'remoteaccess/dist'
         into 'assets/dist'
     }
 
@@ -89,10 +89,10 @@ preBuild.dependsOn(webCopy)
 def remoteAccessVersion() {
     def code = new ByteArrayOutputStream()
     try {
-        if (file("../../remoteaccess/package.json").exists()) {
+        if (file("remoteaccess/package.json").exists()) {
 
             exec {
-                commandLine = ['bash', '-c', 'grep -m1 "version" ../../remoteaccess/package.json']
+                commandLine = ['bash', '-c', 'grep -m1 "version" remoteaccess/package.json']
                 standardOutput = code
             }
             return code.toString().split("\"")[3]
@@ -107,7 +107,7 @@ def remoteAccessRevision() {
     try {
         def hash = new ByteArrayOutputStream()
         exec {
-            commandLine = ['bash', '-c', 'git -C ../../remoteaccess rev-parse --short HEAD']
+            commandLine = ['bash', '-c', 'git -C remoteaccess rev-parse --short HEAD']
             standardOutput = hash
         }
         return hash.toString()

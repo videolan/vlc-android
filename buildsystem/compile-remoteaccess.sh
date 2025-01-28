@@ -60,22 +60,23 @@ done
   REMOTE_ACCESS_TESTED_HASH=543dcf36610e6944c85cbf355b4b934b8ae451d3
   REMOTE_ACCESS_REPOSITORY=https://code.videolan.org/videolan/remoteaccess
 
-  : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/remoteaccess"}
+  : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/application/remote-access-client/remoteaccess"}
+  diagnostic "VLC_REMOTE_ACCESS_PATH is $VLC_REMOTE_ACCESS_PATH"
 
   if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]; then
       diagnostic "Remote access sources: not found, cloning"
       branch="main"
       if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ]; then
-          git clone --single-branch --branch ${branch} "${REMOTE_ACCESS_REPOSITORY}"
-          cd remoteaccess
+          git clone --single-branch --branch ${branch} "${REMOTE_ACCESS_REPOSITORY}" application/remote-access-client/remoteaccess
+          cd application/remote-access-client/remoteaccess
       else # folder exist with only the artifacts
-          cd remoteaccess
+          cd application/remote-access-client/remoteaccess
           git init
           git remote add origin "${REMOTE_ACCESS_REPOSITORY}"
           git pull origin ${branch}
       fi
       git reset --hard ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
-      cd ..
+      cd ../../..
   fi
 
   if [ "$INIT_ONLY" != 1 ]; then
