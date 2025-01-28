@@ -466,7 +466,7 @@ publish_remote_access_lib:
     script:
         - mkdir -p $M2_REPO
         - ./buildsystem/compile.sh --init -b
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p application/webserver publishToMavenLocal
+        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p application/remote-access-client publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
