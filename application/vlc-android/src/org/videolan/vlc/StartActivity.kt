@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -128,6 +129,20 @@ class StartActivity : FragmentActivity() {
     }
 
     private fun resume() {
+        // if browse screen is unstable, revert back to the video screen
+
+        val preferences = Settings.getInstance(this)
+        if (preferences.getBoolean("navigator_screen_unstable", false)) {
+            Log.w(TAG, "Crash found in the browser!!!")
+            if (!BuildConfig.DEBUG) {
+                Log.w(TAG, "Reverting to the default screen")
+                preferences.edit(true) {
+                    remove("fragment_id")
+                    remove("navigator_screen_unstable")
+                }
+            }
+        }
+
         val intent = intent
         val action = intent?.action
 

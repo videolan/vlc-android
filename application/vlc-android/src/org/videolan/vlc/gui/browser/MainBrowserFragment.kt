@@ -28,6 +28,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -160,12 +161,22 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     override fun getTitle() = getString(R.string.browse)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Settings.getInstance(requireActivity()).edit {
+            putBoolean("navigator_screen_unstable", true)
+        }
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         networkMonitor = NetworkMonitor.getInstance(requireContext())
         super.onCreate(savedInstanceState)
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null)
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, mocked = arguments?.parcelableList(EXTRA_FOR_ESPRESSO))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Settings.getInstance(requireActivity()).edit {
+            putBoolean("navigator_screen_unstable", false)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
