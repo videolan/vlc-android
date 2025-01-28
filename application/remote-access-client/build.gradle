@@ -1,0 +1,130 @@
+/*
+ * ************************************************************************
+ *  build.gradle
+ * *************************************************************************
+ * Copyright © 2025 VLC authors and VideoLAN
+ * Author: Nicolas POMEPUY
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * **************************************************************************
+ *
+ *
+ */
+
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.vanniktech.maven.publish'
+}
+
+ext {
+    library_version = "$rootProject.ext.remoteAccessVersion"
+}
+
+android {
+    namespace 'org.videolan.vlc.remoteaccessclient'
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        compileSdk rootProject.ext.compileSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        resValue "string", "build_remote_access_revision", remoteAccessRevision()
+        resValue "string", "remote_access_version", remoteAccessVersion()
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    task webCopy(type: Copy) {
+        from '../../remoteaccess/dist'
+        into 'assets/dist'
+    }
+
+    sourceSets.main {
+        assets.srcDirs = ['assets']
+    }
+
+    sourceSets.main {
+        assets.srcDirs = ['assets']
+    }
+
+    // Make per-variant version code
+    libraryVariants.all { variant ->
+        //Custom APK name
+        variant.outputs.each { output ->
+            if (output.outputFileName != null && output.outputFileName.endsWith('.aar')) {
+                output.outputFileName = "vlc-android-remote-access-${library_version}.aar"
+            }
+        }
+    }
+}
+
+preBuild.dependsOn(webCopy)
+
+def remoteAccessVersion() {
+    def code = new ByteArrayOutputStream()
+    try {
+        if (file("../../remoteaccess/package.json").exists()) {
+
+            exec {
+                commandLine = ['bash', '-c', 'grep -m1 "version" ../../remoteaccess/package.json']
+                standardOutput = code
+            }
+            return code.toString().split("\"")[3]
+
+        }
+    } catch (Exception e) {
+    }
+    return "unknown"
+}
+
+def remoteAccessRevision() {
+    try {
+        def hash = new ByteArrayOutputStream()
+        exec {
+            commandLine = ['bash', '-c', 'git -C ../../remoteaccess rev-parse --short HEAD']
+            standardOutput = hash
+        }
+        return hash.toString()
+    } catch (Exception e) {
+    }
+    return "unknown"
+}
+
+dependencies {
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}
+
+apply from: '../../buildsystem/publish.gradle'
+
+mavenPublishing {
+    coordinates("org.videolan.android", "remote-access", "${library_version}")
+}
