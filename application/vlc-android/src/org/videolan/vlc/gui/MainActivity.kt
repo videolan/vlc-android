@@ -35,6 +35,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -148,7 +149,7 @@ class MainActivity : ContentActivity(),
                 updateDialog.show(supportFragmentManager, "fragment_update")
             }
         }
-
+        ShortcutManagerCompat.disableShortcuts(this, listOf("last_playlist"), "")
     }
 
     override fun onResume() {
