@@ -211,7 +211,7 @@ class StartActivity : FragmentActivity() {
                     }
                 }
             } else if(action != null && action== "vlc.remoteaccess.share") {
-                startActivity(Intent().apply { component = ComponentName(this@StartActivity, "org.videolan.vlc.webserver.gui.remoteaccess.RemoteAccessShareActivity") })
+                startActivity(Intent().apply { component = ComponentName(this@StartActivity, "org.videolan.vlc.remoteaccessserver.gui.remoteaccess.RemoteAccessShareActivity") })
             } else {
                 val target = idFromShortcut
                 val service = PlaybackService.instance
