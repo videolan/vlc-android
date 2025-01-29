@@ -257,6 +257,13 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                         ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
                     )
                     Permissions.timeAsked = System.currentTimeMillis()
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(), arrayOf(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                        ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+                    )
+                    Permissions.timeAsked = System.currentTimeMillis()
                 } else lifecycleScope.launch {
                     requireActivity().getStoragePermission(withDialog = false, onlyMedia = true)
                 }
