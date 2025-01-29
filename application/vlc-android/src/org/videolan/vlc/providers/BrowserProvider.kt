@@ -130,7 +130,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     mediabrowser?.release()
                 } catch (e: IllegalStateException) {
                 }
-                cleanMediaBrowser()
+                mediabrowser = null
             }
         }
     }
@@ -152,19 +152,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                         mediabrowser?.release()
                     } catch (e: Exception) {
                     }
-                    cleanMediaBrowser()
+                    mediabrowser = null
                 }
                 is BrowseUrl -> action.deferred.complete(browseUrlImpl(action.url))
             }
         }
-    }
-
-    /**
-     * Clean the media browser
-     *
-     */
-    open fun cleanMediaBrowser() {
-        mediabrowser = null
     }
 
     protected open fun initBrowser() {

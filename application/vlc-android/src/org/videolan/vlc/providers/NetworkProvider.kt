@@ -26,8 +26,6 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
@@ -35,46 +33,12 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.AppScope
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
-import java.util.concurrent.atomic.AtomicBoolean
 
 class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, val mocked: ArrayList<MediaLibraryItem>? = null): BrowserProvider(context, dataset, url, Medialibrary.SORT_FILENAME, false), Observer<List<MediaWrapper>> {
 
-    override fun initBrowser() {
-        if (alreadyRunning.getAndSet(true)) {
-            // Use the cached [MediaBrowser] instead of creating a new one
-            if (cachedMediaBrowser != null) {
-                mediabrowser = cachedMediaBrowser
-            } else {
-                AppScope.launch(Dispatchers.IO) {
-                    while (cachedMediaBrowser == null && alreadyRunning.get()) {
-                        delay(50)
-                    }
-                    if (alreadyRunning.get()) {
-                        mediabrowser = cachedMediaBrowser
-                    } else {
-                        super.initBrowser()
-                    }
-                }
-            }
-            return
-        }
-        super.initBrowser()
-        cachedMediaBrowser = mediabrowser
-    }
-
-    /**
-     * Also clean the cached [MediaBrowser]
-     *
-     */
-    override fun cleanMediaBrowser() {
-        super.cleanMediaBrowser()
-        cachedMediaBrowser = null
-        alreadyRunning.set(false)
-    }
 
     override suspend fun browseRootImpl() {
         dataset.clear()
@@ -142,13 +106,5 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
             return list
         }
         return null
-    }
-
-    companion object {
-        // For network discovery, we don't want multiple [MediaBrowser] simultaneously running
-        // as it will spawn two service discovery that VLC cannot run simultaneously
-        // So we cache the [MediaBrowser] instance here and clean it when the [NetworkProvider] is cleared
-        var cachedMediaBrowser: MediaBrowser? = null
-        var alreadyRunning = AtomicBoolean(false)
     }
 }
