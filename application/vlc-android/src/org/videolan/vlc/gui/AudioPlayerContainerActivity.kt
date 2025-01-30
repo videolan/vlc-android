@@ -255,17 +255,19 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     }
 
     private fun updateToolbarScrollability(enabled: Boolean) {
-        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
-        val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        if (toolbar.layoutParams is AppBarLayout.LayoutParams) {
+            val params = toolbar.layoutParams as AppBarLayout.LayoutParams
+            val appBarLayoutParams = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
 
-        if (!enabled) {
-            params.scrollFlags = 0
-            appBarLayoutParams.behavior = null
-            appBarLayout.setLayoutParams(appBarLayoutParams)
-        } else {
-            params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
-            appBarLayoutParams.behavior = AppBarLayout.Behavior()
-            appBarLayout.setLayoutParams(appBarLayoutParams)
+            if (!enabled) {
+                params.scrollFlags = 0
+                appBarLayoutParams.behavior = null
+                appBarLayout.setLayoutParams(appBarLayoutParams)
+            } else {
+                params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+                appBarLayoutParams.behavior = AppBarLayout.Behavior()
+                appBarLayout.setLayoutParams(appBarLayoutParams)
+            }
         }
     }
 
