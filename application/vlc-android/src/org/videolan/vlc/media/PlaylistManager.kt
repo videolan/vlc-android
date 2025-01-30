@@ -675,7 +675,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                                 Medialibrary.ML_SET_TIME_ERROR -> {
                                 }
                                 Medialibrary.ML_SET_TIME_END, Medialibrary.ML_SET_TIME_BEGIN -> media.time = 0
-                                Medialibrary.ML_SET_TIME_AS_IS -> media.time = time
+                                Medialibrary.ML_SET_TIME_AS_IS -> {
+                                    media.time = time
+                                    // the Medialibrary sometimes doesn't have the media's length,
+                                    // and won't know that the file has ended. This forces the ML
+                                    // to mark the file as finished and reset it's time
+                                    if (time == length) {
+                                        medialibrary.setLastTime(media.id, 0)
+                                        media.seen = 1L
+                                        media.playCount += 1
+                                        media.time = 0
+                                    }
+                                }
                             }
                         } catch (e: NullPointerException) {
                             VLCCrashHandler.saveLog(e, "NullPointerException in PlaylistManager saveMediaMeta")
