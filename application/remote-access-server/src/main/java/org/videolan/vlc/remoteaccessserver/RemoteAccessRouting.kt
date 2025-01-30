@@ -839,13 +839,9 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respond(HttpStatusCode.Forbidden)
                 return@get
             }
-            val networkShares = RemoteAccessServer.getInstance(appContext).networkSharesLiveData.getList()
-            val list = ArrayList<RemoteAccessServer.PlayQueueItem>(networkShares.size)
-            networkShares.forEachIndexed { index, mediaLibraryItem ->
-                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
-                        ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite))
-            }
-            call.respondJson(convertToJson(list))
+            RemoteAccessServer.getInstance(appContext).launchNetworkDiscovery()
+            //No response are the result are asynchronous and sent back using websockets / long polling
+            call.respondJson("")
         }
         get("/stream-list") {
             verifyLogin(settings)

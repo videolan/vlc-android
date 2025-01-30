@@ -29,6 +29,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.media.AudioManager
 import android.net.Uri
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Process
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -77,6 +80,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -93,31 +98,31 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder
 import org.slf4j.LoggerFactory
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.util.MediaBrowser
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEYSTORE_PASSWORD
 import org.videolan.tools.KEY_REMOTE_ACCESS_LAST_STATE_STOPPED
-import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.REMOTE_ACCESS_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.Settings
 import org.videolan.tools.SingletonHolder
-import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.putSingle
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.PlaybackService.Companion.playerSleepTime
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.providers.NetworkProvider
+import org.videolan.vlc.remoteaccessserver.ssl.SecretGenerator
+import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets
+import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets.setupWebSockets
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.isSchemeSMB
 import org.videolan.vlc.viewmodels.CallBackDelegate
 import org.videolan.vlc.viewmodels.ICallBackHandler
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
-import org.videolan.vlc.remoteaccessserver.ssl.SecretGenerator
-import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets
-import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets.setupWebSockets
 import java.io.File
 import java.math.BigInteger
 import java.net.InetAddress
@@ -133,6 +138,7 @@ import java.time.Duration
 import java.util.Calendar
 import java.util.Collections
 import java.util.Locale
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 private const val TAG = "VLC/HttpSharingServer"
@@ -144,7 +150,8 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     private var settings: SharedPreferences
     private lateinit var engine: NettyApplicationEngine
     var service: PlaybackService? = null
-    val networkSharesLiveData = LiveDataset<MediaLibraryItem>()
+    private val networkSharesResult = ArrayList<MediaLibraryItem>()
+    private val networkDiscoveryRunning = AtomicBoolean(false)
 
 
     private val _serverStatus = MutableLiveData(ServerStatus.NOT_INIT)
@@ -162,6 +169,12 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
             val isPlaying = service?.isPlaying == true || playing
             RemoteAccessWebSockets.sendToAll(PlayerStatus(isPlaying))
         }
+    }
+
+    private val browserHandler by lazy {
+        val handlerThread = HandlerThread("vlc-provider-remote-access", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
+        handlerThread.start()
+        Handler(handlerThread.looper)
     }
 
     /**
@@ -221,19 +234,83 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
             engine = generateServer()
             engine.start()
         }
+    }
 
-        withContext(Dispatchers.Main) {
-            if (!settings.getBoolean(REMOTE_ACCESS_NETWORK_BROWSER_CONTENT, false)) {
-                Log.i(TAG, "Preventing the network monitor to be collected as the network browsing is disabled")
-                return@withContext
-            }
-            //keep track of the network shares as they are highly asynchronous
-            val provider = NetworkProvider(context, networkSharesLiveData, null)
-            NetworkMonitor.getInstance(context).connectionFlow.onEach {
-                if (it.connected) provider.refresh()
-                else networkSharesLiveData.clear()
-            }.launchIn(AppScope)
+    /**
+     * Launch a network discovery. It directly uses a dedicated [MediaBrowser] and doesn't instantiate a Provider
+     * It only launches once. It has a timeout. I sends the result back using websockets
+     *
+     */
+    fun launchNetworkDiscovery() = scope.launch(Dispatchers.IO) {
+        if (!settings.getBoolean(REMOTE_ACCESS_NETWORK_BROWSER_CONTENT, false)) {
+            Log.i(TAG, "Preventing the network monitor to be collected as the network browsing is disabled")
+            return@launch
         }
+        if (networkDiscoveryRunning.getAndSet(true)) {
+            //Already running only send current results
+            if (BuildConfig.DEBUG) Log.w(TAG, "Already running")
+            sendNetworkShares()
+            return@launch
+        }
+        val job = launch {
+            var finished = false
+            networkSharesResult.clear()
+            val mediaBrowser = MediaBrowser(VLCInstance.getInstance(context), object : MediaBrowser.EventListener {
+                override fun onMediaAdded(index: Int, media: IMedia?) {
+                    try {
+                        MLServiceLocator.getAbstractMediaWrapper(media)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to generate the media wrapper. It usually happen when the IMedia fields have some encoding issues", e)
+                        null
+                    }?.let {
+                        scope.launch(Dispatchers.Main) {
+                            networkSharesResult.add(it)
+                            sendNetworkShares()
+                        }
+                    }
+                    media?.release()
+                }
+
+                override fun onMediaRemoved(index: Int, media: IMedia?) {}
+
+                override fun onBrowseEnd() {
+                    if (BuildConfig.DEBUG) Log.i(TAG, "Discovery is finished")
+                    finished = true
+                }
+
+            }, browserHandler)
+            try {
+                mediaBrowser.discoverNetworkShares()
+                while (!finished) {
+                    delay(1000)
+                }
+            } finally {
+                if (BuildConfig.DEBUG) Log.i(TAG, "Discovery job releasing everything")
+                mediaBrowser.changeEventListener(null)
+                mediaBrowser.release()
+                sendNetworkShares()
+            }
+        }
+        // The discovery job is 30s max
+        delay(30000L)
+        if (BuildConfig.DEBUG) Log.i(TAG, "Discovery job timer exhausted")
+        job.cancelAndJoin()
+        if (BuildConfig.DEBUG) Log.i(TAG, "Discovery job quit")
+        networkDiscoveryRunning.set(false)
+    }
+
+    private suspend fun sendNetworkShares() {
+        if (BuildConfig.DEBUG) Log.i(TAG, "Sending network shares: ${networkSharesResult.size}")
+        val list = ArrayList<PlayQueueItem>(networkSharesResult.size)
+        networkSharesResult.forEachIndexed { index, mediaLibraryItem ->
+            list.add(
+                PlayQueueItem(
+                    3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
+                        ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite
+                )
+            )
+        }
+        RemoteAccessWebSockets.sendToAll(NetworkShares(list))
     }
 
     /**
@@ -789,7 +866,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         val list: MutableList<Pair<String, String>> = mutableListOf()
         if (isOtg) list.add(Pair(otgDevice, "root"))
         if (uri.scheme.isSchemeSMB()) {
-            networkSharesLiveData.getList().forEach {
+            networkSharesResult.forEach {
                 (it as? MediaWrapper)?.let { share ->
                     if (share.uri.scheme == uri.scheme && share.uri.authority == uri.authority) {
                         list.add(Pair(share.title, Uri.Builder().scheme(uri.scheme).encodedAuthority(uri.authority).build().toString()))
@@ -836,6 +913,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class MLRefreshNeeded(val refreshNeeded: Boolean = true) : WSMessage(WSMessageType.ML_REFRESH_NEEDED)
     data class BrowserDescription(val path: String, val description: String) : WSMessage(WSMessageType.BROWSER_DESCRIPTION)
     data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage(WSMessageType.PLAYBACK_CONTROL_FORBIDDEN)
+    data class NetworkShares(val shares: List<PlayQueueItem>): WSMessage(WSMessageType.NETWORK_SHARES)
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
     data class BreadcrumbItem(val title: String, val path: String)
     data class BrowsingResult(val content: List<PlayQueueItem>, val breadcrumb: List<BreadcrumbItem>)
@@ -882,6 +960,8 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         @Json(name = "browser-description")
         BROWSER_DESCRIPTION,
         @Json(name = "playback-control-forbidden")
-        PLAYBACK_CONTROL_FORBIDDEN
+        PLAYBACK_CONTROL_FORBIDDEN,
+        @Json(name = "network-shares")
+        NETWORK_SHARES
     }
 }
