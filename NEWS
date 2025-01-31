@@ -1,3 +1,9 @@
+Changes between 3.6.2 and 3.6.3:
+------------------
+ * Fix SMB navigation
+ * Cast only audio setting
+ * Behavior and crash fixes
+
 Changes between 3.6.1 and 3.6.2:
 ------------------
  * Update the remote access dependency to fix a crash loop
