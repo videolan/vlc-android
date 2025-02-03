@@ -32,6 +32,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.MotionEventCompat
 import androidx.databinding.ViewDataBinding
+import androidx.paging.PagedList
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -48,6 +49,8 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
     ) : AudioBrowserAdapter(type, eventsHandler, listEventsHandler)
 {
 
+    var forceNoTracks = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         if (!inflaterInitialized()) {
             inflater = LayoutInflater.from(parent.context)
@@ -55,6 +58,24 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
         val binding = AudioAlbumTrackItemBinding.inflate(inflater, parent, false)
         @Suppress("UNCHECKED_CAST")
         return TrackItemViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
+    }
+
+    override fun submitList(pagedList: PagedList<MediaLibraryItem>?) {
+        super.submitList(pagedList)
+        forceNoTracks = pagedList?.any { ((it as? MediaWrapper)?.trackNumber ?: 0) > 0 } == false
+    }
+
+    override fun playbackStateChanged(former: MediaWrapper?, currentMedia: MediaWrapper?) {
+        super.playbackStateChanged(former, super.currentMedia)
+        // The current song has changed.
+        // If we want to hide the track numbers but the current playback is in this list, show the track number (with no value)
+        if (!Settings.showTrackNumber || forceNoTracks) {
+                if (currentList?.contains(former) == false && currentList?.contains(currentMedia) == true) {
+                    notifyItemRangeChanged(0, itemCount)
+                }
+                //playback just stopped
+                if (currentList?.contains(former) == true || currentMedia == null) notifyItemRangeChanged(0, itemCount)
+            }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -97,13 +118,17 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
 
         override fun setItem(item: MediaLibraryItem?) {
             binding.item = item as MediaWrapper
-            if (item.trackNumber > 0 && Settings.showTrackNumber) {
-                binding.trackNumber.text = "${item.trackNumber}."
-                binding.trackNumber.visibility = View.VISIBLE
-            }
-            else
-                binding.trackNumber.visibility = View.GONE
+            binding.trackNumber.text = if (item.trackNumber > 0 && Settings.showTrackNumber)  "${item.trackNumber}." else ""
             binding.subtitle.text = MediaUtils.getMediaSubtitle(item)
+        }
+
+        fun shouldShowTrackNumber() : Int {
+            return when {
+                currentMedia == binding.item -> View.INVISIBLE
+                Settings.showTrackNumber && !forceNoTracks -> View.VISIBLE
+                currentMedia != null && currentList?.contains(currentMedia) == true -> View.INVISIBLE
+                else -> View.GONE
+            }
         }
 
         override fun recycle() {
@@ -114,9 +139,7 @@ class AudioAlbumTracksAdapter @JvmOverloads constructor(
 
         override fun getMiniVisu() = binding.playing
 
-        override fun changePlayingVisibility(isCurrent: Boolean) {
-            binding.trackNumber.visibility = if (isCurrent) View.INVISIBLE else View.VISIBLE
-        }
+        override fun changePlayingVisibility(isCurrent: Boolean) { }
 
     }
 }
