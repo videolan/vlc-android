@@ -230,9 +230,10 @@ class StartActivity : FragmentActivity() {
             } else {
                 val target = idFromShortcut
                 val service = PlaybackService.instance
-                if (target == R.id.ml_menu_last_playlist)
+                if (target == R.id.ml_menu_last_playlist) {
                     PlaybackService.loadLastAudio(this)
-                else if (service != null && service.isInPiPMode.value == true) {
+                    startApplication(tv, firstRun, upgrade, R.id.nav_audio, removeOldDevices)
+                } else if (service != null && service.isInPiPMode.value == true) {
                     service.isInPiPMode.value = false
                     val startIntent = Intent(this, VideoPlayerActivity::class.java)
                     startIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
