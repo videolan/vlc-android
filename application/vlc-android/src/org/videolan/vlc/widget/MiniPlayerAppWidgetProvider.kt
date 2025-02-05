@@ -161,7 +161,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 //        val secondaryBackgroundColor = widgetCacheEntry.widget.getBackgroundColor(context, palette = palette, secondary = true)
 
         val service = PlaybackService.serviceFlow.value
-        val playing = (service?.isPlaying == true && !forPreview) || previewPlaying
+        val playing = (service?.isPlaying == true && !forPreview && !service.isVideoPlaying) || previewPlaying
         val colorChanged = !partial || widgetCacheEntry.foregroundColor != foregroundColor || (widgetCacheEntry.widget.theme == 1 && widgetCacheEntry.playing != playing)
         widgetCacheEntry.foregroundColor = foregroundColor
 
@@ -297,10 +297,10 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
         } else if (widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover || widgetCacheEntry.currentCoverInvalidated) {
             widgetCacheEntry.currentCoverInvalidated = false
-            widgetCacheEntry.currentCover = if (service?.isVideoPlaying == false) widgetCacheEntry.currentMedia?.artworkMrl
+            widgetCacheEntry.currentCover = if (service?.isPlaying == true && !service.isVideoPlaying) widgetCacheEntry.currentMedia?.artworkMrl
                     ?: settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null) else settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null)
             if (!widgetCacheEntry.currentCover.isNullOrEmpty()) {
-                log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId}")
+                log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId} -> ${widgetCacheEntry.currentCover}")
                 runIO {
                     log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Generating cover")
                     val cover = AudioUtil.readCoverBitmap(Uri.decode(widgetCacheEntry.currentCover), 320)
