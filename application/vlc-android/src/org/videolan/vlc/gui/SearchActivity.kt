@@ -23,6 +23,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SearchActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 
 open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
@@ -52,12 +53,16 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
         }
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)
+        binding.audioEmptyLoading.state = EmptyLoadingState.NONE
     }
 
     private fun performSearh(query: String?) {
         if (query != null && query.isNotEmpty()) lifecycleScope.launchWhenStarted {
             val searchAggregate = getFromMl { search(query, Settings.includeMissing, false) }
             binding.searchAggregate = searchAggregate
+            if (searchAggregate.isEmpty) {
+                binding.audioEmptyLoading.state = EmptyLoadingState.EMPTY_SEARCH
+            } else binding.audioEmptyLoading.state = EmptyLoadingState.NONE
             searchAggregate?.let { result ->
                 result.albums?.filterNotNull()?.let { (binding.albumsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
                 result.artists?.filterNotNull()?.let { (binding.artistsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
