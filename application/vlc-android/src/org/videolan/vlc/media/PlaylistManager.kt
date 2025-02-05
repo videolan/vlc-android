@@ -62,6 +62,7 @@ import org.videolan.tools.KEY_PLAYBACK_RATE
 import org.videolan.tools.KEY_PLAYBACK_RATE_VIDEO
 import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
 import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST_VIDEO
+import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
 import org.videolan.tools.MEDIA_SHUFFLING
 import org.videolan.tools.PLAYBACK_HISTORY
@@ -753,9 +754,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val saveVideoPlayQueue = settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)
         if (!isAudio && saveVideoPlayQueue) {
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artistName ?: "")
-            settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
+            if (Settings.getInstance(ctx).getString(KEY_VIDEO_APP_SWITCH, "0") == "1") {
+                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
+                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artistName ?: "")
+                settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
+            }
             settings.putSingle(KEY_CURRENT_MEDIA, media.location)
         }
         if (isAudio && saveAudioPlayQueue) {
