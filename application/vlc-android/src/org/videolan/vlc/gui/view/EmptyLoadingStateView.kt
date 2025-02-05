@@ -45,6 +45,7 @@ import androidx.transition.TransitionManager
 import kotlinx.coroutines.launch
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.AppScope
+import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.SecondaryActivity
@@ -77,6 +78,8 @@ class EmptyLoadingStateView : FrameLayout {
         }
     var state = EmptyLoadingState.LOADING
         set(value) {
+            compactMode = value  in arrayOf(EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_FAVORITES)
+            applyCompactMode()
             loadingFlipper.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) View.VISIBLE else View.GONE
@@ -178,13 +181,20 @@ class EmptyLoadingStateView : FrameLayout {
                 (context as BaseActivity).openFile(Uri.parse(""))
             }
         }
+        container = findViewById(R.id.container)
+        normalConstraintSet.clone(container)
+        compactConstraintSet.clone(container)
+        compactConstraintSet.clear(R.id.emptyImageView, ConstraintSet.TOP)
+        compactConstraintSet.setMargin(R.id.emptyImageView, ConstraintSet.BOTTOM, 16.dp)
+        if (compactMode) {
+            applyCompactMode()
+        }
     }
 
     private fun applyCompactMode() {
         if (!::container.isInitialized) return
         TransitionManager.beginDelayedTransition(container)
         if (compactMode) compactConstraintSet.applyTo(container) else normalConstraintSet.applyTo(container)
-        emptyTextView.gravity = if (compactMode) Gravity.START else Gravity.CENTER
     }
 
     private fun initialize() {
