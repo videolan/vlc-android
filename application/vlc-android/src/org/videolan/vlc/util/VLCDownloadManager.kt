@@ -33,6 +33,7 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
     private val downloadManager = AppContextProvider.appContext.getSystemService<DownloadManager>()!!
     private var dlDeferred : CompletableDeferred<SubDlResult>? = null
     private lateinit var defaultSubsDirectory : String
+    private val TAG = this::class.java.name
 
     override fun onReceive(context: Context, intent: Intent?) {
         intent?.run {
@@ -96,7 +97,8 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         FileUtils.copyFile(localUri, "$extractDirectory/${subtitleItem.fileName}")?.let {dest ->
             subtitleItem.run {
                 ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
-                if (Extensions.SUBTITLES.contains(".${dest.split('.').last()}")) {
+                val fileExtention = ".${dest.split('.').last()}"
+                if (Extensions.SUBTITLES.contains(fileExtention)) {
                     ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(
                         idSubtitle,
                         dest,
@@ -106,12 +108,16 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
                         hearingImpaired
                     )
                 }
-                else
-                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
+                else {
+                    Log.e(TAG, "downloadSuccessful: Bad subtitle extension: $fileExtention")
+                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT)
+                        .show()
+                }
         }
 
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
         } ?: run {
+            Log.e(TAG, "downloadSuccessful: Failed to copy subtitle file")
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
             Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
         }
