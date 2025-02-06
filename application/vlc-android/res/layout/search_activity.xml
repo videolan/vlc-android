@@ -51,7 +51,9 @@
                         android:layout_gravity="center_vertical"
                         android:hint="@string/search_hint"
                         android:imeOptions="actionSearch"
-                        android:inputType="textFilter" />
+                        android:inputType="textFilter" >
+                    <requestFocus/>
+                </EditText>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
