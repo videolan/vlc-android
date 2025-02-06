@@ -102,6 +102,9 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         }
 
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
+        } ?: run {
+            ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
+            Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
         }
     }
 
