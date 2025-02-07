@@ -149,10 +149,12 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         refreshDeferred?.await()
     }
 
+    fun checkPermissions() = (isVideoPermDependant && !Permissions.canReadVideos(context)) ||
+            (isAudioPermDependant && !Permissions.canReadAudios(context))
+
     fun refresh(): Boolean {
         if ((isRefreshing && medialibrary.isWorking) || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
-        if (isVideoPermDependant && !Permissions.canReadVideos(context)) return false
-        if (isAudioPermDependant && !Permissions.canReadAudios(context)) {
+        if (checkPermissions()) {
             loading.postValue(false)
             return false
         }
@@ -183,8 +185,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     inner class MLDataSource : PositionalDataSource<T>() {
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-            if (isVideoPermDependant && !Permissions.canReadVideos(context)) return callback.onResult(emptyList(), 0, 0)
-            if (isAudioPermDependant && !Permissions.canReadAudios(context)) {
+            if (checkPermissions()) {
                 loading.postValue(false)
                 return callback.onResult(emptyList(), 0, 0)
             }
