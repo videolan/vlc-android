@@ -70,6 +70,7 @@ dependencies {
     implementation "io.ktor:ktor-server-netty:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-websockets:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-caching-headers:$rootProject.ext.ktorVersion"
+    implementation "io.ktor:ktor-server-compression:$rootProject.ext.ktorVersion"
     implementation "io.ktor:ktor-server-cors:$rootProject.ext.ktorVersion"
     implementation("io.ktor:ktor-server-auth:$rootProject.ext.ktorVersion")
     implementation("io.ktor:ktor-server-partial-content:$rootProject.ext.ktorVersion")

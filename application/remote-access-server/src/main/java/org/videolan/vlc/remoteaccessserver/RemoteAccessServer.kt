@@ -54,6 +54,9 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.server.plugins.cachingheaders.CachingHeaders
 import io.ktor.server.plugins.callloging.CallLogging
+import io.ktor.server.plugins.compression.Compression
+import io.ktor.server.plugins.compression.matchContentType
+import io.ktor.server.plugins.compression.minimumSize
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.origin
 import io.ktor.server.plugins.partialcontent.PartialContent
@@ -491,6 +494,18 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                     timeout = Duration.ofSeconds(15)
                     maxFrameSize = Long.MAX_VALUE
                     masking = false
+                }
+                install(Compression) {
+                    default()
+                    matchContentType(
+                        ContentType.Text.Plain,
+                        ContentType.Image.SVG,
+                        ContentType.Text.CSS,
+                        ContentType.Text.Xml,
+                        ContentType.Text.Html,
+                        ContentType.Text.JavaScript,
+                        ContentType.Application.JavaScript
+                    )
                 }
                 install(CachingHeaders) {
                     options { _, content ->
