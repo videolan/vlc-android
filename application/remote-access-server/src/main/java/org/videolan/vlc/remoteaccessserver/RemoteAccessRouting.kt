@@ -107,6 +107,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.dialogs.getPlaylistByName
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
+import org.videolan.vlc.gui.helpers.VectorDrawableUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
@@ -275,7 +276,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     // Sends an icon
     get("/icon") {
         val idString = call.request.queryParameters["id"]
-        val width = call.request.queryParameters["width"]?.toInt() ?: 32
+        val width = call.request.queryParameters["width"]?.toInt()?.coerceAtLeast(1) ?: 32
         val preventTint = call.request.queryParameters["preventTint"]?.toBoolean() ?: false
 
         val id = try {
@@ -289,6 +290,17 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             call.respond(HttpStatusCode.NotFound)
             return@get
         }
+
+        idString?.let {
+            try {
+                call.respondText(VectorDrawableUtil.convertToSvg(appContext, width, id, it), ContentType.Image.SVG)
+                return@get
+            } catch (e: Resources.NotFoundException) {
+                Log.w(this::class.java.simpleName, "Failed to convert vector drawable. ${e.message}", )
+                // Continue on and let BitmapUtil attempt to load the file
+            }
+        }
+
         val bmp = if (preventTint)
             BitmapUtil.vectorToBitmap(appContext, id, width, width)
         else

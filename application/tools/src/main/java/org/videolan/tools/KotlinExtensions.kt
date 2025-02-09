@@ -204,3 +204,9 @@ fun Context.resIdByName(resIdName: String?, resType: String): Int {
     }
     throw Resources.NotFoundException()
 }
+
+fun Resources.isXmlResource(resourceId: Int): Boolean {
+    val typedValue = TypedValue()
+    getValue(resourceId, typedValue, true)
+    return typedValue.string?.endsWith(".xml") == true
+}
