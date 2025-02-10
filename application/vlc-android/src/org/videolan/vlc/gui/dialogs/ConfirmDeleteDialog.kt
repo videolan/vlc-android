@@ -30,6 +30,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
@@ -43,13 +44,17 @@ import org.videolan.resources.util.parcelableList
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
+const val CONFIRM_DELETE_DIALOG_RESULT_DEFAULT_VALUE = 0
+const val CONFIRM_DELETE_DIALOG_RESULT = "CONFIRM_DELETE_DIALOG_RESULT"
 const val CONFIRM_DELETE_DIALOG_MEDIALIST = "CONFIRM_DELETE_DIALOG_MEDIALIST"
 const val CONFIRM_DELETE_DIALOG_TITLE = "CONFIRM_DELETE_DIALOG_TITLE"
 const val CONFIRM_DELETE_DIALOG_DESCRIPTION = "CONFIRM_DELETE_DIALOG_DESCRIPTION"
 const val CONFIRM_DELETE_DIALOG_BUTTON_TEXT = "CONFIRM_DELETE_DIALOG_BUTTON_TEXT"
+const val CONFIRM_DELETE_DIALOG_RESULT_VALUE = "CONFIRM_DELETE_DIALOG_RESULT_VALUE"
 
 class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
 
+    private var resultValue: Int = CONFIRM_DELETE_DIALOG_RESULT_DEFAULT_VALUE
     private lateinit var listener: () -> Unit
     private lateinit var deleteAnimation: ImageView
     private lateinit var title: TextView
@@ -69,7 +74,7 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
          * @param description the description to be used
          * @param buttonText the button's text to be used
          */
-        fun newInstance(medias: ArrayList<MediaLibraryItem> = arrayListOf(), title:String ="", description:String ="", buttonText:String=""): ConfirmDeleteDialog {
+        fun newInstance(medias: ArrayList<MediaLibraryItem> = arrayListOf(), title:String ="", description:String ="", buttonText:String="", resultValue:Int = CONFIRM_DELETE_DIALOG_RESULT_DEFAULT_VALUE): ConfirmDeleteDialog {
 
             return ConfirmDeleteDialog().apply {
                 arguments = bundleOf(CONFIRM_DELETE_DIALOG_MEDIALIST to medias,CONFIRM_DELETE_DIALOG_TITLE to title,CONFIRM_DELETE_DIALOG_DESCRIPTION to description, CONFIRM_DELETE_DIALOG_BUTTON_TEXT to buttonText)
@@ -77,6 +82,11 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
         }
     }
 
+    /**
+     * Set the listener. Should be only used from leanback as it has no setFragmentResultListener
+     *
+     * @param listener
+     */
     fun setListener(listener: () -> Unit) {
         this.listener = listener
     }
@@ -87,6 +97,9 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
         titleString = arguments?.getString(CONFIRM_DELETE_DIALOG_TITLE)
         descriptionString = arguments?.getString(CONFIRM_DELETE_DIALOG_DESCRIPTION)
         buttonText = arguments?.getString(CONFIRM_DELETE_DIALOG_BUTTON_TEXT)
+        arguments?.getInt(CONFIRM_DELETE_DIALOG_BUTTON_TEXT)?.let {
+            resultValue = it
+        }
         super.onCreate(savedInstanceState)
     }
 
@@ -97,7 +110,8 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
         description = view.findViewById(R.id.message)
         deleteButton = view.findViewById(R.id.delete_button)
         view.findViewById<Button>(R.id.delete_button).setOnClickListener {
-            listener.invoke()
+            if (::listener.isInitialized) listener.invoke()
+            setFragmentResult(CONFIRM_DELETE_DIALOG_RESULT, bundleOf(CONFIRM_DELETE_DIALOG_MEDIALIST to mediaList, CONFIRM_DELETE_DIALOG_RESULT_VALUE to resultValue))
             dismiss()
         }
         view.findViewById<Button>(R.id.cancel_button).setOnClickListener {

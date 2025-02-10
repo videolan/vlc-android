@@ -30,6 +30,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -39,15 +40,20 @@ import androidx.transition.TransitionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.parcelableList
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.*
 
 private const val TAG = "VLC/MediaBrowserFragment"
@@ -97,6 +103,12 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                             displaySettingsViewModel.consume()
                         }
                     }
+        }
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val items: List<MediaLibraryItem> = bundle.parcelableList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
+            for (item in items) {
+                MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it)}
+            }
         }
 
     }
@@ -152,19 +164,11 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         }
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-        dialog.setListener {
-            for (item in items) {
-                MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it)}
-            }
-        }
     }
 
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
         val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(item))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-        dialog.setListener {
-            MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it)}
-        }
         return true
     }
 

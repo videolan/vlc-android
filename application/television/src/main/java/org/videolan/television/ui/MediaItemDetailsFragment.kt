@@ -27,10 +27,12 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
@@ -55,6 +57,7 @@ import org.videolan.resources.FAVORITE_TITLE
 import org.videolan.resources.HEADER_DIRECTORIES
 import org.videolan.resources.HEADER_NETWORK
 import org.videolan.resources.util.parcelable
+import org.videolan.resources.util.parcelableList
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.retrieveParent
@@ -62,6 +65,8 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.DialogActivity.Companion.EXTRA_MEDIA
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -170,6 +175,18 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             }
         })
         onItemViewClickedListener = this
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            var preventFinish = false
+            MediaUtils.deleteItem(requireActivity(), viewModel.media) {
+                onDeleteFailed(it)
+                preventFinish = true
+            }
+            if (!preventFinish) requireActivity().finish()
+        }
     }
 
     override fun onResume() {
@@ -480,15 +497,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     private fun delete() {
         val dialog = ConfirmDeleteDialog.newInstance(arrayListOf(viewModel.media))
         dialog.show(requireActivity().supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-        dialog.setListener {
-            dialog.dismiss()
-            var preventFinish = false
-            MediaUtils.deleteItem(requireActivity(), viewModel.media) {
-                onDeleteFailed(it)
-                preventFinish = true
-            }
-            if (!preventFinish) requireActivity().finish()
-        }
     }
 }
 

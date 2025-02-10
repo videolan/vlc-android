@@ -51,18 +51,36 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.TAG_ITEM
+import org.videolan.resources.UPDATE_REORDER
 import org.videolan.resources.util.parcelable
-import org.videolan.tools.*
+import org.videolan.resources.util.parcelableList
+import org.videolan.tools.ALBUMS_SHOW_TRACK_NUMBER
+import org.videolan.tools.PLAYLIST_MODE_AUDIO
+import org.videolan.tools.Settings
+import org.videolan.tools.copy
+import org.videolan.tools.dp
+import org.videolan.tools.isStarted
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.HeaderMediaListActivityBinding
 import org.videolan.vlc.gui.audio.AudioAlbumTracksAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.ExpandStateAppBarLayoutBehavior
@@ -77,15 +95,35 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.util.*
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SHORTCUT
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_COPY
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
+import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistItemFlags
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeHttpOrHttps
+import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.security.SecureRandom
-import java.util.*
+import java.util.LinkedList
 import kotlin.math.min
 
 open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
@@ -229,6 +267,24 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         audioBrowserAdapter.areSectionsEnabled = false
         binding.browserFastScroller.attachToCoordinator(binding.appbar, binding.coordinator, null)
         binding.browserFastScroller.setRecyclerView(binding.songs, viewModel.tracksProvider)
+
+        supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, this) { key, bundle ->
+            // Any type can be passed via to the bundle
+            val items: List<MediaWrapper> = bundle.parcelableList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
+            lifecycleScope.launch {
+                for (item in items) {
+                    val deleteAction = kotlinx.coroutines.Runnable {
+                        lifecycleScope.launch {
+                            MediaUtils.deleteItem(this@HeaderMediaListActivity, item) {
+                                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, it.title))
+                            }
+                            if (isStarted()) viewModel.refresh()
+                        }
+                    }
+                    if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -544,21 +600,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     private fun removeItems(items: List<MediaWrapper>) {
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
         dialog.show(supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-        dialog.setListener {
-            lifecycleScope.launch {
-                for (item in items) {
-                    val deleteAction = kotlinx.coroutines.Runnable {
-                        lifecycleScope.launch {
-                            MediaUtils.deleteItem(this@HeaderMediaListActivity, item) {
-                                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, it.title))
-                            }
-                            if (isStarted()) viewModel.refresh()
-                        }
-                    }
-                    if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
-                }
-            }
-        }
     }
 
     private fun deleteMedia(mw: MediaLibraryItem) = lifecycleScope.launch(Dispatchers.IO) {

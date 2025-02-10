@@ -24,6 +24,7 @@ import android.view.*
 import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -40,6 +41,7 @@ import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.*
@@ -108,6 +110,10 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         list.requestFocus()
         registerForContextMenu(list)
         swipeRefreshLayout.setOnRefreshListener(this)
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            clearHistory()
+            requireActivity().finish()
+        }
     }
 
     override fun onStart() {
@@ -134,10 +140,6 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
                 val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history))
                 dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
-                dialog.setListener {
-                    clearHistory()
-                    requireActivity().finish()
-                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
