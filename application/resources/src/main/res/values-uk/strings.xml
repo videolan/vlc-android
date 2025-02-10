@@ -500,6 +500,8 @@
     <string name="casting_switch_title">Безпровідна трансляція</string>
     <string name="casting_passthrough_title">Аудіо роз\'єм</string>
     <string name="casting_passthrough_summary">Дозвольте управляти відтворенням аудіо ТБ</string>
+    <string name="casting_audio_only">Тільки аудіо</string>
+    <string name="casting_audio_only_summary">Запис тільки аудіо, без відео</string>
     <string name="casting_conversion_quality_title">Якість перетворення</string>
     <string name="casting_conversion_quality_summary">Виберіть якість перетворення, коли запустили трансляцію на віддаленому екрані</string>
     <string name="casting_quality_high">Висока</string>
@@ -514,7 +516,6 @@
     <string name="tv_folders_first_summary">Показати теки, а тоді файли у переглядачі файлів</string>
     <string name="tv_show_hidden_files">Показати приховані файли</string>
     <string name="tv_show_hidden_files_summary">Показати приховані файли в оглядачі файлів</string>
-
     <string name="extensions_prefs_category">Розширення</string>
     <string name="extensions_empty">Жодних розширень не виявлено</string>
     <string name="extension_permission_title">Активувати нове розширення \"%1$s\"?</string>
@@ -863,7 +864,6 @@
     <string name="popup_force_legacy_title">Використовувати особливий  вигульк картинка-в-картинці </string>
     <string name="popup_force_legacy_summary">Використовувати особливий вигульк картинка-в-картинці зі змінним розміром</string>
     <string name="restore_background_video_title">Відновити відео зі тла</string>
-    <string name="restore_background_video_summary">Відновлення відео з фону при повторному відкритті vlc-android</string>
     <string name="device_default">Типовий пристрій</string>
     <string name="track_number">%dдоріжок</string>
     <string name="jump_to">Перейти до</string>

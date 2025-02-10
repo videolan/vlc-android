@@ -492,7 +492,6 @@
     <string name="tv_folders_first_summary">Εμφάνιση φακέλων και μετά αρχείων στο πρόγραμμα περιήγησης αρχείων</string>
     <string name="tv_show_hidden_files">Εμφάνιση κρυφών αρχείων</string>
     <string name="tv_show_hidden_files_summary">Εμφάνιση κρυφών αρχείων στην περιήγηση αρχείων</string>
-
     <string name="extensions_prefs_category">Επεκτάσεις</string>
     <string name="extensions_empty">Δεν βρέθηκε επέκταση</string>
     <string name="extension_permission_title">Ενεργοποίηση νέας επέκτασης \"%1$s\";</string>
@@ -841,7 +840,6 @@
     <string name="popup_force_legacy_title">Χρήση εξατομικευμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα</string>
     <string name="popup_force_legacy_summary">Χρήση εξατομικευμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα μεταβλητού μεγέθους</string>
     <string name="restore_background_video_title">Επαναφορά βίντεο από το παρασκήνιο</string>
-    <string name="restore_background_video_summary">Επαναφορά βίντεο από το παρασκήνιο κατά την επανέναρξη του VLC για android</string>
     <string name="device_default">Προεπιλογή συσκευής</string>
     <string name="track_number">%d κομμάτια</string>
     <string name="jump_to">Άλμα σε</string>

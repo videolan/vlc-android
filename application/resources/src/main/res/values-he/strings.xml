@@ -494,6 +494,8 @@
     <string name="casting_switch_title">שידור אלחוטי</string>
     <string name="casting_passthrough_title">מעקף שמע</string>
     <string name="casting_passthrough_summary">לאפשר לטלוויזיה לנהל עיבוד שמע</string>
+    <string name="casting_audio_only">שמע בלבד</string>
+    <string name="casting_audio_only_summary">שידור שמע בלבד, בלי וידאו</string>
     <string name="casting_conversion_quality_title">איכות המרה</string>
     <string name="casting_conversion_quality_summary">נא לבחור את איכות ההמרה בעת שידור למסך מרוחק</string>
     <string name="casting_quality_high">גבוהה</string>
@@ -508,6 +510,7 @@
     <string name="tv_folders_first_summary">להציג את התיקיות ורק אחריהן את הקבצים בסייר הקבצים</string>
     <string name="tv_show_hidden_files">הצגת קבצים מוסתרים</string>
     <string name="tv_show_hidden_files_summary">הצגת קבצים מוסתרים בדפדפן הקבצים</string>
+    <string name="ab_repeat_fastseek_warning">חתירה מהירה פעילה. היא יכולה להוביל לבעיות דיוק</string>
 
     <string name="extensions_prefs_category">הרחבות</string>
     <string name="extensions_empty">לא זוהו הרחבות</string>
@@ -837,6 +840,7 @@
     <string name="permission_video">ל־VLC דרושה הרשאה כדי לגשת למדיה מסוג וידאו במכשיר שלך</string>
     <string name="permission_audio">ל־VLC דרושה הרשאה כדי לגשת למדיה מסוג שמע במכשיר שלך</string>
     <string name="medialibrary_scan_explanation">ל־VLC יש אפשרות לסרוק את ההתקן שלך אוטומטית כדי לארגן את אוסף המדיה שלך.</string>
+    <string name="player_title_fd_warning">בלי הרשאות לאחסון, VLC לא יכול למשוך כותרות למדיה או לשמור את ההתקדמות</string>
     <string name="onboarding_theme_title">להרגיש כמו בבית</string>
     <string name="done">סיום</string>
     <string name="onboarding_scan_title">זיהוי אוטומטי של המדיה שלך</string>
@@ -857,7 +861,7 @@
     <string name="popup_force_legacy_title">להשתמש בחלונית צפה מותאמת לתמונה בתוך תמונה</string>
     <string name="popup_force_legacy_summary">להשתמש בחלונית צפה גמישה מותאמת לתמונה בתוך תמונה</string>
     <string name="restore_background_video_title">שחזור סרטון מהרקע</string>
-    <string name="restore_background_video_summary">שחזור סרטון מהרקע בעת פתיחה של vlc-android מחדש</string>
+    <string name="restore_background_video_summary">לשחזר סרטון מהרקע בעת פתיחת VLC ל־Android מחדש</string>
     <string name="device_default">בררת המחדל של המכשיר</string>
     <string name="track_number">%d רצועות</string>
     <string name="jump_to">קפיצה אל</string>

@@ -472,7 +472,6 @@
     <string name="tv_folders_first_summary">Tunjuk folder kemudian fail dalam pelayar fail</string>
     <string name="tv_show_hidden_files">Tunjuk fail tersembunyi</string>
     <string name="tv_show_hidden_files_summary">Tunjuk fail tersembunyi dalam pelayar fail</string>
-
     <string name="extensions_prefs_category">Sambungan</string>
     <string name="extensions_empty">Tiada sambungan dikesan</string>
     <string name="extension_permission_title">Aktifkan sambungan baharu \"%1$s\"?</string>
@@ -801,7 +800,6 @@
     <string name="popup_force_legacy_title">Guna tetingkap timbul Gambar-dalam-Gambar suai</string>
     <string name="popup_force_legacy_summary">Guna tetingkap timbul boleh saiz semua Gambar-dalam-Gambar suai</string>
     <string name="restore_background_video_title">Pulih video dibalik tabir</string>
-    <string name="restore_background_video_summary">Pulih video dibalik tabir ketika membuka semula vlc-android</string>
     <string name="device_default">Lalai peranti</string>
     <string name="track_number">%d trek</string>
     <string name="jump_to">Lompat ke</string>

@@ -472,7 +472,6 @@
     <string name="tv_folders_first_summary">Hiển thị các thư mục và sau đó là các tệp trong trình duyệt tệp</string>
     <string name="tv_show_hidden_files">Hiển thị các file ẩn</string>
     <string name="tv_show_hidden_files_summary">Hiển thị các tập tin ẩn trong trình duyệt tập tin</string>
-
     <string name="extensions_prefs_category">Phần mở rộng</string>
     <string name="extensions_empty">Không tìm thấy phần mở rộng nào</string>
     <string name="extension_permission_title">Kích hoạt phần mở rộng mới \"%1$s\"?</string>
@@ -795,7 +794,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="popup_force_legacy_title">Sử dụng popup hình-trong-hình tuỳ chỉnh</string>
     <string name="popup_force_legacy_summary">Sử dụng popup hình-trong-hình có thể thay đổi kích thước tuỳ chỉnh</string>
     <string name="restore_background_video_title">Khôi phục video từ nền</string>
-    <string name="restore_background_video_summary">Khôi phục video từ nền khi mở lại vlc-android</string>
     <string name="device_default">Mặc định của thiết bị</string>
     <string name="track_number">%d bài hát</string>
     <string name="jump_to">Nhảy đến</string>

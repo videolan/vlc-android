@@ -467,6 +467,8 @@
     <string name="casting_switch_title">無線投放</string>
     <string name="casting_passthrough_title">音訊傳遞(Passthrough)</string>
     <string name="casting_passthrough_summary">讓您的電視管理音訊繪製</string>
+    <string name="casting_audio_only">僅音訊</string>
+    <string name="casting_audio_only_summary">僅投射音訊，沒有視訊</string>
     <string name="casting_conversion_quality_title">轉換品質</string>
     <string name="casting_conversion_quality_summary">選擇當投放到遠端螢幕時的轉換品質</string>
     <string name="casting_quality_high">高</string>
@@ -481,6 +483,7 @@
     <string name="tv_folders_first_summary">在檔案瀏覽器中將資料夾顯示在前面，然後才顯示檔案</string>
     <string name="tv_show_hidden_files">顯示隱藏的檔案</string>
     <string name="tv_show_hidden_files_summary">在檔案瀏覽器中顯示隱藏的檔案</string>
+    <string name="ab_repeat_fastseek_warning">已啟用快速搜尋。這可能會導致精度問題</string>
 
     <string name="extensions_prefs_category">擴充套件</string>
     <string name="extensions_empty">沒有偵測到擴充套件</string>
@@ -810,6 +813,7 @@
     <string name="permission_video">VLC 需要您的授權才能存取您裝置上的視訊媒體</string>
     <string name="permission_audio">VLC 需要您的授權才能存取您裝置上的音訊媒體</string>
     <string name="medialibrary_scan_explanation">VLC 會自動掃描裝置並組織您的媒體收藏。</string>
+    <string name="player_title_fd_warning">如果沒有儲存權限，VLC 就無法擷取媒體標題或儲存進度。</string>
     <string name="onboarding_theme_title">隨便自由使用</string>
     <string name="done">完成</string>
     <string name="onboarding_scan_title">自動探索媒體</string>
@@ -830,7 +834,7 @@
     <string name="popup_force_legacy_title">使用自訂子母畫面彈出</string>
     <string name="popup_force_legacy_summary">使用自訂子母畫面可調整大小彈出</string>
     <string name="restore_background_video_title">從背景還原影片</string>
-    <string name="restore_background_video_summary">在重新開啟 vlc-android 時從背景還原影片</string>
+    <string name="restore_background_video_summary">重新開啟 VLC for Android 時還原背景播放的影片</string>
     <string name="device_default">裝置預設值</string>
     <string name="track_number">%d 個軌道</string>
     <string name="jump_to">跳至</string>

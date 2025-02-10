@@ -478,6 +478,8 @@
     <string name="casting_switch_title">Vezeték nélküli átvitel</string>
     <string name="casting_passthrough_title">Hang áteresztés</string>
     <string name="casting_passthrough_summary">A TV kezelheti a hangrenderelést</string>
+    <string name="casting_audio_only">Csak hang</string>
+    <string name="casting_audio_only_summary">Csak hang átvitele, videó nélkül</string>
     <string name="casting_conversion_quality_title">Átalakítási minőség</string>
     <string name="casting_conversion_quality_summary">Válassza ki az átalakítási minőséget, amikor távoli képernyőre küld át.</string>
     <string name="casting_quality_high">Magas</string>
@@ -492,6 +494,7 @@
     <string name="tv_folders_first_summary">A mappák, majd a fájlok megjelenítése a fájlböngészőben</string>
     <string name="tv_show_hidden_files">Rejtett fájlok megjelenítése</string>
     <string name="tv_show_hidden_files_summary">Rejtett fájlok megjelenítése a fájlböngészőben</string>
+    <string name="ab_repeat_fastseek_warning">A gyors tekerés engedélyezve. Ez pontossági problémákhoz vezethet.</string>
 
     <string name="extensions_prefs_category">Bővítmények</string>
     <string name="extensions_empty">Nincs észlelt bővítmény</string>
@@ -841,7 +844,7 @@
     <string name="popup_force_legacy_title">Egyéni „Kép a képben” felugró ablak</string>
     <string name="popup_force_legacy_summary">Egyéni „Kép a képben” átméretezhető felugró ablak</string>
     <string name="restore_background_video_title">Videó helyreállítása a háttérből</string>
-    <string name="restore_background_video_summary">A videó helyreállítása a háttérből a vlc-android újbóli megnyitásakor</string>
+    <string name="restore_background_video_summary">A videó helyreállítása a háttérből a VLC for Android újbóli megnyitásakor</string>
     <string name="device_default">Eszköz alapértelmezése</string>
     <string name="track_number">%d szám</string>
     <string name="jump_to">Ugrás</string>

@@ -489,6 +489,8 @@
     <string name="casting_switch_title">Trasmissione wireless</string>
     <string name="casting_passthrough_title">Passthrough audio</string>
     <string name="casting_passthrough_summary">Consenti alla tua TV di gestire il rendering audio</string>
+    <string name="casting_audio_only">Solo audio</string>
+    <string name="casting_audio_only_summary">Trasmetti solo l\'audio, non il video</string>
     <string name="casting_conversion_quality_title">Qualità della conversione</string>
     <string name="casting_conversion_quality_summary">Seleziona la qualità dell conversione quando trasmetti su uno schermo remoto</string>
     <string name="casting_quality_high">Alta</string>
@@ -503,6 +505,7 @@
     <string name="tv_folders_first_summary">Mostra le cartelle e poi i file nel navigatore dei file</string>
     <string name="tv_show_hidden_files">Mostra file nascosti</string>
     <string name="tv_show_hidden_files_summary">Mostra file nascosti nel navigatore di file</string>
+    <string name="ab_repeat_fastseek_warning">Il posizionamento veloce è abilitato. Può causare problemi di precisione</string>
 
     <string name="extensions_prefs_category">Estensioni</string>
     <string name="extensions_empty">Nessuna estensione rilevata</string>
@@ -832,6 +835,7 @@
     <string name="permission_video">VLC ha bisogno del tuo permesso per accedere ai video sul tuo dispositivo</string>
     <string name="permission_audio">VLC ha bisogno del tuo permesso per accedere ai file audio sul tuo dispositivo</string>
     <string name="medialibrary_scan_explanation">VLC analizzerà automaticamente il dispositivo per organizzare la tua collezione multimediale.</string>
+    <string name="player_title_fd_warning">Senza il permesso di archiviazione, VLC non può recuperare il titolo del media o salvare l\'avanzamento.</string>
     <string name="onboarding_theme_title">Sentiti come a casa</string>
     <string name="done">Completato</string>
     <string name="onboarding_scan_title">Rilevamento automatico dei tuoi supporti</string>
@@ -852,7 +856,7 @@
     <string name="popup_force_legacy_title">Utilizza finestra Picture-in-Picture personalizzata</string>
     <string name="popup_force_legacy_summary">Utilizza finestra ridimensionabile Picture-in-Picture personalizzata</string>
     <string name="restore_background_video_title">Ripristina video dallo sfondo</string>
-    <string name="restore_background_video_summary">Ripristina il video dallo sfondo quando riapri vlc-android.</string>
+    <string name="restore_background_video_summary">Ripristina il video dallo sfondo quando riapri VLC per Android.</string>
     <string name="device_default">Predefinito del dispositivo</string>
     <string name="track_number">%d tracce</string>
     <string name="jump_to">Salta a</string>

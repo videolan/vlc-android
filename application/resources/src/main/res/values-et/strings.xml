@@ -478,6 +478,8 @@
     <string name="casting_switch_title">Kaablivaba edastamine</string>
     <string name="casting_passthrough_title">Heli töötlemata läbivoog</string>
     <string name="casting_passthrough_summary">Lase oma teleril juhtida heli renderdust</string>
+    <string name="casting_audio_only">Valid heli</string>
+    <string name="casting_audio_only_summary">Edasta vaid heli, ilma videota</string>
     <string name="casting_conversion_quality_title">Konvertimise kvaliteet</string>
     <string name="casting_conversion_quality_summary">Vali muutmise kvaliteet kui edastad kaugekraanile</string>
     <string name="casting_quality_high">Kõrge</string>
@@ -492,6 +494,7 @@
     <string name="tv_folders_first_summary">Näita failihalduris esmalt kaustu ja siis faile</string>
     <string name="tv_show_hidden_files">Näita peidetud faile</string>
     <string name="tv_show_hidden_files_summary">Näita failihalduris peidetud faile</string>
+    <string name="ab_repeat_fastseek_warning">Kiirotsing on kasutusel. See võib põhjustada otsingutäpsuse hajumist</string>
 
     <string name="extensions_prefs_category">Laiendused</string>
     <string name="extensions_empty">Ühtegi laiendust ei tuvastatud</string>
@@ -843,7 +846,7 @@
     <string name="popup_force_legacy_title">Kasuta sinu valitud suurusega pilt-pildis vaadet</string>
     <string name="popup_force_legacy_summary">Kasuta sinu suurendatavat pilt-pildis vaadet</string>
     <string name="restore_background_video_title">Taasta taustalt video</string>
-    <string name="restore_background_video_summary">Taasta taustalt video, kui avad uuesti VLC Androidi versiooni</string>
+    <string name="restore_background_video_summary">Taasta taustalt video, kui avad uuesti VLC Androidile</string>
     <string name="device_default">Seadme vaikeväärtus</string>
     <string name="track_number">%d rada</string>
     <string name="jump_to">Siirdu:</string>

@@ -325,6 +325,7 @@
 
     <!-- Preferences -->
     <string name="preferences">الإعدادات</string>
+    <string name="more_preferences">المزيد من الإعدادات</string>
     <string name="directories_summary">اختر أدلّة لضمّها إلى مكتبة الوسائط</string>
     <string name="add_custom_path">أضِف مسارًا مخصّصًا</string>
     <string name="add_custom_path_description">أدخِل دليلًا مخصّصًا إضافيًا لرؤيته:</string>
@@ -344,6 +345,7 @@
     <string name="screen_orientation_landscape_reverse">عرضي معكوس</string>
     <string name="screen_orientation_last_locked">آخر اتجاه مغلق</string>
     <string name="enable_black_theme">الثيم الأسود</string>
+    <string name="dark_theme">السمة الداكنة</string>
     <string name="theme_auto">السمة التلقائية</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="subtitle_preferred_language">لغة الترجمة المفضلة</string>
@@ -469,8 +471,8 @@
     <string name="show_headers_summary">قسّم القوائم حسب الرؤوس بناءً على نوع الفرز</string>
     <string name="tv_folders_first">اعرض المجلدات أولاً</string>
     <string name="tv_folders_first_summary">عرض المجلدات ثم الملفات في متصفح الملفات</string>
+    <string name="tv_show_hidden_files">عرض الملفات المخفية</string>
     <string name="tv_show_hidden_files_summary">عرض الملفات المخفية في متصفح الملفات</string>
-
     <string name="extensions_prefs_category">الامتدادات</string>
     <string name="extensions_empty">لم نعثر على أي امتداد</string>
     <string name="extension_permission_title">هل تريد تنشيط امتداد جديد \"%1$s\"؟</string>
@@ -640,6 +642,8 @@
     <string name="popup_playback">التشغل في نافذة منبثقة</string>
     <string name="popup_expand">قم بتوسيع الفيديو</string>
     <string name="download_subtitles">تنزيل الترجمات</string>
+    <string name="open_subtitles_username">اسم المستخدم</string>
+    <string name="open_subtitles_password">كلمة المرور</string>
     <string name="browse_folder">تصفح المجلد</string>
     <string name="listen">استمع</string>
     <string name="apply_to_bt">تنطبق على جهاز بلوتوث</string>
@@ -792,6 +796,7 @@
     <string name="remove_current">إزالة الحالي</string>
     <string name="validation_delete_playlist">هل أنت متأكد أنك تريد حذف قائمة التشغيل هذه؟</string>
     <string name="validation_delete_playlist_text">لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="display_settings">إعدادات العرض</string>
     <string name="incognito_mode">وضع التصفح المتخفي</string>
     <string name="display_in_list">عرض على شكل قائمة</string>
     <string name="display_in_grid">عرض على شكل شبكة</string>

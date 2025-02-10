@@ -478,6 +478,8 @@
     <string name="casting_switch_title">Drahtloses streamen</string>
     <string name="casting_passthrough_title">Audio-Passthrough</string>
     <string name="casting_passthrough_summary">Lassen Sie Ihren Fernseher das Audio-Rendering verwalten</string>
+    <string name="casting_audio_only">Nur Audio</string>
+    <string name="casting_audio_only_summary">Nur Audio übertragen, kein Video</string>
     <string name="casting_conversion_quality_title">Konvertierungsqualität</string>
     <string name="casting_conversion_quality_summary">Wählen Sie die Konvertierungsqualität beim Streamen auf dem entfernten Bildschirm</string>
     <string name="casting_quality_high">Hoch</string>
@@ -492,6 +494,7 @@
     <string name="tv_folders_first_summary">Ordner und dann Dateien im Dateibrowser anzeigen</string>
     <string name="tv_show_hidden_files">Versteckte Dateien anzeigen</string>
     <string name="tv_show_hidden_files_summary">Versteckte Dateien im Datei-Browser anzeigen</string>
+    <string name="ab_repeat_fastseek_warning">Die schnelle Suche ist aktiviert. Dies kann zu Genauigkeitsproblemen führen</string>
 
     <string name="extensions_prefs_category">Erweiterungen</string>
     <string name="extensions_empty">Keine Erweiterungen gefunden</string>
@@ -821,6 +824,7 @@
     <string name="permission_video">VLC benötigt Ihre Erlaubnis, um auf die Vieodateien auf diesem Gerät zuzugreifen</string>
     <string name="permission_audio">VLC benötigt Ihre Erlaubnis, um auf die Audiodateien auf diesem Gerät zuzugreifen</string>
     <string name="medialibrary_scan_explanation">VLC kann Ihr Gerät automatisch durchsuchen, um Ihre Mediensammlung zu verwalten.</string>
+    <string name="player_title_fd_warning">Ohne die Speicherberechtigung kann VLC weder den Medientitel abrufen noch den Fortschritt speichern</string>
     <string name="onboarding_theme_title">Fühlen Sie sich wie zu Hause</string>
     <string name="done">Fertig</string>
     <string name="onboarding_scan_title">Automatische Erkennung Ihrer Medien</string>
@@ -841,7 +845,7 @@
     <string name="popup_force_legacy_title">Benutzerdefiniertes Bild-in-Bild</string>
     <string name="popup_force_legacy_summary">Ein benutzerdefiniertes Bild-in-Bild im größenveränderbaren Fenster verwenden</string>
     <string name="restore_background_video_title">Video aus dem Hintergrund wiederherstellen</string>
-    <string name="restore_background_video_summary">Video aus dem Hintergrund wiederherstellen, wenn VLC-Android erneut geöffnet wird</string>
+    <string name="restore_background_video_summary">Video aus dem Hintergrund wieder her,stellen wenn VLC für Android erneut geöffnet wird</string>
     <string name="device_default">Systemsprache</string>
     <string name="track_number">%d Titel</string>
     <string name="jump_to">Springe zu</string>

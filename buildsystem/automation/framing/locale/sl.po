@@ -1,0 +1,42 @@
+# 
+# Translators:
+# Arnold Marko <arnold.marko@gmail.com>, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-12-17 11:54+0000\n"
+"Last-Translator: Arnold Marko <arnold.marko@gmail.com>, 2025\n"
+"Language-Team: Slovenian (https://app.transifex.com/yaron/teams/16553/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"X-Generator: Poedit 3.5\n"
+
+msgid "Phone video list"
+msgstr "Predvajaj vse formate videa"
+
+msgid "Phone audio list"
+msgstr "Predvajaj vse zvočne formate"
+
+msgid "Phone audio player"
+msgstr "Intuitivni predvajalnik zvoka"
+
+msgid "Phone audio playlist"
+msgstr "Zvočni izenačevalnik po vašem okusu"
+
+msgid "Phone Browser"
+msgstr "Enostaven datotečni brskalnik"
+
+msgid "Video player"
+msgstr ""
+"Video predvajalnik z nadzorom s kretnjami in drugimi naprednimi možnostmi"
+
+msgid "Video pip"
+msgstr "Ogled v pojavnem predvajalniku, ki omogoča rabo drugih aplikacij"
+
+msgid "All devices"
+msgstr "Predvajaj na vseh androidnih napravah"

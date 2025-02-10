@@ -467,6 +467,8 @@
     <string name="casting_switch_title">无线投屏</string>
     <string name="casting_passthrough_title">音频直通</string>
     <string name="casting_passthrough_summary">让 TV 全权负责音频渲染</string>
+    <string name="casting_audio_only">仅音频</string>
+    <string name="casting_audio_only_summary">只投屏音频，无视频</string>
     <string name="casting_conversion_quality_title">转换质量</string>
     <string name="casting_conversion_quality_summary">选择投屏到远程屏幕时的转换质量</string>
     <string name="casting_quality_high">高</string>
@@ -481,6 +483,7 @@
     <string name="tv_folders_first_summary">在文件浏览器中，将文件夹显示在前面，文件显示在后面</string>
     <string name="tv_show_hidden_files">显示隐藏文件</string>
     <string name="tv_show_hidden_files_summary">在文件浏览器中显示隐藏文件</string>
+    <string name="ab_repeat_fastseek_warning">已启用快速定位。可能导致精确度问题</string>
 
     <string name="extensions_prefs_category">扩展</string>
     <string name="extensions_empty">未侦测到扩展</string>
@@ -830,7 +833,7 @@
     <string name="popup_force_legacy_title">使用自定义画中画弹窗</string>
     <string name="popup_force_legacy_summary">使用大小可调整的自定义画中画弹出窗口</string>
     <string name="restore_background_video_title">恢复后台播放的视频</string>
-    <string name="restore_background_video_summary">重新打开 VLC 时恢复后台播放的视频</string>
+    <string name="restore_background_video_summary">重新打开 VLC for Android 时恢复后台播放的视频</string>
     <string name="device_default">设备默认</string>
     <string name="track_number">%d 条轨道</string>
     <string name="jump_to">跳转到</string>

@@ -478,6 +478,8 @@
     <string name="casting_switch_title">Wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
     <string name="casting_passthrough_summary">Let your TV manage audio rendering</string>
+    <string name="casting_audio_only">Audio only</string>
+    <string name="casting_audio_only_summary">Cast only audio, no video</string>
     <string name="casting_conversion_quality_title">Conversion quality</string>
     <string name="casting_conversion_quality_summary">Select the conversion quality when casting on remote screen</string>
     <string name="casting_quality_high">High</string>
@@ -492,6 +494,7 @@
     <string name="tv_folders_first_summary">Show folders and then files in the file browser</string>
     <string name="tv_show_hidden_files">Show hidden files</string>
     <string name="tv_show_hidden_files_summary">Show hidden files in the file browser</string>
+    <string name="ab_repeat_fastseek_warning">Fast seek is enabled. It can lead to precision issues</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">No extension detected</string>
@@ -821,6 +824,7 @@
     <string name="permission_video">VLC needs your permission to access video media on your device</string>
     <string name="permission_audio">VLC needs your permission to access audio media on your device</string>
     <string name="medialibrary_scan_explanation">VLC can automatically scan your device to organise your media collection.</string>
+    <string name="player_title_fd_warning">Without the storage permission, VLC cannot retrieve the media title nor save the progress</string>
     <string name="onboarding_theme_title">Make yourself at home</string>
     <string name="done">Done</string>
     <string name="onboarding_scan_title">Auto-discover your media</string>
@@ -841,7 +845,7 @@
     <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
     <string name="popup_force_legacy_summary">Use custom Picture-in-Picture resizable popup</string>
     <string name="restore_background_video_title">Restore video from background</string>
-    <string name="restore_background_video_summary">Restore video from background when reopening vlc-android</string>
+    <string name="restore_background_video_summary">Restore video from background when reopening VLC for Android</string>
     <string name="device_default">Device default</string>
     <string name="track_number">%d tracks</string>
     <string name="jump_to">Jump to</string>

@@ -489,6 +489,8 @@
     <string name="casting_switch_title">Diffusion sans fil</string>
     <string name="casting_passthrough_title">Passerelle audio</string>
     <string name="casting_passthrough_summary">Laisser votre téléviseur gérer le rendu audio</string>
+    <string name="casting_audio_only">Audio uniquement</string>
+    <string name="casting_audio_only_summary">Diffusion uniquement de l’audio, pas de la vidéo</string>
     <string name="casting_conversion_quality_title">Qualité de conversion</string>
     <string name="casting_conversion_quality_summary">Choisissez la qualité de conversion à utiliser lorsque vous diffusez sur un écran distant</string>
     <string name="casting_quality_high">Haut</string>
@@ -503,6 +505,7 @@
     <string name="tv_folders_first_summary">Afficher les dossiers puis les fichiers dans le navigateur de fichiers</string>
     <string name="tv_show_hidden_files">Afficher les fichiers cachés</string>
     <string name="tv_show_hidden_files_summary">Afficher les fichiers cachés dans le navigateur de fichiers</string>
+    <string name="ab_repeat_fastseek_warning">La recherche rapide est activée. Elle peut entraîner des problèmes de précision</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_empty">Aucune extension détectée</string>
@@ -832,6 +835,7 @@
     <string name="permission_video">VLC a besoin de votre autorisation pour accéder aux médias vidéo sur votre appareil</string>
     <string name="permission_audio">VLC a besoin de votre autorisation pour accéder aux médias audio sur votre appareil</string>
     <string name="medialibrary_scan_explanation">VLC peut analyser automatiquement votre appareil pour organiser votre collection de médias.</string>
+    <string name="player_title_fd_warning">Sans l’autorisation de stockage, VLC ne peut pas récupérer le titre du média ni enregistrer la progression.</string>
     <string name="onboarding_theme_title">Faites comme chez vous</string>
     <string name="done">Terminé</string>
     <string name="onboarding_scan_title">Découverte de vos médias</string>
@@ -852,7 +856,7 @@
     <string name="popup_force_legacy_title">Utiliser une fenêtre personnalisée de Picture-in-Picture</string>
     <string name="popup_force_legacy_summary">Utiliser une fenêtre personnalisée de Picture-in-Picture redimensionnable</string>
     <string name="restore_background_video_title">Restaurer une vidéo depuis l’arrière-plan</string>
-    <string name="restore_background_video_summary">Restaurer la vidéo depuis l’arrière-plan lors de la réouverture de vlc-android</string>
+    <string name="restore_background_video_summary">Restaurer la vidéo de l’arrière-plan lors de la réouverture de VLC pour Android</string>
     <string name="device_default">Périphérique prédéfini</string>
     <string name="track_number">%d pistes</string>
     <string name="jump_to">Aller à</string>

@@ -15,6 +15,7 @@
     <string name="sortby_date">تاریخ</string>
     <string name="sortby_last_modified_date">به تازگی اضافه شده</string>
     <string name="sortby_insertion">تاریخ درج</string>
+    <string name="sortby_date_release">تاریخ انتشار</string>
     <string name="sortby_media_number">شمارهٔ رسانه</string>
     <string name="sortby_number">صداهای nb</string>
     <string name="searchable_hint">جست‌وجو…</string>
@@ -22,6 +23,8 @@
 
     <string name="sortby_length_asc">ابتدا کوتاه ترین</string>
     <string name="sortby_length_desc">ابتدا طولانی ترین</string>
+    <string name="sortby_number_asc">ویدیو های بيشتر در این گروه</string>
+    <string name="sortby_number_desc">ویدئو های کمتر در این گروه</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d نتیجه یافت شد</item>
         <item quantity="other">%d نتیجه یافت شد</item>
@@ -40,6 +43,7 @@
     <string name="video_app_switch_summary">رفتار وی‌ال‌سی را هنگامی تعویض از بازپخش ویدیو به برنامه‌ای دیگر برگزینید</string>
     <string name="play_pip_title">پخش ویدیوها در حالت تصویر در تصویر</string>
     <string name="play_as_audio_background">پخش ویدیوها در پس‌زمینه</string>
+    <string name="append">افزودن به صف پخش</string>
     <string name="insert_next">وارد کردن بعدی</string>
     <string name="play_all">پخش همه</string>
     <string name="append_all">افزودن همه</string>
@@ -292,6 +296,7 @@
     <string name="screen_orientation_landscape_reverse">افقی معکوس</string>
     <string name="screen_orientation_last_locked">آخرین جهت قفل شده</string>
     <string name="enable_black_theme">پوسته سیاه</string>
+    <string name="dark_theme">حالت تاریک</string>
     <string name="theme_auto">زمینه خودکار</string>
     <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
     <string name="subtitle_preferred_language">زبان دلخواه زیرنویس</string>
@@ -898,4 +903,5 @@
     <string name="talkback_action_rewind">%sثانیه به عقب برگرد</string>
     <string name="talkback_action_forward">%sثانیه به جلو برو</string>
     <string name="talkback_display_settings">تنظیمات نمایش</string>
+    <string name="talkback_already_played">قبلا پخش شده است</string>
     </resources>

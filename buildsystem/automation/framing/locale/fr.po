@@ -1,13 +1,14 @@
 # 
 # Translators:
 # Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2024
+# Wallon Wallon, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2024-12-17 11:54+0000\n"
-"Last-Translator: Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2024\n"
+"Last-Translator: Wallon Wallon, 2025\n"
 "Language-Team: French (https://app.transifex.com/yaron/teams/16553/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +36,7 @@ msgid "Video player"
 msgstr "Lecteur vidéo avec un contrôle gestuel et des options avancées"
 
 msgid "Video pip"
-msgstr "Continuez votre lecture tout en utilisant d'autres applications"
+msgstr "Continuer votre lecture tout en utilisant d’autres applications"
 
 msgid "All devices"
 msgstr "Lecture universelle sur tous vos appareils Android"

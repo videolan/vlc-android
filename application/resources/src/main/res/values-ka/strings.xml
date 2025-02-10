@@ -492,7 +492,6 @@
     <string name="tv_folders_first_summary">ასარჩევში ჯერ საქაღალდეებისა და შემდეგ ფაილების ჩვენება</string>
     <string name="tv_show_hidden_files">დამალული ფაილების გამოჩენა</string>
     <string name="tv_show_hidden_files_summary">ასარჩევში დამალული ფაილების ჩვენება</string>
-
     <string name="extensions_prefs_category">გაფართოებები</string>
     <string name="extensions_empty">გაფართოებები არ აღმოჩენილა</string>
     <string name="extension_permission_title">ამოქმედდეს ახალი გაფართოება „%1$s“?</string>
@@ -841,7 +840,6 @@
     <string name="popup_force_legacy_title">მორგებული ეკრანი-ეკრანში</string>
     <string name="popup_force_legacy_summary">მორგებული ეკრანი-ეკრანში, ზომაცვლადი ამომხტარი ფანჯრით</string>
     <string name="restore_background_video_title">ვიდეოს დაბრუნება ფონური რეჟიმიდან</string>
-    <string name="restore_background_video_summary">ვიდეოს დაბრუნება ფონური რეჟიმიდან, როცა ახლიდან გაეშვება vlc-android</string>
     <string name="device_default">მოწყობილობის ნაგულისხმევი</string>
     <string name="track_number">%d ჩანაწერი</string>
     <string name="jump_to">გადასვლა</string>

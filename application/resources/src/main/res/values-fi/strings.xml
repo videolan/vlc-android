@@ -43,7 +43,7 @@
     <string name="medialibrary_scan">Mediakirjaston skannaus</string>
     <string name="Medialibrary_progress">Mediakirjasto tarkistaa päivityksiä</string>
     <string name="play_from_start">Toista alusta</string>
-    <string name="play_as_audio">Toista äänenä</string>
+    <string name="play_as_audio">Toista audiona</string>
     <string name="play_as_video">Toista videona</string>
     <string name="return_to_video">Pitkä kosketus kanteen palauttaa videon</string>
     <string name="video_app_switch_title">Taustalle / PiP</string>
@@ -165,7 +165,7 @@
     <string name="resize_tip">Pitkä painallus näyttää vaihtoehtoja</string>
     <string name="unseekable_stream">Kelaamaton suoratoisto</string>
     <string name="refresh">Päivitä</string>
-    <string name="track_audio">Ääniraita</string>
+    <string name="track_audio">Audioraita</string>
     <string name="track_video">Videoraita</string>
     <string name="track_text">Tekstitysraita</string>
     <string name="track_unknown">Tunnistamaton raita</string>
@@ -486,6 +486,8 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="casting_switch_title">Langaton lähetys</string>
     <string name="casting_passthrough_title">Äänen läpivienti</string>
     <string name="casting_passthrough_summary">Anna television hallita äänentoistoa</string>
+    <string name="casting_audio_only">Vain audio</string>
+    <string name="casting_audio_only_summary">Toista vain audio, ei videota</string>
     <string name="casting_conversion_quality_title">Muunnoksen laatu</string>
     <string name="casting_conversion_quality_summary">Valitse muuntamisen laatu kun lähetät toiseen näyttöön</string>
     <string name="casting_quality_high">Korkea</string>
@@ -500,6 +502,7 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="tv_folders_first_summary">Näytä kansiot ja sitten tiedostot</string>
     <string name="tv_show_hidden_files">Näytä piilotiedostot</string>
     <string name="tv_show_hidden_files_summary">Näytä piilotiedostot tiedostoselaimessa</string>
+    <string name="ab_repeat_fastseek_warning">Pikakelaus on käytössä. Se voi johtaa tarkkuusongelmiin</string>
 
     <string name="extensions_prefs_category">Laajennukset</string>
     <string name="extensions_empty">Laajennusta ei havaittu</string>
@@ -519,7 +522,7 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="deblocking_all">Ei palikanpoistoa (nopein)</string>
     <string name="enable_frame_skip">Ruudun ohitus</string>
     <string name="enable_frame_skip_summary">Nopeuttaa purkua, mutta saattaa heikentää videon laatua</string>
-    <string name="enable_time_stretching_audio">Aikaa venyttävä ääni</string>
+    <string name="enable_time_stretching_audio">Aikaa venyttävä audio</string>
     <string name="enable_time_stretching_audio_summary">Nopeuta ja hidasta ääntä muuttamatta sävelkorkeutta (vaatii nopean laitteen)</string>
 
     <string name="advanced_prefs_category">Lisäasetukset</string>
@@ -840,6 +843,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="permission_video">VLC tarvitsee luvan käyttääkseen videomediaa laitteellasi</string>
     <string name="permission_audio">VLC tarvitsee luvan käyttääkseen audiomediaa laitteellasi</string>
     <string name="medialibrary_scan_explanation">VLC voi hakea laitteesi median automaattisesti ja järjestää sen kokoelmaksi.</string>
+    <string name="player_title_fd_warning">Ilman tallennuslupaa VLC ei voi noutaa median nimeä eikä tallentaa edistymistä</string>
     <string name="onboarding_theme_title">Ole kuin kotonasi</string>
     <string name="done">Valmis</string>
     <string name="onboarding_scan_title">Löydä media automaattisesti</string>
@@ -1031,8 +1035,8 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="prefersmbv1">Suosi SMB 1</string>
     <string name="prefersmbv1_summary">Poista tämä asetus, jos sinulla on ongelmia SMB-palvelimen selaamisessa</string>
     <string name="apply_to_all">Käytä kaikkiin videoihin</string>
-    <string name="audio_delay_global">Ääniviiveeksi on määritetty %s ms kaikissa videoissa</string>
-    <string name="audio_delay_bt">Ääniviive %s ms on asetettu bluetooth laitteille</string>
+    <string name="audio_delay_global">Audioviive %s ms asetettu kaikille videoille</string>
+    <string name="audio_delay_bt">Audioviive %s ms on asetettu bluetooth:lle</string>
     <string name="warning_stream_speed">Toistonopeuden nostaminen suoratoistolle yli 1:den voi aiheuttaa änkytystä</string>
     <string name="go_to_folder">Selaa yläkansiota</string>
     <string name="go_to_album">Siirry albumiin</string>
@@ -1315,7 +1319,7 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="metered_connection">Toiminto suoratoistolle, kun yhteyttä mitataan</string>
     <string name="metered_do_nothing">Ei mitään</string>
     <string name="metered_stop">Pysäytä toisto</string>
-    <string name="metered_warn">Varoita minua (voi jäädä huomaamatta äänen toiston aikana)</string>
+    <string name="metered_warn">Varoita minua (voi jäädä huomaamatta toiston aikana)</string>
     <string name="metered_connection_stopped">Media pysähtyi, koska yhteyttä mitataan</string>
     <string name="metered_connection_warning">Yhteytesi on mitattu.</string>
     <string name="adding">Lisätään</string>

@@ -496,7 +496,6 @@
     <string name="tv_folders_first_summary">Zobrazit složky a poté soubory v průzkumníkovi souborů</string>
     <string name="tv_show_hidden_files">Zobrazit skryté soubory</string>
     <string name="tv_show_hidden_files_summary">Zobrazit skryté soubory v prohlížeči souborů</string>
-
     <string name="extensions_prefs_category">Rozšíření</string>
     <string name="extensions_empty">Žádné rozšíření</string>
     <string name="extension_permission_title">Chcete povolit nové rozšíření \'%1$s\'?</string>
@@ -806,7 +805,6 @@
     <string name="popup_force_legacy_title">Použít vlastní režim Obraz v obraze</string>
     <string name="popup_force_legacy_summary">Použít vlastní režim Obraz v obraze (PiP) s možností změny velikosti.</string>
     <string name="restore_background_video_title">Obnovit video z pozadí</string>
-    <string name="restore_background_video_summary">Obnovit video z pozadí při opětovném otevření vlc-android</string>
     <string name="device_default">Výchozí (podle systému)</string>
     <string name="track_number">Počet skladeb: %d</string>
     <string name="jump_to">Přejít</string>

@@ -492,7 +492,6 @@
     <string name="tv_folders_first_summary">Affissà i cartulari eppò i schedarii in u navigatore di schedarii</string>
     <string name="tv_show_hidden_files">Affissà i schedarii piattati</string>
     <string name="tv_show_hidden_files_summary">Affissà i schedarii piattati in u navigatore di schedarii</string>
-
     <string name="extensions_prefs_category">Stinzioni</string>
     <string name="extensions_empty">Alcuna estensione abbentata</string>
     <string name="extension_permission_title">Attivà a nova estensione « %1$s » ?</string>
@@ -841,7 +840,6 @@
     <string name="popup_force_legacy_title">Impiegà una finestra persunalizata fiura-nant’à-fiura (PIP)</string>
     <string name="popup_force_legacy_summary">Impiegà una finestra persunalizata dimensionevule fiura-nant’à-fiura (PIP)</string>
     <string name="restore_background_video_title">Risturà a video in modu di sfondulu</string>
-    <string name="restore_background_video_summary">Risturà a video in modu di sfondulu quandu vlc-android s’apre torna</string>
     <string name="device_default">Predefinizione d’apparechju</string>
     <string name="track_number">%d traccie</string>
     <string name="jump_to">Saltà à</string>

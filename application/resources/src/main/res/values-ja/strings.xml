@@ -467,6 +467,8 @@
     <string name="casting_switch_title">ワイヤレスキャスティング</string>
     <string name="casting_passthrough_title">オーディオパススルー</string>
     <string name="casting_passthrough_summary">TV側でオーディオレンダリングを管理</string>
+    <string name="casting_audio_only">オーディオのみ</string>
+    <string name="casting_audio_only_summary">オーディオのみキャスト、ビデオなし</string>
     <string name="casting_conversion_quality_title">変換品質</string>
     <string name="casting_conversion_quality_summary">リモートスクリーンへの配信品質の選択</string>
     <string name="casting_quality_high">高</string>
@@ -481,6 +483,7 @@
     <string name="tv_folders_first_summary">フォルダを先に表示して、その後ファイルをブラウザで表示する</string>
     <string name="tv_show_hidden_files">隠しファイルを表示</string>
     <string name="tv_show_hidden_files_summary">ファイルブラウザで隠しファイルを表示します</string>
+    <string name="ab_repeat_fastseek_warning">高速シークが有効化されていますが精度に問題がある場合があります。</string>
 
     <string name="extensions_prefs_category">拡張機能</string>
     <string name="extensions_empty">拡張機能が検出されませんでした</string>
@@ -810,6 +813,7 @@
     <string name="permission_video">デバイスのビデオメディアにアクセスするために許可が必要です</string>
     <string name="permission_audio">デバイスのオーディオメディアにアクセスするために許可が必要です</string>
     <string name="medialibrary_scan_explanation">メディアコレクションを整理するために自動的にデバイス上のメディアを検索します。</string>
+    <string name="player_title_fd_warning">ストレージへの権限がない場合、VLCはメディアのタイトルを読み込んだり進捗を書き込むことができません</string>
     <string name="onboarding_theme_title">ご家庭での個人的な利用</string>
     <string name="done">完了</string>
     <string name="onboarding_scan_title">メディアの自動検索</string>
@@ -830,7 +834,7 @@
     <string name="popup_force_legacy_title">カスタマイズされたピクチャーインピクチャーポップアップを使用</string>
     <string name="popup_force_legacy_summary">サイズ変更可能なカスタマイズされたピクチャーインピクチャーポップアップを使用</string>
     <string name="restore_background_video_title">バックグラウンドからビデオを復元</string>
-    <string name="restore_background_video_summary">Android版VLCが再オープンされた時、バックグランドからビデオを復元する</string>
+    <string name="restore_background_video_summary">VLC for Androidを起動した時、バックグランドからビデオを復元する</string>
     <string name="device_default">デバイスのデフォルト</string>
     <string name="track_number">%d トラック</string>
     <string name="jump_to">ジャンプ先</string>
