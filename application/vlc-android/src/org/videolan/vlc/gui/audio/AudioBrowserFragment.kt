@@ -162,6 +162,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         adapters.forEach {
             it.onAnyChange { updateEmptyView() }
         }
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_PERMISSION_CHANGED, viewLifecycleOwner) { requestKey, bundle ->
+            val changed = bundle.getBoolean(KEY_PERMISSION_CHANGED)
+            if (changed) viewModel.refresh()
+        }
     }
 
     override fun onDestroy() {

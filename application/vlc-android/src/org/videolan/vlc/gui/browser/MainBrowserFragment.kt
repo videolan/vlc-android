@@ -26,7 +26,11 @@ package org.videolan.vlc.gui.browser
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.edit
 import androidx.core.net.toUri
@@ -40,13 +44,19 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.EXTRA_FOR_ESPRESSO
 import org.videolan.resources.util.parcelableList
-import org.videolan.tools.*
+import org.videolan.tools.NetworkMonitor
+import org.videolan.tools.Settings
+import org.videolan.tools.isStarted
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.dialogs.CONFIRM_PERMISSION_CHANGED
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.KEY_PERMISSION_CHANGED
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
-import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylistAsync
@@ -60,11 +70,20 @@ import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_EDIT
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeFavoriteEditable
-import org.videolan.vlc.viewmodels.browser.*
+import org.videolan.vlc.viewmodels.browser.BrowserFavoritesModel
+import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
 class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionReceiver {
 
@@ -257,6 +276,14 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         localEntry.displayInCards = !displayInList
         favoritesEntry.displayInCards = !displayInList
         networkEntry.displayInCards = !displayInList
+
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_PERMISSION_CHANGED, viewLifecycleOwner) { requestKey, bundle ->
+            val changed = bundle.getBoolean(KEY_PERMISSION_CHANGED)
+            if (changed) {
+                localViewModel.provider.refresh()
+                favoritesViewModel.provider.refresh()
+            }
+        }
     }
 
     override fun onResume() {

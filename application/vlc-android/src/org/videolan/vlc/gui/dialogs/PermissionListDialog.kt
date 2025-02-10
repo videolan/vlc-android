@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -35,6 +36,8 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -51,6 +54,8 @@ import org.videolan.vlc.databinding.DialogPermissionsBinding
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.Permissions
 
+const val CONFIRM_PERMISSION_CHANGED = "CONFIRM_PERMISSION_CHANGED"
+const val KEY_PERMISSION_CHANGED = "KEY_PERMISSION_CHANGED"
 
 /**
  * Dialog showing the info of the current version
@@ -68,6 +73,9 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
             )
             return outValue.resourceId
         }
+
+    private var initialPermissionLevel = -1
+    private var permissionChanged = false
 
     companion object {
         fun newInstance(): PermissionListDialog {
@@ -93,14 +101,19 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     override fun onResume() {
         super.onResume()
         updateStorageState()
+    }
+
+    override fun dismiss() {
+        setFragmentResult(CONFIRM_PERMISSION_CHANGED, bundleOf(KEY_PERMISSION_CHANGED to permissionChanged))
+        super.dismiss()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        setFragmentResult(CONFIRM_PERMISSION_CHANGED, bundleOf(KEY_PERMISSION_CHANGED to permissionChanged))
+        super.onCancel(dialog)
     }
 
     private fun updateStorageState() {
@@ -117,6 +130,10 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
                 Permissions.timeAsked = System.currentTimeMillis()
             }
         }
+        if (initialPermissionLevel == -1) {
+            initialPermissionLevel = getPermissionLevel()
+        } else
+            permissionChanged = initialPermissionLevel != getPermissionLevel()
 
 
         // radio states
@@ -294,6 +311,12 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         }
 
 
+    }
+
+    private fun getPermissionLevel() = when {
+        Permissions.hasAllAccess(requireActivity()) -> 2
+        Permissions.canReadStorage(requireActivity()) -> 1
+        else -> 0
     }
 
     private fun showWarning() {
