@@ -190,12 +190,6 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         val storageBrowserAdapter = BaseBrowserAdapter(storageBrowserContainer)
         localEntry.list.adapter = storageBrowserAdapter
         containerAdapterAssociation[storageBrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
-        PermissionListDialog.hasAnyPermission.observe(viewLifecycleOwner) {
-            if (it) {
-                localViewModel.provider.refresh()
-                favoritesViewModel.provider.refresh()
-            }
-        }
         localViewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
                 if (Permissions.canReadStorage(requireActivity())) storageBrowserAdapter.update(it)

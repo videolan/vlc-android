@@ -70,8 +70,6 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         }
 
     companion object {
-        val hasAnyPermission = MutableLiveData<Boolean>().apply { value = false }
-
         fun newInstance(): PermissionListDialog {
             return PermissionListDialog()
         }
@@ -86,15 +84,6 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
     }
 
     override fun initialFocusedView(): View = binding.permissionTitle
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        refreshPermissionLiveData()
-        super.onCreate(savedInstanceState)
-    }
-
-    private fun refreshPermissionLiveData() {
-        hasAnyPermission.postValue(Permissions.hasAllAccess(requireActivity()) || Permissions.hasAnyFileFineAccess(requireActivity()))
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,11 +104,6 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
     }
 
     private fun updateStorageState() {
-
-        refreshPermissionLiveData()
-
-        //Notification
-
         binding.notificationPermissionCheck.setImageDrawable(ContextCompat.getDrawable(requireActivity(), if (Permissions.canSendNotifications(requireActivity())) R.drawable.ic_permission_check_checked else R.drawable.ic_permission_check_unchecked))
         binding.notificationPermissionContainer.setOnClickListener {
             if (Permissions.canSendNotifications(requireActivity())) {
