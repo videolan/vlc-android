@@ -110,7 +110,7 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
                 }
                 else {
                     Log.e(TAG, "downloadSuccessful: Bad subtitle extension: $fileExtention")
-                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_LONG)
                         .show()
                 }
         }
@@ -119,7 +119,7 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         } ?: run {
             Log.e(TAG, "downloadSuccessful: Failed to copy subtitle file")
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
-            Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -134,7 +134,7 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
     }
 
     private fun downloadFailed(id: Long, context: Context) {
-        Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_LONG).show()
         ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
     }
 
