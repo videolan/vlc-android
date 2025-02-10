@@ -43,7 +43,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
@@ -54,6 +56,8 @@ const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
 const val RENAME_DIALOG_FILE = "RENAME_DIALOG_FILE"
 const val RENAME_DIALOG_NEW_NAME = "RENAME_DIALOG_NEW_NAME"
 const val CONFIRM_RENAME_DIALOG_RESULT = "CONFIRM_RENAME_DIALOG_RESULT"
+const val CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT = "CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT"
+const val CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT = "CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT"
 
 class RenameDialog : VLCBottomSheetDialogFragment() {
 
@@ -124,7 +128,12 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
 
     private fun performRename() {
         if (newNameInputtext.text.toString().isNotEmpty()) {
-            setFragmentResult(CONFIRM_RENAME_DIALOG_RESULT, bundleOf(RENAME_DIALOG_MEDIA to media, RENAME_DIALOG_NEW_NAME to newNameInputtext.text.toString()))
+            val key = when(media) {
+                is Bookmark -> CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
+                is Playlist -> CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT
+                else -> CONFIRM_RENAME_DIALOG_RESULT
+            }
+            setFragmentResult(key, bundleOf(RENAME_DIALOG_MEDIA to media, RENAME_DIALOG_NEW_NAME to newNameInputtext.text.toString()))
             dismiss()
         }
     }
