@@ -294,7 +294,7 @@ class MediaSessionBrowser {
                     list = genres.copyOfRange(pageOffset.coerceAtMost(genres.size), (pageOffset + MAX_RESULT_SIZE).coerceAtMost(genres.size))
                 }
                 ID_PLAYLIST -> {
-                        list = ml.getPlaylists(Playlist.Type.Audio, false)
+                    list = ml.getPlaylists(Playlist.Type.All, false).toMutableList().filter { it.nbAudio > 0 || it.nbUnknown > 0}.toTypedArray()
                     list.sortWith(MediaComparators.ANDROID_AUTO)
                 }
                 ID_STREAM -> {
