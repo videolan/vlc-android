@@ -79,6 +79,7 @@ import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
@@ -208,6 +209,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         ).show()
                     }
                 } else {
+                    val roots = medialibrary.foldersList
                     val dialog = ConfirmDeleteDialog.newInstance(
                             title = getString(R.string.clear_media_db),
                             description = getString(R.string.clear_media_db_message),
@@ -237,7 +239,12 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                                     Log.e(this::class.java.simpleName, e.message, e)
                                 }
                             }
-                            medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                            for (root in roots) {
+                                MedialibraryUtils.addDir(
+                                    root.removePrefix("file://"),
+                                    activity
+                                )
+                            }
                         }
                     }
                 }
