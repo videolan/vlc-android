@@ -29,8 +29,6 @@ import androidx.preference.Preference
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.KEY_PLAYBACK_RATE_VIDEO
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST_VIDEO
 import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
@@ -72,7 +70,6 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 if (sharedPreferences.getBoolean(key, false) && !Permissions.canDrawOverlays(requireActivity())) Permissions.checkDrawOverlaysPermission(requireActivity())
                 if (!sharedPreferences.getBoolean(key, false) && !Permissions.isPiPAllowed(requireActivity())) Permissions.checkPiPPermission(requireActivity())
             }
-            KEY_PLAYBACK_SPEED_PERSIST_VIDEO -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE_VIDEO, 1.0f)
         }
     }
 }

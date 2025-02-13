@@ -11,12 +11,6 @@
             android:key="resume_playback"
             android:summary="@string/resume_playback_summary"
             android:title="@string/resume_playback_title"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="false"
-            android:key="playback_speed"
-            android:summary="@string/playback_speed_summary"
-            android:title="@string/playback_speed_title"/>
 
     <CheckBoxPreference
             app:singleLineTitle="false"

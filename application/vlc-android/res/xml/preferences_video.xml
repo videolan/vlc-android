@@ -19,12 +19,6 @@
     <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
-            android:key="playback_speed_video"
-            android:summary="@string/playback_speed_summary"
-            android:title="@string/playback_speed_title"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="false"
             android:key="always_fast_seek"
             android:summary="@string/always_fast_seek_summary"
             android:title="@string/always_fast_seek"/>
