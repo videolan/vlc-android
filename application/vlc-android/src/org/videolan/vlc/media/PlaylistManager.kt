@@ -58,10 +58,10 @@ import org.videolan.tools.HTTP_USER_AGENT
 import org.videolan.tools.KEY_AUDIO_CONFIRM_RESUME
 import org.videolan.tools.KEY_AUDIO_FORCE_SHUFFLE
 import org.videolan.tools.KEY_INCOGNITO
-import org.videolan.tools.KEY_PLAYBACK_RATE
-import org.videolan.tools.KEY_PLAYBACK_RATE_VIDEO
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST_VIDEO
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
 import org.videolan.tools.MEDIA_SHUFFLING
@@ -694,7 +694,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
             if (media.type != MediaWrapper.TYPE_VIDEO && !canSwitchToVideo && !media.isPodcast) skipMediaUpdateRefresh = true
-            media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
 
         }
     }
@@ -736,17 +735,32 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toString())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
-            restoreSpeed(media)
-        } else if (media.isPodcast) {
-            restoreSpeed(media)
         }
+        restoreSpeed(media)
     }
 
+    /**
+     * Restore the playback speed of the current media.
+     *
+     * @param media
+     */
     private fun restoreSpeed(media: MediaWrapper) {
-        val rateString = if (settings.getBoolean(PLAYBACK_HISTORY, true)) media.getMetaString(MediaWrapper.META_SPEED) else null
-        if (!rateString.isNullOrEmpty()) {
-            player.setRate(rateString.toFloat(), false)
+        val playbackRate = when {
+            //history is off, restore nothing
+            !settings.getBoolean(PLAYBACK_HISTORY, true) -> 1F
+            //restore all
+            settings.getBoolean(
+                if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL,
+                false
+            ) -> settings.getFloat(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1.0f)
+            //restore one
+            else -> try {
+                media.getMetaString(MediaWrapper.META_SPEED).toFloat()
+            } catch (e: Exception) {
+                1F
+            }
         }
+        player.setRate(playbackRate, false)
     }
 
     @Synchronized
@@ -1221,10 +1235,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
                 MediaPlayer.Event.SeekableChanged -> {
-                    val playbackRate = if (event.seekable && settings.getBoolean(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false)) {
-                        settings.getFloat(if (player.isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else KEY_PLAYBACK_RATE, 1.0f)
-                    } else 1.0f
-                    player.setRate(playbackRate, false)
+                    if (event.seekable)
+                        getCurrentMedia()?.let { media ->
+                            restoreSpeed(media)
+                        }
                 }
                 MediaPlayer.Event.ESSelected -> {
                     getCurrentMedia()?.let { media ->

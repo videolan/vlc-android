@@ -33,6 +33,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
@@ -44,11 +45,15 @@ import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.Settings
 import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.media.MediaSessionBrowser
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.Permissions.canCheckBluetoothDevices
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.VoiceSearchParams
@@ -221,7 +226,15 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             CUSTOM_ACTION_SPEED -> {
                 val steps = listOf(0.50f, 0.80f, 1.00f, 1.10f, 1.20f, 1.50f, 2.00f)
                 val index = 1 + steps.indexOf(steps.minByOrNull { (playbackService.rate - it).absoluteValue })
-                playbackService.setRate(steps[index % steps.size], true)
+                val speed = steps[index % steps.size]
+                val settings = Settings.getInstance(playbackService)
+                settings.edit {
+                    if (settings.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false))
+                        putFloat(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, speed)
+                    else
+                        PlaylistManager.currentPlayedMedia.value?.setStringMeta(MediaWrapper.META_SPEED, speed.toString())
+                }
+                playbackService.setRate(speed, true)
             }
             CUSTOM_ACTION_BOOKMARK -> {
                 playbackService.lifecycleScope.launch {

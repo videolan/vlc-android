@@ -193,6 +193,18 @@
     <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
 
     <string name="playback_speed">Playback speed</string>
+    <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
+    <string name="playback_speed_this_video">This video</string>
+    <string name="playback_speed_this_track">This track</string>
+    <string name="playback_speed_all_videos">All videos</string>
+    <string name="playback_speed_all_tracks">All tracks</string>
+    <string name="playback_speed_explanation_all_videos">The speed will be applied to all videos.\nIndividual videos\' playback speed will be ignored.</string>
+    <string name="playback_speed_explanation_all_tracks">The speed will be applied to all tracks.\nIndividual tracks\' playback speed will be ignored.</string>
+    <string name="playback_speed_explanation_one_video">The speed will be applied to this video only</string>
+    <string name="playback_speed_explanation_one_track">The speed will be applied to this track only</string>
+    <string name="audio_playback_speed_global">Use the global playback speed</string>
+    <string name="audio_playback_speed_global_summary">Use the playback speed set globally for all the tracks.\nIndividual tracks\' playback speed will be ignored.</string>
+
     <string name="sleep_title">Sleep timer</string>
     <string name="sleep_in">Sleep in</string>
     <string name="jump_to_time">Jump to Time</string>
@@ -1036,7 +1048,6 @@
     <string name="apply_to_all">Apply to all videos</string>
     <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
     <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
-    <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
     <string name="go_to_album">Go to album</string>
     <string name="go_to_artist">Go to artist</string>
