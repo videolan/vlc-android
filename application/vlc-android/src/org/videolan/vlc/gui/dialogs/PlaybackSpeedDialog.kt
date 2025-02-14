@@ -152,7 +152,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Call
                     settings.edit(commit = true) {
                         putBoolean(if(forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false)
                     }
-                    val newValue = PlaylistManager.currentPlayedMedia.value?.getMetaString(MediaWrapper.META_SPEED)?.toFloat() ?: 1F
+                    val newValue = getCurrentMedia()?.getMetaString(MediaWrapper.META_SPEED)?.toFloat() ?: 1F
                     changeSpeedTo(newValue)
                 }
                 R.id.all_media -> {
@@ -222,7 +222,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Call
             return
         if (newValue > 8.0F || newValue < 0.25F) return
         if (binding.toggleButton.checkedButtonId == R.id.this_media) {
-            PlaylistManager.currentPlayedMedia.value?.setStringMeta(MediaWrapper.META_SPEED, newValue.toString())
+            getCurrentMedia()?.setStringMeta(MediaWrapper.META_SPEED, newValue.toString())
         } else {
             settings.edit {
                 putFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, newValue)
@@ -233,6 +233,14 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Call
            setRateProgress()
         else
             updateInterface()
+    }
+
+    private fun getCurrentMedia():MediaWrapper? {
+        PlaylistManager.currentPlayedMedia.value?.let {
+            if (it.id > 0) return it
+             return  playbackService?.medialibrary?.getMedia(it.uri)
+        }
+        return null
     }
 
     private fun updateInterface() {
