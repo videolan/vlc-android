@@ -41,6 +41,10 @@ import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_CURRENT_MAJOR_VERSION
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
 import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.Settings
@@ -53,7 +57,7 @@ import org.videolan.vlc.isVLC4
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 13
+private const val CURRENT_VERSION = 14
 
 object VersionMigration {
 
@@ -110,6 +114,10 @@ object VersionMigration {
 
         if (lastVersion < 13) {
             migrateToVersion13(settings)
+        }
+
+        if (lastVersion < 14) {
+            migrateToVersion14(settings)
         }
 
         //Major version upgrade
@@ -314,7 +322,7 @@ object VersionMigration {
                 remove("browser_show_all_files")
             }
     }
-    private val TAG = this::class.java.name
+
     /**
      * Migrate after refactor to move all FORCE_PLAY_ALL_VIDEO/AUDIO to PLAYLIST_MODE_VIDEO/AUDIO
      * This is to have the constant name and setting name more similar
@@ -331,6 +339,28 @@ object VersionMigration {
             settings.edit(true) {
                 putBoolean(PLAYLIST_MODE_AUDIO, settings.getBoolean(FORCE_PLAY_ALL_AUDIO, false))
                 remove(FORCE_PLAY_ALL_AUDIO)
+            }
+        }
+    }
+
+    /**
+     * Migrate after refactor of the playback speed dialog to move all playback_speed/playback_speed_video to KEY_PLAYBACK_SPEED_AUDIO_GLOBAL/KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
+     *
+     */
+    private fun migrateToVersion14(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migration to Version 14: refactor to move all playback_speed/playback_speed_video to KEY_PLAYBACK_SPEED_AUDIO_GLOBAL/KEY_PLAYBACK_SPEED_VIDEO_GLOBAL")
+        if (settings.contains("playback_speed")) {
+            settings.edit(true) {
+                putBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, settings.getBoolean("playback_speed", false))
+                putFloat(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, settings.getFloat("playback_rate", 1F))
+                remove("playback_speed")
+            }
+        }
+        if (settings.contains("playback_speed_video")) {
+            settings.edit(true) {
+                putBoolean(KEY_PLAYBACK_SPEED_VIDEO_GLOBAL, settings.getBoolean("playback_speed_video", false))
+                putFloat(KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE, settings.getFloat("playback_rate_video", 1F))
+                remove("playback_speed_video")
             }
         }
     }
