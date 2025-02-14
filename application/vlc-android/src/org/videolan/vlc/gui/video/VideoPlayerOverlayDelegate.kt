@@ -942,6 +942,12 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.playerOverlayNavmenu.visibility = if (player.menuIdx >= 0) View.VISIBLE else View.GONE
             hudRightBinding.sleepQuickAction.visibility = if (show && PlaybackService.playerSleepTime.value != null) View.VISIBLE else View.GONE
             hudRightBinding.playbackSpeedQuickAction.visibility = if (show && player.service?.rate != 1.0F) View.VISIBLE else View.GONE
+            if (Settings.getInstance(player).getBoolean(KEY_PLAYBACK_SPEED_VIDEO_GLOBAL, false)) {
+                hudRightBinding.playbackSpeedQuickAction.chipIcon = ContextCompat.getDrawable(player, R.drawable.ic_speed_all)
+            } else {
+                hudRightBinding.playbackSpeedQuickAction.chipIcon = ContextCompat.getDrawable(player, R.drawable.ic_speed)
+            }
+
             hudRightBinding.spuDelayQuickAction.visibility = if (show && player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
             hudRightBinding.audioDelayQuickAction.visibility = if (show && player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
             hudRightBinding.clock.visibility = if (Settings.showTvUi) View.VISIBLE else View.GONE

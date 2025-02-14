@@ -42,6 +42,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -317,6 +318,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             playlistModel.speed.value?.let {
                 if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
                 binding.playbackSpeedQuickAction.text = it.formatRateString()
+            }
+            if (settings.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false)) {
+                binding.playbackSpeedQuickAction.chipIcon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_speed_all)
+            } else {
+                binding.playbackSpeedQuickAction.chipIcon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_speed)
             }
             PlaybackService.playerSleepTime.value?.let {
                 binding.sleepQuickAction.setVisible()
