@@ -32,6 +32,8 @@ import android.widget.SeekBar
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
@@ -51,7 +53,7 @@ import kotlin.math.ln
 import kotlin.math.pow
 
 
-class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
+class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Callback {
 
     private lateinit var settings: SharedPreferences
     private val forVideo: Boolean
@@ -245,12 +247,25 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     }
 
+    override fun onDestroy() {
+        this.playbackService?.apply {
+            removeCallback(this@PlaybackSpeedDialog)
+        }
+        super.onDestroy()
+    }
+
     private fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
             playbackService = service
+            playbackService!!.addCallback(this)
             setRateProgress()
-        } else
+        } else {
+            this.playbackService?.apply {
+                removeCallback(this@PlaybackSpeedDialog)
+            }
             playbackService = null
+            dismiss()
+        }
     }
 
     override fun getDefaultState(): Int {
@@ -262,6 +277,17 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
     override fun needToManageOrientation(): Boolean {
         return true
     }
+
+    override fun update() {
+        if (playbackService?.playlistManager?.hasCurrentMedia() == true)
+            setRateProgress()
+        else
+            dismiss()
+    }
+
+    override fun onMediaEvent(event: IMedia.Event) { }
+
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) { }
 
     companion object {
 
