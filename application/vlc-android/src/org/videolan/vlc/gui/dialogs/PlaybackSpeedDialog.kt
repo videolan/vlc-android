@@ -53,7 +53,7 @@ import kotlin.math.ln
 import kotlin.math.pow
 
 
-class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Callback {
+class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService.Callback {
 
     private lateinit var settings: SharedPreferences
     private val forVideo: Boolean
@@ -62,7 +62,6 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Call
         }
     private lateinit var binding: DialogPlaybackSpeedBinding
 
-    private var playbackService: PlaybackService? = null
     private var textColor: Int = 0
 
     private val orangeColor:Int
@@ -198,9 +197,12 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Call
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchWhenStarted(lifecycleScope)
+    override fun onServiceAvailable() {
+        setRateProgress()
+    }
+
+    override fun onMediaChanged() {
+        setRateProgress()
     }
 
     private fun setRateProgress() {
@@ -255,27 +257,6 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Call
 
     }
 
-    override fun onDestroy() {
-        this.playbackService?.apply {
-            removeCallback(this@PlaybackSpeedDialog)
-        }
-        super.onDestroy()
-    }
-
-    private fun onServiceChanged(service: PlaybackService?) {
-        if (service != null) {
-            playbackService = service
-            playbackService!!.addCallback(this)
-            setRateProgress()
-        } else {
-            this.playbackService?.apply {
-                removeCallback(this@PlaybackSpeedDialog)
-            }
-            playbackService = null
-            dismiss()
-        }
-    }
-
     override fun getDefaultState(): Int {
         return com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
     }
@@ -285,17 +266,6 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), PlaybackService.Call
     override fun needToManageOrientation(): Boolean {
         return true
     }
-
-    override fun update() {
-        if (playbackService?.playlistManager?.hasCurrentMedia() == true)
-            setRateProgress()
-        else
-            dismiss()
-    }
-
-    override fun onMediaEvent(event: IMedia.Event) { }
-
-    override fun onMediaPlayerEvent(event: MediaPlayer.Event) { }
 
     companion object {
 
