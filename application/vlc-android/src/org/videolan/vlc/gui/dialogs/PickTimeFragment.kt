@@ -28,19 +28,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.setGone
-import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.databinding.AudioBrowserBinding
 import org.videolan.vlc.databinding.DialogTimePickerBinding
 import org.videolan.vlc.gui.helpers.TalkbackUtil
-import org.videolan.vlc.util.launchWhenStarted
 
-abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener {
+abstract class PickTimeFragment : PlaybackBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener {
 
     lateinit var binding: DialogTimePickerBinding
     private var mTextColor: Int = 0
@@ -51,8 +45,6 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     private var formatTime = ""
     private var pickedRawTime = ""
     var maxTimeSize = 6
-
-    lateinit var playbackService: PlaybackService
 
     abstract fun showTimeOnly(): Boolean
 
@@ -95,11 +87,6 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
 
     override fun initialFocusedView(): View {
         return binding.timPic1
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        PlaybackService.serviceFlow.filterNotNull().onEach { playbackService = it }.launchWhenStarted(lifecycleScope)
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {

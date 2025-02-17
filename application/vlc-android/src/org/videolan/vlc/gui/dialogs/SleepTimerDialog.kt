@@ -118,6 +118,10 @@ class SleepTimerDialog : PickTimeFragment() {
         dismiss()
     }
 
+    override fun onServiceAvailable() { }
+
+    override fun onMediaChanged() { }
+
     override fun showDeleteCurrent() = true
 
     override fun onClick(v: View) {

@@ -28,11 +28,17 @@ import org.videolan.vlc.R
 class JumpToTimeDialog : PickTimeFragment() {
 
     override fun executeAction() {
-        val newTime = getTimeInMillis() //Time in ms
-        playbackService.setTime(newTime)
-        playbackService.playlistManager.player.updateProgress(newTime)
-        dismiss()
+        playbackService?.let {
+            val newTime = getTimeInMillis() //Time in ms
+            it.setTime(newTime)
+            it.playlistManager.player.updateProgress(newTime)
+            dismiss()
+        }
     }
+
+    override fun onServiceAvailable() { }
+
+    override fun onMediaChanged() { }
 
     override fun showTimeOnly() = true
 
