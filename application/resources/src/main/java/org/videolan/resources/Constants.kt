@@ -29,6 +29,7 @@ const val EXTRA_PARSE = "extra_parse"
 const val EXTRA_TARGET = "extra_parse"
 const val EXTRA_FOR_ESPRESSO = "extra_for_espresso"
 const val EXTRA_REMOVE_DEVICE = "extra_remove_device"
+const val EXTRA_PLAY_ONLY = "extra_play_only"
 
 //UI Navigation
 const val ID_VIDEO = "video"

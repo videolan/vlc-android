@@ -231,7 +231,7 @@ class StartActivity : FragmentActivity() {
                 val target = idFromShortcut
                 val service = PlaybackService.instance
                 if (target == R.id.ml_menu_last_playlist) {
-                    PlaybackService.loadLastAudio(this)
+                    PlaybackService.loadLastAudio(this, true)
                     startApplication(tv, firstRun, upgrade, R.id.nav_audio, removeOldDevices)
                 } else if (service != null && service.isInPiPMode.value == true) {
                     service.isInPiPMode.value = false

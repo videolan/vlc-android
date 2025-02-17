@@ -124,6 +124,7 @@ import org.videolan.resources.CUSTOM_ACTION_SHUFFLE
 import org.videolan.resources.CUSTOM_ACTION_SPEED
 import org.videolan.resources.DRIVING_MODE_APP_PKG
 import org.videolan.resources.EXTRA_CUSTOM_ACTION_ID
+import org.videolan.resources.EXTRA_PLAY_ONLY
 import org.videolan.resources.EXTRA_SEARCH_BUNDLE
 import org.videolan.resources.EXTRA_SEEK_DELAY
 import org.videolan.resources.PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT
@@ -855,7 +856,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             ACTION_REMOTE_PLAY,
             ACTION_REMOTE_LAST_PLAYLIST -> {
                 if (playlistManager.hasCurrentMedia()) {
-                    if (isPlaying) pause()
+                    if (intent.getBooleanExtra(EXTRA_PLAY_ONLY, false)) {
+                        if (!isPlaying)
+                            play()
+                    } else if (isPlaying) pause()
                     else play()
                 } else loadLastAudioPlaylist()
             }
@@ -2001,8 +2005,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             context.launchForeground(serviceIntent)
         }
 
-        fun loadLastAudio(context: Context) {
-            val i = Intent(ACTION_REMOTE_LAST_PLAYLIST, null, context, PlaybackService::class.java)
+        fun loadLastAudio(context: Context, playOnly: Boolean = false) {
+            val i = Intent(ACTION_REMOTE_LAST_PLAYLIST, null, context, PlaybackService::class.java).apply {
+                if (playOnly) putExtra(EXTRA_PLAY_ONLY, true)
+            }
             context.launchForeground(i)
         }
 
