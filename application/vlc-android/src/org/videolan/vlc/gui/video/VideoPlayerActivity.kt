@@ -1741,6 +1741,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val surfaceView = rootView?.findViewById<View>(R.id.surface_video) as SurfaceView
             FrameRateManager(this, service!!).matchFrameRate(surfaceView, window)
         }
+        overlayDelegate.updatePlaybackSpeedChip()
     }
 
     private fun encounteredError() {
