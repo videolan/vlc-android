@@ -1751,7 +1751,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     @MainThread
     fun setRate(rate: Float, save: Boolean) {
         playlistManager.player.setRate(rate, save)
-        publishState()
+        lifecycleScope.launch(Dispatchers.Main) {
+            publishState()
+        }
     }
 
     @MainThread
