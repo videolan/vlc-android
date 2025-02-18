@@ -66,6 +66,7 @@
     <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">Are you sure you want to replace the playlist \'%1$s\'?</string>
     <string name="confirm_delete_message">This is permanent and cannot be undone.</string>
     <string name="confirm_delete_album">Delete the album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Delete these %1$d media?</string>

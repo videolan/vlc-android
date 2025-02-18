@@ -48,6 +48,8 @@ import org.videolan.tools.DependencyProvider
 import org.videolan.tools.PLAYLIST_REPLACE
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogPlaylistBinding
 import org.videolan.vlc.gui.SimpleAdapter
@@ -74,6 +76,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     var selectedPlaylist: ArrayList<Playlist>? = null
     var nonDuplicateTracks: Array<MediaWrapper>? = null
+    private lateinit var currentPlaylist: Playlist
+    private lateinit var currentTracks: Array<MediaWrapper>
 
     private var isLoading: Boolean = false
         set(value) {
@@ -155,6 +159,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
         binding.dialogPlaylistSave.setOnClickListener(this)
         binding.dialogPlaylistCreate.setOnClickListener(this)
+        binding.replacePlaylistConfirm.setOnClickListener(this)
+        binding.replacePlaylistCancel.setOnClickListener(this)
 
         binding.dialogPlaylistName.editText!!.setOnEditorActionListener(this)
         binding.dialogPlaylistName.editText!!.setOnKeyListener { _, keyCode, _ ->
@@ -218,6 +224,14 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             }
 
             R.id.dialog_playlist_create -> addNewPlaylist()
+            R.id.replace_playlist_cancel -> {
+                binding.dialogPlaylistSave.setVisible()
+                binding.playlistReplaceContainer.setGone()
+                binding.dialogListContainer.setVisible()
+                binding.replaceSwitch.setVisible()
+            }
+            R.id.replace_playlist_confirm -> savePlaylist(currentPlaylist, currentTracks, true)
+
         }
     }
 
@@ -258,7 +272,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         }
     }
 
-    private fun savePlaylist(playlist: Playlist, tracks: Array<MediaWrapper>) {
+    private fun savePlaylist(playlist: Playlist, tracks: Array<MediaWrapper>, confirmed:Boolean = false) {
         AppScope.launch(coroutineContextProvider.IO) {
             if (tracks.isEmpty()) return@launch
             val ids = LinkedList<Long>()
@@ -279,13 +293,27 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 } else
                     ids.add(id)
             }
+            var resume = true
             if (binding.replaceSwitch.isChecked) {
-                val name = playlist.title
-                playlist.delete()
-                val newPlaylist = medialibrary.createPlaylist(name, Settings.includeMissing, false)
-                newPlaylist.append(ids)
+                if (confirmed) {
+                    val name = playlist.title
+                    playlist.delete()
+                    val newPlaylist = medialibrary.createPlaylist(name, Settings.includeMissing, false)
+                    newPlaylist.append(ids)
+                } else {
+                    resume = false
+                    withContext(coroutineContextProvider.Main) {
+                        binding.playlistReplaceContainer.setVisible()
+                        binding.dialogPlaylistSave.setGone()
+                        binding.replacePlaylistText.text = getString(R.string.confirm_replace_playlist, playlist.title)
+                        binding.dialogListContainer.setGone()
+                        binding.replaceSwitch.setGone()
+                        currentPlaylist = playlist
+                        currentTracks = tracks
+                    }
+                }
             } else playlist.append(ids)
-            withContext(coroutineContextProvider.Main) {
+            if (resume) withContext(coroutineContextProvider.Main) {
                 if (playlistIterator == null) dismiss()
                 else processNextItem(tracks)
             }
