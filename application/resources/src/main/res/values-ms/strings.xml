@@ -174,6 +174,7 @@
     <string name="track_framerate_info">Kadar bingkai: %1$.3f\n</string>
 
     <string name="playback_speed">Kelajuan mainbalik</string>
+    <string name="warning_stream_speed">Peningkatan kelajuan main balik melebihi 1 untuk strim boleh menyebabkan kegagapan</string>
     <string name="sleep_title">Pemasa tidur</string>
     <string name="sleep_in">Tidur dalam tempoh</string>
     <string name="jump_to_time">Lompat ke Masa</string>
@@ -215,8 +216,6 @@
     <string name="audio_resume_playback_title">Sejarah baris gilir main audio</string>
     <string name="audio_resume_playback_warning">Melumpuhkan sejarah baris gilir main audio boleh mengakibatkan beberapa masalah kelakuan pemain.\nSelepas melumpuhkannya anda mungkin tidak dapat menyambung semula main balik daripada:\n\n\t- peranti  bluetooth\n\t- widget\n\t- pemberitahuan media</string>
     <string name="audio_resume_playback_summary">Benarkan penyimpanan baris gilir main audio untuk disambung semula nanti</string>
-    <string name="playback_speed_title">Simpan Kelajuan Main Balik</string>
-    <string name="playback_speed_summary">Kekalkan kelajuan main balik antara media</string>
 
     <string name="play_button">Butang Main</string>
 
@@ -968,7 +967,6 @@
     <string name="apply_to_all">Terap pada semua video</string>
     <string name="audio_delay_global">Lengah audio ditetapkan pada %s ms untuk semua video</string>
     <string name="audio_delay_bt">Lengah audio ditetapkan pada %s ms untuk peranti bluetooth</string>
-    <string name="warning_stream_speed">Peningkatan kelajuan main balik melebihi 1 untuk strim boleh menyebabkan kegagapan</string>
     <string name="go_to_folder">Layar induk</string>
     <string name="create_shortcut">Cipta satu pintasan pelancar</string>
     <string name="no_sub_renderer">Sari kata belum disokong semasa penyiaran</string>

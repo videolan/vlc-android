@@ -212,6 +212,7 @@
     <string name="track_framerate_info">Kadrų dažnis: %1$.3f\n</string>
 
     <string name="playback_speed">Grojimo greitis</string>
+    <string name="warning_stream_speed">Padidinus srautų atkūrimo greitį virš 1, gali atsirasti mikčiojimas</string>
     <string name="sleep_title">Išsijungimo laikmatis</string>
     <string name="sleep_in">Išjungti po:</string>
     <string name="jump_to_time">Šokti į laiką</string>
@@ -256,8 +257,6 @@
     <string name="audio_resume_playback_title">Įsiminti leistų garso įrašų istoriją</string>
     <string name="audio_resume_playback_warning">Išjungus garso įrašų leidimo istoriją gali kilti tam tikrų veikimo problemų.\nJą išjungę negalėsite tęsti atkūrimo iš:\n\n\t- Bluetooth įrenginio\n\t- valdiklio\n\t- daugiaformačio pranešimo</string>
     <string name="audio_resume_playback_summary">Leisti įrašyti garso įrašų atkūrimo istoriją jų pratęsimui vėliau</string>
-    <string name="playback_speed_title">Išsaugoti grojimo greitį</string>
-    <string name="playback_speed_summary">Įsiminti savitą atkūrimo greitį tarp rinkmenų</string>
 
     <string name="play_button">Grojimo mygtukas</string>
 
@@ -1044,7 +1043,6 @@
     <string name="apply_to_all">Pritaikyti visiems vaizdo įr.</string>
     <string name="audio_delay_global">Pritaikyti vėlinimą %s ms visiems įrašams</string>
     <string name="audio_delay_bt">Pritaikyti %s ms garso vėlinimą „Bluetooth“ įrenginiui</string>
-    <string name="warning_stream_speed">Padidinus srautų atkūrimo greitį virš 1, gali atsirasti mikčiojimas</string>
     <string name="go_to_folder">Naršyti katalogą</string>
     <string name="go_to_album">Eiti į Albumai</string>
     <string name="go_to_artist">Eiti į Atlikėjai</string>

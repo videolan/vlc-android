@@ -190,6 +190,7 @@
     <string name="track_framerate_info">Tessitura : %1$.3f\n</string>
 
     <string name="playback_speed">Vitezza di ripruduzzione</string>
+    <string name="warning_stream_speed">L’aumentu di a vitezza di ripruduzzione sopra 1 per i flussi pò cagiunà un barbagliulime</string>
     <string name="sleep_title">Minuteria di veghja</string>
     <string name="sleep_in">Veghja in</string>
     <string name="jump_to_time">Saltà à una stonda</string>
@@ -234,8 +235,6 @@
     <string name="audio_resume_playback_title">Cronolugia di a fila d’attesa di lettura audio</string>
     <string name="audio_resume_playback_warning">Disattivà a cronolugia di a fila d’attesa di lettura audio pò cagiunà parechji penseri di cumpurtamentu.\nDopu a disattivazione, si puderia ch’ella ùn fussi più pussibule di ripiglià a ripruduzzione da :\n\n\t- un apparechju bluetooth\n\t- u widget\n\t- a nutificazione di u medià</string>
     <string name="audio_resume_playback_summary">Permette d’arregistrà a fila d’attesa di lettura audio per ripiglià dopu</string>
-    <string name="playback_speed_title">Arregistrà a Vitezza di Ripruduzzione</string>
-    <string name="playback_speed_summary">Mantene a vitezza di lettura trà i medià</string>
 
     <string name="play_button">Buttone Sunà</string>
 
@@ -1012,7 +1011,6 @@
     <string name="apply_to_all">Appiecà à tutte e video</string>
     <string name="audio_delay_global">Cumportu audio definitu à %s ms per tutte e video</string>
     <string name="audio_delay_bt">Cumportu audio definitu à %s ms per l’apparechju bluetooth</string>
-    <string name="warning_stream_speed">L’aumentu di a vitezza di ripruduzzione sopra 1 per i flussi pò cagiunà un barbagliulime</string>
     <string name="go_to_folder">Navigà à u livellu superiore</string>
     <string name="go_to_album">Andà à l’albumu</string>
     <string name="go_to_artist">Andà à l’artista</string>

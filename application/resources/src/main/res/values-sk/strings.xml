@@ -58,6 +58,8 @@
     <string name="append_all">Pripojiť všetko</string>
     <string name="resume_playback_short_title">Pokračovať v prehrávaní</string>
     <string name="resume_playback_long_title">Pokračovať v prehrávaní posledného playlistu</string>
+    <string name="resume_audio_playback_short_title">Pokračovať v prehrávaní zvuku</string>
+    <string name="resume_audio_playback_long_title">Pokračovať v prehrávaní posledného zvukového playlistu</string>
     <string name="resume_playback_error">Nie je čím pokračovať</string>
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
@@ -212,6 +214,18 @@
     <string name="track_framerate_info">Frekvencia snímok: %1$.3f\n</string>
 
     <string name="playback_speed">Rýchlosť prehrávania</string>
+    <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
+    <string name="playback_speed_this_video">Toto video</string>
+    <string name="playback_speed_this_track">Táto stopa</string>
+    <string name="playback_speed_all_videos">Všetky videá</string>
+    <string name="playback_speed_all_tracks">Všetky stopy</string>
+    <string name="playback_speed_explanation_all_videos">Rýchlosť sa použije pre všetky videá.\nIndividuálne určená rýchlosť prehrávania videí sa bude ignorovať.</string>
+    <string name="playback_speed_explanation_all_tracks">Táto rýchlosť sa použije pre všetky stopy.\nIndividuálne určená rýchlosť prehrávania stôp sa bude ignorovať.</string>
+    <string name="playback_speed_explanation_one_video">Rýchlosť sa použije len pre toto video</string>
+    <string name="playback_speed_explanation_one_track">Rýchlosť sa použije len pre túto stopu</string>
+    <string name="audio_playback_speed_global">Použiť globálnu rýchlosť prehrávania</string>
+    <string name="audio_playback_speed_global_summary">Použiť globálnu rýchlosť pre všetky stopy.\nIndividuálne určená rýchlosť prehrávania stôp sa bude ignorovať.</string>
+
     <string name="sleep_title">Časovač uspania</string>
     <string name="sleep_in">Uspať o</string>
     <string name="jump_to_time">Preskočiť na čas</string>
@@ -256,8 +270,6 @@
     <string name="audio_resume_playback_title">História frontu prehrávania zvuku</string>
     <string name="audio_resume_playback_warning">Zablokovanie histórie frontu pre prehrávanie zvuku môže viesť k problémom s ovládaním.\nPo jeho zablokovaní možno nebudete môcť pokračovať v prehrávaní zo: \n\n\t- zariadenia Bluetooto\n\t- widgetu\n\t- notifikácie pre médium</string>
     <string name="audio_resume_playback_summary">Umožniť ukladanie frontu pre prehrávanie zvuku, aby bolo možné pokračovať neskôr</string>
-    <string name="playback_speed_title">Uložiť rýchlosť prehrávania</string>
-    <string name="playback_speed_summary">Zachovať rýchlosť prehrávania medzi médiami</string>
 
     <string name="play_button">Tlačidlo Prehrať</string>
 
@@ -1044,7 +1056,6 @@
     <string name="apply_to_all">Použiť pri všetkých videách</string>
     <string name="audio_delay_global">Oneskorenie zvuku nastaviť na %s ms pre všetky videá</string>
     <string name="audio_delay_bt">Pre zariadenie bluetooth nastavte oneskorenie zvuku na %s ms</string>
-    <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
     <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
     <string name="go_to_album">Prejsť na album</string>
     <string name="go_to_artist">Prejsť na umelca</string>

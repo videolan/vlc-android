@@ -56,6 +56,8 @@
     <string name="append_all">Kölägg alla</string>
     <string name="resume_playback_short_title">Återuppta uppspelning</string>
     <string name="resume_playback_long_title">Återuppta uppspelning av senaste spellista</string>
+    <string name="resume_audio_playback_short_title">Återuppta ljuduppspelning</string>
+    <string name="resume_audio_playback_long_title">Återuppta uppspelning av senaste ljudspellista</string>
     <string name="resume_playback_error">Ingenting att återuppta</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
@@ -163,7 +165,7 @@
     <string name="surface_fill">Fyll</string>
     <string name="surface_original">Centrera</string>
     <string name="resize_tip">Tryck länge för fler alternativ</string>
-    <string name="unseekable_stream">Strömmen kan inte snabbspolas</string>
+    <string name="unseekable_stream">Strömmen kan inte sökas</string>
     <string name="refresh">Uppdatera</string>
     <string name="track_audio">Ljudspår</string>
     <string name="track_video">Videospår</string>
@@ -190,6 +192,18 @@
     <string name="track_framerate_info">Bildfrekvens: %1$.3f\n</string>
 
     <string name="playback_speed">Uppspelningshastighet</string>
+    <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
+    <string name="playback_speed_this_video">Denna video</string>
+    <string name="playback_speed_this_track">Detta spår</string>
+    <string name="playback_speed_all_videos">Alla videor</string>
+    <string name="playback_speed_all_tracks">Alla spår</string>
+    <string name="playback_speed_explanation_all_videos">Hastigheten kommer att tillämpas på alla videor.\nUppspelningshastigheten hos individuella videor kommer att ignoreras.</string>
+    <string name="playback_speed_explanation_all_tracks">Hastigheten kommer att tillämpas på alla spår.\nUppspelningshastigheten hos individuella spår kommer att ignoreras.</string>
+    <string name="playback_speed_explanation_one_video">Hastigheten kommer endast att tillämpas på denna video.</string>
+    <string name="playback_speed_explanation_one_track">Hastigheten kommer endast att tillämpas på detta spår.</string>
+    <string name="audio_playback_speed_global">Använd den globala uppspelningshastigheten</string>
+    <string name="audio_playback_speed_global_summary">Använd den globala uppspelningshastigheten för alla spår.\nUppspelningshastigheten hos individuella spår kommer att ignoreras.</string>
+
     <string name="sleep_title">Sovtimer</string>
     <string name="sleep_in">Somna</string>
     <string name="jump_to_time">Hoppa till tid</string>
@@ -234,14 +248,12 @@
     <string name="audio_resume_playback_title">Historik för ljuduppspelningskö</string>
     <string name="audio_resume_playback_warning">Om historiken för ljuduppspelningskön inaktiveras kan det  leda till beteendeproblem.\nEfter att ha inaktiverat detta kommer du inte längre kunna återuppta uppspelning från:\n\n\n- En bluetoothenhet\n\t- Widgeten\n\t- Mediaaviseringen</string>
     <string name="audio_resume_playback_summary">Gör det möjligt att spara ljuduppspelningskön för att kunna återuppta senare</string>
-    <string name="playback_speed_title">Spara uppspelningshastighet</string>
-    <string name="playback_speed_summary">Behåll uppspelningshastigheten mellan mediafiler</string>
 
     <string name="play_button">Uppspelningsknapp</string>
 
     <!-- Tips -->
     <string name="tips_title">Tips om videospelaren</string>
-    <string name="seek">Snabbspola</string>
+    <string name="seek">Sök</string>
     <string name="subtitles">Undertexter</string>
     <string name="tips_player_controls">Spelarkontroller</string>
     <string name="tips_player_controls_description">Tryck på spelarkontrollerna nedan för att upptäcka vad de används till</string>
@@ -261,7 +273,7 @@
     <string name="tips_swipe">Svep uppåt eller nedåt</string>
     <string name="tips_swipe_horizontal">Svep åt vänster eller höger</string>
     <string name="tips_playlist">Spellista</string>
-    <string name="tips_hold_seek">Håll ned för att snabbspola</string>
+    <string name="tips_hold_seek">Håll ned för att söka</string>
     <string name="tips_long_drop">Tryck länge och släpp</string>
     <string name="pause_description">Dubbelknacka för att pausa</string>
     <string name="seek_tap">+/- 10 s</string>
@@ -272,7 +284,7 @@
     <string name="remove_song">Ta bort låt</string>
     <string name="remove_playlist_item">%1$s har plockats bort från spellistan</string>
     <string name="rearrange_order">Ändra ordning</string>
-    <string name="hold_to_seek">Håll ned för att snabbspola</string>
+    <string name="hold_to_seek">Håll ned för att söka</string>
 
     <string name="audio_player_tips">Tips för ljudspelaren</string>
     <string name="previous_next_song">Föregående/nästa låt</string>
@@ -366,12 +378,12 @@
     <string name="enable_android_auto_speed_buttons_summary">Visa hastighetskontroll i överlödesmenyn</string>
     <string name="enable_android_auto_seek_buttons">Snabbspolningsknappar för Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Visa knappar i överflödesmenyn för att spola fram- och tillbaka. Försök att hålla ned knapparna föregående och nästa innan du aktiverar detta.</string>
-    <string name="enable_double_tap_seek_title">Dubbelknacka för att snabbspola framåt/bakåt</string>
-    <string name="enable_double_tap_seek_summary">Dubbelknacka på skärmens kanter för att snabbspola framåt/bakåt 10 sekunder</string>
+    <string name="enable_double_tap_seek_title">Dubbelknacka för att söka</string>
+    <string name="enable_double_tap_seek_summary">Dubbelknacka på skärmens kanter för att söka framåt/bakåt 10 sekunder</string>
     <string name="enable_double_tap_play_title">Tryck två gånger för att spela upp/pausa</string>
     <string name="enable_double_tap_play_summary">Tryck två gånger på mitten av skärmen för att spela upp eller pausa</string>
-    <string name="enable_swipe_seek_title">Svep för att snabbspola</string>
-    <string name="enable_swipe_seek_summary">Svep ditt finger över skärmen för att snabbspola</string>
+    <string name="enable_swipe_seek_title">Svep för att söka</string>
+    <string name="enable_swipe_seek_summary">Svep ditt finger över skärmen för att söka</string>
     <string name="enable_scale_gesture_title">Zooma med två fingrar</string>
     <string name="enable_scale_gesture_summary">Zooma in och ut med två fingrar</string>
     <string name="popup_keepscreen_title">Låt skärmen vara igång i popupp-läge</string>
@@ -1001,7 +1013,7 @@
     <string name="new_group_desc">Skapa en ny grupp</string>
 
     <string name="air_action_rewind">Spola tillbaka 10 s</string>
-    <string name="air_action_forward">Snabbspola framåt 10 s</string>
+    <string name="air_action_forward">Sök framåt 10 s</string>
     <string name="air_action_play_pause">Pausa/återuppta uppspelning</string>
     <string name="air_action_volume_up">Höj volymen</string>
     <string name="air_action_volume_down">Sänk volymen</string>
@@ -1018,7 +1030,6 @@
     <string name="apply_to_all">Tillämpa på alla videor</string>
     <string name="audio_delay_global">Ljudfördröjningen ändrades till%s ms för alla videor</string>
     <string name="audio_delay_bt">Ljudfördröjningen ändrades till %s ms för Bluetooth-enheten</string>
-    <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
     <string name="go_to_folder">Bläddra i överordnad</string>
     <string name="go_to_album">Gå till albumet</string>
     <string name="go_to_artist">Gå till artisten</string>
@@ -1128,7 +1139,7 @@
     <string name="player_under_notch">Visa video under skärmens sensorfält</string>
     <string name="notch">Sensorfält</string>
     <string name="always_fast_seek">Använd alltid kvick snabbspolning</string>
-    <string name="always_fast_seek_summary">Snabbspolar snabbare men kan vara mindre exakt</string>
+    <string name="always_fast_seek_summary">Söker snabbare men kan vara mindre exakt</string>
     <string name="touch_only">Pekskärmsfunktion</string>
     <string name="touch_only_description">Det går bara att byta till mobilgränssnittet med en pekskärm eller mus.\nSvep nedan för att bekräfta att det är säkert att byta till denna funktionalitet.</string>
     <string name="no_web_browser">Ingen webbläsare är installerad</string>
@@ -1161,8 +1172,8 @@
     <string name="widget_rewind_delay">Tidsfördröjning av bakåtspolning</string>
     <string name="widget_show_configure">Visa konfigurationsikon</string>
     <string name="widget_show_configure_summary">Även om den inte visas kan du trycka längst upp till höger för att öppna konfigurationen</string>
-    <string name="seek_backward_content_description">Snabbspola %s sekunder bakåt</string>
-    <string name="seek_forward_content_description">Snabbspola %s sekunder framåt</string>
+    <string name="seek_backward_content_description">Sök %s sekunder bakåt</string>
+    <string name="seek_forward_content_description">Sök %s sekunder framåt</string>
     <string name="open_vlc">Öppna VLC</string>
     <string name="playing">Uppspelning</string>
     <string name="disable_track">Inaktivera spår</string>
@@ -1222,7 +1233,7 @@
     <string name="not_downloaded">Inte nedladdad</string>
     <string name="downloading">Laddar ned</string>
     <string name="talkback_action_rewind">Spola tillbaka %s sekunder</string>
-    <string name="talkback_action_forward">Snabbspola framåt %s sekunder</string>
+    <string name="talkback_action_forward">Sök framåt %s sekunder</string>
     <string name="talkback_display_settings">Visningsinställningar</string>
     <string name="talkback_already_played">Redan uppspelad</string>
     <string name="show_only_favs">Visa endast favoriter</string>

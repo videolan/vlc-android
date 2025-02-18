@@ -56,6 +56,8 @@
     <string name="append_all">Lisää kaikki</string>
     <string name="resume_playback_short_title">Jatka toistoa</string>
     <string name="resume_playback_long_title">Jatka viimeisimmän soittolistan toistoa</string>
+    <string name="resume_audio_playback_short_title">Jatka toistoa</string>
+    <string name="resume_audio_playback_long_title">Jatka viimeisen soittolistan toistoa</string>
     <string name="resume_playback_error">Ei mitään jatkettavaa</string>
     <string name="delete">Poista</string>
     <string name="remove">Poista</string>
@@ -190,6 +192,18 @@
     <string name="track_framerate_info">Kuvataajuus: %1$.3f\n</string>
 
     <string name="playback_speed">Toistonopeus</string>
+    <string name="warning_stream_speed">Toistonopeuden nostaminen suoratoistolle yli 1:den voi aiheuttaa änkytystä</string>
+    <string name="playback_speed_this_video">Tämä video</string>
+    <string name="playback_speed_this_track">Tämä kappale</string>
+    <string name="playback_speed_all_videos">Kaikki videot</string>
+    <string name="playback_speed_all_tracks">Kaikki kappaleet</string>
+    <string name="playback_speed_explanation_all_videos">Nopeus sovelletaan kaikkiin videoihin.\nYksittäisen videon toistonopeutta ei oteta huomioon.</string>
+    <string name="playback_speed_explanation_all_tracks">Nopeus sovelletaan kaikkiin kappaleisiin.\nYksittäisen kappaleen toistonopeutta ei oteta huomioon.</string>
+    <string name="playback_speed_explanation_one_video">Nopeutta käytetään vain tässä videossa</string>
+    <string name="playback_speed_explanation_one_track">Nopeutta käytetään vain tässä kappaleessa</string>
+    <string name="audio_playback_speed_global">Käytä yleistä toistonopeutta</string>
+    <string name="audio_playback_speed_global_summary">Käytä kaikille kappaleille asetettua toistonopeutta.\nYksittäisen kappaleen toistonopeutta ei oteta huomioon.</string>
+
     <string name="sleep_title">Uniajastin</string>
     <string name="sleep_in">Nukahtaa</string>
     <string name="jump_to_time">Hyppää</string>
@@ -239,8 +253,6 @@ Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
 - Sovelmasta
 - Ilmoituksesta.</string>
     <string name="audio_resume_playback_summary">Salli audion toistojonon tallentaminen jatkaaksesi myöhemmin</string>
-    <string name="playback_speed_title">Tallenna toistonopeus</string>
-    <string name="playback_speed_summary">Pidä toistonopeus medioiden välillä</string>
 
     <string name="play_button">Toista painike</string>
 
@@ -1037,7 +1049,6 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="apply_to_all">Käytä kaikkiin videoihin</string>
     <string name="audio_delay_global">Audioviive %s ms asetettu kaikille videoille</string>
     <string name="audio_delay_bt">Audioviive %s ms on asetettu bluetooth:lle</string>
-    <string name="warning_stream_speed">Toistonopeuden nostaminen suoratoistolle yli 1:den voi aiheuttaa änkytystä</string>
     <string name="go_to_folder">Selaa yläkansiota</string>
     <string name="go_to_album">Siirry albumiin</string>
     <string name="go_to_artist">Siirry artistiin</string>

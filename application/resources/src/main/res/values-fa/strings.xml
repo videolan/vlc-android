@@ -217,8 +217,6 @@
     ابزارک
     نوتیفیکیشن رسانه</string>
     <string name="audio_resume_playback_summary">اجازه ذخیره سازی فهرست پخش صوت برای ادامه پخش در زمانی آتی</string>
-    <string name="playback_speed_title">ذخیره سرعت پخش</string>
-    <string name="playback_speed_summary">سرعت پخش را بین رسانه‌ها حفظ کنید</string>
 
     <string name="play_button">دکمه پخش</string>
 

@@ -57,6 +57,8 @@
     <string name="append_all">Aggiungi tutto</string>
     <string name="resume_playback_short_title">Riprendi riproduzione</string>
     <string name="resume_playback_long_title">Riprendi la riproduzione dell\'ultima scaletta</string>
+    <string name="resume_audio_playback_short_title">Riprendi la riproduzione dell\'audio</string>
+    <string name="resume_audio_playback_long_title">Riprendi la riproduzione dell\'ultima scaletta audio</string>
     <string name="resume_playback_error">Niente da riprendere</string>
     <string name="delete">Elimina</string>
     <string name="remove">Rimuovi</string>
@@ -201,6 +203,18 @@
     <string name="track_framerate_info">Velocità: %1$.3f\n</string>
 
     <string name="playback_speed">Velocità di riproduzione</string>
+    <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
+    <string name="playback_speed_this_video">Questo video</string>
+    <string name="playback_speed_this_track">Questa traccia</string>
+    <string name="playback_speed_all_videos">Tutti i video</string>
+    <string name="playback_speed_all_tracks">Tutte le tracce</string>
+    <string name="playback_speed_explanation_all_videos">La velocità sarà applicata a tutti i video.\nLa velocità di riproduzione dei singoli video sarà ignorata.</string>
+    <string name="playback_speed_explanation_all_tracks">La velocità sarà applicata a tutte le tracce.\nLa velocità di riproduzione delle singole tracce sarà ignorata.</string>
+    <string name="playback_speed_explanation_one_video">La velocità sarà applicata solo a questo video</string>
+    <string name="playback_speed_explanation_one_track">La velocità sarà applicata solo a questa traccia</string>
+    <string name="audio_playback_speed_global">Utilizza la velocità di riproduzione globale</string>
+    <string name="audio_playback_speed_global_summary">Utilizza la velocità di riproduzione impostata globalmente per tutte le tracce.\nLa velocità di riproduzione delle singole tracce sarà ignorata.</string>
+
     <string name="sleep_title">Sospendi</string>
     <string name="sleep_in">Sospendi in</string>
     <string name="jump_to_time">Salto temporale</string>
@@ -245,8 +259,6 @@
     <string name="audio_resume_playback_title">Cronologia della coda riproduzione audio</string>
     <string name="audio_resume_playback_warning">La disabilitazione della cronologia della coda di riproduzione audio potrebbe causare alcuni comportamenti anomali.\nDopo averla disabilitata potresti non essere in grado di riprendere la riproduzione da:\n\n\t- un dispositivo Bluetooth\n\t- il widget\n\t- la notifica dei media</string>
     <string name="audio_resume_playback_summary">Consenti il salvataggio della coda di riproduzione audio per riprendere in seguito</string>
-    <string name="playback_speed_title">Salva velocità di riproduzione</string>
-    <string name="playback_speed_summary">Mantieni la velocità di riproduzione tra i media</string>
 
     <string name="play_button">Pulsante Riproduci</string>
 
@@ -1031,7 +1043,6 @@
     <string name="apply_to_all">Applica a tutti i video</string>
     <string name="audio_delay_global">Ritardo audio impostato a %s ms per tutti i video</string>
     <string name="audio_delay_bt">Ritardo audio impostato a %s ms per il dispositivo Bluetooth</string>
-    <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
     <string name="go_to_folder">Sfoglia superiore</string>
     <string name="go_to_album">Vai all\'album</string>
     <string name="go_to_artist">Vai all\'artista</string>

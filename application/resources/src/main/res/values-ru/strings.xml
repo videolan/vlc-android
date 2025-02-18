@@ -187,6 +187,7 @@
     <string name="track_framerate_info">Частота кадров: %1$.3f\n</string>
 
     <string name="playback_speed">Скорость воспроизведения</string>
+    <string name="warning_stream_speed">При выборе скорости больше 1 при воспроизведении потоков возможно заикание</string>
     <string name="sleep_title">Таймер сна</string>
     <string name="sleep_in">Уснуть через</string>
     <string name="jump_to_time">Перейти ко времени</string>
@@ -220,7 +221,6 @@
 
     <string name="playback_history_title">История воспроизведения</string>
     <string name="playback_history_summary">Сохранять всё воспроизведённое в Истории</string>
-    <string name="playback_speed_title">Сохранять скорость воспроизведения</string>
     <string name="play_button">Кнопка воспроизведения</string>
 
     <!-- Tips -->
@@ -850,7 +850,6 @@
     <string name="apply_to_all">Применить ко всем видео</string>
     <string name="audio_delay_global">Для всех видео установлена задержка звука %s мс</string>
     <string name="audio_delay_bt">Для Bluetooth-устройства установлена задержка звука %s</string>
-    <string name="warning_stream_speed">При выборе скорости больше 1 при воспроизведении потоков возможно заикание</string>
     <string name="go_to_folder">Перейти наверх</string>
     <string name="create_shortcut">Создать ярлык запуска</string>
     <string name="no_sub_renderer">Субтитры не поддерживаются во время трансляции</string>

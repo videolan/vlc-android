@@ -57,6 +57,8 @@
     <string name="append_all">Acrescentar tudo</string>
     <string name="resume_playback_short_title">Retomar reprodução</string>
     <string name="resume_playback_long_title">Retomar reprodução da última lista de reprodução</string>
+    <string name="resume_audio_playback_short_title">Retomar reprodução áudio</string>
+    <string name="resume_audio_playback_long_title">Retomar reprodução da última lista de reprodução áudio</string>
     <string name="resume_playback_error">Nada para retomar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
@@ -201,6 +203,18 @@
     <string name="track_framerate_info">Frequência: %1$.3f\n</string>
 
     <string name="playback_speed">Velocidade da reprodução</string>
+    <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para transmissões pode causar engasgos</string>
+    <string name="playback_speed_this_video">Este vídeo</string>
+    <string name="playback_speed_this_track">Esta faixa</string>
+    <string name="playback_speed_all_videos">Todos os vídeos</string>
+    <string name="playback_speed_all_tracks">Todas as faixas</string>
+    <string name="playback_speed_explanation_all_videos">A velocidade será aplicada a todos os vídeos.\nA velocidade de reprodução de vídeos individuais será ignorada.</string>
+    <string name="playback_speed_explanation_all_tracks">A velocidade será aplicada a todas as faixas.\nA velocidade de reprodução de faixas individuais será ignorada.</string>
+    <string name="playback_speed_explanation_one_video">A velocidade será aplicada apenas a este vídeo</string>
+    <string name="playback_speed_explanation_one_track">A velocidade será aplicada apenas a esta faixa</string>
+    <string name="audio_playback_speed_global">Utilizar a velocidade de reprodução global</string>
+    <string name="audio_playback_speed_global_summary">Utilize a velocidade de reprodução definida globalmente para todas as faixas.\nA velocidade de reprodução das faixas individuais será ignorada.</string>
+
     <string name="sleep_title">Temporizador</string>
     <string name="sleep_in">Silenciar em</string>
     <string name="jump_to_time">Saltar para o tempo</string>
@@ -245,8 +259,6 @@
     <string name="audio_resume_playback_title">Histórico da fila de reprodução de áudio</string>
     <string name="audio_resume_playback_warning">Desativar o histórico da fila de reprodução de áudio pode provocar alguns problemas.\nApós desativá-lo pode não ser possível retomar a reprodução a partir:\n\n\t- dum dispositivo Bluetooth\n\t- do widget\n\t- da notificação do ficheiro</string>
     <string name="audio_resume_playback_summary">Permite guardar a fila de reprodução de áudio para retomar posteriormente</string>
-    <string name="playback_speed_title">Guardar Velocidade de Reprodução</string>
-    <string name="playback_speed_summary">Manter a velocidade de reprodução entre ficheiros</string>
 
     <string name="play_button">Botão de Reproduzir</string>
 
@@ -1031,7 +1043,6 @@
     <string name="apply_to_all">Aplicar a todos os vídeos</string>
     <string name="audio_delay_global">Atraso de áudio definido para %s ms para todos os vídeos</string>
     <string name="audio_delay_bt">Atraso de áudio definido para %s ms para o dispositivo bluetooth</string>
-    <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para transmissões pode causar engasgos</string>
     <string name="go_to_folder">Navegar na pasta pai</string>
     <string name="go_to_album">Ir para o álbum</string>
     <string name="go_to_artist">Ir para o/a artista</string>

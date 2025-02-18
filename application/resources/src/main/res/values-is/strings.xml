@@ -178,6 +178,7 @@
     <string name="track_framerate_info">Rammatíðni: %1$.3f\n</string>
 
     <string name="playback_speed">Afspilunarhraði</string>
+    <string name="warning_stream_speed">Ef hraði afspilunar er aukinn yfir 1 fyrir streymi gæti það valdið hökti (stuttering)</string>
     <string name="sleep_title">Vekjari</string>
     <string name="sleep_in">Sofa lengur</string>
     <string name="jump_to_time">Hoppa á tíma</string>
@@ -210,7 +211,6 @@
 
     <string name="playback_history_title">Ferill afspilunar</string>
     <string name="playback_history_summary">Vista alla spilaða gagnamiðla í ferilskrá</string>
-    <string name="playback_speed_title">Vista afspilunarhraða</string>
     <string name="play_button">Afspilunarhnappur</string>
 
     <!-- Tips -->
@@ -874,7 +874,6 @@
     <string name="apply_to_all">Virkja á öll myndskeið</string>
     <string name="audio_delay_global">Hljóðtöf sett á %s ms fyrir öll myndskeið</string>
     <string name="audio_delay_bt">Hljóðtöf sett á %s ms fyrir bluetooth-tækið</string>
-    <string name="warning_stream_speed">Ef hraði afspilunar er aukinn yfir 1 fyrir streymi gæti það valdið hökti (stuttering)</string>
     <string name="go_to_folder">Flakka í yfirmöppu</string>
     <string name="no_sub_renderer">Ekki er enn stuðningur við skjátexta við casting-sendingar</string>
     <string name="soundfont">MIDI SoundFont</string>

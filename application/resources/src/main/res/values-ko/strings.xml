@@ -163,6 +163,7 @@
     <string name="track_framerate_info">프레임 속도: %1$.3f\n</string>
 
     <string name="playback_speed">재생 속도</string>
+    <string name="warning_stream_speed">스트림의 재생 속도를 1보다 높이면 더듬거리는 현상이 발생할 수 있습니다</string>
     <string name="sleep_title">슬립 타이머</string>
     <string name="sleep_in">잠자기 시간:</string>
     <string name="jump_to_time">시간으로 이동하기</string>
@@ -202,8 +203,6 @@
     <string name="audio_resume_playback_title">오디오 재생 대기열 히스토리</string>
     <string name="audio_resume_playback_warning">오디오 재생 대기열 히스토리를 비활성화하면 일부 동작 문제가 발생할 수 있습니다.\n이 기능을 비활성화하면 재생을 이어듣지 못할 수 있습니다:\n\n\t- 블루투스 장치\n\t- 위젯\n\t- 미디어 알림</string>
     <string name="audio_resume_playback_summary">나중에 이어듣도록 오디오 재생 대기열 저장 허용하기</string>
-    <string name="playback_speed_title">재생 속도 저장하기</string>
-    <string name="playback_speed_summary">미디어 간 재생 속도 유지하기</string>
 
     <string name="play_button">재생 버튼</string>
 
@@ -890,7 +889,6 @@
     <string name="apply_to_all">모든 비디오에 적용</string>
     <string name="audio_delay_global">모든 비디오에 대해 오디오 지연이 %s 밀리초로 설정되었습니다</string>
     <string name="audio_delay_bt">블루투스 장치의 오디오 지연이 %sms로 설정됨</string>
-    <string name="warning_stream_speed">스트림의 재생 속도를 1보다 높이면 더듬거리는 현상이 발생할 수 있습니다</string>
     <string name="go_to_folder">상위 찾아보기</string>
     <string name="create_shortcut">런처 단축키 만들기</string>
     <string name="no_sub_renderer">전송 중에는 자막이 지원되지 않습니다</string>

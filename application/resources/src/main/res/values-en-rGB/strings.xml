@@ -190,6 +190,7 @@
     <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
 
     <string name="playback_speed">Playback speed</string>
+    <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="sleep_title">Sleep timer</string>
     <string name="sleep_in">Sleep in</string>
     <string name="jump_to_time">Jump to Time</string>
@@ -234,8 +235,6 @@
     <string name="audio_resume_playback_title">Audio play queue history</string>
     <string name="audio_resume_playback_warning">Disabling the audio play queue history may lead to some behavior issues.\nAfter disabling it you may not be able to resume the playback from:\n\n\t- a  bluetooth device\n\t- the widget\n\t- the media notification</string>
     <string name="audio_resume_playback_summary">Allow saving the audio play queue to resume later</string>
-    <string name="playback_speed_title">Save Playback Speed</string>
-    <string name="playback_speed_summary">Keep playback speed between media</string>
 
     <string name="play_button">Play Button</string>
 
@@ -1018,7 +1017,6 @@
     <string name="apply_to_all">Apply to all videos</string>
     <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
     <string name="audio_delay_bt">Audio delay set to %s ms for the bluetooth device</string>
-    <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
     <string name="go_to_album">Go to album</string>
     <string name="go_to_artist">Go to artist</string>

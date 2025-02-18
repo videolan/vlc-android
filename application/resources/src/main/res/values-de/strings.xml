@@ -56,6 +56,8 @@
     <string name="append_all">Alle anhängen</string>
     <string name="resume_playback_short_title">Fortsetzen</string>
     <string name="resume_playback_long_title">Letzte Wiedergabe</string>
+    <string name="resume_audio_playback_short_title">Audiowiedergabe fortsetzen</string>
+    <string name="resume_audio_playback_long_title">Wiedergabe der letzten Audio-Wiedergabeliste fortsetzen</string>
     <string name="resume_playback_error">Nichts zum Fortsetzen</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
@@ -190,6 +192,18 @@
     <string name="track_framerate_info">Bildwiederholrate: %1$.3f\n</string>
 
     <string name="playback_speed">Wiedergabegeschwindigkeit</string>
+    <string name="warning_stream_speed">Die Erhöhung der Wiedergabegeschwindigkeit für Streams auf über 1 kann zum Stottern führen</string>
+    <string name="playback_speed_this_video">Dieses Video</string>
+    <string name="playback_speed_this_track">Dieser Titel</string>
+    <string name="playback_speed_all_videos">Alle Videos</string>
+    <string name="playback_speed_all_tracks">Alle Titel</string>
+    <string name="playback_speed_explanation_all_videos">Die Geschwindigkeit wird auf alle Videos angewendet.\nDie Wiedergabegeschwindigkeit einzelner Videos wird ignoriert.</string>
+    <string name="playback_speed_explanation_all_tracks">Die Geschwindigkeit wird auf alle Titel angewendet.\nDie Wiedergabegeschwindigkeit einzelner Titel wird ignoriert.</string>
+    <string name="playback_speed_explanation_one_video">Die Geschwindigkeit wird nur auf dieses Video angewendet</string>
+    <string name="playback_speed_explanation_one_track">Die Geschwindigkeit wird nur auf diesen Titel angewendet</string>
+    <string name="audio_playback_speed_global">Verwenden der globalen Wiedergabegeschwindigkeit</string>
+    <string name="audio_playback_speed_global_summary">Verwenden Sie die global für alle Titel eingestellte Wiedergabegeschwindigkeit.\nDie Wiedergabegeschwindigkeit einzelner Titel wird ignoriert.</string>
+
     <string name="sleep_title">Ruhemodus</string>
     <string name="sleep_in">Ruhemodus verschieben</string>
     <string name="jump_to_time">Zum Zeitpunkt springen</string>
@@ -234,8 +248,6 @@
     <string name="audio_resume_playback_title">Verlauf der Audio-Wiedergabewarteschlange</string>
     <string name="audio_resume_playback_warning">Das Deaktivieren des Audiowiedergabe-Warteschlangenverlaufs kann zu einigen Verhaltensproblemen führen.\nNach dem Deaktivieren können Sie die Wiedergabe möglicherweise nicht fortsetzen von:\n\n\t- einem Bluetooth-Gerät\n\t- dem Widget\n\t- die Medienmitteilung</string>
     <string name="audio_resume_playback_summary">Speichern der Audio-Wiedergabewarteschlange zulassen, um später fortzufahren</string>
-    <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
-    <string name="playback_speed_summary">Wiedergabegeschwindigkeit zwischen den Medien gleich behalten</string>
 
     <string name="play_button">Wiedergabe-Knopf</string>
 
@@ -1018,7 +1030,6 @@
     <string name="apply_to_all">Auf alle Videos anwenden</string>
     <string name="audio_delay_global">Tonverzögerung für alle Videos auf %s ms gesetzt</string>
     <string name="audio_delay_bt">Tonverzögerung für Bluetooth-Geräte auf %s ms gesetzt</string>
-    <string name="warning_stream_speed">Die Erhöhung der Wiedergabegeschwindigkeit für Streams auf über 1 kann zum Stottern führen</string>
     <string name="go_to_folder">Übergeordnetes Verzeichnis durchsuchen</string>
     <string name="go_to_album">Zum Album wechseln</string>
     <string name="go_to_artist">Zum Künstler wechseln</string>

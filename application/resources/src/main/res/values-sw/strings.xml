@@ -169,6 +169,7 @@
     <string name="track_framerate_info">Kiasi cha fremu: %1$.3f\n</string>
 
     <string name="playback_speed">Kasi ya uchezaji</string>
+    <string name="warning_stream_speed">Kuongezwa kwa kasi ya uchezaji wa mitiririko iwe zaidi ya 1 kunaweza kuukokotesha</string>
     <string name="sleep_title">Kipimamuda cha kusinzia</string>
     <string name="sleep_in">Sinzia ndani</string>
     <string name="jump_to_time">Ruka hadi</string>
@@ -208,7 +209,7 @@
     <string name="audio_resume_playback_title">Historia ya foleni ya sikiko zilizochezwa</string>
     <string name="audio_resume_playback_warning">Kulemaza historia ya foleni ya sikiko zilizochezwa inaweza kuathiri tabia ya programu.\nBaada ya kulemaza, huenda hutaweza kuendelea kucheza kutoka:\n\n\t- kifaa cha bluetooth\n\t- wijeti \n\t- arifa ya midia</string>
     <string name="audio_resume_playback_summary">Ruhusu uhifadhi wa foleni ya sikiko zinazochezwa ili iendelee baadaye</string>
-    <string name="playback_speed_title">Hifadhi Kasi ya uchezaji</string>
+
     <string name="play_button">Kitufe cha kucheza</string>
 
     <!-- Tips -->
@@ -875,7 +876,6 @@
     <string name="apply_to_all">Tekeleza kwa video zote</string>
     <string name="audio_delay_global">Kawizo la usikiko limewekwa %sms kwa video zote</string>
     <string name="audio_delay_bt">Kawizo la usikiko limewekwa %sms kwa kifaa cha bluetooth</string>
-    <string name="warning_stream_speed">Kuongezwa kwa kasi ya uchezaji wa mitiririko iwe zaidi ya 1 kunaweza kuukokotesha</string>
     <string name="go_to_folder">Vinjari folda kuu</string>
     <string name="create_shortcut">Unda njia mkato kwenye kizinduzi</string>
     <string name="no_sub_renderer">Manukuu hayamwegwi unapoakisi midia</string>

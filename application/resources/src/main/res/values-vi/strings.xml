@@ -174,6 +174,7 @@
     <string name="track_framerate_info">Số khung hình trên giây: %1$.3f\n</string>
 
     <string name="playback_speed">Tốc độ phát</string>
+    <string name="warning_stream_speed">Tăng tốc tốc độ chơi lại quá 1 cho streams có thể gây giật, lag</string>
     <string name="sleep_title">Thời gian chờ</string>
     <string name="sleep_in">Tắt trong vòng</string>
     <string name="jump_to_time">Nhảy đến thời gian</string>
@@ -215,8 +216,6 @@
     <string name="audio_resume_playback_title">Lịch sử hàng đợi phát âm thanh</string>
     <string name="audio_resume_playback_warning">Tắt lịch sử hàng đợi phát âm thanh có thể dẫn đến một số vấn đề về hành vi.\nSau khi tắt tính năng này, bạn có thể không tiếp tục phát lại được từ:\n\n\t- a thiết bị bluetooth\n\t- tiện ích\n\t- thông báo truyền thông</string>
     <string name="audio_resume_playback_summary">Cho phép lưu hàng đợi phát âm thanh để tiếp tục sau</string>
-    <string name="playback_speed_title">Lưu tốc độ phát</string>
-    <string name="playback_speed_summary">Giữ tốc độ phát lại giữa các phương tiện</string>
 
     <string name="play_button">Nút phát</string>
 
@@ -960,7 +959,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="apply_to_all">Áp dụng với toàn bộ video</string>
     <string name="audio_delay_global">Đã đặt độ trễ âm thanh là %s ms cho tất cả video</string>
     <string name="audio_delay_bt">Đã đặt độ trễ âm thanh là %s ms cho thiết bị bluetooth</string>
-    <string name="warning_stream_speed">Tăng tốc tốc độ chơi lại quá 1 cho streams có thể gây giật, lag</string>
     <string name="go_to_folder">Duyệt mục mẹ</string>
     <string name="create_shortcut">Tạo lối tắt trình khởi chạy</string>
     <string name="no_sub_renderer">Phụ đề chưa được hỗ trợ trong khi truyền</string>

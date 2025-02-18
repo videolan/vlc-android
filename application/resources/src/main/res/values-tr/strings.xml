@@ -190,6 +190,7 @@
     <string name="track_framerate_info">Kare hızı: %1$.3f\n</string>
 
     <string name="playback_speed">Oynatma hızı</string>
+    <string name="warning_stream_speed">Akışlarda oynatma hızının 1 üzerine çıkarılması takılmaya neden olabilir</string>
     <string name="sleep_title">Uyku zamanlayıcı</string>
     <string name="sleep_in">Uykuya dalma süresi</string>
     <string name="jump_to_time">Sıçranacak zaman</string>
@@ -234,8 +235,6 @@
     <string name="audio_resume_playback_title">Ses oynatma kuyruğu geçmişi</string>
     <string name="audio_resume_playback_warning">Ses oynatma kuyruğu geçmişi kapatılırsa bazı davranış sorunları ortaya çıkabilir.\nKapatıldığında şunlardan biriyle oynatmayı sürdüremeyebilirsiniz:\n\n- Bluetooth aygıtları\n\t- Ekran bileşeni (widget)\n\t- Ortam bildirimi</string>
     <string name="audio_resume_playback_summary">Ses oynatma kuyruğu daha sonra sürdürülmek üzere kaydedilebilir</string>
-    <string name="playback_speed_title">Oynatma hızı kaydedilsin</string>
-    <string name="playback_speed_summary">Ortamlar arasında oynatma hızı korunsun</string>
 
     <string name="play_button">Oynatma düğmesi</string>
 
@@ -1019,7 +1018,6 @@
     <string name="apply_to_all">Tüm görüntülere uygula</string>
     <string name="audio_delay_global">Tüm görüntüler için ses gecikmesi %s ms olarak ayarlandı</string>
     <string name="audio_delay_bt">Bluetooth aygıtı için ses gecikmesi %s ms olarak ayarlandı</string>
-    <string name="warning_stream_speed">Akışlarda oynatma hızının 1 üzerine çıkarılması takılmaya neden olabilir</string>
     <string name="go_to_folder">Üst ögeye göz at</string>
     <string name="go_to_album">Albüme git</string>
     <string name="go_to_artist">Sanatçıya git</string>

@@ -58,6 +58,8 @@
     <string name="append_all">להוסיף הכול</string>
     <string name="resume_playback_short_title">להמשיך בנגינה</string>
     <string name="resume_playback_long_title">להמשיך בנגינה של מה שהתנגן קודם</string>
+    <string name="resume_audio_playback_short_title">להמשיך להשמיע</string>
+    <string name="resume_audio_playback_long_title">להמשיך להשמיע את רשימת הנגינה האחרונה</string>
     <string name="resume_playback_error">אין מה להמשיך</string>
     <string name="delete">למחוק</string>
     <string name="remove">להסיר</string>
@@ -206,6 +208,18 @@
     <string name="track_framerate_info">קצב שקופיות: %1$.3f\n</string>
 
     <string name="playback_speed">מהירות הנגינה</string>
+    <string name="warning_stream_speed">הגברת מהירות הנגינה מעבר ל־1 עבור תזרימים עשויה לגרום לגמגום</string>
+    <string name="playback_speed_this_video">הסרטון הזה</string>
+    <string name="playback_speed_this_track">הרצועה הזאת</string>
+    <string name="playback_speed_all_videos">כל הסרטונים</string>
+    <string name="playback_speed_all_tracks">כל הרצועות</string>
+    <string name="playback_speed_explanation_all_videos">המהירות תחול על כל הסרטונים.\nמהירות הנגינה של סרטונים פרטניים תידרס.</string>
+    <string name="playback_speed_explanation_all_tracks">המהירות תחול על כל הרצועות.\nמהירות הנגינה של רצועות פרטניות תידרס.</string>
+    <string name="playback_speed_explanation_one_video">המהירות תחול על הסרטון הזה בלבד</string>
+    <string name="playback_speed_explanation_one_track">המהירות תחול על הרצועה הזאת בלבד</string>
+    <string name="audio_playback_speed_global">להשתמש במהירות הנגינה הכללית</string>
+    <string name="audio_playback_speed_global_summary">להשתמש במהירות הנגינה שהוגדרה באופן כללי לכל הרצועות.\nמהירות הנגינה של רצועות פרטיות תידרס.</string>
+
     <string name="sleep_title">לישון</string>
     <string name="sleep_in">לישון בעוד</string>
     <string name="jump_to_time">קפיצה לזמן</string>
@@ -250,8 +264,6 @@
     <string name="audio_resume_playback_title">היסטוריית תור השמעה</string>
     <string name="audio_resume_playback_warning">השבתת היסטוריית תור ההשמעה עלולה לגרום לתקלות בהתנהלות.\nלאחר ההשבתה יכול להיות שאי אפשר יהיה להמשיך להשמיע מתוך:\n\n\t- התקן Bluetooth\n\t- התראת המדיה</string>
     <string name="audio_resume_playback_summary">לאפשר לשמור את תור ההשמעה כדי להמשיך מאוחר יותר</string>
-    <string name="playback_speed_title">לשמור את מהירות הנגינה</string>
-    <string name="playback_speed_summary">לשמור על מהירות הנגינה בין סוגי מדיה שונים</string>
 
     <string name="play_button">כפתור נגינה</string>
 
@@ -1036,7 +1048,6 @@
     <string name="apply_to_all">להחיל על כל הסרטונים</string>
     <string name="audio_delay_global">השהיית השמע הוגדרה ל־%s מילישניות לכל הסרטונים</string>
     <string name="audio_delay_bt">השהיית התקן ה־Bluetooth הוגדרה ל־%s מילישניות</string>
-    <string name="warning_stream_speed">הגברת מהירות הנגינה מעבר ל־1 עבור תזרימים עשויה לגרום לגמגום</string>
     <string name="go_to_folder">עיון בהורה</string>
     <string name="go_to_album">מעבר לאלבום</string>
     <string name="go_to_artist">מעבר לאומן</string>

@@ -174,6 +174,7 @@
     <string name="track_framerate_info">Beeldsnelheid: %1$.3f\n</string>
 
     <string name="playback_speed">Afspeelsnelheid</string>
+    <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="sleep_title">Slaaptimer</string>
     <string name="sleep_in">Slapen over</string>
     <string name="jump_to_time">Naar tijdstip springen</string>
@@ -213,8 +214,6 @@
     <string name="audio_resume_playback_title">Geschiedenis van audio-afspeelwachtrij</string>
     <string name="audio_resume_playback_warning">Het uitschakelen van de geschiedenis van de audio-afspeelwachtrij kan leiden tot gedragsproblemen.\nNa het uitschakelen is het mogelijk dat u het afspelen niet kunt hervatten vanaf:\n\n\t- een bluetooth apparaat\n\t- de widget\n\t- de mediamelding</string>
     <string name="audio_resume_playback_summary">Opslaan van de audio-afspeelwachtrij toestaan om later te hervatten</string>
-    <string name="playback_speed_title">Afspeelsnelheid opslaan</string>
-    <string name="playback_speed_summary">Afspeelsnelheid tussen media behouden</string>
 
     <string name="play_button">Afspeelknop</string>
 
@@ -900,7 +899,6 @@
     <string name="apply_to_all">Toepassen op alle video\'s</string>
     <string name="audio_delay_global">Audiovertraging ingesteld op %s ms voor alle video\'s</string>
     <string name="audio_delay_bt">Audiovertraging ingesteld op %s ms voor het bluetooth-apparaat</string>
-    <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="go_to_folder">Bladeren in bovenliggende map</string>
     <string name="create_shortcut">Launcher-snelkoppeling aanmaken</string>
     <string name="no_sub_renderer">Ondertitels worden nog niet ondersteund tijdens het casten</string>

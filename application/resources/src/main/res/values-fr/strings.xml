@@ -201,6 +201,7 @@
     <string name="track_framerate_info">Fréquence d’images : %1$.3f\n</string>
 
     <string name="playback_speed">Vitesse de lecture</string>
+    <string name="warning_stream_speed">L’augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
     <string name="sleep_title">Veille</string>
     <string name="sleep_in">Veille dans</string>
     <string name="jump_to_time">Aller au temps</string>
@@ -245,8 +246,6 @@
     <string name="audio_resume_playback_title">Historique de la file d’attente de lecture audio</string>
     <string name="audio_resume_playback_warning">La désactivation de l’historique de la file d’attente de lecture audio peut entraîner certains problèmes de comportement.\nAprès l’avoir désactivée, il se peut que vous ne puissiez pas reprendre la lecture à partir de :\n\n\t- un périphérique Bluetooth\n\t- le widget\n\t- la notification de média</string>
     <string name="audio_resume_playback_summary">Permet de sauvegarder la file d’attente de lecture audio pour la reprendre plus tard</string>
-    <string name="playback_speed_title">Enregistrer la vitesse de lecture</string>
-    <string name="playback_speed_summary">Maintenir la vitesse de lecture entre les médias</string>
 
     <string name="play_button">Bouton Lecture</string>
 
@@ -1031,7 +1030,6 @@
     <string name="apply_to_all">Appliquer à toutes les vidéos</string>
     <string name="audio_delay_global">Délai audio défini à %sms pour toutes les vidéos</string>
     <string name="audio_delay_bt">Le retard audio est réglé sur %s ms pour le périphérique Bluetooth.</string>
-    <string name="warning_stream_speed">L’augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
     <string name="go_to_folder">Parcourir le parent</string>
     <string name="go_to_album">Accéder à l’album</string>
     <string name="go_to_artist">Accéder à l’artiste</string>

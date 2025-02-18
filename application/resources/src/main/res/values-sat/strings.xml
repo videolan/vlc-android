@@ -174,6 +174,7 @@
     <string name="track_framerate_info">ᱯᱷᱨᱮᱢ ᱫᱚᱨ: %1$.3f\n</string>
 
     <string name="playback_speed">ᱯᱞᱮᱵᱮᱠ ᱨᱟᱹᱯᱨᱟᱨ</string>
+    <string name="warning_stream_speed">ᱥᱟᱹᱴᱨᱤᱝᱼᱚᱜ ᱠᱟᱱ ᱥᱴᱨᱤᱢ ᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱑ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱬᱮ ᱨᱟᱠᱟᱵ ᱮᱱᱟ</string>
     <string name="sleep_title">ᱜᱤᱛᱤᱡᱽ ᱴᱟᱭᱢᱟᱹᱨ</string>
     <string name="sleep_in">ᱨᱮ ᱜᱤᱛᱤᱡᱽ</string>
     <string name="jump_to_time">ᱚᱠᱛᱚ ᱛᱮ ᱫᱚᱱ ᱢᱮ</string>
@@ -207,7 +208,6 @@
 
     <string name="playback_history_title">ᱯᱞᱮᱵᱮᱠ ᱡᱤᱛᱟᱹᱞ</string>
     <string name="playback_history_summary">ᱱᱟᱜᱟᱢ ᱥᱮᱠᱥᱚᱱ ᱨᱮ ᱡᱷᱚᱛᱚ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮᱟᱠᱟᱱ ᱠᱚ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
-    <string name="playback_speed_title">ᱯᱞᱮᱵᱮᱠ ᱥᱯᱤᱻᱰ ᱥᱟᱺᱪᱟᱣ ᱢᱮ</string>
     <string name="play_button">ᱯᱞᱮ ᱵᱩᱛᱟᱹᱢ</string>
 
     <!-- Tips -->
@@ -681,7 +681,6 @@
     <string name="prefersmbv1_summary">SMB ᱥᱟᱹᱨᱣᱟᱹᱨ ᱵᱨᱟᱩᱡᱽ ᱡᱷᱚᱜ ᱮᱴᱠᱮᱴᱚᱬᱮ ᱦᱩᱭᱩᱜ ᱠᱷᱟᱱ ᱱᱚᱶᱟ ᱥᱟᱡᱟᱣ ᱠᱚ ᱟᱹᱱᱪᱮᱠ ᱢᱮ</string>
     <string name="apply_to_all">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚ ᱨᱮ ᱮᱢ ᱪᱷᱚ</string>
     <string name="audio_delay_global">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚᱠᱚ ᱞᱟᱹᱫᱜᱤᱹᱫ %s ms ᱜᱷᱟᱹᱲᱤᱡ ᱥᱟᱰᱮ ᱮᱱᱟ </string>
-    <string name="warning_stream_speed">ᱥᱟᱹᱴᱨᱤᱝᱼᱚᱜ ᱠᱟᱱ ᱥᱴᱨᱤᱢ ᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱑ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱬᱮ ᱨᱟᱠᱟᱵ ᱮᱱᱟ</string>
     <string name="go_to_folder">ᱯᱮᱨᱮᱸᱴ ᱵᱨᱟᱩᱡᱽ </string>
     <string name="no_sub_renderer">ᱠᱟᱥᱴᱤᱝ ᱡᱷᱚᱜ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱠᱚ ᱵᱟᱭ ᱥᱟᱹᱯᱚᱴᱟᱭ</string>
     <string name="soundfont">MIDI ᱥᱟᱲᱮᱯᱷᱚᱸᱴ</string>

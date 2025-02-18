@@ -255,8 +255,6 @@
     <string name="audio_resume_playback_title">Roll-istor ar roll-lenn aodioioù</string>
     <string name="audio_resume_playback_warning">Lazhañ roll-istor ar roll-lenn aodioù a c\'hallfe degas kudennoù emzalc\'h \'zo.\nUr wech lazhet ne c\'hallit ket adkregiñ gant al lenn diwar :\n\n\t- un aparailh bluetooth\n\t- ar widget\n\t- ar gemennadenn media</string>
     <string name="audio_resume_playback_summary">Aotren enrollañ ar roll-lenn aodioioù evit adkregiñ diwezhatoc\'h</string>
-    <string name="playback_speed_title">Enrollañ tizh al lenn</string>
-    <string name="playback_speed_summary">Mirout tizh al lenn etre ar mediaoù</string>
 
     <string name="play_button">Bouton Lenn</string>
 

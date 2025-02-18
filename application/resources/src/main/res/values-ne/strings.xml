@@ -175,6 +175,7 @@
     <string name="track_framerate_info">फ्रेम दर: %1$.3f\n</string>
 
     <string name="playback_speed">बजाउने गति</string>
+    <string name="warning_stream_speed">स्ट्रिमहरूको लागि 1 भन्दा बढी प्लेब्याक गति बढाउँदा अड्किने हुन सक्छ</string>
     <string name="sleep_title">बन्दहुने समय</string>
     <string name="sleep_in">बन्दहुने</string>
     <string name="jump_to_time">समयमा जानुहोस्</string>
@@ -213,7 +214,7 @@
     <string name="video_resume_playback_summary">पछि पुन: सुरु गर्न भिडियो प्ले लाइन बचत गर्न अनुमति दिनुहोस्</string>
     <string name="audio_resume_playback_title">अडियो प्ले लाइन इतिहास</string>
     <string name="audio_resume_playback_summary">अडियो प्ले लाइन बचत गर्न पछि पुन: सुरु गर्न अनुमति दिनुहोस्</string>
-    <string name="playback_speed_title">प्लेब्याक गति बचत गर्नुहोस्</string>
+
     <string name="play_button">प्ले बटन</string>
 
     <!-- Tips -->
@@ -675,7 +676,6 @@
     <string name="prefersmbv1_summary">तपाईँको SMB सर्भर ब्राउज गर्न केही कठिनाई भएमा यस सेटिङ अनचेक गर्नुहोस्  </string>
     <string name="apply_to_all">सबै भिडियोहरूमा लागू गर्नुहोस्</string>
     <string name="audio_delay_global">सबै भिडियोहरूको लागि %s ms अडियो ढिलाइ सेट भयो</string>
-    <string name="warning_stream_speed">स्ट्रिमहरूको लागि 1 भन्दा बढी प्लेब्याक गति बढाउँदा अड्किने हुन सक्छ</string>
     <string name="go_to_folder">प्यारेन्ट ब्राउज गर्नुहोस्</string>
     <string name="no_sub_renderer">कास्टिङ गर्ने समयमा उपशीर्षकहरू अझै समर्थित छैनन्</string>
     <string name="soundfont">MIDI SoundFont</string>

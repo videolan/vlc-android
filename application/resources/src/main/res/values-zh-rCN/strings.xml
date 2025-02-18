@@ -179,6 +179,7 @@
     <string name="track_framerate_info">帧率: %1$.3f\n</string>
 
     <string name="playback_speed">回放速度</string>
+    <string name="warning_stream_speed">将流的回放速度加快到1以上可能会导致播放卡顿</string>
     <string name="sleep_title">睡眠计时器</string>
     <string name="sleep_in">睡眠倒计时</string>
     <string name="jump_to_time">转到时间</string>
@@ -223,8 +224,6 @@
     <string name="audio_resume_playback_title">音频播放队列历史</string>
     <string name="audio_resume_playback_warning">禁用音频播放队列历史可能会引发异常行为。\n禁用以后，您将无法在以下位置执行继续播放操作:\n\n\t- 蓝牙设备\n\t- 小工具\n\t- 媒体通知界面</string>
     <string name="audio_resume_playback_summary">允许储存音频播放队列内容，以便稍后继续播放</string>
-    <string name="playback_speed_title">记住回放速度</string>
-    <string name="playback_speed_summary">在不同媒体间保持播放速度不变</string>
 
     <string name="play_button">播放按钮</string>
 
@@ -1004,7 +1003,6 @@
     <string name="apply_to_all">应用到所有视频</string>
     <string name="audio_delay_global">所有视频的音频延迟设置为 %s ms</string>
     <string name="audio_delay_bt">已将蓝牙设备的音频延时设为 %s ms</string>
-    <string name="warning_stream_speed">将流的回放速度加快到1以上可能会导致播放卡顿</string>
     <string name="go_to_folder">浏览所在目录</string>
     <string name="go_to_album">转到专辑</string>
     <string name="go_to_artist">转到艺人</string>

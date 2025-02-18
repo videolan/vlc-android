@@ -38,7 +38,7 @@
 
     <string name="play">再生</string>
     <string name="playback">再生</string>
-    <string name="playback_controls">再生制御</string>
+    <string name="playback_controls">再生コントロール</string>
     <string name="medialibrary_scan">メディアライブラリ検索</string>
     <string name="Medialibrary_progress">メディアライブラリ検索状況の更新</string>
     <string name="play_from_start">最初から再生</string>
@@ -55,6 +55,8 @@
     <string name="append_all">すべて追加</string>
     <string name="resume_playback_short_title">再生を再開</string>
     <string name="resume_playback_long_title">直近のプレイリストの再生を再開</string>
+    <string name="resume_audio_playback_short_title">オーディオの再生を再開</string>
+    <string name="resume_audio_playback_long_title">直近のプレイリストのオーディオの再生を再開</string>
     <string name="resume_playback_error">回復するものはありません</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
@@ -179,6 +181,18 @@
     <string name="track_framerate_info">フレームレート: %1$.3f\n</string>
 
     <string name="playback_speed">再生速度</string>
+    <string name="warning_stream_speed">再生速度を1以上にすると音声の途切れが発生することがあります</string>
+    <string name="playback_speed_this_video">このビデオ</string>
+    <string name="playback_speed_this_track">このトラック</string>
+    <string name="playback_speed_all_videos">すべてのビデオ</string>
+    <string name="playback_speed_all_tracks">すべてのトラック</string>
+    <string name="playback_speed_explanation_all_videos">この速度はすべてのビデオに適用されます。\nビデオごとの速度は無視されます。</string>
+    <string name="playback_speed_explanation_all_tracks">この速度はすべてのトラックに適用されます。\nトラックごとの速度は無視されます。</string>
+    <string name="playback_speed_explanation_one_video">この速度はこのビデオにのみ適用されます</string>
+    <string name="playback_speed_explanation_one_track">この速度はこのトラックにのみ適用されます</string>
+    <string name="audio_playback_speed_global">グローバルの再生速度を使用</string>
+    <string name="audio_playback_speed_global_summary">再生速度がすべてのトラックにグローバルに適用されます。\nトラックごとの再生速度は無視されます。</string>
+
     <string name="sleep_title">スリープタイマー</string>
     <string name="sleep_in">スリープ</string>
     <string name="jump_to_time">指定時間へジャンプ</string>
@@ -223,8 +237,6 @@
     <string name="audio_resume_playback_title">オーディオ再生キューの履歴</string>
     <string name="audio_resume_playback_warning">オーディオ再生キューの履歴を無効化すると問題が発生する可能性があります。\n無効化後は次からの再生を再開することができなくなります。\n\n\t- ブルートゥースデバイス\n\n\t- メディア通知</string>
     <string name="audio_resume_playback_summary">後で再生を再開するためにオーディオ再生キューを保存することを許可</string>
-    <string name="playback_speed_title">再生速度を保存</string>
-    <string name="playback_speed_summary">メディア間での再生速度を一定に保つ</string>
 
     <string name="play_button">再生ボタン</string>
 
@@ -232,8 +244,8 @@
     <string name="tips_title">ビデオプレイヤーのTips</string>
     <string name="seek">シーク</string>
     <string name="subtitles">字幕</string>
-    <string name="tips_player_controls">プレイヤー制御</string>
-    <string name="tips_player_controls_description">タップでプレイヤーの制御をどのように行うか設定</string>
+    <string name="tips_player_controls">プレイヤーコントロール</string>
+    <string name="tips_player_controls_description">タップでプレイヤーのコントロールをどのように行うか設定</string>
     <string name="tips_audio_sub">オーディオトラックと字幕</string>
     <string name="tips_play_description">タップでビデオを再生</string>
     <string name="lock">ロック</string>
@@ -997,7 +1009,7 @@
     <string name="allow_otg">OTGアクセスの許可</string>
     <string name="allow_otg_description">VLCに対してアクセスを許可するOTGドライブを選択してください。</string>
     <string name="timeout_infinite">無限</string>
-    <string name="video_hud_timeout">ビデオプレイヤーが隠れた遅延を制御</string>
+    <string name="video_hud_timeout">ビデオプレイヤーが隠れた遅延をコントロール</string>
     <string name="video_hud_timeout_summary">%s秒</string>
     <string name="remove_from_history">履歴からの削除</string>
     <string name="prefersmbv1">SMB1を採用</string>
@@ -1005,7 +1017,6 @@
     <string name="apply_to_all">すべてのビデオに適用</string>
     <string name="audio_delay_global">すべてのビデオのオーディオに %s ミリ秒の遅延を適用</string>
     <string name="audio_delay_bt">bluetoothデバイスのオーディオに %s ミリ秒の遅延を適用</string>
-    <string name="warning_stream_speed">再生速度を1以上にすると音声の途切れが発生することがあります</string>
     <string name="go_to_folder">親をブラウズ</string>
     <string name="go_to_album">アルバムに移動</string>
     <string name="go_to_artist">アーティストに移動</string>
@@ -1094,9 +1105,9 @@
     <string name="customize">カスタマイズ</string>
     <string name="selection_count">%d 選択されました</string>
     <string name="control_setting">制御設定</string>
-    <string name="controls_setting">制御設定</string> <!-- Unused -->
+    <string name="controls_setting">コントロール設定</string> <!-- Unused -->
     <string name="gestures">ジェスチャー</string>
-    <string name="player_controls">プレイヤー制御</string>
+    <string name="player_controls">プレイヤーコントロール</string>
     <string name="video_double_tap_jump_delay">ダブルタップの遅延時間</string>
     <string name="video_key_jump_delay">ナビゲーションキーの遅延時間</string>
     <string name="banned">禁止フォルダ (長押しで変更)</string>

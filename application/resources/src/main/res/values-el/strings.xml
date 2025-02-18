@@ -190,6 +190,7 @@
     <string name="track_framerate_info">Ρυθμός καρέ: %1$.3f\n</string>
 
     <string name="playback_speed">Ταχύτητα αναπαραγωγής</string>
+    <string name="warning_stream_speed">Αύξηση της ταχύτητας αναπαραγωγής πάνω από 1 στις μεταδόσεις μπορεί να προκαλέσει τραύλισμα</string>
     <string name="sleep_title">Χρονοδιακόπτης απενεργοποίησης</string>
     <string name="sleep_in">Απενεργοποίηση σε</string>
     <string name="jump_to_time">Άλμα στην χρονική στιγμή</string>
@@ -234,8 +235,6 @@
     <string name="audio_resume_playback_title">Ιστορικό ουράς αναπαραγωγής ήχου</string>
     <string name="audio_resume_playback_warning">Η απενεργοποίηση του ιστορικού ουράς αναπαραγωγής ήχου μπορεί να οδηγήσει σε ορισμένα προβλήματα συμπεριφοράς.\nΜετά την απενεργοποίησή του, ενδέχεται να μην μπορείτε να συνεχίσετε την αναπαραγωγή από:\n\n\t- μια συσκευή bluetooth\n\t- την μικροεφαρμογή\n\t- την ειδοποίηση μέσων</string>
     <string name="audio_resume_playback_summary">Επιτρέψτε την αποθήκευση της ουράς αναπαραγωγής ήχου για συνέχιση αναπαραγωγής αργότερα</string>
-    <string name="playback_speed_title">Αποθήκευση ταχύτητας αναπαραγωγής</string>
-    <string name="playback_speed_summary">Διατήρηση ταχύτητας αναπαραγωγής μεταξύ των πολυμέσων</string>
 
     <string name="play_button">Κουμπί αναπαραγωγής</string>
 
@@ -478,6 +477,8 @@
     <string name="casting_switch_title">Ασύρματη μετάδοση</string>
     <string name="casting_passthrough_title">Ήχος σε Passthrough</string>
     <string name="casting_passthrough_summary">Επιτρέψτε στην τηλεόραση να διαχειρίζεται την έξοδο ήχου</string>
+    <string name="casting_audio_only">Μόνο ήχος</string>
+    <string name="casting_audio_only_summary">Μετάδοση μόνο ήχου, χωρίς βίντεο</string>
     <string name="casting_conversion_quality_title">Ποιότητα μετατροπής</string>
     <string name="casting_conversion_quality_summary">Επιλέξτε την ποιότητα μετατροπής κατά τη μετάδοση σε απομακρυσμένη οθόνη</string>
     <string name="casting_quality_high">Υψηλή</string>
@@ -492,6 +493,8 @@
     <string name="tv_folders_first_summary">Εμφάνιση φακέλων και μετά αρχείων στο πρόγραμμα περιήγησης αρχείων</string>
     <string name="tv_show_hidden_files">Εμφάνιση κρυφών αρχείων</string>
     <string name="tv_show_hidden_files_summary">Εμφάνιση κρυφών αρχείων στην περιήγηση αρχείων</string>
+    <string name="ab_repeat_fastseek_warning">Ενεργοποιήθηκε η ταχεία χρονική μετάθεση. Μπορεί να οδηγήσει σε προβλήματα ακρίβειας</string>
+
     <string name="extensions_prefs_category">Επεκτάσεις</string>
     <string name="extensions_empty">Δεν βρέθηκε επέκταση</string>
     <string name="extension_permission_title">Ενεργοποίηση νέας επέκτασης \"%1$s\";</string>
@@ -820,6 +823,7 @@
     <string name="permission_video">Απαιτείται η παραχώρηση άδειας στο VLC για πρόσβαση των αρχείων βίντεο της συσκευής σας</string>
     <string name="permission_audio">Απαιτείται η παραχώρηση άδειας στο VLC για πρόσβαση των αρχείων ήχου της συσκευής σας</string>
     <string name="medialibrary_scan_explanation">Ο VLC μπορεί να σαρώνει την συσκευή σας αυτόματα για να οργανώσει τη συλλογή πολυμέσων σας.</string>
+    <string name="player_title_fd_warning">Χωρίς τα δικαιώματα πρόσβασης, το VLC δεν έχει τη δυνατότητα ανάκτησης του τίτλου πολυμέσων, ούτε μπορεί να αποθηκεύσει την πρόοδο</string>
     <string name="onboarding_theme_title">Σαν στο σπίτι σας</string>
     <string name="done">Έτοιμο</string>
     <string name="onboarding_scan_title">Αυτόματη-ανίχνευση των πολυμέσων σας</string>
@@ -840,6 +844,7 @@
     <string name="popup_force_legacy_title">Χρήση εξατομικευμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα</string>
     <string name="popup_force_legacy_summary">Χρήση εξατομικευμένου αναδυόμενου παράθυρου εικόνας-σε-εικόνα μεταβλητού μεγέθους</string>
     <string name="restore_background_video_title">Επαναφορά βίντεο από το παρασκήνιο</string>
+    <string name="restore_background_video_summary">Επαναφορά βίντεο από το παρασκήνιο κατά την επανεκτέλεση του VLC για Android</string>
     <string name="device_default">Προεπιλογή συσκευής</string>
     <string name="track_number">%d κομμάτια</string>
     <string name="jump_to">Άλμα σε</string>
@@ -1012,7 +1017,6 @@
     <string name="apply_to_all">Εφαρμογή σε όλα τα βίντεο</string>
     <string name="audio_delay_global">Η καθυστέρηση ήχου έχει οριστεί σε %s ms για όλα τα βίντεο</string>
     <string name="audio_delay_bt">Η καθυστέρηση ήχου έχει οριστεί σε %s χιλιοστά δευτερολέπτου για τη συσκευή bluetooth</string>
-    <string name="warning_stream_speed">Αύξηση της ταχύτητας αναπαραγωγής πάνω από 1 στις μεταδόσεις μπορεί να προκαλέσει τραύλισμα</string>
     <string name="go_to_folder">Περιήγηση γονικού</string>
     <string name="go_to_album">Μετάβαση στο άλμπουμ</string>
     <string name="go_to_artist">Μετάβαση στον(ην) καλλιτέχνη</string>

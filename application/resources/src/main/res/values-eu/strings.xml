@@ -184,6 +184,7 @@
     <string name="track_framerate_info">Marko-emaria: %1$.3f\n</string>
 
     <string name="playback_speed">Erreprodukzio-abiadura</string>
+    <string name="warning_stream_speed">Erreprodukzio abiadura korronteetarako 1 baino gehiago igotzeak toteltzea eragin dezake</string>
     <string name="sleep_title">Lo-tenporizadorea</string>
     <string name="sleep_in">Lokartu</string>
     <string name="jump_to_time">Jauzi denborara</string>
@@ -225,8 +226,6 @@
     <string name="audio_resume_playback_title">Audio erreproduzitzeko ilararen historia</string>
     <string name="audio_resume_playback_warning">Audio-erreprodukzio-ilararen historia desgaitzeak jokabide-arazo batzuk sor ditzake.\nDesgaitu ondoren, baliteke erreprodukzioari berriro ezin ekitea:\n\n\t- bluetooth gailu batetik\n\t- widget-etik\n\t- multimediaren jakinarazpena</string>
     <string name="audio_resume_playback_summary">Baimendu audio-erreprodukzio-ilara gordetzea geroago berriro hasteko</string>
-    <string name="playback_speed_title">Gorde erreprodukzio-abiadura</string>
-    <string name="playback_speed_summary">Mantendu erreprodukzio abiadura multimedia artean</string>
 
     <string name="play_button">Play Botoia</string>
 
@@ -479,7 +478,6 @@
     <string name="tv_folders_first_summary">Erakutsi karpetak eta ondoren fitxategiak fitxategi-arakatzailean</string>
     <string name="tv_show_hidden_files">Erakutsi ezkutuko fitxategiak</string>
     <string name="tv_show_hidden_files_summary">Erakutsi ezkutuko fitxategiak fitxategien arakatzailean</string>
-
     <string name="extensions_prefs_category">Gehigarriak</string>
     <string name="extensions_empty">Ez da gehigarririk atzeman</string>
     <string name="extension_permission_title">\"%1$s\" gehigarri berria aktibatu?</string>
@@ -955,7 +953,6 @@
     <string name="apply_to_all">Aplikatu bideo guztiei</string>
     <string name="audio_delay_global">Audioaren atzerapena %s ms-tan ezarri da bideo guztientzat</string>
     <string name="audio_delay_bt">Audioaren atzerapena %s ms-tan ezarri da bluetooth gailurako</string>
-    <string name="warning_stream_speed">Erreprodukzio abiadura korronteetarako 1 baino gehiago igotzeak toteltzea eragin dezake</string>
     <string name="go_to_folder">Arakatu gurasoa</string>
     <string name="create_shortcut">Sortu abiarazlearen lasterbidea</string>
     <string name="no_sub_renderer">Azpitituluak oraindik ez dira onartzen igortzean</string>

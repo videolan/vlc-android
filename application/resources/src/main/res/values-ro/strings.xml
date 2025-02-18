@@ -57,6 +57,8 @@
     <string name="append_all">Adăugați toate</string>
     <string name="resume_playback_short_title">Reluați redarea</string>
     <string name="resume_playback_long_title">Reluați redarea ultimei liste de redare</string>
+    <string name="resume_audio_playback_short_title">Reia redarea audio</string>
+    <string name="resume_audio_playback_long_title"> Reia redarea ultimei liste de redare audio</string>
     <string name="resume_playback_error">Nu exista nimic pentru a fi reluat</string>
     <string name="delete">Șterge</string>
     <string name="remove">Eliminare</string>
@@ -201,6 +203,18 @@
     <string name="track_framerate_info">Interval cadre: %1$.3f\n</string>
 
     <string name="playback_speed">Viteză de redare</string>
+    <string name="warning_stream_speed">Creșterea vitezei de redare peste 1 pentru fluxuri poate provoca bâlbâieli</string>
+    <string name="playback_speed_this_video">Acest videoclip</string>
+    <string name="playback_speed_this_track">Această pistă</string>
+    <string name="playback_speed_all_videos">Toate videoclipurile</string>
+    <string name="playback_speed_all_tracks">Toate pistele</string>
+    <string name="playback_speed_explanation_all_videos">Viteza va fi aplicată tuturor videoclipurilor.\nViteza de redare a videoclipurilor individuale va fi ignorată.</string>
+    <string name="playback_speed_explanation_all_tracks">Viteza va fi aplicată tuturor pieselor.\nViteza de redare a pieselor individuale va fi ignorată.</string>
+    <string name="playback_speed_explanation_one_video">Viteza va fi aplicată numai acestui videoclip</string>
+    <string name="playback_speed_explanation_one_track">Viteza va fi aplicată numai acestei piste</string>
+    <string name="audio_playback_speed_global">Folosește viteza de redare globală</string>
+    <string name="audio_playback_speed_global_summary">Folosește viteza de redare setată la nivel global pentru toate piesele.\nViteza de redare a pieselor individuale va fi ignorată.</string>
+
     <string name="sleep_title">Temporizator stare de repaus</string>
     <string name="sleep_in">Adormire in</string>
     <string name="jump_to_time">Sări la timpul</string>
@@ -245,8 +259,6 @@
     <string name="audio_resume_playback_title">Istoricul cozii de redare audio</string>
     <string name="audio_resume_playback_warning">Dezactivarea istoricului cozii de redare audio poate duce la unele probleme de comportament.\nDupă dezactivarea acestuia, este posibil să nu poți relua redarea de pe:\n\n\t- un dispozitiv Bluetooth\n\t- widget-ul\n\t- notificarea media</string>
     <string name="audio_resume_playback_summary">Permite salvarea cozii de redare audio pentru a o relua mai târziu</string>
-    <string name="playback_speed_title">Salvați viteza de redare</string>
-    <string name="playback_speed_summary">Păstrează viteza de redare între fișierele media</string>
 
     <string name="play_button">Buton de redare</string>
 
@@ -1031,7 +1043,6 @@
     <string name="apply_to_all">Se aplică la toate videoclipurile</string>
     <string name="audio_delay_global">Întârzierea audio setată la %s ms pentru toate videoclipurile</string>
     <string name="audio_delay_bt">întârzierea audio stabilită la %s ms pentru dispozitivul bluetooth</string>
-    <string name="warning_stream_speed">Creșterea vitezei de redare peste 1 pentru fluxuri poate provoca bâlbâieli</string>
     <string name="go_to_folder">Răsfoiți părintele</string>
     <string name="go_to_album">Mergi la album</string>
     <string name="go_to_artist">Mergi la artist</string>

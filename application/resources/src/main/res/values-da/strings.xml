@@ -190,6 +190,7 @@
     <string name="track_framerate_info">Billedfrekvens: %1$.3f\n</string>
 
     <string name="playback_speed">Afspilningshastighed</string>
+    <string name="warning_stream_speed">Stigende afspilningshastighed over 1 til vandløb kan medføre stammen</string>
     <string name="sleep_title">Sleep-timer</string>
     <string name="sleep_in">Slumre om</string>
     <string name="jump_to_time">Spring til tidspunkt</string>
@@ -234,8 +235,6 @@
     <string name="audio_resume_playback_title">Lyd afspilningskøhistorik</string>
     <string name="audio_resume_playback_warning">At slå lyd afspilningskøhistorik fra kan føre til visse adfærdsmæssige problemer.\nEfter den er slået fra kan du måske ikke genoptage afspilning fra:\n\n\t- en bluetooth-enhed\n\t- widget\n\t- medienotifikation</string>
     <string name="audio_resume_playback_summary">Tillad at gemme lyd afspilningskøen så den kan genoptages senere</string>
-    <string name="playback_speed_title">Gem afspilningshastighed</string>
-    <string name="playback_speed_summary">Bevar afspilningshastighed mellem medier</string>
 
     <string name="play_button">Afspil-knap</string>
 
@@ -1018,7 +1017,6 @@
     <string name="apply_to_all">Anvend på alle videoer</string>
     <string name="audio_delay_global">Lydforsinkelse sat til %s ms for alle videoer</string>
     <string name="audio_delay_bt">Lydforsinkelse sat til %s ms for bluetooth-enheden</string>
-    <string name="warning_stream_speed">Stigende afspilningshastighed over 1 til vandløb kan medføre stammen</string>
     <string name="go_to_folder">Gennemse forrige</string>
     <string name="go_to_album">Gå til album</string>
     <string name="go_to_artist">Gå til kunstner</string>

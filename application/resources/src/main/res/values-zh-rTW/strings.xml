@@ -55,6 +55,8 @@
     <string name="append_all">全部附加</string>
     <string name="resume_playback_short_title">繼續播放</string>
     <string name="resume_playback_long_title">繼續播放上次的播放清單</string>
+    <string name="resume_audio_playback_short_title">繼續播放音訊</string>
+    <string name="resume_audio_playback_long_title">繼續播放上一個音訊播放清單</string>
     <string name="resume_playback_error">沒有東西可復原</string>
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
@@ -179,6 +181,18 @@
     <string name="track_framerate_info">影格率：%1$.3f\n</string>
 
     <string name="playback_speed">播放速度</string>
+    <string name="warning_stream_speed">增加串流的播放速度超過 1 可能造成間斷</string>
+    <string name="playback_speed_this_video">此影片</string>
+    <string name="playback_speed_this_track">此軌道</string>
+    <string name="playback_speed_all_videos">所有影片</string>
+    <string name="playback_speed_all_tracks">所有軌道</string>
+    <string name="playback_speed_explanation_all_videos">該速度將套用於所有影片。\n將會忽略個別影片的播放速度。</string>
+    <string name="playback_speed_explanation_all_tracks">該速度將套用於所有軌道。\n將會忽略個別軌道的播放速度。</string>
+    <string name="playback_speed_explanation_one_video">速度將只會套用於此影片</string>
+    <string name="playback_speed_explanation_one_track">速度將只會套用於此軌道</string>
+    <string name="audio_playback_speed_global">使用全域播放速度</string>
+    <string name="audio_playback_speed_global_summary">使用為所有音訊軌道全域設定的播放速度。\n將會忽略個別軌道的播放速度。</string>
+
     <string name="sleep_title">睡眠計時器</string>
     <string name="sleep_in">睡眠倒數</string>
     <string name="jump_to_time">跳至時間</string>
@@ -223,8 +237,6 @@
     <string name="audio_resume_playback_title">音訊播放佇列歷史紀錄</string>
     <string name="audio_resume_playback_warning">停用音訊播放佇列可能會導致一些奇怪的行為。\n在停用後，您將無法在以下位置執行繼續播放動作：\n\n\t- 藍牙裝置\n\t- 小工具\n\t- 媒體通知</string>
     <string name="audio_resume_playback_summary">允許儲存音訊播放佇列內容，以便在稍後繼續播放</string>
-    <string name="playback_speed_title">儲存播放速度</string>
-    <string name="playback_speed_summary">保持媒體之間的播放速度</string>
 
     <string name="play_button">播放按鈕</string>
 
@@ -1005,7 +1017,6 @@
     <string name="apply_to_all">套用到所有影片</string>
     <string name="audio_delay_global">所有影片的音訊延遲設定為 %s 毫秒</string>
     <string name="audio_delay_bt">藍牙裝置的音訊延遲設定為%s毫秒</string>
-    <string name="warning_stream_speed">增加串流的播放速度超過 1 可能造成間斷</string>
     <string name="go_to_folder">瀏覽上一層</string>
     <string name="go_to_album">前往專輯</string>
     <string name="go_to_artist">前往藝人</string>

@@ -186,6 +186,7 @@
     <string name="track_framerate_info">Liczba klatek: %1$.3f\n</string>
 
     <string name="playback_speed">Prędkość odtwarzania</string>
+    <string name="warning_stream_speed">Zwiększenie prędkości odtwarzania strumieni powyżej 1 może powodować zacinanie się</string>
     <string name="sleep_title">Wyłącznik czasowy</string>
     <string name="sleep_in">Zmień wyłącznik czasowy</string>
     <string name="jump_to_time">Skocz do czasu</string>
@@ -216,7 +217,6 @@
 
     <string name="playback_history_title">Historia odtwarzania</string>
     <string name="playback_history_summary">Zapisz wszystkie multimedia odtwarzane w sekcji Historia</string>
-    <string name="playback_speed_title">Zapisz prędkość odtwarzania</string>
     <string name="play_button">Przycisk odtwarzania</string>
 
     <string name="seek">Szukaj</string>
@@ -795,7 +795,6 @@
     <string name="apply_to_all">Zastosuj do wszystkich filmów</string>
     <string name="audio_delay_global">Opóźnienie dźwięku ustawione na %s ms dla wszystkich filmów</string>
     <string name="audio_delay_bt">Opóźnienie dźwięku ustawione na %s ms dla urządzenia Bluetooth</string>
-    <string name="warning_stream_speed">Zwiększenie prędkości odtwarzania strumieni powyżej 1 może powodować zacinanie się</string>
     <string name="go_to_folder">Przeglądaj katalog nadrzędny</string>
     <string name="no_sub_renderer">Napisy nie są jeszcze obsługiwane podczas transmisji</string>
     <string name="enqueuing">Ładowanie Twoich multimediów</string>

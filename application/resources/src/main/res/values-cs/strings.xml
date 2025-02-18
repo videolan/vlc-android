@@ -204,6 +204,7 @@
     <string name="track_framerate_info">Počet snímků: %1$.3f\n</string>
 
     <string name="playback_speed">Rychlost přehrávání</string>
+    <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
     <string name="sleep_title">Časovač</string>
     <string name="sleep_in">Vypnout za…</string>
     <string name="jump_to_time">Přejít na pozici</string>
@@ -245,8 +246,6 @@
     <string name="audio_resume_playback_title">Historie fronty přehrávání zvuku</string>
     <string name="audio_resume_playback_warning">Zakázáním historie fronty přehrávání zvuku může vést k funkčním problémům.\nPo zakázání pravděpodobně nebude možné obnovení přehrávání z:\n\n\t- a  bluetooth zařízení\n\t- widgetu\n\t- oznámení médií</string>
     <string name="audio_resume_playback_summary">Povolit ukládání fronty přehrávání zvuku pro pozdější pokračování</string>
-    <string name="playback_speed_title">Uložit rychlost přehrávání</string>
-    <string name="playback_speed_summary">Uložit nastavenou rychlost přehrávání.</string>
 
     <string name="play_button">Tlačítko Přehrát</string>
 
@@ -978,7 +977,6 @@
     <string name="apply_to_all">Použít na všechna videa</string>
     <string name="audio_delay_global">Zpoždění zvuku u všech videí nastaveno na %s ms</string>
     <string name="audio_delay_bt">Zpoždění zvuku pro zařízení Bluetooth nastaveno na %s ms</string>
-    <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
     <string name="go_to_folder">Procházet zdrojové složky</string>
     <string name="create_shortcut">Vytvořit odkaz na domovské obrazovce</string>
     <string name="no_sub_renderer">Titulky nejsou podporovány během přenosu.</string>

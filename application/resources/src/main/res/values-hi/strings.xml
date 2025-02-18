@@ -211,9 +211,6 @@
 
     <string name="playback_history_title">प्लेबैक इतिहास</string>
     <string name="playback_history_summary">कलाकृतियों के चलने का लेखाजोखा रखना है</string>
-    <string name="playback_speed_title">प्लेबैक गति को सहेजें</string>
-    <string name="playback_speed_summary">अगली कलाकृति को चलाते समय गति को पिछले के समान रखना है</string>
-
     <string name="play_button">चलाने का बटन</string>
 
     <!-- Tips -->
@@ -372,7 +369,6 @@
     <string name="tv_folders_first_summary">फाइल अल्मारी में क्रम से पहले फोल्डर और फिर फाइलें हों</string>
     <string name="tv_show_hidden_files">छुपी हुई फाइलें दिखायें</string>
     <string name="tv_show_hidden_files_summary">फाइल अल्मारी में गुप्त फाइलें भी दिखायें</string>
-
     <string name="extension_permission_checkbox_title">%1$s में दिखायें</string>
     <string name="extension_prefs_activation_title">सक्रिय करें</string>
     <string name="controls_prefs_category">नियंत्रण</string>

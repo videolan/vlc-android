@@ -56,6 +56,8 @@
     <string name="append_all">Annanghe totu</string>
     <string name="resume_playback_short_title">Sighi a riproduire</string>
     <string name="resume_playback_long_title">Sighi cun sa riprodutzione de s\'ùrtima iscalita</string>
+    <string name="resume_audio_playback_short_title">Sighi a riproduire s\'àudio</string>
+    <string name="resume_audio_playback_long_title">Sighi cun sa riprodutzione de s\'ùrtima iscalita àudio</string>
     <string name="resume_playback_error">Nudda de fàghere sighire</string>
     <string name="delete">Iscantzella</string>
     <string name="remove">Boga</string>
@@ -190,6 +192,18 @@
     <string name="track_framerate_info">Lestresa: %1$.3f\n\n</string>
 
     <string name="playback_speed">Lestresa de riprodutzione</string>
+    <string name="warning_stream_speed">Artziare sa lestresa de riprodutzione de sos flussos a prus de 1 diat pòdere causare una riprodutzione a iscatos</string>
+    <string name="playback_speed_this_video">Custu vìdeu</string>
+    <string name="playback_speed_this_track">Custa rasta</string>
+    <string name="playback_speed_all_videos">Totu sos vìdeos</string>
+    <string name="playback_speed_all_tracks">Totu sas rastas</string>
+    <string name="playback_speed_explanation_all_videos">Custa lestresa s\'at a aplicare a totu sos vìdeos.\nSa lestresa de riprodutzione individuale de sos vìdeos at a èssere ignorada.</string>
+    <string name="playback_speed_explanation_all_tracks">Custa lestresa s\'at a aplicare a totu sas rastas.\nSa lestresa de riprodutzione individuale de sas rastas at a èssere ignorada.</string>
+    <string name="playback_speed_explanation_one_video">Custa lestresa s\'at a aplicare a custu vìdeu ebbia</string>
+    <string name="playback_speed_explanation_one_track">Custa lestresa s\'at a aplicare a custa rasta ebbia</string>
+    <string name="audio_playback_speed_global">Imprea sa lestresa globale de riprodutzione</string>
+    <string name="audio_playback_speed_global_summary">Imprea sa lestresa de riprodutzione impostada in manera globale pro totu sas rastas..\nSa lestresa de riprodutzione individuale de sas rastas at a èssere ignorada.</string>
+
     <string name="sleep_title">Suspende</string>
     <string name="sleep_in">Suspende in</string>
     <string name="jump_to_time">Brincu temporale</string>
@@ -234,8 +248,6 @@
     <string name="audio_resume_playback_title">Cronologia de s\'elencu de riprodutzione àudio</string>
     <string name="audio_resume_playback_warning">S\'inabilitatzione de sa cronologia de riprodutzione àudio diat pòdere causare de unos cantos problemas de cumportamentu.\nA pustis de l\'àere disabilitada dias pòdere no èssere in gradu de torrare a sighire sa riprodutzione dae:\n\n\t- un dispositivu bluetooth\n\t- su widget\n\t- sa notìfica multimediale</string>
     <string name="audio_resume_playback_summary">Permite su sarvamentu de s\'elencu de riprodutzione àudio pro torrare a sighire prus a tardu</string>
-    <string name="playback_speed_title">Sarva sa lestresa de riprodutzione</string>
-    <string name="playback_speed_summary">Sarva sa lestresa de riprodutzione intre sos cuntenutos multimediales</string>
 
     <string name="play_button">Butone de riprodutzione</string>
 
@@ -1018,7 +1030,6 @@
     <string name="apply_to_all">Àplica a totu sos vìdeos</string>
     <string name="audio_delay_global">Ritardu àudio impostadu a %s ms pro totu sos vìdeos</string>
     <string name="audio_delay_bt">Ritardu àudio impostadu a %s ms pro su dispositivu bluetooth</string>
-    <string name="warning_stream_speed">Artziare sa lestresa de riprodutzione de sos flussos a prus de 1 diat pòdere causare una riprodutzione a iscatos</string>
     <string name="go_to_folder">Esplora sa cartella superiore</string>
     <string name="go_to_album">Bae a s\'album</string>
     <string name="go_to_artist">Bae a s\'artista</string>

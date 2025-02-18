@@ -170,6 +170,7 @@
     <string name="track_framerate_info">ഫ്രേം റേറ്റ് : %1$.3f\n</string>
 
     <string name="playback_speed">പ്ളേബാക്ക് വേഗത</string>
+    <string name="warning_stream_speed">സ്ട്രീമുകൾക്കായി പ്ലേബാക്ക് വേഗത 1 ൽ കൂടുതലാകുന്നത് തടസ്സത്തിന് കാരണമായേക്കാം</string>
     <string name="sleep_title">സ്ലീപ് റ്റൈമര്‍</string>
     <string name="sleep_in">ഇത്ര സമയത്തിനുള്ളില്‍ ഉറങ്ങുക</string>
     <string name="jump_to_time">സമയത്തിലേക്ക് ചാടുക</string>
@@ -203,7 +204,6 @@
 
     <string name="playback_history_title">മുൻപ് കണ്ടതിന്റെ വിവരങ്ങൾ </string>
     <string name="playback_history_summary">കണ്ട മീഡിയയുടെ ചരിത്രം  സൂക്ഷിക്കുക </string>
-    <string name="playback_speed_title">കാഴ്ചയുടെ വേഗം സൂക്ഷിക്കുക </string>
     <string name="play_button">പ്ളേ ബട്ടൺ </string>
 
     <!-- Tips -->
@@ -845,7 +845,6 @@
     <string name="apply_to_all">എല്ലാ വീഡിയോകൾക്കും പ്രയോഗിക്കുക</string>
     <string name="audio_delay_global">എല്ലാ വീഡിയോകൾക്കും ഓഡിയോ കാലതാമസം %s ms ആയി സജ്ജമാക്കി</string>
     <string name="audio_delay_bt">ബ്ലൂടൂത്ത് ഉപകരണത്തിനായി ശബ്ദ കാലതാമസം %s എം‌എസായി സജ്ജമാക്കി</string>
-    <string name="warning_stream_speed">സ്ട്രീമുകൾക്കായി പ്ലേബാക്ക് വേഗത 1 ൽ കൂടുതലാകുന്നത് തടസ്സത്തിന് കാരണമായേക്കാം</string>
     <string name="go_to_folder">വന്ന ഇടത്തു തേടുക</string>
     <string name="create_shortcut">ഒരു ലോഞ്ചർ കുറുക്കുവഴി സൃഷ്ടിക്കുക</string>
     <string name="no_sub_renderer">കാസ്റ്റിങ് സമയത്തു ഉപശീർഷകങ്ങൾ തത്കാലം ലഭ്യമല്ല </string>

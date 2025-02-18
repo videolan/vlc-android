@@ -224,6 +224,7 @@
     <string name="track_framerate_info">معدل الإطار: %1$.3f\n</string>
 
     <string name="playback_speed">سرعة التّشغيل</string>
+    <string name="warning_stream_speed">قد تؤدي زيادة سرعة التشغيل إلى أكثر من 1 لعمليات البث إلى حدوث تقطع</string>
     <string name="sleep_title">مؤقّت النّوم</string>
     <string name="sleep_in">النوم</string>
     <string name="jump_to_time">اقفز زمنيًا إلى</string>
@@ -267,8 +268,6 @@
     <string name="audio_resume_playback_title">سجل قائمة تشغيل الصوت</string>
     <string name="audio_resume_playback_warning">قد يؤدي تعطيل سجل قائمة تشغيل الصوت إلى بعض مشكلات السلوك.\nبعد تعطيله، قد لا تتمكن من استئناف التشغيل من:\n\n\t- جهاز بلوتوث\n\t- الأداة\n\t- إشعار الوسائط</string>
     <string name="audio_resume_playback_summary">السماح بحفظ قائمة تشغيل الصوت لاستئنافها لاحقًا</string>
-    <string name="playback_speed_title">احفظ سرعة التشغيل</string>
-    <string name="playback_speed_summary">الحفاظ على سرعة التشغيل بين الوسائط</string>
 
     <string name="play_button">زر التشغيل</string>
 
@@ -942,7 +941,6 @@
     <string name="apply_to_all">طبق على كل الفيديوهات</string>
     <string name="audio_delay_global">تم ضبط تأخير الصوت على %s مللي ثانية لكل الفيديوهات</string>
     <string name="audio_delay_bt">تم ضبط تأخير الصوت على %s مللي ثانية لجهاز البلوتوث</string>
-    <string name="warning_stream_speed">قد تؤدي زيادة سرعة التشغيل إلى أكثر من 1 لعمليات البث إلى حدوث تقطع</string>
     <string name="go_to_folder">تصفح الوالدين</string>
     <string name="no_sub_renderer">لم يتم دعم الترجمات أثناء الإرسال</string>
     <string name="soundfont">خط الصوت \"SoundFont\" لـ وصلة بينيه رقمية للآلات الموسيقية \"MIDI\"</string>

@@ -190,6 +190,7 @@
     <string name="track_framerate_info">კადრის სიხშირე: %1$.3f\n</string>
 
     <string name="playback_speed">დაკვრის სიჩქარე</string>
+    <string name="warning_stream_speed">სიჩქარის 1-ზე მეტად გაზრდამ ნაკადისთვის, შეიძლება შეფერხებები წარმოშვას</string>
     <string name="sleep_title">ძილის უკუთვლა</string>
     <string name="sleep_in">დაიძინოს</string>
     <string name="jump_to_time">გადასვლა დროზე</string>
@@ -234,8 +235,6 @@
     <string name="audio_resume_playback_title">გასაშვები ხმოვანი ჩანაწერების რიგის დახსომება</string>
     <string name="audio_resume_playback_warning">ხმოვანი ჩანაწერების რიგის დახსომების გათიშვამ შეიძლება ხარვეზები წარმოშვას.\nშედეგად, ვერ შეძლებთ განაგრძოთ დაკვრა:\n\n\t- Bluetooth-მოწყობილობიდან\n\t- ვიჯეტიდან\n\t- შეტყობინების არედან</string>
     <string name="audio_resume_playback_summary">ნებართვა გასაშვები ხმოვანი ჩანაწერების რიგის შესანახად მოგვიანებით გაგრძელებისთვის</string>
-    <string name="playback_speed_title">დაკვრის სიჩქარის დამახსოვრება</string>
-    <string name="playback_speed_summary">დაკვრის სიჩქარის შენარჩუნება სხვადასხვა ფაილზე</string>
 
     <string name="play_button">გაშვების ღილაკი</string>
 
@@ -1012,7 +1011,6 @@
     <string name="apply_to_all">ყველა ვიდეოზე ასახვა</string>
     <string name="audio_delay_global">ხმის დაყოვნებად მითითებულია %s მწმ ყველა ვიდეოსთვის</string>
     <string name="audio_delay_bt">ხმის დაყოვნებად მითითებულია %s მწმ Bluetooth-მოწყობილობისთვის</string>
-    <string name="warning_stream_speed">სიჩქარის 1-ზე მეტად გაზრდამ ნაკადისთვის, შეიძლება შეფერხებები წარმოშვას</string>
     <string name="go_to_folder">ამორჩევა ზედა საქაღალდეში</string>
     <string name="go_to_album">გადასვლა ალბომზე</string>
     <string name="go_to_artist">გადასვლა შემსრულებელზე</string>
