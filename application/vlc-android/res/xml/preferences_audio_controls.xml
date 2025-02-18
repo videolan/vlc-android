@@ -45,6 +45,18 @@
                 android:defaultValue="false"
                 android:key="audio_show_track_numbers"
                 android:title="@string/albums_show_track_numbers"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="audio_show_chapter_buttons"
+                android:title="@string/show_chapter_buttons"
+                android:summary="@string/show_chapter_buttons_summary"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="audio_show_bookmark_buttons"
+                android:title="@string/show_bookmark_buttons"
+                android:summary="@string/show_bookmark_buttons_summary"/>
     </PreferenceCategory>
 
 

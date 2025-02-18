@@ -412,6 +412,10 @@
     <string name="fastplay_speed_title">Fastplay speed</string>
     <string name="fastplay_title">Playing at %sx</string>
     <string name="fastplay_subtitle">Release to stop</string>
+    <string name="show_bookmark_buttons">Show bookmark buttons</string>
+    <string name="show_bookmark_buttons_summary">Show buttons to navigate between bookmarks</string>
+    <string name="show_chapter_buttons">Show chapter buttons</string>
+    <string name="show_chapter_buttons_summary">Show buttons to navigate between chapters</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
