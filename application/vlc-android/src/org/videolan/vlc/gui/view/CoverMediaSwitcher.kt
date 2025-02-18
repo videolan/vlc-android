@@ -28,6 +28,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import org.videolan.tools.KEY_AUDIO_SHOW_CHAPTER_BUTTONS
 import org.videolan.tools.Settings
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
@@ -55,7 +56,7 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         val previousChapterView = v.findViewById<ImageView?>(R.id.previous_chapter)
         val nextChapterView = v.findViewById<ImageView?>(R.id.next_chapter)
 
-        if (hasChapters) {
+        if (hasChapters && Settings.getInstance(context).getBoolean(KEY_AUDIO_SHOW_CHAPTER_BUTTONS, true)) {
             previousChapterView?.setVisible()
             nextChapterView?.setVisible()
         } else {
