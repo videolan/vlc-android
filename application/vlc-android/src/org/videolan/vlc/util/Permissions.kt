@@ -112,12 +112,11 @@ object Permissions {
     }
 
     fun canReadVideos(context: Context): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.R && isExternalStorageManager() ||
-                ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) &&
-                        (ContextCompat.checkSelfPermission(
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+                (ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager())) ||
+                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()) ||
                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && (ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_MEDIA_VIDEO
@@ -126,12 +125,11 @@ object Permissions {
     }
 
     fun canReadAudios(context: Context): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.R && isExternalStorageManager() ||
-                ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) &&
-                        (ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager())) ||
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+                (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()) ||
                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && (ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_MEDIA_AUDIO
