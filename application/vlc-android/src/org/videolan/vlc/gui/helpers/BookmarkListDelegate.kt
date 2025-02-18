@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.helpers
 
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.widget.ViewStubCompat
@@ -50,6 +51,8 @@ import org.videolan.vlc.viewmodels.BookmarkModel
 class BookmarkListDelegate(val activity: FragmentActivity, val service: PlaybackService, private val bookmarkModel: BookmarkModel) :
         LifecycleObserver, BookmarkAdapter.IBookmarkManager {
 
+    lateinit var nextBookmarButton: Button
+    lateinit var previousBookmarButton: Button
     lateinit var addBookmarButton: ImageView
     lateinit var markerContainer: ConstraintLayout
     private lateinit var adapter: BookmarkAdapter
@@ -60,12 +63,16 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
     val visible: Boolean
         get() = rootView.visibility != View.GONE
 
+    private var lastBookmark: LastBookmarkSkip? = null
+
     fun show() {
         activity.findViewById<ViewStubCompat>(R.id.bookmarks_stub)?.let {
             rootView = it.inflate() as ConstraintLayout
             bookmarkList = rootView.findViewById(R.id.bookmark_list)
             rootView.findViewById<ImageView>(R.id.close).setOnClickListener { hide() }
             addBookmarButton = rootView.findViewById<ImageView>(R.id.add_bookmark)
+            nextBookmarButton = rootView.findViewById<Button>(R.id.next_bookmark)
+            previousBookmarButton = rootView.findViewById<Button>(R.id.previous_bookmark)
             addBookmarButton.setOnClickListener {
                 bookmarkModel.addBookmark(activity)
                 addBookmarButton.announceForAccessibility(activity.getString(R.string.bookmark_added))
@@ -81,6 +88,18 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             adapter = BookmarkAdapter(this)
             bookmarkList.adapter = adapter
             bookmarkList.itemAnimator = null
+            previousBookmarButton.setOnClickListener {
+                val bookmark = findPrevious()
+                bookmark?.let {
+                    service.setTime(it.time)
+                }
+            }
+            nextBookmarButton.setOnClickListener {
+                val bookmark = findNext()
+                bookmark?.let {
+                    service.setTime(it.time)
+                }
+            }
 
             bookmarkModel.dataset.observe(activity) { bookmarkList ->
                 adapter.update(bookmarkList)
@@ -122,6 +141,77 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
         rootView.setVisible()
         markerContainer.setVisible()
         visibilityListener.invoke()
+    }
+
+    /**
+     * Find the previous bookmark.
+     * If the user already used a button in the last 5 seconds, start from here
+     * Else find the first bookmark before the current time
+     *
+     * @return the previous bookmark or null if not found
+     */
+    private fun findPrevious(): Bookmark? {
+        lastBookmark?.let { lastBookmarkFound ->
+            if (System.currentTimeMillis() - 5000 < lastBookmarkFound.time) {
+                // the user already used a button in the last 5 seconds
+                var foundBookmark: Bookmark? = null
+                adapter.dataset.forEach {
+                    if (it.time < lastBookmarkFound.bookmark.time) foundBookmark = it
+                }
+                foundBookmark?.let {
+                    lastBookmark = LastBookmarkSkip(it, true, System.currentTimeMillis())
+                    return it
+                }
+            }
+        }
+
+        val currentTime = service.getTime()
+        var bookmark:Bookmark? = null
+        adapter.dataset.forEach {
+            if (it.time < currentTime) bookmark = it
+        }
+
+        bookmark?.let {
+            lastBookmark = LastBookmarkSkip(it, true, System.currentTimeMillis())
+        }
+
+        return bookmark
+    }
+
+    /**
+     * Find the next bookmark.
+     * If the user already used a button in the last 5 seconds, start from here
+     * Else find the first bookmark after the current time
+     *
+     * @return the next bookmark or null if not found
+     */
+    private fun findNext(): Bookmark? {
+
+        lastBookmark?.let { lastBookmarkFound ->
+            if (System.currentTimeMillis() - 5000 < lastBookmarkFound.time) {
+                // the user already used a button in the last 5 seconds
+                var foundBookmark: Bookmark? = null
+                adapter.dataset.reversed().forEach {
+                    if (it.time > lastBookmarkFound.bookmark.time) foundBookmark = it
+                }
+                foundBookmark?.let {
+                    lastBookmark = LastBookmarkSkip(it, false, System.currentTimeMillis())
+                    return it
+                }
+            }
+        }
+
+        val currentTime = service.getTime()
+        var bookmark:Bookmark? = null
+        adapter.dataset.reversed().forEach {
+            if (it.time > currentTime) bookmark = it
+        }
+
+        bookmark?.let {
+            lastBookmark = LastBookmarkSkip(it, false, System.currentTimeMillis())
+        }
+
+        return bookmark
     }
 
     fun hide() {
@@ -170,3 +260,5 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
         }
     }
 }
+
+data class LastBookmarkSkip(val bookmark: Bookmark, val previous:Boolean, val time:Long)

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/bookmarks_background"
         android:layout_width="match_parent"
         android:background="?attr/bookmark_background"
@@ -79,10 +80,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="center|end"
+            android:layout_marginBottom="8dp"
             android:clipToPadding="false"
             android:paddingTop="@dimen/default_margin"
             android:paddingBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/progressbar_guideline"
+            app:layout_constraintBottom_toTopOf="@+id/next_bookmark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_bar" />
@@ -107,12 +109,38 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_bookmark"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="16sp"
-                android:textColor="?attr/font_default" />
+                android:text="@string/no_bookmark"
+                android:textColor="?attr/font_default"
+                android:textSize="16sp" />
 
     </LinearLayout>
+
+    <Button
+            android:id="@+id/previous_bookmark"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:drawableLeft="@drawable/ic_bookmark_previous"
+            android:text="@string/previous"
+            app:layout_constraintBottom_toTopOf="@+id/progressbar_guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:ignore="RtlHardcoded" />
+
+    <Button
+            android:id="@+id/next_bookmark"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:drawableRight="@drawable/ic_bookmark_next"
+            android:text="@string/next"
+            app:layout_constraintBottom_toTopOf="@+id/progressbar_guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="RtlHardcoded" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
