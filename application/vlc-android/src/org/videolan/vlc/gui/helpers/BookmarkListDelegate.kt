@@ -101,33 +101,7 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
 
             bookmarkModel.dataset.observe(activity) { bookmarkList ->
                 adapter.update(bookmarkList)
-                markerContainer.removeAllViews()
-
-                //show bookmark markers
-                service.currentMediaWrapper?.length?.let { mediaLength ->
-                    if (mediaLength < 1) return@let
-                    val constraintSet = ConstraintSet()
-                    constraintSet.clone(markerContainer)
-                    bookmarkList.forEach { bookmark ->
-                        val imageView = ImageView(activity)
-                        imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                        imageView.id = View.generateViewId()
-
-                        val guidelineId = View.generateViewId()
-                        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Adding guideline to: ${bookmark.time.toFloat() / mediaLength.toFloat()}")
-                        constraintSet.create(guidelineId, ConstraintSet.VERTICAL_GUIDELINE)
-                        constraintSet.setGuidelinePercent(guidelineId, bookmark.time.toFloat() / mediaLength.toFloat())
-                        constraintSet.connect(imageView.id, ConstraintSet.START, guidelineId, ConstraintSet.START, 0)
-                        constraintSet.connect(imageView.id, ConstraintSet.END, guidelineId, ConstraintSet.END, 0)
-                        constraintSet.constrainWidth(imageView.id, ConstraintSet.WRAP_CONTENT)
-                        constraintSet.constrainHeight(imageView.id, ConstraintSet.WRAP_CONTENT)
-                        constraintSet.connect(imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-                        constraintSet.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                        imageView.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_bookmark_marker))
-                        markerContainer.addView(imageView)
-                    }
-                    constraintSet.applyTo(markerContainer)
-                }
+                showBookmarks(markerContainer, service, activity, bookmarkList)
 
 
 
@@ -184,6 +158,36 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             val bookmarks = bookmarkModel.rename(media, name)
             adapter.update(bookmarks)
             bookmarkModel.refresh()
+        }
+    }
+    companion object {
+        fun showBookmarks(markerContainer:ConstraintLayout, service: PlaybackService, activity: FragmentActivity, bookmarkList: List<Bookmark>) {
+            markerContainer.removeAllViews()
+
+            //show bookmark markers
+            service.currentMediaWrapper?.length?.let { mediaLength ->
+                if (mediaLength < 1) return@let
+                val constraintSet = ConstraintSet()
+                constraintSet.clone(markerContainer)
+                bookmarkList.forEach { bookmark ->
+                    val imageView = ImageView(activity)
+                    imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                    imageView.id = View.generateViewId()
+
+                    val guidelineId = View.generateViewId()
+                    constraintSet.create(guidelineId, ConstraintSet.VERTICAL_GUIDELINE)
+                    constraintSet.setGuidelinePercent(guidelineId, bookmark.time.toFloat() / mediaLength.toFloat())
+                    constraintSet.connect(imageView.id, ConstraintSet.START, guidelineId, ConstraintSet.START, 0)
+                    constraintSet.connect(imageView.id, ConstraintSet.END, guidelineId, ConstraintSet.END, 0)
+                    constraintSet.constrainWidth(imageView.id, ConstraintSet.WRAP_CONTENT)
+                    constraintSet.constrainHeight(imageView.id, ConstraintSet.WRAP_CONTENT)
+                    constraintSet.connect(imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+                    constraintSet.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                    imageView.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_bookmark_marker))
+                    markerContainer.addView(imageView)
+                }
+                constraintSet.applyTo(markerContainer)
+            }
         }
     }
 }

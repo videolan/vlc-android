@@ -429,13 +429,19 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.previousChapter?.visibility = View.VISIBLE
         }
 
-        if (isShowingCover() && !bookmarkModel.dataset.isEmpty() && settings.getBoolean(KEY_AUDIO_SHOW_BOOMARK_BUTTONS, false)) {
+        if (isShowingCover() && !bookmarkModel.dataset.isEmpty() && settings.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, false)) {
             binding.audioForwardBookmark.setVisible()
             binding.audioRewindBookmark.setVisible()
         } else {
             binding.audioForwardBookmark.setGone()
             binding.audioRewindBookmark.setGone()
         }
+        if (settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_MARKERS, false))
+            bookmarkModel.service?.let { service ->
+                binding.bookmarkMarkerContainer.setVisible()
+                BookmarkListDelegate.showBookmarks(binding.bookmarkMarkerContainer, service, requireActivity(), bookmarkModel.dataset.getList())
+            }
+        else binding.bookmarkMarkerContainer.removeAllViews()
 
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
         binding.songSubtitle?.text = if (!chapter.isNullOrEmpty()) TextUtils.separatedString(playlistModel.title, playlistModel.artist) else TextUtils.separatedString(playlistModel.artist, playlistModel.album)
@@ -748,6 +754,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             bookmarkListDelegate = BookmarkListDelegate(requireActivity(), service, bookmarkModel)
             bookmarkListDelegate.visibilityListener = {
                 binding.audioPlayProgress.visibility = if (shouldHidePlayProgress()) View.GONE else View.VISIBLE
+                lifecycleScope.launch {
+                    doUpdate()
+                }
             }
             bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
         }

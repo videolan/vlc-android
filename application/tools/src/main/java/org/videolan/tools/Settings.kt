@@ -119,7 +119,8 @@ const val KEY_AUDIO_LONG_JUMP_DELAY = "audio_long_jump_delay"
 const val KEY_AUDIO_FORCE_SHUFFLE = "audio_force_shuffle"
 const val KEY_AUDIO_SHOW_TRACK_NUMBERS = "audio_show_track_numbers"
 const val KEY_AUDIO_SHOW_CHAPTER_BUTTONS = "audio_show_chapter_buttons"
-const val KEY_AUDIO_SHOW_BOOMARK_BUTTONS = "audio_show_bookmark_buttons"
+const val KEY_AUDIO_SHOW_BOOkMARK_BUTTONS = "audio_show_bookmark_buttons"
+const val KEY_AUDIO_SHOW_BOOKMARK_MARKERS = "audio_show_bookmark_markers"
 
 
 // AudioPlayer

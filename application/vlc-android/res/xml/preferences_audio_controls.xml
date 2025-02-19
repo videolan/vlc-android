@@ -57,6 +57,14 @@
                 android:key="audio_show_bookmark_buttons"
                 android:title="@string/show_bookmark_buttons"
                 android:summary="@string/show_bookmark_buttons_summary"/>
+
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:dependency="audio_show_bookmark_buttons"
+                android:key="audio_show_bookmark_markers"
+                android:title="@string/show_bookmark_markers"
+                android:summary="@string/show_bookmark_markers_summary"/>
     </PreferenceCategory>
 
 
