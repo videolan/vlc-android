@@ -43,6 +43,8 @@ class BookmarkModel : ViewModel(), PlaybackService.Callback {
 
     val dataset = LiveDataset<Bookmark>()
     var service: PlaybackService? = null
+    private var lastBookmark: LastBookmarkSkip? = null
+
 
     init {
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
@@ -131,4 +133,77 @@ class BookmarkModel : ViewModel(), PlaybackService.Callback {
         return bookmarks
     }
 
+    /**
+     * Find the previous bookmark.
+     * If the user already used a button in the last 5 seconds, start from here
+     * Else find the first bookmark before the current time
+     *
+     * @return the previous bookmark or null if not found
+     */
+    fun findPrevious(): Bookmark? {
+        val service = service ?: return null
+        lastBookmark?.let { lastBookmarkFound ->
+            if (System.currentTimeMillis() - 5000 < lastBookmarkFound.time) {
+                // the user already used a button in the last 5 seconds
+                var foundBookmark: Bookmark? = null
+                dataset.getList().sortedBy { it.time }.forEach {
+                    if (it.time < lastBookmarkFound.bookmark.time) foundBookmark = it
+                }
+                foundBookmark?.let {
+                    lastBookmark = LastBookmarkSkip(it, true, System.currentTimeMillis())
+                    return it
+                }
+            }
+        }
+
+        val currentTime = service.getTime()
+        var bookmark:Bookmark? = null
+        dataset.getList().sortedBy { it.time }.forEach {
+            if (it.time < currentTime) bookmark = it
+        }
+
+        bookmark?.let {
+            lastBookmark = LastBookmarkSkip(it, true, System.currentTimeMillis())
+        }
+
+        return bookmark
+    }
+
+    /**
+     * Find the next bookmark.
+     * If the user already used a button in the last 5 seconds, start from here
+     * Else find the first bookmark after the current time
+     *
+     * @return the next bookmark or null if not found
+     */
+    fun findNext(): Bookmark? {
+        val service = service ?: return null
+        lastBookmark?.let { lastBookmarkFound ->
+            if (System.currentTimeMillis() - 5000 < lastBookmarkFound.time) {
+                // the user already used a button in the last 5 seconds
+                var foundBookmark: Bookmark? = null
+                dataset.getList().sortedByDescending { it.time }.forEach {
+                    if (it.time > lastBookmarkFound.bookmark.time) foundBookmark = it
+                }
+                foundBookmark?.let {
+                    lastBookmark = LastBookmarkSkip(it, false, System.currentTimeMillis())
+                    return it
+                }
+            }
+        }
+
+        val currentTime = service.getTime()
+        var bookmark:Bookmark? = null
+        dataset.getList().sortedByDescending { it.time }.forEach {
+            if (it.time > currentTime) bookmark = it
+        }
+
+        bookmark?.let {
+            lastBookmark = LastBookmarkSkip(it, false, System.currentTimeMillis())
+        }
+
+        return bookmark
+    }
+
 }
+data class LastBookmarkSkip(val bookmark: Bookmark, val previous:Boolean, val time:Long)
