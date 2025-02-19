@@ -1097,7 +1097,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
             }
             bookmarkListDelegate?.show()
-            val top = hudBinding.playerOverlaySeekbar.top
+            val top = hudBinding.playerOverlayTime.top
             bookmarkListDelegate?.setProgressHeight((top + 12.dp).toFloat())
         }
     }
