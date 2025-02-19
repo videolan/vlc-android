@@ -123,6 +123,7 @@ class AboutVersionDialog : VLCBottomSheetDialogFragment() {
                     "AC:5A:BC:F1:99:AC:86:61:6A:79:65:CB:84:59:94:89:A5:A7:3F:86" -> signer = "VideoLAN nightly"
                     "4D:D5:44:A7:51:D3:D5:4C:17:D8:7E:1D:D3:60:F0:C6:40:A5:C1:50" -> signer = "Google"
                     "EE:FB:C9:81:42:83:43:BB:DD:FF:F6:B2:3B:6B:D8:71:73:51:41:0C" -> signer = "VideoLAN"
+                    "A6:07:A2:5D:03:B8:90:5B:2D:16:E6:27:D9:15:74:35:02:E7:D0:CB" -> signer = "Amazon"
                     "40:80:86:F9:AE:A6:52:A8:61:44:70:4F:11:79:9A:CA:BA:31:C7:A0" -> signer = "F-Droid"
                 }
                 Log.i(this::class.java.simpleName, "Found signature. Fingerprint: $toRet")
