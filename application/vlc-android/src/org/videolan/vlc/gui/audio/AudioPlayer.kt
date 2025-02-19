@@ -290,6 +290,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
             bookmarkListDelegate.renameBookmark(media as Bookmark, name)
         }
+
+        bookmarkModel.dataset.observe(requireActivity()) {
+            lifecycleScope.launch {
+                doUpdate()
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -422,6 +428,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.nextChapter?.visibility = View.VISIBLE
             binding.previousChapter?.visibility = View.VISIBLE
         }
+
+        if (isShowingCover() && !bookmarkModel.dataset.isEmpty() && settings.getBoolean(KEY_AUDIO_SHOW_BOOMARK_BUTTONS, false)) {
+            binding.audioForwardBookmark.setVisible()
+            binding.audioRewindBookmark.setVisible()
+        } else {
+            binding.audioForwardBookmark.setGone()
+            binding.audioRewindBookmark.setGone()
+        }
+
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
         binding.songSubtitle?.text = if (!chapter.isNullOrEmpty()) TextUtils.separatedString(playlistModel.title, playlistModel.artist) else TextUtils.separatedString(playlistModel.artist, playlistModel.album)
         binding.songTitle?.isSelected = true
@@ -618,6 +633,20 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun onJumpForwardLong(@Suppress("UNUSED_PARAMETER") view: View):Boolean {
         jump(forward = true, long = true)
         return true
+    }
+
+    fun onPreviousBookmark(@Suppress("UNUSED_PARAMETER") view: View) {
+        val bookmark = bookmarkModel.findPrevious()
+        bookmark?.let {
+            bookmarkModel.service?.setTime(it.time)
+        }
+    }
+
+    fun onNextBookmark(@Suppress("UNUSED_PARAMETER") view: View) {
+        val bookmark = bookmarkModel.findNext()
+        bookmark?.let {
+            bookmarkModel.service?.setTime(it.time)
+        }
     }
 
     /**

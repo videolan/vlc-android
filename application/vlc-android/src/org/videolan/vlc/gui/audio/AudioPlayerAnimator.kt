@@ -166,6 +166,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         hidePlaylistConstraint.setVisibility(R.id.audio_rewind_text, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_forward_text, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_bookmark, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_bookmark, View.VISIBLE)
         headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.BOTTOM)
         headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.TOP)
         headerHidePlaylistConstraint.connect(R.id.playback_chips, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
