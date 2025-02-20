@@ -370,11 +370,13 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doVerticalTouchAction(y_changed: Float) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "doVerticalTouchAction $y_changed // ${screenConfig.metrics.widthPixels} // ${3 * screenConfig.metrics.widthPixels / 7f} // $touchX")
         val rightAction = touchX.toInt() > 4 * screenConfig.metrics.widthPixels / 7f
         val leftAction = !rightAction && touchX.toInt() < 3 * screenConfig.metrics.widthPixels / 7f
         if (!leftAction && !rightAction) return
         val audio = touchControls and TOUCH_FLAG_AUDIO_VOLUME != 0
         val brightness = touchControls and TOUCH_FLAG_BRIGHTNESS != 0
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "doVerticalTouchAction brightness: $brightness // $leftAction")
         if (!audio && !brightness)
             return
         if (rightAction) {
@@ -472,6 +474,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doBrightnessTouch(ychanged: Float) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "doBrightnessTouch: $initInAllowedBounds")
         if (!initInAllowedBounds) return
         if (touchAction != TOUCH_NONE && touchAction != TOUCH_BRIGHTNESS) return
         if (isFirstBrightnessGesture) initBrightnessTouch()
