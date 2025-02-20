@@ -264,6 +264,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      */
     lateinit var mediaBrowserCompat:MediaBrowserCompat
 
+    /**
+     * Once a media has shown the speed action once,
+     * continue showing it until the media changes even if the other conditions are not met
+     */
+    private var forceAutoShowSpeed:Pair<String?, Boolean> = Pair(null, false)
+
+
     private val receiver = object : BroadcastReceiver() {
         private var wasPlaying = false
         override fun onReceive(context: Context, intent: Intent) {
@@ -1336,7 +1343,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     private fun addCustomSpeedActions(pscb: PlaybackStateCompat.Builder, showSpeedActions: Boolean = true) {
-        if (speed != 1.0F || showSpeedActions) {
+        if (speed != 1.0F || showSpeedActions || ( currentMediaWrapper?.uri != null && forceAutoShowSpeed.first == currentMediaWrapper?.uri?.toString() && forceAutoShowSpeed.second)) {
+            currentMediaWrapper?.uri?.let {
+                forceAutoShowSpeed = Pair(it.toString(), true)
+            }
             val speedIcons = hashMapOf(
                     0.50f to R.drawable.ic_auto_speed_0_50,
                     0.80f to R.drawable.ic_auto_speed_0_80,
@@ -1349,7 +1359,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             val speedResId = speedIcons[speedIcons.keys.minByOrNull { (speed - it).absoluteValue }]
                     ?: R.drawable.ic_auto_speed
             pscb.addCustomAction(CUSTOM_ACTION_SPEED, getString(R.string.playback_speed), speedResId)
-        }
+        } else forceAutoShowSpeed = Pair(null, false)
     }
 
     fun notifyTrackChanged() {
