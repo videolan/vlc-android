@@ -112,7 +112,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private val seekRewindSecond: ImageView by lazy { player.findViewById(R.id.seekRewindSecond) }
     private val seekContainer: ConstraintLayout by lazy { player.findViewById(R.id.seekContainer) }
     private val seekBackground: FrameLayout by lazy { player.findViewById(R.id.seek_background) }
-    private val gestureSafetyMargin = 48.dp.toFloat()
+    private val gestureSafetyMargin = 24.dp.toFloat()
 
     companion object {
         private const val TAG = "VLC/VideoTouchDelegate"
