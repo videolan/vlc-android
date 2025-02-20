@@ -42,12 +42,14 @@ import org.videolan.tools.FASTPLAY_SPEED
 import org.videolan.tools.KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_LONG_JUMP_DELAY
+import org.videolan.tools.LOCK_USE_SENSOR
 import org.videolan.tools.POPUP_KEEPSCREEN
 import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_HUD_TIMEOUT
 import org.videolan.tools.coerceInOrDefault
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
 class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
@@ -73,6 +75,8 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
         findPreference<Preference>(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY)?.title = getString(if (AndroidDevices.isAndroidTv) R.string.video_key_jump_delay else R.string.video_double_tap_jump_delay)
+        findPreference<Preference>(LOCK_USE_SENSOR)?.isVisible = !AndroidDevices.isAndroidTv
+
         updateHudTimeoutSummary()
         val audiomanager = requireActivity().getSystemService<AudioManager>()!!
         if (audiomanager.isVolumeFixed) {

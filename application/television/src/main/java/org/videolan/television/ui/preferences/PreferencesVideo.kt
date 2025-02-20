@@ -53,7 +53,6 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         findPreference<Preference>("enable_clone_mode")?.isVisible = false
         findPreference<Preference>(SAVE_BRIGHTNESS)?.isVisible = false
         findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = false
-        findPreference<Preference>(LOCK_USE_SENSOR)?.isVisible = false
     }
 
     override fun onStart() {

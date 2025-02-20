@@ -13,6 +13,24 @@
             app:iconSpaceReserved="false"
             app:singleLineTitle="false" />
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="save_individual_audio_delay"
+            app:iconSpaceReserved="false"
+            android:summary="@string/save_audiodelay_summary"
+            android:title="@string/save_audiodelay_title"/>
+
+    <ListPreference
+            app:singleLineTitle="false"
+            android:defaultValue="0"
+            android:key="video_confirm_resume"
+            app:iconSpaceReserved="false"
+            android:entries="@array/ask_confirmation_entries"
+            android:entryValues="@array/ask_confirmation_values"
+            android:summary="%s"
+            android:title="@string/confirm_resume_title"/>
+
     <PreferenceCategory android:title="@string/gestures"
             app:iconSpaceReserved="false">
         <CheckBoxPreference
@@ -144,6 +162,22 @@
                 app:seekBarIncrement="1"
                 app:singleLineTitle="false"
                 app:updatesContinuously="true" />
+
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="video_transition_show"
+                app:iconSpaceReserved="false"
+                android:summary="@string/video_transition_summary"
+                android:title="@string/video_transition_title"/>
+
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="lock_use_sensor"
+                app:iconSpaceReserved="false"
+                android:summary="@string/lock_use_sensor_summary"
+                android:title="@string/lock_use_sensor_title"
+                app:singleLineTitle="false" />
     </PreferenceCategory>
 
 

@@ -6,22 +6,10 @@
                                       android:title="@string/video_prefs_category">
     <CheckBoxPreference
             app:singleLineTitle="false"
-            android:defaultValue="true"
-            android:key="save_individual_audio_delay"
-            android:summary="@string/save_audiodelay_summary"
-            android:title="@string/save_audiodelay_title"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
             android:defaultValue="false"
             android:key="always_fast_seek"
             android:summary="@string/always_fast_seek_summary"
             android:title="@string/always_fast_seek"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="true"
-            android:key="video_transition_show"
-            android:summary="@string/video_transition_summary"
-            android:title="@string/video_transition_title"/>
 
     <CheckBoxPreference
             app:singleLineTitle="false"
@@ -51,21 +39,7 @@
                 android:key="preferred_resolution"
                 android:summary="@string/preferred_resolution_summary"
                 android:title="@string/preferred_resolution"/>
-    <ListPreference
-            app:singleLineTitle="false"
-            android:defaultValue="0"
-            android:key="video_confirm_resume"
-            android:entries="@array/ask_confirmation_entries"
-            android:entryValues="@array/ask_confirmation_values"
-            android:summary="%s"
-            android:title="@string/confirm_resume_title"/>
 
-    <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="lock_use_sensor"
-            android:summary="@string/lock_use_sensor_summary"
-            android:title="@string/lock_use_sensor_title"
-            app:singleLineTitle="false" />
 
     <PreferenceCategory
             android:title="@string/interface_secondary_display_category_title"
