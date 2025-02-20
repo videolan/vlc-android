@@ -26,12 +26,6 @@ class PreferencesVideoUITest: BasePreferenceUITest() {
     }
 
     @Test
-    fun checkPersistentBrightnessSetting() {
-        val key = SAVE_BRIGHTNESS
-        checkToggleWorks(key, settings, default = false)
-    }
-
-    @Test
     fun checkAudioIndividualDelaySetting() {
         val key = "save_individual_audio_delay"
         checkToggleWorks(key, settings, default = false)
