@@ -589,7 +589,7 @@ class MediaSessionBrowser {
                     when (libraryItem.itemType) {
                         MediaLibraryItem.TYPE_ARTIST -> res.getResourceUri(R.drawable.ic_auto_artist_unknown)
                         MediaLibraryItem.TYPE_ALBUM -> res.getResourceUri(R.drawable.ic_auto_album_unknown)
-                        MediaLibraryItem.TYPE_GENRE -> null
+                        MediaLibraryItem.TYPE_GENRE -> if (forSearch) res.getResourceUri(R.drawable.ic_auto_genre_unknown) else null
                         MediaLibraryItem.TYPE_PLAYLIST -> {
                             val trackList = libraryItem.tracks.toList()
                             val hasArtwork = trackList.any { (ThumbnailsProvider.isMediaVideo(it) || (!it.artworkMrl.isNullOrEmpty() && isPathValid(it.artworkMrl))) }
