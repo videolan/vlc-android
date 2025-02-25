@@ -303,9 +303,9 @@ object UiTools {
      * Print an on-screen message to alert the user, with undo action
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerConfirm(activity: Activity, message: String, overAudioPlayer: Boolean = false, @StringRes confirmMessage:Int = R.string.ok, action: () -> Unit) {
+    fun snackerConfirm(activity: Activity, message: String, overAudioPlayer: Boolean = false, @StringRes confirmMessage:Int = R.string.ok, indefinite:Boolean = false, action: () -> Unit) {
         val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
-        val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        val snack = Snackbar.make(view, message, if (indefinite) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG)
                 .setAction(confirmMessage) { action.invoke() }
         if (overAudioPlayer) snack.setAnchorView(R.id.time)
         if (VlcMigrationHelper.isLolliPopOrLater)
