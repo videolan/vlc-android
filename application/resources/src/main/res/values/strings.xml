@@ -394,6 +394,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Show speed control in the overflow menu</string>
     <string name="enable_android_auto_seek_buttons">Android Auto seek buttons</string>
     <string name="enable_android_auto_seek_buttons_summary">Show rewind and fast forward in the overflow menu. Try holding steering wheel previous and next buttons before enabling.</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="track">Track</string>
+    <string name="genre">Genre</string>
+    <string name="playlist">Playlist</string>
     <string name="enable_double_tap_seek_title">Double tap to seek</string>
     <string name="enable_double_tap_seek_summary">Double tap on screen edges to seek by 10 seconds</string>
     <string name="enable_double_tap_play_title">Double tap to play/pause</string>

@@ -39,8 +39,24 @@ import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
-import org.videolan.tools.*
+import org.videolan.resources.CONTENT_STYLE_BROWSABLE_HINT
+import org.videolan.resources.CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE
+import org.videolan.resources.CONTENT_STYLE_GRID_ITEM_HINT_VALUE
+import org.videolan.resources.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
+import org.videolan.resources.CONTENT_STYLE_PLAYABLE_HINT
+import org.videolan.resources.EXTRA_BROWSER_ICON_SIZE
+import org.videolan.resources.EXTRA_CONTENT_STYLE_GROUP_TITLE_HINT
+import org.videolan.resources.EXTRA_CONTENT_STYLE_SINGLE_ITEM
+import org.videolan.resources.EXTRA_RELATIVE_MEDIA_ID
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.Settings
+import org.videolan.tools.abbreviate
+import org.videolan.tools.getResourceUri
+import org.videolan.tools.markBidi
+import org.videolan.tools.removeQuery
+import org.videolan.tools.retrieveParent
+import org.videolan.tools.toInt
 import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -355,7 +371,7 @@ class MediaSessionBrowser {
                     }
                 }
             }
-            results.addAll(buildMediaItems(context, parentId, list, null, limitSize, androidAuto = isAndroidAuto))
+            results.addAll(buildMediaItems(context, parentId, list, limitSize, androidAuto = isAndroidAuto))
             if (results.isEmpty()) {
                 val emptyMediaDesc = MediaDescriptionCompat.Builder()
                         .setMediaId(ID_NO_MEDIA)
@@ -392,11 +408,11 @@ class MediaSessionBrowser {
             val isAndroidAuto = rootHints?.containsKey(EXTRA_BROWSER_ICON_SIZE) ?: false
             val searchAggregate = Medialibrary.getInstance().search(query, false, false)
             val searchMediaId = ID_SEARCH.toUri().buildUpon().appendQueryParameter("query", query).toString()
-            results.addAll(buildMediaItems(context, ID_PLAYLIST, searchAggregate.playlists, res.getString(R.string.playlists)))
-            results.addAll(buildMediaItems(context, ID_GENRE, searchAggregate.genres, res.getString(R.string.genres)))
-            results.addAll(buildMediaItems(context, ID_ARTIST, searchAggregate.artists, res.getString(R.string.artists)))
-            results.addAll(buildMediaItems(context, ID_ALBUM, searchAggregate.albums, res.getString(R.string.albums)))
-            results.addAll(buildMediaItems(context, searchMediaId, searchAggregate.tracks, res.getString(R.string.tracks), androidAuto = isAndroidAuto))
+            results.addAll(buildMediaItems(context, ID_PLAYLIST, searchAggregate.playlists, forSearch = true))
+            results.addAll(buildMediaItems(context, ID_GENRE, searchAggregate.genres, forSearch = true))
+            results.addAll(buildMediaItems(context, ID_ARTIST, searchAggregate.artists, forSearch = true))
+            results.addAll(buildMediaItems(context, ID_ALBUM, searchAggregate.albums, forSearch = true))
+            results.addAll(buildMediaItems(context, searchMediaId, searchAggregate.tracks, androidAuto = isAndroidAuto, forSearch = true))
             if (results.isEmpty()) {
                 val emptyMediaDesc = MediaDescriptionCompat.Builder()
                         .setMediaId(ID_NO_MEDIA)
@@ -436,7 +452,7 @@ class MediaSessionBrowser {
             /* Query albums by name */
             val albums = mutableSetOf<Album>()
             for (albumName in albumNames) ml.searchAlbum(albumName)?.let { albums.addAll(it.toList()) }
-            results.addAll(buildMediaItems(context, parentId, albums.toTypedArray(), null, limitSize = false, suggestionMode = true)
+            results.addAll(buildMediaItems(context, parentId, albums.toTypedArray(), limitSize = false, suggestionMode = true)
                     .take((MAX_SUGGESTED_SIZE - results.size).coerceAtLeast(0)))
             return results
         }
@@ -450,12 +466,12 @@ class MediaSessionBrowser {
          * will pass the argument from the calling application. The search function will use a
          * placeholder value to act as if the user navigated to the location.
          * @param list MediaLibraryItems to process into MediaBrowserCompat.MediaItems
-         * @param groupTitle Common heading to group items (unused if null)
          * @param limitSize Limit the number of items returned (default is false)
          * @return List containing fully constructed MediaBrowser MediaItem
          */
-        private fun buildMediaItems(context: Context, parentId: String, list: Array<out MediaLibraryItem>?, groupTitle: String?,
-                                    limitSize: Boolean = false, suggestionMode: Boolean = false, androidAuto: Boolean = false): List<MediaBrowserCompat.MediaItem> {
+        private fun buildMediaItems(context: Context, parentId: String, list: Array<out MediaLibraryItem>?,
+                                    limitSize: Boolean = false, suggestionMode: Boolean = false,
+                                    androidAuto: Boolean = false, forSearch: Boolean = false): List<MediaBrowserCompat.MediaItem> {
             if (list.isNullOrEmpty()) return emptyList()
             val res = context.resources
             val artworkToUriCache = HashMap<String, Uri>()
@@ -503,13 +519,25 @@ class MediaSessionBrowser {
                     }
                     else -> libraryItem.description
                 }
+                val mediaType = when (libraryItem.itemType) {
+                    MediaLibraryItem.TYPE_MEDIA ->
+                       res.getString(R.string.track)
+                    MediaLibraryItem.TYPE_PLAYLIST ->
+                        res.getString(R.string.playlist)
+                    MediaLibraryItem.TYPE_ARTIST ->
+                        res.getString(R.string.artist)
+                    MediaLibraryItem.TYPE_GENRE ->
+                        res.getString(R.string.genre)
+                    MediaLibraryItem.TYPE_ALBUM ->
+                        res.getString(R.string.album)
+                    else -> ""
+                }
 
                 /* Extras */
                 val extras = when (libraryItem.itemType) {
                     MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE -> getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE)
                     else -> Bundle()
                 }
-                if (groupTitle != null) extras.putString(EXTRA_CONTENT_STYLE_GROUP_TITLE_HINT, groupTitle)
 
                 if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (libraryItem as MediaWrapper).isPodcast) {
                     var pct = libraryItem.position.toDouble()
@@ -586,7 +614,7 @@ class MediaSessionBrowser {
                  */
                 val description = MediaDescriptionCompat.Builder()
                         .setTitle(libraryItem.title)
-                        .setSubtitle(subtitle)
+                        .setSubtitle(if (forSearch) "$mediaType ${TextUtils.SEPARATOR} $subtitle" else subtitle)
                         .setIconUri(iconUri)
                         .setMediaId(mediaId)
                         .setExtras(extras)
@@ -601,6 +629,9 @@ class MediaSessionBrowser {
                 if (suggestionMode) {
                     flags = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
                     if (iconUri == null || iconUri.scheme == ContentResolver.SCHEME_ANDROID_RESOURCE) continue
+                }
+                if (forSearch) {
+                    flags = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
                 }
                 results.add(MediaBrowserCompat.MediaItem(description, flags))
                 if ((limitSize && results.size == MAX_HISTORY_SIZE) || results.size == MAX_RESULT_SIZE) break
