@@ -532,7 +532,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             var position = player.time + delta
             if (position < 0) position = 0
             if (position > service.length) position = service.length
-            player.seek(position)
+            player.seek(position, fast = false)
             val sb = StringBuilder()
             val seekForward = delta >= 0
 
