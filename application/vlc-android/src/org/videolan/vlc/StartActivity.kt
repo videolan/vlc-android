@@ -64,6 +64,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.BETA_WELCOME
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
 import org.videolan.tools.KEY_TV_ONBOARDING_DONE
+import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
 import org.videolan.tools.Settings
 import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.getContextWithLocale
@@ -183,6 +184,7 @@ class StartActivity : FragmentActivity() {
         val tv = showTvUi()
         if (upgrade && (tv || !firstRun)) settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
         val removeOldDevices = savedVersionNumber in 3028201..3028399
+        settings.putSingle(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, savedVersionNumber < 3060330 && !firstRun)
         // Route search query
         if (Intent.ACTION_SEARCH == action || ACTION_SEARCH_GMS == action) {
             intent.setClassName(applicationContext, if (tv) TV_SEARCH_ACTIVITY else MOBILE_SEARCH_ACTIVITY)

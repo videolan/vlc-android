@@ -30,8 +30,11 @@ import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.POPUP_FORCE_LEGACY
+import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
+import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.util.Permissions
 
@@ -44,6 +47,11 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = AndroidUtil.isOOrLater
+        if (Settings.getInstance(requireContext()).getBoolean(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)) {
+            UiTools.snackerConfirm(requireActivity(), requireActivity().getString(R.string.video_settings_disclaimer), indefinite = true) {
+                Settings.getInstance(requireContext()).putSingle(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)
+            }
+        }
     }
 
     override fun onStart() {

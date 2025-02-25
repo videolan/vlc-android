@@ -154,6 +154,7 @@ const val ENCRYPTED_KEY_NAME = "encryption_key"
 const val PREF_TIPS_SHOWN = "video_player_tips_shown"
 const val PREF_WIDGETS_TIPS_SHOWN = "widgets_tips_shown"
 const val PREF_RESTORE_VIDEO_TIPS_SHOWN = "pref_restore_video_tips_shown"
+const val PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER = "pref_show_video_settings_disclaimer"
 
 const val PREF_TV_UI = "tv_ui"
 const val PLAYLIST_MODE_VIDEO = "playlist_mode_video"

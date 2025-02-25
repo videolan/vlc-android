@@ -1355,4 +1355,5 @@
     <string name="queue_format">Queue format</string>
     <string name="queue_format_short_desc">Queue position</string>
     <string name="queue_format_long_desc">Queue position / Queue size</string>
+    <string name="video_settings_disclaimer">Some settings have been moved to the video controls settings in the video player.</string>
 </resources>
