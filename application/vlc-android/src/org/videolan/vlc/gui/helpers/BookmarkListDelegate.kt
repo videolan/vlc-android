@@ -24,11 +24,10 @@
 
 package org.videolan.vlc.gui.helpers
 
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -40,26 +39,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Bookmark
+import org.videolan.tools.Settings
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.viewmodels.BookmarkModel
 
-class BookmarkListDelegate(val activity: FragmentActivity, val service: PlaybackService, private val bookmarkModel: BookmarkModel) :
+class BookmarkListDelegate(val activity: FragmentActivity, val service: PlaybackService, private val bookmarkModel: BookmarkModel, val forVideo:Boolean) :
         LifecycleObserver, BookmarkAdapter.IBookmarkManager {
 
-    lateinit var nextBookmarButton: Button
-    lateinit var previousBookmarButton: Button
-    lateinit var addBookmarButton: ImageView
+    private lateinit var nextBookmarkButton: ImageView
+    private lateinit var previousBookmarkButton: ImageView
+    private lateinit var bookmarkRewind10: ImageView
+    private lateinit var bookmarkForward10: ImageView
+    private lateinit var bookmarkRewindText: TextView
+    private lateinit var bookmarkForwardText: TextView
+    lateinit var addBookmarkButton: ImageView
     lateinit var markerContainer: ConstraintLayout
     private lateinit var adapter: BookmarkAdapter
     lateinit var bookmarkList: RecyclerView
     lateinit var rootView: ConstraintLayout
     private lateinit var emptyView: View
     lateinit var visibilityListener: () -> Unit
+    lateinit var seekListener: (Boolean, Boolean) -> Unit
     val visible: Boolean
         get() = rootView.visibility != View.GONE
 
@@ -68,12 +72,17 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             rootView = it.inflate() as ConstraintLayout
             bookmarkList = rootView.findViewById(R.id.bookmark_list)
             rootView.findViewById<ImageView>(R.id.close).setOnClickListener { hide() }
-            addBookmarButton = rootView.findViewById<ImageView>(R.id.add_bookmark)
-            nextBookmarButton = rootView.findViewById<Button>(R.id.next_bookmark)
-            previousBookmarButton = rootView.findViewById<Button>(R.id.previous_bookmark)
-            addBookmarButton.setOnClickListener {
+            addBookmarkButton = rootView.findViewById(R.id.add_bookmark)
+            nextBookmarkButton = rootView.findViewById(R.id.next_bookmark)
+            previousBookmarkButton = rootView.findViewById(R.id.previous_bookmark)
+            bookmarkRewind10 = rootView.findViewById(R.id.bookmark_rewind_10)
+            bookmarkForward10 = rootView.findViewById(R.id.bookmark_forward_10)
+            previousBookmarkButton = rootView.findViewById(R.id.previous_bookmark)
+            bookmarkRewindText = rootView.findViewById(R.id.bookmark_rewind_text)
+            bookmarkForwardText = rootView.findViewById(R.id.bookmark_forward_text)
+            addBookmarkButton.setOnClickListener {
                 bookmarkModel.addBookmark(activity)
-                addBookmarButton.announceForAccessibility(activity.getString(R.string.bookmark_added))
+                addBookmarkButton.announceForAccessibility(activity.getString(R.string.bookmark_added))
             }
             rootView.findViewById<View>(R.id.top_bar).setOnTouchListener { v, _ ->
                 v.parent.requestDisallowInterceptTouchEvent(true)
@@ -86,13 +95,13 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             adapter = BookmarkAdapter(this)
             bookmarkList.adapter = adapter
             bookmarkList.itemAnimator = null
-            previousBookmarButton.setOnClickListener {
+            previousBookmarkButton.setOnClickListener {
                 val bookmark = bookmarkModel.findPrevious()
                 bookmark?.let {
                     service.setTime(it.time)
                 }
             }
-            nextBookmarButton.setOnClickListener {
+            nextBookmarkButton.setOnClickListener {
                 val bookmark = bookmarkModel.findNext()
                 bookmark?.let {
                     service.setTime(it.time)
@@ -113,6 +122,27 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
         rootView.setVisible()
         markerContainer.setVisible()
         visibilityListener.invoke()
+        bookmarkRewind10.contentDescription = activity.getString(R.string.talkback_action_rewind, Settings.audioJumpDelay.toString())
+        bookmarkForward10.contentDescription = activity.getString(R.string.talkback_action_forward, Settings.audioJumpDelay.toString())
+        val jumpDelay = if (forVideo) Settings.videoJumpDelay else Settings.audioJumpDelay
+        bookmarkRewindText.text = "$jumpDelay"
+        bookmarkForwardText.text = "$jumpDelay"
+
+        bookmarkRewind10.setOnClickListener {
+            seekListener.invoke(false, false)
+        }
+        bookmarkForward10.setOnClickListener {
+            seekListener.invoke(true, false)
+        }
+
+        bookmarkRewind10.setOnLongClickListener {
+            seekListener.invoke(false, true)
+            true
+        }
+        bookmarkForward10.setOnLongClickListener {
+            seekListener.invoke(true, true)
+            true
+        }
     }
 
     fun hide() {

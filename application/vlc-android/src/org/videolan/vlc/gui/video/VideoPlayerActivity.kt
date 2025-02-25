@@ -1949,7 +1949,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.togglePlaylist()
     }
 
-    private fun jump (forward:Boolean, long: Boolean) {
+    fun jump (forward:Boolean, long: Boolean) {
         val jumpDelay = if (long) Settings.videoLongJumpDelay else Settings.videoJumpDelay
         val delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
         touchDelegate.seekDelta(if (LocaleUtil.isRtl()) -delay  else delay)

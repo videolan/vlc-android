@@ -352,7 +352,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     private fun showBookmarks() {
         model.service?.let {
             if (!this::bookmarkListDelegate.isInitialized) {
-                bookmarkListDelegate = BookmarkListDelegate(this, it, bookmarkModel)
+                bookmarkListDelegate = BookmarkListDelegate(this, it, bookmarkModel, false)
                 bookmarkListDelegate.visibilityListener = {
                     if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
                     binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
@@ -360,9 +360,33 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
                     binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
                     binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
                 }
+                bookmarkListDelegate.seekListener = { forward, long ->
+                    jump(forward, long)
+                }
                 bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
             }
             bookmarkListDelegate.show()
+        }
+    }
+
+    /**
+     * Jump backward or forward, with a long or small delay
+     * depending on the audio control setting chosen by the user
+     *
+     * @param forward is the jump forward?
+     * @param long has it been triggered by a long tap?
+     */
+    private fun jump(forward:Boolean, long:Boolean) {
+        model.service?.let { service ->
+            val jumpDelay = if (long) Settings.audioLongJumpDelay else Settings.audioJumpDelay
+            val delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
+            var position = service.getTime() + delay
+            if (position < 0) position = 0
+            if (position > service.length) position = service.length
+            service.seek(position, service.length.toDouble(), true, fast = false)
+            service.playlistManager.player.updateProgress(position)
+            if (service.playlistManager.player.lastPosition == 0.0f && (forward || service.getTime() > 0))
+                UiTools.snacker(this, getString(org.videolan.vlc.R.string.unseekable_stream))
         }
     }
 

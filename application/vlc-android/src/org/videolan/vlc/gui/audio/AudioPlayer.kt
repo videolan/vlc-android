@@ -456,6 +456,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         binding.audioForward10.contentDescription = getString(R.string.talkback_action_forward, Settings.audioJumpDelay.toString())
         binding.audioRewind10.contentDescription = getString(R.string.talkback_action_rewind, Settings.audioJumpDelay.toString())
         updateBackground()
+
+        if (isShowingCover()) {
+            val seekButtonVisibility = if (::bookmarkListDelegate.isInitialized && bookmarkListDelegate.visible) View.GONE else View.VISIBLE
+            binding.audioRewindBookmark.visibility = seekButtonVisibility
+            binding.audioForwardBookmark.visibility = seekButtonVisibility
+            binding.audioRewind10.visibility = seekButtonVisibility
+            binding.audioForward10.visibility = seekButtonVisibility
+        }
     }
 
     private var wasPlaying = true
@@ -751,12 +759,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun showBookmarks() {
         val service = playlistModel.service ?: return
         if (!this::bookmarkListDelegate.isInitialized) {
-            bookmarkListDelegate = BookmarkListDelegate(requireActivity(), service, bookmarkModel)
+            bookmarkListDelegate = BookmarkListDelegate(requireActivity(), service, bookmarkModel, false)
             bookmarkListDelegate.visibilityListener = {
                 binding.audioPlayProgress.visibility = if (shouldHidePlayProgress()) View.GONE else View.VISIBLE
                 lifecycleScope.launch {
                     doUpdate()
                 }
+            }
+            bookmarkListDelegate.seekListener = { forward, long ->
+                jump(forward , long)
             }
             bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
         }

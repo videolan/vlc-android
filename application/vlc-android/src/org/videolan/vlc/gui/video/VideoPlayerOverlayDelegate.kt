@@ -25,9 +25,6 @@
 package org.videolan.vlc.gui.video
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Intent
@@ -39,11 +36,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.FrameLayout
@@ -451,7 +443,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
                     hudBinding.playerOverlayPlay.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                     if (isBookmarkShown())try {
-                        if (player.isTalkbackIsEnabled()) bookmarkListDelegate?.addBookmarButton?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+                        if (player.isTalkbackIsEnabled()) bookmarkListDelegate?.addBookmarkButton?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                     } catch (e: Exception) {
                     }
                 }
@@ -1089,11 +1081,14 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     fun showBookmarks() {
         player.service?.let {
             if (bookmarkListDelegate == null) {
-                bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel)
+                bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel, true)
                 bookmarkListDelegate?.markerContainer = hudBinding.bookmarkMarkerContainer
                 bookmarkListDelegate?.visibilityListener = {
                     if (bookmarkListDelegate?.visible == true) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
                     else showOverlayTimeout(Settings.videoHudDelay * 1000)
+                }
+                bookmarkListDelegate?.seekListener = { forward, long ->
+                    player.jump(forward, long)
                 }
             }
             bookmarkListDelegate?.show()
