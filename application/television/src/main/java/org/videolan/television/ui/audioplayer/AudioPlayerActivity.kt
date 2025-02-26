@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -41,8 +42,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -57,6 +63,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
@@ -73,6 +80,7 @@ import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlayerState
@@ -80,7 +88,7 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 import kotlin.math.absoluteValue
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
+class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Callback  {
 
     private lateinit var binding: TvAudioPlayerBinding
     private lateinit var adapter: PlaylistAdapter
@@ -95,6 +103,8 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     lateinit var bookmarkModel: BookmarkModel
     private lateinit var bookmarkListDelegate: BookmarkListDelegate
     private val playerKeyListenerDelegate: PlayerKeyListenerDelegate by lazy(LazyThreadSafetyMode.NONE) { PlayerKeyListenerDelegate(this@AudioPlayerActivity) }
+    var playbackStarted = false
+    private var service: PlaybackService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,11 +174,21 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
             val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
             bookmarkListDelegate.renameBookmark(media as Bookmark, name)
         }
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(MainScope())
+        PlaylistManager.showAudioPlayer.observe(this) { showPlayer ->
+            if (!showPlayer && playbackStarted) finish()
+        }
+    }
+
+    private fun onServiceChanged(it: PlaybackService?) {
+        it?.addCallback(this)
+        service = it
     }
 
     override fun onDestroy() {
         super.onDestroy()
         optionsDelegate = null
+        service?.removeCallback(this)
     }
 
     private var timelineListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
@@ -465,5 +485,17 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
 
         //PAD navigation
         private const val JOYSTICK_INPUT_DELAY = 300
+    }
+
+    override fun update() { }
+
+    override fun onMediaEvent(event: IMedia.Event) { }
+
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        when (event.type) {
+            MediaPlayer.Event.Playing -> {
+                playbackStarted = true
+            }
+        }
     }
 }
