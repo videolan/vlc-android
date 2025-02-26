@@ -1106,6 +1106,8 @@
     <string name="bookmark_name">Bookmark %s</string>
     <string name="add_bookmark">Add bookmark</string>
     <string name="bookmark_added">Bookmark added</string>
+    <string name="previous_bookmark">Previous bookmark</string>
+    <string name="next_bookmark">Next bookmark</string>
     <string name="show">Show</string>
     <string name="optional_features">Optional features</string>
     <string name="optional_features_summary">Beta features that are currently being tested and may not be stable</string>
