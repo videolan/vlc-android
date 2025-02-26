@@ -34,6 +34,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -51,6 +52,7 @@ import org.videolan.resources.util.parcelableList
 import org.videolan.television.R
 import org.videolan.television.databinding.TvAudioPlayerBinding
 import org.videolan.television.ui.browser.BaseTvActivity
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
 import org.videolan.tools.setGone
@@ -183,6 +185,11 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener  {
     }
 
     private fun showChips() {
+        if (settings?.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false) == true) {
+            binding.playbackSpeedQuickActionImage.setImageDrawable(ContextCompat.getDrawable(this, org.videolan.vlc.R.drawable.ic_speed_all))
+        } else {
+            binding.playbackSpeedQuickActionImage.setImageDrawable(ContextCompat.getDrawable(this, org.videolan.vlc.R.drawable.ic_speed))
+        }
         binding.playbackSpeedQuickAction.setGone()
         binding.sleepQuickAction.setGone()
         model.speed.value?.let {
