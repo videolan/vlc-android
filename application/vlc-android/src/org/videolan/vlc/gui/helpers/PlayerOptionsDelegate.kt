@@ -126,7 +126,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             if (PinCodeDelegate.pinUnlocked.value == true) options.add(PlayerOption(ID_SAFE_MODE_LOCK, R.drawable.ic_pin_lock, res.getString(R.string.lock_with_pin)))
             if (Settings.safeMode && PinCodeDelegate.pinUnlocked.value == false) options.add(PlayerOption(ID_SAFE_MODE_UNLOCK, R.drawable.ic_pin_unlock, res.getString(R.string.unlock_with_pin)))
             options.add(PlayerOption(ID_VIDEO_CONTROL_SETTING, R.drawable.ic_video_controls, res.getString(R.string.control_setting)))
-        } else {
+        } else if (!Settings.showTvUi) {
             options.add(PlayerOption(ID_SHARE, R.drawable.ic_share, res.getString(R.string.share_track_info)))
         }
 
