@@ -643,7 +643,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun saveMediaMeta(end:Boolean = false) = launch(start = CoroutineStart.UNDISPATCHED) outerLaunch@ {
-        if (!Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) return@outerLaunch
         if (endReachedFor != null && endReachedFor == getCurrentMedia()?.uri.toString() && !end) return@outerLaunch
         val titleIdx = player.getTitleIdx()
         val currentMedia = getCurrentMedia() ?: return@outerLaunch
@@ -764,7 +763,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @Synchronized
     fun saveCurrentMedia(forceVideo:Boolean = false) {
-        if (settings.getBoolean(KEY_INCOGNITO, false) || !settings.getBoolean(PLAYBACK_HISTORY, true)) return
+        if (settings.getBoolean(KEY_INCOGNITO, false)) return
         val media = getCurrentMedia() ?: return
         val isAudio = isAudioList() || forceVideo
         if (media.uri.scheme.isSchemeFD()) {
