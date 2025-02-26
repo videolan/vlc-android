@@ -436,12 +436,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.audioForwardBookmark.setGone()
             binding.audioRewindBookmark.setGone()
         }
-        if (settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_MARKERS, false))
-            bookmarkModel.service?.let { service ->
-                binding.bookmarkMarkerContainer.setVisible()
-                BookmarkListDelegate.showBookmarks(binding.bookmarkMarkerContainer, service, requireActivity(), bookmarkModel.dataset.getList())
-            }
-        else binding.bookmarkMarkerContainer.removeAllViews()
+        if (!::bookmarkListDelegate.isInitialized || !bookmarkListDelegate.visible) {
+            if (settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_MARKERS, false))
+                bookmarkModel.service?.let { service ->
+                    binding.bookmarkMarkerContainer.setVisible()
+                    BookmarkListDelegate.showBookmarks(binding.bookmarkMarkerContainer, service, requireActivity(), bookmarkModel.dataset.getList())
+                }
+            else binding.bookmarkMarkerContainer.removeAllViews()
+        }
 
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
         binding.songSubtitle?.text = if (!chapter.isNullOrEmpty()) TextUtils.separatedString(playlistModel.title, playlistModel.artist) else TextUtils.separatedString(playlistModel.artist, playlistModel.album)
