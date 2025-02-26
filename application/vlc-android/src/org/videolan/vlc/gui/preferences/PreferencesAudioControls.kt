@@ -71,7 +71,7 @@ class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnS
                 Settings.audioShowTrackNumbers.postValue(sharedPreferences.getBoolean(KEY_AUDIO_SHOW_TRACK_NUMBERS, false))
             }
             KEY_AUDIO_SHOW_BOOkMARK_BUTTONS -> {
-                if (!sharedPreferences.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, false)) {
+                if (!sharedPreferences.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, true)) {
                     bookmarkMarkersPreference.isChecked = false
                 }
             }

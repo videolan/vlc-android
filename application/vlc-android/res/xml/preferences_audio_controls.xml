@@ -53,14 +53,14 @@
                 android:summary="@string/show_chapter_buttons_summary"/>
         <CheckBoxPreference
                 app:singleLineTitle="false"
-                android:defaultValue="false"
+                android:defaultValue="true"
                 android:key="audio_show_bookmark_buttons"
                 android:title="@string/show_bookmark_buttons"
                 android:summary="@string/show_bookmark_buttons_summary"/>
 
         <CheckBoxPreference
                 app:singleLineTitle="false"
-                android:defaultValue="false"
+                android:defaultValue="true"
                 android:dependency="audio_show_bookmark_buttons"
                 android:key="audio_show_bookmark_markers"
                 android:title="@string/show_bookmark_markers"

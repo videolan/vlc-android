@@ -429,7 +429,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.previousChapter?.visibility = View.VISIBLE
         }
 
-        if (isShowingCover() && !bookmarkModel.dataset.isEmpty() && settings.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, false)) {
+        if (isShowingCover() && !bookmarkModel.dataset.isEmpty() && settings.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, true)) {
             binding.audioForwardBookmark.setVisible()
             binding.audioRewindBookmark.setVisible()
         } else {
@@ -437,7 +437,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.audioRewindBookmark.setGone()
         }
         if (!::bookmarkListDelegate.isInitialized || !bookmarkListDelegate.visible) {
-            if (settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_MARKERS, false))
+            if (settings.getBoolean(KEY_AUDIO_SHOW_BOOKMARK_MARKERS, true))
                 bookmarkModel.service?.let { service ->
                     binding.bookmarkMarkerContainer.setVisible()
                     BookmarkListDelegate.showBookmarks(binding.bookmarkMarkerContainer, service, requireActivity(), bookmarkModel.dataset.getList())
