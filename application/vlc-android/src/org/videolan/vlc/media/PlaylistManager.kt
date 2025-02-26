@@ -509,8 +509,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val start: Long
             if (isVideoPlaying) {
                 start = if (forceRestart
-                    || videoResumeStatus == ResumeStatus.NEVER
-                    || !Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) 0L else getStartTime(mw)
+                    || videoResumeStatus == ResumeStatus.NEVER) 0L else getStartTime(mw)
                 if (!forceResume && videoResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
                     waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
                     return
