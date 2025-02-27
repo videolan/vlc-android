@@ -516,8 +516,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             } else {
                 start = if (forceRestart
-                    || audioResumeStatus == ResumeStatus.NEVER
-                    || !Settings.getInstance(AppContextProvider.appContext).getBoolean(PLAYBACK_HISTORY, true)) 0L else getStartTime(mw)
+                    || audioResumeStatus == ResumeStatus.NEVER) 0L else getStartTime(mw)
                 if (!forceResume && audioResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
                     val confirmation = WaitConfirmation(mw.title, index, flags)
                     waitForConfirmationAudio.postValue(confirmation)
@@ -795,7 +794,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun saveMediaList(forceVideo:Boolean = false) {
-        if (settings.getBoolean(KEY_INCOGNITO, false) || !settings.getBoolean(PLAYBACK_HISTORY, true)) return
+        if (settings.getBoolean(KEY_INCOGNITO, false)) return
         val currentMedia = getCurrentMedia() ?: return
         if (currentMedia.uri.scheme.isSchemeFD()) return
         val locations = StringBuilder()
@@ -989,7 +988,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @Synchronized
     private fun savePosition(reset: Boolean = false, video: Boolean = false) {
-        if (settings.getBoolean(KEY_INCOGNITO, false) || !settings.getBoolean(PLAYBACK_HISTORY, true)) return
+        if (settings.getBoolean(KEY_INCOGNITO, false)) return
         if (!hasMedia()) return
         settings.edit {
             val audio = !video && isAudioList()
