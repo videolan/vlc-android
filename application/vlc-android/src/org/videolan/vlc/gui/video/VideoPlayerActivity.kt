@@ -187,7 +187,6 @@ import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
-import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
@@ -274,6 +273,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     lateinit var windowLayoutInfo: WindowLayoutInfo
     private var currentConfirmationDialog: AlertDialog? = null
+    val resumeDialogObserver: (t: WaitConfirmation?) -> Unit = {
+        if (it != null)
+            showConfirmResumeDialog(it)
+        else
+            currentConfirmationDialog?.dismiss()
+    }
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -2503,15 +2508,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (volSave > 100 && service.volume != volSave) service.setVolume(volSave)
             }
             service.addCallback(this)
-            service.playlistManager.waitForConfirmation.observe(this) {
-                if (it != null)
-                    showConfirmResumeDialog(it)
-                else
-                    currentConfirmationDialog?.dismiss()
-            }
+            service.playlistManager.waitForConfirmation.observe(this, resumeDialogObserver)
             //if (isTalkbackIsEnabled()) overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
         } else if (this.service != null) {
             this.service?.removeCallback(this)
+            this.service?.playlistManager?.waitForConfirmation?.removeObserver(resumeDialogObserver)
             this.service = null
             handler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED)
             removeDownloadedSubtitlesObserver()
