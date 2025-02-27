@@ -1200,9 +1200,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 resultIntent.putExtra(EXTRA_POSITION, time)
                 resultIntent.putExtra(EXTRA_DURATION, length)
             }
-            setResult(resultCode, resultIntent)
-            finish()
         }
+        setResult(resultCode, resultIntent)
+        finish()
     }
 
     private fun exitOK() {
