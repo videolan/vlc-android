@@ -32,31 +32,49 @@ import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import org.videolan.vlc.R
 
-const val CONFIRM_AUDIO_PLAY_QUEUE_DIALOG_RESULT = "CONFIRM_AUDIO_PLAY_QUEUE_DIALOG_RESULT"
+const val CONFIRM_PREFERENCE_CHANGE_DIALOG_RESULT = "confirm_preference_change_dialog_result"
+const val PREFERENCE_KEY = "preference_key"
+const val WARNING_TITLE = "warning_title"
+const val WARNING_TEXT = "warning_text"
 
-class ConfirmAudioPlayQueueDialog : VLCBottomSheetDialogFragment() {
+class ConfirmPreferenceChangeDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var listener: () -> Unit
     private lateinit var title: TextView
+    private lateinit var warning: TextView
     private lateinit var acceptButton: Button
     private lateinit var cancelButton: Button
+
+    private lateinit var preferenceKey: String
+    private lateinit var titleText: String
+    private lateinit var warningText: String
 
 
     fun setListener(listener: () -> Unit) {
         this.listener = listener
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        preferenceKey = arguments?.getString(PREFERENCE_KEY)!!
+        titleText = arguments?.getString(WARNING_TITLE)!!
+        warningText = arguments?.getString(WARNING_TEXT)!!
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_confirm_audio_playqueue, container)
         title = view.findViewById(R.id.title)
+        warning = view.findViewById(R.id.message)
         acceptButton = view.findViewById(R.id.accept_button)
         cancelButton = view.findViewById(R.id.cancel_button)
         acceptButton.setOnClickListener {
             if (::listener.isInitialized) listener.invoke()
-            setFragmentResult(CONFIRM_AUDIO_PLAY_QUEUE_DIALOG_RESULT, bundleOf())
+            setFragmentResult(CONFIRM_PREFERENCE_CHANGE_DIALOG_RESULT, bundleOf(PREFERENCE_KEY to preferenceKey))
             dismiss()
         }
         cancelButton.setOnClickListener { dismiss() }
+        title.text = titleText
+        warning.text = warningText
         return view
     }
 
@@ -68,5 +86,16 @@ class ConfirmAudioPlayQueueDialog : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation(): Boolean {
         return true
+    }
+    companion object {
+        fun newInstance(preferenceKey:String, title: String, warning: String) : ConfirmPreferenceChangeDialog {
+            return ConfirmPreferenceChangeDialog().apply {
+                val args = Bundle()
+                args.putString(PREFERENCE_KEY, preferenceKey)
+                args.putString(WARNING_TITLE, title)
+                args.putString(WARNING_TEXT, warning)
+                arguments = args
+            }
+        }
     }
 }

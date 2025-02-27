@@ -42,7 +42,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.gui.dialogs.ConfirmAudioPlayQueueDialog
+import org.videolan.vlc.gui.dialogs.ConfirmPreferenceChangeDialog
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -109,8 +109,8 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
                 val audioResumePref = findPreference<CheckBoxPreference>(AUDIO_RESUME_PLAYBACK)
                 if (audioResumePref?.isChecked == false) {
-                    val dialog = ConfirmAudioPlayQueueDialog()
-                    dialog.show((activity as FragmentActivity).supportFragmentManager, ConfirmAudioPlayQueueDialog::class.simpleName)
+                    val dialog = ConfirmPreferenceChangeDialog()
+                    dialog.show((activity as FragmentActivity).supportFragmentManager, ConfirmPreferenceChangeDialog::class.simpleName)
                     dialog.setListener {
                         Settings.getInstance(activity).edit()
                                 .remove(KEY_AUDIO_LAST_PLAYLIST)
