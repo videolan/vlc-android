@@ -475,6 +475,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     BookmarkListDelegate.showBookmarks(binding.bookmarkMarkerContainer, service, requireActivity(), bookmarkModel.dataset.getList())
                 }
             else binding.bookmarkMarkerContainer.removeAllViews()
+            binding.audioForward10.setVisible()
+            binding.audioRewind10.setVisible()
+        } else {
+            binding.audioForwardBookmark.setGone()
+            binding.audioRewindBookmark.setGone()
+            binding.audioForward10.setGone()
+            binding.audioRewind10.setGone()
         }
 
         binding.songTitle?.text = if (!chapter.isNullOrEmpty()) chapter else  playlistModel.title
