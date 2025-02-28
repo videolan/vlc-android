@@ -49,9 +49,7 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.startRemoteAccess
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
-import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -92,10 +90,6 @@ class AppSetupDelegate : AppDelegate,
                 setupIndexers()
             }
         }
-
-        //App restarted, leave the incognito mode
-        Settings.getInstance (this).putSingle(KEY_INCOGNITO, false)
-
         AppContextProvider.setLocale(Settings.getInstance(this).getString("set_locale", ""))
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
