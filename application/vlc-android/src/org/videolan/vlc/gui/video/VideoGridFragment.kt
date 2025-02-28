@@ -184,8 +184,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onCreate(savedInstanceState)
         if (!::settings.isInitialized) settings = Settings.getInstance(requireContext())
         if (!::videoListAdapter.isInitialized) {
-            val seenMarkVisible = settings.getBoolean("media_seen", true)
-            videoListAdapter = VideoListAdapter(seenMarkVisible, !Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
+            val seenMarkVisible = settings.getBoolean("media_seen", true) && settings.getBoolean(PLAYBACK_HISTORY, true)
+            videoListAdapter = VideoListAdapter(seenMarkVisible, !settings.getBoolean(PLAYBACK_HISTORY, true)).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
             dataObserver = videoListAdapter.onAnyChange {
                 updateEmptyView()
                 if (::binding.isInitialized) binding.fastScroller.setRecyclerView(binding.videoGrid, viewModel.provider)
