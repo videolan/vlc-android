@@ -475,8 +475,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     BookmarkListDelegate.showBookmarks(binding.bookmarkMarkerContainer, service, requireActivity(), bookmarkModel.dataset.getList())
                 }
             else binding.bookmarkMarkerContainer.removeAllViews()
-            binding.audioForward10.setVisible()
-            binding.audioRewind10.setVisible()
+            if (isShowingCover()) {
+                binding.audioForward10.setVisible()
+                binding.audioRewind10.setVisible()
+            }
         } else {
             binding.audioForwardBookmark.setGone()
             binding.audioRewindBookmark.setGone()
