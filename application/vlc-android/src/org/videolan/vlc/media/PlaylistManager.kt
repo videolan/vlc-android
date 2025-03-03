@@ -743,13 +743,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     private fun restoreSpeed(media: MediaWrapper) {
         val playbackRate = when {
-            //history is off, restore nothing
-            !settings.getBoolean(PLAYBACK_HISTORY, true) -> 1F
             //restore all
             settings.getBoolean(
                 if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL,
                 false
             ) -> settings.getFloat(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1.0f)
+            settings.getBoolean(KEY_INCOGNITO, false) -> 1F
             //restore one
             else -> try {
                 media.getMetaString(MediaWrapper.META_SPEED).toFloat()
