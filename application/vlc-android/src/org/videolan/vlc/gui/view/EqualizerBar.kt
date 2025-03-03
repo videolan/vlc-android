@@ -50,12 +50,10 @@ class EqualizerBar : LinearLayout {
         verticalSlider.nextFocusRightId = nextFocusRightId
     }
 
-    private val seekListener = object : Slider.OnChangeListener {
-        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-            val value = (value - RANGE) / PRECISION.toFloat()
-            listener?.onProgressChanged(value, fromUser)
-            updateValueText()
-        }
+    private val seekListener = Slider.OnChangeListener { slider, value, fromUser ->
+        val newValue = (value - RANGE) / PRECISION.toFloat()
+        listener?.onProgressChanged(newValue, fromUser || (slider as VerticalSeekBar).fromUser)
+        updateValueText()
     }
 
     constructor(context: Context, band: Float) : super(context) {
