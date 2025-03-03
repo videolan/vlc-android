@@ -28,6 +28,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.IdRes
 import com.google.android.material.slider.Slider
 import org.videolan.vlc.R
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
@@ -114,6 +115,12 @@ class EqualizerBar : LinearLayout {
     }
 
     fun getProgress(): Int = verticalSlider.value.toInt()
+
+    fun setSliderId(@IdRes id: Int) {
+        verticalSlider.id = id
+    }
+
+    fun getSliderId() = verticalSlider.id
 
     companion object {
 

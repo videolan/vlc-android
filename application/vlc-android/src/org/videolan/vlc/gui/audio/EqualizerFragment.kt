@@ -175,9 +175,13 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 1f)
             bar.layoutParams = params
             eqBandsViews.add(bar)
+            bar.setSliderId(View.generateViewId())
             bar.setListener(BandListener(i))
         }
-
+        for (i in 0 until bandCount) {
+            if (i > 0) eqBandsViews[i].nextFocusLeftId = eqBandsViews[i - 1].getSliderId()
+            if (i < bandCount - 1) eqBandsViews[i].nextFocusRightId = eqBandsViews[i + 1].getSliderId()
+        }
         eqBandsViews[0].nextFocusLeftId = R.id.equalizer_preamp
         eqBandsViews[eqBandsViews.size - 1].nextFocusRightId = R.id.snapBands
 
