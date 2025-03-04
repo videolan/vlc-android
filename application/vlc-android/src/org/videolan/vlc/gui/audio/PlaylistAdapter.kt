@@ -64,7 +64,7 @@ import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.MediaItemDiffCallback
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.viewmodels.PlaylistModel
-import java.util.*
+import java.util.Collections
 
 private const val ACTION_MOVE = "action_move"
 private const val ACTION_MOVED = "action_moved"
@@ -101,7 +101,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
     var currentIndex = 0
         set(position) {
-            if (position == currentIndex || position >= itemCount) return
+            if (position >= itemCount) return
             val former = currentIndex
             field = position
             if (former >= 0) notifyItemChanged(former)
