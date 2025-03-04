@@ -30,11 +30,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.edit
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.onEach
-import org.videolan.libvlc.MediaPlayer
-import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
@@ -48,7 +45,6 @@ import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
 import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.isSchemeStreaming
-import org.videolan.vlc.util.launchWhenStarted
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -156,9 +152,12 @@ class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService
                 }
                 R.id.all_media -> {
                     settings.edit(commit = true) {
-                        putBoolean(if(forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, true)
+                        putBoolean(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, true)
                     }
-                    val newValue = settings.getFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1F)
+                    val newValue = when {
+                        settings.getBoolean(KEY_INCOGNITO, false) -> if (forVideo) PlaylistManager.incognitoModeVideoSpeed else PlaylistManager.incognitoModeAudioSpeed
+                        else -> settings.getFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1F)
+                    }
                     changeSpeedTo(newValue)
                 }
             }
@@ -192,6 +191,11 @@ class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService
      */
     private fun updateExplanation() {
         binding.speedModeExplanation.text = when {
+            binding.toggleButton.checkedButtonId == R.id.all_media && settings.getBoolean(KEY_INCOGNITO, false) -> buildString {
+                append(if (forVideo) getString(R.string.playback_speed_explanation_all_videos) else getString(R.string.playback_speed_explanation_all_tracks) )
+                append("\n\n")
+                append(getString(R.string.playback_speed_explanation_all_incognito))
+            }
             binding.toggleButton.checkedButtonId == R.id.all_media -> if (forVideo) getString(R.string.playback_speed_explanation_all_videos) else getString(R.string.playback_speed_explanation_all_tracks)
             else -> if (forVideo) getString(R.string.playback_speed_explanation_one_video) else getString(R.string.playback_speed_explanation_one_track)
         }
@@ -226,9 +230,12 @@ class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService
         if (binding.toggleButton.checkedButtonId == R.id.this_media) {
             getCurrentMedia()?.setStringMeta(MediaWrapper.META_SPEED, newValue.toString())
         } else {
-            settings.edit {
-                putFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, newValue)
-            }
+            if (settings.getBoolean(KEY_INCOGNITO, false)) {
+                if (forVideo) PlaylistManager.incognitoModeVideoSpeed = newValue else PlaylistManager.incognitoModeAudioSpeed = newValue
+            } else
+                settings.edit {
+                    putFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, newValue)
+                }
         }
         playbackService!!.setRate(newValue, true)
        if (!preventChangeProgressbar)

@@ -119,6 +119,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         fun hasMedia() = mediaList.size() != 0
         val repeating = MutableStateFlow(PlaybackStateCompat.REPEAT_MODE_NONE)
         var playingAsAudio = false
+        var incognitoModeVideoSpeed = 1f
+        var incognitoModeAudioSpeed = 1f
     }
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
@@ -742,13 +744,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * @param media
      */
     private fun restoreSpeed(media: MediaWrapper) {
+        val incognitoMode = settings.getBoolean(KEY_INCOGNITO, false)
+        val playbackSpeedModeAll = settings.getBoolean(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false)
         val playbackRate = when {
+            incognitoMode && playbackSpeedModeAll -> if (player.isVideoPlaying())  incognitoModeVideoSpeed else incognitoModeAudioSpeed
             //restore all
-            settings.getBoolean(
-                if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL,
-                false
-            ) -> settings.getFloat(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1.0f)
-            settings.getBoolean(KEY_INCOGNITO, false) -> 1F
+            playbackSpeedModeAll -> settings.getFloat(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1.0f)
+            incognitoMode -> 1F
             //restore one
             else -> try {
                 media.getMetaString(MediaWrapper.META_SPEED).toFloat()

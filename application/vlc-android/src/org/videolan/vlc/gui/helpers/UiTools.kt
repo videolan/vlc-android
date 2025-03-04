@@ -158,6 +158,7 @@ import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
@@ -560,6 +561,10 @@ object UiTools {
         if (activity.showPinIfNeeded()) return false
         Settings.getInstance(activity).putSingle(KEY_INCOGNITO, !Settings.getInstance(activity).getBoolean(KEY_INCOGNITO, false))
         item.isChecked = !item.isChecked
+        if (!item.isChecked) {
+            PlaylistManager.incognitoModeVideoSpeed = 1F
+            PlaylistManager.incognitoModeAudioSpeed = 1F
+        }
         return true
     }
 
