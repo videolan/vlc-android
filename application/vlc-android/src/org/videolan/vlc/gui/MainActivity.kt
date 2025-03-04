@@ -71,7 +71,6 @@ import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
-import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
@@ -263,9 +262,7 @@ class MainActivity : ContentActivity(),
             }
             R.id.incognito_mode -> {
                 lifecycleScope.launch {
-                    if (showPinIfNeeded()) return@launch
-                    Settings.getInstance (this@MainActivity).putSingle(KEY_INCOGNITO, !Settings.getInstance(this@MainActivity).getBoolean(KEY_INCOGNITO, false))
-                    item.isChecked = !item.isChecked
+                    if (!UiTools.updateIncognitoMode(this@MainActivity, item)) return@launch
                     updateIncognitoModeIcon()
                 }
                 true

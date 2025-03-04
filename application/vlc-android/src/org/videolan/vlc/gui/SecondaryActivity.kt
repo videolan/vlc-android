@@ -29,7 +29,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
@@ -49,8 +48,6 @@ import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
@@ -59,7 +56,6 @@ import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.browser.MLStorageBrowserFragment
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
@@ -165,9 +161,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
             }
             R.id.incognito_mode -> {
                 lifecycleScope.launch {
-                    if (showPinIfNeeded()) return@launch
-                    Settings.getInstance (this@SecondaryActivity).putSingle(KEY_INCOGNITO, !Settings.getInstance(this@SecondaryActivity).getBoolean(KEY_INCOGNITO, false))
-                    item.isChecked = !item.isChecked
+                    if (!UiTools.updateIncognitoMode(this@SecondaryActivity, item)) return@launch
                 }
                 return true
             }
