@@ -29,7 +29,6 @@ import android.content.res.AssetManager
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.net.Uri
-import android.os.ParcelFileDescriptor
 import android.os.storage.StorageManager
 import android.provider.MediaStore
 import android.util.Log
@@ -54,7 +53,6 @@ import java.lang.Runnable
 import java.util.*
 import java.util.zip.CRC32
 import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 object FileUtils {
@@ -202,10 +200,16 @@ object FileUtils {
 
     @WorkerThread
     fun copyFile(src: String, dst: String): String? {
-        return if (copyFile(File(src), File(dst)))
-            dst
-        else
-            null
+        dst.getParentFolder()?.let {
+            val parent = File(it)
+            if (!parent.isDirectory) parent.mkdirs()
+            return if (copyFile(File(src), File(dst)))
+                dst
+            else
+                null
+        }
+        Log.e(TAG, "Invalid destination path: $dst")
+        return null
     }
 
     @WorkerThread
