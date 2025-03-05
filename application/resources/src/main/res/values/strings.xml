@@ -201,7 +201,7 @@
     <string name="playback_speed_all_tracks">All tracks</string>
     <string name="playback_speed_explanation_all_videos">The speed will be applied to all videos.\nIndividual videos\' playback speed will be ignored.</string>
     <string name="playback_speed_explanation_all_tracks">The speed will be applied to all tracks.\nIndividual tracks\' playback speed will be ignored.</string>
-    <string name="playback_speed_explanation_all_incognito">You are in incognito mode. The speed will revert to normal if you leave incognito mode or the app is closed.</string>
+    <string name="playback_speed_explanation_all_incognito">You are in incognito mode. The speed will revert to normal when you leave incognito mode.</string>
     <string name="playback_speed_explanation_one_video">The speed will be applied to this video only</string>
     <string name="playback_speed_explanation_one_track">The speed will be applied to this track only</string>
     <string name="audio_playback_speed_global">Use the global playback speed</string>

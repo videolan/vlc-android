@@ -32,6 +32,8 @@ import android.widget.SeekBar
 import androidx.core.content.edit
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
@@ -155,7 +157,7 @@ class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService
                         putBoolean(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, true)
                     }
                     val newValue = when {
-                        settings.getBoolean(KEY_INCOGNITO, false) -> if (forVideo) PlaylistManager.incognitoModeVideoSpeed else PlaylistManager.incognitoModeAudioSpeed
+                        settings.getBoolean(KEY_INCOGNITO, false) -> settings.getFloat(if (forVideo) KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1F)
                         else -> settings.getFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1F)
                     }
                     changeSpeedTo(newValue)
@@ -231,7 +233,9 @@ class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService
             getCurrentMedia()?.setStringMeta(MediaWrapper.META_SPEED, newValue.toString())
         } else {
             if (settings.getBoolean(KEY_INCOGNITO, false)) {
-                if (forVideo) PlaylistManager.incognitoModeVideoSpeed = newValue else PlaylistManager.incognitoModeAudioSpeed = newValue
+                settings.edit {
+                    putFloat(if (forVideo) KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, newValue)
+                }
             } else
                 settings.edit {
                     putFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, newValue)

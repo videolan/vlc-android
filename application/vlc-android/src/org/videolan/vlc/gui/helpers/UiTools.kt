@@ -64,6 +64,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ActionMode
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -131,6 +132,8 @@ import org.videolan.resources.util.launchForeground
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
@@ -158,7 +161,6 @@ import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
@@ -559,11 +561,14 @@ object UiTools {
      */
     fun updateIncognitoMode(activity: FragmentActivity, item: MenuItem): Boolean {
         if (activity.showPinIfNeeded()) return false
-        Settings.getInstance(activity).putSingle(KEY_INCOGNITO, !Settings.getInstance(activity).getBoolean(KEY_INCOGNITO, false))
+        val settings = Settings.getInstance(activity)
+        settings.putSingle(KEY_INCOGNITO, !settings.getBoolean(KEY_INCOGNITO, false))
         item.isChecked = !item.isChecked
         if (!item.isChecked) {
-            PlaylistManager.incognitoModeVideoSpeed = 1F
-            PlaylistManager.incognitoModeAudioSpeed = 1F
+            settings.edit {
+                remove(KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE)
+                remove(KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE)
+            }
         }
         return true
     }
