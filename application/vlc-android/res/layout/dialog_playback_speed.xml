@@ -91,12 +91,12 @@
                 app:layout_constraintTop_toTopOf="@+id/playback_speed_seek" />
 
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/button_speed_minus"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/round_border"
+                app:background="@drawable/round_border"
                 android:contentDescription="@string/talkback_decrease_speed"
                 android:gravity="center"
                 android:padding="12dp"
@@ -120,11 +120,11 @@
                 app:layout_constraintStart_toEndOf="@+id/button_speed_minus"
                 app:layout_constraintTop_toTopOf="@+id/button_speed_minus" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/button_speed_plus"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="@drawable/round_border"
+                app:background="@drawable/round_border"
                 android:contentDescription="@string/talkback_increase_speed"
                 android:gravity="center"
                 android:padding="12dp"
@@ -139,7 +139,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
+                app:background="@drawable/round_border"
                 android:gravity="center"
                 android:text="0.8"
                 app:layout_constraintEnd_toStartOf="@+id/button_speed_1"
@@ -153,7 +153,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
+                app:background="@drawable/round_border"
                 android:gravity="center"
                 android:text="1.0"
                 app:layout_constraintEnd_toStartOf="@+id/button_speed_125"
@@ -167,7 +167,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
+                app:background="@drawable/round_border"
                 android:gravity="center"
                 android:text="1.25"
                 app:layout_constraintEnd_toStartOf="@+id/button_speed_15"
@@ -180,7 +180,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
+                app:background="@drawable/round_border"
                 android:gravity="center"
                 android:text="1.5"
                 app:layout_constraintEnd_toStartOf="@+id/button_speed_2"
@@ -192,7 +192,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
-                android:background="@drawable/round_border"
+                app:background="@drawable/round_border"
                 android:gravity="center"
                 android:text="2.0"
                 app:layout_constraintEnd_toEndOf="@+id/playback_speed_seek"
