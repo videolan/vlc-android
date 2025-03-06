@@ -39,6 +39,7 @@
     </plurals>
 
     <string name="play">Play</string>
+    <string name="quick_play">Quick play</string>
     <string name="playback">Playback</string>
     <string name="playback_controls">Playback controls</string>
     <string name="medialibrary_scan">Media library scan</string>

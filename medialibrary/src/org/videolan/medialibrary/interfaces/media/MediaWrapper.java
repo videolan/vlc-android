@@ -58,6 +58,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public final static int MEDIA_FORCE_AUDIO = 0x8;
     public final static int MEDIA_BENCHMARK = 0x10;
     public final static int MEDIA_FROM_START = 0x20;
+    public final static int MEDIA_NO_PARSE = 0x40;
 
     //MetaData flags
     public final static int META_RATING = 1;

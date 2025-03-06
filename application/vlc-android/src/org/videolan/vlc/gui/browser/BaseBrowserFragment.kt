@@ -81,6 +81,8 @@ import org.videolan.resources.util.parcelableList
 import org.videolan.tools.BROWSER_DISPLAY_IN_CARDS
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
+import org.videolan.tools.KEY_QUICK_PLAY
+import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
@@ -141,6 +143,7 @@ import org.videolan.vlc.util.ContextOption.CTX_PLAY
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_QUICK_PLAY
 import org.videolan.vlc.util.ContextOption.CTX_RENAME
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.LifecycleAwareScheduler
@@ -740,13 +743,22 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
                 lifecycleScope.launch {
+                    val media = getMediaWithMeta(item).apply {
+                        if (Settings.getInstance(requireActivity()).getBoolean(KEY_QUICK_PLAY_DEFAULT, false))
+                            addFlags(MediaWrapper.MEDIA_NO_PARSE)
+                    }
                     when (DefaultPlaybackActionMediaType.FILE.getCurrentPlaybackAction(Settings.getInstance(requireActivity()))) {
-                        DefaultPlaybackAction.PLAY -> MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))
-                        DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, item)
-                        DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, item)
+                        DefaultPlaybackAction.PLAY -> MediaUtils.openMedia(requireContext(), getMediaWithMeta(media))
+                        DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, media)
+                        DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, media)
                         else -> {
                             val media = viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
-                                .map { getMediaWithMeta(it as MediaWrapper) }
+                                .map {
+                                    getMediaWithMeta(it as MediaWrapper).apply {
+                                        if (Settings.getInstance(requireActivity()).getBoolean(KEY_QUICK_PLAY_DEFAULT, false))
+                                            addFlags(MediaWrapper.MEDIA_NO_PARSE)
+                                    }
+                                }
                             MediaUtils.openList(v.context, media, position)
                         }
                     }
@@ -774,6 +786,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             val flags = FlagSet(ContextOption::class.java).apply {
                 add(CTX_RENAME)
                 if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) add(CTX_DELETE)
+                if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment && Settings.getInstance(requireActivity()).getBoolean(KEY_QUICK_PLAY, false)) add(CTX_QUICK_PLAY)
                 if (!isRootDirectory && this is FileBrowserFragment) add(CTX_DELETE)
                 if (mw.type == MediaWrapper.TYPE_DIR) {
                     val isEmpty = viewModel.isFolderEmpty(mw)
@@ -827,6 +840,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 ?: return
         when (option) {
             CTX_PLAY -> lifecycleScope.launch { MediaUtils.openMedia(activity, getMediaWithMeta(mw)) }
+            CTX_QUICK_PLAY -> lifecycleScope.launch {
+                val mediaWithMeta = getMediaWithMeta(mw)
+                mediaWithMeta.addFlags(0x40)
+                MediaUtils.openMedia(activity, mediaWithMeta)
+            }
             CTX_PLAY_ALL -> {
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 playAll(mw)

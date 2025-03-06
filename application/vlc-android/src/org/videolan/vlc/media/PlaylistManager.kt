@@ -840,7 +840,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val media = getCurrentMedia()
         if (expand && media !== null) {
             expanding = true
-            nextIndex = expand(media.type == MediaWrapper.TYPE_STREAM)
+            nextIndex = expand(media.type == MediaWrapper.TYPE_STREAM, media.hasFlag(MediaWrapper.MEDIA_NO_PARSE))
             expanding = false
         } else {
             nextIndex = -1
@@ -917,7 +917,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * @return the index of the media was expanded, and -1 if no media was expanded
      */
     @MainThread
-    private suspend fun expand(updateHistory: Boolean): Int {
+    private suspend fun expand(updateHistory: Boolean, skipNextParsing:Boolean = false): Int {
         entryUrl = null
         if (BuildConfig.BETA) Log.d(TAG, "expand with values: ", Exception("Call stack"))
         val index = currentIndex
@@ -936,9 +936,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 if (isSchemeHttpOrHttps(child.uri.scheme) && child.uri.authority?.endsWith(".youtube.com") == true) {
                     shouldDisableCookieForwarding = true
                 }
-                withContext(Dispatchers.IO) { child.parse() }
+                if (!skipNextParsing)
+                    withContext(Dispatchers.IO) { child.parse() }
                 if (BuildConfig.BETA)  Log.d(TAG, "inserting: ${child.uri}")
-                mediaList.insert(index + i, MLServiceLocator.getAbstractMediaWrapper(child))
+                mediaList.insert(index + i, MLServiceLocator.getAbstractMediaWrapper(child).apply {
+                    if (skipNextParsing)
+                        addFlags(MediaWrapper.MEDIA_NO_PARSE)
+                })
                 child.release()
             }
             mediaList.addEventListener(this)
