@@ -114,6 +114,19 @@
             android:key="dav1d_thread_number"
             app:useSimpleSummaryProvider="true"
             android:title="@string/dav1d_thread_number"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="quick_play"
+                android:summary="@string/browser_quick_play_summary"
+                android:title="@string/browser_quick_play"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="quick_play_default"
+                android:dependency="quick_play"
+                android:summary="@string/browser_quick_play_default_summary"
+                android:title="@string/browser_quick_play_default"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/developer_prefs_category">

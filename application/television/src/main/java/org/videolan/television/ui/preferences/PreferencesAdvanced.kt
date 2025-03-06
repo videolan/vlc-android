@@ -40,6 +40,7 @@ import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.CoroutineScope
@@ -107,6 +108,8 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
+        findPreference<CheckBoxPreference>("quick_play")?.isVisible = false
+        findPreference<CheckBoxPreference>("quick_play_default")?.isVisible = false
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
