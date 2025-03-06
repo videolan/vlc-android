@@ -24,6 +24,7 @@ package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import androidx.core.content.getSystemService
 import androidx.preference.CheckBoxPreference
@@ -49,7 +50,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_HUD_TIMEOUT
 import org.videolan.tools.coerceInOrDefault
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
 class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
@@ -79,7 +79,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
 
         updateHudTimeoutSummary()
         val audiomanager = requireActivity().getSystemService<AudioManager>()!!
-        if (audiomanager.isVolumeFixed) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || audiomanager.isVolumeFixed) {
             audioBoostPref?.isChecked = false
             audioBoostPref?.isEnabled = false
             audioBoostPref?.summary = getString(R.string.system_volume_disabled, audioBoostPref?.summary)
