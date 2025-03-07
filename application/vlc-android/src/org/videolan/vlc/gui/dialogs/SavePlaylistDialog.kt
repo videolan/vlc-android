@@ -30,7 +30,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -120,7 +122,6 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         }
         adapter.defaultCover = UiTools.getDefaultPlaylistDrawable(requireActivity())
         newTracks = try {
-            @Suppress("UNCHECKED_CAST")
             val tracks = requireArguments().parcelableArray<MediaWrapper>(KEY_NEW_TRACKS) as Array<MediaWrapper>
             filesText = resources.getQuantityString(R.plurals.media_quantity, tracks.size, tracks.size)
             tracks
@@ -130,11 +131,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
                     isLoading = true
                     val viewModel = getBrowserModel(category = TYPE_FILE, url = folder)
-                    if (requireArguments().getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launchWhenStarted {
-                        withContext(Dispatchers.IO) {
-                            newTracks = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
-                            isLoading = false
-                            filesText = resources.getQuantityString(R.plurals.media_quantity, newTracks.size, newTracks.size)
+                    if (requireArguments().getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launch(Dispatchers.Main) {
+                        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                            withContext(Dispatchers.IO) {
+                                newTracks = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
+                                isLoading = false
+                                filesText = resources.getQuantityString(R.plurals.media_quantity, newTracks.size, newTracks.size)
+                            }
                         }
                     } else {
                         viewModel.dataset.observe(this) { mediaLibraryItems ->
@@ -157,7 +160,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         if (::dataObserver.isInitialized) adapter.unregisterAdapterDataObserver(dataObserver)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogPlaylistBinding.inflate(layoutInflater, container, false)
         binding.isLoading = isLoading
         binding.filesText = filesText
