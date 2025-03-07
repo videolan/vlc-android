@@ -26,7 +26,6 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
@@ -51,7 +50,6 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.NetworkConnectionManager
@@ -121,8 +119,6 @@ class AppSetupDelegate : AppDelegate,
             if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@innerLaunch
             Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)
         }
-        packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),
-                if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         if (!AndroidDevices.isAndroidTv) sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
             component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)
         })

@@ -995,21 +995,6 @@
                 android:theme="@style/Theme.VLC"
                 android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".gui.SendCrashActivity"
-            android:label="@string/vlc_reporter"
-            android:theme="@style/Theme.VLC.SendCrashDialog"
-            android:icon="@mipmap/ic_launcher_reporter"
-            android:launchMode="singleTask"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".gui.BetaWelcomeActivity"
             android:theme="@style/Theme.VLC.SendCrashDialog"/>
         <activity
