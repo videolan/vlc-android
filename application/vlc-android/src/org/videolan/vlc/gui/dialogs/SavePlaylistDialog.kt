@@ -277,9 +277,12 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 alreadyAdding.set(false)
                 return@launch
             }
-            medialibrary.createPlaylist(name, Settings.includeMissing, false)
+            val playlist = medialibrary.createPlaylist(name, Settings.includeMissing, false)
             binding.dialogPlaylistName.editText?.text?.clear()
-            adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.getPlaylists(Playlist.Type.All, false).apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } }))
+            val newList = listOf<MediaLibraryItem>(
+                *medialibrary.getPlaylists(Playlist.Type.All, false).apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } })
+            adapter.submitList(newList)
+            onClick(newList.indexOf(playlist))
             alreadyAdding.set(false)
             binding.dialogPlaylistName.error = null
 
