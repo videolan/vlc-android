@@ -32,6 +32,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,6 +64,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.util.isSchemeStreaming
+import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.util.LinkedList
@@ -99,6 +101,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     private val coroutineContextProvider: CoroutineContextProvider
     private val alreadyAdding = AtomicBoolean(false)
+    private lateinit var dataObserver: RecyclerView.AdapterDataObserver
 
     override fun initialFocusedView(): View = binding.dialogPlaylistName.editText ?: binding.dialogPlaylistName
 
@@ -112,6 +115,9 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         medialibrary = Medialibrary.getInstance()
         adapter = SimpleAdapter(this)
+        dataObserver = adapter.onAnyChange {
+            updateEmptyView()
+        }
         adapter.defaultCover = UiTools.getDefaultPlaylistDrawable(requireActivity())
         newTracks = try {
             @Suppress("UNCHECKED_CAST")
@@ -144,6 +150,11 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             }
         }
         selectedPlaylist = savedInstanceState?.getSerializable(SELECTED_PLAYLIST) as ArrayList<Playlist>?
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::dataObserver.isInitialized) adapter.unregisterAdapterDataObserver(dataObserver)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
