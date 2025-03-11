@@ -25,14 +25,21 @@
 package org.videolan.vlc.gui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CompletableJob
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CRASH_HAPPENED
 import org.videolan.resources.CRASH_ML_CTX
 import org.videolan.resources.CRASH_ML_MSG
@@ -41,17 +48,22 @@ import org.videolan.tools.isVisible
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AboutFeedbackActivityBinding
 import org.videolan.vlc.gui.helpers.FeedbackUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.openLinkIfPossible
+import java.io.File
+import java.io.IOException
 
 /**
  * Activity showing the different ways to report some feedback
  */
-class FeedbackActivity : BaseActivity() {
+class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
 
     internal lateinit var binding: AboutFeedbackActivityBinding
     override fun getSnackAnchorView(overAudioPlayer: Boolean) = binding.root
@@ -60,9 +72,80 @@ class FeedbackActivity : BaseActivity() {
     private var mlErrorMessage: String? = null
     private var mlErrorContext: String? = null
 
+    //logs
+    private var logMessage = ""
+    private lateinit var client: DebugLogService.Client
+    private lateinit var logcatZipPath: String
+
+    override fun onStarted(logList: List<String>) {
+        logMessage = "Starting collecting logs at ${System.currentTimeMillis()}"
+        //initiate a log to wait for
+        Log.d("FeedbackActivity", logMessage)
+    }
+
+    override fun onStopped() {
+    }
+
+    override fun onLog(msg: String) {
+        //Wait for the log to initiate a save to avoid ANR
+        if (msg.contains(logMessage)) {
+            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage())
+                Permissions.askWriteStoragePermission(this, false) { client.save() }
+            else
+                client.save()
+        }
+    }
+
+    override fun onSaved(success: Boolean, path: String) {
+        if (!success) {
+            Snackbar.make(window.decorView, R.string.dump_logcat_failure, Snackbar.LENGTH_LONG).show()
+            client.stop()
+            return
+        }
+        lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
+            withContext(Dispatchers.IO) {
+                client.stop()
+                if (!::logcatZipPath.isInitialized) {
+                    val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
+                        ?: return@withContext
+                    logcatZipPath = "$externalPath/logcat.zip"
+                }
+                val filesToAdd = mutableListOf(path)
+                //add previous crash logs
+                try {
+                    AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath?.let { folder ->
+                        File(folder).listFiles()?.forEach {
+                            if (it.isFile && (it.name.contains("crash_") || it.name.contains("logcat_"))) filesToAdd.add(it.path)
+                        }
+                    }
+                } catch (exception: IOException) {
+                    Snackbar.make(window.decorView, R.string.dump_logcat_failure, Snackbar.LENGTH_LONG).show()
+                    client.stop()
+                    return@withContext
+                }
+
+                if (!FileUtils.zip(filesToAdd.toTypedArray(), logcatZipPath)) {
+                    Snackbar.make(window.decorView, R.string.dump_logcat_failure, Snackbar.LENGTH_LONG).show()
+                    client.stop()
+                    return@withContext
+                }
+                try {
+                    filesToAdd.forEach { FileUtils.deleteFile(it) }
+                } catch (exception: IOException) {
+                    Snackbar.make(window.decorView, R.string.dump_logcat_failure, Snackbar.LENGTH_LONG).show()
+                    client.stop()
+                    return@withContext
+                }
+
+                sendEmail(true)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        client = DebugLogService.Client(this, this)
         binding = DataBindingUtil.setContentView(this, R.layout.about_feedback_activity)
         val toolbar = findViewById<MaterialToolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
@@ -104,35 +187,10 @@ class FeedbackActivity : BaseActivity() {
             openLinkIfPossible("https://docs.videolan.me/vlc-user/android/")
         }
         binding.emailSupportSend.setOnClickListener {
-            val feedbackTypePosition = feedbackTypeEntries.indexOf(binding.feedbackTypeEntry.text.toString())
-            val isCrashFromML = !mlErrorContext.isNullOrEmpty() || !mlErrorMessage.isNullOrEmpty()
-            val subjectPrepend = when {
-                isCrashFromML -> "[ML Crash]"
-                feedbackTypePosition == 0 -> "[Help] "
-                feedbackTypePosition == 1 -> "[Feedback/Request] "
-                feedbackTypePosition == 2 -> "[Bug] "
-                else -> "[Crash] "
-            }
-            val mail = if (BuildConfig.BETA && feedbackTypePosition > 2) FeedbackUtil.SupportType.CRASH_REPORT_EMAIL else FeedbackUtil.SupportType.SUPPORT_EMAIL
-            lifecycleScope.launch {
-                val message = if (isCrashFromML)
-                    buildString {
-                        append(binding.messageTextInputLayout.editText?.text.toString())
-                        append("<br /><br />")
-                        append("____________________________<br />")
-                        append("ML Crash!<br />")
-                        append("____________________________<br />")
-                        append("ML Context: $mlErrorContext<br />ML error message: $mlErrorMessage")
-                    }
-                else binding.messageTextInputLayout.editText?.text.toString()
-                FeedbackUtil.sendEmail(
-                    this@FeedbackActivity,
-                    mail,
-                    binding.showIncludes && binding.includeMedialibrary.isChecked,
-                    message,
-                    subjectPrepend + binding.subjectTextInputLayout.editText?.text.toString()
-                )
-            }
+            if (binding.includeLogs.isChecked) {
+                client.start()
+            } else
+                sendEmail()
         }
         val installSource = FeedbackUtil.getInstallSource(this)
         if (installSource == null)
@@ -160,6 +218,39 @@ class FeedbackActivity : BaseActivity() {
             binding.feedbackTypeEntry.setText(feedbackTypeEntries[3])
             binding.messageTextInputLayout.setHint(R.string.describe_crash)
             if (isCrashFromML) UiTools.snackerMessageInfinite(this, getString(R.string.ml_crash_send))?.show()
+        }
+    }
+
+    private fun sendEmail(includeLogs: Boolean = false) {
+        val feedbackTypePosition = feedbackTypeEntries.indexOf(binding.feedbackTypeEntry.text.toString())
+        val isCrashFromML = !mlErrorContext.isNullOrEmpty() || !mlErrorMessage.isNullOrEmpty()
+        val subjectPrepend = when {
+            isCrashFromML -> "[ML Crash]"
+            feedbackTypePosition == 0 -> "[Help] "
+            feedbackTypePosition == 1 -> "[Feedback/Request] "
+            feedbackTypePosition == 2 -> "[Bug] "
+            else -> "[Crash] "
+        }
+        val mail = if (BuildConfig.BETA && feedbackTypePosition > 2) FeedbackUtil.SupportType.CRASH_REPORT_EMAIL else FeedbackUtil.SupportType.SUPPORT_EMAIL
+        lifecycleScope.launch {
+            val message = if (isCrashFromML)
+                buildString {
+                    append(binding.messageTextInputLayout.editText?.text.toString())
+                    append("<br /><br />")
+                    append("____________________________<br />")
+                    append("ML Crash!<br />")
+                    append("____________________________<br />")
+                    append("ML Context: $mlErrorContext<br />ML error message: $mlErrorMessage")
+                }
+            else binding.messageTextInputLayout.editText?.text.toString()
+            FeedbackUtil.sendEmail(
+                this@FeedbackActivity,
+                mail,
+                binding.showIncludes && binding.includeMedialibrary.isChecked,
+                message,
+                subjectPrepend + binding.subjectTextInputLayout.editText?.text.toString(),
+                if (includeLogs) logcatZipPath else null
+            )
         }
     }
 
@@ -200,6 +291,7 @@ class FeedbackActivity : BaseActivity() {
     override fun onDestroy() {
         job?.complete()
         job = null
+        if (::client.isInitialized) client.release()
         super.onDestroy()
     }
 
