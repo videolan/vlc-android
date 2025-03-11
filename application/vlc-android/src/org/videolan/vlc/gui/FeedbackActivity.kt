@@ -251,6 +251,7 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
                 subjectPrepend + binding.subjectTextInputLayout.editText?.text.toString(),
                 if (includeLogs) logcatZipPath else null
             )
+            finish()
         }
     }
 
