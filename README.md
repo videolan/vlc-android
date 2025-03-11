@@ -143,7 +143,8 @@ Issues without relevant information will be ignored, we cannot help in this case
 
 ## Support
 
+- For usage support, use the in-app feedback option in the `About` screen
 - Android mailing list: android@videolan.org
 - bugtracker: https://code.videolan.org/videolan/vlc-android/issues
-- IRC: *#videolan* channel on [freenode](http://freenode.net/)
-- VideoLAN forum: https://forum.videolan.org/
+- IRC: *#videolan* channel on [libera](https://libera.chat/)
+- VideoLAN forum: https://forum.videolan.org/viewforum.php?f=35
