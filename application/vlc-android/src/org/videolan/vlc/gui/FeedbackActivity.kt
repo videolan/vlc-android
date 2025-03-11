@@ -30,8 +30,12 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.CompletableJob
 import kotlinx.coroutines.launch
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.CRASH_HAPPENED
+import org.videolan.resources.CRASH_ML_CTX
+import org.videolan.resources.CRASH_ML_MSG
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.isVisible
 import org.videolan.tools.setGone
@@ -53,6 +57,8 @@ class FeedbackActivity : BaseActivity() {
     override fun getSnackAnchorView(overAudioPlayer: Boolean) = binding.root
     override val displayTitle = true
     private lateinit var feedbackTypeEntries: Array<CharSequence>
+    private var mlErrorMessage: String? = null
+    private var mlErrorContext: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,19 +105,31 @@ class FeedbackActivity : BaseActivity() {
         }
         binding.emailSupportSend.setOnClickListener {
             val feedbackTypePosition = feedbackTypeEntries.indexOf(binding.feedbackTypeEntry.text.toString())
-            val subjectPrepend = when (feedbackTypePosition) {
-                0 -> "[Help] "
-                1 -> "[Feedback/Request] "
-                2 -> "[Bug] "
+            val isCrashFromML = !mlErrorContext.isNullOrEmpty() || !mlErrorMessage.isNullOrEmpty()
+            val subjectPrepend = when {
+                isCrashFromML -> "[ML Crash]"
+                feedbackTypePosition == 0 -> "[Help] "
+                feedbackTypePosition == 1 -> "[Feedback/Request] "
+                feedbackTypePosition == 2 -> "[Bug] "
                 else -> "[Crash] "
             }
             val mail = if (BuildConfig.BETA && feedbackTypePosition > 2) FeedbackUtil.SupportType.CRASH_REPORT_EMAIL else FeedbackUtil.SupportType.SUPPORT_EMAIL
             lifecycleScope.launch {
+                val message = if (isCrashFromML)
+                    buildString {
+                        append(binding.messageTextInputLayout.editText?.text.toString())
+                        append("<br /><br />")
+                        append("____________________________<br />")
+                        append("ML Crash!<br />")
+                        append("____________________________<br />")
+                        append("ML Context: $mlErrorContext<br />ML error message: $mlErrorMessage")
+                    }
+                else binding.messageTextInputLayout.editText?.text.toString()
                 FeedbackUtil.sendEmail(
                     this@FeedbackActivity,
                     mail,
                     binding.showIncludes && binding.includeMedialibrary.isChecked,
-                    binding.messageTextInputLayout.editText?.text.toString(),
+                    message,
                     subjectPrepend + binding.subjectTextInputLayout.editText?.text.toString()
                 )
             }
@@ -128,6 +146,21 @@ class FeedbackActivity : BaseActivity() {
             }
         }
 
+        // a ML crash happened
+        mlErrorMessage = intent.extras?.getString(CRASH_ML_MSG)
+        mlErrorContext = intent.extras?.getString(CRASH_ML_CTX)
+        val isCrashFromML = !mlErrorContext.isNullOrEmpty() || !mlErrorMessage.isNullOrEmpty()
+
+        // a crash happened
+        if (intent.extras?.getBoolean(CRASH_HAPPENED) == true) {
+            binding.feedbackForumCard.setGone()
+            binding.readDocCard.setGone()
+            binding.rateCard.setGone()
+            binding.emailSupportCard.performClick()
+            binding.feedbackTypeEntry.setText(feedbackTypeEntries[3])
+            binding.messageTextInputLayout.setHint(R.string.describe_crash)
+            if (isCrashFromML) UiTools.snackerMessageInfinite(this, getString(R.string.ml_crash_send))?.show()
+        }
     }
 
     /**
@@ -162,6 +195,16 @@ class FeedbackActivity : BaseActivity() {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        job?.complete()
+        job = null
+        super.onDestroy()
+    }
+
+    companion object {
+        var job: CompletableJob? = null
     }
 
 }

@@ -45,6 +45,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ActorScope
 import kotlinx.coroutines.channels.Channel
@@ -53,6 +54,7 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.util.AndroidUtil
@@ -71,6 +73,9 @@ import org.videolan.resources.ACTION_RELOAD
 import org.videolan.resources.ACTION_RESUME_SCAN
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CRASH_HAPPENED
+import org.videolan.resources.CRASH_ML_CTX
+import org.videolan.resources.CRASH_ML_MSG
 import org.videolan.resources.EXTRA_PARSE
 import org.videolan.resources.EXTRA_PATH
 import org.videolan.resources.EXTRA_REMOVE_DEVICE
@@ -88,6 +93,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.localBroadcastManager
 import org.videolan.tools.removeFileScheme
+import org.videolan.vlc.gui.FeedbackActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils
@@ -125,6 +131,26 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     var lastScheduled = -1
 
     private val exceptionHandler = when {
+        BuildConfig.BETA -> Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
+            val intent = Intent(applicationContext, FeedbackActivity::class.java).apply {
+                putExtra(CRASH_ML_CTX, context)
+                putExtra(CRASH_ML_MSG, errMsg)
+                putExtra(CRASH_HAPPENED, true)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            Log.wtf(TAG, "medialibrary reported unhandled exception: -----------------")
+            // Lock the Medialibrary thread during DB extraction.
+            runBlocking {
+                FeedbackActivity.job = Job()
+                try {
+                    startActivity(intent)
+                    FeedbackActivity.job?.join()
+                } catch (e: Exception) {
+                    FeedbackActivity.job = null
+                }
+                throw IllegalStateException("$context:\n$errMsg")
+            }
+        }
         BuildConfig.DEBUG -> Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ -> throw IllegalStateException("$context:\n$errMsg") }
         else -> null
     }

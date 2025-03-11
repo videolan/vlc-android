@@ -219,6 +219,7 @@ const val TYPE_LOCAL_FAV = 1
 //Crash reporting
 const val CRASH_ML_CTX = "crash_ml_ctx"
 const val CRASH_ML_MSG = "crash_ml_msg"
+const val CRASH_HAPPENED = "crash_happened"
 
 fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
 

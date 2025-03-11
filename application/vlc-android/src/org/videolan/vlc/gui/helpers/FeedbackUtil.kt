@@ -77,7 +77,7 @@ object FeedbackUtil {
             }
             val appData = generateUsefulInfo(activity).replace("\r\n", "<br/>") + "<br/>"
 
-            val body = "<p style=3D\"color:#16171A;\"> [$message]</p><p>$appData</p>"
+            val body = "<p style=3D\"color:#16171A;\">$message</p><p>$appData</p>"
 
             logcatZipPath?.let {
                 attachments.add(FileProvider.getUriForFile(activity, activity.applicationContext.packageName + ".provider", File(it)))

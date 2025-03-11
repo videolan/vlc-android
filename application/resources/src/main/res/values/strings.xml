@@ -611,6 +611,7 @@
 
     <string name="serious_crash">Unfortunately, a serious error has occurred and VLC had to close.</string>
     <string name="help_us_send_log">Help us improving VLC by sending the following crash log:</string>
+    <string name="ml_crash_send">The media library just crashed. Help us by sending the logs.</string>
     <string name="restart_vlc">Restart VLC</string>
     <string name="send_log">Send the log</string>
     <string name="sending_log">Sending the log…</string>
