@@ -65,6 +65,7 @@
     <string name="set_song_question">Impostare \'%1$s\' comente soneria?</string>
     <string name="info">Informatziones</string>
     <string name="confirm_delete">Cheres iscantzellare su documentu \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">Ses seguru de bòlere sostituire s\'iscalita \'%1$s\'?</string>
     <string name="confirm_delete_message">Custa atzione est permanente e non si podet annullare.</string>
     <string name="confirm_delete_album">Cheres iscantzellare s\'album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Iscantzellare custos %1$d documentos multimediales?</string>
@@ -199,6 +200,7 @@
     <string name="playback_speed_all_tracks">Totu sas rastas</string>
     <string name="playback_speed_explanation_all_videos">Custa lestresa s\'at a aplicare a totu sos vìdeos.\nSa lestresa de riprodutzione individuale de sos vìdeos at a èssere ignorada.</string>
     <string name="playback_speed_explanation_all_tracks">Custa lestresa s\'at a aplicare a totu sas rastas.\nSa lestresa de riprodutzione individuale de sas rastas at a èssere ignorada.</string>
+    <string name="playback_speed_explanation_all_incognito">Ses in modalidade anònima. Sa lestresa at a torrare normale cando as a lassare sa modalidade anònima.</string>
     <string name="playback_speed_explanation_one_video">Custa lestresa s\'at a aplicare a custu vìdeu ebbia</string>
     <string name="playback_speed_explanation_one_track">Custa lestresa s\'at a aplicare a custa rasta ebbia</string>
     <string name="audio_playback_speed_global">Imprea sa lestresa globale de riprodutzione</string>
@@ -247,6 +249,7 @@
     <string name="video_resume_playback_summary">Permite su sarvamentu de s\'elencu de riprodutzione de vìdeos pro sighire a pustis</string>
     <string name="audio_resume_playback_title">Cronologia de s\'elencu de riprodutzione àudio</string>
     <string name="audio_resume_playback_warning">S\'inabilitatzione de sa cronologia de riprodutzione àudio diat pòdere causare de unos cantos problemas de cumportamentu.\nA pustis de l\'àere disabilitada dias pòdere no èssere in gradu de torrare a sighire sa riprodutzione dae:\n\n\t- un dispositivu bluetooth\n\t- su widget\n\t- sa notìfica multimediale</string>
+    <string name="playback_history_warning">Sa disabilitatzione de sa cronologia de riprodutzione at a cuare sa cronologia, s\'avantzamentu de sos elementos multimediales e sos marcadores pompiados. S\'aplicatzione at a sighire a sarvare s\'atividade tua e custa s\'at a ripristinare si as a torrare a l\'allùghere.\nSi la boles acabbare de su totu de sarvare s\'atividade tua, imprea imbetzes sa modalidade anònima..\nPodes fintzas isboidare sa cronologia tua i s\'ischermada de sa cronologia o in sas impostatziones avantzadas.</string>
     <string name="audio_resume_playback_summary">Permite su sarvamentu de s\'elencu de riprodutzione àudio pro torrare a sighire prus a tardu</string>
 
     <string name="play_button">Butone de riprodutzione</string>
@@ -378,6 +381,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Ammustra su controllu de sa lestresa in su menù a cumparsa</string>
     <string name="enable_android_auto_seek_buttons">Butones de positzionamentu de Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Ammustra sos butones de incuida e avantzamentu lestru in s\'interfache de su menù a cumparsa. Proa a mantènnere incarcados sos butones \"antepostu\" e \"imbeniente\" in antis de l\'abilitare.</string>
+    <string name="artist">Artista</string>
+    <string name="album">Album</string>
+    <string name="track">Rasta</string>
+    <string name="genre">Gènere</string>
+    <string name="playlist">Iscalita</string>
     <string name="enable_double_tap_seek_title">Tocu dòpiu pro mòere sa positzione</string>
     <string name="enable_double_tap_seek_summary">Tocu dòpiu in sos oros de s\'ischermu pro mòere sa positzione de 10 segundos</string>
     <string name="enable_double_tap_play_title">Tocu dòpiu pro riproduire/suspèndere</string>
@@ -396,6 +404,12 @@
     <string name="fastplay_speed_title">Velotzidade de riprodutzione lestra</string>
     <string name="fastplay_title">Riprodutzione a %sx</string>
     <string name="fastplay_subtitle">Lassa pro firmare</string>
+    <string name="show_bookmark_buttons">Ammustra sos butones de sos sinnalibros</string>
+    <string name="show_bookmark_buttons_summary">Ammustra sos butones pro navigare intre sos sinnalibros</string>
+    <string name="show_bookmark_markers">Ammustra sos marcadores de sos sinnalibros</string>
+    <string name="show_bookmark_markers_summary">Ammustra sos marcadores de sos sinnalibros in sa lìnia de tempus</string>
+    <string name="show_chapter_buttons">Ammustra sos butones de sos capìtulos</string>
+    <string name="show_chapter_buttons_summary">Ammustra sos butones pro navigare intre sos capìtulos</string>
 
     <string name="subtitles_prefs_category">Sutatìtulos</string>
     <string name="subtitles_size_title">Mannària de sos sutatìtulos</string>
@@ -1080,6 +1094,8 @@
     <string name="bookmark_name">Sinnalibru %s</string>
     <string name="add_bookmark">Annanghe unu sinnalibru</string>
     <string name="bookmark_added">Sinnalibru annantu</string>
+    <string name="previous_bookmark">Sinnalibru antepostu</string>
+    <string name="next_bookmark">Sinnalibru imbeniente</string>
     <string name="show">Ammustra</string>
     <string name="optional_features">Funtzionalidades optzionales</string>
     <string name="optional_features_summary">Funtzionalidades in beta chi sunt in fase de proa e diant pòdere no èssere istàbiles</string>
@@ -1333,4 +1349,5 @@
     <string name="queue_format">Formadu de s\'elencu de riprodutzione</string>
     <string name="queue_format_short_desc">Positzione de s\'elencu de riprodutzione</string>
     <string name="queue_format_long_desc">Positzione de s\'elencu / Mannària de s\'elencu de riprodutzione</string>
+    <string name="video_settings_disclaimer">Unas cantas impostatziones sunt istadas mòvidas a sas impostatziones de sos controllos in su leghidore de vìdeos.</string>
 </resources>

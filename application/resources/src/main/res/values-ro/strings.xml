@@ -66,6 +66,7 @@
     <string name="set_song_question">Setare \'%1$s\' ca ton de apel?</string>
     <string name="info">Informații</string>
     <string name="confirm_delete">Ștergeți fișierul \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">Ești sigur(ă) că vrei să înlocuiești lista de redare/playlist-ul \'%1$ss\'?</string>
     <string name="confirm_delete_message">Aceasta actiune este permanenta si nu poate fi anulata</string>
     <string name="confirm_delete_album">Ștergi albumul \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Ștergeți  %1$d fișiere media?</string>
@@ -210,6 +211,7 @@
     <string name="playback_speed_all_tracks">Toate pistele</string>
     <string name="playback_speed_explanation_all_videos">Viteza va fi aplicată tuturor videoclipurilor.\nViteza de redare a videoclipurilor individuale va fi ignorată.</string>
     <string name="playback_speed_explanation_all_tracks">Viteza va fi aplicată tuturor pieselor.\nViteza de redare a pieselor individuale va fi ignorată.</string>
+    <string name="playback_speed_explanation_all_incognito">Ești în modul incognito. Viteza va reveni la normal atunci când vei părăsi modul incognito.</string>
     <string name="playback_speed_explanation_one_video">Viteza va fi aplicată numai acestui videoclip</string>
     <string name="playback_speed_explanation_one_track">Viteza va fi aplicată numai acestei piste</string>
     <string name="audio_playback_speed_global">Folosește viteza de redare globală</string>
@@ -258,6 +260,7 @@
     <string name="video_resume_playback_summary">Permite salvarea cozii de redare video pentru a o relua mai târziu</string>
     <string name="audio_resume_playback_title">Istoricul cozii de redare audio</string>
     <string name="audio_resume_playback_warning">Dezactivarea istoricului cozii de redare audio poate duce la unele probleme de comportament.\nDupă dezactivarea acestuia, este posibil să nu poți relua redarea de pe:\n\n\t- un dispozitiv Bluetooth\n\t- widget-ul\n\t- notificarea media</string>
+    <string name="playback_history_warning">Dezactivarea istoricului de redare va ascunde istoricul, progresul media și marcajele văzute. Aplicația va continua să îți salveze activitatea și va fi restabilită dacă istoricul este reactivat.\nDacă dorești să oprești complet salvarea activității tale, folosește modul incognito.\nDe asemenea, îți ppți șterge istoricul din ecranul istoricului sau din setările avansate.</string>
     <string name="audio_resume_playback_summary">Permite salvarea cozii de redare audio pentru a o relua mai târziu</string>
 
     <string name="play_button">Buton de redare</string>
@@ -389,6 +392,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Afișați controlul vitezei în meniul de depășire</string>
     <string name="enable_android_auto_seek_buttons">Butoane de căutare Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Afișați derularea înapoi și înaintarea rapidă în meniul de revărsare. Încercați să țineți apăsate butoanele anterior și următor de pe volan înainte de a le activa.</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="track">Pistă</string>
+    <string name="genre">Gen</string>
+    <string name="playlist">Listă de redare (Playlist)</string>
     <string name="enable_double_tap_seek_title">Atingeți de două ori pentru a căuta</string>
     <string name="enable_double_tap_seek_summary">Atingeți de două ori marginile ecranului pentru a căuta cu câte 10 secunde de redare</string>
     <string name="enable_double_tap_play_title">Atingeți de două ori pentru a reda/opri</string>
@@ -407,6 +415,12 @@
     <string name="fastplay_speed_title">Viteza Redării rapide</string>
     <string name="fastplay_title">Se redă la %sx</string>
     <string name="fastplay_subtitle">Eliberează pentru a opri</string>
+    <string name="show_bookmark_buttons">Afișează vutoanele pentru marcaje/semnele de carte</string>
+    <string name="show_bookmark_buttons_summary">Afișează butoanele pentru a naviga printre marcaje</string>
+    <string name="show_bookmark_markers">Afișează marcatorii semnelor de carte</string>
+    <string name="show_bookmark_markers_summary">Afișează marcatorii de marcaje peste cronologie</string>
+    <string name="show_chapter_buttons">Afișează butoanele pentru capitole</string>
+    <string name="show_chapter_buttons_summary">Afișează butoanele pentru navigarea între capitole</string>
 
     <string name="subtitles_prefs_category">Subtitrari</string>
     <string name="subtitles_size_title">Marime subtitrari</string>
@@ -1093,6 +1107,8 @@
     <string name="bookmark_name">Semnul de carte %s</string>
     <string name="add_bookmark">Adăugați un marcaj</string>
     <string name="bookmark_added">Semn de carte adăugat</string>
+    <string name="previous_bookmark">Marcajul anterior</string>
+    <string name="next_bookmark">Marcajul următor</string>
     <string name="show">Arată</string>
     <string name="optional_features">Funcții opționale</string>
     <string name="optional_features_summary">Funcții beta care sunt în curs de testare și este posibil să nu fie stabile</string>
@@ -1348,4 +1364,5 @@
     <string name="queue_format">Formatul cozii</string>
     <string name="queue_format_short_desc">Poziția cozii</string>
     <string name="queue_format_long_desc">Poziția cozii / Dimensiunea cozii</string>
+    <string name="video_settings_disclaimer">Unele setări au fost mutate în setările comenzilor video din playerul video.</string>
 </resources>

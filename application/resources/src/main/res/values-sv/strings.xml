@@ -65,6 +65,7 @@
     <string name="set_song_question">Ange  \"%1$s\" som ringsignal?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \"%1$s\"?</string>
+    <string name="confirm_replace_playlist">Är du säker på att du vill ersätta spellistan \"%1$s\"?</string>
     <string name="confirm_delete_message">Detta är permanent och kan inte ångras.</string>
     <string name="confirm_delete_album">Radera albumet \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Radera dessa %1$d mediafiler?</string>
@@ -199,6 +200,7 @@
     <string name="playback_speed_all_tracks">Alla spår</string>
     <string name="playback_speed_explanation_all_videos">Hastigheten kommer att tillämpas på alla videor.\nUppspelningshastigheten hos individuella videor kommer att ignoreras.</string>
     <string name="playback_speed_explanation_all_tracks">Hastigheten kommer att tillämpas på alla spår.\nUppspelningshastigheten hos individuella spår kommer att ignoreras.</string>
+    <string name="playback_speed_explanation_all_incognito">Du är i inkognitoläge. Hastigheten återgår till det normala när du lämnar inkognitoläget.</string>
     <string name="playback_speed_explanation_one_video">Hastigheten kommer endast att tillämpas på denna video.</string>
     <string name="playback_speed_explanation_one_track">Hastigheten kommer endast att tillämpas på detta spår.</string>
     <string name="audio_playback_speed_global">Använd den globala uppspelningshastigheten</string>
@@ -247,6 +249,7 @@
     <string name="video_resume_playback_summary">Gör det möjligt att spara videouppspelningskön för att kunna återuppta senare</string>
     <string name="audio_resume_playback_title">Historik för ljuduppspelningskö</string>
     <string name="audio_resume_playback_warning">Om historiken för ljuduppspelningskön inaktiveras kan det  leda till beteendeproblem.\nEfter att ha inaktiverat detta kommer du inte längre kunna återuppta uppspelning från:\n\n\n- En bluetoothenhet\n\t- Widgeten\n\t- Mediaaviseringen</string>
+    <string name="playback_history_warning">När uppspelningshistoriken inaktiveras kommer historiken, mediaförloppet och synliga markörer att döljas. Appen fortsätter att spara din aktivitet och återställer den om historiken aktiveras igen.\nOm du vill sluta spara din aktivitet helt och hållet använder du i stället inkognitoläget.\nDu kan också rensa din historik i historikmenyn eller i de avancerade inställningarna.</string>
     <string name="audio_resume_playback_summary">Gör det möjligt att spara ljuduppspelningskön för att kunna återuppta senare</string>
 
     <string name="play_button">Uppspelningsknapp</string>
@@ -378,6 +381,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Visa hastighetskontroll i överlödesmenyn</string>
     <string name="enable_android_auto_seek_buttons">Snabbspolningsknappar för Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Visa knappar i överflödesmenyn för att spola fram- och tillbaka. Försök att hålla ned knapparna föregående och nästa innan du aktiverar detta.</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="track">Spår</string>
+    <string name="genre">Genre</string>
+    <string name="playlist">Spellista</string>
     <string name="enable_double_tap_seek_title">Dubbelknacka för att söka</string>
     <string name="enable_double_tap_seek_summary">Dubbelknacka på skärmens kanter för att söka framåt/bakåt 10 sekunder</string>
     <string name="enable_double_tap_play_title">Tryck två gånger för att spela upp/pausa</string>
@@ -396,6 +404,12 @@
     <string name="fastplay_speed_title">Hastighet för snabbuppspelning</string>
     <string name="fastplay_title">Spelar upp med %sx</string>
     <string name="fastplay_subtitle">Släpp för att stoppa</string>
+    <string name="show_bookmark_buttons">Visa bokmärkesknappar</string>
+    <string name="show_bookmark_buttons_summary">Visa knappar för att navigera mellan bokmärken</string>
+    <string name="show_bookmark_markers">Visa bokmärkesmarkörer</string>
+    <string name="show_bookmark_markers_summary">Visa bokmärkesmarkörer över tidslinjen</string>
+    <string name="show_chapter_buttons">Visa kapitelknappar</string>
+    <string name="show_chapter_buttons_summary">Visa knappar för att navigera mellan kapitel</string>
 
     <string name="subtitles_prefs_category">Undertexter</string>
     <string name="subtitles_size_title">Undertextstorlek</string>
@@ -1080,6 +1094,8 @@
     <string name="bookmark_name">Bokmärke %s</string>
     <string name="add_bookmark">Lägg till bokmärke</string>
     <string name="bookmark_added">Lade till bokmärke</string>
+    <string name="previous_bookmark">Föregående bokmärke</string>
+    <string name="next_bookmark">Nästa bokmärke</string>
     <string name="show">Visa</string>
     <string name="optional_features">Valfria funktioner</string>
     <string name="optional_features_summary">Betafunktioner som för tillfället testas och kanske inte är stabila</string>
@@ -1333,4 +1349,5 @@
     <string name="queue_format">Köformat</string>
     <string name="queue_format_short_desc">Köposition</string>
     <string name="queue_format_long_desc">Köposition/-storlek</string>
+    <string name="video_settings_disclaimer">Vissa inställningar har flyttats till videokontrollinställningarna i videospelaren.</string>
 </resources>

@@ -65,6 +65,7 @@
     <string name="set_song_question">Voleu configurar «%1$s» com a to de trucada?</string>
     <string name="info">Informació</string>
     <string name="confirm_delete">Voleu esborrar el fitxer «%1$s»?</string>
+    <string name="confirm_replace_playlist">Esteu segur que voleu substituir la llista de reproducció \'%1$s\'?</string>
     <string name="confirm_delete_message">Això és permanent i no es pot desfer.</string>
     <string name="confirm_delete_album">Voleu suprimir l\'àlbum «%1$s»?</string>
     <string name="confirm_delete_several_media">Voleu esborrar aquests %1$d medis?</string>
@@ -127,7 +128,7 @@
     <string name="internal_memory">Memòria interna</string>
     <string name="audio">Àudio</string>
     <string name="video">Vídeo</string>
-    <string name="bookmarks">Punts de llibre</string>
+    <string name="bookmarks">Preferits</string>
     <string name="equalizer">Equalitzador</string>
     <string name="all_albums">Tots els àlbums</string>
     <string name="genres">Gèneres</string>
@@ -199,6 +200,7 @@
     <string name="playback_speed_all_tracks">Totes les pistes</string>
     <string name="playback_speed_explanation_all_videos">La velocitat s\'aplicarà a tots els vídeos.\nLa velocitat de reproducció dels vídeos individuals s\'ignorarà.</string>
     <string name="playback_speed_explanation_all_tracks">La velocitat s\'aplicarà a totes les pistes.\nLa velocitat de reproducció de les pistes individuals s\'ignorarà.</string>
+    <string name="playback_speed_explanation_all_incognito">Esteu en mode d\'incògnit. La velocitat tornarà a la normalitat quan sortiu del mode d\'incògnit.</string>
     <string name="playback_speed_explanation_one_video">La velocitat només s\'aplicarà a aquest vídeo</string>
     <string name="playback_speed_explanation_one_track">La velocitat només s\'aplicarà a aquesta pista</string>
     <string name="audio_playback_speed_global">Utilitzar la velocitat de reproducció global</string>
@@ -247,6 +249,7 @@
     <string name="video_resume_playback_summary">Permet desar la cua de reproducció de vídeo per reprendre-la més tard</string>
     <string name="audio_resume_playback_title">Historial de cua de reproducció d\'àudio</string>
     <string name="audio_resume_playback_warning">Desactivar l\'historial de cua de reproducció d\'àudio pot provocar alguns problemes de comportament.\nDesprés de desactivar-la potser no es pot reprendre la reproducció des de:\n\n\t- un dispositiu bluetooth\n\t- el giny\n\t- la notificació del dispositiu</string>
+    <string name="playback_history_warning">Si desactiveu l\'historial de reproducció, s\'amagarà l\'historial, el progrés dels multimèdia i els marcadors vistos. L\'aplicació continuarà desant la vostra activitat i es restaurarà si es torna a activar l\'historial.\nSi voleu deixar de desar completament l\'activitat, feu servir el mode d\'incògnit.\nTambé podeu esborrar l\'historial a la pantalla d\'historial o a la configuració avançada.</string>
     <string name="audio_resume_playback_summary">Permet desar la cua de reproducció d\'àudio per reprendre-la més tard</string>
 
     <string name="play_button">Botó de reproducció</string>
@@ -378,6 +381,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Mostra el control de la velocitat en el menú de desbordament</string>
     <string name="enable_android_auto_seek_buttons">Botons de cerca de l\'Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Mostra els botons de tirar enrere i ràpid endavant al menú de desbordament. Abans d\'activar-ho, proveu mantenir pitjats els botons previ i següent del volant.</string>
+    <string name="artist">Artista</string>
+    <string name="album">Àlbum</string>
+    <string name="track">Pista</string>
+    <string name="genre">Gènere</string>
+    <string name="playlist">Llista de reproducció</string>
     <string name="enable_double_tap_seek_title">Doble toc per buscar</string>
     <string name="enable_double_tap_seek_summary">Doble toc als marges de la pantalla per buscar durant 10 segons</string>
     <string name="enable_double_tap_play_title">Feu doble toc per reproduir/pausar</string>
@@ -396,6 +404,12 @@
     <string name="fastplay_speed_title">Velocitat de reproducció ràpida</string>
     <string name="fastplay_title">Reproduïnt a %sx</string>
     <string name="fastplay_subtitle">Allibera per aturar</string>
+    <string name="show_bookmark_buttons">Mostra els botons de preferits</string>
+    <string name="show_bookmark_buttons_summary">Mostra els botons de navegació entre preferits</string>
+    <string name="show_bookmark_markers">Mostra els marcadors de preferits</string>
+    <string name="show_bookmark_markers_summary">Mostra els marcadors de preferits a la línia de temps</string>
+    <string name="show_chapter_buttons">Mostra els botons de capítol</string>
+    <string name="show_chapter_buttons_summary">Mostra els botons de navegació entre capítols</string>
 
     <string name="subtitles_prefs_category">Subtítols</string>
     <string name="subtitles_size_title">Mida dels subtítols</string>
@@ -1080,6 +1094,8 @@
     <string name="bookmark_name">Preferit %s</string>
     <string name="add_bookmark">Afegir preferit</string>
     <string name="bookmark_added">Preferit afegit</string>
+    <string name="previous_bookmark">Preferit anterior</string>
+    <string name="next_bookmark">Preferit següent</string>
     <string name="show">Mostra</string>
     <string name="optional_features">Característiques opcionals</string>
     <string name="optional_features_summary">Característiques beta que estan actualment en fase de proves i poden ser inestables</string>
@@ -1333,4 +1349,5 @@
     <string name="queue_format">Format de la cua</string>
     <string name="queue_format_short_desc">Posició de la cua</string>
     <string name="queue_format_long_desc">Posició de la cua / Mida de la cua</string>
+    <string name="video_settings_disclaimer">Algunes opcions de configuració s\'han mogut a la configuració dels controls de vídeo del reproductor de vídeo.</string>
 </resources>

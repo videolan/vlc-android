@@ -56,6 +56,8 @@
     <string name="append_all">Összes hozzáfűzése</string>
     <string name="resume_playback_short_title">Lejátszás folytatása</string>
     <string name="resume_playback_long_title">A legutóbbi lejátszólista folytatása</string>
+    <string name="resume_audio_playback_short_title">Hanglejátszás folytatása</string>
+    <string name="resume_audio_playback_long_title">Legutóbbi hanglejátszólista lejátszásának folytatása </string>
     <string name="resume_playback_error">Nincs mit folytatni</string>
     <string name="delete">Törlés</string>
     <string name="remove">Eltávolítás</string>
@@ -63,6 +65,7 @@
     <string name="set_song_question">Beállítja csengőhangként a(z) „%1$s” fájlt?</string>
     <string name="info">Információ</string>
     <string name="confirm_delete">Törli ezt a fájlt: „%1$s”?</string>
+    <string name="confirm_replace_playlist">Biztos, hogy törli a(z) „%1$s” lejátszólistát?</string>
     <string name="confirm_delete_message">Ez végleges, és nem lehet visszavonni.</string>
     <string name="confirm_delete_album">Törli ezt az albumot: „%1$s”?</string>
     <string name="confirm_delete_several_media">Törli ezt a(z) %1$d médiát?</string>
@@ -191,6 +194,18 @@
 
     <string name="playback_speed">Lejátszási sebesség</string>
     <string name="warning_stream_speed">A lejátszási sebesség 1 fölé állítása akadozást okozhat a közvetítéseknél</string>
+    <string name="playback_speed_this_video">Ez a videó</string>
+    <string name="playback_speed_this_track">Ez a szám</string>
+    <string name="playback_speed_all_videos">Összes videó</string>
+    <string name="playback_speed_all_tracks">Összes szám</string>
+    <string name="playback_speed_explanation_all_videos">A sebesség az összes videóra alkalmazva lesz.\nAz egyes videók lejátszási sebessége figyelmen kívül lesz hagyva.</string>
+    <string name="playback_speed_explanation_all_tracks">A sebesség az összes számra alkalmazva lesz.\nAz egyes számok lejátszási sebessége figyelmen kívül lesz hagyva.</string>
+    <string name="playback_speed_explanation_all_incognito">Inkognitó módban van. Az inkognitó mód elhagyása után a sebesség vissza fog állni a normálisra.</string>
+    <string name="playback_speed_explanation_one_video">A sebesség csak erre a videóra lesz alkalmazva</string>
+    <string name="playback_speed_explanation_one_track">A sebesség csak erre a számra lesz alkalmazva</string>
+    <string name="audio_playback_speed_global">Globális lejátszási sebesség használata</string>
+    <string name="audio_playback_speed_global_summary">A globálisan, az összes számra megadott lejátszási sebesség használata.\nAz egyes számok lejátszási sebessége figyelmen kívül lesz hagyva.</string>
+
     <string name="sleep_title">Elalváskapcsoló</string>
     <string name="sleep_in">Elalvás:</string>
     <string name="jump_to_time">Ugrás időpontra</string>
@@ -234,6 +249,7 @@
     <string name="video_resume_playback_summary">Videólejátszási sor mentésének engedélyezése a későbbi folytatáshoz</string>
     <string name="audio_resume_playback_title">Hanglejátszási sor előzményei</string>
     <string name="audio_resume_playback_warning">A hanglejátszási sor előzményeinek letiltása viselkedési problémákhoz vezethet.\nLetiltás után előfordulhat, hogy nem tudja folytatni a lejátszást a következőkről:\n\n\t- Bluetooth-eszközről\n\t- a modulról\n\t- a médiaértesítésről</string>
+    <string name="playback_history_warning">A lejátszási előzmények letiltása elrejti az előzményeket, a médiafájlok előrehaladását és a megtekintésjelzőket. Az alkalmazás továbbra is menti a tevékenységét, és helyre lesz állítva, ha újra bekapcsolja az előzményeket.\nHa teljesen le akarja állítani a tevékenységei mentését, használja inkább az inkognitó módot.\nTörölheti is az előzményeit az előzmények képernyőn vagy a speciális beállításokban.</string>
     <string name="audio_resume_playback_summary">Hanglejátszási sor mentésének engedélyezése a későbbi folytatáshoz</string>
 
     <string name="play_button">Lejátszás gomb</string>
@@ -365,6 +381,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Sebességvezérlők megjelenítése a túlcsorduló menüben</string>
     <string name="enable_android_auto_seek_buttons">Android Auto tekerőgombok</string>
     <string name="enable_android_auto_seek_buttons_summary">A hátra- és előretekerés gombok megjelenítése a túlcsorduló menüben. Mielőtt engedélyezi, próbálja meg nyomva tartani a kormányon lévő előző és következő gombokat.</string>
+    <string name="artist">Előadó</string>
+    <string name="album">Album</string>
+    <string name="track">Szám</string>
+    <string name="genre">Műfaj</string>
+    <string name="playlist">Lejátszólista</string>
     <string name="enable_double_tap_seek_title">Dupla koppintás a tekeréshez</string>
     <string name="enable_double_tap_seek_summary">Dupla koppintás a képernyő szélen a 10 másodperces tekeréshez</string>
     <string name="enable_double_tap_play_title">Dupla koppintás a lejátszáshoz/szüneteltetéshez</string>
@@ -383,6 +404,12 @@
     <string name="fastplay_speed_title">Gyors lejátszás sebessége</string>
     <string name="fastplay_title">Lejátszás %s× sebességgel</string>
     <string name="fastplay_subtitle">Engedje fel a leállításhoz</string>
+    <string name="show_bookmark_buttons">Könyvjelzőgombok megjelenítése</string>
+    <string name="show_bookmark_buttons_summary">Gombok megjelenítése a könyvjelzők közti navigációhoz</string>
+    <string name="show_bookmark_markers">Könyvjelző-jelzések megjelenítése</string>
+    <string name="show_bookmark_markers_summary">Könyvjelző-jelzések megjelenítése az idővonalon</string>
+    <string name="show_chapter_buttons">Fejezetgombok megjelenítése</string>
+    <string name="show_chapter_buttons_summary">Gombok megjelenítése a fejezetek közti navigációhoz</string>
 
     <string name="subtitles_prefs_category">Feliratok</string>
     <string name="subtitles_size_title">Feliratok mérete</string>
@@ -1067,6 +1094,8 @@
     <string name="bookmark_name">%s könyvjelzőzése</string>
     <string name="add_bookmark">Könyvjelző hozzáadása</string>
     <string name="bookmark_added">Könyvjelző hozzáadva</string>
+    <string name="previous_bookmark">Előző könyvjelző</string>
+    <string name="next_bookmark">Következő könyvjelző</string>
     <string name="show">Megjelenítés</string>
     <string name="optional_features">Opcionális szolgáltatások</string>
     <string name="optional_features_summary">Béta funkciók, melyek jelenleg tesztelés alatt állnak, és nem biztos, hogy stabilak</string>
@@ -1320,4 +1349,5 @@
     <string name="queue_format">Lejátszási sor formátuma</string>
     <string name="queue_format_short_desc">Pozíció a lejátszási sorban</string>
     <string name="queue_format_long_desc">Pozíció a lejátszási sorban / méret</string>
+    <string name="video_settings_disclaimer">Egyes beállítások át lettek helyezve a videóvezérlési beállításokhoz a videólejátszóban.</string>
 </resources>

@@ -67,6 +67,7 @@
     <string name="set_song_question">Nastaviť „%1$s“ ako zvonenie?</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor „%1$s“?</string>
+    <string name="confirm_replace_playlist">Naozaj chcete nahradiť playlist \'%1$s\'?</string>
     <string name="confirm_delete_message">Tento úkon je trvalý a nevratný.</string>
     <string name="confirm_delete_album">Vymazať album „%1$s“?</string>
     <string name="confirm_delete_several_media">Vymazať tieto médiá v počte: %1$d?</string>
@@ -221,6 +222,7 @@
     <string name="playback_speed_all_tracks">Všetky stopy</string>
     <string name="playback_speed_explanation_all_videos">Rýchlosť sa použije pre všetky videá.\nIndividuálne určená rýchlosť prehrávania videí sa bude ignorovať.</string>
     <string name="playback_speed_explanation_all_tracks">Táto rýchlosť sa použije pre všetky stopy.\nIndividuálne určená rýchlosť prehrávania stôp sa bude ignorovať.</string>
+    <string name="playback_speed_explanation_all_incognito">Nachádzate sa v režime inkognito. Po opustení režimu inkognito sa rýchlosť obnoví na normálnu hodnotu.</string>
     <string name="playback_speed_explanation_one_video">Rýchlosť sa použije len pre toto video</string>
     <string name="playback_speed_explanation_one_track">Rýchlosť sa použije len pre túto stopu</string>
     <string name="audio_playback_speed_global">Použiť globálnu rýchlosť prehrávania</string>
@@ -269,6 +271,7 @@
     <string name="video_resume_playback_summary">Umožniť ukladanie frontu pre prehrávanie videa, aby bolo možné pokračovať neskôr</string>
     <string name="audio_resume_playback_title">História frontu prehrávania zvuku</string>
     <string name="audio_resume_playback_warning">Zablokovanie histórie frontu pre prehrávanie zvuku môže viesť k problémom s ovládaním.\nPo jeho zablokovaní možno nebudete môcť pokračovať v prehrávaní zo: \n\n\t- zariadenia Bluetooto\n\t- widgetu\n\t- notifikácie pre médium</string>
+    <string name="playback_history_warning">Zablokovaním histórie prehrávania sa skryje história, postup v médiu a značky, ktoré ste už videli. Aplikácia bude naďalej ukladať vašu aktivitu a obnoví sa, keď znovu zapnete históriu.\nAk chcete úplne zastaviť ukladanie vašej aktivity, použite režim inkognito.\nMôžete aj vyčistiť históriu na obrazovke pre históriu alebo v pokročilých nastaveniach.</string>
     <string name="audio_resume_playback_summary">Umožniť ukladanie frontu pre prehrávanie zvuku, aby bolo možné pokračovať neskôr</string>
 
     <string name="play_button">Tlačidlo Prehrať</string>
@@ -400,6 +403,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Zobraziť kontrolu rýchlosti v prekrývacom menu</string>
     <string name="enable_android_auto_seek_buttons">Tlačidlá vyhľadávania Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Zobraziť prevíjanie dozadu a rýchlo dopredu v prekrývacom menu. Pred aktivovaním skúste podržať tlačidlá Dozadu a Dopredu na volante.</string>
+    <string name="artist">Umelec</string>
+    <string name="album">Album</string>
+    <string name="track">Stopa</string>
+    <string name="genre">Žáner</string>
+    <string name="playlist">Playlist</string>
     <string name="enable_double_tap_seek_title">Pre hľadanie/posun sa 2x dotknite</string>
     <string name="enable_double_tap_seek_summary">Pre posun o 10 sekúnd sa 2x dotknite rohov obrazovky</string>
     <string name="enable_double_tap_play_title">Dvojitým dotykom spustíte/pozastavíte prehrávanie</string>
@@ -418,6 +426,12 @@
     <string name="fastplay_speed_title">Rýchlosť Fastplay</string>
     <string name="fastplay_title">Prehrávanie rýchlosťou %sx</string>
     <string name="fastplay_subtitle">Uvoľnením zastavíte</string>
+    <string name="show_bookmark_buttons">Zobraziť tlačidlá záložiek</string>
+    <string name="show_bookmark_buttons_summary">Zobraziť tlačidlá pre navigovanie medzi záložkami</string>
+    <string name="show_bookmark_markers">Zobraziť značky záložiek</string>
+    <string name="show_bookmark_markers_summary">Zobraziť značky záložiek nad časovou osou</string>
+    <string name="show_chapter_buttons">Zobraziť tlačidlá pre kapitoly</string>
+    <string name="show_chapter_buttons_summary">Zobraziť tlačidlá na navigovanie medzi kapitolami</string>
 
     <string name="subtitles_prefs_category">Titulky</string>
     <string name="subtitles_size_title">Veľkosť titulkov</string>
@@ -1106,6 +1120,8 @@
     <string name="bookmark_name">Záložka %s</string>
     <string name="add_bookmark">Pridať záložku</string>
     <string name="bookmark_added">Záložka pridaná</string>
+    <string name="previous_bookmark">Predchádzajúca záložka</string>
+    <string name="next_bookmark">Ďalšia záložka</string>
     <string name="show">Zobraziť</string>
     <string name="optional_features">Voliteľné funkcie</string>
     <string name="optional_features_summary">Skúšobné funkcie (beta), ktoré sa aktuálne testujú a nemusia fungovať stabilne</string>
@@ -1363,4 +1379,5 @@
     <string name="queue_format">Formát frontu</string>
     <string name="queue_format_short_desc">Pozícia frontu</string>
     <string name="queue_format_long_desc">Pozícia/veľkosť frontu</string>
+    <string name="video_settings_disclaimer">Niektoré nastavenia boli presunuté do nastavení ovládacích prvkov pre video, v prehrávači videa.</string>
 </resources>

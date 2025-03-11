@@ -65,6 +65,7 @@
     <string name="set_song_question">Asetetaanko \"%1$s\" soittoääneksi?</string>
     <string name="info">Tietoja</string>
     <string name="confirm_delete">Poistatko tiedoston \"%1$s\"?</string>
+    <string name="confirm_replace_playlist">Haluatko korvata soittolistan \"%1$s\"?</string>
     <string name="confirm_delete_message">Tätä ei voi kumota.</string>
     <string name="confirm_delete_album">Poistetaanko albumi \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Poistetaanko nämä \"%1$d\" kappaletta?</string>
@@ -199,6 +200,7 @@
     <string name="playback_speed_all_tracks">Kaikki kappaleet</string>
     <string name="playback_speed_explanation_all_videos">Nopeus sovelletaan kaikkiin videoihin.\nYksittäisen videon toistonopeutta ei oteta huomioon.</string>
     <string name="playback_speed_explanation_all_tracks">Nopeus sovelletaan kaikkiin kappaleisiin.\nYksittäisen kappaleen toistonopeutta ei oteta huomioon.</string>
+    <string name="playback_speed_explanation_all_incognito">Olet tuntematon moodissa. Nopeus palautuu normaaliksi, kun poistut moodista.</string>
     <string name="playback_speed_explanation_one_video">Nopeutta käytetään vain tässä videossa</string>
     <string name="playback_speed_explanation_one_track">Nopeutta käytetään vain tässä kappaleessa</string>
     <string name="audio_playback_speed_global">Käytä yleistä toistonopeutta</string>
@@ -252,6 +254,7 @@ Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
 - Bluetooth laitteesta,
 - Sovelmasta
 - Ilmoituksesta.</string>
+    <string name="playback_history_warning">Toistohistorian poistaminen käytöstä piilottaa historian, median edistymisen ja nähty merkit. Sovellus jatkaa toimintasi tallentamista ja se palautetaan, jos historia otetaan uudelleen käyttöön.\nJos haluat lopettaa tallentamisen kokonaan, käytä tuntematon-tilaa.\nVoit myös tyhjentää historiasi historianäytössä tai lisäasetuksissa.</string>
     <string name="audio_resume_playback_summary">Salli audion toistojonon tallentaminen jatkaaksesi myöhemmin</string>
 
     <string name="play_button">Toista painike</string>
@@ -385,6 +388,11 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="enable_android_auto_speed_buttons_summary">Näytä nopeudensäätö pudotusvalikossa</string>
     <string name="enable_android_auto_seek_buttons">Android Auto, kelauspainikkeet</string>
     <string name="enable_android_auto_seek_buttons_summary">Näytä kelaus eteen ja taakse pudotusvalikossa. Kokeile ohjauspyörän edellinen ja seuraava painikkeita ennen kuin otat tämän käyttöön.</string>
+    <string name="artist">Artisti</string>
+    <string name="album">Albumi</string>
+    <string name="track">Kappale</string>
+    <string name="genre">Tyylilaji</string>
+    <string name="playlist">Soittolista</string>
     <string name="enable_double_tap_seek_title">Kelaa napauttamalla kahdesti</string>
     <string name="enable_double_tap_seek_summary">Napauta kahdesti näytön reunalla, kelaa 10s</string>
     <string name="enable_double_tap_play_title">Toista/keskeytä napauttamalla kahdesti</string>
@@ -403,6 +411,12 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="fastplay_speed_title">Toiston nopeus</string>
     <string name="fastplay_title">Toistetaan %sx</string>
     <string name="fastplay_subtitle">Vapauta lopettaaksesi</string>
+    <string name="show_bookmark_buttons">Näytä kirjanmerkit painike</string>
+    <string name="show_bookmark_buttons_summary">Näytä painike kirjanmerkkien välillä liikkumiseen</string>
+    <string name="show_bookmark_markers">Näytä kirjanmerkit</string>
+    <string name="show_bookmark_markers_summary">Näytä kirjanmerkit aikajanalla</string>
+    <string name="show_chapter_buttons">Näytä jakso painike</string>
+    <string name="show_chapter_buttons_summary">Näytä painike, joilla voit jaksosta toiseen</string>
 
     <string name="subtitles_prefs_category">Tekstitykset</string>
     <string name="subtitles_size_title">Tekstityksen koko</string>
@@ -618,10 +632,10 @@ Käynnistätkö uudelleen?</string>
     <string name="search_global">Hae koko mediakirjastosta</string>
     <string name="playlist_save">Tallenna soittolista</string>
     <string name="playlist_name_hint">Soittolistan nimi</string>
-    <string name="chapters">Luvut</string>
+    <string name="chapters">Jaksot</string>
     <string name="notset">Ei asetettu</string>
-    <string name="go_to_chapter">Siirry lukuun...</string>
-    <string name="current_chapter">Luku: %s</string>
+    <string name="go_to_chapter">Siirry jaksoon...</string>
+    <string name="current_chapter">Jakso: %s</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
     <string name="apply_playqueue">Lisää kaikki soittojonoon</string>
     <string name="confirm_resume_title">Jatka toistettua videota</string>
@@ -1041,7 +1055,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="allow_otg">Salli usb laitteet</string>
     <string name="allow_otg_description">Valitse usb-asema, jolle sallit oikeudet VLC:n käyttöön.</string>
     <string name="timeout_infinite">Loputon</string>
-    <string name="video_hud_timeout">Soittimen säätimien piilottamisen viive</string>
+    <string name="video_hud_timeout">Video-säätimien piilottamisen viive</string>
     <string name="video_hud_timeout_summary">%s s</string>
     <string name="remove_from_history">Poista historiasta</string>
     <string name="prefersmbv1">Suosi SMB 1</string>
@@ -1099,6 +1113,8 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="bookmark_name">Kirjanmerkki %s</string>
     <string name="add_bookmark">Lisää kirjanmerkki</string>
     <string name="bookmark_added">Kirjanmerkki lisätty</string>
+    <string name="previous_bookmark">Edellinen kirjanmerkki</string>
+    <string name="next_bookmark">Seuraava kirjanmerkki</string>
     <string name="show">Näytä</string>
     <string name="optional_features">Lisäasetukset</string>
     <string name="optional_features_summary">Testiversion ominaisuudet, joita testataan - eivätkä välttämättä ole vakaita</string>
@@ -1234,7 +1250,7 @@ Osoite on %s</string>
     <string name="talkback_enter_screen">Ohjaa %s</string>
     <string name="talkback_file_size">Tiedostokoko: %s</string>
     <string name="talkback_open_in_browser">Avaa selaimessa</string>
-    <string name="talkback_video_player">Videosoitin. Näytä säätimet napauttamalla. \"Takaisin\" painike piilottaa ne</string>
+    <string name="talkback_video_player">Video. Näytä säätimet napauttamalla. Napauta Takaisin-painiketta piilottaaksesi</string>
     <string name="talkback_video_tracks">Videoraidat</string>
     <string name="talkback_audio_tracks">Audioraidat</string>
     <string name="talkback_subtitle_tracks">Tekstitysraidat</string>
@@ -1358,4 +1374,5 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="queue_format">Jonon formaatti</string>
     <string name="queue_format_short_desc">Jonon sijainti</string>
     <string name="queue_format_long_desc">Jonon sijainti / jonon koko</string>
+    <string name="video_settings_disclaimer">Jotkin asetukset on siirretty soittimen video-säätimet asetuksiin.</string>
 </resources>

@@ -64,6 +64,7 @@
     <string name="set_song_question">\'%1$s\' を着信音として設定?</string>
     <string name="info">情報</string>
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
+    <string name="confirm_replace_playlist">本当にこのプレイリスト \'%1$s\' を置き換えますか？</string>
     <string name="confirm_delete_message">この操作は永続的で取消できません。</string>
     <string name="confirm_delete_album">アルバム \'%1$s\' を削除しますか？</string>
     <string name="confirm_delete_several_media">これらの %1$d のメディアを削除しますか?</string>
@@ -188,6 +189,7 @@
     <string name="playback_speed_all_tracks">すべてのトラック</string>
     <string name="playback_speed_explanation_all_videos">この速度はすべてのビデオに適用されます。\nビデオごとの速度は無視されます。</string>
     <string name="playback_speed_explanation_all_tracks">この速度はすべてのトラックに適用されます。\nトラックごとの速度は無視されます。</string>
+    <string name="playback_speed_explanation_all_incognito">シークレットモードで実行中です。シークレットモードを終了すると速度は通常に戻ります。</string>
     <string name="playback_speed_explanation_one_video">この速度はこのビデオにのみ適用されます</string>
     <string name="playback_speed_explanation_one_track">この速度はこのトラックにのみ適用されます</string>
     <string name="audio_playback_speed_global">グローバルの再生速度を使用</string>
@@ -236,6 +238,7 @@
     <string name="video_resume_playback_summary">後で再生を再開するためにビデオ再生キューを保存することを許可</string>
     <string name="audio_resume_playback_title">オーディオ再生キューの履歴</string>
     <string name="audio_resume_playback_warning">オーディオ再生キューの履歴を無効化すると問題が発生する可能性があります。\n無効化後は次からの再生を再開することができなくなります。\n\n\t- ブルートゥースデバイス\n\n\t- メディア通知</string>
+    <string name="playback_history_warning">再生履歴を無効にすると履歴、メディアの進行状況、表示されたマーカーが非表示となります。アプリは引き続きアクティビティを保存しており、履歴を有効化するとこれらは復元されます。\nアクティビティの保存を完全に停止したい場合、シークレットモードをご利用ください。\n履歴画面または詳細設定で履歴を消去することもできます。</string>
     <string name="audio_resume_playback_summary">後で再生を再開するためにオーディオ再生キューを保存することを許可</string>
 
     <string name="play_button">再生ボタン</string>
@@ -367,6 +370,11 @@
     <string name="enable_android_auto_speed_buttons_summary">オーバーフローメニューで速度制御を表示</string>
     <string name="enable_android_auto_seek_buttons">アンドロイド自動シークボタン</string>
     <string name="enable_android_auto_seek_buttons_summary">オーバーフローメニューで進めると戻るを表示。有効化する前に次、前のボタンを操作したままにしてみてください。</string>
+    <string name="artist">アーティスト</string>
+    <string name="album">アルバム</string>
+    <string name="track">トラック</string>
+    <string name="genre">ジャンル</string>
+    <string name="playlist">プレイリスト</string>
     <string name="enable_double_tap_seek_title">ダブルタップでシーク</string>
     <string name="enable_double_tap_seek_summary">スクリーン端をダブルタップすると10秒間シークします</string>
     <string name="enable_double_tap_play_title">ダブルタップで再生/一時停止</string>
@@ -385,6 +393,12 @@
     <string name="fastplay_speed_title">高速再生の速度</string>
     <string name="fastplay_title"> %s倍で再生中</string>
     <string name="fastplay_subtitle">離すと停止します</string>
+    <string name="show_bookmark_buttons">ブックマークボタンの表示</string>
+    <string name="show_bookmark_buttons_summary">ブックマーク間をナビゲートするボタンを表示</string>
+    <string name="show_bookmark_markers">ブックマークマーカーの表示</string>
+    <string name="show_bookmark_markers_summary">タイムライン上にブックマークマーカーを表示</string>
+    <string name="show_chapter_buttons">チャプターボタンを表示</string>
+    <string name="show_chapter_buttons_summary">チャプター館をナビゲートするボタンを表示</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕サイズ</string>
@@ -1067,6 +1081,8 @@
     <string name="bookmark_name">ブックマーク %s</string>
     <string name="add_bookmark">ブックマークを追加</string>
     <string name="bookmark_added">ブックマークが追加されました</string>
+    <string name="previous_bookmark">前のブックマーク</string>
+    <string name="next_bookmark">次のブックマーク</string>
     <string name="show">表示</string>
     <string name="optional_features">オプション機能</string>
     <string name="optional_features_summary">現在、テスト中で不安定なベータ機能</string>
@@ -1318,4 +1334,5 @@
     <string name="queue_format">キューフォーマット</string>
     <string name="queue_format_short_desc">キューの位置</string>
     <string name="queue_format_long_desc">キューの位置/キューのサイズ</string>
+    <string name="video_settings_disclaimer">一部の設定はビデオプレーヤーのビデオコントロール設定に移動されました。</string>
 </resources>

@@ -66,6 +66,7 @@
     <string name="set_song_question">Definir \'%1$s\' como toque de chamada?</string>
     <string name="info">Informação</string>
     <string name="confirm_delete">Eliminar o ficheiro \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">De certeza de que pretende substituir a lista de reprodução \'%1$s\'?</string>
     <string name="confirm_delete_message">Isto é permanente e não pode ser anulado.</string>
     <string name="confirm_delete_album">Eliminar o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Eliminar estes %1$d ficheiros?</string>
@@ -213,7 +214,7 @@
     <string name="playback_speed_explanation_one_video">A velocidade será aplicada apenas a este vídeo</string>
     <string name="playback_speed_explanation_one_track">A velocidade será aplicada apenas a esta faixa</string>
     <string name="audio_playback_speed_global">Utilizar a velocidade de reprodução global</string>
-    <string name="audio_playback_speed_global_summary">Utilize a velocidade de reprodução definida globalmente para todas as faixas.\nA velocidade de reprodução das faixas individuais será ignorada.</string>
+    <string name="audio_playback_speed_global_summary">Utilizar a velocidade de reprodução definida globalmente para todas as faixas.\nA velocidade de reprodução das faixas individuais será ignorada.</string>
 
     <string name="sleep_title">Temporizador</string>
     <string name="sleep_in">Silenciar em</string>
@@ -258,6 +259,7 @@
     <string name="video_resume_playback_summary">Permite guardar a fila de reprodução de vídeo para retomar posteriormente</string>
     <string name="audio_resume_playback_title">Histórico da fila de reprodução de áudio</string>
     <string name="audio_resume_playback_warning">Desativar o histórico da fila de reprodução de áudio pode provocar alguns problemas.\nApós desativá-lo pode não ser possível retomar a reprodução a partir:\n\n\t- dum dispositivo Bluetooth\n\t- do widget\n\t- da notificação do ficheiro</string>
+    <string name="playback_history_warning">A desativação do histórico de reprodução irá ocultar o histórico, o progresso da reprodução e os marcadores vistos. A aplicação continuará a guardar a sua atividade e esta será restaurada se o histórico for novamente ativado.\nSe pretender deixar de guardar completamente a sua atividade, utilize o modo de navegação anónima.\nTambém pode limpar o seu histórico no ecrã do histórico ou nas definições avançadas.</string>
     <string name="audio_resume_playback_summary">Permite guardar a fila de reprodução de áudio para retomar posteriormente</string>
 
     <string name="play_button">Botão de Reproduzir</string>
@@ -407,6 +409,12 @@
     <string name="fastplay_speed_title">Velocidade da reprodução rápida</string>
     <string name="fastplay_title">A reproduzir a %sx</string>
     <string name="fastplay_subtitle">Soltar para parar</string>
+    <string name="show_bookmark_buttons">Mostrar botões de marcadores</string>
+    <string name="show_bookmark_buttons_summary">Mostrar botões para navegar entre marcadores</string>
+    <string name="show_bookmark_markers">Mostrar marcadores de favoritos</string>
+    <string name="show_bookmark_markers_summary">Mostrar marcadores de favoritos na linha de tempo</string>
+    <string name="show_chapter_buttons">Mostrar botões de capítulos</string>
+    <string name="show_chapter_buttons_summary">Mostrar botões para navegar entre capítulos</string>
 
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho das Legendas</string>
@@ -1093,6 +1101,8 @@
     <string name="bookmark_name">Marcador %s</string>
     <string name="add_bookmark">Adicionar marcador</string>
     <string name="bookmark_added">Marcador adicionado</string>
+    <string name="previous_bookmark">Marcador anterior</string>
+    <string name="next_bookmark">Marcador seguinte</string>
     <string name="show">Mostrar</string>
     <string name="optional_features">Funcionalidades opcionais</string>
     <string name="optional_features_summary">As funcionalidades experimentais (beta) que estão a ser testadas atualmente e podem ser instáveis</string>
@@ -1348,4 +1358,5 @@
     <string name="queue_format">Formato da fila</string>
     <string name="queue_format_short_desc">Posição na fila</string>
     <string name="queue_format_long_desc">Posição na fila / tamanho da fila</string>
+    <string name="video_settings_disclaimer">Algumas definições foram movidas para as definições dos controlos de vídeo no leitor de vídeo.</string>
 </resources>

@@ -64,6 +64,7 @@
     <string name="set_song_question">要將「%1$s」設為鈴聲嗎？</string>
     <string name="info">資訊</string>
     <string name="confirm_delete">是否刪除檔案「%1$s」？</string>
+    <string name="confirm_replace_playlist">您確定您要取代播放清單「%1$s」嗎？</string>
     <string name="confirm_delete_message">此為永久且無法復原。</string>
     <string name="confirm_delete_album">刪除專輯「%1$s」？</string>
     <string name="confirm_delete_several_media">刪除這 %1$d 個媒體嗎？</string>
@@ -188,6 +189,7 @@
     <string name="playback_speed_all_tracks">所有軌道</string>
     <string name="playback_speed_explanation_all_videos">該速度將套用於所有影片。\n將會忽略個別影片的播放速度。</string>
     <string name="playback_speed_explanation_all_tracks">該速度將套用於所有軌道。\n將會忽略個別軌道的播放速度。</string>
+    <string name="playback_speed_explanation_all_incognito">您正處於無痕模式。當您離開無痕模式時將會恢復正常。</string>
     <string name="playback_speed_explanation_one_video">速度將只會套用於此影片</string>
     <string name="playback_speed_explanation_one_track">速度將只會套用於此軌道</string>
     <string name="audio_playback_speed_global">使用全域播放速度</string>
@@ -236,6 +238,7 @@
     <string name="video_resume_playback_summary">允許儲存影片播放佇列內容，以便在稍後繼續播放</string>
     <string name="audio_resume_playback_title">音訊播放佇列歷史紀錄</string>
     <string name="audio_resume_playback_warning">停用音訊播放佇列可能會導致一些奇怪的行為。\n在停用後，您將無法在以下位置執行繼續播放動作：\n\n\t- 藍牙裝置\n\t- 小工具\n\t- 媒體通知</string>
+    <string name="playback_history_warning">停用播放歷史會隱藏歷史、媒體進度與已觀賞標記。應用程式會繼續儲存您的活動，如果歷史記錄重新開啟，則會還原。\n如果您想完全停止儲存您的活動，請改用無痕模式。\n您也可以在紀錄畫面或進階設定中清除紀錄。</string>
     <string name="audio_resume_playback_summary">允許儲存音訊播放佇列內容，以便在稍後繼續播放</string>
 
     <string name="play_button">播放按鈕</string>
@@ -367,6 +370,11 @@
     <string name="enable_android_auto_speed_buttons_summary">在選單中顯示速度控制</string>
     <string name="enable_android_auto_seek_buttons">Android Auto 搜尋按鈕</string>
     <string name="enable_android_auto_seek_buttons_summary">在選單中顯示向後與向前快轉按鈕。啟用前請試著按住方向盤的上一個與下一個按鈕。</string>
+    <string name="artist">藝人</string>
+    <string name="album">專輯</string>
+    <string name="track">軌道</string>
+    <string name="genre">風格</string>
+    <string name="playlist">播放清單</string>
     <string name="enable_double_tap_seek_title">輕觸兩下以尋找</string>
     <string name="enable_double_tap_seek_summary">在螢幕邊緣輕觸兩下來快轉 10 秒</string>
     <string name="enable_double_tap_play_title">輕觸兩下以播放／暫停</string>
@@ -385,6 +393,12 @@
     <string name="fastplay_speed_title">快速播放速度</string>
     <string name="fastplay_title">正在以 %s 倍速播放</string>
     <string name="fastplay_subtitle">放開以停止</string>
+    <string name="show_bookmark_buttons">顯示書籤按鈕</string>
+    <string name="show_bookmark_buttons_summary">顯示在書籤之間跳轉的按鈕</string>
+    <string name="show_bookmark_markers">顯示書籤標記</string>
+    <string name="show_bookmark_markers_summary">在時間軸上顯示書籤標記</string>
+    <string name="show_chapter_buttons">顯示章節按鈕</string>
+    <string name="show_chapter_buttons_summary">顯示在章節之間跳轉的按鈕</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -1067,6 +1081,8 @@
     <string name="bookmark_name">書籤 %s</string>
     <string name="add_bookmark">新增書籤</string>
     <string name="bookmark_added">已新增書籤</string>
+    <string name="previous_bookmark">先前的書籤</string>
+    <string name="next_bookmark">下一個書籤</string>
     <string name="show">顯示</string>
     <string name="optional_features">可選功能</string>
     <string name="optional_features_summary">目前正在測試中的 Beta 版功能可能不夠穩定</string>
@@ -1318,4 +1334,5 @@
     <string name="queue_format">佇列格式</string>
     <string name="queue_format_short_desc">佇列位置</string>
     <string name="queue_format_long_desc">佇列位置 / 佇列大小</string>
+    <string name="video_settings_disclaimer">某些設定已移至視訊播放器中的視訊控制設定。</string>
 </resources>

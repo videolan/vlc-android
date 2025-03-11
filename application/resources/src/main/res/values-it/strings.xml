@@ -66,6 +66,7 @@
     <string name="set_song_question">Vuoi impostare \'%1$s\' come suoneria?</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">Sei sicuro di voler sostituire la scaletta \'%1$s\'?</string>
     <string name="confirm_delete_message">Questa azione è definitiva e non può essere annullata.</string>
     <string name="confirm_delete_album">Vuoi eliminare l\'album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Vuoi eliminare questi %1$d media?</string>
@@ -210,6 +211,7 @@
     <string name="playback_speed_all_tracks">Tutte le tracce</string>
     <string name="playback_speed_explanation_all_videos">La velocità sarà applicata a tutti i video.\nLa velocità di riproduzione dei singoli video sarà ignorata.</string>
     <string name="playback_speed_explanation_all_tracks">La velocità sarà applicata a tutte le tracce.\nLa velocità di riproduzione delle singole tracce sarà ignorata.</string>
+    <string name="playback_speed_explanation_all_incognito">Sei in modalità anonima. La velocità tornerà normale quando abbandoni la modalità anonima.</string>
     <string name="playback_speed_explanation_one_video">La velocità sarà applicata solo a questo video</string>
     <string name="playback_speed_explanation_one_track">La velocità sarà applicata solo a questa traccia</string>
     <string name="audio_playback_speed_global">Utilizza la velocità di riproduzione globale</string>
@@ -258,6 +260,7 @@
     <string name="video_resume_playback_summary">Consenti il salvataggio della coda di riproduzione video per riprendere in seguito</string>
     <string name="audio_resume_playback_title">Cronologia della coda riproduzione audio</string>
     <string name="audio_resume_playback_warning">La disabilitazione della cronologia della coda di riproduzione audio potrebbe causare alcuni comportamenti anomali.\nDopo averla disabilitata potresti non essere in grado di riprendere la riproduzione da:\n\n\t- un dispositivo Bluetooth\n\t- il widget\n\t- la notifica dei media</string>
+    <string name="playback_history_warning">Disabilitare la cronologia di riproduzione nasconderà la cronologia, l\'avanzamento dei media e i marcatori visualizzati. L\'applicazione continuerà a salvare la tua attività e sarà ripristinata se la cronologia viene riattivata.\nSe desideri interrompere completamente il salvataggio della tua attività, utilizza invece la modalità di navigazione in incognito.\nPuoi anche cancellare la cronologia nella schermata della cronologia o nelle impostazioni avanzate.</string>
     <string name="audio_resume_playback_summary">Consenti il salvataggio della coda di riproduzione audio per riprendere in seguito</string>
 
     <string name="play_button">Pulsante Riproduci</string>
@@ -389,6 +392,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Mostra il controllo di velocità nel menu a comparsa</string>
     <string name="enable_android_auto_seek_buttons">Pulsanti di posizionamento di Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Mostra i pulsanti di riavvolgimento e avanzamento rapido dell\'interfaccia nel menu a comparsa. Prova a tenere premuti i pulsanti precedente e successivo del volante prima di abilitarla. </string>
+    <string name="artist">Artista</string>
+    <string name="album">Album</string>
+    <string name="track">Traccia</string>
+    <string name="genre">Genere</string>
+    <string name="playlist">Scaletta</string>
     <string name="enable_double_tap_seek_title">Doppio tocco per spostare la posizione</string>
     <string name="enable_double_tap_seek_summary">Doppio tocco sui bordi dello schermo per spostare la posizione di 10 secondi</string>
     <string name="enable_double_tap_play_title">Doppio tocco per riprodurre/sospendere</string>
@@ -407,6 +415,12 @@
     <string name="fastplay_speed_title">Velocità Fastplay</string>
     <string name="fastplay_title">Riproduzione a %sx</string>
     <string name="fastplay_subtitle">Rilascia per fermare</string>
+    <string name="show_bookmark_buttons">Mostra i pulsanti dei segnalibri</string>
+    <string name="show_bookmark_buttons_summary">Mostra i pulsanti per navigare tra i segnalibri</string>
+    <string name="show_bookmark_markers">Mostra i marcatori dei segnalibri</string>
+    <string name="show_bookmark_markers_summary">Mostra i marcatori di segnalibri sulla linea temporale</string>
+    <string name="show_chapter_buttons">Mostra i pulsanti dei capitoli</string>
+    <string name="show_chapter_buttons_summary">Mostra i pulsanti per navigare tra i capitoli</string>
 
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
@@ -1093,6 +1107,8 @@
     <string name="bookmark_name">Segnalibro %s</string>
     <string name="add_bookmark">Aggiungi segnalibri</string>
     <string name="bookmark_added">Segnalibro aggiunto</string>
+    <string name="previous_bookmark">Segnalibro precedente</string>
+    <string name="next_bookmark">Segnalibro successivo</string>
     <string name="show">Mostra</string>
     <string name="optional_features">Funzionalità opzionali</string>
     <string name="optional_features_summary">Le funzionalità in beta che sono attualmente in fase di test e potrebbero non essere stabili</string>
@@ -1348,4 +1364,5 @@
     <string name="queue_format">Formato della coda</string>
     <string name="queue_format_short_desc">Posizione della coda</string>
     <string name="queue_format_long_desc">Posizione della coda / Dimensione della coda</string>
+    <string name="video_settings_disclaimer">Alcune impostazioni sono state spostate nelle impostazioni dei controlli nel lettore video.</string>
 </resources>

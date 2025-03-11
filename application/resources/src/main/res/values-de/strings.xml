@@ -65,6 +65,7 @@
     <string name="set_song_question">\'%1$s\' als Klingelton festlegen?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
+    <string name="confirm_replace_playlist">Möchten Sie die Playlist \'%1$s\' wirklich ersetzen?</string>
     <string name="confirm_delete_message">Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.</string>
     <string name="confirm_delete_album">Das Album \'%1$s\' löschen?</string>
     <string name="confirm_delete_several_media">%1$d wirklich löschen?</string>
@@ -199,6 +200,7 @@
     <string name="playback_speed_all_tracks">Alle Titel</string>
     <string name="playback_speed_explanation_all_videos">Die Geschwindigkeit wird auf alle Videos angewendet.\nDie Wiedergabegeschwindigkeit einzelner Videos wird ignoriert.</string>
     <string name="playback_speed_explanation_all_tracks">Die Geschwindigkeit wird auf alle Titel angewendet.\nDie Wiedergabegeschwindigkeit einzelner Titel wird ignoriert.</string>
+    <string name="playback_speed_explanation_all_incognito">Sie befinden sich im Inkognito-Modus. Die Geschwindigkeit wird auf den Normalwert zurückgesetzt, wenn Sie den Inkognito-Modus verlassen.</string>
     <string name="playback_speed_explanation_one_video">Die Geschwindigkeit wird nur auf dieses Video angewendet</string>
     <string name="playback_speed_explanation_one_track">Die Geschwindigkeit wird nur auf diesen Titel angewendet</string>
     <string name="audio_playback_speed_global">Verwenden der globalen Wiedergabegeschwindigkeit</string>
@@ -247,6 +249,7 @@
     <string name="video_resume_playback_summary">Speichern der Video-Wiedergabewarteschlange zulassen, um später fortzufahren</string>
     <string name="audio_resume_playback_title">Verlauf der Audio-Wiedergabewarteschlange</string>
     <string name="audio_resume_playback_warning">Das Deaktivieren des Audiowiedergabe-Warteschlangenverlaufs kann zu einigen Verhaltensproblemen führen.\nNach dem Deaktivieren können Sie die Wiedergabe möglicherweise nicht fortsetzen von:\n\n\t- einem Bluetooth-Gerät\n\t- dem Widget\n\t- die Medienmitteilung</string>
+    <string name="playback_history_warning">Durch Deaktivieren des Wiedergabeverlaufs werden der Verlauf, der Medienfortschritt und die Markierungen für „Gesehen“ ausgeblendet. Die App speichert Ihre Aktivität weiterhin und diese wird wiederhergestellt, wenn der Verlauf wieder aktiviert wird.\nWenn Sie die Speicherung Ihrer Aktivität vollständig beenden möchten, verwenden Sie stattdessen den Inkognito-Modus.\nSie können Ihren Verlauf auch im Verlaufsbildschirm oder in den erweiterten Einstellungen löschen.</string>
     <string name="audio_resume_playback_summary">Speichern der Audio-Wiedergabewarteschlange zulassen, um später fortzufahren</string>
 
     <string name="play_button">Wiedergabe-Knopf</string>
@@ -378,6 +381,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Geschwindigkeitssteuerung im Überlaufmenü anzeigen</string>
     <string name="enable_android_auto_seek_buttons">Android Auto Suchtasten</string>
     <string name="enable_android_auto_seek_buttons_summary">Rücklauf und Vorlauf im Überlaufmenü anzeigen. Versuchen Sie, die Tasten Zurück und Weiter am Lenkrad gedrückt zu halten, bevor Sie sie aktivieren.</string>
+    <string name="artist">Künstler</string>
+    <string name="album">Album</string>
+    <string name="track">Titel</string>
+    <string name="genre">Genre</string>
+    <string name="playlist">Wiedergabeliste</string>
     <string name="enable_double_tap_seek_title">Doppelt antippen zum Suchen</string>
     <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
     <string name="enable_double_tap_play_title">Doppelt antippen zum Abspielen/Pausieren</string>
@@ -396,6 +404,12 @@
     <string name="fastplay_speed_title">Geschwindigkeit der schnellen Wiedergabe</string>
     <string name="fastplay_title">Wiedergabe mit %s x</string>
     <string name="fastplay_subtitle">Zum Anhalten loslassen</string>
+    <string name="show_bookmark_buttons">Lesezeichenschaltflächen anzeigen</string>
+    <string name="show_bookmark_buttons_summary">Schaltflächen zum Navigieren zwischen Lesezeichen anzeigen</string>
+    <string name="show_bookmark_markers">Lesezeichen-Markierungen anzeigen</string>
+    <string name="show_bookmark_markers_summary">Lesezeichen-Markierungen über der Zeitleiste anzeigen</string>
+    <string name="show_chapter_buttons">Kapitelschaltflächen anzeigen</string>
+    <string name="show_chapter_buttons_summary">Schaltflächen zum Navigieren zwischen Kapiteln anzeigen</string>
 
     <string name="subtitles_prefs_category">Untertitel</string>
     <string name="subtitles_size_title">Untertitelgröße</string>
@@ -1080,6 +1094,8 @@
     <string name="bookmark_name">%s - Lesezeichen</string>
     <string name="add_bookmark">Lesezeichen hinzufügen</string>
     <string name="bookmark_added">Lesezeichen hinzugefügt</string>
+    <string name="previous_bookmark">Vorheriges Lesezeichen</string>
+    <string name="next_bookmark">Nächstes Lesezeichen</string>
     <string name="show">Sendung</string>
     <string name="optional_features">Optionale Funktionen</string>
     <string name="optional_features_summary">Beta-Funktionen, die derzeit getestet werden, könnten nicht stabil sein</string>
@@ -1333,4 +1349,5 @@
     <string name="queue_format">Warteschlangenformat</string>
     <string name="queue_format_short_desc">Warteschlangenposition</string>
     <string name="queue_format_long_desc">Warteschlangenposition / Warteschlangengröße</string>
+    <string name="video_settings_disclaimer">Einige Einstellungen wurden in die Videosteuerungseinstellungen im Videoplayer verschoben.</string>
 </resources>

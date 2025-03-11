@@ -67,6 +67,7 @@
     <string name="set_song_question">להגדיר את ‚%1$s’ כצלצול?</string>
     <string name="info">מידע</string>
     <string name="confirm_delete">למחוק את הקובץ „%1$s“?</string>
+    <string name="confirm_replace_playlist">להחליף את רשימת הנגינה ‚%1$s’?</string>
     <string name="confirm_delete_message">מדובר בשינוי קבוע ולא ניתן לבטל אותו.</string>
     <string name="confirm_delete_album">למחוק את האלבום ‚%1$s’?</string>
     <string name="confirm_delete_several_media">למחוק את %1$d פריטי המדיה האלו?</string>
@@ -215,6 +216,7 @@
     <string name="playback_speed_all_tracks">כל הרצועות</string>
     <string name="playback_speed_explanation_all_videos">המהירות תחול על כל הסרטונים.\nמהירות הנגינה של סרטונים פרטניים תידרס.</string>
     <string name="playback_speed_explanation_all_tracks">המהירות תחול על כל הרצועות.\nמהירות הנגינה של רצועות פרטניות תידרס.</string>
+    <string name="playback_speed_explanation_all_incognito">מצב ההפעלה כרגע הוא אלמוניות. המהירות תחזור למצב הרגיל ביציאה ממצב האלמוניות.</string>
     <string name="playback_speed_explanation_one_video">המהירות תחול על הסרטון הזה בלבד</string>
     <string name="playback_speed_explanation_one_track">המהירות תחול על הרצועה הזאת בלבד</string>
     <string name="audio_playback_speed_global">להשתמש במהירות הנגינה הכללית</string>
@@ -263,6 +265,7 @@
     <string name="video_resume_playback_summary">לאפשר לשמור את תור נגינת הווידאו כדי להמשיך מאוחר יותר</string>
     <string name="audio_resume_playback_title">היסטוריית תור השמעה</string>
     <string name="audio_resume_playback_warning">השבתת היסטוריית תור ההשמעה עלולה לגרום לתקלות בהתנהלות.\nלאחר ההשבתה יכול להיות שאי אפשר יהיה להמשיך להשמיע מתוך:\n\n\t- התקן Bluetooth\n\t- התראת המדיה</string>
+    <string name="playback_history_warning">השבתת היסטוריית הנגינה תסתיר את ההיסטוריה, את התקדמות המדיה ואת סמני ההצגה. היישומון ימשיך לשמור את הפעילות שלך והיא תשוחזר אם ההיסטוריה תוחזר.\nכדי להפסיק לשמור את הפעילות שלך לחלוטין, אפשר להשתמש במצב אלמוניות.\nאפשר גם לפנות את ההיסטוריה שלך במסך ההיסטוריה או בהגדרות המתקדמות.</string>
     <string name="audio_resume_playback_summary">לאפשר לשמור את תור ההשמעה כדי להמשיך מאוחר יותר</string>
 
     <string name="play_button">כפתור נגינה</string>
@@ -394,6 +397,11 @@
     <string name="enable_android_auto_speed_buttons_summary">הצגת בקרת מהירות בתפריט הצף</string>
     <string name="enable_android_auto_seek_buttons">כפתורי סריקה של Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">הצגת החזרה לאחור והתקדמות מהירה קדימה בתפריט הצף. כדי לנסות להחזיק את כפתורי הקדימה והאחורה שבהגה בטרם הפעלת ההגדרה.</string>
+    <string name="artist">אומן</string>
+    <string name="album">אלבום</string>
+    <string name="track">רצועה</string>
+    <string name="genre">סגנון</string>
+    <string name="playlist">רשימת נגינה</string>
     <string name="enable_double_tap_seek_title">לחיצה כפולה כדי לחפש</string>
     <string name="enable_double_tap_seek_summary">לחיצה כפולה על קצוות המסך כדי לדלג על 10 שניות</string>
     <string name="enable_double_tap_play_title">נגיעה כפולה לנגינה/השהיה</string>
@@ -412,6 +420,12 @@
     <string name="fastplay_speed_title">מהירות נגינה מהירה</string>
     <string name="fastplay_title">מתנגן בקצב %sx</string>
     <string name="fastplay_subtitle">שחרור עוצר</string>
+    <string name="show_bookmark_buttons">הצגת כפתורי סימניות</string>
+    <string name="show_bookmark_buttons_summary">להציג כפתורים לניווט בין סימניות</string>
+    <string name="show_bookmark_markers">הצגת סמני סימניות</string>
+    <string name="show_bookmark_markers_summary">הצגת סמני סימניות על פני ציר הזמן</string>
+    <string name="show_chapter_buttons">הצגת כפתורי פרקים</string>
+    <string name="show_chapter_buttons_summary">הצגת כפתורים לניווט בין הפרקים</string>
 
     <string name="subtitles_prefs_category">כתוביות</string>
     <string name="subtitles_size_title">גודל הכתוביות</string>
@@ -1098,6 +1112,8 @@
     <string name="bookmark_name">לסמן את %s</string>
     <string name="add_bookmark">הוספת סימניה</string>
     <string name="bookmark_added">נוספה סימנייה</string>
+    <string name="previous_bookmark">הסימנייה הקודמת</string>
+    <string name="next_bookmark">הסימנייה הבאה</string>
     <string name="show">הצגה</string>
     <string name="optional_features">יכולות כרשות</string>
     <string name="optional_features_summary">יכולות ניסיוניות שנבדקות כעת ויתכן שלא תהיינה יציבות</string>
@@ -1355,4 +1371,5 @@
     <string name="queue_format">צורת תור</string>
     <string name="queue_format_short_desc">מקום בתור</string>
     <string name="queue_format_long_desc">מקום בתור / גודל התור</string>
+    <string name="video_settings_disclaimer">חלק מההגדרות הועברו להגדרות פקדי הווידאו בנגן הווידאו.</string>
 </resources>

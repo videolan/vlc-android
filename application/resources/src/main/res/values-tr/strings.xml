@@ -56,6 +56,8 @@
     <string name="append_all">Tümünü ekle</string>
     <string name="resume_playback_short_title">Oynatmayı sürdür</string>
     <string name="resume_playback_long_title">Son oynatma listesini oynatmayı sürdürür</string>
+    <string name="resume_audio_playback_short_title">Ses oynatmayı sürdür</string>
+    <string name="resume_audio_playback_long_title">Son ses oynatma listesini oynatmayı sürdürür</string>
     <string name="resume_playback_error">Sürdürülecek bir işlem yok</string>
     <string name="delete">Sil</string>
     <string name="remove">Çıkar</string>
@@ -63,6 +65,7 @@
     <string name="set_song_question">\'%1$s\' zil sesi olarak ayarlansın mı?</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
+    <string name="confirm_replace_playlist">\'%1$s\' oynatma listesini değiştirmek istediğinize emin misiniz?</string>
     <string name="confirm_delete_message">Bu işlem kalıcıdır ve geri alınamaz.</string>
     <string name="confirm_delete_album">\'%1$s\' albümü silinsin mi?</string>
     <string name="confirm_delete_several_media">Bu %1$d ortam silinsin mi?</string>
@@ -191,6 +194,18 @@
 
     <string name="playback_speed">Oynatma hızı</string>
     <string name="warning_stream_speed">Akışlarda oynatma hızının 1 üzerine çıkarılması takılmaya neden olabilir</string>
+    <string name="playback_speed_this_video">Bu görüntüyü</string>
+    <string name="playback_speed_this_track">Bu kaydı</string>
+    <string name="playback_speed_all_videos">Tüm görüntüleri</string>
+    <string name="playback_speed_all_tracks">Tüm kayıtları</string>
+    <string name="playback_speed_explanation_all_videos">Hız tüm görüntülere uygulanacak.\nGörüntülerin tek tek ayarlanmış oynatma hızı yok sayılacak.</string>
+    <string name="playback_speed_explanation_all_tracks">Hız tüm kayıtlara uygulanacak.\nKayıtların tek tek ayarlanmış oynatma hızı yok sayılacak.</string>
+    <string name="playback_speed_explanation_all_incognito">Gizli kiptesiniz. Gizli kipten çıktığınızda hız normale dönecektir.</string>
+    <string name="playback_speed_explanation_one_video">Hız yalnızca bu görüntüye uygulanacak</string>
+    <string name="playback_speed_explanation_one_track">Hız yalnızca bu kayda uygulanacak</string>
+    <string name="audio_playback_speed_global">Genel oynatma hızı kullanılsın</string>
+    <string name="audio_playback_speed_global_summary">Tüm kayıtlar için genel olarak ayarlanan oynatma hızı kullanılsın.\nKayıtların tek tek ayarlanmış oynatma hızı yok sayılacak.</string>
+
     <string name="sleep_title">Uyku zamanlayıcı</string>
     <string name="sleep_in">Uykuya dalma süresi</string>
     <string name="jump_to_time">Sıçranacak zaman</string>
@@ -234,6 +249,7 @@
     <string name="video_resume_playback_summary">Görüntü oynatma kuyruğu daha sonra sürdürülmek üzere kaydedilebilir</string>
     <string name="audio_resume_playback_title">Ses oynatma kuyruğu geçmişi</string>
     <string name="audio_resume_playback_warning">Ses oynatma kuyruğu geçmişi kapatılırsa bazı davranış sorunları ortaya çıkabilir.\nKapatıldığında şunlardan biriyle oynatmayı sürdüremeyebilirsiniz:\n\n- Bluetooth aygıtları\n\t- Ekran bileşeni (widget)\n\t- Ortam bildirimi</string>
+    <string name="playback_history_warning">Oynatma geçmişini kapatmak geçmişi, ortam ilerlemesini ve görülen işaretleri gizler. Uygulama, etkinliğinizi kaydetmeyi sürdürür ve geçmiş yeniden açılırsa geri yüklenir.\nEtkinliğinizin kaydedilmesini tümüyle durdurmak istiyorsanız, bunun yerine gizli kipi kullanın.\nGeçmişinizi geçmiş bölümünden veya gelişmiş ayarlardan da temizleyebilirsiniz.</string>
     <string name="audio_resume_playback_summary">Ses oynatma kuyruğu daha sonra sürdürülmek üzere kaydedilebilir</string>
 
     <string name="play_button">Oynatma düğmesi</string>
@@ -365,6 +381,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Üste açılan menüde hız denetimini görüntüler</string>
     <string name="enable_android_auto_seek_buttons">Android Auto atlama düğmeleri</string>
     <string name="enable_android_auto_seek_buttons_summary">Üste açılan menüde ileri ve geri atlama düğmelerini görüntüler. Açmadan önce direksiyondaki ileri ve geri düğmelerini basılı tutmayı deneyin.</string>
+    <string name="artist">Sanatçı</string>
+    <string name="album">Albüm</string>
+    <string name="track">Kayıt</string>
+    <string name="genre">Tür</string>
+    <string name="playlist">Oynatma listesi</string>
     <string name="enable_double_tap_seek_title">Aramak için çift dokunun</string>
     <string name="enable_double_tap_seek_summary">10 saniye ileri ya da geri atlamak için ekran kenarlarına çift dokunun</string>
     <string name="enable_double_tap_play_title">Oynatmak/duraklatmak için çift dokunun</string>
@@ -383,6 +404,12 @@
     <string name="fastplay_speed_title">Hızlı oynatma hızı</string>
     <string name="fastplay_title">%sx hızda oynatılıyor</string>
     <string name="fastplay_subtitle">Durmak için bırakın</string>
+    <string name="show_bookmark_buttons">Yer imi düğmeleri görüntülensin</string>
+    <string name="show_bookmark_buttons_summary">Yer imleri arasında gezinme düğmelerini görüntüler</string>
+    <string name="show_bookmark_markers">Yer imi işaretleri görüntülensin</string>
+    <string name="show_bookmark_markers_summary">Zaman akışında yer imi işaretlerini görüntüler</string>
+    <string name="show_chapter_buttons">Bölüm düğmeleri görüntülensin</string>
+    <string name="show_chapter_buttons_summary">Bölümler arasında gezinme düğmelerini görüntüler</string>
 
     <string name="subtitles_prefs_category">Alt yazılar</string>
     <string name="subtitles_size_title">Alt yazı boyutu</string>
@@ -1068,6 +1095,8 @@
     <string name="bookmark_name">%s yer imi</string>
     <string name="add_bookmark">Yer imi ekle</string>
     <string name="bookmark_added">Yer imi eklendi</string>
+    <string name="previous_bookmark">Önceki yer imi</string>
+    <string name="next_bookmark">Sonraki yer imi</string>
     <string name="show">Görüntüle</string>
     <string name="optional_features">İsteğe bağlı özellikler</string>
     <string name="optional_features_summary">Şu anda denenmekte olan ve kararlı olmayabilecek beta sürüm özellikleri</string>
@@ -1321,4 +1350,5 @@
     <string name="queue_format">Kuyruk biçimi</string>
     <string name="queue_format_short_desc">Kuyruk konumu</string>
     <string name="queue_format_long_desc">Kuyruk konumu / Kuyruk boyutu</string>
+    <string name="video_settings_disclaimer">Görüntü oynatıcıdaki bazı ayarlar, görüntü denetimleri ayarları bölümüne taşındı.</string>
 </resources>

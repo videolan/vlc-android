@@ -63,6 +63,7 @@
     <string name="set_song_question">Ezarri %1$s dei-tonu gisa?</string>
     <string name="info">Informazioa</string>
     <string name="confirm_delete">Ezabatu \'%1$s\' fitxategia?</string>
+    <string name="confirm_replace_playlist">Ziur \'%1$s\' erreproduzitu zerrenda ordezkatu nahi duzula?</string>
     <string name="confirm_delete_message">Betirako da eta ezin da desegin</string>
     <string name="confirm_delete_album">Ezabatu  \'%1$s\' albuma?</string>
     <string name="confirm_delete_several_media">Ezabatu %1$d multimedia hauek?</string>
@@ -83,6 +84,11 @@
     <string name="artists">Artistak</string>
     <string name="albums">Albumak</string>
     <string name="tracks">Pistak</string>
+
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">Gordetako laster-marka 1</item>
+        <item quantity="other">Gordetako %d laster-marka</item>
+    </plurals>
 
     <plurals name="albums_quantity">
         <item quantity="one">Album bat</item>
@@ -168,6 +174,7 @@
     <string name="track_codec_info">Kodeka: %1$s\n</string>
     <string name="track_language_info">Hizkuntza: %1$s\n</string>
     <string name="volume">Bolumena</string>
+    <string name="system_volume_disabled">%s\nSistemaren bolumenerako sarbiderik ez</string>
     <string name="sound_on">Soinua piztuta</string>
     <string name="sound_off">Soinua itzalita</string>
     <string name="brightness">Distira</string>
@@ -185,6 +192,16 @@
 
     <string name="playback_speed">Erreprodukzio-abiadura</string>
     <string name="warning_stream_speed">Erreprodukzio abiadura korronteetarako 1 baino gehiago igotzeak toteltzea eragin dezake</string>
+    <string name="playback_speed_this_video">Bideo hau</string>
+    <string name="playback_speed_this_track">Pista hau</string>
+    <string name="playback_speed_all_videos">Bideo guztiak</string>
+    <string name="playback_speed_all_tracks">Pista guztiak</string>
+    <string name="playback_speed_explanation_all_videos">Abiadura bideo guztiei aplikatuko zaie.\nBideo bakoitzaren erreproduzitzeko abiadura ez da kontuan hartuko.</string>
+    <string name="playback_speed_explanation_all_tracks">Abiadura pista guztiei aplikatuko zaie.\nPista bakoitzaren erreprodukzio abiadura ez da kontuan hartuko.</string>
+    <string name="playback_speed_explanation_all_incognito">Anonimo moduan zaude. Abiadura normalera itzuliko da anonimo modua uzten duzunean.</string>
+    <string name="playback_speed_explanation_one_video">Abiadura bideo honi bakarrik aplikatuko zaio</string>
+    <string name="playback_speed_explanation_one_track">Abiadura pista honi bakarrik aplikatuko zaio</string>
+    <string name="audio_playback_speed_global">Erabili erreproduzitzeko abiadura globala</string>
     <string name="sleep_title">Lo-tenporizadorea</string>
     <string name="sleep_in">Lokartu</string>
     <string name="jump_to_time">Jauzi denborara</string>
@@ -373,7 +390,6 @@
     <string name="fastplay_speed_title">Erreprodukzio azkarraren abiadura</string>
     <string name="fastplay_title">%sx-en erreproduzitzen</string>
     <string name="fastplay_subtitle">Askatu gelditzeko</string>
-
     <string name="subtitles_prefs_category">Azpitituluak</string>
     <string name="subtitles_size_title">Azpitituluen tamaina</string>
     <string name="subtitles_presets_title">Azpitituluen aurrezarpenak</string>

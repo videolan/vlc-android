@@ -57,6 +57,8 @@
     <string name="append_all">Ajouter tout à la suite</string>
     <string name="resume_playback_short_title">Reprendre la lecture</string>
     <string name="resume_playback_long_title">Reprendre la lecture de la dernière liste de lecture</string>
+    <string name="resume_audio_playback_short_title">Reprendre la lecture audio</string>
+    <string name="resume_audio_playback_long_title">Reprendre la lecture de la dernière liste de lecture audio</string>
     <string name="resume_playback_error">Rien à reprendre</string>
     <string name="delete">Supprimer</string>
     <string name="remove">Retirer</string>
@@ -64,6 +66,7 @@
     <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
+    <string name="confirm_replace_playlist">Voulez-vous vraiment remplacer la liste de lecture « %1$s » ?</string>
     <string name="confirm_delete_message">Cette décision est permanente et ne peut être annulée.</string>
     <string name="confirm_delete_album">Supprimer l’album  « %1$s » ?</string>
     <string name="confirm_delete_several_media">Supprimer ces %1$d médias ?</string>
@@ -202,6 +205,18 @@
 
     <string name="playback_speed">Vitesse de lecture</string>
     <string name="warning_stream_speed">L’augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
+    <string name="playback_speed_this_video">Cette vidéo</string>
+    <string name="playback_speed_this_track">Cette piste</string>
+    <string name="playback_speed_all_videos">Toutes les vidéos</string>
+    <string name="playback_speed_all_tracks">Toutes les pistes</string>
+    <string name="playback_speed_explanation_all_videos">La vitesse sera appliquée à toutes les vidéos.\nLa vitesse de lecture des vidéos individuelles sera ignorée.</string>
+    <string name="playback_speed_explanation_all_tracks">La vitesse sera appliquée à toutes les pistes.\nLa vitesse de lecture des pistes individuelles sera ignorée.</string>
+    <string name="playback_speed_explanation_all_incognito">Vous êtes en mode incognito. La vitesse reviendra à la normale lorsque vous quitterez le mode incognito.</string>
+    <string name="playback_speed_explanation_one_video">La vitesse sera appliquée à cette vidéo uniquement</string>
+    <string name="playback_speed_explanation_one_track">La vitesse sera appliquée à cette piste uniquement</string>
+    <string name="audio_playback_speed_global">Utiliser la vitesse de lecture globale</string>
+    <string name="audio_playback_speed_global_summary">Utiliser la vitesse de lecture définie globalement pour toutes les pistes.\nLa vitesse de lecture des pistes individuelles sera ignorée.</string>
+
     <string name="sleep_title">Veille</string>
     <string name="sleep_in">Veille dans</string>
     <string name="jump_to_time">Aller au temps</string>
@@ -245,6 +260,7 @@
     <string name="video_resume_playback_summary">Permet de sauvegarder la file d’attente de lecture des vidéos pour la reprendre plus tard</string>
     <string name="audio_resume_playback_title">Historique de la file d’attente de lecture audio</string>
     <string name="audio_resume_playback_warning">La désactivation de l’historique de la file d’attente de lecture audio peut entraîner certains problèmes de comportement.\nAprès l’avoir désactivée, il se peut que vous ne puissiez pas reprendre la lecture à partir de :\n\n\t- un périphérique Bluetooth\n\t- le widget\n\t- la notification de média</string>
+    <string name="playback_history_warning">La désactivation de l’historique de lecture masquera l’historique, la progression du média et les marqueurs vus. L’application continuera à enregistrer votre activité et celle-ci sera restaurée si l’historique est réactivé. Si vous souhaitez ne plus enregistrer votre activité, utilisez plutôt le mode incognito. Vous pouvez également effacer votre historique dans l’écran de l’historique ou dans les paramètres avancés.</string>
     <string name="audio_resume_playback_summary">Permet de sauvegarder la file d’attente de lecture audio pour la reprendre plus tard</string>
 
     <string name="play_button">Bouton Lecture</string>
@@ -376,6 +392,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Afficher le contrôle de la vitesse dans le menu déroulant</string>
     <string name="enable_android_auto_seek_buttons">Boutons de recherche d’Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Affichez les boutons retour arrière et avance rapide dans le menu déroulant. Essayez de maintenir les boutons précédent et suivant du volant avant de les activer.</string>
+    <string name="artist">Artiste</string>
+    <string name="album">Album</string>
+    <string name="track">Piste</string>
+    <string name="genre">Genre</string>
+    <string name="playlist">Liste de lecture</string>
     <string name="enable_double_tap_seek_title">Appuyer deux fois pour décaler</string>
     <string name="enable_double_tap_seek_summary">Un double appui sur les bords de l’écran fait avancer ou reculer de 10 secondes</string>
     <string name="enable_double_tap_play_title">Double appui pour jouer/pause</string>
@@ -394,6 +415,12 @@
     <string name="fastplay_speed_title">Vitesse de lecture rapide</string>
     <string name="fastplay_title">Lecture à %sx</string>
     <string name="fastplay_subtitle">Relâcher pour arrêter</string>
+    <string name="show_bookmark_buttons">Afficher les boutons des favoris</string>
+    <string name="show_bookmark_buttons_summary">Afficher les boutons permettant de naviguer entre les favoris</string>
+    <string name="show_bookmark_markers">Afficher les marqueurs de favoris</string>
+    <string name="show_bookmark_markers_summary">Afficher les marqueurs de favoris sur la ligne du temps</string>
+    <string name="show_chapter_buttons">Afficher les boutons des chapitres</string>
+    <string name="show_chapter_buttons_summary">Afficher les boutons pour naviguer entre les chapitres</string>
 
     <string name="subtitles_prefs_category">Sous-titres</string>
     <string name="subtitles_size_title">Taille des sous-titres</string>
@@ -1080,6 +1107,8 @@
     <string name="bookmark_name">Favori %s</string>
     <string name="add_bookmark">Ajouter un favori</string>
     <string name="bookmark_added">Favori ajouté</string>
+    <string name="previous_bookmark">Favori précédent</string>
+    <string name="next_bookmark">Favori suivant</string>
     <string name="show">Montrer</string>
     <string name="optional_features">Fonctions optionnelles</string>
     <string name="optional_features_summary">Fonctionnalités bêta qui sont en cours de test et peuvent ne pas être stables</string>
@@ -1335,4 +1364,5 @@
     <string name="queue_format">Format de la file d’attente</string>
     <string name="queue_format_short_desc">Position dans la file d’attente</string>
     <string name="queue_format_long_desc">Position dans la file d’attente / Taille de la file d’attente</string>
+    <string name="video_settings_disclaimer">Certains paramètres ont été déplacés vers les paramètres des contrôles vidéo dans le lecteur vidéo.</string>
 </resources>

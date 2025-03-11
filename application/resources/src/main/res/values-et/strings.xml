@@ -65,6 +65,7 @@
     <string name="set_song_question">Kas määrame \'%1$s\' helinaks?</string>
     <string name="info">Informatsioon</string>
     <string name="confirm_delete">Kas kustutame \'%1$s\' faili?</string>
+    <string name="confirm_replace_playlist">Kas sa oled kindel, et soovid „%1$s“ esitusloendi asendada?</string>
     <string name="confirm_delete_message">See on lõplik muudatus, mida tagasi pöörata ei saa.</string>
     <string name="confirm_delete_album">Kas kustutame \'%1$s\' albumi?</string>
     <string name="confirm_delete_several_media">Kustuta need %1$d?</string>
@@ -130,7 +131,7 @@
     <string name="bookmarks">Järjehoidjad</string>
     <string name="equalizer">Ekvalaiser</string>
     <string name="all_albums">Kõik albumid</string>
-    <string name="genres">Stiilid</string>
+    <string name="genres">Žanrid</string>
     <string name="playlists">Esitusloendid</string>
     <string name="title">Pealkiri</string>
     <string name="directories">Kaustad</string>
@@ -199,6 +200,7 @@
     <string name="playback_speed_all_tracks">Kõik lood</string>
     <string name="playback_speed_explanation_all_videos">Kasuta kiirust kõikide videote puhul.\nÜksikute videote taasesituse kiirused jäävad arvestamata.</string>
     <string name="playback_speed_explanation_all_tracks">Kasuta kiirust kõikide lugude puhul.\nÜksikute lugude taasesituse kiirused jäävad arvestamata.</string>
+    <string name="playback_speed_explanation_all_incognito">Kasutad hetkel privaatset režiimi. Kiirus muutub tavaliseks peale siit režiimist lahkumist.</string>
     <string name="playback_speed_explanation_one_video">Kiirus kehtib vaid sellele videole</string>
     <string name="playback_speed_explanation_one_track">Kiirus kehtib vaid sellele loole</string>
     <string name="audio_playback_speed_global">Kasuta üldist taasesituse kiirust</string>
@@ -247,6 +249,7 @@
     <string name="video_resume_playback_summary">Et esitusi oleks lihtsam korrata, salvesta videoesituste ajalugu</string>
     <string name="audio_resume_playback_title">Helifailide esituste ajalugu</string>
     <string name="audio_resume_playback_warning">Kui lülitad heliesituse esitusjärjekorra ajaloo salvestamise välja, siis võib mõni funktsionaalsus katki minna.\nNäiteks ei pruugi olla võimalik jätkata taasesitust:\n\n\t- bluetoothi seadmest\n\t- vidinast\n\t- meediateavitusest</string>
+    <string name="playback_history_warning">Taasesituse ajaloo väljalülitamine peidab ajaloo, taasesituse edenemise ja loetud/nähtud markerid. Rakendus jätkab sinu tegevuse salvestamist ja andmed muutuvad nähtavaks, kui lõpetad ajaloo peitmise.\nKui soovid vältida selliste andmete salvestamist, siis pigem palun kasuta privaatset töörežiimi.\nLisaks on sul võimalik kustutada kogutud ajaloo  kas ajaloovaatest või täiendavatest seadistustest.</string>
     <string name="audio_resume_playback_summary">Et esitusi oleks lihtsam korrata, salvesta helifailide esituste ajalugu</string>
 
     <string name="play_button">Esitamise nupp</string>
@@ -378,6 +381,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Näita kiiruse haldamise võimalusi jätkumenüüs</string>
     <string name="enable_android_auto_seek_buttons">Android Auto kerimisnupud</string>
     <string name="enable_android_auto_seek_buttons_summary">Näita jätkumenüüs edasi- ja tagasikerimisnuppe. Enne sisselülitamist proovi kerimiseks kasutada rooliratta nuppu.</string>
+    <string name="artist">Esitaja</string>
+    <string name="album">Album</string>
+    <string name="track">Rada</string>
+    <string name="genre">Žanr</string>
+    <string name="playlist">Esitusloend</string>
     <string name="enable_double_tap_seek_title">Topeltklõps kerib</string>
     <string name="enable_double_tap_seek_summary">Topeltvajutus ekraani servadel kerib videot 10 sekundi võrra</string>
     <string name="enable_double_tap_play_title">Topeltklõps peatab/esitab</string>
@@ -396,6 +404,12 @@
     <string name="fastplay_speed_title">Kiiresituse kiirus</string>
     <string name="fastplay_title">Esitame %sx kiirusega</string>
     <string name="fastplay_subtitle">Peatamiseks lõpeta vajutus</string>
+    <string name="show_bookmark_buttons">Näita järjehoidjate nuppe</string>
+    <string name="show_bookmark_buttons_summary">Näita nuppe järjehoidjate vahel liikumiseks</string>
+    <string name="show_bookmark_markers">Näita järjehoidjate markereid</string>
+    <string name="show_bookmark_markers_summary">Näita ajajoonel järjehoidjate markereid</string>
+    <string name="show_chapter_buttons">Näita peatükkide nuppe</string>
+    <string name="show_chapter_buttons_summary">Näita nuppe peatükkide vahel liikumiseks</string>
 
     <string name="subtitles_prefs_category">Subtiitrid</string>
     <string name="subtitles_size_title">Subtiitrite suurus</string>
@@ -622,8 +636,8 @@
     <string name="medialibrary_directories">Meediakogu kaustad</string>
 
     <!--What's new-->
-    <string name="whats_new_title">Mida uud leidub VLC Androidi versioonis %s</string>
-    <string name="whats_new_36_webserver_text">Uue kaugligipääsu abil juhi oma VLCd Androidile ükspuha mis nutiseadmest.\nLiiguta meediat mõlemas suunas, juhi taasesitst ja palju muud põnevat!</string>
+    <string name="whats_new_title">Mida uut leidub VLC Androidi versioonis %s</string>
+    <string name="whats_new_36_webserver_text">Uue kaugligipääsu abil juhi oma VLCd Androidile ükspuha mis nutiseadmest.\nLiiguta meediat mõlemas suunas, juhi taasesitust ja palju muud põnevat!</string>
     <string name="whats_new_36_favorites_text">Nüüd saad meediat, esitusloendeid, esitajaid ja albumeid märkida lemmikuks\nJa sulle meeldivat sisu saad kergemini leida otsides vaid lemmikute hulgast!</string>
 
 <!--    update-->
@@ -672,7 +686,7 @@
     <string name="allow_settings_access_brightness_description">VLC vajab, et sa annad loa muuta seadme heledust.</string>
     <string name="allow_draw_overlays_title">Luba VLC\'d avada teiste rakenduste peal</string>
     <string name="allow_sdraw_overlays_description">VLC vajab, et sa annad loa esitada videot teiste rakenduste peal.</string>
-    <string name="allow_pip">Luba VPC meediaesitajal käivitada pilt-pildis vaadet</string>
+    <string name="allow_pip">Luba VLC meediaesitajal käivitada pilt-pildis vaadet</string>
     <string name="allow_pip_description">VLC vajab, et sa annad loa su video näitamiseks pilt-pildis vaates.</string>
     <string name="permission_ask_again">Anna õigused</string>
     <string name="pick_file">Vali fail</string>
@@ -730,7 +744,7 @@
     <string name="apply_to_bt">Rakenda bluetoothi-põhisele seadmele</string>
     <string name="episodes">episoodi</string>
     <string name="movies">filmi</string>
-    <string name="videos">videot</string>
+    <string name="videos">videod</string>
     <string name="videos_all">Kõik videod</string>
     <string name="clear_playback_history">Tühjenda esitamise ajalugu</string>
     <string name="ml_scanning">Otsin meediafaile</string>
@@ -1083,6 +1097,8 @@
     <string name="bookmark_name">Lisa %s järjehoidjaks</string>
     <string name="add_bookmark">Lisa järjehoidja</string>
     <string name="bookmark_added">Järjehoidja lisatud</string>
+    <string name="previous_bookmark">Eelmine järjehoidja</string>
+    <string name="next_bookmark">Järgmine järjehoidja</string>
     <string name="show">Näita</string>
     <string name="optional_features">Valikulised võimalused</string>
     <string name="optional_features_summary">Beetafunktsionaalsused, mis on hetkel testimisel ega pruugi olla stabiilsed</string>
@@ -1336,4 +1352,5 @@
     <string name="queue_format">Esitusjärjekorra vorming</string>
     <string name="queue_format_short_desc">Esitusjärjekorra asukoht</string>
     <string name="queue_format_long_desc">Esitusjärjekorra asukoht / Esitusjärjekorra suurus</string>
+    <string name="video_settings_disclaimer">Mõned seadistused asuvad videomängija juhtnuppude seadistustes.</string>
 </resources>
