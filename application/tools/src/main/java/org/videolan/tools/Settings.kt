@@ -265,6 +265,9 @@ const val KEY_SAFE_MODE_PIN = "safe_mode_pin"
 const val KEY_RESTRICT_SETTINGS = "restrict_settings"
 const val KEY_SAFE_MODE = "safe_mode"
 
+
+const val KEY_LAST_SESSION_CRASHED = "last_session_crashed"
+
 const val ENABLE_ANDROID_AUTO_SPEED_BUTTONS = "enable_android_auto_speed_buttons"
 const val ENABLE_ANDROID_AUTO_SEEK_BUTTONS = "enable_android_auto_seek_buttons"
 
