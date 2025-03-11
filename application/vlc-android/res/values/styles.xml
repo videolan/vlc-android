@@ -846,4 +846,11 @@
         <item name="android:windowBackground">@color/transparent</item>
     </style>
 
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeColor">?attr/font_light</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
 </resources>

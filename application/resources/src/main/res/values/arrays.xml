@@ -723,4 +723,11 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="feedback_entries">
+        <item>@string/get_help</item>
+        <item>@string/send_feedback_request</item>
+        <item>@string/report_a_bug</item>
+        <item>@string/report_a_crash</item>
+    </string-array>
+
 </resources>

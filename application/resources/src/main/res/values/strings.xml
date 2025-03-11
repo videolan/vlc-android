@@ -921,6 +921,7 @@
     <string name="send_crash_description">By sending your crash, you will help us improve VLC stability.</string>
     <string name="send_crash_warning">Make sure you remove any sensitive data you don\'t want to send.</string>
     <string name="include_medialib">Include your database</string>
+    <string name="include_logs">Include your logs</string>
     <string name="vlc_reporter">VLC reporter</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Welcome in VLC beta program.\nPlease note this version may have some bugs.</string>
@@ -929,6 +930,7 @@
     <string name="send">Send</string>
     <string name="send_crash_action_title">What do you want to do?</string>
     <string name="report_a_bug">Report a bug</string>
+    <string name="send_feedback">Send feedback</string>
     <string name="report_a_crash">Report a crash</string>
     <string name="describe_crash">Please describe how this crash happened</string>
     <string name="favorite">Favorite</string>
@@ -1370,4 +1372,14 @@
     <string name="queue_format_short_desc">Queue position</string>
     <string name="queue_format_long_desc">Queue position / Queue size</string>
     <string name="video_settings_disclaimer">Some settings have been moved to the video controls settings in the video player.</string>
+    <string name="get_help">Get some help</string>
+    <string name="feedback_type">Feedback type</string>
+    <string name="how_to_use">Learn how to use</string>
+    <string name="send_feedback_request">Feedback / feature request</string>
+    <string name="report_crash">Report a crash</string>
+    <string name="email_support">Contact the support team by email</string>
+    <string name="read_doc">Read the documentation</string>
+    <string name="subject">Subject</string>
+    <string name="body">Message</string>
+    <string name="rate_us">Rate the app</string>
 </resources>

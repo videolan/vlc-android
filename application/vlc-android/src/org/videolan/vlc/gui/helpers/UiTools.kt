@@ -147,6 +147,7 @@ import org.videolan.vlc.StartActivity
 import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.AuthorsActivity
 import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.FeedbackActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.LibrariesActivity
 import org.videolan.vlc.gui.LibraryWithLicense
@@ -512,8 +513,11 @@ object UiTools {
         v.findViewById<View>(R.id.about_website_container).setOnClickListener {
             activity.openLinkIfPossible("https://www.videolan.org/vlc/")
         }
-        v.findViewById<View>(R.id.about_forum_container).setOnClickListener {
-            activity.openLinkIfPossible("https://forum.videolan.org/viewforum.php?f=35")
+//        v.findViewById<View>(R.id.about_forum_container).setOnClickListener {
+//            activity.openLinkIfPossible("https://forum.videolan.org/viewforum.php?f=35")
+//        }
+        v.findViewById<View>(R.id.about_report_container).setOnClickListener {
+            activity.startActivity(Intent(activity, FeedbackActivity::class.java))
         }
         v.findViewById<View>(R.id.about_sources_container).setOnClickListener {
             activity.openLinkIfPossible("https://code.videolan.org/videolan/vlc-android")
