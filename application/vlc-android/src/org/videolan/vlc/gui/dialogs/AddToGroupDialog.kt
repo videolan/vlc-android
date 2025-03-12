@@ -38,7 +38,6 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.DUMMY_NEW_GROUP
 import org.videolan.resources.util.parcelableArray
 import org.videolan.tools.AppScope
@@ -50,7 +49,7 @@ import org.videolan.vlc.gui.SimpleAdapter
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
-import java.util.*
+import java.util.LinkedList
 
 const val CONFIRM_ADD_TO_GROUP_RESULT = "CONFIRM_ADD_TO_GROUP_RESULT"
 
@@ -157,8 +156,8 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         dismiss()
     }
 
-    override fun onClick(item: MediaLibraryItem, position: Int) {
-        when (item) {
+    override fun onClick(position: Int) {
+        when (val item = adapter.currentList[position]) {
             is DummyItem -> {
                 setFragmentResult(CONFIRM_ADD_TO_GROUP_RESULT, bundleOf(KEY_TRACKS to newTrack))
                 dismiss()

@@ -371,7 +371,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         }
     }
 
-    override fun onClick(item: MediaLibraryItem, position: Int) {
+    override fun onClick(position: Int) {
         adapter.multiSelectHelper.toggleSelection(position)
         binding.selectedPlaylistCount.text = resources.getString(R.string.selection_count, adapter.multiSelectHelper.getSelection().size)
     }

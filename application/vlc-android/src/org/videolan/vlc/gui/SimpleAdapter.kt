@@ -1,7 +1,6 @@
 package org.videolan.vlc.gui
 
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -29,7 +28,7 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
     var defaultCover:BitmapDrawable? = null
 
     interface ClickHandler {
-        fun onClick(item: MediaLibraryItem, position: Int)
+        fun onClick(position: Int)
     }
 
     private lateinit var inflater : LayoutInflater
