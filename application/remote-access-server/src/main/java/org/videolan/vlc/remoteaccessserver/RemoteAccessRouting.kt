@@ -850,7 +850,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>(stream.size)
             stream.forEachIndexed { index, mediaLibraryItem ->
-                list.add(RemoteAccessServer.PlayQueueItem(3000L + index, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
+                list.add(RemoteAccessServer.PlayQueueItem(mediaLibraryItem.id, mediaLibraryItem.title, " ", 0, mediaLibraryItem.artworkMrl
                         ?: "", false, "", (mediaLibraryItem as MediaWrapper).uri.toString(), true, favorite = mediaLibraryItem.isFavorite))
             }
             call.respondJson(convertToJson(list))
