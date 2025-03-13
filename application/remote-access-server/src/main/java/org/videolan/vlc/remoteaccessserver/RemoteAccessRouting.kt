@@ -118,6 +118,16 @@ import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.providers.StorageProvider
 import org.videolan.vlc.providers.medialibrary.sanitizeGroups
+import org.videolan.vlc.remoteaccessserver.RemoteAccessServer.Companion.getServerFiles
+import org.videolan.vlc.remoteaccessserver.RemoteAccessServer.PlayerStatus
+import org.videolan.vlc.remoteaccessserver.RemoteAccessSession.verifyLogin
+import org.videolan.vlc.remoteaccessserver.utils.MediaZipUtils
+import org.videolan.vlc.remoteaccessserver.utils.serveAudios
+import org.videolan.vlc.remoteaccessserver.utils.servePlaylists
+import org.videolan.vlc.remoteaccessserver.utils.serveSearch
+import org.videolan.vlc.remoteaccessserver.utils.serveVideos
+import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets
+import org.videolan.vlc.remoteaccessserver.websockets.WSIncomingMessage
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.RemoteAccessUtils
@@ -132,16 +142,6 @@ import org.videolan.vlc.util.slugify
 import org.videolan.vlc.util.toByteArray
 import org.videolan.vlc.viewmodels.browser.FavoritesProvider
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
-import org.videolan.vlc.remoteaccessserver.RemoteAccessServer.Companion.getServerFiles
-import org.videolan.vlc.remoteaccessserver.RemoteAccessServer.PlayerStatus
-import org.videolan.vlc.remoteaccessserver.RemoteAccessSession.verifyLogin
-import org.videolan.vlc.remoteaccessserver.utils.MediaZipUtils
-import org.videolan.vlc.remoteaccessserver.utils.serveAudios
-import org.videolan.vlc.remoteaccessserver.utils.servePlaylists
-import org.videolan.vlc.remoteaccessserver.utils.serveSearch
-import org.videolan.vlc.remoteaccessserver.utils.serveVideos
-import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets
-import org.videolan.vlc.remoteaccessserver.websockets.WSIncomingMessage
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileNotFoundException
@@ -950,7 +950,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
                 val medias = appContext.getFromMl {
                     if (path?.isNotBlank() == true) {
-                        arrayOf(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(path)))
+                        if (id.toLong() > 0)
+                            arrayOf(getMedia(id.toLong()))
+                        else
+                            arrayOf(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(path)))
                     } else when (type) {
                         "album" -> getAlbum(id.toLong()).tracks
                         "artist" -> getArtist(id.toLong()).tracks
@@ -969,7 +972,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 }
                 if (medias.isEmpty()) call.respond(HttpStatusCode.NotFound)
                 else {
-                    if (medias.size == 1 && medias[0].id == RemoteAccessServer.getInstance(appContext).service?.currentMediaWrapper?.id) {
+                    if (medias.size == 1 && medias[0].id == RemoteAccessServer.getInstance(appContext).service?.currentMediaWrapper?.id && medias[0].uri == RemoteAccessServer.getInstance(appContext).service?.currentMediaWrapper?.uri) {
                         call.respond(HttpStatusCode.OK)
                         return@get
                     }
