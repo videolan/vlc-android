@@ -82,6 +82,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     var nonDuplicateTracks: Array<MediaWrapper>? = null
     private lateinit var currentPlaylist: Playlist
     private lateinit var currentTracks: Array<MediaWrapper>
+    private var lastAddedPlaylist: MediaLibraryItem? = null
+    private var oldSelection: List<MediaLibraryItem>? = null
 
     private var isLoading: Boolean = false
         set(value) {
@@ -119,6 +121,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         adapter = SimpleAdapter(this)
         dataObserver = adapter.onAnyChange {
             updateEmptyView()
+            if (lastAddedPlaylist != null) {
+                val newSelection = ArrayList(oldSelection ?: listOf()).apply {
+                    add(lastAddedPlaylist)
+                }
+                lastAddedPlaylist = null
+                adapter.multiSelectHelper.replaceSelection(newSelection.map { adapter.currentList.indexOf(it) })
+            }
         }
         adapter.defaultCover = UiTools.getDefaultPlaylistDrawable(requireActivity())
         newTracks = try {
@@ -279,10 +288,11 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             }
             val playlist = medialibrary.createPlaylist(name, Settings.includeMissing, false)
             binding.dialogPlaylistName.editText?.text?.clear()
+            oldSelection = adapter.multiSelectHelper.getSelection()
             val newList = listOf<MediaLibraryItem>(
                 *medialibrary.getPlaylists(Playlist.Type.All, false).apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } })
             adapter.submitList(newList)
-            onClick(newList.indexOf(playlist))
+            lastAddedPlaylist = playlist
             alreadyAdding.set(false)
             binding.dialogPlaylistName.error = null
 

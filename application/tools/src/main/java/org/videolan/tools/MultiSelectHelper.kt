@@ -48,6 +48,15 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
         adapter.notifyItemChanged(position, payloadvalue)
     }
 
+    fun replaceSelection(positions: List<Int>) {
+        val min = min(positions.minOrNull() ?: -1, selectionMap.minOrNull() ?: -1)
+        val max = max(positions.maxOrNull() ?: Int.MAX_VALUE, selectionMap.maxOrNull() ?: Int.MAX_VALUE)
+
+        selectionMap.clear()
+        positions.forEach { selectionMap.add(it) }
+        adapter.notifyItemRangeChanged(min, 1 + max - min, payloadvalue)
+    }
+
     fun clearSelection() {
         if (selectionMap.size == 0) return
         val start = selectionMap.minOrNull()
