@@ -59,7 +59,6 @@ import io.ktor.server.plugins.cachingheaders.CachingHeaders
 import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.compression.Compression
 import io.ktor.server.plugins.compression.matchContentType
-import io.ktor.server.plugins.compression.minimumSize
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.origin
 import io.ktor.server.plugins.partialcontent.PartialContent
@@ -152,6 +151,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     var service: PlaybackService? = null
     private val networkSharesResult = ArrayList<MediaLibraryItem>()
     private val networkDiscoveryRunning = AtomicBoolean(false)
+    private var lastPlayedLocation = ""
 
 
     private val _serverStatus = MutableLiveData(ServerStatus.NOT_INIT)
@@ -709,6 +709,14 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      * @param event the event sent
      */
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        service?.currentMediaLocation?.let {
+            if (it.isNotEmpty() && lastPlayedLocation != service?.currentMediaLocation) {
+                lastPlayedLocation = it
+            }
+        }
+        if (event.type == MediaPlayer.Event.EncounteredError) {
+            AppScope.launch {  RemoteAccessWebSockets.sendToAll(GenericError(context.getString(R.string.invalid_location, lastPlayedLocation))) }
+        }
         if (event.type != MediaPlayer.Event.TimeChanged) return
         if (System.currentTimeMillis() - lastNowPlayingSendTime < NOW_PLAYING_TIMEOUT) return
         lastNowPlayingSendTime = System.currentTimeMillis()
@@ -913,6 +921,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class MLRefreshNeeded(val refreshNeeded: Boolean = true) : WSMessage(WSMessageType.ML_REFRESH_NEEDED)
     data class BrowserDescription(val path: String, val description: String) : WSMessage(WSMessageType.BROWSER_DESCRIPTION)
     data class PlaybackControlForbidden(val forbidden: Boolean = true): WSMessage(WSMessageType.PLAYBACK_CONTROL_FORBIDDEN)
+    data class GenericError(val text: String): WSMessage(WSMessageType.ERROR)
     data class NetworkShares(val shares: List<PlayQueueItem>): WSMessage(WSMessageType.NETWORK_SHARES)
     data class SearchResults(val albums: List<PlayQueueItem>, val artists: List<PlayQueueItem>, val genres: List<PlayQueueItem>, val playlists: List<PlayQueueItem>, val videos: List<PlayQueueItem>, val tracks: List<PlayQueueItem>)
     data class BreadcrumbItem(val title: String, val path: String)
@@ -961,6 +970,8 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         BROWSER_DESCRIPTION,
         @Json(name = "playback-control-forbidden")
         PLAYBACK_CONTROL_FORBIDDEN,
+        @Json(name = "error")
+        ERROR,
         @Json(name = "network-shares")
         NETWORK_SHARES
     }
