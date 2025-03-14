@@ -1383,4 +1383,5 @@
     <string name="subject">Subject</string>
     <string name="body">Message</string>
     <string name="rate_us">Rate the app</string>
+    <string name="generating_logs">Generating logs. Please wait.</string>
 </resources>

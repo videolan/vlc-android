@@ -76,8 +76,12 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
     private var logMessage = ""
     private lateinit var client: DebugLogService.Client
     private lateinit var logcatZipPath: String
+    private var snackbarLogs: Snackbar? = null
 
     override fun onStarted(logList: List<String>) {
+        binding.emailSupportSend.isEnabled = false
+        snackbarLogs = UiTools.snackerMessageInfinite(this, getString(R.string.generating_logs))
+        snackbarLogs?.show()
         logMessage = "Starting collecting logs at ${System.currentTimeMillis()}"
         //initiate a log to wait for
         Log.d("FeedbackActivity", logMessage)
@@ -105,6 +109,7 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
         lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
             withContext(Dispatchers.IO) {
                 client.stop()
+                snackbarLogs?.dismiss()
                 if (!::logcatZipPath.isInitialized) {
                     val externalPath = AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath
                         ?: return@withContext
