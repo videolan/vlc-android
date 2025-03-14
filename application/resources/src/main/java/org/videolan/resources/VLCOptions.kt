@@ -22,6 +22,7 @@ package org.videolan.resources
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.media.AudioManager
 import android.os.Build
 import android.util.Log
@@ -40,7 +41,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.isVLC4
 import java.io.File
-import java.util.*
+import java.util.Collections
 
 object VLCOptions {
     private const val TAG = "VLC/VLCConfig"
@@ -87,7 +88,25 @@ object VLCOptions {
             val freetypeRelFontsize = pref.getString("subtitles_size", "16")
             val freetypeBold = pref.getBoolean("subtitles_bold", false)
 
-            val freetypeColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_color", 16777215))))
+            val freetypeColor = try {
+                Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_color", 16777215))))
+            } catch (e: ClassCastException) {
+                Log.w(TAG, "Forced migration of subtitles color")
+                //Migration failed somehow. Migrating here
+                var color = 16777215
+                pref.getString("subtitles_color", "16777215")?.let {oldSetting ->
+                    try {
+                        val oldColor = oldSetting.toInt()
+                        val newColor = Color.argb(255, Color.red(oldColor), Color.green(oldColor), Color.blue(oldColor))
+                        pref.putSingle("subtitles_color", newColor)
+                        color = newColor
+                    } catch (e: Exception) {
+                        pref.edit().remove("subtitles_color").apply()
+                    }
+                }
+
+                color
+            }
             val freetypeColorOpacity = pref.getInt("subtitles_color_opacity", 255)
 
             val freetypeBackgroundColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_background_color", 16777215))))
