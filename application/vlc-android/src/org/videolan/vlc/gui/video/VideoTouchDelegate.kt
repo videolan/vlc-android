@@ -195,7 +195,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
                         val fastPlayRunnable = Runnable {
-                            if (touchAction == TOUCH_NONE) {
+                            if (touchAction == TOUCH_NONE && player.service != null) {
                                 savedRate = player.service!!.rate
                                 player.service?.setRate(org.videolan.tools.Settings.fastplaySpeed, false)
                                 showFastPlay()
