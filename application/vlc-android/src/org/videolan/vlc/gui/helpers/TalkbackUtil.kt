@@ -25,8 +25,15 @@
 package org.videolan.vlc.gui.helpers
 
 import android.content.Context
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.util.getFilesNumber
 import org.videolan.vlc.util.getFolderNumber
@@ -54,6 +61,8 @@ object TalkbackUtil {
 
     fun getGenre(context: Context, genre: Genre) = context.getString(R.string.talkback_genre, genre.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount))
+
+    fun getStorage(context: Context, storage: Storage) = context.getString(R.string.talkback_folder, storage.title)
 
     fun getArtist(context: Context, artist: Artist?) = if (artist == null) null else context.getString(R.string.talkback_artist, artist.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.albums_quantity, artist.albumsCount, artist.albumsCount))
