@@ -139,6 +139,7 @@ import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
 import org.videolan.vlc.util.ContextOption.CTX_PLAY
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
 import org.videolan.vlc.util.ContextOption.CTX_RENAME
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.LifecycleAwareScheduler
@@ -794,6 +795,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     if (!isMedia) add(CTX_PLAY)
                     if (isVideo) add(CTX_DOWNLOAD_SUBTITLES)
                 }
+                add(CTX_PLAY_NEXT)
             }
             if (flags.isNotEmpty()) showContext(requireActivity(), this@BaseBrowserFragment, position, item, flags)
         }
@@ -826,6 +828,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
             CTX_APPEND -> lifecycleScope.launch {
                 MediaUtils.appendMedia(activity, getMediaWithMeta(mw))
+            }
+
+            CTX_PLAY_NEXT -> lifecycleScope.launch {
+                MediaUtils.insertNext(activity, getMediaWithMeta(mw))
             }
 
             CTX_DELETE -> removeItem(mw)
