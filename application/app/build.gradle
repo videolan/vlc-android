@@ -70,6 +70,9 @@ android {
         beforeVariants(selector().withBuildType("vlcBundle")) { variantBuilder ->
             variantBuilder.minSdk = 30
         }
+        beforeVariants(selector().withBuildType("vlcBundleAmazon")) { variantBuilder ->
+            variantBuilder.minSdk = 17
+        }
     }
 
     buildTypes {
@@ -85,6 +88,10 @@ android {
             matchingFallbacks = ['release']
         }
         vlcBundle {
+            initWith release
+            matchingFallbacks = ['release']
+        }
+        vlcBundleAmazon {
             initWith release
             matchingFallbacks = ['release']
         }

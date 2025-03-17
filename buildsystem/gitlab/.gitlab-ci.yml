@@ -502,6 +502,7 @@ release:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
         - ./gradlew bundleVlcBundle
+        - ./gradlew bundleVlcBundleAmazon
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
