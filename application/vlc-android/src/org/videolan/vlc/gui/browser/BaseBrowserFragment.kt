@@ -83,8 +83,6 @@ import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.PLAYLIST_MODE_AUDIO
-import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.isStarted
@@ -102,6 +100,7 @@ import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.DEFAULT_ACTIONS
 import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
 import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
@@ -111,6 +110,8 @@ import org.videolan.vlc.gui.dialogs.SHOW_HIDDEN_FILES
 import org.videolan.vlc.gui.dialogs.SHOW_ONLY_MULTIMEDIA_FILES
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -350,6 +351,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             SHOW_ONLY_MULTIMEDIA_FILES -> {
                 Settings.getInstance(requireActivity()).putSingle(BROWSER_SHOW_ONLY_MULTIMEDIA, (value as Boolean))
                 viewModel.updateShowAllFiles(value)
+            }
+            DEFAULT_ACTIONS -> {
+                Settings.getInstance(requireActivity()).putSingle(DefaultPlaybackActionMediaType.FILE.defaultActionKey, (value as DefaultPlaybackAction).name)
             }
         }
     }
@@ -662,15 +666,17 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
-                        displayInCards = inCards,
-                        onlyFavs = null,
-                        sorts = sorts,
-                        currentSort = viewModel.provider.sort.takeIf { it != 0 } ?: Medialibrary.SORT_FILENAME,
-                        currentSortDesc = viewModel.provider.desc,
-                        showOnlyMultimediaFiles = settings.getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false),
-                        showHiddenFiles = settings.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true)
+                    displayInCards = inCards,
+                    onlyFavs = null,
+                    sorts = sorts,
+                    currentSort = viewModel.provider.sort.takeIf { it != 0 } ?: Medialibrary.SORT_FILENAME,
+                    currentSortDesc = viewModel.provider.desc,
+                    showOnlyMultimediaFiles = settings.getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false),
+                    showHiddenFiles = settings.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true),
+                    defaultPlaybackActions = DefaultPlaybackActionMediaType.FILE.getDefaultPlaybackActions(settings),
+                    defaultActionType = getString(R.string.files)
                 )
-                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
+                    .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
                 true
             }
 
@@ -733,16 +739,16 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
-                val forcePlayType = if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO) PLAYLIST_MODE_AUDIO else PLAYLIST_MODE_VIDEO
-                if (!Settings.getInstance(requireContext()).getBoolean(forcePlayType, forcePlayType == PLAYLIST_MODE_VIDEO && Settings.tvUI)) {
-                    lifecycleScope.launch {
-                        MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))
-                    }
-                } else {
-                    lifecycleScope.launch {
-                        val media = viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
+                lifecycleScope.launch {
+                    when (DefaultPlaybackActionMediaType.FILE.getCurrentPlaybackAction(Settings.getInstance(requireActivity()))) {
+                        DefaultPlaybackAction.PLAY -> MediaUtils.openMedia(requireContext(), getMediaWithMeta(item))
+                        DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, item)
+                        DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, item)
+                        else -> {
+                            val media = viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
                                 .map { getMediaWithMeta(it as MediaWrapper) }
-                        MediaUtils.openList(v.context, media, position)
+                            MediaUtils.openList(v.context, media, position)
+                        }
                     }
                 }
             }
