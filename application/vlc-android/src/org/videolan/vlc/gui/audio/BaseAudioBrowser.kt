@@ -75,6 +75,8 @@ import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -131,6 +133,20 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     private val tcl = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
 
     protected abstract fun getCurrentRV(): RecyclerView
+
+    /**
+     * Get the default action media type for this fragment
+     *
+     * @return the default action media type
+     */
+    protected abstract fun getDefaultActionMediaType(): DefaultPlaybackActionMediaType
+
+    /**
+     * Get the current provider. Useful when the default action is PLAY_ALL
+     *
+     * @return the current provider
+     */
+    open fun getCurrentProvider(): MedialibraryProvider<MediaWrapper>? = null
     protected var adapter: AudioBrowserAdapter? = null
 
     open fun getCurrentAdapter() = adapter
@@ -460,7 +476,13 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
-        MediaUtils.openList(activity, listOf(*item.tracks), 0)
+        when(getDefaultActionMediaType().getCurrentPlaybackAction(Settings.getInstance(requireActivity()))) {
+            DefaultPlaybackAction.PLAY -> MediaUtils.openList(activity, listOf(*item.tracks), 0)
+            DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, listOf(*item.tracks))
+            DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, listOf(*item.tracks).toTypedArray())
+            DefaultPlaybackAction.PLAY_ALL -> getCurrentProvider() ?.let { MediaUtils.playAll(activity, it, position, false) }
+        }
+
     }
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {

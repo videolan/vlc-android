@@ -23,7 +23,11 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -48,7 +52,15 @@ import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CURRENT_SORT
+import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
+import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
+import org.videolan.vlc.gui.dialogs.ONLY_FAVS
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
+import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.video.VideoBrowserFragment
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -59,7 +71,8 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
@@ -192,11 +205,13 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
                 }
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
-                        displayInCards = viewModel.providerInCard,
-                        onlyFavs = viewModel.provider.onlyFavorites,
-                        sorts = sorts,
-                        currentSort = viewModel.provider.sort,
-                        currentSortDesc = viewModel.provider.desc
+                    displayInCards = viewModel.providerInCard,
+                    onlyFavs = viewModel.provider.onlyFavorites,
+                    sorts = sorts,
+                    currentSort = viewModel.provider.sort,
+                    currentSortDesc = viewModel.provider.desc,
+                    defaultPlaybackActions = getDefaultActionMediaType().getDefaultPlaybackActions(Settings.getInstance(requireActivity())),
+                    defaultActionType = getString(getDefaultActionMediaType().title)
                 )
                         .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
                 true
@@ -272,6 +287,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     override fun getTitle(): String = getString(R.string.playlists)
 
     override fun getCurrentRV(): RecyclerView = playlists
+
+    override fun getDefaultActionMediaType() = DefaultPlaybackActionMediaType.PLAYLIST
 
     override fun hasFAB() = false
 

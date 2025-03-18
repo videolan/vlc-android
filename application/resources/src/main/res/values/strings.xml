@@ -1385,4 +1385,6 @@
     <string name="body">Message</string>
     <string name="rate_us">Rate the app</string>
     <string name="generating_logs">Generating logs. Please wait.</string>
+    <string name="default_playback_action">Playback action</string>
+    <string name="files">Files</string>
 </resources>

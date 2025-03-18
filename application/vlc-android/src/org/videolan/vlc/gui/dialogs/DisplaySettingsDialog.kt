@@ -48,10 +48,11 @@ import org.videolan.resources.GROUP_VIDEOS_FOLDER
 import org.videolan.resources.GROUP_VIDEOS_NAME
 import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.setGone
-import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDisplaySettingsBinding
 import org.videolan.vlc.databinding.SortDisplaySettingBinding
+import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog.VideoGroup.values
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -67,6 +68,8 @@ const val CURRENT_SORT = "current_sort"
 const val CURRENT_SORT_DESC = "current_sort_desc"
 const val SHOW_ONLY_MULTIMEDIA_FILES = "show_only_multimedia_files"
 const val SHOW_HIDDEN_FILES = "show_hidden_files"
+const val DEFAULT_ACTIONS = "default_actions"
+const val DEFAULT_ACTION_TYPE = "default_action_type"
 
 /**
  * Dialog showing the display settings for a media list (audio video)
@@ -83,6 +86,8 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     private var showOnlyMultimediaFiles: Boolean? = null
     private var showHiddenFiles: Boolean? = null
     private var showVideoGroups: String? = null
+    private var defaultPlaybackActions: List<DefaultPlaybackAction>? = null
+    private var defaultActionType: String? = null
 
     private lateinit var binding: DialogDisplaySettingsBinding
 
@@ -90,13 +95,15 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
     companion object {
 
-        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean?, sorts: List<Int>, currentSort: Int, currentSortDesc: Boolean, videoGroup: String? = null, showOnlyMultimediaFiles:Boolean? = null, showHiddenFiles:Boolean? = null): DisplaySettingsDialog {
+        fun newInstance(displayInCards: Boolean, showAllArtists: Boolean? = null, onlyFavs: Boolean?, sorts: List<Int>, currentSort: Int, currentSortDesc: Boolean, videoGroup: String? = null, showOnlyMultimediaFiles:Boolean? = null, showHiddenFiles:Boolean? = null, defaultPlaybackActions: List<DefaultPlaybackAction>? = null, defaultActionType: String? = null): DisplaySettingsDialog {
             return DisplaySettingsDialog().apply {
                 arguments = bundleOf(DISPLAY_IN_CARDS to displayInCards, SORTS to sorts, CURRENT_SORT to currentSort, CURRENT_SORT_DESC to currentSortDesc, VIDEO_GROUPING to videoGroup)
                 if (onlyFavs != null) arguments!!.putBoolean(ONLY_FAVS, onlyFavs)
                 if (showAllArtists != null) arguments!!.putBoolean(SHOW_ALL_ARTISTS, showAllArtists)
                 if (showOnlyMultimediaFiles != null) arguments!!.putBoolean(SHOW_ONLY_MULTIMEDIA_FILES, showOnlyMultimediaFiles)
                 if (showHiddenFiles != null) arguments!!.putBoolean(SHOW_HIDDEN_FILES, showHiddenFiles)
+                if (defaultPlaybackActions != null) arguments!!.putStringArrayList(DEFAULT_ACTIONS, ArrayList(defaultPlaybackActions.map { it.name }))
+                if(defaultActionType != null) arguments!!.putString(DEFAULT_ACTION_TYPE, defaultActionType)
             }
         }
     }
@@ -127,6 +134,12 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         showOnlyMultimediaFiles = if (arguments?.containsKey(SHOW_ONLY_MULTIMEDIA_FILES) == true) arguments?.getBoolean(SHOW_ONLY_MULTIMEDIA_FILES) else null
         showHiddenFiles = if (arguments?.containsKey(SHOW_HIDDEN_FILES) == true) arguments?.getBoolean(SHOW_HIDDEN_FILES) else null
         showVideoGroups = arguments?.getString(VIDEO_GROUPING, null)
+        val defaultActionsKeys = arguments?.getStringArrayList(DEFAULT_ACTIONS)?.toTypedArray()
+        defaultPlaybackActions = when(defaultActionsKeys) {
+            null -> null
+            else -> DefaultPlaybackAction.entries.filter { defaultActionsKeys.contains(it.name) }
+        }
+        defaultActionType = arguments?.getString(DEFAULT_ACTION_TYPE)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -142,6 +155,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         updateShowAllFiles()
         updateShowHiddenFiles()
         updateSorts()
+        updateDefaultActions()
 
         binding.displayModeGroup.setOnClickListener {
             displayInCards = !displayInCards
@@ -213,6 +227,26 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
+        //Default actions
+        defaultPlaybackActions?.let {
+            val defaultActionsArrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, it)
+
+            defaultActionsArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.defaultActionsSpinner.adapter = defaultActionsArrayAdapter
+            binding.defaultActionsGroup.setOnClickListener {
+                binding.defaultActionsSpinner.performClick()
+            }
+            binding.defaultActionsSpinner.setSelection(it.indexOf(it.find { it.selected }))
+            binding.defaultActionsSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val defaultPlaybackAction = defaultActionsArrayAdapter.getItem(position) as DefaultPlaybackAction
+                    lifecycleScope.launch { displaySettingsViewModel.send(DEFAULT_ACTIONS, defaultPlaybackAction) }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+        }
     }
 
     /**
@@ -279,6 +313,20 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             binding.onlyFavsImage.setGone()
             binding.onlyFavsText.setGone()
         } else binding.onlyFavsCheckbox.isChecked = onlyFavs!!
+    }
+
+    /**
+     * Update the view for the "default actions" item
+     *
+     */
+    private fun updateDefaultActions() {
+        if (defaultPlaybackActions == null) {
+            binding.defaultActionsGroup.setGone()
+            binding.defaultActionsImage.setGone()
+            binding.defaultActionsText.setGone()
+            binding.defaultActionsSpinner.setGone()
+        }
+        binding.defaultActionsSubtitle.text = defaultActionType
     }
 
     /**
