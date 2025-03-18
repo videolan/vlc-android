@@ -36,8 +36,6 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.PLAYLIST_MODE_AUDIO
-import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_CURRENT_MAJOR_VERSION
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
@@ -46,18 +44,22 @@ import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
+import org.videolan.tools.PLAYLIST_MODE_AUDIO
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_HUD_TIMEOUT
 import org.videolan.tools.coerceInOrDefault
 import org.videolan.tools.putSingle
 import org.videolan.tools.toInt
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.isVLC4
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 14
+private const val CURRENT_VERSION = 15
 
 object VersionMigration {
 
@@ -118,6 +120,10 @@ object VersionMigration {
 
         if (lastVersion < 14) {
             migrateToVersion14(settings)
+        }
+
+        if (lastVersion < 15) {
+            migrateToVersion15(settings)
         }
 
         //Major version upgrade
@@ -361,6 +367,27 @@ object VersionMigration {
                 putBoolean(KEY_PLAYBACK_SPEED_VIDEO_GLOBAL, settings.getBoolean("playback_speed_video", false))
                 putFloat(KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE, settings.getFloat("playback_rate_video", 1F))
                 remove("playback_speed_video")
+            }
+        }
+    }
+
+    /**
+     * Migrate after implementation of the default playback actions
+     *
+     */
+    private fun migrateToVersion15(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrate after implementation of the default playback actions")
+        if (settings.contains("playlist_mode_video") && settings.getBoolean("playlist_mode_video", false)) {
+            settings.edit(true) {
+                putString(DefaultPlaybackActionMediaType.VIDEO.defaultActionKey, DefaultPlaybackAction.PLAY_ALL.name)
+            }
+
+        }
+        if (settings.contains("playlist_mode_audio") && settings.getBoolean("playlist_mode_audio", false)) {
+            DefaultPlaybackActionMediaType.entries.filter { it.allowPlayAll }.forEach {
+                settings.edit(true) {
+                    putString(DefaultPlaybackActionMediaType.TRACK.defaultActionKey, DefaultPlaybackAction.PLAY_ALL.name)
+                }
             }
         }
     }

@@ -71,6 +71,8 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         super.onCreate(savedInstanceState)
         prepareLocaleList()
         setupTheme()
+        findPreference<Preference>("playlist_mode_video")?.isVisible = false
+        findPreference<Preference>("playlist_mode_audio")?.isVisible = false
     }
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
