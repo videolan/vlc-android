@@ -28,13 +28,16 @@ import android.content.pm.ActivityInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.ViewStubCompat
+import androidx.core.content.edit
 import androidx.core.widget.NestedScrollView
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.videolan.tools.SHOW_ORIENTATION_BUTTON
 import org.videolan.tools.Settings
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
@@ -42,6 +45,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
 import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
+import org.videolan.vlc.gui.video.OrientationMode.values
 import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
@@ -51,6 +55,7 @@ class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
     private lateinit var scrollView: NestedScrollView
     private lateinit var orientationList: RecyclerView
     private lateinit var orientationAdapter: OrientationAdapter
+    private lateinit var showOrientationButton: CheckBox
 
     /**
      * Check if the orientation overlay is currently shown
@@ -74,9 +79,18 @@ class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
             }
             orientationList = orientationMainView.findViewById(R.id.orientation_list)
             scrollView = orientationMainView.findViewById(R.id.orientation_scrollview)
+            showOrientationButton = orientationMainView.findViewById(R.id.show_button)
 
             orientationMainView.findViewById<View>(R.id.close).setOnClickListener {
                 hideOrientationOverlay()
+            }
+
+            val settings = Settings.getInstance(player)
+
+            showOrientationButton.isChecked = settings.getBoolean(SHOW_ORIENTATION_BUTTON, true)
+            showOrientationButton.setOnCheckedChangeListener { _, isChecked ->
+                settings.edit { putBoolean(SHOW_ORIENTATION_BUTTON, isChecked) }
+                player.overlayDelegate.updateOrientationIcon()
             }
 
             orientationList.layoutManager = LinearLayoutManager(player)

@@ -10,6 +10,7 @@ import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import org.videolan.tools.Settings.audioControlsChangeListener
 import org.videolan.tools.Settings.init
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
@@ -183,6 +184,7 @@ const val SAVE_BRIGHTNESS = "save_brightness"
 const val BRIGHTNESS_VALUE = "brightness_value"
 const val POPUP_KEEPSCREEN = "popup_keepscreen"
 const val POPUP_FORCE_LEGACY = "popup_force_legacy"
+const val SHOW_ORIENTATION_BUTTON = "show_orientation_button"
 const val RESTORE_BACKGROUND_VIDEO = "restore_background_video"
 const val LOCK_USE_SENSOR = "lock_use_sensor"
 const val DISPLAY_UNDER_NOTCH = "display_under_notch"
