@@ -763,6 +763,7 @@
     <string name="episodes">episodes</string>
     <string name="movies">movies</string>
     <string name="videos">videos</string>
+    <string name="default_action_videos">Videos</string>
     <string name="videos_all">All videos</string>
     <string name="clear_playback_history">Clear playback history</string>
     <string name="ml_scanning">Scanning for media files</string>

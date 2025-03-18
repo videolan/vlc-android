@@ -69,7 +69,6 @@ import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.UPDATE_SEEN
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableArray
-import org.videolan.resources.util.parcelableList
 import org.videolan.resources.util.waitForML
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.PLAYBACK_HISTORY
@@ -89,6 +88,7 @@ import org.videolan.vlc.gui.dialogs.CONFIRM_PERMISSION_CHANGED
 import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.DEFAULT_ACTIONS
 import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
 import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
 import org.videolan.vlc.gui.dialogs.KEY_PERMISSION_CHANGED
@@ -100,6 +100,8 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.VIDEO_GROUPING
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
@@ -274,12 +276,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
-                        displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true),
-                        onlyFavs = viewModel.provider.onlyFavorites,
-                        sorts = sorts,
-                        currentSort = viewModel.provider.sort,
-                        currentSortDesc = viewModel.provider.desc,
-                        videoGroup = settings.getString(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME)
+                    displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true),
+                    onlyFavs = viewModel.provider.onlyFavorites,
+                    sorts = sorts,
+                    currentSort = viewModel.provider.sort,
+                    currentSortDesc = viewModel.provider.desc,
+                    videoGroup = settings.getString(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME),
+                    defaultPlaybackActions = DefaultPlaybackActionMediaType.VIDEO.getDefaultPlaybackActions(settings),
+                    defaultActionType = getString(DefaultPlaybackActionMediaType.VIDEO.title)
                 )
                         .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
             }
@@ -369,6 +373,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 val videoGroup = value as DisplaySettingsDialog.VideoGroup
                 settings.putSingle(KEY_GROUP_VIDEOS, videoGroup.value)
                 changeGroupingType(videoGroup.type)
+            }
+            DEFAULT_ACTIONS -> {
+                Settings.getInstance(requireActivity()).putSingle(DefaultPlaybackActionMediaType.VIDEO.defaultActionKey, (value as DefaultPlaybackAction).name)
             }
         }
     }
@@ -764,7 +771,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     multiSelectHelper.toggleSelection(position)
                     invalidateActionMode()
                 } else {
-                    viewModel.playVideo(activity, item, position)
+                    when(DefaultPlaybackActionMediaType.VIDEO.getCurrentPlaybackAction(settings)) {
+                        DefaultPlaybackAction.PLAY -> viewModel.playVideo(activity, item, position)
+                        DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, item)
+                        DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, item)
+                        else  -> viewModel.playVideo(activity, item, position, forceAll = true)
+                    }
                 }
             }
             is Folder -> {

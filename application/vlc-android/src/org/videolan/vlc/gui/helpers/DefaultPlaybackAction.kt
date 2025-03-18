@@ -70,7 +70,7 @@ enum class DefaultPlaybackAction(@StringRes val title: Int, var selected: Boolea
  * @constructor Create empty Default playback action media type
  */
 enum class DefaultPlaybackActionMediaType(@StringRes val title: Int, val defaultActionKey: String, val allowPlayAll: Boolean = true) {
-    VIDEO(R.string.videos, "default_playback_action_video"),
+    VIDEO(R.string.default_action_videos, "default_playback_action_video"),
     ARTIST(R.string.artists, "default_playback_action_artist", false),
     ALBUM(R.string.albums, "default_playback_action_album", false),
     TRACK(R.string.tracks, "default_playback_action_track"),
