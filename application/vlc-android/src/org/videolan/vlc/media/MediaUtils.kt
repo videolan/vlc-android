@@ -15,18 +15,35 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_OPEN_CONTENT
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CONTENT_PREFIX
+import org.videolan.resources.EXTRA_CONTENT_ID
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.VLCOptions
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
@@ -42,10 +59,16 @@ import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.isOTG
+import org.videolan.vlc.util.isSD
+import org.videolan.vlc.util.isSchemeStreaming
 import java.io.File
 import java.security.SecureRandom
-import java.util.*
+import java.util.LinkedList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
@@ -127,10 +150,7 @@ object MediaUtils {
             context.let {
                 if (it is Activity) {
                     val text = context.resources.getQuantityString(R.plurals.tracks_appended, media.size, media.size)
-                    if (it is AudioPlayerContainerActivity) {
-                        Snackbar.make(it.appBarLayout, text, Snackbar.LENGTH_LONG).show()
-                    } else
-                    Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(if (it is AudioPlayerContainerActivity) it.appBarLayout else it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -149,7 +169,7 @@ object MediaUtils {
             context.let {
                 if (it is Activity) {
                     val text = context.resources.getQuantityString(R.plurals.tracks_inserted, media.size, media.size)
-                    Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(if (it is AudioPlayerContainerActivity) it.appBarLayout else it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
