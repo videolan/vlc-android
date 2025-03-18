@@ -62,7 +62,6 @@ import org.videolan.resources.UPDATE_REORDER
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableList
 import org.videolan.tools.ALBUMS_SHOW_TRACK_NUMBER
-import org.videolan.tools.PLAYLIST_MODE_AUDIO
 import org.videolan.tools.Settings
 import org.videolan.tools.copy
 import org.videolan.tools.dp
@@ -86,6 +85,8 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.ExpandStateAppBarLayoutBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
@@ -408,10 +409,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             invalidateActionMode()
         } else {
             if (searchView.visibility == View.VISIBLE) UiTools.setKeyboardVisibility(v, false)
-            if (isPlaylist || Settings.getInstance(this).getBoolean(PLAYLIST_MODE_AUDIO, false))
+            if (isPlaylist)
                 MediaUtils.playTracks(this, viewModel.tracksProvider, position)
             else
-                MediaUtils.openMedia(this, item as MediaWrapper)
+                when(DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(Settings.getInstance(this))) {
+                    DefaultPlaybackAction.PLAY -> MediaUtils.openList(this, listOf(*item.tracks), 0)
+                    DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(this, listOf(*item.tracks))
+                    DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(this, listOf(*item.tracks).toTypedArray())
+                    DefaultPlaybackAction.PLAY_ALL -> MediaUtils.playTracks(this, viewModel.tracksProvider, position)
+                }
         }
     }
 
