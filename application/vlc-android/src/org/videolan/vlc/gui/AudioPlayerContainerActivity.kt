@@ -105,6 +105,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     private var scanProgressBar: ProgressBar? = null
     private lateinit var resumeCard: Snackbar
     private var preventRescan = false
+    private var showAudioPlayerWhenResumed = false
 
     private var playerShown = false
     val tipsDelegate: AudioTipsDelegate by lazy(LazyThreadSafetyMode.NONE) { AudioTipsDelegate(this) }
@@ -511,6 +512,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
         else
             applyMarginToProgressBar(0)
         setContentBottomPadding()
+        if (showAudioPlayerWhenResumed)
+            showAudioPlayerImpl()
         super.onResume()
     }
 
@@ -588,10 +591,14 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     private fun showAudioPlayer() {
         if (isFinishing) return
         scheduler.scheduleAction(ACTION_SHOW_PLAYER, 100L)
+        // due to the 100L delay when scheduling ACTION_SHOW_PLAYER
+        // if switching screen off, it can be canceled, this ensures that onResume the player is shown
+        showAudioPlayerWhenResumed = true
     }
 
     private fun showAudioPlayerImpl() {
         if (isFinishing) return
+        showAudioPlayerWhenResumed = false
         if (!isAudioPlayerReady) initAudioPlayer()
         if (audioPlayerContainer.visibility != View.VISIBLE) {
             audioPlayerContainer.visibility = View.VISIBLE
