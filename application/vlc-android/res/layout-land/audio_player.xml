@@ -296,7 +296,7 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/header_play_pause"
-                    app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
