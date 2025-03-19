@@ -72,6 +72,7 @@ private const val ACTION_MOVED = "action_moved"
 class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter, SchedulerCallback {
 
     var showTrackNumbers: Boolean = false
+    var showReorderButtons: Boolean = true
     private var defaultCoverVideo: BitmapDrawable
     private var defaultCoverAudio: BitmapDrawable
     private var model: PlaylistModel? = null
@@ -156,8 +157,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
         val tablet = holder.binding.itemDelete.context.isTablet() || AndroidDevices.isTv
         if (tablet) holder.binding.itemDelete.setVisible() else holder.binding.itemDelete.setGone()
-        if (tablet) holder.binding.itemMoveDown.setVisible() else holder.binding.itemMoveDown.setGone()
-        if (tablet) holder.binding.itemMoveUp.setVisible() else holder.binding.itemMoveUp.setGone()
+        holder.binding.showReorderButtons = showReorderButtons && tablet
 
         holder.binding.executePendingBindings()
     }

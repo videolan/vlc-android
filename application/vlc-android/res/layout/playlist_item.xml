@@ -40,6 +40,10 @@
                 type="java.lang.Boolean" />
 
         <variable
+                name="showReorderButtons"
+                type="java.lang.Boolean" />
+
+        <variable
                 name="masked"
                 type="java.lang.Boolean" />
 
@@ -214,6 +218,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="@{showReorderButtons ? View.VISIBLE : View.GONE}"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="@{holder::onMoveDownClick}"
@@ -236,6 +241,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="@{holder::onMoveUpClick}"
+                android:visibility="@{showReorderButtons ? View.VISIBLE : View.GONE}"
                 android:padding="8dp"
                 android:scaleType="center"
                 app:layout_constraintBottom_toBottomOf="parent"

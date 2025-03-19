@@ -24,7 +24,11 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
@@ -48,6 +52,11 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     val selection : Int
         get() = if (filtering) -1 else service?.playlistManager?.currentIndex ?: -1
     private var filtering = false
+        set(value) {
+            field = value
+            filteringState.value = value
+        }
+    val filteringState = MutableLiveData<Boolean>()
     val progress = MediatorLiveData<PlaybackProgress>()
     val speed = MediatorLiveData<Float>()
     val playerState = MutableLiveData<PlayerState>()

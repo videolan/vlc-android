@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 
-class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdapter, private val longPressDragEnable: Boolean = false, private val lockedInSafeMode: Boolean = false) : ItemTouchHelper.Callback() {
+class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdapter, var longPressDragEnable: Boolean = false, private val lockedInSafeMode: Boolean = false) : ItemTouchHelper.Callback() {
     private var dragFrom = -1
     private var dragTo = -1
     var swipeEnabled = true

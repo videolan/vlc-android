@@ -68,6 +68,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.util.parcelable
@@ -164,6 +165,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private var lastEndsAt = -1L
     private var isDragging = false
     private var currentChapters: Pair<MediaWrapper,  List<MediaPlayer.Chapter>?>? = null
+    private lateinit var callback: SwipeDragItemTouchHelperCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -177,6 +179,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel = PlaylistModel.get(this)
         playlistModel.progress.observe(this@AudioPlayer) { it?.let { updateProgress(it) } }
         playlistModel.speed.observe(this@AudioPlayer) { showChips() }
+        playlistModel.filteringState.observe(this@AudioPlayer) {
+            callback.longPressDragEnable = !it
+            if (isTablet() || AndroidDevices.isTv) {
+                playlistAdapter.showReorderButtons = !it
+                playlistAdapter.notifyDataSetChanged()
+            }
+        }
         playlistAdapter.setModel(playlistModel)
         playlistModel.dataset.asFlow().conflate().onEach {
             doUpdate()
@@ -232,7 +241,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             coverMediaSwitcherListener.onChapterSwitching(false)
         }
 
-        val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
+        callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.songsList)
 
