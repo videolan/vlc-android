@@ -51,7 +51,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     private var originalDataset : MutableList<MediaWrapper>? = null
     val selection : Int
         get() = if (filtering) -1 else service?.playlistManager?.currentIndex ?: -1
-    private var filtering = false
+    var filtering = false
         set(value) {
             field = value
             filteringState.value = value
@@ -95,7 +95,17 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     fun insertMedia(position: Int, media: MediaWrapper) = service?.insertItem(position, media)
 
-    fun remove(position: Int) = service?.remove(position)
+    /**
+     * Get original position even if current list is filtered
+     *
+     * @param position the current position in the filtered list or not
+     * @return the original position (in the unfiltered list)
+     */
+    fun getOriginalPosition(position: Int) = if (filtering && originalDataset != null) {
+        originalDataset!!.indexOf(dataset.get(position))
+    } else position
+
+    fun remove(position: Int) = service?.remove(getOriginalPosition(position))
 
     fun move(from: Int, to: Int) = service?.moveItem(from, to)
 
