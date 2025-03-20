@@ -296,8 +296,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
             val items: List<MediaWrapper> = bundle.parcelableList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
-            if (items.isNotEmpty()) {
-                val mw = items[0]
+            items.forEach { mw ->
                 val deleteAction = Runnable {
                     lifecycleScope.launch {
                         MediaUtils.deleteItem(requireActivity(), mw) { viewModel.refresh() }
