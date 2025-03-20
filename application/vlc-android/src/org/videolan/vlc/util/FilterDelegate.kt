@@ -7,10 +7,10 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.vlc.media.MediaUtils
-import java.util.*
+import java.util.Locale
 
-open class FilterDelegate<T : MediaLibraryItem>(protected val dataset: MutableLiveData<out List<T>>) {
-    private var sourceSet: List<T>? = null
+open class FilterDelegate<T : MediaLibraryItem>(val dataset: MutableLiveData<out List<T>>) {
+    var sourceSet: List<T>? = null
 
     protected fun initSource() : List<T>? {
         if (sourceSet === null) sourceSet = (dataset.value)

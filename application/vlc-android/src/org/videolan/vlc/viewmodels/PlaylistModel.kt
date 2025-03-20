@@ -62,6 +62,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     val playerState = MutableLiveData<PlayerState>()
     val connected : Boolean
         get() = service !== null
+    var lastQuery: CharSequence? = null
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { PlaylistFilterDelegate(dataset) }
 
@@ -85,7 +86,13 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     override fun update() {
         service?.run {
-            dataset.value = media.toMutableList()
+            if (filtering) {
+                originalDataset = media.toMutableList()
+                filter.sourceSet = originalDataset
+                dataset.value = filter.dataset.value?.toMutableList() ?: media.toMutableList()
+                filterActor.trySend(lastQuery)
+            } else
+                dataset.value = media.toMutableList()
             playerState.value = PlayerState(isPlaying, title, artist)
         }
     }
@@ -93,7 +100,15 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     val hasMedia
         get() = service?.hasMedia() ?: false
 
-    fun insertMedia(position: Int, media: MediaWrapper) = service?.insertItem(position, media)
+    fun insertMedia(position: Int, media: MediaWrapper) {
+        service?.insertItem(position, media)
+        if (filtering) {
+            service?.let {
+                originalDataset = it.media.toMutableList()
+                filter.sourceSet = originalDataset
+            }
+        }
+    }
 
     /**
      * Get original position even if current list is filtered
@@ -111,6 +126,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     @MainThread
     fun filter(query: CharSequence?) {
+        lastQuery = query
         val filtering = query != null
         if (this.filtering != filtering) {
             this.filtering = filtering
