@@ -219,7 +219,10 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     override suspend fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
             val mw = audioPlayer.playlistModel.currentMediaWrapper ?: return
-            if (currentCoverArt == mw.artworkMrl) return
+            if (currentCoverArt == mw.artworkMrl) {
+                if (currentCoverArt == null) setDefaultBackground()
+                return
+            }
             currentCoverArt = mw.artworkMrl
             if (mw.artworkMrl.isNullOrEmpty()) setDefaultBackground()
             else {
