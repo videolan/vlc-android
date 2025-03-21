@@ -1,15 +1,15 @@
 package org.videolan.vlc.util
 
-import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.media.MediaUtils
 import java.util.Locale
 
-open class FilterDelegate<T : MediaLibraryItem>(val dataset: MutableLiveData<out List<T>>) {
+open class FilterDelegate<T : MediaLibraryItem>(val dataset: LiveDataset<T>) {
     var sourceSet: List<T>? = null
 
     protected fun initSource() : List<T>? {
@@ -21,13 +21,14 @@ open class FilterDelegate<T : MediaLibraryItem>(val dataset: MutableLiveData<out
 
     protected open suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T>? {
         if (charSequence !== null) initSource()?.let {
-            return withContext(Dispatchers.Default) { mutableListOf<T>().apply {
-                val queryStrings = charSequence.trim().toString().split(" ")
-                for (item in it) for (query in queryStrings)
-                    if (item.title.contains(query, true)) {
-                        this.add(item)
-                        break
-                    }
+            return withContext(Dispatchers.Default) {
+                mutableListOf<T>().apply {
+                    val queryStrings = charSequence.trim().toString().split(" ")
+                    for (item in it) for (query in queryStrings)
+                        if (item.title.contains(query, true)) {
+                            this.add(item)
+                            break
+                        }
                 }
             }
         }
@@ -36,17 +37,17 @@ open class FilterDelegate<T : MediaLibraryItem>(val dataset: MutableLiveData<out
 
     private fun publish(list: MutableList<T>?) {
         sourceSet?.let {
-            if (list !== null)
-                dataset.value = list
-            else {
+            list?.let {
                 dataset.value = it
+            } ?: run {
+                dataset.value = it.toMutableList()
                 sourceSet = null
             }
         }
     }
 }
 
-class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) : FilterDelegate<MediaWrapper>(dataset) {
+class PlaylistFilterDelegate(dataset: LiveDataset<MediaWrapper>) : FilterDelegate<MediaWrapper>(dataset) {
 
     override suspend fun filteringJob(charSequence: CharSequence?): MutableList<MediaWrapper>? {
         if (charSequence !== null) initSource()?.let { list ->
@@ -61,11 +62,11 @@ class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) :
                     val genre = MediaUtils.getMediaGenre(AppContextProvider.appContext, media).lowercase(Locale.getDefault())
                     for (queryString in queryStrings) {
                         if (title.contains(queryString) ||
-                                location.contains(queryString) ||
-                                artist.contains(queryString) ||
-                                albumArtist.contains(queryString) ||
-                                album.contains(queryString) ||
-                                genre.contains(queryString)) {
+                            location.contains(queryString) ||
+                            artist.contains(queryString) ||
+                            albumArtist.contains(queryString) ||
+                            album.contains(queryString) ||
+                            genre.contains(queryString)) {
                             this.add(media)
                             break
                         }
