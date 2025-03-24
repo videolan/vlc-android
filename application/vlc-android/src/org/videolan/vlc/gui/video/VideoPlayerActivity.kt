@@ -1152,7 +1152,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                 }
                                 val coords = IntArray(2)
                                 surfaceView.getLocationOnScreen(coords)
-                                if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath))
+                                if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath, publish = true, context = this@VideoPlayerActivity))
                                     screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
                                 else
                                     UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)

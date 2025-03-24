@@ -20,19 +20,33 @@
 
 package org.videolan.vlc.gui.helpers
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import android.graphics.drawable.VectorDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.View.MeasureSpec
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.WorkerThread
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -50,6 +64,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
 import java.text.DecimalFormat
 
 
@@ -310,7 +325,9 @@ object BitmapUtil {
         else -> Rect(0, 0, width, height)
     }
 
-    fun saveOnDisk(bitmap: Bitmap, destPath: String):Boolean {
+    fun saveOnDisk(bitmap: Bitmap, destPath: String, publish: Boolean = false, context: Context? = null):Boolean {
+        if (publish && context == null) throw IllegalStateException("Cannot publish image without context")
+        if (publish && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) return saveImageInQ(context!!, bitmap, File(destPath).name)
         val destFile = File(destPath)
         return when {
             destFile.parentFile?.canWrite() == true -> {
@@ -319,6 +336,8 @@ object BitmapUtil {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                         FileOutputStream(destFile).use { it.write(stream.toByteArray()) }
                     }
+                    if (publish)
+                        MediaStore.Images.Media.insertImage(context!!.contentResolver, destPath, File(destPath).name, File(destPath).name);
                     true
                 } catch (e: IOException) {
                     Log.e(TAG, "Could not save image to disk", e)
@@ -330,6 +349,39 @@ object BitmapUtil {
                 false
             }
         }
+    }
+
+    /**
+     * Save image for Android version >= Q
+     *
+     * @param context the context to use to get the [android.content.ContentResolver]
+     * @param bitmap the bitmap to save
+     * @param filename the filename
+     * @return true if the bitmap has been saved successfully
+     */
+    @WorkerThread
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun saveImageInQ(context: Context, bitmap: Bitmap, filename: String): Boolean {
+        var fos: OutputStream? = null
+        var imageUri: Uri? = null
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/${Environment.DIRECTORY_SCREENSHOTS}")
+            put(MediaStore.Images.Media.IS_PENDING, 1)
+        }
+        val contentResolver = context.applicationContext.contentResolver
+        contentResolver.also { resolver ->
+            imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            fos = imageUri?.let { resolver.openOutputStream(it) }
+        }
+        fos?.use { bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it) }
+        contentValues.clear()
+        contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
+        imageUri?.let {
+            contentResolver.update(it, contentValues, null, null)
+        }
+        return imageUri != null
     }
 
 }
