@@ -4,13 +4,31 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
+import java.util.TreeMap
 
 object LocaleUtils {
+
+    fun Context.getLocales(): List<Locale> =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            ArrayList<Locale>().apply {
+                for (i in 0..resources.configuration.locales.size() - 1)
+                    add(resources.configuration.locales[i])
+            } else
+            listOf(resources.configuration.locale)
+
+    /**
+     * Get locales used in project (the one the app has translations for), prepend the given locales if provided
+     *
+     * @param projectLocales project locales
+     * @param defaultLocaleText the default string to use for the default locale
+     * @param localesToPrepend locales to prepend to the list of project locales
+     * @return a [LocalePair] containing the entries and entry values for the list of locales
+     */
     fun getLocalesUsedInProject(
         projectLocales: Array<String>,
-        defaultLocaleText: String
+        defaultLocaleText: String,
+        localesToPrepend: List<Locale>? = null
     ): LocalePair {
 
         val localesEntry = arrayOfNulls<String>(projectLocales.size)
@@ -45,6 +63,16 @@ object LocaleUtils {
             finalLocaleEntries.add(i, key)
             finalLocaleEntryValues.add(i, value)
             i++
+        }
+
+        localesToPrepend?.reversed()?.forEach {
+            if (finalLocaleEntryValues.contains(it.language)) {
+                val indexToRemove = finalLocaleEntryValues.indexOf(it.language)
+                finalLocaleEntryValues.removeAt(indexToRemove)
+                finalLocaleEntries.removeAt(indexToRemove)
+            }
+            finalLocaleEntries.add(1, it.getDisplayLanguage(it).firstLetterUppercase())
+            finalLocaleEntryValues.add(1, it.language)
         }
 
         return LocalePair(finalLocaleEntries.toTypedArray(), finalLocaleEntryValues.toTypedArray())

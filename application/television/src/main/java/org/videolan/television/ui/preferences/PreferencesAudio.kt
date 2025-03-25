@@ -43,9 +43,9 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.tools.LocaleUtils
+import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.VlcMigrationHelper
@@ -213,7 +213,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     private fun prepareLocaleList() {
-        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference), activity.getLocales())
         preferredAudioTrack.entries = localePair.localeEntries
         preferredAudioTrack.entryValues = localePair.localeEntryValues
     }
