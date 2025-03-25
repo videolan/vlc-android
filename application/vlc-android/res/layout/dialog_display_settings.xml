@@ -102,7 +102,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/display_mode_group" />
+                    app:layout_constraintTop_toBottomOf="@+id/display_mode_group"
+                    app:layout_goneMarginTop="16dp" />
 
 
             <ImageView
@@ -147,7 +148,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/show_all_artist_group" />
+                    app:layout_constraintTop_toBottomOf="@+id/show_all_artist_group"
+                    app:layout_goneMarginTop="16dp" />
 
 
             <ImageView
@@ -184,6 +186,52 @@
                     app:layout_constraintTop_toTopOf="@+id/show_all_files_group" />
 
             <View
+                    android:id="@+id/show_track_numbers_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/show_all_files_group"
+                    app:layout_goneMarginTop="16dp" />
+
+
+            <ImageView
+                    android:id="@+id/show_track_numbers_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/show_track_numbers_group"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/show_track_numbers_group"
+                    app:srcCompat="@drawable/ic_sort_track" />
+
+            <TextView
+                    android:id="@+id/show_track_numbers_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/albums_show_track_numbers"
+                    android:textColor="?attr/font_default"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/show_track_numbers_group"
+                    app:layout_constraintEnd_toStartOf="@+id/show_track_numbers_checkbox"
+                    app:layout_constraintStart_toEndOf="@id/show_track_numbers_image"
+                    app:layout_constraintTop_toTopOf="@+id/show_track_numbers_group" />
+
+            <CheckBox
+                    android:id="@+id/show_track_numbers_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/show_track_numbers_group"
+                    app:layout_constraintEnd_toEndOf="@+id/show_track_numbers_group"
+                    app:layout_constraintTop_toTopOf="@+id/show_track_numbers_group" />
+
+            <View
                     android:id="@+id/show_hidden_files_group"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -192,7 +240,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/show_all_files_group" />
+                    app:layout_constraintTop_toBottomOf="@+id/show_track_numbers_group"
+                    app:layout_goneMarginTop="16dp" />
 
 
             <ImageView
@@ -237,7 +286,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/show_hidden_files_group" />
+                    app:layout_constraintTop_toBottomOf="@+id/show_hidden_files_group"
+                    app:layout_goneMarginTop="16dp" />
 
             <ImageView
                     android:id="@+id/only_favs_image"
@@ -281,7 +331,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/only_favs_group" />
+                    app:layout_constraintTop_toBottomOf="@+id/only_favs_group"
+                    app:layout_goneMarginTop="16dp" />
 
             <ImageView
                     android:id="@+id/video_group_image"
@@ -327,7 +378,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/video_groups_group" />
+                    app:layout_constraintTop_toBottomOf="@+id/video_groups_group"
+                    app:layout_goneMarginTop="24dp" />
 
             <ImageView
                     android:id="@+id/default_actions_image"
@@ -353,7 +405,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline16"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/default_actions_image"
-                    app:layout_constraintTop_toBottomOf="@+id/video_groups_group" />
+                    app:layout_constraintTop_toTopOf="@+id/default_actions_group" />
 
             <TextView
                     android:id="@+id/default_actions_subtitle"

@@ -76,11 +76,15 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.DEFAULT_ACTIONS
+import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.SHOW_TRACK_NUMBER
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -332,17 +336,8 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.playlist_option, menu)
         if (!isPlaylist) {
-            menu.findItem(R.id.ml_menu_sortby).isVisible = true
-            val showTrackNumber = menu.findItem(R.id.ml_menu_albums_show_track_numbers)
-            showTrackNumber.isVisible = true
-            showTrackNumber.isChecked = Settings.showTrackNumber
+            menu.findItem(R.id.ml_menu_display_options).isVisible = true
         }
-        menu.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
-        menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
-        menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = viewModel.canSortByArtist()
-        menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
-        menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
-        menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()
         val searchItem = menu.findItem(R.id.ml_menu_filter)
         searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.search_in_list_hint)
@@ -362,44 +357,46 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.ml_menu_sortby_track -> {
-                viewModel.sort(Medialibrary.TrackId)
-                return true
-            }
-            R.id.ml_menu_sortby_filename -> {
-                viewModel.sort(Medialibrary.SORT_FILENAME)
-                return true
-            }
-            R.id.ml_menu_sortby_length -> {
-                viewModel.sort(Medialibrary.SORT_DURATION)
-                return true
-            }
-            R.id.ml_menu_sortby_date -> {
-                viewModel.sort(Medialibrary.SORT_RELEASEDATE)
-                return true
-            }
-            R.id.ml_menu_sortby_last_modified -> {
-                viewModel.sort(Medialibrary.SORT_LASTMODIFICATIONDATE)
-                return true
-            }
-            R.id.ml_menu_sortby_artist_name -> {
-                viewModel.sort(Medialibrary.SORT_ARTIST)
-                return true
-            }
-            R.id.ml_menu_sortby_album_name -> {
-                viewModel.sort(Medialibrary.SORT_ALBUM)
-                return true
-            }
-            R.id.ml_menu_albums_show_track_numbers -> {
-                item.isChecked = !Settings.getInstance(this).getBoolean(
-                    ALBUMS_SHOW_TRACK_NUMBER, true)
-                Settings.getInstance(this).putSingle(ALBUMS_SHOW_TRACK_NUMBER, item.isChecked)
-                Settings.showTrackNumber = item.isChecked
-                audioBrowserAdapter.notifyDataSetChanged()
-                viewModel.refresh()
+            R.id.ml_menu_display_options -> {
+                //filter all sorts and keep only applicable ones
+                val sorts = arrayListOf(Medialibrary.TrackId, Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                    viewModel.canSortBy(it)
+                }
+                //Open the display settings Bottom sheet
+                DisplaySettingsDialog.newInstance(
+                    displayInCards = null,
+                    onlyFavs = null,
+                    sorts = sorts,
+                    showTrackNumber = Settings.showTrackNumber,
+                    currentSort = viewModel.tracksProvider.sort,
+                    currentSortDesc = viewModel.tracksProvider.desc,
+                    defaultPlaybackActions = DefaultPlaybackActionMediaType.TRACK.getDefaultPlaybackActions(Settings.getInstance(this)),
+                    defaultActionType = getString(DefaultPlaybackActionMediaType.TRACK.title)
+                )
+                    .show(supportFragmentManager, "DisplaySettingsDialog")
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onDisplaySettingChanged(key: String, value: Any) {
+        when (key) {
+            CURRENT_SORT -> {
+                @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
+                viewModel.desc = sort.second
+                viewModel.sort(sort.first)
+            }
+            SHOW_TRACK_NUMBER -> {
+                val checked = value as Boolean
+                Settings.getInstance(this).putSingle(ALBUMS_SHOW_TRACK_NUMBER, checked)
+                Settings.showTrackNumber = checked
+                audioBrowserAdapter.notifyDataSetChanged()
+                viewModel.refresh()
+            }
+            DEFAULT_ACTIONS -> {
+                Settings.getInstance(this).putSingle(DefaultPlaybackActionMediaType.TRACK.defaultActionKey, (value as DefaultPlaybackAction).name)
+            }
         }
     }
 
