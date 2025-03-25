@@ -78,6 +78,7 @@ import org.videolan.tools.dp
 import org.videolan.tools.isStarted
 import org.videolan.tools.putSingle
 import org.videolan.tools.retrieveParent
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.SecondaryActivity
@@ -771,11 +772,16 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     multiSelectHelper.toggleSelection(position)
                     invalidateActionMode()
                 } else {
+                    val castAsAudio = castAsAudio()
+                    if (castAsAudio) {
+                        item.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                        PlaylistManager.playingAsAudio = true
+                    }
                     when(DefaultPlaybackActionMediaType.VIDEO.getCurrentPlaybackAction(settings)) {
-                        DefaultPlaybackAction.PLAY -> viewModel.playVideo(activity, item, position)
+                        DefaultPlaybackAction.PLAY -> viewModel.playVideo(activity, item, position, forceAudio = castAsAudio)
                         DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, item)
                         DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, item)
-                        else  -> viewModel.playVideo(activity, item, position, forceAll = true)
+                        else  -> viewModel.playVideo(activity, item, position, forceAll = true, forceAudio = castAsAudio)
                     }
                 }
             }
@@ -797,6 +803,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
         }
     }
+
+    private fun castAsAudio(): Boolean = PlaybackService.renderer.value != null && settings.getBoolean("casting_audio_only", false)
+
     companion object {
         fun newInstance() = VideoGridFragment()
     }

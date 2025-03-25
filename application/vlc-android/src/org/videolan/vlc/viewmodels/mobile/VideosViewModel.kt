@@ -126,19 +126,24 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         MediaUtils.appendMedia(context, list)
     }
 
-    internal fun playVideo(context: FragmentActivity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false, forceAll:Boolean = false) {
+    internal fun playVideo(context: FragmentActivity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false, forceAll:Boolean = false, forceAudio: Boolean = false) {
         if (context === null) return
         if (!mw.isPresent) {
             UiTools.snackerMissing(context)
             return
         }
-        mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-        PlaylistManager.playingAsAudio = false
+        if (forceAudio) {
+            mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+            PlaylistManager.playingAsAudio = true
+        } else {
+            mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+            PlaylistManager.playingAsAudio = false
+        }
         if (forceAll) {
             when(val prov = provider) {
-                is VideosProvider -> MediaUtils.playAll(context, prov, position, false)
-                is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false)
-                is VideoGroupsProvider -> MediaUtils.playAllTracks(context, prov, mw, false)
+                is VideosProvider -> MediaUtils.playAll(context, prov, position, false, forceAudio)
+                is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false, forceAudio)
+                is VideoGroupsProvider -> MediaUtils.playAllTracks(context, prov, mw, false, forceAudio)
             }
         } else {
             if (fromStart) mw.addFlags(MediaWrapper.MEDIA_FROM_START)

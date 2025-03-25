@@ -230,10 +230,11 @@ object MediaUtils {
         })
     }
 
-    fun playAll(context: Activity?, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean) = context?.scope?.launch {
+    fun playAll(context: Activity?, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean, forceAudio: Boolean = false) = context?.scope?.launch {
         provider.loadPagedList(context, {
             provider.getAll().toList()
         }, { l, service ->
+            if (forceAudio) l[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             l.takeIf { l.isNotEmpty() }?.let { list ->
                 service.load(list, if (shuffle) SecureRandom().nextInt(min(list.size, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
@@ -241,12 +242,13 @@ object MediaUtils {
         })
     }
 
-    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean) = context?.scope?.launch {
+    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean, forceAudio: Boolean = false) = context?.scope?.launch {
         provider.loadPagedList(context, {
             provider.getAll().flatMap {
                 it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, false, it.mediaCount(), 0).toList()
             }
         }, {l, service ->
+            if (forceAudio) l[l.indexOf(mediaToPlay)].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             l.takeIf { l.isNotEmpty() }?.let { list ->
                 service.load(list, if (shuffle) SecureRandom().nextInt(min(list.size, MEDIALIBRARY_PAGE_SIZE)) else list.indexOf(mediaToPlay))
                 if (shuffle && !service.isShuffling) service.shuffle()
@@ -254,10 +256,12 @@ object MediaUtils {
         })
     }
 
-    fun playAllTracks(context: Context?, provider: FoldersProvider, position: Int, shuffle: Boolean) = context?.scope?.launch {
+    fun playAllTracks(context: Context?, provider: FoldersProvider, position: Int, shuffle: Boolean, forceAudio: Boolean = false) = context?.scope?.launch {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
+                if (forceAudio) list[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+
                 service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
