@@ -15,11 +15,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.WindowInfoTracker
@@ -40,6 +42,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.RemoteAccessUtils
+import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -49,6 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var settings: SharedPreferences
     private var lastDisplayedOTPCode = ""
     var windowLayoutInfo: WindowLayoutInfo? = null
+    private val displaySettingsViewModel: DisplaySettingsViewModel by viewModels()
 
     open val displayTitle = false
     open fun forcedTheme():Int? = null
@@ -60,6 +64,14 @@ abstract class BaseActivity : AppCompatActivity() {
             FileUtils.getUri(result.data?.data)?.let { MediaUtils.openMediaNoUi(this, it) }
         }
     }
+
+    /**
+     * Triggered when a display setting is changed
+     *
+     * @param key the display settings key
+     * @param value the new display settings value
+     */
+    open fun onDisplaySettingChanged(key:String, value:Any) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         settings = Settings.getInstance(this)
@@ -93,6 +105,17 @@ abstract class BaseActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.settingChangeFlow
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                        onDisplaySettingChanged(it.key, it.value)
+                        displaySettingsViewModel.consume()
+                    }
+                }
         }
     }
 
