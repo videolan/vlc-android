@@ -968,15 +968,16 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         unregisterReceiver(btReceiver)
         alertDialog?.dismiss()
+        val isPlayingPopup = service?.isPlayingPopup ?: false
+        val isSystemPip = (service?.isInPiPMode?.value ?: false) && !isPlayingPopup
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
-                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()) {
+                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()
+                && ((!isSystemPip && isInteractive) || (isSystemPip && !isInteractive))) {
             switchToAudioMode(false)
         }
-
         cleanUI()
         stopPlayback()
         service?.playlistManager?.videoStatsOn?.postValue(false)
-        val isPlayingPopup = service?.isPlayingPopup ?: false
         if (isInteractive && !isPlayingPopup)
             service?.isInPiPMode?.value = false
 
