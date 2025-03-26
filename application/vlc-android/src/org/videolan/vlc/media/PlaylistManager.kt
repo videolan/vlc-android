@@ -982,11 +982,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 mw.removeFlags(MediaWrapper.MEDIA_FROM_START)
                 0L
             }
-            savedTime <= 0L -> when {
-                mw.time > 0L -> mw.time
+            mw.time <= 0L -> when {
+                savedTime > 0L -> savedTime
                 else -> 0L
             }
-            else -> savedTime
+            else -> mw.time
         }
         savedTime = 0L
         return start
