@@ -90,6 +90,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
     private var showVideoGroups: String? = null
     private var defaultPlaybackActions: List<DefaultPlaybackAction>? = null
     private var defaultActionType: String? = null
+    private var currentDefaultAction: DefaultPlaybackAction? = null
 
     private lateinit var binding: DialogDisplaySettingsBinding
 
@@ -252,11 +253,15 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             binding.defaultActionsGroup.setOnClickListener {
                 binding.defaultActionsSpinner.performClick()
             }
-            binding.defaultActionsSpinner.setSelection(it.indexOf(it.find { it.selected }))
+            currentDefaultAction = it.find { it.selected }
+            binding.defaultActionsSpinner.setSelection(it.indexOf(currentDefaultAction))
             binding.defaultActionsSpinner.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     val defaultPlaybackAction = defaultActionsArrayAdapter.getItem(position) as DefaultPlaybackAction
-                    lifecycleScope.launch { displaySettingsViewModel.send(DEFAULT_ACTIONS, defaultPlaybackAction) }
+                    if (defaultPlaybackAction != currentDefaultAction) {
+                        lifecycleScope.launch { displaySettingsViewModel.send(DEFAULT_ACTIONS, defaultPlaybackAction) }
+                        currentDefaultAction = defaultPlaybackAction
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
