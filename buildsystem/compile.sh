@@ -280,9 +280,9 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=e1f91b8a8a3fbaea30caee940490a20adc9a8141
+    LIBVLCJNI_TESTED_HASH=44ca3af810d4fa315c916d7b0ebb8ecdb662d891
 else
-    LIBVLCJNI_TESTED_HASH=05d76f37559e2a2e5cd4248053a76ceff5a523e1
+    LIBVLCJNI_TESTED_HASH=6ec2bf46d1a5d9938c5ab62fd7294f25e50c7e1a
 fi
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
 
