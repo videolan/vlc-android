@@ -508,6 +508,7 @@
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
+        <item name="background_default_darker">@color/grey875</item>
 
         <item name="background_default">@color/grey850</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background</item>
