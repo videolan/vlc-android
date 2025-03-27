@@ -767,7 +767,6 @@
     <string name="welcome_beta_title">VLC bèta</string>
     <string name="welcome_beta_description">Welkom bij het VLC bèta-programma.\nMerk op dat deze versie bugs kan bevatten.</string>
     <string name="welcome_beta_description_bugs">Als u een bug opmerkt, rapporteer hem op ons forum of onze bug-tracker.</string>
-    <string name="welcome_beta_description_crashes">Als u een crash ervaart, gebruik dan het VLC-reporter-pictogram in uw launcher om hem naar ons te versturen.</string>
     <string name="send">Versturen</string>
     <string name="send_crash_action_title">Wat wilt u doen?</string>
     <string name="report_a_bug">Een bug rapporteren</string>

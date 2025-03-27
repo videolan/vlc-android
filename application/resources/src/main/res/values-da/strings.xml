@@ -56,6 +56,8 @@
     <string name="append_all">Tilføj alle</string>
     <string name="resume_playback_short_title">Genoptag afspilning</string>
     <string name="resume_playback_long_title">Genoptag afspilning af sidste spilleliste</string>
+    <string name="resume_audio_playback_short_title">Genoptag lydafspilning</string>
+    <string name="resume_audio_playback_long_title">Genoptag afspilning af den seneste lydafspilningsliste</string>
     <string name="resume_playback_error">Intet at genoptage</string>
     <string name="delete">Slet</string>
     <string name="remove">Fjern</string>
@@ -63,6 +65,7 @@
     <string name="set_song_question">Anvend \'%1$s\' som ringetone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Slet filen \"%1$s\"?</string>
+    <string name="confirm_replace_playlist">Er du sikker på, du vil erstatte afspilningslisten \'%1$s\'?</string>
     <string name="confirm_delete_message">Dette er permanent og kan ikke omgøres.</string>
     <string name="confirm_delete_album">Slet albummet \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Slet disse %1$d medier?</string>
@@ -191,6 +194,18 @@
 
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="warning_stream_speed">Stigende afspilningshastighed over 1 til vandløb kan medføre stammen</string>
+    <string name="playback_speed_this_video">Denne  video</string>
+    <string name="playback_speed_this_track">Dette spor</string>
+    <string name="playback_speed_all_videos">Alle videoer</string>
+    <string name="playback_speed_all_tracks">Alle spor</string>
+    <string name="playback_speed_explanation_all_videos">Hastigheden vil blive anvendt på alle videoer.\nIndividuelle videoafspilningshastigheder vil blive ignoreret.</string>
+    <string name="playback_speed_explanation_all_tracks">Hastigheden bliver anvendt på alle spor.\nIndividuelle sporafspilningshastigheder vil blive ignoreret.</string>
+    <string name="playback_speed_explanation_all_incognito">Du er i anonymtilstand. Hastigheden vil blive normal, når du afslutter anonymtilstand.</string>
+    <string name="playback_speed_explanation_one_video">Hastigheden bliver kun anvendt med denne video</string>
+    <string name="playback_speed_explanation_one_track">Hastigheden bliver kun anvendt på dette spor</string>
+    <string name="audio_playback_speed_global">Anvend den globale afspilningshastighed</string>
+    <string name="audio_playback_speed_global_summary">Anvend den globale afspilningshastighed på alle spor.\nIndividuelle spors afspilningshastigheder vil blive ignoreret.</string>
+
     <string name="sleep_title">Sleep-timer</string>
     <string name="sleep_in">Slumre om</string>
     <string name="jump_to_time">Spring til tidspunkt</string>
@@ -234,6 +249,7 @@
     <string name="video_resume_playback_summary">Tillad at gemme video afspilningskø, så den kan genoptages senere</string>
     <string name="audio_resume_playback_title">Lyd afspilningskøhistorik</string>
     <string name="audio_resume_playback_warning">At slå lyd afspilningskøhistorik fra kan føre til visse adfærdsmæssige problemer.\nEfter den er slået fra kan du måske ikke genoptage afspilning fra:\n\n\t- en bluetooth-enhed\n\t- widget\n\t- medienotifikation</string>
+    <string name="playback_history_warning">Ved at slå afspilningshistorik fra vil historik, medieprogression og markører blive skjult. Appen vil fortsat lagre din aktivitet og aktiviteten vil blive vist, hvis historik slås til igen.\nHvis du helt vil stoppe med at lagre aktivitet, skal du anvende anonymtilstand.\nDu kan også nulstille din historik i historikvinduet eller i avancerede indstillinger.</string>
     <string name="audio_resume_playback_summary">Tillad at gemme lyd afspilningskøen så den kan genoptages senere</string>
 
     <string name="play_button">Afspil-knap</string>
@@ -355,6 +371,7 @@
     <string name="save_brightness_title">Gem niveau for lysstyrke</string>
     <string name="save_audiodelay_summary">Gem individuel lydforsinkelse for hver video</string>
     <string name="save_audiodelay_title">Gem lydforsinkelse</string>
+    <string name="video_show_orientation_button">Vis retningsknap</string>
     <string name="enable_brightness_gesture_title">Lysstyrke-gestus</string>
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
     <string name="enable_volume_gesture_title">Lydstyrke-gestus</string>
@@ -365,6 +382,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Vis hastighedsstyring i overløbsmenuen</string>
     <string name="enable_android_auto_seek_buttons">Android autosøgningsknapper</string>
     <string name="enable_android_auto_seek_buttons_summary">Vis spol tilbage og spol frem i overløbsmenuen. Prøv at bruge tidligere og næste knapper på rattet, før du slår det til.</string>
+    <string name="artist">Kunstner</string>
+    <string name="album">Album</string>
+    <string name="track">Spor</string>
+    <string name="genre">Genre</string>
+    <string name="playlist">Afspilningsliste</string>
     <string name="enable_double_tap_seek_title">Dobbelttryk for at søge</string>
     <string name="enable_double_tap_seek_summary">Dobbelttryk på skærmkanterne for at søge med 10 sekunder</string>
     <string name="enable_double_tap_play_title">Dobbelttryk for at afspille/pause</string>
@@ -383,6 +405,12 @@
     <string name="fastplay_speed_title">Hurtigafspilningshastighed</string>
     <string name="fastplay_title">Afspiller med %sx</string>
     <string name="fastplay_subtitle">Frigør for at stoppe</string>
+    <string name="show_bookmark_buttons">Vis bogmærketaster</string>
+    <string name="show_bookmark_buttons_summary">Vis taster til navigation mellem bogmærker</string>
+    <string name="show_bookmark_markers">Vis bogmærkemarkører</string>
+    <string name="show_bookmark_markers_summary">Vis bogmærkemarkører over tidsgrænsen</string>
+    <string name="show_chapter_buttons">Vis kapiteltaster</string>
+    <string name="show_chapter_buttons_summary">Vis taster til navigation mellem kapitler</string>
 
     <string name="subtitles_prefs_category">Undertekster</string>
     <string name="subtitles_size_title">Underteksters størrelse</string>
@@ -564,9 +592,9 @@
     <string name="custom_libvlc_options_invalid">Ugyldige libVLC-indstillinger!</string>
     <string name="dav1d_thread_number">Dav1d trådnummer</string>
     <string name="dav1d_thread_number_invalid">Ugyldigt trådnummer! (>=1)</string>
-
     <string name="serious_crash">Der opstod desværre en alvorlig fejl, og VLC måtte lukkes ned.</string>
     <string name="help_us_send_log">Hjælp os med at forbedre VLC ved at sende følgende log for nedbrud:</string>
+    <string name="ml_crash_send">Mediebiblioteket crashede. Du kan hjælpe os med fejlretning ved at afsende loggen.</string>
     <string name="restart_vlc">Genstart VLC</string>
     <string name="send_log">Send loggen</string>
     <string name="sending_log">Sender loggen …</string>
@@ -716,6 +744,7 @@
     <string name="episodes">episoder</string>
     <string name="movies">film</string>
     <string name="videos">videoer</string>
+    <string name="default_action_videos">Videoer</string>
     <string name="videos_all">Alle videoer</string>
     <string name="clear_playback_history">Ryd afspilningshistorik</string>
     <string name="ml_scanning">Skanner efter mediefiler</string>
@@ -876,14 +905,16 @@
     <string name="send_crash_description">Ved at sende dit nedbrud, hjælper du med at forbedre VLCs stabilitet.</string>
     <string name="send_crash_warning">Sørg for at slette eventuelle følsomme data som du ikke vil have sendt.</string>
     <string name="include_medialib">Medtag din database</string>
+    <string name="include_logs">Inkludér din log</string>
     <string name="vlc_reporter">VLC-rapport</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Velkommen i VLCs betaprogram.\nBemærk venligst at versionen kan have fejl.</string>
     <string name="welcome_beta_description_bugs">Hvis du bemærker en fejl, så rapportér det venligst i vores forum eller bug tracker.</string>
-    <string name="welcome_beta_description_crashes">Hvis du oplever et nedbrud, så brug venligst VLC-rapport-ikonet i din opstarter, for at sende det til os.</string>
+    <string name="welcome_beta_description_crashes">Hvis du ser en fejl eller et crash, vil vi bede dig om at åbne \'Om\' vinduet og anvende \'Tilbagemelding > Kontakt supportteamet\'-tasten.</string>
     <string name="send">Send</string>
     <string name="send_crash_action_title">Hvad vil du?</string>
     <string name="report_a_bug">Rapportér en fejl</string>
+    <string name="send_feedback">Send tilbagemelding</string>
     <string name="report_a_crash">Rapportér et nedbrud</string>
     <string name="describe_crash">Beskriv venligst hvordan nedbruddet skete</string>
     <string name="favorite">Favorit</string>
@@ -1067,6 +1098,8 @@
     <string name="bookmark_name">Bogmærk %s</string>
     <string name="add_bookmark">Tilføj bogmærke</string>
     <string name="bookmark_added">Bogmærke tilføjet</string>
+    <string name="previous_bookmark">Tidligere bogmærke</string>
+    <string name="next_bookmark">Næste bogmærke</string>
     <string name="show">Vis</string>
     <string name="optional_features">Valgfri funktioner</string>
     <string name="optional_features_summary">Betafunktioner, der testes i øjeblikket, og måske ikke er stabile</string>
@@ -1320,4 +1353,18 @@
     <string name="queue_format">Køformat</string>
     <string name="queue_format_short_desc">Køposition</string>
     <string name="queue_format_long_desc">Køposition / Køstørrelse</string>
+    <string name="video_settings_disclaimer">Nogle indstillinger er flyttet til videokontrolindstillinger i videoafspilleren.</string>
+    <string name="get_help">Få dog noget hjælp</string>
+    <string name="feedback_type">Tilbagemeldingstype</string>
+    <string name="how_to_use">Lær anvendelse</string>
+    <string name="send_feedback_request">Tilbagemelding / funktionsønske</string>
+    <string name="report_crash">Indrapportér et crash</string>
+    <string name="email_support">Kontakt supportteamet via email</string>
+    <string name="read_doc">LÆS MANUALEN</string>
+    <string name="subject">Emne</string>
+    <string name="body">Meddelelse</string>
+    <string name="rate_us">Bedøm app\'en</string>
+    <string name="generating_logs">Opretter log. Vent venligst. AllerVenligst!</string>
+    <string name="default_playback_action">Afspilningshandling</string>
+    <string name="files">Filer</string>
 </resources>

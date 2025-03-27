@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Wiedergabe</string>
+    <string name="quick_play">Schnellwiedergabe</string>
     <string name="playback">Wiedergabe</string>
     <string name="playback_controls">Wiedergabesteuerungen</string>
     <string name="medialibrary_scan">Medienbibliothek durchsuchen</string>
@@ -371,6 +372,7 @@
     <string name="save_brightness_title">Helligkeitseinstellung speichern</string>
     <string name="save_audiodelay_summary">Individuelle Audioverzögerung für jedes einzelne Video speichern</string>
     <string name="save_audiodelay_title">Audioverzögerung speichern</string>
+    <string name="video_show_orientation_button">Schaltfläche Ausrichtung anzeigen</string>
     <string name="enable_brightness_gesture_title">Helligkeitsgeste</string>
     <string name="enable_brightness_gesture_summary">Helligkeit durch Gesten während der Videowiedergabe steuern</string>
     <string name="enable_volume_gesture_title">Lautstärkengeste</string>
@@ -591,9 +593,14 @@
     <string name="custom_libvlc_options_invalid">Ungültige libVLC-Optionen!</string>
     <string name="dav1d_thread_number">Dav1d-Threadnummer</string>
     <string name="dav1d_thread_number_invalid">Ungültige Threadnummer! (>=1)</string>
+    <string name="browser_quick_play">Browser-Schnellwiedergabemenü</string>
+    <string name="browser_quick_play_summary">Eine Schnellwiedergabe-Aktion im Menü der Browserelemente hinzufügen. Dadurch werden Ihre Medien schneller geladen, es fehlen jedoch möglicherweise einige Metadaten</string>
+    <string name="browser_quick_play_default">Schnellwiedergabe als Standardaktion</string>
+    <string name="browser_quick_play_default_summary">Wenn aktiviert, wird durch Antippen eines Browserelements dieses mit der Schnellwiedergabe abgespielt</string>
 
     <string name="serious_crash">Leider ist ein schwerwiegender Fehler aufgetreten und VLC musste geschlossen werden.</string>
     <string name="help_us_send_log">Helfen Sie uns bei der Verbesserung des VLC, durch das Übersenden des folgenden Fehlerberichtes:</string>
+    <string name="ml_crash_send">Die Medienbibliothek ist gerade abgestürzt. Helfen Sie uns, indem Sie die Protokolle senden.</string>
     <string name="restart_vlc">VLC neu starten</string>
     <string name="send_log">Fehlerbericht senden</string>
     <string name="sending_log">Fehlerbericht wird gesendet…</string>
@@ -743,6 +750,7 @@
     <string name="episodes">Episoden</string>
     <string name="movies">Filme</string>
     <string name="videos">Videos</string>
+    <string name="default_action_videos">Videos</string>
     <string name="videos_all">Alle Videos</string>
     <string name="clear_playback_history">Wiedergabeverlauf löschen</string>
     <string name="ml_scanning">Nach Mediendateien suchen</string>
@@ -903,14 +911,16 @@
     <string name="send_crash_description">Indem Sie Ihren Absturz senden, helfen Sie uns, die VLC-Stabilität zu verbessern.</string>
     <string name="send_crash_warning">Stellen Sie sicher, dass Sie alle sensiblen Daten entfernen, die Sie nicht senden möchten.</string>
     <string name="include_medialib">Ihre Datenbank mit einbinden</string>
+    <string name="include_logs">Fügen Sie Ihre Protokolle ein</string>
     <string name="vlc_reporter">VLC-Reporter</string>
     <string name="welcome_beta_title">VLC-Beta</string>
     <string name="welcome_beta_description">Willkommen im VLC-Beta PRogramm.\nBitte beachten, dass diese Version einige Fehler haben kann.</string>
     <string name="welcome_beta_description_bugs">Wenn Sie einen Fehler bemerken, melden Sie ihn bitte in unserem Forum oder im Bug-Tracker.</string>
-    <string name="welcome_beta_description_crashes">Wenn ein Absturz auftritt, senden Sie ihn über das VLC Reporter-Symbol in Ihrem Launcher an uns.</string>
+    <string name="welcome_beta_description_crashes">Wenn ein Fehler oder Absturz auftritt, öffnen Sie bitte den Info-Bildschirm und verwenden Sie die Schaltfläche Feedback > Supportteam kontaktieren.</string>
     <string name="send">Senden</string>
     <string name="send_crash_action_title">Was möchten Sie tun?</string>
     <string name="report_a_bug">Einen Fehler melden</string>
+    <string name="send_feedback">Bewertung senden</string>
     <string name="report_a_crash">Einen Absturz melden</string>
     <string name="describe_crash">Bitte beschreiben Sie, wie dieser Absturz passiert ist</string>
     <string name="favorite">Favorit</string>
@@ -1350,4 +1360,17 @@
     <string name="queue_format_short_desc">Warteschlangenposition</string>
     <string name="queue_format_long_desc">Warteschlangenposition / Warteschlangengröße</string>
     <string name="video_settings_disclaimer">Einige Einstellungen wurden in die Videosteuerungseinstellungen im Videoplayer verschoben.</string>
+    <string name="get_help">Holen Sie sich Hilfe</string>
+    <string name="feedback_type">Feedback-Typ</string>
+    <string name="how_to_use">Erfahren Sie mehr zur Benutzung</string>
+    <string name="send_feedback_request">Feedback/Funktionsanfrage</string>
+    <string name="report_crash">Einen Absturz melden</string>
+    <string name="email_support">Kontaktieren Sie das Support-Team per E-Mail</string>
+    <string name="read_doc">Dokumentation lesen</string>
+    <string name="subject">Thema</string>
+    <string name="body">Nachricht</string>
+    <string name="rate_us">Bewerten Sie die App</string>
+    <string name="generating_logs">Protokolle werden erstellt. Bitte warten.</string>
+    <string name="default_playback_action">Wiedergabeaktion</string>
+    <string name="files">Dateien</string>
 </resources>

@@ -564,7 +564,6 @@
     <string name="custom_libvlc_options_invalid">Neplatné nastavení libVLC!</string>
     <string name="dav1d_thread_number">Číslo vlákna Dav1d</string>
     <string name="dav1d_thread_number_invalid">Neplatné číslo vlákna! (>=1)</string>
-
     <string name="serious_crash">Vyskytla se závažná chyba. VLC přehrávač bude ukončen.</string>
     <string name="help_us_send_log">Pomozte nám vylepšit VLC přehrávač zasláním protokolu o selhání aplikace:</string>
     <string name="restart_vlc">Restartovat VLC přehrávač</string>
@@ -843,7 +842,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Vítejte v aplikaci VLC Beta.\nUpozorňujeme, že tato verze může obsahovat chyby.</string>
     <string name="welcome_beta_description_bugs">Pokud zjistíte chyby, nahlaste je na našem fóru nebo nám odešlete zprávu o chybě.</string>
-    <string name="welcome_beta_description_crashes">Pokud dojde k selhání, použijte ikonu VLC zpravodaje na ploše Vaší domovské obrazovky a pošlete nám zprávu o selhání.</string>
     <string name="send">Odeslat</string>
     <string name="send_crash_action_title">Co chcete dělat?</string>
     <string name="report_a_bug">Nahlásit chybu</string>

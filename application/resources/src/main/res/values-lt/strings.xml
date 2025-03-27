@@ -405,7 +405,6 @@
     <string name="fastplay_speed_title">Sparčiojo atkūrimo greitis</string>
     <string name="fastplay_title">Atkuriama %sx greičiu</string>
     <string name="fastplay_subtitle">Norėdami sustabdyti, atleiskite</string>
-
     <string name="subtitles_prefs_category">Subtitrai</string>
     <string name="subtitles_size_title">Subtitrų dydis</string>
     <string name="subtitles_presets_title">Išankstinės subtitrų nuostatos</string>
@@ -586,7 +585,6 @@
     <string name="custom_libvlc_options_invalid">Netinkamos libVLC parinktys!</string>
     <string name="dav1d_thread_number">Dav1d gijos numeris</string>
     <string name="dav1d_thread_number_invalid">Neleistinas gijos numeris! (>=1)</string>
-
     <string name="serious_crash">Deja, dėl rimtos klaidos VLC programą reikia užverti.</string>
     <string name="help_us_send_log">Padėkite mums tobulinti VLC nusiųsdami klaidos informaciją:</string>
     <string name="restart_vlc">Iš naujo paleisti VLC</string>
@@ -906,7 +904,6 @@
     <string name="welcome_beta_title">Bandomoji VLC versija</string>
     <string name="welcome_beta_description">Jus sveikina bandomoji VLC programa.\nAtminkite, kad šioje versijoje gali būti nesklandumų.</string>
     <string name="welcome_beta_description_bugs">Jei radote klaidą, prašome mums pranešti forume arba per klaidų registravimo sistemą.</string>
-    <string name="welcome_beta_description_crashes">Jei programa nulūžtų, atsiųskite mums ataskaitą naudodami „VLC Reporter“ priemonę.</string>
     <string name="send">Siųsti</string>
     <string name="send_crash_action_title">Ką norėtumėte padaryti?</string>
     <string name="report_a_bug">Pranešti apie klaidą</string>
@@ -1350,4 +1347,4 @@
     <string name="queue_format">Eigos formatas</string>
     <string name="queue_format_short_desc">Eigos pozicija</string>
     <string name="queue_format_long_desc">Eigos pozicija / Eigos dydis</string>
-</resources>
+    </resources>

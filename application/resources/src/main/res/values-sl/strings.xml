@@ -405,7 +405,6 @@
     <string name="fastplay_speed_title">Hitrost predvajanja</string>
     <string name="fastplay_title">Pospešeno za %sx</string>
     <string name="fastplay_subtitle">Spustite za zaustavitev</string>
-
     <string name="subtitles_prefs_category">Podnapisi</string>
     <string name="subtitles_size_title">Velikost podnapisov</string>
     <string name="subtitles_presets_title">Predloge podnapisov</string>
@@ -586,7 +585,6 @@
     <string name="custom_libvlc_options_invalid">Neveljavne možnosti za libVLC!</string>
     <string name="dav1d_thread_number">Dav1d številka niti</string>
     <string name="dav1d_thread_number_invalid">Napačna številka niti! (>=1)</string>
-
     <string name="serious_crash">Prišlo do resne programske napake in predvajalnik VLC se je zaprl.</string>
     <string name="help_us_send_log">Pomagajte izboljšati program VLC in pošljite poročilo o sesutju:</string>
     <string name="restart_vlc">Ponovno zaženi VLC</string>
@@ -906,7 +904,6 @@
     <string name="welcome_beta_title">VLC beta</string>
     <string name="welcome_beta_description">Dobrodošli v programu VLC beta.\nProsimo upoštevajte, da ima lahko ta različica nekatere hrošče.</string>
     <string name="welcome_beta_description_bugs">Če opazite hrošča, ga prosim javite na našem forumu ali v sledilniku hroščev.</string>
-    <string name="welcome_beta_description_crashes">Če se program sesuje, uporabite ikono VLC javljalnika v zagonski vrstici, da nas obvestite.</string>
     <string name="send">Pošlji</string>
     <string name="send_crash_action_title">Kaj želite storiti?</string>
     <string name="report_a_bug">Prijavi hrošča</string>
@@ -1350,4 +1347,4 @@
     <string name="queue_format">Oblika čakalne vrste</string>
     <string name="queue_format_short_desc">Položaj v čakalni vrsti</string>
     <string name="queue_format_long_desc">Položaj v čakalni vrsti / velikost čakalne vrste</string>
-</resources>
+    </resources>

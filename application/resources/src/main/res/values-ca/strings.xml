@@ -314,11 +314,11 @@
     <string name="prefs_opened_on_phone">Configuració oberta al telèfon</string>
     <string name="open_on_phone">Obre a la pantalla del telèfon</string>
 
-    <string name="directories_summary">Selecciona els directoris a incloure a la Mediateca</string>
+    <string name="directories_summary">Selecciona els directoris per incloure a la mediateca</string>
     <string name="add_custom_path">Afegeix un camí personalitzat</string>
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
     <string name="remove_custom_path">Elimina el camí personalitzat</string>
-    <string name="group_ban_folder">Prohibir la carpeta de la biblioteca multimèdia</string>
+    <string name="group_ban_folder">Prohibir la carpeta de la mediateca</string>
 
     <string name="hardware_acceleration">Acceleració per maquinari</string>
     <string name="hardware_acceleration_summary">Desactivat: millor estabilitat\nDecodificant: pot millorar el rendiment\nSencer: pot millorar encara més el rendiment.</string>
@@ -371,6 +371,7 @@
     <string name="save_brightness_title">Desa el nivell de brillantor</string>
     <string name="save_audiodelay_summary">Desa el retard d\'àudio individual per a cada vídeo</string>
     <string name="save_audiodelay_title">Desa el retard d\'àudio</string>
+    <string name="video_show_orientation_button">Mostra el botó d\'orientació</string>
     <string name="enable_brightness_gesture_title">Gestos de brillantor</string>
     <string name="enable_brightness_gesture_summary">Controla la brillantor mitjançant gestos durant la reproducicó</string>
     <string name="enable_volume_gesture_title">Gestos de volum</string>
@@ -495,7 +496,7 @@
     <string name="enable_remote_access">Habilita l\'accés remot</string>
     <string name="remote_access_info">Informació d\'accés remot</string>
     <string name="remote_access_content">Contingut</string>
-    <string name="remote_access_medialibrary_content">Contingut de la biblioteca multimèdia</string>
+    <string name="remote_access_medialibrary_content">Contingut de la mediateca</string>
     <string name="remote_access_medialibrary_content_summary">Habilitat: %1$s\nInhabilitat: %2$s</string>
     <string name="remote_access_file_browser_content">Explorador de fitxers</string>
     <string name="remote_access_network_browser_content">Navegador de xarxa</string>
@@ -591,9 +592,9 @@
     <string name="custom_libvlc_options_invalid">Opcions invàlides libVLC!</string>
     <string name="dav1d_thread_number">Número de fil del Dav1d</string>
     <string name="dav1d_thread_number_invalid">Número de fil incorrecte! (>=1)</string>
-
     <string name="serious_crash">Desafortunadament, hi ha hagut un error seriós quan el VLC s\'ha tancat.</string>
     <string name="help_us_send_log">Ajudan\'s a millorar VLC enviant-nos el següent fitxer de registre de fallades:</string>
+    <string name="ml_crash_send">La mediateca acaba de fallar. Ajudeu-nos enviant els registres.</string>
     <string name="restart_vlc">Reinicia el VLC</string>
     <string name="send_log">Envia el fitxer de registre</string>
     <string name="sending_log">Enviat el fitxer de registre…</string>
@@ -619,7 +620,7 @@
     <string name="network_connection_needed">Sense connexió a la xarxa local.</string>
     <string name="search_hint">Cerca multimèdia</string>
     <string name="search_in_list_hint">Cerca en la llista actual</string>
-    <string name="search_global">Cerca en tota la Mediateca</string>
+    <string name="search_global">Cerca a tota la mediateca</string>
     <string name="playlist_save">Desa la llista de reproducció</string>
     <string name="playlist_name_hint">Nom de la llista de reproducció</string>
     <string name="chapters">Capítols</string>
@@ -633,7 +634,7 @@
     <string name="tv_ui_title">Interfície Android TV</string>
     <string name="tv_ui_summary">Canvia la interfície d\'usuari al tema adaptat per a TV</string>
     <string name="medialibrary">Mediateca</string>
-    <string name="medialibrary_directories">Carpetes de la Mediateca</string>
+    <string name="medialibrary_directories">Carpetes de la mediateca</string>
 
     <!--What's new-->
     <string name="whats_new_title">Què hi ha de nou al VLC per a Android %s</string>
@@ -743,6 +744,7 @@
     <string name="episodes">episodis</string>
     <string name="movies">pel·lícules</string>
     <string name="videos">vídeos</string>
+    <string name="default_action_videos">Vídeos</string>
     <string name="videos_all">Tots els vídeos</string>
     <string name="clear_playback_history">Esborra la història de reproducció</string>
     <string name="ml_scanning">Escanejant fitxers multimèdia</string>
@@ -752,14 +754,14 @@
     <string name="length">Durada</string>
     <string name="tv_settings_hint">Deixa apretat el botó OK per marcar/desmarcar carpetes</string>
     <string name="ml_external_storage_title">Detectat un nou emmagatzematge extern</string>
-    <string name="ml_external_storage_msg">Vols que el VLC afegeix el dispositiu %1$s a la teva Mediateca?</string>
+    <string name="ml_external_storage_msg">Voleu que el VLC afegeix el dispositiu %1$s a la vostra mediateca?</string>
     <string name="ml_external_storage_accept">Sí</string>
     <string name="ml_external_storage_decline">No</string>
     <string name="auto_last_added_media">Afegit recentment</string>
     <string name="auto_my_library">Llibreria personal</string>
     <string name="auto_home">Inici</string>
     <string name="no">No</string>
-    <string name="loading_medialibrary">Carregant Mediateca...</string>
+    <string name="loading_medialibrary">Carregant mediateca...</string>
     <string name="yes">Sí</string>
 
     <string name="custom_set_save_title">Canvis sense desar</string>
@@ -775,7 +777,7 @@
     <string name="custom_set_restored">S\'ha restablert l\'equalitzador personalitzat.</string>
     <string name="unsaved_set_deleted_message">S\'ha esborrat l\'equalitzador no guardat.</string>
     <string name="equalizer_new_preset_name">Nou</string>
-    <string name="settings_ml_block_scan">La Mediateca està escanejant el teu dispositiu ara mateix</string>
+    <string name="settings_ml_block_scan">La mediateca està escanejant el vostre dispositiu ara mateix</string>
     <string name="recommendations">Recomanacions</string>
     <string name="recommendations_desc">Targetes de recomanació al llançador</string>
     <string name="browser_quick_access">Accés ràpid</string>
@@ -903,14 +905,16 @@
     <string name="send_crash_description">Enviant-nos l\'error ens ajudareu a millorar l\'estabilitat del VLC</string>
     <string name="send_crash_warning">Assegureu-vos d\'eliminar qualsevulla dada sensible que no ens vulgueu trametre</string>
     <string name="include_medialib">Incloure-hi la vostra base de dades</string>
+    <string name="include_logs">Incloeu els vostres registres</string>
     <string name="vlc_reporter">Informador de VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Benvingut al programa beta de VLC.\nSi us plau, tingues en compte que aquesta versió pot tenir alguns errors.</string>
     <string name="welcome_beta_description_bugs">Si trobes un error, si us plau reporta\'l en el nostre fòrum o en el rastrejador d\'errors.</string>
-    <string name="welcome_beta_description_crashes">Si trobes un error, si us plau, utilitza la icona d\'Informador de VLC per a enviar-nos-el.</string>
+    <string name="welcome_beta_description_crashes">Si experimenteu un error o una fallada, obriu la pantalla Quant a i feu servir el botó Comentaris > Contacteu amb l\'equip d\'assistència.</string>
     <string name="send">Envia</string>
     <string name="send_crash_action_title">Què voleu fer?</string>
     <string name="report_a_bug">Informeu d\'un error</string>
+    <string name="send_feedback">Envieu comentaris</string>
     <string name="report_a_crash">Informa d\'una fallada</string>
     <string name="describe_crash">Per favor descriu com va passar aquesta fallada</string>
     <string name="favorite">Preferit</string>
@@ -1298,7 +1302,7 @@
     <string name="ra_onboarding_otp_desc">Amb l\'autenticació de contrasenya d\'un sol ús, eviteu l\'accés no desitjat a les vostres dades</string>
     <string name="ra_onboarding_content_title">Accés al contingut</string>
     <string name="ra_onboarding_content_desc">Trieu què es pot accedir i què no es pot accedir</string>
-    <string name="ra_onboarding_content_ml">Accés al contingut de la biblioteca multimèdia</string>
+    <string name="ra_onboarding_content_ml">Accés al contingut de la mediateca</string>
     <string name="ra_onboarding_content_files">Explorador de fitxers</string>
     <string name="ra_onboarding_content_playback">Control de reproducció</string>
     <string name="ra_disable">Desactiva</string>
@@ -1350,4 +1354,17 @@
     <string name="queue_format_short_desc">Posició de la cua</string>
     <string name="queue_format_long_desc">Posició de la cua / Mida de la cua</string>
     <string name="video_settings_disclaimer">Algunes opcions de configuració s\'han mogut a la configuració dels controls de vídeo del reproductor de vídeo.</string>
+    <string name="get_help">Obteniu ajuda</string>
+    <string name="feedback_type">Tipus de comentaris</string>
+    <string name="how_to_use">Apreneu a utilitzar</string>
+    <string name="send_feedback_request">Comentaris / sol·licitud de funció</string>
+    <string name="report_crash">Informeu d\'una fallada</string>
+    <string name="email_support">Poseu-vos en contacte amb l\'equip d\'assistència per correu electrònic</string>
+    <string name="read_doc">Llegiu la documentació</string>
+    <string name="subject">Assumpte</string>
+    <string name="body">Missatge</string>
+    <string name="rate_us">Valoreu l\'aplicació</string>
+    <string name="generating_logs">Generant els registres. Espereu.</string>
+    <string name="default_playback_action">Acció de reproducció</string>
+    <string name="files">Fitxers</string>
 </resources>

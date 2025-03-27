@@ -37,6 +37,7 @@
     </plurals>
 
     <string name="play">再生</string>
+    <string name="quick_play">クイックプレイ</string>
     <string name="playback">再生</string>
     <string name="playback_controls">再生コントロール</string>
     <string name="medialibrary_scan">メディアライブラリ検索</string>
@@ -47,7 +48,7 @@
     <string name="return_to_video">カバーを長押しでビデオを戻す</string>
     <string name="video_app_switch_title">バックグラウンド/PiPモード</string>
     <string name="video_app_switch_summary">ビデオ再生中に他のアプリケーションへ切り替えた場合の動作を選択してください</string>
-    <string name="play_pip_title">ピクチャーインピクチャーモードでビデオを再生</string>
+    <string name="play_pip_title">ピクチャーインピクチャーモード(PiP)でビデオを再生</string>
     <string name="play_as_audio_background">バックグラウンドでビデオを再生</string>
     <string name="append">再生キューに追加</string>
     <string name="insert_next">次に挿入</string>
@@ -340,8 +341,8 @@
     <string name="interface_prefs_screen">インターフェース</string>
     <string name="interface_secondary_display_category_title">セカンダリディスプレイ</string>
     <string name="interface_secondary_display_category_summary">二台目のディスプレイが (HDMI/Chromecast) で接続された場合の設定</string>
-    <string name="enable_clone_mode">クローンの選択</string>
-    <string name="enable_clone_mode_summary">リモート制御なしでスクリーンを複製</string>
+    <string name="enable_clone_mode">クローンを優先</string>
+    <string name="enable_clone_mode_summary">リモートコントロールなしでスクリーンを複製</string>
 
     <string name="video_prefs_category">ビデオ</string>
     <string name="video_min_group_length_title">ビデオをグループ化</string>
@@ -360,15 +361,16 @@
     <string name="save_brightness_title">輝度を保存</string>
     <string name="save_audiodelay_summary">個々のビデオごとにオーディオの遅延を保存</string>
     <string name="save_audiodelay_title">オーディオの遅延を保存</string>
+    <string name="video_show_orientation_button">向きのボタンを表示</string>
     <string name="enable_brightness_gesture_title">ジェスチャーで輝度調整</string>
     <string name="enable_brightness_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整を有効にします。</string>
     <string name="enable_volume_gesture_title">ジェスチャーで音量変更</string>
     <string name="enable_volume_gesture_summary">ビデオ再生中のジェスチャーによる音量調整</string>
     <string name="enable_seek_buttons">シークボタン</string>
     <string name="enable_seek_buttons_summary">進めると戻るボタンをビデオインターフェースに表示</string>
-    <string name="enable_android_auto_speed_buttons">Androidの自動再生速度</string>
+    <string name="enable_android_auto_speed_buttons">Android Autoの再生速度</string>
     <string name="enable_android_auto_speed_buttons_summary">オーバーフローメニューで速度制御を表示</string>
-    <string name="enable_android_auto_seek_buttons">アンドロイド自動シークボタン</string>
+    <string name="enable_android_auto_seek_buttons">Android Autoのシークボタン</string>
     <string name="enable_android_auto_seek_buttons_summary">オーバーフローメニューで進めると戻るを表示。有効化する前に次、前のボタンを操作したままにしてみてください。</string>
     <string name="artist">アーティスト</string>
     <string name="album">アルバム</string>
@@ -466,7 +468,7 @@
     <string name="aout_summary">オーディオ出力に使用するメソッドを変更します。</string>
     <string name="audio_ducking_title">通知時にVLCの音量を下げる</string>
     <string name="audio_ducking_summary">音声通知、ナビゲーションまたはアシスタント会話を聴き取りやすくする</string>
-    <string name="casting_category">配信</string>
+    <string name="casting_category">キャスティング</string>
     <string name="remote_access">リモートアクセス</string>
     <string name="remote_access_version_title">リモートアクセスバージョン</string>
     <string name="remote_access_hash_title">リモートアクセスハッシュ</string>
@@ -496,7 +498,7 @@
     <string name="casting_audio_only">オーディオのみ</string>
     <string name="casting_audio_only_summary">オーディオのみキャスト、ビデオなし</string>
     <string name="casting_conversion_quality_title">変換品質</string>
-    <string name="casting_conversion_quality_summary">リモートスクリーンへの配信品質の選択</string>
+    <string name="casting_conversion_quality_summary">リモートスクリーンへキャスティングする場合の変換品質の選択</string>
     <string name="casting_quality_high">高</string>
     <string name="casting_quality_medium">中</string>
     <string name="casting_quality_low">低</string>
@@ -516,7 +518,7 @@
     <string name="extension_permission_title">新しい拡張機能 \"%1$s\" を有効化しますか?</string>
     <string name="extension_permission_checkbox_title">%1$s の中で表示</string>
     <string name="extension_prefs_activation_title">有効化</string>
-    <string name="android_auto">アンドロイド自動</string>
+    <string name="android_auto">Android Auto</string>
 
     <string name="controls_prefs_category">コントロール</string>
 
@@ -528,7 +530,7 @@
     <string name="deblocking_nonkey">ブロック化抑止最小</string>
     <string name="deblocking_all">ブロック化抑止なし (高速)</string>
     <string name="enable_frame_skip">フレームスキップ</string>
-    <string name="enable_frame_skip_summary">デコーディング速度を向上しますが、ビデオ品質は低くなります。</string>
+    <string name="enable_frame_skip_summary">デコーディング速度は向上しますが、ビデオ品質は低くなります。</string>
     <string name="enable_time_stretching_audio">タイムストレッチングオーディオを有効化</string>
     <string name="enable_time_stretching_audio_summary">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
 
@@ -539,7 +541,7 @@
     <string name="dump_app_db">アプリケーションデータべースをダンプ</string>
     <string name="dump_media_db_summary">データベースを内部ストレージのrootへコピー</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
-    <string name="clear_media_database_summary">やり直すためにデータベースをクリアします</string>
+    <string name="clear_media_database_summary">データベースをクリアして最初からやり直す</string>
     <string name="clear_app_data">アプリケーションデータをクリア</string>
     <string name="clear_app_data_summary">VLC for Androidのデータをクリア</string>
     <string name="clear_history">履歴をクリア</string>
@@ -572,17 +574,22 @@
     <string name="copy_to_clipboard">クリップボードにコピー</string>
     <string name="copied_to_clipboard">クリップボードにコピーされたログ</string>
     <string name="copied_from_clipboard">クリップボードからアドレスが貼り付けられました</string>
-    <string name="dump_logcat">logcatがログをダンプ</string>
-    <string name="dump_logcat_success">Logcatが %1$s にログをダンプしました!</string>
-    <string name="dump_logcat_failure">logcatがダンプに失敗しました。</string>
+    <string name="dump_logcat">logcatログをダンプ</string>
+    <string name="dump_logcat_success">logcatが %1$s にログをダンプしました!</string>
+    <string name="dump_logcat_failure">logcatのダンプに失敗しました。</string>
     <string name="http_user_agent">HTTPユーザーエージェント</string>
     <string name="custom_libvlc_options">libVLCのカスタムオプション</string>
     <string name="custom_libvlc_options_invalid">libVLCのオプションが不正です!</string>
     <string name="dav1d_thread_number">Dav1dのスレッド番号</string>
     <string name="dav1d_thread_number_invalid">スレッド番号が正しくありません! (>=1)</string>
+    <string name="browser_quick_play">ブラウザのクイックプレイメニュー</string>
+    <string name="browser_quick_play_summary">クイックプレイのアクションをブラウザの項目のメニューに追加します。メディアのロードは高速化されますが、一部のメタデータが失われます。</string>
+    <string name="browser_quick_play_default">デフォルトのアクションにクイックプレイを設定</string>
+    <string name="browser_quick_play_default_summary">有効化するとブラウザの項目をタップするとクイックプレイを利用して再生します</string>
 
     <string name="serious_crash">深刻なエラーが発生したため、VLCを終了しました。</string>
     <string name="help_us_send_log">以下のクラッシュログを送信することでVLCの改善に協力してください:</string>
+    <string name="ml_crash_send">メディアライブラリがクラッシュしました。ログを送信して開発者にフィードバックします。</string>
     <string name="restart_vlc">VLCの再起動</string>
     <string name="send_log">ログの送信</string>
     <string name="sending_log">ログを送信中…</string>
@@ -591,7 +598,7 @@
     <string name="delete_sub_message">この字幕を削除しますか?</string>
     <string name="download_subtitle_title">字幕をダウンロード</string>
 
-    <string name="no_result">結果がみつかりません</string>
+    <string name="no_result">結果が見つかりません</string>
     <string name="no_internet_connection">インターネット接続を確認してください</string>
     <string name="retry">再試行</string>
     <string name="open_subs_download_error">OpenSubtitles は現在利用できません。あとで再試行してください。</string>
@@ -620,7 +627,7 @@
     <string name="confirm_resume_title">再生していたビデオを再開</string>
     <string name="confirm_resume_audio_title">再生していたオーディオを再開</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
-    <string name="tv_ui_summary">TVのテーマにUIを変更</string>
+    <string name="tv_ui_summary">TV対応のテーマにUIを変更</string>
     <string name="medialibrary">メディアライブラリ</string>
     <string name="medialibrary_directories">メディアライブラリフォルダー</string>
 
@@ -638,7 +645,7 @@
     <string name="open_in_browser">ブラウザーで開く</string>
     <string name="install">インストール</string>
     <string name="install_nightly">ナイトリーバージョンをインストール</string>
-    <string name="install_nightly_alert">ナイトリー版は試験的なバージョンで毎日更新されています。\n\n新しい機能がすぐに利用できますが、新しいバグもある可能性があります!</string>
+    <string name="install_nightly_alert">ナイトリーバージョンは試験のために毎日更新されています。\n\n新しい機能をすぐに利用できますが、新たなバグもあるかもしれません!</string>
     <string name="nightly_version">見つかったバージョン: %2$s - %1$s</string>
     <string name="update_nightly_alert">ナイトリーバージョンを使用中です。定期的にアップデートを希望しますか?</string>
     <string name="update_nightly">自動更新</string>
@@ -732,6 +739,7 @@
     <string name="episodes">エピソード</string>
     <string name="movies">映画</string>
     <string name="videos">ビデオ</string>
+    <string name="default_action_videos">ビデオ</string>
     <string name="videos_all">すべてのビデオ</string>
     <string name="clear_playback_history">再生履歴をクリア</string>
     <string name="ml_scanning">メディアファイルを検索中</string>
@@ -857,8 +865,8 @@
     <string name="create">作成</string>
     <string name="resume_card_message">%1$s の再生を再開?</string>
     <string name="misc">その他</string>
-    <string name="popup_force_legacy_title">カスタマイズされたピクチャーインピクチャーポップアップを使用</string>
-    <string name="popup_force_legacy_summary">サイズ変更可能なカスタマイズされたピクチャーインピクチャーポップアップを使用</string>
+    <string name="popup_force_legacy_title">カスタムピクチャーインピクチャーポップアップを使用</string>
+    <string name="popup_force_legacy_summary">サイズ変更可能なカスタムピクチャーインピクチャーポップアップを使用</string>
     <string name="restore_background_video_title">バックグラウンドからビデオを復元</string>
     <string name="restore_background_video_summary">VLC for Androidを起動した時、バックグランドからビデオを復元する</string>
     <string name="device_default">デバイスのデフォルト</string>
@@ -890,14 +898,16 @@
     <string name="send_crash_description">あなたのクラッシュの事象を送信することでVLCの品質を向上することにご協力頂けます。</string>
     <string name="send_crash_warning">あなたが送信を望まない個人情報は削除することが可能です。</string>
     <string name="include_medialib">あなたのデータベースを含む</string>
+    <string name="include_logs">あなたのログを含む</string>
     <string name="vlc_reporter">VLCレポーター</string>
     <string name="welcome_beta_title">VLCベータ</string>
     <string name="welcome_beta_description">VLCのベータプログラムへようこそ。\nこのバージョンはバグが残存しているかもしれません。</string>
     <string name="welcome_beta_description_bugs">バグに気づいたら、私達のフォームまたは、バグトラッカーからレポートをお願いいたします。</string>
-    <string name="welcome_beta_description_crashes">もしクラッシュ事象が発生したら、あなたのラウンチャーの中にあるVLCレポーターアイコンを使用して送信してください。</string>
+    <string name="welcome_beta_description_crashes">バグやクラッシュに遭遇した場合、「VLCについて」を開いてフィードバックフォームからサポートチームにコンタクトしてください。</string>
     <string name="send">送信</string>
     <string name="send_crash_action_title">どのようにしますか?</string>
     <string name="report_a_bug">バグをレポート</string>
+    <string name="send_feedback">フィードバックを送信</string>
     <string name="report_a_crash">クラッシュをレポート</string>
     <string name="describe_crash">このクラッシュがどのようにして発生したか記述をお願いします</string>
     <string name="favorite">お気に入り</string>
@@ -1041,7 +1051,7 @@
     <string name="soundfont">MIDIサウンドフォント</string>
     <string name="soundfont_summary">MIDIオーディオトラック再生のためにサウンドフォントファイルを選択する</string>
     <string name="missing_media_snack">メディアが見つかりません。すべての見つからないメディアを非表示にしますか?</string>
-    <string name="browser_show_missing_media">見つからないメディアを表示</string>
+    <string name="browser_show_missing_media">欠落したメディアを表示</string>
     <string name="browser_show_missing_media_summary">現在、存在しない古いデータを表示</string>
     <string name="parental_control">ペアレンタルコントロール</string>
     <string name="safe_mode">セーフモード</string>
@@ -1108,7 +1118,7 @@
     <string name="lock_use_sensor_summary">スクリーン方向がロックされている時、センサーの検知で反転を許可する</string>
     <string name="start">開始</string>
     <string name="notification_permission">通知権限</string>
-    <string name="notification_permission_explanation">VLCは通知を送信するために許可が必要です。\nアプリケーションがメディアをスキャンする時、およびカスタムのピクチャーインピクチャーを使用する時のみ通知を行います。\n通知を拒否してもVLCは動作しますが、通知が行われなくなります。</string>
+    <string name="notification_permission_explanation">VLCは通知を送信するために許可が必要です。\nアプリケーションがメディアをスキャンする時、およびカスタムピクチャーインピクチャーを使用する時のみ通知を行います。\n通知を拒否してもVLCは動作しますが、通知が行われなくなります。</string>
     <string name="permission">権限</string>
     <string name="permission_no_access">ファイルアクセスがありません</string>
     <string name="permissions">権限</string>
@@ -1274,7 +1284,7 @@
     <string name="ra_otp_subtitle">あなたによるアクセスの場合、このコードを他のデバイスに入力してください。</string>
     <string name="ra_otp_not_me">私ではありません</string>
 
-    <string name="ra_onboarding_welcome_desc">Androidのリモートアクセス用VLCにようこそ\nこれを有効化すると、このデバイスの再生などを制御できるようになります</string>
+    <string name="ra_onboarding_welcome_desc">Android版VLCのリモートアクセスにようこそ\nこれを有効化すると、このデバイスの再生などを制御できるようになります</string>
     <string name="ra_onboarding_how_title">デバイスの制御</string>
     <string name="ra_onboarding_how_desc">デバイスの再生、ファイルの送信または受信などを制御</string>
     <string name="ra_onboarding_ssl_title">データ暗号化</string>
@@ -1335,4 +1345,17 @@
     <string name="queue_format_short_desc">キューの位置</string>
     <string name="queue_format_long_desc">キューの位置/キューのサイズ</string>
     <string name="video_settings_disclaimer">一部の設定はビデオプレーヤーのビデオコントロール設定に移動されました。</string>
+    <string name="get_help">ヘルプを求める</string>
+    <string name="feedback_type">フィードバックのタイプ</string>
+    <string name="how_to_use">利用方法について学ぶ</string>
+    <string name="send_feedback_request">フェードバック/機能追加リクエスト</string>
+    <string name="report_crash">クラッシュをレポート</string>
+    <string name="email_support">emailデサポートチームにコンタクトする</string>
+    <string name="read_doc">ドキュメントを読む</string>
+    <string name="subject">タイトル</string>
+    <string name="body">メッセージ</string>
+    <string name="rate_us">アプリケーションを評価</string>
+    <string name="generating_logs">ログを生成しています。しばらくお待ちください。</string>
+    <string name="default_playback_action">再生アクション</string>
+    <string name="files">ファイル</string>
 </resources>

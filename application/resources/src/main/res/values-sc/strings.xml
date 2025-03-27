@@ -371,6 +371,7 @@
     <string name="save_brightness_title">Sarva su livellu de luminosidade</string>
     <string name="save_audiodelay_summary">Sarva su ritardu àudio individuale pro cada vìdeu</string>
     <string name="save_audiodelay_title">Sarva su ritardu àudio</string>
+    <string name="video_show_orientation_button">Ammustra su butone de orientamentu</string>
     <string name="enable_brightness_gesture_title">Gestos pro sa luminosidade</string>
     <string name="enable_brightness_gesture_summary">Controlla sa luminosidade pro mèdiu de gestos durante sa riprodutzione de vìdeos</string>
     <string name="enable_volume_gesture_title">Gestos pro su volume</string>
@@ -591,9 +592,9 @@
     <string name="custom_libvlc_options_invalid">Optziones libVLC non vàlidas!</string>
     <string name="dav1d_thread_number">Nùmeru de filu (thread) de su Dav1d</string>
     <string name="dav1d_thread_number_invalid">Nùmeru de filu invàlidu (>=1)</string>
-
     <string name="serious_crash">Isfortunatamente b\'est istadu un\'errore grave e VLC est istadu serradu.</string>
     <string name="help_us_send_log">Agiuda·nos a megiorare VLC imbiende custu registru de errore:</string>
+    <string name="ml_crash_send">Sa biblioteca multimediale s\'est blocada como. Agiuda·nos imbiende·nos sos registros.</string>
     <string name="restart_vlc">Torra a allùghere VLC</string>
     <string name="send_log">Imbia su registru</string>
     <string name="sending_log">Imbiende su registru…</string>
@@ -903,14 +904,16 @@
     <string name="send_crash_description">Imbiende·nos una sinnalatzione a pitzu de sa serradura anòmala tua as a agiudare a megiorare s\'istabilidade de VLC.</string>
     <string name="send_crash_warning">Dae cara e faghe in modu de bogare cale si siat datu sensìbile chi non cheres imbiare.</string>
     <string name="include_medialib">Inclui sa base de datos tua</string>
+    <string name="include_logs">Include sos registros tuos</string>
     <string name="vlc_reporter">Sinnaladore VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bene bènnidu in su programma beta de VLC.\nPro praghere ammenta·ti chi custa versione diat pòdere tènnere carchi problema.</string>
     <string name="welcome_beta_description_bugs">Si notas una faddina pro praghere sinnala·la in su forum o in s\'arrastadore de faddinas nostru.</string>
-    <string name="welcome_beta_description_crashes">Si si verìficat una serradura anòmala, pro praghere imprea s\'icona de su sinnaladore de VLC in s\'allughidore (launcher) pro nos imbiare una sinnalatzione.</string>
+    <string name="welcome_beta_description_crashes">Si atzapas una faddina de còdighe o una serrada anòmala (crash), aberi s\'ischermada de sas Informatziones e imprea su butone Sinnalatzione > Cuntata s\'iscuadra de suportu.</string>
     <string name="send">Imbia</string>
     <string name="send_crash_action_title">Ite cheres fàghere?</string>
     <string name="report_a_bug">Sinnala una faddina</string>
+    <string name="send_feedback">Imbia una sinnalatzione</string>
     <string name="report_a_crash">Sinnala un\'istudada anòmala (crash)</string>
     <string name="describe_crash">Pro praghere descrie·nos comente est acontèssida cust\'istudadura</string>
     <string name="favorite">Preferidu</string>
@@ -1350,4 +1353,15 @@
     <string name="queue_format_short_desc">Positzione de s\'elencu de riprodutzione</string>
     <string name="queue_format_long_desc">Positzione de s\'elencu / Mannària de s\'elencu de riprodutzione</string>
     <string name="video_settings_disclaimer">Unas cantas impostatziones sunt istadas mòvidas a sas impostatziones de sos controllos in su leghidore de vìdeos.</string>
-</resources>
+    <string name="get_help">Retzi agiudu</string>
+    <string name="feedback_type">Casta de sinnalatzione</string>
+    <string name="how_to_use">Impara comente l\'impreare</string>
+    <string name="send_feedback_request">Sinnalatzione / dimanda de funtzionalidade</string>
+    <string name="report_crash">Sinnala un\'istudada anòmala (crash)</string>
+    <string name="email_support">Cuntata s\'iscuadra de suportu impreende sa posta eletrònica</string>
+    <string name="read_doc">Leghe sa documentatzione</string>
+    <string name="subject">Ogetu</string>
+    <string name="body">Messàgiu</string>
+    <string name="rate_us">Vota s\'aplicatzione</string>
+    <string name="generating_logs">Generende sos registros. Iseta.</string>
+    </resources>

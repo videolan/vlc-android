@@ -664,7 +664,6 @@
     <string name="welcome_beta_title">VLC beta</string>
     <string name="welcome_beta_description">Witamy w programie VLC beta.\nPamiętaj, że ta wersja może zawierać błędy.</string>
     <string name="welcome_beta_description_bugs">Jeśli zauważysz błąd, zgłoś go na naszym forum lub w narzędziu do śledzenia błędów.</string>
-    <string name="welcome_beta_description_crashes">W przypadku wystąpienia awarii, użyj ikony VLC reporter w Twoim launcherze, aby wysłać ją do nas.</string>
     <string name="send">Wyślij</string>
     <string name="send_crash_action_title">Co chcesz zrobić?</string>
     <string name="report_a_bug">Zgłosić błąd</string>

@@ -567,7 +567,6 @@
     <string name="welcome_beta_title">VLC เบต้า</string>
     <string name="welcome_beta_description">ยินดีต้อนรับสู่โปรแกรมเบต้าของ VLC\nโปรดทราบว่ารุ่นนี้อาจมีจุดบกพร่องบางประการ</string>
     <string name="welcome_beta_description_bugs">หากคุณพบจุดบกพร่อง โปรดรายงานในฟอรัมของเราหรือโปรแกรมติดตามจุดบกพร่อง</string>
-    <string name="welcome_beta_description_crashes">หากคุณพบข้อขัดข้อง โปรดใช้ไอคอนโปรแกรมรายงานของ VLC ในตัวเปิดใช้งานของคุณเพื่อส่งถึงเรา</string>
     <string name="send">ส่ง</string>
     <string name="send_crash_action_title">คุณต้องการทำอะไร</string>
     <string name="report_a_bug">รายงานจุดบกพร่อง</string>

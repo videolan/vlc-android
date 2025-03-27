@@ -574,7 +574,6 @@
     <string name="custom_libvlc_options_invalid">Pilihan libVLC tidak sah!</string>
     <string name="dav1d_thread_number">Nombor jaluran Dav1d</string>
     <string name="dav1d_thread_number_invalid">Nombor jaluran tidak sah! (>=1)</string>
-
     <string name="serious_crash">Malangnya, satu ralat yang serius telah berlaku dan VLC perlu ditutup.</string>
     <string name="help_us_send_log">Bantu kami mempertingkatkan VLC dengan menghantar log kerosakan berikut:</string>
     <string name="restart_vlc">Mula semula VLC</string>
@@ -888,7 +887,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Selamat datang ke program VLC beta.\nSila fahami versi ini ada mengandungi pepijat.</string>
     <string name="welcome_beta_description_bugs">Jika anda menemui sebarang pepijat, sila laporkannya di dalam forum atau penjejak pepijat kami.</string>
-    <string name="welcome_beta_description_crashes">Jika anda mengalami kerosakan, sila klik ikon Pelapor VLC di dalam pelancar anda untuk menghantar masalah tersebut kepada kami.</string>
     <string name="send">Hantar</string>
     <string name="send_crash_action_title">Apa yang anda mahu lakukan?</string>
     <string name="report_a_bug">Laporkan pepijat</string>
@@ -1329,4 +1327,4 @@
     <string name="queue_format_short_desc">Kedudukan baris gilir</string>
     <string name="queue_format_long_desc">Kedudukan / Saiz baris gilir</string>
     <string name="video_settings_disclaimer">Beberapa tetapan telah dialih ke tetapan kawalan video, dalam pemain video.</string>
-</resources>
+    </resources>

@@ -39,6 +39,7 @@
     </plurals>
 
     <string name="play">Riproduci</string>
+    <string name="quick_play">Riproduzione rapida</string>
     <string name="playback">Riproduzione</string>
     <string name="playback_controls">Controlli di riproduzione</string>
     <string name="medialibrary_scan">Scansione raccolta multimediale</string>
@@ -382,6 +383,7 @@
     <string name="save_brightness_title">Salva il livello di luminosità</string>
     <string name="save_audiodelay_summary">Salva ritardo audio individuale per ogni video</string>
     <string name="save_audiodelay_title">Salva ritardo audio</string>
+    <string name="video_show_orientation_button">Mostra il pulsante di orientazione</string>
     <string name="enable_brightness_gesture_title">Gesti della luminosità</string>
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
     <string name="enable_volume_gesture_title">Gesti del volume</string>
@@ -602,9 +604,14 @@
     <string name="custom_libvlc_options_invalid">Opzioni libVLC non valide!</string>
     <string name="dav1d_thread_number">Numero thread Dav1d</string>
     <string name="dav1d_thread_number_invalid">Numero thread non valido! (>=1)</string>
+    <string name="browser_quick_play">Menu di riproduzione rapida del browser</string>
+    <string name="browser_quick_play_summary">Aggiungi un\'azione di riproduzione rapida nel menu degli elementi del browser. Caricherà i tuoi media più velocemente, ma alcuni metadati potrebbero mancare</string>
+    <string name="browser_quick_play_default">Riproduzione rapida come azione predefinita</string>
+    <string name="browser_quick_play_default_summary">Se attivato, il tocco di un elemento del browser lo riprodurrà utilizzando la riproduzione rapida</string>
 
     <string name="serious_crash">Sfortunatamente, si è verificato un errore grave e VLC è stato chiuso.</string>
     <string name="help_us_send_log">Aiutaci a migliorare VLC inviando il seguente registro del crash:</string>
+    <string name="ml_crash_send">La libreria multimediale si è appena bloccata. Aiutaci inviandoci i log.</string>
     <string name="restart_vlc">Riavvia VLC</string>
     <string name="send_log">Invia il registro</string>
     <string name="sending_log">Invio del registro in corso…</string>
@@ -754,6 +761,7 @@
     <string name="episodes">episodi</string>
     <string name="movies">film</string>
     <string name="videos">video</string>
+    <string name="default_action_videos">Video</string>
     <string name="videos_all">Tutti i video</string>
     <string name="clear_playback_history">Cancella cronologia di riproduzione</string>
     <string name="ml_scanning">Scansione file multimediali</string>
@@ -916,14 +924,16 @@
     <string name="send_crash_description">Inviando la tua chiusura inattesa, ci aiuterai a migliorare la stabilità di VLC.</string>
     <string name="send_crash_warning">Assicurati di rimuovere i dati sensibili che non vuoi inviare.</string>
     <string name="include_medialib">Includi il tuo database</string>
+    <string name="include_logs">Includi i tuoi log</string>
     <string name="vlc_reporter">Strumento di segnalazione di VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Benvenuto nel programma VLC beta.\nNota che questa versione potrebbe presentare dei bug.</string>
     <string name="welcome_beta_description_bugs">Se noti un bug, segnalalo nel nostro forum o utilizzando il sistema di tracciamento dei bug.</string>
-    <string name="welcome_beta_description_crashes">Se riscontri una chiusura inattesa, utilizza l\'icona dello strumento di segnalazione di VLC per inviarcelo.</string>
+    <string name="welcome_beta_description_crashes">Se riscontri un bug o un arresto anomalo, apri la schermata Informazioni e utilizza il pulsante Segnalazione > Contatta la squadra di supporto.</string>
     <string name="send">Invia</string>
     <string name="send_crash_action_title">Cosa vuoi fare?</string>
     <string name="report_a_bug">Segnala un bug</string>
+    <string name="send_feedback">Invia segnalazione</string>
     <string name="report_a_crash">Segnala una chiusura inattesa</string>
     <string name="describe_crash">Descrivi come questa chiusura inattesa si è verificata</string>
     <string name="favorite">Preferito</string>
@@ -1365,4 +1375,17 @@
     <string name="queue_format_short_desc">Posizione della coda</string>
     <string name="queue_format_long_desc">Posizione della coda / Dimensione della coda</string>
     <string name="video_settings_disclaimer">Alcune impostazioni sono state spostate nelle impostazioni dei controlli nel lettore video.</string>
+    <string name="get_help">Ottieni aiuto</string>
+    <string name="feedback_type">Tipo di segnalazione</string>
+    <string name="how_to_use">Scopri come utilizzarlo</string>
+    <string name="send_feedback_request">Segnalazione / richiesta di funzionalità</string>
+    <string name="report_crash">Segnala un arresto anomalo</string>
+    <string name="email_support">Contatta la squadra di supporto tramite email</string>
+    <string name="read_doc">Leggi la documentazione</string>
+    <string name="subject">Oggetto</string>
+    <string name="body">Messaggio</string>
+    <string name="rate_us">Valuta l\'applicazione</string>
+    <string name="generating_logs">Generazione dei log. Attendi</string>
+    <string name="default_playback_action">Azione di riproduzione</string>
+    <string name="files">File</string>
 </resources>

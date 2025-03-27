@@ -211,6 +211,7 @@
     <string name="playback_speed_all_tracks">Todas as faixas</string>
     <string name="playback_speed_explanation_all_videos">A velocidade será aplicada a todos os vídeos.\nA velocidade de reprodução de vídeos individuais será ignorada.</string>
     <string name="playback_speed_explanation_all_tracks">A velocidade será aplicada a todas as faixas.\nA velocidade de reprodução de faixas individuais será ignorada.</string>
+    <string name="playback_speed_explanation_all_incognito">Está no modo de navegação anónima. A velocidade voltará ao normal quando sair do modo de navegação anónima.</string>
     <string name="playback_speed_explanation_one_video">A velocidade será aplicada apenas a este vídeo</string>
     <string name="playback_speed_explanation_one_track">A velocidade será aplicada apenas a esta faixa</string>
     <string name="audio_playback_speed_global">Utilizar a velocidade de reprodução global</string>
@@ -381,6 +382,7 @@
     <string name="save_brightness_title">Guardar nível de brilho</string>
     <string name="save_audiodelay_summary">Guardar atraso de áudio de cada vídeo individualmente</string>
     <string name="save_audiodelay_title">Guardar atraso de áudio</string>
+    <string name="video_show_orientation_button">Mostrar botão de orientação</string>
     <string name="enable_brightness_gesture_title">Gestos para brilho</string>
     <string name="enable_brightness_gesture_summary">Controlar o brilho com um gesto durante a reprodução do vídeo</string>
     <string name="enable_volume_gesture_title">Gestos para volume</string>
@@ -391,6 +393,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Mostrar controlo de velocidade no menu flutuante</string>
     <string name="enable_android_auto_seek_buttons">Botões de procura do Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Mostra os botões de recuar e avançar rápido no menu flutuante. Tente manter premidos os botões de avançar e retroceder no volante antes de ativar.</string>
+    <string name="artist">Artista</string>
+    <string name="album">Álbum</string>
+    <string name="track">Faixa</string>
+    <string name="genre">Género</string>
+    <string name="playlist">Lista de reprodução</string>
     <string name="enable_double_tap_seek_title">Toque duplo para pesquisar</string>
     <string name="enable_double_tap_seek_summary">Toque duplo nas margens do ecrã para mover 10 segundos</string>
     <string name="enable_double_tap_play_title">Toque duplo para reproduzir/pausar</string>
@@ -596,9 +603,9 @@
     <string name="custom_libvlc_options_invalid">Opções de libVLC inválidas!</string>
     <string name="dav1d_thread_number">Número do \'thread\' Dav1d</string>
     <string name="dav1d_thread_number_invalid">Número do \'thread\' inválido! (>=1)</string>
-
     <string name="serious_crash">Infelizmente, ocorreu um erro sério e o VLC teve de fechar.</string>
     <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando-nos o seguinte registo de erro:</string>
+    <string name="ml_crash_send">Ocorreu uma falha com a biblioteca multimédia. Ajude-nos enviando os registos.</string>
     <string name="restart_vlc">Reiniciar o VLC</string>
     <string name="send_log">Enviar o registo</string>
     <string name="sending_log">A enviar o registo…</string>
@@ -901,7 +908,7 @@
     <string name="validation_delete_playlist">Tem a certeza que quer eliminar esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
     <string name="display_settings">Definições de visualização</string>
-    <string name="incognito_mode">Modo incógnito</string>
+    <string name="incognito_mode">Modo anónimo</string>
     <string name="display_in_list">Mostrar em lista</string>
     <string name="display_in_grid">Mostrar em grelha</string>
     <string name="dump_db_succes">Base de dados descarregada (dumped) na raiz da memória interna</string>
@@ -910,14 +917,16 @@
     <string name="send_crash_description">Ao enviar a sua falha, ajuda-nos a melhorar a estabilidade do VLC.</string>
     <string name="send_crash_warning">Tenha a certeza que remove todos os dados confidenciais que não deseja enviar.</string>
     <string name="include_medialib">Incluir a sua base de dados</string>
+    <string name="include_logs">Incluir os seus registos</string>
     <string name="vlc_reporter">Relator VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bem-vindo ao programa beta do VLC.\nObserve que esta versão pode ter alguns erros.</string>
     <string name="welcome_beta_description_bugs">Se detetar um erro, comunique-o no nosso fórum ou no nosso registo de erros.</string>
-    <string name="welcome_beta_description_crashes">Se ocorrer uma falha, por favor utilize o ícone do Relator VLC no seu lançador para enviá-lo para nós.</string>
+    <string name="welcome_beta_description_crashes">Se tiver um erro ou uma falha, abra o ecrã Sobre de e utilize o botão Feedback > Contactar a equipa de suporte.</string>
     <string name="send">Enviar</string>
     <string name="send_crash_action_title">O que quer fazer?</string>
     <string name="report_a_bug">Reportar um erro/bug</string>
+    <string name="send_feedback">Enviar comentários</string>
     <string name="report_a_crash">Reportar uma falha/crash</string>
     <string name="describe_crash">Por favor descreva como essa falha aconteceu</string>
     <string name="favorite">Favorito</string>
@@ -1359,4 +1368,15 @@
     <string name="queue_format_short_desc">Posição na fila</string>
     <string name="queue_format_long_desc">Posição na fila / tamanho da fila</string>
     <string name="video_settings_disclaimer">Algumas definições foram movidas para as definições dos controlos de vídeo no leitor de vídeo.</string>
-</resources>
+    <string name="get_help">Obter ajuda</string>
+    <string name="feedback_type">Tipo de comentários</string>
+    <string name="how_to_use">Saiba como utilizar</string>
+    <string name="send_feedback_request">Pedido de comentários / funcionalidades</string>
+    <string name="report_crash">Reportar uma falha</string>
+    <string name="email_support">Contactar a equipa de suporte por e-mail</string>
+    <string name="read_doc">Leia a documentação</string>
+    <string name="subject">Assunto</string>
+    <string name="body">Mensagem</string>
+    <string name="rate_us">Avalie a aplicação</string>
+    <string name="generating_logs">A gerar registos. Aguarde.</string>
+    </resources>

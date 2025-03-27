@@ -713,7 +713,6 @@
     <string name="welcome_beta_title">VLC ബീറ്റ</string>
     <string name="welcome_beta_description">VLC ബീറ്റ പ്രോഗ്രാമിലേക്ക് സ്വാഗതം.\nഈ പതിപ്പിന് ചില ബഗുകൾ‌ ഉണ്ടാവാം.</string>
     <string name="welcome_beta_description_bugs">ഒരു ബഗ് നിങ്ങളുടെ ശ്രദ്ധയിൽപ്പെട്ടാൽ, ദയവായി ഇത് ഞങ്ങളുടെ ഫോറത്തിലോ ബഗ് ട്രാക്കറിലോ റിപ്പോർട്ടുചെയ്യുക.</string>
-    <string name="welcome_beta_description_crashes">നിങ്ങൾ ഒരു ക്രാഷ് അനുഭവപ്പെടുകയാണെങ്കിൽ, അത് ഞങ്ങൾക്ക് അയയ്‌ക്കുന്നതിന് നിങ്ങളുടെ ലോഞ്ചറിലെ VLC റിപ്പോർട്ടർ ഐക്കൺ ഉപയോഗിക്കുക.</string>
     <string name="send">അയയ്‌ക്കുക</string>
     <string name="send_crash_action_title">നിങ്ങൾ എന്താണ് ചെയ്യാൻ ഉദേശിക്കുന്നത്?</string>
     <string name="report_a_bug">ഒരു ബഗ് റിപ്പോർട്ട് ചെയ്യുക</string>

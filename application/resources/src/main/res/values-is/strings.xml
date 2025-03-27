@@ -336,7 +336,6 @@
     <string name="albums_show_track_numbers">Sýna spornúmer</string>
     <string name="enable_video_screenshot">Taka skjámynd</string>
     <string name="fastplay_subtitle">Sleppa til að stoppa</string>
-
     <string name="subtitles_prefs_category">Skjátextar</string>
     <string name="subtitles_size_title">Stærð skjátexta</string>
     <string name="subtitles_presets_title">Forstillingar skjátexta</string>
@@ -745,7 +744,6 @@
     <string name="welcome_beta_title">VLC-prófunarútgáfa</string>
     <string name="welcome_beta_description">Velkomin í VLC-beta prófunarútgáfuna.\nAthugaðu að þessi útgáfa gæti innihaldið ýmsar villur í kóða.</string>
     <string name="welcome_beta_description_bugs">Ef þú rekst á villu, skaltu endilega tilkynna hana á spjallsvæðinu okkar eða í villuskráningunni.</string>
-    <string name="welcome_beta_description_crashes">Ef þú verður fyrir hruni, þá ættirðu að nota táknmyndina fyrir \"VLC-skýrslugerð\" í ræsinum þínum til að senda upplýsingar um það til okkar.</string>
     <string name="send">Senda</string>
     <string name="send_crash_action_title">Hvað viltu gera?</string>
     <string name="report_a_bug">Tilkynna um villu</string>

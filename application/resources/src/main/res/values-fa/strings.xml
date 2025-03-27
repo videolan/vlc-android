@@ -707,7 +707,6 @@
     <string name="vlc_reporter">گزارشگر VLC</string>
     <string name="welcome_beta_title">پخش کننده VLC نسخه آزمایشی</string>
     <string name="welcome_beta_description_bugs">اگر متوجه مشکلی شدید لطفا آن را در انجمن یا ردیاب مشکلات گزارش دهید</string>
-    <string name="welcome_beta_description_crashes">اگر با توقف ناگهانی روبه‌رو شدید لطفا از نماد گزارشگر VLC در اجرا کننده خود استفاده کنید تا آن را برای ما ارسال کنید</string>
     <string name="send">ارسال</string>
     <string name="send_crash_action_title">شما می خواهید چه کار انجام دهید؟</string>
     <string name="report_a_bug">گزارش یک مشکل</string>

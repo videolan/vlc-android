@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Esita</string>
+    <string name="quick_play">Kiiresitus</string>
     <string name="playback">Taasesitamine</string>
     <string name="playback_controls">Esitamise juhtimine</string>
     <string name="medialibrary_scan">Meediakogu töötlemine</string>
@@ -298,7 +299,7 @@
     <!-- About -->
     <string name="app_name_full">VLC Androidile</string>
     <string name="revision">Revisjon</string>
-    <string name="about">Programmist</string>
+    <string name="about">Rakenduse teave</string>
     <string name="about_vlc_text">VLC Androidile™ on avatud lähtekoodiga populaarse VLC meediaesitaja üks arendusi. Androidi™ versioon suudab avada enamikke meediafaile ja voogedastusvorminguid.</string>
     <string name="authors">Autorid</string>
     <string name="vlc_authors">ja VLC autorid.</string>
@@ -371,6 +372,7 @@
     <string name="save_brightness_title">Salvesta heleduse tase</string>
     <string name="save_audiodelay_summary">Salvesta igale videole oma heli viivitus</string>
     <string name="save_audiodelay_title">Salvesta heli viivitus</string>
+    <string name="video_show_orientation_button">Näita paigutuse nuppu</string>
     <string name="enable_brightness_gesture_title">Eredus viibates</string>
     <string name="enable_brightness_gesture_summary">Muuda video esitamise ajal eredust viibates</string>
     <string name="enable_volume_gesture_title">Helivaljus viibates</string>
@@ -591,9 +593,14 @@
     <string name="custom_libvlc_options_invalid">Vigased libVLC valikud!</string>
     <string name="dav1d_thread_number">Dav1di lõimesid</string>
     <string name="dav1d_thread_number_invalid">Vigane lõimede arv! (>=1)</string>
+    <string name="browser_quick_play">Kiiresitus sisusirvija menüüs</string>
+    <string name="browser_quick_play_summary">Lisab kiiresituse sisusirvija menüüsse. Meedia laadimine toimib kiiresituse puhul kiiremini, aga osa metainfot võib puudu olla.</string>
+    <string name="browser_quick_play_default">Kiiresitus on vaikimisi tegevus</string>
+    <string name="browser_quick_play_default_summary">Kui see eelistus on kasutusel, siis meediakirje klõpsimisel käivitub kiiresitus</string>
 
     <string name="serious_crash">Kahjuks on juhtunud mingi tõsine jama ja VLC pidi sulguma.</string>
     <string name="help_us_send_log">Aita meil VLC parendada, saates teele järgnev kinnijooksulogi:</string>
+    <string name="ml_crash_send">Meediakogu on just jooksnud kokku. Saates meile logid saad sa aidata vea parandamisel.</string>
     <string name="restart_vlc">Taaskäivita VLC</string>
     <string name="send_log">Saada logi</string>
     <string name="sending_log">Logi saatmine...</string>
@@ -745,6 +752,7 @@
     <string name="episodes">episoodi</string>
     <string name="movies">filmi</string>
     <string name="videos">videod</string>
+    <string name="default_action_videos">Videod</string>
     <string name="videos_all">Kõik videod</string>
     <string name="clear_playback_history">Tühjenda esitamise ajalugu</string>
     <string name="ml_scanning">Otsin meediafaile</string>
@@ -782,8 +790,8 @@
     <string name="recommendations_desc">Soovituste vahekaardid käivitajas</string>
     <string name="browser_quick_access">Kiirligipääs</string>
     <string name="browser_storages">Andmekandjad</string>
-    <string name="msg_delete_failed">Meedia %1$s tuvastamine ebaõnnestus</string>
-    <string name="renderer_list_title">Kuvad</string>
+    <string name="msg_delete_failed"> „%1$s“ meedia kustutamine ei õnnestunud</string>
+    <string name="renderer_list_title">Ekraanid</string>
     <string name="sdcard_permission_dialog_title">Sa pead lubama VLC\'l salvestada andmeid SD-kaardile</string>
     <string name="sdcard_permission_dialog_message">Ilma kirjutusõiguseta ei saa VLC seda faili kustutada.\nLiigu SD-kaardi vaatesse ja klõpsi nuppu „Vali“.\nVõib-olla pead ülalt paremalt menüüst esmalt klikkama valikut „Näita SD-kaarti“</string>
     <string name="dialog_sd_wizard">Näita mulle</string>
@@ -905,14 +913,16 @@
     <string name="send_crash_description">Kui sa saadad meile teated kokkujooksmise kohta, siis see võimaldab parandaad VLC stabiilsust ja töökindlust.</string>
     <string name="send_crash_warning">Palun kontrolli, et oled eemaldanud kõik andmed, mida sa ei soovi edasi saata.</string>
     <string name="include_medialib">Kaasa oma andmebaas</string>
+    <string name="include_logs">Kaasa rakenduse logid</string>
     <string name="vlc_reporter">VLC veateavitaja</string>
     <string name="welcome_beta_title">VLC beeta</string>
     <string name="welcome_beta_description">Tere tulemast kasutama VLC beetaversooni.\nPalun arvesta, et siin versioonis võib leiduda veel vigu.</string>
     <string name="welcome_beta_description_bugs">Kui märkad mõnda viga, siis palun anna sellest meie veahaldussüsteemis või foorumis teada.</string>
-    <string name="welcome_beta_description_crashes">Kui rakendus jookseb kokku, siis palun anna klõpsa VLC veateavitaja ikooni oma nutiseadme käivitajas ning anna veast meile teada.</string>
+    <string name="welcome_beta_description_crashes">Kui puutud kokku mõne veaga või on rakendus kokku jooksnud, palun ava vaade „Rakenduse teave“ ja sealt klõpsi valikuid „Tagaside“ ning „Võta ühendust kasutajatoega e-posti teel“.</string>
     <string name="send">Saada</string>
     <string name="send_crash_action_title">Mida sa soovid teha?</string>
     <string name="report_a_bug">Teata veast</string>
+    <string name="send_feedback">Saada tagasisidet</string>
     <string name="report_a_crash">Teata kokkujooksmisest</string>
     <string name="describe_crash">Palun kirjelda kuidas programm kokku jooksis</string>
     <string name="favorite">Lemmikud</string>
@@ -1353,4 +1363,17 @@
     <string name="queue_format_short_desc">Esitusjärjekorra asukoht</string>
     <string name="queue_format_long_desc">Esitusjärjekorra asukoht / Esitusjärjekorra suurus</string>
     <string name="video_settings_disclaimer">Mõned seadistused asuvad videomängija juhtnuppude seadistustes.</string>
+    <string name="get_help">Otsi abiteavet</string>
+    <string name="feedback_type">Tagasiside tüüp</string>
+    <string name="how_to_use">Õpi rakendust kasutama</string>
+    <string name="send_feedback_request">Tagasiside / uue funktsionaalsuse ettepanek</string>
+    <string name="report_crash">Teata rakenduse kokkujooksmisest</string>
+    <string name="email_support">Võta ühendust kasutajatoega e-posti teel</string>
+    <string name="read_doc">Loe dokumentatsiooni</string>
+    <string name="subject">Pealkiri</string>
+    <string name="body">Sõnumi sisu</string>
+    <string name="rate_us">Hinda rakendust</string>
+    <string name="generating_logs">Koondame logisid. Palun oota.</string>
+    <string name="default_playback_action">Tegevus taasesitusel</string>
+    <string name="files">Failid</string>
 </resources>

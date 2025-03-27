@@ -809,7 +809,6 @@
     <string name="welcome_beta_title">VLC بيتا</string>
     <string name="welcome_beta_description">مرحبًا بك في برنامج VLC بيتا.\nالرجاء ملاحظة أن هذا الإصدار قد يحتوي على بعض الأخطاء.</string>
     <string name="welcome_beta_description_bugs">إذا لاحظت وجود خطأ ، فيرجى الإبلاغ عنه في منتدانا أو أداة تعقب الأخطاء.</string>
-    <string name="welcome_beta_description_crashes">إذا واجهت تعطلًا ، فيرجى استخدام رمز إبلاغ VLC في المشغل لإرساله إلينا.</string>
     <string name="send">أرسل</string>
     <string name="send_crash_action_title">ما الذي تريد فعله؟</string>
     <string name="report_a_bug">أبلغ عن علّة</string>

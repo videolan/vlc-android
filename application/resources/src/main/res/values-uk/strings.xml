@@ -400,6 +400,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Показати управління швидкістю в меню переповнення</string>
     <string name="enable_android_auto_seek_buttons">Кнопки пошуку Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Показувати перемотування та швидкий перехід вперед у меню переповнення. Спробуйте утримувати кнопки «Назад» і «Далі» на кермі, перш ніж увімкнути.</string>
+    <string name="artist">Виконавець</string>
+    <string name="album">Альбом</string>
+    <string name="track">Доріжка</string>
+    <string name="genre">Жанр</string>
+    <string name="playlist">Список відтворення</string>
     <string name="enable_double_tap_seek_title">Подвійний натиск для пошуку</string>
     <string name="enable_double_tap_seek_summary">Подвійний натиск по краях екрану, щоб шукати за 10 секунд</string>
     <string name="enable_double_tap_play_title">Подвійний натиск для відтворення/паузи</string>
@@ -418,7 +423,6 @@
     <string name="fastplay_speed_title">Швидкість швидкого відтворення</string>
     <string name="fastplay_title">Відтворюється на швидкості %sx</string>
     <string name="fastplay_subtitle">Відпустіть, щоб зупинитись</string>
-
     <string name="subtitles_prefs_category">Субтитри</string>
     <string name="subtitles_size_title">Розмір субтитрів</string>
     <string name="subtitles_presets_title">Попередні налаштування субтитрів</string>
@@ -599,7 +603,6 @@
     <string name="custom_libvlc_options_invalid">Недійсні параметри libVLC!</string>
     <string name="dav1d_thread_number">Номер потоку Dav1d</string>
     <string name="dav1d_thread_number_invalid">Нечинний номер потоку! (>=1)</string>
-
     <string name="serious_crash">Несподівано трапилася серйозна помилка, тому VLC довелося закрити.</string>
     <string name="help_us_send_log">Допомогти нам поліпшити VLC, відправивши журнал аварії:</string>
     <string name="restart_vlc">Перезапустити VLC</string>
@@ -751,6 +754,7 @@
     <string name="episodes">епізоди</string>
     <string name="movies">фільми</string>
     <string name="videos">відео</string>
+    <string name="default_action_videos">Відео</string>
     <string name="videos_all">Усі відео</string>
     <string name="clear_playback_history">Очистити журнал відтворення</string>
     <string name="ml_scanning">Сканування на медіафайли</string>
@@ -919,7 +923,6 @@
     <string name="welcome_beta_title">VLC бета</string>
     <string name="welcome_beta_description">Вітаємо у програмі VLC бета.\nБудь ласка, зауважте, що ця версія може містити хиби.</string>
     <string name="welcome_beta_description_bugs">Якщо ви зауважили якусь хибу, будь ласка, повідомте про неї на нашому форумі чи відстежувачі хиб.</string>
-    <string name="welcome_beta_description_crashes">Якщо у вас стався збій, будь ласка, використовуйте піктограму VLC Reporter у своєму пускачі, щоб надіслати звіт нам.</string>
     <string name="send">Надіслати</string>
     <string name="send_crash_action_title">Що ви хочете робити?</string>
     <string name="report_a_bug">Повідомити про хибу</string>
@@ -1363,4 +1366,4 @@
     <string name="queue_format">Формат черги</string>
     <string name="queue_format_short_desc">Позиція у черзі</string>
     <string name="queue_format_long_desc">Позиція у черзі / розмір черги</string>
-</resources>
+    </resources>

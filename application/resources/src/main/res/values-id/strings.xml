@@ -770,7 +770,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Selamat datang di program beta VLC.\nSilahkan catat versi ini mungkin memiliki beberapa celah,</string>
     <string name="welcome_beta_description_bugs">Jika anda memperhatikan sebuah celah, silahkan laporkan ini ke forum kami atau pelacak celah.</string>
-    <string name="welcome_beta_description_crashes">Jika anda mengalami kerusakan, silahkan gunakan ikon VLC Reporter di peluncur anda untuk mengirimkan ke kami.</string>
     <string name="send">Kirim</string>
     <string name="send_crash_action_title">Apa yang ingin anda lakukan?</string>
     <string name="report_a_bug">Laporkan bug</string>

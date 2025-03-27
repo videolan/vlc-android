@@ -371,6 +371,7 @@
     <string name="save_brightness_title">Fényerő szintjének mentése</string>
     <string name="save_audiodelay_summary">Hangkésleltetés mentése külön az összes videóhoz</string>
     <string name="save_audiodelay_title">Hangkésleltetés mentése</string>
+    <string name="video_show_orientation_button">Tájolás gomb megjelenítése</string>
     <string name="enable_brightness_gesture_title">Fényerősség gesztus</string>
     <string name="enable_brightness_gesture_summary">Fényerő szabályozása gesztussal videólejátszás közben</string>
     <string name="enable_volume_gesture_title">Hangerő gesztus</string>
@@ -591,9 +592,9 @@
     <string name="custom_libvlc_options_invalid">Érvénytelen libVLC beállítások.</string>
     <string name="dav1d_thread_number">Dav1d szálak száma</string>
     <string name="dav1d_thread_number_invalid">Érvénytelen szálszám! (>=1)</string>
-
     <string name="serious_crash">Sajnos egy komoly hiba történt, és a VLC-nek be kellett záródnia.</string>
     <string name="help_us_send_log">Segítsen a VLC tökéletesítésében a következő összeomlásnapló elküldésével:</string>
+    <string name="ml_crash_send">A médiatár összeomlott. Segítsen nekünk a naplók elküldésével.</string>
     <string name="restart_vlc">VLC újraindítása</string>
     <string name="send_log">Naplófájl küldése</string>
     <string name="sending_log">Naplófájl küldése…</string>
@@ -903,14 +904,16 @@
     <string name="send_crash_description">Az összeomlás elküldésével segít a VLC stabilitásának fejlesztésében.</string>
     <string name="send_crash_warning">Győződjön meg róla, hogy törli azokat az érzékeny adatokat, amelyeket nem akar elküldeni.</string>
     <string name="include_medialib">Az adatbázis is legyen benne</string>
+    <string name="include_logs">Naplók hozzáadása </string>
     <string name="vlc_reporter">VLC jelentő</string>
     <string name="welcome_beta_title">VLC béta</string>
     <string name="welcome_beta_description">Üdvözöljük a VLC béta programban.\nVegye figyelembe, hogy a verzió hibákat tartalmazhat.</string>
     <string name="welcome_beta_description_bugs">Ha hibát vesz észre, jelentse a fórumon vagy a hibakövetőben.</string>
-    <string name="welcome_beta_description_crashes">Ha összeomlást tapasztal, akkor használja a VLC jelentő ikont az indítóban, hogy elküldje nekünk.</string>
+    <string name="welcome_beta_description_crashes">Ha hibát vagy összeomlást tapasztal, nyissa meg a Névjegy képernyőt, és használja a Visszajelzés > Kapcsolatfelvétel a támogatási csapattal gombot.</string>
     <string name="send">Küldés</string>
     <string name="send_crash_action_title">Mit szeretne tenni?</string>
     <string name="report_a_bug">Hiba jelentése</string>
+    <string name="send_feedback">Visszajelzés küldése</string>
     <string name="report_a_crash">Összeomlás jelentése</string>
     <string name="describe_crash">Írja le, hogyan történt az összeomlás</string>
     <string name="favorite">Kedvenc</string>
@@ -1350,4 +1353,15 @@
     <string name="queue_format_short_desc">Pozíció a lejátszási sorban</string>
     <string name="queue_format_long_desc">Pozíció a lejátszási sorban / méret</string>
     <string name="video_settings_disclaimer">Egyes beállítások át lettek helyezve a videóvezérlési beállításokhoz a videólejátszóban.</string>
-</resources>
+    <string name="get_help">Segítség kérése</string>
+    <string name="feedback_type">Visszajelzés típusa</string>
+    <string name="how_to_use">Tudja meg, hogyan használja</string>
+    <string name="send_feedback_request">Visszajelzés/funkciókérés</string>
+    <string name="report_crash">Összeomlás jelentése</string>
+    <string name="email_support">Kapcsolatfelvétel a támogatási csapattal e-mailben</string>
+    <string name="read_doc">Dokumentáció elolvasása</string>
+    <string name="subject">Tárgy</string>
+    <string name="body">Üzenet</string>
+    <string name="rate_us">Az alkalmazás értékelése</string>
+    <string name="generating_logs">Naplók előállítása. Kis türelmet.</string>
+    </resources>

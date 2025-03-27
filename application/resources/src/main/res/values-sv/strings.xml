@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Spela upp</string>
+    <string name="quick_play">Snabbuppspelning</string>
     <string name="playback">Uppspelning</string>
     <string name="playback_controls">Uppspelningskontroller</string>
     <string name="medialibrary_scan">Skanning av mediabibliotek</string>
@@ -371,6 +372,7 @@
     <string name="save_brightness_title">Spara ljusstyrkenivån</string>
     <string name="save_audiodelay_summary">Spara individuell ljudfördröjning för varje video</string>
     <string name="save_audiodelay_title">Spara ljudfördröjning</string>
+    <string name="video_show_orientation_button">Visa orienteringsknapp</string>
     <string name="enable_brightness_gesture_title">Ljusstyrkegester</string>
     <string name="enable_brightness_gesture_summary">Kontrollera ljusstyrkan med gester under videouppspelning</string>
     <string name="enable_volume_gesture_title">Volymgester</string>
@@ -591,9 +593,10 @@
     <string name="custom_libvlc_options_invalid">Ogiltiga libVLC-alternativ!</string>
     <string name="dav1d_thread_number">Trådnummer för Dav1d</string>
     <string name="dav1d_thread_number_invalid">Ogiltigt trådnummer! (>=1)</string>
-
+    <string name="browser_quick_play_default">Snabbuppspelning som standardåtgärd</string>
     <string name="serious_crash">Tyvärr uppstod ett allvarligt fel och VLC blev tvungen att stängas ned.</string>
     <string name="help_us_send_log">Hjälp oss att förbättra VLC genom att skicka följande kraschlogg:</string>
+    <string name="ml_crash_send">Mediabiblioteket kraschade precis. Hjälp oss genom att skicka loggarna.</string>
     <string name="restart_vlc">Starta om VLC</string>
     <string name="send_log">Skicka loggen</string>
     <string name="sending_log">Skickar loggen…</string>
@@ -743,6 +746,7 @@
     <string name="episodes">episoder</string>
     <string name="movies">filmer</string>
     <string name="videos">videor</string>
+    <string name="default_action_videos">Videor</string>
     <string name="videos_all">Alla videor</string>
     <string name="clear_playback_history">Rensa uppspelningshistorik</string>
     <string name="ml_scanning">Skannar för mediafiler</string>
@@ -903,14 +907,16 @@
     <string name="send_crash_description">Genom att skicka din krasch kommer du att hjälpa oss att förbättra VLC:s stabilitet</string>
     <string name="send_crash_warning">Säkerställ att du tar bort känslig data som du inte vill skicka</string>
     <string name="include_medialib">Inkludera din databas</string>
+    <string name="include_logs">Inkludera dina loggar</string>
     <string name="vlc_reporter">VLC-rapportering</string>
     <string name="welcome_beta_title">VLC-beta</string>
     <string name="welcome_beta_description">Välkommen till VLC:s betaprogarm.\nNotera att denna version kan ha vissa fel.</string>
     <string name="welcome_beta_description_bugs">Om du upptäcker ett fel, rapportera det i vårt forum eller felhanteringssystem.</string>
-    <string name="welcome_beta_description_crashes">Använd appen VLC-rapportering för att skicka kraschinformation till oss om du råkar ut för en krasch.</string>
+    <string name="welcome_beta_description_crashes">Öppna Om > Återkoppling och använd knappen Kontakta supportteamet om en bugg eller krasch inträffar.</string>
     <string name="send">Skicka</string>
     <string name="send_crash_action_title">Vad vill du göra?</string>
     <string name="report_a_bug">Rapportera en bugg</string>
+    <string name="send_feedback">Skicka återkoppling</string>
     <string name="report_a_crash">Rapportera en krasch</string>
     <string name="describe_crash">Beskriv hur denna krasch inträffade</string>
     <string name="favorite">Favoritmarkera</string>
@@ -1350,4 +1356,17 @@
     <string name="queue_format_short_desc">Köposition</string>
     <string name="queue_format_long_desc">Köposition/-storlek</string>
     <string name="video_settings_disclaimer">Vissa inställningar har flyttats till videokontrollinställningarna i videospelaren.</string>
+    <string name="get_help">Skaffa hjälp</string>
+    <string name="feedback_type">Återkopplingstyp</string>
+    <string name="how_to_use">Användningshjälp</string>
+    <string name="send_feedback_request">Återkoppling / förslag på funktionalitet</string>
+    <string name="report_crash">Rapportera en krasch</string>
+    <string name="email_support">Kontakta supportteamet via e-post</string>
+    <string name="read_doc">Läs dokumentationen</string>
+    <string name="subject">Ämne</string>
+    <string name="body">Meddelande</string>
+    <string name="rate_us">Betygsätt appen</string>
+    <string name="generating_logs">Loggar genereras. Var god vänta.</string>
+    <string name="default_playback_action">Uppspelningsåtgärd</string>
+    <string name="files">Filer</string>
 </resources>

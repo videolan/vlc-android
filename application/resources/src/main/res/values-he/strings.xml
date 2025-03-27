@@ -40,6 +40,7 @@
     </plurals>
 
     <string name="play">לנגן</string>
+    <string name="quick_play">נגינה מהירה</string>
     <string name="playback">נגינה</string>
     <string name="playback_controls">פקדי נגינה</string>
     <string name="medialibrary_scan">סריקת ספריית מדיה</string>
@@ -387,6 +388,7 @@
     <string name="save_brightness_title">שמירת רמת הבהירות</string>
     <string name="save_audiodelay_summary">שמירת השהיית שמע נקודתית לכל סרטון</string>
     <string name="save_audiodelay_title">שמירת השהיית השמע</string>
+    <string name="video_show_orientation_button">הצגת כפתור כיוון</string>
     <string name="enable_brightness_gesture_title">מחוות בהירות</string>
     <string name="enable_brightness_gesture_summary">ניתן לשלוט בבהירות באמצעות מחוות במהלך נגינת הווידאו</string>
     <string name="enable_volume_gesture_title">מחוות עצמת שמע</string>
@@ -607,9 +609,14 @@
     <string name="custom_libvlc_options_invalid">אפשרויות libVLC שגויות!</string>
     <string name="dav1d_thread_number">מספר תהליכון Dav1d</string>
     <string name="dav1d_thread_number_invalid">מספר תהליכון שגוי! (>=1)</string>
+    <string name="browser_quick_play">תפריט נגינה מהירה בדפדפן</string>
+    <string name="browser_quick_play_summary">הוספת פעולת נגינה מהירה בפריטי תפריט הדפדפן. היא תטעון את המדיה שלך מהר יותר אבל חלק מנתוני העל יהיו חסרים.</string>
+    <string name="browser_quick_play_default">נגינה מהירה כפעולת ברירת מחדל</string>
+    <string name="browser_quick_play_default_summary">אם האפשרות פעילה, לחיצה על פריט דפדפן תנגן אותו דרך נגינה מהירה</string>
 
     <string name="serious_crash">אתרע מזלך והתרחשה תקלה איומה, לפיכך נכפה על VLC להיסגר.</string>
     <string name="help_us_send_log">ניתן לסייע לנו לשפר את VLC ע״י שליחת דוח הקריסה הבא:</string>
+    <string name="ml_crash_send">ספריית המדיה קרסה כרגע. נשמח לקבל ממך את היומנים כדי לסייע.</string>
     <string name="restart_vlc">הפעלת VLC מחדש</string>
     <string name="send_log">שליחת הדוח</string>
     <string name="sending_log">הדוח נשלח…</string>
@@ -759,6 +766,7 @@
     <string name="episodes">פרקים</string>
     <string name="movies">סרטים</string>
     <string name="videos">סרטונים</string>
+    <string name="default_action_videos">סרטונים</string>
     <string name="videos_all">כל הסרטונים</string>
     <string name="clear_playback_history">מחיקת היסטוריית הנגינה</string>
     <string name="ml_scanning">מתבצעת סריקה לאיתור קובצי מדיה</string>
@@ -921,14 +929,16 @@
     <string name="send_crash_description">שליחת דוח הקריסה שלך, מסייעת לנו בשיפור היציבות של VLC.</string>
     <string name="send_crash_warning">נא לוודא שהסרת פרטים אישיים שאין לך עניין לשלוח.</string>
     <string name="include_medialib">לכלול את מסד הנתונים שלך</string>
+    <string name="include_logs">לכלול את היומנים שלך</string>
     <string name="vlc_reporter">המדווח של VLC</string>
     <string name="welcome_beta_title">VLC בטא</string>
     <string name="welcome_beta_description">ברוך בורך לתכנית הבטא של VLC.\nנא לשים לב שבגרסה זו עשויות להופיע מגוון תקלות.</string>
     <string name="welcome_beta_description_bugs">אם הבחנת בתקלה, נא לדווח עליה לפורום או למערכת דיווח התקלות שלנו.</string>
-    <string name="welcome_beta_description_crashes">אם חווית קריסה, נא להשתמש בסמל המדווח של VLC שבתכנית המשגר שלך כדי לשלוח אותה אלינו.</string>
+    <string name="welcome_beta_description_crashes">אם נתקלת בתקלה או קריסה, נא לפתוח את מסך על אודות ולהשתמש בכפתור משוב > יצירת קשר עם צוות התמיכה.</string>
     <string name="send">שליחה</string>
     <string name="send_crash_action_title">מה ברצונך לעשות?</string>
     <string name="report_a_bug">לדווח על תקלה</string>
+    <string name="send_feedback">שליחת משוב</string>
     <string name="report_a_crash">לדווח על קריסה</string>
     <string name="describe_crash">נא לתאר איך אירעה הקריסה הזאת</string>
     <string name="favorite">סימון כמועדף</string>
@@ -1372,4 +1382,17 @@
     <string name="queue_format_short_desc">מקום בתור</string>
     <string name="queue_format_long_desc">מקום בתור / גודל התור</string>
     <string name="video_settings_disclaimer">חלק מההגדרות הועברו להגדרות פקדי הווידאו בנגן הווידאו.</string>
+    <string name="get_help">קבלת עזרה</string>
+    <string name="feedback_type">סוג המשוב</string>
+    <string name="how_to_use">הסבר איך להשתמש</string>
+    <string name="send_feedback_request">משוב / בקשת יכולת</string>
+    <string name="report_crash">דיווח על קריסה</string>
+    <string name="email_support">יצירת קשר עם צוות התמיכה בדוא״ל</string>
+    <string name="read_doc">פנייה לתיעוד</string>
+    <string name="subject">נושא</string>
+    <string name="body">הודעה</string>
+    <string name="rate_us">דירוג היישומון</string>
+    <string name="generating_logs">היומנים נוצרים. נא להמתין.</string>
+    <string name="default_playback_action">פעולת נגינה</string>
+    <string name="files">קבצים</string>
 </resources>

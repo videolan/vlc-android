@@ -757,7 +757,6 @@
     <string name="welcome_beta_title">VLC 베타</string>
     <string name="welcome_beta_description">VLC 베타 프로그램입니다.\n해당 버젼의 VLC는 다수의 버그가 있을 수 있습니다.</string>
     <string name="welcome_beta_description_bugs">버그를 발견하시면, VLC 포럼이나 버그 트래커를 이용해서 알려주세요.</string>
-    <string name="welcome_beta_description_crashes">강제종료가 발생할 경우, 런처의 VLC 보고도구 아이콘을 사용하여 보내주시기 바랍니다.</string>
     <string name="send">보내기</string>
     <string name="send_crash_action_title">무엇을 하고 싶으십니까?</string>
     <string name="report_a_bug">버그 신고하기</string>

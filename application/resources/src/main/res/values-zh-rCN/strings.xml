@@ -372,7 +372,6 @@
     <string name="fastplay_speed_title">｢快放｣ 速度</string>
     <string name="fastplay_title">正以 %s 倍速播放</string>
     <string name="fastplay_subtitle">松开可恢复原速</string>
-
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
     <string name="subtitles_presets_title">字幕预设</string>
@@ -553,7 +552,6 @@
     <string name="custom_libvlc_options_invalid">无效的 libVLC 选项!</string>
     <string name="dav1d_thread_number">Dav1d 线程数</string>
     <string name="dav1d_thread_number_invalid">无效的线程数! (>=1)</string>
-
     <string name="serious_crash">真不走运，发生了很严重的错误，VLC 不得不关闭鸟。</string>
     <string name="help_us_send_log">您可以将下述崩溃日志发送给我们，协助改进 VLC:</string>
     <string name="restart_vlc">重新启动 VLC</string>
@@ -866,7 +864,6 @@
     <string name="welcome_beta_title">VLC beta</string>
     <string name="welcome_beta_description">欢迎使用 VLC beta 版。\n请注意此版本可能一定量的 bug。</string>
     <string name="welcome_beta_description_bugs">如果您发现了 bug，请在我们的论坛或 bug 跟踪平台报告它们。</string>
-    <string name="welcome_beta_description_crashes">如果您遭遇了崩溃的情况，请使用启动器中的「VLC 辅助报告程序」图标，将崩溃相关的情况发送给我们。</string>
     <string name="send">发送</string>
     <string name="send_crash_action_title">您打算做什么?</string>
     <string name="report_a_bug">报告 bug</string>
@@ -1305,4 +1302,4 @@
     <string name="queue_format">队列格式</string>
     <string name="queue_format_short_desc">队列位置</string>
     <string name="queue_format_long_desc">队列位置 / 队列总长</string>
-</resources>
+    </resources>

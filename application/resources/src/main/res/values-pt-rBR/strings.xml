@@ -394,7 +394,6 @@
     <string name="fastplay_speed_title">Velocidade do Fastplay</string>
     <string name="fastplay_title">Reproduzindo a %sx</string>
     <string name="fastplay_subtitle">Liberar para parar</string>
-
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho da Legenda</string>
     <string name="subtitles_presets_title">Padrões de legendas</string>
@@ -575,7 +574,6 @@
     <string name="custom_libvlc_options_invalid">Opções inválidas do libVLC!</string>
     <string name="dav1d_thread_number">Número do thread Dav1d</string>
     <string name="dav1d_thread_number_invalid">Número de thread inválido! (>=1)</string>
-
     <string name="serious_crash">Infelizmente ocorreu um erro severo e o VLC precisou ser fechado.</string>
     <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando o seguinte registro de problemas:</string>
     <string name="restart_vlc">Reiniciar o VLC</string>
@@ -841,7 +839,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bem vindo ao programa de testes do VLC.\nPor favor considere que essa versão pode conter problemas.</string>
     <string name="welcome_beta_description_bugs">Se perceber um defeito, por favor relate-o em nosso fórum ou no cadastro de defeitos.</string>
-    <string name="welcome_beta_description_crashes">Se encontrou um problema, por favor use o ícone de Relato do VLC no seu menu de execução para nos enviar.</string>
     <string name="send">Enviar</string>
     <string name="send_crash_action_title">Que deseja fazer?</string>
     <string name="report_a_bug">Relatar um problema</string>

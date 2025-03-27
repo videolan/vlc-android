@@ -363,7 +363,6 @@
     <string name="fastplay_speed_title">Tốc độ phát nhanh</string>
     <string name="fastplay_title">Tốc độ phát %sx</string>
     <string name="fastplay_subtitle">Thả để dừng</string>
-
     <string name="subtitles_prefs_category">Phụ đề</string>
     <string name="subtitles_size_title">Kích cỡ phụ đề</string>
     <string name="subtitles_presets_title">Phụ đề đặt trước</string>
@@ -540,7 +539,6 @@
     <string name="custom_libvlc_options_invalid">Tuỳ chọn libVLC không hợp lệ!</string>
     <string name="dav1d_thread_number">Số chỉ luồng Dav1d</string>
     <string name="dav1d_thread_number_invalid">Số luồng không hợp lệ! (>=1)</string>
-
     <string name="serious_crash">Không may mắn thay, một lỗi nghiêm trọng đã xảy ra và VLC đã phải đóng.</string>
     <string name="help_us_send_log">Giúp chúng tôi cải thiện VLC bằng cách gửi nhật ký lỗi sau:</string>
     <string name="restart_vlc">Khởi động lại VLC</string>
@@ -826,7 +824,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Chào mừng đến chương trình beta của VLC.\nVui lòng lưu ý rằng phiên bản này có thể có một số lỗi.</string>
     <string name="welcome_beta_description_bugs">Nếu bạn để ý thấy một lỗi, vui lòng báo cáo nó trong diễn đàn hoặc trình theo dõi lỗi của chúng tôi.</string>
-    <string name="welcome_beta_description_crashes">Nếu bạn gặp việc bị dừng đột ngột, vui lòng sử dụng biểu tượng Trình báo cáo VLC trong launcher của bạn để gửi nó đến chúng tôi.</string>
     <string name="send">Gửi</string>
     <string name="send_crash_action_title">Bạn muốn làm gì?</string>
     <string name="report_a_bug">Báo cáo lỗi</string>

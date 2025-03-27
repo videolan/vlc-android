@@ -591,7 +591,6 @@
     <string name="custom_libvlc_options_invalid">Invalid libVLC options!</string>
     <string name="dav1d_thread_number">Dav1d thread number</string>
     <string name="dav1d_thread_number_invalid">Invalid thread number! (>=1)</string>
-
     <string name="serious_crash">Unfortunately, a serious error has occurred and VLC had to close.</string>
     <string name="help_us_send_log">Help us improving VLC by sending the following crash log:</string>
     <string name="restart_vlc">Restart VLC</string>
@@ -907,7 +906,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Welcome in VLC beta program.\nPlease note this version may have some bugs.</string>
     <string name="welcome_beta_description_bugs">If you notice a bug, please report it in our forum or bug tracker.</string>
-    <string name="welcome_beta_description_crashes">If you experience a crash, please use the VLC Reporter icon in your launcher to send it to us.</string>
     <string name="send">Send</string>
     <string name="send_crash_action_title">What do you want to do?</string>
     <string name="report_a_bug">Report a bug</string>
@@ -1350,4 +1348,4 @@
     <string name="queue_format_short_desc">Queue position</string>
     <string name="queue_format_long_desc">Queue position / Queue size</string>
     <string name="video_settings_disclaimer">Some settings have been moved to the video controls settings in the video player.</string>
-</resources>
+    </resources>

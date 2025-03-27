@@ -40,6 +40,7 @@
     </plurals>
 
     <string name="play">Prehrať</string>
+    <string name="quick_play">Rýchle prehrávanie</string>
     <string name="playback">Prehrávanie</string>
     <string name="playback_controls">Ovládače prehrávania</string>
     <string name="medialibrary_scan">Skenovanie knižnice s médiami</string>
@@ -258,7 +259,7 @@
     <string name="streams">Streamy</string>
     <string name="open_mrl_dialog_msg">Zadajte sieťovú adresu: napr. http://, mms:// alebo rtsp://</string>
     <string name="encountered_error_title">Chyba počas prehrávania</string>
-    <string name="encountered_error_message">Aplikácia VLC zaznamenala chybu spojenú s týmto médiom.\nProsím obnovte knižnicu médií.</string>
+    <string name="encountered_error_message">Aplikácia VLC zaznamenala chybu spojenú s týmto médiom.\nProsím obnovte knižnicu s médiami.</string>
     <string name="invalid_location">Z umiestnenia %1$s nie je možné prehrávanie.</string>
     <string name="missing_location">Toto médium je uložené na nedostupnom úložisku a nedá sa prehrať.</string>
 
@@ -336,11 +337,11 @@
     <string name="prefs_opened_on_phone">Nastavenia otvorené na telefóne</string>
     <string name="open_on_phone">Otvoriť na obrazovke telefónu</string>
 
-    <string name="directories_summary">Vyberte priečinky, ktoré chcete zahrnúť do knižnice médií</string>
+    <string name="directories_summary">Vyberte priečinky, ktoré chcete zahrnúť do knižnice s médiami</string>
     <string name="add_custom_path">Pridať cestu nastavenú používateľom</string>
     <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavený priečinok</string>
     <string name="remove_custom_path">Odstrániť cestu nastavenú používateľom</string>
-    <string name="group_ban_folder">Vylúčiť priečinok z knižnice médií</string>
+    <string name="group_ban_folder">Vylúčiť priečinok z knižnice s médiami</string>
 
     <string name="hardware_acceleration">Hardvérová akcelerácia</string>
     <string name="hardware_acceleration_summary">Vypnuté: lepšia stabilita\nDekódovanie: môže zlepšiť výkon\nÚplné: môže ešte viac vylepšiť výkon</string>
@@ -393,6 +394,7 @@
     <string name="save_brightness_title">Uložiť úroveň jasu</string>
     <string name="save_audiodelay_summary">Uložiť individuálne oneskorenie zvuku pre každé video</string>
     <string name="save_audiodelay_title">Uložiť oneskorenie zvuku</string>
+    <string name="video_show_orientation_button">Zobraziť tlačidlo pre orientáciu</string>
     <string name="enable_brightness_gesture_title">Gesto pre jas</string>
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
     <string name="enable_volume_gesture_title">Gesto pre hlasitosť</string>
@@ -517,7 +519,7 @@
     <string name="enable_remote_access">Zapnúť vzdialený prístup</string>
     <string name="remote_access_info">Informácia o vzdialenom prístupe</string>
     <string name="remote_access_content">Obsah</string>
-    <string name="remote_access_medialibrary_content">Obsah knižnice médií</string>
+    <string name="remote_access_medialibrary_content">Obsah knižnice s médiami</string>
     <string name="remote_access_medialibrary_content_summary">Zapnuté: %1$s\nVypnutné: %2$s</string>
     <string name="remote_access_file_browser_content">Prehliadač súborov</string>
     <string name="remote_access_network_browser_content">Prehliadač siete</string>
@@ -613,9 +615,14 @@
     <string name="custom_libvlc_options_invalid">Neplatné nastavenia libVLC!</string>
     <string name="dav1d_thread_number">Číslo vlákna Dav1d</string>
     <string name="dav1d_thread_number_invalid">neplatné číslo vlákna! (>=1)</string>
+    <string name="browser_quick_play">Menu prehliadača pre rýchle prehrávanie</string>
+    <string name="browser_quick_play_summary">Pridať akciu pre rýchle prehrávanie do menu položiek v prehliadači. Vaše médium sa načíta rýchlejšie, ale môžu chýbať niektoré jeho metadáta.</string>
+    <string name="browser_quick_play_default">Rýchle prehrávanie ako predvolená akcia</string>
+    <string name="browser_quick_play_default_summary">Ak je aktivované, položka sa po kliknutí v prehliadači prehrá pomocou rýchleho prehrávania</string>
 
     <string name="serious_crash">Bohužiaľ nastala závažná chyba a VLC bolo nutné ukončiť.</string>
     <string name="help_us_send_log">Pomôžte nám zlepšiť aplikáciu VLC zaslaním nasledujúceho záznamu o zlyhaní:</string>
+    <string name="ml_crash_send">Došlo k pádu knižnice s médiami. Pomôžte nám odoslaním záznamov o činnosti</string>
     <string name="restart_vlc">Reštartovať VLC</string>
     <string name="send_log">Odoslať záznam/denník</string>
     <string name="sending_log">Odosiela sa záznam/denník…</string>
@@ -641,7 +648,7 @@
     <string name="network_connection_needed">Bez pripojenia k lokálnej sieti.</string>
     <string name="search_hint">Vyhľadávanie média</string>
     <string name="search_in_list_hint">Vyhľadať v aktuálnom zozname</string>
-    <string name="search_global">Hľadať v celej knižnici médií</string>
+    <string name="search_global">Hľadať v celej knižnici s médiami</string>
     <string name="playlist_save">Uložiť playlist</string>
     <string name="playlist_name_hint">Názov playlistu</string>
     <string name="chapters">Kapitoly</string>
@@ -654,8 +661,8 @@
     <string name="confirm_resume_audio_title">Pokračovať v prehrávaní zvuku</string>
     <string name="tv_ui_title">Rozhranie Android TV</string>
     <string name="tv_ui_summary">Zmeniť UI na tému prispôsobenú TV</string>
-    <string name="medialibrary">Knižnica médií</string>
-    <string name="medialibrary_directories">Priečinky knižnice médií</string>
+    <string name="medialibrary">Knižnica s médiami</string>
+    <string name="medialibrary_directories">Priečinky knižnice s médiami</string>
 
     <!--What's new-->
     <string name="whats_new_title">Čo je nové vo VLC for Android %s</string>
@@ -765,6 +772,7 @@
     <string name="episodes">epizódy</string>
     <string name="movies">filmy</string>
     <string name="videos">videá</string>
+    <string name="default_action_videos">Videá</string>
     <string name="videos_all">Všetky videá</string>
     <string name="clear_playback_history">Vyčistiť históriu prehrávania</string>
     <string name="ml_scanning">Skenovanie súborov s médiami</string>
@@ -797,7 +805,7 @@
     <string name="custom_set_restored">Používateľské nastavenie ekvalizéra bolo obnovené.</string>
     <string name="unsaved_set_deleted_message">Neuložené nastavenie ekvalizéra bolo vymazané.</string>
     <string name="equalizer_new_preset_name">Nové</string>
-    <string name="settings_ml_block_scan">Knižnica médií práve skenuje vaše zariadenia</string>
+    <string name="settings_ml_block_scan">Knižnica s médiami práve skenuje vaše zariadenia</string>
     <string name="recommendations">Odporúčania</string>
     <string name="recommendations_desc">Karty s odporúčaniami na spúšťači</string>
     <string name="browser_quick_access">Rýchly prístup</string>
@@ -820,7 +828,7 @@
     <string name="playback_rewind">Previnúť</string>
     <string name="playback_forward">Rýchlo dopredu</string>
     <string name="ml_wizard_scan_checkbox">Skenovať mediálny obsah v zariadení</string>
-    <string name="ml_wizard_description">Vyberte, či má VLC prehľadať úložisko zariadenia a zorganizovať vašu knižnicu médií alebo sa bude používať len ako prehrávač s integrovaným prehliadačom.</string>
+    <string name="ml_wizard_description">Vyberte, či má VLC prehľadať úložisko zariadenia a zorganizovať vašu knižnicu s médiami alebo sa bude používať len ako prehrávač s integrovaným prehliadačom.</string>
     <string name="tv_my_new_videos">Moje nové videá</string>
     <string name="cast_option_title">Streamovať médium na inej obrazovke</string>
     <string name="otg_device_title">Zariadenie OTG</string>
@@ -882,7 +890,7 @@
     <string name="daynight_legacy_explanation">VLC sa automaticky prepne do nočného režimu vo vhodnom čase</string>
     <string name="onboarding_scanning_enable">Umožniť VLC vyhľadanie mediálneho obsahu v zariadení</string>
     <string name="onboarding_scan_customize">Umožniť výber prehľadávaných priečinkov</string>
-    <string name="button_medialibrary_preferences">Prejsť na nastavenia knižnice médií</string>
+    <string name="button_medialibrary_preferences">Prejsť na nastavenia knižnice s médiami</string>
     <string name="light_theme">Svetlá téma</string>
     <string name="add">Pridať</string>
     <string name="add_to_new_playlist">Pridať do nového playlistu</string>
@@ -929,14 +937,16 @@
     <string name="send_crash_description">Odoslaním informácií o páde aplikácie nám pomôžete zlepšiť stabilitu VLC.</string>
     <string name="send_crash_warning">Uistite sa, že ste odstránili citlivé údaje, ktoré nechcete odosielať.</string>
     <string name="include_medialib">Zahrnúť databázu</string>
+    <string name="include_logs">Zahrnúť vaše záznamy</string>
     <string name="vlc_reporter">Ohlasovač pre VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Vitajte v programe VLC beta.\nProsím pamätajte na to, že táto verzia môže mať aj nejaké chyby.</string>
     <string name="welcome_beta_description_bugs">Pri nájdení chyby informujte o nej v našom fóre alebo systéme na zaznamenávanie chýb.</string>
-    <string name="welcome_beta_description_crashes">V prípade pádu aplikácie použite ikonu Ohlasovača pre VLC v spúšťači a pošlite nám informácie o ňom.</string>
+    <string name="welcome_beta_description_crashes">Ak ste sa stretli s chybou alebo pádom, prosím otvorte obrazovku o aplikácii a použite Spätnú odozvu > tlačidlo pre kontaktovanie tím podpory</string>
     <string name="send">Odoslať</string>
     <string name="send_crash_action_title">Čo chcete urobiť?</string>
     <string name="report_a_bug">Nahlásiť chybu</string>
+    <string name="send_feedback">Odoslať spätnú odozvu</string>
     <string name="report_a_crash">Nahlásiť pád</string>
     <string name="describe_crash">Prosím opíšte ako došlo k pádu aplikácie</string>
     <string name="favorite">Obľubené</string>
@@ -1328,7 +1338,7 @@
     <string name="ra_onboarding_otp_desc">Pomocou overenia jednorazovým heslom zabránite nechcenému prístupu k vašim údajom</string>
     <string name="ra_onboarding_content_title">Prístup k obsahu</string>
     <string name="ra_onboarding_content_desc">Vyberte, k čomu povolíte/nepovolíte prístup</string>
-    <string name="ra_onboarding_content_ml">Prístup k obsahu v knižnici médií</string>
+    <string name="ra_onboarding_content_ml">Prístup k obsahu v knižnici s médiami</string>
     <string name="ra_onboarding_content_files">Prehiiadač súborov</string>
     <string name="ra_onboarding_content_playback">Ovládanie prehrávania</string>
     <string name="ra_disable">Vypnúť</string>
@@ -1380,4 +1390,17 @@
     <string name="queue_format_short_desc">Pozícia frontu</string>
     <string name="queue_format_long_desc">Pozícia/veľkosť frontu</string>
     <string name="video_settings_disclaimer">Niektoré nastavenia boli presunuté do nastavení ovládacích prvkov pre video, v prehrávači videa.</string>
+    <string name="get_help">Získať pomoc</string>
+    <string name="feedback_type">Typ spätnej odozvy</string>
+    <string name="how_to_use">Zistiť, ako sa používa</string>
+    <string name="send_feedback_request">Požiadavka na spätnú odozvu/funkciu</string>
+    <string name="report_crash">Nahlásiť pád</string>
+    <string name="email_support">Kontaktovať tím podpory e-mailom</string>
+    <string name="read_doc">Prečítať dokumentáciu</string>
+    <string name="subject">Predmet</string>
+    <string name="body">Správa</string>
+    <string name="rate_us">Ohodnotiť aplikáciu</string>
+    <string name="generating_logs">Generujú sa záznamy. Prosím, čakajte.</string>
+    <string name="default_playback_action">Akcia prehrávania</string>
+    <string name="files">Súbory</string>
 </resources>

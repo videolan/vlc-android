@@ -37,6 +37,7 @@
     </plurals>
 
     <string name="play">播放</string>
+    <string name="quick_play">快速播放</string>
     <string name="playback">播放</string>
     <string name="playback_controls">播放控制</string>
     <string name="medialibrary_scan">掃描媒體櫃</string>
@@ -360,6 +361,7 @@
     <string name="save_brightness_title">儲存亮度</string>
     <string name="save_audiodelay_summary">為每個影片儲存獨立的音訊延遲</string>
     <string name="save_audiodelay_title">儲存音訊延遲</string>
+    <string name="video_show_orientation_button">顯示方向按鈕</string>
     <string name="enable_brightness_gesture_title">亮度手勢</string>
     <string name="enable_brightness_gesture_summary">播放視訊時以手勢控制亮度</string>
     <string name="enable_volume_gesture_title">音量手勢</string>
@@ -580,9 +582,14 @@
     <string name="custom_libvlc_options_invalid">無效的 libVLC 選項！</string>
     <string name="dav1d_thread_number">Dav1d 執行緒數量</string>
     <string name="dav1d_thread_number_invalid">無效的執行緒數量！(>=1)</string>
+    <string name="browser_quick_play">瀏覽快速播放選單</string>
+    <string name="browser_quick_play_summary">在瀏覽器項目選單新增快速播放動作。其將會更快載入您的媒體，但可能會缺少一些中介資料</string>
+    <string name="browser_quick_play_default">以快速播放作為預設動作</string>
+    <string name="browser_quick_play_default_summary">若啟用，點選瀏覽器項目即可使用快速播放功能播放該項目</string>
 
     <string name="serious_crash">很遺憾，一個嚴重的錯誤的發生，VLC 必須關閉。</string>
     <string name="help_us_send_log">請發送以下的錯誤記錄來協助我們改善 VLC：</string>
+    <string name="ml_crash_send">媒體櫃剛剛當機。請傳送紀錄檔以協助我們。</string>
     <string name="restart_vlc">重新啟動 VLC</string>
     <string name="send_log">發送紀錄</string>
     <string name="sending_log">正在發送紀錄…</string>
@@ -732,6 +739,7 @@
     <string name="episodes">劇集</string>
     <string name="movies">電影</string>
     <string name="videos">影片</string>
+    <string name="default_action_videos">視訊</string>
     <string name="videos_all">所有視訊</string>
     <string name="clear_playback_history">清除播放記錄</string>
     <string name="ml_scanning">正在掃描媒體檔案</string>
@@ -890,14 +898,16 @@
     <string name="send_crash_description">您可以藉由傳送當機報告，幫助我們改善 VLC 的穩定性。</string>
     <string name="send_crash_warning">確保您移除了任何不想傳送的敏感資料。</string>
     <string name="include_medialib">包含您的資料庫</string>
+    <string name="include_logs">包含您的紀錄檔</string>
     <string name="vlc_reporter">VLC 回報</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">歡迎使用 VLC beta 程式。\n請注意，這個版本可能會有一些錯誤。</string>
     <string name="welcome_beta_description_bugs">如果您發現錯誤，請回報到我們的討論區或錯誤追蹤器。</string>
-    <string name="welcome_beta_description_crashes">如果您遇到當機，請使用啟動器中的 VLC 回報圖示來傳送給我們。</string>
+    <string name="welcome_beta_description_crashes">若您遇到臭蟲或當機，請開啟「關於」畫面並使用「回饋」→「聯絡支援團隊」按鈕。</string>
     <string name="send">傳送</string>
     <string name="send_crash_action_title">您想要做什麼？</string>
     <string name="report_a_bug">回報錯誤</string>
+    <string name="send_feedback">傳送回饋</string>
     <string name="report_a_crash">回報當機</string>
     <string name="describe_crash">請描述當機如何發生</string>
     <string name="favorite">收藏</string>
@@ -1335,4 +1345,17 @@
     <string name="queue_format_short_desc">佇列位置</string>
     <string name="queue_format_long_desc">佇列位置 / 佇列大小</string>
     <string name="video_settings_disclaimer">某些設定已移至視訊播放器中的視訊控制設定。</string>
+    <string name="get_help">取得一些協助</string>
+    <string name="feedback_type">回饋類型</string>
+    <string name="how_to_use">學習如何使用</string>
+    <string name="send_feedback_request">回饋 / 功能請求</string>
+    <string name="report_crash">回報當機</string>
+    <string name="email_support">透過電子郵件聯絡支援團隊</string>
+    <string name="read_doc">閱讀文件</string>
+    <string name="subject">主旨</string>
+    <string name="body">訊息</string>
+    <string name="rate_us">為應用程式評分</string>
+    <string name="generating_logs">正在產生紀錄檔。請稍候。</string>
+    <string name="default_playback_action">播放動作</string>
+    <string name="files">檔案</string>
 </resources>

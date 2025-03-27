@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Toista</string>
+    <string name="quick_play">Pikatoisto</string>
     <string name="playback">Toisto</string>
     <string name="playback_controls">Toiston säätimet</string>
     <string name="medialibrary_scan">Mediakirjaston skannaus</string>
@@ -319,7 +320,7 @@ Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
     <string name="prefs_opened_on_phone">Asetukset avautuivat puhelimeen</string>
     <string name="open_on_phone">Avaa puhelimen näytöllä</string>
 
-    <string name="directories_summary">Valitse hakemistot jotka lisätään mediakirjastoon</string>
+    <string name="directories_summary">Valitse hakemistot jotka liitetään mediakirjastoon</string>
     <string name="add_custom_path">Lisää mukautettu polku</string>
     <string name="add_custom_path_description">Anna lisähakemisto jonka haluat tutkia:</string>
     <string name="remove_custom_path">Poista mukautettu polku</string>
@@ -378,6 +379,7 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="save_brightness_title">Tallenna kirkkaustaso</string>
     <string name="save_audiodelay_summary">Tallenna jokaiselle videolle oma audioviive</string>
     <string name="save_audiodelay_title">Tallenna audioviive</string>
+    <string name="video_show_orientation_button">Näytä asentopainike</string>
     <string name="enable_brightness_gesture_title">Kirkkausele</string>
     <string name="enable_brightness_gesture_summary">Säädä kirkkautta eleellä videon toiston aikana</string>
     <string name="enable_volume_gesture_title">Voimakkuusele</string>
@@ -601,9 +603,14 @@ Käynnistätkö uudelleen?</string>
     <string name="custom_libvlc_options_invalid">Virheelliset libVLC asetukset!</string>
     <string name="dav1d_thread_number">Dav1d säikeen numero</string>
     <string name="dav1d_thread_number_invalid">Virheellinen säikeen numero! (>=1)</string>
+    <string name="browser_quick_play">Selaimen pikatoisto valikko</string>
+    <string name="browser_quick_play_summary">Lisää pikatoisto selaimen valikkoon. Lataa median nopeammin, mutta joitain metatietoja saattaa puuttua</string>
+    <string name="browser_quick_play_default">Pikatoisto oletukseksi</string>
+    <string name="browser_quick_play_default_summary">Jos käytössä, painamalla selaimen kohdetta, käytetään pikatoistoa</string>
 
     <string name="serious_crash">Valitettavasti VLC kohtasi vakavan virheen ja se suljettiin.</string>
     <string name="help_us_send_log">Auta meitä parantamaan VLC:tä lähettämällä seuraava kaatumisloki:</string>
+    <string name="ml_crash_send">Mediakirjasto kaatui. Auta meitä selvittämään asia lähettämällä loki.</string>
     <string name="restart_vlc">Käynnistä VLC uudelleen</string>
     <string name="send_log">Lähetä loki</string>
     <string name="sending_log">Lähetetään lokia…</string>
@@ -762,6 +769,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="episodes">jaksot</string>
     <string name="movies">elokuvat</string>
     <string name="videos">videota</string>
+    <string name="default_action_videos">Videot</string>
     <string name="videos_all">Kaikki videot</string>
     <string name="clear_playback_history">Tyhjennä toistohistoria</string>
     <string name="ml_scanning">Mediatiedostojen etsiminen</string>
@@ -921,15 +929,17 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="send_crash_title">VLC kaatumisen raportointi</string>
     <string name="send_crash_description">Lähettämällä kaatumisen ilmoituksen, autat meitä parantamaan VLC:n vakautta.</string>
     <string name="send_crash_warning">Varmista, että poistat kaikki tiedot, joita et halua lähettää.</string>
-    <string name="include_medialib">Sisällytä sinun tietokantaan</string>
+    <string name="include_medialib">Liitä tietokanta</string>
+    <string name="include_logs">Liitä lokit mukaan</string>
     <string name="vlc_reporter">VLC raportit</string>
     <string name="welcome_beta_title">VLC beetta</string>
     <string name="welcome_beta_description">Tervetuloa VLC:n betaohjelmaan.\nHuomaa, että tässä versiossa saattaa olla joitakin bugeja.</string>
     <string name="welcome_beta_description_bugs">Jos havaitset bugin, ilmoita siitä meidän foorumilla tai käytä bugin jäljtysohjelmaa.</string>
-    <string name="welcome_beta_description_crashes">Kaatumisilmoitukset voit lähettää meille \"VLC raportit\" kuvakkeen kautta.</string>
+    <string name="welcome_beta_description_crashes">Jos kohtaat kaatumisia, avaa Tietoja ja paina Palaute > Ota yhteyttä tukitiimiin.</string>
     <string name="send">Lähetä</string>
     <string name="send_crash_action_title">Mitä haluat tehdä?</string>
     <string name="report_a_bug">Ilmoita virheestä</string>
+    <string name="send_feedback">Lähetä palaute</string>
     <string name="report_a_crash">Ilmoita kaatumisesta</string>
     <string name="describe_crash">Kuvaile kuinka sovelluksen kaatuminen tapahtui</string>
     <string name="favorite">Suosikki</string>
@@ -1375,4 +1385,17 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="queue_format_short_desc">Jonon sijainti</string>
     <string name="queue_format_long_desc">Jonon sijainti / jonon koko</string>
     <string name="video_settings_disclaimer">Jotkin asetukset on siirretty soittimen video-säätimet asetuksiin.</string>
+    <string name="get_help">Hanki apua</string>
+    <string name="feedback_type">Palautteeni</string>
+    <string name="how_to_use">Tietää miten käytetään</string>
+    <string name="send_feedback_request">Palaute / ominaisuuden pyyntö</string>
+    <string name="report_crash">Ilmoittaa kaatumisesta</string>
+    <string name="email_support">Ota yhteyttä tukitiimiin sähköpostilla</string>
+    <string name="read_doc">Lue ohjeet</string>
+    <string name="subject">Aihe</string>
+    <string name="body">Viesti</string>
+    <string name="rate_us">Arvioi sovellus</string>
+    <string name="generating_logs">Luodaan lokeja. Odota.</string>
+    <string name="default_playback_action">Toistotoiminto</string>
+    <string name="files">Tiedostot</string>
 </resources>

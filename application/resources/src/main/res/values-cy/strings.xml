@@ -600,7 +600,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Croeso i raglen VLC beta.\nNoder ei fod yn bosib i\'r fersiwn hwn fod ag ambell wall.</string>
     <string name="welcome_beta_description_bugs">Os wyt yn sylwi gwall, plîs rho wybod amdano yn ein fforwm neu traciwr gwallau.</string>
-    <string name="welcome_beta_description_crashes">Os yw VLC yn chwalu, plîs defnyddia eicon Adroddwr VLC yn dy lansiwr i\'w anfon atom.</string>
     <string name="send">Anfon</string>
     <string name="send_crash_action_title">Beth wyt ti am wneud?</string>
     <string name="report_a_bug">Rhoi gwybod am wall</string>

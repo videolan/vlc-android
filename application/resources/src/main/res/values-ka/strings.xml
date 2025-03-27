@@ -383,7 +383,6 @@
     <string name="fastplay_speed_title">სწრაფდაკვრის სიჩქარე</string>
     <string name="fastplay_title">დაკვრა სიჩქარით %sx</string>
     <string name="fastplay_subtitle">აუშვით შესაწყვეტად</string>
-
     <string name="subtitles_prefs_category">ქვეწარწერები</string>
     <string name="subtitles_size_title">ქვეწარწერის ზომა</string>
     <string name="subtitles_presets_title">ქვეწარწერების მზა პარამეტრები</string>
@@ -560,7 +559,6 @@
     <string name="custom_libvlc_options_invalid">არასწორი libVLC-პარამეტრები!</string>
     <string name="dav1d_thread_number">Dav1d-ნაკადის ნომერი</string>
     <string name="dav1d_thread_number_invalid">ნაკადის უმართებულო ნომერი! (>=1)</string>
-
     <string name="serious_crash">სამწუხაროდ, მძიმე შეცდომა წარმოიშვა და VLC გაითიშა.</string>
     <string name="help_us_send_log">დაგვეხმარეთ, გავაუმჯობესოთ VLC, ამ უეცარი გათიშვის შესახებ, მოხსენების გამოგზავნით:</string>
     <string name="restart_vlc">კვლავ გაეშვას VLC</string>
@@ -874,7 +872,6 @@
     <string name="welcome_beta_title">VLC Beta (საცდელი)</string>
     <string name="welcome_beta_description">მოგესალმებათ საცდელი VLC.\nგთხოვთ გაითვალისწინოთ, რომ ეს ვერსია შესაძლოა ხარვეზიანი იყოს.</string>
     <string name="welcome_beta_description_bugs">თუ შეცდომას წააწყდებით, გთხოვთ მოგვახსენოთ ჩვენს ფორუმზე ან ხარვეზების აღმრიცხავში.</string>
-    <string name="welcome_beta_description_crashes">უეცარი გათიშვის შემთხვევაში გთხოვთ, გამოიყენოთ VLC-მომხსენებელის ღილაკი გამშვებში და გამოგვიგზავნოთ.</string>
     <string name="send">გაგზავნა</string>
     <string name="send_crash_action_title">რისი გაკეთება გსურთ?</string>
     <string name="report_a_bug">ხარვეზის მოხსენება</string>
@@ -1314,4 +1311,4 @@
     <string name="queue_format">რიგის სახეობა</string>
     <string name="queue_format_short_desc">რიგის ადგილი</string>
     <string name="queue_format_long_desc">რიგის ადგილი / ზომა</string>
-</resources>
+    </resources>

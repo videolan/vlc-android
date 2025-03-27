@@ -383,7 +383,6 @@
     <string name="fastplay_speed_title">Ταχύτητα ταχείας αναπαραγωγής</string>
     <string name="fastplay_title">Αναπαραγωγή σε %sx</string>
     <string name="fastplay_subtitle">Απελευθέρωση πατήματος για σταμάτημα</string>
-
     <string name="subtitles_prefs_category">Υπότιτλοι</string>
     <string name="subtitles_size_title">Μέγεθος υπότιτλων</string>
     <string name="subtitles_presets_title">Προεπιλογές υπότιτλων</string>
@@ -564,7 +563,6 @@
     <string name="custom_libvlc_options_invalid">Μη έγκυρες επιλογές libVLC!</string>
     <string name="dav1d_thread_number">Αριθμός νήματος Dav1d</string>
     <string name="dav1d_thread_number_invalid">Άκυρος αριθμός νήματος! (>=1)</string>
-
     <string name="serious_crash">Δυστυχώς, ένα σοβαρό σφάλμα ανάγκασε το VLC να κλείσει.</string>
     <string name="help_us_send_log">Βοηθήστε μας να βελτιώσουμε το VLC αποστέλλοντας το ακόλουθο αρχείο καταγραφής:</string>
     <string name="restart_vlc">Επανεκκίνηση του VLC</string>
@@ -880,7 +878,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Καλωσορίσατε στη beta έκδοση του VLC.\nΠαρακαλούμε έχετε υπόψιν ότι η συγκεκριμένη έκδοση ενδέχεται να περιέχει σφάλματα.</string>
     <string name="welcome_beta_description_bugs">Εάν παρατηρήσετε κάποιο σφάλμα, παρακαλούμε αναφέρατέ το στο φόρουμ μας ή μέσω του ανιχνευτή σφαλμάτων.</string>
-    <string name="welcome_beta_description_crashes">Εάν διαπιστώσατε την κατάρρευση του προγράμματος, παρακαλούμε χρησιμοποιήστε το εικονίδιο αναφοράς του VLC στον εκκινητή σας, ώστε να σταλεί σ\' εμάς.</string>
     <string name="send">Αποστολή</string>
     <string name="send_crash_action_title">Τι θέλετε να κάνετε;</string>
     <string name="report_a_bug">Αναφορά ενός σφάλματος</string>
@@ -1320,4 +1317,4 @@
     <string name="queue_format">Μορφή ουράς</string>
     <string name="queue_format_short_desc">Θέση ουράς</string>
     <string name="queue_format_long_desc">Θέση / μέγεθος ουράς</string>
-</resources>
+    </resources>

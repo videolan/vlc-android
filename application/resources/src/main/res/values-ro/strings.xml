@@ -39,6 +39,7 @@
     </plurals>
 
     <string name="play">Redare</string>
+    <string name="quick_play">Redare rapidă</string>
     <string name="playback">Redare</string>
     <string name="playback_controls">Controale redare</string>
     <string name="medialibrary_scan">Scanare bibliotecă media</string>
@@ -382,6 +383,7 @@
     <string name="save_brightness_title">Salvează nivelul luminozității</string>
     <string name="save_audiodelay_summary">Salvează întârzierea audio individual pentru fiecare videoclip</string>
     <string name="save_audiodelay_title">Salvați întârzierea redării audio</string>
+    <string name="video_show_orientation_button">Arată butonul de orientare</string>
     <string name="enable_brightness_gesture_title">Gest pentru luminozitate</string>
     <string name="enable_brightness_gesture_summary">Controlează luminozitatea prin gesturi în timpul redării video</string>
     <string name="enable_volume_gesture_title">Gest pentru volum</string>
@@ -602,9 +604,14 @@
     <string name="custom_libvlc_options_invalid">Setări libVLC eronate!</string>
     <string name="dav1d_thread_number">Numărul firului Dav1d</string>
     <string name="dav1d_thread_number_invalid">Numărul firului invalid! (>=1)</string>
+    <string name="browser_quick_play">Navigatorul meniului de navigare rapidă</string>
+    <string name="browser_quick_play_summary">Adaugă o acțiune de redare rapidă în meniul elementelor din navigator. Îți va încărca fișierele media mai repede, dar este posibil să lipsească unele metadate</string>
+    <string name="browser_quick_play_default">Redare rapidă ca acțiune implicită</string>
+    <string name="browser_quick_play_default_summary">Dacă este activat, înregistrarea unui element din navigator îl va reda folosind redarea rapidă</string>
 
     <string name="serious_crash">Din păcate, o eroare gravă a apărut și VLC-ul trebuie închis.</string>
     <string name="help_us_send_log">Ajutați-ne să îmbunătățim VLC -ul prin trimiterea următorului jurnal de eroare:</string>
+    <string name="ml_crash_send">Biblioteca media tocmai a crăpat. Ajută-ne trimițându-ne jurnalele.</string>
     <string name="restart_vlc">Repornește VLC</string>
     <string name="send_log">Trimite jurnalul</string>
     <string name="sending_log">Se trimite jurnalul…</string>
@@ -754,6 +761,7 @@
     <string name="episodes">episoade</string>
     <string name="movies">filme</string>
     <string name="videos">videoclipuri</string>
+    <string name="default_action_videos">Videoclipuri</string>
     <string name="videos_all">Toate videoclipurile</string>
     <string name="clear_playback_history">Șterge istoricul listei de redăare</string>
     <string name="ml_scanning">Scanare fișiere de tip media</string>
@@ -916,14 +924,16 @@
     <string name="send_crash_description">Prin trimiterea erorii care a survenit, ne veți ajuta să îmbunătățim stabilitatea VLC.</string>
     <string name="send_crash_warning">Asigurați-vă că eliminați datele sensibile pe care nu doriți să le trimiteți.</string>
     <string name="include_medialib">Includeți baza dvs. de date</string>
+    <string name="include_logs">Include-ți jurnalele</string>
     <string name="vlc_reporter">Reporter VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bine ați venit la programul VLC beta.\nVă rugăm să rețineți că această versiune poate avea unele erori.</string>
     <string name="welcome_beta_description_bugs">Dacă observați o eroare, vă rugăm să o raportați în forumul nostru sau în urmăritorul de erori.</string>
-    <string name="welcome_beta_description_crashes">Dacă apare o eroare, utilizați pictograma VLC Reporter din programul dvs. pentru a ne-o trimite.</string>
+    <string name="welcome_beta_description_crashes">Dacă întâmpini o eroare sau o blocare, deschide ecranul Despre și utilizează butonul Feedback > Contactează echipa de asistență.</string>
     <string name="send">Trimite</string>
     <string name="send_crash_action_title">Ce doriți să faceți?</string>
     <string name="report_a_bug">Raportați o eroare</string>
+    <string name="send_feedback">Trimite feedback</string>
     <string name="report_a_crash">Raportați un accident</string>
     <string name="describe_crash">Vă rugăm să descrieți cum s-a produs acest accident</string>
     <string name="favorite">Favorite</string>
@@ -1365,4 +1375,17 @@
     <string name="queue_format_short_desc">Poziția cozii</string>
     <string name="queue_format_long_desc">Poziția cozii / Dimensiunea cozii</string>
     <string name="video_settings_disclaimer">Unele setări au fost mutate în setările comenzilor video din playerul video.</string>
+    <string name="get_help">Primește ajutor</string>
+    <string name="feedback_type">Tipul feedback-ului</string>
+    <string name="how_to_use">Învață cum să-l folosești</string>
+    <string name="send_feedback_request">Feedback / cerere de caracteristici</string>
+    <string name="report_crash">Raportează o eroare</string>
+    <string name="email_support">Contactează echipa de suport prin email</string>
+    <string name="read_doc">Citește documentația</string>
+    <string name="subject">Subiect</string>
+    <string name="body">Mesaj</string>
+    <string name="rate_us">Evaluează aplicația</string>
+    <string name="generating_logs">Se generează jurnalele. Te rugăm să aștepți.</string>
+    <string name="default_playback_action">Acțiune de redare</string>
+    <string name="files">Fișiere</string>
 </resources>
