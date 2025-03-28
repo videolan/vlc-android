@@ -17,6 +17,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:nextFocusRight="@id/clear_log"
+                    android:nextFocusDown="@id/copy_to_clipboard"
                     android:text="@string/start_logging" />
 
             <Button
@@ -25,6 +28,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:nextFocusLeft="@id/start_log"
+                    android:nextFocusDown="@id/save_to_file"
                     android:text="@string/clear_log" />
 
         </LinearLayout>
@@ -39,6 +45,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:nextFocusRight="@id/save_to_file"
+                    android:nextFocusUp="@id/start_log"
                     android:text="@string/copy_to_clipboard" />
 
             <Button
@@ -47,6 +56,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:nextFocusLeft="@id/copy_to_clipboard"
+                    android:nextFocusUp="@id/clear_log"
                     android:text="@string/dump_logcat" />
         </LinearLayout>
 
@@ -54,6 +66,8 @@
                 android:id="@+id/log_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nextFocusLeft="@id/copy_to_clipboard"
+                android:nextFocusRight="@id/save_to_file"
                 android:paddingTop="10dip" />
 
     </LinearLayout>

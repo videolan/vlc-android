@@ -23,6 +23,7 @@ package org.videolan.vlc.gui
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
@@ -90,6 +91,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
         binding.saveToFile.setOnClickListener(saveClickListener)
 
         binding.copyToClipboard.setOnClickListener(copyClickListener)
+        Log.d(TAG, "Entering DebugLogActivity")
     }
 
     override fun onDestroy() {
