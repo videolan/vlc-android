@@ -1,3 +1,18 @@
+Changes between 3.6.4 Beta 3 and 3.6.4 Beta 4:
+------------------
+ * New default playback setting
+ * New feedback section in the about screen
+ * Resume playback and player behavior fixes
+ * Remove the reporter from the app launcher
+ * Add a quick play setting to play files without parsing
+ * Remote access: fix some mini player layout
+ * Remote access: always show the volume bar
+ * Remote access: fix the streams playback
+ * Fix some subtitles download issues
+ * Android auto behavior improvements
+ * Fix the equalizer navigation with DPAD
+ * Crash and behavior fixes
+
 Changes between 3.6.4 Beta 2 and 3.6.4 Beta 3:
 ------------------
  * New bookmark navigation
