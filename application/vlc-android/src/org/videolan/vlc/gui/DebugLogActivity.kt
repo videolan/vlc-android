@@ -47,18 +47,6 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     private lateinit var binding: DebugLogBinding
 
 
-    private val startClickListener = View.OnClickListener {
-        binding.startLog.isEnabled = false
-        binding.stopLog.isEnabled = false
-        client.start()
-    }
-
-    private val stopClickListener = View.OnClickListener {
-        binding.startLog.isEnabled = false
-        binding.stopLog.isEnabled = false
-        client.stop()
-    }
-
     private val clearClickListener = View.OnClickListener {
         if (::client.isInitialized) client.clear()
         logList.clear()
@@ -90,12 +78,14 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
 
         client = DebugLogService.Client(this, this)
 
-        binding.startLog.isEnabled = false
-        binding.stopLog.isEnabled = false
         setOptionsButtonsEnabled(false)
 
-        binding.startLog.setOnClickListener(startClickListener)
-        binding.stopLog.setOnClickListener(stopClickListener)
+        binding.startLog.setOnClickListener {
+            if (client.isStarted())
+                client.stop()
+            else
+                client.start()
+        }
         binding.clearLog.setOnClickListener(clearClickListener)
         binding.saveToFile.setOnClickListener(saveClickListener)
 
@@ -114,8 +104,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     }
 
     override fun onStarted(logList: List<String>) {
-        binding.startLog.isEnabled = false
-        binding.stopLog.isEnabled = true
+        binding.startLog.text = getString(R.string.stop_logging)
         if (logList.isNotEmpty())
             setOptionsButtonsEnabled(true)
         this.logList = ArrayList(logList)
@@ -127,8 +116,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     }
 
     override fun onStopped() {
-        binding.startLog.isEnabled = true
-        binding.stopLog.isEnabled = false
+        binding.startLog.text = getString(R.string.start_logging)
     }
 
     override fun onLog(msg: String) {

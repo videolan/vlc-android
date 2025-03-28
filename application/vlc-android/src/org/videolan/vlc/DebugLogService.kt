@@ -54,6 +54,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStreamWriter
 import java.util.LinkedList
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
+import org.videolan.vlc.util.Permissions
 
 class DebugLogService : Service(), Logcat.Callback, Runnable {
 
@@ -248,16 +250,19 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         private var mBound = false
         private var mIDebugLogService: IDebugLogService? = null
         private val mHandler = Handler(Looper.getMainLooper())
+        private var isStarted = false
 
         private val mICallback = object : IDebugLogServiceCallback.Stub() {
             @Throws(RemoteException::class)
             override fun onStopped() {
                 mHandler.post { mCallback.onStopped() }
+                isStarted = false
             }
 
             @Throws(RemoteException::class)
             override fun onStarted(logList: List<String>) {
                 mHandler.post { mCallback.onStarted(logList) }
+                isStarted = true
             }
 
             @Throws(RemoteException::class)
@@ -377,6 +382,8 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
             }
             mHandler.removeCallbacksAndMessages(null)
         }
+
+        fun isStarted() = isStarted
     }
 
     companion object {
