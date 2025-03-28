@@ -25,15 +25,16 @@ import android.content.ClipboardManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ListView
 import androidx.core.content.getSystemService
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.DebugLogBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.share
@@ -41,24 +42,20 @@ import java.io.File
 
 class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     private lateinit var client: DebugLogService.Client
-    private lateinit var startButton: Button
-    private lateinit var stopButton: Button
-    private lateinit var copyButton: Button
-    private lateinit var clearButton: Button
-    private lateinit var saveButton: Button
-    private lateinit var logView: ListView
     private var logList: MutableList<String> = ArrayList()
     private lateinit var logAdapter: ArrayAdapter<String>
+    private lateinit var binding: DebugLogBinding
+
 
     private val startClickListener = View.OnClickListener {
-        startButton.isEnabled = false
-        stopButton.isEnabled = false
+        binding.startLog.isEnabled = false
+        binding.stopLog.isEnabled = false
         client.start()
     }
 
     private val stopClickListener = View.OnClickListener {
-        startButton.isEnabled = false
-        stopButton.isEnabled = false
+        binding.startLog.isEnabled = false
+        binding.stopLog.isEnabled = false
         client.stop()
     }
 
@@ -89,27 +86,20 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.debug_log)
-
-        startButton = findViewById(R.id.start_log)
-        stopButton = findViewById(R.id.stop_log)
-        logView = findViewById(R.id.log_list)
-        copyButton = findViewById(R.id.copy_to_clipboard)
-        clearButton = findViewById(R.id.clear_log)
-        saveButton = findViewById(R.id.save_to_file)
+        binding = DataBindingUtil.setContentView(this, R.layout.debug_log)
 
         client = DebugLogService.Client(this, this)
 
-        startButton.isEnabled = false
-        stopButton.isEnabled = false
+        binding.startLog.isEnabled = false
+        binding.stopLog.isEnabled = false
         setOptionsButtonsEnabled(false)
 
-        startButton.setOnClickListener(startClickListener)
-        stopButton.setOnClickListener(stopClickListener)
-        clearButton.setOnClickListener(clearClickListener)
-        saveButton.setOnClickListener(saveClickListener)
+        binding.startLog.setOnClickListener(startClickListener)
+        binding.stopLog.setOnClickListener(stopClickListener)
+        binding.clearLog.setOnClickListener(clearClickListener)
+        binding.saveToFile.setOnClickListener(saveClickListener)
 
-        copyButton.setOnClickListener(copyClickListener)
+        binding.copyToClipboard.setOnClickListener(copyClickListener)
     }
 
     override fun onDestroy() {
@@ -118,27 +108,27 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     }
 
     private fun setOptionsButtonsEnabled(enabled: Boolean) {
-        clearButton.isEnabled = enabled
-        copyButton.isEnabled = enabled
-        saveButton.isEnabled = enabled
+        binding.clearLog.isEnabled = enabled
+        binding.copyToClipboard.isEnabled = enabled
+        binding.saveToFile.isEnabled = enabled
     }
 
     override fun onStarted(logList: List<String>) {
-        startButton.isEnabled = false
-        stopButton.isEnabled = true
+        binding.startLog.isEnabled = false
+        binding.stopLog.isEnabled = true
         if (logList.isNotEmpty())
             setOptionsButtonsEnabled(true)
         this.logList = ArrayList(logList)
         logAdapter = ArrayAdapter(this, R.layout.debug_log_item, this.logList)
-        logView.adapter = logAdapter
-        logView.transcriptMode = ListView.TRANSCRIPT_MODE_NORMAL
+        binding.logList.adapter = logAdapter
+        binding.logList.transcriptMode = ListView.TRANSCRIPT_MODE_NORMAL
         if (this.logList.size > 0)
-            logView.setSelection(this.logList.size - 1)
+            binding.logList.setSelection(this.logList.size - 1)
     }
 
     override fun onStopped() {
-        startButton.isEnabled = true
-        stopButton.isEnabled = false
+        binding.startLog.isEnabled = true
+        binding.stopLog.isEnabled = false
     }
 
     override fun onLog(msg: String) {
@@ -150,7 +140,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     override fun onSaved(success: Boolean, path: String) {
         if (success) {
             if (AndroidDevices.isAndroidTv)
-            Snackbar.make(logView, String.format(
+            Snackbar.make(binding.logList, String.format(
                     getString(R.string.dump_logcat_success),
                     path), Snackbar.LENGTH_LONG).show()
             else UiTools.snackerConfirm(this, String.format(getString(R.string.dump_logcat_success), path), false, R.string.share) {
