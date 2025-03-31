@@ -126,6 +126,7 @@ import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
 import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.ContextOption.CTX_STOP_AFTER_THIS
 import org.videolan.vlc.util.FlagSet
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.util.share
@@ -695,14 +696,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onPreviousBookmark(@Suppress("UNUSED_PARAMETER") view: View) {
-        val bookmark = bookmarkModel.findPrevious()
+        val bookmark = if (LocaleUtil.isRtl()) bookmarkModel.findNext() else bookmarkModel.findPrevious()
         bookmark?.let {
             bookmarkModel.service?.setTime(it.time)
         }
     }
 
     fun onNextBookmark(@Suppress("UNUSED_PARAMETER") view: View) {
-        val bookmark = bookmarkModel.findNext()
+        val bookmark = if (LocaleUtil.isRtl()) bookmarkModel.findPrevious() else bookmarkModel.findNext()
         bookmark?.let {
             bookmarkModel.service?.setTime(it.time)
         }
@@ -718,7 +719,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private fun jump(forward:Boolean, long:Boolean) {
         playlistModel.service ?.let { service ->
             val jumpDelay = if (long) Settings.audioLongJumpDelay else Settings.audioJumpDelay
-            val delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
+            var delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
+            if (LocaleUtil.isRtl()) delay = -delay
             var position = service.getTime() + delay
             if (position < 0) position = 0
             if (position > service.length) position = service.length

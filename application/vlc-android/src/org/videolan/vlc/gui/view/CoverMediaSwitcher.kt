@@ -34,6 +34,7 @@ import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.setEllipsizeModeByPref
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.TextUtils
 
 class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
@@ -76,10 +77,10 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
         titleView.setOnClickListener { onTextClicked() }
         artistView.setOnClickListener { onTextClicked() }
         previousChapterView?.setOnClickListener {
-            onChapterSwitching(false)
+            onChapterSwitching(LocaleUtil.isRtl())
         }
         nextChapterView?.setOnClickListener {
-            onChapterSwitching(true)
+            onChapterSwitching(!LocaleUtil.isRtl())
         }
 
         titleView.text = title

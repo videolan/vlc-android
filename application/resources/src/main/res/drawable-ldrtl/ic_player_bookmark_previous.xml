@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_player_bookmark_previous.xml
+  ~ **************************************************************************
+  ~ Copyright © 2025 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="36"
+    android:viewportHeight="36">
+  <path
+      android:pathData="m15,8c-1.093,0 -2,0.907 -2,2v1c-0,0.552 0.448,1 1,1 0.552,0 1,-0.448 1,-1v-1h11v14.957l-6,-2.158 -5,2.158L15,19c-0,-0.552 -0.448,-1 -1,-1 -0.552,0 -1,0.448 -1,1v7,2L20,24.977 28,28L28,10C28,8.907 27.093,8 26,8ZM14,14c-3.535,0.002 -6.652,2.334 -7.66,5.715a1,1 0,0 0,0.672 1.244,1 1,0 0,0 1.244,-0.674C9.014,17.743 11.342,16.003 14,16c2.063,0.001 3.949,1.055 5.041,2.752l-1.395,1.395C17.332,20.461 17.555,21 18,21h4c0.276,-0 0.5,-0.224 0.5,-0.5v-4c0,-0.202 -0.122,-0.385 -0.309,-0.463 -0.187,-0.077 -0.402,-0.034 -0.545,0.109L20.48,17.313C18.997,15.262 16.598,14.001 14,14Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1"
+      android:fillColor="?attr/player_icon_color"
+      android:strokeLineCap="round"/>
+</vector>

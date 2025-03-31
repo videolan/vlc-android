@@ -71,7 +71,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/song_title"
-                app:srcCompat="@drawable/ic_chevron_left" />
+                app:srcCompat="@drawable/ic_previous_chapter" />
 
         <ImageView
                 android:id="@+id/next_chapter"
@@ -83,7 +83,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/song_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/song_title"
-                app:srcCompat="@drawable/ic_chevron_right" />
+                app:srcCompat="@drawable/ic_next_chapter" />
 
         <TextView
                 android:id="@+id/song_title"

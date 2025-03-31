@@ -45,6 +45,7 @@ import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.viewmodels.BookmarkModel
 
 class BookmarkListDelegate(val activity: FragmentActivity, val service: PlaybackService, private val bookmarkModel: BookmarkModel, val forVideo:Boolean) :
@@ -96,13 +97,13 @@ class BookmarkListDelegate(val activity: FragmentActivity, val service: Playback
             bookmarkList.adapter = adapter
             bookmarkList.itemAnimator = null
             previousBookmarkButton.setOnClickListener {
-                val bookmark = bookmarkModel.findPrevious()
+                val bookmark = if (LocaleUtil.isRtl())bookmarkModel.findNext() else bookmarkModel.findPrevious()
                 bookmark?.let {
                     service.setTime(it.time)
                 }
             }
             nextBookmarkButton.setOnClickListener {
-                val bookmark = bookmarkModel.findNext()
+                val bookmark = if (LocaleUtil.isRtl())bookmarkModel.findPrevious() else bookmarkModel.findNext()
                 bookmark?.let {
                     service.setTime(it.time)
                 }
