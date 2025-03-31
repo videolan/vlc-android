@@ -820,7 +820,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
         val mediaList = service?.playlistManager?.getMediaList() ?: savedMediaList
-        val mediaIndex = service?.playlistManager?.currentIndex ?: 0
+        val mediaIndex = service?.playlistManager?.currentIndex ?: savedMediaIndex
         if (mediaList != null) {
             outState.putParcelableArrayList(KEY_MEDIA_LIST, ArrayList(mediaList))
             outState.putInt(KEY_MEDIA_INDEX, mediaIndex)
@@ -960,8 +960,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onStop() {
         super.onStop()
-        service?.playlistManager?.getMediaList()?.let {
-            savedMediaList = ArrayList(it)
+        service?.playlistManager?.let {
+            savedMediaList = ArrayList(it.getMediaList())
+            savedMediaIndex = it.currentIndex
         }
         startedScope.cancel()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceReceiver)
