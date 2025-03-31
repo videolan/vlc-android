@@ -42,12 +42,19 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.CUSTOM_ACTION_BOOKMARK
+import org.videolan.resources.CUSTOM_ACTION_FAST_FORWARD
+import org.videolan.resources.CUSTOM_ACTION_REPEAT
+import org.videolan.resources.CUSTOM_ACTION_REWIND
+import org.videolan.resources.CUSTOM_ACTION_SHUFFLE
+import org.videolan.resources.CUSTOM_ACTION_SPEED
+import org.videolan.resources.EXTRA_RELATIVE_MEDIA_ID
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
-import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.Settings
 import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
@@ -442,14 +449,12 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onSkipToNext() = when {
         playbackService.isPodcastMode -> jumpToTimelineEntry(false)
-        playbackService.hasNext() -> playbackService.next()
-        else -> {}
+        else -> playbackService.next()
     }
 
     override fun onSkipToPrevious() = when {
         playbackService.isPodcastMode -> jumpToTimelineEntry(true)
-        playbackService.hasPrevious() -> playbackService.previous(false)
-        else -> {}
+        else -> playbackService.previous(false)
     }
 
     override fun onSeekTo(pos: Long) = seek(if (pos < 0) playbackService.getTime() + pos else pos)
