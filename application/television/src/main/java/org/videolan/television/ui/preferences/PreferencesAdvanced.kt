@@ -354,9 +354,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         when (key) {
             KEY_AOUT -> {
                 launch { restartLibVLC() }
-                val opensles = "2" == preferenceManager.sharedPreferences!!.getString(KEY_AOUT, "0")
-                if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
-                findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
+                Settings.getInstance(activity).let {
+                    if (it.getString(KEY_AOUT, "0") == "2") it.putSingle("audio_digital_output", false)
+                }
             }
             "network_caching" -> {
                 sharedPreferences.edit {
