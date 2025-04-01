@@ -43,6 +43,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,6 +72,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
@@ -88,6 +90,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
+import org.videolan.vlc.isVLC4
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FeatureFlag
@@ -118,6 +121,17 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             it.setSelection(it.editableText.length)
         }
         if (!BuildConfig.DEBUG) findPreference<Preference>("show_update")?.isVisible  = false
+
+        val aoutPref = findPreference<ListPreference>("aout")
+        val aout = VlcMigrationHelper.getAudioOutputFromDevice()
+        if (aout != VlcMigrationHelper.AudioOutput.ALL) {
+            /* no AudioOutput choice */
+            aoutPref?.isVisible = false
+        }
+        if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            aoutPref?.entryValues = requireActivity().resources.getStringArray(R.array.aouts_complete_values)
+            aoutPref?.entries = requireActivity().resources.getStringArray(R.array.aouts_complete)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -373,6 +387,12 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
+            "aout" -> {
+                lifecycleScope.launch { restartLibVLC() }
+                val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
+                if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
+                findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
+            }
             "network_caching" -> {
                 sharedPreferences.edit {
                     try {

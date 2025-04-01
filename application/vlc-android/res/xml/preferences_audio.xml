@@ -108,13 +108,6 @@
                 android:defaultValue="true"
                 android:summary="@string/audio_ducking_summary"
                 android:title="@string/audio_ducking_title"/>
-        <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/aouts"
-                android:entryValues="@array/aouts_values"
-                android:key="aout"
-                android:summary="@string/aout_summary"
-                android:title="@string/aout"/>
         <PreferenceScreen
                 android:key="soundfont"
                 android:summary="@string/soundfont_summary"

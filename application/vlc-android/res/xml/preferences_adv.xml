@@ -95,6 +95,15 @@
                 android:key="opengl"
                 android:summary="@string/opengl_summary"
                 android:title="@string/opengl_title"/>
+
+        <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/aouts"
+                android:entryValues="@array/aouts_values"
+                android:key="aout"
+                android:summary="@string/aout_summary"
+                android:title="@string/aout"/>
+
         <ListPreference
                 android:defaultValue="-1"
                 android:entries="@array/deblocking_list"
