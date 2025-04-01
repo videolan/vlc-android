@@ -98,14 +98,14 @@ fi
 
 phone_strings() {
     case $1 in
-        '01_video_l') echo "Phone video list";;
-        '02_audio_l') echo "Phone audio list";;
-        '03_audio_p') echo "Phone audio player";;
-        '04_audio_p') echo "Phone audio playlist";;
-        '05_browser') echo "Phone Browser";;
-        '06_video_p') echo "Video player";;
-        '07_pip_vid') echo "Video pip";;
-        '08_all_dev') echo "All devices";;
+        '01_video_l') echo "Play all video formats";;
+        '02_audio_l') echo "Play all audio formats";;
+        '03_audio_p') echo "Intuitive audio player";;
+        '04_audio_p') echo "Audio equalizer for a sound to your taste";;
+        '05_browser') echo "Easy to use file browser";;
+        '06_video_p') echo "Video player with gesture controls and other advanced options";;
+        '07_pip_vid') echo "Keep watching with the popup player while using other apps";;
+        '08_all_dev') echo "Play everywhere on all of your Android devices";;
         *) echo 'Unknown';;
     esac
 }

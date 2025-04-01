@@ -11,26 +11,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
-msgid "Phone video list"
+msgid "Play all video formats"
 msgstr "Play all video formats"
 
-msgid "Phone audio list"
+msgid "Play all audio formats"
 msgstr "Play all audio formats"
 
-msgid "Phone audio player"
+msgid "Intuitive audio player"
 msgstr "Intuitive audio player"
 
-msgid "Phone audio playlist"
+msgid "Audio equalizer for a sound to your taste"
 msgstr "Audio equalizer for a sound to your taste"
 
-msgid "Phone Browser"
+msgid "Easy to use file browser"
 msgstr "Easy to use file browser"
 
-msgid "Video player"
+msgid "Video player with gesture controls and other advanced options"
 msgstr "Video player with gesture controls and other advanced options"
 
-msgid "Video pip"
+msgid "Keep watching with the popup player while using other apps"
 msgstr "Keep watching with the popup player while using other apps"
 
-msgid "All devices"
+msgid "Play everywhere on all of your Android devices"
 msgstr "Play everywhere on all of your Android devices"

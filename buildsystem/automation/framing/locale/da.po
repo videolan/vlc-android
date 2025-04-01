@@ -17,26 +17,26 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
-msgid "Phone video list"
+msgid "Play all video formats"
 msgstr "Afspil alle videoformater"
 
-msgid "Phone audio list"
+msgid "Play all audio formats"
 msgstr "Afspil alle lydformater"
 
-msgid "Phone audio player"
+msgid "Intuitive audio player"
 msgstr "Intuitiv lydafspiller"
 
-msgid "Phone audio playlist"
+msgid "Audio equalizer for a sound to your taste"
 msgstr "Lydequalizer til din særegne smag"
 
-msgid "Phone Browser"
+msgid "Easy to use file browser"
 msgstr "Letanvendelig filbrowser"
 
-msgid "Video player"
+msgid "Video player with gesture controls and other advanced options"
 msgstr "Videoafspiller med bevægelsesstyring og andre avancerede muligheder"
 
-msgid "Video pip"
+msgid "Keep watching with the popup player while using other apps"
 msgstr "Bliv ved med at se med popupafspilleren mens andre apps også bruges"
 
-msgid "All devices"
+msgid "Play everywhere on all of your Android devices"
 msgstr "Afspil overalt på alle dine Android-enheder"

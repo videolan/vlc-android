@@ -16,26 +16,26 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
-msgid "Phone video list"
+msgid "Play all video formats"
 msgstr "Esitab kõiki videovorminguid"
 
-msgid "Phone audio list"
+msgid "Play all audio formats"
 msgstr "Esitab kõiki helivorminguid"
 
-msgid "Phone audio player"
+msgid "Intuitive audio player"
 msgstr "Intuitiivne meediaesitaja"
 
-msgid "Phone audio playlist"
+msgid "Audio equalizer for a sound to your taste"
 msgstr "Ekvalaiser, mis võimaldab sättida heli selliseks, nagu sulle meeldib"
 
-msgid "Phone Browser"
+msgid "Easy to use file browser"
 msgstr "Mugav failihaldur"
 
-msgid "Video player"
+msgid "Video player with gesture controls and other advanced options"
 msgstr "Paljude lisavõimalustega videomängija, mida saad hallata viibates"
 
-msgid "Video pip"
+msgid "Keep watching with the popup player while using other apps"
 msgstr "Pilt-pildis videomängija puhuks, kui kasutad muid rakendusi"
 
-msgid "All devices"
+msgid "Play everywhere on all of your Android devices"
 msgstr "Esita meediat kõikjal oma kõikides Androidipõhistes nutiseadmetes"

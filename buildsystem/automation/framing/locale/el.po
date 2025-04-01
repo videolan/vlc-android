@@ -16,30 +16,30 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
-msgid "Phone video list"
+msgid "Play all video formats"
 msgstr "Αναπαραγωγή όλων των τύπων βίντεο"
 
-msgid "Phone audio list"
+msgid "Play all audio formats"
 msgstr "Αναπαραγωγή όλων των τύπων ήχου"
 
-msgid "Phone audio player"
+msgid "Intuitive audio player"
 msgstr "Διαισθητική αναπαραγωγή αρχείων ήχου"
 
-msgid "Phone audio playlist"
+msgid "Audio equalizer for a sound to your taste"
 msgstr "Ισοσταθμιστής για την προσαρμογή ήχου στα γούστα σας"
 
-msgid "Phone Browser"
+msgid "Easy to use file browser"
 msgstr "Εύχρηστος περιηγητής αρχείων"
 
-msgid "Video player"
+msgid "Video player with gesture controls and other advanced options"
 msgstr ""
 "Αναπαραγωγή βίντεο με χειρισμό μέσω χειρονομιών και άλλων προηγμένων "
 "επιλογών"
 
-msgid "Video pip"
+msgid "Keep watching with the popup player while using other apps"
 msgstr ""
 "Συνεχίστε την παρακολούθηση με την αναδυόμενη αναπαραγωγή, κατά την χρήση "
 "άλλων εφαρμογών"
 
-msgid "All devices"
+msgid "Play everywhere on all of your Android devices"
 msgstr "Αναπαραγωγή παντού, σε όλες τις Android συσκευές σας"

@@ -16,27 +16,27 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 "X-Generator: Poedit 3.5\n"
 
-msgid "Phone video list"
+msgid "Play all video formats"
 msgstr "تشغيل جميع صيغ الفيديو"
 
-msgid "Phone audio list"
+msgid "Play all audio formats"
 msgstr "تشغيل جميع صيغ الصوت"
 
-msgid "Phone audio player"
+msgid "Intuitive audio player"
 msgstr "مشغل صوتي بديهي"
 
-msgid "Phone audio playlist"
+msgid "Audio equalizer for a sound to your taste"
 msgstr "مُعادل الصوت للحصول على صوت يناسب ذوقك"
 
-msgid "Phone Browser"
+msgid "Easy to use file browser"
 msgstr "متصفح ملفات سهل الاستخدام"
 
-msgid "Video player"
+msgid "Video player with gesture controls and other advanced options"
 msgstr "مشغل فيديو مع عناصر تحكم بالإيماءات وخيارات متقدمة أخرى"
 
-msgid "Video pip"
+msgid "Keep watching with the popup player while using other apps"
 msgstr ""
 "استمر في المشاهدة باستخدام مشغل النافذة المنبثقة أثناء استخدام تطبيقات أخرى"
 
-msgid "All devices"
+msgid "Play everywhere on all of your Android devices"
 msgstr "العب في أي مكان على جميع أجهزة أندرويد الخاصة بك"

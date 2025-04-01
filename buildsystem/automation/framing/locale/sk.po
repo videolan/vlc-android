@@ -16,30 +16,30 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 "X-Generator: Poedit 3.5\n"
 
-msgid "Phone video list"
+msgid "Play all video formats"
 msgstr "Prehrať všetky formáty videa"
 
-msgid "Phone audio list"
+msgid "Play all audio formats"
 msgstr "Prehrať všetky zvukové formáty"
 
-msgid "Phone audio player"
+msgid "Intuitive audio player"
 msgstr "Intuitívny audio prehrávač"
 
-msgid "Phone audio playlist"
+msgid "Audio equalizer for a sound to your taste"
 msgstr "Zvukový ekvalizér pre zvuk podľa vašej chuti"
 
-msgid "Phone Browser"
+msgid "Easy to use file browser"
 msgstr "Ľahké používanie prehliadača súborov"
 
-msgid "Video player"
+msgid "Video player with gesture controls and other advanced options"
 msgstr ""
 "Prehrávač videa s ovládaním pomocou gest a inými pokročilými možnosťami"
 
-msgid "Video pip"
+msgid "Keep watching with the popup player while using other apps"
 msgstr ""
 "Sledovanie pomocou vyskakovacieho prehrávača, počas používania iných "
 "aplikácií"
 
-msgid "All devices"
+msgid "Play everywhere on all of your Android devices"
 msgstr ""
 "Prehrávajte všade, na všetkých svojich zariadeniach so systémom Android"
