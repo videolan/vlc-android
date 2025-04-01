@@ -248,6 +248,7 @@ const val HTTP_USER_AGENT = "http_user_agent"
 const val DAV1D_THREAD_NUMBER = "dav1d_thread_number"
 const val KEY_QUICK_PLAY = "quick_play"
 const val KEY_QUICK_PLAY_DEFAULT = "quick_play_default"
+const val KEY_AOUT = "aout"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"

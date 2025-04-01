@@ -35,6 +35,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.Preferences
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -221,7 +222,7 @@ object VLCOptions {
     fun getAout(pref: SharedPreferences): String? {
         var aout = -1
         try {
-            aout = Integer.parseInt(pref.getString("aout", "-1")!!)
+            aout = Integer.parseInt(pref.getString(KEY_AOUT, "-1")!!)
         } catch (ignored: NumberFormatException) {
         }
 

@@ -65,6 +65,7 @@ import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
+import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
 import org.videolan.tools.RESULT_RESTART
@@ -122,7 +123,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         }
         if (!BuildConfig.DEBUG) findPreference<Preference>("show_update")?.isVisible  = false
 
-        val aoutPref = findPreference<ListPreference>("aout")
+        val aoutPref = findPreference<ListPreference>(KEY_AOUT)
         val aout = VlcMigrationHelper.getAudioOutputFromDevice()
         if (aout != VlcMigrationHelper.AudioOutput.ALL) {
             /* no AudioOutput choice */
@@ -387,9 +388,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
-            "aout" -> {
+            KEY_AOUT -> {
                 lifecycleScope.launch { restartLibVLC() }
-                val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
+                val opensles = "2" == preferenceManager.sharedPreferences!!.getString(KEY_AOUT, "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }

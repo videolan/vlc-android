@@ -40,6 +40,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.LocaleUtils.getLocales
@@ -87,7 +88,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         findPreference<Preference>(AUDIO_DUCKING)?.isVisible = !AndroidUtil.isOOrLater
 
         updatePassThroughSummary()
-        val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
+        val opensles = "2" == preferenceManager.sharedPreferences!!.getString(KEY_AOUT, "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         preferredAudioTrack = findPreference("audio_preferred_language")!!
         updatePreferredAudioTrack()

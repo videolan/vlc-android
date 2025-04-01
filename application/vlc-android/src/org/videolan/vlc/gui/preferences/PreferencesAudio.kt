@@ -40,6 +40,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AUDIO_DUCKING
+import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.RESUME_PLAYBACK
@@ -75,7 +76,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = AndroidDevices.isPhone
 
         updatePassThroughSummary()
-        val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
+        val opensles = "2" == preferenceManager.sharedPreferences!!.getString(KEY_AOUT, "0")
         if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         for (key in arrayOf("audio-replay-gain-default", "audio-replay-gain-preamp")) {
             findPreference<EditTextPreference>(key)?.setOnBindEditTextListener {

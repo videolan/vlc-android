@@ -66,6 +66,7 @@ import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
+import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -113,8 +114,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
         findPreference<CheckBoxPreference>("quick_play")?.isVisible = false
         findPreference<CheckBoxPreference>("quick_play_default")?.isVisible = false
-        val aoutPref = findPreference<ListPreference>("aout")
-
+        val aoutPref = findPreference<ListPreference>(KEY_AOUT)
         val aout = VlcMigrationHelper.getAudioOutputFromDevice()
         if (aout != VlcMigrationHelper.AudioOutput.ALL) {
             /* no AudioOutput choice */
@@ -352,9 +352,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
-            "aout" -> {
+            KEY_AOUT -> {
                 launch { restartLibVLC() }
-                val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
+                val opensles = "2" == preferenceManager.sharedPreferences!!.getString(KEY_AOUT, "0")
                 if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
