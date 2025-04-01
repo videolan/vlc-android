@@ -70,6 +70,13 @@
             android:key="default_sleep_timer"
             android:title="@string/sleep_title"/>
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:key="persistent_incognito"
+            android:defaultValue="true"
+            android:summary="@string/persistent_incognito_mode_summary"
+            android:title="@string/persistent_incognito_mode"/>
+
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">

@@ -48,7 +48,10 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.startRemoteAccess
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_PERSISTENT_INCOGNITO
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
@@ -78,8 +81,8 @@ class AppSetupDelegate : AppDelegate,
         FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
         System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
 
+        val settings = Settings.getInstance(this)
         if (BuildConfig.DEBUG) {
-            Settings.getInstance(this)
             if (Settings.showTvUi) {
                 // Register movipedia to resume tv shows/movies
                 setupContentResolvers()
@@ -88,11 +91,16 @@ class AppSetupDelegate : AppDelegate,
                 setupIndexers()
             }
         }
-        AppContextProvider.setLocale(Settings.getInstance(this).getString("set_locale", ""))
+        //App restarted, leave the incognito mode
+        if (!settings.getBoolean(KEY_PERSISTENT_INCOGNITO, true))
+            settings.putSingle(KEY_INCOGNITO, false)
+
+
+        AppContextProvider.setLocale(settings.getString("set_locale", ""))
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()
-        if (Settings.getInstance(this).getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
+        if (settings.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
             startRemoteAccess()
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {

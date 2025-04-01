@@ -921,6 +921,8 @@
     <string name="validation_delete_playlist_text">This action cannot be undone.</string>
     <string name="display_settings">Display settings</string>
     <string name="incognito_mode">Incognito mode</string>
+    <string name="persistent_incognito_mode">Persistent incognito mode</string>
+    <string name="persistent_incognito_mode_summary">Keep the incognito mode enabled even if the app is restarted</string>
     <string name="display_in_list">Display in list</string>
     <string name="display_in_grid">Display in grid</string>
     <string name="dump_db_succes">Database dumped on internal storage root</string>
