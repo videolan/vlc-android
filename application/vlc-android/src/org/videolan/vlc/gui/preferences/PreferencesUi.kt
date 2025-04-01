@@ -28,7 +28,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.FragmentActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -142,7 +141,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             "default_sleep_timer" -> {
                 val newFragment = SleepTimerDialog.newInstance(true)
                 newFragment.onDismissListener  = DialogInterface.OnDismissListener { manageSleepTimerSummary() }
-                newFragment.show((activity as FragmentActivity).supportFragmentManager, "time")
+                newFragment.show(requireActivity().supportFragmentManager, "time")
             }
             "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
