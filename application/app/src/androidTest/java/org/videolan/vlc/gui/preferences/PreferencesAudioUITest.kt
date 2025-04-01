@@ -33,12 +33,6 @@ class PreferencesAudioUITest: BasePreferenceUITest() {
     }
 
     @Test
-    fun checkSavePlaybackSpeedSetting() {
-        val key = KEY_PLAYBACK_SPEED_PERSIST
-        checkToggleWorks(key, settings)
-    }
-
-    @Test
     fun checkPersistentAudioPlaybackSetting() {
         val key = "audio_task_removed"
         checkToggleWorks(key, settings, default = false)

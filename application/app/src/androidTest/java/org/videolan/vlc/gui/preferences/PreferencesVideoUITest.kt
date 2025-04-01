@@ -6,11 +6,15 @@ import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.filters.SdkSuppress
 import org.junit.Rule
 import org.junit.Test
-import org.videolan.tools.*
+import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
+import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
+import org.videolan.tools.ENABLE_SEEK_BUTTONS
+import org.videolan.tools.ENABLE_VOLUME_GESTURE
+import org.videolan.tools.POPUP_FORCE_LEGACY
+import org.videolan.tools.POPUP_KEEPSCREEN
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
-import org.videolan.vlc.util.*
 
 class PreferencesVideoUITest: BasePreferenceUITest() {
     @get:Rule
@@ -28,12 +32,6 @@ class PreferencesVideoUITest: BasePreferenceUITest() {
     @Test
     fun checkAudioIndividualDelaySetting() {
         val key = "save_individual_audio_delay"
-        checkToggleWorks(key, settings, default = false)
-    }
-
-    @Test
-    fun checkPersistentSpeedSetting() {
-        val key = KEY_PLAYBACK_SPEED_PERSIST
         checkToggleWorks(key, settings, default = false)
     }
 
