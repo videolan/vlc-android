@@ -38,13 +38,9 @@ import androidx.preference.Preference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.KEY_AOUT
-import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.LocaleUtils.getLocales
-import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -80,16 +76,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        findPreference<Preference>("enable_headset_detection")?.isVisible = false
-        findPreference<Preference>("enable_play_on_headset_insertion")?.isVisible = false
-        findPreference<Preference>("ignore_headset_media_button_presses")?.isVisible = false
-        findPreference<Preference>("headset_prefs_category")?.isVisible = false
-        findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = false
-        findPreference<Preference>(AUDIO_DUCKING)?.isVisible = !AndroidUtil.isOOrLater
-
         updatePassThroughSummary()
-        val opensles = "2" == preferenceManager.sharedPreferences!!.getString(KEY_AOUT, "0")
-        if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         preferredAudioTrack = findPreference("audio_preferred_language")!!
         updatePreferredAudioTrack()
         prepareLocaleList()

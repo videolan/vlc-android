@@ -72,7 +72,6 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
-import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
@@ -115,12 +114,6 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         findPreference<CheckBoxPreference>("quick_play")?.isVisible = false
         findPreference<CheckBoxPreference>("quick_play_default")?.isVisible = false
         val aoutPref = findPreference<ListPreference>(KEY_AOUT)
-        val aout = VlcMigrationHelper.getAudioOutputFromDevice()
-        if (aout != VlcMigrationHelper.AudioOutput.ALL) {
-            /* no AudioOutput choice */
-            aoutPref?.isVisible = false
-        }
-
         if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             aoutPref?.entryValues = activity.resources.getStringArray(R.array.aouts_complete_values)
             aoutPref?.entries = activity.resources.getStringArray(R.array.aouts_complete)

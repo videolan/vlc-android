@@ -73,7 +73,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
@@ -124,11 +123,6 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         if (!BuildConfig.DEBUG) findPreference<Preference>("show_update")?.isVisible  = false
 
         val aoutPref = findPreference<ListPreference>(KEY_AOUT)
-        val aout = VlcMigrationHelper.getAudioOutputFromDevice()
-        if (aout != VlcMigrationHelper.AudioOutput.ALL) {
-            /* no AudioOutput choice */
-            aoutPref?.isVisible = false
-        }
         if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             aoutPref?.entryValues = requireActivity().resources.getStringArray(R.array.aouts_complete_values)
             aoutPref?.entries = requireActivity().resources.getStringArray(R.array.aouts_complete)

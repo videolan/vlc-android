@@ -31,8 +31,9 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceDialogFragment
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
-
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 
 const val RESTART_CODE = 10001
 abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
@@ -40,6 +41,11 @@ abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
     protected abstract fun getXml(): Int
     protected abstract fun getTitleId(): Int
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val settings = Settings.getInstance(activity)
+        PreferenceVisibilityManager.manageVisibility(settings, preferenceScreen, true)
+    }
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         addPreferencesFromResource(getXml())
     }

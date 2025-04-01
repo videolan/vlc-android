@@ -31,6 +31,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.hack.MultiSelectListPreferenceDialogFragmentCompat
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
@@ -44,6 +45,12 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         addPreferencesFromResource(getXml())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val settings = Settings.getInstance(requireActivity())
+        PreferenceVisibilityManager.manageVisibility(settings, preferenceScreen, false)
     }
 
     override fun onStart() {
