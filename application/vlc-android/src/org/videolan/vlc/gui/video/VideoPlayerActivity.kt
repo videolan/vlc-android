@@ -1723,7 +1723,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             wasPaused = false
         }
         setESTracks()
-        if (overlayDelegate.isHudRightBindingInitialized() && overlayDelegate.hudRightBinding.playerOverlayTitle.length() == 0)
+        if (overlayDelegate.isHudRightBindingInitialized() && (overlayDelegate.hudRightBinding.playerOverlayTitle.length() == 0 || PlaybackService.hasRenderer()))
             overlayDelegate.setTitle(mw.title)
         // Get possible subtitles
         observeDownloadedSubtitles()
