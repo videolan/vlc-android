@@ -37,7 +37,9 @@ import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.LIST_TITLE_ELLIPSIZE
 import org.videolan.tools.PLAYLIST_MODE_AUDIO
 import org.videolan.tools.PLAYLIST_MODE_VIDEO
+import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.tools.RESUME_PLAYBACK
+import org.videolan.tools.SAVE_BRIGHTNESS
 import org.videolan.tools.TV_FOLDERS_FIRST
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.VlcMigrationHelper
@@ -58,12 +60,13 @@ object PreferenceVisibilityManager {
         RESUME_PLAYBACK -> AndroidDevices.isPhone && !forTv
         KEY_AOUT -> VlcMigrationHelper.getAudioOutputFromDevice() == VlcMigrationHelper.AudioOutput.ALL
         "audio_digital_output" -> sharedPreferences.getString("aout", "0") != "2"
-        KEY_APP_THEME, LIST_TITLE_ELLIPSIZE, "enable_headset_detection", "enable_play_on_headset_insertion", "ignore_headset_media_button_presses", "headset_prefs_category" -> !forTv
+        "secondary_display_category", "secondary_display_category_summary", "enable_clone_mode", SAVE_BRIGHTNESS, KEY_APP_THEME, LIST_TITLE_ELLIPSIZE, "enable_headset_detection", "enable_play_on_headset_insertion", "ignore_headset_media_button_presses", "headset_prefs_category" -> !forTv
         TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO -> forTv
         "optional_features" -> FeatureFlag.entries.isNotEmpty()
         "show_update" -> !forTv && BuildConfig.DEBUG
         "quick_play" -> !forTv
         "quick_play_default" -> !forTv
+        POPUP_FORCE_LEGACY -> AndroidUtil.isOOrLater && !forTv
         else -> true
     }
 
