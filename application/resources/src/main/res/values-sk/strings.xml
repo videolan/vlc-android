@@ -929,6 +929,8 @@
     <string name="validation_delete_playlist_text">Túto akciu nemožno vrátiť späť.</string>
     <string name="display_settings">Nastavenia zobrazenia</string>
     <string name="incognito_mode">Režim Inkognito</string>
+    <string name="persistent_incognito_mode">Perzistentný režim inkognito</string>
+    <string name="persistent_incognito_mode_summary">Ponechať aktivovaný režim inkognito aj keď je aplikácia reštartovaná</string>
     <string name="display_in_list">Zobraziť v zozname</string>
     <string name="display_in_grid">Zobraziť v mriežke</string>
     <string name="dump_db_succes">Výpis databázy bol uložený na hlavné interné úložisko</string>

@@ -39,6 +39,7 @@
     </plurals>
 
     <string name="play">Reproduzir</string>
+    <string name="quick_play">Reprodução rápida</string>
     <string name="playback">Reprodução</string>
     <string name="playback_controls">Controlos de reprodução</string>
     <string name="medialibrary_scan">Pesquisar mediateca</string>
@@ -603,6 +604,11 @@
     <string name="custom_libvlc_options_invalid">Opções de libVLC inválidas!</string>
     <string name="dav1d_thread_number">Número do \'thread\' Dav1d</string>
     <string name="dav1d_thread_number_invalid">Número do \'thread\' inválido! (>=1)</string>
+    <string name="browser_quick_play">Menu de reprodução rápida do navegador</string>
+    <string name="browser_quick_play_summary">Adicione uma ação de reprodução rápida no menu de itens do navegador. Irá carregar os seus ficheiros mais rapidamente, mas poderão faltar alguns metadados</string>
+    <string name="browser_quick_play_default">Reprodução rápida como ação predefinida</string>
+    <string name="browser_quick_play_default_summary">Se estiver ativado, tocar num item do navegador irá reproduzi-lo utilizando a reprodução rápida</string>
+
     <string name="serious_crash">Infelizmente, ocorreu um erro sério e o VLC teve de fechar.</string>
     <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando-nos o seguinte registo de erro:</string>
     <string name="ml_crash_send">Ocorreu uma falha com a biblioteca multimédia. Ajude-nos enviando os registos.</string>
@@ -755,6 +761,7 @@
     <string name="episodes">episódios</string>
     <string name="movies">filmes</string>
     <string name="videos">vídeos</string>
+    <string name="default_action_videos">Vídeos</string>
     <string name="videos_all">Todos os vídeos</string>
     <string name="clear_playback_history">Limpar histórico de reprodução</string>
     <string name="ml_scanning">A procurar ficheiros multimédia</string>
@@ -1379,4 +1386,6 @@
     <string name="body">Mensagem</string>
     <string name="rate_us">Avalie a aplicação</string>
     <string name="generating_logs">A gerar registos. Aguarde.</string>
-    </resources>
+    <string name="default_playback_action">Ação de reprodução</string>
+    <string name="files">Ficheiros</string>
+</resources>

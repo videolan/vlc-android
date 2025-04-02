@@ -1,7 +1,5 @@
 # 
 # Translators:
-# Kristoffer Grundström <lovaren@gmail.com>, 2024
-# A. Regnander <anton_r_3@hotmail.com>, 2024
 # Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2025
 # 
 msgid ""

@@ -191,6 +191,7 @@
 
     <string name="playback_speed">დაკვრის სიჩქარე</string>
     <string name="warning_stream_speed">სიჩქარის 1-ზე მეტად გაზრდამ ნაკადისთვის, შეიძლება შეფერხებები წარმოშვას</string>
+    <string name="playback_speed_explanation_all_incognito">ფარულ რეჟიმში ხართ. სიჩქარე დაუბრუნდება საშუალო მნიშვნელობას ფარული რეჟიმის დატოვებისას.</string>
     <string name="sleep_title">ძილის უკუთვლა</string>
     <string name="sleep_in">დაიძინოს</string>
     <string name="jump_to_time">გადასვლა დროზე</string>
@@ -234,6 +235,7 @@
     <string name="video_resume_playback_summary">ნებართვა გასაშვები ვიდეოების რიგის შესანახად მოგვიანებით გაგრძელებისთვის</string>
     <string name="audio_resume_playback_title">გასაშვები ხმოვანი ჩანაწერების რიგის დახსომება</string>
     <string name="audio_resume_playback_warning">ხმოვანი ჩანაწერების რიგის დახსომების გათიშვამ შეიძლება ხარვეზები წარმოშვას.\nშედეგად, ვერ შეძლებთ განაგრძოთ დაკვრა:\n\n\t- Bluetooth-მოწყობილობიდან\n\t- ვიჯეტიდან\n\t- შეტყობინების არედან</string>
+    <string name="playback_history_warning">დაკვრის ისტორია დაიმალება გათიშვის შემთხვევაში, აგრეთვე მიმდინარე ფაილები და მონახულებული სანიშნებიც. პროგრამა განაგრძობს თქვენი მოქმედებების დახსომებას და აღადგენს ისტორიის ჩართვისთანავე.\nთუ გსურთ, სრულად შეწყდეს მოქმედებების დახსომება, სანაცვლოდ გამოგადგებათ ფარული რეჟიმი.\nამასთანავე, შეგიძლიათ გაასუფთავოთ ისტორია დამატებითი პარამეტრების გვერდიდან.</string>
     <string name="audio_resume_playback_summary">ნებართვა გასაშვები ხმოვანი ჩანაწერების რიგის შესანახად მოგვიანებით გაგრძელებისთვის</string>
 
     <string name="play_button">გაშვების ღილაკი</string>
@@ -290,7 +292,7 @@
     <string name="is_signed_by">დამმოწმებელი</string>
     <string name="sources">პირველწყარო კოდი</string>
     <string name="libraries">ბიბლიოთეკები</string>
-    <string name="feedback_forum">უკუკავშირის ფორუმი</string>
+    <string name="feedback_forum">ფორუმი გამოხმაურებისთვის</string>
 
     <!-- Preferences -->
     <string name="preferences">პარამეტრები</string>
@@ -325,7 +327,7 @@
     <string name="theme_auto">იერსახის თვითშერჩევა</string>
     <string name="subtitle_text_encoding">ქვეწარწერების ტექსტის კოდირება</string>
     <string name="subtitle_preferred_language">ქვეწარწერების სასურველი ენა</string>
-    <string name="daynight_title">დღეღამე რეჟიმი</string>
+    <string name="daynight_title">დღეღამის რეჟიმი</string>
     <string name="daynight_follow_system_title">სისტემის მიხედვით</string>
     <string name="no_track_preference">ენის პარამეტრები არაა</string>
     <string name="track_preference">ჩანაწერის პარამეტრები: %s</string>
@@ -860,6 +862,8 @@
     <string name="validation_delete_playlist_text">ეს ქმედება შეუქცევადია.</string>
     <string name="display_settings">ჩვენების პარამეტრები</string>
     <string name="incognito_mode">ფარული რეჟიმი</string>
+    <string name="persistent_incognito_mode">მუდმივად ფარული რეჟიმი</string>
+    <string name="persistent_incognito_mode_summary">ფარული რეჟიმის დატოვება პროგრამის ახლიდან გაშვების დროსაც</string>
     <string name="display_in_list">სიაში ჩვენება</string>
     <string name="display_in_grid">ცხრილურად ჩვენება</string>
     <string name="dump_db_succes">მონაცემთა კრებული გადატანილია შიდა მეხსიერების ძირეულ საქაღალდეში.</string>
@@ -872,9 +876,11 @@
     <string name="welcome_beta_title">VLC Beta (საცდელი)</string>
     <string name="welcome_beta_description">მოგესალმებათ საცდელი VLC.\nგთხოვთ გაითვალისწინოთ, რომ ეს ვერსია შესაძლოა ხარვეზიანი იყოს.</string>
     <string name="welcome_beta_description_bugs">თუ შეცდომას წააწყდებით, გთხოვთ მოგვახსენოთ ჩვენს ფორუმზე ან ხარვეზების აღმრიცხავში.</string>
+    <string name="welcome_beta_description_crashes">ხარვეზის ან უეცარი გათიშვის შემთხვევაში გთხოვთ, გახსნათ პროგრამის შესახებ მენიუ და იხილოთ გამოხმაურება > შეეხმიანეთ მხარდაჭერის გუნდს ელფოსტით.</string>
     <string name="send">გაგზავნა</string>
     <string name="send_crash_action_title">რისი გაკეთება გსურთ?</string>
     <string name="report_a_bug">ხარვეზის მოხსენება</string>
+    <string name="send_feedback">გამოხმაურება</string>
     <string name="report_a_crash">უეცარი გათიშვის მოხსენება</string>
     <string name="describe_crash">გთხოვთ, აღწეროთ უეცარი გათიშვის შემთხვევა</string>
     <string name="favorite">რჩეული</string>
@@ -1311,4 +1317,10 @@
     <string name="queue_format">რიგის სახეობა</string>
     <string name="queue_format_short_desc">რიგის ადგილი</string>
     <string name="queue_format_long_desc">რიგის ადგილი / ზომა</string>
+    <string name="get_help">დახმარების მიღება</string>
+    <string name="feedback_type">გამოხმაურების სახეობა</string>
+    <string name="send_feedback_request">გამოხმაურება / მოთხოვნა</string>
+    <string name="read_doc">გაეცანით ცნობარს</string>
+    <string name="subject">საკითხი</string>
+    <string name="body">შეტყობინება</string>
     </resources>

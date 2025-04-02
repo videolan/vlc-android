@@ -14,13 +14,22 @@
     <string name="sortby_length">Duración</string>
     <string name="sortby_date">Fecha</string>
     <string name="sortby_last_modified_date">Agregado recientemente</string>
+    <string name="sortby_insertion">Fecha de inserción</string>
+    <string name="sortby_date_last_modified">Añadido recientemente</string>
+    <string name="sortby_date_insertion">Fecha de inserción</string>
+    <string name="sortby_date_release">Fecha de publicación</string>
     <string name="sortby_media_number">Número de medio</string>
     <string name="sortby_number">Pistas</string>
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Más corto primero</string>
     <string name="sortby_length_desc">Más largo primero</string>
+    <string name="sort_date_asc">Antiguos primero</string>
+    <string name="sort_date_desc">Nuevos primero</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
         <item quantity="many">%d resultados encontrados</item>
@@ -28,6 +37,7 @@
     </plurals>
 
     <string name="play">Reproducir</string>
+    <string name="quick_play">Reproducción rápida</string>
     <string name="playback">Reproducción</string>
     <string name="playback_controls">Controles de reproducción</string>
     <string name="medialibrary_scan">Escaneo de biblioteca de medios</string>
@@ -40,11 +50,14 @@
     <string name="video_app_switch_summary">Elegir comportamiendo al cambiar a otra aplicación durante un vídeo </string>
     <string name="play_pip_title">Superposición en miniatura</string>
     <string name="play_as_audio_background">Reproducir en segundo plano</string>
+    <string name="append">Añadir a la cola de reproducción</string>
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Adjuntar todo al final</string>
     <string name="resume_playback_short_title">Reanudar reproducción</string>
     <string name="resume_playback_long_title">Reanudar reproducción de la última lista</string>
+    <string name="resume_audio_playback_short_title">Reanudar reproducción de audio</string>
+    <string name="resume_audio_playback_long_title"> Reanudar la última lista de reproducción de audio</string>
     <string name="resume_playback_error">Nada a continuar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
@@ -52,6 +65,7 @@
     <string name="set_song_question">Establecer \'%1$s\' como tono de llamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Borrar el archivo \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">¿Está seguro de que desea reemplazar la lista de reproducción \'%1$s\'?</string>
     <string name="confirm_delete_message">Esta acción es permanente y no se puede deshacer.</string>
     <string name="confirm_delete_album">¿Borrar el álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">¿Borrar %1$d medio(s)?</string>
@@ -133,7 +147,9 @@
     <string name="shuffle_title">Modo aleatorio</string>
     <string name="shuffle">Aleatorio Apagado</string>
     <string name="shuffle_on">Aleatorio Encendido</string>
+    <string name="shuffle_play">Aleatorio</string>
     <string name="repeat_title">Modo repetir</string>
+    <string name="repeat_none">No repetir</string>
     <string name="repeat_single">Repetir archivo actual</string>
     <string name="repeat_all">Repetir todo</string>
     <string name="previous">Anterior</string>
@@ -156,6 +172,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Idioma %1$s\n</string>
     <string name="volume">Volumen</string>
+    <string name="system_volume_disabled">%s\nSin acceso al volumen del sistema</string>
     <string name="sound_on">Sonido encendido</string>
     <string name="sound_off">Sonido apagado</string>
     <string name="brightness">Brillo</string>
@@ -174,6 +191,10 @@
 
     <string name="playback_speed">Velocidad de reproducción</string>
     <string name="warning_stream_speed">Velocidad de reproducción mayor a 1 en Transmisiones puede ocasionar pausas</string>
+    <string name="playback_speed_this_video">Este vídeo</string>
+    <string name="playback_speed_this_track">Esta pista</string>
+    <string name="playback_speed_all_videos">Todos los vídeos</string>
+    <string name="playback_speed_all_tracks">Todas las pistas</string>
     <string name="sleep_title">Temporizador</string>
     <string name="sleep_in">Apagar en</string>
     <string name="jump_to_time">Ir al tiempo</string>
@@ -274,6 +295,7 @@
     <string name="screen_orientation_landscape_reverse">Orientación horizontal invertida</string>
     <string name="screen_orientation_last_locked">Última orientación bloqueada</string>
     <string name="enable_black_theme">Tema negro</string>
+    <string name="dark_theme">Tema oscuro</string>
     <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificador textual de subtítulos</string>
     <string name="subtitle_preferred_language">Idioma preferido para subtítulos </string>
@@ -310,6 +332,11 @@
     <string name="enable_volume_gesture_title">Gestos de volumen</string>
     <string name="enable_volume_gesture_summary">Controlar volumen con gestos en la reproducción de vídeo</string>
     <string name="enable_seek_buttons">Mostrar botones para rebobinar</string>
+    <string name="artist">Artista</string>
+    <string name="album">Álbum</string>
+    <string name="track">Pista</string>
+    <string name="genre">Género</string>
+    <string name="playlist">Lista de reproducción</string>
     <string name="enable_double_tap_seek_title">Doble toque para rebobinar</string>
     <string name="enable_double_tap_seek_summary">Toca dos veces en la derecha o izquierda para atrasar o adelantar 10 segundos, respectivamente.</string>
     <string name="popup_keepscreen_title">Mantener pantalla encendida en modo miniatura</string>

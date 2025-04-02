@@ -916,6 +916,8 @@
     <string name="validation_delete_playlist_text">Această acțiune nu poate fi anulată.</string>
     <string name="display_settings">Setări de afișaj</string>
     <string name="incognito_mode">Modul incognito</string>
+    <string name="persistent_incognito_mode">Modul incognito persistent</string>
+    <string name="persistent_incognito_mode_summary">Păstrează modul incognito activat chiar dacă aplicația este repornită</string>
     <string name="display_in_list">Afișare sub formă de listă</string>
     <string name="display_in_grid">Afișare sub formă de grilă</string>
     <string name="dump_db_succes">Baza de date descărcată pe rădăcina de stocare internă</string>

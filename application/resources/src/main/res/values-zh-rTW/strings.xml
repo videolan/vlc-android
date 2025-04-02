@@ -890,6 +890,8 @@
     <string name="validation_delete_playlist_text">這個動作無法復原。</string>
     <string name="display_settings">顯示設定</string>
     <string name="incognito_mode">無痕模式</string>
+    <string name="persistent_incognito_mode">持續無痕模式</string>
+    <string name="persistent_incognito_mode_summary">即便重新啟動應用程式，仍維持啟用無痕模式</string>
     <string name="display_in_list">以清單顯示</string>
     <string name="display_in_grid">以方格顯示</string>
     <string name="dump_db_succes">資料庫已傾印到內部儲存空間根目錄</string>

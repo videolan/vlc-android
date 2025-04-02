@@ -922,6 +922,8 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="validation_delete_playlist_text">Tätä ei voi kumota.</string>
     <string name="display_settings">Näytön asetukset</string>
     <string name="incognito_mode">Anonyymi moodi</string>
+    <string name="persistent_incognito_mode">Pysyvä anonyyminen tila</string>
+    <string name="persistent_incognito_mode_summary">Pidä anonyyminen tila aina käytössä, vaikka sovellus käynnistyisi uudelleen</string>
     <string name="display_in_list">Näytä lista</string>
     <string name="display_in_grid">Näytä ruuduko</string>
     <string name="dump_db_succes">Tietokanta on viety sisäisen tallennustilan juureen</string>

@@ -1,13 +1,13 @@
 # 
 # Translators:
-# Priit Jõerüüt <transifex@joeruut.com>, 2024
+# Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2024-12-17 11:54+0000\n"
-"Last-Translator: Priit Jõerüüt <transifex@joeruut.com>, 2024\n"
+"Last-Translator: Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2025\n"
 "Language-Team: Estonian (https://app.transifex.com/yaron/teams/16553/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

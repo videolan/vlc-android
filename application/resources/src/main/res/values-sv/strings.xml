@@ -297,7 +297,7 @@
     <string name="hold_to_stop">Håll ned för att stoppa</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC för Android</string>
+    <string name="app_name_full">VLC for Android</string>
     <string name="revision">Version</string>
     <string name="about">Om</string>
     <string name="about_vlc_text">VLC for Android™ är en portering av VLC media player, den populära mediaspelaren med öppen källkod. Android™-versionen kan läsa alla filer och nätverksströmmar.</string>
@@ -593,7 +593,11 @@
     <string name="custom_libvlc_options_invalid">Ogiltiga libVLC-alternativ!</string>
     <string name="dav1d_thread_number">Trådnummer för Dav1d</string>
     <string name="dav1d_thread_number_invalid">Ogiltigt trådnummer! (>=1)</string>
+    <string name="browser_quick_play">Snabbuppspelning i webbläsarmenyn</string>
+    <string name="browser_quick_play_summary">Lägger till ett menyalternativ för snabbuppspelning i webbläsaren. Detta gör att mediafiler läser in snabbare på bekostnad av vissa metadata</string>
     <string name="browser_quick_play_default">Snabbuppspelning som standardåtgärd</string>
+    <string name="browser_quick_play_default_summary">När detta aktiveras kommer snabbuppspelning användas för att spela upp objekt i webbläsaren</string>
+
     <string name="serious_crash">Tyvärr uppstod ett allvarligt fel och VLC blev tvungen att stängas ned.</string>
     <string name="help_us_send_log">Hjälp oss att förbättra VLC genom att skicka följande kraschlogg:</string>
     <string name="ml_crash_send">Mediabiblioteket kraschade precis. Hjälp oss genom att skicka loggarna.</string>
@@ -899,6 +903,8 @@
     <string name="validation_delete_playlist_text">Denna handling kan inte ångras.</string>
     <string name="display_settings">Visningsinställningar</string>
     <string name="incognito_mode">Inkognitoläge</string>
+    <string name="persistent_incognito_mode">Beständigt inkognitoläge</string>
+    <string name="persistent_incognito_mode_summary">Låt inkognitoläget vara aktiverat även om appen startas om</string>
     <string name="display_in_list">Visa som lista</string>
     <string name="display_in_grid">Visa som rutnät</string>
     <string name="dump_db_succes">Databasen sparades på den interna lagringens rotmapp</string>

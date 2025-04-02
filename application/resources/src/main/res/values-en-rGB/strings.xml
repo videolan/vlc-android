@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Play</string>
+    <string name="quick_play">Quick play</string>
     <string name="playback">Playback</string>
     <string name="playback_controls">Playback controls</string>
     <string name="medialibrary_scan">Media library scan</string>
@@ -371,6 +372,7 @@
     <string name="save_brightness_title">Save brightness level</string>
     <string name="save_audiodelay_summary">Save individual audio delay for each video</string>
     <string name="save_audiodelay_title">Save audio delay</string>
+    <string name="video_show_orientation_button">Show orientation button</string>
     <string name="enable_brightness_gesture_title">Brightness gesture</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_volume_gesture_title">Volume gesture</string>
@@ -591,8 +593,14 @@
     <string name="custom_libvlc_options_invalid">Invalid libVLC options!</string>
     <string name="dav1d_thread_number">Dav1d thread number</string>
     <string name="dav1d_thread_number_invalid">Invalid thread number! (>=1)</string>
+    <string name="browser_quick_play">Browser quick play menu</string>
+    <string name="browser_quick_play_summary">Add a quick play action in the browser items\' menu. It will load your media faster but some metadata may be missing</string>
+    <string name="browser_quick_play_default">Quick play as default action</string>
+    <string name="browser_quick_play_default_summary">If activated, taping a browser item will play it using quick play</string>
+
     <string name="serious_crash">Unfortunately, a serious error has occurred and VLC had to close.</string>
     <string name="help_us_send_log">Help us improving VLC by sending the following crash log:</string>
+    <string name="ml_crash_send">The media library just crashed. Help us by sending the logs.</string>
     <string name="restart_vlc">Restart VLC</string>
     <string name="send_log">Send the log</string>
     <string name="sending_log">Sending the log…</string>
@@ -742,6 +750,7 @@
     <string name="episodes">episodes</string>
     <string name="movies">movies</string>
     <string name="videos">videos</string>
+    <string name="default_action_videos">Videos</string>
     <string name="videos_all">All videos</string>
     <string name="clear_playback_history">Clear playback history</string>
     <string name="ml_scanning">Scanning for media files</string>
@@ -902,13 +911,16 @@
     <string name="send_crash_description">By sending your crash, you will help us improve VLC stability.</string>
     <string name="send_crash_warning">Make sure you remove any sensitive data you don\'t want to send.</string>
     <string name="include_medialib">Include your database</string>
+    <string name="include_logs">Include your logs</string>
     <string name="vlc_reporter">VLC reporter</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Welcome in VLC beta program.\nPlease note this version may have some bugs.</string>
     <string name="welcome_beta_description_bugs">If you notice a bug, please report it in our forum or bug tracker.</string>
+    <string name="welcome_beta_description_crashes">If you experience a bug or a crash, please open the About screen and Use the Feedback > Contact the support team button.</string>
     <string name="send">Send</string>
     <string name="send_crash_action_title">What do you want to do?</string>
     <string name="report_a_bug">Report a bug</string>
+    <string name="send_feedback">Send feedback</string>
     <string name="report_a_crash">Report a crash</string>
     <string name="describe_crash">Please describe how this crash happened</string>
     <string name="favorite">Favorite</string>
@@ -1348,4 +1360,17 @@
     <string name="queue_format_short_desc">Queue position</string>
     <string name="queue_format_long_desc">Queue position / Queue size</string>
     <string name="video_settings_disclaimer">Some settings have been moved to the video controls settings in the video player.</string>
-    </resources>
+    <string name="get_help">Get some help</string>
+    <string name="feedback_type">Feedback type</string>
+    <string name="how_to_use">Learn how to use</string>
+    <string name="send_feedback_request">Feedback / feature request</string>
+    <string name="report_crash">Report a crash</string>
+    <string name="email_support">Contact the support team by email</string>
+    <string name="read_doc">Read the documentation</string>
+    <string name="subject">Subject</string>
+    <string name="body">Message</string>
+    <string name="rate_us">Rate the app</string>
+    <string name="generating_logs">Generating logs. Please wait.</string>
+    <string name="default_playback_action">Playback action</string>
+    <string name="files">Files</string>
+</resources>

@@ -890,6 +890,8 @@
     <string name="validation_delete_playlist_text">このアクションは取消できません。</string>
     <string name="display_settings">表示設定</string>
     <string name="incognito_mode">シークレットモード</string>
+    <string name="persistent_incognito_mode">シークレットモードの保持</string>
+    <string name="persistent_incognito_mode_summary">アプリケーションを再起動してもシークレットモードを保持する</string>
     <string name="display_in_list">リスト表示</string>
     <string name="display_in_grid">グリッド表示</string>
     <string name="dump_db_succes">内部ストレージのルートにデータベースのダンプが生成されました</string>
