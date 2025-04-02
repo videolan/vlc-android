@@ -40,7 +40,6 @@ import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -90,7 +89,6 @@ import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.isVLC4
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.AutoUpdate
-import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.deleteAllWatchNext
 import java.io.File
@@ -110,9 +108,6 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
-        findPreference<CheckBoxPreference>("quick_play")?.isVisible = false
-        findPreference<CheckBoxPreference>("quick_play_default")?.isVisible = false
         val aoutPref = findPreference<ListPreference>(KEY_AOUT)
         if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             aoutPref?.entryValues = activity.resources.getStringArray(R.array.aouts_complete_values)
