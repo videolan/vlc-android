@@ -31,8 +31,14 @@ import androidx.preference.children
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.AUDIO_DUCKING
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.LIST_TITLE_ELLIPSIZE
+import org.videolan.tools.PLAYLIST_MODE_AUDIO
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.RESUME_PLAYBACK
+import org.videolan.tools.TV_FOLDERS_FIRST
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager.isPreferenceVisible
@@ -52,7 +58,8 @@ object PreferenceVisibilityManager {
         RESUME_PLAYBACK -> AndroidDevices.isPhone && !forTv
         KEY_AOUT -> VlcMigrationHelper.getAudioOutputFromDevice() == VlcMigrationHelper.AudioOutput.ALL
         "audio_digital_output" -> sharedPreferences.getString("aout", "0") != "2"
-        "enable_headset_detection", "enable_play_on_headset_insertion", "ignore_headset_media_button_presses", "headset_prefs_category" -> !forTv
+        KEY_APP_THEME, LIST_TITLE_ELLIPSIZE, "enable_headset_detection", "enable_play_on_headset_insertion", "ignore_headset_media_button_presses", "headset_prefs_category" -> !forTv
+        TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO -> forTv
         "optional_features" -> FeatureFlag.entries.isNotEmpty()
         "show_update" -> !forTv && BuildConfig.DEBUG
         "quick_play" -> !forTv

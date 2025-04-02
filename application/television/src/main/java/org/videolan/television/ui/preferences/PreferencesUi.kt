@@ -39,7 +39,18 @@ import org.videolan.medialibrary.Tools
 import org.videolan.resources.AppContextProvider
 import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
-import org.videolan.tools.*
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.KEY_SHOW_HEADERS
+import org.videolan.tools.LocaleUtils
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
+import org.videolan.tools.PREF_TV_UI
+import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
+import org.videolan.tools.Settings
+import org.videolan.tools.TV_FOLDERS_FIRST
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
@@ -63,10 +74,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         super.onCreate(savedInstanceState)
         tvUiPref = findPreference(PREF_TV_UI)!!
         tvUiPref.setDefaultValue(true)
-        findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
-        findPreference<Preference>(LIST_TITLE_ELLIPSIZE)?.isVisible = false
-        findPreference<Preference>(TV_FOLDERS_FIRST)?.isVisible = true
-        findPreference<Preference>(BROWSER_SHOW_HIDDEN_FILES)?.isVisible = true
         prepareLocaleList()
         currentLocale = AppContextProvider.locale
     }
