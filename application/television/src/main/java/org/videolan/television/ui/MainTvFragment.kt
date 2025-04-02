@@ -269,6 +269,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         registerDatasets()
     }
 
+    override fun onResume() {
+        super.onResume()
+        badgeDrawable = ContextCompat.getDrawable(requireContext(), if (Settings.incognitoMode) R.drawable.ic_incognito else R.drawable.icon)
+    }
+
     private fun manageDonationVisibility(donateCard: GenericCardItem) {
         if (activity == null) return
         otherAdapter.remove(donateCard)

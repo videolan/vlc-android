@@ -72,7 +72,14 @@
 
     <CheckBoxPreference
             app:singleLineTitle="false"
+            android:key="incognito_mode"
+            android:defaultValue="false"
+            android:title="@string/incognito_mode"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
             android:key="persistent_incognito"
+            android:dependency="incognito_mode"
             android:defaultValue="true"
             android:summary="@string/persistent_incognito_mode_summary"
             android:title="@string/persistent_incognito_mode"/>

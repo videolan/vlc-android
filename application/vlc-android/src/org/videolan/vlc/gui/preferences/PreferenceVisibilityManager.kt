@@ -34,7 +34,7 @@ import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.KEY_APP_THEME
-import org.videolan.tools.KEY_PERSISTENT_INCOGNITO
+import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
 import org.videolan.tools.LIST_TITLE_ELLIPSIZE
@@ -64,7 +64,7 @@ object PreferenceVisibilityManager {
         //hidden on TV
         KEY_QUICK_PLAY_DEFAULT, KEY_QUICK_PLAY, "secondary_display_category", "secondary_display_category_summary", "enable_clone_mode", SAVE_BRIGHTNESS,
         KEY_APP_THEME, LIST_TITLE_ELLIPSIZE, "enable_headset_detection", "enable_play_on_headset_insertion", "ignore_headset_media_button_presses",
-        "headset_prefs_category", KEY_PERSISTENT_INCOGNITO, "audio_resume_card", LOCKSCREEN_COVER, SHOW_SEEK_IN_COMPACT_NOTIFICATION,
+        "headset_prefs_category", "audio_resume_card", LOCKSCREEN_COVER, SHOW_SEEK_IN_COMPACT_NOTIFICATION,
         "audio_task_removed"-> !forTv
         //only on TV
         TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO -> forTv

@@ -40,6 +40,7 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.PLAYLIST_MODE_VIDEO
@@ -113,6 +114,9 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             PREF_TV_UI -> {
                 Settings.tvUI = sharedPreferences.getBoolean(PREF_TV_UI, false)
                 (activity as PreferencesActivity).setRestartApp()
+            }
+            KEY_INCOGNITO -> {
+                Settings.incognitoMode = sharedPreferences.getBoolean(KEY_INCOGNITO, false)
             }
 
             TV_FOLDERS_FIRST -> Settings.tvFoldersFirst = sharedPreferences.getBoolean(TV_FOLDERS_FIRST, true)
