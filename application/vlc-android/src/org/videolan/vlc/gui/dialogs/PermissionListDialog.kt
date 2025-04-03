@@ -38,7 +38,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
@@ -103,6 +102,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
 
     override fun onResume() {
         super.onResume()
+        Permissions.emptyCache()
         updateStorageState()
     }
 
