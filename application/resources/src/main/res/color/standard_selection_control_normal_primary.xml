@@ -26,5 +26,6 @@
     <item android:state_selected="true" android:color="?attr/colorPrimary" />
     <item android:state_pressed="true" android:color="?attr/colorPrimary" />
     <item android:state_focused="true" android:color="?attr/colorPrimary" />
+    <item android:state_enabled="false" android:color="?attr/font_disabled" />
     <item android:color="?attr/colorControlNormal" />
 </selector>

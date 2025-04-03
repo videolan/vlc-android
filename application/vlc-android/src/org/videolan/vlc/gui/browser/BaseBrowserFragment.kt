@@ -39,7 +39,6 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
@@ -152,7 +151,6 @@ import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.util.launchWhenStarted
-import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.io.File
@@ -193,8 +191,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     private var needToRefreshMeta = false
     private var enqueuingSnackbar: Snackbar? = null
     private lateinit var startedScope: CoroutineScope
-
-    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

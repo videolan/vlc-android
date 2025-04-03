@@ -41,6 +41,7 @@
     <attr name="font_default" format="reference|color" />
     <attr name="font_audio_light" format="reference|color" />
     <attr name="font_light" format="reference|color" />
+    <attr name="font_disabled" format="reference|color" />
     <attr name="audio_browser_separator" format="reference|color" />
     <attr name="list_subtitle" format="reference|color" />
     <attr name="list_title" format="reference|color" />

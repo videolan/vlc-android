@@ -30,7 +30,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +39,6 @@ import androidx.transition.TransitionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelableList
 import org.videolan.tools.MultiSelectHelper
@@ -53,8 +51,11 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.viewmodels.*
+import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
+import org.videolan.vlc.viewmodels.MedialibraryViewModel
+import org.videolan.vlc.viewmodels.SortableModel
+import org.videolan.vlc.viewmodels.prepareOptionsMenu
+import org.videolan.vlc.viewmodels.sortMenuTitles
 
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"
@@ -69,7 +70,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         duration = 300
     }
 
-    private val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
+    val displaySettingsViewModel: DisplaySettingsViewModel by activityViewModels()
 
     /**
      * Triggered when a display setting is changed

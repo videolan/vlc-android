@@ -213,6 +213,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 updateTabs()
             }
             CURRENT_SORT -> {
+                lifecycleScope.launch {
+                    displaySettingsViewModel.lockSorts(true)
+                }
                 @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
                 viewModel.providers[currentTab].sort = sort.first
                 viewModel.providers[currentTab].desc = sort.second

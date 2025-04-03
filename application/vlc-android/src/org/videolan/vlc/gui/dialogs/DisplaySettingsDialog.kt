@@ -37,8 +37,11 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.children
+import androidx.core.view.isEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
@@ -51,7 +54,6 @@ import org.videolan.tools.setGone
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogDisplaySettingsBinding
 import org.videolan.vlc.databinding.SortDisplaySettingBinding
-import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog.VideoGroup.values
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
@@ -154,6 +156,19 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.lockSortFlow
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    if (isResumed) {
+                        lockSorts(it)
+                    }
+                }
+        }
+
+
         updateDisplayMode()
         updateShowAllArtists()
         updateShowOnlyFavs()
@@ -269,6 +284,13 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
         }
     }
 
+    fun lockSorts(lock: Boolean) {
+        binding.sortsContainer.children.forEach {
+            it.isEnabled = !lock
+            if (it is ViewGroup) it.children.forEach { child -> child.isEnabled = !lock }
+        }
+    }
+
     /**
      * Update the view for the "display in list / grid" item
      *
@@ -376,7 +398,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
      */
     private fun updateSorts() {
         //first time: create all the views
-        if (binding.sortsContainer.childCount == 0)
+        if (binding.sortsContainer.isEmpty())
             sorts.forEach { sort ->
 
                 val binding: SortDisplaySettingBinding = DataBindingUtil.inflate(LayoutInflater.from(requireActivity()), R.layout.sort_display_setting, binding.sortsContainer, true)
@@ -422,6 +444,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
                 (it as TextView).setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, if (selected) ContextCompat.getDrawable(requireActivity(), R.drawable.ic_check_large) else null, null)
             }
         }
+        lockSorts(displaySettingsViewModel.lockSortFlow.value)
     }
 
     /**

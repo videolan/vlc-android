@@ -62,6 +62,7 @@
         <item name="dialog_circle_background">@color/dialog_circle_background</item>
         <item name="font_default">@color/grey900</item>
         <item name="font_light">@color/grey700</item>
+        <item name="font_disabled">@color/grey700transparent</item>
         <item name="font_audio_light">@color/grey700</item>
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title">@color/list_title</item>
@@ -151,6 +152,7 @@
         <item name="background_default_darker">@color/grey875</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
+        <item name="font_disabled">@color/grey600transparent</item>
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
         <item name="ariane_text_color">@color/grey50</item>
@@ -173,6 +175,7 @@
         <item name="background_default_darker">@color/grey200</item>
         <item name="font_default">@color/black</item>
         <item name="font_light">@color/grey300</item>
+        <item name="font_disabled">@color/grey300transparent</item>
         <item name="list_subtitle">@color/grey600</item>
         <item name="list_title">@color/black</item>
         <item name="ariane_text_color">@color/grey900</item>
@@ -256,6 +259,7 @@
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
+        <item name="font_disabled">@color/grey600transparent</item>
         <item name="font_audio_light">@color/grey400</item>
         <item name="list_subtitle">@color/list_subtitle_dark</item>
         <item name="list_title">@color/list_title_dark</item>
@@ -518,6 +522,7 @@
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
+        <item name="font_disabled">@color/grey600transparent</item>
         <item name="font_audio_light">@color/grey600</item>
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
