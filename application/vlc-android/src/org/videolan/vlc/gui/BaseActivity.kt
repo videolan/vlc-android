@@ -119,6 +119,11 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Permissions.emptyCache()
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,

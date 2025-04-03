@@ -103,7 +103,12 @@ object Permissions {
         return !AndroidUtil.isMarshMallowOrLater || android.provider.Settings.System.canWrite(context)
     }
 
-    fun getFromCache (context: Context, permissionType: PermissionType) : Boolean {
+
+    fun emptyCache() {
+        cache.clear()
+    }
+
+    private fun getFromCache (context: Context, permissionType: PermissionType) : Boolean {
         cache[permissionType]?.let {
             if (it.first < System.currentTimeMillis() - 5000L) {
                 cache.remove(permissionType)
