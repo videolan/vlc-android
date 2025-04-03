@@ -49,7 +49,6 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.Settings
-import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -74,6 +73,8 @@ object Permissions {
     private const val PERMISSION_PIP = 45
 
     var sAlertDialog: Dialog? = null
+
+    var cache = mutableMapOf<PermissionType, Pair<Long, Boolean>>()
 
     /*
      * Marshmallow permission system management
@@ -102,17 +103,40 @@ object Permissions {
         return !AndroidUtil.isMarshMallowOrLater || android.provider.Settings.System.canWrite(context)
     }
 
-    fun canReadStorage(context: Context): Boolean {
-        return !AndroidUtil.isMarshMallowOrLater ||
+    fun getFromCache (context: Context, permissionType: PermissionType) : Boolean {
+        cache[permissionType]?.let {
+            if (it.first < System.currentTimeMillis() - 5000L) {
+                cache.remove(permissionType)
+            } else {
+                return it.second
+            }
+        }
+        return when (permissionType) {
+            PermissionType.STORAGE -> canReadStorage(context, true)
+            PermissionType.AUDIO -> canReadAudios(context, true)
+            else -> canReadVideos(context, true)
+        }
+    }
+
+    fun canReadStorage(context: Context, skipCache: Boolean = false): Boolean {
+        if (!skipCache) {
+            return getFromCache(context, PermissionType.STORAGE)
+        }
+        val result =  !AndroidUtil.isMarshMallowOrLater ||
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) isExternalStorageManager() || isAnyFileFinePermissionGranted(context)
                 else ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
+        cache.put(PermissionType.STORAGE, Pair(System.currentTimeMillis(), result))
+        return result
     }
 
-    fun canReadVideos(context: Context): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+    fun canReadVideos(context: Context, skipCache: Boolean = false): Boolean {
+        if (!skipCache) {
+            return getFromCache(context, PermissionType.VIDEO)
+        }
+        val result =  Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
                 (ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -121,11 +145,16 @@ object Permissions {
                     context,
                     Manifest.permission.READ_MEDIA_VIDEO
                 ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()))
+        cache.put(PermissionType.VIDEO, Pair(System.currentTimeMillis(), result))
+        return result
 
     }
 
-    fun canReadAudios(context: Context): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+    fun canReadAudios(context: Context, skipCache: Boolean = false): Boolean {
+        if (!skipCache) {
+            return getFromCache(context, PermissionType.AUDIO)
+        }
+        val result =  Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
                 (ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -134,6 +163,8 @@ object Permissions {
                     context,
                     Manifest.permission.READ_MEDIA_AUDIO
                 ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()))
+        cache.put(PermissionType.AUDIO, Pair(System.currentTimeMillis(), result))
+        return result
 
     }
 
@@ -372,5 +403,9 @@ object Permissions {
             return false
         }
         return true
+    }
+
+    enum class PermissionType {
+        STORAGE, AUDIO, VIDEO
     }
 }
