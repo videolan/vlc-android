@@ -67,6 +67,42 @@ class PlayerKeyListenerDelegate(private val keycodeListener: KeycodeListener) {
                 keycodeListener.seek(60000)
                 true
             }
+            KeyEvent.KEYCODE_DPAD_LEFT -> {
+                val result = if (!keycodeListener.isReadyForDirectional())
+                    false
+                else if (event.isAltPressed && event.isCtrlPressed) {
+                    keycodeListener.seek(-300000)
+                    true
+                } else if (event.isShiftPressed && event.isCtrlPressed) {
+                    keycodeListener.seek(-30000)
+                    true
+                } else if (event.isShiftPressed) {
+                    keycodeListener.seek(-5000)
+                    true
+                } else if (event.isCtrlPressed) {
+                    keycodeListener.seek(-60000)
+                    true
+                } else false
+                result
+            }
+            KeyEvent.KEYCODE_DPAD_RIGHT -> {
+                val result = if (!keycodeListener.isReadyForDirectional())
+                    false
+                else if (event.isAltPressed && event.isCtrlPressed) {
+                    keycodeListener.seek(300000)
+                    true
+                } else if (event.isShiftPressed && event.isCtrlPressed) {
+                    keycodeListener.seek(30000)
+                    true
+                } else if (event.isShiftPressed) {
+                    keycodeListener.seek(5000)
+                    true
+                } else if (event.isCtrlPressed) {
+                    keycodeListener.seek(60000)
+                    true
+                } else false
+                result
+            }
             KeyEvent.KEYCODE_BUTTON_L1 -> {
                 keycodeListener.seek(-60000)
                 true
@@ -118,6 +154,12 @@ interface KeycodeListener {
      * @return true if the callee is ready
      */
     fun isReady(): Boolean
+
+    /**
+     * Get the readiness state of the callee for DPAD shortcuts. I ready, the DPAD events will be triggered
+     * @return true if the callee is ready for DPAD events
+     */
+    fun isReadyForDirectional(): Boolean
 
     /**
      * Opens the advanced options menu

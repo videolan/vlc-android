@@ -27,7 +27,6 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -63,7 +62,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
@@ -286,6 +284,8 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
     }
 
     override fun isReady() = true
+
+    override fun isReadyForDirectional() = true
 
     override fun showAdvancedOptions() {
         showAdvancedOptions(null)

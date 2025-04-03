@@ -26,7 +26,12 @@ package org.videolan.vlc.gui
 import android.annotation.SuppressLint
 import android.media.AudioManager
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ProgressBar
@@ -39,14 +44,23 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.Insets
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import androidx.core.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
+import com.google.android.material.bottomsheet.BottomSheetBehavior.from
 import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -59,13 +73,26 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.tools.*
-import org.videolan.vlc.*
+import org.videolan.tools.AUDIO_RESUME_PLAYBACK
+import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.setVisibility
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.ExternalMonitor
+import org.videolan.vlc.MediaParsingService
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.audio.AudioPlayer
 import org.videolan.vlc.gui.audio.AudioPlaylistTipsDelegate
 import org.videolan.vlc.gui.audio.AudioTipsDelegate
 import org.videolan.vlc.gui.audio.EqualizerFragment
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
+import org.videolan.vlc.gui.helpers.KeycodeListener
+import org.videolan.vlc.gui.helpers.PlayerBehavior
+import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
@@ -392,6 +419,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
     }
 
     override fun isReady() = ::audioPlayer.isInitialized
+
+    override fun isReadyForDirectional() = ::audioPlayer.isInitialized && playerBehavior.state == STATE_EXPANDED
 
     override fun showAdvancedOptions() {
         audioPlayer.showAdvancedOptions(null)
