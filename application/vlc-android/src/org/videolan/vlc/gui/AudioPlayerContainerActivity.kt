@@ -92,6 +92,7 @@ import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
 import org.videolan.vlc.gui.helpers.KeycodeListener
 import org.videolan.vlc.gui.helpers.PlayerBehavior
 import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegateCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.interfaces.IRefreshable
@@ -115,7 +116,7 @@ private const val PLAYER_OPENED = "player_opened"
 private const val SHOWN_TIPS = "shown_tips"
 private const val BOOKMARK_VISIBLE: String = "bookmark_visible"
 
-open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, SchedulerCallback {
+open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, SchedulerCallback, PlayerOptionsDelegateCallback {
 
     private var bottomBar: BottomNavigationView? = null
     lateinit var appBarLayout: AppBarLayout
@@ -796,4 +797,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
                 }
             }
         }
+
+    override fun onResumeToVideoClick() {
+        audioPlayer.onResumeToVideoClick()
+    }
 }

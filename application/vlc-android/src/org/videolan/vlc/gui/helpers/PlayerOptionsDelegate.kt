@@ -207,8 +207,9 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             }
             ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
             ID_PLAY_AS_VIDEO -> {
-                val audioPlayerContainerActivity = activity as AudioPlayerContainerActivity
-                audioPlayerContainerActivity.audioPlayer.onResumeToVideoClick()
+                when {
+                    activity is PlayerOptionsDelegateCallback -> activity.onResumeToVideoClick()
+                }
             }
             ID_POPUP_VIDEO -> {
                 (activity as VideoPlayerActivity).switchToPopup()
@@ -448,6 +449,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             }
         }
     }
+}
+
+interface PlayerOptionsDelegateCallback {
+    fun onResumeToVideoClick()
 }
 
 data class PlayerOption(val id: Long, val icon: Int, val title: String)
