@@ -40,6 +40,11 @@ import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -48,7 +53,9 @@ import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.CATEGORY
 import org.videolan.resources.CATEGORY_NOW_PLAYING
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PAUSED
 import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP_PAUSED
 import org.videolan.resources.HEADER_CATEGORIES
 import org.videolan.resources.HEADER_HISTORY
 import org.videolan.resources.HEADER_MISC
@@ -72,8 +79,10 @@ import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.television.viewmodel.MainTvModel
 import org.videolan.television.viewmodel.MainTvModel.Companion.getMainTvModel
+import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
 import org.videolan.vlc.StartActivity
@@ -86,7 +95,7 @@ import org.videolan.vlc.util.Permissions
 private const val TAG = "VLC/MainTvFragment"
 
 class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener,
-        View.OnClickListener {
+        View.OnClickListener, PlaybackService.Callback {
 
     private var backgroundManager: BackgroundManager? = null
     private lateinit var rowsAdapter: ArrayObjectAdapter
@@ -125,6 +134,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var loadedLines = ArrayList<Long>()
 
     internal lateinit var model: MainTvModel
+    var service: PlaybackService? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,6 +153,26 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         brandColor = ContextCompat.getColor(requireContext(), R.color.orange900)
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         model = getMainTvModel()
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
+            .onCompletion {
+                service?.removeCallback(this@MainTvFragment)
+            }
+            .launchIn(AppScope)
+    }
+
+    /**
+     * Listen to the [PlaybackService] connection
+     *
+     * @param service the service to listen
+     */
+    private fun onServiceChanged(service: PlaybackService?) {
+        if (service !== null) {
+            this.service = service
+            service.addCallback(this)
+        } else this.service?.let {
+            it.removeCallback(this)
+            this.service = null
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -386,9 +417,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 }
             }
             HEADER_NOW_PLAYING -> {
-                if ((item as DummyItem).id == CATEGORY_NOW_PLAYING) { //NOW PLAYING CARD
+                if ((item as DummyItem).id == CATEGORY_NOW_PLAYING || item.id == CATEGORY_NOW_PLAYING_PAUSED) { //NOW PLAYING CARD
                     activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
-                } else if (item.id == CATEGORY_NOW_PLAYING_PIP) { //NOW PLAYING CARD in PiP Mode
+                } else if (item.id == CATEGORY_NOW_PLAYING_PIP || item.id == CATEGORY_NOW_PLAYING_PIP_PAUSED) { //NOW PLAYING CARD in PiP Mode
                     activity.startActivity(Intent(activity, VideoPlayerActivity::class.java))
                 }
             }
@@ -401,5 +432,16 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         selectedItem = item
         lifecycleScope.updateBackground(requireActivity(), backgroundManager, item)
+    }
+
+    override fun update() {
+    }
+
+    override fun onMediaEvent(event: IMedia.Event) {
+    }
+
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        if (event.type != MediaPlayer.Event.Paused)  model.updateNowPlaying()
+        if (event.type != MediaPlayer.Event.Playing) model.updateNowPlaying()
     }
 }

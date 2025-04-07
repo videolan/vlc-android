@@ -26,20 +26,52 @@ import android.app.Application
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.repository.MediaMetadataRepository
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_ARTISTS
+import org.videolan.resources.CATEGORY_GENRES
+import org.videolan.resources.CATEGORY_NOW_PLAYING
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PAUSED
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP_PAUSED
+import org.videolan.resources.CATEGORY_SONGS
+import org.videolan.resources.FAVORITE_TITLE
+import org.videolan.resources.HEADER_DIRECTORIES
+import org.videolan.resources.HEADER_MOVIES
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_PERMISSION
+import org.videolan.resources.HEADER_PLAYLISTS
+import org.videolan.resources.HEADER_SERVER
+import org.videolan.resources.HEADER_STREAM
+import org.videolan.resources.HEADER_TV_SHOW
+import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.util.getFromMl
 import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.MainTvActivity
@@ -194,7 +226,12 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         PlaybackService.instance?.run {
             currentMediaWrapper?.let {
                 if (this.playlistManager.player.isVideoPlaying())
-                    DummyItem(CATEGORY_NOW_PLAYING_PIP, it.title, it.artistName).apply { setArtWork(coverArt) }
+                    if (isPaused)
+                        DummyItem(CATEGORY_NOW_PLAYING_PIP_PAUSED, it.title, it.artistName).apply { setArtWork(coverArt) }
+                    else
+                        DummyItem(CATEGORY_NOW_PLAYING_PIP, it.title, it.artistName).apply { setArtWork(coverArt) }
+                else if (isPaused)
+                    DummyItem(CATEGORY_NOW_PLAYING_PAUSED, it.title, it.artistName).apply { setArtWork(coverArt) }
                 else
                     DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artistName).apply { setArtWork(coverArt) }
             }

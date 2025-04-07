@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  - *************************************************************************
+  -  ic_now_playing_paused.svg
+  - **************************************************************************
+  - Copyright © 2025 VLC authors and VideoLAN
+  - Author: Nicolas POMEPUY
+  - This program is free software; you can redistribute it and/or modify
+  - it under the terms of the GNU General Public License as published by
+  - the Free Software Foundation; either version 2 of the License, or
+  - (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU General Public License for more details.
+  -
+  - You should have received a copy of the GNU General Public License
+  - along with this program; if not, write to the Free Software
+  - Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  - ***************************************************************************
+  -
+  -
+  -->
+
+<svg id="vector" width="24" height="24" viewBox="0 0 6 6" version="1.1" sodipodi:docname="ic_now_playing_paused.svg"
+        inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg">
+  <defs
+     id="defs11" />
+  <sodipodi:namedview
+     id="namedview9"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="36.375"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="2560"
+     inkscape:window-height="1376"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="vector" />
+  <path
+     fill="?attr/player_icon_color"
+     d="M 1.148,5.25 H 2.207 V 6 H 1.148 Z"
+     stroke-width="0.561243"
+     id="path_0" />
+  <path
+     fill="?attr/player_icon_color"
+     d="M 2.471,5.25 H 3.529 V 6 H 2.471 Z"
+     stroke-width="0.420927"
+     id="path_1" />
+  <path
+     fill="?attr/player_icon_color"
+     d="M 3.794,5.25 H 4.852 V 6 H 3.794 Z"
+     stroke-width="0.59521"
+     id="path_2" />
+</svg>

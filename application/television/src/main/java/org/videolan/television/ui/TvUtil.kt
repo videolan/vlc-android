@@ -35,19 +35,32 @@ import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
 import androidx.leanback.widget.ListRow
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.resources.*
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.HEADER_CATEGORIES
+import org.videolan.resources.HEADER_DIRECTORIES
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_SERVER
+import org.videolan.resources.HEADER_STREAM
+import org.videolan.resources.UPDATE_DESCRIPTION
+import org.videolan.resources.UPDATE_SEEN
+import org.videolan.resources.UPDATE_THUMB
+import org.videolan.resources.UPDATE_TIME
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.details.MediaListActivity
-import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.HttpImageLoader
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.Settings
 import org.videolan.tools.getposition
 import org.videolan.vlc.R
@@ -61,7 +74,6 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-import java.util.*
 
 object TvUtil {
 
@@ -74,7 +86,7 @@ object TvUtil {
 
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return oldItem.description == newItem.description
+            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return oldItem.description == newItem.description && oldItem.id == newItem.id
             val oldMedia = oldItem as? MediaWrapper
                     ?: return true
             val newMedia = newItem as? MediaWrapper

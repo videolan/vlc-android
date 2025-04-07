@@ -167,6 +167,7 @@ const val ID_SPONSOR = 16L
 const val ID_PIN_LOCK = 17L
 const val ID_REMOTE_ACCESS = 18L
 const val CATEGORY_NOW_PLAYING = 20L
+const val CATEGORY_NOW_PLAYING_PAUSED = 28L
 const val CATEGORY_ARTISTS = 21L
 const val CATEGORY_ALBUMS = 22L
 const val CATEGORY_GENRES = 23L
@@ -174,6 +175,7 @@ const val CATEGORY_SONGS = 24L
 const val CATEGORY_VIDEOS = 25L
 const val CATEGORY_PLAYLISTS = 27L
 const val CATEGORY_NOW_PLAYING_PIP = 26L
+const val CATEGORY_NOW_PLAYING_PIP_PAUSED = 29L
 
 const val CATEGORY = "category"
 const val DRAWABLE = "drawable"
