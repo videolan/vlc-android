@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -66,8 +67,8 @@ dependencies {
     //Room
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     // Provide proper JDBC version, see https://issuetracker.google.com/issues/174695268
-    kapt ('org.xerial:sqlite-jdbc:3.36.0')
-    kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
+    ksp ('org.xerial:sqlite-jdbc:3.36.0')
+    ksp "androidx.room:room-compiler:$rootProject.ext.roomVersion"
 
 
     // Retrofit

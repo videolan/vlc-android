@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.android_plugin_version = '8.9.1'
-    ext.kotlin_version = '2.1.0'
+    ext.kotlin_version = '2.1.20'
     ext.kotlinx_version = '1.7.1'
     repositories {
         flatDir dirs: "gradle/plugins"
@@ -15,6 +15,10 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.2'
     }
+}
+
+plugins {
+    id 'com.google.devtools.ksp' version '2.1.20-1.0.32' apply false
 }
 
 allprojects {

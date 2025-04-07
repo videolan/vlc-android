@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     id 'kotlin-parcelize'
 }
 
@@ -183,8 +184,8 @@ dependencies {
     api 'androidx.gridlayout:gridlayout:1.0.0'
     api "androidx.car.app:app:$rootProject.ext.carVersion"
 
-    kapt ("org.xerial:sqlite-jdbc:jdbcVersion")
-    kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
+    ksp ("org.xerial:sqlite-jdbc:jdbcVersion")
+    ksp("androidx.room:room-compiler:$rootProject.ext.roomVersion")
 
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
 
@@ -288,13 +289,4 @@ def changelog() {
 def isBeta() {
     def versionNameLower = versionName.toLowerCase()
     return (versionNameLower.contains("beta") || versionNameLower.contains("rc") || versionNameLower.contains("alpha") || versionNameLower.contains("dev")).toString()
-}
-
-
-kapt {
-    javacOptions {
-        // Increase the max count of errors from annotation processors.
-        // Default is 100.
-        option("-Xmaxerrs", 500)
-    }
 }
