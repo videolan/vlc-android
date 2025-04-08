@@ -231,6 +231,7 @@ object PreferenceParser {
         val parser = context.resources.getXml(id)
         var eventType = -1
         val namespace = "http://schemas.android.com/apk/res/android"
+        val appNamespace = "http://schemas.android.com/apk/res-auto"
         var firstPrefScreeFound = false
         val englishContext = ContextWrapper(context).wrap("en")
         while (eventType != XmlResourceParser.END_DOCUMENT) {
@@ -243,11 +244,16 @@ object PreferenceParser {
                     categoryEng = getValue(englishContext, parser, namespace, "title")
                 }
                 if (element != "PreferenceCategory" && element != "Preference") {
-                    val key = getValue(context, parser, namespace, "key")
-                    val title = getValue(context, parser, namespace, "title")
-                    val titleEng = getValue(englishContext, parser, namespace, "title")
+                    var key = getValue(context, parser, namespace, "key")
+                    if (key.isBlank()) key = getValue(context, parser, appNamespace, "key")
+                    var title = getValue(context, parser, namespace, "title")
+                    if (title.isBlank()) title = getValue(context, parser, appNamespace, "title")
+                    var titleEng = getValue(englishContext, parser, namespace, "title")
+                    if (titleEng.isBlank()) titleEng = getValue(englishContext, parser, appNamespace, "title")
                     var summary = getValue(context, parser, namespace, "summary")
+                    if (summary.isBlank()) summary = getValue(context, parser, appNamespace, "summary")
                     var summaryEng = getValue(englishContext, parser, namespace, "summary")
+                    if (summaryEng.isBlank()) summaryEng = getValue(englishContext, parser, appNamespace, "summary")
                     val defaultValue = getValue(context, parser, namespace, "defaultValue")
                     if (summary.contains("%s") && element == "ListPreference") {
                         //get the current value for the string substitution
