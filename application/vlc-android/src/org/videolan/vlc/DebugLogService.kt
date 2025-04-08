@@ -28,7 +28,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.ServiceInfo
-import android.os.*
+import android.os.Build
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
+import android.os.RemoteCallbackList
+import android.os.RemoteException
 import android.text.format.DateFormat
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -46,8 +51,12 @@ import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.util.Permissions
-import java.io.*
-import java.util.*
+import java.io.BufferedWriter
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStreamWriter
+import java.util.LinkedList
 
 class DebugLogService : Service(), Logcat.Callback, Runnable {
 
@@ -201,9 +210,11 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
                 bw.write("Storage ALL access: ${Permissions.hasAllAccess(this)}\r\n")
                 bw.write("Notifications: ${Permissions.canSendNotifications(this)}\r\n")
                 bw.write("PiP Allowed: ${Permissions.isPiPAllowed(this)}\r\n")
-                bw.write("____________________________\r\n")
                 try {
-                    bw.write("Changed settings:\r\n${PreferenceParser.getChangedPrefsString(this)}\r\n")
+                    bw.write("____________________________\r\n")
+                    bw.write("Changed settings:\r\n")
+                    bw.write("____________________________\r\n")
+                    bw.write("${PreferenceParser.getChangedPrefsString(this)}\r\n")
                 } catch (e: Exception) {
                     bw.write("Cannot retrieve changed settings\r\n")
                     bw.write(Log.getStackTraceString(e))

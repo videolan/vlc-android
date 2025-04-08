@@ -370,9 +370,11 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 bw.write("Storage ALL access: ${Permissions.hasAllAccess(appContext)}\r\n")
                 bw.write("Notifications: ${Permissions.canSendNotifications(appContext)}\r\n")
                 bw.write("PiP Allowed: ${Permissions.isPiPAllowed(appContext)}\r\n")
-                bw.write("____________________________\r\n")
                 try {
-                    bw.write("Changed settings:\r\n${PreferenceParser.getChangedPrefsString(appContext)}\r\n")
+                    bw.write("____________________________\r\n")
+                    bw.write("Changed settings:\r\n")
+                    bw.write("____________________________\r\n")
+                    bw.write("${PreferenceParser.getChangedPrefsString(appContext)}\r\n")
                 } catch (e: Exception) {
                     bw.write("Cannot retrieve changed settings\r\n")
                     bw.write(Log.getStackTraceString(e))

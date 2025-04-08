@@ -115,9 +115,11 @@ object FeedbackUtil {
         append("Storage ALL access: ${Permissions.hasAllAccess(context)}\r\n")
         append("Notifications: ${Permissions.canSendNotifications(context)}\r\n")
         append("PiP Allowed: ${Permissions.isPiPAllowed(context)}\r\n")
-        append("____________________________\r\n")
         try {
-            append("Changed settings:\r\n${PreferenceParser.getChangedPrefsString(context)}\r\n")
+            append("____________________________\r\n")
+            append("Changed settings:\r\n")
+            append("____________________________\r\n")
+            append("${PreferenceParser.getChangedPrefsString(context)}\r\n")
         } catch (e: Exception) {
             append("Cannot retrieve changed settings\r\n")
             append(Log.getStackTraceString(e))
