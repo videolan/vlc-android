@@ -65,7 +65,10 @@ object PreferenceParser {
         val result = ArrayList<PreferenceItem>()
         arrayListOf(R.xml.preferences, R.xml.preferences_adv, R.xml.preferences_audio, R.xml.preferences_casting, R.xml.preferences_subtitles, R.xml.preferences_ui, R.xml.preferences_video, R.xml.preferences_remote_access)
             .apply {
-                if (parseUIPrefs) this.add(R.xml.preferences_video_controls)
+                if (parseUIPrefs) {
+                    this.add(R.xml.preferences_video_controls)
+                    this.add(R.xml.preferences_audio_controls)
+                }
             }
         .forEach {
             result.addAll(parsePreferences(context, it))
