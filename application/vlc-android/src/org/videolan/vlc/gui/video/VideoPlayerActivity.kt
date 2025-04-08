@@ -973,7 +973,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         val isSystemPip = (service?.isInPiPMode?.value ?: false) && !isPlayingPopup
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
                 && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()
-                && ((!isSystemPip && isInteractive) || (isSystemPip && !isInteractive))) {
+                && (!isSystemPip || !isInteractive)) {
             switchToAudioMode(false)
         }
         cleanUI()
