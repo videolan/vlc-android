@@ -1441,6 +1441,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (service?.hasNext() == true) {
             service?.next()
             overlayDelegate.showInfo(getString(R.string.next), 1000)
+            overlayDelegate.showOverlay()
         }
     }
 
@@ -1448,6 +1449,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         service?.let { service ->
             service.previous(false)
             overlayDelegate.showInfo(getString(R.string.previous), 1000)
+            overlayDelegate.showOverlay()
         }
     }
 
@@ -1964,8 +1966,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         when (v.id) {
             R.id.orientation_toggle -> toggleOrientationLock()
             R.id.playlist_toggle -> overlayDelegate.togglePlaylist()
-            R.id.player_overlay_forward -> jump(forward = true, long = false)
-            R.id.player_overlay_rewind -> jump(forward = false, long = false)
+            R.id.player_overlay_forward -> {
+                jump(forward = true, long = false)
+                overlayDelegate.showOverlay()
+            }
+            R.id.player_overlay_rewind -> {
+                jump(forward = false, long = false)
+                overlayDelegate.showOverlay()
+            }
             R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(
                 service?.playlistManager?.getCurrentMedia(), overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
             R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues(service?.playlistManager?.getCurrentMedia())
