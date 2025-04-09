@@ -229,13 +229,6 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
     private fun sendEmail(includeLogs: Boolean = false) {
         val feedbackTypePosition = feedbackTypeEntries.indexOf(binding.feedbackTypeEntry.text.toString())
         val isCrashFromML = !mlErrorContext.isNullOrEmpty() || !mlErrorMessage.isNullOrEmpty()
-        val subjectPrepend = when {
-            isCrashFromML -> "[ML Crash]"
-            feedbackTypePosition == 0 -> "[Help] "
-            feedbackTypePosition == 1 -> "[Feedback/Request] "
-            feedbackTypePosition == 2 -> "[Bug] "
-            else -> "[Crash] "
-        }
         val mail = if (BuildConfig.BETA && feedbackTypePosition > 2) FeedbackUtil.SupportType.CRASH_REPORT_EMAIL else FeedbackUtil.SupportType.SUPPORT_EMAIL
         lifecycleScope.launch {
             val message = if (isCrashFromML)
@@ -253,7 +246,8 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
                 mail,
                 binding.showIncludes && binding.includeMedialibrary.isChecked,
                 message,
-                subjectPrepend + binding.subjectTextInputLayout.editText?.text.toString(),
+                binding.subjectTextInputLayout.editText?.text.toString(),
+                if (isCrashFromML) 100 else feedbackTypePosition,
                 if (includeLogs) logcatZipPath else null
             )
             finish()
