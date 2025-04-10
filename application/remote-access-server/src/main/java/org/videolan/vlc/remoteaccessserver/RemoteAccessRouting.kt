@@ -323,7 +323,8 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
         val completeMessage = "$message\r\n\r\n${FeedbackUtil.generateUsefulInfo(appContext)}"
 
-        val result = RemoteAccessServer.FeedbackResult(FeedbackUtil.SupportType.SUPPORT_EMAIL.email, FeedbackUtil.generateSubject(subject, feedbackType), completeMessage, zipFile)
+        val mail = if (feedbackType == 3 && BuildConfig.BETA) FeedbackUtil.SupportType.CRASH_REPORT_EMAIL.email else FeedbackUtil.SupportType.SUPPORT_EMAIL.email
+        val result = RemoteAccessServer.FeedbackResult(mail, FeedbackUtil.generateSubject(subject, feedbackType), completeMessage, zipFile)
 
         call.respondJson(convertToJson(result))
     }
