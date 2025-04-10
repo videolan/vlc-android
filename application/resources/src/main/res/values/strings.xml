@@ -1304,6 +1304,7 @@
     <string name="ra_prepare_download">Preparing your download</string>
     <string name="ra_forbidden">Content disabled in the settings</string>
     <string name="ra_playback_forbidden">Playback control disabled in the settings</string>
+    <string name="ra_logs_forbidden">Logs sharing disabled in the settings</string>
     <string name="ra_code_requested_explanation">To protect your server, the access is protected.\nPlease enter the code displayed in your notifications</string>
     <string name="ra_ssl_explanation_title">Unsecure connection</string>
     <string name="ra_ssl_explanation">Your connection is not secure.</string>
@@ -1395,4 +1396,9 @@
     <string name="generating_logs">Generating logs. Please wait.</string>
     <string name="default_playback_action">Playback action</string>
     <string name="files">Files</string>
+    <string name="remote_access_feedback_generate">Generate report</string>
+    <string name="remote_access_feedback_generated">Your feedback report has been generated</string>
+    <string name="remote_access_feedback_generated_explanation">Tap the button below to send it using your default email client. If you encounter any issues, you can copy paste the fields below and send the email yourself.</string>
+    <string name="remote_access_feedback_file_explanation">You just downloaded the needed file. Please remember to attach it to your email.</string>
+    <string name="generic_copied_to_clipboard">Copied to clipboard</string>
 </resources>

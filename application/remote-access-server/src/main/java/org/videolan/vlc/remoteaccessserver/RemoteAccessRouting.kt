@@ -107,6 +107,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.dialogs.getPlaylistByName
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
+import org.videolan.vlc.gui.helpers.FeedbackUtil
 import org.videolan.vlc.gui.helpers.VectorDrawableUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
@@ -265,6 +266,51 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
         val logs = getLogsFiles().sortedByDescending { it.date }
 
         call.respondJson(convertToJson(logs))
+    }
+    // Prepare the feedback data
+    post("/feedback-form") {
+        verifyLogin(settings)
+
+        val formParameters = try {
+            call.receiveParameters()
+        } catch (e: Exception) {
+            Log.w(this::class.java.simpleName, "Failed to parse form parameters. ${e.message}", e)
+            call.respond(HttpStatusCode.BadRequest)
+            return@post
+        }
+
+        val feedbackType = formParameters.get("type")?.toInt() ?: 0
+        val includeML = formParameters.get("includeML") == "true"
+        val includeLogs = formParameters.get("includeLogs") == "true"
+        val subject = formParameters.get("subject") ?: ""
+        val message = formParameters.get("message") ?: ""
+
+        if ((includeLogs || includeML) && !settings.getBoolean(REMOTE_ACCESS_LOGS, false)) {
+            call.respond(HttpStatusCode.Forbidden)
+            return@post
+        }
+
+        var zipFile: String? = null
+
+
+        if (includeML) {
+            val externalPath = RemoteAccessServer.getInstance(appContext).downloadFolder
+            File(externalPath).mkdirs()
+            val dbPath = "$externalPath/${Medialibrary.VLC_MEDIA_DB_NAME}"
+            val dbZipPath = "$externalPath/db.zip"
+            val db = File(appContext.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
+            val dbFile = File(dbPath)
+            FileUtils.copyFile(db, dbFile)
+            FileUtils.zip(arrayOf(dbPath), dbZipPath)
+            FileUtils.deleteFile(dbFile)
+            zipFile = "db.zip"
+        }
+
+        val completeMessage = "$message\r\n\r\n${FeedbackUtil.generateUsefulInfo(appContext)}"
+
+        val result = RemoteAccessServer.FeedbackResult(FeedbackUtil.SupportType.SUPPORT_EMAIL.email, FeedbackUtil.generateSubject(subject, feedbackType), completeMessage, zipFile)
+
+        call.respondJson(convertToJson(result))
     }
     // Get the translation string list
     get("/translation") {

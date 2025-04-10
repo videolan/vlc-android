@@ -930,6 +930,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class ArtistResult(val albums: List<PlayQueueItem>, val tracks: List<PlayQueueItem>, val name: String)
     data class AlbumResult(val tracks: List<PlayQueueItem>, val name: String)
     data class PlaylistResult(val tracks: List<PlayQueueItem>, val name: String)
+    data class FeedbackResult(val mail: String, val subject: String, val message: String, val file: String?)
 
     fun getSecureUrl(call: ApplicationCall) = "https://${call.request.host()}:${engine.environment.connectors.first { it.type.name == "HTTPS" }.port}"
 
