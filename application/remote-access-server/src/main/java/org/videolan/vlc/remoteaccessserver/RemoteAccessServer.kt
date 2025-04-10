@@ -97,10 +97,12 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder
 import org.slf4j.LoggerFactory
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEYSTORE_PASSWORD
@@ -109,6 +111,7 @@ import org.videolan.tools.REMOTE_ACCESS_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.Settings
 import org.videolan.tools.SingletonHolder
 import org.videolan.tools.putSingle
+import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.PlaybackService.Companion.playerSleepTime
 import org.videolan.vlc.gui.DialogActivity
@@ -117,12 +120,14 @@ import org.videolan.vlc.remoteaccessserver.ssl.SecretGenerator
 import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets
 import org.videolan.vlc.remoteaccessserver.websockets.RemoteAccessWebSockets.setupWebSockets
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSMB
 import org.videolan.vlc.viewmodels.CallBackDelegate
 import org.videolan.vlc.viewmodels.ICallBackHandler
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import java.io.File
+import java.io.IOException
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -163,6 +168,9 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         get() = _serverConnections
 
     private val otgDevice = context.getString(org.videolan.vlc.R.string.otg_device_title)
+
+    var client: DebugLogService.Client? = null
+
 
     private val miniPlayerObserver = androidx.lifecycle.Observer<Boolean> { playing ->
         AppScope.launch {
@@ -324,6 +332,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         withContext(Dispatchers.IO) {
             RemoteAccessWebSockets.closeAllSessions()
             if (::engine.isInitialized) engine.stop()
+            client?.release()
         }
     }
 
@@ -899,6 +908,90 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
             list.add(Pair(text, currentPathUri.toString()))
         }
         return list
+    }
+
+    suspend fun gatherLogs(logcatZipPath: String) {
+        var waitForClient = true
+        var started = false
+        val gatheringLogsStart = System.currentTimeMillis()
+        //initiate a log to wait for
+        val logMessage = "Starting collecting logs at ${System.currentTimeMillis()}"
+
+        client = DebugLogService.Client(context, object : DebugLogService.Client.Callback {
+            override fun onStarted(logList: List<String>) {
+                started = true
+                Log.d("LogsGathering", logMessage)
+            }
+
+            override fun onStopped() {
+            }
+
+            override fun onLog(msg: String) {
+                //Wait for the log to initiate a save to avoid ANR
+                if (msg.contains(logMessage)) {
+                    if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage())
+                        waitForClient = false
+                    else
+                        client?.save()
+                }
+            }
+
+            override fun onSaved(success: Boolean, path: String) {
+                if (!success) {
+                    client?.stop()
+                    waitForClient = false
+                    return
+                }
+                client?.stop()
+                val filesToAdd = mutableListOf(path)
+                //add previous crash logs
+                try {
+                    AppContextProvider.appContext.getExternalFilesDir(null)?.absolutePath?.let { folder ->
+                        File(folder).listFiles()?.forEach {
+                            if (it.isFile && (it.name.contains("crash_") || it.name.contains("logcat_"))) filesToAdd.add(it.path)
+                        }
+                    }
+                } catch (exception: IOException) {
+                    Log.w("LogsGathering", exception.message, exception)
+                    client?.stop()
+                    return
+                }
+
+                if (!FileUtils.zip(filesToAdd.toTypedArray(), logcatZipPath)) {
+                    client?.stop()
+                    return
+                }
+                try {
+                    filesToAdd.forEach { FileUtils.deleteFile(it) }
+                } catch (exception: IOException) {
+                    Log.w("LogsGathering", exception.message, exception)
+                    client?.stop()
+                    return
+                }
+
+                waitForClient = false
+
+            }
+
+        })
+        while (!started) {
+            delay(100)
+            if (System.currentTimeMillis() > gatheringLogsStart + 4000) {
+                Log.w("LogsGathering", "Failed to start log gathering")
+                started = true
+                waitForClient = false
+            }
+            client?.start() == true
+        }
+        while (waitForClient) {
+            delay(100)
+            if (System.currentTimeMillis() > gatheringLogsStart + 20000) {
+                Log.w("LogsGathering", "Cannot complete log gathering in time")
+                waitForClient = false
+            }
+        }
+        client?.release()
+        client = null
     }
 
     abstract class WSMessage(val type: WSMessageType)

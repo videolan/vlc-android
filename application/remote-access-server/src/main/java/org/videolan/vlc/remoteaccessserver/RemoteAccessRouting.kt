@@ -292,18 +292,33 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
         var zipFile: String? = null
 
+        val externalPath = RemoteAccessServer.getInstance(appContext).downloadFolder
+        val logcatZipPath = "$externalPath/logcat.zip"
 
-        if (includeML) {
-            val externalPath = RemoteAccessServer.getInstance(appContext).downloadFolder
+        // generate logs
+        if (includeLogs) {
             File(externalPath).mkdirs()
-            val dbPath = "$externalPath/${Medialibrary.VLC_MEDIA_DB_NAME}"
-            val dbZipPath = "$externalPath/db.zip"
+            RemoteAccessServer.getInstance(appContext).gatherLogs(logcatZipPath)
+        }
+        val dbPath = "$externalPath${Medialibrary.VLC_MEDIA_DB_NAME}"
+
+        //generate ML
+        if (includeML) {
+            File(externalPath).mkdirs()
             val db = File(appContext.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
             val dbFile = File(dbPath)
             FileUtils.copyFile(db, dbFile)
-            FileUtils.zip(arrayOf(dbPath), dbZipPath)
-            FileUtils.deleteFile(dbFile)
-            zipFile = "db.zip"
+        }
+
+        //Zip needed files
+        if (File(logcatZipPath).exists() || File(dbPath).exists()) {
+            zipFile = "feedback_report.zip"
+            val dbZipPath = "$externalPath/$zipFile"
+            val filesToZip = mutableListOf<String>()
+            if (File(logcatZipPath).exists()) filesToZip.add(logcatZipPath)
+            if (File(dbPath).exists()) filesToZip.add(dbPath)
+            FileUtils.zip(filesToZip.toTypedArray(), dbZipPath)
+            filesToZip.forEach { FileUtils.deleteFile(it) }
         }
 
         val completeMessage = "$message\r\n\r\n${FeedbackUtil.generateUsefulInfo(appContext)}"
