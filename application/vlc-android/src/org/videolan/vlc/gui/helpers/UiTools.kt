@@ -513,9 +513,6 @@ object UiTools {
         v.findViewById<View>(R.id.about_website_container).setOnClickListener {
             activity.openLinkIfPossible("https://www.videolan.org/vlc/")
         }
-//        v.findViewById<View>(R.id.about_forum_container).setOnClickListener {
-//            activity.openLinkIfPossible("https://forum.videolan.org/viewforum.php?f=35")
-//        }
         v.findViewById<View>(R.id.about_report_container).setOnClickListener {
             activity.startActivity(Intent(activity, FeedbackActivity::class.java))
         }

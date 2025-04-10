@@ -186,10 +186,10 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
             updateFormIncludesVisibility()
         }
         binding.feedbackForumCard.setOnClickListener {
-            openLinkIfPossible("https://forum.videolan.org/viewforum.php?f=35")
+            openLinkIfPossible(getString(R.string.forum_url))
         }
         binding.readDocCard.setOnClickListener {
-            openLinkIfPossible("https://docs.videolan.me/vlc-user/android/")
+            openLinkIfPossible(getString(R.string.doc_url))
         }
         binding.emailSupportSend.setOnClickListener {
             if (binding.includeLogs.isChecked) {
