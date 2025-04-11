@@ -55,8 +55,9 @@ object FeedbackUtil {
      * @param subject Subject of the email
      * @param feedbackType Type of feedback
      * @param logcatZipPath Path to the logcat zip file
+     * @return true if the email was sent, false otherwise
      */
-    suspend fun sendEmail(activity: FragmentActivity, supportType: SupportType, includeMedialibrary: Boolean, message: String, subject: String, feedbackType: Int, logcatZipPath: String? = null) {
+    suspend fun sendEmail(activity: FragmentActivity, supportType: SupportType, includeMedialibrary: Boolean, message: String, subject: String, feedbackType: Int, logcatZipPath: String? = null): Boolean {
         val emailIntent = withContext(Dispatchers.IO) {
 
             val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
@@ -93,7 +94,12 @@ object FeedbackUtil {
             emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             emailIntent
         }
-        emailIntent?.let { activity.startActivity(it) }
+        try {
+            emailIntent?.let { activity.startActivity(it) }
+            return true
+        } catch (_: Exception) {
+            return false
+        }
     }
 
     fun generateSubject(initialSubject: String, feedbackType: Int): String {

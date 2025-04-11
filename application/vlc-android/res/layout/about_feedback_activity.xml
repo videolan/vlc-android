@@ -270,17 +270,98 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/email_support_summary" />
 
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/email_warning"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="8dp"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="@+id/contact_separator"
+                                    tools:visibility="visible">
+
+                                <ImageView
+                                        android:id="@+id/email_warning_image"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:layout_marginTop="8dp"
+                                        android:padding="8dp"
+                                        app:layout_constraintEnd_toStartOf="@+id/email_warning_title"
+                                        app:layout_constraintHorizontal_bias="0.5"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:srcCompat="@drawable/ic_warning_small"
+                                        app:tint="?attr/colorPrimary" />
+
+                                <TextView
+                                        android:id="@+id/email_warning_title"
+                                        style="@style/VLC.TextViewTitle"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:text="@string/feedback_email_warning"
+                                        android:textColor="?attr/colorPrimary"
+                                        android:textSize="14sp"
+                                        app:layout_constraintBottom_toBottomOf="@+id/email_warning_image"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintHorizontal_bias="0.5"
+                                        app:layout_constraintStart_toEndOf="@+id/email_warning_image"
+                                        app:layout_constraintTop_toTopOf="@+id/email_warning_image" />
+
+                                <TextView
+                                        android:id="@+id/email_warning_explanation"
+                                        style="@style/VLC.TextViewTitle"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:layout_marginTop="24dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:text="@string/feedback_email_warning_explanation"
+                                        android:textSize="14sp"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toBottomOf="@+id/email_warning_title" />
+
+                                <Button
+                                        android:id="@+id/try_anyway"
+                                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:text="@string/feedback_email_warning_try_anyway"
+                                        android:textColor="?attr/font_light"
+                                        app:layout_constraintEnd_toStartOf="@+id/open_settings"
+                                        app:layout_constraintTop_toTopOf="@+id/open_settings" />
+
+                                <Button
+                                        android:id="@+id/open_settings"
+                                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="16dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:text="@string/feedback_email_warning_remote_action"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toBottomOf="@+id/email_warning_explanation" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                             <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/feedback_type"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="16dp"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginTop="16dp"
                                     android:layout_marginEnd="16dp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/contact_separator">
+                                    app:layout_constraintTop_toBottomOf="@+id/email_warning">
 
                                 <AutoCompleteTextView
                                         android:id="@+id/feedback_type_entry"
