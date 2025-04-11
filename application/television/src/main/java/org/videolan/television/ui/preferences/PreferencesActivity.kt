@@ -38,9 +38,11 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
+import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesActivity : BaseTvActivity() {
+    var extraEndPoint: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,11 @@ class PreferencesActivity : BaseTvActivity() {
         if (Settings.getInstance(this).getBoolean(KEY_RESTRICT_SETTINGS, false)) {
             val intent = PinCodeActivity.getIntent(this, PinCodeReason.CHECK)
             startActivityForResult(intent, 0)
+        }
+        if (savedInstanceState == null) {
+            if (intent.hasExtra(EXTRA_PREF_END_POINT)) {
+                extraEndPoint = intent.getStringExtra(EXTRA_PREF_END_POINT)
+            }
         }
     }
 
