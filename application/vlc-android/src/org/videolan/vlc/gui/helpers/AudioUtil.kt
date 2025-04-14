@@ -19,9 +19,7 @@
  */
 package org.videolan.vlc.gui.helpers
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.net.Uri
@@ -32,7 +30,6 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.core.content.contentValuesOf
-import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +38,6 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.BitmapCache
-import org.videolan.tools.CloseableUtils
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
@@ -49,13 +45,8 @@ import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeHttpOrHttps
 import java.io.BufferedInputStream
-import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 
 object AudioUtil {
     const val TAG = "VLC/AudioUtil"
@@ -135,59 +126,6 @@ object AudioUtil {
                             Toast.LENGTH_SHORT)
                     .show()
         }
-    }
-
-    private fun getCoverFromMediaStore(context: Context, media: MediaWrapper): String? {
-        val album = media.albumName ?: return null
-        val contentResolver = context.contentResolver
-        val uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
-        val cursor = contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM, MediaStore.Audio.Albums.ALBUM_ART),
-                MediaStore.Audio.Albums.ALBUM + " LIKE ?",
-                arrayOf(album), null)
-        if (cursor == null) {
-            // do nothing
-        } else if (!cursor.moveToFirst()) {
-            // do nothing
-            cursor.close()
-        } else {
-            val titleColumn = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART)
-            val albumArt = cursor.getString(titleColumn)
-            cursor.close()
-            return albumArt
-        }
-        return null
-    }
-
-    @Throws(IOException::class)
-    private fun writeBitmap(bitmap: Bitmap?, path: String) {
-        var out: OutputStream? = null
-        try {
-            val file = File(path)
-            if (file.exists() && file.length() > 0)
-                return
-            out = BufferedOutputStream(FileOutputStream(file), 4096)
-            bitmap?.compress(CompressFormat.JPEG, 90, out)
-        } catch (e: Exception) {
-            Log.e(TAG, "writeBitmap failed : " + e.message)
-        } finally {
-            CloseableUtils.close(out)
-        }
-    }
-
-    /**
-     * Load cover art from the published ArtworkProvider using a ContentResolver.
-     */
-    fun fetchBitmapFromContentResolver(context: Context, path: String?): Bitmap? {
-        try {
-            val uri = path!!.toUri()
-            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
-            inputStream?.use {
-                return BitmapFactory.decodeStream(it)
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Could not load image from: $path", e)
-        }
-        return null
     }
 
     //TODO Make it a suspend function to get rid of runBlocking {... }

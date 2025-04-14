@@ -319,13 +319,6 @@ object MediaUtils {
         }
     }
 
-    fun openStream(context: Context?, uri: String?) {
-        if (uri == null || context == null) return
-        SuspendDialogCallback(context) { service ->
-            service.loadLocation(uri)
-        }
-    }
-
     fun getMediaArtist(ctx: Context, media: MediaWrapper?): String = when {
         media == null -> getMediaString(ctx, R.string.unknown_artist)
         media.type == MediaWrapper.TYPE_VIDEO -> ""
@@ -614,17 +607,6 @@ fun List<MediaLibraryItem>.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: B
 
 fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false, onlyFavorites:Boolean = false) = flatMap {
     it.getAll(type, sort, desc, onlyFavorites)
-}
-
-private fun Array<MediaLibraryItem>.toList() = flatMap {
-    if (it is VideoGroup) {
-        it.media(Medialibrary.SORT_DEFAULT, false, true, false, it.mediaCount(), 0).toList()
-    } else listOf(it as MediaWrapper)
-}
-
-fun MediaContentResolver.canHandle(id: String) : Boolean {
-    for (i in 0 until size()) if (id.startsWith(keyAt(i))) return true
-    return false
 }
 
 suspend fun MediaContentResolver.getList(context: Context, id: String) : ResumableList {

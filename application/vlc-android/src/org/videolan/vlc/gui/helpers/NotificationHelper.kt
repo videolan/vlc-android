@@ -64,7 +64,6 @@ private const val REMOTE_ACCESS_CHANNEL_ID = "vlc_remote_access"
 private const val REMOTE_ACCESS_OTP_CHANNEL_ID = "vlc_remote_access_otp"
 const val MISC_CHANNEL_ID = "misc"
 private const val RECOMMENDATION_CHANNEL_ID = "vlc_recommendations"
-const val REMOTE_ACCESS_NOTIFICATION_ID = 44
 const val REMOTE_ACCESS_CODE_ID = 45
 
 object NotificationHelper {

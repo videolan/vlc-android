@@ -55,7 +55,7 @@ class RecyclerViewMatcher(@IdRes private val recyclerViewId: Int) {
 
             override fun matchesSafely(view: View): Boolean {
                 if (!triedMatch && childView == null) {
-                    if (recyclerView == null) recyclerView = view.rootView.findViewById(recyclerViewId) as RecyclerView
+                    if (recyclerView == null) recyclerView = view.rootView.findViewById<RecyclerView>(recyclerViewId)!!
                     triedMatch = true
                     recyclerView?.run {
                         if (id == recyclerViewId) {
@@ -117,7 +117,7 @@ class MediaRecyclerViewMatcher<VH : SelectorViewHolder<out ViewDataBinding>>(@Id
 
     private fun fillMatchesIfRequired(mapVH: MutableMap<View, VH>, rootView: View, condition: ((VH) -> Boolean)): Boolean {
         if (recyclerView == null || mapVH.isEmpty()) {
-            recyclerView = rootView.findViewById(recyclerViewId) as RecyclerView
+            recyclerView = rootView.findViewById<RecyclerView>(recyclerViewId)!!
             if (recyclerView!!.id == recyclerViewId) {
                 val it = (0 until recyclerView!!.adapter!!.itemCount).iterator()
                 while (it.hasNext()) {

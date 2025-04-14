@@ -33,8 +33,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.FilterDelegate
-import org.videolan.vlc.util.ModelsHelper
-import org.videolan.vlc.util.map
 
 private const val TAG = "VLC/BaseModel"
 
@@ -44,14 +42,6 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineCo
 
     val dataset = LiveDataset<T>()
     open val loading = MutableLiveData<Boolean>().apply { value = false }
-
-    val categories by lazy(LazyThreadSafetyMode.NONE) {
-        viewModelScope.map(dataset) { ModelsHelper.splitList(sort, it!!.toList()) }
-    }
-
-    val sections by lazy(LazyThreadSafetyMode.NONE) {
-        viewModelScope.map(dataset) { ModelsHelper.generateSections(sort, it!!.toList()) }
-    }
 
     @Suppress("UNCHECKED_CAST")
     @OptIn(ObsoleteCoroutinesApi::class)

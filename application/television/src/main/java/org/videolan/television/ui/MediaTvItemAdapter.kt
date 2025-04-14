@@ -152,14 +152,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) } ?: false
         }
 
-        fun onImageClick(v: View) {
-            getItem(layoutPosition)?.let { eventsHandler.onImageClick(v, layoutPosition, it) }
-        }
-
-        fun onMainActionClick(v: View) {
-            getItem(layoutPosition)?.let { eventsHandler.onMainActionClick(v, layoutPosition, it) }
-        }
-
         abstract fun getItem(layoutPosition: Int): MediaLibraryItem?
 
         abstract val eventsHandler: IEventsHandler<MediaLibraryItem>

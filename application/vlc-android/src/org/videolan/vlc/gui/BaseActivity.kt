@@ -51,7 +51,6 @@ import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    private var currentNightMode: Int = 0
     private var startColor: Int = 0
     lateinit var settings: SharedPreferences
     private var lastDisplayedOTPCode = ""

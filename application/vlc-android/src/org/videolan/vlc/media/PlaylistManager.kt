@@ -665,7 +665,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val time = player.mediaplayer.time
         val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
-        val rate = player.getRate()
         launch(Dispatchers.IO) innerLaunch@ {
             val media = if (entryUrl != null) medialibrary.getMedia(entryUrl) else medialibrary.findMedia(currentMedia) ?: return@innerLaunch
             if (showAudioPlayer.value != true) BaseBrowserFragment.needRefresh.postValue(true)

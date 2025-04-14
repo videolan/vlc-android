@@ -6,21 +6,27 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
-import com.squareup.moshi.*
-import kotlinx.parcelize.Parcelize
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.Parcelize
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.LibraryItemBinding
 import org.videolan.vlc.databinding.LicenseActivityBinding
 import org.videolan.vlc.gui.dialogs.LicenseDialog
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.resources.util.applyOverscanMargin
 
 /**
  * Activity showing the different libraries used by VLC for Android and their licenses

@@ -248,7 +248,6 @@ import kotlin.math.roundToInt
 
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher, IDialogManager, KeycodeListener {
 
-    private var warnMetered = false
     var hasPhysicalNotch: Boolean = false
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope: CoroutineScope
@@ -742,18 +741,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         } else {
             playlistModel?.filter(null)
         }
-    }
-
-    private fun hideSearchField(): Boolean {
-        if (overlayDelegate.playlistSearchText.visibility != View.VISIBLE) return false
-        overlayDelegate.playlistSearchText.editText?.apply {
-            removeTextChangedListener(this@VideoPlayerActivity)
-            setText("")
-            addTextChangedListener(this@VideoPlayerActivity)
-        }
-        UiTools.setKeyboardVisibility(overlayDelegate.playlistSearchText, false)
-
-        return true
     }
 
     override fun onResume() {
@@ -1774,17 +1761,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.updatePlaybackSpeedChip()
     }
 
-    private fun encounteredError() {
-        if (isFinishing || service?.hasNext() == true) return
-        /* Encountered Error, exit player with a message */
-        alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-            .setOnCancelListener { exit(RESULT_PLAYBACK_ERROR) }
-            .setPositiveButton(R.string.ok) { _, _ -> exit(RESULT_PLAYBACK_ERROR) }
-            .setTitle(R.string.encountered_error_title)
-            .setMessage(R.string.encountered_error_message)
-            .create().apply { show() }
-    }
-
     private fun handleVout(voutCount: Int) {
         handler.removeCallbacks(switchAudioRunnable)
 
@@ -2103,10 +2079,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onStorageAccessGranted() {
         handler.sendEmptyMessage(START_PLAYBACK)
-    }
-
-    fun hideOptions() {
-        optionsDelegate?.hide()
     }
 
     private fun showNavMenu() {

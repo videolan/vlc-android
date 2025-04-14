@@ -59,7 +59,6 @@ import androidx.core.net.toUri
 import androidx.leanback.widget.Presenter
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.moviepedia.database.models.Person
 import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
 import org.videolan.television.R
 import org.videolan.tools.dp
@@ -83,15 +82,6 @@ class MetadataCardPresenter(private val context: Activity) : Presenter() {
         init {
             cover.scaleType = ImageView.ScaleType.FIT_CENTER
             view.findViewById<View>(R.id.container).background = ContextCompat.getDrawable(context, R.drawable.tv_card_background)
-        }
-
-        fun updateCardViewImage(item: Person) {
-            downloadIcon(cover, item.image?.toUri())
-        }
-
-        fun updateCardViewImage(image: Drawable?) {
-            cover.setImageDrawable(image)
-            cover.scaleType = ImageView.ScaleType.FIT_CENTER
         }
 
         fun updateCardViewImage(image: Uri?) {

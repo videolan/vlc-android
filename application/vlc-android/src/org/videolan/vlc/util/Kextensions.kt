@@ -29,15 +29,23 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import org.videolan.libvlc.Media
-import org.videolan.libvlc.interfaces.IMedia
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
@@ -62,7 +70,7 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.security.SecureRandom
 import java.text.Normalizer
-import java.util.*
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -86,11 +94,7 @@ fun String.validateLocation(): Boolean {
     return true
 }
 
-inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelProvider(requireActivity()).get(T::class.java)
-inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProvider(this).get(T::class.java)
 inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProvider(this).get(T::class.java)
-
-fun Media?.canExpand() = this != null && (type == IMedia.Type.Directory || type == IMedia.Type.Playlist)
 
 fun FragmentActivity.share(file: File) {
     val intentShareFile = Intent(Intent.ACTION_SEND)
@@ -527,17 +531,6 @@ fun Fragment.showParentFolder(media: MediaWrapper) {
  */
 fun ViewPager2.findCurrentFragment(fragmentManager: FragmentManager): Fragment? {
     return fragmentManager.findFragmentByTag("f$currentItem")
-}
-
-/**
- * Finds the [ViewPager2] fragment at a specified position
- * @param fragmentManager: The used [FragmentManager]
- * @param position: The position to look at
- *
- * @return the fragment if found
- */
-fun ViewPager2.findFragmentAt(fragmentManager: FragmentManager, position: Int): Fragment? {
-    return fragmentManager.findFragmentByTag("f$position")
 }
 
 /**

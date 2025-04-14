@@ -18,8 +18,6 @@ abstract class SortableModel(protected val context: Context): ViewModel(), Refre
 
     var filterQuery : String? = null
 
-    fun getKey() = sortKey
-
     override fun sort(sort: Int) {
         if (canSortBy(sort)) {
             desc = when (this.sort) {

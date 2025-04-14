@@ -266,7 +266,6 @@ const val RESULT_UPDATE_SEEN_MEDIA = Activity.RESULT_FIRST_USER + 4
 const val RESULT_UPDATE_ARTISTS = Activity.RESULT_FIRST_USER + 5
 
 const val BETA_WELCOME = "beta_welcome"
-const val CRASH_DONT_ASK_AGAIN = "crash_dont_ask_again"
 
 const val PLAYBACK_HISTORY = "playback_history"
 const val AUDIO_RESUME_PLAYBACK = "audio_resume_playback"
@@ -424,14 +423,10 @@ const val KEY_FRAGMENT_ID = "fragment_id"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager
-    val tm = context.getSystemService<TelephonyManager>()!!
-    val isPhone = tm.phoneType != TelephonyManager.PHONE_TYPE_NONE
     val hasTsp = pm.hasSystemFeature("android.hardware.touchscreen")
     val isAndroidTv = pm.hasSystemFeature("android.software.leanback")
-    val watchDevices = isAndroidTv && Build.MODEL.startsWith("Bouygtel")
     val isChromeBook = pm.hasSystemFeature("org.chromium.arc.device_management")
     val isTv = isAndroidTv || !isChromeBook && !hasTsp
-    val isAmazon = "Amazon" == Build.MANUFACTURER
 }
 
 @Suppress("UNCHECKED_CAST")

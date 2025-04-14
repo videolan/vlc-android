@@ -59,8 +59,6 @@ fun Uri.isSD() = this.path != null && this.path?.startsWith("/storage") == true 
 fun String?.isSchemeSMB() = this == "smb"
 fun String?.isSchemeFD() = this == "fd"
 
-fun String?.isSchemeDistant() = !this.isSchemeFile()
-
 fun String.isMissing() = this == "missing://"
 
 fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.filter {
@@ -74,15 +72,3 @@ fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.filter {
     }
 } ?: emptyList()
 
-/**
- * Converts a [BrowserFav] to a [MediaWrapper]
- * @return a [MediaWrapper]
- */
-fun convertFavorite(browserFav: BrowserFav): MediaWrapper? {
-    return  MLServiceLocator.getAbstractMediaWrapper(browserFav.uri).apply {
-        setDisplayTitle(Uri.decode(browserFav.title))
-        type = MediaWrapper.TYPE_DIR
-        browserFav.iconUrl?.let { artworkURL = Uri.decode(it) }
-        setStateFlags(MediaLibraryItem.FLAG_FAVORITE)
-    }
-}

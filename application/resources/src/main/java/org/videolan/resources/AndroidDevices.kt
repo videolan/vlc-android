@@ -144,10 +144,6 @@ object AndroidDevices {
         isPhone = tm == null || tm.phoneType != TelephonyManager.PHONE_TYPE_NONE
     }
 
-    fun hasExternalStorage(): Boolean {
-        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-    }
-
     fun showInternalStorage() = Build.BRAND !in arrayOf("Swisscom", "BouyguesTelecom") && Build.BOARD != "sprint"
 
     @TargetApi(VERSION_CODES.HONEYCOMB_MR1)

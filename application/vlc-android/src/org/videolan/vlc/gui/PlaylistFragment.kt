@@ -119,8 +119,12 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         setupLayoutManager()
 
         playlists.adapter = playlistAdapter
-        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller_playlist) as FastScroller
-        fastScroller.attachToCoordinator(requireActivity().findViewById(R.id.appbar) as AppBarLayout, requireActivity().findViewById(R.id.coordinator) as CoordinatorLayout, requireActivity().findViewById(R.id.fab) as FloatingActionButton)
+        fastScroller = view.rootView.findViewById<FastScroller>(R.id.songs_fast_scroller_playlist)!!
+        fastScroller.attachToCoordinator(
+            requireActivity().findViewById<AppBarLayout>(R.id.appbar)!!,
+            requireActivity().findViewById<CoordinatorLayout>(R.id.coordinator)!!,
+            requireActivity().findViewById<FloatingActionButton>(R.id.fab)!!
+        )
         viewModel.provider.pagedList.observe(viewLifecycleOwner) {
             @Suppress("UNCHECKED_CAST")
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)

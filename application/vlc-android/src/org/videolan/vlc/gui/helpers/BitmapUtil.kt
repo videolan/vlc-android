@@ -35,7 +35,6 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.StateListDrawable
 import android.graphics.drawable.VectorDrawable
 import android.net.Uri
 import android.os.Build
@@ -50,7 +49,6 @@ import androidx.annotation.WorkerThread
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
@@ -167,27 +165,6 @@ object BitmapUtil {
 
     }
 
-    fun getBitmapFromVectorDrawable(context: Context, @DrawableRes drawableId: Int, width: Int = -1, height: Int = -1): Bitmap? {
-        var drawable: Drawable = ContextCompat.getDrawable(context, drawableId) ?: return null
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            drawable = DrawableCompat.wrap(drawable).mutate()
-        }
-        return when (drawable) {
-            is BitmapDrawable -> drawable.bitmap
-            is VectorDrawableCompat, is VectorDrawable -> {
-                val bitmap = if (width > 0 && height > 0)
-                    Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-                else
-                    Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-                val canvas = Canvas(bitmap)
-                drawable.setBounds(0, 0, canvas.width, canvas.height)
-                drawable.draw(canvas)
-                bitmap
-            }
-            else -> BitmapFactory.decodeResource(context.resources, drawableId)
-        }
-    }
-
     fun vectorToBitmap(context: Context, @DrawableRes resVector: Int, width: Int? = null, height: Int? = null): Bitmap {
         val drawable = AppCompatResources.getDrawable(context, resVector) ?: throw IllegalStateException("Invalid drawable")
         val b = Bitmap.createBitmap(width ?: drawable.intrinsicWidth, height
@@ -210,26 +187,6 @@ object BitmapUtil {
         val bitmapResult = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmapResult)
         canvas.drawBitmap(bitmap, 0F, 0F, paint)
-        return bitmapResult
-    }
-
-    fun makeTransparentBackground(context: Context, width: Int = 48.dp): Bitmap {
-        val colorLight = ContextCompat.getColor(context, R.color.grey500)
-        val colorDark = ContextCompat.getColor(context, R.color.grey700)
-        val paint = Paint()
-        val bitmapResult = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmapResult)
-        var iter = 0
-
-        val squareSize = width / 6F
-        for (i in 0..5) {
-            for (j in 0..5) {
-                paint.color = if (iter % 2 == 0) colorDark else colorLight
-                canvas.drawRect(i * squareSize, j * squareSize, (i + 1) * squareSize, (j + 1) * squareSize, paint)
-                iter++
-            }
-            iter++
-        }
         return bitmapResult
     }
 
@@ -384,19 +341,6 @@ object BitmapUtil {
         return imageUri != null
     }
 
-}
-
-/**
- * Constructs a [StateListDrawable] from a drawable and colors
- * @param drawable the drawable to use
- * @param color the color for the normal state
- * @param pressedColor the color for the pressed state
- * @return a [StateListDrawable]
- */
-fun Context.getColoredStateListDawable(@DrawableRes drawable: Int, color: Int, pressedColor: Int) = StateListDrawable().apply {
-    addState(intArrayOf(android.R.attr.state_focused), getColoredBitmapFromColor(drawable, pressedColor).toDrawable(resources))
-    addState(intArrayOf(android.R.attr.state_pressed), getColoredBitmapFromColor(drawable, pressedColor).toDrawable(resources))
-    addState(intArrayOf(android.R.attr.state_enabled), getColoredBitmapFromColor(drawable, color).toDrawable(resources))
 }
 
 /**

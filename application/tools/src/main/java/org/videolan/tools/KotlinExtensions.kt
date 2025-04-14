@@ -25,7 +25,11 @@ package org.videolan.tools
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.content.res.Resources
@@ -34,7 +38,6 @@ import android.net.Uri
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
-import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
@@ -45,10 +48,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.yield
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
@@ -85,15 +85,6 @@ fun <T> CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend (T) ->
         action(evt)
         if (time > 0L) delay(time)
     }
-}
-
-fun Context.getColorFromAttr(
-        @AttrRes attrColor: Int,
-        typedValue: TypedValue = TypedValue(),
-        resolveRefs: Boolean = true
-): Int {
-    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
-    return typedValue.data
 }
 
 fun Context.copy(label: String, text: String) {
@@ -134,11 +125,6 @@ fun String?.isValidUrl(): Boolean {
         returns(true) implies (this@isValidUrl != null)
     }
     return !isNullOrEmpty() && Patterns.WEB_URL.matcher(this).matches()
-}
-
-fun View.clicks(): Flow<Unit> = callbackFlow {
-    setOnClickListener { trySend(Unit) }
-    awaitClose { setOnClickListener(null) }
 }
 
 @SuppressLint("MissingPermission")

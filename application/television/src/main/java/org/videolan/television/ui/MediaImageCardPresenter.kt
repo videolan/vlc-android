@@ -115,8 +115,6 @@ class MediaImageCardPresenter(private val context: Activity, private val imageTy
 
     companion object {
 
-        private const val TAG = "CardPresenter"
-
         private val CARD_WIDTH_POSTER = 100.dp
         private val CARD_HEIGHT_POSTER = 150.dp
 

@@ -23,7 +23,6 @@
 
 package org.videolan.television.ui.preferences
 
-import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
 import androidx.leanback.preference.LeanbackPreferenceFragment
@@ -32,7 +31,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceDialogFragment
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.Settings
-import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 
 const val RESTART_CODE = 10001
@@ -48,12 +46,6 @@ abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
     }
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         addPreferencesFromResource(getXml())
-    }
-
-    protected fun loadFragment(fragment: Fragment) {
-        activity.fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
-                .addToBackStack("main")
-                .commit()
     }
 
     protected fun buildPreferenceDialogFragment(preference: Preference): PreferenceDialogFragment? {

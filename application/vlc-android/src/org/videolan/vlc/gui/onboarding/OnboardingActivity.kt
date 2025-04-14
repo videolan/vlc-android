@@ -189,10 +189,6 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
         if (viewModel.currentFragment == FragmentName.THEME) nextButton.text = getString(R.string.done)
     }
 
-    fun manageNextVisibility(visible: Boolean) {
-        nextButton.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
 }
 
 enum class FragmentName {

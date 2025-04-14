@@ -822,13 +822,6 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
         }
     }
 
-    fun sslEnabled():Boolean {
-        if (::engine.isInitialized) {
-            return engine.environment.connectors.firstOrNull { it.type.name == "HTTPS" } != null
-        }
-        return false
-    }
-
     /**
      * Get IP address from first non-localhost interface
      * @param useIPv4   true=return ipv4, false=return ipv6

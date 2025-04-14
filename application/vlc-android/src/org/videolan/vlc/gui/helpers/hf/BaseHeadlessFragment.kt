@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.helpers.hf
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -50,8 +49,6 @@ open class BaseHeadlessFragment : Fragment() {
                 .commitAllowingStateLoss()
         }
     }
-
-    protected fun PermissionResults.granted() = isNotEmpty() && get(0) == PackageManager.PERMISSION_GRANTED
 }
 
 class PermissionViewmodel : ViewModel() {

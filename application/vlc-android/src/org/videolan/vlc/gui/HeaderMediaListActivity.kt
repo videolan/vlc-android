@@ -124,7 +124,6 @@ import org.videolan.vlc.util.ContextOption.CTX_RENAME
 import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
 import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistItemFlags
-import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.getScreenWidth
@@ -136,7 +135,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.security.SecureRandom
-import java.util.LinkedList
 import kotlin.math.min
 
 open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
@@ -631,19 +629,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     private fun removeItems(items: List<MediaWrapper>) {
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
         dialog.show(supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-    }
-
-    private fun deleteMedia(mw: MediaLibraryItem) = lifecycleScope.launch(Dispatchers.IO) {
-        val foldersToReload = LinkedList<String>()
-        for (media in mw.tracks) {
-            val path = media.uri.path
-            val parentPath = FileUtils.getParent(path)
-            if (parentPath != null && FileUtils.deleteFile(path) && media.id > 0L && !foldersToReload.contains(parentPath)) {
-                foldersToReload.add(parentPath)
-            } else
-                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, media.title))
-        }
-        for (folder in foldersToReload) mediaLibrary.reload(folder)
     }
 
     override fun onClick(v: View) {

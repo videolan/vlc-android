@@ -343,16 +343,6 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         hide()
     }
 
-    private fun showValueControls(action: Int) {
-        val controller = (activity as? VideoPlayerActivity)?.delayDelegate ?: return
-        when (action) {
-            ACTION_AUDIO_DELAY -> controller.showAudioDelaySetting()
-            ACTION_SPU_DELAY -> controller.showSubsDelaySetting()
-            else -> return
-        }
-        hide()
-    }
-
     private fun setRepeatMode() {
         when (service.repeatType) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> {

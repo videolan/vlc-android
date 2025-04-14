@@ -609,10 +609,6 @@ fun Context.reloadLibrary() {
     launchForeground(Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
 }
 
-fun Context.rescan() {
-    launchForeground(Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
-}
-
 private sealed class MLAction
 private class DiscoverStorage(val path: String) : MLAction()
 private class DiscoverFolder(val path: String) : MLAction()

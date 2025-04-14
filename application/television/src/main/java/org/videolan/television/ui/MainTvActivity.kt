@@ -125,10 +125,6 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
             scheduler.scheduleAction(HIDE_LOADING, 500)
     }
 
-    fun hideLoading() {
-        scheduler.scheduleAction(HIDE_LOADING, 500)
-    }
-
     override fun onStorageAccessGranted() {
         refresh()
     }

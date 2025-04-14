@@ -301,14 +301,9 @@ object FileUtils {
         return deleted
     }
 
-    fun String.isInternalStorage() = startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
 
     private fun asyncRecursiveDelete(path: String, callback: Callback?) {
         asyncRecursiveDelete(File(path), callback)
-    }
-
-    fun asyncRecursiveDelete(path: String) {
-        asyncRecursiveDelete(path, null)
     }
 
     private fun asyncRecursiveDelete(fileOrDirectory: File, callback: Callback?) {

@@ -97,10 +97,6 @@ class PlotView : FrameLayout {
         listeners.add(listener)
     }
 
-    fun removeListener(listener: PlotViewDataChangeListener) {
-        listeners.remove(listener)
-    }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -241,11 +237,6 @@ class PlotView : FrameLayout {
             data.add(lineGraph)
         }
     }
-}
-
-data class GraphPoint(val x: Float, val y: Float) {
-    var dx: Float = 0F
-    var dy: Float = 0F
 }
 
 interface PlotViewDataChangeListener {

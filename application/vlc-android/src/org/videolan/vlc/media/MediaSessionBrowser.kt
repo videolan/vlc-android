@@ -45,7 +45,6 @@ import org.videolan.resources.CONTENT_STYLE_GRID_ITEM_HINT_VALUE
 import org.videolan.resources.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
 import org.videolan.resources.CONTENT_STYLE_PLAYABLE_HINT
 import org.videolan.resources.EXTRA_BROWSER_ICON_SIZE
-import org.videolan.resources.EXTRA_CONTENT_STYLE_GROUP_TITLE_HINT
 import org.videolan.resources.EXTRA_CONTENT_STYLE_SINGLE_ITEM
 import org.videolan.resources.EXTRA_RELATIVE_MEDIA_ID
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
@@ -114,7 +113,6 @@ class MediaSessionBrowser {
 
     companion object {
         private const val TAG = "VLC/MediaSessionBrowser"
-        private val instance = MediaSessionBrowser()
 
         // Root item
         // MediaIds are all strings. Maintain in uri parsable format.

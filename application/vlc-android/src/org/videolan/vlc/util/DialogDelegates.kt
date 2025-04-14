@@ -12,8 +12,6 @@ import videolan.org.commontools.LiveEvent
 
 private const val TAG = "DialogDelegate"
 
-interface IDialogHandler
-
 interface IDialogDelegate {
     fun observeDialogs(lco: LifecycleOwner, manager: IDialogManager)
 }

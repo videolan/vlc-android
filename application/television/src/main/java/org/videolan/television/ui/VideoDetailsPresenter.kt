@@ -30,9 +30,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
-import androidx.leanback.graphics.ColorOverlayDimmer
-import org.videolan.television.databinding.TvVideoDetailsBinding
 import org.videolan.television.R
+import org.videolan.television.databinding.TvVideoDetailsBinding
 
 class VideoDetailsPresenter(private val context: Context, private val screenWidth: Int) : FullWidthRowPresenter() {
 
@@ -61,7 +60,6 @@ class VideoDetailsPresenter(private val context: Context, private val screenWidt
     }
 
     inner class VideoDetailsViewHolder(view: View) : ViewHolder(view) {
-        val colorDimmer = ColorOverlayDimmer.createDefault(view.context)
         val container = view.findViewById<ConstraintLayout>(R.id.container)
     }
 }

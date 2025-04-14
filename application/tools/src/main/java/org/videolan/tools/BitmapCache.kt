@@ -87,14 +87,6 @@ object BitmapCache {
         }
     }
 
-    private fun getBitmapFromMemCache(resId: Int): Bitmap? {
-        return getBitmapFromMemCache("res:$resId")
-    }
-
-    private fun addBitmapToMemCache(resId: Int, bitmap: Bitmap?) {
-        addBitmapToMemCache("res:$resId", bitmap)
-    }
-
     @Synchronized
     fun clear() {
         memCache.evictAll()

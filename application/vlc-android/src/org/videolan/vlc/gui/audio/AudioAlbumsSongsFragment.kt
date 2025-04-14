@@ -120,8 +120,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         spacing = resources.getDimension(R.dimen.kl_small).toInt()
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing, 16.dp)
 
-        val albumsList = viewPager.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
-        val songsList = viewPager.getChildAt(MODE_SONG).findViewById(R.id.audio_list) as RecyclerView
+        val albumsList: RecyclerView = viewPager.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list)
+        val songsList: RecyclerView = viewPager.getChildAt(MODE_SONG).findViewById(R.id.audio_list)
 
         lists = arrayOf(albumsList, songsList)
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))

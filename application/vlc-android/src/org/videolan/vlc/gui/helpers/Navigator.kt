@@ -131,11 +131,6 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
 
     private fun idIsExtension(id: Int) = id in 1..100
 
-    private fun clearBackstackFromClass(clazz: Class<*>) {
-        val fm = activity.supportFragmentManager
-        while (clazz.isInstance(currentFragment)) if (!fm.popBackStackImmediate()) break
-    }
-
     override fun reloadPreferences() {
         currentFragmentId = settings.getInt(KEY_FRAGMENT_ID, defaultFragmentId)
     }

@@ -38,7 +38,12 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.button.MaterialButton
-import org.videolan.tools.*
+import org.videolan.tools.AUDIO_DELAY_GLOBAL
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setInvisible
+import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
@@ -300,9 +305,4 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         }
     }
 
-    private val btSaveListener = View.OnClickListener {
-        player.service?.run {
-            settings.putSingle(KEY_BLUETOOTH_DELAY, player.service?.audioDelay ?: 0L)
-        }
-    }
 }

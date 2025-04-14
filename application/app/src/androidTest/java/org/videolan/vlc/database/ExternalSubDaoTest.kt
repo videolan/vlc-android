@@ -21,7 +21,10 @@
 package org.videolan.vlc.database
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.hasItem
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.not
 import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,7 +33,6 @@ import org.videolan.vlc.util.getValue
 
 @RunWith(AndroidJUnit4::class)
 class ExternalSubDaoTest: DbTest() {
-    private lateinit var database: MediaDatabase
     @Test fun insertTwoSubtitleForEachOfTwoMedias_GetShouldReturnTwoForEachOne() {
         val foo = "/storage/emulated/foo.mkv"
         val bar = "/storage/emulated/bar.mkv"

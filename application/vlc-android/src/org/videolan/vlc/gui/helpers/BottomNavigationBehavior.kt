@@ -24,7 +24,6 @@
 
 package org.videolan.vlc.gui.helpers
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
@@ -49,7 +48,6 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
     private var height = 0
     private var currentState = STATE_SCROLLED_UP
 
-    private var offsetAnimator: ValueAnimator? = null
     private var player: FrameLayout? = null
     private val playerBehavior: PlayerBehavior<*>?
         get() {

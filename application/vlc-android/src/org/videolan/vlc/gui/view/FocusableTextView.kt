@@ -25,7 +25,11 @@
 package org.videolan.vlc.gui.view
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.Paint
+import android.graphics.PixelFormat
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
@@ -87,7 +91,6 @@ open class FocusableTextView : androidx.appcompat.widget.AppCompatTextView {
 
         override fun setColorFilter(colorFilter: ColorFilter?) {}
         override fun setAlpha(i: Int) {}
-        var pressed = false
         override fun onStateChange(states: IntArray): Boolean {
             invalidateSelf()
             return true

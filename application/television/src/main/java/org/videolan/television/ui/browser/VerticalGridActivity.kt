@@ -32,7 +32,23 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.CATEGORY
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_ARTISTS
+import org.videolan.resources.CATEGORY_GENRES
+import org.videolan.resources.CATEGORY_PLAYLISTS
+import org.videolan.resources.CATEGORY_SONGS
+import org.videolan.resources.CATEGORY_VIDEOS
+import org.videolan.resources.FAVORITE_TITLE
+import org.videolan.resources.HEADER_CATEGORIES
+import org.videolan.resources.HEADER_DIRECTORIES
+import org.videolan.resources.HEADER_MOVIES
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_PLAYLISTS
+import org.videolan.resources.HEADER_TV_SHOW
+import org.videolan.resources.HEADER_VIDEO
+import org.videolan.resources.ITEM
+import org.videolan.resources.KEY_URI
 import org.videolan.resources.util.parcelable
 import org.videolan.television.R
 import org.videolan.television.databinding.TvVerticalGridBinding
@@ -41,7 +57,6 @@ import org.videolan.television.ui.browser.interfaces.BrowserActivityInterface
 import org.videolan.television.ui.browser.interfaces.DetailsFragment
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.interfaces.BrowserFragmentInterface
-import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 
@@ -122,10 +137,6 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
     override fun updateEmptyView(empty: Boolean) {
         lifecycleScope.launch { binding.tvFragmentEmpty.visibility = if (empty) View.VISIBLE else View.GONE }
-    }
-
-    fun sort(v: View) {
-        (fragment as Sortable).sort(v)
     }
 
     interface OnKeyPressedListener {

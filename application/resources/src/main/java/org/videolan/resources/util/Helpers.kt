@@ -16,7 +16,8 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.R
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 const val LENGTH_DAY = 24 * 60 * 60
 const val LENGTH_WEEK = 7 * LENGTH_DAY
@@ -125,8 +126,3 @@ fun applyOverscanMargin(activity: Activity) {
     activity.findViewById<View>(android.R.id.content).setPadding(hm, vm, hm, vm)
 }
 
-fun applyOverscanMargin(view: View) {
-    val hm = view.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
-    val vm = view.resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
-    view.setPadding(hm + view.paddingLeft, vm + view.paddingTop, hm + view.paddingRight, vm + view.paddingBottom)
-}

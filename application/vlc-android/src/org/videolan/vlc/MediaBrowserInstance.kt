@@ -9,8 +9,6 @@ import org.videolan.vlc.MediaBrowserInstance.init
 object MediaBrowserInstance :
     SingletonHolder<MediaBrowserCompat, Context>({ init(it.applicationContext) }) {
 
-    private lateinit var mediaBrowser: MediaBrowserCompat
-
     fun init(context: Context): MediaBrowserCompat {
         return MediaBrowserCompat(
             context,

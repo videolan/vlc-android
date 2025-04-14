@@ -37,10 +37,6 @@ data class OpenSubtitlesLimit (
         if (resetTime != null && Date().after(resetTime)) return max
         return max - requests
     }
-    fun getRemainingText(): String {
-        val remaining = getRemaining()
-        return "$remaining/$max"
-    }
 
     fun getResetTime(context:Context): String {
         if (resetTime == null) return ""

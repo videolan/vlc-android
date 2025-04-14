@@ -25,7 +25,6 @@
 package org.videolan.vlc.remoteaccessserver.gui.remoteaccess.onboarding
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -111,10 +110,6 @@ class RemoteAccessOnboardingActivity : AppCompatActivity(), OnboardingFragmentLi
             nextButton.text = getString(R.string.done)
             skipButton.setGone()
         }
-    }
-
-    fun manageNextVisibility(visible: Boolean) {
-        nextButton.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
 }

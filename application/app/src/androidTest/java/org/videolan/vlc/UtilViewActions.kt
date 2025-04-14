@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
@@ -79,15 +78,6 @@ class OrientationChangeAction internal constructor(private val orientation: Int)
             context = context.baseContext
         }
         return null
-    }
-}
-
-class ForceClickAction : ViewAction {
-    override fun getConstraints() = isEnabled()
-    override fun getDescription() = "Force click a view even if 90% condition is not satisfied"
-
-    override fun perform(uiController: UiController?, view: View?) {
-        view?.performClick()
     }
 }
 

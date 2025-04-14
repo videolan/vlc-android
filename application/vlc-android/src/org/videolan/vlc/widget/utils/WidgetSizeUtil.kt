@@ -55,6 +55,4 @@ object WidgetSizeUtil {
     private fun getWidgetSizeInDp(context: Context, widgetId: Int, key: String): Int =
             getAppWidgetManager(context).getAppWidgetOptions(widgetId).getInt(key, 0)
 
-    private fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
-
 }

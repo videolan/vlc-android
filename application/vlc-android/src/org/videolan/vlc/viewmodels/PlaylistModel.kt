@@ -245,8 +245,6 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     private suspend fun canSwitchToVideo() = withContext(Dispatchers.IO) { service?.playlistManager?.player?.canSwitchToVideo() ?: false }
 
-    fun toggleABRepeat() = service?.playlistManager?.toggleABRepeat()
-
     val videoTrackCount
         get() = service?.videoTracksCount ?: 0
 

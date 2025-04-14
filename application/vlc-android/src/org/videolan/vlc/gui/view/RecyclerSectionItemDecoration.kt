@@ -34,7 +34,7 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
 
         if (!::headerView.isInitialized) {
             headerView = inflateHeaderView(parent)
-            header = headerView.findViewById(R.id.section_header) as TextView
+            header = headerView.findViewById<TextView>(R.id.section_header)!!
             fixLayoutSize(headerView, parent)
         }
 

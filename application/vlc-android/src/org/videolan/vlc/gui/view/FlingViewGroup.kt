@@ -22,7 +22,11 @@ package org.videolan.vlc.gui.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.*
+import android.view.MotionEvent
+import android.view.VelocityTracker
+import android.view.View
+import android.view.ViewConfiguration
+import android.view.ViewGroup
 import android.widget.Scroller
 import kotlin.math.absoluteValue
 
@@ -39,7 +43,6 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
 
     private var lastX: Float = 0.toFloat()
     private var lastInterceptDownY: Float = 0.toFloat()
-    private var initialMotionEventX: Float = 0.toFloat()
     private var initialMotionX: Float = 0.toFloat()
     private var initialMotionY: Float = 0.toFloat()
 
@@ -218,13 +221,6 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
         this.position = position
         val delta = position * width - scrollX
         scroller.startScroll(scrollX, 0, delta, 0, 1)
-        invalidate()
-    }
-
-    fun smoothScrollTo(position: Int) {
-        this.position = position
-        val delta = position * width - scrollX
-        scroller.startScroll(scrollX, 0, delta, 0, 300)
         invalidate()
     }
 
