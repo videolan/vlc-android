@@ -34,6 +34,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
@@ -272,7 +273,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         playbackService.lifecycleScope.launch {
             val context = playbackService.applicationContext
             try {
-                val mediaIdUri = Uri.parse(extras?.getString(EXTRA_RELATIVE_MEDIA_ID) ?: mediaId)
+                val mediaIdUri = (extras?.getString(EXTRA_RELATIVE_MEDIA_ID) ?: mediaId).toUri()
                 val position = mediaIdUri.getQueryParameter("i")?.toInt() ?: 0
                 val page = mediaIdUri.getQueryParameter("p")
                 val pageOffset = page?.toInt()?.times(MediaSessionBrowser.MAX_RESULT_SIZE) ?: 0

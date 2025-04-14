@@ -37,6 +37,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
@@ -374,11 +375,8 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 lifecycleScope.launch {
                     try {
                         PreferenceParser.restoreSettings(
-                            requireActivity(), Uri.parse(
-                                data.getStringExtra(
-                                    EXTRA_MRL
-                                )
-                            )
+                            requireActivity(),
+                                data.getStringExtra(EXTRA_MRL)!!.toUri()
                         )
                         VLCInstance.restart()
                         UiTools.restartDialog(requireActivity())

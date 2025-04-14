@@ -25,13 +25,13 @@ package org.videolan.television.ui.preferences
 import android.annotation.TargetApi
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -171,9 +171,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
             if (requestCode == FILE_PICKER_RESULT_CODE) {
                 if (data.hasExtra(EXTRA_MRL)) {
                     launch {
-                        MediaUtils.useAsSoundFont(activity, Uri.parse(data.getStringExtra(
-                            EXTRA_MRL
-                        )))
+                        MediaUtils.useAsSoundFont(activity, data.getStringExtra(EXTRA_MRL)!!.toUri())
                         VLCInstance.restart()
                     }
                     UiTools.restartDialog(activity!!, true, RESTART_CODE, this)

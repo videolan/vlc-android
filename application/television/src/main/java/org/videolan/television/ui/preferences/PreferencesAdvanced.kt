@@ -36,6 +36,7 @@ import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
@@ -337,11 +338,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     try {
 
                         PreferenceParser.restoreSettings(
-                            activity, Uri.parse(
-                                data.getStringExtra(
-                                    EXTRA_MRL
-                                )
-                            )
+                        activity, data.getStringExtra(
+                            EXTRA_MRL
+                        )!!.toUri()
                         )
                         (activity as PreferencesActivity).setRestartApp()
                     } catch (e: Exception) {

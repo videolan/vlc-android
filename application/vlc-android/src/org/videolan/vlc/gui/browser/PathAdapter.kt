@@ -45,7 +45,7 @@ class PathAdapter(val browser: PathAdapterListener, val media: MediaWrapper) : R
         holder.root.text = text
         text?.let {
             val isFile = try {
-                Uri.parse(segments[position]).toFile().isFile
+                segments[position].toUri().toFile().isFile
             } catch (e: Exception) {
                 false
             }

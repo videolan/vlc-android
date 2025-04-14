@@ -24,12 +24,12 @@ package org.videolan.vlc.gui.preferences
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -134,7 +134,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         if (requestCode == FILE_PICKER_RESULT_CODE) {
             if (data.hasExtra(EXTRA_MRL)) {
                 lifecycleScope.launch {
-                    MediaUtils.useAsSoundFont(requireActivity(), Uri.parse(data.getStringExtra(EXTRA_MRL)))
+                    MediaUtils.useAsSoundFont(requireActivity(), data.getStringExtra(EXTRA_MRL)!!.toUri())
                     VLCInstance.restart()
                 }
                 UiTools.restartDialog(requireActivity())

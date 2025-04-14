@@ -12,6 +12,7 @@ import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
@@ -534,14 +535,14 @@ object MediaUtils {
 
 fun Folder.isOTG(): Boolean {
     try {
-        return Uri.parse(mMrl).isOTG()
+        return mMrl.toUri().isOTG()
     } catch (_: Exception) {
     }
     return false
 }
 fun Folder.isSD(): Boolean {
     try {
-        return Uri.parse(mMrl).isSD()
+        return mMrl.toUri().isSD()
     } catch (_: Exception) {
     }
     return false

@@ -356,7 +356,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 call.respondText(VectorDrawableUtil.convertToSvg(appContext, width, id, it), ContentType.Image.SVG)
                 return@get
             } catch (e: Resources.NotFoundException) {
-                Log.w(this::class.java.simpleName, "Failed to convert vector drawable. ${e.message}", )
+                Log.w(this::class.java.simpleName, "Failed to convert vector drawable. ${e.message}")
                 // Continue on and let BitmapUtil attempt to load the file
             }
         }
@@ -932,7 +932,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     else -> throw IllegalStateException("Unrecognised media type")
 
                 }
-                val title = if ((provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
+                val title = if ((provider.url == null || provider.url!!.toUri().scheme.isSchemeFile())
                         && it is MediaWrapper) it.fileName else it.title
                 val isFolder = if (it is MediaWrapper) it.type == MediaWrapper.TYPE_DIR else true
                 var fileType = "folder"
@@ -950,10 +950,10 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
             //segments
             PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY,   RemoteAccessServer.getInstance(appContext).makePathSafe(appContext.getString(org.videolan.vlc.R.string.internal_memory)))
-            val breadcrumbItems = if (!isSchemeSupported(Uri.parse(decodedPath).scheme))
+            val breadcrumbItems = if (!isSchemeSupported(decodedPath.toUri().scheme))
                 listOf(RemoteAccessServer.BreadcrumbItem(appContext.getString(R.string.home), "root"))
             else
-                RemoteAccessServer.getInstance(appContext).prepareSegments(Uri.parse(decodedPath)).map {
+                RemoteAccessServer.getInstance(appContext).prepareSegments(decodedPath.toUri()).map {
                     RemoteAccessServer.BreadcrumbItem(it.first, it.second)
                 }.toMutableList().apply {
                     add(0, RemoteAccessServer.BreadcrumbItem(appContext.getString(R.string.home), "root"))
@@ -986,7 +986,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         if (id.toLong() > 0)
                             arrayOf(getMedia(id.toLong()))
                         else
-                            arrayOf(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(path)))
+                            arrayOf(MLServiceLocator.getAbstractMediaWrapper(path.toUri()))
                     } else when (type) {
                         "album" -> getAlbum(id.toLong()).tracks
                         "artist" -> getArtist(id.toLong()).tracks
@@ -1548,7 +1548,7 @@ private suspend fun getProviderContent(context:Context, provider: BrowserProvide
 
         }
         val title = if (provider is FileBrowserProvider
-                && (provider.url == null || Uri.parse(provider.url).scheme.isSchemeFile())
+                && (provider.url == null || provider.url!!.toUri().scheme.isSchemeFile())
                 && mediaLibraryItem is MediaWrapper) mediaLibraryItem.fileName else mediaLibraryItem.title
         val isFolder = if (mediaLibraryItem is MediaWrapper) mediaLibraryItem.type == MediaWrapper.TYPE_DIR else true
         list.add(RemoteAccessServer.PlayQueueItem(idPrefix + index, title, description, 0, mediaLibraryItem.artworkMrl

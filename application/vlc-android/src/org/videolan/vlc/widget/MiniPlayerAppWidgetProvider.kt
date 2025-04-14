@@ -41,12 +41,27 @@ import android.view.WindowManager
 import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.palette.graphics.Palette
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.*
-import org.videolan.tools.*
+import org.videolan.resources.ACTION_REMOTE_BACKWARD
+import org.videolan.resources.ACTION_REMOTE_FORWARD
+import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
+import org.videolan.resources.ACTION_REMOTE_SEEK_BACKWARD
+import org.videolan.resources.ACTION_REMOTE_SEEK_FORWARD
+import org.videolan.resources.ACTION_REMOTE_STOP
+import org.videolan.resources.EXTRA_SEEK_DELAY
+import org.videolan.resources.buildPkgString
+import org.videolan.tools.AppScope
+import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_ARTIST
+import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_THUMB
+import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_TITLE
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.runIO
+import org.videolan.tools.runOnMainThread
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -58,10 +73,21 @@ import org.videolan.vlc.media.Progress
 import org.videolan.vlc.repository.WidgetRepository
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.getPendingIntent
-import org.videolan.vlc.widget.utils.*
+import org.videolan.vlc.widget.utils.WidgetCache
+import org.videolan.vlc.widget.utils.WidgetCacheEntry
+import org.videolan.vlc.widget.utils.WidgetSizeUtil
+import org.videolan.vlc.widget.utils.WidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.getWidgetType
 import org.videolan.vlc.widget.utils.WidgetUtils.shouldShowSeek
-import java.util.*
+import org.videolan.vlc.widget.utils.generateCircularProgressbar
+import org.videolan.vlc.widget.utils.generatePillProgressbar
+import org.videolan.vlc.widget.utils.getArtistColor
+import org.videolan.vlc.widget.utils.getBackgroundColor
+import org.videolan.vlc.widget.utils.getBackgroundSecondaryColor
+import org.videolan.vlc.widget.utils.getForegroundColor
+import org.videolan.vlc.widget.utils.getSeparatorColor
+import org.videolan.vlc.widget.utils.isLight
+import java.util.Locale
 
 
 class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
@@ -205,7 +231,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             component = ComponentName(context, MiniPlayerConfigureActivity::class.java)
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             //we have to add a data to this intent to differentiate intents from different widget instances
-            data = Uri.parse("vlc://mini_widget/$appWidgetId")
+            data = "vlc://mini_widget/$appWidgetId".toUri()
         }
 
         val piBackward = context.getPendingIntent(iBackward)

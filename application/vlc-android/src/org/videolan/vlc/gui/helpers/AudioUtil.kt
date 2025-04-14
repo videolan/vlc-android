@@ -32,6 +32,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.core.content.contentValuesOf
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +48,14 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeHttpOrHttps
-import java.io.*
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 object AudioUtil {
     const val TAG = "VLC/AudioUtil"
@@ -171,7 +179,7 @@ object AudioUtil {
      */
     fun fetchBitmapFromContentResolver(context: Context, path: String?): Bitmap? {
         try {
-            val uri = Uri.parse(path)
+            val uri = path!!.toUri()
             val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
             inputStream?.use {
                 return BitmapFactory.decodeStream(it)
