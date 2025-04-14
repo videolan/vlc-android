@@ -13,7 +13,6 @@
     </style>
 
     <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents</item>
         <item name="actionMenuTextColor">@color/white</item>
 
@@ -84,11 +83,9 @@
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_light</item>
-        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap_500</item>
         <item name="ic_tips_tap">@drawable/tips_tap_500</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
-        <item name="progress_background">@color/grey400</item>
         <item name="ariane_text_color">@color/grey700</item>
         <item name="ariane_text_size">14sp</item>
         <item name="player_icon_color">@color/black</item>
@@ -101,7 +98,6 @@
         <item name="disabled_overlay_color">@color/white_transparent_50</item>
         <item name="video_card_background">@drawable/video_grid_card_background</item>
         <item name="video_list_background">@drawable/video_list_background</item>
-        <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_light</item>
         <item name="audio_chip_background">@drawable/rounded_corners_audio</item>
         <item name="audio_chip_text_color">@color/white_transparent_60</item>
         <item name="empty_title">@color/grey850</item>
@@ -213,7 +209,6 @@
     </style>
 
     <style name="Theme.VLC.Apearance.Black" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents.Dark</item>
 
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
@@ -281,11 +276,9 @@
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
-        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
-        <item name="progress_background">@color/grey700</item>
         <item name="ariane_text_color">@color/grey50</item>
         <item name="ariane_text_size">14sp</item>
         <item name="player_icon_color">@color/white</item>
@@ -299,7 +292,6 @@
         <item name="disabled_overlay_color">@color/black_transparent_50</item>
         <item name="video_card_background">@drawable/video_grid_card_background_dark</item>
         <item name="video_list_background">@drawable/video_list_background_dark</item>
-        <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_dark</item>
         <item name="audio_chip_background">@drawable/rounded_corners_audio_dark</item>
         <item name="audio_chip_text_color">@color/black_transparent_60</item>
         <item name="empty_title">@color/grey300</item>
@@ -516,7 +508,6 @@
 
         <item name="background_default">@color/grey850</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background</item>
-        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
         <item name="ic_tips_double_tap">@drawable/tips_double_tap</item>
         <item name="ic_tips_tap">@drawable/tips_tap</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
@@ -533,7 +524,6 @@
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
-        <item name="progress_background">@color/grey200</item>
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
         </item>
         <item name="colorControlHighlight">@color/orange500</item>

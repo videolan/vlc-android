@@ -46,14 +46,12 @@
     <attr name="list_subtitle" format="reference|color" />
     <attr name="list_title" format="reference|color" />
     <attr name="audio_player_background_tint" format="reference|color" />
-    <attr name="progress_background" format="reference|color" />
     <attr name="ariane_text_color" format="reference|color"/>
     <attr name="ariane_text_size" format="dimension" />
     <attr name="card_background" format="color"/>
     <attr name="empty_button" format="reference" />
     <attr name="default_separator" format="color" />
     <attr name="card_border" format="color" />
-    <attr name="rounded_corners_bottom_default_darker" format="reference" />
     <attr name="donate_card" format="color" />
     <attr name="donate_item_background" format="reference" />
     <attr name="empty_foreground" format="color" />
@@ -91,7 +89,6 @@
     <attr name="progress_mini_player" format="reference" />
 
     <!--Advance Options Icons-->
-    <attr name="ic_playasaudio_on" format="reference" />
     <attr name="ic_passthrough" format="reference" />
     <attr name="player_icon_color" format="reference" />
     <attr name="dialog_circle_background" format="reference"/>
@@ -118,7 +115,5 @@
     <declare-styleable name="HalfCircleView">
         <attr name="is_left" format="boolean"/>
     </declare-styleable>
-
-    <attr name="marginTopContent" format="dimension" />
 
 </resources>
