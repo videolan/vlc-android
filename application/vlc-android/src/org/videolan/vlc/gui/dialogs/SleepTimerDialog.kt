@@ -65,7 +65,7 @@ class SleepTimerDialog : PickTimeFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        defaultSleepTimer = arguments?.getBoolean(FOR_DEFAULT, false) ?: false
+        defaultSleepTimer = arguments?.getBoolean(FOR_DEFAULT, false) == true
         binding.timPicWaitCheckbox.isChecked = settings.getBoolean(if (defaultSleepTimer) SLEEP_TIMER_DEFAULT_WAIT else SLEEP_TIMER_WAIT, false)
         binding.timPicResetCheckbox.isChecked = settings.getBoolean(if (defaultSleepTimer) SLEEP_TIMER_DEFAULT_RESET_INTERACTION else SLEEP_TIMER_RESET_INTERACTION, false)
         if (defaultSleepTimer) {
@@ -76,8 +76,8 @@ class SleepTimerDialog : PickTimeFragment() {
                 updateValue("$hours$minutes")
             }
         }
-        binding.timPicWaitCheckbox.isChecked = playlistModel.service?.waitForMediaEnd ?: false
-        binding.timPicResetCheckbox.isChecked = playlistModel.service?.resetOnInteraction ?: false
+        binding.timPicWaitCheckbox.isChecked = playlistModel.service?.waitForMediaEnd == true
+        binding.timPicResetCheckbox.isChecked = playlistModel.service?.resetOnInteraction == true
 
     }
 

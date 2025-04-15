@@ -25,7 +25,11 @@
 package org.videolan.vlc.gui.video
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -109,7 +113,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
 
     override fun onTabUnselected(tab: TabLayout.Tab) {
         stopActionMode()
-        needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() ?: false
+        needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() == true
         lastQuery = (activity as? ContentActivity)?.getCurrentQuery() ?: ""
         if (isStarted()) (viewPager.findCurrentFragment(childFragmentManager) as? BaseFragment)?.stopActionMode()
     }
@@ -193,7 +197,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
         null
     }
 
-    override fun enableSearchOption() = (getCurrentFragment() as? Filterable)?.enableSearchOption() ?: false
+    override fun enableSearchOption() = (getCurrentFragment() as? Filterable)?.enableSearchOption() == true
 
     override fun filter(query: String) {
         (getCurrentFragment() as? Filterable)?.filter(query)
@@ -207,7 +211,7 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
         (getCurrentFragment() as? Filterable)?.setSearchVisibility(visible)
     }
 
-    override fun allowedToExpand() = (getCurrentFragment() as? Filterable)?.allowedToExpand() ?: false
+    override fun allowedToExpand() = (getCurrentFragment() as? Filterable)?.allowedToExpand() == true
     private fun updateTabs() {
         for (i in 0 until tabLayout!!.tabCount) {
             val tab = tabLayout!!.getTabAt(i)

@@ -337,7 +337,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     get("/icon") {
         val idString = call.request.queryParameters["id"]
         val width = call.request.queryParameters["width"]?.toInt()?.coerceAtLeast(1) ?: 32
-        val preventTint = call.request.queryParameters["preventTint"]?.toBoolean() ?: false
+        val preventTint = call.request.queryParameters["preventTint"]?.toBoolean() == true
 
         val id = try {
             appContext.resIdByName(idString, "drawable")
@@ -510,7 +510,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val remoteAccessServer = RemoteAccessServer.getInstance(appContext)
             val messages = listOfNotNull(
                 remoteAccessServer.generatePlayQueue(),
-                PlayerStatus(PlaylistManager.showAudioPlayer.value ?: false),
+                PlayerStatus(PlaylistManager.showAudioPlayer.value == true),
                 remoteAccessServer.generateNowPlaying()
             )
             call.respondJson(convertToJson(messages))

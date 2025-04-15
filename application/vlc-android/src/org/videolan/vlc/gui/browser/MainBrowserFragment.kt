@@ -440,7 +440,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 val mw = item as MediaWrapper
                 if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
                 val flags = FlagSet(ContextOption::class.java).apply {
-                    val isEmpty = (viewModel as? BrowserModel)?.isFolderEmpty(mw) ?: true
+                    val isEmpty = (viewModel as? BrowserModel)?.isFolderEmpty(mw) != false
                     if (!isEmpty) add(CTX_PLAY)
                     val isFileBrowser = isFile && item.uri.scheme == "file"
                     val favExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(mw.uri) }

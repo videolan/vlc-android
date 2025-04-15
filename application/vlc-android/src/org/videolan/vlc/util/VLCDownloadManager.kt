@@ -128,7 +128,7 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         if (subtitleItem.mediaUri.scheme != "file") return defaultSubsDirectory
         val folder = subtitleItem.mediaUri.path.getParentFolder() ?: return context.getExternalFilesDir("subs")?.absolutePath
         val subFile = subtitleItem.mediaUri.path?.let { File(it) }
-        val canWrite = context.isStarted() && context.getExtWritePermission(folder.toUri()) && subFile?.canWrite() ?: false
+        val canWrite = context.isStarted() && context.getExtWritePermission(folder.toUri()) && subFile?.canWrite() == true
         return if (canWrite) folder
         else (context.applicationContext.getExternalFilesDir(null))?.absolutePath ?: defaultSubsDirectory
     }

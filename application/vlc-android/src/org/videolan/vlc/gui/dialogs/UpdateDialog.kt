@@ -72,8 +72,8 @@ class UpdateDialog : VLCBottomSheetDialogFragment() {
         updateDate = Date(savedInstanceState?.getLong(UPDATE_DATE)
                 ?: arguments?.getLong(UPDATE_DATE)?: throw IllegalStateException("Update date not provided"))
 
-        newInstall = savedInstanceState?.getBoolean(NEW_INSTALL)
-                ?: arguments?.getBoolean(NEW_INSTALL) ?: false
+        newInstall = (savedInstanceState?.getBoolean(NEW_INSTALL)
+                ?: arguments?.getBoolean(NEW_INSTALL) == true)
 
     }
 

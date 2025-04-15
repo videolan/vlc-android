@@ -112,7 +112,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         currentItem = if (savedInstanceState != null) savedInstanceState.parcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else arguments?.parcelable(ITEM) as? MediaLibraryItem
 
-        isRootLevel = arguments?.getBoolean("rootLevel") ?: false
+        isRootLevel = arguments?.getBoolean("rootLevel") == true
         (currentItem as? MediaWrapper)?.run { mrl = location }
         val category = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
         viewModel = getBrowserModel(category = category, url = mrl)
@@ -235,7 +235,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.favoriteButton, View.VISIBLE)
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
-            favExists = (currentItem as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
+            favExists = (currentItem as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } == true
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_tv_browser_favorite else R.drawable.ic_tv_browser_favorite_outline)
             binding.favoriteButton.contentDescription = getString(if (favExists) R.string.favorites_remove else R.string.favorites_add)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_favorite else R.drawable.ic_fabtvmini_favorite_outline)

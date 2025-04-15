@@ -395,7 +395,7 @@ class MediaSessionBrowser {
         fun search(context: Context, query: String, rootHints: Bundle?): List<MediaBrowserCompat.MediaItem> {
             val res = context.resources
             val results: MutableList<MediaBrowserCompat.MediaItem> = ArrayList()
-            val isAndroidAuto = rootHints?.containsKey(EXTRA_BROWSER_ICON_SIZE) ?: false
+            val isAndroidAuto = rootHints?.containsKey(EXTRA_BROWSER_ICON_SIZE) == true
             val searchAggregate = Medialibrary.getInstance().search(query, false, false)
             val searchMediaId = ID_SEARCH.toUri().buildUpon().appendQueryParameter("query", query).toString()
             results.addAll(buildMediaItems(context, ID_PLAYLIST, searchAggregate.playlists, forSearch = true))

@@ -56,8 +56,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             else -> null
         }
         defaultCover = ctx?.let { getMediaIconDrawable(it, type, true) }
-        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean(KEY_MEDIA_SEEN, true) }
-                ?: true
+        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean(KEY_MEDIA_SEEN, true) } ?: true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
@@ -149,7 +148,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
 
         fun onLongClick(view: View): Boolean {
-            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) } ?: false
+            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) } == true
         }
 
         abstract fun getItem(layoutPosition: Int): MediaLibraryItem?
@@ -164,7 +163,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
 
         abstract fun getView(): View
 
-        fun isPresent() = (getItem(layoutPosition) as? MediaWrapper)?.isPresent ?: true
+        fun isPresent() = (getItem(layoutPosition) as? MediaWrapper)?.isPresent != false
         fun isNetwork() = !(getItem(layoutPosition) as? MediaWrapper)?.uri?.scheme.isSchemeFile()
         fun isSD() = (getItem(layoutPosition) as? MediaWrapper)?.uri?.isSD() == true
         fun isOTG() = (getItem(layoutPosition) as? MediaWrapper)?.uri?.isOTG() == true
@@ -245,7 +244,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.isSD = isSD()
             binding.isOTG = isOTG()
             binding.isPresent = isPresent()
-            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Card Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
+            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Card Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent != false} for ${item?.title}")
             binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
             binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
@@ -329,7 +328,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.isSD = isSD()
             binding.isOTG = isOTG()
             binding.isPresent = isPresent()
-            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
+            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent != false} for ${item?.title}")
             binding.mlItemSeen.visibility = if (seen == 0L) View.GONE else View.VISIBLE
             binding.progressBar.visibility = if (progress <= 0L) View.GONE else View.VISIBLE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE

@@ -85,9 +85,9 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             upgrade = true
             firstRun = intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
         }
-        write = arguments?.getBoolean(WRITE_ACCESS) ?: false
-        withDialog = arguments?.getBoolean(WITH_DIALOG) ?: true
-        askOnlyRead = arguments?.getBoolean(ONLY_MEDIA) ?: false
+        write = arguments?.getBoolean(WRITE_ACCESS) == true
+        withDialog = arguments?.getBoolean(WITH_DIALOG) != false
+        askOnlyRead = arguments?.getBoolean(ONLY_MEDIA) == true
         if (AndroidUtil.isMarshMallowOrLater && (!canReadStorage(requireContext()) ||  !Permissions.hasAllAccess(requireContext()))) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) && !model.permissionRationaleShown) {
                 Permissions.showStoragePermissionDialog(requireActivity(), false)
@@ -172,7 +172,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
         fun FragmentActivity.askStoragePermission( write: Boolean, cb: Runnable?) {
             val intent = intent
-            val upgrade = intent?.getBooleanExtra(EXTRA_UPGRADE, false) ?: false
+            val upgrade = intent?.getBooleanExtra(EXTRA_UPGRADE, false) == true
             val firstRun = upgrade && intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
             val settings = Settings.getInstance(this)
             lifecycleScope.launch {
@@ -220,6 +220,6 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             else withContext(Dispatchers.IO) { FileUtils.canWrite(uri) }
         } else getExtWritePermission(uri)
 
-        suspend fun Fragment.getWritePermission(uri: Uri) = activity?.getWritePermission(uri) ?: false
+        suspend fun Fragment.getWritePermission(uri: Uri) = activity?.getWritePermission(uri) == true
     }
 }

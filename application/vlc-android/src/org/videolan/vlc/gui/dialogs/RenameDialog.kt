@@ -80,7 +80,7 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
         media = arguments?.parcelable(RENAME_DIALOG_MEDIA) ?: return
-        renameFile = arguments?.getBoolean(RENAME_DIALOG_FILE) ?: false
+        renameFile = arguments?.getBoolean(RENAME_DIALOG_FILE) == true
         super.onCreate(savedInstanceState)
     }
 

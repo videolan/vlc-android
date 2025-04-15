@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
-import android.text.Html
 import android.text.Spanned
 import android.util.Log
 import androidx.core.text.HtmlCompat
@@ -46,26 +45,6 @@ import org.videolan.vlc.util.TextUtils
 import java.io.File
 import java.util.Locale
 import java.util.MissingResourceException
-import kotlin.collections.HashMap
-import kotlin.collections.List
-import kotlin.collections.MutableList
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.find
-import kotlin.collections.first
-import kotlin.collections.forEach
-import kotlin.collections.get
-import kotlin.collections.indices
-import kotlin.collections.isNotEmpty
-import kotlin.collections.joinToString
-import kotlin.collections.listOf
-import kotlin.collections.map
-import kotlin.collections.mutableListOf
-import kotlin.collections.orEmpty
-import kotlin.collections.plus
-import kotlin.collections.set
-import kotlin.collections.setOf
-import kotlin.collections.toList
 
 private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
@@ -246,11 +225,11 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
                         val videoFile = File(mediaUri.path)
                         if (videoFile.exists()) {
                             val hash = FileUtils.computeHash(videoFile)
-                            val hashSubs = getSubtitleByHash(hash, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
+                            val hashSubs = getSubtitleByHash(hash, observableSearchLanguage.get(), observableSearchHearingImpaired.get() == true).data
                             // No result for hash. Falling back to name search
-                            if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data else hashSubs
+                            if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get(), observableSearchHearingImpaired.get() == true).data else hashSubs
                         } else {
-                            getSubtitleByName(name, null, null, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
+                            getSubtitleByName(name, null, null, observableSearchLanguage.get(), observableSearchHearingImpaired.get() == true).data
                         }
 
                     }
@@ -266,7 +245,7 @@ class SubtitlesModel(context: Context, private val mediaUri: Uri, private val na
                         } catch (e: NumberFormatException) {
                             null
                         }
-                        getSubtitleByName(it, episode, season, observableSearchLanguage.get(), observableSearchHearingImpaired.get() ?: false).data
+                        getSubtitleByName(it, episode, season, observableSearchLanguage.get(), observableSearchHearingImpaired.get() == true).data
                     } ?: listOf()
                 }
                 if (isActive) apiResultLiveData.postValue(subs)

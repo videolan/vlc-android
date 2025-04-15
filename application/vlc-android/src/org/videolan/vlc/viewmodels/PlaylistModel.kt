@@ -98,7 +98,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     }
 
     val hasMedia
-        get() = service?.hasMedia() ?: false
+        get() = service?.hasMedia() == true
 
     fun insertMedia(position: Int, media: MediaWrapper) {
         service?.insertItem(position, media)
@@ -180,26 +180,26 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
             next()
             true
         } else false
-    } ?: false
+    } == true
 
     fun previous(force : Boolean = false) = service?.run {
         if (hasPrevious() || isSeekable) {
             previous(force)
             true
         } else false
-    } ?: false
+    } == true
 
     val length : Long
         get() = service?.length ?: 0L
 
     val playing : Boolean
-        get() = service?.isPlaying ?: false
+        get() = service?.isPlaying == true
 
     val shuffling : Boolean
-        get() = service?.isShuffling ?: false
+        get() = service?.isShuffling == true
 
     val canShuffle : Boolean
-        get() = service?.canShuffle() ?: false
+        get() = service?.canShuffle() == true
 
     var repeatType : Int
         get() = service?.repeatType ?: PlaybackStateCompat.REPEAT_MODE_NONE
@@ -243,7 +243,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         return false
     }
 
-    private suspend fun canSwitchToVideo() = withContext(Dispatchers.IO) { service?.playlistManager?.player?.canSwitchToVideo() ?: false }
+    private suspend fun canSwitchToVideo() = withContext(Dispatchers.IO) { service?.playlistManager?.player?.canSwitchToVideo() == true }
 
     val videoTrackCount
         get() = service?.videoTracksCount ?: 0

@@ -56,8 +56,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             else -> null
         }
         defaultCover = ctx?.let { BitmapDrawable(it.resources, getBitmapFromDrawable(it, R.drawable.ic_unknown_big)) }
-        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean(KEY_MEDIA_SEEN, true) }
-                ?: true
+        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean(KEY_MEDIA_SEEN, true) } ?: true
     }
 
     @Suppress("UNCHECKED_CAST")

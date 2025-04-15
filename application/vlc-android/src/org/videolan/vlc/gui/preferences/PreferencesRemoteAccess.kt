@@ -121,7 +121,7 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             KEY_ENABLE_REMOTE_ACCESS -> {
-                val serverEnabled = sharedPreferences?.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false) ?: false
+                val serverEnabled = sharedPreferences?.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false) == true
                 if (serverEnabled) {
                     requireActivity().startRemoteAccess()
                 } else {

@@ -24,13 +24,7 @@
 
 package main.java.org.videolan.resources.opensubtitles
 
-import android.content.SharedPreferences
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import org.videolan.resources.opensubtitles.OpenSubtitleAccount
-import org.videolan.tools.KEY_OPEN_SUBTITLES_USER
-import org.videolan.tools.putSingle
 
 data class OpenSubtitlesUser(
     val logged: Boolean = false,
@@ -38,5 +32,5 @@ data class OpenSubtitlesUser(
     val username: String = "",
     val errorMessage: String? = null
 ) {
-    fun isVip()  = account?.user?.vip ?: false
+    fun isVip()  = account?.user?.vip == true
 }

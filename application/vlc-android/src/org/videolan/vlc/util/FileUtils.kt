@@ -275,7 +275,7 @@ object FileUtils {
     }
 
     @WorkerThread
-    fun deleteFile(path: String?) = path?.let { deleteFile(File(it)) } ?: false
+    fun deleteFile(path: String?) = path?.let { deleteFile(File(it)) } == true
 
     @WorkerThread
     fun deleteFile(file: File): Boolean {

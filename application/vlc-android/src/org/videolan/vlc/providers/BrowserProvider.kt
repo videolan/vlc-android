@@ -438,7 +438,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     fun saveList(media: MediaWrapper) = foldersContentMap[media]?.let { if (it.isNotEmpty()) prefetchLists[media.location] = it }
 
-    fun isFolderEmpty(mw: MediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
+    fun isFolderEmpty(mw: MediaWrapper) = foldersContentMap[mw]?.isEmpty() != false
 
     companion object : DependencyProvider<BrowserProvider>() {
         private val browserHandler by lazy {

@@ -42,7 +42,7 @@ fun withMediaItem(mediaItem: MediaLibraryItem?): DiffAdapterMatcher<MediaLibrary
         }
 
         override fun matchesSafely(item: MediaLibraryItem?): Boolean {
-            return mediaItem?.equals(item) ?: true
+            return mediaItem?.equals(item) != false
         }
     }
 }

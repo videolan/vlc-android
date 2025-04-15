@@ -109,8 +109,8 @@ class MediaRecyclerViewMatcher<VH : SelectorViewHolder<out ViewDataBinding>>(@Id
 
                 return mapVH[view]?.let {
                     scrollToShowItem(it.adapterPosition)
-                    matcher?.matches(view) ?: true
-                } ?: false
+                    matcher?.matches(view) != false
+                } == true
             }
         }
     }

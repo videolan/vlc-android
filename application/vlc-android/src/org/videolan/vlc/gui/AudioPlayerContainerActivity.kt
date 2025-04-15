@@ -492,8 +492,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
 //    fun getAudioMargin() = if (playerShown) resources.getDimensionPixelSize(R.dimen.player_peek_height) else 0
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }
-                ?: false)
+        outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F } == true)
         outState.putBoolean(PLAYER_OPENED, if (::playerBehavior.isInitialized) playerBehavior.state == STATE_EXPANDED else false)
         outState.putIntegerArrayList(SHOWN_TIPS, shownTips)
         if (::audioPlayer.isInitialized) outState.putBoolean(BOOKMARK_VISIBLE, audioPlayer.areBookmarksVisible())

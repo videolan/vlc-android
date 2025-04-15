@@ -102,7 +102,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         val item = savedInstanceState?.parcelable(AudioBrowserFragment.TAG_ITEM)
                 ?: arguments?.parcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
         viewModel = getViewModel(item!!)
-        fromAlbums = savedInstanceState?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM) ?: arguments?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM, false) ?: false
+        fromAlbums = savedInstanceState?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM) ?: arguments?.getBoolean(HeaderMediaListActivity.ARTIST_FROM_ALBUM, false) == true
         PlaylistManager.currentPlayedMedia.observe(this) {
             songsAdapter.currentMedia = it
         }

@@ -139,7 +139,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
             for (directory in rootDirectories) if (path.startsWith(directory)) return false
             return true
         } else length < 7
-    } ?: true
+    } != false
 
     override fun containerActivity() = requireActivity()
 

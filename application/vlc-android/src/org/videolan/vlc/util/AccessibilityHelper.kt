@@ -42,8 +42,7 @@ import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.R
 import org.videolan.vlc.gui.helpers.TalkbackUtil
 
-fun Activity.isTalkbackIsEnabled() = (getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager?)?.isTouchExplorationEnabled
-        ?: false
+fun Activity.isTalkbackIsEnabled() = (getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager?)?.isTouchExplorationEnabled == true
 
 @BindingAdapter("mediaContentDescription")
 fun mediaDescription(v: View, media: MediaLibraryItem?) {

@@ -319,7 +319,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onTabUnselected(tab: TabLayout.Tab) {
         stopActionMode()
-        needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() ?: false
+        needToReopenSearch = (activity as? ContentActivity)?.isSearchViewVisible() == true
         lastQuery = (activity as? ContentActivity)?.getCurrentQuery() ?: ""
     }
 
@@ -369,13 +369,13 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         menu.findItem(R.id.action_mode_audio_delete).isVisible = isMedia
         menu.findItem(R.id.action_mode_audio_share).isVisible = isMedia
         menu.findItem(R.id.action_mode_audio_share).isVisible = isMedia
-        menu.findItem(R.id.action_mode_favorite_add).isVisible = getCurrentAdapter()?.multiSelectHelper?.getSelection()?.none { it.isFavorite } ?: false
-        menu.findItem(R.id.action_mode_favorite_remove).isVisible = getCurrentAdapter()?.multiSelectHelper?.getSelection()?.none { !it.isFavorite } ?: false
+        menu.findItem(R.id.action_mode_favorite_add).isVisible = getCurrentAdapter()?.multiSelectHelper?.getSelection()?.none { it.isFavorite } == true
+        menu.findItem(R.id.action_mode_favorite_remove).isVisible = getCurrentAdapter()?.multiSelectHelper?.getSelection()?.none { !it.isFavorite } == true
         menu.findItem(R.id.action_mode_go_to_folder).isVisible = if (count == 1) getCurrentAdapter()?.multiSelectHelper?.let { selectHelper ->
             (selectHelper.getSelection().first() as? MediaWrapper)?.let {
                 it.uri.retrieveParent() != null
-            } ?: false
-        } ?: false else false
+            } == true
+        } == true else false
         return true
     }
 

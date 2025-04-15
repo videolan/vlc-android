@@ -107,7 +107,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
             return VlcMigrationHelper.isLolliPopOrLater && ("file" == uri.scheme || uri.scheme == null)
                     && path.isNotEmpty() && path.startsWith('/')
                     && !path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
-                    && !(FileUtils.findFile(uri)?.canWrite() ?: false)
+                    && FileUtils.findFile(uri)?.canWrite() != true
         }
     }
 }
@@ -123,4 +123,4 @@ suspend fun FragmentActivity.getExtWritePermission(uri: Uri) : Boolean {
     return model.deferredGrant.await()
 }
 
-suspend fun Fragment.getExtWritePermission(uri: Uri) = activity?.getExtWritePermission(uri) ?: false
+suspend fun Fragment.getExtWritePermission(uri: Uri) = activity?.getExtWritePermission(uri) == true

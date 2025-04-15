@@ -56,7 +56,7 @@ class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService
     private lateinit var settings: SharedPreferences
     private val forVideo: Boolean
         get() {
-            return !(PlaylistManager.showAudioPlayer.value ?: true)
+            return PlaylistManager.showAudioPlayer.value == false
         }
     private lateinit var binding: DialogPlaybackSpeedBinding
 

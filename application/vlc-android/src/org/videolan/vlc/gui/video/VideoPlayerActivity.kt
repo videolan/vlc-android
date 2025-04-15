@@ -974,8 +974,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         unregisterReceiver(btReceiver)
         alertDialog?.dismiss()
-        val isPlayingPopup = service?.isPlayingPopup ?: false
-        val isSystemPip = (service?.isInPiPMode?.value ?: false) && !isPlayingPopup
+        val isPlayingPopup = service?.isPlayingPopup == true
+        val isSystemPip = (service?.isInPiPMode?.value == true) && !isPlayingPopup
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
                 && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()
                 && (!isSystemPip || !isInteractive)) {
@@ -1790,7 +1790,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun isInPictureInPictureMode(): Boolean {
-        return service?.isInPiPMode?.value ?: false
+        return service?.isInPiPMode?.value == true
     }
 
     override fun setPictureInPictureParams(params: PictureInPictureParams) {
@@ -1820,7 +1820,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     internal fun updateViewpoint(yaw: Float, pitch: Float, fov: Float): Boolean {
-        return service?.updateViewpoint(yaw, pitch, 0f, fov, false) ?: false
+        return service?.updateViewpoint(yaw, pitch, 0f, fov, false) == true
     }
 
     internal fun initAudioVolume() = service?.let { service ->
@@ -2504,11 +2504,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 val interactive = service?.mediaplayer?.let {
                     try {
-                        (it.titles[it.title])?.isInteractive ?: false
+                        (it.titles[it.title])?.isInteractive == true
                     } catch (e: NullPointerException) {
                         false
                     }
-                } ?: false
+                } == true
                 isNavMenu = menuIdx == currentIdx || interactive
             }
 

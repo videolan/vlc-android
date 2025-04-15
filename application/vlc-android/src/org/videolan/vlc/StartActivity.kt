@@ -224,7 +224,7 @@ class StartActivity : FragmentActivity() {
         } else {
             if (action != null && action.startsWith("vlc.mediashortcut:")) {
                 val split = action.split(":")
-                val type = split[split.count() - 2]
+                val type = split[split.size - 2]
                 val id = split.last()
                 lifecycleScope.launch {
                     getFromMl {

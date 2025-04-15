@@ -200,7 +200,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     }
 
     fun isSearchViewVisible() =
-        toolbar.menu?.findItem(R.id.ml_menu_filter)?.isActionViewExpanded ?: false
+        toolbar.menu?.findItem(R.id.ml_menu_filter)?.isActionViewExpanded == true
 
     fun getCurrentQuery() = searchView.query.toString()
 

@@ -870,7 +870,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        forceForeground(intent?.extras?.getBoolean("foreground", false) ?: false)
+        forceForeground(intent?.extras?.getBoolean("foreground", false) == true)
         dispatcher.onServicePreSuperOnStart()
         setupScope()
         when (intent?.action) {
@@ -2078,7 +2078,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
 
     fun isCarMode(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            carConnection.type.value?.let { it > CarConnection.CONNECTION_TYPE_NOT_CONNECTED } ?: false
+            carConnection.type.value?.let { it > CarConnection.CONNECTION_TYPE_NOT_CONNECTED } == true
         } else {
             (getSystemService(UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_CAR
         }

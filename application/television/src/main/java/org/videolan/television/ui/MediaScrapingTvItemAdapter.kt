@@ -170,8 +170,7 @@ class MediaScrapingTvItemAdapter(
         }
 
         fun onLongClick(view: View): Boolean {
-            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) }
-                    ?: false
+            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) } == true
         }
 
         fun onImageClick(v: View) {

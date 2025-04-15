@@ -524,7 +524,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         (multiSelectHelper.getSelection().firstOrNull() as? MediaWrapper)?.let {
             if (it.type != MediaWrapper.TYPE_VIDEO) return@let false
             return@let it.uri.retrieveParent() != null
-        } ?: false
+        } == true
     } else false
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
