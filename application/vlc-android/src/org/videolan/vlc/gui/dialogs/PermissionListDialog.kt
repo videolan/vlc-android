@@ -305,7 +305,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
             binding.manageMediaVideo.setGone()
         }
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2 || AndroidDevices.isTv) {
             binding.notificationPermissionContainer.setGone()
             binding.notificationPermissionTitle.setGone()
         }
