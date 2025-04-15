@@ -67,7 +67,6 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
     private val defaultFragmentId = R.id.nav_video
     override var currentFragmentId: Int = 0
     private var currentFragment: Fragment? = null
-        private set
     private lateinit var activity: MainActivity
     private lateinit var settings: SharedPreferences
     override lateinit var navigationView: List<NavigationBarView>

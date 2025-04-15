@@ -88,7 +88,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
      * @param pageSizeLambda lambda for the case count in 1..MEDIALIBRARY_PAGE_SIZE
      * @param loadLambda lambda to load list to service
      */
-    suspend fun loadPagedList(context: Context, pageSizeLambda: (service: PlaybackService) -> List<MediaWrapper>,
+    fun loadPagedList(context: Context, pageSizeLambda: (service: PlaybackService) -> List<MediaWrapper>,
                               loadLambda: (list: List<MediaWrapper>, service: PlaybackService) -> Unit) {
         MediaUtils.SuspendDialogCallback(context) { service ->
             val list =  withContext(Dispatchers.IO) {

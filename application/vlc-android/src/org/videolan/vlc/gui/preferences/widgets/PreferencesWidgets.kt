@@ -175,7 +175,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
                 model.widget.value?.type = newValue
                 model.widget.value?.let {
                     val size = WidgetSizeUtil.getWidgetsSize(requireActivity(), it.widgetId)
-                    val minimalSize = WidgetUtils.getMinimalWidgetSize(WidgetUtils.getWidgetType(it))
+                    val minimalSize = WidgetUtils.getMinimalWidgetSize(getWidgetType(it))
                     if (size.first < minimalSize.first || size.second < minimalSize.second) {
                         UiTools.snackerConfirm(requireActivity(), getString(R.string.widget_type_error)) { }
                     }

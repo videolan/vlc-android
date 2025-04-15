@@ -40,7 +40,7 @@ class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
 
     fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String): Job {
         return launch {
-            slaveDao.insert(org.videolan.vlc.mediadb.models.Slave(mediaPath, type, priority, uriString))
+            slaveDao.insert(Slave(mediaPath, type, priority, uriString))
         }
     }
 
@@ -55,7 +55,7 @@ class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
             val slaves = try {
                 slaveDao.get(mrl)
             } catch (e: SQLiteException) {
-                emptyList<org.videolan.vlc.mediadb.models.Slave>()
+                emptyList<Slave>()
             }
             val mediaSlaves = slaves.map {
                 var uri = it.uri

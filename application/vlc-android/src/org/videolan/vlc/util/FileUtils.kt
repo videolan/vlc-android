@@ -625,7 +625,7 @@ fun Uri?.isSoundFont():Boolean {
 
 fun Uri?.isSettingsOrEq():Boolean {
     this?.lastPathSegment?.lowercase()?.let { lastPathSegment ->
-        if (BuildConfig.DEBUG) Log.d("FilePicker", "Uri: $this -> ${lastPathSegment}")
+        if (BuildConfig.DEBUG) Log.d("FilePicker", "Uri: $this -> $lastPathSegment")
         if (lastPathSegment.lowercase().endsWith(".json")) return true
     }
     return false

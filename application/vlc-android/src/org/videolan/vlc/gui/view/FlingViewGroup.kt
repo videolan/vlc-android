@@ -24,7 +24,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
-import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.Scroller
@@ -64,7 +63,7 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
 
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-            if (child.visibility != View.GONE) {
+            if (child.visibility != GONE) {
                 val childWidth = child.measuredWidth
                 child.layout(childLeft, 0, childLeft + childWidth, child.measuredHeight)
                 childLeft += childWidth

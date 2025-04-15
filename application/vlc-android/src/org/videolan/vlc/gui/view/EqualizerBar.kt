@@ -25,7 +25,6 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.IdRes
@@ -71,7 +70,7 @@ class EqualizerBar : LinearLayout {
 
         verticalSlider = findViewById(R.id.equalizer_seek)
         //Force LTR to fix VerticalSeekBar background problem with RTL layout
-        verticalSlider.layoutDirection = View.LAYOUT_DIRECTION_LTR
+        verticalSlider.layoutDirection = LAYOUT_DIRECTION_LTR
         verticalSlider.valueTo = (2 * RANGE).toFloat()
         verticalSlider.value = RANGE.toFloat()
         verticalSlider.addOnChangeListener(seekListener)

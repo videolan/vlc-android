@@ -27,7 +27,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.leanback.app.SearchSupportFragment
-import androidx.leanback.widget.*
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.ListRowPresenter
+import androidx.leanback.widget.OnItemViewClickedListener
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -81,7 +85,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         updateEmtyView(empty)
         if (searchAggregate == null || empty) return@launch
         val mediaEmpty = empty || (searchAggregate.tracks.isNullOrEmpty() && searchAggregate.videos.isNullOrEmpty())
-        val cp = org.videolan.television.ui.CardPresenter(requireActivity())
+        val cp = CardPresenter(requireActivity())
         val videoAdapter = ArrayObjectAdapter(cp)
         if (!mediaEmpty) searchAggregate.videos?.let { videoAdapter.addAll(0, listOf(*it)) }
 //        val episodesAdapter = ArrayObjectAdapter(cp)
@@ -113,7 +117,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     }
 
     private fun updateEmtyView(empty: Boolean) {
-        (activity as? org.videolan.television.ui.SearchActivity)?.updateEmptyView(empty)
+        (activity as? SearchActivity)?.updateEmptyView(empty)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

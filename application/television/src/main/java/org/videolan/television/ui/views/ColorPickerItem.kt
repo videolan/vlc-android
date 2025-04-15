@@ -29,7 +29,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -56,7 +55,7 @@ class ColorPickerItem @JvmOverloads constructor(
         field = value
         if (value) addView(ImageView(context).apply {
             setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check))
-            val lp = LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val lp = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             lp.gravity = Gravity.CENTER
             layoutParams = lp
             setPadding(2.dp, 2.dp,2.dp, 2.dp)

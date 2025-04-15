@@ -1218,7 +1218,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun exitOK() {
-        exit(Activity.RESULT_OK)
+        exit(RESULT_OK)
     }
 
     override fun onTrackballEvent(event: MotionEvent): Boolean {
@@ -2577,9 +2577,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val EXTRA_DURATION = "extra_duration"
         private const val EXTRA_URI = "extra_uri"
         const val FROM_EXTERNAL = "from_external"
-        private const val RESULT_CONNECTION_FAILED = Activity.RESULT_FIRST_USER + 1
-        private const val RESULT_PLAYBACK_ERROR = Activity.RESULT_FIRST_USER + 2
-        private const val RESULT_VIDEO_TRACK_LOST = Activity.RESULT_FIRST_USER + 3
+        private const val RESULT_CONNECTION_FAILED = RESULT_FIRST_USER + 1
+        private const val RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2
+        private const val RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 3
         internal const val DEFAULT_FOV = 80f
         private const val KEY_TIME = "saved_time"
         private const val KEY_LIST = "saved_list"

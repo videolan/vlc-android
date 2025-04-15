@@ -2,9 +2,8 @@ package org.videolan.vlc.gui.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.view.isNotEmpty
 import com.google.android.material.slider.Slider
 import kotlin.math.max
 
@@ -12,7 +11,7 @@ class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs
 
     private val childSlider: Slider?
         get() {
-            val child = if (childCount > 0) getChildAt(0) else null
+            val child = if (isNotEmpty()) getChildAt(0) else null
             return if (child is Slider) child else null
         }
 
@@ -49,8 +48,8 @@ class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs
 
             slider.measure(innerContentHeightMeasureSpec, innerContentWidthMeasureSpec)
 
-            val measuredWidth = View.resolveSizeAndState(seekBarWidth + hPadding, widthMeasureSpec, 0)
-            val measuredHeight = View.resolveSizeAndState(seekBarHeight + vPadding, heightMeasureSpec, 0)
+            val measuredWidth = resolveSizeAndState(seekBarWidth + hPadding, widthMeasureSpec, 0)
+            val measuredHeight = resolveSizeAndState(seekBarHeight + vPadding, heightMeasureSpec, 0)
 
             setMeasuredDimension(measuredWidth, measuredHeight)
         } else {
@@ -61,7 +60,7 @@ class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs
 
     private fun applyViewRotation(w: Int, h: Int) {
         val slider = childSlider
-        layoutDirection = View.LAYOUT_DIRECTION_LTR
+        layoutDirection = LAYOUT_DIRECTION_LTR
 
         if (slider != null) {
             val seekBarMeasuredWidth = slider.measuredWidth
@@ -72,7 +71,7 @@ class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs
             val lp = slider.layoutParams
 
             lp.width = max(0, h - vPadding)
-            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            lp.height = LayoutParams.WRAP_CONTENT
 
             slider.layoutParams = lp
 

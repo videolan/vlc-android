@@ -234,7 +234,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
      * Start the server. Refresh the authentication settings before
      * Also start monitoring the network shares for the web browser
      */
-    suspend fun start() {
+    fun start() {
         Settings.getInstance(context).putSingle(
             KEY_REMOTE_ACCESS_LAST_STATE_STOPPED, false)
         clearFileDownloads()

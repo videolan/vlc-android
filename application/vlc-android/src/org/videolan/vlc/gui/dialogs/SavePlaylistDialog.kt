@@ -110,8 +110,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     override fun initialFocusedView(): View = binding.dialogPlaylistName.editText ?: binding.dialogPlaylistName
 
     init {
-        SavePlaylistDialog.registerCreator { CoroutineContextProvider() }
-        coroutineContextProvider = SavePlaylistDialog.get(0)
+        registerCreator { CoroutineContextProvider() }
+        coroutineContextProvider = get(0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

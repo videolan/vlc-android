@@ -47,7 +47,7 @@ class HeaderMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwi
         val artistView = v.findViewById<View>(R.id.artist) as TextView
 
         if (cover != null) {
-            coverView.visibility = View.VISIBLE
+            coverView.visibility = VISIBLE
             coverView.setImageBitmap(cover)
         }
 
@@ -56,7 +56,7 @@ class HeaderMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwi
         val hasArtist = !artist.isNullOrEmpty()
         artistView.text = artist
         artistView.isSelected = hasArtist
-        artistView.visibility = if (hasArtist) View.VISIBLE else View.GONE
+        artistView.visibility = if (hasArtist) VISIBLE else GONE
 
         addView(v)
     }

@@ -35,12 +35,10 @@ import android.os.Looper
 import android.os.RemoteCallbackList
 import android.os.RemoteException
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
-import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
@@ -50,8 +48,6 @@ import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.FeedbackUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.gui.preferences.search.PreferenceParser
-import org.videolan.vlc.util.Permissions
 import java.io.BufferedWriter
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -305,7 +301,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         }
 
         init {
-            mBound = mContext.bindService(Intent(mContext, DebugLogService::class.java), mServiceConnection, Context.BIND_AUTO_CREATE)
+            mBound = mContext.bindService(Intent(mContext, DebugLogService::class.java), mServiceConnection, BIND_AUTO_CREATE)
         }
 
         fun start(): Boolean {

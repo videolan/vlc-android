@@ -399,7 +399,7 @@ object Permissions {
         if ("file" != uri.scheme) return false
         if (uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
             //Check write permission starting Oreo
-            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) {
+            if (AndroidUtil.isOOrLater && !canWriteStorage()) {
                 askWriteStoragePermission(activity, false, callback)
                 return false
             }

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.roundToInt
 
-open class VLCDividerItemDecoration(private val context: Context, private val orientation: Int, private val dividerDrawable: Drawable) : DividerItemDecoration(context, orientation) {
+open class VLCDividerItemDecoration(context: Context, private val orientation: Int, private val dividerDrawable: Drawable) : DividerItemDecoration(context, orientation) {
 
     private val bounds = Rect()
 

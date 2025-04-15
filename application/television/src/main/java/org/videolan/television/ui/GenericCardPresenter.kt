@@ -14,20 +14,20 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 class GenericCardPresenter @JvmOverloads constructor(context: Context, cardThemeResId: Int = R.style.VLCGenericCardView) : Presenter() {
 
     val context: ContextThemeWrapper = ContextThemeWrapper(context, cardThemeResId)
-    val padding = context.resources.getDimension(org.videolan.vlc.R.dimen.tv_card_padding).toInt()
+    val padding = context.resources.getDimension(R.dimen.tv_card_padding).toInt()
 
-    override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         Log.d(TAG, "onCreateViewHolder")
 
         val cardView = ImageCardView(context)
 
         cardView.isFocusable = true
         cardView.isFocusableInTouchMode = true
-        return Presenter.ViewHolder(cardView)
+        return ViewHolder(cardView)
     }
 
 
-    override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
         if (item is GenericCardItem) {
             val cardView = viewHolder.view as ImageCardView
             val bgColor = ContextCompat.getColor(context, item.color)
@@ -44,7 +44,7 @@ class GenericCardPresenter @JvmOverloads constructor(context: Context, cardTheme
         }
     }
 
-    override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {
+    override fun onUnbindViewHolder(viewHolder: ViewHolder) {
         Log.d(TAG, "onUnbindViewHolder")
         val cardView = viewHolder.view as ImageCardView
         // Remove references to images so that the garbage collector can free up memory

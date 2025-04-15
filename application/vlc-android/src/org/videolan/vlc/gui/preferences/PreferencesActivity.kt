@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.preferences
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -58,7 +57,7 @@ class PreferencesActivity : BaseActivity() {
     private var mAppBarLayout: AppBarLayout? = null
     override val displayTitle = true
     private var pinCodeResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode != Activity.RESULT_OK) {
+        if (result.resultCode != RESULT_OK) {
             finish()
         }
     }

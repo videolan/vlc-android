@@ -28,7 +28,7 @@ class SkuDetails(private val mItemType: String, private val mJson: String) {
     val title: String
     val description: String
 
-    constructor(jsonSkuDetails: String) : this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails) {}
+    constructor(jsonSkuDetails: String) : this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails)
 
     override fun toString(): String {
         return "SkuDetails:$mJson"

@@ -4,13 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import android.telephony.TelephonyManager
 import androidx.core.content.edit
-import androidx.core.content.getSystemService
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import org.videolan.tools.Settings.audioControlsChangeListener
 import org.videolan.tools.Settings.init
+import org.videolan.tools.Settings.initPostMigration
 import java.io.File
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
@@ -79,7 +78,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         fastplaySpeed = prefs.getInt(FASTPLAY_SPEED, 20) / 10f
     }
 
-    fun Context.isPinCodeSet() = Settings.getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
+    fun Context.isPinCodeSet() = getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
 
 
     /**

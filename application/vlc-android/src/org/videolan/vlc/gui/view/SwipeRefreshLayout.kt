@@ -27,9 +27,9 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 
 class SwipeRefreshLayout : androidx.swiperefreshlayout.widget.SwipeRefreshLayout {
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         return try {

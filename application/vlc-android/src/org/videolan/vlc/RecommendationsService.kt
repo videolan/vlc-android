@@ -31,10 +31,19 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.*
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.PLAY_EXTRA_FROM_START
+import org.videolan.resources.PLAY_EXTRA_ITEM_LOCATION
+import org.videolan.resources.PLAY_EXTRA_ITEM_TITLE
+import org.videolan.resources.PLAY_FROM_VIDEOGRID
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -58,7 +67,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
 
     override fun onCreate() {
         super.onCreate()
-        mNotificationManager = getAppSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        mNotificationManager = getAppSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
 
     override fun onHandleIntent(intent: Intent?) {

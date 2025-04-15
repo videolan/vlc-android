@@ -32,7 +32,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.WatchNextProgram
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.EventTools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.getFromMl
@@ -42,7 +46,16 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PreviewVideoInputService
 import org.videolan.vlc.R
 import org.videolan.vlc.getFileUri
-import videolan.org.commontools.*
+import videolan.org.commontools.KEY_TV_CHANNEL_ID
+import videolan.org.commontools.ProgramDesc
+import videolan.org.commontools.WATCH_NEXT_MAP_PROJECTION
+import videolan.org.commontools.buildProgram
+import videolan.org.commontools.buildWatchNextProgram
+import videolan.org.commontools.createOrUpdateChannel
+import videolan.org.commontools.deleteWatchNext
+import videolan.org.commontools.existingPrograms
+import videolan.org.commontools.indexOfId
+import videolan.org.commontools.updateWatchNext
 
 private const val TAG = "VLC/TvChannels"
 private const val MAX_RECOMMENDATIONS = 3
@@ -105,7 +118,7 @@ suspend fun insertWatchNext(context: Context, mw: MediaWrapper) {
     if (watchNextProgramUri == null || watchNextProgramUri == Uri.EMPTY) Log.e(TAG, "Insert watch next program failed")
 }
 
-suspend fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleOwner, context: Context, mw: MediaWrapper) {
+fun updateNextProgramAfterThumbnailGeneration(lifecycleOwner: LifecycleOwner, context: Context, mw: MediaWrapper) {
     EventTools.getInstance().lastThumb.observe(lifecycleOwner) { media ->
         lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             var cursor: Cursor? = null

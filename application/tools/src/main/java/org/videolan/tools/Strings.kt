@@ -48,7 +48,7 @@ package org.videolan.tools
 
 import android.annotation.SuppressLint
 import java.text.DecimalFormat
-import java.util.*
+import java.util.Locale
 import kotlin.math.log10
 import kotlin.math.pow
 
@@ -66,7 +66,7 @@ fun containsName(list: List<String>, text: String) = list.indexOfLast { it.endsW
 /**
  * Get the formatted current playback speed in the form of 1.00x
  */
-fun Float.formatRateString() = String.format(java.util.Locale.US, "%.2fx", this)
+fun Float.formatRateString() = String.format(Locale.US, "%.2fx", this)
 
 fun Long.readableSize(): String {
     val size: Long = this

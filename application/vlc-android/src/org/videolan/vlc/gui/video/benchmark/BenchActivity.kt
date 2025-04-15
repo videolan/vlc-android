@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.video.benchmark
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -35,7 +34,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
 import androidx.core.content.FileProvider
-import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,7 +49,11 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.gui.video.PlayerOrientationMode
 import org.videolan.vlc.media.PlaylistManager
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -460,7 +462,7 @@ class BenchActivity : ShallowVideoPlayer() {
      * @param resultCode VideoPlayerActivity's resultCode
      */
     override fun exit(resultCode: Int) {
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != RESULT_OK) {
             hasVLCFailed = true
         }
         super.exit(resultCode)
@@ -596,7 +598,7 @@ class BenchActivity : ShallowVideoPlayer() {
             sendIntent.putExtra("number_of_dropped_frames", stats?.lostPictures ?: 100)
             sendIntent.putExtra("displayed_frames", stats?.displayedPictures )
             sendIntent.putExtra("late_frames", lateFrameCounter)
-            setResult(Activity.RESULT_OK, sendIntent)
+            setResult(RESULT_OK, sendIntent)
             sendIntent.putExtra("speed", speed)
             sendIntent.putExtra("dav1d_version", getString(R.string.dav1d_version))
             super.finish()

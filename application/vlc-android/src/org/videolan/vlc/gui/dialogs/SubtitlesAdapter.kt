@@ -7,12 +7,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadItemBinding
-import java.util.*
+import java.util.Locale
 
 internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEvent>) : RecyclerView.Adapter<SubtitlesAdapter.ViewHolder>() {
     private var dataset: List<SubtitleItem>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubtitlesAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = SubtitleDownloadItemBinding.inflate(inflater, parent, false )
         return ViewHolder(binding)

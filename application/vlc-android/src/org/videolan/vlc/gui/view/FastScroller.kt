@@ -38,8 +38,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.text.TextUtilsCompat
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -60,7 +58,6 @@ import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.scope
-import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
 import kotlin.math.min
@@ -161,7 +158,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
         bubble.pivotX = bubble.width.toFloat()
         bubble.pivotY = bubble.height.toFloat()
         scrollListener.onScrolled(recyclerView, 0, 0)
-        bubble.visibility = View.VISIBLE
+        bubble.visibility = VISIBLE
         val growerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
         val growerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
         val alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
@@ -185,14 +182,14 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
         currentAnimator?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
-                bubble.visibility = View.GONE
+                bubble.visibility = GONE
                 currentAnimator = null
                 scheduler.scheduleAction(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
             }
 
             override fun onAnimationCancel(animation: Animator) {
                 super.onAnimationCancel(animation)
-                bubble.visibility = View.INVISIBLE
+                bubble.visibility = INVISIBLE
                 currentAnimator = null
                 scheduler.scheduleAction(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
             }
@@ -248,7 +245,7 @@ class FastScroller : LinearLayout, Observer<HeadersIndex>, SchedulerCallback, Ap
                 currentAnimator?.cancel()
             scheduler.cancelAction(HIDE_SCROLLER)
             scheduler.cancelAction(HIDE_HANDLE)
-            if (showBubble && bubble.visibility == View.GONE)
+            if (showBubble && bubble.visibility == GONE)
                 showBubble()
             setRecyclerViewPosition(event.y)
             return true

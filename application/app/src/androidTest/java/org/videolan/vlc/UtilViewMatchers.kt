@@ -149,13 +149,7 @@ class TabsMatcher internal constructor(var position: Int) : ViewAction {
     override fun getDescription(): String = "Click on tab"
 
     override fun perform(uiController: UiController?, view: View) {
-        if (view is TabLayout) {
-            val tabLayout: TabLayout = view as TabLayout
-            val tab: TabLayout.Tab? = tabLayout.getTabAt(position)
-            if (tab != null) {
-                tab.select()
-            }
-        }
+        (view as? TabLayout)?.getTabAt(position)?.select()
     }
 }
 

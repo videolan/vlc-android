@@ -25,7 +25,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 
-class StartActivityOnCrash internal constructor(private val context: Activity) : Thread.UncaughtExceptionHandler {
+class StartActivityOnCrash internal constructor(context: Activity) : Thread.UncaughtExceptionHandler {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE, Context.MODE_WORLD_READABLE)
 

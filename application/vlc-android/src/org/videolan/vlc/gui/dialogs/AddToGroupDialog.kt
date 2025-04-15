@@ -75,8 +75,8 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
     override fun initialFocusedView(): View = binding.list
 
     init {
-        AddToGroupDialog.registerCreator { CoroutineContextProvider() }
-        coroutineContextProvider = AddToGroupDialog.get(0)
+        registerCreator { CoroutineContextProvider() }
+        coroutineContextProvider = get(0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

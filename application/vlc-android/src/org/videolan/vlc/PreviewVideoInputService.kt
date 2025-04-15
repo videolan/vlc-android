@@ -10,16 +10,20 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.Surface
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.media.MediaPlayerEventListener
 import org.videolan.vlc.media.PlayerController
-import org.videolan.resources.VLCInstance
 import org.videolan.vlc.util.random
 import java.io.IOException
 
@@ -30,7 +34,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope()
 
     internal val factory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
-    override fun onCreateSession(inputId: String): TvInputService.Session? {
+    override fun onCreateSession(inputId: String): Session? {
         return PreviewSession(this)
     }
 
@@ -43,7 +47,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope()
     }
 
     private inner class PreviewSession(context: Context
-    ) : TvInputService.Session(context), MediaPlayerEventListener {
+    ) : Session(context), MediaPlayerEventListener {
 
         val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(applicationContext) }
 

@@ -246,7 +246,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow<IMedia> {
+    private fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow<IMedia> {
         val listener = object : EventListener {
             override fun onMediaAdded(index: Int, media: IMedia) {
                 if (!isClosedForSend) trySend(media.apply { retain() })

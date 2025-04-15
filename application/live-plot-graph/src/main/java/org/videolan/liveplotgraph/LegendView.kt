@@ -26,10 +26,8 @@ package org.videolan.liveplotgraph
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
-import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -79,7 +77,7 @@ class LegendView : ConstraintLayout, PlotViewDataChangeListener {
                 }
             } ?: Log.w("LegendView", "Cannot find the plot view with id $plotViewId")
         }
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        layoutParams.height = LayoutParams.WRAP_CONTENT
     }
 
     override fun onDataChanged(data: List<Pair<LineGraph, String>>) {

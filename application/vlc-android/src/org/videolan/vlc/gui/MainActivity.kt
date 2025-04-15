@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -101,9 +100,6 @@ class MainActivity : ContentActivity(),
 {
     private lateinit var backPressedCallback: OnBackPressedCallback
     var refreshing: Boolean = false
-        set(value) {
-            field = value
-        }
     private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
     private lateinit var toolbarIcon: ImageView
@@ -358,7 +354,7 @@ class MainActivity : ContentActivity(),
                     if (fragment is AudioBrowserFragment) fragment.viewModel.refresh()
                 }
             }
-        } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK) {
             MediaUtils.openUri(this, data!!.data)
         } else if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == RESULT_RESCAN) {

@@ -157,7 +157,7 @@ import java.util.Locale
  */
 fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
     val settings = Settings.getInstance(appContext)
-    staticFiles("", File(RemoteAccessServer.getServerFiles(appContext)))
+    staticFiles("", File(getServerFiles(appContext)))
     //the client is requesting a new code.
     // if the formparameters "challenge" is sent. Remove the corresponding code
     post("/code") {

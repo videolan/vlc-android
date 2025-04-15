@@ -61,7 +61,7 @@ import org.videolan.vlc.util.getPendingIntent
 import kotlin.math.absoluteValue
 import kotlin.math.floor
 
-class PopupManager constructor(private val service: PlaybackService) : PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
+class PopupManager(private val service: PlaybackService) : PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
 
     private var rootView: PopupLayout? = null
     private lateinit var expandButton: ImageView

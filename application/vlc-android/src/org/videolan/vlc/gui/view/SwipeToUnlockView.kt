@@ -35,7 +35,6 @@ import android.util.LayoutDirection
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
@@ -90,7 +89,7 @@ class SwipeToUnlockView : ConstraintLayout {
     }
 
     override fun setVisibility(visibility: Int) {
-        if (visibility == View.VISIBLE) {
+        if (visibility == VISIBLE) {
             unlocking = false
             if (extremum != 0) playStep(extremum)
             requestFocus()

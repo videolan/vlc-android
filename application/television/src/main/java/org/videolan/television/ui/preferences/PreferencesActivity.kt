@@ -24,7 +24,6 @@
 package org.videolan.television.ui.preferences
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -60,7 +59,7 @@ class PreferencesActivity : BaseTvActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != RESULT_OK) {
             finish()
         }
         super.onActivityResult(requestCode, resultCode, data)

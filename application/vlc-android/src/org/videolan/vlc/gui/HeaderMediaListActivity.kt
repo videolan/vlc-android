@@ -635,7 +635,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         MediaUtils.playTracks(this, viewModel.tracksProvider, 0)
     }
 
-    private suspend fun removeFromPlaylist(list: List<MediaWrapper>, indexes: List<Int>) {
+    private fun removeFromPlaylist(list: List<MediaWrapper>, indexes: List<Int>) {
         if (!showPinIfNeeded()) {
             val itemsRemoved = HashMap<Int, Long>()
             val playlist = viewModel.playlist as? Playlist
