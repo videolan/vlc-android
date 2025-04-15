@@ -167,4 +167,4 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
     }
 }
 
-internal fun MediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
+internal fun MediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist))[PlaylistViewModel::class.java]

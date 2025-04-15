@@ -59,4 +59,4 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
     }
 }
 
-internal fun AudioAlbumsSongsFragment.getViewModel(item : MediaLibraryItem) = ViewModelProvider(requireActivity(), AlbumSongsViewModel.Factory(requireContext(), item)).get(AlbumSongsViewModel::class.java)
+internal fun AudioAlbumsSongsFragment.getViewModel(item : MediaLibraryItem) = ViewModelProvider(requireActivity(), AlbumSongsViewModel.Factory(requireContext(), item))[AlbumSongsViewModel::class.java]

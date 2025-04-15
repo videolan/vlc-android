@@ -113,7 +113,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
         binding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player)
         settings = Settings.getInstance(this)
 
-        model = ViewModelProvider(this).get(PlaylistModel::class.java)
+        model = ViewModelProvider(this)[PlaylistModel::class.java]
         binding.playlist.layoutManager = LinearLayoutManager(this)
         adapter = PlaylistAdapter(this, model)
         binding.playlist.adapter = adapter

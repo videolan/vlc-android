@@ -363,7 +363,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     companion object {
-        fun Fragment.getMainTvModel() = ViewModelProvider(requireActivity(), Factory(requireActivity().application)).get(MainTvModel::class.java)
+        fun Fragment.getMainTvModel() = ViewModelProvider(requireActivity(), Factory(requireActivity().application))[MainTvModel::class.java]
     }
 
     class Factory(private val app: Application) : ViewModelProvider.NewInstanceFactory() {

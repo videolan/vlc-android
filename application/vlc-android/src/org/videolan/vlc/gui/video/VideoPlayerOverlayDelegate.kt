@@ -888,7 +888,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             playlist.layoutManager = layoutManager
         }
         if (player.playlistModel == null) {
-            player.playlistModel = ViewModelProvider(player).get(PlaylistModel::class.java).apply {
+            player.playlistModel = ViewModelProvider(player)[PlaylistModel::class.java].apply {
                 playlistAdapter.setModel(this)
                 dataset.observe(player, player.playlistObserver)
             }

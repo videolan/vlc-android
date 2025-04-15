@@ -71,7 +71,7 @@ class SlaveRepositoryTest {
         PowerMockito.mockStatic(Uri::class.java)
         PowerMockito.`when`<Any>(Uri::class.java, "decode", anyString()).thenAnswer { it.arguments[0] as String }
 
-        `when`(slaveDao.get(fakeSlave.mediaPath)).thenReturn(listOf(fakeSlave))
+        `when`(slaveDao[fakeSlave.mediaPath]).thenReturn(listOf(fakeSlave))
 
         val slave = slaveRepository.getSlaves(fakeSlave.mediaPath)[0]
         assertThat(slave.uri, `is`(fakeSlave.uri))

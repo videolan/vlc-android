@@ -94,7 +94,7 @@ fun String.validateLocation(): Boolean {
     return true
 }
 
-inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProvider(this).get(T::class.java)
+inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProvider(this)[T::class.java]
 
 fun FragmentActivity.share(file: File) {
     val intentShareFile = Intent(Intent.ACTION_SEND)

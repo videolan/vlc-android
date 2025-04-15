@@ -6,8 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
-import org.videolan.vlc.providers.medialibrary.*
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_ARTISTS
+import org.videolan.resources.CATEGORY_GENRES
+import org.videolan.resources.CATEGORY_PLAYLISTS
+import org.videolan.resources.CATEGORY_VIDEOS
+import org.videolan.vlc.providers.medialibrary.AlbumsProvider
+import org.videolan.vlc.providers.medialibrary.ArtistsProvider
+import org.videolan.vlc.providers.medialibrary.GenresProvider
+import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
+import org.videolan.vlc.providers.medialibrary.TracksProvider
+import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
@@ -46,4 +55,4 @@ class MediaBrowserViewModel(context: Context, val category: Long, val parent : M
     }
 }
 
-fun Fragment.getMediaBrowserModel(category: Long, parent : MediaLibraryItem? = null) = ViewModelProvider(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category, parent)).get(MediaBrowserViewModel::class.java)
+fun Fragment.getMediaBrowserModel(category: Long, parent : MediaLibraryItem? = null) = ViewModelProvider(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category, parent))[MediaBrowserViewModel::class.java]

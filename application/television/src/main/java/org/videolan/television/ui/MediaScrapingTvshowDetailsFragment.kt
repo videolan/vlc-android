@@ -124,7 +124,7 @@ class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineSc
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
         showId = extras.getString(TV_SHOW_ID) ?: return
-        viewModel = ViewModelProvider(this, MediaMetadataModel.Factory(requireActivity(), showId = showId)).get(showId, MediaMetadataModel::class.java)
+        viewModel = ViewModelProvider(this, MediaMetadataModel.Factory(requireActivity(), showId = showId))[showId, MediaMetadataModel::class.java]
 
 
         viewModel.updateLiveData.observe(this) {

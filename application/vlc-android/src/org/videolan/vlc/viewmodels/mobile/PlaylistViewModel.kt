@@ -100,4 +100,4 @@ class PlaylistViewModel(context: Context, private val initialPlaylist: MediaLibr
     }
 }
 
-internal fun HeaderMediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
+internal fun HeaderMediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist))[PlaylistViewModel::class.java]

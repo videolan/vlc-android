@@ -180,6 +180,6 @@ open class BrowserModel(
 }
 
 fun Fragment.getBrowserModel(category: Long, url: String?, showDummyCategory: Boolean = false, mocked: ArrayList<MediaLibraryItem>? = null) = if (category == TYPE_NETWORK)
-    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url, mocked)).get(NetworkModel::class.java)
+    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url, mocked))[NetworkModel::class.java]
 else
-    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)
+    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showDummyCategory = showDummyCategory))[BrowserModel::class.java]

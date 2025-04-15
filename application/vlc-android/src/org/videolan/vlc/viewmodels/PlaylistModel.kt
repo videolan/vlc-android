@@ -285,8 +285,8 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     }
 
     companion object {
-        fun get(fragment: Fragment) = ViewModelProvider(fragment.requireActivity()).get(PlaylistModel::class.java)
-        fun get(activity: FragmentActivity) = ViewModelProvider(activity).get(PlaylistModel::class.java)
+        fun get(fragment: Fragment) = ViewModelProvider(fragment.requireActivity())[PlaylistModel::class.java]
+        fun get(activity: FragmentActivity) = ViewModelProvider(activity)[PlaylistModel::class.java]
     }
 }
 

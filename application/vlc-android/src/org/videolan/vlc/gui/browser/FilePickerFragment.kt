@@ -73,7 +73,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun setupBrowser() {
-        viewModel = ViewModelProvider(this, BrowserModel.Factory(requireContext(), mrl, TYPE_PICKER, false, pickerType = pickerType)).get(BrowserModel::class.java)
+        viewModel = ViewModelProvider(this, BrowserModel.Factory(requireContext(), mrl, TYPE_PICKER, false, pickerType = pickerType))[BrowserModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

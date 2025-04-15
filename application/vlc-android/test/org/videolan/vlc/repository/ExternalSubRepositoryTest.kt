@@ -93,11 +93,11 @@ class ExternalSubRepositoryTest {
         val fakeBarLiveDataSubtitles = MutableLiveData<List<org.videolan.vlc.mediadb.models.ExternalSub>>()
         fakeFooLiveDataSubtitles.value = fakeFooSubtitles
         fakeBarLiveDataSubtitles.value = fakeBarSubtitles
-        `when`(externalSubDao.get(foo)).thenReturn(fakeFooLiveDataSubtitles)
-        `when`(externalSubDao.get(bar)).thenReturn(fakeBarLiveDataSubtitles)
+        `when`(externalSubDao[foo]).thenReturn(fakeFooLiveDataSubtitles)
+        `when`(externalSubDao[bar]).thenReturn(fakeBarLiveDataSubtitles)
 
         val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(foo.toUri()))
-        verify(externalSubDao, times(2)).get(anyString())
+        verify(externalSubDao, times(2))[anyString()]
         assertThat(fooSubtitles.size, `is`(0))
     }
 
@@ -134,12 +134,12 @@ class ExternalSubRepositoryTest {
         fakeFooLiveDataSubtitles.value = fakeFooSubtitles
         fakeBarLiveDataSubtitles.value = fakeBarSubtitles
 
-        `when`(externalSubDao.get(foo)).thenReturn(fakeFooLiveDataSubtitles)
-        `when`(externalSubDao.get(bar)).thenReturn(fakeBarLiveDataSubtitles)
+        `when`(externalSubDao[foo]).thenReturn(fakeFooLiveDataSubtitles)
+        `when`(externalSubDao[bar]).thenReturn(fakeBarLiveDataSubtitles)
 
         val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(foo.toUri()))
         val barSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(bar.toUri()))
-        verify(externalSubDao, times(2)).get(anyString())
+        verify(externalSubDao, times(2))[anyString()]
         assertThat(fooSubtitles.size, `is`(2))
         assertThat(barSubtitles.size, `is`(2))
 

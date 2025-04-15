@@ -40,7 +40,7 @@ import org.videolan.vlc.databinding.PreferencesSearchActivityBinding
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.viewmodels.PreferenceSearchModel
-import java.util.*
+import java.util.Locale
 
 class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdapter.ClickHandler {
     private lateinit var binding: PreferencesSearchActivityBinding
@@ -58,7 +58,7 @@ class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdap
         binding.closeButton.setOnClickListener {
             finish()
         }
-        viewmodel = ViewModelProvider(this, PreferenceSearchModel.Factory(this)).get(PreferenceSearchModel::class.java)
+        viewmodel = ViewModelProvider(this, PreferenceSearchModel.Factory(this))[PreferenceSearchModel::class.java]
         binding.searchText.addTextChangedListener(this)
         viewmodel.filtered.observe(this) {
             adapter.submitList(it)

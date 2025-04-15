@@ -80,4 +80,4 @@ class MediaScrapingBrowserViewModel(context: Context, val category: Long) : Sort
     }
 }
 
-fun Fragment.getMoviepediaBrowserModel(category: Long) = ViewModelProvider(requireActivity(), MediaScrapingBrowserViewModel.Factory(requireContext(), category)).get(MediaScrapingBrowserViewModel::class.java)
+fun Fragment.getMoviepediaBrowserModel(category: Long) = ViewModelProvider(requireActivity(), MediaScrapingBrowserViewModel.Factory(requireContext(), category))[MediaScrapingBrowserViewModel::class.java]

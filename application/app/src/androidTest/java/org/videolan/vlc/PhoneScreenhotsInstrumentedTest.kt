@@ -25,7 +25,6 @@
 package org.videolan.vlc
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
@@ -51,12 +50,8 @@ import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.KEY_AUDIO_RESUME_CARD
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.view.TitleListView
-import org.videolan.vlc.util.DpadHelper.pressHome
-import org.videolan.vlc.util.DpadHelper.pressPip
 import org.videolan.vlc.util.DpadHelper.pressStop
-import org.videolan.vlc.util.DummyMediaWrapperProvider
 import org.videolan.vlc.util.ScreenshotUtil
 import org.videolan.vlc.util.UiUtils.waitId
 import org.videolan.vlc.util.UiUtils.waitUntilLoaded
@@ -84,11 +79,11 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(0))
         waitUntilLoaded { activity.findViewById(R.id.audio_list) }
         SystemClock.sleep(1500)
-        waitUntilLoaded { activity.findViewById<ViewPager>(R.id.pager).get(0).findViewById(R.id.audio_list) }
+        waitUntilLoaded { activity.findViewById<ViewPager>(R.id.pager)[0].findViewById(R.id.audio_list) }
         SystemClock.sleep(500)
         ScreenshotUtil.takeScreenshot(2, "audio_list")
         onView(withId(R.id.sliding_tabs)).perform(TabsMatcher(2))
-        waitUntilLoaded { activity.findViewById<ViewPager>(R.id.pager).get(2).findViewById(R.id.audio_list) }
+        waitUntilLoaded { activity.findViewById<ViewPager>(R.id.pager)[2].findViewById(R.id.audio_list) }
         SystemClock.sleep(1500)
         //We use the audio list as PiP background. The PiP img is static
         ScreenshotUtil.takeScreenshot(7,"pip_video")

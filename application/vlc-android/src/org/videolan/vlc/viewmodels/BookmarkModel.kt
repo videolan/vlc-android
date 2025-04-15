@@ -86,7 +86,7 @@ class BookmarkModel : ViewModel(), PlaybackService.Callback {
 
     companion object {
         fun get(activity: FragmentActivity) =
-            ViewModelProvider(activity).get(BookmarkModel::class.java)
+            ViewModelProvider(activity)[BookmarkModel::class.java]
     }
 
     override fun update() = refresh()

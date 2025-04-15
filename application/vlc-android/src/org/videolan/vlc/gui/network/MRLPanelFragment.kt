@@ -37,17 +37,12 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.Settings
 import org.videolan.tools.isValidUrl
@@ -63,7 +58,6 @@ import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.viewmodels.StreamsModel
-import java.io.File
 
 const val TAG = "VLC/MrlPanelFragment"
 
@@ -78,7 +72,7 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity(), StreamsModel.Factory(requireContext())).get(StreamsModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), StreamsModel.Factory(requireContext()))[StreamsModel::class.java]
         setup(this, viewModel, this)
     }
 

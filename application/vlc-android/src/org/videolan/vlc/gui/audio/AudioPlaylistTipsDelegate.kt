@@ -114,7 +114,7 @@ class AudioPlaylistTipsDelegate(private val activity: AudioPlayerContainerActivi
 
         if (tracksContainer.childCount == 0) {
             //populate fake tracks
-            val playlistModel = ViewModelProvider(activity).get(PlaylistModel::class.java)
+            val playlistModel = ViewModelProvider(activity)[PlaylistModel::class.java]
             playlistModel.currentMediaWrapper?.let {
                 for (i in 0..10) {
                     val v = LayoutInflater.from(activity)
