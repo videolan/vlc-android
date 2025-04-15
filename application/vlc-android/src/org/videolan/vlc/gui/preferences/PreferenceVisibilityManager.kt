@@ -70,7 +70,7 @@ object PreferenceVisibilityManager {
         TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO -> forTv
         "show_update" -> !forTv && BuildConfig.DEBUG
         AUDIO_DUCKING -> !AndroidUtil.isOOrLater
-        POPUP_FORCE_LEGACY -> AndroidUtil.isOOrLater && !forTv
+        POPUP_FORCE_LEGACY -> AndroidDevices.pipAllowed
         RESUME_PLAYBACK -> AndroidDevices.isPhone && !forTv
         KEY_AOUT -> VlcMigrationHelper.getAudioOutputFromDevice() == VlcMigrationHelper.AudioOutput.ALL
         "audio_digital_output" -> sharedPreferences.getString("aout", "0") != "2"

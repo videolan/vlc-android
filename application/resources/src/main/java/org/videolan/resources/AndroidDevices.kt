@@ -37,8 +37,13 @@ import org.videolan.resources.util.getPackageInfoCompat
 import org.videolan.tools.containsName
 import org.videolan.tools.getFileNameFromPath
 import org.videolan.tools.startsWith
-import java.io.*
-import java.util.*
+import java.io.BufferedReader
+import java.io.Closeable
+import java.io.File
+import java.io.FileReader
+import java.io.IOException
+import java.util.Locale
+import java.util.StringTokenizer
 import kotlin.math.absoluteValue
 
 @TargetApi(VERSION_CODES.N)
@@ -53,7 +58,9 @@ object AndroidDevices {
     val isTv: Boolean
     val isAmazon = Build.MANUFACTURER == "Amazon"
     val isChromeBook: Boolean
+    //Is the system PiP available on this device system
     val hasPiP: Boolean
+    //Is PiP or custom PiP allowed on this device
     val pipAllowed: Boolean
     private val noMediaStyleManufacturers = arrayOf("huawei", "symphony teleca")
     val showMediaStyle = !isManufacturerBannedForMediastyleNotifications
@@ -128,8 +135,8 @@ object AndroidDevices {
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management")
         isTv = isAndroidTv || !isChromeBook && !hasTsp
         hasPlayServices = pm == null || hasPlayServices(pm)
-        hasPiP = AndroidUtil.isOOrLater && pm != null && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) || AndroidUtil.isNougatOrLater && isAndroidTv
-        pipAllowed = hasPiP || hasTsp && !AndroidUtil.isOOrLater
+        hasPiP = pm != null && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+        pipAllowed = hasPiP || (hasTsp && !AndroidUtil.isOOrLater)
         val tm = ctx.getSystemService<TelephonyManager>()
         isPhone = tm == null || tm.phoneType != TelephonyManager.PHONE_TYPE_NONE
     }
