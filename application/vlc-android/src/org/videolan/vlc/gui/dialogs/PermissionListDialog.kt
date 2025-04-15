@@ -155,10 +155,6 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         binding.manageMediaVideo.isEnabled = !Permissions.hasAllAccess(requireActivity()) && !Permissions.hasVideoPermission(requireActivity())
         binding.manageMediaAudio.isEnabled = !Permissions.hasAllAccess(requireActivity()) && !Permissions.hasAudioPermission(requireActivity())
 
-        //backgrounds
-        binding.manageMediaPermsCheck.setBackgroundResource(defaultBackground)
-
-
         // explanation text state
         binding.fileAccessExplanation.text = when {
             Permissions.hasAllAccess(requireActivity()) -> getString(R.string.permission_onboarding_perm_all)
