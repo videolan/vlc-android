@@ -45,22 +45,18 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
 
     // Listener to workaroud AppCompat 25.x bug
     // FAB doesn't receive any callback when set to GONE.
-    private val onVisibilityChangedListener: FloatingActionButton.OnVisibilityChangedListener
+    private val onVisibilityChangedListener: FloatingActionButton.OnVisibilityChangedListener = object : FloatingActionButton.OnVisibilityChangedListener() {
+        override fun onHidden(fab: FloatingActionButton?) {
+            fab.setInvisible()
+        }
+
+    }
     private var player: FrameLayout? = null
     private val playerBehavior: PlayerBehavior<*>?
         get() {
             return ((player?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? PlayerBehavior)
         }
     var shouldNeverShow = false
-
-    init {
-        onVisibilityChangedListener = object : FloatingActionButton.OnVisibilityChangedListener() {
-            override fun onHidden(fab: FloatingActionButton?) {
-                fab.setInvisible()
-            }
-
-        }
-    }
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: FloatingActionButton, dependency: View): Boolean {
         if (dependency is FrameLayout && dependency.id == R.id.audio_player_container) {

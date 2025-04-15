@@ -27,12 +27,7 @@ import androidx.core.content.edit
 
 class StartActivityOnCrash internal constructor(private val context: Activity) : Thread.UncaughtExceptionHandler {
 
-    private val preferences: SharedPreferences
-
-    init {
-
-        preferences = context.getSharedPreferences(SHARED_PREFERENCE, Context.MODE_WORLD_READABLE)
-    }
+    private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE, Context.MODE_WORLD_READABLE)
 
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
         var exceptionMessage = throwable.message
