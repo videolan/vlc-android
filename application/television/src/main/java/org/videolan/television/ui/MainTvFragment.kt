@@ -288,6 +288,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         model.favoritesList.observe(requireActivity()) {
             displayFavorites = it.isNotEmpty()
             favoritesAdapter.setItems(it, diffCallback)
+            resetLines()
         }
         model.audioCategories.observe(requireActivity()) {
             categoriesAdapter.setItems(it.toList(), diffCallback)
