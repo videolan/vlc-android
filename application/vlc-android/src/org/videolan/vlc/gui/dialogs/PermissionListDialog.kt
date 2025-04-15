@@ -293,7 +293,7 @@ class PermissionListDialog : VLCBottomSheetDialogFragment() {
         }
 
         //Manage view visibility for older versions
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R || AndroidDevices.isTv) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             binding.manageMediaPermsCheck.setGone()
             binding.manageMediaVideo.setGone()
             binding.manageMediaAudio.setGone()
