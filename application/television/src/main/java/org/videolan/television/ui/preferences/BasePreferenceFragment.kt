@@ -50,7 +50,7 @@ abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
 
     protected fun buildPreferenceDialogFragment(preference: Preference): PreferenceDialogFragment? {
         return if (preference is EditTextPreference) {
-            CustomEditTextPreferenceDialogFragment.newInstance(preference.getKey()).apply {
+            CustomEditTextPreferenceDialogFragment.newInstance(preference.key).apply {
                 setTargetFragment(this@BasePreferenceFragment, 0)
                 show(this@BasePreferenceFragment.fragmentManager, DIALOG_FRAGMENT_TAG)
             }

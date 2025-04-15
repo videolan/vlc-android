@@ -155,7 +155,7 @@ object AutoUpdate {
         val request = Request.Builder().url(url).build()
         val response = client.newCall(request).execute()
 
-        val downloadedFile = File(context.getCacheDir(), "update.apk")
+        val downloadedFile = File(context.cacheDir, "update.apk")
         val sink: BufferedSink = downloadedFile.sink().buffer()
         sink.writeAll(response.body!!.source())
         sink.close()
@@ -180,7 +180,7 @@ object AutoUpdate {
 
     suspend fun clean(context: Application) = withContext(Dispatchers.IO) {
         try {
-            val downloadedFile = File(context.getCacheDir(), "update.apk")
+            val downloadedFile = File(context.cacheDir, "update.apk")
             if (downloadedFile.exists()) downloadedFile.delete() else { }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)

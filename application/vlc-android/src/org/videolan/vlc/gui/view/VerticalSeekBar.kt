@@ -96,7 +96,7 @@ class VerticalSeekBar : Slider {
                 } else if (currentProgress < 0) {
                     currentProgress = 0F
                 }
-                setValue(currentProgress)
+                value = currentProgress
 
                 return true
             }

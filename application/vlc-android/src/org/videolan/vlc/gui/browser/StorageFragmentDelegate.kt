@@ -30,10 +30,14 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.collection.SimpleArrayMap
 import androidx.fragment.app.FragmentActivity
-import org.videolan.medialibrary.interfaces.RootsEventsCb
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.RootsEventsCb
 import org.videolan.resources.util.canReadStorage
-import org.videolan.tools.*
+import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
+import org.videolan.tools.ML_SCAN_ON
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
+import org.videolan.tools.sanitizePath
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -97,7 +101,7 @@ class StorageFragmentDelegate : IStorageFragmentDelegate, RootsEventsCb {
         } else {
             if (checked) {
                 MedialibraryUtils.addDir(mrl, v.context.applicationContext)
-                val prefs = Settings.getInstance(v.getContext())
+                val prefs = Settings.getInstance(v.context)
                 if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.putSingle(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON)
             } else
                 MedialibraryUtils.removeDir(mrl)

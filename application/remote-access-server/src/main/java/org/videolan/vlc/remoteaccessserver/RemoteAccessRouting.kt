@@ -1228,44 +1228,44 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 when (type) {
                     "album" -> {
                         val album = appContext.getFromMl { getAlbum(id.toLong()) }
-                        album.setFavorite(favorite)
+                        album.isFavorite = favorite
                         call.respondText("")
                         return@get
                     }
                     "artist" -> {
                         val artist = appContext.getFromMl { getArtist(id.toLong()) }
-                        artist.setFavorite(favorite)
+                        artist.isFavorite = favorite
                         call.respondText("")
                         return@get
                     }
                     "genre" -> {
                         val genre = appContext.getFromMl { getGenre(id.toLong()) }
-                        genre.setFavorite(favorite)
+                        genre.isFavorite = favorite
                         call.respondText("")
                         return@get
                     }
                     "playlist" -> {
                         val playlist = appContext.getFromMl { getPlaylist(id.toLong(), false, false) }
-                        playlist.setFavorite(favorite)
+                        playlist.isFavorite = favorite
                         call.respondText("")
                         return@get
                     }
                     "video-group" -> {
                         val videoGroup = appContext.getFromMl { getVideoGroup(id.toLong()) }
-                        videoGroup.setFavorite(favorite)
+                        videoGroup.isFavorite = favorite
                         call.respondText("")
                         return@get
                     }
                     "video-folder" -> {
                         val videoFolder = appContext.getFromMl { getFolder(Folder.TYPE_FOLDER_VIDEO, id.toLong()) }
-                        videoFolder.setFavorite(favorite)
+                        videoFolder.isFavorite = favorite
                         call.respondText("")
                         return@get
                     }
                     else -> {
                         //simple media. It's a direct download
                         appContext.getFromMl { getMedia(id.toLong()) }?.let { media ->
-                            media.setFavorite(favorite)
+                            media.isFavorite = favorite
                             call.respondText("")
                             return@get
 

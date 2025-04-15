@@ -70,7 +70,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
         if (preference is MultiSelectListPreference) {
-            val dialogFragment = MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
+            val dialogFragment = MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.key)
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
             return

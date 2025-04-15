@@ -219,22 +219,22 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     suspend fun markAsPlayed(media: MediaLibraryItem) = withContext(Dispatchers.IO) {
         when (media) {
             is VideoGroup -> media.getAll().forEach {
-                if (it.seen == 0L) it.setPlayCount(1L)
+                if (it.seen == 0L) it.playCount = 1L
             }
             is Folder -> media.getAll().forEach {
-                if (it.seen == 0L) it.setPlayCount(1L)
+                if (it.seen == 0L) it.playCount = 1L
             }
-            is MediaWrapper -> if (media.seen == 0L) media.setPlayCount(1L)
+            is MediaWrapper -> if (media.seen == 0L) media.playCount = 1L
             else -> {}
         }
     }
     suspend fun markAsUnplayed(media: MediaLibraryItem) = withContext(Dispatchers.IO) {
         when (media) {
             is VideoGroup -> media.getAll().forEach {
-                it.setPlayCount(0L)
+                it.playCount = 0L
             }
             is Folder -> media.getAll().forEach {
-                it.setPlayCount(0L)
+                it.playCount = 0L
             }
             is MediaWrapper -> media.setPlayCount(0L)
             else -> {}

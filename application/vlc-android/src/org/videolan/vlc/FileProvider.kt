@@ -36,7 +36,7 @@ class FileProvider : ContentProvider() {
         if (path.contains("..")) throw SecurityException("Illegal access")
         if (!path.startsWith(AppContextProvider.appContext.getExternalFilesDir(null)!!.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME) && path != "/app_update") throw SecurityException("Illegal access")
         if (path == "/app_update") {
-            return ParcelFileDescriptor.open(File(AppContextProvider.appContext.getCacheDir(), "update.apk"), ParcelFileDescriptor.MODE_READ_ONLY)
+            return ParcelFileDescriptor.open(File(AppContextProvider.appContext.cacheDir, "update.apk"), ParcelFileDescriptor.MODE_READ_ONLY)
         }
         val file = File(path)
         if (!AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) }) throw SecurityException("Illegal access")

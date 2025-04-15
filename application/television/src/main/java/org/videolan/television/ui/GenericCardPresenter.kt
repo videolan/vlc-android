@@ -16,10 +16,6 @@ class GenericCardPresenter @JvmOverloads constructor(context: Context, cardTheme
     val context: ContextThemeWrapper = ContextThemeWrapper(context, cardThemeResId)
     val padding = context.resources.getDimension(org.videolan.vlc.R.dimen.tv_card_padding).toInt()
 
-
-    init {
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
         Log.d(TAG, "onCreateViewHolder")
 

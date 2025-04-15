@@ -770,7 +770,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
         MediaParsingService.newStorages.observe(this) { devices ->
             if (devices == null) return@observe
             for (device in devices) UiTools.newStorageDetected(this@AudioPlayerContainerActivity, device)
-            MediaParsingService.newStorages.setValue(null)
+            MediaParsingService.newStorages.value = null
         }
     }
 
