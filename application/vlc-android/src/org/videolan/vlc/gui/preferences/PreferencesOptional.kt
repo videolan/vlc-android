@@ -46,7 +46,7 @@ class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val parent = findPreference<PreferenceScreen>("optional_features")
-        FeatureFlag.values().forEach { featureFlags ->
+        FeatureFlag.entries.forEach { featureFlags ->
             val pref = CheckBoxPreference(requireActivity())
             pref.isChecked = FeatureFlagManager.isEnabled(requireActivity(), featureFlags)
             pref.title = getString(featureFlags.title)

@@ -29,7 +29,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import java.util.*
+import java.util.Locale
 
 /**
  * This manager allows the user to enable / disable experimental features
@@ -38,7 +38,7 @@ object FeatureFlagManager {
 
     fun isEnabled(context: Context, feature:FeatureFlag) = Settings.getInstance(context).getBoolean(feature.getKey(), false)
     fun enable(context: Context, feature:FeatureFlag, enabled:Boolean) = Settings.getInstance(context).putSingle(feature.getKey(), enabled)
-    fun getByKey(key:String):FeatureFlag? = FeatureFlag.values().firstOrNull { it.getKey() == key }
+    fun getByKey(key:String):FeatureFlag? = FeatureFlag.entries.firstOrNull { it.getKey() == key }
 
 }
 

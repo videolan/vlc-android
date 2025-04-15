@@ -78,7 +78,7 @@ class PinCodeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         if (!intent.hasExtra(PIN_CODE_REASON)) throw IllegalStateException("No reason given")
-        reason = PinCodeReason.values()[intent.getIntExtra(PIN_CODE_REASON, 0)]
+        reason = PinCodeReason.entries.toTypedArray()[intent.getIntExtra(PIN_CODE_REASON, 0)]
 
         binding = DataBindingUtil.setContentView(this, R.layout.pin_code_activity)
         if (!Settings.tvUI) {

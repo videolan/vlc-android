@@ -32,7 +32,7 @@ import org.videolan.vlc.BuildConfig
 object TranslationMapping {
     fun generateTranslations(context: Context): Map<String, String> {
         val map = HashMap<String, String>()
-        StringMapping.values().forEach {
+        StringMapping.entries.forEach {
             map[it.name] = context.getString(it.id).replace("%s", "{msg}")
         }
         map["PORT"] = "android"

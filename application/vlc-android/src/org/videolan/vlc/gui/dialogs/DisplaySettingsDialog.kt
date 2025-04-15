@@ -238,14 +238,14 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
             binding.videoGroupText.setGone()
             binding.videoGroupImage.setGone()
         }
-        val spinnerArrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, VideoGroup.values())
+        val spinnerArrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, VideoGroup.entries.toTypedArray())
 
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.videoGroupSpinner.adapter = spinnerArrayAdapter
         binding.videoGroupsGroup.setOnClickListener {
             binding.videoGroupSpinner.performClick()
         }
-        binding.videoGroupSpinner.setSelection(VideoGroup.values().indexOf(VideoGroup.findByValue(showVideoGroups)))
+        binding.videoGroupSpinner.setSelection(VideoGroup.entries.indexOf(VideoGroup.findByValue(showVideoGroups)))
         binding.videoGroupSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val groupType = spinnerArrayAdapter.getItem(position) as VideoGroup
@@ -498,7 +498,7 @@ class DisplaySettingsDialog : VLCBottomSheetDialogFragment() {
              * @return a [VideoGroup]
              */
             fun findByValue(value: String?): VideoGroup {
-                values().forEach { if (value == it.value) return it }
+                VideoGroup.entries.forEach { if (value == it.value) return it }
                 return GROUP_BY_NAME
             }
         }

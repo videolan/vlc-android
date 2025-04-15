@@ -24,14 +24,22 @@
 
 package org.videolan.vlc.gui.audio
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +54,12 @@ import androidx.transition.TransitionManager
 import androidx.window.layout.FoldingFeature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.videolan.tools.*
+import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -386,6 +399,6 @@ enum class AudioPlaylistTipsStep(@StringRes var titleText: Int, @StringRes var d
      * @return the next step
      */
     fun next(): AudioPlaylistTipsStep {
-        return values()[ordinal + 1]
+        return AudioPlaylistTipsStep.entries[ordinal + 1]
     }
 }

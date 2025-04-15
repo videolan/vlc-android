@@ -138,7 +138,7 @@ enum class PersonType(val key: Int) {
 
     companion object {
         fun fromKey(key: Int): PersonType {
-            values().forEach { if (it.key == key) return it }
+            PersonType.entries.forEach { if (it.key == key) return it }
             return ACTOR
         }
     }
@@ -149,7 +149,7 @@ enum class MediaMetadataType(val key: Int) {
 
     companion object {
         fun fromKey(key: Int): MediaMetadataType {
-            values().forEach { if (it.key == key) return it }
+            MediaMetadataType.entries.forEach { if (it.key == key) return it }
             return MOVIE
         }
     }
@@ -184,7 +184,7 @@ enum class MediaImageType(val key: Int) {
 
     companion object {
         fun fromKey(key: Int): MediaImageType {
-            values().forEach { if (it.key == key) return it }
+            MediaImageType.entries.forEach { if (it.key == key) return it }
             return BACKDROP
         }
     }

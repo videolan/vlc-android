@@ -28,7 +28,13 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
-import android.view.View.*
+import android.view.View.ALPHA
+import android.view.View.GONE
+import android.view.View.OnClickListener
+import android.view.View.SCALE_X
+import android.view.View.SCALE_Y
+import android.view.View.TRANSLATION_Y
+import android.view.View.VISIBLE
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
@@ -42,7 +48,12 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import org.videolan.tools.*
+import org.videolan.tools.PREF_TIPS_SHOWN
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.TipsUtils
 import org.videolan.vlc.gui.view.PlayerProgress
@@ -411,6 +422,6 @@ enum class VideoPlayerTipsStep(@StringRes var titleText: Int, @StringRes var des
      * @return the next step
      */
     fun next(): VideoPlayerTipsStep {
-        return values()[ordinal + 1]
+        return VideoPlayerTipsStep.entries[ordinal + 1]
     }
 }

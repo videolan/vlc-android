@@ -45,7 +45,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
 import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
-import org.videolan.vlc.gui.video.OrientationMode.values
 import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
@@ -151,10 +150,10 @@ class OrientationAdapter(currentOrientation:Int) : RecyclerView.Adapter<Orientat
         sizeSelectedListener = listener
     }
 
-    override fun getItemCount() = OrientationMode.values().size
+    override fun getItemCount() = OrientationMode.entries.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(OrientationMode.values()[position], position == selectedSize)
+        holder.bind(OrientationMode.entries[position], position == selectedSize)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -174,7 +173,7 @@ class OrientationAdapter(currentOrientation:Int) : RecyclerView.Adapter<Orientat
 
             itemView.setOnClickListener {
                 selectedSize = layoutPosition
-                sizeSelectedListener.invoke(OrientationMode.values()[layoutPosition])
+                sizeSelectedListener.invoke(OrientationMode.entries[layoutPosition])
             }
         }
 
@@ -195,6 +194,6 @@ enum class OrientationMode(@StringRes val title: Int, val value: Int) {
     LANDSCAPE_SENSOR(R.string.screen_orientation_landscape_sensor, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 
     companion object {
-        fun findByValue(value: Int) = values().firstOrNull { it.value == value } ?: PORTRAIT
+        fun findByValue(value: Int) = OrientationMode.entries.firstOrNull { it.value == value } ?: PORTRAIT
     }
 }

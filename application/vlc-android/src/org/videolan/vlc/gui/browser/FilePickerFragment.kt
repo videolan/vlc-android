@@ -66,7 +66,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
             }
         }
         requireActivity().intent?.getIntExtra(KEY_PICKER_TYPE, 0)?.let { pickerIndex ->
-            pickerType = PickerType.values()[pickerIndex]
+            pickerType = PickerType.entries.toTypedArray()[pickerIndex]
         } ?: PickerType.SUBTITLE
         super.onCreate(savedInstanceState)
         adapter = FilePickerAdapter(this)

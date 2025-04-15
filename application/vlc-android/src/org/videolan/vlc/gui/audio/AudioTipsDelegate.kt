@@ -218,6 +218,6 @@ enum class AudioPlayerTipsStep(@StringRes var titleText: Int, @StringRes var des
      * @return the next step
      */
     fun next(): AudioPlayerTipsStep {
-        return values()[ordinal + 1]
+        return AudioPlayerTipsStep.entries[ordinal + 1]
     }
 }

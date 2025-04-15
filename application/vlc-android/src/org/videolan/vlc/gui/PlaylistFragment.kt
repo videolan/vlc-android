@@ -90,7 +90,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val type = arguments?.getInt(PLAYLIST_TYPE, 0) ?: 0
-        viewModel = getViewModel(Playlist.Type.values()[type])
+        viewModel = getViewModel(Playlist.Type.entries[type])
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -134,7 +134,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             }
 
             resizeMainView.setOnClickListener { hideResizeOverlay() }
-            sizeAdapter.selectedSize = MediaPlayer.ScaleType.values().indexOf(player.service?.mediaplayer?.videoScale ?: MediaPlayer.ScaleType.SURFACE_BEST_FIT)
+            sizeAdapter.selectedSize = MediaPlayer.ScaleType.entries.indexOf(player.service?.mediaplayer?.videoScale ?: MediaPlayer.ScaleType.SURFACE_BEST_FIT)
             scrollView.scrollTo(0, 0)
             resizeMainView.visibility = View.VISIBLE
             if (Settings.showTvUi) AppScope.launch {
@@ -202,7 +202,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
 class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
 
 
-    var selectedSize = MediaPlayer.ScaleType.values().indexOf(MediaPlayer.ScaleType.SURFACE_BEST_FIT)
+    var selectedSize = MediaPlayer.ScaleType.entries.indexOf(MediaPlayer.ScaleType.SURFACE_BEST_FIT)
         set(value) {
             notifyItemChanged(field)
             field = value
@@ -221,10 +221,10 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
         sizeSelectedListener = listener
     }
 
-    override fun getItemCount() = MediaPlayer.ScaleType.values().size
+    override fun getItemCount() = MediaPlayer.ScaleType.entries.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(MediaPlayer.ScaleType.values()[position], position == selectedSize)
+        holder.bind(MediaPlayer.ScaleType.entries[position], position == selectedSize)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -244,7 +244,7 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
 
             itemView.setOnClickListener {
                 selectedSize = layoutPosition
-                sizeSelectedListener.invoke(MediaPlayer.ScaleType.values()[layoutPosition])
+                sizeSelectedListener.invoke(MediaPlayer.ScaleType.entries[layoutPosition])
             }
         }
 

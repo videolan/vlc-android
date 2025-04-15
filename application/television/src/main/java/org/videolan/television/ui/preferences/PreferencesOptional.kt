@@ -31,7 +31,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceScreen
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.FeatureFlagWarningDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
@@ -52,7 +53,7 @@ class PreferencesOptional : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val parent = findPreference<PreferenceScreen>("optional_features")
-        FeatureFlag.values().forEach { featureFlags ->
+        FeatureFlag.entries.forEach { featureFlags ->
             val pref = CheckBoxPreference(activity)
             pref.isChecked = FeatureFlagManager.isEnabled(activity, featureFlags)
             pref.title = getString(featureFlags.title)
