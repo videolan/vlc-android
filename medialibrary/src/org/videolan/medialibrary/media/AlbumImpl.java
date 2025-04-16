@@ -57,6 +57,7 @@ public class AlbumImpl extends Album {
         boolean ret = false;
         if (ml.isInitiated())
             ret = nativeSetFavorite(ml, mId, favorite);
+        if (ret) mFavorite = favorite;
         return ret;
     }
 
