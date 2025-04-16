@@ -35,6 +35,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.LifecycleObserver
 import androidx.transition.AutoTransition
+import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.window.layout.FoldingFeature
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -95,6 +96,15 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     private val transition = AutoTransition().apply {
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
+        addListener(object : Transition.TransitionListener {
+            override fun onTransitionStart(transition: Transition) { }
+            override fun onTransitionEnd(transition: Transition) {
+                audioPlayer.update()
+            }
+            override fun onTransitionCancel(transition: Transition) { }
+            override fun onTransitionPause(transition: Transition) { }
+            override fun onTransitionResume(transition: Transition) { }
+        })
     }
     private var showCover = false
         set(value) {

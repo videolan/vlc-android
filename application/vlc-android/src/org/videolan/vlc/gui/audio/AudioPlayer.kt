@@ -768,7 +768,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun onPlaylistSwitchClick(@Suppress("UNUSED_PARAMETER") view: View) {
         switchShowCover()
         settings.putSingle("audio_player_show_cover", isShowingCover())
-        lifecycleScope.launch { doUpdate() }
     }
 
     fun onShuffleClick(@Suppress("UNUSED_PARAMETER") view: View) {
@@ -1067,6 +1066,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     fun retrieveAbRepeatAddMarker():Button? {
         if (!::abRepeatAddMarker.isInitialized) return null
         return abRepeatAddMarker
+    }
+
+    fun update() {
+        lifecycleScope.launch { doUpdate() }
     }
 
     private val hideSearchRunnable by lazy(LazyThreadSafetyMode.NONE) {
