@@ -183,10 +183,15 @@ import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.getAllTracks
 import org.videolan.vlc.getSelectedVideoTrack
 import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity.Companion.ARTIST_FROM_ALBUM
+import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
@@ -194,11 +199,14 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment.Companion.shouldInterceptRemote
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
+import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.KeycodeListener
 import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
@@ -209,9 +217,22 @@ import org.videolan.vlc.media.ResumeStatus
 import org.videolan.vlc.media.WaitConfirmation
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_REMOVE_FROM_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
+import org.videolan.vlc.util.ContextOption.CTX_STOP_AFTER_THIS
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.FileUtils.getUri
+import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.FrameRateManager
 import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.LocaleUtil
@@ -220,6 +241,8 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.hasNotch
 import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.util.share
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.io.File
@@ -1913,29 +1936,54 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.hideOverlay(false)
     }
 
-    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.video_playqueue_item, popupMenu.menu)
-        if (isTablet() || AndroidDevices.isTv) {
-            popupMenu.menu.removeGroup(R.id.phone_only)
-        }
-
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { curentItem ->
-            when (curentItem.itemId) {
-                R.id.audio_player_mini_remove -> service?.run {
-                    remove(position)
-                    return@OnMenuItemClickListener true
+    private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
+        override fun onCtxAction(position: Int, option: ContextOption) {
+            if (position in 0 until overlayDelegate.playlistAdapter.itemCount) when (option) {
+                CTX_ADD_TO_PLAYLIST -> {
+                    val mw = overlayDelegate.playlistAdapter.getItem(position)
+                    addToPlaylist(listOf(mw))
                 }
-                R.id.stop_after -> {
+                CTX_REMOVE_FROM_PLAYLIST -> service?.run {
+                    remove(position)
+                }
+                CTX_STOP_AFTER_THIS -> {
                     val pos = if (playlistModel?.service?.playlistManager?.stopAfter != position) position else -1
                     playlistModel?.stopAfter(pos)
                     overlayDelegate.playlistAdapter.stopAfter = pos
-                    curentItem.isChecked = true
                 }
+                CTX_GO_TO_ALBUM -> {
+                    val i = Intent(this@VideoPlayerActivity, HeaderMediaListActivity::class.java)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, overlayDelegate.playlistAdapter.getItem(position).album)
+                    startActivity(i)
+                }
+                CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                    val artist = overlayDelegate.playlistAdapter.getItem(position).artist
+                    val i = Intent(this@VideoPlayerActivity, SecondaryActivity::class.java)
+                    i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                    i.putExtra(ARTIST_FROM_ALBUM, true)
+                    i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                    startActivity(i)
+                }
+                CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
+                    overlayDelegate.playlistAdapter.getItem(position).isFavorite = option == CTX_FAV_ADD
+                    overlayDelegate.playlistAdapter.notifyItemChanged(position)
+                }
+                CTX_SHARE -> lifecycleScope.launch { share(overlayDelegate.playlistAdapter.getItem(position)) }
+                else -> {}
             }
-            false
-        })
-        popupMenu.show()
+        }
+    }
+
+    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
+        val flags = FlagSet(ContextOption::class.java).apply {
+            addAll(CTX_REMOVE_FROM_PLAYLIST, CTX_STOP_AFTER_THIS)
+            if (item?.uri?.scheme != "content") addAll(CTX_ADD_TO_PLAYLIST,  CTX_SHARE)
+            if (item?.album != null) add(CTX_GO_TO_ALBUM)
+            if (item?.artist != null) add(CTX_GO_TO_ARTIST)
+            if (item?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+        }
+        showContext(this, ctxReceiver, position, item, flags)
     }
 
     override fun getLifeCycle() = this.lifecycle
