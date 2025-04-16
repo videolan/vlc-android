@@ -93,8 +93,11 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity.Companion.ARTIST_FROM_ALBUM
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
@@ -119,6 +122,10 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.ContextOption
 import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
 import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
 import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
 import org.videolan.vlc.util.ContextOption.CTX_REMOVE_FROM_PLAYLIST
@@ -426,6 +433,24 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 }
                 CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItem(position))
                 CTX_GO_TO_FOLDER -> showParentFolder(playlistAdapter.getItem(position))
+                CTX_GO_TO_ALBUM -> {
+                    val i = Intent(requireActivity(), HeaderMediaListActivity::class.java)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, playlistAdapter.getItem(position).album)
+                    startActivity(i)
+                }
+                CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                    val artist = playlistAdapter.getItem(position).artist
+                    val i = Intent(requireActivity(), SecondaryActivity::class.java)
+                    i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                    i.putExtra(ARTIST_FROM_ALBUM, true)
+                    i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                    startActivity(i)
+                }
+                CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
+                    playlistAdapter.getItem(position).isFavorite = option == CTX_FAV_ADD
+                    playlistAdapter.notifyItemChanged(position)
+                }
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(playlistAdapter.getItem(position)) }
                 else -> {}
             }
@@ -444,6 +469,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         val flags = FlagSet(ContextOption::class.java).apply {
             addAll(CTX_GO_TO_FOLDER, CTX_INFORMATION, CTX_REMOVE_FROM_PLAYLIST, CTX_STOP_AFTER_THIS)
             if (item?.uri?.scheme != "content") addAll(CTX_ADD_TO_PLAYLIST, CTX_SET_RINGTONE, CTX_SHARE)
+            if (item?.album != null) add(CTX_GO_TO_ALBUM)
+            if (item?.artist != null) add(CTX_GO_TO_ARTIST)
+            if (item?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
         }
         showContext(activity, ctxReceiver, position, item, flags)
     }
