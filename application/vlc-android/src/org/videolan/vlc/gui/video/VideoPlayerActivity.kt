@@ -1105,7 +1105,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val tv = Settings.showTvUi
             val interactive = isInteractive
             wasPaused = !isPlaying || (!tv && !interactive)
-            if (wasPaused) settings.putSingle(VIDEO_PAUSED, true)
+            if (wasPaused && !playQueueFinished) settings.putSingle(VIDEO_PAUSED, true)
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack

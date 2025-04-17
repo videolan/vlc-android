@@ -229,6 +229,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     var resetOnInteraction = false
     var sleepTimerInterval = 0L
     private var mediaEndReached = false
+    var playQueueFinished = false
 
     var isInPiPMode: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -365,7 +366,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 updateMetadata()
             }
             MediaPlayer.Event.MediaChanged -> if (BuildConfig.DEBUG) Log.d(TAG, "onEvent: MediaChanged")
-            MediaPlayer.Event.EndReached -> mediaEndReached = true
+            MediaPlayer.Event.EndReached -> {
+                mediaEndReached = true
+                playQueueFinished = !playlistManager.hasNext() || playlistManager.stopAfter == currentMediaPosition
+            }
         }
         cbActor.trySend(CbMediaPlayerEvent(event))
     }
