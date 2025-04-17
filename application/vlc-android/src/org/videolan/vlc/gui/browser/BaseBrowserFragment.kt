@@ -56,7 +56,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.conflate
@@ -76,7 +75,6 @@ import org.videolan.resources.MOVIEPEDIA_ACTIVITY
 import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
-import org.videolan.resources.util.parcelableList
 import org.videolan.tools.BROWSER_DISPLAY_IN_CARDS
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
@@ -95,8 +93,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
-import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CURRENT_SORT
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
@@ -132,6 +128,7 @@ import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_PLAYLIST
 import org.videolan.vlc.util.ContextOption.CTX_ADD_SCANNED
 import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
 import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_BAN_FOLDER
 import org.videolan.vlc.util.ContextOption.CTX_DELETE
 import org.videolan.vlc.util.ContextOption.CTX_DOWNLOAD_SUBTITLES
 import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
@@ -293,18 +290,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                         needRefresh.postValue(false)
                     }
                 }
-            }
-        }
-        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
-            val items: List<MediaWrapper> = bundle.parcelableList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
-            items.forEach { mw ->
-                val deleteAction = Runnable {
-                    lifecycleScope.launch {
-                        MediaUtils.deleteItem(requireActivity(), mw) { viewModel.refresh() }
-                        viewModel.remove(mw)
-                    }
-                }
-                if (Permissions.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run()
             }
         }
         requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
@@ -785,6 +770,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment && Settings.getInstance(requireActivity()).getBoolean(KEY_QUICK_PLAY, false)) add(CTX_QUICK_PLAY)
                 if (!isRootDirectory && this is FileBrowserFragment) add(CTX_DELETE)
                 if (mw.type == MediaWrapper.TYPE_DIR) {
+                    if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) add(CTX_BAN_FOLDER)
                     val isEmpty = viewModel.isFolderEmpty(mw)
                     if (!isEmpty) add(CTX_PLAY)
                     val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"

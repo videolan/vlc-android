@@ -228,7 +228,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_history" -> {
-                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history), resultValue = RESULT_VALUE_CLEAR_HISTORY)
+                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history), resultType = RESULT_VALUE_CLEAR_HISTORY)
                 dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
                 return true
             }
@@ -247,7 +247,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         title = getString(R.string.clear_media_db),
                         description = getString(R.string.clear_media_db_message),
                         buttonText = getString(R.string.clear),
-                        resultValue = RESULT_VALUE_CLEAR_MEDIA_DATABASE
+                        resultType = RESULT_VALUE_CLEAR_MEDIA_DATABASE
                     )
                     dialog.show(
                         requireActivity().supportFragmentManager,
@@ -262,7 +262,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         title = getString(R.string.clear_app_data),
                         description = getString(R.string.clear_app_data_message),
                         buttonText = getString(R.string.clear),
-                        resultValue = RESULT_VALUE_CLEAR_APP_DATA
+                        resultType = RESULT_VALUE_CLEAR_APP_DATA
                     )
                     dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
                 } else {

@@ -33,46 +33,46 @@
             android:id="@+id/delete_animation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@drawable/ic_warning_medium" />
 
     <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="@string/confirm_delete"
             android:textColor="?attr/font_default"
             android:textSize="22sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/delete_animation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/delete_animation"
             app:layout_constraintTop_toTopOf="@+id/delete_animation" />
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="title,delete_animation" />
 
     <TextView
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/confirm_delete_message"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/delete_animation"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-    <androidx.constraintlayout.widget.Barrier
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/barrier"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="message,delete_animation"
-            tools:layout_editor_absoluteY="192dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
 
     <Button
             android:id="@+id/delete_button"
@@ -87,12 +87,12 @@
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/delete_button"
-            app:layout_constraintTop_toBottomOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/message"
             app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

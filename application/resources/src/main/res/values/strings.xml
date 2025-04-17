@@ -330,6 +330,8 @@
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
     <string name="group_ban_folder">Ban folder from media library</string>
+    <string name="ban_folder">Ban folder</string>
+    <string name="ban_folder_explanation">Banning this folder means that you won\'t see its media in the video or audio section of the app, though they will still be accessible from the browser.\nTo unban it, go to the settings, %s and long tap this folder.</string>
 
     <string name="hardware_acceleration">Hardware Acceleration</string>
     <string name="hardware_acceleration_summary">Disabled: better stability\nDecoding: may improve performance\nFull: may improve performance further</string>

@@ -85,9 +85,11 @@ import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.CONFIRM_ADD_TO_GROUP_RESULT
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER
 import org.videolan.vlc.gui.dialogs.CONFIRM_PERMISSION_CHANGED
 import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CURRENT_SORT
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.DEFAULT_ACTIONS
 import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
@@ -675,23 +677,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     private fun banFolder(folder: Folder) {
-        folder.mMrl.toUri().path?.let { path ->
-            lifecycleScope.launch(Dispatchers.IO) {
-                val roots: Array<String> = Medialibrary.getInstance().foldersList
-                val strippedPath = path.removePrefix("file://")
-                for (root in roots) {
-                    if (root.removePrefix("file://") == strippedPath) {
-                        Log.w(TAG, "banFolder: trying to ban root: $root")
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            UiTools.snacker(requireActivity(), getString(R.string.cant_ban_root))
-                        }
-                        return@launch
-                    }
-                }
-                MedialibraryUtils.banDir(strippedPath)
-            }
-
-        } ?: Log.e(TAG, "banFolder: path is null")
+        val dialog = ConfirmDeleteDialog.newInstance(medias = arrayListOf(folder), title = getString(R.string.group_ban_folder), description = getString(R.string.ban_folder_explanation, getString(R.string.medialibrary_directories)), buttonText = getString(R.string.ban_folder), resultType = CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER)
+        dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
     }
 
     private fun renameGroup(media: VideoGroup) {
