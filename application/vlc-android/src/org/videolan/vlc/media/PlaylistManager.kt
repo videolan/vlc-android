@@ -1198,6 +1198,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                     if (stopAfter == currentIndex) {
                         if (BuildConfig.DEBUG) Log.d("AUDIO_STOP_AFTER", "reset")
+                        stopAfter = -1
                         stop()
                     } else {
                         if (isBenchmark) player.setCurrentStats()
