@@ -741,10 +741,16 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         artworkMap = HashMap<String, Uri>()
 
         browserCallback = MediaBrowserCallback(this)
-        browserCallback.registerMediaCallback { if (lastParentId.isNotEmpty()) notifyChildrenChanged(lastParentId) }
-        browserCallback.registerHistoryCallback {
-            when (lastParentId) {
-                MediaSessionBrowser.ID_HOME, MediaSessionBrowser.ID_HISTORY -> notifyChildrenChanged(lastParentId)
+        browserCallback.registerCallback {
+            notifyChildrenChanged(MediaSessionBrowser.ID_HOME)
+            when (it.updateType) {
+                UpdateType.MEDIA -> notifyChildrenChanged(MediaSessionBrowser.ID_LAST_ADDED)
+                UpdateType.ARTIST -> notifyChildrenChanged(MediaSessionBrowser.ID_ARTIST)
+                UpdateType.ALBUM -> notifyChildrenChanged(MediaSessionBrowser.ID_ALBUM)
+                UpdateType.GENRE -> notifyChildrenChanged(MediaSessionBrowser.ID_GENRE)
+                UpdateType.PLAYLIST -> notifyChildrenChanged(MediaSessionBrowser.ID_PLAYLIST)
+                UpdateType.HISTORY -> notifyChildrenChanged(MediaSessionBrowser.ID_HISTORY)
+                UpdateType.SHUFFLE -> notifyChildrenChanged(lastParentId)
             }
         }
 

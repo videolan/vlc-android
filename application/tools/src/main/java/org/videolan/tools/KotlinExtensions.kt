@@ -80,9 +80,9 @@ val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).to
 fun Boolean.toInt() = if (this) 1 else 0
 
 @OptIn(ObsoleteCoroutinesApi::class)
-fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
+fun <T> CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend (T) -> Unit) = actor<T>(capacity = Channel.CONFLATED) {
     for (evt in channel) {
-        action()
+        action(evt)
         if (time > 0L) delay(time)
     }
 }
