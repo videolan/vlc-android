@@ -122,7 +122,6 @@ import org.videolan.resources.CUSTOM_ACTION_REPEAT
 import org.videolan.resources.CUSTOM_ACTION_REWIND
 import org.videolan.resources.CUSTOM_ACTION_SHUFFLE
 import org.videolan.resources.CUSTOM_ACTION_SPEED
-import org.videolan.resources.DRIVING_MODE_APP_PKG
 import org.videolan.resources.EXTRA_CUSTOM_ACTION_ID
 import org.videolan.resources.EXTRA_PLAY_ONLY
 import org.videolan.resources.EXTRA_SEARCH_BUNDLE
@@ -131,6 +130,7 @@ import org.videolan.resources.PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT
 import org.videolan.resources.PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV
 import org.videolan.resources.PLAYLIST_TYPE_ALL
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
+import org.videolan.resources.QUICK_SEARCH_BOX_APP_PKG
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.resources.WEARABLE_RESERVE_SLOT_SKIP_TO_NEXT
@@ -1907,10 +1907,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             rootHints?.containsKey(BrowserRoot.EXTRA_SUGGESTED) == true -> BrowserRoot(MediaSessionBrowser.ID_SUGGESTED, null)
             else -> {
                 val rootId = when (clientPackageName) {
-                    DRIVING_MODE_APP_PKG -> MediaSessionBrowser.ID_ROOT_NO_TABS
+                    QUICK_SEARCH_BOX_APP_PKG -> MediaSessionBrowser.ID_SUGGESTED
                     else -> MediaSessionBrowser.ID_ROOT
                 }
                 val extras = MediaSessionBrowser.getContentStyle().apply {
+                    putBoolean(BrowserRoot.EXTRA_SUGGESTED, true)
                     putBoolean(MediaConstants.BROWSER_SERVICE_EXTRAS_KEY_SEARCH_SUPPORTED, true)
                 }
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O && clientPackageName == ANDROID_AUTO_APP_PKG) {

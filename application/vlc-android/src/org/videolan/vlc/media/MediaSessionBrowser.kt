@@ -119,7 +119,6 @@ class MediaSessionBrowser {
         // Root item
         // MediaIds are all strings. Maintain in uri parsable format.
         const val ID_ROOT = "//${BuildConfig.APP_ID}/r"
-        const val ID_ROOT_NO_TABS = "$ID_ROOT?f=1"
         const val ID_MEDIA = "$ID_ROOT/media"
         const val ID_SEARCH = "$ID_ROOT/search"
         const val ID_SUGGESTED = "$ID_ROOT/suggested"
@@ -161,20 +160,16 @@ class MediaSessionBrowser {
             val page = parentIdUri.getQueryParameter("p")
             val pageOffset = page?.toInt()?.times(MAX_RESULT_SIZE) ?: 0
             val isAndroidAuto = rootHints?.containsKey(EXTRA_BROWSER_ICON_SIZE) ?: false
-            val flatten = parentIdUri.getBooleanQueryParameter("f", false)
             when (parentIdUri.removeQuery().toString()) {
                 ID_ROOT -> {
                     //Home
-                    if (flatten) browse(context, ID_HOME, isShuffling)?.let { results.addAll(it) }
-                    else {
-                        val homeMediaDesc = MediaDescriptionCompat.Builder()
-                                .setMediaId(ID_HOME)
-                                .setTitle(res.getString(R.string.auto_home))
-                                .setIconUri(res.getResourceUri(R.drawable.ic_auto_home))
-                                .setExtras(getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
-                                .build()
-                        results.add(MediaBrowserCompat.MediaItem(homeMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
-                    }
+                    val homeMediaDesc = MediaDescriptionCompat.Builder()
+                        .setMediaId(ID_HOME)
+                        .setTitle(res.getString(R.string.auto_home))
+                        .setIconUri(res.getResourceUri(R.drawable.ic_auto_home))
+                        .setExtras(getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
+                        .build()
+                    results.add(MediaBrowserCompat.MediaItem(homeMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                     //Playlists
                     val playlistMediaDesc = MediaDescriptionCompat.Builder()
                             .setMediaId(ID_PLAYLIST)
@@ -184,16 +179,13 @@ class MediaSessionBrowser {
                             .build()
                     results.add(MediaBrowserCompat.MediaItem(playlistMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                     //My library
-                    if (flatten) browse(context, ID_LIBRARY, isShuffling)?.let { results.addAll(it) }
-                    else {
-                        val libraryMediaDesc = MediaDescriptionCompat.Builder()
-                                .setMediaId(ID_LIBRARY)
-                                .setTitle(res.getString(R.string.auto_my_library))
-                                .setIconUri(res.getResourceUri(R.drawable.ic_auto_my_library))
-                                .setExtras(getContentStyle(CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE))
-                                .build()
-                        results.add(MediaBrowserCompat.MediaItem(libraryMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
-                    }
+                    val libraryMediaDesc = MediaDescriptionCompat.Builder()
+                            .setMediaId(ID_LIBRARY)
+                            .setTitle(res.getString(R.string.auto_my_library))
+                            .setIconUri(res.getResourceUri(R.drawable.ic_auto_my_library))
+                            .setExtras(getContentStyle(CONTENT_STYLE_CATEGORY_ITEM_HINT_VALUE))
+                            .build()
+                    results.add(MediaBrowserCompat.MediaItem(libraryMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                     //Streams
                     val streamsMediaDesc = MediaDescriptionCompat.Builder()
                             .setMediaId(ID_STREAM)
@@ -442,13 +434,6 @@ class MediaSessionBrowser {
             if (!recentAudio.isNullOrEmpty()) for (mw in recentAudio) mw.albumName?.let { albumNames.add(it) }
             /* Build the list of media items */
             val results: ArrayList<MediaBrowserCompat.MediaItem> = ArrayList()
-            val shuffleAllPath = Uri.Builder()
-                    .appendPath(ArtworkProvider.SHUFFLE_ALL)
-                    .appendPath(ArtworkProvider.computeExpiration())
-                    .appendPath("$audioCount")
-                    .build()
-            val shuffleAllMediaDesc = getPlayAllBuilder(context, ID_SHUFFLE_ALL, R.string.shuffle_all_title, audioCount, shuffleAllPath).build()
-            results.add(MediaBrowserCompat.MediaItem(shuffleAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
             /* Query albums by name */
             val albums = mutableSetOf<Album>()
             for (albumName in albumNames) ml.searchAlbum(albumName)?.let { albums.addAll(it.toList()) }
