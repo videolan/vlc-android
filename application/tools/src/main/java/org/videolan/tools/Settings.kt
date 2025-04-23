@@ -3,7 +3,6 @@ package org.videolan.tools
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.content.edit
@@ -287,9 +286,6 @@ class DeviceInfo(context: Context) {
     val isChromeBook = pm.hasSystemFeature("org.chromium.arc.device_management")
     val isTv = isAndroidTv || !isChromeBook && !hasTsp
     val isAmazon = "Amazon" == Build.MANUFACTURER
-    val hasPiP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
-            || Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isAndroidTv
-    val pipAllowed = hasPiP || hasTsp && Build.VERSION.SDK_INT < Build.VERSION_CODES.O
 }
 
 @Suppress("UNCHECKED_CAST")
