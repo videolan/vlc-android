@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceScreen
 import androidx.preference.children
@@ -34,9 +35,10 @@ import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.KEY_APP_THEME
-import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.SCREEN_ORIENTATION
 import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
+import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.LIST_TITLE_ELLIPSIZE
 import org.videolan.tools.LOCKSCREEN_COVER
 import org.videolan.tools.PLAYLIST_MODE_AUDIO
@@ -65,16 +67,19 @@ object PreferenceVisibilityManager {
         KEY_QUICK_PLAY_DEFAULT, KEY_QUICK_PLAY, "secondary_display_category", "secondary_display_category_summary", "enable_clone_mode", SAVE_BRIGHTNESS,
         KEY_APP_THEME, LIST_TITLE_ELLIPSIZE, "enable_headset_detection", "enable_play_on_headset_insertion", "ignore_headset_media_button_presses",
         "headset_prefs_category", "audio_resume_card", LOCKSCREEN_COVER, SHOW_SEEK_IN_COMPACT_NOTIFICATION,
-        "audio_task_removed"-> !forTv
+        "audio_task_removed", "casting_category", "android_auto_category", SCREEN_ORIENTATION, -> !forTv
         //only on TV
         TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO -> forTv
         "show_update" -> !forTv && BuildConfig.DEBUG
+        KEY_VIDEO_APP_SWITCH -> !forTv || AndroidDevices.hasPiP
         AUDIO_DUCKING -> !AndroidUtil.isOOrLater
         POPUP_FORCE_LEGACY -> AndroidDevices.pipAllowed
         RESUME_PLAYBACK -> AndroidDevices.isPhone && !forTv
         KEY_AOUT -> VlcMigrationHelper.getAudioOutputFromDevice() == VlcMigrationHelper.AudioOutput.ALL
         "audio_digital_output" -> sharedPreferences.getString("aout", "0") != "2"
         "optional_features" -> FeatureFlag.entries.isNotEmpty()
+        "remote_access_category" -> !forTv && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+        "permissions_title" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         else -> true
     }
 
