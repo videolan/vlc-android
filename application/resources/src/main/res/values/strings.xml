@@ -5,7 +5,7 @@
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="app_name" translatable="false">VLC</string>
+    <string name="app_name" translatable="false">VLC - Labelvi</string>
     <string name="other">Other</string>
     <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>

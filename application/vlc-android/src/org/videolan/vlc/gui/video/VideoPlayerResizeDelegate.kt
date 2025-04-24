@@ -179,6 +179,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             MediaPlayer.ScaleType.SURFACE_235_1 -> overlayDelegate.showInfo("2.35:1", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_239_1 -> overlayDelegate.showInfo("2.39:1", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_5_4 -> overlayDelegate.showInfo("5:4", 1000, player.getString(R.string.resize_tip))
+            MediaPlayer.ScaleType.SURFACE_2_1 -> overlayDelegate.showInfo("2:1", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_ORIGINAL -> overlayDelegate.showInfo(R.string.surface_original, 1000, R.string.resize_tip)
         }
         settings.putSingle(VIDEO_RATIO, scale.ordinal)
@@ -260,6 +261,7 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
                 MediaPlayer.ScaleType.SURFACE_235_1 -> "2.35:1"
                 MediaPlayer.ScaleType.SURFACE_239_1 -> "2.39:1"
                 MediaPlayer.ScaleType.SURFACE_5_4 -> "5:4"
+                MediaPlayer.ScaleType.SURFACE_2_1 -> "2:1"
             }
             binding.selected = selected
             binding.executePendingBindings()
