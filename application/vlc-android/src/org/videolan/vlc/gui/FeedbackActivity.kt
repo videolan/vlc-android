@@ -176,6 +176,9 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
         binding.feedbackTypeEntry.addTextChangedListener {
             updateFormIncludesVisibility()
         }
+        binding.feedbackTypeEntry.setOnClickListener {
+            binding.feedbackTypeEntry.showDropDown()
+        }
         binding.feedbackTypeEntry.setText(feedbackTypeEntries[0], false)
         binding.emailWarningExplanation.text = getString(R.string.feedback_email_warning_explanation, getString(R.string.remote_access), getString(R.string.send_feedback))
         binding.tryAnyway.setOnClickListener {
