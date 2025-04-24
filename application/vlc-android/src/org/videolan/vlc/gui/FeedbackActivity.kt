@@ -275,7 +275,7 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
 
     fun isMailClientPresent(): Boolean {
         val intent = Intent(Intent.ACTION_SENDTO, "mailto:".toUri())
-        val unsupportedActions = arrayOf("com.android.tv.frameworkpackagestubs","com.android.fallback")
+        val unsupportedActions = arrayOf("com.android.tv.frameworkpackagestubs", "com.google.android.tv.frameworkpackagestubs", "com.android.fallback")
         val resolved = try {
             intent.resolveActivity(packageManager)
         } catch (e: Exception) {
