@@ -1,3 +1,14 @@
+Changes between 3.6.4 Beta 4 and 3.6.4 Beta 5:
+------------------
+ * Fix the AV1 playback aspect ratio
+ * Improve the play queue item's actions
+ * Improve the feedback screen and add one in the Remote Access
+ * Add the incognito mode on TV
+ * Fix some RTL issues
+ * New 2:1 aspect ratio
+ * Playback fixes
+ * Crash and behavior fixes
+
 Changes between 3.6.4 Beta 3 and 3.6.4 Beta 4:
 ------------------
  * New default playback setting
