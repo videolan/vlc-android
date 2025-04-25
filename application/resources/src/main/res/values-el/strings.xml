@@ -320,7 +320,6 @@
     <string name="add_custom_path_description">Καταχωρήστε πρόσθετους εξατομικευμένους καταλόγους για σάρωση:</string>
     <string name="remove_custom_path">Αφαίρεση εξατομικευμένης διαδρομής</string>
     <string name="group_ban_folder">Αποκλεισμός φακέλου από την βιβλιοθήκη πολυμέσων</string>
-
     <string name="hardware_acceleration">Επιτάχυνση υλικού</string>
     <string name="hardware_acceleration_summary">Απενεργοποιημένο: μεγαλύτερη σταθερότητα \nΑποκωδικοποίηση: ενδέχεται να βελτιώσει την απόδοση\nΠλήρης: ενδέχεται να βελτιώσει περαιτέρω την απόδοση</string>
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
@@ -633,7 +632,7 @@
     <string name="notset">Δεν ορίστηκε</string>
     <string name="go_to_chapter">Μετάβαση στο κεφάλαιο…</string>
     <string name="current_chapter">Κεφάλαιο: %s</string>
-    <string name="confirm_resume">Συνέχιση από την τελευταία θέση;</string>
+    <string name="confirm_resume">Συνέχιση από το τελευταίο χρονικό σημείο;</string>
     <string name="apply_playqueue">Εφαρμογή για ολόκληρη την ουρά αναπαραγωγής</string>
     <string name="confirm_resume_title">Συνέχιση αναπαραγωγής βίντεο</string>
     <string name="confirm_resume_audio_title">Συνέχιση αναπαραγωγής ήχου</string>
@@ -903,6 +902,8 @@
     <string name="validation_delete_playlist_text">Αυτή η ενέργεια δε μπορεί να αναιρεθεί.</string>
     <string name="display_settings">Ρυθμίσεις οθόνης</string>
     <string name="incognito_mode">Ανώνυμη λειτουργία</string>
+    <string name="persistent_incognito_mode">Επιβεβλημένη ανώνυμη λειτουργία</string>
+    <string name="persistent_incognito_mode_summary">Διατήρηση της ανώνυμης λειτουργίας ως ενεργή ακόμη και εάν γίνει επανέναρξη της εφαρμογής</string>
     <string name="display_in_list">Εμφάνιση σε λίστα</string>
     <string name="display_in_grid">Εμφάνιση σε πλέγμα</string>
     <string name="dump_db_succes">Η βάση δεδομένων αντιγράφηκε στον ριζικό φάκελο της εσωτερικής συσκευής αποθήκευσης</string>
@@ -1283,6 +1284,7 @@
     <string name="ra_prepare_download">Προετοιμασία λήψης</string>
     <string name="ra_forbidden">Περιεχόμενο απενεργοποιημένο από τις ρυθμίσεις</string>
     <string name="ra_playback_forbidden">Απενεργοποιημένος έλεγχος αναπαραγωγής από τις ρυθμίσεις</string>
+    <string name="ra_logs_forbidden">Απενεργοποιημένος διαμοιρασμός αρχείων καταγραφής από τις ρυθμίσεις</string>
     <string name="ra_code_requested_explanation">Για την προστασία του διακομιστή σας, η πρόσβαση προστατεύεται.\nΠληκτρολογήστε τον κωδικό που εμφανίζεται στις ειδοποιήσεις σας</string>
     <string name="ra_ssl_explanation_title">Μη-ασφαλής σύνδεση</string>
     <string name="ra_ssl_explanation">Η σύνδεσή σας δεν είναι ασφαλής.</string>
@@ -1373,4 +1375,10 @@
     <string name="generating_logs">Δημιουργία αρχείων καταγραφής. Αναμείνατε.</string>
     <string name="default_playback_action">Ενέργεια αναπαραγωγής</string>
     <string name="files">Αρχεία</string>
-</resources>
+    <string name="remote_access_feedback_generate">Δημιουργία αναφοράς</string>
+    <string name="remote_access_feedback_generated">Η αναφορά σχολίων σας έχει δημιουργηθεί</string>
+    <string name="remote_access_feedback_file_explanation">Έχετε πραγματοποιήσει λήψη του απαιτούμενου αρχείου. Παρακαλούμε, θυμηθείτε να το επισυνάψετε στο μήνυμά σας.</string>
+    <string name="generic_copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
+    <string name="feedback_email_warning">Δεν έχει εγκατασταθεί πρόγραμμα ηλεκτρονικής αλληλογραφίας</string>
+    <string name="feedback_email_warning_remote_action">Άνοιγμα ρυθμίσεων</string>
+    </resources>

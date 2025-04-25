@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Reprodueix</string>
+    <string name="quick_play">Reproducció ràpida</string>
     <string name="playback">Reproducció</string>
     <string name="playback_controls">Controls de la reproducció</string>
     <string name="medialibrary_scan">Escaneig de la biblioteca multimèdia</string>
@@ -319,7 +320,6 @@
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
     <string name="remove_custom_path">Elimina el camí personalitzat</string>
     <string name="group_ban_folder">Prohibir la carpeta de la mediateca</string>
-
     <string name="hardware_acceleration">Acceleració per maquinari</string>
     <string name="hardware_acceleration_summary">Desactivat: millor estabilitat\nDecodificant: pot millorar el rendiment\nSencer: pot millorar encara més el rendiment.</string>
     <string name="hardware_acceleration_disabled">Inhabilitat</string>
@@ -592,6 +592,11 @@
     <string name="custom_libvlc_options_invalid">Opcions invàlides libVLC!</string>
     <string name="dav1d_thread_number">Número de fil del Dav1d</string>
     <string name="dav1d_thread_number_invalid">Número de fil incorrecte! (>=1)</string>
+    <string name="browser_quick_play">Menú de reproducció ràpida del navegador</string>
+    <string name="browser_quick_play_summary">Afegiu una acció de reproducció ràpida al menú d\'elements del navegador. El vostre fitxer multimèdia es carregarà més ràpid, però potser faltaran algunes metadades</string>
+    <string name="browser_quick_play_default">Reproducció ràpida com a acció predeterminada</string>
+    <string name="browser_quick_play_default_summary">Si està activat, tocar un element del navegador el reproduirà amb la reproducció ràpida</string>
+
     <string name="serious_crash">Desafortunadament, hi ha hagut un error seriós quan el VLC s\'ha tancat.</string>
     <string name="help_us_send_log">Ajudan\'s a millorar VLC enviant-nos el següent fitxer de registre de fallades:</string>
     <string name="ml_crash_send">La mediateca acaba de fallar. Ajudeu-nos enviant els registres.</string>
@@ -897,6 +902,8 @@
     <string name="validation_delete_playlist_text">Aquesta acció no es pot desfer</string>
     <string name="display_settings">Ajustaments de la visualització</string>
     <string name="incognito_mode">Mode incògnit</string>
+    <string name="persistent_incognito_mode">Mode d\'incògnit persistent</string>
+    <string name="persistent_incognito_mode_summary">Mantenir el mode d\'incògnit activat encara que l\'aplicació es reiniciï</string>
     <string name="display_in_list">Mostra en forma de llista</string>
     <string name="display_in_grid">Mostra en forma de graella</string>
     <string name="dump_db_succes">Base de dades bolcada a l’arrel de l’emmagatzematge intern</string>
@@ -1277,6 +1284,7 @@
     <string name="ra_prepare_download">Preparant la vostra descàrrega</string>
     <string name="ra_forbidden">Contingut desactivat a la configuració</string>
     <string name="ra_playback_forbidden">Control de reproducció desactivat a la configuració</string>
+    <string name="ra_logs_forbidden">Compartició de registres desactivada a la configuració</string>
     <string name="ra_code_requested_explanation">Per protegir el vostre servidor, l\'accés està protegit.\nSi us plau, introduïu el codi que apareix a les vostres notificacions</string>
     <string name="ra_ssl_explanation_title">Connexió no segura</string>
     <string name="ra_ssl_explanation">La vostra connexió no és segura.</string>
@@ -1367,4 +1375,13 @@
     <string name="generating_logs">Generant els registres. Espereu.</string>
     <string name="default_playback_action">Acció de reproducció</string>
     <string name="files">Fitxers</string>
-</resources>
+    <string name="remote_access_feedback_generate">Generar informe</string>
+    <string name="remote_access_feedback_generated">S\'ha generat el vostre informe de comentaris</string>
+    <string name="remote_access_feedback_generated_explanation">Toqueu el botó següent per enviar-lo mitjançant el vostre client de correu electrònic predeterminat. Si trobeu algun problema, podeu copiar i enganxar els camps següents i enviar el correu electrònic vosaltres mateixos.</string>
+    <string name="remote_access_feedback_file_explanation">Acabeu de descarregar el fitxer necessari. Recordeu adjuntar-lo al vostre correu electrònic.</string>
+    <string name="generic_copied_to_clipboard">Copiat al porta-retalls</string>
+    <string name="feedback_email_warning">No hi ha cap client de correu electrònic instal·lat</string>
+    <string name="feedback_email_warning_explanation">La manera més senzilla de compartir els vostres comentaris és utilitzar la funció %1$s.\nPer fer-ho, activeu l\'accés remot a la configuració, seguiu les instruccions i trieu l\'entrada %2$s al menú.</string>
+    <string name="feedback_email_warning_remote_action">Obrir la configuració</string>
+    <string name="feedback_email_warning_try_anyway">Prova-ho de totes maneres</string>
+    </resources>

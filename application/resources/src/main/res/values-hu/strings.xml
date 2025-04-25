@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Lejátszás</string>
+    <string name="quick_play">Gyors lejátszás</string>
     <string name="playback">Lejátszás</string>
     <string name="playback_controls">Lejátszásvezérlők</string>
     <string name="medialibrary_scan">Médiatár átvizsgálása</string>
@@ -319,7 +320,6 @@
     <string name="add_custom_path_description">Adjon meg egy egyéni könyvtárat a kereséshez:</string>
     <string name="remove_custom_path">Egyéni útvonal eltávolítása</string>
     <string name="group_ban_folder">Mappa kitiltása a méditárból</string>
-
     <string name="hardware_acceleration">Hardveres gyorsítás</string>
     <string name="hardware_acceleration_summary">Kikapcsolva: jobb stabilitás\nDekódolás: javulhat a teljesítmény\nTeljes: tovább javulhat a teljesítmény</string>
     <string name="hardware_acceleration_disabled">Kikapcsolva</string>
@@ -592,6 +592,11 @@
     <string name="custom_libvlc_options_invalid">Érvénytelen libVLC beállítások.</string>
     <string name="dav1d_thread_number">Dav1d szálak száma</string>
     <string name="dav1d_thread_number_invalid">Érvénytelen szálszám! (>=1)</string>
+    <string name="browser_quick_play">Böngésző gyors lejátszási menüje</string>
+    <string name="browser_quick_play_summary">Egy gyors lejátszás művelet hozzáadása a böngésző menüelemeihez. Gyorsabban tölti be a médiát, de a metaadatok hiányozhatnak.</string>
+    <string name="browser_quick_play_default">Gyors lejátszás alapértelmezett műveletként</string>
+    <string name="browser_quick_play_default_summary">Ha aktiválva van, a böngészőelemre való kattintás a gyors lejátszás használatával játssza le.</string>
+
     <string name="serious_crash">Sajnos egy komoly hiba történt, és a VLC-nek be kellett záródnia.</string>
     <string name="help_us_send_log">Segítsen a VLC tökéletesítésében a következő összeomlásnapló elküldésével:</string>
     <string name="ml_crash_send">A médiatár összeomlott. Segítsen nekünk a naplók elküldésével.</string>
@@ -744,6 +749,7 @@
     <string name="episodes">epizódok</string>
     <string name="movies">filmek</string>
     <string name="videos">videók</string>
+    <string name="default_action_videos">Videók</string>
     <string name="videos_all">Összes videó</string>
     <string name="clear_playback_history">Lejátszási előzmények törlése</string>
     <string name="ml_scanning">Médiafájlok felkutatása</string>
@@ -896,6 +902,8 @@
     <string name="validation_delete_playlist_text">Ez a művelet nem vonható vissza.</string>
     <string name="display_settings">Megjelenítési beállítások</string>
     <string name="incognito_mode">Inkognitó mód</string>
+    <string name="persistent_incognito_mode">Állandó inkognitó mód</string>
+    <string name="persistent_incognito_mode_summary">Az inkognitó mód bekapcsolva tartása, az alkalmazás újraindítása után is</string>
     <string name="display_in_list">Megjelenítés listában</string>
     <string name="display_in_grid">Megjelenítés rácsban</string>
     <string name="dump_db_succes">Adatbázis kiírva a belső tárhely gyökerében</string>
@@ -1364,4 +1372,6 @@
     <string name="body">Üzenet</string>
     <string name="rate_us">Az alkalmazás értékelése</string>
     <string name="generating_logs">Naplók előállítása. Kis türelmet.</string>
+    <string name="default_playback_action">Lejátszási művelet</string>
+    <string name="files">Fájlok</string>
     </resources>

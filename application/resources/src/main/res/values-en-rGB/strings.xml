@@ -320,7 +320,6 @@
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
     <string name="group_ban_folder">Ban folder from media library</string>
-
     <string name="hardware_acceleration">Hardware Acceleration</string>
     <string name="hardware_acceleration_summary">Disabled: better stability\nDecoding: may improve performance\nFull: may improve performance further</string>
     <string name="hardware_acceleration_disabled">Disabled</string>
@@ -903,6 +902,8 @@
     <string name="validation_delete_playlist_text">This action cannot be undone.</string>
     <string name="display_settings">Display settings</string>
     <string name="incognito_mode">Incognito mode</string>
+    <string name="persistent_incognito_mode">Persistent incognito mode</string>
+    <string name="persistent_incognito_mode_summary">Keep the incognito mode enabled even if the app is restarted</string>
     <string name="display_in_list">Display in list</string>
     <string name="display_in_grid">Display in grid</string>
     <string name="dump_db_succes">Database dumped on internal storage root</string>
@@ -1373,4 +1374,4 @@
     <string name="generating_logs">Generating logs. Please wait.</string>
     <string name="default_playback_action">Playback action</string>
     <string name="files">Files</string>
-</resources>
+    </resources>

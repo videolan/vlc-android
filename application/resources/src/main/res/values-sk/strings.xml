@@ -342,7 +342,6 @@
     <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavený priečinok</string>
     <string name="remove_custom_path">Odstrániť cestu nastavenú používateľom</string>
     <string name="group_ban_folder">Vylúčiť priečinok z knižnice s médiami</string>
-
     <string name="hardware_acceleration">Hardvérová akcelerácia</string>
     <string name="hardware_acceleration_summary">Vypnuté: lepšia stabilita\nDekódovanie: môže zlepšiť výkon\nÚplné: môže ešte viac vylepšiť výkon</string>
     <string name="hardware_acceleration_disabled">Vypnuté</string>
@@ -1315,6 +1314,7 @@
     <string name="ra_prepare_download">Pripravuje sa sťahovanie</string>
     <string name="ra_forbidden">Obsah je zablokovaný v nastaveniach</string>
     <string name="ra_playback_forbidden">Ovládanie prehrávania je zablokované v nastaveniach</string>
+    <string name="ra_logs_forbidden">Zdieľanie denníkov je vypnuté v nastaveniach</string>
     <string name="ra_code_requested_explanation">Pre ochranu vášho servera je prístup chránený.\nProsím, zadajte kód zobrazený vo vašich notifikáciách</string>
     <string name="ra_ssl_explanation_title">Nezabezpečené pripojenie</string>
     <string name="ra_ssl_explanation">Vaše pripojenie nie je zabezpečené.</string>
@@ -1405,4 +1405,13 @@
     <string name="generating_logs">Generujú sa záznamy. Prosím, čakajte.</string>
     <string name="default_playback_action">Akcia prehrávania</string>
     <string name="files">Súbory</string>
-</resources>
+    <string name="remote_access_feedback_generate">Vytvoriť záznam</string>
+    <string name="remote_access_feedback_generated">Váš záznam so spätnou odozvou bol vytvorený</string>
+    <string name="remote_access_feedback_generated_explanation">Pre odoslanie prostredníctvom predvoleného e-mailového klienta, ťuknite na tlačidlo dole. Ak by nastal nejaký problém, môžete skopírovať obsah polí dole a odoslať separátny e-mail.</string>
+    <string name="remote_access_feedback_file_explanation">Práve ste si stiahli potrebný súbor. Prosím, nezabudnite ho priložiť k vášmu e-mailu.</string>
+    <string name="generic_copied_to_clipboard">Skopírované do schránky</string>
+    <string name="feedback_email_warning">Nie je nainštalovaný žiadny e-mailový klient</string>
+    <string name="feedback_email_warning_explanation">Najjednoduchším spôsobom zdieľania vašej spätnej odozvy je použitie funkcie %1$s.\nAk to chcete urobiť, povoľte vzdialený prístup v nastaveniach, postupujte podľa pokynov a vyberte %2$s položku v menu.</string>
+    <string name="feedback_email_warning_remote_action">Otvoriť nastavenia</string>
+    <string name="feedback_email_warning_try_anyway">Skúsiť aj tak</string>
+    </resources>

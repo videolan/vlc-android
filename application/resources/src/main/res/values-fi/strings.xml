@@ -325,7 +325,6 @@ Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
     <string name="add_custom_path_description">Anna lisähakemisto jonka haluat tutkia:</string>
     <string name="remove_custom_path">Poista mukautettu polku</string>
     <string name="group_ban_folder">Estä kansio mediakirjastosta</string>
-
     <string name="hardware_acceleration">Laitteistokiihdytys</string>
     <string name="hardware_acceleration_summary">Poistettu käytöstä: parempi vakaus.
 Purkukiihdytys: voi parantaa suorituskykyä.
@@ -1308,6 +1307,7 @@ Osoite on %s</string>
     <string name="ra_prepare_download">Valmistellaan latausta</string>
     <string name="ra_forbidden">Sisältö poistettu käytöstä asetuksissa</string>
     <string name="ra_playback_forbidden">Toiston ohjaus pois käytöstä asetuksissa</string>
+    <string name="ra_logs_forbidden">Lokien jakaminen poistettu käytöstä asetuksissa</string>
     <string name="ra_code_requested_explanation">Palvelimesi suojaamiseksi pääsy on suojattu.
 Anna ilmoituksissa näkyvä koodi</string>
     <string name="ra_ssl_explanation_title">Suojaamaton yhteys</string>
@@ -1400,4 +1400,13 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="generating_logs">Luodaan lokeja. Odota.</string>
     <string name="default_playback_action">Toistotoiminto</string>
     <string name="files">Tiedostot</string>
-</resources>
+    <string name="remote_access_feedback_generate">Luo raportti</string>
+    <string name="remote_access_feedback_generated">Palautteesi on luotu</string>
+    <string name="remote_access_feedback_generated_explanation">Paina alla olevaa painiketta ja lähetä sähköpostina. Jos kohtaat ongelmia, voit kopioida ja liittää alla olevat kentät ja lähettää sähköpostin itse.</string>
+    <string name="remote_access_feedback_file_explanation">Latasit juuri tarvittavan tiedoston. Muista liittää se sähköpostiisi.</string>
+    <string name="generic_copied_to_clipboard">Kopioitu leikepöydälle.</string>
+    <string name="feedback_email_warning">Sähköpostia ei ole asennettu</string>
+    <string name="feedback_email_warning_explanation">Helpoin tapa antaa palautetta on käyttää %1$s ominaisuutta.\nEtäkäyttö käyttöön asetuksista, seuraa ohjeita ja valitse valikosta %2$s.</string>
+    <string name="feedback_email_warning_remote_action">Avaa asetukset</string>
+    <string name="feedback_email_warning_try_anyway">Kokeile kuitenkin</string>
+    </resources>

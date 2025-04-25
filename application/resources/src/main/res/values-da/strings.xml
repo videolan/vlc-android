@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Afspil</string>
+    <string name="quick_play">Hurtigafspilning</string>
     <string name="playback">Afspilning</string>
     <string name="playback_controls">Afspilningskontroller</string>
     <string name="medialibrary_scan">Skanning af mediebibliotek</string>
@@ -319,7 +320,6 @@
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
     <string name="remove_custom_path">Fjern brugerdefineret sti</string>
     <string name="group_ban_folder">Bandlys mappe fra mediebibliotek</string>
-
     <string name="hardware_acceleration">Hardwareacceleration</string>
     <string name="hardware_acceleration_summary">Deaktiveret: Bedre stabilitet\nDekodning: Kan forbedre ydelsen\nFuld: Kan forbedre ydelsen mere</string>
     <string name="hardware_acceleration_disabled">Deaktiveret</string>
@@ -592,6 +592,11 @@
     <string name="custom_libvlc_options_invalid">Ugyldige libVLC-indstillinger!</string>
     <string name="dav1d_thread_number">Dav1d trådnummer</string>
     <string name="dav1d_thread_number_invalid">Ugyldigt trådnummer! (>=1)</string>
+    <string name="browser_quick_play">Browser hurtigafspilningsmenu</string>
+    <string name="browser_quick_play_summary">Tilføj en hurtigafspilningshandling i browserens \'items\'-menu. Det vil indlæse dit medie hurtigere uden visse metadata.</string>
+    <string name="browser_quick_play_default">Hurtigafspilning som standardhandling</string>
+    <string name="browser_quick_play_default_summary">Hvis aktiveret vil klik på en browsergenstand anvende hurtigafspilning</string>
+
     <string name="serious_crash">Der opstod desværre en alvorlig fejl, og VLC måtte lukkes ned.</string>
     <string name="help_us_send_log">Hjælp os med at forbedre VLC ved at sende følgende log for nedbrud:</string>
     <string name="ml_crash_send">Mediebiblioteket crashede. Du kan hjælpe os med fejlretning ved at afsende loggen.</string>
@@ -897,6 +902,8 @@
     <string name="validation_delete_playlist_text">Handlingen kan ikke fortrydes.</string>
     <string name="display_settings">Skærmindstillinger</string>
     <string name="incognito_mode">Anonym tilstand</string>
+    <string name="persistent_incognito_mode">Konstant anonymtilstand</string>
+    <string name="persistent_incognito_mode_summary">Bevar anonymtilstand selvom app\'en genstartes</string>
     <string name="display_in_list">Vis som liste</string>
     <string name="display_in_grid">Vis som gitter</string>
     <string name="dump_db_succes">Databasen blev lagt i roden af det interne lager</string>
@@ -1367,4 +1374,4 @@
     <string name="generating_logs">Opretter log. Vent venligst. AllerVenligst!</string>
     <string name="default_playback_action">Afspilningshandling</string>
     <string name="files">Filer</string>
-</resources>
+    </resources>

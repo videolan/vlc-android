@@ -336,7 +336,6 @@
     <string name="add_custom_path_description">נא להזין תיקיית מותאמת אישית נוספת לסריקה:</string>
     <string name="remove_custom_path">להסיר נתיב מותאם אישית</string>
     <string name="group_ban_folder">חסימת תיקייה מספריית מדיה.</string>
-
     <string name="hardware_acceleration">האצת חומרה</string>
     <string name="hardware_acceleration_summary">מושבת: יציב יותר\nפענוח: עשוי לשפר ביצועים\nמלא: עשוי לשפר ביצועים אף יותר</string>
     <string name="hardware_acceleration_disabled">מושבת</string>
@@ -921,6 +920,8 @@
     <string name="validation_delete_playlist_text">פעולה זו היא בלתי הפיכה.</string>
     <string name="display_settings">הגדרות תצוגה</string>
     <string name="incognito_mode">מצב אלמוני</string>
+    <string name="persistent_incognito_mode">מצב אלמוניות קבוע</string>
+    <string name="persistent_incognito_mode_summary">להשאיר את מצב האלמוניות פעיל אפילו לאחר הפעלת היישומון מחדש</string>
     <string name="display_in_list">הצגה ברשימה</string>
     <string name="display_in_grid">הצגה בטבלה</string>
     <string name="dump_db_succes">מסד הנתונים נלכד ונשמר בנתיב השורש של האחסון הפנימי</string>
@@ -1395,4 +1396,4 @@
     <string name="generating_logs">היומנים נוצרים. נא להמתין.</string>
     <string name="default_playback_action">פעולת נגינה</string>
     <string name="files">קבצים</string>
-</resources>
+    </resources>

@@ -58,8 +58,8 @@
     <string name="append_all">Acrescentar tudo</string>
     <string name="resume_playback_short_title">Retomar reprodução</string>
     <string name="resume_playback_long_title">Retomar reprodução da última lista de reprodução</string>
-    <string name="resume_audio_playback_short_title">Retomar reprodução áudio</string>
-    <string name="resume_audio_playback_long_title">Retomar reprodução da última lista de reprodução áudio</string>
+    <string name="resume_audio_playback_short_title">Retomar reprodução do áudio</string>
+    <string name="resume_audio_playback_long_title">Retomar reprodução da última lista de reprodução do áudio</string>
     <string name="resume_playback_error">Nada para retomar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
@@ -67,7 +67,7 @@
     <string name="set_song_question">Definir \'%1$s\' como toque de chamada?</string>
     <string name="info">Informação</string>
     <string name="confirm_delete">Eliminar o ficheiro \'%1$s\'?</string>
-    <string name="confirm_replace_playlist">De certeza de que pretende substituir a lista de reprodução \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">Tem a certeza que pretende substituir a lista de reprodução \'%1$s\'?</string>
     <string name="confirm_delete_message">Isto é permanente e não pode ser anulado.</string>
     <string name="confirm_delete_album">Eliminar o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Eliminar estes %1$d ficheiros?</string>
@@ -256,7 +256,7 @@
 
 
     <string name="playback_history_title">Histórico de reprodução</string>
-    <string name="playback_history_summary">Guardar todos os ficheiros reproduzidos na secção do histórico</string>
+    <string name="playback_history_summary">Guardar todos os ficheiros reproduzidos na secção do \'Histórico\'</string>
     <string name="video_resume_playback_title">Histórico da fila de reprodução de vídeo</string>
     <string name="video_resume_playback_summary">Permite guardar a fila de reprodução de vídeo para retomar posteriormente</string>
     <string name="audio_resume_playback_title">Histórico da fila de reprodução de áudio</string>
@@ -331,7 +331,6 @@
     <string name="add_custom_path_description">Insira uma pasta personalizada adicional para pesquisar:</string>
     <string name="remove_custom_path">Remover caminho personalizado</string>
     <string name="group_ban_folder">Banir pasta da mediateca</string>
-
     <string name="hardware_acceleration">Aceleração por Hardware</string>
     <string name="hardware_acceleration_summary">Desativado: maior estabilidade\nDescodificação: pode aumentar o desempenho\nTotal: pode aumentar ainda mais o desempenho</string>
     <string name="hardware_acceleration_disabled">Desativada</string>
@@ -352,7 +351,7 @@
     <string name="dark_theme">Tema escuro</string>
     <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificação do texto das legendas</string>
-    <string name="subtitle_preferred_language">Idioma preferencial para legendas</string>
+    <string name="subtitle_preferred_language">Idioma das legendas preferido</string>
     <string name="daynight_title">Modo Dia/Noite</string>
     <string name="daynight_follow_system_title">Seguir o modo do sistema</string>
     <string name="no_track_preference">Sem preferência de idioma</string>
@@ -411,7 +410,7 @@
     <string name="popup_keepscreen_summary">Manter ecrã ligado enquanto o modo de janela é exibido, mesmo se o vídeo estiver pausado.</string>
     <string name="browser_show_hidden_files_title">Mostrar ficheiros ocultos</string>
     <string name="albums_show_track_numbers">Mostrar números das faixas</string>
-    <string name="enable_video_screenshot">Tirar uma captura de ecrã</string>
+    <string name="enable_video_screenshot">Capturar ecrã</string>
     <string name="enable_tap_and_hold_fastplay_title">Ativar reprodução rápida</string>
     <string name="enable_tap_and_hold_fastplay_summary">Toque e mantenha premido para aumentar a velocidade de reprodução</string>
     <string name="fastplay_speed_title">Velocidade da reprodução rápida</string>
@@ -420,13 +419,13 @@
     <string name="show_bookmark_buttons">Mostrar botões de marcadores</string>
     <string name="show_bookmark_buttons_summary">Mostrar botões para navegar entre marcadores</string>
     <string name="show_bookmark_markers">Mostrar marcadores de favoritos</string>
-    <string name="show_bookmark_markers_summary">Mostrar marcadores de favoritos na linha de tempo</string>
+    <string name="show_bookmark_markers_summary">Mostrar marcadores de favoritos na barra cronológica</string>
     <string name="show_chapter_buttons">Mostrar botões de capítulos</string>
     <string name="show_chapter_buttons_summary">Mostrar botões para navegar entre capítulos</string>
 
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho das Legendas</string>
-    <string name="subtitles_presets_title">Modelos de legendas</string>
+    <string name="subtitles_presets_title">Pré-ajustes de legendas</string>
     <string name="subtitles_size_small">Pequeno</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Grande</string>
@@ -457,7 +456,7 @@
 
     <string name="audio_prefs_category">Áudio</string>
     <string name="lockscreen_cover_title">Imagem no ecrã de bloqueio</string>
-    <string name="lockscreen_cover_summary">Se disponível, utilizar a imagem do ficheiro em reprodução como papel de parede</string>
+    <string name="lockscreen_cover_summary">Quando disponível, utilizar a imagem do ficheiro atual como fundo do ecrã bloqueado</string>
     <string name="show_seek_in_compact_notif_title">Botões de procura no painel de notificações</string>
     <string name="show_seek_in_compact_notif_summary">Mostrar os botões de avançar rápido e retroceder nos controlos compactos de ficheiros</string>
     <string name="list_title_ellipsize">Título da lista de linha única reticulada</string>
@@ -472,7 +471,7 @@
     <string name="enable_headset_detection">Detetar auriculares</string>
     <string name="enable_headset_detection_summary">Detetar inserção e remoção dos auriculares</string>
     <string name="enable_play_on_headset_insertion">Continuar ao inserir os auriculares</string>
-    <string name="enable_play_on_headset_insertion_summary">Caso contrário, colocar em pausa</string>
+    <string name="enable_play_on_headset_insertion_summary">Caso contrário, pausar</string>
     <string name="replaygain_prefs_category">Ganho de reprodução</string>
     <string name="replaygain_enable">Ativar ganho de reprodução</string>
     <string name="replaygain_enable_summary">As transmissões sem informação de ganho de reprodução podem ser mais silenciosas devido ao ganho padrão</string>
@@ -489,19 +488,19 @@
     <string name="aout">Saída de áudio</string>
     <string name="aout_summary">Alterar o método que o VLC utiliza para a saída de áudio</string>
     <string name="audio_ducking_title">Reduzir o volume do VLC em caso de notificação</string>
-    <string name="audio_ducking_summary">Ajuda a ouvir notificações de áudio, instruções de navegação ou conversa do assistente</string>
+    <string name="audio_ducking_summary">Ajuda a ouvir as notificações de áudio, instruções de navegação ou conversa do assistente</string>
     <string name="casting_category">Difusão</string>
     <string name="remote_access">Acesso remoto</string>
     <string name="remote_access_version_title">Versão do acesso remoto</string>
     <string name="remote_access_hash_title">Hash do acesso remoto</string>
     <string name="remote_access_status">Estado do servidor</string>
     <string name="remote_access_status_summary">Toque para ver o estado do servidor</string>
-    <string name="remote_access_connections">Conexões</string>
+    <string name="remote_access_connections">Ligações</string>
     <string name="remote_access_links">Hiperligações</string>
     <string name="remote_access_active">Acesso remoto ativo</string>
     <string name="remote_access_notification">Acesso remoto ativo em %s</string>
     <string name="remote_access_notification_stopped">Acesso remoto parado</string>
-    <string name="remote_access_notification_connecting">Acesso remoto a conectar</string>
+    <string name="remote_access_notification_connecting">Acesso remoto a ligar</string>
     <string name="remote_access_notification_error">Erro no acesso remoto</string>
     <string name="remote_access_notification_stopping">Acesso remoto a parar</string>
     <string name="remote_access_notification_not_init">Acesso remoto a inicializar</string>
@@ -515,7 +514,7 @@
     <string name="remote_access_playback_control">Controlar a reprodução</string>
     <string name="remote_access_logs">Partilhar ficheiros de registo</string>
     <string name="casting_switch_title">Difusão sem fios</string>
-    <string name="casting_passthrough_title">Passagem de áudio</string>
+    <string name="casting_passthrough_title">Passagem de Áudio</string>
     <string name="casting_passthrough_summary">Deixar a TV gerir o processamento de áudio</string>
     <string name="casting_audio_only">Apenas áudio</string>
     <string name="casting_audio_only_summary">Transmitir apenas áudio, sem vídeo</string>
@@ -559,13 +558,13 @@
     <string name="advanced_prefs_category">Avançado</string>
     <string name="auto_rescan">Reanalisar automaticamente</string>
     <string name="auto_rescan_summary">Ao iniciar a aplicação, analisar o dispositivo para procurar alterações à coleção.</string>
-    <string name="dump_media_db">Limpar base de dados multimédia</string>
-    <string name="dump_app_db">Despejar a base de dados da aplicação</string>
-    <string name="dump_media_db_summary">Copiar base de dados para raiz do armazenamento interno</string>
+    <string name="dump_media_db">Limpar a base de dados de multimédia</string>
+    <string name="dump_app_db">Limpar a base de dados da aplicação</string>
+    <string name="dump_media_db_summary">Copiar a base de dados para a raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar base de dados de multimédia</string>
-    <string name="clear_media_database_summary">Limpar base de dados para recomeçar</string>
-    <string name="clear_app_data">Limpar dados da aplicação</string>
-    <string name="clear_app_data_summary">Elimina os dados do VLC para Android</string>
+    <string name="clear_media_database_summary">Limpa a base de dados para recomeçar</string>
+    <string name="clear_app_data">Limpar os dados da aplicação</string>
+    <string name="clear_app_data_summary">Limpa os dados do VLC para Android</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="clear_history_message">Perderá o seu histórico, as suas listas de reprodução atuais e os seus progressos</string>
     <string name="set_locale">Definir idioma</string>
@@ -573,16 +572,16 @@
     <string name="network_caching_summary">O tempo de armazenamento na memória intermédia dos suportes de rede (em ms) para descodificação por software\nUsar 0 para desativar</string>
     <string name="resume_playback_title">Retomar reprodução depois de uma chamada</string>
     <string name="resume_playback_summary">Caso contrário, manter em pausa</string>
-    <string name="blurred_cover_background_title">Fundo da capa difuso</string>
-    <string name="blurred_cover_background_summary">Capa difusa na fundo do reprodutor de áudio</string>
+    <string name="blurred_cover_background_title">Fundo da capa desfocado</string>
+    <string name="blurred_cover_background_summary">Capa desfocada no fundo do reprodutor de áudio</string>
     <string name="force_shuffle_title">Forçar reprodução aleatória</string>
     <string name="force_shuffle_summary">Forçar a reprodução aleatória ao iniciar uma reprodução</string>
     <string name="network_caching_popup">Este valor deve estar entre 0 e 60000 ms</string>
     <string name="quit">Sair e reiniciar a aplicação</string>
-    <string name="restart_message">As alterações surtirão efeito após a aplicação ser reiniciada.\n\nReiniciar agora?</string>
+    <string name="restart_message">As alterações serão aplicadas depois de reiniciar a aplicação.\n\nReiniciar agora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Mais tarde</string>
-    <string name="browser_show_all_title">Mostrar apenas ficheiros multimédia</string>
+    <string name="browser_show_all_title">Mostrar apenas os ficheiros multimédia</string>
 
     <string name="developer_prefs_category">Programador</string>
     <string name="enable_verbose_mode">Detalhado</string>
@@ -592,7 +591,7 @@
     <string name="stop_logging">Parar gravação de registos</string>
     <string name="clear_log">Limpar registo</string>
     <string name="log_service_title">Gravação de registos do VLC</string>
-    <string name="log_service_text">Abrir consola de registos</string>
+    <string name="log_service_text">Abrir a consola de registos</string>
     <string name="copy_to_clipboard">Copiar para a área de transferência</string>
     <string name="copied_to_clipboard">Registo copiado para a área de transferência</string>
     <string name="copied_from_clipboard">Endereço colado da área de transferência</string>
@@ -916,6 +915,8 @@
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
     <string name="display_settings">Definições de visualização</string>
     <string name="incognito_mode">Modo anónimo</string>
+    <string name="persistent_incognito_mode">Modo anónimo persistente</string>
+    <string name="persistent_incognito_mode_summary">Manter o modo anónimo ativado mesmo que a aplicação seja reiniciada</string>
     <string name="display_in_list">Mostrar em lista</string>
     <string name="display_in_grid">Mostrar em grelha</string>
     <string name="dump_db_succes">Base de dados descarregada (dumped) na raiz da memória interna</string>
@@ -932,10 +933,10 @@
     <string name="welcome_beta_description_crashes">Se tiver um erro ou uma falha, abra o ecrã Sobre de e utilize o botão Feedback > Contactar a equipa de suporte.</string>
     <string name="send">Enviar</string>
     <string name="send_crash_action_title">O que quer fazer?</string>
-    <string name="report_a_bug">Reportar um erro/bug</string>
+    <string name="report_a_bug">Reportar um erro</string>
     <string name="send_feedback">Enviar comentários</string>
-    <string name="report_a_crash">Reportar uma falha/crash</string>
-    <string name="describe_crash">Por favor descreva como essa falha aconteceu</string>
+    <string name="report_a_crash">Reportar uma falha</string>
+    <string name="describe_crash">Descreva como esta falha aconteceu</string>
     <string name="favorite">Favorito</string>
     <string name="always">Sempre</string>
     <string name="never">Nunca</string>
@@ -1388,4 +1389,4 @@
     <string name="generating_logs">A gerar registos. Aguarde.</string>
     <string name="default_playback_action">Ação de reprodução</string>
     <string name="files">Ficheiros</string>
-</resources>
+    </resources>

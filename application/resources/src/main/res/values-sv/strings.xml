@@ -320,7 +320,6 @@
     <string name="add_custom_path_description">Ange ytterligare valfria kataloger att söka igenom:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
     <string name="group_ban_folder">Bannlys mappen från mediabiblioteket</string>
-
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet\nAvkodning: Kan förbättra prestandan\nFull: Kan förbättra prestandan ytterligare</string>
     <string name="hardware_acceleration_disabled">Inaktiverad</string>
@@ -1285,6 +1284,7 @@
     <string name="ra_prepare_download">Förbereder din nedladdning</string>
     <string name="ra_forbidden">Innehållet har inaktiverats i inställningarna</string>
     <string name="ra_playback_forbidden">Uppspelningskontroll har inaktiverats i inställningarna</string>
+    <string name="ra_logs_forbidden">Delning av loggar har inaktiverats i inställningarna</string>
     <string name="ra_code_requested_explanation">För att skydda din server är åtkomst skyddad.\nAnge koden som visas i dina aviseringar</string>
     <string name="ra_ssl_explanation_title">Osäker anslutning</string>
     <string name="ra_ssl_explanation">Din anslutning är inte säker</string>
@@ -1375,4 +1375,13 @@
     <string name="generating_logs">Loggar genereras. Var god vänta.</string>
     <string name="default_playback_action">Uppspelningsåtgärd</string>
     <string name="files">Filer</string>
-</resources>
+    <string name="remote_access_feedback_generate">Generera rapport</string>
+    <string name="remote_access_feedback_generated">Din återkopplingsrapport har genererats</string>
+    <string name="remote_access_feedback_generated_explanation">Tryck på knappen nedan för att skicka den med din standardklient för e-post. Om fel uppstår kan du kopiera och klistra in i fälten nedan och själv skicka e-postmeddelandet.</string>
+    <string name="remote_access_feedback_file_explanation">Du laddade precis ned den nödvändiga filen. Kom ihåg att bifoga den i ditt e-postmeddelande.</string>
+    <string name="generic_copied_to_clipboard">Kopierades till urklipp</string>
+    <string name="feedback_email_warning">Ingen e-postklient är installerad</string>
+    <string name="feedback_email_warning_explanation">Det enklaste sättet att dela din återkoppling är att använda funktionen %1$s.\nAktivera fjärråtkomst i inställningarna, följ instruktionerna och välj alternativet %2$s i menyn.</string>
+    <string name="feedback_email_warning_remote_action">Öppna inställningarna</string>
+    <string name="feedback_email_warning_try_anyway">Försök igen</string>
+    </resources>

@@ -320,7 +320,6 @@
     <string name="add_custom_path_description">Ein zusätzliches, benutzerdefiniertes Verzeichnis zum Durchsuchen eingeben:</string>
     <string name="remove_custom_path">Benutzerdefinierten Pfad entfernen</string>
     <string name="group_ban_folder">Ordner aus Medienbibliothek ausblenden</string>
-
     <string name="hardware_acceleration">Hardwarebeschleunigung</string>
     <string name="hardware_acceleration_summary">Deaktiviert: bessere Stabilität\nDekodierung: kann die Leistung verbessern\nVoll: kann die Leistung noch weiter verbessern</string>
     <string name="hardware_acceleration_disabled">Deaktiviert</string>
@@ -903,6 +902,8 @@
     <string name="validation_delete_playlist_text">Diese Aktion kann nicht rückgängig gemacht werden.</string>
     <string name="display_settings">Anzeigeeinstellungen</string>
     <string name="incognito_mode">Inkognito-Modus</string>
+    <string name="persistent_incognito_mode">Permanenter Inkognito-Modus</string>
+    <string name="persistent_incognito_mode_summary">Den Inkognito-Modus aktiviert lassen, auch wenn die App neu gestartet wird</string>
     <string name="display_in_list">Als Liste anzeigen</string>
     <string name="display_in_grid">Als Gitter anzeigen</string>
     <string name="dump_db_succes">Die Datenbank wurde im internen Speicherstammordner abgelegt</string>
@@ -1373,4 +1374,4 @@
     <string name="generating_logs">Protokolle werden erstellt. Bitte warten.</string>
     <string name="default_playback_action">Wiedergabeaktion</string>
     <string name="files">Dateien</string>
-</resources>
+    </resources>

@@ -309,7 +309,6 @@
     <string name="add_custom_path_description">検索するカスタムディレクトリの追加:</string>
     <string name="remove_custom_path">カスタムパスの削除</string>
     <string name="group_ban_folder">メディアライブラリからフォルダを禁止</string>
-
     <string name="hardware_acceleration">ハードウェアアクセラレーション</string>
     <string name="hardware_acceleration_summary">無効: 安定性重視\nデコーディング: 性能改善\nフル: より改善された性能</string>
     <string name="hardware_acceleration_disabled">無効</string>
@@ -1270,6 +1269,7 @@
     <string name="ra_prepare_download">ダウンロードを準備中</string>
     <string name="ra_forbidden">設定でコンテンツが無効化されています</string>
     <string name="ra_playback_forbidden">設定で再生制御が無効化されています</string>
+    <string name="ra_logs_forbidden">設定でログの共有が無効化されています</string>
     <string name="ra_code_requested_explanation">サーバーを保護するため、アクセスは保護されています。\n通知されたコードを入力してください。</string>
     <string name="ra_ssl_explanation_title">セキュアでない接続</string>
     <string name="ra_ssl_explanation">接続はセキュアではありません。</string>
@@ -1360,4 +1360,12 @@
     <string name="generating_logs">ログを生成しています。しばらくお待ちください。</string>
     <string name="default_playback_action">再生アクション</string>
     <string name="files">ファイル</string>
-</resources>
+    <string name="remote_access_feedback_generate">レポートを生成</string>
+    <string name="remote_access_feedback_generated">フェードバックレポートが生成されました</string>
+    <string name="remote_access_feedback_file_explanation">必要なファイルがダウンロードされました。メールにこれらのファイルを添付する様お願い致します。</string>
+    <string name="generic_copied_to_clipboard">クリップボードにコピーされました</string>
+    <string name="feedback_email_warning">メールクライアントがインストールされていません</string>
+    <string name="feedback_email_warning_explanation">フィードバックを簡単に共有する方法は %1$s 機能を利用することです。\nこれを行うためには、設定でリモートアクセスを有効化し、指示に従ってメニュににある %2$s エントリを選択してください。</string>
+    <string name="feedback_email_warning_remote_action">設定を開く</string>
+    <string name="feedback_email_warning_try_anyway">とにかく実施する</string>
+    </resources>

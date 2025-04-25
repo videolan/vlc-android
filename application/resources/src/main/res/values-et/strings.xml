@@ -320,7 +320,6 @@
     <string name="add_custom_path_description">Sisesta meedia tuvastamiseks täiendav kaust:</string>
     <string name="remove_custom_path">Kohandatud raja eemaldamine</string>
     <string name="group_ban_folder">Keela kaust meediakogust</string>
-
     <string name="hardware_acceleration">Riistvaraline kiirendus</string>
     <string name="hardware_acceleration_summary">Väljalülitatud: suurem stabiilsus\nDekodeerimine: võib parandada sooritust\nKõik: võib tulevikus parandada sooritust</string>
     <string name="hardware_acceleration_disabled">Väljalülitatud</string>
@@ -905,6 +904,8 @@
     <string name="validation_delete_playlist_text">Seda tegevust ei saa tagasi võtta.</string>
     <string name="display_settings">Ekraani seaded</string>
     <string name="incognito_mode">Privaatne vaade</string>
+    <string name="persistent_incognito_mode">Püsiv privaatne vaade</string>
+    <string name="persistent_incognito_mode_summary">Jäta privaatne vaade tööle ka rakenduse uuel käivitamisel</string>
     <string name="display_in_list">Näita nimekirjana</string>
     <string name="display_in_grid">Näita võrgustikuna</string>
     <string name="dump_db_succes">Andmebaasi koopia on tehtud sisemise andmehoidla juurkausta</string>
@@ -1286,6 +1287,7 @@
     <string name="ra_prepare_download">Valmistame ette sinu allalaadimist</string>
     <string name="ra_forbidden">Sisu on seadetest keelatud</string>
     <string name="ra_playback_forbidden">Taasesituse juhtimine on seadetes keelatud</string>
+    <string name="ra_logs_forbidden">Logide jagamine on seadistustest välja lülitatud</string>
     <string name="ra_code_requested_explanation">Serveri turvamiseks ligipääs ei ole avalik\nPalun sisesta teavitustes kuvatud kood</string>
     <string name="ra_ssl_explanation_title">Ebaturvaline ühendus</string>
     <string name="ra_ssl_explanation">Sinu kasutatav ühendus pole turvaline.</string>
@@ -1376,4 +1378,13 @@
     <string name="generating_logs">Koondame logisid. Palun oota.</string>
     <string name="default_playback_action">Tegevus taasesitusel</string>
     <string name="files">Failid</string>
-</resources>
+    <string name="remote_access_feedback_generate">Koosta aruanne</string>
+    <string name="remote_access_feedback_generated">Aruanne tagasiside jaoks on loodud</string>
+    <string name="remote_access_feedback_generated_explanation">Saatmaks seda oma vaikimisi e-postirakendusega klõpsi alljärgnevat nuppu. Kui tekib vigu, siis saad välju ka ükshaaval kopeerida ja koostada ning saada e-kirja ka ise.</string>
+    <string name="remote_access_feedback_file_explanation">Sa just laadisid alla vajaliku faili. Kindlasti palun lisa ta manusena oma e-kirjale.</string>
+    <string name="generic_copied_to_clipboard">Kopeeritud lõikelauale</string>
+    <string name="feedback_email_warning">E-posti klient on paigaldamata</string>
+    <string name="feedback_email_warning_explanation">Kõige lihtsam viis meile tagasiside jagamiseks - %1$s\nSelleks lülita kaughaldus seadistustest sisse, jälgi juhendit ja vali menüüst „%2$s“.</string>
+    <string name="feedback_email_warning_remote_action">Ava seadistused</string>
+    <string name="feedback_email_warning_try_anyway">Proovi ikkagi</string>
+    </resources>

@@ -309,7 +309,6 @@
     <string name="add_custom_path_description">輸入額外的自訂目錄以掃瞄:</string>
     <string name="remove_custom_path">移除自訂路徑</string>
     <string name="group_ban_folder">從媒體庫封鎖資料夾</string>
-
     <string name="hardware_acceleration">硬體加速</string>
     <string name="hardware_acceleration_summary">停用：較為穩定\n解碼：可提升性能\n全開：可進一步提升性能</string>
     <string name="hardware_acceleration_disabled">停用</string>
@@ -1270,6 +1269,7 @@
     <string name="ra_prepare_download">正在準備您的下載</string>
     <string name="ra_forbidden">內容已在設定中停用</string>
     <string name="ra_playback_forbidden">播放控制已在設定中停用</string>
+    <string name="ra_logs_forbidden">已在設定中停用紀錄檔分享</string>
     <string name="ra_code_requested_explanation">為了保護您的伺服器，已保護存取。\n請輸入通知中顯示的代碼</string>
     <string name="ra_ssl_explanation_title">不安全的連線</string>
     <string name="ra_ssl_explanation">您的連線並不安全。</string>
@@ -1360,4 +1360,13 @@
     <string name="generating_logs">正在產生紀錄檔。請稍候。</string>
     <string name="default_playback_action">播放動作</string>
     <string name="files">檔案</string>
-</resources>
+    <string name="remote_access_feedback_generate">產生報告</string>
+    <string name="remote_access_feedback_generated">已產生的您的回饋報告</string>
+    <string name="remote_access_feedback_generated_explanation">輕點下方按鈕以使用您預設的電子郵件客戶端傳送。若您遇到任何問題，您可以複製貼上以下欄位的內容並自行傳送電子郵件。</string>
+    <string name="remote_access_feedback_file_explanation">您剛剛下載了所需的檔案。請記得將其做為您電子郵件的附件寄出。</string>
+    <string name="generic_copied_to_clipboard">已複製到剪貼簿</string>
+    <string name="feedback_email_warning">未安裝電子郵件客戶端</string>
+    <string name="feedback_email_warning_explanation">分享您的回饋最簡單的方式是使用 %1$s 功能。\n若要執行此操作，請在設定中啟用遠端存取，按照指示並在選單中選擇 %2$s。</string>
+    <string name="feedback_email_warning_remote_action">開啟設定</string>
+    <string name="feedback_email_warning_try_anyway">無論如何都要嘗試</string>
+    </resources>

@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Oynat</string>
+    <string name="quick_play">Hızlı oynat</string>
     <string name="playback">Oynat</string>
     <string name="playback_controls">Oynatma denetimleri</string>
     <string name="medialibrary_scan">Ortam kitaplığı taraması</string>
@@ -319,7 +320,6 @@
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
     <string name="remove_custom_path">Özel klasörü sil</string>
     <string name="group_ban_folder">Klasörü ortam kitaplığında engelle</string>
-
     <string name="hardware_acceleration">Donanım hızlandırması</string>
     <string name="hardware_acceleration_summary">Kapalı: Daha iyi kararlılık\nKod çözme: Başarımı artırabilir\nTam: Başarımı daha çok artırabilir</string>
     <string name="hardware_acceleration_disabled">Kapalı</string>
@@ -371,6 +371,7 @@
     <string name="save_brightness_title">Parlaklık düzeyi kaydedilsin</string>
     <string name="save_audiodelay_summary">Her görüntü için ayrı ses gecikmesi kaydedilsin</string>
     <string name="save_audiodelay_title">Ses gecikmesi kaydedilsin</string>
+    <string name="video_show_orientation_button">Doğrultu düğmesi görüntülensin</string>
     <string name="enable_brightness_gesture_title">Parlaklık el hareketi</string>
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
     <string name="enable_volume_gesture_title">Ses el hareketi</string>
@@ -591,8 +592,14 @@
     <string name="custom_libvlc_options_invalid">libVLC ayarları geçersiz!</string>
     <string name="dav1d_thread_number">İşlem numarası geçersiz</string>
     <string name="dav1d_thread_number_invalid">İşlem numarası geçersiz! (>=1)</string>
+    <string name="browser_quick_play">Tarayıcı hızlı oynat menüsü</string>
+    <string name="browser_quick_play_summary">Tarayıcı ögeleri menüsüne hızlı oynatma seçeneğini ekler. Ortamınızı daha hızlı yükler ancak bazı üst veriler eksik olabilir</string>
+    <string name="browser_quick_play_default">Varsayılan olarak hızlı oynatılsın</string>
+    <string name="browser_quick_play_default_summary">Etkinleştirildiğinde, bir tarayıcı ögesine dokunmak onu hızlı oynatır</string>
+
     <string name="serious_crash">Ne yazık ki önemli bir sorun çıktığından VLC kapatılacak.</string>
     <string name="help_us_send_log">Bu çökme kaydını göndererek VLC uygulamasının geliştirilmesine yardımcı olun:</string>
+    <string name="ml_crash_send">Ortam kitaplığı çöktü. Günlük kayıtlarını göndererek bize yardımcı olun.</string>
     <string name="restart_vlc">VLC yeniden başlatılsın</string>
     <string name="send_log">Günlüğü gönder</string>
     <string name="sending_log">Günlük gönderiliyor…</string>
@@ -743,6 +750,7 @@
     <string name="episodes">bölüm</string>
     <string name="movies">film</string>
     <string name="videos">görüntü</string>
+    <string name="default_action_videos">Görüntüler</string>
     <string name="videos_all">Tüm görüntüler</string>
     <string name="clear_playback_history">Oynatma geçmişini temizle</string>
     <string name="ml_scanning">Ortam dosyaları taranıyor</string>
@@ -895,6 +903,8 @@
     <string name="validation_delete_playlist_text">Bu işlem geri alınamaz.</string>
     <string name="display_settings">Görüntü ayarları</string>
     <string name="incognito_mode">Gizli kip</string>
+    <string name="persistent_incognito_mode">Kalıcı gizli kip</string>
+    <string name="persistent_incognito_mode_summary">Uygulama yeniden başlatılsa bile gizli kipi açık tutar</string>
     <string name="display_in_list">Liste olarak görüntüle</string>
     <string name="display_in_grid">Tablo olarak görüntüle</string>
     <string name="dump_db_succes">Veri tabanı iç depolama kök klasörüne kopyalandı</string>
@@ -903,13 +913,16 @@
     <string name="send_crash_description">Çökme bilgilerini göndermeniz VLC uygulamsını geliştirmemizi sağlar.</string>
     <string name="send_crash_warning">Göndermek istemediğiniz önemli bilgileri çıkardığınızdan emin olun.</string>
     <string name="include_medialib">Veri tabanınız katılsın</string>
+    <string name="include_logs">Günlük kayıtları eklensin</string>
     <string name="vlc_reporter">VLC bildirici</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">VLC Beta programına hoş geldiniz.\nLütfen bu sürümde bazı sorunlar olabileceğini unutmayın.</string>
     <string name="welcome_beta_description_bugs">Sorunla karşılaşırsanız lütfen forum ya da hata izleyiciden bize iletin.</string>
+    <string name="welcome_beta_description_crashes">Bir hata veya çökme ile karşılaşırsanız, lütfen Hakkında bölümüne gidin ve Geri bildirim > Destek ekibiyle görüşme düğmesini kullanın.</string>
     <string name="send">Gönder</string>
     <string name="send_crash_action_title">Ne yapmak istersiniz?</string>
     <string name="report_a_bug">Hata bildirmek</string>
+    <string name="send_feedback">Geri bildirim gönderin</string>
     <string name="report_a_crash">Çökme bildirmek</string>
     <string name="describe_crash">Lütfen çökmenin nasıl gerçekleştiğini açıklayın</string>
     <string name="favorite">Sık kullanılan</string>
@@ -1272,6 +1285,7 @@
     <string name="ra_prepare_download">İndirmeniz hazırlanıyor</string>
     <string name="ra_forbidden">İçerik ayarlardan kapatılmış</string>
     <string name="ra_playback_forbidden">Oynatma denetimi ayarlardan kapatılmış</string>
+    <string name="ra_logs_forbidden">Günlük paylaşımı ayarlardan kapatılmış</string>
     <string name="ra_code_requested_explanation">Sunucunuzu korumak için erişim engellendi.\nLütfen bildirimlerinizde görüntülenen kodu yazın</string>
     <string name="ra_ssl_explanation_title">Güvenlik olmayan bağlantı</string>
     <string name="ra_ssl_explanation">Bağlantınız güvenli değil.</string>
@@ -1349,4 +1363,26 @@
     <string name="queue_format_short_desc">Kuyruk konumu</string>
     <string name="queue_format_long_desc">Kuyruk konumu / Kuyruk boyutu</string>
     <string name="video_settings_disclaimer">Görüntü oynatıcıdaki bazı ayarlar, görüntü denetimleri ayarları bölümüne taşındı.</string>
+    <string name="get_help">Yardım isteyin</string>
+    <string name="feedback_type">Geri bildirim türü</string>
+    <string name="how_to_use">Nasıl kullanılacağını öğrenin</string>
+    <string name="send_feedback_request">Geri bildirim / özellik isteği</string>
+    <string name="report_crash">Çökme bildirin</string>
+    <string name="email_support">Destek ekibine e-posta gönder</string>
+    <string name="read_doc">Belgeleri okuyun</string>
+    <string name="subject">Konu</string>
+    <string name="body">İleti</string>
+    <string name="rate_us">Uygulamayı değerlendirin</string>
+    <string name="generating_logs">Günlük kayıtları oluşturuluyor. Lütfen bekleyin.</string>
+    <string name="default_playback_action">Oynatma işlemi</string>
+    <string name="files">Dosyalar</string>
+    <string name="remote_access_feedback_generate">Rapor oluştur</string>
+    <string name="remote_access_feedback_generated">Geri bildirim raporunuz oluşturuldu</string>
+    <string name="remote_access_feedback_generated_explanation">Varsayılan e-posta istemciniz ile göndermek için aşağıdaki düğmeye dokunun. Herhangi bir sorunla karşılaşırsanız, aşağıdaki alanları kopyalayıp yapıştırarak e-postayı kendiniz gönderebilirsiniz.</string>
+    <string name="remote_access_feedback_file_explanation">Az önce gerekli dosyayı indirdiniz. Lütfen e-postanıza eklemeyi unutmayın.</string>
+    <string name="generic_copied_to_clipboard">Panoya kopyalandı</string>
+    <string name="feedback_email_warning">Herhangi bir e-posta istemcisi kurulmamış</string>
+    <string name="feedback_email_warning_explanation">Geri bildiriminizi paylaşmanın en kolay yolu %1$s özelliğini kullanmaktır.\nBunu yapmak için ayarlardan uzaktan erişimi etkinleştirin, yönergeyi izleyin ve menüdeki %2$s kaydını seçin.</string>
+    <string name="feedback_email_warning_remote_action">Ayarları aç</string>
+    <string name="feedback_email_warning_try_anyway">Yine de dene</string>
     </resources>

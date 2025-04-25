@@ -331,7 +331,6 @@
     <string name="add_custom_path_description">Inserisci cartella personalizzata da analizzare:</string>
     <string name="remove_custom_path">Rimuovi percorso personalizzato</string>
     <string name="group_ban_folder">Vieta l\'accesso alla cartella dalla raccolta multimediale</string>
-
     <string name="hardware_acceleration">Accelerazione hardware</string>
     <string name="hardware_acceleration_summary">Disabilitata: maggiore stabilità.\nDecodifica: potrebbe migliorare le prestazioni.\nCompleta: potrebbe migliorare ulteriormente le prestazioni</string>
     <string name="hardware_acceleration_disabled">Disabilitata</string>
@@ -916,6 +915,8 @@
     <string name="validation_delete_playlist_text">Questa azione non può essere annullata.</string>
     <string name="display_settings">Impostazioni schermo</string>
     <string name="incognito_mode">Modalità incognito</string>
+    <string name="persistent_incognito_mode">Modalità incognito persistente</string>
+    <string name="persistent_incognito_mode_summary">Mantieni la modalità incognito abilitata anche se l\'applicazione viene riavviata</string>
     <string name="display_in_list">Visualizza in elenco</string>
     <string name="display_in_grid">Visualizza in griglia</string>
     <string name="dump_db_succes">Database salvato nella radice dell\'archiviazione interna</string>
@@ -1298,6 +1299,7 @@
     <string name="ra_prepare_download">Preparazione dello scaricamento</string>
     <string name="ra_forbidden">Contenuto disabilitato nelle impostazioni</string>
     <string name="ra_playback_forbidden">Controllo di riproduzione disabilitato nelle impostazioni</string>
+    <string name="ra_logs_forbidden">Condivisione dei log disabilitata nelle impostazioni</string>
     <string name="ra_code_requested_explanation">Per proteggere il tuo server, l\'accesso è protetto.\nDigita il codice visualizzato nelle tue notifiche</string>
     <string name="ra_ssl_explanation_title">Connessione non sicura</string>
     <string name="ra_ssl_explanation">La tua connessione non è sicura</string>
@@ -1388,4 +1390,13 @@
     <string name="generating_logs">Generazione dei log. Attendi</string>
     <string name="default_playback_action">Azione di riproduzione</string>
     <string name="files">File</string>
-</resources>
+    <string name="remote_access_feedback_generate">Genera segnalazione</string>
+    <string name="remote_access_feedback_generated">La tua segnalazione è stata generata</string>
+    <string name="remote_access_feedback_generated_explanation">Tocca il pulsante qui sotto per inviarla tramite il tuo client di posta elettronica predefinito. In caso di problemi, puoi copiare e incollare i campi sottostanti e inviare l\'email autonomamente.</string>
+    <string name="remote_access_feedback_file_explanation">Hai appena scaricato il file che ti serve. Ricordati di allegarlo alla tua email.</string>
+    <string name="generic_copied_to_clipboard">Copiato negli appunti</string>
+    <string name="feedback_email_warning">Nessun client di posta installato</string>
+    <string name="feedback_email_warning_explanation">Il modo più semplice per condividere la tua segnalazione è utilizzare la funzionalità %1$s.\nPer farlo, abilita l\'accesso remoto nelle impostazioni, segui le istruzioni e scegli la voce %2$s nel menu.</string>
+    <string name="feedback_email_warning_remote_action">Apri le impostazioni</string>
+    <string name="feedback_email_warning_try_anyway">Prova comunque</string>
+    </resources>

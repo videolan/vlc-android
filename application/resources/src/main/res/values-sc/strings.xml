@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Riprodui</string>
+    <string name="quick_play">Riprodutzione lestra</string>
     <string name="playback">Riprodutzione</string>
     <string name="playback_controls">Controllos de riprodutzione</string>
     <string name="medialibrary_scan">Iscansidura biblioteca multimediale</string>
@@ -319,7 +320,6 @@
     <string name="add_custom_path_description">Inserta una cartella personalizada de analizare:</string>
     <string name="remove_custom_path">Boga s\'àndala personalizada</string>
     <string name="group_ban_folder">Nega s\'atzessu a sa cartella de sa regorta multimediale</string>
-
     <string name="hardware_acceleration">Atzelleratzione hardware</string>
     <string name="hardware_acceleration_summary">Disabilitada: istabilidade prus manna.\nDecodìfica: diat pòdere megiorare sas prestatziones.\nIntrea: diat pòdere megiorare sas prestatziones galu de prus</string>
     <string name="hardware_acceleration_disabled">Disabilitada</string>
@@ -592,6 +592,11 @@
     <string name="custom_libvlc_options_invalid">Optziones libVLC non vàlidas!</string>
     <string name="dav1d_thread_number">Nùmeru de filu (thread) de su Dav1d</string>
     <string name="dav1d_thread_number_invalid">Nùmeru de filu invàlidu (>=1)</string>
+    <string name="browser_quick_play">Menù de riprodutzione lestra de su navigadore</string>
+    <string name="browser_quick_play_summary">Annanghe un\'atzione de riprodutzione lestra in su menù de sos elementos de su navigadore. At a carrigare sos elementos multimediales tuos prus in presse, ma carchi metadatu diat pòdere mancare</string>
+    <string name="browser_quick_play_default">Riprodutzione lestra comente atzione predefinida</string>
+    <string name="browser_quick_play_default_summary">Si est ativadu, su tocu de un\'elementu de su navigadore l\'at a reprodùere impreende sa riprodutzione lestra</string>
+
     <string name="serious_crash">Isfortunatamente b\'est istadu un\'errore grave e VLC est istadu serradu.</string>
     <string name="help_us_send_log">Agiuda·nos a megiorare VLC imbiende custu registru de errore:</string>
     <string name="ml_crash_send">Sa biblioteca multimediale s\'est blocada como. Agiuda·nos imbiende·nos sos registros.</string>
@@ -744,6 +749,7 @@
     <string name="episodes">episòdios</string>
     <string name="movies">films</string>
     <string name="videos">vìdeos</string>
+    <string name="default_action_videos">Vìdeos</string>
     <string name="videos_all">Totu sos vìdeos</string>
     <string name="clear_playback_history">Iscantzella sa cronologia de riprodutzione</string>
     <string name="ml_scanning">Iscansinde pro agatare documentos multimediales</string>
@@ -896,6 +902,8 @@
     <string name="validation_delete_playlist_text">Custa atzione non si podet annullare.</string>
     <string name="display_settings">Impostatziones ischermu</string>
     <string name="incognito_mode">Modalidade privada</string>
+    <string name="persistent_incognito_mode">Modalidade privada persistente</string>
+    <string name="persistent_incognito_mode_summary">Mantene sa modalidade privada abilitada fintzas si s\'aplicatzione benit torrada a allùghere</string>
     <string name="display_in_list">Ammustra in lista</string>
     <string name="display_in_grid">Ammustra in grìllia</string>
     <string name="dump_db_succes">Base de datos iscarrigada in sa raighina (root) de sa memòria interna</string>
@@ -1364,4 +1372,6 @@
     <string name="body">Messàgiu</string>
     <string name="rate_us">Vota s\'aplicatzione</string>
     <string name="generating_logs">Generende sos registros. Iseta.</string>
+    <string name="default_playback_action">Atzione de riprodutzione</string>
+    <string name="files">Documentos</string>
     </resources>
