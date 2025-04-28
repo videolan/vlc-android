@@ -209,6 +209,9 @@ object VLCOptions {
                 options.add("--stanag-spif-dir=${labelviDirectory}")
             }
 
+            var labelviLang = pref.getString("labelvi_locale", "") ?: ""
+            options.add("--stanag-lang=${labelviLang}")
+
             return options
         }
 

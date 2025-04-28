@@ -1398,5 +1398,6 @@
     <string name="labelvi">Labelvi settings</string>
     <string name="labelvi_select">Use directory</string>
     <string name="labelvi_directory">Labelvi directory</string>
-    <string name="labelvi_directory_summary">Directory used for labelvvi labels</string>
+    <string name="labelvi_directory_summary">Directory used for labelvvi labels: %s</string>
+    <string name="labelvi_locale">Language</string>
 </resources>

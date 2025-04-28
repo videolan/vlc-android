@@ -54,6 +54,7 @@ import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST_RESUME
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.AUDIO_RESUME_PLAYBACK
+import org.videolan.tools.LocaleUtils
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
@@ -106,6 +107,8 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         findPreference<Preference>("remote_access_category")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         findPreference<Preference>("permissions_title")?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         audioResumePref = findPreference(AUDIO_RESUME_PLAYBACK)!!
+        updateDirectorySummary()
+        prepareLocaleList()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -252,6 +255,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         if (sharedPreferences == null || key == null) return
 
         when (key) {
+            "labelvi_locale" -> updateLocaleSummary()
             "video_action_switch" -> if (!AndroidUtil.isOOrLater && findPreference<ListPreference>(key)?.value == "2"
                     && !Permissions.canDrawOverlays(activity))
                 Permissions.checkDrawOverlaysPermission(activity)
@@ -262,5 +266,22 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                 }
             }
         }
+    }
+
+
+    private fun prepareLocaleList() {
+        val localePair = LocaleUtils.getLocalesUsedInProject(arrayOf("en", "fr"), getString(R.string.device_default))
+        val lp = findPreference<ListPreference>("labelvi_locale")
+        lp?.entries = localePair.localeEntries
+        lp?.entryValues = localePair.localeEntryValues
+        updateLocaleSummary()
+    }
+
+    private fun updateLocaleSummary() {
+        findPreference<Preference>("labelvi_locale")?.summary = Settings.getInstance(requireActivity()).getString("labelvi_locale", "")
+    }
+
+    private fun updateDirectorySummary() {
+        findPreference<Preference>("labelvi_directory")?.summary = getString(R.string.labelvi_directory_summary, Settings.getInstance(requireActivity()).getString("labelvi_directory", ""))
     }
 }
