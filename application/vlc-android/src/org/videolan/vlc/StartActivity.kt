@@ -158,8 +158,13 @@ class StartActivity : FragmentActivity() {
                 var uri: Uri? = FileUtils.getUri(item.uri)
                 if (uri == null && item.text != null) uri = item.text.toString().toUri()
                 if (uri != null) {
-                    MediaUtils.openMediaNoUi(this, uri)
-                    finish()
+                    lifecycleScope.launch {
+                        var media = getFromMl { getMedia(uri) }
+                        if (media == null)
+                            media = MLServiceLocator.getAbstractMediaWrapper(uri)
+                        MediaUtils.openMediaNoUi(this@StartActivity, media)
+                        finish()
+                    }
                     return
                 }
             }
