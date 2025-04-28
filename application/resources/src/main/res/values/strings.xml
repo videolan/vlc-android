@@ -1395,4 +1395,8 @@
     <string name="generating_logs">Generating logs. Please wait.</string>
     <string name="default_playback_action">Playback action</string>
     <string name="files">Files</string>
+    <string name="labelvi">Labelvi settings</string>
+    <string name="labelvi_select">Use directory</string>
+    <string name="labelvi_directory">Labelvi directory</string>
+    <string name="labelvi_directory_summary">Directory used for labelvvi labels</string>
 </resources>

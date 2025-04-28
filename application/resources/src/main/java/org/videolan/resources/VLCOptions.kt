@@ -202,6 +202,13 @@ object VLCOptions {
             }
             options.add("--preferred-resolution=${pref.getString("preferred_resolution", "-1")!!}")
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "VLC Options: ${options.joinToString(" ")}")
+
+            //labelvi
+            val labelviDirectory = pref.getString("labelvi_directory", "") ?: ""
+            if (labelviDirectory.isNotEmpty()) {
+                options.add("--stanag-spif-dir=${labelviDirectory}")
+            }
+
             return options
         }
 

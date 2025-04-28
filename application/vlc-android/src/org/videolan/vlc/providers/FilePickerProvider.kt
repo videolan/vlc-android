@@ -52,5 +52,5 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
 
 
 enum class PickerType {
-    SUBTITLE, SOUNDFONT, SETTINGS
+    SUBTITLE, SOUNDFONT, SETTINGS, LABELVI
 }

@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="@dimen/file_picker_width"
         android:layout_height="@dimen/file_picker_height"
+    android:id="@+id/container"
         android:minHeight="320dp"
         android:orientation="vertical"
         tools:layout_height="320dp">

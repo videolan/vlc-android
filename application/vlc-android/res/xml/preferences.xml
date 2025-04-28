@@ -3,6 +3,12 @@
                                       xmlns:app="http://schemas.android.com/apk/res-auto"
                                       android:title="@string/preferences">
 
+    <PreferenceCategory android:title="@string/labelvi">
+        <PreferenceScreen
+                android:key="labelvi_directory"
+                android:summary="@string/labelvi_directory_summary"
+                android:title="@string/labelvi_directory"/>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/medialibrary">
         <PreferenceScreen
                 android:key="directories"

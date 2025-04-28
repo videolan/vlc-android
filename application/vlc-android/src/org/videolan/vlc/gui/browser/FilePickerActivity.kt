@@ -27,13 +27,18 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.widget.Button
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.dp
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.providers.PickerType
 import kotlin.reflect.jvm.jvmName
 
 class FilePickerActivity : BaseActivity() {
@@ -63,6 +68,9 @@ class FilePickerActivity : BaseActivity() {
                 }
             }
         })
+        if (intent.getIntExtra(KEY_PICKER_TYPE, 0) == PickerType.LABELVI.ordinal) {
+            findViewById<ConstraintLayout>(R.id.container).minHeight = 500.dp
+        }
     }
 
     fun onCloseClick(@Suppress("UNUSED_PARAMETER") v:View) {

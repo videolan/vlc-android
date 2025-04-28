@@ -26,15 +26,20 @@ package org.videolan.vlc.gui.preferences
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
@@ -46,6 +51,7 @@ import org.videolan.resources.KEY_CURRENT_MEDIA
 import org.videolan.resources.KEY_CURRENT_MEDIA_RESUME
 import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST_RESUME
+import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.AUDIO_RESUME_PLAYBACK
 import org.videolan.tools.PLAYBACK_HISTORY
@@ -53,18 +59,25 @@ import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.VIDEO_RESUME_PLAYBACK
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.browser.FilePickerActivity
+import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.dialogs.CONFIRM_PREFERENCE_CHANGE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.ConfirmPreferenceChangeDialog
 import org.videolan.vlc.gui.dialogs.PREFERENCE_KEY
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
+import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.Permissions
 
+private const val LABELVI_DIRECTORY_PICKER_RESULT_CODE = 10001
 class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var audioResumePref: CheckBoxPreference
@@ -145,8 +158,29 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) return
+        if (requestCode == LABELVI_DIRECTORY_PICKER_RESULT_CODE) {
+            if (data.hasExtra(EXTRA_MRL)) {
+                lifecycleScope.launch {
+                    Log.i(this::class.java.simpleName, "Picked folder: ${data.getStringExtra(EXTRA_MRL)}")
+                    Settings.getInstance(requireActivity()).edit(true) {
+                        putString("labelvi_directory", data.getStringExtra(EXTRA_MRL))
+                    }
+                    VLCInstance.restart()
+                }
+            }
+        }
+    }
+
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when (preference.key) {
+            "labelvi_directory" -> {
+                val filePickerIntent = Intent(requireContext(), FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.LABELVI.ordinal)
+                startActivityForResult(filePickerIntent, LABELVI_DIRECTORY_PICKER_RESULT_CODE)
+            }
             "directories" -> {
                 if (Medialibrary.getInstance().isWorking) {
                     UiTools.snacker(requireActivity(), getString(R.string.settings_ml_block_scan))

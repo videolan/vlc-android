@@ -39,6 +39,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.removeFileScheme
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.providers.PickerType
@@ -75,6 +77,13 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.emptyLoading.emptyText = getString(R.string.no_subs_found)
+        if (pickerType == PickerType.LABELVI) {
+            binding.labelviSelect.setVisible()
+            binding.labelviSelect.setOnClickListener {
+                pickCurrent()
+            }
+        } else binding.labelviSelect.setGone()
+        binding.labelviSelect
     }
 
     override fun onStart() {
@@ -105,6 +114,13 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
+
+    fun pickCurrent() {
+        val i = Intent(Intent.ACTION_PICK)
+        i.putExtra(EXTRA_MRL, viewModel.provider.url)
+        requireActivity().setResult(Activity.RESULT_OK, i)
+        requireActivity().finish()
+    }
 
     private fun pickFile(mw: MediaWrapper) {
         val i = Intent(Intent.ACTION_PICK)
