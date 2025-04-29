@@ -26,6 +26,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
@@ -44,9 +45,9 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Settings.getInstance(requireContext()).getBoolean(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)) {
+        if (Settings.getInstance(requireActivity()).getBoolean(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)) {
             UiTools.snackerConfirm(requireActivity(), requireActivity().getString(R.string.video_settings_disclaimer), indefinite = true) {
-                Settings.getInstance(requireContext()).putSingle(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)
+                Settings.getInstance(AppContextProvider.appContext).putSingle(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)
             }
         }
     }
