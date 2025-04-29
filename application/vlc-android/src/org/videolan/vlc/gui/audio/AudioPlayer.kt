@@ -86,6 +86,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.copy
 import org.videolan.tools.dp
 import org.videolan.tools.formatRateString
+import org.videolan.tools.isStarted
 import org.videolan.tools.putSingle
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
@@ -1097,7 +1098,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun update() {
-        lifecycleScope.launch { doUpdate() }
+        lifecycleScope.launch {
+            if (activity != null && activity?.isStarted() == true) doUpdate()
+        }
     }
 
     private val hideSearchRunnable by lazy(LazyThreadSafetyMode.NONE) {
