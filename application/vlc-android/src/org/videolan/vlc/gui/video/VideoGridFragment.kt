@@ -32,7 +32,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -106,7 +105,6 @@ import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
-import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -641,6 +639,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_MARK_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD
+                    withContext(Dispatchers.Main) { videoListAdapter.notifyItemChanged(position) }
                 }
                 CTX_GO_TO_FOLDER -> showParentFolder(media)
                 CTX_ADD_SHORTCUT -> lifecycleScope.launch { requireActivity().createShortcut(media)}
@@ -654,6 +653,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_MARK_ALL_AS_UNPLAYED -> lifecycleScope.launch { viewModel.markAsUnplayed(media) }
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD
+                    withContext(Dispatchers.Main) { videoListAdapter.notifyItemChanged(position) }
                 }
                 CTX_BAN_FOLDER -> banFolder(media)
                 else -> {}
@@ -670,6 +670,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media).getAll(), true)
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) {
                     media.isFavorite = option == CTX_FAV_ADD
+                    withContext(Dispatchers.Main) { videoListAdapter.notifyItemChanged(position) }
                 }
                 else -> {}
             }

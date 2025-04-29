@@ -557,6 +557,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 withContext(Dispatchers.IO) { media.isFavorite = option == CTX_FAV_ADD }
+                withContext(Dispatchers.Main) { getCurrentAdapter()?.notifyItemChanged(position) }
             }
             CTX_RENAME -> {
                 if (media !is Playlist) return

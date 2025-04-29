@@ -572,6 +572,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             }
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 media.isFavorite = option == CTX_FAV_ADD
+                withContext(Dispatchers.Main) { audioBrowserAdapter.notifyItemChanged(position) }
             }
             CTX_ADD_SHORTCUT -> lifecycleScope.launch { createShortcut(media) }
             CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
