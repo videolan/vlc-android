@@ -121,14 +121,16 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             if (type == CONFIRM_DELETE_DIALOG_RESULT_DEFAULT_VALUE) {
                 for (item in items) {
                     items.forEach { mw ->
-                        val deleteAction = Runnable {
-                            lifecycleScope.launch {
-                                MediaUtils.deleteItem(requireActivity(), mw) { viewModel.refresh() }
-                                if (this@MediaBrowserFragment is FileBrowserFragment)
-                                    viewModel.remove(mw)
+                        if (mw is MediaWrapper) {
+                            val deleteAction = Runnable {
+                                lifecycleScope.launch {
+                                    MediaUtils.deleteItem(requireActivity(), mw) { viewModel.refresh() }
+                                    if (this@MediaBrowserFragment is FileBrowserFragment)
+                                        viewModel.remove(mw)
+                                }
                             }
-                        }
-                        if (Permissions.checkWritePermission(requireActivity(), (item as MediaWrapper), deleteAction)) deleteAction.run()
+                            if (Permissions.checkWritePermission(requireActivity(), (item as MediaWrapper), deleteAction)) deleteAction.run()
+                        } else MediaUtils.deleteItem(requireActivity(), item) { onDeleteFailed(it) }
                     }
                 }
             } else if (type == CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER) {
