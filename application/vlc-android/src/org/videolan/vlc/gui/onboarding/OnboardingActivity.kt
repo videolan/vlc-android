@@ -8,14 +8,13 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.edit
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.commit
@@ -26,7 +25,14 @@ import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
 import org.videolan.resources.PREF_FIRST_RUN
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.tools.*
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_FRAGMENT_ID
+import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
+import org.videolan.tools.ML_SCAN_OFF
+import org.videolan.tools.ML_SCAN_ON
+import org.videolan.tools.NOTIFICATION_PERMISSION_ASKED
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -43,8 +49,12 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     private val viewModel: OnboardingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = false
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
         super.onCreate(savedInstanceState)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, windowInsets ->
+//        viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
+        setContentView(R.layout.activity_onboarding)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.container)) { v, windowInsets ->
             val bars = windowInsets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
                         or WindowInsetsCompat.Type.displayCutout()
@@ -57,8 +67,6 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
             )
             WindowInsetsCompat.CONSUMED
         }
-//        viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
-        setContentView(R.layout.activity_onboarding)
         showFragment(viewModel.currentFragment)
     }
 
