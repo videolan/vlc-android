@@ -69,9 +69,11 @@ import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
+import androidx.core.view.WindowCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -1074,7 +1076,21 @@ fun BaseActivity.applyTheme() {
         setTheme(R.style.Theme_VLC_Black)
         return
     }
-    AppCompatDelegate.setDefaultNightMode(Integer.valueOf(settings.getString(KEY_APP_THEME, "-1")!!))
+
+    val string = settings.getString(KEY_APP_THEME, "-1")
+    when (string) {
+        "1" -> {
+            window.setBackgroundDrawable(ContextCompat.getColor(this, R.color.white).toDrawable())
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = true
+        }
+        "2" -> {
+            window.setBackgroundDrawable(ContextCompat.getColor(this, R.color.mini_player_dark).toDrawable())
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = false
+        }
+    }
+    AppCompatDelegate.setDefaultNightMode(Integer.valueOf(string!!))
 }
 
 fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.itemType) {
