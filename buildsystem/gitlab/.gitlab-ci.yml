@@ -137,19 +137,6 @@ continuous-app-build:
           - job: "webserver-build"
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
-continuous-app-build-v4:
-  extends: .build-all-base
-  script:
-    - ./buildsystem/compile.sh --init
-    - ./gradlew assembleDebug -PforceVlc4=true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes:
-        - buildsystem/compile-remoteaccess.sh
-      needs:
-        - job: "webserver-build"
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-
 
 #################################
 # Template config instantiation #
@@ -162,78 +149,12 @@ build-libvlc-arm64:
     variables:
         ARCH: arm64
 
-build-libvlc-armv7:
-    extends: .build-libvlc-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    variables:
-        ARCH: arm
-
-build-libvlc-x86:
-    extends: .build-libvlc-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    variables:
-        ARCH: x86
-
-build-libvlc-x86_64:
-    extends: .build-libvlc-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    variables:
-        ARCH: x86_64
-
 build-ml-arm64:
     extends: .build-ml-base
     image:
         name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm64
-
-build-ml-armv7:
-    extends: .build-ml-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    variables:
-        ARCH: arm
-
-build-ml-x86:
-    extends: .build-ml-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    variables:
-        ARCH: x86
-
-build-ml-x86_64:
-    extends: .build-ml-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    variables:
-        ARCH: x86_64
-
-build-ml-arm64-v4:
-    extends: .build-ml-base
-    variables:
-        ARCH: arm64
-        EXTRA_BUILD_PARAM: -ml -vlc4
-
-build-ml-armv7-v4:
-    extends: .build-ml-base
-    variables:
-        ARCH: arm
-        EXTRA_BUILD_PARAM: -ml -vlc4
-
-build-ml-x86-v4:
-    extends: .build-ml-base
-    variables:
-        ARCH: x86
-        EXTRA_BUILD_PARAM: -ml -vlc4
-
-build-ml-x86_64-v4:
-    extends: .build-ml-base
-    variables:
-        ARCH: x86_64
-        EXTRA_BUILD_PARAM: -ml -vlc4
 
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:
@@ -246,108 +167,6 @@ nightly-arm64:
       - job: "webserver-build"
     variables:
         ARCH: arm64
-    artifacts:
-        paths:
-            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
-        expire_in: 2 weeks
-
-nightly-armv7:
-    extends: .build-all-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
-    needs:
-      - job: "webserver-build"
-    variables:
-        ARCH: arm
-    artifacts:
-        paths:
-            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
-        expire_in: 2 weeks
-
-nightly-x86:
-    extends: .build-all-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
-    needs:
-      - job: "webserver-build"
-    variables:
-        ARCH: x86
-    artifacts:
-        paths:
-            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
-        expire_in: 2 weeks
-
-nightly-x86_64:
-    extends: .build-all-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
-    needs:
-      - job: "webserver-build"
-    variables:
-        ARCH: x86_64
-    artifacts:
-        paths:
-            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
-        expire_in: 2 weeks
-
-# Weekly builds: build native & app code, and ship the APK as artifact for vlc4
-nightly-arm64-v4:
-    extends: .build-all-base
-    rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
-    needs:
-      - job: "webserver-build"
-    variables:
-        ARCH: arm64
-        EXTRA_BUILD_PARAM: -vlc4
-    artifacts:
-        paths:
-            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
-        expire_in: 2 weeks
-
-nightly-armv7-v4:
-    extends: .build-all-base
-    rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
-    needs:
-      - job: "webserver-build"
-    variables:
-        ARCH: arm
-        EXTRA_BUILD_PARAM: -vlc4
-    artifacts:
-        paths:
-            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
-        expire_in: 2 weeks
-
-nightly-x86-v4:
-    extends: .build-all-base
-    rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
-    needs:
-      - job: "webserver-build"
-    variables:
-        ARCH: x86
-        EXTRA_BUILD_PARAM: -vlc4
-    artifacts:
-        paths:
-            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
-        expire_in: 2 weeks
-
-nightly-x86_64-v4:
-    extends: .build-all-base
-    rules:
-        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
-    needs:
-      - job: "webserver-build"
-    variables:
-        ARCH: x86_64
-        EXTRA_BUILD_PARAM: -vlc4
     artifacts:
         paths:
             - application/app/build/outputs/apk/dev/VLC-Android-*.apk
@@ -373,67 +192,10 @@ nightly-x86_64-v4:
     variables:
       M2_REPO: "$CI_PROJECT_DIR/aars/repository"
 
-.build-libs-base-v4:
-    rules:
-      - if: '$CI_COMMIT_TAG =~ /^libvlc-4.*$/'
-    stage: build
-    script:
-      - mkdir -p $M2_REPO
-      - ./buildsystem/compile.sh -l  -a ${ARCH} -t -m2 $M2_REPO release -vlc4
-      - ./buildsystem/compile.sh -ml -a ${ARCH} -t -m2 $M2_REPO release -b -vlc4
-    artifacts:
-      expire_in: 1h
-      when: on_success
-      paths:
-        - $CI_PROJECT_DIR/libvlcjni/libvlc/jni/libs/*
-        - $CI_PROJECT_DIR/medialibrary/jni/libs/*
-        - $CI_PROJECT_DIR/.dbg/*
-    variables:
-      M2_REPO: "$CI_PROJECT_DIR/aars/repository"
-
 build-libs-arm64:
     extends: .build-libs-base
     variables:
         ARCH: arm64
-
-build-libs-armv7:
-    extends: .build-libs-base
-    variables:
-        ARCH: arm
-
-build-libs-x86:
-    extends: .build-libs-base
-    variables:
-        ARCH: x86
-
-build-libs-x86_64:
-    extends: .build-libs-base
-    variables:
-        ARCH: x86_64
-
-build-libs-arm64-v4:
-    extends: .build-libs-base-v4
-    variables:
-        ARCH: arm64
-        EXTRA_BUILD_PARAM: -vlc4
-
-build-libs-armv7-v4:
-    extends: .build-libs-base-v4
-    variables:
-        ARCH: arm
-        EXTRA_BUILD_PARAM: -vlc4
-
-build-libs-x86-v4:
-    extends: .build-libs-base-v4
-    variables:
-        ARCH: x86
-        EXTRA_BUILD_PARAM: -vlc4
-
-build-libs-x86_64-v4:
-    extends: .build-libs-base-v4
-    variables:
-        ARCH: x86_64
-        EXTRA_BUILD_PARAM: -vlc4
 
 publish_libs:
     extends: .build-libs-base
@@ -470,27 +232,6 @@ publish_remote_access_lib:
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
-            - $M2_REPO
-        expire_in: 2 weeks
-
-publish_libs-v4:
-    extends: .build-libs-base-v4
-    stage: package
-    needs:
-      - job: "build-libs-arm64-v4"
-      - job: "build-libs-armv7-v4"
-      - job: "build-libs-x86-v4"
-      - job: "build-libs-x86_64-v4"
-    script:
-        - mkdir -p $M2_REPO
-        - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
-        - ./buildsystem/compile.sh --init -b -vlc4
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p libvlcjni publishToMavenLocal
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p medialibrary publishToMavenLocal
-    artifacts:
-        name: "${CI_COMMIT_TAG}.dbg"
-        paths:
-            - .dbg/
             - $M2_REPO
         expire_in: 2 weeks
 
