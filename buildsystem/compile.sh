@@ -286,7 +286,7 @@ if [ "$FORCE_VLC_4" = 1 ]; then
     VLC_BRANCH=master
 else
     LIBVLCJNI_TESTED_HASH=074b9bc7b5d06287010efc4751d0bc2151ffe627
-    VLC_TESTED_HASH=dd14f06a8c67e052218d587cf03145e91809d6db
+    VLC_TESTED_HASH=32b1a4501a9d674cec2535e23bf48340617435be
     VLC_REPOSITORY=https://gitlab.com/videolabs/projects/dga/vlc.git
     VLC_BRANCH=DGA/vlc-3.0/main
 fi
