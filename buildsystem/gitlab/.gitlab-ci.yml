@@ -17,9 +17,6 @@ default:
   interruptible: true
   image:
     name: $VLC_ANDROID_IMAGE_40
-  tags:
-    - amd64
-    - docker
 
 stages:
   - webserver-install-dependencies
@@ -178,9 +175,6 @@ publish_libs:
     stage: package
     needs:
       - job: "build-libs-arm64"
-      - job: "build-libs-armv7"
-      - job: "build-libs-x86"
-      - job: "build-libs-x86_64"
     script:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
