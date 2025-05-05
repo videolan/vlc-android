@@ -170,14 +170,6 @@ object VLCOptions {
             options.add("--keystore-file")
             options.add(File(context.getDir("keystore", Context.MODE_PRIVATE), "file").absolutePath)
             options.add(if (verboseMode) "-vv" else "-v")
-            // fixme comment temporarily
-            if (!isVLC4()) {
-                if (pref.getBoolean("casting_passthrough", false))
-                    options.add("--sout-chromecast-audio-passthrough")
-                else
-                    options.add("--no-sout-chromecast-audio-passthrough")
-                options.add("--sout-chromecast-conversion-quality=" + pref.getString("casting_quality", "2")!!)
-            }
             options.add("--sout-keep")
 
             val customOptions = pref.getString("custom_libvlc_options", null)
