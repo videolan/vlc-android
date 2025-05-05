@@ -104,23 +104,6 @@ webserver-vulnerabilities:
     variables:
         EXTRA_BUILD_PARAM: -l
 
-# rebuild the medialibrary JNI component
-# This implies rebuilding VLC beforehand
-.build-ml-base:
-    extends: .build-all-base
-    rules:
-      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-        changes:
-          - buildsystem/compile-remoteaccess.sh
-        needs:
-          - job: "webserver-build"
-      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-        changes:
-          - medialibrary/**/*
-          - buildsystem/**/*
-    variables:
-        EXTRA_BUILD_PARAM: -ml
-
 # vlc-android app only: don't rebuild everything but use a published artifact
 continuous-app-build:
     extends: .build-all-base
@@ -144,13 +127,6 @@ continuous-app-build:
 
 build-libvlc-arm64:
     extends: .build-libvlc-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
-    variables:
-        ARCH: arm64
-
-build-ml-arm64:
-    extends: .build-ml-base
     image:
         name: $VLC_ANDROID_IMAGE_30
     variables:
