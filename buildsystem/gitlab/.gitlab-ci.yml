@@ -14,6 +14,8 @@ variables:
 default:
   before_script: |
     set -x
+    git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/".insteadOf "https://gitlab.com/"
+    git config --global --add safe.directory /builds/videolabs/projects/dga/vlc-android
   interruptible: true
   image:
     name: $VLC_ANDROID_IMAGE_40
