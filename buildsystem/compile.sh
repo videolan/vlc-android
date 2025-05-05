@@ -280,9 +280,15 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=44ca3af810d4fa315c916d7b0ebb8ecdb662d891
+    LIBVLCJNI_TESTED_HASH=ff8b1768345a069385daf5536873ad8250d17863
+    VLC_TESTED_HASH=113e5a86b8801cb5cde1616d4f4da2eb14cbc1a8
+    VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
+    VLC_BRANCH=master
 else
-    LIBVLCJNI_TESTED_HASH=6ec2bf46d1a5d9938c5ab62fd7294f25e50c7e1a
+    LIBVLCJNI_TESTED_HASH=074b9bc7b5d06287010efc4751d0bc2151ffe627
+    VLC_TESTED_HASH=74de0fda0bec6507ba1e305f7943150140f9dc44
+    VLC_REPOSITORY=https://code.videolan.org/videolan/vlc.git
+    VLC_BRANCH=3.0.x
 fi
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
 
@@ -311,7 +317,7 @@ fi
 
 # If you want to use an existing vlc dir add its path to an VLC_SRC_DIR env var
 if [ -z "$VLC_SRC_DIR" ]; then
-    get_vlc_args=
+    get_vlc_args="--vlcgit ${VLC_REPOSITORY} --vlchash ${VLC_TESTED_HASH} --vlcbranch ${VLC_BRANCH}"
     if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
         get_vlc_args="${get_vlc_args} -b"
     fi
