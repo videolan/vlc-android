@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.preferences
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -60,7 +59,7 @@ import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.VIDEO_RESUME_PLAYBACK
-import org.videolan.vlc.BuildConfig
+import org.videolan.tools.sanitizePath
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
@@ -74,7 +73,6 @@ import org.videolan.vlc.gui.dialogs.PREFERENCE_KEY
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
-import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.Permissions
 
@@ -167,9 +165,10 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         if (requestCode == LABELVI_DIRECTORY_PICKER_RESULT_CODE) {
             if (data.hasExtra(EXTRA_MRL)) {
                 lifecycleScope.launch {
-                    Log.i(this::class.java.simpleName, "Picked folder: ${data.getStringExtra(EXTRA_MRL)}")
+                    val stringExtra = data.getStringExtra(EXTRA_MRL)?.sanitizePath()
+                    Log.i(this::class.java.simpleName, "Picked folder: $stringExtra")
                     Settings.getInstance(requireActivity()).edit(true) {
-                        putString("labelvi_directory", data.getStringExtra(EXTRA_MRL))
+                        putString("labelvi_directory", stringExtra)
                     }
                     VLCInstance.restart()
                 }
