@@ -1,3 +1,7 @@
+Changes between 3.6.4 Beta 4 and 3.6.4:
+------------------
+ * Crash fixes
+
 Changes between 3.6.4 Beta 4 and 3.6.4 Beta 5:
 ------------------
  * Fix the AV1 playback aspect ratio
