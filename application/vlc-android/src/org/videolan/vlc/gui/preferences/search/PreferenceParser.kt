@@ -34,6 +34,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.XmlRes
+import androidx.fragment.app.FragmentActivity
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +47,9 @@ import org.videolan.tools.wrap
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.share
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileNotFoundException
@@ -325,7 +328,11 @@ object PreferenceParser {
         }
         withContext(Dispatchers.Main) {
             if (success)
-                Toast.makeText(activity, R.string.export_settings_success, Toast.LENGTH_LONG).show()
+                if (activity is FragmentActivity)
+                    UiTools.snackerConfirm(activity, activity.getString(R.string.export_settings_success), confirmMessage = R.string.share, overAudioPlayer = false) {
+                        activity.share(dst)
+                    }
+                else Toast.makeText(activity, R.string.export_settings_success, Toast.LENGTH_LONG).show()
             else
                 Toast.makeText(activity, R.string.export_settings_failure, Toast.LENGTH_LONG).show()
         }
