@@ -40,7 +40,23 @@ import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
+import org.videolan.tools.AUDIO_DELAY_GLOBAL
+import org.videolan.tools.AUDIO_PLAY_PROGRESS_MODE
 import org.videolan.tools.CloseableUtils
+import org.videolan.tools.DISPLAY_UNDER_NOTCH
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
+import org.videolan.tools.KEY_SHOW_UPDATE
+import org.videolan.tools.KEY_SHOW_WHATS_NEW
+import org.videolan.tools.PREF_RESTORE_VIDEO_TIPS_SHOWN
+import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
+import org.videolan.tools.PREF_TIPS_SHOWN
+import org.videolan.tools.PREF_WIDGETS_TIPS_SHOWN
+import org.videolan.tools.SCREEN_ORIENTATION
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.tools.wrap
@@ -209,6 +225,7 @@ object PreferenceParser {
     private fun getChangedPrefsJson(context: Context) = buildString {
         append("{")
         val allChangedPrefs = getAllChangedPrefs(context)
+        addAllOtherPrefs(context, allChangedPrefs)
         for (allChangedPref in allChangedPrefs) {
             when {
                 allChangedPref.second is Boolean || allChangedPref.second is Int || allChangedPref.second is Long -> append("\"${allChangedPref.first}\": ${allChangedPref.second}")
@@ -218,6 +235,40 @@ object PreferenceParser {
 
         }
         append("}")
+    }
+
+    val additionalSettings = arrayOf(
+        KEY_SHOW_UPDATE,
+        KEY_SHOW_WHATS_NEW,
+        AUDIO_DELAY_GLOBAL,
+        AUDIO_PLAY_PROGRESS_MODE,
+        KEY_PLAYBACK_SPEED_VIDEO_GLOBAL,
+        KEY_PLAYBACK_SPEED_AUDIO_GLOBAL,
+        KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE,
+        KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE,
+        KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE,
+        KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE,
+        SCREEN_ORIENTATION,
+        PREF_TIPS_SHOWN,
+        PREF_WIDGETS_TIPS_SHOWN,
+        PREF_RESTORE_VIDEO_TIPS_SHOWN,
+        PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER,
+        DISPLAY_UNDER_NOTCH,
+
+    )
+    private fun addAllOtherPrefs(context: Context, pairs: ArrayList<Pair<String, Any>>) {
+        for ((key, value) in Settings.getInstance(context).all) {
+            if (key.startsWith("custom_equalizer_")) {
+                value?.let {
+                    pairs.add(Pair(key, it))
+                }
+            }
+            if (key in additionalSettings) {
+                value?.let {
+                    pairs.add(Pair(key, it))
+                }
+            }
+        }
     }
 
     /**
@@ -363,6 +414,18 @@ object PreferenceParser {
                         Log.i("PrefParser", "Restored: ${entry.key} -> ${entry.value}")
                         newPrefs.putSingle(entry.key, if (entry.value is Double) (entry.value as Double).toInt() else entry.value)
                     }
+                }
+            }
+            //restore other settings
+            savedSettings?.forEach {
+                if (it.key.startsWith("custom_equalizer_")) {
+                    newPrefs.putSingle(it.key, it.value)
+                }
+            }
+
+            savedSettings?.forEach { saved ->
+                additionalSettings.forEach {
+                    if (it == saved.key) newPrefs.putSingle(it, saved.value)
                 }
             }
         }
