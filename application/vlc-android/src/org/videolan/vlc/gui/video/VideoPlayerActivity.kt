@@ -409,7 +409,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (!isFinishing && fromUser && service?.isSeekable == true) {
                 seek(progress.toLong(), fromUser, isDragging)
-                if (service?.length != 0L) overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
+                if (service?.length != 0L) service?.playlistManager?.player?.progress?.value?.let {
+                    overlayDelegate.showInfo(Tools.millisToString(it.time + it.offset), 1000)
+                }
             }
             if (fromUser) {
                 overlayDelegate.showOverlay(true)

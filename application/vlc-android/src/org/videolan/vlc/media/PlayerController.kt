@@ -322,9 +322,13 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
                 MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
                 MediaPlayer.Event.LengthChanged -> updateProgress(newLength = event.lengthChanged)
                 MediaPlayer.Event.TimeChanged -> {
-                    val time = event.timeChanged
+                    //calculate time
+                    val time = mediaplayer.time
+                    val position = mediaplayer.position
+                    val length = mediaplayer.length
+                    val startTime = time - (length * position).toLong()
                     if ((time - lastTime).absoluteValue > 950L) {
-                        updateProgress(newTime = time)
+                        updateProgress(newTime = time - startTime, newLength = length, newOffset = startTime)
                         lastTime = time
                     }
                 }
@@ -338,8 +342,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     @JvmOverloads
-    fun updateProgress(newTime: Long = progress.value?.time ?: 0L, newLength: Long = progress.value?.length ?: 0L) {
-        progress.value = progress.value?.apply { time = newTime; length = newLength }
+    fun updateProgress(newTime: Long = progress.value?.time ?: 0L, newLength: Long = progress.value?.length ?: 0L, newOffset: Long = progress.value?.offset ?: 0L) {
+        progress.value = progress.value?.apply { time = newTime; length = newLength; offset = newOffset }
     }
 
     override fun onEvent(event: MediaPlayer.Event?) {
@@ -365,7 +369,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 }
 
 const val NO_LENGTH_PROGRESS_MAX = 1000
-class Progress(var time: Long = 0L, var length: Long = 0L)
+class Progress(var time: Long = 0L, var length: Long = 0L, var offset: Long = 0L)
 
 internal interface MediaPlayerEventListener {
     suspend fun onEvent(event: MediaPlayer.Event)

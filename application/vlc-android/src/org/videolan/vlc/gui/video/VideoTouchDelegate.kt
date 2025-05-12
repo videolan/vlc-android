@@ -412,6 +412,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
             //Jump !
             if (seek && length > 0) player.seek(time + jump, length)
+            val progress = player.service!!.playlistManager.player.progress.value!!
+            val displayTime = progress.time + jump + progress.offset
 
             //Show the jump's size
             if (length > 0) player.overlayDelegate.showInfo(
@@ -419,7 +421,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     "%s%s (%s)%s",
                     if (jump >= 0) "+" else "",
                     Tools.millisToString(jump.toLong()),
-                    Tools.millisToString(time + jump),
+                    Tools.millisToString(displayTime),
                     if (realCoef > 1) String.format(" x%.1g", 1.0 / realCoef) else ""
                 ), 50
             )
@@ -549,9 +551,12 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             nbTimesTaped++
 
             lastSeekWasForward = seekForward
+
+            val progress = player.service!!.playlistManager.player.progress.value!!
+            val displayTime = progress.time + progress.offset
             if (service.getTime() > 0 && service.getTime() < service.length) sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * (delta / 1000f).toInt()))
                 .append("s ")
-            sb.append("(").append(Tools.millisToString(service.getTime()))
+            sb.append("(").append(Tools.millisToString(displayTime))
                 .append(')')
 
             val textView = showSeek(seekForward)

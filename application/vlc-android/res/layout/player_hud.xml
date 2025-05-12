@@ -210,7 +210,7 @@
                 android:gravity="left"
                 android:nextFocusUp="@+id/ab_repeat_add_marker"
                 android:onClick="@{(v) -> player.toggleTimeDisplay()}"
-                android:text="@{Tools.millisToString(progress.time)}"
+                android:text="@{Tools.millisToString(progress.time + progress.offset)}"
                 tools:text="0:32"
                 vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_seekbar"
                 vlc:layout_constraintRight_toLeftOf="@+id/player_overlay_length"
@@ -234,7 +234,7 @@
                 vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_seekbar"
                 vlc:layout_constraintRight_toRightOf="parent"
                 vlc:layout_constraintLeft_toRightOf="@+id/player_overlay_time"
-                vlc:length="@{progress.length}"
+                vlc:length="@{progress.length + progress.offset}"
                 vlc:time="@{progress.time}" />
 
 <!--           ⚠️ margin are set in code!!!-->
