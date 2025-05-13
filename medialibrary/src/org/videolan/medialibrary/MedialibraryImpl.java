@@ -240,7 +240,7 @@ public class MedialibraryImpl extends Medialibrary {
     @Override
     @WorkerThread
     public VideoGroup[] getVideoGroups(int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetVideoGroups(sort, desc, includeMissing, onlyFavorites, nbItems, offset) : new VideoGroup[0];
+        return mIsInitiated ? Tools.cleanupArray(nativeGetVideoGroups(sort, desc, includeMissing, onlyFavorites, nbItems, offset)) : new VideoGroup[0];
     }
 
     @Override
@@ -483,7 +483,7 @@ public class MedialibraryImpl extends Medialibrary {
     @NonNull
     @WorkerThread
     public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetFolders(type, sort, desc, includeMissing, onlyFavorites, nbItems, offset) : new Folder[0];
+        return mIsInitiated ? Tools.cleanupArray(nativeGetFolders(type, sort, desc, includeMissing, onlyFavorites, nbItems, offset)) : new Folder[0];
     }
 
     @Override

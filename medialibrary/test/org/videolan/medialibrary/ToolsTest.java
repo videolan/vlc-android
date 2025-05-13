@@ -1,6 +1,12 @@
 package org.videolan.medialibrary;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -8,7 +14,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import static org.junit.Assert.assertEquals;
 
 public class ToolsTest {
 
@@ -56,4 +61,31 @@ public class ToolsTest {
         exec.awaitTermination(10, TimeUnit.SECONDS);
     }
 
+    @Test
+    public void testCleanupArray() {
+        // Test with null
+        assertNull(Tools.cleanupArray(null));
+
+        // Test with empty array
+        String[] empty = new String[0];
+        assertSame(empty, Tools.cleanupArray(empty));
+
+        // Test with no nulls - should return same instance
+        String[] noNulls = {"a", "b", "c"};
+        assertSame(noNulls, Tools.cleanupArray(noNulls));
+
+        // Test with mixed nulls
+        String[] mixed = {"a", null, "b", null, "c"};
+        String[] expectedMixed = {"a", "b", "c"};
+        assertArrayEquals(expectedMixed, Tools.cleanupArray(mixed));
+
+        // Test with only nulls
+        String[] onlyNulls = {null, null};
+        assertEquals(0, Tools.cleanupArray(onlyNulls).length);
+
+        // Test with different types to ensure reflection works
+        Integer[] ints = {1, null, 2};
+        Integer[] expectedInts = {1, 2};
+        assertArrayEquals(expectedInts, Tools.cleanupArray(ints));
+    }
 }
