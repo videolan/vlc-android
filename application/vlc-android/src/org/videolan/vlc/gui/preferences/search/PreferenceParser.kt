@@ -75,6 +75,27 @@ import java.io.OutputStreamWriter
 
 object PreferenceParser {
 
+    // Other settings that should be backed up and restored
+    val additionalSettings = arrayOf(
+        KEY_SHOW_UPDATE,
+        KEY_SHOW_WHATS_NEW,
+        AUDIO_DELAY_GLOBAL,
+        AUDIO_PLAY_PROGRESS_MODE,
+        KEY_PLAYBACK_SPEED_VIDEO_GLOBAL,
+        KEY_PLAYBACK_SPEED_AUDIO_GLOBAL,
+        KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE,
+        KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE,
+        KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE,
+        KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE,
+        SCREEN_ORIENTATION,
+        PREF_TIPS_SHOWN,
+        PREF_WIDGETS_TIPS_SHOWN,
+        PREF_RESTORE_VIDEO_TIPS_SHOWN,
+        PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER,
+        DISPLAY_UNDER_NOTCH,
+
+        )
+
     /**
      * Parses all the preferences available in the app.
      * @param context the context to be used to retrieve the preferences
@@ -228,7 +249,7 @@ object PreferenceParser {
         addAllOtherPrefs(context, allChangedPrefs)
         for (allChangedPref in allChangedPrefs) {
             when {
-                allChangedPref.second is Boolean || allChangedPref.second is Int || allChangedPref.second is Long -> append("\"${allChangedPref.first}\": ${allChangedPref.second}")
+                allChangedPref.second is Float || allChangedPref.second is Boolean || allChangedPref.second is Int || allChangedPref.second is Long -> append("\"${allChangedPref.first}\": ${allChangedPref.second}")
                 else -> append("\"${allChangedPref.first}\": \"${allChangedPref.second}\"")
             }
             if (allChangedPref != allChangedPrefs.last()) append(", ")
@@ -237,25 +258,6 @@ object PreferenceParser {
         append("}")
     }
 
-    val additionalSettings = arrayOf(
-        KEY_SHOW_UPDATE,
-        KEY_SHOW_WHATS_NEW,
-        AUDIO_DELAY_GLOBAL,
-        AUDIO_PLAY_PROGRESS_MODE,
-        KEY_PLAYBACK_SPEED_VIDEO_GLOBAL,
-        KEY_PLAYBACK_SPEED_AUDIO_GLOBAL,
-        KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE,
-        KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE,
-        KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE,
-        KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE,
-        SCREEN_ORIENTATION,
-        PREF_TIPS_SHOWN,
-        PREF_WIDGETS_TIPS_SHOWN,
-        PREF_RESTORE_VIDEO_TIPS_SHOWN,
-        PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER,
-        DISPLAY_UNDER_NOTCH,
-
-    )
     private fun addAllOtherPrefs(context: Context, pairs: ArrayList<Pair<String, Any>>) {
         for ((key, value) in Settings.getInstance(context).all) {
             if (key.startsWith("custom_equalizer_")) {
@@ -425,7 +427,10 @@ object PreferenceParser {
 
             savedSettings?.forEach { saved ->
                 additionalSettings.forEach {
-                    if (it == saved.key) newPrefs.putSingle(it, saved.value)
+                    if (it == saved.key) {
+                        val value = if (saved.value is Double) (saved.value as Double).toFloat() else saved.value
+                        newPrefs.putSingle(it, value)
+                    }
                 }
             }
         }

@@ -297,7 +297,7 @@ fun SharedPreferences.putSingle(key: String, value: Any) {
         is Long -> edit { putLong(key, value) }
         is String -> edit { putString(key, value) }
         is List<*> -> edit { putStringSet(key, value.toSet() as Set<String>) }
-        else -> throw IllegalArgumentException("value class is invalid!")
+        else -> throw IllegalArgumentException("value $value class is invalid!")
     }
 }
 
