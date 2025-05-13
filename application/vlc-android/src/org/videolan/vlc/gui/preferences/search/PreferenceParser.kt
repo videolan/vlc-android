@@ -93,7 +93,10 @@ object PreferenceParser {
         PREF_RESTORE_VIDEO_TIPS_SHOWN,
         PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER,
         DISPLAY_UNDER_NOTCH,
-
+        "equalizer_enabled",
+        "equalizer_set",
+        "equalizer_values",
+        "equalizer_saved"
         )
 
     /**
