@@ -127,20 +127,20 @@ android {
 
 def generateTranslation() {
     def foundLocales = new StringBuilder()
-    foundLocales.append("new String[]{")
-
+    foundLocales.append("new String[]{\"")
+    def emptyList = []
     fileTree("../resources/src/main/res").visit { FileVisitDetails details ->
         println 'details: ' + details
         if (details.file.path.endsWith("strings.xml")) {
             def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
             languageCode = (languageCode == "values") ? "en" : languageCode
-            foundLocales.append("\"").append(languageCode).append("\"").append(",")
+            emptyList.add(languageCode)
         }
     }
-
-    foundLocales.append("}")
-    //Don't forget to remove the trailing comma
-    def foundLocalesString = foundLocales.toString().replaceAll(',}', '}')
+    emptyList.sort()
+    foundLocales.append(emptyList.join("\",\""))
+    foundLocales.append("\"}")
+    def foundLocalesString = foundLocales.toString()
     return foundLocalesString
 }
 
