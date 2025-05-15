@@ -36,6 +36,10 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
@@ -126,6 +130,7 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.isSchemeHttpOrHttps
 import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.setLayoutMarginTop
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
@@ -147,11 +152,28 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     private lateinit var viewModel: PlaylistViewModel
     private var itemTouchHelper: ItemTouchHelper? = null
     override fun isTransparent() = true
+    override var isEdgeToEdge = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.header_media_list_activity)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById<View>(android.R.id.content)) { v, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updatePadding(
+                left = bars.left,
+                right = bars.right,
+                bottom = bars.bottom,
+            )
+
+            setLayoutMarginTop(binding.mainToolbar, bars.top)
+            WindowInsetsCompat.CONSUMED
+        }
 
         initAudioPlayerContainerActivity()
         fragmentContainer = binding.songs

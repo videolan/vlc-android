@@ -15,6 +15,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.Insets
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -51,11 +54,15 @@ import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.video.MediaInfoAdapter
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.getModel
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeSupported
+import org.videolan.vlc.util.setLayoutMarginTop
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import java.io.File
-import java.util.*
 
 private const val TAG = "VLC/InfoActivity"
 private const val TAG_FAB_VISIBILITY = "FAB"
@@ -66,6 +73,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     private lateinit var item: MediaLibraryItem
     private lateinit var adapter: MediaInfoAdapter
     private lateinit var model: InfoModel
+    override var isEdgeToEdge = false
 
     internal lateinit var binding: InfoActivityBinding
     override fun isTransparent() = true
@@ -74,7 +82,23 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
         super.onCreate(savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById<View>(android.R.id.content)) { v, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updatePadding(
+                left = bars.left,
+                right = bars.right,
+                bottom = bars.bottom,
+            )
+
+            setLayoutMarginTop(binding.mainToolbar, bars.top)
+            WindowInsetsCompat.CONSUMED
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.info_activity)
 

@@ -38,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/background_default"
-                android:fitsSystemWindows="true"
                 vlc:layout_behavior="org.videolan.vlc.gui.helpers.ExpandStateAppBarLayoutBehavior">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -46,7 +45,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:importantForAccessibility="no"
-                    android:fitsSystemWindows="true"
                     android:keyboardNavigationCluster="true"
                     tools:targetApi="O"
                     vlc:contentScrim="?attr/background_actionbar"
@@ -66,7 +64,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:clipChildren="false"
-                        android:fitsSystemWindows="true"
                         vlc:layout_collapseMode="parallax">
 
                     <ImageView
@@ -88,7 +85,6 @@
                             tools:layout_marginTop="86dp"
                             vlc:layoutMarginTop="@{topmargin}"
                             android:layout_marginEnd="@dimen/default_margin"
-                            android:fitsSystemWindows="true"
                             android:scaleType="fitCenter"
                             android:src="@{cover}"
                             vlc:layout_constraintStart_toStartOf="parent"
