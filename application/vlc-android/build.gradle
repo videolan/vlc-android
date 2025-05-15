@@ -20,8 +20,8 @@ android {
 
     defaultConfig {
 
-        resValue "string", "build_time", buildTime()
-        resValue "string", "build_host", hostName()
+        resValue "string", "build_time", buildTime(project)
+        resValue "string", "build_host", hostName(project)
         resValue "string", "build_revision", revision()
         resValue "string", "changelog", changelog()
         resValue "string", "dav1d_version", dav1dVersion()
@@ -235,11 +235,25 @@ dependencies {
 }
 
 
-static def buildTime() {
+static def buildTime(project) {
+    if (project.hasProperty('forceDeterministic')) {
+        def code = new ByteArrayOutputStream()
+        project.exec {
+            commandLine 'git', 'show', '--no-patch', '--format=%cd' , '--date=format-local:%Y-%m-%d'
+            standardOutput = code
+        }
+        return code.toString()
+    }
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
-static def hostName() {
+static def hostName(project) {
+    if (project.hasProperty('forceDeterministic')) {
+        if (project.hasProperty('forcedHostName')) {
+            return project.findProperty("forcedHostName")
+        }
+        return 'Unknown'
+    }
     return "${System.getProperty("user.name")}@${InetAddress.localHost.hostName}"
 }
 
