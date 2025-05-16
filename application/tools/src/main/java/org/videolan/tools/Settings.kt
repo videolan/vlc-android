@@ -122,6 +122,7 @@ const val KEY_AUDIO_SHOW_CHAPTER_BUTTONS = "audio_show_chapter_buttons"
 const val KEY_AUDIO_SHOW_BOOkMARK_BUTTONS = "audio_show_bookmark_buttons"
 const val KEY_AUDIO_SHOW_BOOKMARK_MARKERS = "audio_show_bookmark_markers"
 const val KEY_PERSISTENT_INCOGNITO = "persistent_incognito"
+const val KEY_BROWSE_NETWORK = "browse_network"
 
 
 // AudioPlayer

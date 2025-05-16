@@ -44,6 +44,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.EXTRA_FOR_ESPRESSO
 import org.videolan.resources.util.parcelableList
+import org.videolan.tools.KEY_BROWSE_NETWORK
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
@@ -140,6 +141,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInList
         menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInList
         menu.findItem(R.id.add_server_favorite).isVisible = true
+        menu.findItem(R.id.browse_network)?.isVisible = true
+        menu.findItem(R.id.browse_network)?.isChecked = Settings.getInstance(requireActivity()).getBoolean(KEY_BROWSE_NETWORK, true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -154,6 +157,18 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 networkEntry.displayInCards = !displayInList
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(displayInListKey, displayInList)
+                true
+            }
+            R.id.browse_network -> {
+                lifecycleScope.launch {
+                    item.isChecked = !item.isChecked
+                    Settings.getInstance(requireActivity()).putSingle(KEY_BROWSE_NETWORK, item.isChecked)
+                    if (!item.isChecked) {
+                        networkViewModel.provider.stop()
+                        networkViewModel.provider.dataset.clear()
+                    }
+                    networkViewModel.refresh()
+                }
                 true
             }
             R.id.add_server_favorite -> {
@@ -300,6 +315,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     }
 
     private fun updateNetworkEmptyView(emptyLoading: EmptyLoadingStateView) {
+        if (!Settings.getInstance(requireActivity()).getBoolean(KEY_BROWSE_NETWORK, true)) {
+            emptyLoading.state = EmptyLoadingState.EMPTY
+            emptyLoading.emptyText = getString(R.string.network_disabled)
+            return
+        }
         if (networkMonitor.connected) {
             if (networkViewModel.isEmpty()) {
                 if (networkViewModel.loading.value == true) {

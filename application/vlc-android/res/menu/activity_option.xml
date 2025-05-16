@@ -76,6 +76,14 @@
             vlc:showAsAction="never"
             android:icon="@drawable/ic_view_list"
             android:visible="false"/>
+
+    <item
+            android:orderInCategory="3"
+            android:id="@+id/browse_network"
+            android:title="@string/browse_network"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:visible="false"/>
     <item
             android:orderInCategory="3"
             android:id="@+id/ml_menu_display_grid"
