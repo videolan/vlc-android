@@ -50,7 +50,6 @@ import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
-import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.KEY_SHOW_WHATS_NEW
 import org.videolan.tools.PREF_RESTORE_VIDEO_TIPS_SHOWN
 import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
@@ -77,7 +76,6 @@ object PreferenceParser {
 
     // Other settings that should be backed up and restored
     val additionalSettings = arrayOf(
-        KEY_SHOW_UPDATE,
         KEY_SHOW_WHATS_NEW,
         AUDIO_DELAY_GLOBAL,
         AUDIO_PLAY_PROGRESS_MODE,
