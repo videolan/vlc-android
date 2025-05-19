@@ -102,6 +102,7 @@ class RemoteAccessShareActivity : BaseActivity() {
                 val linkText = TextView(this)
                 linkText.text = link
                 val copyImageView = ImageView(this)
+                copyImageView.isFocusable = true
                 copyImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_copy))
                 copyImageView.setOnClickListener {
                     copy("VLC for Android Remote Access link", link)
@@ -113,6 +114,7 @@ class RemoteAccessShareActivity : BaseActivity() {
                 copyImageView.setPadding(8.dp, 8.dp, 8.dp, 8.dp)
 
                 val shareImageView = ImageView(this)
+                shareImageView.isFocusable = true
                 shareImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_share))
                 shareImageView.setOnClickListener {
                     share(getString(R.string.remote_access), link)
@@ -121,6 +123,7 @@ class RemoteAccessShareActivity : BaseActivity() {
                 shareImageView.setPadding(8.dp, 8.dp, 8.dp, 8.dp)
 
                 val qrImageView = ImageView(this)
+                qrImageView.isFocusable = true
                 qrImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_qr_code))
                 qrImageView.setBackgroundResource(outValue.resourceId)
                 qrImageView.setPadding(8.dp, 8.dp, 8.dp, 8.dp)
