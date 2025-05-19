@@ -41,19 +41,21 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import org.videolan.resources.ACTION_START_SERVER
 import org.videolan.resources.ACTION_STOP_SERVER
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.REMOTE_ACCESS_ONBOARDING
+import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.copy
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.gui.BaseActivity
-import org.videolan.vlc.util.UrlUtils
-import org.videolan.vlc.util.share
 import org.videolan.vlc.remoteaccessserver.R
 import org.videolan.vlc.remoteaccessserver.RemoteAccessServer
 import org.videolan.vlc.remoteaccessserver.ServerStatus
 import org.videolan.vlc.remoteaccessserver.databinding.RemoteAccessShareActivityBinding
 import org.videolan.vlc.remoteaccessserver.gui.remoteaccess.adapters.ConnnectionAdapter
+import org.videolan.vlc.util.UrlUtils
+import org.videolan.vlc.util.share
 
 
 /**
@@ -71,6 +73,7 @@ class RemoteAccessShareActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.remote_access_share_activity)
+        if (AndroidDevices.isTv) applyOverscanMargin(this)
         val toolbar = findViewById<MaterialToolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
