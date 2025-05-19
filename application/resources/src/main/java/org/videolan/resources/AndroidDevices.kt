@@ -72,6 +72,9 @@ object AndroidDevices {
     private val mountWL = arrayOf("/mnt", "/Removable", "/storage")
     val mountBL = arrayOf(EXTERNAL_PUBLIC_DIRECTORY, "/mnt/secure", "/mnt/shell", "/mnt/asec", "/mnt/nand", "/mnt/runtime", "/mnt/obb", "/mnt/media_rw/extSdCard", "/mnt/media_rw/sdcard", "/storage/emulated", "/var/run/arc")
     private val deviceWL = arrayOf("/dev/block/vold", "/dev/fuse", "/mnt/media_rw", "passthrough", "//")
+    // Some devices should be considered as TVs
+    // Amazon Echo 15 (AEOHY): has touch screen but main navigation is done by remote
+    val forcedTVModels = arrayOf("AEOHY")
 
     /**
      * hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
@@ -191,6 +194,10 @@ object AndroidDevices {
             false
         }
 
+    }
+
+    fun hasToForceTV(): Boolean {
+        return Build.MODEL in forcedTVModels
     }
 
     object MediaFolders {

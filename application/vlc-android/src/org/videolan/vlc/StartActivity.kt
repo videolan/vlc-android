@@ -65,6 +65,7 @@ import org.videolan.tools.BETA_WELCOME
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
 import org.videolan.tools.KEY_TV_ONBOARDING_DONE
 import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
+import org.videolan.tools.PREF_TV_UI
 import org.videolan.tools.Settings
 import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.getContextWithLocale
@@ -185,6 +186,9 @@ class StartActivity : FragmentActivity() {
         /* Check if it's the first run */
         val firstRun = savedVersionNumber == -1
         Settings.firstRun = firstRun
+        if (firstRun && AndroidDevices.hasToForceTV()) {
+            settings.putSingle(PREF_TV_UI, true)
+        }
         val upgrade = firstRun || savedVersionNumber != currentVersionNumber
         val tv = showTvUi()
         if (upgrade && (tv || !firstRun)) settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
