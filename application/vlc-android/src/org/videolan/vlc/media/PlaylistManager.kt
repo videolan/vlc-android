@@ -482,9 +482,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             0
         }
 
-        val media = mediaList.getMedia(index) ?: return
-        val mw = medialibrary.getMedia(media.uri) ?: media
-        mw.flags = media.flags
+        val mw = mediaList.getMedia(index) ?: return
+        val mediaFromMl = medialibrary.getMedia(mw.uri)
+        if (mediaFromMl != null)
+            mw.time = mediaFromMl.time
+
         val isInCustomPiP: Boolean = service.isInPiPMode.value ?: false
         if (mw.type == MediaWrapper.TYPE_VIDEO && !isAppStarted() && !isInCustomPiP) videoBackground = true
         val isVideoPlaying = mw.type == MediaWrapper.TYPE_VIDEO && player.isVideoPlaying()
