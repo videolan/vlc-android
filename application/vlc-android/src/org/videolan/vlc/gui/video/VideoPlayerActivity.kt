@@ -703,6 +703,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     } else 0
 
     override fun fireDialog(dialog: Dialog) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "fireDialog: $dialog // ${(dialog as? Dialog.ErrorMessage)?.text}")
+        if (dialog is Dialog.ErrorMessage)
+            pause()
         DialogActivity.dialog = dialog
         startActivity(Intent(DialogActivity.KEY_DIALOG, null, this, DialogActivity::class.java))
     }

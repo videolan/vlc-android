@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import org.videolan.libvlc.Dialog
+import org.videolan.resources.AppContextProvider
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
+import org.videolan.vlc.gui.dialogs.VlcErrorDialog
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog
 import org.videolan.vlc.gui.dialogs.VlcQuestionDialog
@@ -44,7 +48,7 @@ class DialogDelegate : IDialogDelegate {
         }
 
         override fun onDisplay(dialog: Dialog.ErrorMessage) {
-            dialogEvt.value = Cancel(dialog)
+            dialogEvt.value = Show(dialog)
         }
 
         override fun onDisplay(dialog: Dialog.LoginDialog) {
@@ -80,6 +84,9 @@ fun FragmentActivity.showVlcDialog(dialog: Dialog) {
             vlcDialog = dialog
         }
         is Dialog.ProgressDialog -> VlcProgressDialog().apply {
+            vlcDialog = dialog
+        }
+        is Dialog.ErrorMessage -> VlcErrorDialog().apply {
             vlcDialog = dialog
         }
         else -> null

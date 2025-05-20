@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+                name="dialog"
+                type="org.videolan.libvlc.Dialog.ErrorMessage" />
+
+        <variable
+                name="handler"
+                type="org.videolan.vlc.gui.dialogs.VlcErrorDialog" />
+    </data>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+            <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="@{dialog.text}"                    android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/action2"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="-27dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="@{handler::onAction2}"
+                android:text="@string/ok"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+    </ScrollView>
+</layout>
