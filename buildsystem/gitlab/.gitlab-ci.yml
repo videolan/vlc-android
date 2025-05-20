@@ -135,6 +135,13 @@ build-libvlc-arm64:
     variables:
         ARCH: arm64
 
+build-libvlc-armv7:
+    extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
+    variables:
+        ARCH: arm
+
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:
     extends: .build-all-base
@@ -146,6 +153,21 @@ nightly-arm64:
       - job: "webserver-build"
     variables:
         ARCH: arm64
+    artifacts:
+        paths:
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
+        expire_in: 2 weeks
+
+nightly-armv7:
+    extends: .build-all-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
+    needs:
+      - job: "webserver-build"
+    variables:
+        ARCH: arm
     artifacts:
         paths:
             - application/app/build/outputs/apk/dev/VLC-Android-*.apk
@@ -176,11 +198,19 @@ build-libs-arm64:
     variables:
         ARCH: arm64
 
+build-libvlc-armv7:
+    extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
+    variables:
+        ARCH: arm
+
 publish_libs:
     extends: .build-libs-base
     stage: package
     needs:
       - job: "build-libs-arm64"
+      - job: "build-libvlc-armv7"
     script:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
