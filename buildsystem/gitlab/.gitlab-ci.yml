@@ -25,7 +25,6 @@ stages:
   - webserver-build
   - webserver-audit
   - build
-  - package
 
 .webserver-base:
   image:
@@ -206,39 +205,3 @@ build-libvlc-armv7:
         name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm
-
-publish_libs:
-    extends: .build-libs-base
-    stage: package
-    needs:
-      - job: "build-libs-arm64"
-      - job: "build-libvlc-armv7"
-    script:
-        - mkdir -p $M2_REPO
-        - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
-        - ./buildsystem/compile.sh --init -b
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
-    artifacts:
-        name: "${CI_COMMIT_TAG}.dbg"
-        paths:
-            - .dbg/
-            - $M2_REPO
-        expire_in: 2 weeks
-
-publish_remote_access_lib:
-    extends: .build-libs-base
-    rules:
-      - if: '$CI_COMMIT_TAG =~ /^remoteaccess-.*$/'
-    stage: package
-    needs:
-      - job: "webserver-build"
-    script:
-        - mkdir -p $M2_REPO
-        - ./buildsystem/compile.sh --init -b
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p application/remote-access-client publishToMavenLocal
-    artifacts:
-        name: "${CI_COMMIT_TAG}"
-        paths:
-            - $M2_REPO
-        expire_in: 2 weeks
