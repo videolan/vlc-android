@@ -60,6 +60,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.VIDEO_RESUME_PLAYBACK
 import org.videolan.tools.sanitizePath
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
@@ -172,6 +173,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                         putString("labelvi_directory", stringExtra)
                     }
                     VLCInstance.restart()
+                    PlaybackService.instance?.stop()
                 }
             }
         }
