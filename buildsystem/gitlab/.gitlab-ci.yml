@@ -118,6 +118,10 @@ continuous-app-build:
         needs:
           - job: "webserver-build"
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    artifacts:
+        name: "${CI_COMMIT_TAG}"
+        paths:
+            - application/app/build/outputs/apk/debug/VLC-Android-*.apk
 
 
 #################################
