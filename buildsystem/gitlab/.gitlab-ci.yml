@@ -9,7 +9,6 @@ variables:
   VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20230621085943
   VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20240731083648
   VLC_WEB_BUILD_IMAGE: registry.videolan.org/videolan-alpine-node:20230523124511
-  WEBSERVER_DIR: "./application/remote-access-client/remoteaccess"
 
 default:
   before_script: |
@@ -21,62 +20,7 @@ default:
     name: $VLC_ANDROID_IMAGE_40
 
 stages:
-  - webserver-install-dependencies
-  - webserver-build
-  - webserver-audit
   - build
-
-.webserver-base:
-  image:
-    name: $VLC_WEB_BUILD_IMAGE
-  rules:
-    # Explicitely refuse to build anything that would also trigger
-    # a medialib build
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes:
-        - buildsystem/compile-remoteaccess.sh
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-    - if: '$CI_COMMIT_TAG =~ /^remoteaccess-.*$/'
-
-# This is generating the node_modules folder with the required dependencies
-# If/When we want to make it fully offline:
-# - the docker image should contain the node_modules files OR the node_modules should be included as a cache entry (see gradle on top of this file)
-# - this job should be removed and the ones depending on it should have their rules changed
-webserver-install-dependencies:
-    extends: .webserver-base
-    stage: webserver-install-dependencies
-    script:
-      - ./buildsystem/compile-remoteaccess.sh --init
-      - cd "$WEBSERVER_DIR"
-      - npm install
-    artifacts:
-      paths:
-        - application/remote-access-client/remoteaccess/
-      when: on_success
-      expire_in: 1h
-
-webserver-build:
-    extends: .webserver-base
-    stage: webserver-build
-    needs:
-      - job: "webserver-install-dependencies"
-    script:
-        - cd "$WEBSERVER_DIR"
-        - npm run build-android
-    artifacts:
-      paths:
-        - application/remote-access-client/remoteaccess/
-      when: on_success
-      expire_in: 1h
-
-webserver-vulnerabilities:
-    extends: .webserver-base
-    stage: webserver-build
-    needs:
-      - job: "webserver-install-dependencies"
-    script:
-        - cd "$WEBSERVER_DIR"
-        - npx audit-ci@^6 --skip-dev --config ./audit-ci.jsonc
 
 .build-all-base:
     stage: build
@@ -112,11 +56,6 @@ continuous-app-build:
         - ./gradlew assembleDebug
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-        changes:
-          - buildsystem/compile-remoteaccess.sh
-        needs:
-          - job: "webserver-build"
-      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
@@ -149,8 +88,6 @@ nightly-arm64:
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
-    needs:
-      - job: "webserver-build"
     variables:
         ARCH: arm64
     artifacts:
@@ -165,8 +102,6 @@ nightly-armv7:
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
-    needs:
-      - job: "webserver-build"
     variables:
         ARCH: arm
     artifacts:
