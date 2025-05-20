@@ -125,30 +125,6 @@ class MainActivity : ContentActivity(),
             }
         }
 
-        lifecycleScope.launch {
-            if (!BuildConfig.DEBUG) return@launch
-            AutoUpdate.clean(this@MainActivity.application)
-            if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@launch
-            if (!settings.contains(KEY_SHOW_UPDATE)) {
-                AlertDialog.Builder(this@MainActivity)
-                    .setTitle(resources.getString(R.string.update_nightly))
-                    .setMessage(resources.getString(R.string.update_nightly_alert))
-                    .setPositiveButton(R.string.yes){ _, _ ->
-                        settings.putSingle(KEY_SHOW_UPDATE, true)
-                    }
-                    .setNegativeButton(R.string.no){ _, _ ->
-                        settings.putSingle(KEY_SHOW_UPDATE, false)
-                    }
-                    .show()
-                return@launch
-            }
-            AutoUpdate.checkUpdate(this@MainActivity.application) {url, date ->
-                val updateDialog = UpdateDialog().apply {
-                    arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
-                }
-                updateDialog.show(supportFragmentManager, "fragment_update")
-            }
-        }
         if (settings.getBoolean(KEY_LAST_SESSION_CRASHED, false)) {
             settings.putSingle(KEY_LAST_SESSION_CRASHED, false)
             if (BuildConfig.BETA) {
