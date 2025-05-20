@@ -270,7 +270,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
 
     private fun prepareLocaleList() {
-        val localePair = LocaleUtils.getLocalesUsedInProject(arrayOf("en", "fr"), getString(R.string.device_default))
+        val localePair = LocaleUtils.getLocalesUsedInProject(arrayOf("en", "fr"), getString(R.string.device_default), addDefaultLocale = false)
         val lp = findPreference<ListPreference>("labelvi_locale")
         lp?.entries = localePair.localeEntries
         lp?.entryValues = localePair.localeEntryValues

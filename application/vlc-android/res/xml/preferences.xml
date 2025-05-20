@@ -9,7 +9,7 @@
                 android:summary="@string/labelvi_directory_summary"
                 android:title="@string/labelvi_directory"/>
         <ListPreference
-            android:defaultValue=""
+            android:defaultValue="fr"
             android:key="labelvi_locale"
             android:title="@string/labelvi_locale"/>
     </PreferenceCategory>

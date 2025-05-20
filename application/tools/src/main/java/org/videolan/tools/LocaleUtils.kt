@@ -28,7 +28,8 @@ object LocaleUtils {
     fun getLocalesUsedInProject(
         projectLocales: Array<String>,
         defaultLocaleText: String,
-        localesToPrepend: List<Locale>? = null
+        localesToPrepend: List<Locale>? = null,
+        addDefaultLocale: Boolean = true
     ): LocalePair {
 
         val localesEntry = arrayOfNulls<String>(projectLocales.size)
@@ -54,11 +55,14 @@ object LocaleUtils {
             localeTreeMap[localesEntry[i]!!] = projectLocales[i]
         }
 
-        val finalLocaleEntries =
-            ArrayList<String>(localeTreeMap.size + 1).apply { add(0, defaultLocaleText) }
-        val finalLocaleEntryValues = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, "") }
+        val finalLocaleEntries = ArrayList<String>(localeTreeMap.size + 1).apply {
+            if (addDefaultLocale) add(0, defaultLocaleText)
+        }
+        val finalLocaleEntryValues = ArrayList<String>(localeTreeMap.size + 1).apply {
+            if (addDefaultLocale) add(0, "")
+        }
 
-        var i = 1
+        var i = if (addDefaultLocale) 1 else 0
         for ((key, value) in localeTreeMap) {
             finalLocaleEntries.add(i, key)
             finalLocaleEntryValues.add(i, value)

@@ -210,7 +210,7 @@ object VLCOptions {
             }
 
             var labelviLang = pref.getString("labelvi_locale", "") ?: ""
-            options.add("--stanag-lang=${labelviLang}")
+            if (labelviLang.isNotEmpty()) options.add("--stanag-lang=${labelviLang}")
 
             return options
         }
