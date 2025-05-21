@@ -84,6 +84,8 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun onDisplaySettingChanged(key:String, value:Any) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        settings = Settings.getInstance(this)
+        if (settings.getString("app_theme", "-1") == "0") isEdgeToEdge = false
         if (isEdgeToEdge) enableEdgeToEdge()
         settings = Settings.getInstance(this)
         if (isEdgeToEdge) ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, windowInsets ->
