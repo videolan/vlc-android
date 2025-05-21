@@ -21,6 +21,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
 import org.videolan.resources.PREF_FIRST_RUN
@@ -48,7 +49,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
     private lateinit var nextButton: Button
     private val viewModel: OnboardingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        if (AndroidDevices.canUseSystemNightMode()) enableEdgeToEdge()
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = false
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
         super.onCreate(savedInstanceState)

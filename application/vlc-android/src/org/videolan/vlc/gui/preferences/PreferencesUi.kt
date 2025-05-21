@@ -107,6 +107,13 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             }
             prefs.putSingle(KEY_APP_THEME, theme.toString())
         }
+
+        if (!AndroidDevices.canUseSystemNightMode()) {
+            val pref = findPreference<ListPreference>(KEY_APP_THEME)
+            pref?.entries = resources.getStringArray(R.array.daynight_mode_legacy_entries)
+            pref?.entryValues = resources.getStringArray(R.array.daynight_mode_legacy_values)
+
+        }
     }
 
     override fun onStart() {

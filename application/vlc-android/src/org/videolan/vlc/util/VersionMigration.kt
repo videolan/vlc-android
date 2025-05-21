@@ -36,6 +36,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AndroidDevices.canUseSystemNightMode
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
@@ -91,6 +92,9 @@ object VersionMigration {
         val settings = restoringPrefs ?: Settings.getInstance(context)
         val lastVersion = forcedVersion ?: settings.getInt(KEY_CURRENT_SETTINGS_VERSION, 0)
         val lastMajorVersion = settings.getInt(KEY_CURRENT_MAJOR_VERSION, 3)
+
+        migrateSettings(settings)
+
         if (lastVersion < 1) {
             migrateToVersion1(settings)
         }
@@ -170,6 +174,22 @@ object VersionMigration {
             migrateToVersionLibvlc1(context, settings)
         }
         settings.putSingle(KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION, CURRENT_VERSION_LIBVLC)
+    }
+
+    /**
+     * Migrate settings not depending on an app version upgrade
+     * It's useful for migration depending on System version upgrade for example
+     *
+     * @param settings
+     */
+    private fun migrateSettings(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Starting migrateSettings")
+        //Force not using DayNight when Follow system is available
+        if (canUseSystemNightMode() && settings.contains("app_theme") && settings.getString("app_theme", "-1") == "0") {
+            settings.edit {
+                putString("app_theme",  "-1")
+            }
+        }
     }
 
     private fun migrateToVersion1(settings: SharedPreferences) {
