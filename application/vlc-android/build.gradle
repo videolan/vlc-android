@@ -267,15 +267,17 @@ def revision() {
 }
 
 def dav1dVersion() {
-    def code = new ByteArrayOutputStream()
-    if (file("../../libvlcjni/vlc/contrib/src/dav1d/rules.mak").exists()) {
-        exec {
-            commandLine 'bash', '-c', 'grep "DAV1D_VERSION := " ../../libvlcjni/vlc/contrib/src/dav1d/rules.mak | cut -d = -f2'
-            standardOutput = code
+    def code = "0.0.0"
+    File dav1dContribFile = file('../../libvlcjni/vlc/contrib/src/dav1d/rules.mak')
+    if (dav1dContribFile.exists()) {
+        dav1dContribFile.readLines().each {
+            if (it.contains('DAV1D_VERSION := ')) {
+                code = it.replaceAll("DAV1D_VERSION := ", "")
+                return
+            }
         }
-        return code.toString().replaceAll(" ", "")
     }
-    return "0.0.0"
+    return code
 }
 
 /**
