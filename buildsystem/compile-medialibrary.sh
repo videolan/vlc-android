@@ -75,6 +75,7 @@ if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
     --disable-shared \
     CFLAGS="${VLC_CFLAGS}" \
     CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \
+    LDFLAGS="-Wl,-z,max-page-size=16384" \
     CC="${CROSS_CLANG}" \
     CXX="${CROSS_CLANG}++"
 fi
@@ -143,6 +144,7 @@ fi
 if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     PKG_CONFIG_LIBDIR="$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
     PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
+    LDFLAGS="-Wl,-z,max-page-size=16384" \
     meson \
         -Ddebug=true \
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
@@ -177,6 +179,7 @@ MEDIALIBRARY_LDLIBS="-L$LIBVLCJNI_SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc 
 $NDK_BUILD -C medialibrary \
   APP_STL="c++_shared" \
   LOCAL_CPP_FEATURES="rtti exceptions" \
+  LOCAL_LDFLAGS="-Wl,-z,max-page-size=16384" \
   APP_BUILD_SCRIPT=jni/Android.mk \
   APP_PLATFORM=android-${ANDROID_API} \
   APP_ABI=${ANDROID_ABI} \
