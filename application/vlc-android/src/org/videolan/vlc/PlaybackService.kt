@@ -1805,7 +1805,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     fun seek(time: Long, length: Double = this.length.toDouble(), fromUser: Boolean = false, fast: Boolean = false) {
         if (length > 0.0) this.setTime(time, fast) else {
             setPosition((time.toFloat() / NO_LENGTH_PROGRESS_MAX.toFloat()))
-            if (fromUser) publishState(time)
+            publishState(time)
         }
         // Required to update timeline when paused
         if (fromUser && isPaused) showNotification()

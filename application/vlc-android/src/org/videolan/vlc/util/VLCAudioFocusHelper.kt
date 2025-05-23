@@ -174,7 +174,7 @@ class VLCAudioFocusHelper(private val service: PlaybackService) {
             private val delayedPodcastRunnable = Runnable {
                 val position = (service.getTime() - 5_000L).coerceAtLeast(0)
                 resumePlayback()
-                service.seek(position, fromUser = true)
+                service.seek(position)
                 service.playlistManager.player.updateProgress(position)
             }
 
