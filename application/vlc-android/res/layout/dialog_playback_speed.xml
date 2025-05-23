@@ -3,247 +3,252 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-        <TextView
-                android:id="@+id/textView12"
-                style="@style/Theme.VLC.BottomSheetTitle"
-                android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:text="@string/playback_speed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="horizontal">
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/toggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:checkedButton="@+id/this_media"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+            <TextView
+                    android:id="@+id/textView12"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/playback_speed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/this_media"
-                    style="?attr/materialButtonOutlinedStyle"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/playback_speed_this_video" />
+                    android:layout_marginTop="16dp"
+                    app:checkedButton="@+id/this_media"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/all_media"
-                    style="?attr/materialButtonOutlinedStyle"
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/this_media"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playback_speed_this_video" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/all_media"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playback_speed_all_videos" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <TextView
+                    android:id="@+id/speed_mode_explanation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center"
+                    android:text="@string/warning_stream_speed"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/playback_speed_seek"
+                    app:layout_constraintStart_toStartOf="@+id/playback_speed_seek"
+                    app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
+
+            <TextView
+                    android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/playback_speed_all_videos" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:importantForAccessibility="no"
+                    android:text="0.25"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/playback_speed_seek"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/playback_speed_seek" />
 
-        <TextView
-                android:id="@+id/speed_mode_explanation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="center"
-                android:text="@string/warning_stream_speed"
-                android:textStyle="bold"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="@+id/playback_speed_seek"
-                app:layout_constraintStart_toStartOf="@+id/playback_speed_seek"
-                app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
-
-        <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:importantForAccessibility="no"
-                android:text="0.25"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/playback_speed_seek"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/playback_speed_seek" />
-
-        <TextView
-                android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:gravity="bottom|right"
-                android:importantForAccessibility="no"
-                android:text="8.00"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/playback_speed_seek"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/playback_speed_seek" />
+            <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="bottom|right"
+                    android:importantForAccessibility="no"
+                    android:text="8.00"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/playback_speed_seek"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/playback_speed_seek" />
 
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/button_speed_minus"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/round_border"
-                android:contentDescription="@string/talkback_decrease_speed"
-                android:focusable="true"
-                android:gravity="center"
-                android:padding="12dp"
-                android:textSize="22sp"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@+id/textView13"
-                app:layout_constraintTop_toBottomOf="@+id/speed_mode_explanation"
-                app:srcCompat="@drawable/ic_chevron_left" />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_speed_minus"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/round_border"
+                    android:contentDescription="@string/talkback_decrease_speed"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:textSize="22sp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/speed_mode_explanation"
+                    app:srcCompat="@drawable/ic_chevron_left" />
 
-        <TextView
-                android:id="@+id/playback_speed_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1.00"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/button_speed_minus"
-                app:layout_constraintEnd_toStartOf="@+id/button_speed_plus"
-                app:layout_constraintStart_toEndOf="@+id/button_speed_minus"
-                app:layout_constraintTop_toTopOf="@+id/button_speed_minus" />
+            <TextView
+                    android:id="@+id/playback_speed_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1.00"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_speed_minus"
+                    app:layout_constraintEnd_toStartOf="@+id/button_speed_plus"
+                    app:layout_constraintStart_toEndOf="@+id/button_speed_minus"
+                    app:layout_constraintTop_toTopOf="@+id/button_speed_minus" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/button_speed_plus"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/round_border"
-                android:contentDescription="@string/talkback_increase_speed"
-                android:focusable="true"
-                android:gravity="center"
-                android:padding="12dp"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="@+id/textView14"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintTop_toTopOf="@+id/button_speed_minus"
-                app:srcCompat="@drawable/ic_chevron_right" />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_speed_plus"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/round_border"
+                    android:contentDescription="@string/talkback_increase_speed"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView14"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="@+id/button_speed_minus"
+                    app:srcCompat="@drawable/ic_chevron_right" />
 
-        <TextView
-                android:id="@+id/button_speed_08"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
-                android:focusable="true"
-                android:gravity="center"
-                android:text="0.8"
-                app:layout_constraintEnd_toStartOf="@+id/button_speed_1"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@+id/playback_speed_seek"
-                app:layout_constraintTop_toTopOf="@+id/button_speed_1" />
+            <TextView
+                    android:id="@+id/button_speed_08"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/round_border"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="0.8"
+                    app:layout_constraintEnd_toStartOf="@+id/button_speed_1"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@+id/playback_speed_seek"
+                    app:layout_constraintTop_toTopOf="@+id/button_speed_1" />
 
-        <TextView
-                android:id="@+id/button_speed_1"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
-                android:focusable="true"
-                android:gravity="center"
-                android:text="1.0"
-                app:layout_constraintEnd_toStartOf="@+id/button_speed_125"
-                app:layout_constraintStart_toEndOf="@+id/button_speed_08"
-                app:layout_constraintTop_toTopOf="@+id/button_speed_125" />
+            <TextView
+                    android:id="@+id/button_speed_1"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/round_border"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="1.0"
+                    app:layout_constraintEnd_toStartOf="@+id/button_speed_125"
+                    app:layout_constraintStart_toEndOf="@+id/button_speed_08"
+                    app:layout_constraintTop_toTopOf="@+id/button_speed_125" />
 
-        <TextView
-                android:id="@+id/button_speed_125"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
-                android:focusable="true"
-                android:gravity="center"
-                android:text="1.25"
-                app:layout_constraintEnd_toStartOf="@+id/button_speed_15"
-                app:layout_constraintStart_toEndOf="@+id/button_speed_1"
-                app:layout_constraintTop_toBottomOf="@+id/playback_speed_seek" />
+            <TextView
+                    android:id="@+id/button_speed_125"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/round_border"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="1.25"
+                    app:layout_constraintEnd_toStartOf="@+id/button_speed_15"
+                    app:layout_constraintStart_toEndOf="@+id/button_speed_1"
+                    app:layout_constraintTop_toBottomOf="@+id/playback_speed_seek" />
 
-        <TextView
-                android:id="@+id/button_speed_15"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/round_border"
-                android:focusable="true"
-                android:gravity="center"
-                android:text="1.5"
-                app:layout_constraintEnd_toStartOf="@+id/button_speed_2"
-                app:layout_constraintStart_toEndOf="@+id/button_speed_125"
-                app:layout_constraintTop_toTopOf="@+id/button_speed_1" />
+            <TextView
+                    android:id="@+id/button_speed_15"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/round_border"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="1.5"
+                    app:layout_constraintEnd_toStartOf="@+id/button_speed_2"
+                    app:layout_constraintStart_toEndOf="@+id/button_speed_125"
+                    app:layout_constraintTop_toTopOf="@+id/button_speed_1" />
 
-        <TextView
-                android:id="@+id/button_speed_2"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/round_border"
-                android:focusable="true"
-                android:gravity="center"
-                android:text="2.0"
-                app:layout_constraintEnd_toEndOf="@+id/playback_speed_seek"
-                app:layout_constraintStart_toEndOf="@+id/button_speed_15"
-                app:layout_constraintTop_toTopOf="@+id/button_speed_1" />
+            <TextView
+                    android:id="@+id/button_speed_2"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/round_border"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="2.0"
+                    app:layout_constraintEnd_toEndOf="@+id/playback_speed_seek"
+                    app:layout_constraintStart_toEndOf="@+id/button_speed_15"
+                    app:layout_constraintTop_toTopOf="@+id/button_speed_1" />
 
-        <SeekBar
-                android:id="@+id/playback_speed_seek"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:focusable="true"
-                android:importantForAccessibility="no"
-                android:indeterminate="false"
-                android:max="200"
-                android:maxHeight="@dimen/seekbar_height"
-                android:minHeight="@dimen/seekbar_height"
-                android:nextFocusUp="@+id/playback_speed_icon"
-                android:nextFocusDown="@+id/playback_speed_plus"
-                android:progress="100"
-                android:progressDrawable="?attr/audio_seek_bar"
-                android:splitTrack="false"
-                android:thumb="@drawable/ic_seekbar_thumb_audio"
-                app:layout_constraintEnd_toStartOf="@+id/textView14"
-                app:layout_constraintStart_toEndOf="@+id/textView13"
-                app:layout_constraintTop_toBottomOf="@+id/button_speed_minus" />
+            <SeekBar
+                    android:id="@+id/playback_speed_seek"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:focusable="true"
+                    android:importantForAccessibility="no"
+                    android:indeterminate="false"
+                    android:max="200"
+                    android:maxHeight="@dimen/seekbar_height"
+                    android:minHeight="@dimen/seekbar_height"
+                    android:nextFocusUp="@+id/playback_speed_icon"
+                    android:nextFocusDown="@+id/playback_speed_plus"
+                    android:progress="100"
+                    android:progressDrawable="?attr/audio_seek_bar"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/ic_seekbar_thumb_audio"
+                    app:layout_constraintEnd_toStartOf="@+id/textView14"
+                    app:layout_constraintStart_toEndOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/button_speed_minus" />
 
 
-        <TextView
-                android:id="@+id/stream_warning"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_corners_bottom_orange_500"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/warning_stream_speed"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="@+id/playback_speed_seek"
-                app:layout_constraintStart_toStartOf="@+id/playback_speed_seek"
-                app:layout_constraintTop_toBottomOf="@+id/button_speed_1"
-                tools:visibility="visible" />
+            <TextView
+                    android:id="@+id/stream_warning"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/rounded_corners_bottom_orange_500"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/warning_stream_speed"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="@+id/playback_speed_seek"
+                    app:layout_constraintStart_toStartOf="@+id/playback_speed_seek"
+                    app:layout_constraintTop_toBottomOf="@+id/button_speed_1"
+                    tools:visibility="visible" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
