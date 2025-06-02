@@ -686,6 +686,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 }
             }
             hudRightBinding.playerOverlayTitleWarning.setOnClickListener(player)
+            hudBinding.playerOverlaySeekbar.setOnClickListener {
+                if (player.service?.isPaused == true)
+                    player.togglePlayPause()
+            }
         }
         if (::hudRightBinding.isInitialized){
             hudRightBinding.playerOverlayNavmenu.setOnClickListener(if (enabled) player else null)
