@@ -1,3 +1,8 @@
+Changes between 3.6.5 and 3.6.5-1:
+------------------
+ * Improve settings backup/restore
+ * Behavior and crash fixes
+
 Changes between 3.6.4 Beta 4 and 3.6.5:
 ------------------
  * Crash fixes
