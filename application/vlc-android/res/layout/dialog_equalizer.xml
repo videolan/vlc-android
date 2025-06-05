@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ *************************************************************************
+  ~  dialog_equalizer.xml
+  ~ **************************************************************************
+  ~ Copyright © 2025 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+
+        <variable
+                name="state"
+                type="org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog.EqualizerState" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/equalizer_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nextFocusLeft="@+id/equalizer_button"
+                android:nextFocusRight="@+id/equalizer_button"
+                android:nextFocusDown="@+id/equalizer_button"
+                android:nextFocusForward="@+id/equalizer_button">
+
+            <TextView
+                    android:id="@+id/eq_title"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/equalizer"
+                    app:layout_constraintEnd_toStartOf="@+id/equalizer_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/equalizer_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:focusableInTouchMode="false"
+                    android:text="@string/enable_equalizer"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/eq_title"
+                    app:switchPadding="8dp" />
+
+            <HorizontalScrollView
+                    android:id="@+id/equalizer_presets_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/eq_title">
+
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/equalizer_presets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:selectionRequired="true"
+                        app:singleLine="true"
+                        app:singleSelection="true" />
+            </HorizontalScrollView>
+
+            <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/transparent"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/equalizer_presets_container">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <LinearLayout
+                            android:id="@+id/linearLayout8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:background="?attr/actionBarItemBackground"
+                                android:clickable="true"
+                                android:contentDescription="@string/edit_eq_preset"
+                                android:focusable="true"
+                                android:padding="12dp"
+                                android:visibility="@{state.type == 0 ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintBottom_toBottomOf="@+id/top_bar"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/title"
+                                app:layout_constraintTop_toTopOf="@+id/top_bar"
+                                app:srcCompat="@drawable/ic_edit"
+                                app:tint="?attr/colorControlNormal" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/reset"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:background="?attr/actionBarItemBackground"
+                                android:clickable="true"
+                                android:contentDescription="@string/reset"
+                                android:focusable="true"
+                                android:padding="12dp"
+                                android:visibility="@{state.type != 0 ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintBottom_toBottomOf="@+id/top_bar"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/title"
+                                app:layout_constraintTop_toTopOf="@+id/top_bar"
+                                app:srcCompat="@drawable/ic_reset"
+                                app:tint="?attr/colorControlNormal" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:background="?attr/actionBarItemBackground"
+                                android:clickable="true"
+                                android:contentDescription="@string/save"
+                                android:focusable="true"
+                                android:padding="12dp"
+                                android:visibility="@{state.type != 0 ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintBottom_toBottomOf="@+id/top_bar"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/title"
+                                app:layout_constraintTop_toTopOf="@+id/top_bar"
+                                app:srcCompat="@drawable/ic_save"
+                                app:tint="?attr/colorControlNormal" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/delete"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:background="?attr/actionBarItemBackground"
+                                android:clickable="true"
+                                android:contentDescription="@string/save"
+                                android:focusable="true"
+                                android:padding="12dp"
+                                android:visibility="@{state.type != 0 ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintBottom_toBottomOf="@+id/top_bar"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/title"
+                                app:layout_constraintTop_toTopOf="@+id/top_bar"
+                                app:srcCompat="@drawable/ic_delete"
+                                app:tint="?attr/colorControlNormal" />
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/preset_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="@{state.name}"
+                            android:textColor="?attr/font_default"
+                            android:textSize="16sp"
+                            android:visibility="@{state.type == 0 ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="@+id/linearLayout8"
+                            app:layout_constraintEnd_toStartOf="@+id/linearLayout8"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/linearLayout8"
+                            tools:text="Flat" />
+
+                    <EditText
+                            android:id="@+id/preset_title_edit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:text="@{state.name}"
+                            android:visibility="@{state.type != 0 ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="@+id/linearLayout8"
+                            app:layout_constraintEnd_toStartOf="@+id/linearLayout8"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/linearLayout8" />
+
+                    <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="@string/preamp"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/equalizer_preamp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/equalizer_preamp" />
+
+                    <com.google.android.material.slider.Slider
+                            android:id="@+id/equalizer_preamp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:contentDescription="@string/preamp"
+                            android:maxHeight="4dip"
+                            android:minHeight="4dip"
+                            android:stepSize="1"
+                            android:valueFrom="-20"
+                            android:valueTo="20"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/textView11"
+                            app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
+                            app:tickVisible="false" />
+
+                    <LinearLayout
+                            android:id="@+id/equalizer_bands"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:nextFocusLeft="@id/equalizer_preamp"
+                            android:nextFocusRight="@id/snapBands"
+                            android:nextFocusForward="@id/snapBands"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/equalizer_preamp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/snapBands"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:checked="true"
+                            android:nextFocusRight="@+id/equalizer_delete"
+                            android:text="@string/eq_snap_bands"
+                            android:textAlignment="textEnd"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/equalizer_bands"
+                            app:switchPadding="8dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
