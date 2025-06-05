@@ -120,6 +120,11 @@ class EqualizerBar : LinearLayout {
         verticalSlider.id = id
     }
 
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+        verticalSlider.isEnabled = enabled
+    }
+
     fun getSliderId() = verticalSlider.id
 
     companion object {

@@ -29,6 +29,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.LinearLayout
+import androidx.core.view.children
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -140,6 +141,13 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
 
         val pos = allSets.indexOf(VLCOptions.getEqualizerNameFromSettings(requireActivity()))
 
+        // on/off
+        binding.equalizerButton.isChecked = VLCOptions.getEqualizerEnabledState(requireActivity())
+        binding.equalizerButton.setOnCheckedChangeListener { _, isChecked ->
+            PlaybackService.equalizer.setValue(if (isChecked) equalizer else null)
+            updateEnabledState()
+        }
+
         var selectedChip: Chip? = null
         binding.equalizerPresets.removeAllViews()
         allSets.forEachIndexed { index, item ->
@@ -161,8 +169,11 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
         }
 
         fillBands()
+        updateEnabledState()
 
     }
+
+    private fun getCurrentPosition(): Int = allSets.indexOf(binding.state?.name?.get())
 
     /**
      * Fill the equalizer bands
@@ -195,6 +206,19 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
         eqBandsViews[eqBandsViews.size - 1].nextFocusRightId = R.id.snapBands
     }
 
+    fun updateEnabledState() {
+        val isChecked = binding.equalizerButton.isChecked
+        binding.equalizerPresets.children.forEach {
+            it.isEnabled = isChecked
+        }
+        val eqCardEnabled = isChecked && getEqualizerType(getCurrentPosition()) == TYPE_CUSTOM
+        binding.equalizerPreamp.isEnabled = eqCardEnabled
+        binding.equalizerBands.children.forEach {
+            it.isEnabled = eqCardEnabled
+        }
+        binding.snapBands.isEnabled = eqCardEnabled
+    }
+
     /**
      * Select preset by name and update the equalizer
      *
@@ -208,6 +232,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
         state.type.set(getEqualizerType(pos))
         val selectedChip = binding.equalizerPresets.findViewWithTag<Chip>(preset)
         binding.equalizerPresets.check(selectedChip.id)
+        updateEnabledState()
     }
 
     /**
