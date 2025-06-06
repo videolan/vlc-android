@@ -33,9 +33,11 @@ import androidx.core.view.children
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.chip.Chip
+import com.google.android.material.slider.Slider
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,11 +47,11 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
-import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogEqualizerBinding
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
+import org.videolan.vlc.viewmodels.EqualizerViewModel
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
@@ -57,12 +59,13 @@ import kotlin.math.roundToInt
 /**
  * Dialog showing the audio equalizer
  */
-class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
+class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeListener {
+
+    private val viewModel: EqualizerViewModel by activityViewModels()
 
     private lateinit var binding: DialogEqualizerBinding
     private val state = EqualizerState()
 
-    private var bandCount = -1
     private var customCount = 0
     private var allSets: MutableList<String> = ArrayList()
     private val eqBandsViews = ArrayList<EqualizerBar>()
@@ -106,7 +109,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
     override fun onResume() {
         equalizer = VLCOptions.getEqualizerSetFromSettings(requireActivity(), true)!!
         lifecycleScope.launch {
-            if (bandCount == -1) bandCount = withContext(Dispatchers.IO) {
+            if (viewModel.bandCount == -1) viewModel.bandCount = withContext(Dispatchers.IO) {
                 VLCInstance.getInstance(requireContext())
                 MediaPlayer.Equalizer.getBandCount()
             }
@@ -146,8 +149,21 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
         // on/off
         binding.equalizerButton.isChecked = VLCOptions.getEqualizerEnabledState(requireActivity())
         binding.equalizerButton.setOnCheckedChangeListener { _, isChecked ->
-            PlaybackService.equalizer.setValue(if (isChecked) equalizer else null)
+            viewModel.setEqualizer(if (isChecked) equalizer else null)
             updateEnabledState()
+        }
+
+        // preamp
+        binding.equalizerPreamp.value = equalizer.preAmp.roundToInt().toFloat()
+        binding.equalizerPreamp.addOnChangeListener(this@EqualizerFragmentDialog)
+
+        binding.undo.setOnClickListener {
+            viewModel.getAndRemoveLastFromHistory()?.let {
+                equalizer = it
+                viewModel.setEqualizer(equalizer)
+                updateBars()
+            }
+
         }
 
         var selectedChip: Chip? = null
@@ -185,7 +201,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
         eqBandsViews.clear()
         binding.equalizerBands.removeAllViews()
         // bands
-        for (i in 0 until bandCount) {
+        for (i in 0 until viewModel.bandCount) {
             val band = MediaPlayer.Equalizer.getBandFrequency(i)
 
             val bar = EqualizerBar(requireContext(), band)
@@ -199,9 +215,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
             bar.setSliderId(View.generateViewId())
             bar.setListener(BandListener(i))
         }
-        for (i in 0 until bandCount) {
+        for (i in 0 until viewModel.bandCount) {
             if (i > 0) eqBandsViews[i].nextFocusLeftId = eqBandsViews[i - 1].getSliderId()
-            if (i < bandCount - 1) eqBandsViews[i].nextFocusRightId = eqBandsViews[i + 1].getSliderId()
+            if (i < viewModel.bandCount - 1) eqBandsViews[i].nextFocusRightId = eqBandsViews[i + 1].getSliderId()
         }
         eqBandsViews[0].nextFocusLeftId = R.id.equalizer_preamp
         eqBandsViews[eqBandsViews.size - 1].nextFocusRightId = R.id.snapBands
@@ -253,18 +269,26 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
                 state.update(pos, true)
             }
         }
-        if (bandCount == -1) bandCount = withContext(Dispatchers.IO) {
+        if (viewModel.bandCount == -1) viewModel.bandCount = withContext(Dispatchers.IO) {
             VLCInstance.getInstance(requireContext())
             MediaPlayer.Equalizer.getBandCount()
         }
-        if (!isStarted()) return@launch
+        updateBars()
+        if (binding.equalizerButton.isChecked) viewModel.setEqualizer(equalizer)
+    }
+
+    /**
+     * Update bars with the current equalizer
+     *
+     */
+    private fun updateBars() {
+        if (!isStarted()) return
 
         binding.equalizerPreamp.value = equalizer.preAmp.roundToInt().toFloat()
-        for (i in 0 until bandCount) {
+        for (i in 0 until viewModel.bandCount) {
             val bar = binding.equalizerBands.getChildAt(i) as EqualizerBar
             bar.setValue(equalizer.getAmp(i))
         }
-        if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
     }
 
     /**
@@ -290,8 +314,16 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
         return allSets[position]
     }
 
+    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+        if (!fromUser) return
+        viewModel.saveInHistory(equalizer, -1)
+        equalizer.preAmp = binding.equalizerPreamp.value
+        if (binding.equalizerButton.isChecked) viewModel.setEqualizer(equalizer)
+    }
+
 
     companion object {
+        const val TAG = "VLC/EqualizerFragmentDialog"
 
         private const val TYPE_PRESET = 0
         private const val TYPE_CUSTOM = 1
@@ -339,6 +371,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
         override fun onProgressChanged(value: Float, fromUser: Boolean) {
             if (!fromUser)
                 return
+            viewModel.saveInHistory(equalizer, index)
             equalizer.setAmp(index, value)
             if (!binding.equalizerButton.isChecked)
                 binding.equalizerButton.isChecked = true
@@ -369,8 +402,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
                 }
             }
 
-            if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
-
+            if (binding.equalizerButton.isChecked) viewModel.setEqualizer(equalizer)
         }
 
         override fun onStartTrackingTouch() {
