@@ -49,6 +49,8 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogEqualizerBinding
 import org.videolan.vlc.gui.view.EqualizerBar
+import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 
@@ -195,8 +197,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
             bar.layoutParams = params
             eqBandsViews.add(bar)
             bar.setSliderId(View.generateViewId())
-            //todo
-//            bar.setListener(BandListener(i))
+            bar.setListener(BandListener(i))
         }
         for (i in 0 until bandCount) {
             if (i > 0) eqBandsViews[i].nextFocusLeftId = eqBandsViews[i - 1].getSliderId()
@@ -321,6 +322,66 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment() {
             saveButtonVisibility.set(!newSaved)
             revertButtonVisibility.set(!newSaved)
             deleteButtonVisibility.set(newSaved && getEqualizerType(newPos) == TYPE_CUSTOM)
+        }
+    }
+
+    /**
+     * Band listener
+     *
+     * @property index the band index
+     * @constructor Create empty Band listener
+     */
+    private inner class BandListener(private val index: Int) : OnEqualizerBarChangeListener {
+
+        private var oldBands: MutableList<Int> = ArrayList()
+
+
+        override fun onProgressChanged(value: Float, fromUser: Boolean) {
+            if (!fromUser)
+                return
+            equalizer.setAmp(index, value)
+            if (!binding.equalizerButton.isChecked)
+                binding.equalizerButton.isChecked = true
+
+            val pos = getCurrentPosition()
+            if (getEqualizerType(pos) == TYPE_PRESET) {
+                state.update(getCurrentPosition(), false)
+            } else if (getEqualizerType(pos) == TYPE_CUSTOM) {
+                state.update(pos, false)
+            }
+
+            /**
+             * Snap bands
+             */
+            if (binding.snapBands.isChecked && oldBands.isNotEmpty()) {
+                val delta = eqBandsViews[index].getProgress() - oldBands[index]
+                for (i in eqBandsViews.indices) {
+                    if (i == index) {
+                        continue
+                    }
+                    eqBandsViews[i].setProgress((oldBands[i] + delta / ((i - index).absoluteValue.let { it * it * it } + 1)).coerceIn(0, EqualizerBar.RANGE * 2))
+
+                    if (binding.equalizerButton.isChecked) {
+
+                        equalizer.setAmp(i, eqBandsViews[i].getValue())
+                    }
+
+                }
+            }
+
+            if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
+
+        }
+
+        override fun onStartTrackingTouch() {
+            oldBands.clear()
+            for (eqBandsView in eqBandsViews) {
+                oldBands.add(eqBandsView.getProgress())
+            }
+        }
+
+        override fun onStopTrackingTouch() {
+            oldBands.clear()
         }
     }
 
