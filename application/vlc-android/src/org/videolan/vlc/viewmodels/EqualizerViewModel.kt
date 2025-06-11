@@ -25,42 +25,56 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
-import org.videolan.libvlc.MediaPlayer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.mediadb.models.EqualizerBand
+import org.videolan.vlc.mediadb.models.EqualizerWithBands
+import org.videolan.vlc.repository.EqualizerRepository
 
 /**
  * View model storing data for the equalizer dialog
  *
  */
-class EqualizerViewModel(context: Context) : ViewModel() {
-    private val history = ArrayList<MediaPlayer.Equalizer>()
+class EqualizerViewModel(context: Context, private val equalizerRepository: EqualizerRepository) : ViewModel() {
+    private val history = ArrayList<EqualizerWithBands>()
     var bandCount = -1
     var lastSaveToHistoryFrom = -2
-    lateinit var equalizer: MutableLiveData<MediaPlayer.Equalizer>
+    val settings = Settings.getInstance(context)
 
+    val equalizerEntries = equalizerRepository.equalizerEntries.asLiveData()
+    var currentEqualizerId = 1L
+        set(value) {
+            field = value
+            settings.edit { putLong(KEY_CURRENT_EQUALIZER_ID, value) }
+        }
 
-    fun updateEqualizer(equalizer: MediaPlayer.Equalizer?) {
-        PlaybackService.equalizer.value = equalizer
+    fun updateEqualizer() {
+        getCurrentEqualizer()?.let {
+            PlaybackService.equalizer.value = it.getEqualizer()
+        }
+
+    }
+
+    init {
+        currentEqualizerId = settings.getLong(KEY_CURRENT_EQUALIZER_ID, 1L)
     }
 
     /**
      * Save the current equalizer in history
      *
      */
-    fun saveInHistory(equalizer: MediaPlayer.Equalizer, from: Int) {
-        val mediaPlayerEqualizer = MediaPlayer.Equalizer.create().apply {
-            preAmp = equalizer.preAmp
-            for (i in 0..bandCount) {
-
-                setAmp(i, equalizer.getAmp(i))
-            }
-        }
+    fun saveInHistory(from: Int) {
         if (from != lastSaveToHistoryFrom)
-            history.add(mediaPlayerEqualizer)
+            getCurrentEqualizer()?.let { history.add(it.copy()) }
         lastSaveToHistoryFrom = from
-        this.equalizer.postValue(equalizer)
     }
 
     /**
@@ -68,9 +82,40 @@ class EqualizerViewModel(context: Context) : ViewModel() {
      *
      * @return the last equalizer from history
      */
-    fun undoFromHistory() {
+    fun undoFromHistory(context: Context) {
         lastSaveToHistoryFrom = -2
         if (history.isEmpty()) return
-        equalizer.value = history.removeAt(history.lastIndex)
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, history.removeAt(history.lastIndex))
+    }
+
+    fun getCurrentEqualizer(): EqualizerWithBands? {
+        return equalizerEntries.value?.firstOrNull { it.equalizerEntry.id == currentEqualizerId }
+    }
+
+    fun updateCurrentPreamp(context: Context, f: Float) = viewModelScope.launch(Dispatchers.IO) {
+        getCurrentEqualizer()?.let {
+            equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(preamp = f).apply { id = it.equalizerEntry.id }))
+        }
+    }
+
+    fun updateEqualizerBands(context: Context, bands: List<EqualizerBand>) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, getCurrentEqualizer()!!.copy(bands = bands))
+    }
+
+    fun createCustomEqualizer(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        getCurrentEqualizer()?.let {
+            val newEq = it.copy(equalizerEntry = it.equalizerEntry.copy(presetIndex = -1, name = it.equalizerEntry.name + " (copy)").apply { id = 0 })
+            equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
+        }
+    }
+}
+
+class EqualizerViewModelFactory(private val context: Context, private val repository: EqualizerRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(EqualizerViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return EqualizerViewModel(context.applicationContext, repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

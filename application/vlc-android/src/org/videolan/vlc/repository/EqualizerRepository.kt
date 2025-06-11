@@ -26,6 +26,8 @@ package org.videolan.vlc.repository
 
 import android.content.Context
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
+import org.videolan.tools.Settings
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.EqualizerDao
 import org.videolan.vlc.database.MediaDatabase
@@ -39,11 +41,15 @@ class EqualizerRepository(private val equalizerDao: EqualizerDao, private val co
             equalizerDao.getAllEqualizerEntries()
     }
 
-    fun addOrUpdateEqualizer(equalizer:EqualizerWithBands) {
-        val id = equalizerDao.insert(equalizer.equalizerEntry)
-        equalizer.bands.forEach {
-            it.equalizerEntry = id
-            equalizerDao.insertBands(it)
+    fun getCurrentEqualizer(context: Context) = equalizerDao.getCurrentEqualizer(Settings.getInstance(context).getLong(KEY_CURRENT_EQUALIZER_ID, 1L))
+
+    fun addOrUpdateEqualizerWithBands(context: Context, equalizer:EqualizerWithBands) {
+        MediaDatabase.getInstance(context).runInTransaction {
+            val id = equalizerDao.insert(equalizer.equalizerEntry)
+            equalizer.bands.forEach {
+                it.equalizerEntry = id
+                equalizerDao.insertBands(it)
+            }
         }
     }
 

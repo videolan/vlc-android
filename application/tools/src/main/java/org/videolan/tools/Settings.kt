@@ -201,6 +201,9 @@ const val ENCRYPTED_KEY_NAME = "encryption_key"
 const val KEY_COOKIE_ENCRYPT_KEY = "cookie_encrypt_key"
 const val KEY_COOKIE_SIGN_KEY = "cookie_sign_key"
 
+//Equalizer
+const val KEY_CURRENT_EQUALIZER_ID = "current_equalizer_id"
+
 
 //Tips
 

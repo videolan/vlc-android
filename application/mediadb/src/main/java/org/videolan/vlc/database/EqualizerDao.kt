@@ -37,9 +37,11 @@ import org.videolan.vlc.mediadb.models.EqualizerWithBands
 
 @Dao
 interface EqualizerDao {
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(equalizerEntry: EqualizerEntry): Long
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBands(equalizerBand: EqualizerBand)
 
@@ -49,6 +51,9 @@ interface EqualizerDao {
     @Transaction
     @Query("SELECT * FROM equalizer_entry")
     fun getAllEqualizerEntries(): Flow<List<EqualizerWithBands>>
+
+    @Query("SELECT * FROM equalizer_entry WHERE id = :id")
+    fun getCurrentEqualizer(id: Long): EqualizerWithBands
 
 
 }

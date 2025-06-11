@@ -26,6 +26,7 @@ package org.videolan.vlc.mediadb.models
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import org.videolan.libvlc.MediaPlayer
 
 data class EqualizerWithBands(
     @Embedded val equalizerEntry: EqualizerEntry,
@@ -34,4 +35,13 @@ data class EqualizerWithBands(
           entityColumn = "equalizer_entry"
     )
     val bands: List<EqualizerBand>
-)
+) {
+    fun getEqualizer(): MediaPlayer.Equalizer {
+        val eq = MediaPlayer.Equalizer.create()
+        eq.preAmp = equalizerEntry.preamp
+        bands.forEach {
+            eq.setAmp(it.index, it.bandValue)
+        }
+        return eq
+    }
+}

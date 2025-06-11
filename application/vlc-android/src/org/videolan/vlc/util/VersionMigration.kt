@@ -463,7 +463,7 @@ object VersionMigration {
                 }
             }
             val eqEntity = EqualizerWithBands(EqualizerEntry(MediaPlayer.Equalizer.getPresetName(i), equalizer.preAmp, i), bands)
-            equalizerRepository.addOrUpdateEqualizer(eqEntity)
+            equalizerRepository.addOrUpdateEqualizerWithBands(context, eqEntity)
         }
 
         for ((key) in Settings.getInstance(context).all) {
@@ -478,7 +478,7 @@ object VersionMigration {
                         }
                     }
                     val eqEntity = EqualizerWithBands(EqualizerEntry(name, bands[0]), bandList)
-                    equalizerRepository.addOrUpdateEqualizer(eqEntity)
+                    equalizerRepository.addOrUpdateEqualizerWithBands(context, eqEntity)
                 }
                 settings.edit { remove(key) }
             }
