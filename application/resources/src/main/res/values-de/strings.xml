@@ -1264,9 +1264,9 @@
     <string name="talkback_display_settings">Anzeigeeinstellungen</string>
     <string name="talkback_already_played">Bereits wiedergegeben</string>
     <string name="show_only_favs">Nur Favoriten anzeigen</string>
-    <string name="ignore_headset_media_button_presses">Das Drücken der Medientaste am Headset igborieren</string>
+    <string name="ignore_headset_media_button_presses">Das Drücken der Medientaste am Headset ignorieren</string>
     <string name="ignore_headset_media_button_presses_summary">Nützlich, wenn Sie beispielsweise ein Headset mit defekten physischen Tasten verwenden</string>
-    <string name="replace_playlist">Wiedergabeliste erstzen</string>
+    <string name="replace_playlist">Wiedergabeliste ersetzen</string>
 
     <!-- Remote access -->
     <string name="ra_server_running">Fernzugriff aktiv</string>
