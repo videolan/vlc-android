@@ -24,6 +24,8 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.PlaybackService
@@ -32,13 +34,14 @@ import org.videolan.vlc.PlaybackService
  * View model storing data for the equalizer dialog
  *
  */
-class EqualizerViewModel : ViewModel() {
+class EqualizerViewModel(context: Context) : ViewModel() {
     private val history = ArrayList<MediaPlayer.Equalizer>()
     var bandCount = -1
     var lastSaveToHistoryFrom = -2
+    lateinit var equalizer: MutableLiveData<MediaPlayer.Equalizer>
 
 
-    fun setEqualizer(equalizer: MediaPlayer.Equalizer?) {
+    fun updateEqualizer(equalizer: MediaPlayer.Equalizer?) {
         PlaybackService.equalizer.value = equalizer
     }
 
@@ -57,6 +60,7 @@ class EqualizerViewModel : ViewModel() {
         if (from != lastSaveToHistoryFrom)
             history.add(mediaPlayerEqualizer)
         lastSaveToHistoryFrom = from
+        this.equalizer.postValue(equalizer)
     }
 
     /**
@@ -64,9 +68,9 @@ class EqualizerViewModel : ViewModel() {
      *
      * @return the last equalizer from history
      */
-    fun getAndRemoveLastFromHistory(): MediaPlayer.Equalizer? {
+    fun undoFromHistory() {
         lastSaveToHistoryFrom = -2
-        if (history.isEmpty()) return null
-        return history.removeAt(history.lastIndex)
+        if (history.isEmpty()) return
+        equalizer.value = history.removeAt(history.lastIndex)
     }
 }
