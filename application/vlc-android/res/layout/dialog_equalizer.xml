@@ -168,25 +168,6 @@
                                 app:tint="?attr/colorControlNormal" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/save"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:background="?attr/actionBarItemBackground"
-                                android:clickable="true"
-                                android:contentDescription="@string/save"
-                                android:focusable="true"
-                                android:padding="12dp"
-                                android:visibility="@{state.type != 0 ? View.VISIBLE : View.GONE}"
-                                app:layout_constraintBottom_toBottomOf="@+id/top_bar"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toEndOf="@+id/title"
-                                app:layout_constraintTop_toTopOf="@+id/top_bar"
-                                app:srcCompat="@drawable/ic_save"
-                                app:tint="?attr/colorControlNormal" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/delete"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
