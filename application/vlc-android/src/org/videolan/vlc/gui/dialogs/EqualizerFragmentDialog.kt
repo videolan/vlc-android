@@ -77,17 +77,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     private var customCount = 0
     private val eqBandsViews = ArrayList<EqualizerBar>()
 
-    private val equalizerPresets: Array<String>?
-        get() {
-            val count = MediaPlayer.Equalizer.getPresetCount()
-            if (count <= 0) return null
-            val presets = ArrayList<String>(count)
-            for (i in 0 until count) {
-                presets.add(MediaPlayer.Equalizer.getPresetName(i))
-            }
-            return presets.toTypedArray()
-        }
-
     override fun getDefaultState(): Int {
         return STATE_EXPANDED
     }
@@ -131,12 +120,12 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         // on/off
         binding.equalizerButton.isChecked = VLCOptions.getEqualizerEnabledState(requireActivity())
         binding.equalizerButton.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.updateEqualizer()
             updateEnabledState()
+            viewModel.updateEqualizer()
         }
 
         // preamp
-        binding.equalizerPreamp.value = viewModel.getCurrentEqualizer()?.equalizerEntry?.preamp?.roundToInt()?.toFloat() ?: 0f
+        binding.equalizerPreamp.value = viewModel.getCurrentEqualizer().equalizerEntry.preamp.roundToInt().toFloat()
         binding.equalizerPreamp.addOnChangeListener(this@EqualizerFragmentDialog)
 
         binding.undo.setOnClickListener {
@@ -185,7 +174,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.equalizerBands.removeAllViews()
         // bands
         val currentEqualizer = viewModel.getCurrentEqualizer()
-        currentEqualizer?.bands?.forEach { band ->
+        currentEqualizer.bands.forEach { band ->
             val bandFrequency = MediaPlayer.Equalizer.getBandFrequency(band.index)
             val bar = EqualizerBar(requireContext(), bandFrequency)
             bar.setValue(band.bandValue)
@@ -199,7 +188,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             bar.setSliderId(View.generateViewId())
             bar.setListener(BandListener(band.index))
         }
-        currentEqualizer?.bands?.forEachIndexed {index, band ->
+        currentEqualizer.bands.forEachIndexed {index, band ->
             if (index > 0) eqBandsViews[index].nextFocusLeftId = eqBandsViews[index - 1].getSliderId()
             if (index < currentEqualizer.bands.size - 1) eqBandsViews[index].nextFocusRightId = eqBandsViews[index + 1].getSliderId()
         }
@@ -229,11 +218,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      */
     fun selectPreset() {
         updateEqualizer()
-        viewModel.getCurrentEqualizer()?.let {
-            state.name.set(it.equalizerEntry.name)
-            val selectedChip = binding.equalizerPresets.findViewWithTag<Chip>(it.equalizerEntry.id)
-            binding.equalizerPresets.check(selectedChip.id)
-        }
+        state.name.set(viewModel.getCurrentEqualizer().equalizerEntry.name)
+        val selectedChip = binding.equalizerPresets.findViewWithTag<Chip>(viewModel.getCurrentEqualizer().equalizerEntry.id)
+        binding.equalizerPresets.check(selectedChip.id)
         updateEnabledState()
     }
 
@@ -257,10 +244,10 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     private fun updateBars() {
         if (!isStarted()) return
 
-        binding.equalizerPreamp.value = viewModel.getCurrentEqualizer()?.equalizerEntry?.preamp?.roundToInt()?.toFloat() ?: 0f
+        binding.equalizerPreamp.value = viewModel.getCurrentEqualizer().equalizerEntry.preamp.roundToInt().toFloat()
         for (i in 0 until viewModel.bandCount) {
             val bar = binding.equalizerBands.getChildAt(i) as EqualizerBar
-            bar.setValue(viewModel.getCurrentEqualizer()?.bands?.first { it.index == i }?.bandValue ?: 0f)
+            bar.setValue(viewModel.getCurrentEqualizer().bands.first { it.index == i }.bandValue)
         }
     }
 
@@ -271,7 +258,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      * @return the type of the equalizer
      */
     private fun getEqualizerType(): Int {
-        if (viewModel.getCurrentEqualizer()?.equalizerEntry?.presetIndex == -1) return TYPE_CUSTOM
+        if (viewModel.getCurrentEqualizer().equalizerEntry.presetIndex == -1) return TYPE_CUSTOM
         return TYPE_PRESET
     }
 
@@ -310,7 +297,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
         fun update(newSaved: Boolean) {
             saved = newSaved
-            name.set(viewModel.getCurrentEqualizer()?.equalizerEntry?.name)
+            name.set(viewModel.getCurrentEqualizer().equalizerEntry.name)
             type.set(getEqualizerType())
             saveButtonVisibility.set(!newSaved)
             revertButtonVisibility.set(!newSaved)
@@ -335,7 +322,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             viewModel.saveInHistory(index)
 
             val newBandList = ArrayList<EqualizerBand>()
-            newBandList.add(viewModel.getCurrentEqualizer()!!.bands.first { it.index ==  index}.copy(bandValue = value))
+            newBandList.add(viewModel.getCurrentEqualizer().bands.first { it.index ==  index}.copy(bandValue = value))
             if (!binding.equalizerButton.isChecked)
                 binding.equalizerButton.isChecked = true
 
@@ -356,11 +343,11 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                     }
                     eqBandsViews[i].setProgress((oldBands[i] + delta / ((i - index).absoluteValue.let { it * it * it } + 1)).coerceIn(0, EqualizerBar.RANGE * 2))
 
-                    newBandList.add(viewModel.getCurrentEqualizer()!!.bands[i].copy(bandValue = eqBandsViews[i].getValue()))
+                    newBandList.add(viewModel.getCurrentEqualizer().bands[i].copy(bandValue = eqBandsViews[i].getValue()))
                 }
             }
             
-            viewModel.getCurrentEqualizer()!!.bands.forEach { oldBand ->
+            viewModel.getCurrentEqualizer().bands.forEach { oldBand ->
                 if (newBandList.firstOrNull { it.index == oldBand.index } == null)
                     newBandList.add(oldBand)
             }

@@ -32,6 +32,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
@@ -57,10 +58,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         }
 
     fun updateEqualizer() {
-        getCurrentEqualizer()?.let {
-            PlaybackService.equalizer.value = it.getEqualizer()
-        }
-
+        PlaybackService.equalizer.value = if (settings.getBoolean("equalizer_enabled", false)) MediaPlayer.Equalizer.create() else  getCurrentEqualizer().getEqualizer()
     }
 
     init {
@@ -73,7 +71,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      */
     fun saveInHistory(from: Int) {
         if (from != lastSaveToHistoryFrom)
-            getCurrentEqualizer()?.let { history.add(it.copy()) }
+            history.add(getCurrentEqualizer().copy())
         lastSaveToHistoryFrom = from
     }
 
@@ -88,25 +86,26 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         equalizerRepository.addOrUpdateEqualizerWithBands(context, history.removeAt(history.lastIndex))
     }
 
-    fun getCurrentEqualizer(): EqualizerWithBands? {
-        return equalizerEntries.value?.firstOrNull { it.equalizerEntry.id == currentEqualizerId }
+    fun getCurrentEqualizer(): EqualizerWithBands {
+        return equalizerEntries.value!!.first { it.equalizerEntry.id == currentEqualizerId }
     }
 
     fun updateCurrentPreamp(context: Context, f: Float) = viewModelScope.launch(Dispatchers.IO) {
-        getCurrentEqualizer()?.let {
-            equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(preamp = f).apply { id = it.equalizerEntry.id }))
-        }
+        val currentEqualizer = getCurrentEqualizer()
+        equalizerRepository.addOrUpdateEqualizerWithBands(
+            context,
+            currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(preamp = f).apply { id = currentEqualizer.equalizerEntry.id })
+        )
     }
 
     fun updateEqualizerBands(context: Context, bands: List<EqualizerBand>) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, getCurrentEqualizer()!!.copy(bands = bands))
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, getCurrentEqualizer().copy(bands = bands))
     }
 
     fun createCustomEqualizer(context: Context) = viewModelScope.launch(Dispatchers.IO) {
-        getCurrentEqualizer()?.let {
-            val newEq = it.copy(equalizerEntry = it.equalizerEntry.copy(presetIndex = -1, name = it.equalizerEntry.name + " (copy)").apply { id = 0 })
-            equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
-        }
+        val currentEqualizer = getCurrentEqualizer()
+        val newEq = currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(presetIndex = -1, name = currentEqualizer.equalizerEntry.name + " (copy)").apply { id = 0 })
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
     }
 }
 
