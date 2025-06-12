@@ -413,8 +413,7 @@ fi
 #######
 if [ "$RUN" = 1 ]; then
     export PATH="${ANDROID_SDK}/platform-tools/:$PATH"
-        EXTRA=""
-        if [ "$STUB" = 1 ]; then
+    if [ "$STUB" = 1 ]; then
         EXTRA="--ez 'extra_test_stubs' true"
     fi
     adb wait-for-device
