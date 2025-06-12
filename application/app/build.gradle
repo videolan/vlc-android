@@ -150,8 +150,7 @@ android {
         //Custom APK name and versionCode
         variant.outputs.each { output ->
             def outputAbi = output.getFilter(com.android.build.OutputFile.ABI)
-            def abiName = System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
-            if (outputAbi != null) abiName = outputAbi
+            def abiName = outputAbi ?: "all"
             def versionCode = abiCodes.get(abiName, 0)
             if (variant.buildType.name == "vlcBundle") {
                 versionCode = 9
