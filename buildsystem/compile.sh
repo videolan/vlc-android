@@ -148,9 +148,7 @@ else
     exit 1
 fi
 
-if [ -z "$M2_REPO" ]; then
-  M2_REPO=""
-else
+if [ -n "$M2_REPO" ]; then
   if test -d "$M2_REPO"; then
     echo "Custom local maven repository found"
   else
@@ -376,7 +374,9 @@ fi
 if [ "$FORCE_VLC_4" = 1 ]; then
     gradle_prop="-PforceVlc4=true"
 fi
-gradle_prop="$gradle_prop -Dmaven.repo.local=$M2_REPO"
+if [ -n "$M2_REPO" ]; then
+    gradle_prop="$gradle_prop -Dmaven.repo.local=$M2_REPO"
+fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
     GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc assemble${BUILDTYPE}
