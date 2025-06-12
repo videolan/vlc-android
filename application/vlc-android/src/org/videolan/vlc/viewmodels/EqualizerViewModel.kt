@@ -34,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
+import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.mediadb.models.EqualizerBand
@@ -58,7 +59,10 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         }
 
     fun updateEqualizer() {
-        PlaybackService.equalizer.value = if (settings.getBoolean("equalizer_enabled", false)) MediaPlayer.Equalizer.create() else  getCurrentEqualizer().getEqualizer()
+        if (!settings.getBoolean(KEY_EQUALIZER_ENABLED, false))
+            PlaybackService.equalizer.value = MediaPlayer.Equalizer.create()
+        else
+            PlaybackService.equalizer.value =getCurrentEqualizer().getEqualizer()
     }
 
     init {

@@ -44,6 +44,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
+import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -107,6 +108,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             if (oldCurrentEqualizer == null) fillViews()
             oldEqualiserSets = newEqualizerSets
             oldCurrentEqualizer = viewModel.getCurrentEqualizer()
+            updateEqualizer()
         }
     }
 
@@ -164,9 +166,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             if (item.equalizerEntry.id == viewModel.currentEqualizerId) selectedChip = chip
             chip.setOnClickListener {
                 viewModel.currentEqualizerId = it.tag as Long
-                selectPreset()
                 fillPreamp()
                 fillBands()
+                selectPreset()
                 oldCurrentEqualizer = viewModel.getCurrentEqualizer()
             }
             binding.equalizerPresets.addView(chip)
@@ -213,7 +215,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
     fun updateEnabledState() {
         val isChecked = binding.equalizerButton.isChecked
-        Settings.getInstance(requireActivity()).edit { putBoolean("equalizer_enabled", isChecked) }
+        Settings.getInstance(requireActivity()).edit { putBoolean(KEY_EQUALIZER_ENABLED, isChecked) }
         binding.equalizerPresets.children.forEach {
             it.isEnabled = isChecked
         }
@@ -280,7 +282,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         if (!fromUser) return
         viewModel.saveInHistory(-1)
         viewModel.updateCurrentPreamp(requireActivity(), binding.equalizerPreamp.value)
-        if (binding.equalizerButton.isChecked) viewModel.updateEqualizer()
     }
 
 
@@ -338,7 +339,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                     newBandList.add(oldBand)
             }
 
-            if (binding.equalizerButton.isChecked) viewModel.updateEqualizer()
         }
 
         override fun onStartTrackingTouch() {

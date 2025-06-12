@@ -203,6 +203,7 @@ const val KEY_COOKIE_SIGN_KEY = "cookie_sign_key"
 
 //Equalizer
 const val KEY_CURRENT_EQUALIZER_ID = "current_equalizer_id"
+const val KEY_EQUALIZER_ENABLED = "equalizer_enabled"
 
 
 //Tips

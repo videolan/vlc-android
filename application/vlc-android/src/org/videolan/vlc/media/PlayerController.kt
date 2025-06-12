@@ -19,6 +19,7 @@ import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
+import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
@@ -85,7 +86,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         if (!mediaplayer.isReleased) {
             val repository = EqualizerRepository.getInstance(context)
             repository.equalizerEntries
-            withContext(Dispatchers.IO) {
+            if (Settings.getInstance(context).getBoolean(KEY_EQUALIZER_ENABLED, false)) withContext(Dispatchers.IO) {
                 mediaplayer.setEqualizer(repository.getCurrentEqualizer(context).getEqualizer())
             }
             mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
