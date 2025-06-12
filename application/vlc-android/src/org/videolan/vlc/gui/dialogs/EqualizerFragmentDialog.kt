@@ -108,7 +108,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             if (oldCurrentEqualizer == null) fillViews()
             oldEqualiserSets = newEqualizerSets
             oldCurrentEqualizer = viewModel.getCurrentEqualizer()
-            updateEqualizer()
+            updateEqualizer(true)
         }
     }
 
@@ -244,12 +244,12 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      * Update the equalizer with the selected preset
      *
      */
-    fun updateEqualizer() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
+    fun updateEqualizer(preventBarUpdate: Boolean = false) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (viewModel.bandCount == -1) viewModel.bandCount = withContext(Dispatchers.IO) {
             VLCInstance.getInstance(requireContext())
             MediaPlayer.Equalizer.getBandCount()
         }
-        updateBars()
+        if (!preventBarUpdate) updateBars()
         if (binding.equalizerButton.isChecked) viewModel.updateEqualizer()
     }
 
