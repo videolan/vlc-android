@@ -447,8 +447,8 @@ publish_libs:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
         - ./buildsystem/compile.sh --init -b
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
         paths:
@@ -466,7 +466,7 @@ publish_remote_access_lib:
     script:
         - mkdir -p $M2_REPO
         - ./buildsystem/compile.sh --init -b
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p application/remote-access-client publishToMavenLocal
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -p application/remote-access-client publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
@@ -485,8 +485,8 @@ publish_libs-v4:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
         - ./buildsystem/compile.sh --init -b -vlc4
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p libvlcjni publishToMavenLocal
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p medialibrary publishToMavenLocal
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p libvlcjni publishToMavenLocal
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
         paths:
