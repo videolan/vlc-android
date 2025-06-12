@@ -89,14 +89,14 @@ preBuild.dependsOn(webCopy)
 def remoteAccessVersion() {
     def code = new ByteArrayOutputStream()
     try {
-        if (file("remoteaccess/package.json").exists()) {
-
-            exec {
-                commandLine = ['bash', '-c', 'grep -m1 "version" remoteaccess/package.json']
-                standardOutput = code
+        File remoteAccessPackage = file("remoteaccess/package.json")
+        if (remoteAccessPackage.exists()) {
+            remoteAccessPackage.readLines().each {
+                if (it.contains('"version"')) {
+                    code = it.split("\"")[3]
+                    return
+                }
             }
-            return code.toString().split("\"")[3]
-
         }
     } catch (Exception e) {
     }
