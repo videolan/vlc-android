@@ -383,11 +383,11 @@ if [ -n "$M2_REPO" ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc $TARGET
+    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} --project-dir ${VLC_LIBJNI_PATH}/libvlc $TARGET
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     gradle_prop="$gradle_prop -PvlcLibVariant=$GRADLE_ABI"
-    ./gradlew ${gradle_prop} -p medialibrary $TARGET
+    ./gradlew ${gradle_prop} --project-dir medialibrary $TARGET
     RUN=0
 else
     ./gradlew ${gradle_prop} $TARGET
