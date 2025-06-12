@@ -80,9 +80,9 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      *
      * @return the last equalizer from history
      */
-    fun undoFromHistory(context: Context) {
+    fun undoFromHistory(context: Context) = viewModelScope.launch(Dispatchers.IO) {
         lastSaveToHistoryFrom = -2
-        if (history.isEmpty()) return
+        if (history.isEmpty()) return@launch
         equalizerRepository.addOrUpdateEqualizerWithBands(context, history.removeAt(history.lastIndex))
     }
 
