@@ -49,7 +49,7 @@ interface EqualizerDao {
     fun delete(equalizerEntry: EqualizerEntry)
 
     @Transaction
-    @Query("SELECT * FROM equalizer_entry")
+    @Query("SELECT * FROM equalizer_entry ORDER BY preset_index ASC")
     fun getAllEqualizerEntries(): Flow<List<EqualizerWithBands>>
 
     @Query("SELECT * FROM equalizer_entry WHERE id = :id")

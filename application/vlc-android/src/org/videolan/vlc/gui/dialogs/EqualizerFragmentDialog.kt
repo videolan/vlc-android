@@ -146,7 +146,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             chip.text = item.equalizerEntry.name
             chip.tag = item.equalizerEntry.id
             chip.isCheckable = true
-            if (index < customCount) chip.setChipBackgroundColorResource(R.color.orange_800_transparent_10)
+            if (item.equalizerEntry.presetIndex == -1) chip.setChipBackgroundColorResource(R.color.orange_800_transparent_10)
             if (item.equalizerEntry.id == viewModel.currentEqualizerId) selectedChip = chip
             chip.setOnClickListener {
                 viewModel.currentEqualizerId = it.tag as Long
