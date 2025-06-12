@@ -392,14 +392,14 @@ else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${BUILDTYPE}"
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
     if [ "$BUILDTYPE" = "Release" ] && [ "$ACTION" = "assemble" ]; then
         TARGET="bundle${BUILDTYPE}"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
     fi
     if [ "$TEST" = 1 ]; then
         TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
 
         echo -e "\n===================================\nRun following for UI tests:"
         echo "adb shell am instrument -w -m -e clearPackageData true   -e package org.videolan.vlc -e debug false org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
