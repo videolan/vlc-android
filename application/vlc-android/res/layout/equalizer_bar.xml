@@ -9,13 +9,16 @@
         android:orientation="vertical">
 
     <!-- Be careful: the view is rotated by 90 degrees. -->
+
     <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/band_value"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="+20dB"
-            android:textSize="10sp"
-            tools:ignore="HardcodedText" />
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:textColor="?attr/font_audio_light"
+            android:textSize="10sp" />
 
     <org.videolan.vlc.gui.view.VerticalSeekBarContainer
             android:layout_width="wrap_content"
@@ -32,15 +35,6 @@
 
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="-20dB"
-            android:textSize="10sp"
-            tools:ignore="HardcodedText" />
-
-
-    <TextView
             android:id="@+id/equalizer_band"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,16 +42,6 @@
             android:text="16kHz"
             android:textSize="10sp"
             tools:ignore="HardcodedText" />
-
-    <TextView
-            android:id="@+id/band_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="?attr/font_audio_light"
-            android:gravity="center"
-            android:textSize="10sp" />
 
 
 </LinearLayout>
