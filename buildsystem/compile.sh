@@ -368,6 +368,12 @@ elif [ "$NO_TV" = 1 ]; then
 elif [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
 fi
+if [ "$TEST" = 1 ] || [ "$RUN" = 1 ]; then
+    ACTION="install"
+else
+    ACTION="assemble"
+fi
+TARGET="${ACTION}${BUILDTYPE}"
 
 if [ "$FORCE_VLC_4" = 1 ]; then
     gradle_prop="-PforceVlc4=true"
@@ -377,19 +383,13 @@ if [ -n "$M2_REPO" ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc assemble${BUILDTYPE}
+    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc $TARGET
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     gradle_prop="$gradle_prop -PvlcLibVariant=$GRADLE_ABI"
-    ./gradlew ${gradle_prop} -p medialibrary assemble${BUILDTYPE}
+    ./gradlew ${gradle_prop} -p medialibrary $TARGET
     RUN=0
 else
-    if [ "$TEST" = 1 ] || [ "$RUN" = 1 ]; then
-        ACTION="install"
-    else
-        ACTION="assemble"
-    fi
-    TARGET="${ACTION}${BUILDTYPE}"
     ./gradlew ${gradle_prop} $TARGET
     if [ "$BUILDTYPE" = "Release" ] && [ "$ACTION" = "assemble" ]; then
         TARGET="bundle${BUILDTYPE}"
