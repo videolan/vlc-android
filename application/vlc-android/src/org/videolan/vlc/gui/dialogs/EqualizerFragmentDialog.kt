@@ -32,9 +32,6 @@ import android.view.ViewGroup.LayoutParams
 import android.widget.LinearLayout
 import androidx.core.content.edit
 import androidx.core.view.children
-import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -73,7 +70,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     }
 
     private lateinit var binding: DialogEqualizerBinding
-    private val state = EqualizerState()
 
     private val eqBandsViews = ArrayList<EqualizerBar>()
     var oldEqualiserSets = listOf<String>()
@@ -92,7 +88,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         savedInstanceState: Bundle?
     ): View? {
         binding = DialogEqualizerBinding.inflate(layoutInflater, container, false)
-        binding.state = state
         return binding.root
     }
 
@@ -236,7 +231,8 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      */
     fun selectPreset() {
         updateEqualizer()
-        state.name.set(viewModel.getCurrentEqualizer().equalizerEntry.name)
+        binding.name = viewModel.getCurrentEqualizer().equalizerEntry.name
+        binding.custom = getEqualizerType() == TYPE_CUSTOM
         val selectedChip = binding.equalizerPresets.findViewWithTag<Chip>(viewModel.getCurrentEqualizer().equalizerEntry.id)
         binding.equalizerPresets.check(selectedChip.id)
         updateEnabledState()
@@ -300,30 +296,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     }
 
     /**
-     * Equalizer state
-     *
-     * @constructor Create empty Equalizer state
-     */
-    inner class EqualizerState {
-
-        internal var saved = true
-        var saveButtonVisibility = ObservableBoolean(false)
-        var revertButtonVisibility = ObservableBoolean(false)
-        var deleteButtonVisibility = ObservableBoolean(false)
-        var name = ObservableField<String>()
-        var type = ObservableInt(TYPE_PRESET)
-
-        fun update(newSaved: Boolean) {
-            saved = newSaved
-            name.set(viewModel.getCurrentEqualizer().equalizerEntry.name)
-            type.set(getEqualizerType())
-            saveButtonVisibility.set(!newSaved)
-            revertButtonVisibility.set(!newSaved)
-            deleteButtonVisibility.set(newSaved && getEqualizerType() == TYPE_CUSTOM)
-        }
-    }
-
-    /**
      * Band listener
      *
      * @property index the band index
@@ -345,12 +317,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             newBandList.add(viewModel.getCurrentEqualizer().bands.first { it.index ==  index}.copy(bandValue = value))
             if (!binding.equalizerButton.isChecked)
                 binding.equalizerButton.isChecked = true
-
-            if (getEqualizerType() == TYPE_PRESET) {
-                state.update(false)
-            } else if (getEqualizerType() == TYPE_CUSTOM) {
-                state.update(false)
-            }
 
             /**
              * Snap bands
