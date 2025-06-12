@@ -380,7 +380,8 @@ if [ "$BUILD_LIBVLC" = 1 ];then
     GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc assemble${BUILDTYPE}
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p medialibrary assemble${BUILDTYPE}
+    gradle_prop="$gradle_prop -PvlcLibVariant=$GRADLE_ABI"
+    ./gradlew ${gradle_prop} -p medialibrary assemble${BUILDTYPE}
     RUN=0
 else
     if [ "$TEST" = 1 ] || [ "$RUN" = 1 ]; then

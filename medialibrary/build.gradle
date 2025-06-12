@@ -23,7 +23,7 @@
 apply plugin: 'com.android.library'
 apply plugin: "com.vanniktech.maven.publish"
 
-def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
+def abi = project.hasProperty('vlcLibVariant') ? project.getProperty('vlcLibVariant') : 'all'
 ext {
     library_version = "$rootProject.ext.medialibraryVersion"
 }
