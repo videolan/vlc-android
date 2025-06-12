@@ -107,7 +107,7 @@ def remoteAccessRevision() {
     try {
         def hash = new ByteArrayOutputStream()
         exec {
-            commandLine = ['bash', '-c', 'git -C remoteaccess rev-parse --short HEAD']
+            commandLine 'git', '-C', 'remoteaccess', 'rev-parse', '--short', 'HEAD'
             standardOutput = hash
         }
         return hash.toString()
