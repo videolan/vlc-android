@@ -373,7 +373,7 @@ if [ "$TEST" = 1 ] || [ "$RUN" = 1 ]; then
 else
     ACTION="assemble"
 fi
-TARGET="${ACTION}${BUILDTYPE}"
+GRADLE_TASK="${ACTION}${BUILDTYPE}"
 
 if [ "$FORCE_VLC_4" = 1 ]; then
     gradle_prop="-PforceVlc4=true"
@@ -383,21 +383,19 @@ if [ -n "$M2_REPO" ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} --project-dir ${VLC_LIBJNI_PATH}/libvlc $TARGET
+    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} --project-dir ${VLC_LIBJNI_PATH}/libvlc $GRADLE_TASK
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     gradle_prop="$gradle_prop -PvlcLibVariant=$GRADLE_ABI"
-    ./gradlew ${gradle_prop} --project-dir medialibrary $TARGET
+    ./gradlew ${gradle_prop} --project-dir medialibrary $GRADLE_TASK
     RUN=0
 else
-    ./gradlew ${gradle_prop} $TARGET
+    ./gradlew ${gradle_prop} $GRADLE_TASK
     if [ "$BUILDTYPE" = "Release" ] && [ "$ACTION" = "assemble" ]; then
-        TARGET="bundle${BUILDTYPE}"
-        ./gradlew ${gradle_prop} $TARGET
+        ./gradlew ${gradle_prop} "bundle${BUILDTYPE}"
     fi
     if [ "$TEST" = 1 ]; then
-        TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
-        ./gradlew ${gradle_prop} $TARGET
+        ./gradlew ${gradle_prop} "application:vlc-android:install${BUILDTYPE}AndroidTest"
 
         echo -e "\n===================================\nRun following for UI tests:"
         echo "adb shell am instrument -w -m -e clearPackageData true   -e package org.videolan.vlc -e debug false org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
