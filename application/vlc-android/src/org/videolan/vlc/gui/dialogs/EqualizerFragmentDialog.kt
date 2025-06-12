@@ -55,6 +55,7 @@ import org.videolan.vlc.databinding.DialogEqualizerBinding
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 import org.videolan.vlc.mediadb.models.EqualizerBand
+import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
 import org.videolan.vlc.viewmodels.EqualizerViewModel
 import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
@@ -74,8 +75,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     private lateinit var binding: DialogEqualizerBinding
     private val state = EqualizerState()
 
-    private var customCount = 0
     private val eqBandsViews = ArrayList<EqualizerBar>()
+    var oldEqualiserSets = listOf<String>()
+    var oldCurrentEqualizer: EqualizerWithBands? = null
 
     override fun getDefaultState(): Int {
         return STATE_EXPANDED
@@ -97,7 +99,19 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.equalizerEntries.observe(this) {
-            fillViews()
+            val newEqualizerSets = it.map { it.equalizerEntry.name }
+
+            if (oldEqualiserSets != newEqualizerSets) fillPresets()
+            if (oldCurrentEqualizer?.equalizerEntry?.preamp != viewModel.getCurrentEqualizer().equalizerEntry.preamp) {
+                fillPreamp()
+            }
+
+            if (oldCurrentEqualizer == null || oldCurrentEqualizer?.equalizerEntry?.id != viewModel.getCurrentEqualizer().equalizerEntry.id) {
+                fillBands()
+            }
+            if (oldCurrentEqualizer == null) fillViews()
+            oldEqualiserSets = newEqualizerSets
+            oldCurrentEqualizer = viewModel.getCurrentEqualizer()
         }
     }
 
@@ -124,10 +138,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             viewModel.updateEqualizer()
         }
 
-        // preamp
-        binding.equalizerPreamp.value = viewModel.getCurrentEqualizer().equalizerEntry.preamp.roundToInt().toFloat()
-        binding.equalizerPreamp.addOnChangeListener(this@EqualizerFragmentDialog)
-
         binding.undo.setOnClickListener {
             viewModel.undoFromHistory(requireActivity())
             updateBars()
@@ -137,8 +147,17 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.edit.setOnClickListener {
                 viewModel.createCustomEqualizer(requireActivity())
         }
+        updateEnabledState()
 
+    }
 
+    private fun fillPreamp() {
+        // preamp
+        binding.equalizerPreamp.value = viewModel.getCurrentEqualizer().equalizerEntry.preamp.roundToInt().toFloat()
+        binding.equalizerPreamp.addOnChangeListener(this@EqualizerFragmentDialog)
+    }
+
+    private fun fillPresets() {
         var selectedChip: Chip? = null
         binding.equalizerPresets.removeAllViews()
         viewModel.equalizerEntries.value?.forEachIndexed { index, item ->
@@ -151,6 +170,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             chip.setOnClickListener {
                 viewModel.currentEqualizerId = it.tag as Long
                 selectPreset()
+                fillPreamp()
+                fillBands()
+                oldCurrentEqualizer = viewModel.getCurrentEqualizer()
             }
             binding.equalizerPresets.addView(chip)
         }
@@ -159,10 +181,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             selectPreset()
             binding.equalizerPresetsContainer.scrollTo(selectedChip!!.left, selectedChip!!.top)
         }
-
-        fillBands()
-        updateEnabledState()
-
     }
 
     /**
@@ -174,7 +192,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.equalizerBands.removeAllViews()
         // bands
         val currentEqualizer = viewModel.getCurrentEqualizer()
-        currentEqualizer.bands.forEach { band ->
+        currentEqualizer.bands.sortedBy { it.index }.forEach { band ->
             val bandFrequency = MediaPlayer.Equalizer.getBandFrequency(band.index)
             val bar = EqualizerBar(requireContext(), bandFrequency)
             bar.setValue(band.bandValue)
@@ -314,14 +332,16 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     private inner class BandListener(private val index: Int) : OnEqualizerBarChangeListener {
 
         private var oldBands: MutableList<Int> = ArrayList()
+        private var newBandList = ArrayList<EqualizerBand>()
 
 
         override fun onProgressChanged(value: Float, fromUser: Boolean) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "onProgressChanged $index, $value, $fromUser")
             if (!fromUser)
                 return
             viewModel.saveInHistory(index)
 
-            val newBandList = ArrayList<EqualizerBand>()
+            newBandList = ArrayList<EqualizerBand>()
             newBandList.add(viewModel.getCurrentEqualizer().bands.first { it.index ==  index}.copy(bandValue = value))
             if (!binding.equalizerButton.isChecked)
                 binding.equalizerButton.isChecked = true
@@ -351,7 +371,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 if (newBandList.firstOrNull { it.index == oldBand.index } == null)
                     newBandList.add(oldBand)
             }
-            viewModel.updateEqualizerBands(requireActivity(), newBandList)
 
             if (binding.equalizerButton.isChecked) viewModel.updateEqualizer()
         }
@@ -365,6 +384,8 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
         override fun onStopTrackingTouch() {
             oldBands.clear()
+            viewModel.updateEqualizerBands(requireActivity(), newBandList)
+            if (BuildConfig.DEBUG) Log.d(TAG, "onStopTrackingTouch $index")
         }
     }
 
