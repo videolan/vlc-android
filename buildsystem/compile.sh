@@ -355,8 +355,6 @@ if [ "$NO_ML" != 1 ]; then
     cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
 
-GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
-
 ##################
 # Compile the UI #
 ##################
@@ -379,7 +377,7 @@ if [ -n "$M2_REPO" ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc assemble${BUILDTYPE}
+    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc assemble${BUILDTYPE}
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -p medialibrary assemble${BUILDTYPE}
@@ -391,14 +389,14 @@ else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${BUILDTYPE}"
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" ./gradlew ${gradle_prop} $TARGET
+    ./gradlew ${gradle_prop} $TARGET
     if [ "$BUILDTYPE" = "Release" ] && [ "$ACTION" = "assemble" ]; then
         TARGET="bundle${BUILDTYPE}"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" ./gradlew ${gradle_prop} $TARGET
+        ./gradlew ${gradle_prop} $TARGET
     fi
     if [ "$TEST" = 1 ]; then
         TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" ./gradlew ${gradle_prop} $TARGET
+        ./gradlew ${gradle_prop} $TARGET
 
         echo -e "\n===================================\nRun following for UI tests:"
         echo "adb shell am instrument -w -m -e clearPackageData true   -e package org.videolan.vlc -e debug false org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
