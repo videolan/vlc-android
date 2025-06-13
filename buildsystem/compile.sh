@@ -121,15 +121,17 @@ fi
 if [ -z "$ANDROID_ABI" ]; then
    diagnostic "*** No ANDROID_ABI defined architecture: using arm64-v8a"
    ANDROID_ABI="arm64-v8a"
+elif [ "$ANDROID_ABI" = "arm64" ]; then
+    ANDROID_ABI="arm64-v8a"
+elif [ "$ANDROID_ABI" = "arm" ]; then
+    ANDROID_ABI="armeabi-v7a"
 fi
 
-if [ "$ANDROID_ABI" = "armeabi-v7a" ] || [ "$ANDROID_ABI" = "arm" ]; then
-    ANDROID_ABI="armeabi-v7a"
+if [ "$ANDROID_ABI" = "armeabi-v7a" ]; then
     GRADLE_ABI="ARMv7"
     ARCH="arm"
     TRIPLET="arm-linux-androideabi"
-elif [ "$ANDROID_ABI" = "arm64-v8a" ] || [ "$ANDROID_ABI" = "arm64" ]; then
-    ANDROID_ABI="arm64-v8a"
+elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
     GRADLE_ABI="ARMv8"
     ARCH="arm64"
     TRIPLET="aarch64-linux-android"
