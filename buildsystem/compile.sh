@@ -334,7 +334,7 @@ fi
 diagnostic "Configuring"
 
 # Build LibVLC if asked for it, or needed by medialibrary
-OUT_DBG_DIR=.dbg/${ANDROID_ABI}
+OUT_DBG_DIR="$(pwd -P)/.dbg/${ANDROID_ABI}"
 mkdir -p $OUT_DBG_DIR
 
 if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ]; then
@@ -349,7 +349,7 @@ if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ];
     fi
     ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh -a ${ARCH} ${CONTRIB_FLAGS}
 
-    cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+    cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
 fi
 
 if [ "$NO_ML" != 1 ]; then
@@ -361,7 +361,7 @@ if [ "$NO_ML" != 1 ]; then
         medialig_args="$medialig_args --reset"
     fi
     buildsystem/compile-medialibrary.sh ${medialig_args}
-    cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+    cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
 fi
 
 ##################
