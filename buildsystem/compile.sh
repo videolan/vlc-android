@@ -121,8 +121,6 @@ fi
 if [ -z "$ANDROID_ABI" ]; then
    diagnostic "*** No ANDROID_ABI defined architecture: using arm64-v8a"
    ANDROID_ABI="arm64-v8a"
-   ARCH="arm64"
-   TRIPLET="aarch64-linux-android"
 fi
 
 if [ "$ANDROID_ABI" = "armeabi-v7a" ] || [ "$ANDROID_ABI" = "arm" ]; then
