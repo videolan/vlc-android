@@ -13,6 +13,7 @@ while [ $# -gt 0 ]; do
   help | --help)
     echo "Use -a to set the ARCH"
     echo "Use --release to build in release mode"
+    echo "Use --reset to reset code from git"
     exit 1
     ;;
   a | -a)
@@ -21,6 +22,9 @@ while [ $# -gt 0 ]; do
     ;;
   release | --release)
     RELEASE=1
+    ;;
+  reset | --reset)
+    RESET=1
     ;;
   esac
   shift
