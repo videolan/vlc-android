@@ -16,7 +16,8 @@ medialibrary/.libs
 medialibrary/prefix
 
 # Remote access
-remoteaccess/**
+application/remote-access-client/remoteaccess/**
+application/remote-access-client/assets/**
 
 # Android .so
 /android-libs/**/*.so
