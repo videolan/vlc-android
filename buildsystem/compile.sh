@@ -353,7 +353,14 @@ if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ];
 fi
 
 if [ "$NO_ML" != 1 ]; then
-    ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE RESET=$RESET buildsystem/compile-medialibrary.sh
+    medialig_args="-a $ANDROID_ABI"
+    if [ "$RELEASE" = 1 ]; then
+        medialig_args="$medialig_args --release"
+    fi
+    if [ "$RESET" = 1 ]; then
+        medialig_args="$medialig_args --reset"
+    fi
+    buildsystem/compile-medialibrary.sh ${medialig_args}
     cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
 
