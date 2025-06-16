@@ -111,7 +111,6 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@color/red500transparent_10"
                     android:visibility="gone"
                     app:cardBackgroundColor="@color/red500transparent_10"
                     app:cardCornerRadius="4dp"
@@ -181,13 +180,13 @@
 
             <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardView"
+                    style="@style/VLCCardView.NoShadow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@color/transparent"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="0dp"
                     app:cardUseCompatPadding="true"
