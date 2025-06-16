@@ -23,6 +23,7 @@
  */
 package org.videolan.vlc.gui.dialogs
 
+import android.animation.LayoutTransition
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -47,6 +48,8 @@ import org.videolan.resources.VLCOptions
 import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogEqualizerBinding
@@ -122,6 +125,10 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 MediaPlayer.Equalizer.getBandCount()
             }
         }
+        //Workaround fix for bottom sheet bug with animateLayoutChanges
+        val transition = LayoutTransition()
+        transition.setAnimateParentHierarchy(false)
+        binding.equalizerContainer.layoutTransition = transition
         super.onResume()
     }
 
@@ -143,9 +150,22 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             updateBars()
         }
 
-        //edit
+        binding.delete.setOnClickListener {
+            binding.warningContainer.setVisible()
+            viewModel.presetToDelete = viewModel.getCurrentEqualizer()
+        }
+
+        binding.warningCancel.setOnClickListener {
+            binding.warningContainer.setGone()
+            viewModel.presetToDelete = null
+        }
+        binding.warningConfirm.setOnClickListener {
+            binding.warningContainer.setGone()
+            viewModel.deleteEqualizer()
+        }
+
         binding.edit.setOnClickListener {
-                viewModel.createCustomEqualizer(requireActivity())
+            viewModel.createCustomEqualizer(requireActivity())
         }
         updateEnabledState()
 
