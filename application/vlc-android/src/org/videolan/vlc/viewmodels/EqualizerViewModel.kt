@@ -97,6 +97,11 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         equalizerRepository.addOrUpdateEqualizerWithBands(context, history.removeAt(history.lastIndex))
     }
 
+    fun clearHistory() {
+        history.clear()
+        lastSaveToHistoryFrom = -2
+    }
+
     fun getCurrentEqualizer(): EqualizerWithBands {
         return equalizerEntries.value!!.first { it.equalizerEntry.id == currentEqualizerId }
     }

@@ -168,6 +168,8 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             if (item.equalizerEntry.presetIndex == -1) chip.setChipBackgroundColorResource(R.color.orange_800_transparent_10)
             if (item.equalizerEntry.id == viewModel.currentEqualizerId) selectedChip = chip
             chip.setOnClickListener {
+                viewModel.clearHistory()
+                binding.undo.isEnabled = false
                 viewModel.currentEqualizerId = it.tag as Long
                 fillPreamp()
                 fillBands()
