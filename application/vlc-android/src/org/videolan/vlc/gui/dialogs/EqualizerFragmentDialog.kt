@@ -95,6 +95,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.equalizerEntries.observe(this) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "Received new equalizer entries")
             val newEqualizerSets = it.map { it.equalizerEntry.name }
 
             if (oldEqualiserSets != newEqualizerSets) fillPresets()
@@ -102,8 +103,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 fillPreamp()
             }
 
-            if (oldCurrentEqualizer == null || oldCurrentEqualizer?.equalizerEntry?.id != viewModel.getCurrentEqualizer().equalizerEntry.id) {
+            if (viewModel.needForceRefresh || oldCurrentEqualizer == null || oldCurrentEqualizer?.equalizerEntry?.id != viewModel.getCurrentEqualizer().equalizerEntry.id) {
                 fillBands()
+                viewModel.needForceRefresh = false
             }
             if (oldCurrentEqualizer == null) fillViews()
             oldEqualiserSets = newEqualizerSets
@@ -185,6 +187,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      *
      */
     fun fillBands() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "fillBands")
         eqBandsViews.clear()
         binding.equalizerBands.removeAllViews()
         // bands

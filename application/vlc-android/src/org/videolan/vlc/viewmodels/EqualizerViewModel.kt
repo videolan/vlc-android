@@ -25,6 +25,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -36,7 +37,9 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.mediadb.models.EqualizerBand
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
@@ -50,6 +53,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     var bandCount = -1
     var lastSaveToHistoryFrom = -2
     val settings = Settings.getInstance(context)
+    var needForceRefresh = false
 
     val equalizerEntries = equalizerRepository.equalizerEntries.asLiveData()
     var currentEqualizerId = 1L
@@ -74,6 +78,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      *
      */
     fun saveInHistory(from: Int) {
+        if (BuildConfig.DEBUG) Log.d(EqualizerFragmentDialog.TAG, "saveInHistory: from $from, saving: ${from != lastSaveToHistoryFrom}, history size: ${history.size}")
         if (from != lastSaveToHistoryFrom)
             history.add(getCurrentEqualizer().copy())
         lastSaveToHistoryFrom = from
@@ -85,8 +90,10 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      * @return the last equalizer from history
      */
     fun undoFromHistory(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        if (BuildConfig.DEBUG) Log.d(EqualizerFragmentDialog.TAG, "undoFromHistory: history size: ${history.size}")
         lastSaveToHistoryFrom = -2
         if (history.isEmpty()) return@launch
+        needForceRefresh = true
         equalizerRepository.addOrUpdateEqualizerWithBands(context, history.removeAt(history.lastIndex))
     }
 
@@ -103,7 +110,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     }
 
     fun updateEqualizerBands(context: Context, bands: List<EqualizerBand>) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, getCurrentEqualizer().copy(bands = bands))
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, getCurrentEqualizer().copy(bands = bands.sortedBy { it.index }))
     }
 
     fun createCustomEqualizer(context: Context) = viewModelScope.launch(Dispatchers.IO) {
