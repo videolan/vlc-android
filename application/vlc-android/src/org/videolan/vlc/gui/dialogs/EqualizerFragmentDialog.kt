@@ -107,6 +107,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 fillBands()
                 viewModel.needForceRefresh = false
             }
+            binding.undo.isEnabled = viewModel.history.isNotEmpty()
             if (oldCurrentEqualizer == null) fillViews()
             oldEqualiserSets = newEqualizerSets
             oldCurrentEqualizer = viewModel.getCurrentEqualizer()

@@ -49,7 +49,7 @@ import org.videolan.vlc.repository.EqualizerRepository
  *
  */
 class EqualizerViewModel(context: Context, private val equalizerRepository: EqualizerRepository) : ViewModel() {
-    private val history = ArrayList<EqualizerWithBands>()
+    val history = ArrayList<EqualizerWithBands>()
     var bandCount = -1
     var lastSaveToHistoryFrom = -2
     val settings = Settings.getInstance(context)
