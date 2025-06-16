@@ -43,14 +43,23 @@ class EqualizerRepository(private val equalizerDao: EqualizerDao, private val co
 
     fun getCurrentEqualizer(context: Context) = equalizerDao.getCurrentEqualizer(Settings.getInstance(context).getLong(KEY_CURRENT_EQUALIZER_ID, 1L))
 
-    fun addOrUpdateEqualizerWithBands(context: Context, equalizer:EqualizerWithBands) {
+    /**
+     * Add or update equalizer with bands
+     *
+     * @param context the context used to create the database transaction
+     * @param equalizer the equalizer to add or update
+     * @return the id of the created/updated equalizer
+     */
+    fun addOrUpdateEqualizerWithBands(context: Context, equalizer:EqualizerWithBands):Long {
+        var id = -1L
         MediaDatabase.getInstance(context).runInTransaction {
-            val id = equalizerDao.insert(equalizer.equalizerEntry)
+            id = equalizerDao.insert(equalizer.equalizerEntry)
             equalizer.bands.forEach {
                 it.equalizerEntry = id
                 equalizerDao.insertBands(it)
             }
         }
+        return id
     }
 
     fun delete(equalizerEntry: EqualizerEntry) {

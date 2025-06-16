@@ -109,7 +109,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     fun createCustomEqualizer(context: Context) = viewModelScope.launch(Dispatchers.IO) {
         val currentEqualizer = getCurrentEqualizer()
         val newEq = currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(presetIndex = -1, name = currentEqualizer.equalizerEntry.name + " (copy)").apply { id = 0 })
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
+        currentEqualizerId = equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
     }
 }
 
