@@ -26,11 +26,8 @@ import android.graphics.Color
 import android.media.AudioManager
 import android.os.Build
 import android.util.Log
-import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.core.content.getSystemService
-import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.VLCUtil
@@ -325,102 +322,6 @@ object VLCOptions {
             media.addOption(":sout-chromecast-audio-passthrough=" + prefs.getBoolean(KEY_CASTING_PASSTHROUGH, true))
             media.addOption(":sout-chromecast-conversion-quality=" + prefs.getString(KEY_CASTING_QUALITY, "2")!!)
         }
-    }
-
-    private fun getEqualizerSetFromSettings(pref: SharedPreferences): MediaPlayer.Equalizer? {
-        val bands = Preferences.getFloatArray(pref, "equalizer_values")
-        if (bands != null && pref.contains("equalizer_enabled")) {
-            val bandCount = MediaPlayer.Equalizer.getBandCount()
-            if (bands.size != bandCount + 1)
-                return null
-
-            val eq = MediaPlayer.Equalizer.create()
-            eq.preAmp = bands[0]
-            for (i in 0 until bandCount)
-                eq.setAmp(i, bands[i + 1])
-            return eq
-        } else
-            return MediaPlayer.Equalizer.createFromPreset(0)
-    }
-
-    @MainThread
-    @JvmOverloads
-    fun getEqualizerSetFromSettings(context: Context, force: Boolean = false): MediaPlayer.Equalizer? {
-        val pref = Settings.getInstance(context)
-        return if (!force && !pref.getBoolean("equalizer_enabled", false)) null else getEqualizerSetFromSettings(pref)
-    }
-
-    @MainThread
-    fun getEqualizerNameFromSettings(context: Context): String? {
-        val pref = Settings.getInstance(context)
-        return pref.getString("equalizer_set", "Flat")
-    }
-
-    @MainThread
-    fun saveEqualizerInSettings(context: Context, eq: MediaPlayer.Equalizer?, name: String, enabled: Boolean, saved: Boolean) {
-        Settings.getInstance(context).edit {
-            if (eq != null) {
-                putBoolean("equalizer_enabled", enabled)
-                val bandCount = MediaPlayer.Equalizer.getBandCount()
-                val bands = FloatArray(bandCount + 1)
-                bands[0] = eq.preAmp
-                for (i in 0 until bandCount) {
-                    bands[i + 1] = eq.getAmp(i)
-                }
-                Preferences.putFloatArray(this, "equalizer_values", bands)
-                putString("equalizer_set", name)
-            } else {
-                putBoolean("equalizer_enabled", false)
-            }
-            putBoolean("equalizer_saved", saved)
-        }
-    }
-
-    @MainThread
-    fun getCustomSet(context: Context, customName: String): MediaPlayer.Equalizer? {
-        try {
-            val pref = Settings.getInstance(context)
-            val key = "custom_equalizer_" + customName.replace(" ", "_")
-            val bands = Preferences.getFloatArray(pref, key)
-            val bandCount = MediaPlayer.Equalizer.getBandCount()
-            if (bands!!.size != bandCount + 1)
-                return null
-
-            val eq = MediaPlayer.Equalizer.create()
-            eq.preAmp = bands[0]
-            for (i in 0 until bandCount)
-                eq.setAmp(i, bands[i + 1])
-            return eq
-        } catch (e: Exception) {
-            return MediaPlayer.Equalizer.createFromPreset(0)
-        }
-
-    }
-
-    @MainThread
-    fun saveCustomSet(context: Context, eq: MediaPlayer.Equalizer, customName: String) {
-        Settings.getInstance(context).edit {
-            val formattedName = customName.replace(" ", "_")
-            val key = "custom_equalizer_$formattedName"
-            val bandCount = MediaPlayer.Equalizer.getBandCount()
-            val bands = FloatArray(bandCount + 1)
-            bands[0] = eq.preAmp
-            for (i in 0 until bandCount) {
-                bands[i + 1] = eq.getAmp(i)
-            }
-            Preferences.putFloatArray(this, key, bands)
-        }
-    }
-
-    @MainThread
-    fun deleteCustomSet(context: Context, customName: String) {
-        Settings.getInstance(context).edit {
-            remove("custom_equalizer_" + customName.replace(" ", "_"))
-        }
-    }
-
-    fun getEqualizerSavedState(context: Context): Boolean {
-        return Settings.getInstance(context).getBoolean("equalizer_saved", true)
     }
 
     fun getEqualizerEnabledState(context: Context): Boolean {
