@@ -134,6 +134,28 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
             presetToDelete = null
         }
     }
+
+    /**
+     * Is name allowed
+     *
+     * @param name the name to check
+     * @return true if name is not empty and not already used
+     */
+    fun isNameAllowed(name: String): Boolean {
+        return name.isNotBlank() && !equalizerEntries.value!!.any { it.equalizerEntry.name == name }
+    }
+
+    /**
+     * Update equalizer name
+     *
+     * @param context the context
+     * @param name the new name
+     */
+    fun updateEqualizerName(context: Context, name: String) = viewModelScope.launch(Dispatchers.IO) {
+        val currentEqualizer = getCurrentEqualizer()
+        val newEq = currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(name = name).apply { id = currentEqualizer.equalizerEntry.id })
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
+    }
 }
 
 class EqualizerViewModelFactory(private val context: Context, private val repository: EqualizerRepository) : ViewModelProvider.Factory {

@@ -1147,6 +1147,7 @@
     <string name="remove_from_playlist">Remove from playlist</string>
     <string name="play_media">Play %s</string>
     <string name="edit_eq_preset">Edit equalizer preset</string>
+    <string name="edit_eq_name_not_allowed">This name is not allowed</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Add duplicated item(s)?</string>

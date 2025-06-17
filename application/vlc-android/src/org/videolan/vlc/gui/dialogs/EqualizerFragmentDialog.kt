@@ -25,6 +25,8 @@ package org.videolan.vlc.gui.dialogs
 
 import android.animation.LayoutTransition
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -167,6 +169,20 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.edit.setOnClickListener {
             viewModel.createCustomEqualizer(requireActivity())
         }
+
+        binding.presetTitleEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString() == viewModel.getCurrentEqualizer().equalizerEntry.name) return
+                if (!viewModel.isNameAllowed(s.toString())) {
+                    binding.presetTitleEdit.error = getString(R.string.edit_eq_name_not_allowed)
+                } else {
+                    viewModel.updateEqualizerName(requireActivity(), s.toString())
+                    binding.presetTitleEdit.error = null
+                }
+            }
+            override fun afterTextChanged(s: Editable?) { }
+        })
         updateEnabledState()
 
     }
@@ -191,6 +207,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 viewModel.clearHistory()
                 binding.undo.isEnabled = false
                 viewModel.currentEqualizerId = it.tag as Long
+                binding.presetTitleEdit.clearFocus()
                 fillPreamp()
                 fillBands()
                 selectPreset()
@@ -259,7 +276,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      */
     fun selectPreset() {
         updateEqualizer()
-        binding.name = viewModel.getCurrentEqualizer().equalizerEntry.name
+        if (!binding.presetTitleEdit.hasFocus()) binding.name = viewModel.getCurrentEqualizer().equalizerEntry.name
         binding.custom = getEqualizerType() == TYPE_CUSTOM
         val selectedChip = binding.equalizerPresets.findViewWithTag<Chip>(viewModel.getCurrentEqualizer().equalizerEntry.id)
         binding.equalizerPresets.check(selectedChip.id)
