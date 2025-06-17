@@ -32,6 +32,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
+import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.content.edit
 import androidx.core.view.children
@@ -49,6 +50,7 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.tools.isStarted
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
@@ -195,6 +197,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
     private fun fillPresets() {
         var selectedChip: Chip? = null
+        var selectedChipIndex = 0
 
         // Refresh instead of recreating
         if (binding.equalizerPresets.children.count() == viewModel.equalizerEntries.value?.count()) {
@@ -213,7 +216,10 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             chip.tag = item.equalizerEntry.id
             chip.isCheckable = true
             if (item.equalizerEntry.presetIndex == -1) chip.setChipBackgroundColorResource(R.color.orange_800_transparent_10)
-            if (item.equalizerEntry.id == viewModel.currentEqualizerId) selectedChip = chip
+            if (item.equalizerEntry.id == viewModel.currentEqualizerId) {
+                selectedChip = chip
+                selectedChipIndex = index
+            }
             chip.setOnClickListener {
                 viewModel.clearHistory()
                 binding.undo.isEnabled = false
@@ -229,7 +235,11 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
         binding.equalizerPresetsContainer.post {
             selectPreset()
-            binding.equalizerPresetsContainer.scrollTo(selectedChip!!.left, selectedChip!!.top)
+            when {
+                (selectedChipIndex == 0) -> binding.equalizerPresetsContainer.scrollTo(0, selectedChip!!.top)
+                (selectedChipIndex == (viewModel.equalizerEntries.value?.size ?: 0) - 1) -> binding.equalizerPresetsContainer.fullScroll(HorizontalScrollView.FOCUS_RIGHT)
+                else -> binding.equalizerPresetsContainer.scrollTo(selectedChip!!.left - 48.dp, selectedChip!!.top)
+            }
         }
     }
 
