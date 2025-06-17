@@ -3,7 +3,6 @@ package org.videolan.vlc.gui.helpers
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -36,8 +35,8 @@ import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.DiffUtilAdapter
-import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.AudioControlsSettingsDialog
+import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SelectChapterDialog
@@ -328,7 +327,7 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 tag = "select_chapter"
             }
             ID_EQUALIZER -> {
-                newFragment = EqualizerFragment.newInstance()
+                newFragment = EqualizerFragmentDialog.newInstance()
                 tag = "equalizer"
             }
             ID_SAVE_PLAYLIST -> {

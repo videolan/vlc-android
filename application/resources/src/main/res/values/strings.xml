@@ -912,7 +912,6 @@
     <string name="eq_snap_bands">Snap bands</string>
     <string name="enable_equalizer">Enable</string>
     <string name="preamp">Preamp</string>
-    <string name="presets">Presets</string>
     <string name="reset">Reset</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d Track inserted</item>

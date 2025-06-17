@@ -188,11 +188,11 @@ import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.HeaderMediaListActivity.Companion.ARTIST_FROM_ALBUM
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
@@ -1450,7 +1450,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun showEqualizer() {
-        val newFragment = EqualizerFragment()
+        val newFragment = EqualizerFragmentDialog()
         newFragment.onDismissListener = DialogInterface.OnDismissListener { overlayDelegate.dimStatusBar(true) }
         newFragment.show(supportFragmentManager, "equalizer")
     }
