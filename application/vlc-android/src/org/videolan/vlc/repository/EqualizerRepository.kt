@@ -38,7 +38,7 @@ class EqualizerRepository(private val equalizerDao: EqualizerDao, private val co
 
 
     val equalizerEntries by lazy {
-            equalizerDao.getAllEqualizerEntries()
+            equalizerDao.getEnabledEqualizerEntries()
     }
 
     fun getCurrentEqualizer(context: Context) = equalizerDao.getCurrentEqualizer(Settings.getInstance(context).getLong(KEY_CURRENT_EQUALIZER_ID, 1L))

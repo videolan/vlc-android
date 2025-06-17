@@ -157,6 +157,11 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.delete.setOnClickListener {
             binding.warningContainer.setVisible()
             viewModel.presetToDelete = viewModel.getCurrentEqualizer()
+            if (getEqualizerType() == TYPE_CUSTOM) {
+                binding.warningText.text = getString(R.string.confirm_delete_eq)
+            } else {
+                binding.warningText.text = getString(R.string.confirm_delete_vlc_eq)
+            }
         }
 
         binding.warningCancel.setOnClickListener {
@@ -165,7 +170,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         }
         binding.warningConfirm.setOnClickListener {
             binding.warningContainer.setGone()
-            viewModel.deleteEqualizer()
+            viewModel.deleteEqualizer(requireActivity())
         }
 
         binding.edit.setOnClickListener {
@@ -288,7 +293,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.equalizerBands.children.forEach {
             it.isEnabled = eqCardEnabled
         }
-        binding.delete.isEnabled = eqCardEnabled
+        binding.delete.isEnabled = isChecked
         binding.edit.isEnabled = isChecked
         binding.undo.isEnabled = eqCardEnabled && viewModel.history.isNotEmpty()
         binding.presetTitleEdit.isEnabled = eqCardEnabled

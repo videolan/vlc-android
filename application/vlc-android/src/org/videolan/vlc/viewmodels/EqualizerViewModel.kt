@@ -125,11 +125,17 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         currentEqualizerId = equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
     }
 
-    fun deleteEqualizer() {
+    fun deleteEqualizer(context: Context) {
         presetToDelete?.let {
-            currentEqualizerId = equalizerEntries.value!!.first { it.equalizerEntry.id != currentEqualizerId }.equalizerEntry.id
             viewModelScope.launch(Dispatchers.IO) {
-                equalizerRepository.delete(it.equalizerEntry)
+                if (it.equalizerEntry.presetIndex != -1) {
+                    currentEqualizerId = equalizerEntries.value!!.first { it.equalizerEntry.id != currentEqualizerId }.equalizerEntry.id
+                    val newEq = it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = true).apply { id = it.equalizerEntry.id })
+                    equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
+                } else {
+                    currentEqualizerId = equalizerEntries.value!!.first { it.equalizerEntry.id != currentEqualizerId }.equalizerEntry.id
+                    equalizerRepository.delete(it.equalizerEntry)
+                }
             }
             presetToDelete = null
         }

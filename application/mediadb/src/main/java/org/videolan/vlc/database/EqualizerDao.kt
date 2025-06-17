@@ -52,6 +52,10 @@ interface EqualizerDao {
     @Query("SELECT * FROM equalizer_entry ORDER BY preset_index ASC")
     fun getAllEqualizerEntries(): Flow<List<EqualizerWithBands>>
 
+    @Transaction
+    @Query("SELECT * FROM equalizer_entry WHERE is_disabled = 0 ORDER BY preset_index ASC")
+    fun getEnabledEqualizerEntries(): Flow<List<EqualizerWithBands>>
+
     @Query("SELECT * FROM equalizer_entry WHERE id = :id")
     fun getCurrentEqualizer(id: Long): EqualizerWithBands
 
