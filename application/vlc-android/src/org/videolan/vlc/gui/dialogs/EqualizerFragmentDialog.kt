@@ -288,6 +288,10 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.equalizerBands.children.forEach {
             it.isEnabled = eqCardEnabled
         }
+        binding.delete.isEnabled = eqCardEnabled
+        binding.edit.isEnabled = isChecked
+        binding.undo.isEnabled = eqCardEnabled && viewModel.history.isNotEmpty()
+        binding.presetTitleEdit.isEnabled = eqCardEnabled
         binding.snapBands.isEnabled = eqCardEnabled
     }
 
