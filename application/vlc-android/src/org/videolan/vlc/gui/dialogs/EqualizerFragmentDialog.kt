@@ -195,6 +195,17 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
     private fun fillPresets() {
         var selectedChip: Chip? = null
+
+        // Refresh instead of recreating
+        if (binding.equalizerPresets.children.count() == viewModel.equalizerEntries.value?.count()) {
+            binding.equalizerPresets.children.forEachIndexed {index, chip ->
+                (chip as Chip).let {
+                    it.tag = viewModel.equalizerEntries.value?.get(index)?.equalizerEntry?.id
+                    it.text = viewModel.equalizerEntries.value?.get(index)?.equalizerEntry?.name
+                }
+            }
+            return
+        }
         binding.equalizerPresets.removeAllViews()
         viewModel.equalizerEntries.value?.forEachIndexed { index, item ->
             val chip = Chip(requireActivity())
