@@ -2,12 +2,12 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := medialibrary
-LOCAL_SRC_FILES := ../medialibrary/build-android-$(ANDROID_ABI)/src/libmedialibrary.a
+LOCAL_SRC_FILES := ../medialibrary/build-android-$(APP_ABI)/src/libmedialibrary.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := sqlite
-LOCAL_SRC_FILES := ../$(SQLITE_RELEASE)/build-$(ANDROID_ABI)/.libs/libsqlite3.a
+LOCAL_SRC_FILES := ../$(SQLITE_RELEASE)/build-$(APP_ABI)/.libs/libsqlite3.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
