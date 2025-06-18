@@ -31,6 +31,7 @@ while [ $# -gt 0 ]; do
 done
 
 SRC_DIR=$PWD
+# gets TARGET_TUPLE / ANDROID_API / CLANG_PREFIX / CROSS_CLANG / VLC_CFLAGS / VLC_CXXFLAGS / NDK_DEBUG / MAKEFLAGS / LIBVLCJNI_SRC_DIR
 AVLC_SOURCED=1 . libvlcjni/buildsystem/compile-libvlc.sh
 
 ################
