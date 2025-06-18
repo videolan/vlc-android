@@ -100,6 +100,10 @@
                 android:title="@string/audio_prefs_category"
                 android:key="audio_category"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesAudio"/>
+
+        <Preference
+                android:title="@string/equalizer"
+                android:key="equalizer"/>
         <Preference
                 android:title="@string/casting_category"
                 android:key="casting_category"/>

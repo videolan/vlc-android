@@ -67,6 +67,7 @@
     <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="equalizer_deleted">The equalizer has been deleted</string>
     <string name="confirm_delete_eq">Are you sure you want to delete this preset?</string>
     <string name="confirm_delete_vlc_eq">Are you sure you want to hide this preset?\nYou can restore it in the equalizer settings.</string>
     <string name="confirm_replace_playlist">Are you sure you want to replace the playlist \'%1$s\'?</string>
@@ -1148,6 +1149,9 @@
     <string name="play_media">Play %s</string>
     <string name="edit_eq_preset">Edit equalizer preset</string>
     <string name="edit_eq_name_not_allowed">This name is not allowed</string>
+    <string name="export_equalizer">Export equalizer</string>
+    <string name="hide_equalizer">Hide equalizer</string>
+    <string name="show_equalizer">Show equalizer</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Add duplicated item(s)?</string>

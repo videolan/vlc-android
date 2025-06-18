@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+        <variable
+                name="equalizer"
+                type="org.videolan.vlc.mediadb.models.EqualizerWithBands" />
+
+        <variable
+                name="holder"
+                type="org.videolan.vlc.gui.EqualizerSettingsAdapter.ViewHolder" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical"
+            android:focusable="true">
+
+        <ImageView
+                android:id="@+id/imageView22"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:equalizerImage="@{equalizer}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{equalizer.equalizerEntry.name}"
+                android:textColor="?attr/font_default"
+                app:equalizerNameColor="@{equalizer}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/export"
+                app:layout_constraintStart_toEndOf="@+id/imageView22"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Classical" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/enable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/actionBarItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/show_equalizer"
+                android:focusable="true"
+                android:onClick="@{holder::onClickEnable}"
+                android:padding="12dp"
+                android:visibility="@{equalizer.equalizerEntry.presetIndex != -1 &amp;&amp; equalizer.equalizerEntry.isDisabled ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/disable"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_invisible"
+                app:tint="?attr/colorControlNormal" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/disable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/actionBarItemBackground"
+                android:onClick="@{holder::onClickDisable}"
+                android:clickable="true"
+                android:contentDescription="@string/hide_equalizer"
+                android:focusable="true"
+                android:padding="12dp"
+                android:visibility="@{equalizer.equalizerEntry.presetIndex == -1 || equalizer.equalizerEntry.isDisabled ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_visible"
+                app:tint="?attr/colorControlNormal" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/actionBarItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/delete"
+                android:onClick="@{holder::onClickDelete}"
+                android:focusable="true"
+                android:padding="12dp"
+                android:visibility="@{equalizer.equalizerEntry.presetIndex == -1 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/enable"
+                app:layout_constraintEnd_toStartOf="@+id/enable"
+                app:layout_constraintTop_toTopOf="@+id/enable"
+                app:srcCompat="@drawable/ic_delete"
+                app:tint="?attr/colorControlNormal" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/export"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/actionBarItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/export_equalizer"
+                android:onClick="@{holder::onClickExport}"
+                android:focusable="true"
+                android:padding="12dp"
+                android:visibility="@{equalizer.equalizerEntry.presetIndex == -1 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/delete"
+                app:layout_constraintEnd_toStartOf="@+id/delete"
+                app:layout_constraintTop_toTopOf="@+id/delete"
+                app:srcCompat="@drawable/ic_export"
+                app:tint="?attr/colorControlNormal" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

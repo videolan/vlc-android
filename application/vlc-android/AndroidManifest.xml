@@ -991,6 +991,9 @@
             android:name=".gui.LibrariesActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
+            android:name=".gui.EqualizerSettingsActivity"
+            android:theme="@style/Theme.VLC"/>
+        <activity
             android:name=".gui.PinCodeActivity"
             android:theme="@style/Theme.VLC"
             android:windowSoftInputMode="adjustResize"/>
