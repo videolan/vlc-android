@@ -212,7 +212,7 @@ cd ${SRC_DIR}
 
 MEDIALIBRARY_LDLIBS="-L$LIBVLCJNI_SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc \
 -L$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib -ljpeg \
--L${NDK_LIB_DIR} -lc++abi"
+-lc++abi"
 
 $NDK_BUILD -C medialibrary \
   APP_STL="c++_shared" \
