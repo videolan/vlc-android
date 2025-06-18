@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.EqualizerSettingItemBinding
 import org.videolan.vlc.databinding.EqualizerSettingsActivityBinding
+import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
@@ -94,9 +96,17 @@ class EqualizerSettingsActivity : BaseActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.equalizer_settings_option, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
+            R.id.show_equalizer -> EqualizerFragmentDialog().show(supportFragmentManager, "equalizer")
+            R.id.equalizer_show_all -> model.showAll(this)
+            R.id.equalizer_hide_all -> model.hideAll(this)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -105,6 +115,7 @@ class EqualizerSettingsActivity : BaseActivity() {
 
 class EqualizerSettingsModel(private val equalizerRepository: EqualizerRepository) : ViewModel() {
     private var oldEqualizer: EqualizerWithBands? = null
+    val equalizerEntries = equalizerRepository.equalizerEntriesUnfiltered.asLiveData()
 
     fun enable(context: Context, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
         equalizerRepository.addOrUpdateEqualizerWithBands(context, equalizer.copy(equalizerEntry = equalizer.equalizerEntry.copy(isDisabled = false).apply { id = equalizer.equalizerEntry.id }))
@@ -127,7 +138,19 @@ class EqualizerSettingsModel(private val equalizerRepository: EqualizerRepositor
 //todo add export
     }
 
-    val equalizerEntries = equalizerRepository.equalizerEntriesUnfiltered.asLiveData()
+    fun showAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerEntries.value?.forEach {
+            if (it.equalizerEntry.presetIndex != -1 && it.equalizerEntry.isDisabled)
+            equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = false).apply { id = it.equalizerEntry.id }))
+        }
+    }
+
+    fun hideAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerEntries.value?.forEach {
+            if (it.equalizerEntry.presetIndex != -1 && !it.equalizerEntry.isDisabled)
+            equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = true).apply { id = it.equalizerEntry.id }))
+        }
+    }
 }
 
 class EqualizerSettingsModelFactory(private val context: Context, private val repository: EqualizerRepository) : ViewModelProvider.Factory {

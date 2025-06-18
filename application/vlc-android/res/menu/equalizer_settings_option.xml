@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ *************************************************************************
+  ~  widget_configure_option.xml
+  ~ **************************************************************************
+  ~ Copyright © 2022 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:orderInCategory="1"
+            android:id="@+id/show_equalizer"
+            android:icon="@drawable/ic_options_equalizer"
+            android:title="@string/equalizer"
+            vlc:showAsAction="ifRoom"/>
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/equalizer_import"
+            android:icon="@drawable/ic_import"
+            android:title="@string/import_equalizer"
+            vlc:showAsAction="ifRoom"/>
+
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/equalizer_show_all"
+            android:title="@string/show_all"
+            vlc:showAsAction="never"/>
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/equalizer_hide_all"
+            android:title="@string/hide_all"
+            vlc:showAsAction="never"/>
+
+
+</menu>

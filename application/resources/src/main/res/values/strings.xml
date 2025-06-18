@@ -136,6 +136,9 @@
     <string name="video">Video</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="equalizer">Equalizer</string>
+    <string name="import_equalizer">Import equalizer</string>
+    <string name="show_all">Show all</string>
+    <string name="hide_all">Hide all</string>
     <string name="all_albums">All albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Playlists</string>
