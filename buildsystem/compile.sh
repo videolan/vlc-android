@@ -35,6 +35,7 @@ while [ $# -gt 0 ]; do
             echo "Use -s to set your keystore file and -p for the password"
             echo "Use -c to get a ChromeOS build"
             echo "Use -l to build only LibVLC"
+            echo "Use -ml to build only the medialibrary"
             echo "Use -b to bypass libvlc source checks (vlc custom sources)"
             echo "Use -t to use prebuilt contribs for LibVLC"
             echo "Use -m2 to set the maven local repository path to use"
