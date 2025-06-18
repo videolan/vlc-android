@@ -70,7 +70,7 @@ if [ ! -d "build-$ANDROID_ABI" ]; then
 fi;
 cd "build-$ANDROID_ABI";
 
-if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
+if [ ! -e ./config.status ] || [ "$RELEASE" = "1" ]; then
   ../configure \
     --host=$TARGET_TUPLE \
     --prefix=${SRC_DIR}/medialibrary/prefix/${TARGET_TUPLE} \
@@ -143,7 +143,7 @@ if [ "$RELEASE" = "1" ]; then
         avlc_checkfail "Release builds must use tags"
 fi
 
-if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
+if [ ! -d "build-android-$ANDROID_ABI/" ] || [ ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     PKG_CONFIG_LIBDIR="$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
     PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
     LDFLAGS="-Wl,-z,max-page-size=16384" \
