@@ -141,7 +141,7 @@ continuous-app-build:
 continuous-app-build-v4:
   extends: .build-all-base
   script:
-    - ./buildsystem/compile.sh --init
+    - ./buildsystem/compile.sh --init -vlc4
     - ./gradlew assembleDebug -PforceVlc4=true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
