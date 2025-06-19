@@ -181,11 +181,12 @@ printf 'cpu = '"'"'%s'"'"'\n' "${MESON_CPU}" >&3
 if [ ! -d "build-android-$ANDROID_ABI/" ] || [ ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     PKG_CONFIG_LIBDIR="$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
     PKG_CONFIG_PATH="${MEDIALIBRARY_PREFIX}/lib/pkgconfig:$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
-    meson \
+    meson setup \
         -Ddebug=true \
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
         -Db_ndebug=${MEDIALIBRARY_NDEBUG} \
         -Ddefault_library=static \
+        --prefix "${MEDIALIBRARY_PREFIX}" \
         --cross-file crossfile-${ANDROID_ABI}-android-${ANDROID_API}.meson \
         -Dlibjpeg_prefix="$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
         -Dtests=disabled \
@@ -201,8 +202,8 @@ avlc_checkfail "medialibrary: meson failed"
 ############
 
 echo -e "\e[1m\e[32mBuilding medialibrary\e[0m"
-cd "build-android-$ANDROID_ABI/";
-ninja
+meson compile -C "build-android-$ANDROID_ABI"
+meson install -C "build-android-$ANDROID_ABI"
 
 avlc_checkfail "medialibrary: build failed"
 
