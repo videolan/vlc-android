@@ -144,6 +144,40 @@ if [ "$RELEASE" = "1" ]; then
         avlc_checkfail "Release builds must use tags"
 fi
 
+if [ "$ANDROID_ABI" = "armeabi-v7a" ]; then
+    MESON_CPU="arm"
+elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
+    MESON_CPU="aarch64"
+elif [ "$ANDROID_ABI" = "x86" ]; then
+    MESON_CPU="i686"
+elif [ "$ANDROID_ABI" = "x86_64" ]; then
+    MESON_CPU="x86_64"
+else
+    diagnostic "Invalid arch specified: '$ANDROID_ABI'."
+    diagnostic "Try --help for more information"
+    exit 1
+fi
+
+echo "generate meson ${ANDROID_ABI}-${ANDROID_API} crossfile"
+exec 3>crossfile-${ANDROID_ABI}-android-${ANDROID_API}.meson || return $?
+
+printf '[binaries]\n' >&3
+printf 'c = '"'"'%s'"'"'\n' "${CLANG_PREFIX}${ANDROID_API}-clang" >&3
+printf 'cpp = '"'"'%s'"'"'\n' "${CLANG_PREFIX}${ANDROID_API}-clang++" >&3
+printf 'ar = '"'"'llvm-ar'"'"'\n' >&3
+printf 'strip = '"'"'llvm-strip'"'"'\n' >&3
+printf 'pkgconfig = '"'"'pkg-config'"'"'\n' >&3
+
+printf '\n[host_machine]\n' >&3
+printf 'system = '"'"'android'"'"'\n' >&3
+printf 'endian = '"'"'little'"'"'\n' >&3
+if [ "${MESON_CPU}" = "i686" ]; then
+    printf 'cpu_family = '"'"'%s'"'"'\n' "x86" >&3
+else
+    printf 'cpu_family = '"'"'%s'"'"'\n' "${MESON_CPU}" >&3
+fi
+printf 'cpu = '"'"'%s'"'"'\n' "${MESON_CPU}" >&3
+
 if [ ! -d "build-android-$ANDROID_ABI/" ] || [ ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     PKG_CONFIG_LIBDIR="$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
     PKG_CONFIG_PATH="${MEDIALIBRARY_PREFIX}/lib/pkgconfig:$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
@@ -152,7 +186,7 @@ if [ ! -d "build-android-$ANDROID_ABI/" ] || [ ! -f "build-android-$ANDROID_ABI/
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
         -Db_ndebug=${MEDIALIBRARY_NDEBUG} \
         -Ddefault_library=static \
-        --cross-file ${SRC_DIR}/buildsystem/crossfiles/${ANDROID_ABI}-ndk${REL}.crossfile \
+        --cross-file crossfile-${ANDROID_ABI}-android-${ANDROID_API}.meson \
         -Dlibjpeg_prefix="$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/" \
         -Dtests=disabled \
         -Dforce_attachment_api=true \
