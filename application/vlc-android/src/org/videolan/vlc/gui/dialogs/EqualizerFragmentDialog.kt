@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.animation.LayoutTransition
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -57,6 +58,9 @@ import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogEqualizerBinding
+import org.videolan.vlc.gui.EqualizerSettingsActivity
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 import org.videolan.vlc.mediadb.models.EqualizerBand
@@ -147,6 +151,18 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         binding.equalizerButton.setOnCheckedChangeListener { _, isChecked ->
             updateEnabledState()
             viewModel.updateEqualizer()
+        }
+
+        if (requireActivity() is EqualizerSettingsActivity) {
+            binding.equalizerSettings.setGone()
+        }
+        binding.equalizerSettings.setOnClickListener {
+            if (requireActivity() is VideoPlayerActivity)
+                UiTools.snackerConfirm(requireActivity(), getString(R.string.equalizer_leave_warning), forcedView = dialog?.window?.decorView) {
+                    startActivity(Intent(requireActivity(), EqualizerSettingsActivity::class.java))
+                }
+            else
+                startActivity(Intent(requireActivity(), EqualizerSettingsActivity::class.java))
         }
 
         binding.undo.setOnClickListener {
