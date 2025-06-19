@@ -25,8 +25,10 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.core.content.edit
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -34,15 +36,21 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.mediadb.models.EqualizerBand
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
+import org.videolan.vlc.util.JsonUtil
+import java.io.File
 
 /**
  * View model storing data for the equalizer dialog
@@ -55,8 +63,11 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     val settings = Settings.getInstance(context)
     var needForceRefresh = false
     var presetToDelete:EqualizerWithBands? = null
+    private var oldEqualizer: EqualizerWithBands? = null
 
     val equalizerEntries = equalizerRepository.equalizerEntries.asLiveData()
+    val equalizerUnfilteredEntries = equalizerRepository.equalizerEntriesUnfiltered.asLiveData()
+
     var currentEqualizerId = 1L
         set(value) {
             field = value
@@ -72,6 +83,19 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
 
     init {
         currentEqualizerId = settings.getLong(KEY_CURRENT_EQUALIZER_ID, 1L)
+    }
+
+    fun insert(context: Context, equalizerWithBands: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        val eq = EqualizerWithBands(equalizerWithBands.equalizerEntry.copy().apply { id = 0 }, equalizerWithBands.bands)
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, eq)
+    }
+
+    fun enable(context: Context, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, equalizer.copy(equalizerEntry = equalizer.equalizerEntry.copy(isDisabled = false).apply { id = equalizer.equalizerEntry.id }))
+    }
+
+    fun disable(context: Context, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, equalizer.copy(equalizerEntry = equalizer.equalizerEntry.copy(isDisabled = true).apply { id = equalizer.equalizerEntry.id }))
     }
 
     /**
@@ -142,6 +166,25 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     }
 
     /**
+     * Delete an equalizer from the database
+     *
+     * @param equalizer the equalizer to delete
+     */
+    fun delete(equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        oldEqualizer = equalizer
+        equalizerRepository.delete(equalizer.equalizerEntry)
+    }
+
+    /**
+     * Restore the old equalizer
+     *
+     * @param context the context
+     */
+    fun restore(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, oldEqualizer!!)
+    }
+
+    /**
      * Is name allowed
      *
      * @param name the name to check
@@ -149,6 +192,16 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      */
     fun isNameAllowed(name: String): Boolean {
         return name.isNotBlank() && !equalizerEntries.value!!.any { it.equalizerEntry.name == name }
+    }
+
+    /**
+     * Check if the name is forbidden because a default preset is using it
+     *
+     * @param name the name to check
+     * @return true if name is forbidden
+     */
+    fun checkForbidden(name:String): Boolean {
+        return equalizerEntries.value?.any { it.equalizerEntry.name == name && it.equalizerEntry.presetIndex != -1 } != false
     }
 
     /**
@@ -162,6 +215,54 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         val newEq = currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(name = name).apply { id = currentEqualizer.equalizerEntry.id })
         equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
     }
+
+    /**
+     * Enable all the default equalizers
+     *
+     * @param context the context
+     */
+    fun showAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerUnfilteredEntries.value?.forEach {
+            if (it.equalizerEntry.presetIndex != -1 && it.equalizerEntry.isDisabled)
+                equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = false).apply { id = it.equalizerEntry.id }))
+        }
+    }
+
+    /**
+     * Disable all the default equalizers
+     *
+     * @param context the context
+     */
+    fun hideAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerUnfilteredEntries.value?.forEach {
+            if (it.equalizerEntry.presetIndex != -1 && !it.equalizerEntry.isDisabled)
+                equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = true).apply { id = it.equalizerEntry.id }))
+        }
+    }
+
+    /**
+     * Export an equalizer to a file
+     *
+     * @param context the context
+     * @param equalizer the equalizer to export
+     */
+    fun export(context: FragmentActivity, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        val characterFilter = Regex("[^\\p{L}\\p{M}\\p{N}\\p{P}\\p{Z}\\p{Cf}\\p{Cs}\\s]")
+        val fileName: String? = equalizer.equalizerEntry.name
+            .replace(characterFilter, "")
+            .lowercase()
+            .trim()
+            .replace(" ", "_")
+            .replace("/", "")
+        UiTools.snacker(context, context.getString(R.string.equalizer_exported, fileName))
+        val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + File.separator + fileName + ".json")
+        if (context.getWritePermission(Uri.fromFile(dst))) {
+            JsonUtil.convertToJson(equalizer).let {
+                dst.writeText(it)
+            }
+        }
+    }
+
 }
 
 class EqualizerViewModelFactory(private val context: Context, private val repository: EqualizerRepository) : ViewModelProvider.Factory {

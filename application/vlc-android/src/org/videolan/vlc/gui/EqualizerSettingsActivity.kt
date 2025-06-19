@@ -8,7 +8,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -23,22 +22,20 @@ import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.createBitmap
+import androidx.core.net.toUri
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.dp
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.EqualizerSettingItemBinding
@@ -49,17 +46,13 @@ import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.repository.EqualizerRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.JsonUtil
-import java.io.File
-import androidx.core.net.toUri
-import androidx.core.widget.addTextChangedListener
-import org.videolan.tools.setGone
-import org.videolan.tools.setVisible
+import org.videolan.vlc.viewmodels.EqualizerViewModel
+import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
 
 private const val FILE_PICKER_RESULT_CODE = 10000
 
@@ -71,8 +64,9 @@ private const val FILE_PICKER_RESULT_CODE = 10000
 class EqualizerSettingsActivity : BaseActivity() {
 
     private lateinit var adapter: EqualizerSettingsAdapter
-    private val model: EqualizerSettingsModel by viewModels {
-        EqualizerSettingsModelFactory(this, EqualizerRepository.getInstance(application))
+
+    private val model: EqualizerViewModel by viewModels {
+        EqualizerViewModelFactory(this, EqualizerRepository.getInstance(application))
     }
 
     internal lateinit var binding: EqualizerSettingsActivityBinding
@@ -95,7 +89,7 @@ class EqualizerSettingsActivity : BaseActivity() {
                 ClickType.EQUALIZER_ENABLE -> model.enable(this, equalizer)
                 ClickType.EQUALIZER_DISABLE -> model.disable(this, equalizer)
                 ClickType.EQUALIZER_DELETE -> {
-                    model.delete(this, equalizer)
+                    model.delete( equalizer)
                     UiTools.snackerConfirm(this, getString(R.string.equalizer_deleted), confirmMessage = R.string.undo) {
                         model.restore(this)
                     }
@@ -106,7 +100,7 @@ class EqualizerSettingsActivity : BaseActivity() {
         }
         binding.equalizers.adapter = adapter
 
-        model.equalizerEntries.observe(this, Observer {
+        model.equalizerUnfilteredEntries.observe(this, Observer {
             adapter.update(it)
         })
         binding.renameInputText.addTextChangedListener {
@@ -119,7 +113,7 @@ class EqualizerSettingsActivity : BaseActivity() {
             }
             binding.renameInputText.error = null
                 binding.overwrite.isEnabled = true
-            if (model.checkAvailability(it.toString()))
+            if (model.isNameAllowed(it.toString()))
                 binding.overwrite.text = getString(R.string.rename)
             else
                 binding.overwrite.text = getString(R.string.overwrite)
@@ -161,7 +155,7 @@ class EqualizerSettingsActivity : BaseActivity() {
                             if (it.equalizerEntry == null || it.bands == null || it.bands.isEmpty())
                                 UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
                             else {
-                                if (model.checkAvailability(it.equalizerEntry.name)) {
+                                if (model.isNameAllowed(it.equalizerEntry.name)) {
                                     model.insert(this@EqualizerSettingsActivity, it)
                                 } else showOverwriteDialog(it)
                             }
@@ -191,82 +185,6 @@ class EqualizerSettingsActivity : BaseActivity() {
             binding.overwriteContainer.setGone()
         }
 
-    }
-}
-
-class EqualizerSettingsModel(private val equalizerRepository: EqualizerRepository) : ViewModel() {
-    private var oldEqualizer: EqualizerWithBands? = null
-    val equalizerEntries = equalizerRepository.equalizerEntriesUnfiltered.asLiveData()
-
-    fun enable(context: Context, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, equalizer.copy(equalizerEntry = equalizer.equalizerEntry.copy(isDisabled = false).apply { id = equalizer.equalizerEntry.id }))
-    }
-
-    fun disable(context: Context, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, equalizer.copy(equalizerEntry = equalizer.equalizerEntry.copy(isDisabled = true).apply { id = equalizer.equalizerEntry.id }))
-    }
-
-    fun delete(context: Context, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
-        oldEqualizer = equalizer
-        equalizerRepository.delete(equalizer.equalizerEntry)
-    }
-
-    fun restore(context: Context) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, oldEqualizer!!)
-    }
-
-    fun export(context: FragmentActivity, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
-        val characterFilter = Regex("[^\\p{L}\\p{M}\\p{N}\\p{P}\\p{Z}\\p{Cf}\\p{Cs}\\s]")
-        val fileName: String? = equalizer.equalizerEntry.name
-            .replace(characterFilter, "")
-            .lowercase()
-            .trim()
-            .replace(" ", "_")
-            .replace("/", "")
-        UiTools.snacker(context, context.getString(R.string.equalizer_exported, fileName))
-        val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + File.separator + fileName + ".json")
-        if (context.getWritePermission(Uri.fromFile(dst))) {
-            JsonUtil.convertToJson(equalizer).let {
-                dst.writeText(it)
-            }
-        }
-    }
-
-    fun showAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerEntries.value?.forEach {
-            if (it.equalizerEntry.presetIndex != -1 && it.equalizerEntry.isDisabled)
-            equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = false).apply { id = it.equalizerEntry.id }))
-        }
-    }
-
-    fun hideAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerEntries.value?.forEach {
-            if (it.equalizerEntry.presetIndex != -1 && !it.equalizerEntry.isDisabled)
-            equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = true).apply { id = it.equalizerEntry.id }))
-        }
-    }
-
-    fun checkAvailability(name:String): Boolean {
-        return equalizerEntries.value?.none { it.equalizerEntry.name == name } != false
-    }
-
-    fun checkForbidden(name:String): Boolean {
-        return equalizerEntries.value?.any { it.equalizerEntry.name == name && it.equalizerEntry.presetIndex != -1 } != false
-    }
-
-    fun insert(context: Context, equalizerWithBands: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
-        val eq = EqualizerWithBands(equalizerWithBands.equalizerEntry.copy().apply { id = 0 }, equalizerWithBands.bands)
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, eq)
-    }
-}
-
-class EqualizerSettingsModelFactory(private val context: Context, private val repository: EqualizerRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(EqualizerSettingsModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return EqualizerSettingsModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
