@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.createBitmap
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +32,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.resources.AndroidDevices
@@ -42,8 +45,11 @@ import org.videolan.vlc.databinding.EqualizerSettingsActivityBinding
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
+import org.videolan.vlc.util.JsonUtil
+import java.io.File
 
 
 /**
@@ -134,8 +140,21 @@ class EqualizerSettingsModel(private val equalizerRepository: EqualizerRepositor
         equalizerRepository.addOrUpdateEqualizerWithBands(context, oldEqualizer!!)
     }
 
-    fun export(context: Context, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
-//todo add export
+    fun export(context: FragmentActivity, equalizer: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        val characterFilter = Regex("[^\\p{L}\\p{M}\\p{N}\\p{P}\\p{Z}\\p{Cf}\\p{Cs}\\s]")
+        val fileName: String? = equalizer.equalizerEntry.name
+            .replace(characterFilter, "")
+            .lowercase()
+            .trim()
+            .replace(" ", "_")
+            .replace("/", "")
+        UiTools.snacker(context, context.getString(R.string.equalizer_exported, fileName))
+        val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + File.separator + fileName + ".json")
+        if (context.getWritePermission(Uri.fromFile(dst))) {
+            JsonUtil.convertToJson(equalizer).let {
+                dst.writeText(it)
+            }
+        }
     }
 
     fun showAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
