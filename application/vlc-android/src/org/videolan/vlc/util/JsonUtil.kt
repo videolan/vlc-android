@@ -27,13 +27,9 @@
 package org.videolan.vlc.util
 
 import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonReader
-import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import java.text.DateFormat
-import java.util.Date
-import java.util.Locale
+import org.videolan.vlc.mediadb.models.EqualizerWithBands
 
 object JsonUtil {
     fun convertToJson(data: Any?): String {
@@ -48,6 +44,17 @@ object JsonUtil {
         val type = Types.newParameterizedType(MutableMap::class.java, K::class.java, V::class.java)
         val adapter = moshi.adapter<Map<K,V>>(type).nullSafe()
         return adapter.toJson(data)
+    }
+
+    fun getEqualizerFromJson(string: String): EqualizerWithBands? {
+        val moshi: Moshi = Moshi.Builder().build()
+        val type = Types.newParameterizedType(EqualizerWithBands::class.java)
+
+        val adapter: JsonAdapter<EqualizerWithBands> = moshi.adapter(type)
+        adapter.fromJson(string)?.let {
+            return it
+        }
+        return null
     }
 }
 

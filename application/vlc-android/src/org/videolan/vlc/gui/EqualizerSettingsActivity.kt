@@ -1,6 +1,7 @@
 package org.videolan.vlc.gui
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -29,10 +30,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
-import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.resources.AndroidDevices
@@ -42,15 +43,22 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.EqualizerSettingItemBinding
 import org.videolan.vlc.databinding.EqualizerSettingsActivityBinding
+import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.browser.FilePickerActivity
+import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
+import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.repository.EqualizerRepository
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.JsonUtil
 import java.io.File
+import androidx.core.net.toUri
 
+private const val FILE_PICKER_RESULT_CODE = 10000
 
 /**
  * Equalizer settings activity allowing to enable/disable/delete/export/import the presets
@@ -113,10 +121,37 @@ class EqualizerSettingsActivity : BaseActivity() {
             R.id.show_equalizer -> EqualizerFragmentDialog().show(supportFragmentManager, "equalizer")
             R.id.equalizer_show_all -> model.showAll(this)
             R.id.equalizer_hide_all -> model.hideAll(this)
+            R.id.equalizer_import -> {
+                val filePickerIntent = Intent(this, FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.EQUALIZER.ordinal)
+                startActivityForResult(filePickerIntent, FILE_PICKER_RESULT_CODE)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) return
+        if (requestCode == FILE_PICKER_RESULT_CODE) {
+            if (data.hasExtra(EXTRA_MRL)) lifecycleScope.launch {
+                data.getStringExtra(EXTRA_MRL)?.toUri()?.path?.let {
+                    val equalizerString = FileUtils.getStringFromFile(it)
+                    try {
+                        val equalizer = JsonUtil.getEqualizerFromJson(equalizerString)
+                        equalizer?.let {
+                            if (it.equalizerEntry == null || it.bands == null || it.bands.isEmpty())
+                                UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
+                            else
+                                model.insert(this@EqualizerSettingsActivity, it)
+                        }
+                    } catch (_: Exception) {
+                        UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
+                    }
+                }
+            }
+        }
+    }
 }
 
 class EqualizerSettingsModel(private val equalizerRepository: EqualizerRepository) : ViewModel() {
@@ -169,6 +204,10 @@ class EqualizerSettingsModel(private val equalizerRepository: EqualizerRepositor
             if (it.equalizerEntry.presetIndex != -1 && !it.equalizerEntry.isDisabled)
             equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = true).apply { id = it.equalizerEntry.id }))
         }
+    }
+
+    fun insert(context: Context, bands: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, bands)
     }
 }
 

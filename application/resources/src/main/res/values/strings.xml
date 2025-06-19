@@ -68,6 +68,7 @@
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
     <string name="equalizer_deleted">The equalizer has been deleted</string>
+    <string name="invalid_equalizer_file">Invalid equalizer file</string>
     <string name="confirm_delete_eq">Are you sure you want to delete this preset?</string>
     <string name="confirm_delete_vlc_eq">Are you sure you want to hide this preset?\nYou can restore it in the equalizer settings.</string>
     <string name="confirm_replace_playlist">Are you sure you want to replace the playlist \'%1$s\'?</string>

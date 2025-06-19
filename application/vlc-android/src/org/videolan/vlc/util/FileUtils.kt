@@ -50,7 +50,6 @@ import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.media.MediaUtils
 import java.io.*
 import java.lang.Runnable
-import java.util.*
 import java.util.zip.CRC32
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -612,7 +611,7 @@ fun Uri?.isSoundFont():Boolean {
     return false
 }
 
-fun Uri?.isSettings():Boolean {
+fun Uri?.isSettingsOrEq():Boolean {
     this?.lastPathSegment?.lowercase()?.let { lastPathSegment ->
         if (BuildConfig.DEBUG) Log.d("FilePicker", "Uri: $this -> ${lastPathSegment}")
         if (lastPathSegment.lowercase().endsWith(".json")) return true

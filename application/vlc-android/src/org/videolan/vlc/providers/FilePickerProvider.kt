@@ -28,7 +28,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.vlc.util.isSettings
+import org.videolan.vlc.util.isSettingsOrEq
 import org.videolan.vlc.util.isSoundFont
 
 class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false, private val pickerType:PickerType = PickerType.SUBTITLE) : FileBrowserProvider(context, dataset, url, true, showDummyCategory, Medialibrary.SORT_FILENAME, false) {
@@ -42,7 +42,7 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
     }
 
     override suspend fun findMedia(media: IMedia) = MLServiceLocator.getAbstractMediaWrapper(media)?.takeIf { mw ->
-        mw.type == MediaWrapper.TYPE_DIR || (pickerType == PickerType.SUBTITLE && mw.type == MediaWrapper.TYPE_SUBTITLE) || (pickerType == PickerType.SOUNDFONT && mw.uri.isSoundFont()) || (pickerType == PickerType.SETTINGS && mw.uri.isSettings())
+        mw.type == MediaWrapper.TYPE_DIR || (pickerType == PickerType.SUBTITLE && mw.type == MediaWrapper.TYPE_SUBTITLE) || (pickerType == PickerType.SOUNDFONT && mw.uri.isSoundFont()) || (pickerType == PickerType.SETTINGS && mw.uri.isSettingsOrEq()) || (pickerType == PickerType.EQUALIZER && mw.uri.isSettingsOrEq())
     }
 
     override fun computeHeaders(value: List<MediaLibraryItem>) {}
@@ -52,5 +52,5 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
 
 
 enum class PickerType {
-    SUBTITLE, SOUNDFONT, SETTINGS
+    SUBTITLE, SOUNDFONT, SETTINGS, EQUALIZER
 }
