@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         xmlns:vlc="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -23,17 +24,108 @@
                     android:nextFocusDown="@+id/ml_menu_search"
                     android:nextFocusForward="@+id/ml_menu_search" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/equalizers"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal|top"
-                    android:background="?attr/background_default"
-                    android:clipToPadding="false"
-                    android:paddingBottom="48dp"
-                    android:fastScrollEnabled="true"
-                    android:scrollbars="vertical"
-                    vlc:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    android:animateLayoutChanges="true"
+                    vlc:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <com.google.android.material.card.MaterialCardView
+                        style="@style/VLCCardView.NoShadow"
+                        android:id="@+id/overwrite_container"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        vlc:layout_constraintEnd_toEndOf="parent"
+                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <TextView
+                                android:id="@+id/textView19"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="?attr/font_default"
+                                android:text="@string/equalizer_overwrite_warning"
+                                vlc:layout_constraintEnd_toEndOf="parent"
+                                vlc:layout_constraintStart_toStartOf="parent"
+                                vlc:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/rename_input"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="8dp"
+                                vlc:layout_constraintEnd_toEndOf="parent"
+                                vlc:layout_constraintStart_toStartOf="parent"
+                                vlc:layout_constraintTop_toBottomOf="@+id/textView19">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/rename_input_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/equalizer_name" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                                android:id="@+id/overwrite"
+                                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:text="@string/overwrite"
+                                vlc:layout_constraintBottom_toBottomOf="parent"
+                                vlc:layout_constraintEnd_toEndOf="parent"
+                                vlc:layout_constraintTop_toBottomOf="@+id/rename_input" />
+
+                        <Button
+                                android:id="@+id/cancel"
+                                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text="@string/cancel"
+                                vlc:layout_constraintEnd_toStartOf="@+id/overwrite"
+                                vlc:layout_constraintTop_toTopOf="@+id/overwrite" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/equalizers"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal|top"
+                        android:layout_marginTop="8dp"
+                        android:background="?attr/background_default"
+                        android:clipToPadding="false"
+                        android:fastScrollEnabled="true"
+                        android:paddingBottom="48dp"
+                        android:scrollbars="vertical"
+                        tools:itemCount="10"
+                        tools:listitem="@layout/equalizer_setting_item"
+                        vlc:layout_constraintBottom_toBottomOf="parent"
+                        vlc:layout_constraintEnd_toEndOf="parent"
+                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintTop_toBottomOf="@+id/overwrite_container" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </merge>

@@ -57,6 +57,9 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.JsonUtil
 import java.io.File
 import androidx.core.net.toUri
+import androidx.core.widget.addTextChangedListener
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 
 private const val FILE_PICKER_RESULT_CODE = 10000
 
@@ -106,6 +109,21 @@ class EqualizerSettingsActivity : BaseActivity() {
         model.equalizerEntries.observe(this, Observer {
             adapter.update(it)
         })
+        binding.renameInputText.addTextChangedListener {
+            if (model.checkForbidden(it.toString())) {
+                binding.overwrite.text = getString(R.string.overwrite)
+                binding.overwrite.isEnabled = false
+                binding.renameInputText.error = getString(R.string.eq_cannot_overwrite)
+                return@addTextChangedListener
+
+            }
+            binding.renameInputText.error = null
+                binding.overwrite.isEnabled = true
+            if (model.checkAvailability(it.toString()))
+                binding.overwrite.text = getString(R.string.rename)
+            else
+                binding.overwrite.text = getString(R.string.overwrite)
+        }
         if (AndroidDevices.isTv) applyOverscanMargin(this)
 
     }
@@ -142,8 +160,11 @@ class EqualizerSettingsActivity : BaseActivity() {
                         equalizer?.let {
                             if (it.equalizerEntry == null || it.bands == null || it.bands.isEmpty())
                                 UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
-                            else
-                                model.insert(this@EqualizerSettingsActivity, it)
+                            else {
+                                if (model.checkAvailability(it.equalizerEntry.name)) {
+                                    model.insert(this@EqualizerSettingsActivity, it)
+                                } else showOverwriteDialog(it)
+                            }
                         }
                     } catch (_: Exception) {
                         UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
@@ -151,6 +172,25 @@ class EqualizerSettingsActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * Show the overwrite dialog
+     *
+     * @param equalizer The equalizer to overwrite
+     */
+    fun showOverwriteDialog(equalizer: EqualizerWithBands) {
+        binding.renameInputText.setText(equalizer.equalizerEntry.name)
+        binding.overwriteContainer.setVisible()
+        binding.cancel.setOnClickListener {
+            binding.overwriteContainer.setGone()
+        }
+        binding.overwrite.setOnClickListener {
+            model.insert(this, equalizer.copy(equalizerEntry = equalizer.equalizerEntry.copy(name = binding.renameInputText.text.toString())))
+            UiTools.setKeyboardVisibility(binding.renameInputText, false)
+            binding.overwriteContainer.setGone()
+        }
+
     }
 }
 
@@ -206,8 +246,17 @@ class EqualizerSettingsModel(private val equalizerRepository: EqualizerRepositor
         }
     }
 
-    fun insert(context: Context, bands: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
-        equalizerRepository.addOrUpdateEqualizerWithBands(context, bands)
+    fun checkAvailability(name:String): Boolean {
+        return equalizerEntries.value?.none { it.equalizerEntry.name == name } != false
+    }
+
+    fun checkForbidden(name:String): Boolean {
+        return equalizerEntries.value?.any { it.equalizerEntry.name == name && it.equalizerEntry.presetIndex != -1 } != false
+    }
+
+    fun insert(context: Context, equalizerWithBands: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
+        val eq = EqualizerWithBands(equalizerWithBands.equalizerEntry.copy().apply { id = 0 }, equalizerWithBands.bands)
+        equalizerRepository.addOrUpdateEqualizerWithBands(context, eq)
     }
 }
 

@@ -67,6 +67,10 @@
     <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="equalizer_overwrite_warning">This equalizer already exists</string>
+    <string name="overwrite">Overwrite</string>
+    <string name="eq_cannot_overwrite">Cannot overwrite a default equalizer</string>
+    <string name="equalizer_name">Equalizer name</string>
     <string name="equalizer_deleted">The equalizer has been deleted</string>
     <string name="equalizer_leave_warning">You will leave the video player</string>
     <string name="invalid_equalizer_file">Invalid equalizer file</string>
