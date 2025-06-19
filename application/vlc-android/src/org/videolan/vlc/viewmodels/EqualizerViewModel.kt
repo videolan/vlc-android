@@ -47,6 +47,7 @@ import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.mediadb.models.EqualizerBand
+import org.videolan.vlc.mediadb.models.EqualizerEntry
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
 import org.videolan.vlc.util.JsonUtil
@@ -143,9 +144,26 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         equalizerRepository.addOrUpdateEqualizerWithBands(context, getCurrentEqualizer().copy(bands = bands.sortedBy { it.index }))
     }
 
-    fun createCustomEqualizer(context: Context) = viewModelScope.launch(Dispatchers.IO) {
-        val currentEqualizer = getCurrentEqualizer()
-        val newEq = currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(presetIndex = -1, name = currentEqualizer.equalizerEntry.name + " (copy)").apply { id = 0 })
+    fun createCustomEqualizer(context: Context, fromScratch: Boolean = false) = viewModelScope.launch(Dispatchers.IO) {
+        val currentEqualizer = if (fromScratch)
+                EqualizerWithBands(EqualizerEntry("", 0F, -1, false), buildList { for (i in 0 until bandCount) add(EqualizerBand(i, 0F)) })
+            else
+                getCurrentEqualizer()
+
+        var newNameTemplate = if (fromScratch)
+            context.getString(R.string.new_equalizer_copy_template, "")
+        else
+            currentEqualizer.equalizerEntry.name + " " + context.getString(R.string.equalizer_copy_template, "")
+
+        var i = 0
+        while (!isNameAllowed(newNameTemplate)) {
+            ++i
+            newNameTemplate = if (fromScratch)
+                context.getString(R.string.new_equalizer_copy_template, " $i")
+            else
+                currentEqualizer.equalizerEntry.name + " " + context.getString(R.string.equalizer_copy_template, " $i")
+        }
+        val newEq = currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(presetIndex = -1, name = newNameTemplate).apply { id = 0 })
         currentEqualizerId = equalizerRepository.addOrUpdateEqualizerWithBands(context, newEq)
     }
 

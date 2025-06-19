@@ -144,6 +144,8 @@
     <string name="equalizer">Equalizer</string>
     <string name="import_equalizer">Import equalizer</string>
     <string name="equalizer_exported">Equalizer exported to %s</string>
+    <string name="equalizer_copy_template">(copy%s)</string>
+    <string name="new_equalizer_copy_template">New equalizer%s</string>
     <string name="show_all">Show all</string>
     <string name="hide_all">Hide all</string>
     <string name="all_albums">All albums</string>

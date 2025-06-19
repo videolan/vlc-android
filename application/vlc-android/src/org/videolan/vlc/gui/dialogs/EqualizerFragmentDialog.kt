@@ -165,6 +165,10 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 startActivity(Intent(requireActivity(), EqualizerSettingsActivity::class.java))
         }
 
+        binding.equalizerAdd.setOnClickListener {
+            viewModel.createCustomEqualizer(requireActivity(), true)
+        }
+
         binding.undo.setOnClickListener {
             viewModel.undoFromHistory(requireActivity())
             updateBars()
