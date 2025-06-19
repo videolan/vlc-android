@@ -72,7 +72,7 @@ if [ ! -d "build-$ANDROID_ABI" ]; then
 fi;
 cd "build-$ANDROID_ABI";
 
-if [ ! -e ./config.status ] || [ "$RELEASE" = "1" ]; then
+if [ ! -e ./config.status ] || [ "$RELEASE" = "1" ] || [ ! -e "${MEDIALIBRARY_PREFIX}/lib/libsqlite3.a" ]; then
   ../configure \
     --host=$TARGET_TUPLE \
     --prefix="${MEDIALIBRARY_PREFIX}" \
