@@ -41,7 +41,7 @@ if [ ! -d "${SRC_DIR}/medialibrary" ]; then
   mkdir "${SRC_DIR}/medialibrary"
 fi
 
-MEDIALIBRARY_PREFIX="${SRC_DIR}/medialibrary/prefix/${TARGET_TUPLE}"
+MEDIALIBRARY_PREFIX="${SRC_DIR}/medialibrary/prefix/android-${ANDROID_API}-${ANDROID_ABI}"
 
 ##########
 # SQLITE #
