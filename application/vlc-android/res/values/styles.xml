@@ -529,6 +529,7 @@
         <item name="mini_visualizer_color">@color/white_transparent_75</item>
         <item name="video_list_background">@drawable/video_list_background</item>
         <item name="default_divider">@color/white_transparent_20</item>
+        <item name="card_border">@color/grey800</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
