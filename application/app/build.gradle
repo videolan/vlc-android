@@ -73,7 +73,7 @@ android {
             variantBuilder.minSdk = 30
         }
         beforeVariants(selector().withBuildType("vlcBundleAmazon")) { variantBuilder ->
-            variantBuilder.minSdk = 17
+            variantBuilder.minSdk = rootProject.ext.minSdkVersion
         }
     }
 
