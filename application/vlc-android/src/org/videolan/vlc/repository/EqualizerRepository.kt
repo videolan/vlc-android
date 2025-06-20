@@ -33,6 +33,7 @@ import org.videolan.vlc.database.EqualizerDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.mediadb.models.EqualizerEntry
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
+import androidx.core.content.edit
 
 class EqualizerRepository(private val equalizerDao: EqualizerDao, private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
 
@@ -45,7 +46,9 @@ class EqualizerRepository(private val equalizerDao: EqualizerDao, private val co
             equalizerDao.getAllEqualizerEntries()
     }
 
-    fun getCurrentEqualizer(context: Context) = equalizerDao.getCurrentEqualizer(Settings.getInstance(context).getLong(KEY_CURRENT_EQUALIZER_ID, 1L))
+    fun getCurrentEqualizer(context: Context) = equalizerDao.getCurrentEqualizer(Settings.getInstance(context).getLong(KEY_CURRENT_EQUALIZER_ID, 1L)) ?: equalizerDao.getFirstEqualizerEntry().also {
+        Settings.getInstance(context).edit { putLong(KEY_CURRENT_EQUALIZER_ID, it.equalizerEntry.id) }
+    }
 
     /**
      * Add or update equalizer with bands

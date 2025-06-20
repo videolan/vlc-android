@@ -83,11 +83,13 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         if (!settings.getBoolean(KEY_EQUALIZER_ENABLED, false))
             PlaybackService.equalizer.value = MediaPlayer.Equalizer.create()
         else
-            PlaybackService.equalizer.value =getCurrentEqualizer().getEqualizer()
+            PlaybackService.equalizer.value = getCurrentEqualizer().getEqualizer()
     }
 
     init {
-        currentEqualizerId = settings.getLong(KEY_CURRENT_EQUALIZER_ID, 1L)
+        viewModelScope.launch(Dispatchers.IO) {
+            currentEqualizerId = equalizerRepository.getCurrentEqualizer(context).equalizerEntry.id
+        }
     }
 
     fun insert(context: Context, equalizerWithBands: EqualizerWithBands) = viewModelScope.launch(Dispatchers.IO) {
