@@ -29,6 +29,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -52,6 +53,7 @@ import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
 import org.videolan.vlc.util.JsonUtil
 import java.io.File
+import kotlin.math.absoluteValue
 
 /**
  * View model storing data for the equalizer dialog
@@ -73,6 +75,8 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         set(value) {
             field = value
             settings.edit { putLong(KEY_CURRENT_EQUALIZER_ID, value) }
+            currentEqualizerIdLive.postValue(value)
+
         }
 
     fun updateEqualizer() {
@@ -253,7 +257,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      */
     fun hideAll(context: Context) = viewModelScope.launch(Dispatchers.IO) {
         equalizerUnfilteredEntries.value?.forEach {
-            if (it.equalizerEntry.presetIndex != -1 && !it.equalizerEntry.isDisabled)
+            if (it.equalizerEntry.presetIndex != -1 && !it.equalizerEntry.isDisabled && it.equalizerEntry.id != currentEqualizerId)
                 equalizerRepository.addOrUpdateEqualizerWithBands(context, it.copy(equalizerEntry = it.equalizerEntry.copy(isDisabled = true).apply { id = it.equalizerEntry.id }))
         }
     }
@@ -279,6 +283,11 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
                 dst.writeText(it)
             }
         }
+    }
+
+    companion object {
+        val currentEqualizerIdLive = MutableLiveData<Long>().apply { value = -1L }
+
     }
 
 }

@@ -14,6 +14,10 @@
                 name="holder"
                 type="org.videolan.vlc.gui.EqualizerSettingsAdapter.ViewHolder" />
 
+        <variable
+                name="current"
+                type="boolean" />
+
     </data>
 
 
@@ -22,7 +26,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:clickable="true"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@{current ? @color/orange_500_transparent_20 : @color/transparent}"
             android:orientation="vertical"
             android:focusable="true">
 
@@ -38,6 +42,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:visibility="@{current ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView22"
+                app:layout_constraintEnd_toEndOf="@+id/imageView22"
+                app:layout_constraintStart_toStartOf="@+id/imageView22"
+                app:layout_constraintTop_toTopOf="@+id/imageView22"
+                android:background="?attr/round_background"
+                app:srcCompat="@drawable/ic_check_large_white" />
 
         <TextView
                 android:id="@+id/title"
@@ -68,7 +85,7 @@
                 android:focusable="true"
                 android:onClick="@{holder::onClickEnable}"
                 android:padding="12dp"
-                android:visibility="@{equalizer.equalizerEntry.presetIndex != -1 &amp;&amp; equalizer.equalizerEntry.isDisabled ? View.VISIBLE : View.GONE}"
+                android:visibility="@{!current &amp;&amp; equalizer.equalizerEntry.presetIndex != -1 &amp;&amp; equalizer.equalizerEntry.isDisabled ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/disable"
                 app:layout_constraintTop_toTopOf="parent"
@@ -88,7 +105,7 @@
                 android:contentDescription="@string/hide_equalizer"
                 android:focusable="true"
                 android:padding="12dp"
-                android:visibility="@{equalizer.equalizerEntry.presetIndex == -1 || equalizer.equalizerEntry.isDisabled ? View.GONE : View.VISIBLE}"
+                android:visibility="@{current || equalizer.equalizerEntry.presetIndex == -1 || equalizer.equalizerEntry.isDisabled ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -106,7 +123,7 @@
                 android:onClick="@{holder::onClickDelete}"
                 android:focusable="true"
                 android:padding="12dp"
-                android:visibility="@{equalizer.equalizerEntry.presetIndex == -1 ? View.VISIBLE : View.GONE}"
+                android:visibility="@{!current &amp;&amp; equalizer.equalizerEntry.presetIndex == -1 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/enable"
                 app:layout_constraintEnd_toStartOf="@+id/enable"
                 app:layout_constraintTop_toTopOf="@+id/enable"

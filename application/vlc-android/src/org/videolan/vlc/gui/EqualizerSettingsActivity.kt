@@ -53,6 +53,7 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.JsonUtil
 import org.videolan.vlc.viewmodels.EqualizerViewModel
 import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
+import kotlin.math.absoluteValue
 
 private const val FILE_PICKER_RESULT_CODE = 10000
 
@@ -100,9 +101,23 @@ class EqualizerSettingsActivity : BaseActivity() {
         }
         binding.equalizers.adapter = adapter
 
-        model.equalizerUnfilteredEntries.observe(this, Observer {
+        EqualizerViewModel.currentEqualizerIdLive.observe(this) {
+            val oldCurrent = adapter.currentId
+            adapter.currentId = it
+            if (oldCurrent != adapter.currentId) {
+                val oldIndex = adapter.dataset.indexOfFirst { it.equalizerEntry.id == oldCurrent }
+                val newIndex = adapter.dataset.indexOfFirst { it.equalizerEntry.id == adapter.currentId }
+                adapter.notifyItemChanged(oldIndex)
+                adapter.notifyItemChanged(newIndex)
+
+            }
+        }
+
+        model.equalizerUnfilteredEntries.observe(this) {
             adapter.update(it)
-        })
+        }
+
+
         binding.renameInputText.addTextChangedListener {
             if (model.checkForbidden(it.toString())) {
                 binding.overwrite.text = getString(R.string.overwrite)
@@ -160,7 +175,8 @@ class EqualizerSettingsActivity : BaseActivity() {
                                 } else showOverwriteDialog(it)
                             }
                         }
-                    } catch (_: Exception) {
+                    } catch (e: Exception) {
+                        Log.e("EqualizerSettingsActivity", "onActivityResult: ${e.message}", e)
                         UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
                     }
                 }
@@ -189,12 +205,15 @@ class EqualizerSettingsActivity : BaseActivity() {
 }
 
 class EqualizerSettingsAdapter(private val itemClickHandler: (equalizer: EqualizerWithBands, ClickType) -> Unit) : DiffUtilAdapter<EqualizerWithBands, EqualizerSettingsAdapter.ViewHolder>() {
+    var currentId = -1L
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(EqualizerSettingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.equalizer = dataset[position]
+        holder.binding.current = currentId == dataset[position].equalizerEntry.id
     }
 
     override fun getItemCount() = dataset.size
