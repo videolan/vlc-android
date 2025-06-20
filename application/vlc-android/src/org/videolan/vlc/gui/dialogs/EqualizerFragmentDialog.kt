@@ -105,6 +105,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (requireActivity() is EqualizerSettingsActivity) {
+            binding.equalizerSettings.setGone()
+        }
         viewModel.equalizerEntries.observe(this) {
             if (BuildConfig.DEBUG) Log.d(TAG, "Received new equalizer entries")
             val newEqualizerSets = it.map { it.equalizerEntry.name }
@@ -153,9 +156,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             viewModel.updateEqualizer()
         }
 
-        if (requireActivity() is EqualizerSettingsActivity) {
-            binding.equalizerSettings.setGone()
-        }
         binding.equalizerSettings.setOnClickListener {
             if (requireActivity() is VideoPlayerActivity)
                 UiTools.snackerConfirm(requireActivity(), getString(R.string.equalizer_leave_warning), forcedView = dialog?.window?.decorView) {
