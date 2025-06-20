@@ -402,7 +402,7 @@ if [ "$NO_ML" != 1 ]; then
         medialig_args="$medialig_args --reset"
     fi
     buildsystem/compile-medialibrary.sh ${medialig_args}
-    cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
+    cp -a medialibrary/jni/libs/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
 fi
 
 ##################
