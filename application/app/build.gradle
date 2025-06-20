@@ -69,10 +69,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
             defaultConfig.minSdkVersion rootProject.ext.minSdkVersion
+            signingConfig = signingConfigs.release
         }
         signedRelease {
             initWith release
-            signingConfig = signingConfigs.release
             matchingFallbacks = ['release']
         }
         vlcBundle {
@@ -84,6 +84,7 @@ android {
             matchingFallbacks = ['release']
         }
         debug {
+            signingConfig = signingConfigs.release
             applicationIdSuffix ".debug"
             jniDebuggable true
         }
