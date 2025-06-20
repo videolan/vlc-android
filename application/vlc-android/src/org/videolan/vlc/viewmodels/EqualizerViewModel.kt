@@ -209,7 +209,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      * @return true if name is not empty and not already used
      */
     fun isNameAllowed(name: String): Boolean {
-        return name.isNotBlank() && !equalizerEntries.value!!.any { it.equalizerEntry.name == name }
+        return name.isNotBlank() && !equalizerUnfilteredEntries.value!!.any { it.equalizerEntry.name == name }
     }
 
     /**
@@ -219,7 +219,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      * @return true if name is forbidden
      */
     fun checkForbidden(name:String): Boolean {
-        return equalizerEntries.value?.any { it.equalizerEntry.name == name && it.equalizerEntry.presetIndex != -1 } != false
+        return equalizerUnfilteredEntries.value?.any { it.equalizerEntry.name == name && it.equalizerEntry.presetIndex != -1 } != false
     }
 
     /**
