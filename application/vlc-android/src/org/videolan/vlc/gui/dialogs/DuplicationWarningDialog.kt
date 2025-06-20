@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,8 +93,12 @@ class DuplicationWarningDialog : VLCBottomSheetDialogFragment(), View.OnClickLis
         val styledText = SpannableString.valueOf(secondaryMessage)
         val startIndex = styledText.indexOf(searchTitle)
         val endIndex = startIndex + searchTitle.length
-        styledText.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        styledText.setSpan(ForegroundColorSpan(MaterialColors.getColor(requireContext(), R.attr.font_default, Color.BLACK)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        try {
+            styledText.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            styledText.setSpan(ForegroundColorSpan(MaterialColors.getColor(requireContext(), R.attr.font_default, Color.BLACK)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        } catch (e: Exception) {
+            Log.e("DupWarningDialog", "setupSecondaryText: $e")
+        }
 
         finalMessage = SpannableString.valueOf(finalMessage.toString() + styledText.toString()+"\n")
     }

@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_download.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="16dp"
+        android:height="16dp"
+        android:viewportWidth="960"
+        android:viewportHeight="960">
+
+    <path
+            android:fillColor="?attr/colorControlNormal"
+            android:pathData="M480,624 L288,432l51,-51 105,105v-342h72v342l105,-105 51,51 -192,192ZM263.72,768Q234,768 213,746.85T192,696v-72h72v72h432v-72h72v72q0,29.7 -21.16,50.85Q725.68,768 695.96,768L263.72,768Z" />
+
+</vector>

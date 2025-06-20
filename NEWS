@@ -1,20 +1,128 @@
-Changes between 3.6.0 Beta 1 and 3.6.0 Beta 1:
+Changes between 3.6.5 and 3.6.5-1:
 ------------------
- * Remote access: more content and improvements
- * Warning for metered connections
- * Icons rework
- * Browser interface rework
- * Rework the add to playlist dialog
- * Playback behavior fixes
- * Android Auto improvements
- * Crash fixes and memory leaks
+ * Improve settings backup/restore
+ * Behavior and crash fixes
 
-Changes between 3.5.4 and 3.6.0 Beta 1:
+Changes between 3.6.4 Beta 4 and 3.6.5:
+------------------
+ * Crash fixes
+
+Changes between 3.6.4 Beta 4 and 3.6.4 Beta 5:
+------------------
+ * Fix the AV1 playback aspect ratio
+ * Improve the play queue item's actions
+ * Improve the feedback screen and add one in the Remote Access
+ * Add the incognito mode on TV
+ * Fix some RTL issues
+ * New 2:1 aspect ratio
+ * Playback fixes
+ * Crash and behavior fixes
+
+Changes between 3.6.4 Beta 3 and 3.6.4 Beta 4:
+------------------
+ * New default playback setting
+ * New feedback section in the about screen
+ * Resume playback and player behavior fixes
+ * Remove the reporter from the app launcher
+ * Add a quick play setting to play files without parsing
+ * Remote access: fix some mini player layout
+ * Remote access: always show the volume bar
+ * Remote access: fix the streams playback
+ * Fix some subtitles download issues
+ * Android auto behavior improvements
+ * Fix the equalizer navigation with DPAD
+ * Crash and behavior fixes
+
+Changes between 3.6.4 Beta 2 and 3.6.4 Beta 3:
+------------------
+ * New bookmark navigation
+ * Fix the resume behavior
+ * TV audio player improvements
+ * Crash and behavior fixes
+
+Changes between 3.6.4 Beta 1 and 3.6.4 Beta 2:
+------------------
+ * Fix a permission issue
+ * Add a confirmation when overwriting playlists
+
+Changes between 3.6.3 and 3.6.4 Beta 1:
+------------------
+ * Improve the playback speed feature
+ * Subtitle download fixes
+ * Fix some permission issues
+ * Widget state improvement
+ * UI and crash fixes
+
+Changes between 3.6.2 and 3.6.3:
+------------------
+ * Fix SMB navigation
+ * Cast only audio setting
+ * Behavior and crash fixes
+
+Changes between 3.6.1 and 3.6.2:
+------------------
+ * Update the remote access dependency to fix a crash loop
+ * Fix a bug making the video played twice
+
+Changes between 3.6.0 and 3.6.1:
+------------------
+ * Behavior and crash fixes
+
+Changes between 3.6.0 Beta 6 and 3.6.0:
+------------------
+ * Improve the orientation user experience in the video player
+ * Behavior and crash fixes
+
+Changes between 3.6.0 Beta 5 and 3.6.0 Beta 6:
+------------------
+ * Fix the remote access not included in the app bundle
+
+Changes between 3.6.0 Beta 4 and 3.6.0 Beta 5:
+------------------
+ * Allow deleting files on TV
+ * Multiple remote access improvements
+ * Fix 360 videos
+ * Behavior and UI fixes
+ * Crash fixes
+
+Changes between 3.6.0 Beta 3 and 3.6.0 Beta 4:
+------------------
+ * Fix subtitles download
+ * Improve the permission management
+ * Allow renaming a playlist
+ * Fix some language issues
+ * Behavior and UI fixes
+ * Crash fixes
+
+Changes between 3.6.0 Beta 2 and 3.6.0 Beta 3:
+------------------
+ * Fix custom PiP
+ * UI fixes
+ * Crash fixes
+
+Changes between 3.5.7 and 3.6.0 Beta 2:
 ------------------
  * Remote access: take control of your VLC for Android from any device
  * Favorite any media and filter your medialibrary content by favorite
+ * Video player: tap to fast play
+ * Warning for metered connections
+ * PiP improvements
+ * Audio player chapter navigation
  * UI improvements
  * Crash fixes
+
+Changes between 3.5.6 and 3.5.7:
+------------------
+ * Fix crash when downloading subtitles
+
+Changes between 3.5.5 and 3.5.6:
+------------------
+ * Fix crash on startup
+
+Changes between 3.5.4 and 3.5.5:
+------------------
+ * Target Android 34
+ * This release is empty. Its sole purpose is to unlock the Play Store releases
 
 Changes between 3.5.4 Beta 2 and 3.5.4:
 ------------------

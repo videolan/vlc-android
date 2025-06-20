@@ -27,7 +27,9 @@ const val EXTRA_FIRST_RUN = "extra_first_run"
 const val EXTRA_UPGRADE = "extra_upgrade"
 const val EXTRA_PARSE = "extra_parse"
 const val EXTRA_TARGET = "extra_parse"
+const val EXTRA_FOR_ESPRESSO = "extra_for_espresso"
 const val EXTRA_REMOVE_DEVICE = "extra_remove_device"
+const val EXTRA_PLAY_ONLY = "extra_play_only"
 
 //UI Navigation
 const val ID_VIDEO = "video"
@@ -73,7 +75,7 @@ const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
 const val PLAYLIST_TYPE_ALL = 2
 const val MEDIALIBRARY_PAGE_SIZE = 500
-const val DRIVING_MODE_APP_PKG = "com.google.android.googlequicksearchbox"
+const val QUICK_SEARCH_BOX_APP_PKG = "com.google.android.googlequicksearchbox"
 const val ANDROID_AUTO_APP_PKG = "com.google.android.projection.gearhead"
 const val EXTRA_BROWSER_ICON_SIZE = "com.google.android.gms.car.media.BrowserIconSize"
 const val WEARABLE_SHOW_CUSTOM_ACTION = "android.support.wearable.media.extra.CUSTOM_ACTION_SHOW_ON_WEAR"
@@ -123,6 +125,7 @@ const val KEY_MRL = "mrl"
 
 // AUDIO category
 const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
+const val KEY_AUDIO_ALBUM_SONG_CURRENT_TAB = "key_audio_album_song_current_tab"
 
 // Playback settings category
 const val KEY_AUDIO_LAST_PLAYLIST = "audio_list"
@@ -164,6 +167,7 @@ const val ID_SPONSOR = 16L
 const val ID_PIN_LOCK = 17L
 const val ID_REMOTE_ACCESS = 18L
 const val CATEGORY_NOW_PLAYING = 20L
+const val CATEGORY_NOW_PLAYING_PAUSED = 28L
 const val CATEGORY_ARTISTS = 21L
 const val CATEGORY_ALBUMS = 22L
 const val CATEGORY_GENRES = 23L
@@ -171,6 +175,7 @@ const val CATEGORY_SONGS = 24L
 const val CATEGORY_VIDEOS = 25L
 const val CATEGORY_PLAYLISTS = 27L
 const val CATEGORY_NOW_PLAYING_PIP = 26L
+const val CATEGORY_NOW_PLAYING_PIP_PAUSED = 29L
 
 const val CATEGORY = "category"
 const val DRAWABLE = "drawable"
@@ -216,6 +221,7 @@ const val TYPE_LOCAL_FAV = 1
 //Crash reporting
 const val CRASH_ML_CTX = "crash_ml_ctx"
 const val CRASH_ML_MSG = "crash_ml_msg"
+const val CRASH_HAPPENED = "crash_happened"
 
 fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
 
@@ -235,12 +241,15 @@ const val COMPATERROR_ACTIVITY = "org.videolan.vlc.gui.CompatErrorActivity"
 const val TV_SEARCH_ACTIVITY = "org.videolan.television.ui.SearchActivity"
 const val MOBILE_SEARCH_ACTIVITY = "org.videolan.vlc.gui.SearchActivity"
 const val TV_MAIN_ACTIVITY = "org.videolan.television.ui.MainTvActivity"
+const val TV_CONFIRMATION_ACTIVITY = "org.videolan.television.ui.dialogs.ConfirmationTvActivity"
+const val TV_PREFERENCE_ACTIVITY = "org.videolan.television.ui.preferences.PreferencesActivity"
 const val MOBILE_MAIN_ACTIVITY = "org.videolan.vlc.gui.MainActivity"
 const val MOVIEPEDIA_ACTIVITY = "org.videolan.moviepedia.ui.MoviepediaActivity"
 const val TV_AUDIOPLAYER_ACTIVITY = "org.videolan.television.ui.audioplayer.AudioPlayerActivity"
 const val MEDIAPARSING_SERVICE = "org.videolan.vlc.MediaParsingService"
 const val TV_ONBOARDING_ACTIVITY = "org.videolan.television.ui.OnboardingActivity"
-const val REMOTE_ACCESS_SERVICE = "org.videolan.vlc.webserver.RemoteAccessService"
-const val REMOTE_ACCESS_ONBOARDING = "org.videolan.vlc.webserver.gui.remoteaccess.onboarding.RemoteAccessOnboardingActivity"
+const val REMOTE_ACCESS_SERVICE = "org.videolan.vlc.remoteaccessserver.RemoteAccessService"
+const val REMOTE_ACCESS_ONBOARDING = "org.videolan.vlc.remoteaccessserver.gui.remoteaccess.onboarding.RemoteAccessOnboardingActivity"
 
 const val ROOM_DATABASE = "/vlc_database.zip"
+const val EXPORT_SETTINGS_FILE = "/vlc_exported_settings.json"

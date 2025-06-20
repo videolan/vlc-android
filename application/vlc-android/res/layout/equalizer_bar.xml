@@ -22,7 +22,7 @@
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal">
 
-        <com.google.android.material.slider.Slider
+        <org.videolan.vlc.gui.view.VerticalSeekBar
                 android:id="@+id/equalizer_seek"
                 android:layout_width="0dp"
                 app:tickVisible="false"

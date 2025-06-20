@@ -33,6 +33,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
@@ -41,19 +42,32 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.CUSTOM_ACTION_BOOKMARK
+import org.videolan.resources.CUSTOM_ACTION_FAST_FORWARD
+import org.videolan.resources.CUSTOM_ACTION_REPEAT
+import org.videolan.resources.CUSTOM_ACTION_REWIND
+import org.videolan.resources.CUSTOM_ACTION_SHUFFLE
+import org.videolan.resources.CUSTOM_ACTION_SPEED
+import org.videolan.resources.EXTRA_RELATIVE_MEDIA_ID
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.Settings
 import org.videolan.tools.removeQuery
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.vlc.util.PlaybackAction
+import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.Permissions.canCheckBluetoothDevices
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
+import org.videolan.vlc.util.mergeSorted
 import java.security.SecureRandom
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaSessionCallback"
@@ -78,11 +92,13 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             }
 
             // Bluetooth headset
-            val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-            if (bluetoothAdapter != null &&
-                BluetoothAdapter.STATE_CONNECTED == bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET) &&
-                isBluetoothHeadsetHardKey(keyEvent)) {
-                return true
+            if (canCheckBluetoothDevices(playbackService.applicationContext)) {
+                BluetoothAdapter.getDefaultAdapter()?.let { bluetoothAdapter ->
+                    if (BluetoothAdapter.STATE_CONNECTED == bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET)
+                        && isBluetoothHeadsetHardKey(keyEvent)) {
+                        return true
+                    }
+                }
             }
         }
 
@@ -114,10 +130,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 }
                 KeyEvent.ACTION_UP -> {
                     if (!prevActionSeek) {
-                        val enabledActions = playbackService.enabledActions
                         when (keyEvent.keyCode) {
-                            KeyEvent.KEYCODE_MEDIA_NEXT -> if (enabledActions.contains(PlaybackAction.ACTION_SKIP_TO_NEXT)) onSkipToNext()
-                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> if (enabledActions.contains(PlaybackAction.ACTION_SKIP_TO_PREVIOUS)) onSkipToPrevious()
+                            KeyEvent.KEYCODE_MEDIA_NEXT -> onSkipToNext()
+                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onSkipToPrevious()
                         }
                     }
                     prevActionSeek = false
@@ -127,6 +142,52 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
         return super.onMediaButtonEvent(mediaButtonEvent)
     }
+
+    private fun jumpToTimelineEntry(previous: Boolean) {
+        val ctx = playbackService.applicationContext
+        playbackService.lifecycleScope.launch {
+            val currentTime = playbackService.getTime()
+            val entryList = getChapterList().toMutableList().apply {
+                mergeSorted(getBookmarkList()) { it.time }
+            }
+            if (entryList.isEmpty()) {
+                playbackService.displaySubtitleMessage(ctx.getString(R.string.no_bookmark))
+                return@launch
+            }
+            val index = entryList.binarySearchBy(currentTime) { it.time }
+            var eIndex = when {
+                index >= 0 -> index + if (previous) -1 else 1
+                else -> -index - if (previous) 2 else 1
+            }.coerceIn(entryList.indices)
+            // Point to the previous element if the time difference is less than 5 seconds
+            if (previous && (currentTime - entryList[eIndex].time) < 5_000L) {
+                eIndex = (eIndex - 1).coerceIn(entryList.indices)
+            }
+            // Ignore button press if within 2 seconds of the first or last entry
+            if ((eIndex == 0 || eIndex == entryList.size - 1) && (currentTime - entryList[eIndex].time).absoluteValue <= 2_000L)
+                return@launch
+            // Seek to the correct time
+            if ((!previous && entryList[eIndex].time >= currentTime) || (previous && entryList[eIndex].time <= currentTime)) {
+                seek(entryList[eIndex].time)
+                playbackService.displaySubtitleMessage("${ctx.getString(R.string.jump_to)} ${entryList[eIndex].name}")
+            }
+        }
+    }
+
+    private fun getChapterList(): List<TimelineEntry> {
+        val ctx = playbackService.applicationContext
+        return playbackService.getChapters(-1)?.mapIndexed { index, item ->
+            TimelineEntry(0, item.timeOffset, TextUtils.formatChapterTitle(ctx, index + 1, item.name))
+        } ?: emptyList()
+    }
+
+    private fun getBookmarkList(): List<TimelineEntry> {
+        return playbackService.currentMediaWrapper?.bookmarks?.map { bookmark ->
+            TimelineEntry(1, bookmark.time, bookmark.title)
+        } ?: emptyList()
+    }
+
+    data class TimelineEntry(val type: Int, val time: Long, val name: String)
 
     /**
      * The following two functions are based on the following KeyEvent captures. They may need to be updated if the behavior changes in the future.
@@ -171,8 +232,16 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         when (actionId) {
             CUSTOM_ACTION_SPEED -> {
                 val steps = listOf(0.50f, 0.80f, 1.00f, 1.10f, 1.20f, 1.50f, 2.00f)
-                val index = 1 + steps.indexOf(steps.minByOrNull { abs(playbackService.rate - it) })
-                playbackService.setRate(steps[index % steps.size], true)
+                val index = 1 + steps.indexOf(steps.minByOrNull { (playbackService.rate - it).absoluteValue })
+                val speed = steps[index % steps.size]
+                val settings = Settings.getInstance(playbackService)
+                settings.edit {
+                    if (settings.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false))
+                        putFloat(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, speed)
+                    else
+                        PlaylistManager.currentPlayedMedia.value?.setStringMeta(MediaWrapper.META_SPEED, speed.toString())
+                }
+                playbackService.setRate(speed, true)
             }
             CUSTOM_ACTION_BOOKMARK -> {
                 playbackService.lifecycleScope.launch {
@@ -181,7 +250,8 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                         val bookmark = it.addBookmark(playbackService.getTime())
                         val bookmarkName = context.getString(R.string.bookmark_default_name, Tools.millisToString(playbackService.getTime()))
                         bookmark?.setName(bookmarkName)
-                        playbackService.displayPlaybackMessage(R.string.saved, bookmarkName)
+                        playbackService.displaySubtitleMessage(context.getString(R.string.saved, bookmarkName),
+                                context.resources.getQuantityString(R.plurals.saved_bookmarks_quantity, it.bookmarks.size, it.bookmarks.size))
                     }
                 }
             }
@@ -306,8 +376,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     private fun checkForSeekFailure(forward: Boolean) {
-        if (playbackService.playlistManager.player.lastPosition == 0.0f && (forward || playbackService.getTime() > 0))
-            playbackService.displayPlaybackMessage(R.string.unseekable_stream)
+        if (playbackService.playlistManager.player.lastPosition == 0.0f && (forward || playbackService.getTime() > 0)) {
+            val context = playbackService.applicationContext
+            playbackService.displaySubtitleMessage(context.getString(R.string.unseekable_stream))
+        }
     }
 
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
@@ -375,9 +447,15 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onStop() = playbackService.stop()
 
-    override fun onSkipToNext() = playbackService.next()
+    override fun onSkipToNext() = when {
+        playbackService.isPodcastMode -> jumpToTimelineEntry(false)
+        else -> playbackService.next()
+    }
 
-    override fun onSkipToPrevious() = playbackService.previous(false)
+    override fun onSkipToPrevious() = when {
+        playbackService.isPodcastMode -> jumpToTimelineEntry(true)
+        else -> playbackService.previous(false)
+    }
 
     override fun onSeekTo(pos: Long) = seek(if (pos < 0) playbackService.getTime() + pos else pos)
 

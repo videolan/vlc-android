@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.audio
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
@@ -44,18 +45,38 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
-import org.videolan.tools.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.PLAYLIST_TYPE_AUDIO
+import org.videolan.resources.util.parcelable
+import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.isStarted
+import org.videolan.tools.retrieveParent
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity.Companion.ARTIST_FROM_ALBUM
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
+import org.videolan.vlc.gui.dialogs.CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -68,17 +89,34 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.util.share
-import org.videolan.vlc.util.showParentFolder
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SHORTCUT
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_SHUFFLE
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
+import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.ContextOption.Companion.createCtxAudioFlags
 import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistAlbumFlags
 import org.videolan.vlc.util.ContextOption.Companion.createCtxTrackFlags
 import org.videolan.vlc.util.FlagSet
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.share
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import java.security.SecureRandom
-import java.util.*
+import java.util.Arrays
 import kotlin.math.min
 
 abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragment<T>(), IEventsHandler<MediaLibraryItem>, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
@@ -95,6 +133,20 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     private val tcl = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
 
     protected abstract fun getCurrentRV(): RecyclerView
+
+    /**
+     * Get the default action media type for this fragment
+     *
+     * @return the default action media type
+     */
+    protected abstract fun getDefaultActionMediaType(): DefaultPlaybackActionMediaType
+
+    /**
+     * Get the current provider. Useful when the default action is PLAY_ALL
+     *
+     * @return the current provider
+     */
+    open fun getCurrentProvider(): MedialibraryProvider<MediaWrapper>? = null
     protected var adapter: AudioBrowserAdapter? = null
 
     open fun getCurrentAdapter() = adapter
@@ -124,7 +176,14 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     fun displayListInGrid(list: RecyclerView, adapter: AudioBrowserAdapter, provider: MedialibraryProvider<MediaLibraryItem>, spacing: Int) {
-        val gridLayoutManager = GridLayoutManager(requireActivity(), nbColumns)
+        val gridLayoutManager = object: GridLayoutManager(requireActivity(), nbColumns) {
+            override fun onLayoutCompleted(state: RecyclerView.State?) {
+                super.onLayoutCompleted(state)
+                lifecycleScope.launch {
+                    displaySettingsViewModel.lockSorts(false)
+                }
+            }
+        }
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 if (position == adapter.itemCount - 1) return 1
@@ -176,6 +235,14 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<ViewPager>(R.id.pager)?.let { viewPager = it }
         tabLayout = requireActivity().findViewById(R.id.sliding_tabs)
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val media = bundle.parcelable<MediaLibraryItem>(RENAME_DIALOG_MEDIA) as? Playlist ?: return@setFragmentResultListener
+            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) { media.setName(name) }
+                viewModel.refresh()
+            }
+        }
     }
 
     fun setupLayoutManager(providerInCard: Boolean, list: RecyclerView, provider: MedialibraryProvider<MediaLibraryItem>, adapter: AudioBrowserAdapter, spacing: Int) {
@@ -198,7 +265,14 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                         provider
                     )
                 )
-                list.layoutManager = LinearLayoutManager(activity)
+                list.layoutManager = object: LinearLayoutManager(activity) {
+                    override fun onLayoutCompleted(state: RecyclerView.State?) {
+                        super.onLayoutCompleted(state)
+                        lifecycleScope.launch {
+                            displaySettingsViewModel.lockSorts(false)
+                        }
+                    }
+                }
             }
         }
         val lp = list.layoutParams
@@ -382,6 +456,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             MediaLibraryItem.TYPE_MEDIA -> {
                 createCtxTrackFlags().apply {
                     if ((item as? MediaWrapper)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                    if ((item as? MediaWrapper)?.artistId != (item as? MediaWrapper)?.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
                 }
             }
             MediaLibraryItem.TYPE_ARTIST -> {
@@ -415,7 +490,13 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
-        MediaUtils.openList(activity, listOf(*item.tracks), 0)
+        when(getDefaultActionMediaType().getCurrentPlaybackAction(Settings.getInstance(requireActivity()))) {
+            DefaultPlaybackAction.PLAY -> MediaUtils.openList(activity, listOf(*item.tracks), 0)
+            DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, listOf(*item.tracks))
+            DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, listOf(*item.tracks).toTypedArray())
+            DefaultPlaybackAction.PLAY_ALL -> getCurrentProvider() ?.let { MediaUtils.playAll(activity, it, position, false) }
+        }
+
     }
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
@@ -423,6 +504,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         if (adapter == getCurrentAdapter()) {
             restoreMultiSelectHelper()
         }
+        displaySettingsViewModel.waitForUpdate = false
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}
@@ -442,6 +524,29 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 }
             }
             CTX_INFORMATION -> showInfoDialog(media)
+            CTX_GO_TO_ALBUM -> lifecycleScope.launch(Dispatchers.IO) {
+                val i = Intent(activity, HeaderMediaListActivity::class.java)
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, (media as MediaWrapper).album)
+                startActivity(i)
+            }
+            CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).artist
+                val i = Intent(requireActivity(), SecondaryActivity::class.java)
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                i.putExtra(ARTIST_FROM_ALBUM, true)
+                i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(i)
+            }
+            CTX_GO_TO_ALBUM_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                val artist = (media as MediaWrapper).albumArtist
+                val i = Intent(requireActivity(), SecondaryActivity::class.java)
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                i.putExtra(ARTIST_FROM_ALBUM, true)
+                i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(i)
+            }
             CTX_DELETE -> removeItem(media)
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
@@ -452,6 +557,12 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 withContext(Dispatchers.IO) { media.isFavorite = option == CTX_FAV_ADD }
+                withContext(Dispatchers.Main) { getCurrentAdapter()?.notifyItemChanged(position) }
+            }
+            CTX_RENAME -> {
+                if (media !is Playlist) return
+                val dialog = RenameDialog.newInstance(media)
+                dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
             }
             else -> {}
         }

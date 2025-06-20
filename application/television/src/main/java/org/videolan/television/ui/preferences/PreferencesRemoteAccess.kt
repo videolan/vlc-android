@@ -56,11 +56,20 @@ class PreferencesRemoteAccess : BasePreferenceFragment(), SharedPreferences.OnSh
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
         if(!settings.getBoolean(REMOTE_ACCESS_ONBOARDING,  false)) {
             settings.putSingle(REMOTE_ACCESS_ONBOARDING, true)
             startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(activity, REMOTE_ACCESS_ONBOARDING) })
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {

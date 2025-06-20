@@ -112,8 +112,11 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                     notifyItemChanged(it)
                 }
             }
+            playbackStateChanged(former, currentMedia)
         }
     protected fun inflaterInitialized() = ::inflater.isInitialized
+
+    open fun playbackStateChanged(former: MediaWrapper?, currentMedia: MediaWrapper?) {}
 
     val isEmpty: Boolean
         get() = currentList.isNullOrEmpty()

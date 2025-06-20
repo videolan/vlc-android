@@ -41,10 +41,10 @@ class VlcTrackImpl : VlcTrack {
     override fun getId() = mediaplayerTrack?.id?.toString() ?: mediaTrack!!.id.toString()
 
     override fun getName() = mediaplayerTrack?.name ?: mediaTrack!!.description
-    override fun getWidth() = (mediaplayerTrack as? IMedia.VideoTrack)?.width ?: 0
-    override fun getHeight() = (mediaplayerTrack as? IMedia.VideoTrack)?.height ?: 0
-    override fun getProjection() = (mediaplayerTrack as? IMedia.VideoTrack)?.projection ?: 0 //todo good default value?
-    override fun getFrameRateDen() = (mediaplayerTrack as? IMedia.VideoTrack)?.frameRateDen ?: 0 //todo good default value?
-    override fun getFrameRateNum() = (mediaplayerTrack as? IMedia.VideoTrack)?.frameRateNum ?: 0 //todo good default value?
+    override fun getWidth() = (mediaTrack as? IMedia.VideoTrack)?.width ?: 0
+    override fun getHeight() = (mediaTrack as? IMedia.VideoTrack)?.height ?: 0
+    override fun getProjection() = (mediaTrack as? IMedia.VideoTrack)?.projection ?: 0 //todo good default value?
+    override fun getFrameRateDen() = (mediaTrack as? IMedia.VideoTrack)?.frameRateDen ?: 0 //todo good default value?
+    override fun getFrameRateNum() = (mediaTrack as? IMedia.VideoTrack)?.frameRateNum ?: 0 //todo good default value?
 
 }

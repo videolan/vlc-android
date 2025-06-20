@@ -64,7 +64,7 @@ import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListener {
@@ -73,6 +73,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
     override fun needToManageOrientation() = true
 
     override fun initialFocusedView(): View = binding.equalizerContainer
+    override fun allowRemote() = true
 
     private lateinit var equalizer: MediaPlayer.Equalizer
     private var customCount = 0
@@ -174,9 +175,13 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
             val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 1f)
             bar.layoutParams = params
             eqBandsViews.add(bar)
+            bar.setSliderId(View.generateViewId())
             bar.setListener(BandListener(i))
         }
-
+        for (i in 0 until bandCount) {
+            if (i > 0) eqBandsViews[i].nextFocusLeftId = eqBandsViews[i - 1].getSliderId()
+            if (i < bandCount - 1) eqBandsViews[i].nextFocusRightId = eqBandsViews[i + 1].getSliderId()
+        }
         eqBandsViews[0].nextFocusLeftId = R.id.equalizer_preamp
         eqBandsViews[eqBandsViews.size - 1].nextFocusRightId = R.id.snapBands
 
@@ -259,7 +264,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                     if (i == index) {
                         continue
                     }
-                    eqBandsViews[i].setProgress((oldBands[i] + delta / (abs(i - index) * abs(i - index) * abs(i - index) + 1)).coerceIn(0, EqualizerBar.RANGE * 2))
+                    eqBandsViews[i].setProgress((oldBands[i] + delta / ((i - index).absoluteValue.let { it * it * it } + 1)).coerceIn(0, EqualizerBar.RANGE * 2))
 
                     if (binding.equalizerButton.isChecked) {
 
@@ -349,6 +354,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), Slider.OnChangeListene
                 true
             } else false
         }
+        input.requestFocus()
         val window = saveEqualizer.window
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 

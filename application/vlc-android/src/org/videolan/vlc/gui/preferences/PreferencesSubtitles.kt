@@ -34,6 +34,7 @@ import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.LocaleUtils
+import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -202,7 +203,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
     }
 
     private fun prepareLocaleList() {
-        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference), requireActivity().getLocales())
         preferredSubtitleTrack.entries = localePair.localeEntries
         preferredSubtitleTrack.entryValues = localePair.localeEntryValues
     }

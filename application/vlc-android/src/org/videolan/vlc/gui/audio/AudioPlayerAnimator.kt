@@ -35,6 +35,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.LifecycleObserver
 import androidx.transition.AutoTransition
+import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import androidx.window.layout.FoldingFeature
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -43,6 +44,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.tools.AUDIO_HINGE_ON_RIGHT
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -94,6 +96,15 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     private val transition = AutoTransition().apply {
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
+        addListener(object : Transition.TransitionListener {
+            override fun onTransitionStart(transition: Transition) { }
+            override fun onTransitionEnd(transition: Transition) {
+                audioPlayer.update()
+            }
+            override fun onTransitionCancel(transition: Transition) { }
+            override fun onTransitionPause(transition: Transition) { }
+            override fun onTransitionResume(transition: Transition) { }
+        })
     }
     private var showCover = false
         set(value) {
@@ -165,6 +176,8 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         hidePlaylistConstraint.setVisibility(R.id.audio_rewind_text, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_forward_10, View.VISIBLE)
         hidePlaylistConstraint.setVisibility(R.id.audio_forward_text, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_forward_bookmark, View.VISIBLE)
+        hidePlaylistConstraint.setVisibility(R.id.audio_rewind_bookmark, View.VISIBLE)
         headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.BOTTOM)
         headerHidePlaylistConstraint.clear(R.id.playback_chips, ConstraintSet.TOP)
         headerHidePlaylistConstraint.connect(R.id.playback_chips, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -216,7 +229,10 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     override suspend fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
             val mw = audioPlayer.playlistModel.currentMediaWrapper ?: return
-            if (currentCoverArt == mw.artworkMrl) return
+            if (currentCoverArt == mw.artworkMrl) {
+                if (currentCoverArt == null) setDefaultBackground()
+                return
+            }
             currentCoverArt = mw.artworkMrl
             if (mw.artworkMrl.isNullOrEmpty()) setDefaultBackground()
             else {
@@ -226,6 +242,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
                 if (cover == null) setDefaultBackground()
                 else {
                     UiTools.blurView(binding.backgroundView, cover, 15F, UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
+                    binding.backgroundView.setVisible()
                 }
             }
         } else {

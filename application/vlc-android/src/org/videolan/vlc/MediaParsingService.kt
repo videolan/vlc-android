@@ -38,30 +38,69 @@ import android.os.PowerManager
 import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ServiceLifecycleDispatcher
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ActorScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.stubs.StubMedialibrary
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_CHECK_STORAGES
+import org.videolan.resources.ACTION_CONTENT_INDEXING
+import org.videolan.resources.ACTION_DISCOVER
+import org.videolan.resources.ACTION_DISCOVER_DEVICE
+import org.videolan.resources.ACTION_FORCE_RELOAD
+import org.videolan.resources.ACTION_INIT
+import org.videolan.resources.ACTION_PAUSE_SCAN
+import org.videolan.resources.ACTION_RELOAD
+import org.videolan.resources.ACTION_RESUME_SCAN
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CRASH_HAPPENED
+import org.videolan.resources.CRASH_ML_CTX
+import org.videolan.resources.CRASH_ML_MSG
+import org.videolan.resources.EXTRA_PARSE
+import org.videolan.resources.EXTRA_PATH
+import org.videolan.resources.EXTRA_REMOVE_DEVICE
+import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.dbExists
 import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
-import org.videolan.tools.*
-import org.videolan.vlc.gui.SendCrashActivity
+import org.videolan.tools.KEY_MEDIALIBRARY_AUTO_RESCAN
+import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
+import org.videolan.tools.ML_SCAN_OFF
+import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.localBroadcastManager
+import org.videolan.tools.removeFileScheme
+import org.videolan.vlc.gui.FeedbackActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.cleanupWatchNextList
+import org.videolan.vlc.util.scanAllowed
 
 private const val TAG = "VLC/MediaParsingService"
 
@@ -93,21 +132,23 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private val exceptionHandler = when {
         BuildConfig.BETA -> Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
-            val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
+            val intent = Intent(applicationContext, FeedbackActivity::class.java).apply {
                 putExtra(CRASH_ML_CTX, context)
                 putExtra(CRASH_ML_MSG, errMsg)
+                putExtra(CRASH_HAPPENED, true)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             Log.wtf(TAG, "medialibrary reported unhandled exception: -----------------")
             // Lock the Medialibrary thread during DB extraction.
             runBlocking {
-                SendCrashActivity.job = Job()
+                FeedbackActivity.job = Job()
                 try {
                     startActivity(intent)
-                    SendCrashActivity.job?.join()
+                    FeedbackActivity.job?.join()
                 } catch (e: Exception) {
-                    SendCrashActivity.job = null
+                    FeedbackActivity.job = null
                 }
+                throw IllegalStateException("$context:\n$errMsg")
             }
         }
         BuildConfig.DEBUG -> Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ -> throw IllegalStateException("$context:\n$errMsg") }

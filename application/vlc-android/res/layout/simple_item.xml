@@ -18,8 +18,8 @@
                 type="android.graphics.drawable.BitmapDrawable" />
 
         <variable
-                name="handler"
-                type="org.videolan.vlc.gui.SimpleAdapter.ClickHandler" />
+                name="holder"
+                type="org.videolan.vlc.gui.SimpleAdapter.ViewHolder" />
 
         <variable
             name="imageWidth"
@@ -42,7 +42,7 @@
         android:background="?attr/video_list_background"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{(v) -> handler.onClick(item,position)}"
+        android:onClick="@{holder::onClick}"
         android:orientation="horizontal"
         android:padding="8dp">
 

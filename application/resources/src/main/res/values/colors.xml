@@ -20,7 +20,9 @@
     <color name="orange800">#ff610a</color>
     <color name="orange900">#ff5014</color>
 
+    <color name="red500transparent25">#40ff0000</color>
     <color name="red500transparent">#b4ff0000</color>
+    <color name="red200">#EF9A9A</color>
     <color name="orange500transparent">#b4ff8800</color>
     <color name="orange500focus">#86ff8800</color>
     <color name="orange200transparent">#64ffca7d</color>
@@ -67,8 +69,10 @@
 
     <color name="grey50transparent">#b9fafafa</color>
     <color name="grey50transparent_ea">#eafafafa</color>
+    <color name="grey300transparent">#80e0e0e0</color>
     <color name="grey400transparent">#80bdbdbd</color>
     <color name="grey600transparent">#80757575</color>
+    <color name="grey700transparent">#80616161</color>
     <color name="grey900transparent_bb">#bb212121</color>
     <color name="grey900transparent_dd">#dd212121</color>
     <color name="grey900transparent">#80212121</color>

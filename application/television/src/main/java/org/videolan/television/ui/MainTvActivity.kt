@@ -40,6 +40,7 @@ import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.Settings
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
+import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
@@ -79,10 +80,11 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
         browseFragment = fragmentManager.findFragmentById(R.id.browse_fragment) as MainTvFragment
         progressBar = findViewById(R.id.tv_main_progress)
         lifecycleScope.launch {
+            AutoUpdate.clean(this@MainTvActivity.application)
             if (!Settings.getInstance(this@MainTvActivity).getBoolean(KEY_SHOW_UPDATE, true)) return@launch
-            AutoUpdate.checkUpdate(this@MainTvActivity.application) {
+            AutoUpdate.checkUpdate(this@MainTvActivity.application) {url, date ->
                 val updateDialog = UpdateDialog().apply {
-                    arguments = bundleOf(UPDATE_URL to it)
+                    arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
                 }
                 updateDialog.show(supportFragmentManager, "fragment_update")
             }

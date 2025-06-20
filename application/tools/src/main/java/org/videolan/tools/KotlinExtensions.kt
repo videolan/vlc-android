@@ -80,9 +80,9 @@ val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).to
 fun Boolean.toInt() = if (this) 1 else 0
 
 @OptIn(ObsoleteCoroutinesApi::class)
-fun CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
+fun <T> CoroutineScope.conflatedActor(time: Long = 2000L, action: suspend (T) -> Unit) = actor<T>(capacity = Channel.CONFLATED) {
     for (evt in channel) {
-        action()
+        action(evt)
         if (time > 0L) delay(time)
     }
 }
@@ -203,4 +203,10 @@ fun Context.resIdByName(resIdName: String?, resType: String): Int {
         return resources.getIdentifier(it, resType, packageName)
     }
     throw Resources.NotFoundException()
+}
+
+fun Resources.isXmlResource(resourceId: Int): Boolean {
+    val typedValue = TypedValue()
+    getValue(resourceId, typedValue, true)
+    return typedValue.string?.endsWith(".xml") == true
 }

@@ -6,8 +6,8 @@
         android:shortcutId="last_playlist"
         android:enabled="true"
         android:icon="@drawable/ic_shortcut_resume_playback"
-            android:shortcutShortLabel="@string/resume_playback_short_title"
-            android:shortcutLongLabel="@string/resume_playback_long_title">
+            android:shortcutShortLabel="@string/resume_audio_playback_short_title"
+            android:shortcutLongLabel="@string/resume_audio_playback_long_title">
         <intent
             android:action="vlc.shortcut.resume"
             android:targetPackage="org.videolan.vlc"
@@ -17,7 +17,7 @@
     <shortcut
         android:shortcutId="browser"
         android:enabled="true"
-        android:icon="@drawable/ic_folder"
+        android:icon="@drawable/ic_shortcut_folder"
         android:shortcutShortLabel="@string/directories"
         android:shortcutLongLabel="@string/directories" >
         <intent
@@ -29,7 +29,7 @@
     <shortcut
         android:shortcutId="video"
         android:enabled="false"
-        android:icon="@drawable/ic_video"
+        android:icon="@drawable/ic_shortcut_video"
         android:shortcutShortLabel="@string/video"
         android:shortcutLongLabel="@string/video"
         tools:targetApi="n_mr1">
@@ -42,7 +42,7 @@
     <shortcut
         android:shortcutId="audio"
         android:enabled="false"
-        android:icon="@drawable/ic_menu_audio"
+        android:icon="@drawable/ic_shortcut_audio"
         android:shortcutShortLabel="@string/audio"
         android:shortcutLongLabel="@string/audio">
         <intent

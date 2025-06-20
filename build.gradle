@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.android_plugin_version = '8.4.0'
-    ext.kotlin_version = '1.9.22'
+    ext.android_plugin_version = '8.9.1'
+    ext.kotlin_version = '2.1.20'
     ext.kotlinx_version = '1.7.1'
     repositories {
         flatDir dirs: "gradle/plugins"
@@ -15,6 +15,10 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.2'
     }
+}
+
+plugins {
+    id 'com.google.devtools.ksp' version '2.1.20-1.0.32' apply false
 }
 
 allprojects {
@@ -39,12 +43,13 @@ allprojects {
 
 ext {
     appId = "org.videolan.vlc"
-    versionCode = 3050430
-    versionName = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? '4.0.0-preview - ' + versionCode : '3.6.0 Beta 3'
+    versionCode = 3060510
+    versionName = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? '4.0.0-preview - ' + versionCode : '3.6.5-1'
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
-    libvlcVersion = vlcMajorVersion == 3 ? '3.6.0-eap12' :'4.0.0-eap15'
-    medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc12' : '0.13.13-vlc4-rc12'
-    minSdkVersion = 17
+    remoteAccessVersion = '0.6.0'
+    libvlcVersion = vlcMajorVersion == 3 ? '3.6.2' :'4.0.0-eap20'
+    medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc17' : '0.13.13-vlc4-rc17'
+    minSdkVersion = vlcMajorVersion == 3 ? 17 : 21
     targetSdkVersion = 34
     compileSdkVersion = 34
     desugarLib = '2.0.4'
@@ -62,6 +67,7 @@ ext {
     constraintLayoutVersion = '2.1.4'
     windowVersion = '1.1.0'
     mediaVersion = '1.6.0'
+    carVersion = '1.7.0-beta03'
     jdbcVersion =  '3.36.0'
     viewPager2Version = "1.0.0"
     archVersion = '2.2.0'

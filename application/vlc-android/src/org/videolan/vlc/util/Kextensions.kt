@@ -107,7 +107,7 @@ fun FragmentActivity.share(file: File) {
 fun FragmentActivity.share(title:String, content: String) {
     val intentShareFile = Intent(Intent.ACTION_SEND)
     if (isStarted()) {
-        intentShareFile.type = "*/*"
+        intentShareFile.type = "text/plain"
         intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
         intentShareFile.putExtra(Intent.EXTRA_TEXT, content)
         startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file,title)))
@@ -135,16 +135,19 @@ fun FragmentActivity.share(medias: List<MediaWrapper>) = lifecycleScope.launch {
     val intentShareFile = Intent(Intent.ACTION_SEND_MULTIPLE)
     val uris = arrayListOf<Uri>()
     val title = if (medias.size == 1) medias[0].title else resources.getQuantityString(R.plurals.media_quantity, medias.size, medias.size)
+    var hasVideo = false
+    var hasAudio = false
     withContext(Dispatchers.IO) {
         medias.filter { it.uri.path != null && File(it.uri.path!!).exists() }.forEach {
             val file = File(it.uri.path!!)
+            if (it.type == TYPE_VIDEO) hasVideo = true else hasAudio = true
             uris.add(FileProvider.getUriForFile(this@share, "$packageName.provider", file))
         }
     }
 
     if (isStarted())
         if (uris.isNotEmpty()) {
-            intentShareFile.type = "*/*"
+            intentShareFile.type = if (hasAudio && !hasVideo) "audio/*" else if(hasVideo && !hasAudio) "video/*" else "*/*"
             intentShareFile.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
             intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
             intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, title))
@@ -154,6 +157,7 @@ fun FragmentActivity.share(medias: List<MediaWrapper>) = lifecycleScope.launch {
 
 fun MediaWrapper?.isMedia() = this != null && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
 fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == MediaWrapper.TYPE_DIR || type == MediaWrapper.TYPE_PLAYLIST)
+fun MediaWrapper.trackNumberText() = if (trackNumber > 0) "$trackNumber." else ""
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
@@ -328,6 +332,10 @@ fun CharSequence.getPresenceDescriptionSpan(context: Context):SpannableString {
     return string
 }
 
+fun Array<out CharSequence?>.firstNotNullAsSpannable(): SpannableString? {
+    return firstNotNullOfOrNull { it?.let(::SpannableString) }
+}
+
 fun Int.toPixel(): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = toFloat() * (metrics.densityDpi / 160f)
@@ -443,7 +451,7 @@ fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.l
  * @return a string having exactly [nbOfDigits] digits at the start
  */
 fun String?.sanitizeStringForAlphaCompare(nbOfDigits: Int): String? {
-    if (this == null) return null
+    if (isNullOrEmpty()) return this
     if (first().isDigit()) return buildString {
         var numberOfPrependingZeros =0
         for (c in this@sanitizeStringForAlphaCompare) {
@@ -530,4 +538,45 @@ fun ViewPager2.findCurrentFragment(fragmentManager: FragmentManager): Fragment? 
  */
 fun ViewPager2.findFragmentAt(fragmentManager: FragmentManager, position: Int): Fragment? {
     return fragmentManager.findFragmentByTag("f$position")
+}
+
+/**
+ * Merges the current sorted mutable list with another sorted list based on a selected property.
+ *
+ * Both lists must be in ascending order using the same property.
+ *
+ * @param <T>       the type of elements in the list
+ * @param <R>       the type of the comparable property extracted by the selector
+ * @param otherList the list to be merged with the current list
+ * @param selector  a function to extract a comparable property from each element in the list
+ */
+fun <T, R : Comparable<R>> MutableList<T>.mergeSorted(otherList: List<T>, selector: (T) -> R?) {
+    mergeSorted(otherList, compareBy(selector))
+}
+/**
+ * Merges the current sorted mutable list with another sorted list using a custom comparator.
+ *
+ * Both lists must be in ascending order using the same sorting order
+ *
+ * @param <T>        the type of elements in the list
+ * @param otherList  the list to be merged with the current list
+ * @param comparator a comparator to determine the sorting order of elements
+ */
+fun <T> MutableList<T>.mergeSorted(otherList: List<T>, comparator: Comparator<T>) {
+    var thisIndex = 0
+    var otherIndex = 0
+
+    while (thisIndex < this.size && otherIndex < otherList.size) {
+        val thisItem = this[thisIndex]
+        val otherItem = otherList[otherIndex]
+
+        if (comparator.compare(thisItem, otherItem) > 0) {
+            this.add(thisIndex, otherItem)
+            otherIndex++
+        }
+        thisIndex++
+    }
+    // Add remaining elements from otherList
+    for (i in otherIndex until otherList.size)
+        this.add(otherList[i])
 }

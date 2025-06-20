@@ -21,6 +21,7 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
@@ -30,22 +31,35 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.KEY_BROWSE_NETWORK
 import org.videolan.tools.NetworkMonitor
+import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 
-class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null): BrowserProvider(context, dataset, url, Medialibrary.SORT_FILENAME, false), Observer<List<MediaWrapper>> {
+class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, val mocked: ArrayList<MediaLibraryItem>? = null): BrowserProvider(context, dataset, url, Medialibrary.SORT_FILENAME, false), Observer<List<MediaWrapper>> {
 
 
     override suspend fun browseRootImpl() {
+        if (!Settings.getInstance(context).getBoolean(KEY_BROWSE_NETWORK, true)) {
+            Log.i(TAG, "Network browseRootImpl disabled by KEY_BROWSE_NETWORK")
+            return
+        }
         dataset.clear()
         dataset.value = mutableListOf()
-        if (NetworkMonitor.getInstance(context).lanAllowed) browse()
+        if (mocked!= null)
+            dataset.value = mocked.toMutableList()
+        else
+            if (NetworkMonitor.getInstance(context).lanAllowed) browse()
     }
 
     override fun fetch() {}
 
     override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(Dispatchers.IO) {
+        if (!Settings.getInstance(context).getBoolean(KEY_BROWSE_NETWORK, true)) {
+            Log.i(TAG, "Network browseRootImpl disabled by KEY_BROWSE_NETWORK")
+            return@withContext
+        }
         initBrowser()
         mediabrowser?.let {
             it.changeEventListener(eventListener)

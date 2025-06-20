@@ -59,7 +59,11 @@ enum class ContextOption : Flag {
     CTX_SET_RINGTONE,
     CTX_SHARE,
     CTX_STOP_AFTER_THIS,
-    CTX_UNGROUP;
+    CTX_UNGROUP,
+    CTX_GO_TO_ALBUM,
+    CTX_GO_TO_ARTIST,
+    CTX_GO_TO_ALBUM_ARTIST,
+    CTX_QUICK_PLAY;
 
     override fun toLong() = 1L shl this.ordinal
 
@@ -75,7 +79,7 @@ enum class ContextOption : Flag {
         }
 
         fun createCtxTrackFlags() = createBaseFlags().apply {
-            addAll(CTX_DELETE, CTX_GO_TO_FOLDER, CTX_INFORMATION, CTX_PLAY_ALL, CTX_PLAY_NEXT)
+            addAll(CTX_DELETE, CTX_GO_TO_FOLDER, CTX_INFORMATION, CTX_GO_TO_ALBUM, CTX_GO_TO_ARTIST, CTX_PLAY_ALL, CTX_PLAY_NEXT)
             addAll(CTX_SET_RINGTONE, CTX_SHARE)
         }
 
@@ -84,11 +88,11 @@ enum class ContextOption : Flag {
         }
 
         fun createCtxPlaylistAlbumFlags() = createCtxAudioFlags().apply {
-            add(CTX_DELETE)
+            addAll(CTX_DELETE, CTX_RENAME, CTX_GO_TO_ARTIST)
         }
 
         fun createCtxPlaylistItemFlags() = createBaseFlags().apply {
-            addAll(CTX_DELETE, CTX_INFORMATION, CTX_PLAY_NEXT, CTX_SET_RINGTONE)
+            addAll(CTX_PLAY_ALL, CTX_DELETE, CTX_INFORMATION, CTX_PLAY_NEXT, CTX_SET_RINGTONE)
         }
 
         fun createCtxVideoGroupFlags() = createBaseFlags().apply {

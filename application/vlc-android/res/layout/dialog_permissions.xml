@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ *************************************************************************
+  ~  dialog_permissions.xml
+  ~ **************************************************************************
+  ~ Copyright © 2024 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/permission_title"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:minHeight="0dp"
+                    android:text="@string/permissions"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/notification_permission_title"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/notification_permission"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/permission_title" />
+
+            <LinearLayout
+                    android:id="@+id/notification_permission_container"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_permission_title">
+
+                <ImageView
+                        android:id="@+id/notification_permission_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_permission_check_checked" />
+
+                <TextView
+                        android:id="@+id/textView39"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/notification_permission"
+                        android:textColor="?attr/font_default"
+                        android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/textView37"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/manage_storage_permission"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_permission_container" />
+
+            <TextView
+                    android:id="@+id/file_access_explanation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_corners_permissions_explanation"
+                    android:drawablePadding="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:text="@string/permission_onboarding_perm_all"
+                    android:textColor="?attr/font_default"
+                    android:textSize="18sp"
+                    app:drawableTint="?attr/font_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+            <TextView
+                    android:id="@+id/all_access_warning"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_corners_permissions_warning"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:text="@string/permission_all_warning"
+                    android:textColor="?attr/font_default"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/manage_all_perms_check"
+                    tools:visibility="visible" />
+
+
+            <RadioButton
+                    android:id="@+id/no_access_check"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:paddingStart="24dp"
+                    android:text="@string/permission_no_access"
+                    android:textColor="?attr/font_default"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/file_access_explanation" />
+
+
+            <RadioButton
+                    android:id="@+id/manage_media_perms_check"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:paddingStart="24dp"
+                    android:text="@string/permission_media_title"
+                    android:textColor="?attr/font_default"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/manage_media_audio"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/no_access_check" />
+
+
+            <ImageView
+                    android:id="@+id/manage_media_audio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintBottom_toBottomOf="@+id/manage_media_perms_check"
+                    app:layout_constraintEnd_toStartOf="@+id/manage_media_video"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/manage_media_perms_check"
+                    app:layout_constraintTop_toTopOf="@+id/manage_media_perms_check"
+                    app:srcCompat="@drawable/ic_permission_media_audio" />
+
+            <ImageView
+                    android:id="@+id/manage_media_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintBottom_toBottomOf="@+id/manage_media_perms_check"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/manage_media_audio"
+                    app:layout_constraintTop_toTopOf="@+id/manage_media_perms_check"
+                    app:srcCompat="@drawable/ic_permission_media_video" />
+
+
+            <RadioButton
+                    android:id="@+id/manage_all_perms_check"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:paddingStart="24dp"
+                    android:text="@string/permission_all_title"
+                    android:textColor="?attr/font_default"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/manage_media_perms_check" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

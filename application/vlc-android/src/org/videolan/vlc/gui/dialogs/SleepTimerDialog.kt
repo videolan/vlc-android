@@ -48,6 +48,12 @@ class SleepTimerDialog : PickTimeFragment() {
     private val playlistModel by lazy { PlaylistModel.get(this) }
 
     override fun showTimeOnly() = false
+    override val dismissOnServiceEnded: Boolean
+        get() = !defaultSleepTimer
+
+    override val dismissOnPlaybackEnded: Boolean
+        get() = !defaultSleepTimer
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -70,6 +76,9 @@ class SleepTimerDialog : PickTimeFragment() {
                 updateValue("$hours$minutes")
             }
         }
+        binding.timPicWaitCheckbox.isChecked = playlistModel.service?.waitForMediaEnd ?: false
+        binding.timPicResetCheckbox.isChecked = playlistModel.service?.resetOnInteraction ?: false
+
     }
 
     override fun executeAction() {
@@ -105,6 +114,10 @@ class SleepTimerDialog : PickTimeFragment() {
 
         dismiss()
     }
+
+    override fun onServiceAvailable() { }
+
+    override fun onMediaChanged() { }
 
     override fun showDeleteCurrent() = true
 

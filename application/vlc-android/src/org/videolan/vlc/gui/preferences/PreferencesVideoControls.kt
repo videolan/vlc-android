@@ -23,7 +23,11 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
+import androidx.core.content.getSystemService
+import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
@@ -31,12 +35,15 @@ import org.videolan.tools.AUDIO_BOOST
 import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
 import org.videolan.tools.ENABLE_DOUBLE_TAP_PLAY
 import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
+import org.videolan.tools.ENABLE_FASTPLAY
 import org.videolan.tools.ENABLE_SCALE_GESTURE
 import org.videolan.tools.ENABLE_SWIPE_SEEK
 import org.videolan.tools.ENABLE_VOLUME_GESTURE
+import org.videolan.tools.FASTPLAY_SPEED
 import org.videolan.tools.KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_LONG_JUMP_DELAY
+import org.videolan.tools.LOCK_USE_SENSOR
 import org.videolan.tools.POPUP_KEEPSCREEN
 import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.Settings
@@ -53,18 +60,33 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val audioBoostPref = findPreference<CheckBoxPreference>(AUDIO_BOOST)
+        val volumeGesturePref = findPreference<CheckBoxPreference>(ENABLE_VOLUME_GESTURE)
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
-        findPreference<Preference>(AUDIO_BOOST)?.isVisible = !AndroidDevices.isAndroidTv
+        audioBoostPref?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_DOUBLE_TAP_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_DOUBLE_TAP_PLAY)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_SCALE_GESTURE)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(ENABLE_SWIPE_SEEK)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(ENABLE_FASTPLAY)?.isVisible = !AndroidDevices.isAndroidTv
+        findPreference<Preference>(FASTPLAY_SPEED)?.isVisible = !AndroidDevices.isAndroidTv
         findPreference<Preference>(SCREENSHOT_MODE)?.isVisible = !AndroidDevices.isAndroidTv
-        findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
+        volumeGesturePref?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater
         findPreference<Preference>(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY)?.title = getString(if (AndroidDevices.isAndroidTv) R.string.video_key_jump_delay else R.string.video_double_tap_jump_delay)
+        findPreference<Preference>(LOCK_USE_SENSOR)?.isVisible = !AndroidDevices.isAndroidTv
+
         updateHudTimeoutSummary()
+        val audiomanager = requireActivity().getSystemService<AudioManager>()!!
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || audiomanager.isVolumeFixed) {
+            audioBoostPref?.isChecked = false
+            audioBoostPref?.isEnabled = false
+            audioBoostPref?.summary = getString(R.string.system_volume_disabled, audioBoostPref?.summary)
+            volumeGesturePref?.isChecked = false
+            volumeGesturePref?.isEnabled = false
+            volumeGesturePref?.summary = getString(R.string.system_volume_disabled, volumeGesturePref?.summary)
+        }
 
     }
 
@@ -102,6 +124,9 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
             }
             KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY -> {
                 Settings.videoDoubleTapJumpDelay = sharedPreferences.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
+            }
+            FASTPLAY_SPEED -> {
+                Settings.fastplaySpeed = sharedPreferences.getString(FASTPLAY_SPEED, "2")?.toFloat() ?: 2f
             }
         }
     }

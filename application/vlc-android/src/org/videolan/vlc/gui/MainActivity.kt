@@ -23,7 +23,9 @@ package org.videolan.vlc.gui
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -42,8 +44,10 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTIVITY_RESULT_OPEN
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.ACTIVITY_RESULT_SECONDARY
+import org.videolan.resources.CRASH_HAPPENED
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_LAST_SESSION_CRASHED
 import org.videolan.tools.KEY_MEDIALIBRARY_AUTO_RESCAN
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.PERMISSION_NEVER_ASK
@@ -60,15 +64,15 @@ import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
-import org.videolan.vlc.gui.dialogs.AllAccessPermissionDialog
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
+import org.videolan.vlc.gui.dialogs.PermissionListDialog
+import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
-import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
@@ -122,12 +126,49 @@ class MainActivity : ContentActivity(),
         }
 
         lifecycleScope.launch {
+            if (!BuildConfig.DEBUG) return@launch
+            AutoUpdate.clean(this@MainActivity.application)
             if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@launch
-            AutoUpdate.checkUpdate(this@MainActivity.application) {
+            if (!settings.contains(KEY_SHOW_UPDATE)) {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle(resources.getString(R.string.update_nightly))
+                    .setMessage(resources.getString(R.string.update_nightly_alert))
+                    .setPositiveButton(R.string.yes){ _, _ ->
+                        settings.putSingle(KEY_SHOW_UPDATE, true)
+                    }
+                    .setNegativeButton(R.string.no){ _, _ ->
+                        settings.putSingle(KEY_SHOW_UPDATE, false)
+                    }
+                    .show()
+                return@launch
+            }
+            AutoUpdate.checkUpdate(this@MainActivity.application) {url, date ->
                 val updateDialog = UpdateDialog().apply {
-                    arguments = bundleOf(UPDATE_URL to it)
+                    arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
                 }
                 updateDialog.show(supportFragmentManager, "fragment_update")
+            }
+        }
+        if (settings.getBoolean(KEY_LAST_SESSION_CRASHED, false)) {
+            settings.putSingle(KEY_LAST_SESSION_CRASHED, false)
+            if (BuildConfig.BETA) {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle(resources.getString(R.string.report_crash))
+                    .setMessage(resources.getString(R.string.serious_crash))
+                    .setPositiveButton(R.string.send_log) { _, _ ->
+                        startActivity(
+                            Intent(applicationContext, FeedbackActivity::class.java)
+                                .apply {
+                                    putExtra(CRASH_HAPPENED, true)
+                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                }
+                        )
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ ->
+
+                    }
+                    .show()
+
             }
         }
 
@@ -138,11 +179,25 @@ class MainActivity : ContentActivity(),
         //Only the partial permission is granted for Android 11+
         if (!settings.getBoolean(PERMISSION_NEVER_ASK, false) && settings.getLong(PERMISSION_NEXT_ASK, 0L) < System.currentTimeMillis() && Permissions.canReadStorage(this) && !Permissions.hasAllAccess(this)) {
             UiTools.snackerMessageInfinite(this, getString(R.string.partial_content))?.setAction(R.string.more) {
-                AllAccessPermissionDialog.newInstance().show(supportFragmentManager, AllAccessPermissionDialog::class.simpleName)
+                PermissionListDialog.newInstance().show(supportFragmentManager, PermissionListDialog::class.simpleName)
             }?.show()
             settings.putSingle(PERMISSION_NEXT_ASK, System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2))
         }
+        updateIncognitoModeIcon()
         configurationChanged(getScreenWidth())
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                forceRefresh()
+            }
+        }
     }
 
 
@@ -231,9 +286,7 @@ class MainActivity : ContentActivity(),
             }
             R.id.incognito_mode -> {
                 lifecycleScope.launch {
-                    if (showPinIfNeeded()) return@launch
-                    Settings.getInstance (this@MainActivity).putSingle(KEY_INCOGNITO, !Settings.getInstance(this@MainActivity).getBoolean(KEY_INCOGNITO, false))
-                    item.isChecked = !item.isChecked
+                    if (!UiTools.updateIncognitoMode(this@MainActivity, item)) return@launch
                     updateIncognitoModeIcon()
                 }
                 true

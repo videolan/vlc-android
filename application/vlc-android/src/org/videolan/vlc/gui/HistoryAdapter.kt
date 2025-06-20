@@ -94,7 +94,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (inCards && Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
+        if (Settings.listTitleEllipsize == 4) scheduler = enableMarqueeEffect(recyclerView)
     }
 
     override fun onViewRecycled(holder: ViewHolder) {

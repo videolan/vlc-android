@@ -63,6 +63,9 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
             field = value
         }
 
+    open val isVideoPermDependant = false
+    open val isAudioPermDependant = false
+
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)
@@ -146,8 +149,15 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         refreshDeferred?.await()
     }
 
+    fun checkPermissions() = (isVideoPermDependant && !Permissions.canReadVideos(context)) ||
+            (isAudioPermDependant && !Permissions.canReadAudios(context))
+
     fun refresh(): Boolean {
         if ((isRefreshing && medialibrary.isWorking) || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
+        if (checkPermissions()) {
+            loading.postValue(false)
+            return false
+        }
         privateHeaders.clear()
         if (!dataSource.isInvalid) {
             isRefreshing = true
@@ -175,6 +185,10 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     inner class MLDataSource : PositionalDataSource<T>() {
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
+            if (checkPermissions()) {
+                loading.postValue(false)
+                return callback.onResult(emptyList(), 0, 0)
+            }
             val page = getPage(params.requestedLoadSize, params.requestedStartPosition)
             val count = if (page.size < params.requestedLoadSize) page.size else getTotalCount()
             try {

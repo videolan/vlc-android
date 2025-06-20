@@ -22,7 +22,11 @@ package org.videolan.vlc.gui.audio
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.asFlow
@@ -41,12 +45,21 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.KEY_AUDIO_ALBUM_SONG_CURRENT_TAB
 import org.videolan.resources.util.parcelable
-import org.videolan.tools.*
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.HeaderMediaListActivity
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CURRENT_SORT
+import org.videolan.vlc.gui.dialogs.DEFAULT_ACTIONS
+import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
+import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
+import org.videolan.vlc.gui.dialogs.ONLY_FAVS
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addFavoritesIcon
 import org.videolan.vlc.gui.helpers.UiTools.removeDrawables
@@ -56,7 +69,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -170,6 +183,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         viewModel.tracksProvider.liveHeaders.observe(viewLifecycleOwner) {
             lists[1].invalidateItemDecorations()
         }
+
+        currentTab = Settings.getInstance(requireActivity()).getInt(KEY_AUDIO_ALBUM_SONG_CURRENT_TAB, 0)
     }
 
     override fun sortBy(sort: Int) {
@@ -208,13 +223,15 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 }
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
-                        displayInCards = viewModel.providersInCard[currentTab],
-                        onlyFavs = viewModel.providers[currentTab].onlyFavorites,
-                        sorts = sorts,
-                        currentSort = viewModel.providers[currentTab].sort,
-                        currentSortDesc = viewModel.providers[currentTab].desc
+                    displayInCards = viewModel.providersInCard[currentTab],
+                    onlyFavs = viewModel.providers[currentTab].onlyFavorites,
+                    sorts = sorts,
+                    currentSort = viewModel.providers[currentTab].sort,
+                    currentSortDesc = viewModel.providers[currentTab].desc,
+                    defaultPlaybackActions = getDefaultActionMediaType().getDefaultPlaybackActions(Settings.getInstance(requireActivity())),
+                    defaultActionType = getString(getDefaultActionMediaType().title)
                 )
-                        .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
+                    .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -246,6 +263,9 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 viewModel.providers[currentTab].desc = sort.second
                 viewModel.providers[currentTab].saveSort()
                 viewModel.refresh()
+            }
+            DEFAULT_ACTIONS -> {
+                Settings.getInstance(requireActivity()).putSingle(getDefaultActionMediaType().defaultActionKey, (value as DefaultPlaybackAction).name)
             }
         }
     }
@@ -286,10 +306,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             startActivity(i)
         } else {
             if (inSearchMode()) UiTools.setKeyboardVisibility(v, false)
-            if (Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_AUDIO, false))
-                MediaUtils.playAll(activity, viewModel.tracksProvider, position, false)
-            else
-                MediaUtils.openMedia(v.context, item as MediaWrapper)
+            onMainActionClick(v, position, item)
         }
     }
 
@@ -310,11 +327,19 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
     override fun onTabSelected(tab: TabLayout.Tab) {
         super.onTabSelected(tab)
+        Settings.getInstance(requireActivity()).putSingle(KEY_AUDIO_ALBUM_SONG_CURRENT_TAB, tab.position)
         fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         activity?.invalidateOptionsMenu()
     }
 
     override fun getCurrentRV() = lists[currentTab]
+
+    override fun getDefaultActionMediaType() = when (currentTab) {
+        0 -> DefaultPlaybackActionMediaType.ALBUM
+        else -> DefaultPlaybackActionMediaType.TRACK
+    }
+
+    override fun getCurrentProvider() = viewModel.providers[currentTab] as? MedialibraryProvider<MediaWrapper>
 
     override fun onFabPlayClick(view: View) {
         if (currentTab == 0)

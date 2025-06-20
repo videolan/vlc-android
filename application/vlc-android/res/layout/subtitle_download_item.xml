@@ -17,9 +17,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:focusable="true"
             android:background="?attr/selectableItemBackground"
+            android:focusable="true"
+            android:minHeight="70dp"
             android:nextFocusRight="@+id/download_sub"
             android:nextFocusForward="@+id/download_sub">
 
@@ -28,33 +28,47 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="4dp"
                 android:text="@{subtitleItem.movieReleaseName.trim()}"
                 android:textColor="?attr/font_default"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/language"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView39"
+                app:layout_constraintEnd_toStartOf="@+id/imageView20"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Attack.on.Titan.S02E01.DUBBED.HDTV.x264-W4F" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:visibility="@{subtitleItem.hearingImpaired ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/sub_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_hearing_impaired" />
+
         <TextView
                 android:id="@+id/language"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_vertical"
-                android:text="@{subtitleItem.subLanguageID.trim()}"
+                android:text="@{subtitleItem.subLanguageID.trim().toUpperCase()}"
                 android:textAlignment="center"
                 android:textColor="?attr/font_default"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/barrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/sub_title"
+                app:layout_constraintStart_toEndOf="@+id/imageView20"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="En" />
 
@@ -63,8 +77,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
                 android:importantForAccessibility="no"
                 android:padding="4dp"
                 android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_done : @drawable/ic_download_subtitles }"
@@ -91,5 +105,82 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="start"
                 app:constraint_referenced_ids="loading,download_sub" />
+
+        <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:textColor="?attr/font_default"
+                android:text="@{subtitleItem.getReadableDownloadNumber()}"
+                android:visibility="@{subtitleItem.downloadNumber > 0 ? View.VISIBLE : View.GONE}"
+                app:drawableStartCompat="@drawable/ic_download"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/sub_title"
+                app:layout_constraintTop_toBottomOf="@+id/sub_title"
+                tools:text="1234" />
+
+        <LinearLayout
+                android:id="@+id/linearLayout7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal"
+                android:visibility="@{subtitleItem.rating > 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/textView39"
+                app:layout_constraintStart_toEndOf="@+id/textView39"
+                app:layout_constraintTop_toTopOf="@+id/textView39"
+                app:layout_goneMarginStart="0dp"
+                tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{subtitleItem.rating == 1 ? @drawable/ic_star_half : @drawable/ic_star}"
+                    tools:srcCompat="@drawable/ic_star" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{subtitleItem.rating &lt; 3 ? @drawable/ic_star_border : (subtitleItem.rating == 3) ? @drawable/ic_star_half : @drawable/ic_star}"
+                    tools:srcCompat="@drawable/ic_star" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{subtitleItem.rating &lt; 5 ? @drawable/ic_star_border : (subtitleItem.rating == 5) ? @drawable/ic_star_half : @drawable/ic_star}"
+                    tools:srcCompat="@drawable/ic_star_half" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{subtitleItem.rating &lt; 7 ? @drawable/ic_star_border : (subtitleItem.rating == 7) ? @drawable/ic_star_half : @drawable/ic_star}"
+                    tools:srcCompat="@drawable/ic_star_border" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{subtitleItem.rating &lt; 9 ? @drawable/ic_star_border : (subtitleItem.rating == 9) ? @drawable/ic_star_half : @drawable/ic_star}"
+                    tools:srcCompat="@drawable/ic_star_border" />
+        </LinearLayout>
+
+        <View
+                android:id="@+id/view3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="?attr/default_divider"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

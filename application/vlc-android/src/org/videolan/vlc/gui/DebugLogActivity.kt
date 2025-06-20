@@ -157,7 +157,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
                 share(File(path))
             }
         } else {
-            UiTools.snacker(window.decorView.findViewById(android.R.id.content), R.string.dump_logcat_failure)
+            UiTools.snacker(this, R.string.dump_logcat_failure)
         }
     }
 

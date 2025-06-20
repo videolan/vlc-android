@@ -1,6 +1,8 @@
 package org.videolan.vlc.gui
 
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -24,16 +26,17 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
     MultiSelectAdapter<MediaLibraryItem> {
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
 
+    var defaultCover:BitmapDrawable? = null
 
     interface ClickHandler {
-        fun onClick(item: MediaLibraryItem, position: Int)
+        fun onClick(position: Int)
     }
 
     private lateinit var inflater : LayoutInflater
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (!this::inflater.isInitialized) inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(handler, SimpleItemBinding.inflate(inflater, parent, false))
+        return ViewHolder(SimpleItemBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -45,6 +48,21 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
         (getItem(position) as? DummyItem)?.let {
             holder.binding.cover =  getDummyItemIcon(holder.itemView.context, it)
         }
+        if (defaultCover != null) {
+            holder.binding.cover = defaultCover
+        }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNullOrEmpty())
+            super.onBindViewHolder(holder, position, payloads)
+        else {
+            payloads.forEach {
+                when (it) {
+                    UPDATE_SELECTION -> holder.selectView(multiSelectHelper.isSelected(position))
+                }
+            }
+        }
     }
 
     fun isEmpty() = itemCount == 0
@@ -53,14 +71,19 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
         return if (position in 0 until itemCount) super.getItem(position) else null
     }
 
-    inner class ViewHolder(handler: ClickHandler,  binding: SimpleItemBinding) :  SelectorViewHolder<SimpleItemBinding>(binding) {
+    inner class ViewHolder(binding: SimpleItemBinding) :  SelectorViewHolder<SimpleItemBinding>(binding) {
         init {
-            binding.handler = handler
+            binding.holder = this
         }
 
         override fun selectView(selected: Boolean) {
             binding.setVariable(BR.selected, selected)
         }
+
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View) {
+            handler.onClick(layoutPosition)
+        }
+
     }
 
 }

@@ -50,6 +50,13 @@
                 android:summary="%s"
                 android:title="@string/metered_connection"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/permissions"
+            android:key="permissions_title">
+        <PreferenceScreen
+                android:key="permissions"
+                android:summary="@string/permissions_summary"
+                android:title="@string/permissions"/>
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/history">
         <CheckBoxPreference
@@ -106,6 +113,10 @@
                 android:title="@string/remote_access"
                 android:key="remote_access_category"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesRemoteAccess"/>
+        <Preference
+            android:title="@string/android_auto"
+            android:key="android_auto_category"
+            android:fragment="org.videolan.television.ui.preferences.PreferencesAndroidAuto"/>
         <Preference
                 android:title="@string/advanced_prefs_category"
                 android:key="adv_category"

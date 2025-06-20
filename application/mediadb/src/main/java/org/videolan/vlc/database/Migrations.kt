@@ -253,6 +253,13 @@ val migration_34_35 = object:Migration(34, 35) {
 
     }
 }
+val migration_35_36 = object:Migration(35, 36) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE $EXTERNAL_SUBTITLES_TABLE_NAME ADD COLUMN `hearingImpaired` INTEGER DEFAULT 0 not null")
+
+
+    }
+}
 
 @OptIn(DelicateCoroutinesApi::class)
 fun populateDB(context: Context) = GlobalScope.launch(Dispatchers.IO) {

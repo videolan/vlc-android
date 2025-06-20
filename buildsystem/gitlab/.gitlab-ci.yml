@@ -1,17 +1,19 @@
 cache:
     paths:
         - .gradle/
-        - gradle-8.6/
+        - gradle-8.13/
         - gradle/
         - gradlew
 
 variables:
   VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20230621085943
-  VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20230614051113
+  VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20250403202200
   VLC_WEB_BUILD_IMAGE: registry.videolan.org/videolan-alpine-node:20230523124511
-  WEBSERVER_DIR: "./remoteaccess"
+  WEBSERVER_DIR: "./application/remote-access-client/remoteaccess"
 
 default:
+  before_script: |
+    set -x
   interruptible: true
   image:
     name: $VLC_ANDROID_IMAGE_40
@@ -35,8 +37,8 @@ stages:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       changes:
         - buildsystem/compile-remoteaccess.sh
-    - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_COMMIT_TAG =~ /^remoteaccess-.*$/'
 
 # This is generating the node_modules folder with the required dependencies
 # If/When we want to make it fully offline:
@@ -51,7 +53,7 @@ webserver-install-dependencies:
       - npm install
     artifacts:
       paths:
-        - remoteaccess/
+        - application/remote-access-client/remoteaccess/
       when: on_success
       expire_in: 1h
 
@@ -62,10 +64,10 @@ webserver-build:
       - job: "webserver-install-dependencies"
     script:
         - cd "$WEBSERVER_DIR"
-        - npm run build
+        - npm run build-android
     artifacts:
       paths:
-        - remoteaccess/
+        - application/remote-access-client/remoteaccess/
       when: on_success
       expire_in: 1h
 
@@ -76,16 +78,15 @@ webserver-vulnerabilities:
       - job: "webserver-install-dependencies"
     script:
         - cd "$WEBSERVER_DIR"
-        - npx audit-ci@^6 --config ./audit-ci.jsonc
+        - npx audit-ci@^6 --skip-dev --config ./audit-ci.jsonc
 
 .build-all-base:
     stage: build
     script:
+        - set -x
         - mkdir -p ~/.android
         - if [ -n "$KEYSTORE_FILE_BASE64" ]; then base64 -d $KEYSTORE_FILE_BASE64 > ~/.android/debug.keystore; fi
-        - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH}
-    variables:
-        MAKEFLAGS: -j8
+        - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH} -t
 
 # Rebuilds libvlc JNI
 .build-libvlc-base:
@@ -140,7 +141,7 @@ continuous-app-build:
 continuous-app-build-v4:
   extends: .build-all-base
   script:
-    - ./buildsystem/compile.sh --init
+    - ./buildsystem/compile.sh --init -vlc4
     - ./gradlew assembleDebug -PforceVlc4=true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -361,8 +362,8 @@ nightly-x86_64-v4:
     stage: build
     script:
       - mkdir -p $M2_REPO
-      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release ${EXTRA_BUILD_PARAM}
-      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b ${EXTRA_BUILD_PARAM}
+      - ./buildsystem/compile.sh -l  -a ${ARCH} -t -m2 $M2_REPO release ${EXTRA_BUILD_PARAM}
+      - ./buildsystem/compile.sh -ml -a ${ARCH} -t -m2 $M2_REPO release -b ${EXTRA_BUILD_PARAM}
     artifacts:
       expire_in: 1h
       when: on_success
@@ -379,8 +380,8 @@ nightly-x86_64-v4:
     stage: build
     script:
       - mkdir -p $M2_REPO
-      - ./buildsystem/compile.sh -l -a ${ARCH} -m2 $M2_REPO release -vlc4
-      - ./buildsystem/compile.sh -ml -a ${ARCH} -m2 $M2_REPO release -b -vlc4
+      - ./buildsystem/compile.sh -l  -a ${ARCH} -t -m2 $M2_REPO release -vlc4
+      - ./buildsystem/compile.sh -ml -a ${ARCH} -t -m2 $M2_REPO release -b -vlc4
     artifacts:
       expire_in: 1h
       when: on_success
@@ -447,12 +448,29 @@ publish_libs:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
         - ./buildsystem/compile.sh --init -b
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
+        - ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
         paths:
             - .dbg/
+            - $M2_REPO
+        expire_in: 2 weeks
+
+publish_remote_access_lib:
+    extends: .build-libs-base
+    rules:
+      - if: '$CI_COMMIT_TAG =~ /^remoteaccess-.*$/'
+    stage: package
+    needs:
+      - job: "webserver-build"
+    script:
+        - mkdir -p $M2_REPO
+        - ./buildsystem/compile.sh --init -b
+        - ./gradlew -Dmaven.repo.local=$M2_REPO -p application/remote-access-client publishToMavenLocal
+    artifacts:
+        name: "${CI_COMMIT_TAG}"
+        paths:
             - $M2_REPO
         expire_in: 2 weeks
 
@@ -468,8 +486,8 @@ publish_libs-v4:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
         - ./buildsystem/compile.sh --init -b -vlc4
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p libvlcjni publishToMavenLocal
-        - GRADLE_ABI=ALL RELEASE_SIGNING_ENABLED=false ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p medialibrary publishToMavenLocal
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p libvlcjni publishToMavenLocal
+        - ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
         paths:
@@ -481,19 +499,17 @@ release:
     stage: build
     rules:
         - if: '$CI_COMMIT_TAG =~ /^(\d+\.)?(\d+\.)?(\*|\d+)/'
-    needs:
-      - job: "webserver-build"
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
-        - ./gradlew bundleRelease
-        - ./gradlew assembleNoTv
+        - ./gradlew bundleVlcBundle
+        - ./gradlew bundleVlcBundleAmazon
     artifacts:
         name: "${CI_COMMIT_TAG}"
         paths:
             - application/app/build/outputs/apk/release/VLC-Android-*.apk
-            - application/app/build/outputs/apk/noTv/VLC-Android-*.apk
-            - application/app/build/outputs/bundle/release/*.aab
+            - application/app/build/outputs/bundle/vlcBundle/*.aab
+            - application/app/build/outputs/bundle/vlcBundleAmazon/*.aab
 #            - application/app/build/outputs/mapping/release/mapping.txt
         expire_in: 2 weeks
 

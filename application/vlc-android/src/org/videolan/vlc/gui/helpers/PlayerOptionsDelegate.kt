@@ -2,6 +2,8 @@ package org.videolan.vlc.gui.helpers
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -15,7 +17,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCOptions
 import org.videolan.tools.AppScope
+import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -35,14 +37,22 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.AudioControlsSettingsDialog
+import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.SelectChapterDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
+import org.videolan.vlc.gui.dialogs.VideoControlsSettingsDialog
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.getScreenHeight
 import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.util.share
 
 private const val ACTION_AUDIO_DELAY = 2
 private const val ACTION_SPU_DELAY = 3
@@ -70,6 +80,7 @@ private const val ID_VIDEO_CONTROL_SETTING = 19L
 private const val ID_AUDIO_CONTROL_SETTING = 20L
 private const val ID_SAFE_MODE_LOCK = 21L
 private const val ID_SAFE_MODE_UNLOCK = 22L
+private const val ID_SHARE = 23L
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: FragmentActivity, val service: PlaybackService, private val showABReapeat:Boolean = true)  {
 
@@ -115,13 +126,15 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         if (::bookmarkClickedListener.isInitialized) options.add(PlayerOption(ID_BOOKMARK, R.drawable.ic_bookmark, res.getString(R.string.bookmarks)))
         if (showABReapeat) options.add(PlayerOption(ID_ABREPEAT, R.drawable.ic_abrepeat, res.getString(R.string.ab_repeat)))
         options.add(PlayerOption(ID_SAVE_PLAYLIST, R.drawable.ic_addtoplaylist, res.getString(R.string.playlist_save)))
-        if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") != "2")
+        if (service.playlistManager.player.canDoPassthrough() && settings.getString(KEY_AOUT, "0") != "2")
             options.add(PlayerOption(ID_PASSTHROUGH, R.drawable.ic_passthrough, res.getString(R.string.audio_digital_title)))
 
         if (video) {
             if (PinCodeDelegate.pinUnlocked.value == true) options.add(PlayerOption(ID_SAFE_MODE_LOCK, R.drawable.ic_pin_lock, res.getString(R.string.lock_with_pin)))
             if (Settings.safeMode && PinCodeDelegate.pinUnlocked.value == false) options.add(PlayerOption(ID_SAFE_MODE_UNLOCK, R.drawable.ic_pin_unlock, res.getString(R.string.unlock_with_pin)))
             options.add(PlayerOption(ID_VIDEO_CONTROL_SETTING, R.drawable.ic_video_controls, res.getString(R.string.control_setting)))
+        } else if (!Settings.showTvUi) {
+            options.add(PlayerOption(ID_SHARE, R.drawable.ic_share, res.getString(R.string.share_track_info)))
         }
 
         if (!Settings.showTvUi) {
@@ -195,11 +208,16 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             }
             ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
             ID_PLAY_AS_VIDEO -> {
-                val audioPlayerContainerActivity = activity as AudioPlayerContainerActivity
-                audioPlayerContainerActivity.audioPlayer.onResumeToVideoClick()
+                when {
+                    activity is PlayerOptionsDelegateCallback -> activity.onResumeToVideoClick()
+                }
             }
             ID_POPUP_VIDEO -> {
                 (activity as VideoPlayerActivity).switchToPopup()
+                val startMain = Intent(Intent.ACTION_MAIN)
+                startMain.addCategory(Intent.CATEGORY_HOME)
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                activity.startActivity(startMain)
                 hide()
             }
             ID_REPEAT -> setRepeatMode()
@@ -246,6 +264,28 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
                 hide()
                 val videoControlsSettingsDialog = VideoControlsSettingsDialog()
                 videoControlsSettingsDialog.show(activity.supportFragmentManager, "fragment_video_controls_settings")
+            }
+            ID_SHARE -> {
+                hide()
+                service.playlistManager.getCurrentMedia()?.let { media ->
+                    val trackInfo = buildString {
+                        var started = false
+                        if (media.title.isNotBlank()) {
+                            append(media.title)
+                            started = true
+                        }
+                        if (media.albumName.isNotBlank()) {
+                            if (started) append(" ${TextUtils.SEPARATOR} ")
+                            started = true
+                            append(media.albumName)
+                        }
+                        if (media.artistName.isNotBlank()) {
+                            if (started) append(" ${TextUtils.SEPARATOR} ")
+                            append(media.artistName)
+                        }
+                    }
+                    activity.share("", activity.getString(R.string.share_track, trackInfo))
+                }
             }
             ID_AUDIO_CONTROL_SETTING -> {
                 hide()
@@ -410,6 +450,10 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
             }
         }
     }
+}
+
+interface PlayerOptionsDelegateCallback {
+    fun onResumeToVideoClick()
 }
 
 data class PlayerOption(val id: Long, val icon: Int, val title: String)

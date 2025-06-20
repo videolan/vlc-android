@@ -34,6 +34,7 @@ import org.videolan.vlc.database.ExternalSubDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
+import org.videolan.vlc.mediadb.models.ExternalSub
 import java.io.File
 
 class ExternalSubRepository(private val externalSubDao: ExternalSubDao, private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
@@ -44,14 +45,14 @@ class ExternalSubRepository(private val externalSubDao: ExternalSubDao, private 
     val downloadingSubtitles: LiveData<Map<Long, SubtitleItem>>
         get() = _downloadingSubtitles as LiveData<Map<Long, SubtitleItem>>
 
-    fun saveDownloadedSubtitle(idSubtitle: String, subtitlePath: String, mediaPath: String, language: String, movieReleaseName: String): Job {
-        return GlobalScope.launch(coroutineContextProvider.IO) { externalSubDao.insert(org.videolan.vlc.mediadb.models.ExternalSub(idSubtitle, subtitlePath, mediaPath, language, movieReleaseName)) }
+    fun saveDownloadedSubtitle(idSubtitle: String, subtitlePath: String, mediaPath: String, language: String, movieReleaseName: String, hearingImpaired: Boolean): Job {
+        return GlobalScope.launch(coroutineContextProvider.IO) { externalSubDao.insert(ExternalSub(idSubtitle, subtitlePath, mediaPath, language, movieReleaseName, hearingImpaired)) }
     }
 
-    fun getDownloadedSubtitles(mediaUri: Uri): LiveData<List<org.videolan.vlc.mediadb.models.ExternalSub>> {
+    fun getDownloadedSubtitles(mediaUri: Uri): LiveData<List<ExternalSub>> {
         val externalSubs = externalSubDao.get(mediaUri.path!!)
         return externalSubs.map { list ->
-            val existExternalSubs: MutableList<org.videolan.vlc.mediadb.models.ExternalSub> = mutableListOf()
+            val existExternalSubs: MutableList<ExternalSub> = mutableListOf()
             list.forEach {
                 if (File(Uri.decode(it.subtitlePath)).exists())
                     existExternalSubs.add(it)

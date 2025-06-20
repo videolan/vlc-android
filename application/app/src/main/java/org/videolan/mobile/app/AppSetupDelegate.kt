@@ -26,7 +26,6 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
@@ -49,9 +48,11 @@ import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.startRemoteAccess
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_PERSISTENT_INCOGNITO
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.NetworkConnectionManager
@@ -80,8 +81,8 @@ class AppSetupDelegate : AppDelegate,
         FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
         System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
 
+        val settings = Settings.getInstance(this)
         if (BuildConfig.DEBUG) {
-            Settings.getInstance(this)
             if (Settings.showTvUi) {
                 // Register movipedia to resume tv shows/movies
                 setupContentResolvers()
@@ -90,11 +91,16 @@ class AppSetupDelegate : AppDelegate,
                 setupIndexers()
             }
         }
-        AppContextProvider.setLocale(Settings.getInstance(this).getString("set_locale", ""))
+        //App restarted, leave the incognito mode
+        if (!settings.getBoolean(KEY_PERSISTENT_INCOGNITO, true))
+            settings.putSingle(KEY_INCOGNITO, false)
+
+
+        AppContextProvider.setLocale(settings.getString("set_locale", ""))
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()
-        if (Settings.getInstance(this).getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
+        if (settings.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
             startRemoteAccess()
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
@@ -121,8 +127,6 @@ class AppSetupDelegate : AppDelegate,
             if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@innerLaunch
             Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)
         }
-        packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),
-                if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         if (!AndroidDevices.isAndroidTv) sendBroadcast(Intent(MiniPlayerAppWidgetProvider.ACTION_WIDGET_INIT).apply {
             component = ComponentName(appContextProvider.appContext, MiniPlayerAppWidgetProvider::class.java)
         })

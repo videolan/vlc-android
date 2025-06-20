@@ -191,7 +191,8 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_goneMarginBottom="4dp"
-                vlc:srcCompat="@drawable/ic_emoji_network" />
+                vlc:srcCompat="@drawable/ic_emoji_network"
+                vlc:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/sd_media"
@@ -205,7 +206,8 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_goneMarginBottom="4dp"
-                vlc:srcCompat="@drawable/ic_emoji_sd" />
+                vlc:srcCompat="@drawable/ic_emoji_sd"
+                vlc:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/otg_media"
@@ -219,7 +221,8 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_goneMarginBottom="4dp"
-                vlc:srcCompat="@drawable/ic_emoji_otg" />
+                vlc:srcCompat="@drawable/ic_emoji_otg"
+                vlc:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/network_media_off"
@@ -233,7 +236,8 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_goneMarginBottom="4dp"
-                vlc:srcCompat="@drawable/ic_emoji_absent" />
+                vlc:srcCompat="@drawable/ic_emoji_absent"
+                vlc:tint="@color/white" />
 
         <TextView
                 android:id="@+id/badgeTV"

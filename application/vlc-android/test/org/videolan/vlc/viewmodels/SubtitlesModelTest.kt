@@ -10,7 +10,7 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.videolan.resources.opensubtitles.OpenSubtitleRepository
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.resources.util.NoConnectivityException
 import org.videolan.tools.FileUtils
 import org.videolan.vlc.BaseTest
@@ -244,6 +244,6 @@ class SubtitlesModelTest : BaseTest() {
                 .awaitValue(3, TimeUnit.SECONDS)
                 .assertValue { it.isEmpty() }
 
-        assertEquals(context.getString(R.string.subs_download_error), subtitlesModel.observableMessage.get())
+        assertEquals(context.getString(R.string.open_subs_download_error), subtitlesModel.observableMessage.get())
     }
 }

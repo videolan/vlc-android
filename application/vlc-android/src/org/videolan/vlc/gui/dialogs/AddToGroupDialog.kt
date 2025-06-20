@@ -28,6 +28,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -36,7 +38,6 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.DUMMY_NEW_GROUP
 import org.videolan.resources.util.parcelableArray
 import org.videolan.tools.AppScope
@@ -48,7 +49,9 @@ import org.videolan.vlc.gui.SimpleAdapter
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
-import java.util.*
+import java.util.LinkedList
+
+const val CONFIRM_ADD_TO_GROUP_RESULT = "CONFIRM_ADD_TO_GROUP_RESULT"
 
 class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED
@@ -57,7 +60,6 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
 
     private lateinit var viewModel: VideosViewModel
     private var forbidNewGroup: Boolean = true
-    lateinit var newGroupListener: () -> Unit
     private var isLoading: Boolean = false
         set(value) {
             field = value
@@ -154,10 +156,10 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         dismiss()
     }
 
-    override fun onClick(item: MediaLibraryItem, position: Int) {
-        when (item) {
+    override fun onClick(position: Int) {
+        when (val item = adapter.currentList[position]) {
             is DummyItem -> {
-                newGroupListener.invoke()
+                setFragmentResult(CONFIRM_ADD_TO_GROUP_RESULT, bundleOf(KEY_TRACKS to newTrack))
                 dismiss()
             }
             else -> addToGroup(item as VideoGroup)

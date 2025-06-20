@@ -51,33 +51,66 @@ import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.window.layout.FoldingFeature
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.*
-import org.videolan.vlc.*
+import org.videolan.tools.ALLOW_FOLD_AUTO_LAYOUT
+import org.videolan.tools.ENABLE_SEEK_BUTTONS
+import org.videolan.tools.HINGE_ON_RIGHT
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
+import org.videolan.tools.SCREENSHOT_MODE
+import org.videolan.tools.SHOW_ORIENTATION_BUTTON
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_TRANSITION_SHOW
+import org.videolan.tools.dp
+import org.videolan.tools.formatRateString
+import org.videolan.tools.putSingle
+import org.videolan.tools.runIO
+import org.videolan.tools.setGone
+import org.videolan.tools.setInvisible
+import org.videolan.tools.setVisible
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
+import org.videolan.vlc.RendererDelegate
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.BookmarkListDelegate
+import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
+import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
+import org.videolan.vlc.gui.helpers.TalkbackUtil
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
+import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.gui.view.PlayerProgress
+import org.videolan.vlc.isVLC4
+import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeFile
+import org.videolan.vlc.util.isSchemeNetwork
+import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.text.DateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
+
 
 class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
@@ -113,7 +146,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     private var hingeSnackShown: Boolean = false
 
     var enableSubs = true
-    private var bookmarkListDelegate: BookmarkListDelegate? = null
+    var bookmarkListDelegate: BookmarkListDelegate? = null
 
     fun isHudBindingInitialized() = ::hudBinding.isInitialized
     fun isHudRightBindingInitialized() = ::hudRightBinding.isInitialized
@@ -299,6 +332,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         player.rootView?.announceForAccessibility("$text.$subText")
     }
 
+    fun hideInfo() {
+        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_INFO)
+    }
+
      fun fadeOutInfo(view:View?) {
         if (view?.visibility == View.VISIBLE) {
             view.startAnimation(AnimationUtils.loadAnimation(
@@ -372,7 +409,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (dim || player.isLocked) {
             player.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             navbar = navbar or (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LOW_PROFILE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-            if (AndroidUtil.isKitKatOrLater) visibility = visibility or View.SYSTEM_UI_FLAG_IMMERSIVE
+            if (VlcMigrationHelper.isKitKatOrLater) visibility = visibility or View.SYSTEM_UI_FLAG_IMMERSIVE
             visibility = visibility or View.SYSTEM_UI_FLAG_FULLSCREEN
         } else {
             player.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -433,7 +470,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         player.handler.sendMessageDelayed(player.handler.obtainMessage(VideoPlayerActivity.FADE_OUT), overlayTimeout.toLong())
                     hudBinding.playerOverlayPlay.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                     if (isBookmarkShown())try {
-                        if (player.isTalkbackIsEnabled()) bookmarkListDelegate?.addBookmarButton?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+                        if (player.isTalkbackIsEnabled()) bookmarkListDelegate?.addBookmarkButton?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                     } catch (e: Exception) {
                     }
                 }
@@ -530,6 +567,11 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.progress = service.playlistManager.player.progress
                 abRepeatAddMarker = hudBinding.abRepeatContainer.findViewById(R.id.ab_repeat_add_marker)
                 service.playlistManager.abRepeat.observe(player) { abvalues ->
+                    if (abvalues.start != -1L && abvalues.stop != -1L && player.settings.getBoolean("always_fast_seek", false)) {
+                        hudBinding.fastSeekWarning.setVisible()
+                    } else {
+                        hudBinding.fastSeekWarning.setGone()
+                    }
                     hudBinding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
@@ -569,7 +611,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     RendererDelegate.renderers.observe(player) { updateRendererVisibility() }
                 }
 
-                hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
+                setTitle(service.currentMediaWrapper?.title)
                 manageTitleConstraints()
                 updateTitleConstraints()
                 updateHudMargins()
@@ -590,6 +632,18 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = player
             }
+        }
+    }
+
+    fun setTitle(title: String?) {
+        if (!::hudBinding.isInitialized) return
+        hudRightBinding.playerOverlayTitle.text = title
+        if (title?.startsWith("fd://") == false) {
+            hudRightBinding.playerOverlayTitle.setVisible()
+            hudRightBinding.playerOverlayTitleWarning.setGone()
+        } else {
+            hudRightBinding.playerOverlayTitle.setGone()
+            hudRightBinding.playerOverlayTitleWarning.setVisible()
         }
     }
 
@@ -614,12 +668,28 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) player.seekListener else null)
             hudBinding.abRepeatReset.setOnClickListener(player)
             hudBinding.abRepeatStop.setOnClickListener(player)
+            hudBinding.fastSeekWarning.setOnClickListener {
+               UiTools.snacker(player, R.string.ab_repeat_fastseek_warning, false)
+            }
             abRepeatAddMarker.setOnClickListener(player)
             hudBinding.orientationToggle.setOnClickListener(if (enabled) player else null)
             hudBinding.orientationToggle.setOnLongClickListener(if (enabled) player else null)
             hudBinding.swipeToUnlock.setOnStartTouchingListener { showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE) }
             hudBinding.swipeToUnlock.setOnStopTouchingListener { showOverlayTimeout(Settings.videoHudDelay * 1000) }
-            hudBinding.swipeToUnlock.setOnUnlockListener { player.toggleLock() }
+            hudBinding.swipeToUnlock.setOnUnlockListener {
+                player.lifecycleScope.launch(Dispatchers.IO) {
+                    if (!player.checkPIN())
+                        player.isLocked = false
+                    withContext(Dispatchers.Main) {
+                        player.toggleLock()
+                    }
+                }
+            }
+            hudRightBinding.playerOverlayTitleWarning.setOnClickListener(player)
+            hudBinding.playerOverlaySeekbar.setOnClickListener {
+                if (player.service?.isPaused == true)
+                    player.togglePlayPause()
+            }
         }
         if (::hudRightBinding.isInitialized){
             hudRightBinding.playerOverlayNavmenu.setOnClickListener(if (enabled) player else null)
@@ -688,6 +758,36 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             }
             hudBinding.orientationToggle.setImageDrawable(ContextCompat.getDrawable(player, drawable))
         }
+        if (::hudRightBinding.isInitialized) {
+            if (player.orientationMode.locked && Settings.getInstance(player).getBoolean(SHOW_ORIENTATION_BUTTON, true)) {
+                val drawable = if (player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE || player.orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+                    R.drawable.ic_player_lock_landscape
+                } else {
+                    R.drawable.ic_player_lock_portrait
+                }
+                hudRightBinding.orientationQuickAction.setVisible()
+                hudRightBinding.orientationQuickAction.chipIcon = ContextCompat.getDrawable(player, drawable)
+            } else hudRightBinding.orientationQuickAction.setGone()
+        }
+    }
+
+    fun nextOrientation() {
+        val orientations = arrayOf(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
+        val orientation = when (player.orientationMode.orientation) {
+            ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> orientations[0]
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT -> orientations[1]
+            else -> orientations[orientations.indexOf(player.orientationMode.orientation) + 1]
+        }
+        player.setOrientation(orientation)
+        val string = when (orientation) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> player.getString(R.string.screen_orientation_portrait)
+            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> player.getString(R.string.screen_orientation_portrait_reverse)
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> player.getString(R.string.screen_orientation_landscape)
+            else -> player.getString(R.string.screen_orientation_landscape_reverse)
+        }
+        showInfo(string, 1000)
+        updateOrientationIcon()
+        showOverlay()
     }
 
     fun updateRendererVisibility() {
@@ -864,13 +964,14 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.playerScreenshot.visibility = if (Settings.getInstance(player).getString(SCREENSHOT_MODE, "0") in arrayOf("1", "3")) View.VISIBLE else View.GONE
             hudRightBinding.playerOverlayNavmenu.visibility = if (player.menuIdx >= 0) View.VISIBLE else View.GONE
             hudRightBinding.sleepQuickAction.visibility = if (show && PlaybackService.playerSleepTime.value != null) View.VISIBLE else View.GONE
-            hudRightBinding.playbackSpeedQuickAction.visibility = if (show && player.service?.rate != 1.0F) View.VISIBLE else View.GONE
+
+
             hudRightBinding.spuDelayQuickAction.visibility = if (show && player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
             hudRightBinding.audioDelayQuickAction.visibility = if (show && player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
             hudRightBinding.clock.visibility = if (Settings.showTvUi) View.VISIBLE else View.GONE
 
-            hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
-            hudRightBinding.playbackSpeedQuickAction.contentDescription = player.getString(R.string.playback_speed)+ ". " + player.service?.rate?.formatRateString()
+            hudRightBinding.playbackSpeedQuickAction.visibility = if (show && player.service?.rate != 1.0F) View.VISIBLE else View.GONE
+            updatePlaybackSpeedChip()
             val format =  DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
             PlaybackService.playerSleepTime.value?.let {
                 hudRightBinding.sleepQuickAction.text = format.format(it.time)
@@ -881,6 +982,19 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
         }
 
+    }
+
+    fun updatePlaybackSpeedChip() {
+        if (::hudRightBinding.isInitialized) {
+            hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
+            hudRightBinding.playbackSpeedQuickAction.contentDescription = player.getString(R.string.playback_speed) + ". " + player.service?.rate?.formatRateString()
+            if (player.service?.rate == 1.0F) hudRightBinding.playbackSpeedQuickAction.setGone()
+            if (Settings.getInstance(player).getBoolean(KEY_PLAYBACK_SPEED_VIDEO_GLOBAL, false)) {
+                hudRightBinding.playbackSpeedQuickAction.chipIcon = ContextCompat.getDrawable(player, R.drawable.ic_speed_all)
+            } else {
+                hudRightBinding.playbackSpeedQuickAction.chipIcon = ContextCompat.getDrawable(player, R.drawable.ic_speed)
+            }
+        }
     }
 
     /**
@@ -939,11 +1053,16 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudBinding.swipeToUnlock.setVisible()
             //make sure the title and unlock views are not conflicting with the cutout / gestures
             (playerUiContainer.layoutParams as? FrameLayout.LayoutParams)?.let {
-                it.topMargin =
-                    player.window.decorView.rootWindowInsets.displayCutout?.safeInsetTop ?: 0
-                it.bottomMargin =
-                    (player.window.decorView.rootWindowInsets.displayCutout?.safeInsetBottom
-                        ?: 0) + 24.dp
+                if (AndroidUtil.isPOrLater) {
+                    it.topMargin =
+                        player.window.decorView.rootWindowInsets.displayCutout?.safeInsetTop ?: 0
+                    it.bottomMargin =
+                        (player.window.decorView.rootWindowInsets.displayCutout?.safeInsetBottom
+                            ?: 0) + 24.dp
+                } else {
+                    it.topMargin = 0
+                    it.bottomMargin = 24.dp
+                }
             }
 
         }
@@ -993,15 +1112,18 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     fun showBookmarks() {
         player.service?.let {
             if (bookmarkListDelegate == null) {
-                bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel)
+                bookmarkListDelegate = BookmarkListDelegate(player, it, player.bookmarkModel, true)
                 bookmarkListDelegate?.markerContainer = hudBinding.bookmarkMarkerContainer
                 bookmarkListDelegate?.visibilityListener = {
                     if (bookmarkListDelegate?.visible == true) showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
                     else showOverlayTimeout(Settings.videoHudDelay * 1000)
                 }
+                bookmarkListDelegate?.seekListener = { forward, long ->
+                    player.jump(forward, long)
+                }
             }
             bookmarkListDelegate?.show()
-            val top = hudBinding.playerOverlaySeekbar.top
+            val top = hudBinding.playerOverlayTime.top
             bookmarkListDelegate?.setProgressHeight((top + 12.dp).toFloat())
         }
     }

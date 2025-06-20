@@ -27,8 +27,17 @@ import android.text.format.DateFormat
 import android.util.Log
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.CloseableUtils
+import org.videolan.tools.KEY_LAST_SESSION_CRASHED
 import org.videolan.tools.Logcat
-import java.io.*
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
+import java.io.BufferedWriter
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStreamWriter
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.lang.Thread.UncaughtExceptionHandler
 
 private const val TAG = "VLC/VlcCrashHandler"
@@ -70,6 +79,7 @@ class VLCCrashHandler : UncaughtExceptionHandler {
             val stacktrace = result.toString()
             printWriter.close()
             Log.e(TAG, stacktrace)
+            Settings.getInstance(AppContextProvider.appContext).putSingle(KEY_LAST_SESSION_CRASHED, true)
 
             // Save the log on SD card if available
             if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {

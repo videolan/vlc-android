@@ -6,11 +6,11 @@ import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.filters.SdkSuppress
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
-import org.videolan.tools.RESUME_PLAYBACK
 
 class PreferencesAudioUITest: BasePreferenceUITest() {
     @get:Rule
@@ -28,12 +28,6 @@ class PreferencesAudioUITest: BasePreferenceUITest() {
     @Test
     fun checkResumePlaybackAfterCallSetting() {
         val key = RESUME_PLAYBACK
-        checkToggleWorks(key, settings)
-    }
-
-    @Test
-    fun checkSavePlaybackSpeedSetting() {
-        val key = KEY_PLAYBACK_SPEED_PERSIST
         checkToggleWorks(key, settings)
     }
 
@@ -77,7 +71,7 @@ class PreferencesAudioUITest: BasePreferenceUITest() {
     @Test
     fun checkAudioOutputModeSetting() {
         // TODO: Fails due to android bug in scrolling
-        val key = "aout"
+        val key = KEY_AOUT
 
         checkModeChanged(key, "0", "0", MAP_AOUT)
         checkModeChanged(key, "1", "0", MAP_AOUT)

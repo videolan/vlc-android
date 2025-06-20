@@ -40,7 +40,7 @@ private const val TAG = "VLC/BaseModel"
 
 abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineContextProvider: CoroutineContextProvider) : SortableModel(context) {
 
-    private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
+    private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate<T>(dataset) }
 
     val dataset = LiveDataset<T>()
     open val loading = MutableLiveData<Boolean>().apply { value = false }

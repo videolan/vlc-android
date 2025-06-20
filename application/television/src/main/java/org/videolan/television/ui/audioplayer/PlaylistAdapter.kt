@@ -89,6 +89,7 @@ internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val m
             }
             holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
             holder.binding.cover = defaultCoverAudio
+            holder.binding.media = dataset[position]
 
         }
     }

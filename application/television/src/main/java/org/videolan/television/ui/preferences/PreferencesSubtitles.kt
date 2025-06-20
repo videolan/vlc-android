@@ -43,6 +43,7 @@ import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
 import org.videolan.tools.LocaleUtils
+import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -255,7 +256,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
 
     private fun prepareLocaleList() {
-        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference), activity.getLocales())
         preferredSubtitleTrack.entries = localePair.localeEntries
         preferredSubtitleTrack.entryValues = localePair.localeEntryValues
     }

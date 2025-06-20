@@ -10,3 +10,12 @@ resource_name          = android
 replace_edited_strings = false
 keep_translations      = false
 lang_map = zh_CN: zh-rCN, zh_TW: zh-rTW, zgh: zgh-rMA, en_GB: en-rGB, es_MX: es-rMX, pt_BR: pt-rBR, pt_PT: pt
+
+[o:yaron:p:vlc-trans:r:android_store]
+file_filter            = buildsystem/automation/framing/locale/<lang>.po
+source_file            = buildsystem/automation/framing/locale/en.po
+type                   = PO
+minimum_perc           = 100
+resource_name          = android (Store screenshots)
+replace_edited_strings = false
+keep_translations      = false

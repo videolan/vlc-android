@@ -33,7 +33,7 @@ import org.videolan.vlc.mediadb.models.*
 
 private const val DB_NAME = "vlc_database"
 
-@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class, Widget::class], version = 35, exportSchema = false)
+@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class, Widget::class], version = 36, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MediaDatabase: RoomDatabase() {
     abstract fun externalSubDao(): ExternalSubDao
@@ -55,7 +55,7 @@ private fun buildDatabase(context: Context) = Room.databaseBuilder(context.appli
                 migration_21_22, migration_22_23, migration_23_24, migration_24_25,
                 migration_25_26, migration_26_27, migration_27_28, migration_28_29,
                 migration_29_30, migration_30_31, migration_31_32, migration_32_33,
-                migration_33_34, migration_34_35)
+                migration_33_34, migration_34_35, migration_35_36)
         .addCallback(object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) { if (!AndroidDevices.isTv) populateDB(context) }
         })

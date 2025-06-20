@@ -174,12 +174,12 @@
     <string name="track_framerate_info">Beeldsnelheid: %1$.3f\n</string>
 
     <string name="playback_speed">Afspeelsnelheid</string>
+    <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="sleep_title">Slaaptimer</string>
     <string name="sleep_in">Slapen over</string>
     <string name="jump_to_time">Naar tijdstip springen</string>
     <string name="subtitle_select">Ondertitelbestand selecteren</string>
     <string name="wait_before_sleep">Eerst wachten tot huidig media-item klaar is</string>
-
     <string name="server_add_title">Nieuwe server aan favorieten toevoegen</string>
     <string name="server_domain_hint">Server-adres (domeinnaam of IP)</string>
     <string name="server_share_hint">Netwerkshare-naam (of IP-adres)</string>
@@ -214,8 +214,6 @@
     <string name="audio_resume_playback_title">Geschiedenis van audio-afspeelwachtrij</string>
     <string name="audio_resume_playback_warning">Het uitschakelen van de geschiedenis van de audio-afspeelwachtrij kan leiden tot gedragsproblemen.\nNa het uitschakelen is het mogelijk dat u het afspelen niet kunt hervatten vanaf:\n\n\t- een bluetooth apparaat\n\t- de widget\n\t- de mediamelding</string>
     <string name="audio_resume_playback_summary">Opslaan van de audio-afspeelwachtrij toestaan om later te hervatten</string>
-    <string name="playback_speed_title">Afspeelsnelheid opslaan</string>
-    <string name="playback_speed_summary">Afspeelsnelheid tussen media behouden</string>
 
     <string name="play_button">Afspeelknop</string>
 
@@ -357,7 +355,6 @@
     <string name="browser_show_hidden_files_title">Verborgen bestanden weergeven</string>
     <string name="albums_show_track_numbers">Tracknummers weergeven</string>
     <string name="enable_video_screenshot">Een screenshot maken</string>
-
     <string name="subtitles_prefs_category">Ondertitels</string>
     <string name="subtitles_size_title">Ondertitelgrootte</string>
     <string name="subtitles_presets_title">Ondertitelpresets</string>
@@ -510,7 +507,6 @@
     <string name="dump_logcat_failure">Logcat wegschrijven mislukt.</string>
     <string name="custom_libvlc_options">Aangepaste libVLC-opties</string>
     <string name="custom_libvlc_options_invalid">Ongeldige libVLC-opties!</string>
-
     <string name="serious_crash">Er trad spijtig genoeg een ernstige fout op en VLC moest afsluiten.</string>
     <string name="help_us_send_log">Help ons om VLC te verbeteren door de volgende crash-log te verzenden:</string>
     <string name="restart_vlc">VLC opnieuw starten</string>
@@ -524,8 +520,6 @@
     <string name="no_result">Geen resultaten gevonden</string>
     <string name="no_internet_connection">Controleer uw internetverbinding</string>
     <string name="retry">Opnieuw proberen</string>
-    <string name="subs_download_error">Dienst niet beschikbaar. Probeer het later opnieuw</string>
-
     <string name="network_browsing">Lokaal netwerk</string>
     <string name="browsing">Bladeren</string>
 
@@ -568,9 +562,6 @@
     <string name="click_here">Klik hier voor meer informatie.</string>
     <string name="allow_storage_access_title">VLC toegang geven tot video- en audiobestanden</string>
     <string name="allow_storage_access_description">VLC moet uw toestemming hebben om toegang te krijgen tot de mediabestanden op dit apparaat.</string>
-    <string name="allow_storage_manager_title">VLC alle bestandstoegang toestaan</string>
-    <string name="allow_storage_manager_description">%s\n\nToestemming verlenen?</string>
-    <string name="allow_storage_manager_explanation">Om alle mogelijkheden van VLC te krijgen en alle soorten mediabestanden te ondersteunen, raden we u sterk aan deze toestemming te verlenen.</string>
     <string name="partial_content">VLC heeft geen toegang tot al uw bestanden</string>
     <string name="partial_content_description">Vanaf Android 11 hebben toepassingen een speciale toestemming nodig om toegang te krijgen tot alle bestanden op het apparaat.\n\n%s</string>
     <string name="never_ask_again">Nooit meer vragen</string>
@@ -776,7 +767,6 @@
     <string name="welcome_beta_title">VLC bèta</string>
     <string name="welcome_beta_description">Welkom bij het VLC bèta-programma.\nMerk op dat deze versie bugs kan bevatten.</string>
     <string name="welcome_beta_description_bugs">Als u een bug opmerkt, rapporteer hem op ons forum of onze bug-tracker.</string>
-    <string name="welcome_beta_description_crashes">Als u een crash ervaart, gebruik dan het VLC-reporter-pictogram in uw launcher om hem naar ons te versturen.</string>
     <string name="send">Versturen</string>
     <string name="send_crash_action_title">Wat wilt u doen?</string>
     <string name="report_a_bug">Een bug rapporteren</string>
@@ -869,7 +859,6 @@
     <string name="sub_result_by_name">Resultaten voor %s</string>
     <string name="sub_result_by_name_season">Seizoen %s</string>
     <string name="sub_result_by_name_episode">Aflevering %s</string>
-
     <string name="sub_result_by_file">Resultaten voor uw bestand</string>
     <string name="donate">VLC helpen</string>
     <string name="donate_desc">Ondersteun de vrijwilligers die VLC maken</string>
@@ -909,7 +898,6 @@
     <string name="apply_to_all">Toepassen op alle video\'s</string>
     <string name="audio_delay_global">Audiovertraging ingesteld op %s ms voor alle video\'s</string>
     <string name="audio_delay_bt">Audiovertraging ingesteld op %s ms voor het bluetooth-apparaat</string>
-    <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="go_to_folder">Bladeren in bovenliggende map</string>
     <string name="create_shortcut">Launcher-snelkoppeling aanmaken</string>
     <string name="no_sub_renderer">Ondertitels worden nog niet ondersteund tijdens het casten</string>

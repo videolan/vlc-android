@@ -173,6 +173,7 @@
     <string name="track_framerate_info">Tasa de fotogramas: %1$.3f\n</string>
 
     <string name="playback_speed">Velocidad de reproducción</string>
+    <string name="warning_stream_speed">Incrementar la velocidad de reproducción por encima de 1 para las emisiones puede causar intermitencias</string>
     <string name="sleep_title">Temporizador de apagado</string>
     <string name="sleep_in">Apagado</string>
     <string name="jump_to_time">Saltar a tiempo</string>
@@ -203,7 +204,6 @@
 
     <string name="playback_history_title">Historial de reproducción</string>
     <string name="playback_history_summary">Guardar los medios reproducidos en la sección de historial</string>
-    <string name="playback_speed_title">Guardar velocidad de reproducción</string>
     <string name="play_button">Botón reproducir</string>
 
     <string name="seek">Buscar</string>
@@ -385,7 +385,6 @@
     <string name="dump_logcat_failure">Fallo al volcar logcat.</string>
     <string name="custom_libvlc_options">Opciones personalizas libVLC</string>
     <string name="custom_libvlc_options_invalid">Opciones libVLC inválidas!</string>
-
     <string name="serious_crash">Desafortunadamente, ha ocurrido un error serio y VLC ha tenido que cerrarse.</string>
     <string name="help_us_send_log">Ayúdanos a mejorar VLC enviándonos las siguientes trazas de fallo:</string>
     <string name="restart_vlc">Reiniciar VLC</string>
@@ -398,8 +397,6 @@
 
     <string name="no_result">No se han econtrado resultados</string>
     <string name="no_internet_connection">Compruebe su conexión a internet</string>
-    <string name="subs_download_error">Servicio no disponible. Inténtelo más tarde de nuevo.</string>
-
     <string name="network_browsing">Red local</string>
     <string name="browsing">Explorando</string>
 
@@ -611,7 +608,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bienvenido al programa beta de VLC.\nNote que esta versión puede incluir algunos errores.</string>
     <string name="welcome_beta_description_bugs">Si se da cuenta de un error, informe de él en nuestro foro o seguimiento de errores.</string>
-    <string name="welcome_beta_description_crashes">Si experimenta un fallo, use el icono del informador de VLC en su lanzador para enviárnoslo.</string>
     <string name="send">Enviar</string>
     <string name="send_crash_action_title">¿Qué desea hacer?</string>
     <string name="report_a_bug">Informar de un error</string>
@@ -703,7 +699,6 @@
     <string name="sub_result_by_name">Resultados para %s</string>
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
-
     <string name="sub_result_by_file">Resultados para su archivo</string>
     <string name="donate">Ayudar a VLC</string>
     <string name="donate_desc">Apoyar a los voluntarios contruyendo VLC</string>
@@ -742,7 +737,6 @@
     <string name="apply_to_all">Aplicar a todos los vídeos</string>
     <string name="audio_delay_global">Retraso de audio establecido a %s ms para todos los vídeos</string>
     <string name="audio_delay_bt">Retraso de audio establecido en %s ms para el dispositivo Bluetooth</string>
-    <string name="warning_stream_speed">Incrementar la velocidad de reproducción por encima de 1 para las emisiones puede causar intermitencias</string>
     <string name="go_to_folder">Explorar padre</string>
     <string name="no_sub_renderer">Los subtítulos no está soportados todavía al emitir</string>
     <string name="soundfont">MIDI SoundFont</string>

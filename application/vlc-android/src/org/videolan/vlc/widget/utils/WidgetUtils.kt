@@ -24,7 +24,10 @@
 
 package org.videolan.vlc.widget.utils
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
@@ -36,6 +39,7 @@ import com.google.android.material.color.DynamicColors
 import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.mediadb.models.Widget
+import org.videolan.vlc.widget.MiniPlayerAppWidgetProvider
 
 
 /**
@@ -168,6 +172,19 @@ fun WidgetCacheEntry.generateCircularProgressbar(context: Context, size: Float, 
     canvas.drawArc(RectF(strokeHalfWidth, strokeHalfWidth, size - strokeHalfWidth, size - strokeHalfWidth), -90F, 360F * progress, false, paint)
     return bitmapResult
 
+}
+
+fun Context.refreshAllWidgets() {
+    val intent = Intent(this, MiniPlayerAppWidgetProvider::class.java)
+    intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+
+
+    // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+// since it seems the onUpdate() is only fired on that:
+    val ids: IntArray = AppWidgetManager.getInstance(this)
+        .getAppWidgetIds(ComponentName(this, MiniPlayerAppWidgetProvider::class.java))
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+    sendBroadcast(intent)
 }
 
 /**

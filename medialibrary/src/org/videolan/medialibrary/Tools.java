@@ -93,10 +93,10 @@ public class Tools {
                 if (hasprogress) sb.append(progress); else sb.append(Tools.millisToString(mw.getLength()));
                 item.setDescription(sb.toString());
             } else if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
-                final String artist = mw.getReferenceArtist(), album = mw.getAlbum();
+                final String artist = mw.getReferenceArtist(), album = mw.getAlbumName();
                 final StringBuilder sb = new StringBuilder();
                 boolean hasArtist = !TextUtils.isEmpty(artist), hasAlbum = !TextUtils.isEmpty(album);
-                if (hasArtist && hasAlbum) sb.append(artist).append(" - ").append(album);
+                if (hasArtist && hasAlbum) sb.append(artist).append(" · ").append(album);
                 else if (hasArtist) sb.append(artist);
                 else sb.append(album);
                 item.setDescription(sb.toString());

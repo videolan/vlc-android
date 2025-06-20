@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -17,18 +18,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.Extensions
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.opensubtitles.USER_AGENT
 import org.videolan.resources.util.registerReceiverCompat
 import org.videolan.tools.isStarted
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.gui.helpers.hf.getExtWritePermission
 import org.videolan.vlc.repository.ExternalSubRepository
+import java.io.File
 
 
 object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
     private val downloadManager = AppContextProvider.appContext.getSystemService<DownloadManager>()!!
     private var dlDeferred : CompletableDeferred<SubDlResult>? = null
     private lateinit var defaultSubsDirectory : String
+    private val TAG = this::class.java.name
 
     override fun onReceive(context: Context, intent: Intent?) {
         intent?.run {
@@ -62,10 +67,12 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         AppContextProvider.appContext.applicationContext.unregisterReceiver(this)
     }
 
-    suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem) {
+    suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem, useOpenSubtitlesHeader: Boolean = false) {
         val request = DownloadManager.Request(subtitleItem.zipDownloadLink.toUri())
         request.setDescription(subtitleItem.movieReleaseName)
         request.setTitle(context.resources.getString(R.string.download_subtitle_title))
+       if (useOpenSubtitlesHeader) request.addRequestHeader("User-Agent", USER_AGENT)
+       if (useOpenSubtitlesHeader) request.addRequestHeader("Api-Key", org.videolan.resources.BuildConfig.VLC_OPEN_SUBTITLES_API_KEY)
         request.setDestinationInExternalFilesDir(context, getDownloadPath(subtitleItem), "")
         val id = downloadManager.enqueue(request)
         val deferred = CompletableDeferred<SubDlResult>().also { dlDeferred = it }
@@ -78,23 +85,41 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
 
     private suspend fun downloadSuccessful(id:Long, subtitleItem: SubtitleItem, localUri: String, context: FragmentActivity) {
         val extractDirectory = getFinalDirectory(context, subtitleItem) ?: return
-        val downloadedPaths = FileUtils.unpackZip(localUri, extractDirectory)
-        subtitleItem.run {
-            ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
-            downloadedPaths.forEach {
-                if (Extensions.SUBTITLES.contains(".${it.split('.').last()}")) {
+        // Some filenames from opensubtitles.org had characters not authorized for an Android Uri
+        // This sanitizes the filename so it can be used as dest in copyFile
+        // cf https://www.rfc-editor.org/rfc/rfc2396 #2.4.3 mentionned in the Uri.parse method doc
+        subtitleItem.fileName = subtitleItem.fileName
+            .replace("\"", "")
+            .replace("<", "")
+            .replace(">", "")
+            .replace("#", "")
+            .replace("%", "")
+        FileUtils.copyFile(localUri, "$extractDirectory/${subtitleItem.fileName}")?.let {dest ->
+            subtitleItem.run {
+                ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
+                val fileExtention = ".${dest.split('.').last()}"
+                if (Extensions.SUBTITLES.contains(fileExtention)) {
                     ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(
                         idSubtitle,
-                        it,
+                        dest,
                         mediaUri.path!!,
                         subLanguageID,
-                        movieReleaseName
+                        movieReleaseName,
+                        hearingImpaired
                     )
                 }
-                else
-                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
-            }
+                else {
+                    Log.e(TAG, "downloadSuccessful: Bad subtitle extension: $fileExtention")
+                    Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_LONG)
+                        .show()
+                }
+        }
+
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
+        } ?: run {
+            Log.e(TAG, "downloadSuccessful: Failed to copy subtitle file")
+            ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
+            Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -102,23 +127,29 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         if (!this::defaultSubsDirectory.isInitialized) defaultSubsDirectory = "${context.applicationContext.getExternalFilesDir(null)!!.absolutePath}/subtitles"
         if (subtitleItem.mediaUri.scheme != "file") return defaultSubsDirectory
         val folder = subtitleItem.mediaUri.path.getParentFolder() ?: return context.getExternalFilesDir("subs")?.absolutePath
-        val canWrite = context.isStarted() && context.getExtWritePermission(folder.toUri())
+        val subFile = subtitleItem.mediaUri.path?.let { File(it) }
+        val canWrite = context.isStarted() && context.getExtWritePermission(folder.toUri()) && subFile?.canWrite() ?: false
         return if (canWrite) folder
         else (context.applicationContext.getExternalFilesDir(null))?.absolutePath ?: defaultSubsDirectory
     }
 
     private fun downloadFailed(id: Long, context: Context) {
-        Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.subtitles_download_failed, Toast.LENGTH_LONG).show()
         ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
     }
 
-    private fun getDownloadPath(subtitleItem: SubtitleItem) = "VLC/${subtitleItem.movieReleaseName}_${subtitleItem.idSubtitle}.zip"
+    private fun getDownloadPath(subtitleItem: SubtitleItem) = "VLC/${subtitleItem.movieReleaseName}_${subtitleItem.fileName}.zip"
 
     private fun getDownloadState(downloadId: Long): Pair<Int, String> {
         val query = DownloadManager.Query()
         query.setFilterById(downloadId)
         val cursor = downloadManager.query(query)
         cursor.moveToFirst()
+        val reasonIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON)
+        val reason = cursor.getInt(reasonIndex)
+        if (BuildConfig.DEBUG) Log.d("VLCDownloadManager", "Reason: $reason")
+
+
         val statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
 
         val status = if (statusIndex != -1)

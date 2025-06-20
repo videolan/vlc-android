@@ -15,6 +15,7 @@
     <string name="sortby_date">തീയതി</string>
     <string name="sortby_last_modified_date">ഈയിടെ ചേർത്തത് </string>
     <string name="sortby_insertion">ഉൾപ്പെടുത്തൽ തീയതി</string>
+    <string name="sortby_date_last_modified">അടുത്തിടെ ചേർത്തത് </string>
     <string name="sortby_media_number">മാധ്യമ അക്കം</string>
     <string name="sortby_number">ട്രാക്കുകളുടെ എണ്ണം</string>
     <string name="searchable_hint">തിരയുക…</string>
@@ -169,6 +170,7 @@
     <string name="track_framerate_info">ഫ്രേം റേറ്റ് : %1$.3f\n</string>
 
     <string name="playback_speed">പ്ളേബാക്ക് വേഗത</string>
+    <string name="warning_stream_speed">സ്ട്രീമുകൾക്കായി പ്ലേബാക്ക് വേഗത 1 ൽ കൂടുതലാകുന്നത് തടസ്സത്തിന് കാരണമായേക്കാം</string>
     <string name="sleep_title">സ്ലീപ് റ്റൈമര്‍</string>
     <string name="sleep_in">ഇത്ര സമയത്തിനുള്ളില്‍ ഉറങ്ങുക</string>
     <string name="jump_to_time">സമയത്തിലേക്ക് ചാടുക</string>
@@ -202,7 +204,6 @@
 
     <string name="playback_history_title">മുൻപ് കണ്ടതിന്റെ വിവരങ്ങൾ </string>
     <string name="playback_history_summary">കണ്ട മീഡിയയുടെ ചരിത്രം  സൂക്ഷിക്കുക </string>
-    <string name="playback_speed_title">കാഴ്ചയുടെ വേഗം സൂക്ഷിക്കുക </string>
     <string name="play_button">പ്ളേ ബട്ടൺ </string>
 
     <!-- Tips -->
@@ -327,7 +328,6 @@
     <string name="popup_keepscreen_summary">പോപ്പ് അപ്പ് കാണിക്കുമ്പോൾ എപ്പോഴും സ്‌ക്രീൻ ഓൺ ചെയ്തു വയ്ക്കുക, വിഡിയോ പോസിൽ ആണെങ്കിൽ പോലും </string>
     <string name="browser_show_hidden_files_title">മറഞ്ഞിരിക്കുന്ന ഫയലുകൾ കാണിക്കുക</string>
     <string name="enable_video_screenshot">ഒരു സ്ക്രീൻഷോട്ട് എടുക്കുക</string>
-
     <string name="subtitles_prefs_category">ഉപശീർഷകങ്ങൾ</string>
     <string name="subtitles_size_title">ഉപശീര്‍ഷകത്തിന്റെ വലുപ്പം</string>
     <string name="subtitles_size_small">ചെറുത്</string>
@@ -463,7 +463,6 @@
     <string name="dump_logcat_failure">ലോഗ്കാറ്റ് ഡംപ് ചെയ്യൽ പരാജയപ്പെട്ടു </string>
     <string name="custom_libvlc_options">കസ്റ്റമ് libVLC ഓപ്ഷനുകൾ</string>
     <string name="custom_libvlc_options_invalid">അസാധുവായ libVLC ഓപ്ഷനുകൾ!</string>
-
     <string name="serious_crash">നിർഭാഗ്യവശാൽ ഒരു ഗുരുതര പിഴവ് സംഭവിച്ചിരിക്കുന്നു, വിഎൽസി നിർത്തുകയാണ് </string>
     <string name="help_us_send_log">ഈ ക്റാഷ് ലോഗ് നൽകി വിഎൽസി യെ മെച്ചപെടുത്താൻ സഹായിക്കുക </string>
     <string name="restart_vlc">VLC പുനരാരംഭിക്കുക</string>
@@ -477,8 +476,6 @@
     <string name="no_result">ഫലങ്ങൾ ലഭ്യമല്ല </string>
     <string name="no_internet_connection">നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക </string>
     <string name="retry">വീണ്ടും ശ്രമിക്കുക</string>
-    <string name="subs_download_error">സേവനം ലഭ്യമല്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക</string>
-
     <string name="network_browsing">പ്രാദേശിക ശ്രിന്ഘല </string>
     <string name="browsing">ബ്രൗസിങ് </string>
 
@@ -521,9 +518,6 @@
     <string name="click_here">കൂടുതലറിയാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക.</string>
     <string name="allow_storage_access_title">വീഡിയോ, ശബ്ദ ഫയലുകൾ ഉപയോഗിക്കാൻ വിഎൽസി യെ അനുവദിക്കുക </string>
     <string name="allow_storage_access_description">ഈ ഉപകരണത്തിലെ മീഡിയ ഫയലുകൾ കൈകാര്യം ചെയ്യാൻ വിഎൽസി ക്ക് ഈ അനുവാദം നൽകുക </string>
-    <string name="allow_storage_manager_title">വിഎൽസി യെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ അനുവദിക്കുക</string>
-    <string name="allow_storage_manager_description">%s\n\nഅനുമതി നൽകണോ?</string>
-    <string name="allow_storage_manager_explanation">വിഎൽസിയുടെ എല്ലാ കഴിവുകളും എല്ലാത്തരം മീഡിയ ഫയലുകളുടെയും പിന്തുണയും ലഭിക്കുന്നതിന്, ഈ അനുമതി നൽകാൻ ഞങ്ങൾ ശക്തമായി നിർദ്ദേശിക്കുന്നു.</string>
     <string name="partial_content">വിഎൽസി ക്ക് നിങ്ങളുടെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ കഴിയുന്നില്ല</string>
     <string name="partial_content_description">ആൻഡ്രോയിഡ് 11 മുതൽ, ഉപകരണത്തിന്റെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ അപ്ലിക്കേഷനുകൾക്ക് പ്രത്യേക അനുമതി ആവശ്യമാണ്.\n\n%s</string>
     <string name="never_ask_again">ഇനി ഒരിക്കലും ചോദിക്കരുത്</string>
@@ -719,7 +713,6 @@
     <string name="welcome_beta_title">VLC ബീറ്റ</string>
     <string name="welcome_beta_description">VLC ബീറ്റ പ്രോഗ്രാമിലേക്ക് സ്വാഗതം.\nഈ പതിപ്പിന് ചില ബഗുകൾ‌ ഉണ്ടാവാം.</string>
     <string name="welcome_beta_description_bugs">ഒരു ബഗ് നിങ്ങളുടെ ശ്രദ്ധയിൽപ്പെട്ടാൽ, ദയവായി ഇത് ഞങ്ങളുടെ ഫോറത്തിലോ ബഗ് ട്രാക്കറിലോ റിപ്പോർട്ടുചെയ്യുക.</string>
-    <string name="welcome_beta_description_crashes">നിങ്ങൾ ഒരു ക്രാഷ് അനുഭവപ്പെടുകയാണെങ്കിൽ, അത് ഞങ്ങൾക്ക് അയയ്‌ക്കുന്നതിന് നിങ്ങളുടെ ലോഞ്ചറിലെ VLC റിപ്പോർട്ടർ ഐക്കൺ ഉപയോഗിക്കുക.</string>
     <string name="send">അയയ്‌ക്കുക</string>
     <string name="send_crash_action_title">നിങ്ങൾ എന്താണ് ചെയ്യാൻ ഉദേശിക്കുന്നത്?</string>
     <string name="report_a_bug">ഒരു ബഗ് റിപ്പോർട്ട് ചെയ്യുക</string>
@@ -812,7 +805,6 @@
     <string name="sub_result_by_name">%s എന്നതിനായുള്ള ഫലങ്ങൾ</string>
     <string name="sub_result_by_name_season">സീസൺ %s</string>
     <string name="sub_result_by_name_episode">എപ്പിസോഡ് %s</string>
-
     <string name="sub_result_by_file">നിങ്ങളുടെ ഫയലിനായുള്ള ഫലങ്ങൾ</string>
     <string name="donate">VLC-യെ സഹായിക്കുക</string>
     <string name="donate_desc">VLC നിർമ്മിക്കുന്ന സന്നദ്ധപ്രവർത്തകരെ പിന്തുണയ്ക്കുക</string>
@@ -852,7 +844,6 @@
     <string name="apply_to_all">എല്ലാ വീഡിയോകൾക്കും പ്രയോഗിക്കുക</string>
     <string name="audio_delay_global">എല്ലാ വീഡിയോകൾക്കും ഓഡിയോ കാലതാമസം %s ms ആയി സജ്ജമാക്കി</string>
     <string name="audio_delay_bt">ബ്ലൂടൂത്ത് ഉപകരണത്തിനായി ശബ്ദ കാലതാമസം %s എം‌എസായി സജ്ജമാക്കി</string>
-    <string name="warning_stream_speed">സ്ട്രീമുകൾക്കായി പ്ലേബാക്ക് വേഗത 1 ൽ കൂടുതലാകുന്നത് തടസ്സത്തിന് കാരണമായേക്കാം</string>
     <string name="go_to_folder">വന്ന ഇടത്തു തേടുക</string>
     <string name="create_shortcut">ഒരു ലോഞ്ചർ കുറുക്കുവഴി സൃഷ്ടിക്കുക</string>
     <string name="no_sub_renderer">കാസ്റ്റിങ് സമയത്തു ഉപശീർഷകങ്ങൾ തത്കാലം ലഭ്യമല്ല </string>

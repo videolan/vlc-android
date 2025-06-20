@@ -26,10 +26,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.NetworkMonitor
 
-class NetworkModel(context: Context, url: String? = null, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, true, coroutineContextProvider = coroutineContextProvider) {
+class NetworkModel(context: Context, url: String? = null, mocked: ArrayList<MediaLibraryItem>? = null, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK,false,  mocked = mocked, coroutineContextProvider = coroutineContextProvider) {
 
     init {
         NetworkMonitor.getInstance(context).connectionFlow.onEach {
@@ -38,10 +39,10 @@ class NetworkModel(context: Context, url: String? = null, coroutineContextProvid
         }.launchIn(viewModelScope)
     }
 
-    class Factory(val context: Context, val url: String?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?, val mocked: ArrayList<MediaLibraryItem>? = null): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return NetworkModel(context.applicationContext, url) as T
+            return NetworkModel(context.applicationContext, url, mocked) as T
         }
     }
 }

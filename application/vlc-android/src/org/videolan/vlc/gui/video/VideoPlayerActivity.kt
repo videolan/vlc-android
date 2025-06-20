@@ -64,6 +64,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
+import android.view.inputmethod.BaseInputConnection
 import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -101,8 +102,10 @@ import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -116,7 +119,9 @@ import org.videolan.libvlc.util.VLCVideoLayout
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.EXIT_PLAYER
@@ -142,6 +147,7 @@ import org.videolan.tools.DISPLAY_UNDER_NOTCH
 import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
 import org.videolan.tools.ENABLE_DOUBLE_TAP_PLAY
 import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
+import org.videolan.tools.ENABLE_FASTPLAY
 import org.videolan.tools.ENABLE_SCALE_GESTURE
 import org.videolan.tools.ENABLE_SEEK_BUTTONS
 import org.videolan.tools.ENABLE_SWIPE_SEEK
@@ -173,34 +179,60 @@ import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.getAllTracks
 import org.videolan.vlc.getSelectedVideoTrack
 import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity
+import org.videolan.vlc.gui.HeaderMediaListActivity.Companion.ARTIST_FROM_ALBUM
+import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment.Companion.shouldInterceptRemote
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
+import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.KeycodeListener
 import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.NO_LENGTH_PROGRESS_MAX
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.media.VideoResumeStatus
+import org.videolan.vlc.media.ResumeStatus
 import org.videolan.vlc.media.WaitConfirmation
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_REMOVE_FROM_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
+import org.videolan.vlc.util.ContextOption.CTX_STOP_AFTER_THIS
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.FileUtils.getUri
+import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.FrameRateManager
 import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.LocaleUtil
@@ -209,6 +241,8 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.hasNotch
 import org.videolan.vlc.util.isTalkbackIsEnabled
+import org.videolan.vlc.util.share
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.io.File
@@ -223,6 +257,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var hasPhysicalNotch: Boolean = false
     private var subtitlesExtraPath: String? = null
     private lateinit var startedScope: CoroutineScope
+    private var videoRemoteJob: Job? = null
     var service: PlaybackService? = null
     lateinit var medialibrary: Medialibrary
     var videoLayout: VLCVideoLayout? = null
@@ -260,6 +295,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var savedTime: Long = -1
 
     lateinit var windowLayoutInfo: WindowLayoutInfo
+    private var currentConfirmationDialog: AlertDialog? = null
+    val resumeDialogObserver: (t: WaitConfirmation?) -> Unit = {
+        if (it != null)
+            showConfirmResumeDialog(it)
+        else
+            currentConfirmationDialog?.dismiss()
+    }
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -322,7 +364,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
         get() {
             val pm = applicationContext.getSystemService<PowerManager>()!!
-            return if (AndroidUtil.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
+            return if (VlcMigrationHelper.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
         }
 
     val playlistObserver = Observer<List<MediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) overlayDelegate.playlistAdapter.update(mediaWrappers) }
@@ -648,6 +690,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
             }
         })
+        supportFragmentManager.setFragmentResultListener(CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT, this) { requestKey, bundle ->
+            val media = bundle.parcelable<MediaLibraryItem>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
+            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
+            overlayDelegate.bookmarkListDelegate?.renameBookmark(media as Bookmark, name)
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -664,7 +711,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      * @return the flag corresponding to the gesture the user wants to use
      */
     private fun generateTouchFlags() = if (!isTv) {
-        val audioTouch = (!AndroidUtil.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
+        val audioTouch = (!VlcMigrationHelper.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
         val brightnessTouch = !AndroidDevices.isChromeBook && settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)
         ((if (audioTouch) TOUCH_FLAG_AUDIO_VOLUME else 0)
                 + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
@@ -672,7 +719,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 + (if (settings.getBoolean(ENABLE_DOUBLE_TAP_PLAY, true)) TOUCH_FLAG_PLAY else 0)
                 + (if (settings.getBoolean(ENABLE_SWIPE_SEEK, true)) TOUCH_FLAG_SWIPE_SEEK else 0)
                 + (if (settings.getString(SCREENSHOT_MODE, "0") in arrayOf("2", "3")) TOUCH_FLAG_SCREENSHOT else 0)
-                + (if (settings.getBoolean(ENABLE_SCALE_GESTURE, true)) TOUCH_FLAG_SCALE else 0))
+                + (if (settings.getBoolean(ENABLE_SCALE_GESTURE, true)) TOUCH_FLAG_SCALE else 0)
+                + (if (settings.getBoolean(ENABLE_FASTPLAY, false) && PlaybackService.renderer.value == null) TOUCH_FLAG_FASTPLAY else 0))
     } else 0
 
     override fun fireDialog(dialog: Dialog) {
@@ -726,7 +774,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         if (isLocked && !orientationMode.locked) requestedOrientation = orientationMode.orientation
         overlayDelegate.updateOrientationIcon()
-        arrayOf(FADE_OUT_VOLUME_INFO, FADE_OUT_BRIGHTNESS_INFO, FADE_OUT, FADE_OUT_INFO).forEach {
+        arrayOf(FADE_OUT_VOLUME_INFO, FADE_OUT_BRIGHTNESS_INFO, FADE_OUT, FADE_OUT_INFO, FADE_OUT_SCREENSHOT).forEach {
             handler.removeMessages(it)
             handler.sendEmptyMessage(it)
         }
@@ -737,7 +785,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         setIntent(intent)
         if (playbackStarted) service?.run {
             if (overlayDelegate.isHudRightBindingInitialized()) {
-                overlayDelegate.hudRightBinding.playerOverlayTitle.text = currentMediaWrapper?.title
+                overlayDelegate.setTitle(currentMediaWrapper?.title)
                         ?: return@run
             }
             var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
@@ -795,7 +843,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
         val mediaList = service?.playlistManager?.getMediaList() ?: savedMediaList
-        val mediaIndex = service?.playlistManager?.currentIndex ?: 0
+        val mediaIndex = service?.playlistManager?.currentIndex ?: savedMediaIndex
         if (mediaList != null) {
             outState.putParcelableArrayList(KEY_MEDIA_LIST, ArrayList(mediaList))
             outState.putInt(KEY_MEDIA_INDEX, mediaIndex)
@@ -879,12 +927,48 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         super.onWindowFocusChanged(hasFocus)
     }
 
+    private fun simulateKeyPress(context: Context, key: Int) {
+        val a = context as Activity
+        a.window.decorView.rootView
+        val inputConnection = BaseInputConnection(
+            a.window.decorView.rootView,
+            true
+        )
+        val downEvent = KeyEvent(KeyEvent.ACTION_DOWN, key)
+        val upEvent = KeyEvent(KeyEvent.ACTION_UP, key)
+        inputConnection.sendKeyEvent(downEvent)
+        inputConnection.sendKeyEvent(upEvent)
+    }
+
     override fun onStart() {
         medialibrary.pauseBackgroundOperations()
         super.onStart()
         startedScope = MainScope()
         PlaybackService.start(this)
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(startedScope)
+        videoRemoteJob = lifecycleScope.launch {
+            videoRemoteFlow.collect { action ->
+                when (action) {
+                    "up" -> KeyEvent.KEYCODE_DPAD_UP
+                    "down" -> KeyEvent.KEYCODE_DPAD_DOWN
+                    "right" -> KeyEvent.KEYCODE_DPAD_RIGHT
+                    "left" -> KeyEvent.KEYCODE_DPAD_LEFT
+                    "center" -> KeyEvent.KEYCODE_DPAD_CENTER
+                    "back" -> KeyEvent.KEYCODE_BACK
+                    "skip-next" -> KeyEvent.KEYCODE_MEDIA_NEXT
+                    "skip-previous" -> KeyEvent.KEYCODE_MEDIA_PREVIOUS
+                    "pip" -> KeyEvent.KEYCODE_MEDIA_PREVIOUS
+                    "play", "pause" -> KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                    else -> null
+                }?.let { keyCode ->
+                    if (shouldInterceptRemote.value == true) return@let
+                    simulateKeyPress(this@VideoPlayerActivity, keyCode)
+                    videoRemoteFlow.emit(null)
+                }
+
+
+            }
+        }
         restoreBrightness()
         val filter = IntentFilter(PLAY_FROM_SERVICE)
         filter.addAction(EXIT_PLAYER)
@@ -899,22 +983,27 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onStop() {
         super.onStop()
-        service?.playlistManager?.getMediaList()?.let {
-            savedMediaList = ArrayList(it)
+        service?.playlistManager?.let {
+            savedMediaList = ArrayList(it.getMediaList())
+            savedMediaIndex = it.currentIndex
         }
         startedScope.cancel()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceReceiver)
 
         unregisterReceiver(btReceiver)
         alertDialog?.dismiss()
+        val isPlayingPopup = service?.isPlayingPopup ?: false
+        val isSystemPip = (service?.isInPiPMode?.value ?: false) && !isPlayingPopup
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
-                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()) {
+                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && !PlaybackService.hasRenderer()
+                && (!isSystemPip || !isInteractive)) {
             switchToAudioMode(false)
         }
-
         cleanUI()
         stopPlayback()
         service?.playlistManager?.videoStatsOn?.postValue(false)
+        if (isInteractive && !isPlayingPopup)
+            service?.isInPiPMode?.value = false
 
         if (savedTime != -1L) settings.putSingle(VIDEO_RESUME_TIME, savedTime)
 
@@ -930,6 +1019,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         previousMediaPath = null
         addedExternalSubs.clear()
         medialibrary.resumeBackgroundOperations()
+        videoRemoteJob?.cancel()
     }
 
     private fun saveBrightness() {
@@ -1015,7 +1105,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val tv = Settings.showTvUi
             val interactive = isInteractive
             wasPaused = !isPlaying || (!tv && !interactive)
-            if (wasPaused) settings.putSingle(VIDEO_PAUSED, true)
+            if (wasPaused && !playQueueFinished) settings.putSingle(VIDEO_PAUSED, true)
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack
@@ -1073,7 +1163,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             height = it.getHeight()
                         }
                         if (width == 0) width = surface.width
-                        if (height == 0) height = surface.width
+                        if (height == 0) height = surface.height
                         try {
                             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
                             val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
@@ -1087,7 +1177,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                 }
                                 val coords = IntArray(2)
                                 surfaceView.getLocationOnScreen(coords)
-                                if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath))
+                                if (BitmapUtil.saveOnDisk(bitmap, dst.absolutePath, publish = true, context = this@VideoPlayerActivity))
                                     screenshotDelegate.takeScreenshot(dst, bitmap, coords, surface.width, surface.height)
                                 else
                                     UiTools.snacker(this@VideoPlayerActivity, R.string.screenshot_error)
@@ -1140,9 +1230,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 resultIntent.putExtra(EXTRA_POSITION, time)
                 resultIntent.putExtra(EXTRA_DURATION, length)
             }
-            setResult(resultCode, resultIntent)
-            finish()
         }
+        setResult(resultCode, resultIntent)
+        finish()
     }
 
     private fun exitOK() {
@@ -1220,10 +1310,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
                 exitOK()
-                return true
-            }
-            KeyEvent.KEYCODE_P -> {
-                takeScreenshot()
                 return true
             }
             KeyEvent.KEYCODE_DPAD_LEFT -> {
@@ -1375,15 +1461,26 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun next() {
-        service?.next()
+        if (service?.hasNext() == true) {
+            service?.next()
+            overlayDelegate.showInfo(getString(R.string.next), 1000)
+            overlayDelegate.showOverlay()
+        }
     }
 
     override fun previous() {
-        service?.previous(false)
+        service?.let { service ->
+            service.previous(false)
+            overlayDelegate.showInfo(getString(R.string.previous), 1000)
+            overlayDelegate.showOverlay()
+        }
     }
 
     override fun stop() {
-        service?.stop()
+        service?.let { service ->
+            service.stop()
+            overlayDelegate.showInfo(getString(R.string.stop), 1000)
+        }
     }
 
     override fun seek(delta: Int) {
@@ -1417,6 +1514,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun isReady() = true
 
+    // Directly managed here
+    override fun isReadyForDirectional() = false
+
     override fun showAdvancedOptions() {
         if (optionsDelegate == null) service?.let {
             optionsDelegate = PlayerOptionsDelegate(this, it)
@@ -1444,7 +1544,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private fun volumeDown() {
         service?.let { service ->
             var vol = if (service.volume > 100)
-                (service.volume.toFloat() * audioMax / 100 - 1).roundToInt()
+                (((service.volume * audioMax).div(100)) - 1)
             else
                 audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1
             vol = vol.coerceAtLeast(0).coerceAtMost(audioMax * if (isAudioBoostEnabled) 2 else 1)
@@ -1651,8 +1751,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             wasPaused = false
         }
         setESTracks()
-        if (overlayDelegate.isHudRightBindingInitialized() && overlayDelegate.hudRightBinding.playerOverlayTitle.length() == 0)
-            overlayDelegate.hudRightBinding.playerOverlayTitle.text = mw.title
+        if (overlayDelegate.isHudRightBindingInitialized() && (overlayDelegate.hudRightBinding.playerOverlayTitle.length() == 0 || PlaybackService.hasRenderer()))
+            overlayDelegate.setTitle(mw.title)
         // Get possible subtitles
         observeDownloadedSubtitles()
         optionsDelegate?.setup()
@@ -1676,6 +1776,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val surfaceView = rootView?.findViewById<View>(R.id.surface_video) as SurfaceView
             FrameRateManager(this, service!!).matchFrameRate(surfaceView, window)
         }
+        overlayDelegate.updatePlaybackSpeedChip()
     }
 
     private fun encounteredError() {
@@ -1835,29 +1936,54 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.hideOverlay(false)
     }
 
-    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.video_playqueue_item, popupMenu.menu)
-        if (isTablet() || AndroidDevices.isTv) {
-            popupMenu.menu.removeGroup(R.id.phone_only)
-        }
-
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { curentItem ->
-            when (curentItem.itemId) {
-                R.id.audio_player_mini_remove -> service?.run {
-                    remove(position)
-                    return@OnMenuItemClickListener true
+    private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
+        override fun onCtxAction(position: Int, option: ContextOption) {
+            if (position in 0 until overlayDelegate.playlistAdapter.itemCount) when (option) {
+                CTX_ADD_TO_PLAYLIST -> {
+                    val mw = overlayDelegate.playlistAdapter.getItem(position)
+                    addToPlaylist(listOf(mw))
                 }
-                R.id.stop_after -> {
+                CTX_REMOVE_FROM_PLAYLIST -> service?.run {
+                    remove(position)
+                }
+                CTX_STOP_AFTER_THIS -> {
                     val pos = if (playlistModel?.service?.playlistManager?.stopAfter != position) position else -1
                     playlistModel?.stopAfter(pos)
                     overlayDelegate.playlistAdapter.stopAfter = pos
-                    curentItem.isChecked = true
                 }
+                CTX_GO_TO_ALBUM -> {
+                    val i = Intent(this@VideoPlayerActivity, HeaderMediaListActivity::class.java)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, overlayDelegate.playlistAdapter.getItem(position).album)
+                    startActivity(i)
+                }
+                CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                    val artist = overlayDelegate.playlistAdapter.getItem(position).artist
+                    val i = Intent(this@VideoPlayerActivity, SecondaryActivity::class.java)
+                    i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                    i.putExtra(ARTIST_FROM_ALBUM, true)
+                    i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                    startActivity(i)
+                }
+                CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
+                    overlayDelegate.playlistAdapter.getItem(position).isFavorite = option == CTX_FAV_ADD
+                    overlayDelegate.playlistAdapter.notifyItemChanged(position)
+                }
+                CTX_SHARE -> lifecycleScope.launch { share(overlayDelegate.playlistAdapter.getItem(position)) }
+                else -> {}
             }
-            false
-        })
-        popupMenu.show()
+        }
+    }
+
+    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
+        val flags = FlagSet(ContextOption::class.java).apply {
+            addAll(CTX_REMOVE_FROM_PLAYLIST, CTX_STOP_AFTER_THIS)
+            if (item?.uri?.scheme != "content") addAll(CTX_ADD_TO_PLAYLIST,  CTX_SHARE)
+            if (item?.album != null) add(CTX_GO_TO_ALBUM)
+            if (item?.artist != null) add(CTX_GO_TO_ARTIST)
+            if (item?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+        }
+        showContext(this, ctxReceiver, position, item, flags)
     }
 
     override fun getLifeCycle() = this.lifecycle
@@ -1878,12 +2004,24 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         overlayDelegate.togglePlaylist()
     }
 
+    fun jump (forward:Boolean, long: Boolean) {
+        val jumpDelay = if (long) Settings.videoLongJumpDelay else Settings.videoJumpDelay
+        val delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
+        touchDelegate.seekDelta(if (LocaleUtil.isRtl()) -delay  else delay)
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.orientation_toggle -> toggleOrientationLock()
             R.id.playlist_toggle -> overlayDelegate.togglePlaylist()
-            R.id.player_overlay_forward -> touchDelegate.seekDelta(Settings.videoJumpDelay * 1000)
-            R.id.player_overlay_rewind -> touchDelegate.seekDelta(-Settings.videoJumpDelay * 1000)
+            R.id.player_overlay_forward -> {
+                jump(forward = true, long = false)
+                overlayDelegate.showOverlay()
+            }
+            R.id.player_overlay_rewind -> {
+                jump(forward = false, long = false)
+                overlayDelegate.showOverlay()
+            }
             R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(
                 service?.playlistManager?.getCurrentMedia(), overlayDelegate.hudBinding.playerOverlaySeekbar.progress.toLong())
             R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues(service?.playlistManager?.getCurrentMedia())
@@ -1923,6 +2061,16 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayDelegate.hideOverlay(false)
                 takeScreenshot()
             }
+            R.id.orientation_quick_action -> {
+                overlayDelegate.nextOrientation()
+            }
+            R.id.player_overlay_title_warning -> {
+                val snackbar = UiTools.snackerMessageInfinite(this, getString(R.string.player_title_fd_warning))
+                snackbar?.setAction(R.string.ok) {
+                    snackbar.dismiss()
+                }
+                snackbar?.show()
+            }
         }
     }
 
@@ -1933,11 +2081,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 return true
             }
             R.id.player_overlay_forward -> {
-                touchDelegate.seekDelta(Settings.videoLongJumpDelay * 1000)
+                jump(forward = true, long = true)
                 return true
             }
             R.id.player_overlay_rewind -> {
-                touchDelegate.seekDelta(-Settings.videoLongJumpDelay * 1000)
+                jump(forward = false, long = true)
                 return true
             }
         }
@@ -2175,7 +2323,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         if (displayManager.isPrimary) service.flush()
                         onPlaying()
                     } else service.playIndex(positionInPlaylist)
-                } else service.load(media, positionInPlaylist)
+                } else service.load(media)
 
                 // Get the title
                 if (itemTitle == null && "content" != uri.scheme) title = uri.lastPathSegment
@@ -2186,7 +2334,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
             if (itemTitle != null) title = itemTitle
             if (overlayDelegate.isHudRightBindingInitialized()) {
-                overlayDelegate.hudRightBinding.playerOverlayTitle.text = title
+                overlayDelegate.setTitle(title)
             }
 
             if (wasPaused) {
@@ -2229,7 +2377,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     fun getScreenOrientation(mode: PlayerOrientationMode): Int {
         return if (!mode.locked) {
-            if (AndroidUtil.isJellyBeanMR2OrLater)
+            if (VlcMigrationHelper.isJellyBeanMR2OrLater)
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
             else
                 ActivityInfo.SCREEN_ORIENTATION_SENSOR
@@ -2277,6 +2425,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             return
         }
         service?.pause()
+        PlaybackService.waitConfirmation.postValue(confirmation.title)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_video_resume, null)
         val resumeAllCheck = dialogView.findViewById<CheckBox>(R.id.video_resume_checkbox)
@@ -2284,12 +2433,16 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 .setTitle(confirmation.title)
                 .setView(dialogView)
                 .setPositiveButton(R.string.resume) { _, _ ->
-                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = VideoResumeStatus.ALWAYS
+                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = ResumeStatus.ALWAYS
                     lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceResume = true) }
                 }
                 .setNegativeButton(R.string.no) { _, _ ->
-                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = VideoResumeStatus.NEVER
+                    if (resumeAllCheck.isChecked) service?.playlistManager?.videoResumeStatus = ResumeStatus.NEVER
                     lifecycleScope.launch { service?.playlistManager?.playIndex(confirmation.index, confirmation.flags, forceRestart = true) }
+                }
+                .setOnDismissListener {
+                    currentConfirmationDialog = null
+                    PlaybackService.waitConfirmation.postValue(null)
                 }
                 .create().apply {
                     setCancelable(false)
@@ -2300,6 +2453,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             true
                         } else false
                     }
+                currentConfirmationDialog = this
                     show()
                 }
     }
@@ -2421,12 +2575,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (volSave > 100 && service.volume != volSave) service.setVolume(volSave)
             }
             service.addCallback(this)
-            service.playlistManager.waitForConfirmation.observe(this) {
-                if (it != null) showConfirmResumeDialog(it)
-            }
+            service.playlistManager.waitForConfirmation.observe(this, resumeDialogObserver)
             //if (isTalkbackIsEnabled()) overlayDelegate.showOverlayTimeout(OVERLAY_INFINITE)
         } else if (this.service != null) {
             this.service?.removeCallback(this)
+            this.service?.playlistManager?.waitForConfirmation?.removeObserver(resumeDialogObserver)
             this.service = null
             handler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED)
             removeDownloadedSubtitlesObserver()
@@ -2439,7 +2592,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     fun onChangedControlSetting(key: String) = when(key) {
         AUDIO_BOOST -> isAudioBoostEnabled = settings.getBoolean(AUDIO_BOOST, true)
-        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK, ENABLE_SCALE_GESTURE -> touchDelegate.touchControls = generateTouchFlags()
+        ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK, ENABLE_SCALE_GESTURE, ENABLE_FASTPLAY -> touchDelegate.touchControls = generateTouchFlags()
         SCREENSHOT_MODE -> {
             touchDelegate.touchControls = generateTouchFlags()
             overlayDelegate.updateScreenshotButton()
@@ -2483,6 +2636,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         const val FADE_OUT_SCREENSHOT = 14
         private const val KEY_REMAINING_TIME_DISPLAY = "remaining_time_display"
         const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
+        val videoRemoteFlow = MutableStateFlow<String?>(null)
 
         private const val LOADING_ANIMATION_DELAY = 1000
 

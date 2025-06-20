@@ -33,6 +33,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -48,19 +49,22 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.util.isExternalStorageManager
 import org.videolan.tools.Settings
-import org.videolan.tools.isCallable
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
 
 object Permissions {
 
+    var timeAsked: Long = -1L
     const val PERMISSION_STORAGE_TAG = 255
     const val PERMISSION_SETTINGS_TAG = 254
     const val PERMISSION_WRITE_STORAGE_TAG = 253
     const val MANAGE_EXTERNAL_STORAGE = 256
+
+    const val FINE_STORAGE_PERMISSION_REQUEST_CODE = 100001
 
 
     const val PERMISSION_SYSTEM_RINGTONE = 42
@@ -69,6 +73,8 @@ object Permissions {
     private const val PERMISSION_PIP = 45
 
     var sAlertDialog: Dialog? = null
+
+    var cache = mutableMapOf<PermissionType, Pair<Long, Boolean>>()
 
     /*
      * Marshmallow permission system management
@@ -97,10 +103,121 @@ object Permissions {
         return !AndroidUtil.isMarshMallowOrLater || android.provider.Settings.System.canWrite(context)
     }
 
-    fun canReadStorage(context: Context): Boolean {
-        return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
+
+    fun emptyCache() {
+        cache.clear()
     }
+
+    private fun getFromCache (context: Context, permissionType: PermissionType) : Boolean {
+        cache[permissionType]?.let {
+            if (it.first < System.currentTimeMillis() - 5000L) {
+                cache.remove(permissionType)
+            } else {
+                return it.second
+            }
+        }
+        return when (permissionType) {
+            PermissionType.STORAGE -> canReadStorage(context, true)
+            PermissionType.AUDIO -> canReadAudios(context, true)
+            else -> canReadVideos(context, true)
+        }
+    }
+
+    fun canReadStorage(context: Context, skipCache: Boolean = false): Boolean {
+        if (!skipCache) {
+            return getFromCache(context, PermissionType.STORAGE)
+        }
+        val result =  !AndroidUtil.isMarshMallowOrLater ||
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) isExternalStorageManager() || isAnyFileFinePermissionGranted(context)
+                else ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
+        cache.put(PermissionType.STORAGE, Pair(System.currentTimeMillis(), result))
+        return result
+    }
+
+    fun canReadVideos(context: Context, skipCache: Boolean = false): Boolean {
+        if (!skipCache) {
+            return getFromCache(context, PermissionType.VIDEO)
+        }
+        val result =  Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+                (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()) ||
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_MEDIA_VIDEO
+                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()))
+        cache.put(PermissionType.VIDEO, Pair(System.currentTimeMillis(), result))
+        return result
+
+    }
+
+    fun canReadAudios(context: Context, skipCache: Boolean = false): Boolean {
+        if (!skipCache) {
+            return getFromCache(context, PermissionType.AUDIO)
+        }
+        val result =  Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+                (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()) ||
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_MEDIA_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()))
+        cache.put(PermissionType.AUDIO, Pair(System.currentTimeMillis(), result))
+        return result
+
+    }
+
+    fun hasAudioPermission(context: Context) = (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+            )
+    fun hasVideoPermission(context: Context) = (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_VIDEO
+            ) == PackageManager.PERMISSION_GRANTED
+            )
+
+    fun hasAnyFileFineAccess(context: Context) = canReadStorage(context) || (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+            ||
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_VIDEO
+            ) == PackageManager.PERMISSION_GRANTED
+            ||
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun isAnyFileFinePermissionGranted(context: Context) = (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_MEDIA_VIDEO
+                    ) == PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) == PackageManager.PERMISSION_GRANTED
+            )
 
     fun canSendNotifications(context: Context) = Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2 || ContextCompat.checkSelfPermission(context, "android.permission.POST_NOTIFICATIONS") == PackageManager.PERMISSION_GRANTED
 
@@ -110,7 +227,14 @@ object Permissions {
      * @param context: the context to check with
      * @return true if the app has been granted the whole permissions including [Manifest.permission.MANAGE_EXTERNAL_STORAGE]
      */
-    fun hasAllAccess(context: Context) = !Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.fromParts(SCHEME_PACKAGE, context.packageName, null)).isCallable(context) || isExternalStorageManager()
+    fun hasAllAccess(context: Context) =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || (Build.VERSION.SDK_INT < Build.VERSION_CODES.R && canReadStorage(context))
+                || isExternalStorageManager()
+
+    fun canCheckBluetoothDevices(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
+    }
 
     @JvmOverloads
     fun canWriteStorage(context: Context = AppContextProvider.appContext): Boolean {
@@ -120,9 +244,9 @@ object Permissions {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun checkReadStoragePermission(activity: FragmentActivity, exit: Boolean = false): Boolean {
+    fun checkReadStoragePermission(activity: FragmentActivity, exit: Boolean = false, forceAsking: Boolean = false): Boolean {
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+            if (!forceAsking && ActivityCompat.shouldShowRequestPermissionRationale(activity,
                             Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showStoragePermissionDialog(activity, exit)
             } else
@@ -169,17 +293,6 @@ object Permissions {
             createDialog(activity, exit)
     }
 
-    /**
-     * Display a dialog asking for the [Manifest.permission.MANAGE_EXTERNAL_STORAGE] permission if needed
-     *
-     * @param activity: the activity used to trigger the dialog
-     * @param listener: the listener for the permission result
-     */
-    fun showExternalPermissionDialog(activity: FragmentActivity, listener: (boolean: Boolean) -> Unit) {
-        if (activity.isFinishing || sAlertDialog != null && sAlertDialog!!.isShowing) return
-        sAlertDialog = createExternalManagerDialog(activity, listener)
-    }
-
     private fun createDialog(activity: FragmentActivity, exit: Boolean): Dialog {
         val dialogBuilder = android.app.AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
@@ -195,33 +308,6 @@ object Permissions {
                     .setCancelable(false)
         }
         return dialogBuilder.show()
-    }
-
-    /**
-     * Display a dialog asking for the [Manifest.permission.MANAGE_EXTERNAL_STORAGE] permission
-     *
-     * @param activity: the activity used to trigger the dialog
-     * @param listener: the listener for the permission result
-     */
-    private fun createExternalManagerDialog(activity: FragmentActivity, listener: (boolean: Boolean) -> Unit): Dialog {
-        val dialogBuilder = android.app.AlertDialog.Builder(activity)
-                .setTitle(activity.getString(R.string.allow_storage_manager_title))
-                .setMessage(activity.getString(R.string.allow_storage_manager_description, activity.getString(R.string.allow_storage_manager_explanation)))
-                .setIcon(R.drawable.ic_warning)
-                .setPositiveButton(activity.getString(R.string.ok)) { _, _ ->
-                    listener.invoke(true)
-                }.setNegativeButton(activity.getString(R.string.cancel)) { _, _ ->
-                    activity.finish()
-                    listener.invoke(false)
-                }
-                .setCancelable(false)
-        return dialogBuilder.show().apply {
-            if (activity is AppCompatActivity) activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
-                override fun onDestroy(owner: LifecycleOwner) {
-                    dismiss()
-                }
-            })
-        }
     }
 
     private fun createDialogCompat(activity: FragmentActivity, exit: Boolean): Dialog {
@@ -317,10 +403,14 @@ object Permissions {
                 askWriteStoragePermission(activity, false, callback)
                 return false
             }
-        } else if (AndroidUtil.isLolliPopOrLater && WriteExternalDelegate.needsWritePermission(uri)) {
+        } else if (VlcMigrationHelper.isLolliPopOrLater && WriteExternalDelegate.needsWritePermission(uri)) {
             WriteExternalDelegate.askForExtWrite(activity, uri, callback)
             return false
         }
         return true
+    }
+
+    enum class PermissionType {
+        STORAGE, AUDIO, VIDEO
     }
 }

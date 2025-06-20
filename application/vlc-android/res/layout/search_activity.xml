@@ -51,7 +51,9 @@
                         android:layout_gravity="center_vertical"
                         android:hint="@string/search_hint"
                         android:imeOptions="actionSearch"
-                        android:inputType="textFilter" />
+                        android:inputType="textFilter" >
+                    <requestFocus/>
+                </EditText>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -212,12 +214,14 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <TextView
+        <org.videolan.vlc.gui.view.EmptyLoadingStateView
+                android:id="@+id/audio_empty_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/search_no_result"
-                android:textAppearance="@style/Result.Title"
-                android:visibility="@{searchAggregate.isEmpty ? View.VISIBLE : View.GONE}" />
+                app:empty_text="@string/search_no_result"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 </layout>

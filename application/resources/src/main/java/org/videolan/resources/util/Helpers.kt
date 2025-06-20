@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Album
@@ -79,9 +80,31 @@ fun MediaLibraryItem.getYear() = when (itemType) {
 }
 
 fun canReadStorage(context: Context): Boolean {
-    return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
-            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED || isExternalStorageManager()
+    return !AndroidUtil.isMarshMallowOrLater ||
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                isExternalStorageManager() || isAnyFileFinePermissionGranted(context)
+            else ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+                    || isExternalStorageManager()
 }
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+private fun isAnyFileFinePermissionGranted(context: Context) = (
+        ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.READ_MEDIA_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_MEDIA_VIDEO
+                ) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.READ_MEDIA_IMAGES
+                ) == PackageManager.PERMISSION_GRANTED
+        )
 
 /**
  * Check if the app has the [Manifest.permission.MANAGE_EXTERNAL_STORAGE] granted

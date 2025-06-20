@@ -81,7 +81,7 @@ class DialogActivity : BaseActivity() {
     }
 
     private fun setupSubsDialog() {
-        val medialist = intent.parcelableList<MediaWrapper>(EXTRA_MEDIALIST)
+        val medialist = intent.parcelable<MediaWrapper>(EXTRA_MEDIA)
         if (medialist != null)
             MediaUtils.getSubs(this, medialist)
         else
@@ -110,7 +110,6 @@ class DialogActivity : BaseActivity() {
         const val KEY_DEVICE = "deviceDialog"
         const val KEY_DIALOG = "vlcDialog"
 
-        const val EXTRA_MEDIALIST = "extra_media_list"
         const val EXTRA_MEDIA = "extra_media"
         const val EXTRA_PATH = "extra_path"
         const val EXTRA_UUID = "extra_uuid"

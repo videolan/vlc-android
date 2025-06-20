@@ -39,6 +39,7 @@
     </plurals>
 
     <string name="play">Riproduci</string>
+    <string name="quick_play">Riproduzione rapida</string>
     <string name="playback">Riproduzione</string>
     <string name="playback_controls">Controlli di riproduzione</string>
     <string name="medialibrary_scan">Scansione raccolta multimediale</string>
@@ -57,6 +58,8 @@
     <string name="append_all">Aggiungi tutto</string>
     <string name="resume_playback_short_title">Riprendi riproduzione</string>
     <string name="resume_playback_long_title">Riprendi la riproduzione dell\'ultima scaletta</string>
+    <string name="resume_audio_playback_short_title">Riprendi la riproduzione dell\'audio</string>
+    <string name="resume_audio_playback_long_title">Riprendi la riproduzione dell\'ultima scaletta audio</string>
     <string name="resume_playback_error">Niente da riprendere</string>
     <string name="delete">Elimina</string>
     <string name="remove">Rimuovi</string>
@@ -64,6 +67,7 @@
     <string name="set_song_question">Vuoi impostare \'%1$s\' come suoneria?</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
+    <string name="confirm_replace_playlist">Sei sicuro di voler sostituire la scaletta \'%1$s\'?</string>
     <string name="confirm_delete_message">Questa azione è definitiva e non può essere annullata.</string>
     <string name="confirm_delete_album">Vuoi eliminare l\'album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Vuoi eliminare questi %1$d media?</string>
@@ -84,6 +88,12 @@
     <string name="artists">Artisti</string>
     <string name="albums">Album</string>
     <string name="tracks">Tracce</string>
+
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 segnalibro aggiunto</item>
+        <item quantity="many">%d segnalibri aggiunti</item>
+        <item quantity="other">%d segnalibri aggiunti</item>
+    </plurals>
 
     <plurals name="albums_quantity">
         <item quantity="one">Un album</item>
@@ -177,6 +187,7 @@
     <string name="track_codec_info">Codificatore: %1$s\n</string>
     <string name="track_language_info">Lingua: %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="system_volume_disabled">%s\nNessun accesso al volume di sistema</string>
     <string name="sound_on">Suono On</string>
     <string name="sound_off">Suono Off</string>
     <string name="brightness">Luminosità</string>
@@ -194,6 +205,19 @@
     <string name="track_framerate_info">Velocità: %1$.3f\n</string>
 
     <string name="playback_speed">Velocità di riproduzione</string>
+    <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
+    <string name="playback_speed_this_video">Questo video</string>
+    <string name="playback_speed_this_track">Questa traccia</string>
+    <string name="playback_speed_all_videos">Tutti i video</string>
+    <string name="playback_speed_all_tracks">Tutte le tracce</string>
+    <string name="playback_speed_explanation_all_videos">La velocità sarà applicata a tutti i video.\nLa velocità di riproduzione dei singoli video sarà ignorata.</string>
+    <string name="playback_speed_explanation_all_tracks">La velocità sarà applicata a tutte le tracce.\nLa velocità di riproduzione delle singole tracce sarà ignorata.</string>
+    <string name="playback_speed_explanation_all_incognito">Sei in modalità anonima. La velocità tornerà normale quando abbandoni la modalità anonima.</string>
+    <string name="playback_speed_explanation_one_video">La velocità sarà applicata solo a questo video</string>
+    <string name="playback_speed_explanation_one_track">La velocità sarà applicata solo a questa traccia</string>
+    <string name="audio_playback_speed_global">Utilizza la velocità di riproduzione globale</string>
+    <string name="audio_playback_speed_global_summary">Utilizza la velocità di riproduzione impostata globalmente per tutte le tracce.\nLa velocità di riproduzione delle singole tracce sarà ignorata.</string>
+
     <string name="sleep_title">Sospendi</string>
     <string name="sleep_in">Sospendi in</string>
     <string name="jump_to_time">Salto temporale</string>
@@ -201,6 +225,8 @@
     <string name="wait_before_sleep">Attendi che l\'elemento multimediale corrente finisca per primo</string>
     <string name="reset_on_interaction">Ripristina a ogni interazione</string>
     <string name="default_sleep_timer_summary">%1$s, attendi la fine del media: %2$s, ripristina a ogni interazione: %3$s</string>
+    <string name="video_player_remote">Telecomando del lettore video</string>
+    <string name="remote_keyboard_navigation">Navigazione da tastiera</string>
 
     <string name="server_add_title">Aggiungi un nuovo server ai preferiti</string>
     <string name="server_domain_hint">Indirizzo server (nome dominio o IP)</string>
@@ -235,9 +261,8 @@
     <string name="video_resume_playback_summary">Consenti il salvataggio della coda di riproduzione video per riprendere in seguito</string>
     <string name="audio_resume_playback_title">Cronologia della coda riproduzione audio</string>
     <string name="audio_resume_playback_warning">La disabilitazione della cronologia della coda di riproduzione audio potrebbe causare alcuni comportamenti anomali.\nDopo averla disabilitata potresti non essere in grado di riprendere la riproduzione da:\n\n\t- un dispositivo Bluetooth\n\t- il widget\n\t- la notifica dei media</string>
+    <string name="playback_history_warning">Disabilitare la cronologia di riproduzione nasconderà la cronologia, l\'avanzamento dei media e i marcatori visualizzati. L\'applicazione continuerà a salvare la tua attività e sarà ripristinata se la cronologia viene riattivata.\nSe desideri interrompere completamente il salvataggio della tua attività, utilizza invece la modalità di navigazione in incognito.\nPuoi anche cancellare la cronologia nella schermata della cronologia o nelle impostazioni avanzate.</string>
     <string name="audio_resume_playback_summary">Consenti il salvataggio della coda di riproduzione audio per riprendere in seguito</string>
-    <string name="playback_speed_title">Salva velocità di riproduzione</string>
-    <string name="playback_speed_summary">Mantieni la velocità di riproduzione tra i media</string>
 
     <string name="play_button">Pulsante Riproduci</string>
 
@@ -290,6 +315,7 @@
     <string name="authors">Autori</string>
     <string name="vlc_authors">e gli autori di VLC.</string>
     <string name="is_compiled_by">Compilato da:</string>
+    <string name="is_signed_by">Firmato da</string>
     <string name="sources">Codice sorgente</string>
     <string name="libraries">Librerie</string>
     <string name="feedback_forum">Forum per le segnalazioni</string>
@@ -305,7 +331,6 @@
     <string name="add_custom_path_description">Inserisci cartella personalizzata da analizzare:</string>
     <string name="remove_custom_path">Rimuovi percorso personalizzato</string>
     <string name="group_ban_folder">Vieta l\'accesso alla cartella dalla raccolta multimediale</string>
-
     <string name="hardware_acceleration">Accelerazione hardware</string>
     <string name="hardware_acceleration_summary">Disabilitata: maggiore stabilità.\nDecodifica: potrebbe migliorare le prestazioni.\nCompleta: potrebbe migliorare ulteriormente le prestazioni</string>
     <string name="hardware_acceleration_disabled">Disabilitata</string>
@@ -357,6 +382,7 @@
     <string name="save_brightness_title">Salva il livello di luminosità</string>
     <string name="save_audiodelay_summary">Salva ritardo audio individuale per ogni video</string>
     <string name="save_audiodelay_title">Salva ritardo audio</string>
+    <string name="video_show_orientation_button">Mostra il pulsante di orientazione</string>
     <string name="enable_brightness_gesture_title">Gesti della luminosità</string>
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
     <string name="enable_volume_gesture_title">Gesti del volume</string>
@@ -367,6 +393,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Mostra il controllo di velocità nel menu a comparsa</string>
     <string name="enable_android_auto_seek_buttons">Pulsanti di posizionamento di Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Mostra i pulsanti di riavvolgimento e avanzamento rapido dell\'interfaccia nel menu a comparsa. Prova a tenere premuti i pulsanti precedente e successivo del volante prima di abilitarla. </string>
+    <string name="artist">Artista</string>
+    <string name="album">Album</string>
+    <string name="track">Traccia</string>
+    <string name="genre">Genere</string>
+    <string name="playlist">Scaletta</string>
     <string name="enable_double_tap_seek_title">Doppio tocco per spostare la posizione</string>
     <string name="enable_double_tap_seek_summary">Doppio tocco sui bordi dello schermo per spostare la posizione di 10 secondi</string>
     <string name="enable_double_tap_play_title">Doppio tocco per riprodurre/sospendere</string>
@@ -380,6 +411,17 @@
     <string name="browser_show_hidden_files_title">Mostra file nascosti</string>
     <string name="albums_show_track_numbers">Mostra numeri di traccia</string>
     <string name="enable_video_screenshot">Cattura una schermata</string>
+    <string name="enable_tap_and_hold_fastplay_title">Abilita Fastplay</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Tocca e trattieni per aumentare la velocità di riproduzione</string>
+    <string name="fastplay_speed_title">Velocità Fastplay</string>
+    <string name="fastplay_title">Riproduzione a %sx</string>
+    <string name="fastplay_subtitle">Rilascia per fermare</string>
+    <string name="show_bookmark_buttons">Mostra i pulsanti dei segnalibri</string>
+    <string name="show_bookmark_buttons_summary">Mostra i pulsanti per navigare tra i segnalibri</string>
+    <string name="show_bookmark_markers">Mostra i marcatori dei segnalibri</string>
+    <string name="show_bookmark_markers_summary">Mostra i marcatori di segnalibri sulla linea temporale</string>
+    <string name="show_chapter_buttons">Mostra i pulsanti dei capitoli</string>
+    <string name="show_chapter_buttons_summary">Mostra i pulsanti per navigare tra i capitoli</string>
 
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
@@ -449,6 +491,8 @@
     <string name="audio_ducking_summary">Aiuta a sentire le notifiche audio, le istruzioni parlate di navigazione o assistenza</string>
     <string name="casting_category">Trasmissione</string>
     <string name="remote_access">Accesso remoto</string>
+    <string name="remote_access_version_title">Versione accesso remoto</string>
+    <string name="remote_access_hash_title">Hash accesso remoto</string>
     <string name="remote_access_status">Stato del server</string>
     <string name="remote_access_status_summary">Tocca per vedere lo stato del server</string>
     <string name="remote_access_connections">Connessioni</string>
@@ -472,6 +516,8 @@
     <string name="casting_switch_title">Trasmissione wireless</string>
     <string name="casting_passthrough_title">Passthrough audio</string>
     <string name="casting_passthrough_summary">Consenti alla tua TV di gestire il rendering audio</string>
+    <string name="casting_audio_only">Solo audio</string>
+    <string name="casting_audio_only_summary">Trasmetti solo l\'audio, non il video</string>
     <string name="casting_conversion_quality_title">Qualità della conversione</string>
     <string name="casting_conversion_quality_summary">Seleziona la qualità dell conversione quando trasmetti su uno schermo remoto</string>
     <string name="casting_quality_high">Alta</string>
@@ -486,6 +532,7 @@
     <string name="tv_folders_first_summary">Mostra le cartelle e poi i file nel navigatore dei file</string>
     <string name="tv_show_hidden_files">Mostra file nascosti</string>
     <string name="tv_show_hidden_files_summary">Mostra file nascosti nel navigatore di file</string>
+    <string name="ab_repeat_fastseek_warning">Il posizionamento veloce è abilitato. Può causare problemi di precisione</string>
 
     <string name="extensions_prefs_category">Estensioni</string>
     <string name="extensions_empty">Nessuna estensione rilevata</string>
@@ -554,9 +601,16 @@
     <string name="http_user_agent">User agent HTTP</string>
     <string name="custom_libvlc_options">Opzioni personalizzate libVLC</string>
     <string name="custom_libvlc_options_invalid">Opzioni libVLC non valide!</string>
+    <string name="dav1d_thread_number">Numero thread Dav1d</string>
+    <string name="dav1d_thread_number_invalid">Numero thread non valido! (>=1)</string>
+    <string name="browser_quick_play">Menu di riproduzione rapida del browser</string>
+    <string name="browser_quick_play_summary">Aggiungi un\'azione di riproduzione rapida nel menu degli elementi del browser. Caricherà i tuoi media più velocemente, ma alcuni metadati potrebbero mancare</string>
+    <string name="browser_quick_play_default">Riproduzione rapida come azione predefinita</string>
+    <string name="browser_quick_play_default_summary">Se attivato, il tocco di un elemento del browser lo riprodurrà utilizzando la riproduzione rapida</string>
 
     <string name="serious_crash">Sfortunatamente, si è verificato un errore grave e VLC è stato chiuso.</string>
     <string name="help_us_send_log">Aiutaci a migliorare VLC inviando il seguente registro del crash:</string>
+    <string name="ml_crash_send">La libreria multimediale si è appena bloccata. Aiutaci inviandoci i log.</string>
     <string name="restart_vlc">Riavvia VLC</string>
     <string name="send_log">Invia il registro</string>
     <string name="sending_log">Invio del registro in corso…</string>
@@ -568,7 +622,7 @@
     <string name="no_result">Nessun risultato trovato</string>
     <string name="no_internet_connection">Controlla la tua connessione a Internet</string>
     <string name="retry">Riprova</string>
-    <string name="subs_download_error">Servizio non disponibile. Riprova più tardi</string>
+    <string name="open_subs_download_error">OpenSubtitles non è al momento disponibile. Riprova più tardi</string>
 
     <string name="network_browsing">Rete locale</string>
     <string name="browsing">Navigazione</string>
@@ -585,10 +639,14 @@
     <string name="search_global">Cerca in tutta la raccolta multimediale</string>
     <string name="playlist_save">Salva scaletta</string>
     <string name="playlist_name_hint">Nome scaletta</string>
+    <string name="chapters">Capitoli</string>
+    <string name="notset">Non impostato</string>
     <string name="go_to_chapter">Vai al capitolo…</string>
     <string name="current_chapter">Capitolo: %s</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
+    <string name="apply_playqueue">Si applica a tutta la coda di riproduzione</string>
     <string name="confirm_resume_title">Riprendi video riprodotti</string>
+    <string name="confirm_resume_audio_title">Riprendi audio riprodotti</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
     <string name="medialibrary">Raccolta multimediale</string>
@@ -598,6 +656,21 @@
     <string name="whats_new_title">Cosa c\'è di nuovo in VLC per Android %s</string>
     <string name="whats_new_36_webserver_text">Con la nuova funzione di accesso remoto, prendi il controllo di VLC per Android da qualsiasi altro dispositivo. Invia i tuoi media in entrambe le direzioni, controlla la riproduzione e molto altro!</string>
     <string name="whats_new_36_favorites_text">Ora puoi aggiungere ai preferiti i tuoi media, scalette, artisti o album.\nTrova facilmente i contenuti che ti piacciono filtrando solo i preferiti!</string>
+
+<!--    update-->
+    <string name="update_title">Aggiornamento disponibile</string>
+    <string name="install_nightly_title">Installa la versione nightly</string>
+    <string name="update_text">È disponibile una nuova versione nightly di VLC per Android!\n\nVedi questo perché stai utilizzando una versione nightly.</string>
+    <string name="install_text">Le versioni nightly sono aggiornate automaticamente ogni giorno con le funzionalità e le correzioni più recenti.\n\nVuoi scaricare adesso?</string>
+
+    <string name="open_in_browser">Apri nel browser</string>
+    <string name="install">Installa</string>
+    <string name="install_nightly">Installa la versione nightly</string>
+    <string name="install_nightly_alert">Le versioni nigthly sono versioni sperimentali aggiornate ogni giorno.\n\nAspettati nuove funzionalità, ma anche nuovi bug!</string>
+    <string name="nightly_version">Versione trovata: %2$s - %1$s</string>
+    <string name="update_nightly_alert">Stai eseguendo una versione notturna. Vuoi cercare periodicamente gli aggiornamenti?</string>
+    <string name="update_nightly">Aggiornamento automatico</string>
+    <string name="update_nightly_summary">Cerca periodicamente l\'aggiornamento notturno</string>
 
 
     <!-- Accessibility -->
@@ -618,9 +691,6 @@
     <string name="click_here">Fai clic qui per saperne di più.</string>
     <string name="allow_storage_access_title">Consenti a VLC di accedere ai file video e audio</string>
     <string name="allow_storage_access_description">VLC ha bisogno di questo permesso per accedere ai file multimediali su questo dispositivo.</string>
-    <string name="allow_storage_manager_title">Consenti a VLC l\'accesso a tutti i file</string>
-    <string name="allow_storage_manager_description">%s\n\nVuoi accordare il permesso?</string>
-    <string name="allow_storage_manager_explanation">Per ottenere tutte le funzionalità di VLC e il supporto di tutti i tipi di file multimediali, ti consigliamo vivamente di concedere questo permesso.</string>
     <string name="partial_content">VLC non può accedere a tutti i tuoi file</string>
     <string name="partial_content_description">A partire da Android 11, le applicazioni richiedono un\'autorizzazione speciale per accedere a tutti i file del dispositivo.\n\n%s</string>
     <string name="never_ask_again">Non chiedere ancora</string>
@@ -671,12 +741,26 @@
     <string name="popup_playback">Riproduzione in una finestra a comparsa</string>
     <string name="popup_expand">Espandi video</string>
     <string name="download_subtitles">Scarica sottotitoli</string>
+    <string name="powered_opensubtitles">Fornito da OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">Non hai effettuato l\'accesso a OpenSubtitles\nL\'accesso ti consentirà di accedere a più scaricamenti</string>
+    <string name="open_subtitles_logged_in">Accesso eseguito come %1$s</string>
+    <string name="open_subtitles_limits">Hai %1$s scaricamenti rimanenti di %2$s. Il tuo limite sarà ripristinato a %3$s.</string>
+    <string name="open_subtitles_vip">Sei un utente VIP di OpenSubtitles</string>
+    <string name="open_subtitles_register">Registrati</string>
+    <string name="open_subtitles_log_out">Esci</string>
+    <string name="open_subtitles_username">Nome utente</string>
+    <string name="open_subtitles_password">Password</string>
+    <string name="open_subtitles_is_vip">Account VIP</string>
+    <string name="open_subtitles_is_not_vip">Account standard</string>
+    <string name="login_error">Credenziali non valide</string>
+    <string name="unknown_error">Errore inatteso</string>
     <string name="browse_folder">Sfoglia cartella</string>
     <string name="listen">Ascolta</string>
     <string name="apply_to_bt">Applica al dispositivo Bluetooth</string>
     <string name="episodes">episodi</string>
     <string name="movies">film</string>
     <string name="videos">video</string>
+    <string name="default_action_videos">Video</string>
     <string name="videos_all">Tutti i video</string>
     <string name="clear_playback_history">Cancella cronologia di riproduzione</string>
     <string name="ml_scanning">Scansione file multimediali</string>
@@ -754,12 +838,14 @@
     <string name="rename_media">Rinomina %1$s</string>
     <string name="manual_search">Ricerca manuale</string>
     <string name="subtitle_search_name_hint">Nome</string>
+    <string name="subtitle_query_edit">Modifica la query di ricerca dei sottotitoli</string>
     <string name="subtitle_search_episode_hint">Episodio</string>
     <string name="subtitle_search_season_hint">Stagione</string>
     <string name="subtitles_download_failed">Scaricamento non riuscito</string>
     <string name="language_to_download">Lingua</string>
     <string name="delete_the_selected">Elimina selezione</string>
     <string name="download_the_selected">Scarica selezione</string>
+    <string name="no_sub_history">Nessun sottotitolo per questo media</string>
     <string name="next">Successiva</string>
     <string name="skip">Salta</string>
     <string name="next_step">Successivo</string>
@@ -779,7 +865,10 @@
     <string name="welcome_title">Benvenuti in VLC!</string>
     <string name="welcome_subtitle">Il lettore multimediale libero e con codice sorgente aperto</string>
     <string name="permission_media">VLC ha bisogno del tuo permesso per accedere ai file multimediali sul tuo dispositivo</string>
+    <string name="permission_video">VLC ha bisogno del tuo permesso per accedere ai video sul tuo dispositivo</string>
+    <string name="permission_audio">VLC ha bisogno del tuo permesso per accedere ai file audio sul tuo dispositivo</string>
     <string name="medialibrary_scan_explanation">VLC analizzerà automaticamente il dispositivo per organizzare la tua collezione multimediale.</string>
+    <string name="player_title_fd_warning">Senza il permesso di archiviazione, VLC non può recuperare il titolo del media o salvare l\'avanzamento.</string>
     <string name="onboarding_theme_title">Sentiti come a casa</string>
     <string name="done">Completato</string>
     <string name="onboarding_scan_title">Rilevamento automatico dei tuoi supporti</string>
@@ -800,7 +889,7 @@
     <string name="popup_force_legacy_title">Utilizza finestra Picture-in-Picture personalizzata</string>
     <string name="popup_force_legacy_summary">Utilizza finestra ridimensionabile Picture-in-Picture personalizzata</string>
     <string name="restore_background_video_title">Ripristina video dallo sfondo</string>
-    <string name="restore_background_video_summary">Ripristina il video dallo sfondo quando riapri vlc-android.</string>
+    <string name="restore_background_video_summary">Ripristina il video dallo sfondo quando riapri VLC per Android.</string>
     <string name="device_default">Predefinito del dispositivo</string>
     <string name="track_number">%d tracce</string>
     <string name="jump_to">Salta a</string>
@@ -826,6 +915,8 @@
     <string name="validation_delete_playlist_text">Questa azione non può essere annullata.</string>
     <string name="display_settings">Impostazioni schermo</string>
     <string name="incognito_mode">Modalità incognito</string>
+    <string name="persistent_incognito_mode">Modalità incognito persistente</string>
+    <string name="persistent_incognito_mode_summary">Mantieni la modalità incognito abilitata anche se l\'applicazione viene riavviata</string>
     <string name="display_in_list">Visualizza in elenco</string>
     <string name="display_in_grid">Visualizza in griglia</string>
     <string name="dump_db_succes">Database salvato nella radice dell\'archiviazione interna</string>
@@ -834,14 +925,16 @@
     <string name="send_crash_description">Inviando la tua chiusura inattesa, ci aiuterai a migliorare la stabilità di VLC.</string>
     <string name="send_crash_warning">Assicurati di rimuovere i dati sensibili che non vuoi inviare.</string>
     <string name="include_medialib">Includi il tuo database</string>
+    <string name="include_logs">Includi i tuoi log</string>
     <string name="vlc_reporter">Strumento di segnalazione di VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Benvenuto nel programma VLC beta.\nNota che questa versione potrebbe presentare dei bug.</string>
     <string name="welcome_beta_description_bugs">Se noti un bug, segnalalo nel nostro forum o utilizzando il sistema di tracciamento dei bug.</string>
-    <string name="welcome_beta_description_crashes">Se riscontri una chiusura inattesa, utilizza l\'icona dello strumento di segnalazione di VLC per inviarcelo.</string>
+    <string name="welcome_beta_description_crashes">Se riscontri un bug o un arresto anomalo, apri la schermata Informazioni e utilizza il pulsante Segnalazione > Contatta la squadra di supporto.</string>
     <string name="send">Invia</string>
     <string name="send_crash_action_title">Cosa vuoi fare?</string>
     <string name="report_a_bug">Segnala un bug</string>
+    <string name="send_feedback">Invia segnalazione</string>
     <string name="report_a_crash">Segnala una chiusura inattesa</string>
     <string name="describe_crash">Descrivi come questa chiusura inattesa si è verificata</string>
     <string name="favorite">Preferito</string>
@@ -857,6 +950,8 @@
     <string name="invalid_file">File non valido. Non può essere condiviso.</string>
     <string name="share_file">Condividi %s</string>
     <string name="share_message">Ecco %s</string>
+    <string name="share_track_info">Condividi le informazioni della traccia</string>
+    <string name="share_track">Attualmente sto ascoltando %s</string>
     <string name="find_metadata">Trova metadati</string>
     <string name="moviepedia_hint">Cerca metadati</string>
     <string name="moviepedia_result">Risultati video</string>
@@ -931,6 +1026,7 @@
     <string name="sub_result_by_name">Risultati per %s</string>
     <string name="sub_result_by_name_season">Stagione %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Solo per non udenti</string>
 
     <string name="sub_result_by_file">Risultati per il tuo file</string>
     <string name="donate">Aiuta VLC</string>
@@ -972,8 +1068,10 @@
     <string name="apply_to_all">Applica a tutti i video</string>
     <string name="audio_delay_global">Ritardo audio impostato a %s ms per tutti i video</string>
     <string name="audio_delay_bt">Ritardo audio impostato a %s ms per il dispositivo Bluetooth</string>
-    <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
     <string name="go_to_folder">Sfoglia superiore</string>
+    <string name="go_to_album">Vai all\'album</string>
+    <string name="go_to_artist">Vai all\'artista</string>
+    <string name="go_to_album_artist">Vai all\'artista dell\'album</string>
     <string name="create_shortcut">Crea una scorciatoia per l\'esecutore</string>
     <string name="no_sub_renderer">I sottotitoli non sono ancora supportati durante la trasmissione</string>
     <string name="enqueuing">Caricamento dei tuoi media</string>
@@ -1020,6 +1118,8 @@
     <string name="bookmark_name">Segnalibro %s</string>
     <string name="add_bookmark">Aggiungi segnalibri</string>
     <string name="bookmark_added">Segnalibro aggiunto</string>
+    <string name="previous_bookmark">Segnalibro precedente</string>
+    <string name="next_bookmark">Segnalibro successivo</string>
     <string name="show">Mostra</string>
     <string name="optional_features">Funzionalità opzionali</string>
     <string name="optional_features_summary">Le funzionalità in beta che sono attualmente in fase di test e potrebbero non essere stabili</string>
@@ -1047,6 +1147,14 @@
     <string name="notification_permission">Permessi notifiche</string>
     <string name="notification_permission_explanation">VLC ha bisogno della tua autorizzazione per inviare notifiche.\nL\'applicazione ti avviserà solo durante la scansione dei tuoi file multimediali o utilizzando il video personalizzato Picture in Picture.\nIl rifiuto non impedirà a VLC di funzionare, tuttavia le notifiche saranno nascoste.</string>
     <string name="permission">Permesso</string>
+    <string name="permission_no_access">Nessun accesso ai file</string>
+    <string name="permissions">Permessi</string>
+    <string name="permissions_summary">Elenco di tutti i permessi</string>
+    <string name="manage_storage_permission">Permessi sui file</string>
+    <string name="permission_media_title">Accesso ai file multimediali standard</string>
+    <string name="permission_all_title">Accesso a tutti i file</string>
+    <string name="permission_all_warning">Per abilitarlo, devi prima disabilitare l\'accesso standard ai file multimediali</string>
+    <string name="permission_media_warning">Per abilitarlo, devi prima disabilitare l\'accesso completo ai file</string>
     <string name="customize">Personalizza</string>
     <string name="selection_count">%d selezionati</string>
     <string name="control_setting">Impostazioni di controllo</string>
@@ -1191,6 +1299,7 @@
     <string name="ra_prepare_download">Preparazione dello scaricamento</string>
     <string name="ra_forbidden">Contenuto disabilitato nelle impostazioni</string>
     <string name="ra_playback_forbidden">Controllo di riproduzione disabilitato nelle impostazioni</string>
+    <string name="ra_logs_forbidden">Condivisione dei log disabilitata nelle impostazioni</string>
     <string name="ra_code_requested_explanation">Per proteggere il tuo server, l\'accesso è protetto.\nDigita il codice visualizzato nelle tue notifiche</string>
     <string name="ra_ssl_explanation_title">Connessione non sicura</string>
     <string name="ra_ssl_explanation">La tua connessione non è sicura</string>
@@ -1242,4 +1351,52 @@
     <string name="metered_warn">Avvisami (l\'avviso potrebbe non essere presente per la riproduzione audio)</string>
     <string name="metered_connection_stopped">Media fermato perché la connessione è a consumo</string>
     <string name="metered_connection_warning">La tua connessione è a consumo. Potrebbero essere applicati dei costi.</string>
-</resources>
+    <string name="adding">Aggiunta di</string>
+    <string name="to">a</string>
+    <string name="device">Dispositivo</string>
+    <string name="connected_device">Dispositivo connesso</string>
+    <string name="model">Modello del dispositivo</string>
+    <string name="prefs_app_data">Dati applicazione</string>
+    <string name="export_settings_summary">Esporta le tue impostazioni su un file per importarle successivamente </string>
+    <string name="export_settings">Esporta le impostazioni</string>
+    <string name="restore_settings_summary">Ripristina le tue impostazioni da un\'esportazione precedente</string>
+    <string name="restore_settings">Ripristina le impostazioni</string>
+    <string name="export_settings_success">Impostazioni esportate correttamente nella radice dell\'archiviazione interna</string>
+    <string name="export_settings_failure">Si è verificato un problema durante l\'esportazione delle impostazioni</string>
+
+    <string name="queue_info">Informazioni sulla coda</string>
+    <string name="queue_info_none">Non mostrare la posizione della coda</string>
+    <string name="queue_info_before_title">Prima del titolo</string>
+    <string name="queue_info_after_title">Dopo il titolo</string>
+    <string name="queue_info_before_subtitle">Prima del sottotitolo</string>
+
+    <string name="title_size">Dimensione testo del titolo</string>
+    <string name="subtitle_size">Dimensione testo del sottotitolo</string>
+
+    <string name="queue_format">Formato della coda</string>
+    <string name="queue_format_short_desc">Posizione della coda</string>
+    <string name="queue_format_long_desc">Posizione della coda / Dimensione della coda</string>
+    <string name="video_settings_disclaimer">Alcune impostazioni sono state spostate nelle impostazioni dei controlli nel lettore video.</string>
+    <string name="get_help">Ottieni aiuto</string>
+    <string name="feedback_type">Tipo di segnalazione</string>
+    <string name="how_to_use">Scopri come utilizzarlo</string>
+    <string name="send_feedback_request">Segnalazione / richiesta di funzionalità</string>
+    <string name="report_crash">Segnala un arresto anomalo</string>
+    <string name="email_support">Contatta la squadra di supporto tramite email</string>
+    <string name="read_doc">Leggi la documentazione</string>
+    <string name="subject">Oggetto</string>
+    <string name="body">Messaggio</string>
+    <string name="rate_us">Valuta l\'applicazione</string>
+    <string name="generating_logs">Generazione dei log. Attendi</string>
+    <string name="default_playback_action">Azione di riproduzione</string>
+    <string name="files">File</string>
+    <string name="remote_access_feedback_generate">Genera segnalazione</string>
+    <string name="remote_access_feedback_generated">La tua segnalazione è stata generata</string>
+    <string name="remote_access_feedback_generated_explanation">Tocca il pulsante qui sotto per inviarla tramite il tuo client di posta elettronica predefinito. In caso di problemi, puoi copiare e incollare i campi sottostanti e inviare l\'email autonomamente.</string>
+    <string name="remote_access_feedback_file_explanation">Hai appena scaricato il file che ti serve. Ricordati di allegarlo alla tua email.</string>
+    <string name="generic_copied_to_clipboard">Copiato negli appunti</string>
+    <string name="feedback_email_warning">Nessun client di posta installato</string>
+    <string name="feedback_email_warning_explanation">Il modo più semplice per condividere la tua segnalazione è utilizzare la funzionalità %1$s.\nPer farlo, abilita l\'accesso remoto nelle impostazioni, segui le istruzioni e scegli la voce %2$s nel menu.</string>
+    <string name="feedback_email_warning_remote_action">Apri le impostazioni</string>
+    <string name="feedback_email_warning_try_anyway">Prova comunque</string>
+    </resources>

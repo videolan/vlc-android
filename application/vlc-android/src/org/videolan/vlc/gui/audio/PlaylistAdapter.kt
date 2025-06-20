@@ -64,13 +64,15 @@ import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.MediaItemDiffCallback
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.viewmodels.PlaylistModel
-import java.util.*
+import java.util.Collections
 
 private const val ACTION_MOVE = "action_move"
 private const val ACTION_MOVED = "action_moved"
 
 class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter, SchedulerCallback {
 
+    var showTrackNumbers: Boolean = false
+    var showReorderButtons: Boolean = true
     private var defaultCoverVideo: BitmapDrawable
     private var defaultCoverAudio: BitmapDrawable
     private var model: PlaylistModel? = null
@@ -100,7 +102,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
     var currentIndex = 0
         set(position) {
-            if (position == currentIndex || position >= itemCount) return
+            if (position >= itemCount) return
             val former = currentIndex
             field = position
             if (former >= 0) notifyItemChanged(former)
@@ -130,6 +132,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
         holder.binding.stopAfter.visibility = if (stopAfter == position) View.VISIBLE else View.GONE
         holder.binding.stopAfterThis = (position == stopAfter)
+        holder.binding.showTrackNumbers = showTrackNumbers
         if (currentIndex == position) {
             if (model?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
@@ -154,8 +157,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
         val tablet = holder.binding.itemDelete.context.isTablet() || AndroidDevices.isTv
         if (tablet) holder.binding.itemDelete.setVisible() else holder.binding.itemDelete.setGone()
-        if (tablet) holder.binding.itemMoveDown.setVisible() else holder.binding.itemMoveDown.setGone()
-        if (tablet) holder.binding.itemMoveUp.setVisible() else holder.binding.itemMoveUp.setGone()
+        holder.binding.showReorderButtons = showReorderButtons && tablet
 
         holder.binding.executePendingBindings()
     }
@@ -201,18 +203,21 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     }
 
     override fun onItemDismiss(position: Int) {
-        val media = getItem(position)
-        val message = String.format(AppContextProvider.appResources.getString(R.string.remove_playlist_item), media.title)
-        if (player is Fragment) {
-            UiTools.snackerWithCancel(player.requireActivity(), message, overAudioPlayer = true, action = {}) {
-                 model?.run { insertMedia(position, media) }
+        model?.let {
+            val media = getItem(position)
+            val message = String.format(AppContextProvider.appResources.getString(R.string.remove_playlist_item), media.title)
+            val originalPosition = it.getOriginalPosition(position)
+            if (player is Fragment) {
+                UiTools.snackerWithCancel(player.requireActivity(), message, overAudioPlayer = true, action = {}) {
+                    model?.run { insertMedia(originalPosition, media) }
+                }
+            } else if (player is Activity) {
+                UiTools.snackerWithCancel(player, message, action = {}) {
+                    model?.run { insertMedia(originalPosition, media) }
+                }
             }
-        } else if (player is Activity) {
-            UiTools.snackerWithCancel(player, message, action = {}) {
-                model?.run { insertMedia(position, media) }
-            }
+            remove(position)
         }
-        remove(position)
     }
 
     fun setModel(model: PlaylistModel) {

@@ -12,6 +12,160 @@
     </string-array>
 
     <string-array name="language_entries">
+        <item>Afrikaans</item>
+        <item>Albanian</item>
+        <item>Arabic</item>
+        <item>Aragonese</item>
+        <item>Armenian</item>
+        <item>Asturian</item>
+        <item>Basque</item>
+        <item>Belarusian</item>
+        <item>Bengali</item>
+        <item>Bosnian</item>
+        <item>Breton</item>
+        <item>Bulgarian</item>
+        <item>Burmese</item>
+        <item>Catalan</item>
+        <item>Chinese (simplified)</item>
+        <item>Czech</item>
+        <item>Danish</item>
+        <item>Dutch</item>
+        <item>English</item>
+        <item>Esperanto</item>
+        <item>Estonian</item>
+        <item>Finnish</item>
+        <item>French</item>
+        <item>Georgian</item>
+        <item>German</item>
+        <item>Galician</item>
+        <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Hindi</item>
+        <item>Croatian</item>
+        <item>Hungarian</item>
+        <item>Icelandic</item>
+        <item>Indonesian</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Kazakh</item>
+        <item>Khmer</item>
+        <item>Korean</item>
+        <item>Latvian</item>
+        <item>Lithuanian</item>
+        <item>Luxembourgish</item>
+        <item>Macedonian</item>
+        <item>Malayalam</item>
+        <item>Malay</item>
+        <item>Manipuri</item>
+        <item>Mongolian</item>
+        <item>Norwegian</item>
+        <item>Occitan</item>
+        <item>Persian</item>
+        <item>Polish</item>
+        <item>Portuguese</item>
+        <item>Russian</item>
+        <item>Serbian</item>
+        <item>Sinhalese</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Spanish</item>
+        <item>Swahili</item>
+        <item>Swedish</item>
+        <item>Syriac</item>
+        <item>Tamil</item>
+        <item>Telugu</item>
+        <item>Tagalog</item>
+        <item>Thai</item>
+        <item>Turkish</item>
+        <item>Ukrainian</item>
+        <item>Urdu</item>
+        <item>Uzbek</item>
+        <item>Vietnamese</item>
+        <item>Romanian</item>
+        <item>Portuguese (Brazilian)</item>
+        <item>Montenegrin</item>
+        <item>Chinese (traditional)</item>
+        <item>Chinese bilingual</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>af</item>
+        <item>sq</item>
+        <item>ar</item>
+        <item>an</item>
+        <item>hy</item>
+        <item>at</item>
+        <item>eu</item>
+        <item>be</item>
+        <item>bn</item>
+        <item>bs</item>
+        <item>br</item>
+        <item>bg</item>
+        <item>my</item>
+        <item>ca</item>
+        <item>zh-cn</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>nl</item>
+        <item>en</item>
+        <item>eo</item>
+        <item>et</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>ka</item>
+        <item>de</item>
+        <item>gl</item>
+        <item>el</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hr</item>
+        <item>hu</item>
+        <item>is</item>
+        <item>id</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>kk</item>
+        <item>km</item>
+        <item>ko</item>
+        <item>lv</item>
+        <item>lt</item>
+        <item>lb</item>
+        <item>mk</item>
+        <item>ml</item>
+        <item>ms</item>
+        <item>ma</item>
+        <item>mn</item>
+        <item>no</item>
+        <item>oc</item>
+        <item>fa</item>
+        <item>pl</item>
+        <item>pt-pt</item>
+        <item>ru</item>
+        <item>sr</item>
+        <item>si</item>
+        <item>sk</item>
+        <item>sl</item>
+        <item>es</item>
+        <item>sw</item>
+        <item>sv</item>
+        <item>sy</item>
+        <item>ta</item>
+        <item>te</item>
+        <item>tl</item>
+        <item>th</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>ur</item>
+        <item>uz</item>
+        <item>vi</item>
+        <item>ro</item>
+        <item>pt-br</item>
+        <item>me</item>
+        <item>zh-tw</item>
+        <item>ze</item>
+    </string-array>
+
+    <string-array name="old_language_entries">
         <item>Albanian</item>
         <item>Arabic</item>
         <item>Armenian</item>
@@ -22,7 +176,7 @@
         <item>Bulgarian</item>
         <item>Burmese</item>
         <item>Catalan</item>
-        <item>Chinese</item>
+        <item>Chinese (simplified)</item>
         <item>Croatian</item>
         <item>Czech</item>
         <item>Danish</item>
@@ -79,7 +233,7 @@
         <item>Vietnamese</item>
     </string-array>
 
-    <string-array name="language_values">
+    <string-array name="old_language_values">
         <item>alb</item>
         <item>ara</item>
         <item>arm</item>
@@ -403,7 +557,7 @@
     </string-array>
     <string-array name="aouts_values" translatable="false">
         <item>0</item>
-        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="casting_quality">
@@ -488,6 +642,22 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="fastplay_speed_entries">
+        <item>1.25x</item>
+        <item>1.5x</item>
+        <item>2x</item>
+        <item>4x</item>
+        <item>8x</item>
+    </string-array>
+
+    <string-array name="fastplay_speed_values">
+        <item>1.25</item>
+        <item>1.5</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+
     <string-array name="widget_themes_entries" translatable="false">
         <item>@string/material_you</item>
         <item>@string/palette</item>
@@ -527,6 +697,37 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array name="android_auto_queue_position" translatable="false">
+        <item>@string/queue_info_none</item>
+        <item>@string/queue_info_before_title</item>
+        <item>@string/queue_info_after_title</item>
+        <item>@string/queue_info_before_subtitle</item>
+    </string-array>
+
+    <string-array name="android_auto_queue_position_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="android_auto_queue_format_entries">
+        <item>@string/queue_format_short_desc</item>
+        <item>@string/queue_format_long_desc</item>
+    </string-array>
+
+    <string-array name="android_auto_queue_format_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="feedback_entries">
+        <item>@string/get_help</item>
+        <item>@string/send_feedback_request</item>
+        <item>@string/report_a_bug</item>
+        <item>@string/report_a_crash</item>
     </string-array>
 
 </resources>

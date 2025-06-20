@@ -24,19 +24,28 @@
 package org.videolan.television.ui.preferences
 
 import android.app.Fragment
+import android.content.Intent
 import android.os.Bundle
 import androidx.leanback.preference.LeanbackPreferenceFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceDialogFragment
-
+import org.videolan.television.ui.dialogs.ConfirmationTvActivity
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 
+const val RESTART_CODE = 10001
 abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
 
     protected abstract fun getXml(): Int
     protected abstract fun getTitleId(): Int
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val settings = Settings.getInstance(activity)
+        PreferenceVisibilityManager.manageVisibility(settings, preferenceScreen, true)
+    }
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         addPreferencesFromResource(getXml())
     }
@@ -54,6 +63,15 @@ abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
                 show(this@BasePreferenceFragment.fragmentManager, DIALOG_FRAGMENT_TAG)
             }
         } else null
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RESTART_CODE) {
+            if (resultCode == ConfirmationTvActivity.ACTION_ID_POSITIVE) {
+                android.os.Process.killProcess(android.os.Process.myPid())
+            }
+        }
     }
 
     companion object {

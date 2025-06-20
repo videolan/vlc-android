@@ -43,8 +43,8 @@ fi
 
 MEDIALIBRARY_MODULE_DIR=${SRC_DIR}/medialibrary
 MEDIALIBRARY_BUILD_DIR=${MEDIALIBRARY_MODULE_DIR}/medialibrary
-SQLITE_RELEASE="sqlite-autoconf-3340100"
-SQLITE_SHA1="c20286e11fe5c2e3712ce74890e1692417de6890"
+SQLITE_RELEASE="sqlite-autoconf-3460100"
+SQLITE_SHA512SUM="a5ba5af9c8d6440d39ba67e3d5903c165df3f1d111e299efbe7c1cca4876d4d5aecd722e0133670daa6eb5cbf8a85c6a3d9852ab507a393615fb5245a3e1a743"
 
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   echo -e "\e[1m\e[32msqlite source not found, downloading\e[0m"
@@ -53,15 +53,13 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
   wget https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz
-    if [ ! "`sha1sum ${SQLITE_RELEASE}.tar.gz`" = "${SQLITE_SHA1}  ${SQLITE_RELEASE}.tar.gz" ]; then
+    if [ ! "$(sha512sum ${SQLITE_RELEASE}.tar.gz)" = "${SQLITE_SHA512SUM}  ${SQLITE_RELEASE}.tar.gz" ]; then
     echo "Wrong sha1 for ${SQLITE_RELEASE}.tar.gz"
     exit 1
   fi
   tar -xozf ${SQLITE_RELEASE}.tar.gz
   rm -f ${SQLITE_RELEASE}.tar.gz
   cd ${SQLITE_RELEASE}
-  patch -p1 < ${SRC_DIR}/buildsystem/patches/sqlite/sqlite-no-shell.patch
-  autoreconf -vif
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then
@@ -77,14 +75,15 @@ if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
     --disable-shared \
     CFLAGS="${VLC_CFLAGS}" \
     CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \
+    LDFLAGS="-Wl,-z,max-page-size=16384" \
     CC="${CROSS_CLANG}" \
     CXX="${CROSS_CLANG}++"
 fi
 
-make $MAKEFLAGS
+make $MAKEFLAGS bin_PROGRAMS=
 avlc_checkfail "sqlite build failed"
 
-make install
+make bin_PROGRAMS= install
 avlc_checkfail "sqlite installation failed"
 
 cd ${SRC_DIR}
@@ -145,6 +144,7 @@ fi
 if [ ! -d "build-android-$ANDROID_ABI/" -o ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     PKG_CONFIG_LIBDIR="$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
     PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig:$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig/" \
+    LDFLAGS="-Wl,-z,max-page-size=16384" \
     meson \
         -Ddebug=true \
         -Doptimization=${MEDIALIBRARY_OPTIMIZATION} \
@@ -179,6 +179,7 @@ MEDIALIBRARY_LDLIBS="-L$LIBVLCJNI_SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc 
 $NDK_BUILD -C medialibrary \
   APP_STL="c++_shared" \
   LOCAL_CPP_FEATURES="rtti exceptions" \
+  LOCAL_LDFLAGS="-Wl,-z,max-page-size=16384" \
   APP_BUILD_SCRIPT=jni/Android.mk \
   APP_PLATFORM=android-${ANDROID_API} \
   APP_ABI=${ANDROID_ABI} \

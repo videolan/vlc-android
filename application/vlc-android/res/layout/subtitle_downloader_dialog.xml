@@ -40,99 +40,277 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="@dimen/default_margin"
                     android:singleLine="true"
+                    android:text="@string/download_subtitles"
                     android:textAppearance="@style/Theme.VLC.BottomSheetTitle"
-                    app:layout_constraintEnd_toStartOf="@+id/language_list_spinner"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintBottom_toBottomOf="@+id/sub_download_history"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Game of Thrones - S01e01" />
+                    app:layout_constraintTop_toTopOf="@+id/sub_download_history" />
 
-            <org.videolan.vlc.gui.view.LanguageSelector
-                    android:id="@+id/language_list_spinner"
-                    android:layout_width="wrap_content"
+            <TextView
+                    android:id="@+id/limit"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:focusable="true"
-                    android:padding="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/movieName"
-                    app:layout_constraintEnd_toStartOf="@+id/sub_download_search"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/movieName"
-                    app:layout_constraintTop_toTopOf="@+id/movieName" />
-
-            <ImageView
-                    android:id="@+id/sub_download_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:focusable="true"
-                    android:padding="4dp"
-                    android:contentDescription="@string/search"
-                    app:layout_constraintBottom_toBottomOf="@+id/movieName"
-                    app:layout_constraintEnd_toStartOf="@+id/sub_download_history"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/language_list_spinner"
-                    app:layout_constraintTop_toTopOf="@+id/movieName"
-                    app:srcCompat="@drawable/ic_search" />
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/powered_opensubtitles"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sub_download_history"
+                    tools:text="@string/powered_opensubtitles" />
 
             <ImageView
                     android:id="@+id/sub_download_history"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:focusable="true"
-                    android:padding="4dp"
                     android:contentDescription="@string/talkback_subtitle_history"
+                    android:focusable="true"
+                    android:padding="8dp"
                     android:selected="@{state == state.History}"
-                    app:layout_constraintBottom_toBottomOf="@+id/movieName"
-                    app:layout_constraintEnd_toStartOf="@+id/sub_download_next"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/sub_download_search"
-                    app:layout_constraintTop_toTopOf="@+id/movieName"
+                    app:layout_constraintEnd_toStartOf="@+id/sub_login"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_history" />
 
             <ImageView
-                    android:id="@+id/sub_download_next"
+                    android:id="@+id/sub_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/login"
                     android:focusable="true"
-                    android:padding="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/movieName"
+                    android:padding="8dp"
+                    android:selected="@{state == state.Login}"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/sub_download_history"
-                    app:layout_constraintTop_toTopOf="@+id/movieName"
-                    app:srcCompat="@drawable/ic_sub_next" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_account" />
 
 
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/result_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@{viewmodel.observableResultDescription}"
-                    android:textColor="?attr/font_default"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
+                    android:background="@drawable/rounded_corners_line"
                     android:visibility="@{state == state.Download ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/movieName"
-                    tools:text="Results for your file" />
+                    app:layout_constraintTop_toBottomOf="@+id/limit">
+
+                <TextView
+                        android:id="@+id/textView38"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@{viewmodel.observableResultDescription}"
+                        android:contentDescription="@{viewmodel.observableResultDescriptionTalkback}"
+                        android:textColor="?attr/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@+id/nameContainer"
+                        app:layout_constraintEnd_toStartOf="@+id/open_sub_edit"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginBottom="16dp"
+                        tools:text="Results for your file" />
+
+                <ImageView
+                        android:id="@+id/open_sub_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"
+                        android:focusable="true"
+                        android:selected="@{viewmodel.observableInEditMode.get()}"
+                        android:contentDescription="@string/subtitle_query_edit"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView38"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/textView38"
+                        app:layout_constraintTop_toTopOf="@+id/textView38"
+                        app:srcCompat="@drawable/ic_edit" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@+id/seasonContainer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView38">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:focusable="true"
+                            android:hint="@string/subtitle_search_name_hint"
+                            android:inputType="textNoSuggestions"
+                            android:nextFocusDown="@id/season"
+                            android:text="@={viewmodel.observableSearchName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/seasonContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@+id/episodeContainer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nameContainer">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/season"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:focusable="true"
+                            android:hint="@string/subtitle_search_season_hint"
+                            android:inputType="textPersonName|number"
+                            android:nextFocusRight="@+id/episode"
+                            android:nextFocusDown="@+id/episode"
+                            android:nextFocusForward="@+id/episode"
+                            android:text="@={viewmodel.observableSearchSeason}"
+                            android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/episodeContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@+id/language_list_spinner"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seasonContainer">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/episode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:focusable="true"
+                            android:hint="@string/subtitle_search_episode_hint"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPersonName|number"
+                            android:nextFocusRight="@+id/language_list_spinner"
+                            android:nextFocusDown="@+id/language_list_spinner"
+                            android:nextFocusForward="@+id/language_list_spinner"
+                            android:text="@={viewmodel.observableSearchEpisode}"
+                            android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <org.videolan.vlc.gui.view.LanguageSelector
+                        android:id="@+id/language_list_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:focusable="true"
+                        android:padding="4dp"
+                        android:nextFocusRight="@+id/checkBox"
+                        android:nextFocusDown="@+id/checkBox"
+                        android:nextFocusForward="@+id/checkBox"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@+id/checkBox"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/episodeContainer" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:checked="@={viewmodel.observableSearchHearingImpaired.get()}"
+                        android:nextFocusRight="@+id/search_button"
+                        android:nextFocusDown="@+id/search_button"
+                        android:nextFocusForward="@+id/search_button"
+                        android:paddingStart="4dp"
+                        android:text="@string/sub_result_by_name_hearing_impaired"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@+id/reset_button"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/language_list_spinner" />
+
+                <Button
+                        android:id="@+id/reset_button"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:focusable="true"
+                        android:text="@string/reset"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@+id/search_button"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+
+                <Button
+                        android:id="@+id/cancel_button"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:focusable="true"
+                        android:text="@string/cancel"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toStartOf="@+id/search_button"
+                        app:layout_constraintTop_toTopOf="@+id/search_button" />
+
+                <Button
+                        android:id="@+id/search_button"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:enabled="@{!TextUtils.isEmpty(viewmodel.observableSearchName.get().trim())}"
+                        android:focusable="true"
+                        android:text="@android:string/search_go"
+                        android:visibility="@{viewmodel.observableInEditMode.get() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/reset_button" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/subs_download_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:defaultFocusHighlightEnabled="false"
                     android:minHeight="160dp"
                     android:visibility="@{state == state.Download ? View.VISIBLE : View.GONE}"
@@ -145,10 +323,13 @@
                     android:id="@+id/message"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="9dp"
                     android:gravity="center_horizontal"
                     android:text="@{viewmodel.observableMessage}"
                     android:textColor="?attr/font_light"
+                    android:textSize="15sp"
                     android:visibility="@{state == state.Download &amp;&amp; !TextUtils.isEmpty(viewmodel.observableMessage) ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toTopOf="@+id/retry_button"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -158,13 +339,31 @@
                     app:layout_goneMarginTop="40dp"
                     tools:text="No results found" />
 
+            <TextView
+                    android:id="@+id/no_history"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="9dp"
+                    android:gravity="center_horizontal"
+                    android:text="@{viewmodel.observableHistoryEmpty}"
+                    android:textColor="?attr/font_light"
+                    android:textSize="15sp"
+                    android:visibility="@{state == state.History ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/subs_history_list"
+                    app:layout_constraintBottom_toBottomOf="@+id/subs_history_list"
+                    tools:text="No results found" />
+
             <Button
                     android:id="@+id/retry_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/retry"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="@{viewmodel.observableError ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewmodel.observableError &amp;&amp; state == state.Download ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/message"
                     app:layout_constraintBottom_toBottomOf="@id/subs_download_list"/>
@@ -173,6 +372,7 @@
                     android:id="@+id/subs_history_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:minHeight="160dp"
                     android:visibility="@{state == state.History ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -190,108 +390,143 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/subs_download_list" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nameContainer"
+
+            <TextView
+                    android:id="@+id/textView37"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@{viewmodel.observableUser.get().logged ? @{@string/open_subtitles_logged_in(viewmodel.observableUser.get().username)} : @string/open_subtitles_not_logged_in}"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="16sp"
+                    android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/movieName">
+                    app:layout_constraintTop_toBottomOf="@+id/subs_download_list" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:focusable="true"
-                        android:hint="@string/subtitle_search_name_hint"
-                        android:inputType="textNoSuggestions"
-                        android:nextFocusDown="@id/season"
-                        android:text="@={viewmodel.observableSearchName}" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/seasonContainer"
+            <TextView
+                    android:id="@+id/loginDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintStart_toStartOf="@+id/nameContainer"
-                    app:layout_constraintTop_toBottomOf="@+id/nameContainer">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/season"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:focusable="true"
-                        android:hint="@string/subtitle_search_season_hint"
-                        android:inputType="textPersonName|number"
-                        android:nextFocusRight="@+id/episode"
-                        android:nextFocusDown="@+id/episode"
-                        android:nextFocusForward="@+id/episode"
-                        android:text="@={viewmodel.observableSearchSeason}"
-                        android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/episodeContainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/seasonContainer"
-                    app:layout_constraintStart_toEndOf="@+id/seasonContainer"
-                    app:layout_constraintTop_toTopOf="@+id/seasonContainer">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/episode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:focusable="true"
-                        android:hint="@string/subtitle_search_episode_hint"
-                        android:inputType="textPersonName|number"
-                        android:nextFocusDown="@+id/search_button"
-                        android:nextFocusRight="@+id/search_button"
-                        android:nextFocusForward="@+id/search_button"
-                        android:imeOptions="actionDone"
-                        android:text="@={viewmodel.observableSearchEpisode}"
-                        android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                    android:id="@+id/cancel_button"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:focusable="true"
-                    android:text="@string/cancel"
-                    android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintEnd_toStartOf="@+id/search_button"
-                    app:layout_constraintTop_toBottomOf="@+id/seasonContainer" />
-
-            <Button
-                    android:id="@+id/search_button"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:enabled="@{!TextUtils.isEmpty(viewmodel.observableSearchName.get().trim())}"
-                    android:focusable="true"
-                    android:text="@android:string/search_go"
-                    android:visibility="@{state == state.Search ? View.VISIBLE : View.GONE}"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@{viewmodel.observableUser.get().isVip() ? @string/open_subtitles_is_vip : @string/open_subtitles_is_not_vip}"
+                    android:visibility="@{viewmodel.observableUser.get().logged &amp;&amp; state == state.Login ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/seasonContainer" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+            <TextView
+                    android:id="@+id/vipDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{@string/open_subtitles_limits(viewmodel.observableLimit.get().getRemaining(), viewmodel.observableLimit.get().max, viewmodel.observableLimit.get().getResetTime(context))}"
+                    android:visibility="@{state == state.Login &amp;&amp; viewmodel.observableUser.get().logged ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/loginDescription" />
+
+            <TextView
+                    android:id="@+id/error"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_corners_permissions_warning"
+                    android:padding="12dp"
+                    android:text="@{viewmodel.observableUser.get().errorMessage}"
+                    android:textSize="16sp"
+                    android:visibility="@{state == state.Login &amp;&amp; !TextUtils.isEmpty(viewmodel.observableUser.get().errorMessage) ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordContainer" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/usernameContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="@{state == state.Login &amp;&amp; !viewmodel.observableUser.get().logged ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vipDescription">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:focusable="true"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:hint="@string/open_subtitles_username"
+                        android:nextFocusRight="@+id/password"
+                        android:nextFocusDown="@+id/password"
+                        android:nextFocusForward="@+id/password"
+                        android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="@{state == state.Login &amp;&amp; !viewmodel.observableUser.get().logged ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/usernameContainer">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:focusable="true"
+                        android:hint="@string/open_subtitles_password"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
+                        android:nextFocusRight="@+id/loginButton"
+                        android:nextFocusDown="@+id/loginButton"
+                        android:nextFocusForward="@+id/loginButton"
+                        android:password="true"
+                        android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                    android:id="@+id/registerButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/open_subtitles_register"
+                    android:visibility="@{!viewmodel.observableUser.get().logged &amp;&amp; state == state.Login ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toStartOf="@+id/loginButton"
+                    app:layout_constraintTop_toBottomOf="@+id/error" />
+
+            <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    tools:text="Login"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    android:text="@{viewmodel.observableUser.get().logged ? @string/open_subtitles_log_out : @string/login}"
+                    android:visibility="@{state == state.Login ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/error" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

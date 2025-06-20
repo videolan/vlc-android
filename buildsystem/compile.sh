@@ -35,7 +35,9 @@ while [ $# -gt 0 ]; do
             echo "Use -s to set your keystore file and -p for the password"
             echo "Use -c to get a ChromeOS build"
             echo "Use -l to build only LibVLC"
+            echo "Use -ml to build only the medialibrary"
             echo "Use -b to bypass libvlc source checks (vlc custom sources)"
+            echo "Use -t to use prebuilt contribs for LibVLC"
             echo "Use -m2 to set the maven local repository path to use"
             echo "Use -tv to include the TV module"
             exit 0
@@ -66,6 +68,9 @@ while [ $# -gt 0 ]; do
         -l)
             BUILD_LIBVLC=1
             NO_ML=1
+            ;;
+        -t)
+            PREBUILT_CONTRIBS=1
             ;;
         -ml)
             BUILD_MEDIALIB=1
@@ -107,7 +112,7 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
+if [ -z "$ANDROID_NDK" ] || [ -z "$ANDROID_SDK" ]; then
    diagnostic "You must define ANDROID_NDK, ANDROID_SDK before starting."
    diagnostic "They must point to your NDK and SDK directories."
    exit 1
@@ -116,27 +121,35 @@ fi
 if [ -z "$ANDROID_ABI" ]; then
    diagnostic "*** No ANDROID_ABI defined architecture: using arm64-v8a"
    ANDROID_ABI="arm64-v8a"
+   ARCH="arm64"
+   TRIPLET="aarch64-linux-android"
 fi
 
-if [ "$ANDROID_ABI" = "armeabi-v7a" -o "$ANDROID_ABI" = "arm" ]; then
+if [ "$ANDROID_ABI" = "armeabi-v7a" ] || [ "$ANDROID_ABI" = "arm" ]; then
     ANDROID_ABI="armeabi-v7a"
     GRADLE_ABI="ARMv7"
-elif [ "$ANDROID_ABI" = "arm64-v8a" -o "$ANDROID_ABI" = "arm64" ]; then
+    ARCH="arm"
+    TRIPLET="arm-linux-androideabi"
+elif [ "$ANDROID_ABI" = "arm64-v8a" ] || [ "$ANDROID_ABI" = "arm64" ]; then
     ANDROID_ABI="arm64-v8a"
     GRADLE_ABI="ARMv8"
+    ARCH="arm64"
+    TRIPLET="aarch64-linux-android"
 elif [ "$ANDROID_ABI" = "x86" ]; then
     GRADLE_ABI="x86"
+    ARCH="x86"
+    TRIPLET="i686-linux-android"
 elif [ "$ANDROID_ABI" = "x86_64" ]; then
     GRADLE_ABI="x86_64"
+    ARCH="x86_64"
+    TRIPLET="x86_64-linux-android"
 else
     diagnostic "Invalid arch specified: '$ANDROID_ABI'."
     diagnostic "Try --help for more information"
     exit 1
 fi
 
-if [ -z "$M2_REPO" ]; then
-  M2_REPO=""
-else
+if [ -n "$M2_REPO" ]; then
   if test -d "$M2_REPO"; then
     echo "Custom local maven repository found"
   else
@@ -179,7 +192,7 @@ init_local_props() {
     # or fix it if it was modified (by Android Studio, for example).
     echo_props() {
         echo "sdk.dir=$ANDROID_SDK"
-        echo "ndk.dir=$ANDROID_NDK"
+        echo "android.ndkPath=$ANDROID_NDK"
     }
     # first check if the file just needs to be created for the first time
     if [ ! -f "$1" ]; then
@@ -201,13 +214,13 @@ init_local_props() {
     total_ndk_count=`grep -c "${ndk_line_start}" "$1"`
     good_ndk_count=`grep -c "${ndk_line_start}${android_ndk_regex}\$" "$1"`
     # if one of each is found and both match the environment vars, no action needed
-    if [ "$total_sdk_count" -eq "1" -a "$good_sdk_count" -eq "1" \
-	    -a "$total_ndk_count" -eq "1" -a "$good_ndk_count" -eq "1" ]
+    if [ "$total_sdk_count" -eq "1" ] && [ "$good_sdk_count" -eq "1" ] \
+    && [ "$total_ndk_count" -eq "1" ] && [ "$good_ndk_count" -eq "1" ]
     then
         return 0
     fi
     # if neither property is set they can simply be appended to the file
-    if [ "$total_sdk_count" -eq "0" -a "$total_ndk_count" -eq "0" ]; then
+    if [ "$total_sdk_count" -eq "0" ] && [ "$total_ndk_count" -eq "0" ]; then
         echo_props >> "$1"
         return 0
     fi
@@ -217,17 +230,17 @@ init_local_props() {
         temp_props="$1.tmp"
         while IFS= read -r LINE || [ -n "$LINE" ]; do
             line_sdk_dir="${LINE#sdk.dir=}"
-            line_ndk_dir="${LINE#ndk.dir=}"
-            if [ "x$line_sdk_dir" = "x$LINE" -a "x$line_ndk_dir" = "x$LINE" ]; then
+            line_ndk_dir="${LINE#android.ndkPath=}"
+            if [ "x$line_sdk_dir" = "x$LINE" ] && [ "x$line_ndk_dir" = "x$LINE" ]; then
                 echo "$LINE"
             fi
         done <"$1" >"$temp_props"
         echo_props >> "$temp_props"
         mv -f -- "$temp_props" "$1"
     }
-    echo "local.properties: Contains incompatible sdk.dir and/or ndk.dir properties. Replacing..."
+    echo "local.properties: Contains incompatible sdk.dir and/or android.ndkPath properties. Replacing..."
     replace_props "$1"
-    echo "local.properties: Finished replacing sdk.dir and/or ndk.dir with current environment variables."
+    echo "local.properties: Finished replacing sdk.dir and/or android.ndkPath with current environment variables."
     )
 }
 init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
@@ -245,8 +258,8 @@ fi
 
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
-    GRADLE_VERSION=8.6
-    GRADLE_SHA256=9631d53cf3e74bfa726893aee1f8994fee4e060c401335946dba2156f440f24c
+    GRADLE_VERSION=8.13
+    GRADLE_SHA256=20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78
     GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL} || fail "gradle: download failed"
     echo $GRADLE_SHA256 gradle-${GRADLE_VERSION}-bin.zip | sha256sum -c || fail "gradle: hash mismatch"
@@ -266,11 +279,11 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=6337b790b501a9c132fdc7ec1a0c04313738cd96
+    LIBVLCJNI_TESTED_HASH=306c523bfadfca021fc0758317f3f7f187f1052b
 else
-    LIBVLCJNI_TESTED_HASH=24c0047f5697cc96e89ac86e2557ce319fc43c86
+    LIBVLCJNI_TESTED_HASH=28b690d499711e7362eb61d03855e06e2854f396
 fi
-LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni
+LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
 
 : ${VLC_LIBJNI_PATH:="$(pwd -P)/libvlcjni"}
 
@@ -323,9 +336,17 @@ diagnostic "Configuring"
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}
 mkdir -p $OUT_DBG_DIR
 
-if [ "$BUILD_MEDIALIB" != 1 -o ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ]; then
-    AVLC_SOURCED=1 . ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh
-    avlc_build
+if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ]; then
+    if [ "$PREBUILT_CONTRIBS" = 1 ];then
+        VLC_CONTRIB_SHA="$(cd ${VLC_LIBJNI_PATH}/vlc && extras/ci/get-contrib-sha.sh android-${ARCH})"
+        if [ "$FORCE_VLC_4" = 1 ]; then
+            export VLC_PREBUILT_CONTRIBS_URL="https://artifacts.videolan.org/vlc/android-${ARCH}/vlc-contrib-${TRIPLET}-${VLC_CONTRIB_SHA}.tar.bz2"
+        else
+            export VLC_PREBUILT_CONTRIBS_URL="https://artifacts.videolan.org/vlc-3.0/android-${ARCH}/vlc-contrib-${TRIPLET}-${VLC_CONTRIB_SHA}.tar.bz2"
+        fi
+        if ${VLC_LIBJNI_PATH}/vlc/extras/ci/check-url.sh "$VLC_PREBUILT_CONTRIBS_URL"; then CONTRIB_FLAGS="--with-prebuilt-contribs"; fi
+    fi
+    ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh -a ${ARCH} ${CONTRIB_FLAGS}
 
     cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
@@ -334,8 +355,6 @@ if [ "$NO_ML" != 1 ]; then
     ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE RESET=$RESET buildsystem/compile-medialibrary.sh
     cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 fi
-
-GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
 
 ##################
 # Compile the UI #
@@ -350,38 +369,34 @@ elif [ "$NO_TV" = 1 ]; then
 elif [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
 fi
+if [ "$TEST" = 1 ] || [ "$RUN" = 1 ]; then
+    ACTION="install"
+else
+    ACTION="assemble"
+fi
+GRADLE_TASK="${ACTION}${BUILDTYPE}"
 
 if [ "$FORCE_VLC_4" = 1 ]; then
     gradle_prop="-PforceVlc4=true"
-else
-    gradle_prop=""
+fi
+if [ -n "$M2_REPO" ]; then
+    gradle_prop="$gradle_prop -Dmaven.repo.local=$M2_REPO"
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -Dmaven.repo.local=$M2_REPO ${gradle_prop} -p ${VLC_LIBJNI_PATH}/libvlc assemble${BUILDTYPE}
+    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} --project-dir ${VLC_LIBJNI_PATH}/libvlc $GRADLE_TASK
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew  ${gradle_prop} -Dmaven.repo.local=$M2_REPO -p medialibrary assemble${BUILDTYPE}
+    gradle_prop="$gradle_prop -PvlcLibVariant=$GRADLE_ABI"
+    ./gradlew ${gradle_prop} --project-dir medialibrary $GRADLE_TASK
     RUN=0
 else
-    if [ "$TEST" = 1 -o "$RUN" = 1 ]; then
-        ACTION="install"
-    else
-        ACTION="assemble"
-    fi
-    TARGET="${ACTION}${BUILDTYPE}"
-    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
-    if [ "$BUILDTYPE" = "Release" -a "$ACTION" = "assemble" ]; then
-        TARGET="bundle${BUILDTYPE}"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
-    fi
-    if [ "$BUILDTYPE" = "NoTv" -a "$ACTION" = "assemble" ]; then
-        TARGET="bundle${BUILDTYPE}"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+    ./gradlew ${gradle_prop} $GRADLE_TASK
+    if [ "$BUILDTYPE" = "Release" ] && [ "$ACTION" = "assemble" ]; then
+        ./gradlew ${gradle_prop} "bundle${BUILDTYPE}"
     fi
     if [ "$TEST" = 1 ]; then
-        TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
-        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} -Dmaven.repo.local=$M2_REPO $TARGET
+        ./gradlew ${gradle_prop} "application:vlc-android:install${BUILDTYPE}AndroidTest"
 
         echo -e "\n===================================\nRun following for UI tests:"
         echo "adb shell am instrument -w -m -e clearPackageData true   -e package org.videolan.vlc -e debug false org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
@@ -397,8 +412,7 @@ fi
 #######
 if [ "$RUN" = 1 ]; then
     export PATH="${ANDROID_SDK}/platform-tools/:$PATH"
-        EXTRA=""
-        if [ "$STUB" = 1 ]; then
+    if [ "$STUB" = 1 ]; then
         EXTRA="--ez 'extra_test_stubs' true"
     fi
     adb wait-for-device

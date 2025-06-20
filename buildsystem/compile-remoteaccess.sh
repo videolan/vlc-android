@@ -57,25 +57,26 @@ done
 ##############################
   diagnostic "Setting up the Remote Access project"
 
-  REMOTE_ACCESS_TESTED_HASH=27d7222bb43bbc89161408419cba3eb80db65d7a
+  REMOTE_ACCESS_TESTED_HASH=bc7a94b38ca21739e21ba3f76dab09909d75a695
   REMOTE_ACCESS_REPOSITORY=https://code.videolan.org/videolan/remoteaccess
 
-  : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/remoteaccess"}
+  : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/application/remote-access-client/remoteaccess"}
+  diagnostic "VLC_REMOTE_ACCESS_PATH is $VLC_REMOTE_ACCESS_PATH"
 
   if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]; then
       diagnostic "Remote access sources: not found, cloning"
       branch="main"
       if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ]; then
-          git clone --single-branch --branch ${branch} "${REMOTE_ACCESS_REPOSITORY}"
-          cd remoteaccess
+          git clone --single-branch --branch ${branch} "${REMOTE_ACCESS_REPOSITORY}" application/remote-access-client/remoteaccess
+          cd application/remote-access-client/remoteaccess
       else # folder exist with only the artifacts
-          cd remoteaccess
+          cd application/remote-access-client/remoteaccess
           git init
           git remote add origin "${REMOTE_ACCESS_REPOSITORY}"
           git pull origin ${branch}
       fi
       git reset --hard ${REMOTE_ACCESS_TESTED_HASH} || fail "Remote access sources: REMOTE_ACCESS_TESTED_HASH ${REMOTE_ACCESS_TESTED_HASH} not found"
-      cd ..
+      cd ../../..
   fi
 
   if [ "$INIT_ONLY" != 1 ]; then
@@ -83,6 +84,6 @@ done
     cd "$VLC_REMOTE_ACCESS_PATH"
 
     npm install
-    npm run build
+    npm run build-android
     cd ..
   fi

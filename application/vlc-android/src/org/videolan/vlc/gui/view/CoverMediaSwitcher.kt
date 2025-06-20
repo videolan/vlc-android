@@ -28,20 +28,43 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import org.videolan.tools.KEY_AUDIO_SHOW_CHAPTER_BUTTONS
 import org.videolan.tools.Settings
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.setEllipsizeModeByPref
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.TextUtils
 
 class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
 
-    override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, album: String?, cover: Bitmap?, trackInfo: String?) {
+    override fun addMediaView(
+        inflater: LayoutInflater,
+        title: String?,
+        artist: String?,
+        album: String?,
+        cover: Bitmap?,
+        trackInfo: String?,
+        hasChapters: Boolean
+    ) {
         val v = inflater.inflate(R.layout.cover_media_switcher_item, this, false)
 
         val coverView = v.findViewById<ImageView>(R.id.cover)
         val titleView = v.findViewById<TextView>(R.id.song_title)
         val artistView = v.findViewById<TextView>(R.id.song_subtitle)
         val trackInfoView = v.findViewById<TextView?>(R.id.song_track_info)
+        val previousChapterView = v.findViewById<ImageView?>(R.id.previous_chapter)
+        val nextChapterView = v.findViewById<ImageView?>(R.id.next_chapter)
+
+        if (hasChapters && Settings.getInstance(context).getBoolean(KEY_AUDIO_SHOW_CHAPTER_BUTTONS, true)) {
+            previousChapterView?.setVisible()
+            nextChapterView?.setVisible()
+        } else {
+            previousChapterView?.setGone()
+            nextChapterView?.setGone()
+
+        }
 
         if (cover != null) {
             coverView.setImageBitmap(cover)
@@ -53,6 +76,12 @@ class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwit
 
         titleView.setOnClickListener { onTextClicked() }
         artistView.setOnClickListener { onTextClicked() }
+        previousChapterView?.setOnClickListener {
+            onChapterSwitching(LocaleUtil.isRtl())
+        }
+        nextChapterView?.setOnClickListener {
+            onChapterSwitching(!LocaleUtil.isRtl())
+        }
 
         titleView.text = title
         artistView.text = TextUtils.separatedString(artist, album)

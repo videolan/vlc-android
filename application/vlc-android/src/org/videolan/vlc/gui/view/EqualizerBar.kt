@@ -28,6 +28,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.IdRes
 import com.google.android.material.slider.Slider
 import org.videolan.vlc.R
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
@@ -50,12 +51,10 @@ class EqualizerBar : LinearLayout {
         verticalSlider.nextFocusRightId = nextFocusRightId
     }
 
-    private val seekListener = object : Slider.OnChangeListener {
-        override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-            val value = (value - RANGE) / PRECISION.toFloat()
-            listener?.onProgressChanged(value, fromUser)
-            updateValueText()
-        }
+    private val seekListener = Slider.OnChangeListener { slider, value, fromUser ->
+        val newValue = (value - RANGE) / PRECISION.toFloat()
+        listener?.onProgressChanged(newValue, fromUser || (slider as VerticalSeekBar).fromUser)
+        updateValueText()
     }
 
     constructor(context: Context, band: Float) : super(context) {
@@ -116,6 +115,12 @@ class EqualizerBar : LinearLayout {
     }
 
     fun getProgress(): Int = verticalSlider.value.toInt()
+
+    fun setSliderId(@IdRes id: Int) {
+        verticalSlider.id = id
+    }
+
+    fun getSliderId() = verticalSlider.id
 
     companion object {
 

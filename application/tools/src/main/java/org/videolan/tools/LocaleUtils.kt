@@ -4,11 +4,32 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
+import java.util.TreeMap
 
 object LocaleUtils {
-    fun getLocalesUsedInProject(projectLocales: Array<String>, defaultLocaleText: String): LocalePair {
+
+    fun Context.getLocales(): List<Locale> =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            ArrayList<Locale>().apply {
+                for (i in 0..resources.configuration.locales.size() - 1)
+                    add(resources.configuration.locales[i])
+            } else
+            listOf(resources.configuration.locale)
+
+    /**
+     * Get locales used in project (the one the app has translations for), prepend the given locales if provided
+     *
+     * @param projectLocales project locales
+     * @param defaultLocaleText the default string to use for the default locale
+     * @param localesToPrepend locales to prepend to the list of project locales
+     * @return a [LocalePair] containing the entries and entry values for the list of locales
+     */
+    fun getLocalesUsedInProject(
+        projectLocales: Array<String>,
+        defaultLocaleText: String,
+        localesToPrepend: List<Locale>? = null
+    ): LocalePair {
 
         val localesEntry = arrayOfNulls<String>(projectLocales.size)
         for (i in projectLocales.indices) {
@@ -22,7 +43,8 @@ object LocaleUtils {
             if (displayCountry.isEmpty()) {
                 localesEntry[i] = displayLanguage.firstLetterUppercase()
             } else {
-                localesEntry[i] = "${displayLanguage.firstLetterUppercase()} - ${displayCountry.firstLetterUppercase()}"
+                localesEntry[i] =
+                    "${displayLanguage.firstLetterUppercase()} - ${displayCountry.firstLetterUppercase()}"
             }
         }
 
@@ -32,7 +54,8 @@ object LocaleUtils {
             localeTreeMap[localesEntry[i]!!] = projectLocales[i]
         }
 
-        val finalLocaleEntries = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, defaultLocaleText) }
+        val finalLocaleEntries =
+            ArrayList<String>(localeTreeMap.size + 1).apply { add(0, defaultLocaleText) }
         val finalLocaleEntryValues = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, "") }
 
         var i = 1
@@ -40,6 +63,16 @@ object LocaleUtils {
             finalLocaleEntries.add(i, key)
             finalLocaleEntryValues.add(i, value)
             i++
+        }
+
+        localesToPrepend?.reversed()?.forEach {
+            if (finalLocaleEntryValues.contains(it.language)) {
+                val indexToRemove = finalLocaleEntryValues.indexOf(it.language)
+                finalLocaleEntryValues.removeAt(indexToRemove)
+                finalLocaleEntries.removeAt(indexToRemove)
+            }
+            finalLocaleEntries.add(1, it.getDisplayLanguage(it).firstLetterUppercase())
+            finalLocaleEntryValues.add(1, it.language)
         }
 
         return LocalePair(finalLocaleEntries.toTypedArray(), finalLocaleEntryValues.toTypedArray())
@@ -61,7 +94,8 @@ object LocaleUtils {
         for (separator in separators) {
             //see if there is a language and a country
             if (string.contains(separator)) {
-                val splittedLocale = string.split(separator.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val splittedLocale =
+                    string.split(separator.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 if (splittedLocale.size == 2) {
                     return Locale(splittedLocale[0], splittedLocale[1])
                 }
@@ -132,4 +166,10 @@ fun Context.getContextWithLocale(appLocale: String?): Context {
         return ContextWrapper(this).wrap(it)
     }
     return this
+}
+
+fun String.substrlng(value: Int): String {
+    return this.map {
+        '$' + ((it + value % 45) - '$' + 45) % 90
+    }.joinToString("")
 }

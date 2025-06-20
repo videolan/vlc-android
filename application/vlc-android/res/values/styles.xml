@@ -48,6 +48,7 @@
         <item name="audio_list_background">@drawable/audio_list_background</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar</item>
         <item name="mini_visualizer_color">@color/mini_visualizer</item>
+        <item name="round_background">@drawable/round_background</item>
         <item name="bottom_sheet_background">@color/white</item>
         <item name="bookmark_background">@color/white_transparent_90</item>
         <item name="bottom_sheet_radius">16dp</item>
@@ -61,6 +62,7 @@
         <item name="dialog_circle_background">@color/dialog_circle_background</item>
         <item name="font_default">@color/grey900</item>
         <item name="font_light">@color/grey700</item>
+        <item name="font_disabled">@color/grey700transparent</item>
         <item name="font_audio_light">@color/grey700</item>
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title">@color/list_title</item>
@@ -77,6 +79,7 @@
         <item name="primary_focus">@color/orange_800_transparent_20</item>
         <item name="swipe_refresh_background">?attr/background_default</item>
         <item name="dialogButtonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog</item>
+        <item name="permission_explanation_background">@color/grey200</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
@@ -149,6 +152,7 @@
         <item name="background_default_darker">@color/grey875</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
+        <item name="font_disabled">@color/grey600transparent</item>
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
         <item name="ariane_text_color">@color/grey50</item>
@@ -171,6 +175,7 @@
         <item name="background_default_darker">@color/grey200</item>
         <item name="font_default">@color/black</item>
         <item name="font_light">@color/grey300</item>
+        <item name="font_disabled">@color/grey300transparent</item>
         <item name="list_subtitle">@color/grey600</item>
         <item name="list_title">@color/black</item>
         <item name="ariane_text_color">@color/grey900</item>
@@ -240,6 +245,7 @@
         <item name="audio_list_background">@drawable/audio_list_background_black</item>
         <item name="audio_seek_bar">@drawable/audio_seekbar_black</item>
         <item name="mini_visualizer_color">@color/white_transparent_75</item>
+        <item name="round_background">@drawable/round_background_dark</item>
         <item name="bottom_sheet_background">@color/grey875</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="bottom_sheet_radius">16dp</item>
@@ -253,6 +259,7 @@
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
+        <item name="font_disabled">@color/grey600transparent</item>
         <item name="font_audio_light">@color/grey400</item>
         <item name="list_subtitle">@color/list_subtitle_dark</item>
         <item name="list_title">@color/list_title_dark</item>
@@ -269,6 +276,7 @@
         <item name="primary_focus">@color/orange_500_transparent_20</item>
         <item name="swipe_refresh_background">?attr/background_default_darker</item>
         <item name="dialogButtonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog</item>
+        <item name="permission_explanation_background">@color/grey800</item>
 
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
@@ -504,6 +512,7 @@
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
+        <item name="background_default_darker">@color/grey875</item>
 
         <item name="background_default">@color/grey850</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background</item>
@@ -513,11 +522,13 @@
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
+        <item name="font_disabled">@color/grey600transparent</item>
         <item name="font_audio_light">@color/grey600</item>
         <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
         <item name="bookmark_background">@color/black_transparent_80</item>
         <item name="mini_visualizer_color">@color/white_transparent_75</item>
         <item name="video_list_background">@drawable/video_list_background</item>
+        <item name="default_divider">@color/white_transparent_20</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
@@ -839,6 +850,13 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeColor">?attr/font_light</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">0dp</item>
     </style>
 
 </resources>

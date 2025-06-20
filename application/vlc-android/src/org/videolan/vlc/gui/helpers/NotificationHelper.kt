@@ -56,7 +56,7 @@ import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.PlaybackAction
 import org.videolan.vlc.util.TextUtils
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
 private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
@@ -85,9 +85,9 @@ object NotificationHelper {
         builder.setSmallIcon(if (video) R.drawable.ic_notif_video else R.drawable.ic_notif_audio)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
-                .setContentText(TextUtils.separatedString('-', artist, album))
+                .setContentText(TextUtils.separatedString(artist, album))
                 .setLargeIcon(cover)
-                .setTicker(TextUtils.separatedString('-', title, artist))
+                .setTicker(TextUtils.separatedString(title, artist))
                 .setAutoCancel(!playing)
                 .setOngoing(playing)
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
@@ -105,7 +105,8 @@ object NotificationHelper {
                     1.50f to R.drawable.ic_notif_speed_1_50,
                     2.00f to R.drawable.ic_notif_speed_2_00
             )
-            val speedResId = speedIcons[speedIcons.keys.minByOrNull { abs(speed - it) }] ?: R.drawable.ic_notif_speed_1_00
+            val speedResId = speedIcons[speedIcons.keys.minByOrNull { (speed - it).absoluteValue }]
+                ?: R.drawable.ic_notif_speed_1_00
             builder.addAction(NotificationCompat.Action(speedResId, ctx.getString(R.string.playback_speed),
                     buildCustomButtonPendingIntent(ctx, CUSTOM_ACTION_SPEED)
             ))

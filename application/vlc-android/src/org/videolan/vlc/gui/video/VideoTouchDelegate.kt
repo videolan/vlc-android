@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.video
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.os.Handler
@@ -11,9 +12,15 @@ import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.InputDevice
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.View
+import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,11 +32,14 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AndroidDevices.isTv
+import org.videolan.tools.dp
+import org.videolan.tools.readableString
+import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.HalfCircleView
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sign
@@ -41,6 +51,7 @@ const val TOUCH_FLAG_PLAY = 1 shl 3
 const val TOUCH_FLAG_SWIPE_SEEK = 1 shl 4
 const val TOUCH_FLAG_SCREENSHOT = 1 shl 5
 const val TOUCH_FLAG_SCALE = 1 shl 6
+const val TOUCH_FLAG_FASTPLAY = 1 shl 7
 //Touch Events
 private const val TOUCH_NONE = 0
 private const val TOUCH_VOLUME = 1
@@ -49,6 +60,7 @@ private const val TOUCH_MOVE = 3
 private const val TOUCH_TAP_SEEK = 4
 private const val TOUCH_IGNORE = 5
 private const val TOUCH_SCREENSHOT = 6
+private const val TOUCH_FASTPLAY = 7
 
 private const val MIN_FOV = 20f
 private const val MAX_FOV = 150f
@@ -68,19 +80,26 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     var lastTapTimeMs: Long = 0
     var touchDownMs: Long = 0
     private var touchAction = TOUCH_NONE
+        set(value) {
+            field = value
+            Log.d(this::class.java.simpleName, "touchAction $value")
+        }
     private var initTouchY = 0f
     private var initTouchX = 0f
+    private var initInAllowedBounds = false
     private var touchY = -1f
     private var touchX = -1f
     private var verticalTouchActive = false
 
     private var lastMove: Long = 0
+    private var savedRate: Float = 1f
 
     //Seek
     private var nbTimesTaped = 0
     private var lastSeekWasForward = true
     private var seekAnimRunning = false
     private var animatorSet: AnimatorSet = AnimatorSet()
+    private var fastPlayAnimatorSet: AnimatorSet = AnimatorSet()
     private val rightContainer: CircularRevealFrameLayout by lazy { player.findViewById(R.id.rightContainer) }
     private val leftContainer: CircularRevealFrameLayout by lazy { player.findViewById(R.id.leftContainer) }
     private val rightContainerBackground: HalfCircleView by lazy { player.findViewById(R.id.rightContainerBackground) }
@@ -93,6 +112,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private val seekRewindSecond: ImageView by lazy { player.findViewById(R.id.seekRewindSecond) }
     private val seekContainer: ConstraintLayout by lazy { player.findViewById(R.id.seekContainer) }
     private val seekBackground: FrameLayout by lazy { player.findViewById(R.id.seek_background) }
+    private val gestureSafetyMargin = 24.dp.toFloat()
 
     companion object {
         private const val TAG = "VLC/VideoTouchDelegate"
@@ -125,7 +145,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 return true
             }
             else -> {
-                if (!player.isLocked) {
+                if (!player.isLocked && touchAction != TOUCH_FASTPLAY) {
                     scaleGestureDetector.onTouchEvent(event)
                     if (scaleGestureDetector.isInProgress) {
                         touchAction = TOUCH_IGNORE
@@ -143,9 +163,9 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 val yChanged = if (touchX != -1f && touchY != -1f) event.y - touchY else 0f
 
                 // coef is the gradient's move to determine a neutral zone
-                val coef = abs(yChanged / xChanged)
+                val coef = (yChanged / xChanged).absoluteValue
                 val xgesturesize = xChanged / screenConfig.metrics.xdpi * 2.54f
-                val deltaY = ((abs(initTouchY - event.y) / screenConfig.metrics.xdpi + 0.5f) * 2f).coerceAtLeast(1f)
+                val deltaY = (((initTouchY - event.y).absoluteValue / screenConfig.metrics.xdpi + 0.5f) * 2f).coerceAtLeast(1f)
 
                 val (xTouch, yTouch) = try {
                     Pair(event.x.roundToInt(), event.y.roundToInt())
@@ -161,17 +181,34 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         // Audio
                         initTouchY = event.y
                         initTouchX = event.x
+                        initInAllowedBounds = isInAllowedBounds(initTouchX, initTouchY)
                         touchY = initTouchY
                         player.initAudioVolume()
+                        if (touchAction == TOUCH_FASTPLAY) {
+                            player.overlayDelegate.hideOverlay(false)
+                            player.service?.setRate(savedRate, false)
+                            player.overlayDelegate.hideInfo()
+                        }
                         touchAction = TOUCH_NONE
                         // Seek
                         touchX = event.x
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
+                        val fastPlayRunnable = Runnable {
+                            if (touchAction == TOUCH_NONE && player.service != null) {
+                                savedRate = player.service!!.rate
+                                player.service?.setRate(org.videolan.tools.Settings.fastplaySpeed, false)
+                                showFastPlay()
+                                player.overlayDelegate.hideOverlay(fromUser = true)
+                                touchAction = TOUCH_FASTPLAY
+                            }
+                        }
+                        if (touchControls and TOUCH_FLAG_FASTPLAY != 0 && isInAllowedBounds(touchX, touchY))
+                            handler.postDelayed(fastPlayRunnable, 250)
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && event.pointerCount == 3) touchAction = TOUCH_SCREENSHOT
-                        if (touchAction == TOUCH_IGNORE) return false
+                        if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && event.pointerCount == 3 && touchAction != TOUCH_FASTPLAY) touchAction = TOUCH_SCREENSHOT
+                        if (touchAction == TOUCH_IGNORE || touchAction == TOUCH_FASTPLAY) return false
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
 
@@ -180,7 +217,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                             //TODO : Volume action when a secondary display is connected
                             if (touchAction != TOUCH_TAP_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
                                 if (!verticalTouchActive) {
-                                    if (abs(yChanged / screenConfig.yRange) >= 0.05) {
+                                    if ((yChanged / screenConfig.yRange).absoluteValue >= 0.05) {
                                         verticalTouchActive = true
                                         touchY = event.y
                                         touchX = event.x
@@ -204,16 +241,26 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
                     }
                     MotionEvent.ACTION_UP -> {
+                        // FastPlay
+                        if (touchAction == TOUCH_FASTPLAY) {
+                            player.overlayDelegate.hideOverlay(false)
+                            player.service?.setRate(savedRate, false)
+                            hideFastplay()
+                            touchAction = TOUCH_NONE
+                            return true
+                        }
                         if ((touchControls and TOUCH_FLAG_SCREENSHOT == TOUCH_FLAG_SCREENSHOT) && touchAction == TOUCH_SCREENSHOT) {
                             player.takeScreenshot()
                             return true
                         }
                         val touchSlop = ViewConfiguration.get(player).scaledTouchSlop
                         if (touchAction == TOUCH_IGNORE) touchAction = TOUCH_NONE
+
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
                         touchX = -1f
                         touchY = -1f
+
                         // Seek
                         if (touchAction == TOUCH_TAP_SEEK) {
                             doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
@@ -234,7 +281,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
 
                         //verify that the touch coordinate distance did not exceed the touchslop to increment the count tap
-                        if (abs(event.x - initTouchX) < touchSlop && abs(event.y - initTouchY) < touchSlop) {
+                        if ((event.x - initTouchX).absoluteValue < touchSlop && (event.y - initTouchY).absoluteValue < touchSlop) {
                             if (numberOfTaps > 0 && now - lastTapTimeMs < ViewConfiguration.getDoubleTapTimeout()) {
                                 numberOfTaps += 1
                             } else {
@@ -272,6 +319,9 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
     }
 
+    private fun isInAllowedBounds(x:Float, y:Float) = y in gestureSafetyMargin .. screenConfig.metrics.heightPixels.toFloat() - gestureSafetyMargin
+            && x in gestureSafetyMargin.. screenConfig.metrics.widthPixels.toFloat() - gestureSafetyMargin
+
     fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
         if (player.isLoading) return false
         //Check for a joystick event
@@ -282,19 +332,19 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
         val dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X)
         val dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y)
-        if (inputDevice == null || abs(dpadx) == 1.0f || abs(dpady) == 1.0f) return false
+        if (inputDevice == null || dpadx.absoluteValue == 1.0f || dpady.absoluteValue == 1.0f) return false
 
         val x = AndroidDevices.getCenteredAxis(event, inputDevice, MotionEvent.AXIS_X)
         val y = AndroidDevices.getCenteredAxis(event, inputDevice, MotionEvent.AXIS_Y)
         val rz = AndroidDevices.getCenteredAxis(event, inputDevice, MotionEvent.AXIS_RZ)
 
         if (System.currentTimeMillis() - lastMove > JOYSTICK_INPUT_DELAY) {
-            if (abs(x) > 0.3) {
+            if (x.absoluteValue > 0.3) {
                 if (tv) {
                     player.navigateDvdMenu(if (x > 0.0f) KeyEvent.KEYCODE_DPAD_RIGHT else KeyEvent.KEYCODE_DPAD_LEFT)
                 } else
                     seekDelta(if (x > 0.0f) 10000 else -10000)
-            } else if (abs(y) > 0.3) {
+            } else if (y.absoluteValue > 0.3) {
                 if (tv)
                     player.navigateDvdMenu(if (x > 0.0f) KeyEvent.KEYCODE_DPAD_UP else KeyEvent.KEYCODE_DPAD_DOWN)
                 else {
@@ -302,7 +352,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         initBrightnessTouch()
                     player.changeBrightness(-y / 10f)
                 }
-            } else if (abs(rz) > 0.3) {
+            } else if (rz.absoluteValue > 0.3) {
                 player.volume = player.audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
                 val delta = -(rz / 7 * player.audioMax).toInt()
                 val vol = (player.volume.toInt() + delta).coerceIn(0, player.audioMax)
@@ -320,11 +370,13 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doVerticalTouchAction(y_changed: Float) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "doVerticalTouchAction $y_changed // ${screenConfig.metrics.widthPixels} // ${3 * screenConfig.metrics.widthPixels / 7f} // $touchX")
         val rightAction = touchX.toInt() > 4 * screenConfig.metrics.widthPixels / 7f
         val leftAction = !rightAction && touchX.toInt() < 3 * screenConfig.metrics.widthPixels / 7f
         if (!leftAction && !rightAction) return
         val audio = touchControls and TOUCH_FLAG_AUDIO_VOLUME != 0
         val brightness = touchControls and TOUCH_FLAG_BRIGHTNESS != 0
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "doVerticalTouchAction brightness: $brightness // $leftAction")
         if (!audio && !brightness)
             return
         if (rightAction) {
@@ -338,11 +390,11 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
-        if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0) {
+        if (touchControls and TOUCH_FLAG_SWIPE_SEEK != 0 && initInAllowedBounds) {
             var realCoef = coef
             if (realCoef == 0) realCoef = 1
             // No seek action if coef > 0.5 and gesturesize < 1cm
-            if (abs(gesturesize) < 1 || !player.service!!.isSeekable) return
+            if (gesturesize.absoluteValue < 1 || !player.service!!.isSeekable) return
 
             if (touchAction != TOUCH_NONE && touchAction != TOUCH_TAP_SEEK) return
             touchAction = TOUCH_TAP_SEEK
@@ -376,6 +428,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doVolumeTouch(y_changed: Float) {
+        if (!initInAllowedBounds) return
         if (touchAction != TOUCH_NONE && touchAction != TOUCH_VOLUME) return
         val audioMax = player.audioMax
         val delta = -(y_changed / screenConfig.yRange * audioMax * 1.25f)
@@ -421,6 +474,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doBrightnessTouch(ychanged: Float) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "doBrightnessTouch: $initInAllowedBounds")
+        if (!initInAllowedBounds) return
         if (touchAction != TOUCH_NONE && touchAction != TOUCH_BRIGHTNESS) return
         if (isFirstBrightnessGesture) initBrightnessTouch()
         touchAction = TOUCH_BRIGHTNESS
@@ -451,7 +506,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            if (player.fov == 0f && !player.isLocked && (touchControls and TOUCH_FLAG_SCALE == TOUCH_FLAG_SCALE)) {
+            if (player.fov == 0f && !player.isLocked && (touchControls and TOUCH_FLAG_SCALE == TOUCH_FLAG_SCALE) && touchAction != TOUCH_FASTPLAY) {
                 val grow = detector.scaleFactor > 1.0f
                 if (grow && player.currentScaleType != MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     savedScale = player.currentScaleType
@@ -477,7 +532,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             var position = player.time + delta
             if (position < 0) position = 0
             if (position > service.length) position = service.length
-            player.seek(position)
+            player.seek(position, fast = false)
             val sb = StringBuilder()
             val seekForward = delta >= 0
 
@@ -499,97 +554,137 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             sb.append("(").append(Tools.millisToString(service.getTime()))
                 .append(')')
 
-            val container = if (seekForward) rightContainer else leftContainer
-            val containerBackground = if (seekForward) rightContainerBackground else leftContainerBackground
-            val textView = if (seekForward) seekRightText else seekLeftText
-            val imageFirst = if (seekForward) seekForwardFirst else seekRewindFirst
-            val imageSecond = if (seekForward) seekForwardSecond else seekRewindSecond
-
-            container.post {
-
-                //On TV, seek text and animation should be centered in parent
-                if (isTv) {
-                    val seekTVConstraintSet = ConstraintSet()
-                    seekTVConstraintSet.clone(seekContainer)
-
-                    seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.START, R.id.seekRightContainer, ConstraintSet.START)
-                    seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.TOP, R.id.seekRightContainer, ConstraintSet.TOP)
-                    seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.BOTTOM, R.id.seekRightContainer, ConstraintSet.BOTTOM)
-                    seekTVConstraintSet.setMargin(R.id.seekRightText, ConstraintSet.END, player.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal))
-
-                    seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.END, R.id.seekLeftContainer, ConstraintSet.END)
-                    seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.TOP, R.id.seekLeftContainer, ConstraintSet.TOP)
-                    seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.BOTTOM, R.id.seekLeftContainer, ConstraintSet.BOTTOM)
-                    seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, player.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal))
-                    seekForwardFirst.setImageResource(R.drawable.ic_half_seek_forward_tv)
-                    seekForwardSecond.setImageResource(R.drawable.ic_half_seek_forward_tv)
-                    seekRewindFirst.setImageResource(R.drawable.ic_half_seek_rewind_tv)
-                    seekRewindSecond.setImageResource(R.drawable.ic_half_seek_rewind_tv)
-
-                    seekRightText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                    seekLeftText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                    seekTVConstraintSet.applyTo(seekContainer)
-                }
-
-                val backgroundAnim = ObjectAnimator.ofFloat(seekBackground, "alpha", 1f)
-                backgroundAnim.duration = 200
-
-                val firstImageAnim = ObjectAnimator.ofFloat(imageFirst, "alpha", 1f, 0f)
-                firstImageAnim.duration = 500
-
-                val secondImageAnim = ObjectAnimator.ofFloat(imageSecond, "alpha", 0F, 1f, 0f)
-                secondImageAnim.duration = 750
-
-                //the center is offset + the radius is 2 * the width to reveal an arc instead of half a circle
-                val cx = if (seekForward) container.width * 2 else -container.width
-                val cy = container.height / 2
-                animatorSet = AnimatorSet()
-                val backgroundColorAnimator = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat() * 2)
-                backgroundColorAnimator.duration = 750
-
-                val containerBackgroundAnim = ObjectAnimator.ofFloat(containerBackground, "alpha", 0f, 1f)
-                containerBackgroundAnim.duration = 300
-
-                val textAnim = ObjectAnimator.ofFloat(textView, "alpha", 0f, 1f)
-                textAnim.duration = 300
-
-                val anims: ArrayList<Animator> = arrayListOf(firstImageAnim, secondImageAnim)
-                if (!isTv) {
-                    anims.add(backgroundColorAnimator)
-                }
-                if (!seekAnimRunning) {
-                    anims.add(containerBackgroundAnim)
-                }
-                if (!seekAnimRunning) {
-                    anims.add(textAnim)
-                }
-
-                seekAnimRunning = true
-
-                seekRightText.animate().cancel()
-                seekLeftText.animate().cancel()
-                rightContainerBackground.animate().cancel()
-                leftContainerBackground.animate().cancel()
-
-                animatorSet.playTogether(anims)
-
-                val mainAnimOut = ObjectAnimator.ofFloat(seekBackground, "alpha", 0f)
-                backgroundAnim.duration = 200
-
-                val seekAnimatorSet = AnimatorSet()
-                seekAnimatorSet.playSequentially(animatorSet, mainAnimOut)
-
-
-                player.handler.removeMessages(VideoPlayerActivity.HIDE_SEEK)
-                player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.HIDE_SEEK, SEEK_TIMEOUT)
-
-                if (!isTv) {
-                    container.visibility = View.VISIBLE
-                }
-                seekAnimatorSet.start()
-            }
+            val textView = showSeek(seekForward)
             textView.text = sb.toString()
         }
+    }
+
+    /**
+     * Show the fast play overlay
+     */
+    private fun showFastPlay() {
+        initSeekOverlay()
+        val container:LinearLayout = player.findViewById(R.id.fastPlayContainer)
+        val title: TextView = player.findViewById(R.id.fastPlayTitle)
+        title.text = player.getString(R.string.fastplay_title, org.videolan.tools.Settings.fastplaySpeed.readableString())
+        container.setVisible()
+        container.animate().alpha(1F)
+        val firstImageAnim = ObjectAnimator.ofFloat(player.findViewById(R.id.fastPlayForwardFirst), "alpha", 1f, 0f, 0f)
+        firstImageAnim.duration = 750
+        firstImageAnim.repeatCount = ValueAnimator.INFINITE
+
+        val secondImageAnim = ObjectAnimator.ofFloat(player.findViewById(R.id.fastPlayForwardSecond), "alpha", 0F, 1f, 0f)
+        secondImageAnim.duration = 750
+        secondImageAnim.repeatCount = ValueAnimator.INFINITE
+
+
+        fastPlayAnimatorSet = AnimatorSet()
+        fastPlayAnimatorSet.playTogether(firstImageAnim, secondImageAnim)
+        fastPlayAnimatorSet.start()
+    }
+
+    /**
+     * Hide the fast play overlay
+     */
+    private fun hideFastplay() {
+        val container:LinearLayout = player.findViewById(R.id.fastPlayContainer)
+        container.animate().alpha(0F).withEndAction {
+            container.setGone()
+        }
+        fastPlayAnimatorSet.cancel()
+    }
+    private fun showSeek(seekForward: Boolean): TextView {
+        initSeekOverlay()
+        val container = if (seekForward) rightContainer else leftContainer
+        val containerBackground = if (seekForward) rightContainerBackground else leftContainerBackground
+        val textView = if (seekForward) seekRightText else seekLeftText
+        val imageFirst = if (seekForward) seekForwardFirst else seekRewindFirst
+        val imageSecond = if (seekForward) seekForwardSecond else seekRewindSecond
+
+        container.post {
+
+            //On TV, seek text and animation should be centered in parent
+            if (isTv) {
+                val seekTVConstraintSet = ConstraintSet()
+                seekTVConstraintSet.clone(seekContainer)
+
+                seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.START, R.id.seekRightContainer, ConstraintSet.START)
+                seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.TOP, R.id.seekRightContainer, ConstraintSet.TOP)
+                seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.BOTTOM, R.id.seekRightContainer, ConstraintSet.BOTTOM)
+                seekTVConstraintSet.setMargin(R.id.seekRightText, ConstraintSet.END, player.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal))
+
+                seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.END, R.id.seekLeftContainer, ConstraintSet.END)
+                seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.TOP, R.id.seekLeftContainer, ConstraintSet.TOP)
+                seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.BOTTOM, R.id.seekLeftContainer, ConstraintSet.BOTTOM)
+                seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, player.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal))
+                seekForwardFirst.setImageResource(R.drawable.ic_half_seek_forward_tv)
+                seekForwardSecond.setImageResource(R.drawable.ic_half_seek_forward_tv)
+                seekRewindFirst.setImageResource(R.drawable.ic_half_seek_rewind_tv)
+                seekRewindSecond.setImageResource(R.drawable.ic_half_seek_rewind_tv)
+
+                seekRightText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                seekLeftText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                seekTVConstraintSet.applyTo(seekContainer)
+            }
+
+            val backgroundAnim = ObjectAnimator.ofFloat(seekBackground, "alpha", 1f)
+            backgroundAnim.duration = 200
+
+            val firstImageAnim = ObjectAnimator.ofFloat(imageFirst, "alpha", 1f, 0f)
+            firstImageAnim.duration = 500
+
+            val secondImageAnim = ObjectAnimator.ofFloat(imageSecond, "alpha", 0F, 1f, 0f)
+            secondImageAnim.duration = 750
+
+            //the center is offset + the radius is 2 * the width to reveal an arc instead of half a circle
+            val cx = if (seekForward) container.width * 2 else -container.width
+            val cy = container.height / 2
+            animatorSet = AnimatorSet()
+            val backgroundColorAnimator = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat() * 2)
+            backgroundColorAnimator.duration = 750
+
+            val containerBackgroundAnim = ObjectAnimator.ofFloat(containerBackground, "alpha", 0f, 1f)
+            containerBackgroundAnim.duration = 300
+
+            val textAnim = ObjectAnimator.ofFloat(textView, "alpha", 0f, 1f)
+            textAnim.duration = 300
+
+            val anims: ArrayList<Animator> = arrayListOf(firstImageAnim, secondImageAnim)
+            if (!isTv) {
+                anims.add(backgroundColorAnimator)
+            }
+            if (!seekAnimRunning) {
+                anims.add(containerBackgroundAnim)
+            }
+            if (!seekAnimRunning) {
+                anims.add(textAnim)
+            }
+
+            seekAnimRunning = true
+
+            seekRightText.animate().cancel()
+            seekLeftText.animate().cancel()
+            rightContainerBackground.animate().cancel()
+            leftContainerBackground.animate().cancel()
+
+            animatorSet.playTogether(anims)
+
+            val mainAnimOut = ObjectAnimator.ofFloat(seekBackground, "alpha", 0f)
+            backgroundAnim.duration = 200
+
+            val seekAnimatorSet = AnimatorSet()
+            seekAnimatorSet.playSequentially(animatorSet, mainAnimOut)
+
+
+            player.handler.removeMessages(VideoPlayerActivity.HIDE_SEEK)
+            player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.HIDE_SEEK, SEEK_TIMEOUT)
+
+            if (!isTv) {
+                container.visibility = View.VISIBLE
+            }
+            seekAnimatorSet.start()
+        }
+        return textView
     }
 
     fun hideSeekOverlay(immediate: Boolean = false) {

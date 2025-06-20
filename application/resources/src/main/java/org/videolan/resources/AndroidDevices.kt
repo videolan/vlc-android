@@ -37,9 +37,14 @@ import org.videolan.resources.util.getPackageInfoCompat
 import org.videolan.tools.containsName
 import org.videolan.tools.getFileNameFromPath
 import org.videolan.tools.startsWith
-import java.io.*
-import java.util.*
-import kotlin.math.abs
+import java.io.BufferedReader
+import java.io.Closeable
+import java.io.File
+import java.io.FileReader
+import java.io.IOException
+import java.util.Locale
+import java.util.StringTokenizer
+import kotlin.math.absoluteValue
 
 @TargetApi(VERSION_CODES.N)
 object AndroidDevices {
@@ -53,7 +58,9 @@ object AndroidDevices {
     val isTv: Boolean
     val isAmazon = Build.MANUFACTURER == "Amazon"
     val isChromeBook: Boolean
+    //Is the system PiP available on this device system
     val hasPiP: Boolean
+    //Is PiP or custom PiP allowed on this device
     val pipAllowed: Boolean
     private val noMediaStyleManufacturers = arrayOf("huawei", "symphony teleca")
     val showMediaStyle = !isManufacturerBannedForMediastyleNotifications
@@ -65,6 +72,9 @@ object AndroidDevices {
     private val mountWL = arrayOf("/mnt", "/Removable", "/storage")
     val mountBL = arrayOf(EXTERNAL_PUBLIC_DIRECTORY, "/mnt/secure", "/mnt/shell", "/mnt/asec", "/mnt/nand", "/mnt/runtime", "/mnt/obb", "/mnt/media_rw/extSdCard", "/mnt/media_rw/sdcard", "/storage/emulated", "/var/run/arc")
     private val deviceWL = arrayOf("/dev/block/vold", "/dev/fuse", "/mnt/media_rw", "passthrough", "//")
+    // Some devices should be considered as TVs
+    // Amazon Echo 15 (AEOHY): has touch screen but main navigation is done by remote
+    val forcedTVModels = arrayOf("AEOHY")
 
     /**
      * hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
@@ -128,8 +138,8 @@ object AndroidDevices {
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management")
         isTv = isAndroidTv || !isChromeBook && !hasTsp
         hasPlayServices = pm == null || hasPlayServices(pm)
-        hasPiP = AndroidUtil.isOOrLater && pm != null && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) || AndroidUtil.isNougatOrLater && isAndroidTv
-        pipAllowed = hasPiP || hasTsp && !AndroidUtil.isOOrLater
+        hasPiP = pm != null && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+        pipAllowed = hasPiP || (hasTsp && !AndroidUtil.isOOrLater)
         val tm = ctx.getSystemService<TelephonyManager>()
         isPhone = tm == null || tm.phoneType != TelephonyManager.PHONE_TYPE_NONE
     }
@@ -153,7 +163,7 @@ object AndroidDevices {
 
             // Ignore axis values that are within the 'flat' region of the
             // joystick axis center.
-            if (abs(value) > flat) {
+            if (value.absoluteValue > flat) {
                 return value
             }
         }
@@ -184,6 +194,10 @@ object AndroidDevices {
             false
         }
 
+    }
+
+    fun hasToForceTV(): Boolean {
+        return Build.MODEL in forcedTVModels
     }
 
     object MediaFolders {

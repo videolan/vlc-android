@@ -32,24 +32,29 @@ object TextUtils {
     /**
      * Common string separator used in the whole app
      */
-    const val separator = '·'
+    const val SEPARATOR = '·'
 
     /**
-     * Create a string separated by the common [separator]
+     * En-dash separator used for ranges
+     */
+    const val EN_DASH = '–'
+
+    /**
+     * Create a string separated by the common [SEPARATOR]
      *
      * @param pieces the strings to join
-     * @return a string containing all the [pieces] if they are not blanked, separated by the [separator]
+     * @return a string containing all the [pieces] if they are not blanked, separated by the [SEPARATOR]
      */
     @JvmName("separatedStringArgs")
-    fun separatedString(vararg pieces: String?) = separatedString(this.separator, arrayOf(*pieces))
+    fun separatedString(vararg pieces: String?) = separatedString(this.SEPARATOR, arrayOf(*pieces))
 
     /**
-     * Create a string separated by the common [separator]
+     * Create a string separated by the common [SEPARATOR]
      *
      * @param pieces the strings to join in an [Array]
-     * @return a string containing all the [pieces] if they are not blanked, separated by the [separator]
+     * @return a string containing all the [pieces] if they are not blanked, separated by the [SEPARATOR]
      */
-    fun separatedString(pieces: Array<String?>) = separatedString(this.separator, pieces)
+    fun separatedString(pieces: Array<String?>) = separatedString(this.SEPARATOR, pieces)
 
     /**
      * Create a string separated by a custom [separator]

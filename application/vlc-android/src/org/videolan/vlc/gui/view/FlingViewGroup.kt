@@ -24,7 +24,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.widget.Scroller
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
 
@@ -115,9 +115,9 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
             }
             MotionEvent.ACTION_MOVE -> {
                 if (interceptTouchState == TOUCH_STATE_MOVE) return false
-                if (abs(lastInterceptDownY - y) > touchSlop)
+                if ((lastInterceptDownY - y).absoluteValue > touchSlop)
                     interceptTouchState = TOUCH_STATE_MOVE
-                if (abs(lastX - x) > touchSlop)
+                if ((lastX - x).absoluteValue > touchSlop)
                     touchState = TOUCH_STATE_MOVE
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> interceptTouchState = TOUCH_STATE_REST
@@ -194,7 +194,7 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
 
     override fun onScrollChanged(h: Int, v: Int, oldh: Int, oldv: Int) {
         super.onScrollChanged(h, v, oldh, oldv)
-        if (abs(oldh - h) > abs(oldv - v)) {
+        if ((oldh - h).absoluteValue > (oldv - v).absoluteValue) {
             val progress = h.toFloat() / (width * (childCount - 1)).toFloat()
             if (h != position * width) viewSwitchListener.onSwitching(progress)
             else viewSwitchListener.onSwitched(position)
@@ -210,7 +210,7 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
     private fun snapToScreen(position: Int) {
         this.position = position
         val delta = position * width - scrollX
-        scroller.startScroll(scrollX, 0, delta, 0, abs(delta))
+        scroller.startScroll(scrollX, 0, delta, 0, delta.absoluteValue)
         invalidate()
     }
 

@@ -37,10 +37,51 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.databinding.ContextItemBinding
 import org.videolan.vlc.databinding.ContextualSheetBinding
 import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_ADD_GROUP
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SCANNED
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SHORTCUT
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_BAN_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_COPY
+import org.videolan.vlc.util.ContextOption.CTX_CUSTOM_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_DOWNLOAD_SUBTITLES
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_EDIT
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_FIND_METADATA
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_GROUP_SIMILAR
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_MARK_ALL_AS_PLAYED
+import org.videolan.vlc.util.ContextOption.CTX_MARK_ALL_AS_UNPLAYED
+import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_PLAYED
+import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_UNPLAYED
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_FROM_START
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_SHUFFLE
+import org.videolan.vlc.util.ContextOption.CTX_QUICK_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_REMOVE_FROM_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_REMOVE_GROUP
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
+import org.videolan.vlc.util.ContextOption.CTX_RENAME_GROUP
+import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
+import org.videolan.vlc.util.ContextOption.CTX_STOP_AFTER_THIS
+import org.videolan.vlc.util.ContextOption.CTX_UNGROUP
 import org.videolan.vlc.util.FlagSet
 
 const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
@@ -110,15 +151,20 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
     }
 
     private fun populateMenuItems(flags: FlagSet<ContextOption>) = mutableListOf<CtxMenuItem>().apply {
+
         if (flags.contains(CTX_PLAY)) add(Simple(CTX_PLAY, getString(R.string.play), R.drawable.ic_play))
+        if (flags.contains(CTX_QUICK_PLAY)) add(Simple(CTX_QUICK_PLAY, getString(R.string.quick_play), R.drawable.ic_play))
         if (flags.contains(CTX_PLAY_SHUFFLE)) add(Simple(CTX_PLAY_SHUFFLE, getString(R.string.shuffle_play), R.drawable.ic_shuffle))
         if (flags.contains(CTX_PLAY_FROM_START)) add(Simple(CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_play_from_start))
         if (flags.contains(CTX_PLAY_ALL)) add(Simple(CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_play_all))
         if (flags.contains(CTX_PLAY_AS_AUDIO)) add(Simple(CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_play_as_audio))
         if (flags.contains(CTX_APPEND)) add(Simple(CTX_APPEND, getString(R.string.append), R.drawable.ic_play_append))
         if (flags.contains(CTX_PLAY_NEXT)) add(Simple(CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_play_next))
-        if (flags.contains(CTX_DOWNLOAD_SUBTITLES)) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_download_subtitles))
+        if (flags.contains(CTX_DOWNLOAD_SUBTITLES) && VlcMigrationHelper.isLolliPopOrLater) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_download_subtitles))
         if (flags.contains(CTX_INFORMATION)) add(Simple(CTX_INFORMATION, getString(R.string.info), R.drawable.ic_information))
+        if (flags.contains(CTX_GO_TO_ALBUM)) add(Simple(CTX_GO_TO_ALBUM, getString(R.string.go_to_album), R.drawable.ic_album))
+        if (flags.contains(CTX_GO_TO_ARTIST)) add(Simple(CTX_GO_TO_ARTIST, getString(R.string.go_to_artist), R.drawable.ic_no_artist))
+        if (flags.contains(CTX_GO_TO_ALBUM_ARTIST)) add(Simple(CTX_GO_TO_ALBUM_ARTIST, getString(R.string.go_to_album_artist), R.drawable.ic_no_artist))
         if (flags.contains(CTX_ADD_TO_PLAYLIST)) add(Simple(CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_add_to_playlist))
         if (flags.contains(CTX_SET_RINGTONE) && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_set_ringtone))
         if (flags.contains(CTX_FAV_ADD)) add(Simple(CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_fav_add))

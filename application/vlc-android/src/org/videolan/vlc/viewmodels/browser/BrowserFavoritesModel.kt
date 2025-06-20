@@ -51,12 +51,12 @@ class BrowserFavoritesModel(context: Context) : ViewModel() {
 class FavoritesProvider(
         context: Context,
         dataset: LiveDataset<MediaLibraryItem>,
-        scope: CoroutineScope
+        private val scope: CoroutineScope
 ) : BrowserProvider(context, dataset, null, Medialibrary.SORT_FILENAME, false) {
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
 
     init {
-        browserFavRepository.browserFavorites
+        browserFavRepository.getFavDao()
                 .onEach { list ->
                     convertFavorites(list.sortedWith(compareBy(BrowserFav::title, BrowserFav::type))).let {
                         @Suppress("UNCHECKED_CAST")
@@ -66,6 +66,20 @@ class FavoritesProvider(
                 }
                 .flowOn(Dispatchers.IO)
                 .launchIn(scope)
+    }
+
+    override fun refresh() {
+        browserFavRepository.getFavDao()
+            .onEach { list ->
+                convertFavorites(list.sortedWith(compareBy(BrowserFav::title, BrowserFav::type))).let {
+                    @Suppress("UNCHECKED_CAST")
+                    dataset.postValue(it as MutableList<MediaLibraryItem>)
+                    parseSubDirectories()
+                }
+            }
+            .flowOn(Dispatchers.IO)
+            .launchIn(scope)
+        super.refresh()
     }
 
     override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(coroutineContextProvider.IO) {

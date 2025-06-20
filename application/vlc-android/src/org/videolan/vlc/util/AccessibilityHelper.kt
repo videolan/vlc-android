@@ -29,9 +29,16 @@ import android.content.Context.ACCESSIBILITY_SERVICE
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.databinding.BindingAdapter
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.HistoryItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.R
 import org.videolan.vlc.gui.helpers.TalkbackUtil
 
@@ -49,6 +56,7 @@ fun mediaDescription(v: View, media: MediaLibraryItem?) {
         is Genre -> TalkbackUtil.getGenre(v.context, media)
         is HistoryItem -> v.context.getString(R.string.talkback_history_item)
         is Playlist -> TalkbackUtil.getPlaylist(v.context, media)
+        is Storage -> TalkbackUtil.getStorage(v.context, media)
         is MediaWrapper -> when (media.type) {
             MediaWrapper.TYPE_VIDEO -> TalkbackUtil.getVideo(v.context, media)
             MediaWrapper.TYPE_AUDIO -> TalkbackUtil.getAudioTrack(v.context, media)
@@ -57,6 +65,6 @@ fun mediaDescription(v: View, media: MediaLibraryItem?) {
                 MediaWrapper.TYPE_ALL -> TalkbackUtil.getAll(media)
             else -> throw NotImplementedError("Media type not found: ${media.type}")
         }
-        else -> throw NotImplementedError("Unknown item type")
+        else -> throw NotImplementedError("Unknown item type: ${media.javaClass.simpleName}")
     }
 }

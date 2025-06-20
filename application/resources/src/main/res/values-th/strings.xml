@@ -143,6 +143,7 @@
     <string name="track_framerate_info">อัตราเฟรม: %1$.3f\n</string>
 
     <string name="playback_speed">ความเร็วการเล่น</string>
+    <string name="warning_stream_speed">การเพิ่มความเร็วในการเล่นให้มากกว่า 1 สำหรับสตรีมอาจทำให้ติดขัดได้</string>
     <string name="sleep_title">พักเครื่อง</string>
     <string name="sleep_in">พักเครื่องใน</string>
     <string name="jump_to_time">ไปยังเวลาที่</string>
@@ -173,7 +174,6 @@
 
     <string name="playback_history_title">ประวัติการเล่น</string>
     <string name="playback_history_summary">บันทึกสื่อทั้งหมดที่เล่นไว้ในส่วน \"ประวัติ\"</string>
-    <string name="playback_speed_title">บันทึกความเร็วในการเล่น</string>
     <string name="play_button">ปุ่มเล่น</string>
 
     <string name="seek">ค้นหา</string>
@@ -349,7 +349,6 @@
     <string name="dump_logcat_failure">การถ่ายโอนข้อมูล Logcat ล้มเหลว</string>
     <string name="custom_libvlc_options">ตัวเลือก libVLC ที่กำหนดเอง</string>
     <string name="custom_libvlc_options_invalid">ตัวเลือก libVLC ไม่ถูกต้อง!</string>
-
     <string name="serious_crash">ขออภัย เกิดข้อผิดพลาดร้ายแรงขึ้นซึ่งทำให้ VLC ต้องปิดไป</string>
     <string name="help_us_send_log">ช่วยเราปรับปรุง VLC ได้โดยการส่งไฟล์บันทึกความล้มเหลวดังกล่าวมาให้เรา:</string>
     <string name="restart_vlc">เปิด VLC ใหม่</string>
@@ -362,8 +361,6 @@
 
     <string name="no_result">ไม่พบผลลัพธ์</string>
     <string name="no_internet_connection">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ</string>
-    <string name="subs_download_error">บริการไม่พร้อมใช้งาน โปรดลองอีกครั้งภายหลัง</string>
-
     <string name="network_browsing">เครือข่ายเฉพาะที่</string>
     <string name="browsing">เรียกดู</string>
 
@@ -570,7 +567,6 @@
     <string name="welcome_beta_title">VLC เบต้า</string>
     <string name="welcome_beta_description">ยินดีต้อนรับสู่โปรแกรมเบต้าของ VLC\nโปรดทราบว่ารุ่นนี้อาจมีจุดบกพร่องบางประการ</string>
     <string name="welcome_beta_description_bugs">หากคุณพบจุดบกพร่อง โปรดรายงานในฟอรัมของเราหรือโปรแกรมติดตามจุดบกพร่อง</string>
-    <string name="welcome_beta_description_crashes">หากคุณพบข้อขัดข้อง โปรดใช้ไอคอนโปรแกรมรายงานของ VLC ในตัวเปิดใช้งานของคุณเพื่อส่งถึงเรา</string>
     <string name="send">ส่ง</string>
     <string name="send_crash_action_title">คุณต้องการทำอะไร</string>
     <string name="report_a_bug">รายงานจุดบกพร่อง</string>
@@ -657,7 +653,6 @@
     <string name="sub_result_by_name">ผลลัพธ์สำหรับ %s</string>
     <string name="sub_result_by_name_season">ซีซัน %s</string>
     <string name="sub_result_by_name_episode">ตอน %s</string>
-
     <string name="sub_result_by_file">ผลลัพธ์สำหรับไฟล์ของคุณ</string>
     <string name="donate">ช่วย VLC</string>
     <string name="donate_desc">ร่วมสนับสนุนอาสาสมัครที่สร้าง VLC</string>
@@ -694,7 +689,6 @@
     <string name="prefersmbv1_summary">เลิกกาเครื่องหมายกล่องการตั้งค่านี้หากคุณมีปัญหาบางอย่างในการเรียกดูเซิร์ฟเวอร์ SMB ของคุณ</string>
     <string name="apply_to_all">นำไปใช้กับวิดีโอทั้งหมด</string>
     <string name="audio_delay_global">การหน่วงเวลาเสียงถูกตั้งเป็น %s ms สำหรับวิดีโอทั้งหมด</string>
-    <string name="warning_stream_speed">การเพิ่มความเร็วในการเล่นให้มากกว่า 1 สำหรับสตรีมอาจทำให้ติดขัดได้</string>
     <string name="go_to_folder">เรียกดูตำแหน่งหลัก</string>
     <string name="add_button">เพิ่ม</string>
     <string name="add_all_button">เพิ่มทั้งหมด</string>

@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.gui.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -38,14 +39,20 @@ import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.transition.TransitionManager
+import kotlinx.coroutines.launch
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.tools.AppScope
+import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
+import org.videolan.vlc.util.Permissions
 
 class EmptyLoadingStateView : FrameLayout {
 
@@ -71,16 +78,28 @@ class EmptyLoadingStateView : FrameLayout {
         }
     var state = EmptyLoadingState.LOADING
         set(value) {
+            compactMode = value  in arrayOf(EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_FAVORITES)
+            applyCompactMode()
             loadingFlipper.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             loadingTitle.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
             emptyTextView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) View.VISIBLE else View.GONE
-            emptyImageView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY,EmptyLoadingState.MISSING_PERMISSION, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) View.VISIBLE else View.GONE
+            emptyImageView.visibility = if (value in arrayOf(EmptyLoadingState.EMPTY,EmptyLoadingState.MISSING_PERMISSION,EmptyLoadingState.MISSING_VIDEO_PERMISSION, EmptyLoadingState.MISSING_AUDIO_PERMISSION, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) View.VISIBLE else View.GONE
             emptyImageView.setImageBitmap(context.getBitmapFromDrawable(if (value == EmptyLoadingState.EMPTY_FAVORITES) R.drawable.ic_fav_empty else if (value in arrayOf(EmptyLoadingState.EMPTY, EmptyLoadingState.EMPTY_SEARCH, EmptyLoadingState.EMPTY_FAVORITES)) R.drawable.ic_empty else R.drawable.ic_empty_warning))
-            permissionTitle.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
-            permissionTextView.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
-            grantPermissionButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION) View.VISIBLE else View.GONE
-            pickFileButton.visibility = if (value == EmptyLoadingState.MISSING_PERMISSION && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) View.VISIBLE else View.GONE
+            permissionTitle.visibility = if (value in arrayOf(EmptyLoadingState.MISSING_PERMISSION, EmptyLoadingState.MISSING_VIDEO_PERMISSION, EmptyLoadingState.MISSING_AUDIO_PERMISSION)) View.VISIBLE else View.GONE
+            permissionTextView.visibility = if (value in arrayOf(EmptyLoadingState.MISSING_PERMISSION, EmptyLoadingState.MISSING_VIDEO_PERMISSION, EmptyLoadingState.MISSING_AUDIO_PERMISSION)) View.VISIBLE else View.GONE
+            grantPermissionButton.visibility = if (value in arrayOf(EmptyLoadingState.MISSING_PERMISSION, EmptyLoadingState.MISSING_VIDEO_PERMISSION, EmptyLoadingState.MISSING_AUDIO_PERMISSION)) View.VISIBLE else View.GONE
+            pickFileButton.visibility = if (value in arrayOf(EmptyLoadingState.MISSING_PERMISSION, EmptyLoadingState.MISSING_VIDEO_PERMISSION, EmptyLoadingState.MISSING_AUDIO_PERMISSION) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) View.VISIBLE else View.GONE
             noMediaButton.visibility = if (showNoMedia && value == EmptyLoadingState.EMPTY) View.VISIBLE else if (value == EmptyLoadingState.EMPTY_FAVORITES) View.INVISIBLE else  View.GONE
+            permissionTextView.text = when (state) {
+                EmptyLoadingState.MISSING_VIDEO_PERMISSION -> context.getString(R.string.permission_video)
+                EmptyLoadingState.MISSING_AUDIO_PERMISSION -> context.getString(R.string.permission_audio)
+                else ->
+                    buildString {
+                        append(context.getString(R.string.permission_expanation_no_allow))
+                        append("\n\n")
+                        append(context.getString(R.string.permission_expanation_allow))
+                    }
+            }
             field = value
         }
 
@@ -139,22 +158,43 @@ class EmptyLoadingStateView : FrameLayout {
             noMediaClickListener?.invoke()
         }
         grantPermissionButton.setOnClickListener {
-             (context as? FragmentActivity)?.askStoragePermission(false, null)
+            when (state) {
+                EmptyLoadingState.MISSING_AUDIO_PERMISSION -> ActivityCompat.requestPermissions(
+                    context as Activity, arrayOf(
+                        Manifest.permission.READ_MEDIA_AUDIO
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+                )
+
+                EmptyLoadingState.MISSING_VIDEO_PERMISSION -> ActivityCompat.requestPermissions(
+                    context as Activity, arrayOf(
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+                )
+
+                else -> (context as? FragmentActivity)?.askStoragePermission(false, null)
+
+            }
         }
         pickFileButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 (context as BaseActivity).openFile(Uri.parse(""))
             }
         }
-
-        permissionTextView.text = "${context.getString(R.string.permission_expanation_no_allow)}\n\n${context.getString(R.string.permission_expanation_allow)}"
+        container = findViewById(R.id.container)
+        normalConstraintSet.clone(container)
+        compactConstraintSet.clone(container)
+        compactConstraintSet.clear(R.id.emptyImageView, ConstraintSet.TOP)
+        compactConstraintSet.setMargin(R.id.emptyImageView, ConstraintSet.BOTTOM, 16.dp)
+        if (compactMode) {
+            applyCompactMode()
+        }
     }
 
     private fun applyCompactMode() {
         if (!::container.isInitialized) return
         TransitionManager.beginDelayedTransition(container)
         if (compactMode) compactConstraintSet.applyTo(container) else normalConstraintSet.applyTo(container)
-        emptyTextView.gravity = if (compactMode) Gravity.START else Gravity.CENTER
     }
 
     private fun initialize() {
@@ -172,5 +212,5 @@ class EmptyLoadingStateView : FrameLayout {
 }
 
 enum class EmptyLoadingState {
-    LOADING, EMPTY, EMPTY_SEARCH, NONE, MISSING_PERMISSION, EMPTY_FAVORITES
+    LOADING, EMPTY, EMPTY_SEARCH, NONE, MISSING_PERMISSION, MISSING_VIDEO_PERMISSION, MISSING_AUDIO_PERMISSION, EMPTY_FAVORITES
 }

@@ -11,12 +11,6 @@
             android:key="resume_playback"
             android:summary="@string/resume_playback_summary"
             android:title="@string/resume_playback_title"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="false"
-            android:key="playback_speed"
-            android:summary="@string/playback_speed_summary"
-            android:title="@string/playback_speed_title"/>
 
     <CheckBoxPreference
             app:singleLineTitle="false"
@@ -36,6 +30,15 @@
         android:key="audio_preferred_language"
         android:persistent="true"
         android:title="@string/audio_preferred_language"/>
+
+    <ListPreference
+        app:singleLineTitle="false"
+        android:defaultValue="0"
+        android:key="audio_confirm_resume"
+        android:entries="@array/ask_confirmation_entries"
+        android:entryValues="@array/ask_confirmation_values"
+        android:summary="%s"
+        android:title="@string/confirm_resume_audio_title"/>
 
     <PreferenceCategory
             android:title="@string/headset_prefs_category"
@@ -61,21 +64,6 @@
             android:summary="@string/ignore_headset_media_button_presses_summary"
             android:title="@string/ignore_headset_media_button_presses"
             app:singleLineTitle="false" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/controls_prefs_category">
-        <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="false"
-            android:key="enable_android_auto_speed_buttons"
-            android:summary="@string/enable_android_auto_speed_buttons_summary"
-            android:title="@string/enable_android_auto_speed_buttons"/>
-        <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="false"
-            android:key="enable_android_auto_seek_buttons"
-            android:summary="@string/enable_android_auto_seek_buttons_summary"
-            android:title="@string/enable_android_auto_seek_buttons"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/replaygain_prefs_category">
@@ -120,13 +108,6 @@
                 android:defaultValue="true"
                 android:summary="@string/audio_ducking_summary"
                 android:title="@string/audio_ducking_title"/>
-        <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/aouts"
-                android:entryValues="@array/aouts_values"
-                android:key="aout"
-                android:summary="@string/aout_summary"
-                android:title="@string/aout"/>
         <PreferenceScreen
                 android:key="soundfont"
                 android:summary="@string/soundfont_summary"

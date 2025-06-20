@@ -1,10 +1,15 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -14,17 +19,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
-import org.videolan.resources.util.parcelableList
+import kotlinx.coroutines.withContext
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesLimit
+import main.java.org.videolan.resources.opensubtitles.OpenSubtitlesUtils
+import org.videolan.resources.opensubtitles.OpenSubtitleClient
+import org.videolan.resources.opensubtitles.OpenSubtitleRepository
+import org.videolan.resources.util.parcelable
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
 import org.videolan.vlc.gui.view.OnItemSelectListener
-import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.VLCDownloadManager
+import org.videolan.vlc.util.openLinkIfPossible
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
 private const val MEDIA_PATHS = "MEDIA_PATHS"
@@ -38,11 +50,12 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun initialFocusedView(): View = binding.movieName
 
+    private lateinit var settings: SharedPreferences
     private lateinit var downloadAdapter: SubtitlesAdapter
     private lateinit var historyAdapter: SubtitlesAdapter
     private lateinit var binding: SubtitleDownloaderDialogBinding
-    private lateinit var uris: List<Uri>
-    private lateinit var names: List<String>
+    private lateinit var uris: Uri
+    private lateinit var names: String
     private lateinit var viewModel: SubtitlesModel
     private lateinit var toast: Toast
 
@@ -56,7 +69,22 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     private val listEventActor = lifecycleScope.actor<SubtitleEvent> {
         for (subtitleEvent in channel) if (isActive) when (subtitleEvent) {
             is SubtitleClick -> when (subtitleEvent.item.state) {
-                State.NotDownloaded -> VLCDownloadManager.download(requireActivity(), subtitleEvent.item)
+                State.NotDownloaded -> {
+                     withContext(Dispatchers.IO) {
+                        val downloadLink = OpenSubtitleRepository.getInstance()
+                            .getDownloadLink(subtitleEvent.item.fileId)
+                         val openSubtitlesLimit = OpenSubtitlesLimit(
+                             downloadLink.requests,
+                             downloadLink.requests + downloadLink.remaining,
+                             downloadLink.resetTimeUtc
+                         )
+                         OpenSubtitlesUtils.saveLimit(settings, openSubtitlesLimit)
+                         viewModel.observableLimit.set(openSubtitlesLimit)
+                         subtitleEvent.item.zipDownloadLink = downloadLink.link
+                         subtitleEvent.item.fileName = downloadLink.fileName
+                    }
+                    VLCDownloadManager.download(requireActivity(), subtitleEvent.item, true)
+                }
                 State.Downloaded -> deleteSubtitleDialog(requireActivity(), DialogInterface.OnClickListener { _, _ ->
                     subtitleEvent.item.mediaUri.path?.let { viewModel.deleteSubtitle(it, subtitleEvent.item.idSubtitle) }
                 }
@@ -81,13 +109,12 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        uris = savedInstanceState?.parcelableList<Uri>(MEDIA_PATHS)?.toList()
-                ?: arguments?.parcelableList<Uri>(MEDIA_PATHS)?.toList() ?: listOf()
-        names = savedInstanceState?.getStringArrayList(MEDIA_NAMES)?.toList()
-                ?: arguments?.getStringArrayList(MEDIA_NAMES)?.toList() ?: listOf()
+        uris = savedInstanceState?.parcelable<Uri>(MEDIA_PATHS)
+                ?: arguments?.parcelable<Uri>(MEDIA_PATHS) ?: throw IllegalStateException("Missing uri")
+        names = savedInstanceState?.getString(MEDIA_NAMES)
+                ?: arguments?.getString(MEDIA_NAMES) ?: throw IllegalStateException("Missing name")
 
-        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0], names[0]))[uris[0].path!!, SubtitlesModel::class.java]
-        if (uris.isEmpty()) dismiss()
+        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris, names))[uris.path!!, SubtitlesModel::class.java]
     }
 
     override fun onResume() {
@@ -97,20 +124,39 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
+        settings = Settings.getInstance(requireContext())
+        val user = OpenSubtitlesUtils.getUser(settings)
+        val token = user.account?.token
+        if (!token.isNullOrEmpty()) OpenSubtitleClient.authorizationToken = token
+        OpenSubtitleClient.userDomain = user.account?.baseUrl
         binding = SubtitleDownloaderDialogBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
+       if (!token.isNullOrEmpty()) viewModel.checkUserInfos(settings)
 
-        if (uris.size < 2) {
-            binding.subDownloadNext.visibility = View.GONE
+        binding.subLogin.setOnClickListener {
+            state = if (state == SubDownloadDialogState.Login)
+                SubDownloadDialogState.Download
+            else
+                SubDownloadDialogState.Login
         }
 
-        binding.subDownloadNext.setOnClickListener {
-            if (uris.size > 1)
-                MediaUtils.showSubtitleDownloaderDialogFragment(requireActivity(), uris.takeLast(uris.size - 1), names.takeLast(names.size - 1))
-            dismiss()
+        binding.loginButton.setOnClickListener {
+            if (viewModel.observableUser.get()?.logged == true) {
+                viewModel.logout(settings)
+                viewModel.clearCredentials()
+            } else {
+                viewModel.login(
+                    settings,
+                    binding.username.text.toString(),
+                    binding.password.text.toString()
+                )
+            }
         }
 
-        binding.movieName.text = names.firstOrNull() ?: uris[0].lastPathSegment
+        binding.registerButton.setOnClickListener {
+                requireActivity().openLinkIfPossible("https://www.opensubtitles.com/en/users/sign_up", 512)
+        }
+
         state = SubDownloadDialogState.Download
 
         downloadAdapter = SubtitlesAdapter(listEventActor)
@@ -129,17 +175,32 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
             viewModel.search(false)
             focusOnView(binding.scrollView)
             state = SubDownloadDialogState.Download
+            viewModel.observableInEditMode.set(false)
 
         }
         binding.cancelButton.setOnClickListener {
-            state = SubDownloadDialogState.Download
+            viewModel.observableInEditMode.set(false)
         }
 
-        binding.subDownloadSearch.setOnClickListener {
-            UiTools.setKeyboardVisibility(binding.name, true)
-            binding.name.requestFocus()
-            state = SubDownloadDialogState.Search
+        binding.resetButton.setOnClickListener {
+            viewModel.observableInEditMode.set(false)
+            viewModel.search(true)
         }
+
+        binding.openSubEdit.setOnClickListener {
+            if (viewModel.observableInEditMode.get() == false) {
+                //fill form
+                val name = when {
+                    viewModel.observableSearchName.get().isNullOrBlank() -> names
+                    else -> viewModel.observableSearchName.get()
+                }
+                binding.name.setText(name)
+                binding.season.setText(viewModel.observableSearchSeason.get())
+                binding.episode.setText(viewModel.observableSearchEpisode.get())
+                binding.checkBox.isChecked = viewModel.observableSearchHearingImpaired.get() == true
+            }
+        viewModel.observableInEditMode.set(viewModel.observableInEditMode.get()?.not())
+    }
 
         binding.subDownloadHistory.setOnClickListener {
             state = if (state == SubDownloadDialogState.History) SubDownloadDialogState.Download else SubDownloadDialogState.History
@@ -152,6 +213,10 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
         })
+        viewModel.observableInEditMode.set(false)
+        viewModel.observableSearchHearingImpaired.set(false)
+        viewModel.observableUser.set(user)
+        viewModel.observableLimit.set(OpenSubtitlesUtils.getLimit(settings))
 
         binding.retryButton.setOnClickListener {
             viewModel.onRefresh()
@@ -181,6 +246,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         viewModel.history.observe(this) {
             historyAdapter.setList(it)
+            viewModel.observableHistoryEmpty.set(if (it.isEmpty()) getString(R.string.no_sub_history) else "")
         }
     }
 
@@ -191,8 +257,8 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(MEDIA_PATHS, ArrayList(uris))
-        outState.putStringArrayList(MEDIA_NAMES, ArrayList(names))
+        outState.putParcelable(MEDIA_PATHS, uris)
+        outState.putString(MEDIA_NAMES, names)
     }
 
     private fun focusOnView(scrollView: NestedScrollView) {
@@ -200,9 +266,9 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(mediaUris: List<Uri>, mediaTitles:List<String>): SubtitleDownloaderDialogFragment {
+        fun newInstance(mediaUri: Uri, mediaTitles:String): SubtitleDownloaderDialogFragment {
             return SubtitleDownloaderDialogFragment().apply {
-                arguments = bundleOf(MEDIA_PATHS to ArrayList(mediaUris), MEDIA_NAMES to mediaTitles)
+                arguments = bundleOf(MEDIA_PATHS to mediaUri, MEDIA_NAMES to mediaTitles)
             }
         }
     }
@@ -211,5 +277,5 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 enum class SubDownloadDialogState {
     Download,
     History,
-    Search
+    Login
 }

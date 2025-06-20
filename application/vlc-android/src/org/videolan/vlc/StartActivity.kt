@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -63,6 +64,8 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.BETA_WELCOME
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
 import org.videolan.tools.KEY_TV_ONBOARDING_DONE
+import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
+import org.videolan.tools.PREF_TV_UI
 import org.videolan.tools.Settings
 import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.getContextWithLocale
@@ -128,6 +131,20 @@ class StartActivity : FragmentActivity() {
     }
 
     private fun resume() {
+        // if browse screen is unstable, revert back to the video screen
+
+        val preferences = Settings.getInstance(this)
+        if (preferences.getBoolean("navigator_screen_unstable", false)) {
+            Log.w(TAG, "Crash found in the browser!!!")
+            if (!BuildConfig.DEBUG) {
+                Log.w(TAG, "Reverting to the default screen")
+                preferences.edit(true) {
+                    remove("fragment_id")
+                    remove("navigator_screen_unstable")
+                }
+            }
+        }
+
         val intent = intent
         val action = intent?.action
 
@@ -142,8 +159,13 @@ class StartActivity : FragmentActivity() {
                 var uri: Uri? = FileUtils.getUri(item.uri)
                 if (uri == null && item.text != null) uri = item.text.toString().toUri()
                 if (uri != null) {
-                    MediaUtils.openMediaNoUi(uri)
-                    finish()
+                    lifecycleScope.launch {
+                        var media = getFromMl { getMedia(uri) }
+                        if (media == null)
+                            media = MLServiceLocator.getAbstractMediaWrapper(uri)
+                        MediaUtils.openMediaNoUi(this@StartActivity, media)
+                        finish()
+                    }
                     return
                 }
             }
@@ -164,10 +186,14 @@ class StartActivity : FragmentActivity() {
         /* Check if it's the first run */
         val firstRun = savedVersionNumber == -1
         Settings.firstRun = firstRun
+        if (firstRun && AndroidDevices.hasToForceTV()) {
+            settings.putSingle(PREF_TV_UI, true)
+        }
         val upgrade = firstRun || savedVersionNumber != currentVersionNumber
         val tv = showTvUi()
         if (upgrade && (tv || !firstRun)) settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
         val removeOldDevices = savedVersionNumber in 3028201..3028399
+        settings.putSingle(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, savedVersionNumber < 3060330 && !firstRun)
         // Route search query
         if (Intent.ACTION_SEARCH == action || ACTION_SEARCH_GMS == action) {
             intent.setClassName(applicationContext, if (tv) TV_SEARCH_ACTIVITY else MOBILE_SEARCH_ACTIVITY)
@@ -211,13 +237,14 @@ class StartActivity : FragmentActivity() {
                     }
                 }
             } else if(action != null && action== "vlc.remoteaccess.share") {
-                startActivity(Intent().apply { component = ComponentName(this@StartActivity, "org.videolan.vlc.webserver.gui.remoteaccess.RemoteAccessShareActivity") })
+                startActivity(Intent().apply { component = ComponentName(this@StartActivity, "org.videolan.vlc.remoteaccessserver.gui.remoteaccess.RemoteAccessShareActivity") })
             } else {
                 val target = idFromShortcut
                 val service = PlaybackService.instance
-                if (target == R.id.ml_menu_last_playlist)
-                    PlaybackService.loadLastAudio(this)
-                else if (service != null && service.isInPiPMode.value == true) {
+                if (target == R.id.ml_menu_last_playlist) {
+                    PlaybackService.loadLastAudio(this, true)
+                    startApplication(tv, firstRun, upgrade, R.id.nav_audio, removeOldDevices)
+                } else if (service != null && service.isInPiPMode.value == true) {
                     service.isInPiPMode.value = false
                     val startIntent = Intent(this, VideoPlayerActivity::class.java)
                     startIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
@@ -282,16 +309,27 @@ class StartActivity : FragmentActivity() {
         }
         // Remove FLAG_ACTIVITY_FORWARD_RESULT that is incompatible with startActivityForResult
         intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT.inv() and intent.flags
-        if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
+
+        // If data shared with content scheme then it should be from a provider and might
+        // be read without permissions.
+        // If not should check for permission, and ask them if we don't have them
+        if ((intent.data != null && intent.data!!.scheme == "content" && FileUtils.getUri(intent.data) != null)
+            || (Permissions.canReadStorage(applicationContext) || getStoragePermission())) when {
             intent.type?.startsWith("video") == true -> try {
                 startActivityForResult(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }, PROPAGATE_RESULT, Util.getFullScreenBundle())
                 return@launch
             } catch (ex: SecurityException) {
-                intent.data?.let { MediaUtils.openMediaNoUi(it) }
+                intent.data?.let { MediaUtils.openMediaNoUi(this@StartActivity, it) }
             }
             intent.data?.authority == getString(R.string.tv_provider_authority) -> MediaUtils.openMediaNoUiFromTvContent(this@StartActivity, intent.data)
             intent.data?.authority == "skip_to" -> PlaybackService.instance?.playIndex(intent.getIntExtra("index", 0))
-            else -> withContext(Dispatchers.IO) { FileUtils.getUri(intent.data)}?.let { MediaUtils.openMediaNoUi(it) }
+            else -> withContext(Dispatchers.IO) { FileUtils.getUri(intent.data)}?.let {
+                // Some media might not be properly labeled
+                // As the last option, it is safer to reset the player before playing any media
+                if (PlaybackService.instance?.isPlaying == true)
+                    PlaybackService.instance?.playlistManager?.player?.stop()
+                MediaUtils.openMediaNoUi(this@StartActivity, it)
+            }
         }
         finish()
     }

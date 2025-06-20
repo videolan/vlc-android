@@ -6,6 +6,7 @@ set -euo pipefail
 OUTPUT_DIR="artifacts"
 MEDIALIB_VERSION=""
 LIBVLC_VERSION=""
+REMOTE_ACCESS_VERSION=""
 
 # Utilities
 function escape_pom() {
@@ -26,6 +27,11 @@ function purple() {
 
 function red() {
   echo -e "\033[1;31m===================\n$1\n===================\033[0m"
+}
+
+function cleanup {
+  echo "Removing settings"
+  rm settings.xml
 }
 
 if [ $# -eq 0 ]
@@ -66,7 +72,13 @@ else
   red "Cannot find the libvlc directory"
 fi
 
-purple "The following versions have been found.\nlibvlc: $LIBVLC_VERSION\nmedialibrary: $MEDIALIB_VERSION."
+if test -d "$OUTPUT_DIR/aars/repository/org/videolan/android/remote-access"; then
+  REMOTE_ACCESS_VERSION=$(ls -tUd "$OUTPUT_DIR/aars/repository/org/videolan/android/remote-access/"*/ | xargs basename)
+else
+  red "Cannot find the remote access directory"
+fi
+
+purple "The following versions have been found.\nlibvlc: $LIBVLC_VERSION\nmedialibrary: $MEDIALIB_VERSION\nremote access: $REMOTE_ACCESS_VERSION"
 read -sp "Continue: y/N" -n 1 -r
 echo
 
@@ -76,24 +88,14 @@ fi
 
 blue "Ready to deploy"
 
-read -p 'Enter your sonatype username: ' username
+read -sp 'Enter the zip password: ' pass
 echo
-SONATYPE_USERNAME=$(xml_encode $username)
-read -sp 'Enter your sonatype password: ' pass
-echo
-SONATYPE_PASSWORD=$(xml_encode $pass)
+TOKEN_PASSWORD=$(xml_encode $pass)
 
 blue "Setup Maven credentials"
-echo "<settings xmlns=\"http://maven.apache.org/SETTINGS/1.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-  xsi:schemaLocation=\"http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd\">
-  <servers>
-    <server>
-      <id>ossrh</id>
-      <username>$SONATYPE_USERNAME</username>
-      <password>$SONATYPE_PASSWORD</password>
-    </server>
-  </servers>
-</settings>" >settings.xml
+unzip -P $pass settings.xml.zip
+trap cleanup EXIT
+
 
 if [ -z "$LIBVLC_VERSION" ]; then
   purple "No version for libvlc. Skipping"
@@ -109,7 +111,7 @@ else
     -Djavadoc=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-javadoc.jar \
     -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
     -DgroupId=org.videolan.android \
-    -Dgpg.keyname=e8f8f982a0cd726f020ced90f4b3cd9a1faeefe8 \
+    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
     -DrepositoryId=ossrh
 fi
 
@@ -127,8 +129,26 @@ else
     -Djavadoc=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-javadoc.jar \
     -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
     -DgroupId=org.videolan.android \
-    -Dgpg.keyname=e8f8f982a0cd726f020ced90f4b3cd9a1faeefe8 \
+    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
     -DrepositoryId=ossrh
 fi
 
-rm settings.xml
+if [ -z "$REMOTE_ACCESS_VERSION" ]; then
+  purple "No version for remote access Skipping"
+else
+  BASE_DIR="$OUTPUT_DIR/aars/repository/org/videolan/android/remote-access/$REMOTE_ACCESS_VERSION"
+  blue "Deploying $BASE_DIR"
+
+  mvn gpg:sign-and-deploy-file \
+    --settings settings.xml \
+    -DpomFile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION.pom \
+    -Dfile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION.aar \
+    -Dsources=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-sources.jar \
+    -Djavadoc=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-javadoc.jar \
+    -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
+    -DgroupId=org.videolan.android \
+    -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
+    -DrepositoryId=ossrh
+fi
+
+

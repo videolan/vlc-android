@@ -53,7 +53,7 @@ class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedP
     }
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            "casting_passthrough", "casting_quality" -> {
+            "casting_passthrough", "casting_quality", "casting_audio_only" -> {
                 lifecycleScope.launch {
                     VLCInstance.restart()
                     restartMediaPlayer()

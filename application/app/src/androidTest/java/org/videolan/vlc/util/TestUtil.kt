@@ -25,8 +25,6 @@ import androidx.core.net.toUri
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.TYPE_NETWORK_FAV
-import org.videolan.resources.opensubtitles.OpenSubtitle
-import org.videolan.resources.opensubtitles.QueryParameters
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 
@@ -75,12 +73,12 @@ object TestUtil {
             mediaPath: String,
             subLanguageID: String,
             movieReleaseName: String): org.videolan.vlc.mediadb.models.ExternalSub {
-        return org.videolan.vlc.mediadb.models.ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName)
+        return org.videolan.vlc.mediadb.models.ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName, false)
     }
 
     fun createExternalSubsForMedia(mediaPath: String, mediaName: String, count: Int): List<org.videolan.vlc.mediadb.models.ExternalSub> {
         return (0 until count).map {
-            org.videolan.vlc.mediadb.models.ExternalSub(it.toString(), "${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName)
+            org.videolan.vlc.mediadb.models.ExternalSub(it.toString(), "${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName, false)
         }
     }
 
@@ -110,26 +108,6 @@ object TestUtil {
             mediaUri: Uri,
             subLanguageID: String,
             movieReleaseName: String,
-            zipDownloadLink: String): SubtitleItem = SubtitleItem(idSubtitle, mediaUri, subLanguageID, movieReleaseName, State.Downloading, zipDownloadLink)
+            zipDownloadLink: String): SubtitleItem = SubtitleItem(idSubtitle, -1L, mediaUri, subLanguageID, movieReleaseName, State.Downloading, zipDownloadLink, false, 0F, 0L, "")
 
-    fun createDownloadingSubtitleItem(
-            idSubtitle: String,
-            mediaPath: String,
-            subLanguageID: String,
-            movieReleaseName: String,
-            zipDownloadLink: String): SubtitleItem = createDownloadingSubtitleItem(idSubtitle, mediaPath.toUri(), subLanguageID, movieReleaseName, zipDownloadLink)
-
-    fun createOpenSubtitle(
-            idSubtitle: String,
-            subLanguageID: String,
-            movieReleaseName: String,
-            zipDownloadLink: String) = OpenSubtitle(
-                idSubtitle = idSubtitle, subLanguageID = subLanguageID, movieReleaseName = movieReleaseName, zipDownloadLink = zipDownloadLink,
-                idMovie = "", idMovieImdb = "", idSubMovieFile = "", idSubtitleFile = "", infoFormat = "", infoOther = "", infoReleaseGroup = "",
-                userID = "", iSO639 = "", movieFPS = "", languageName = "", subActualCD = "", subSumVotes = "", subAuthorComment = "", subComments = "",
-                score = 0.0, seriesEpisode = "", seriesIMDBParent = "", seriesSeason = "", subAddDate = "", subAutoTranslation = "", subBad = "", subDownloadLink = "",
-                subDownloadsCnt = "", subEncoding = "", subFeatured = "", subFileName = "", subForeignPartsOnly = "", subFormat = "", subFromTrusted = "", subHash = "",
-                subHD = "", subHearingImpaired = "", subLastTS = "", subRating = "", subSize = "", subSumCD = "", subtitlesLink = "", subTranslator = "", subTSGroup = "",
-                subTSGroupHash = "", movieByteSize = "", movieHash = "", movieTimeMS = "", queryParameters = QueryParameters("", "", ""), queryNumber = "",
-                userNickName = "", userRank = "", matchedBy = "", movieImdbRating = "", movieKind = "", movieName = "", movieNameEng = "", movieYear = "")
 }

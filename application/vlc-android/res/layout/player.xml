@@ -32,19 +32,21 @@
             android:id="@+id/player_brightness_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
+            android:layout_gravity="center_vertical|right"
             android:layout_marginBottom="@dimen/default_margin"
             android:layout_marginRight="@dimen/tv_overscan_horizontal"
-            android:layout="@layout/player_overlay_brightness" />
+            android:layout="@layout/player_overlay_brightness"
+            tools:ignore="RtlHardcoded" />
 
     <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_volume_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="@dimen/tv_overscan_horizontal"
             android:layout_marginBottom="@dimen/default_margin"
-            android:layout="@layout/player_overlay_volume" />
+            android:layout="@layout/player_overlay_volume"
+            tools:ignore="RtlHardcoded" />
 
     <View
             android:layout_width="match_parent"

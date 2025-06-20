@@ -32,21 +32,25 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
-import java.util.*
+import java.util.Locale
 
 class PreferenceSearchModel(context: Context) : ViewModel() {
     val dataset = LiveDataset<PreferenceItem>()
     val filtered = LiveDataset<PreferenceItem>()
     val showTranslations= MutableLiveData<Boolean>()
+    val settings = Settings.getInstance(context)
 
     init {
         viewModelScope.launch {
-            dataset.value = withContext(Dispatchers.IO) {
+            val parsed = withContext(Dispatchers.IO) {
                 PreferenceParser.parsePreferences(context)
             }
+            dataset.value = parsed.filter { PreferenceVisibilityManager.isPreferenceVisible(it.key, settings, Settings.tvUI) }.toMutableList()
         }
         showTranslations.value = false
     }

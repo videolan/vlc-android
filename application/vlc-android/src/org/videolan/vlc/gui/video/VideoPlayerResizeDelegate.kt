@@ -175,6 +175,7 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
             MediaPlayer.ScaleType.SURFACE_16_9 -> overlayDelegate.showInfo("16:9", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_4_3 -> overlayDelegate.showInfo("4:3", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_16_10 -> overlayDelegate.showInfo("16:10", 1000, player.getString(R.string.resize_tip))
+            MediaPlayer.ScaleType.SURFACE_2_1 -> overlayDelegate.showInfo("2:1", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_221_1 -> overlayDelegate.showInfo("2.21:1", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_235_1 -> overlayDelegate.showInfo("2.35:1", 1000, player.getString(R.string.resize_tip))
             MediaPlayer.ScaleType.SURFACE_239_1 -> overlayDelegate.showInfo("2.39:1", 1000, player.getString(R.string.resize_tip))
@@ -256,6 +257,7 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
                 MediaPlayer.ScaleType.SURFACE_16_9 -> "16:9"
                 MediaPlayer.ScaleType.SURFACE_4_3 -> "4:3"
                 MediaPlayer.ScaleType.SURFACE_16_10 -> "16:10"
+                MediaPlayer.ScaleType.SURFACE_2_1 -> "2:1"
                 MediaPlayer.ScaleType.SURFACE_221_1 -> "2.21:1"
                 MediaPlayer.ScaleType.SURFACE_235_1 -> "2.35:1"
                 MediaPlayer.ScaleType.SURFACE_239_1 -> "2.39:1"

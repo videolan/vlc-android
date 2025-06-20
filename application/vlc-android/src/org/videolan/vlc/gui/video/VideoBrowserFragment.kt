@@ -103,7 +103,9 @@ class VideoBrowserFragment : BaseFragment(), TabLayout.OnTabSelectedListener, Fi
 
     override fun onDestroyActionMode(mode: ActionMode?) {}
 
-    override fun onTabSelected(tab: TabLayout.Tab) { }
+    override fun onTabSelected(tab: TabLayout.Tab) {
+        setFabPlayVisibility(hasFAB())
+    }
 
     override fun onTabUnselected(tab: TabLayout.Tab) {
         stopActionMode()

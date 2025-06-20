@@ -51,24 +51,51 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.TAG_ITEM
+import org.videolan.resources.UPDATE_REORDER
 import org.videolan.resources.util.parcelable
-import org.videolan.tools.*
+import org.videolan.resources.util.parcelableList
+import org.videolan.tools.ALBUMS_SHOW_TRACK_NUMBER
+import org.videolan.tools.Settings
+import org.videolan.tools.copy
+import org.videolan.tools.dp
+import org.videolan.tools.isStarted
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.HeaderMediaListActivityBinding
 import org.videolan.vlc.gui.audio.AudioAlbumTracksAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CURRENT_SORT
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.DEFAULT_ACTIONS
+import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
+import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.SHOW_TRACK_NUMBER
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.ExpandStateAppBarLayoutBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.createShortcut
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.interfaces.Filterable
@@ -76,15 +103,35 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.util.*
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SHORTCUT
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_COPY
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
+import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistItemFlags
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeHttpOrHttps
+import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.security.SecureRandom
-import java.util.*
+import java.util.LinkedList
 import kotlin.math.min
 
 open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver, Filterable, SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
@@ -168,7 +215,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
         }
         binding.btnShuffle.setOnClickListener {
-            viewModel.playlist?.let { MediaUtils.playTracks(this, it, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true) }
+            viewModel.playlist?.let { if (it.tracksCount > 0) MediaUtils.playTracks(this, it, SecureRandom().nextInt(min(playlist.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true) }
         }
         binding.btnAddPlaylist.setOnClickListener {
             viewModel.playlist?.let { addToPlaylist(it.tracks.toList()) }
@@ -228,6 +275,31 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         audioBrowserAdapter.areSectionsEnabled = false
         binding.browserFastScroller.attachToCoordinator(binding.appbar, binding.coordinator, null)
         binding.browserFastScroller.setRecyclerView(binding.songs, viewModel.tracksProvider)
+
+        supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, this) { key, bundle ->
+            // Any type can be passed via to the bundle
+            val items: List<MediaWrapper> = bundle.parcelableList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
+            lifecycleScope.launch {
+                for (item in items) {
+                    val deleteAction = kotlinx.coroutines.Runnable {
+                        lifecycleScope.launch {
+                            MediaUtils.deleteItem(this@HeaderMediaListActivity, item) {
+                                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, it.title))
+                            }
+                            if (isStarted()) viewModel.refresh()
+                        }
+                    }
+                    if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
+                }
+            }
+        }
+        supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, this) { key, bundle ->
+            lifecycleScope.launch {
+                val item: MediaWrapper = bundle.parcelable(RENAME_DIALOG_MEDIA) ?: return@launch
+                val name: String = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@launch
+                viewModel.rename(item, name)
+            }
+        }
     }
 
     override fun onResume() {
@@ -264,17 +336,8 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.playlist_option, menu)
         if (!isPlaylist) {
-            menu.findItem(R.id.ml_menu_sortby).isVisible = true
-            val showTrackNumber = menu.findItem(R.id.ml_menu_albums_show_track_numbers)
-            showTrackNumber.isVisible = true
-            showTrackNumber.isChecked = Settings.showTrackNumber
+            menu.findItem(R.id.ml_menu_display_options).isVisible = true
         }
-        menu.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
-        menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
-        menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = viewModel.canSortByArtist()
-        menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
-        menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
-        menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()
         val searchItem = menu.findItem(R.id.ml_menu_filter)
         searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.search_in_list_hint)
@@ -294,44 +357,46 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.ml_menu_sortby_track -> {
-                viewModel.sort(Medialibrary.TrackId)
-                return true
-            }
-            R.id.ml_menu_sortby_filename -> {
-                viewModel.sort(Medialibrary.SORT_FILENAME)
-                return true
-            }
-            R.id.ml_menu_sortby_length -> {
-                viewModel.sort(Medialibrary.SORT_DURATION)
-                return true
-            }
-            R.id.ml_menu_sortby_date -> {
-                viewModel.sort(Medialibrary.SORT_RELEASEDATE)
-                return true
-            }
-            R.id.ml_menu_sortby_last_modified -> {
-                viewModel.sort(Medialibrary.SORT_LASTMODIFICATIONDATE)
-                return true
-            }
-            R.id.ml_menu_sortby_artist_name -> {
-                viewModel.sort(Medialibrary.SORT_ARTIST)
-                return true
-            }
-            R.id.ml_menu_sortby_album_name -> {
-                viewModel.sort(Medialibrary.SORT_ALBUM)
-                return true
-            }
-            R.id.ml_menu_albums_show_track_numbers -> {
-                item.isChecked = !Settings.getInstance(this).getBoolean(
-                    ALBUMS_SHOW_TRACK_NUMBER, true)
-                Settings.getInstance(this).putSingle(ALBUMS_SHOW_TRACK_NUMBER, item.isChecked)
-                Settings.showTrackNumber = item.isChecked
-                audioBrowserAdapter.notifyDataSetChanged()
-                viewModel.refresh()
+            R.id.ml_menu_display_options -> {
+                //filter all sorts and keep only applicable ones
+                val sorts = arrayListOf(Medialibrary.TrackId, Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia).filter {
+                    viewModel.canSortBy(it)
+                }
+                //Open the display settings Bottom sheet
+                DisplaySettingsDialog.newInstance(
+                    displayInCards = null,
+                    onlyFavs = null,
+                    sorts = sorts,
+                    showTrackNumber = Settings.showTrackNumber,
+                    currentSort = viewModel.tracksProvider.sort,
+                    currentSortDesc = viewModel.tracksProvider.desc,
+                    defaultPlaybackActions = DefaultPlaybackActionMediaType.TRACK.getDefaultPlaybackActions(Settings.getInstance(this)),
+                    defaultActionType = getString(DefaultPlaybackActionMediaType.TRACK.title)
+                )
+                    .show(supportFragmentManager, "DisplaySettingsDialog")
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onDisplaySettingChanged(key: String, value: Any) {
+        when (key) {
+            CURRENT_SORT -> {
+                @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
+                viewModel.desc = sort.second
+                viewModel.sort(sort.first)
+            }
+            SHOW_TRACK_NUMBER -> {
+                val checked = value as Boolean
+                Settings.getInstance(this).putSingle(ALBUMS_SHOW_TRACK_NUMBER, checked)
+                Settings.showTrackNumber = checked
+                audioBrowserAdapter.notifyDataSetChanged()
+                viewModel.refresh()
+            }
+            DEFAULT_ACTIONS -> {
+                Settings.getInstance(this).putSingle(DefaultPlaybackActionMediaType.TRACK.defaultActionKey, (value as DefaultPlaybackAction).name)
+            }
         }
     }
 
@@ -341,7 +406,15 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             invalidateActionMode()
         } else {
             if (searchView.visibility == View.VISIBLE) UiTools.setKeyboardVisibility(v, false)
-            MediaUtils.playTracks(this, viewModel.tracksProvider, position)
+            if (isPlaylist)
+                MediaUtils.playTracks(this, viewModel.tracksProvider, position)
+            else
+                when(DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(Settings.getInstance(this))) {
+                    DefaultPlaybackAction.PLAY -> MediaUtils.openList(this, listOf(*item.tracks), 0)
+                    DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(this, listOf(*item.tracks))
+                    DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(this, listOf(*item.tracks).toTypedArray())
+                    DefaultPlaybackAction.PLAY_ALL -> MediaUtils.playTracks(this, viewModel.tracksProvider, position)
+                }
         }
     }
 
@@ -367,6 +440,11 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
                     if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
                     if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme)))
                         addAll(CTX_COPY, CTX_RENAME)
+                    if (media.type == MediaWrapper.TYPE_AUDIO) {
+                        add(CTX_GO_TO_ARTIST)
+                        if (BuildConfig.DEBUG) Log.d("CtxPrep", "Artist id is: ${media.artistId}, album artist is: ${media.albumArtistId}")
+                        if (media.artistId != media.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
+                    }
                     else add(CTX_SHARE)
                 }
                 showContext(this, this, position, media, flags)
@@ -480,17 +558,13 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             CTX_DELETE -> lifecycleScope.launch { removeItem(position, media) }
             CTX_APPEND -> MediaUtils.appendMedia(this, media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(this, media.tracks)
+            CTX_PLAY_ALL -> MediaUtils.playTracks(this, viewModel.tracksProvider, position, false)
             CTX_ADD_TO_PLAYLIST -> addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> setRingtone(media)
             CTX_SHARE -> lifecycleScope.launch { share(media) }
             CTX_RENAME -> {
                 val dialog = RenameDialog.newInstance(media)
                 dialog.show(this.supportFragmentManager, RenameDialog::class.simpleName)
-                dialog.setListener { item, name ->
-                    lifecycleScope.launch {
-                       viewModel.rename(item as MediaWrapper, name)
-                    }
-                }
             }
             CTX_COPY -> {
                 copy(media.title, media.location)
@@ -498,6 +572,26 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
             }
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 media.isFavorite = option == CTX_FAV_ADD
+                withContext(Dispatchers.Main) { audioBrowserAdapter.notifyItemChanged(position) }
+            }
+            CTX_ADD_SHORTCUT -> lifecycleScope.launch { createShortcut(media) }
+            CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                val artist = if (media is Album) media.retrieveAlbumArtist() else (media as MediaWrapper).artist
+                val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                i.putExtra(ARTIST_FROM_ALBUM, true)
+                i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(i)
+            }
+            CTX_GO_TO_ALBUM_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
+                val artist = (media as MediaWrapper).albumArtist
+                val i = Intent(this@HeaderMediaListActivity, SecondaryActivity::class.java)
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
+                i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
+                i.putExtra(ARTIST_FROM_ALBUM, true)
+                i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(i)
             }
             else -> {}
         }
@@ -515,21 +609,6 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
     private fun removeItems(items: List<MediaWrapper>) {
         val dialog = ConfirmDeleteDialog.newInstance(ArrayList(items))
         dialog.show(supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
-        dialog.setListener {
-            lifecycleScope.launch {
-                for (item in items) {
-                    val deleteAction = kotlinx.coroutines.Runnable {
-                        lifecycleScope.launch {
-                            MediaUtils.deleteItem(this@HeaderMediaListActivity, item) {
-                                UiTools.snacker(this@HeaderMediaListActivity, getString(R.string.msg_delete_failed, it.title))
-                            }
-                            if (isStarted()) viewModel.refresh()
-                        }
-                    }
-                    if (Permissions.checkWritePermission(this@HeaderMediaListActivity, item, deleteAction)) deleteAction.run()
-                }
-            }
-        }
     }
 
     private fun deleteMedia(mw: MediaLibraryItem) = lifecycleScope.launch(Dispatchers.IO) {

@@ -46,7 +46,7 @@ import org.videolan.television.databinding.ActivityColorPickerBinding
 import org.videolan.television.databinding.ColorPickerItemBinding
 import org.videolan.tools.dp
 import org.videolan.vlc.gui.DiffUtilAdapter
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 const val COLOR_PICKER_SELECTED_COLOR = "color_picker_selected_color"
 const val COLOR_PICKER_TITLE = "color_picker_title"
@@ -192,7 +192,7 @@ class ColorPickerActivity : AppCompatActivity() {
         val hsv2 = FloatArray(3)
         Color.colorToHSV(color1, hsv1)
         Color.colorToHSV(color2, hsv2)
-        return abs(hsv1[hsvIndex] - hsv2[hsvIndex])
+        return (hsv1[hsvIndex] - hsv2[hsvIndex]).absoluteValue
     }
 
     private fun colorHsvDistance(@ColorInt color1: Int, @ColorInt color2: Int): Float {
@@ -201,7 +201,7 @@ class ColorPickerActivity : AppCompatActivity() {
         val hsv2 = FloatArray(3)
         Color.colorToHSV(color1, hsv1)
         Color.colorToHSV(color2, hsv2)
-        return abs(hsv1[0] - hsv2[0]) + abs(hsv1[1] - hsv2[1]) + abs(hsv1[2] - hsv2[2])
+        return (hsv1[0] - hsv2[0]).absoluteValue + (hsv1[1] - hsv2[1]).absoluteValue + (hsv1[2] - hsv2[2]).absoluteValue
     }
 
     /**

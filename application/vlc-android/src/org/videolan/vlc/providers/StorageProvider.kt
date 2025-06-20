@@ -45,7 +45,8 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         var storage: Storage
         val storagesList = ArrayList<MediaLibraryItem>()
         for (mediaDirLocation in storages) {
-            if (!File(mediaDirLocation).exists()) continue
+            val file = File(mediaDirLocation)
+            if (!file.exists() || !file.canRead()) continue
             if (mediaDirLocation.isEmpty()) continue
             storage = Storage(Uri.fromFile(File(mediaDirLocation)))
             if (AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mediaDirLocation)

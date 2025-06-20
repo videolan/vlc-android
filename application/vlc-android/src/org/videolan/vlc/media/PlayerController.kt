@@ -23,7 +23,7 @@ import org.videolan.vlc.*
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.repository.SlaveRepository
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.EventListener, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
@@ -241,9 +241,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun setRate(rate: Float, save: Boolean) {
         if (mediaplayer.isReleased) return
         mediaplayer.rate = rate
-        speed.value = rate
-        if (save && settings.getBoolean(if (isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false))
-            settings.putSingle(if (isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else  KEY_PLAYBACK_RATE, rate)
+        speed.postValue(rate)
     }
 
     /**
@@ -325,7 +323,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
                 MediaPlayer.Event.LengthChanged -> updateProgress(newLength = event.lengthChanged)
                 MediaPlayer.Event.TimeChanged -> {
                     val time = event.timeChanged
-                    if (abs(time - lastTime) > 950L) {
+                    if ((time - lastTime).absoluteValue > 950L) {
                         updateProgress(newTime = time)
                         lastTime = time
                     }

@@ -30,8 +30,7 @@ import org.videolan.tools.conflatedActor
  * @see org.videolan.vlc.viewmodels.ICallBackHandler
  */
 interface IMediaBrowserCallback {
-    fun registerHistoryCallback(callback: () -> Unit)
-    fun registerMediaCallback(callback: () -> Unit)
+    fun registerCallback(callback: (BrowserUpdate) -> Unit)
     fun removeCallbacks()
 }
 
@@ -47,33 +46,24 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
         Medialibrary.HistoryCb {
 
     private val medialibrary = Medialibrary.getInstance()
-    private lateinit var historyActor: SendChannel<Unit>
-    private lateinit var refreshActor: SendChannel<Unit>
+    private lateinit var refreshActor: SendChannel<BrowserUpdate>
 
-    override fun registerHistoryCallback(callback: () -> Unit) {
-        historyActor = playbackService.lifecycleScope.conflatedActor { callback() }
-        medialibrary.addHistoryCb(this)
-    }
-
-    override fun onHistoryModified() {
-        historyActor.trySend(Unit)
-    }
-
-    override fun registerMediaCallback(callback: () -> Unit) {
-        refreshActor = playbackService.lifecycleScope.conflatedActor { callback() }
+    override fun registerCallback(callback: (BrowserUpdate) -> Unit) {
+        refreshActor = playbackService.lifecycleScope.conflatedActor { callback(it) }
         medialibrary.addMediaCb(this)
         medialibrary.addArtistsCb(this)
         medialibrary.addAlbumsCb(this)
         medialibrary.addGenreCb(this)
         medialibrary.addPlaylistCb(this)
+        medialibrary.addHistoryCb(this)
     }
 
     override fun onMediaAdded() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.MEDIA))
     }
 
     override fun onMediaDeleted(id: LongArray?) {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.MEDIA))
     }
 
     override fun onMediaModified() {
@@ -81,59 +71,63 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
     }
 
     override fun onMediaConvertedToExternal(id: LongArray?) {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.MEDIA))
     }
 
     override fun onArtistsAdded() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.ARTIST))
     }
 
     override fun onArtistsModified() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.ARTIST))
     }
 
     override fun onArtistsDeleted() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.ARTIST))
     }
 
     override fun onAlbumsAdded() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.ALBUM))
     }
 
     override fun onAlbumsModified() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.ALBUM))
     }
 
     override fun onAlbumsDeleted() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.ALBUM))
     }
 
     override fun onGenresAdded() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.GENRE))
     }
 
     override fun onGenresModified() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.GENRE))
     }
 
     override fun onGenresDeleted() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.GENRE))
     }
 
     override fun onPlaylistsAdded() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.PLAYLIST))
     }
 
     override fun onPlaylistsModified() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.PLAYLIST))
     }
 
     override fun onPlaylistsDeleted() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.PLAYLIST))
+    }
+
+    override fun onHistoryModified() {
+        refreshActor.trySend(BrowserUpdate(UpdateType.HISTORY))
     }
 
     fun onShuffleChanged() {
-        refreshActor.trySend(Unit)
+        refreshActor.trySend(BrowserUpdate(UpdateType.SHUFFLE))
     }
 
     override fun removeCallbacks() {
@@ -143,11 +137,20 @@ class MediaBrowserCallback(private val playbackService: PlaybackService) : IMedi
             medialibrary.removeAlbumsCb(this)
             medialibrary.removeGenreCb(this)
             medialibrary.removePlaylistCb(this)
-            refreshActor.close()
-        }
-        if (::historyActor.isInitialized) {
             medialibrary.removeHistoryCb(this)
-            historyActor.close()
+            refreshActor.close()
         }
     }
 }
+
+enum class UpdateType {
+    MEDIA,
+    ARTIST,
+    ALBUM,
+    GENRE,
+    PLAYLIST,
+    HISTORY,
+    SHUFFLE;
+}
+
+class BrowserUpdate(val updateType: UpdateType)

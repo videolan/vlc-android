@@ -34,19 +34,23 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.EXPORT_SETTINGS_FILE
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.KEY_CURRENT_AUDIO_RESUME_ARTIST
@@ -61,26 +65,42 @@ import org.videolan.resources.SCHEME_PACKAGE
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
+import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.KEY_QUICK_PLAY
+import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
+import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
+import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.browser.FilePickerActivity
+import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_TYPE
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.NEW_INSTALL
 import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
+import org.videolan.vlc.isVLC4
+import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.AutoUpdate
-import org.videolan.vlc.util.FeatureFlag
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.share
 import java.io.File
 import java.io.IOException
 
+private const val FILE_PICKER_RESULT_CODE = 10000
+private const val RESULT_VALUE_CLEAR_HISTORY = 1
+private const val RESULT_VALUE_CLEAR_MEDIA_DATABASE = 2
+private const val RESULT_VALUE_CLEAR_APP_DATA = 3
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() =  R.xml.preferences_adv
@@ -91,12 +111,81 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (FeatureFlag.values().isNotEmpty()) findPreference<Preference>("optional_features")?.isVisible = true
 
         findPreference<EditTextPreference>("network_caching")?.setOnBindEditTextListener {
             it.inputType = InputType.TYPE_CLASS_NUMBER
             it.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(5))
             it.setSelection(it.editableText.length)
+        }
+
+        val aoutPref = findPreference<ListPreference>(KEY_AOUT)
+        if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            aoutPref?.entryValues = requireActivity().resources.getStringArray(R.array.aouts_complete_values)
+            aoutPref?.entries = requireActivity().resources.getStringArray(R.array.aouts_complete)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
+            val reason = bundle.getInt(CONFIRM_DELETE_DIALOG_RESULT_TYPE)
+            when (reason) {
+                RESULT_VALUE_CLEAR_HISTORY -> {
+                    Medialibrary.getInstance().clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
+                    Settings.getInstance(requireActivity()).edit()
+                        .remove(KEY_AUDIO_LAST_PLAYLIST)
+                        .remove(KEY_MEDIA_LAST_PLAYLIST)
+                        .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
+                        .remove(KEY_CURRENT_AUDIO)
+                        .remove(KEY_CURRENT_MEDIA)
+                        .remove(KEY_CURRENT_MEDIA_RESUME)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
+                        .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
+                        .apply()
+                }
+                RESULT_VALUE_CLEAR_MEDIA_DATABASE -> {
+                    val medialibrary = Medialibrary.getInstance()
+                    if (medialibrary.isWorking) {
+                        activity?.let {
+                            Toast.makeText(
+                                it,
+                                R.string.settings_ml_block_scan,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } else {
+                        lifecycleScope.launch {
+                            val roots = medialibrary.foldersList
+                            withContext((Dispatchers.IO)) {
+                                medialibrary.clearDatabase(false)
+                                //delete thumbnails
+                                try {
+                                    requireActivity().getExternalFilesDir(null)?.let {
+                                        val files =
+                                            File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
+                                        files?.forEach { file ->
+                                            if (file.isFile) FileUtils.deleteFile(file)
+                                        }
+                                    }
+                                    BitmapCache.clear()
+                                } catch (e: IOException) {
+                                    Log.e(this::class.java.simpleName, e.message, e)
+                                }
+                            }
+                            for (root in roots) {
+                                MedialibraryUtils.addDir(
+                                    root.removePrefix("file://"),
+                                    requireContext()
+                                )
+                            }                        }
+                    }
+                }
+                RESULT_VALUE_CLEAR_APP_DATA -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                        (requireActivity().getSystemService(ACTIVITY_SERVICE) as ActivityManager).clearApplicationUserData()
+                }
+            }
         }
     }
 
@@ -126,9 +215,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setMessage(resources.getString(R.string.install_nightly_alert))
                         .setPositiveButton(R.string.ok){ _, _ ->
                             requireActivity().lifecycleScope.launch {
-                                AutoUpdate.checkUpdate(requireActivity().application, true) {
+                                AutoUpdate.checkUpdate(requireActivity().application, true) {url, date ->
                                     val updateDialog = UpdateDialog().apply {
-                                        arguments = bundleOf(UPDATE_URL to it, NEW_INSTALL to true)
+                                        arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time, NEW_INSTALL to true)
                                     }
                                     updateDialog.show(requireActivity().supportFragmentManager, "fragment_update")
                                 }
@@ -139,22 +228,8 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_history" -> {
-                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history))
+                val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_playback_history), description = getString(R.string.clear_history_message), buttonText = getString(R.string.clear_history), resultType = RESULT_VALUE_CLEAR_HISTORY)
                 dialog.show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
-                dialog.setListener {
-                    Medialibrary.getInstance().clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
-                    Settings.getInstance(requireActivity()).edit()
-                        .remove(KEY_AUDIO_LAST_PLAYLIST)
-                        .remove(KEY_MEDIA_LAST_PLAYLIST)
-                        .remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
-                        .remove(KEY_CURRENT_AUDIO)
-                        .remove(KEY_CURRENT_MEDIA)
-                        .remove(KEY_CURRENT_MEDIA_RESUME)
-                        .remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
-                        .remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
-                        .remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
-                        .apply()
-                }
                 return true
             }
             "clear_media_db" -> {
@@ -171,41 +246,25 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     val dialog = ConfirmDeleteDialog.newInstance(
                         title = getString(R.string.clear_media_db),
                         description = getString(R.string.clear_media_db_message),
-                        buttonText = getString(R.string.clear)
+                        buttonText = getString(R.string.clear),
+                        resultType = RESULT_VALUE_CLEAR_MEDIA_DATABASE
                     )
                     dialog.show(
                         requireActivity().supportFragmentManager,
                         RenameDialog::class.simpleName
                     )
-                    dialog.setListener {
-                        lifecycleScope.launch {
-                            withContext((Dispatchers.IO)) {
-                                medialibrary.clearDatabase(false)
-                                //delete thumbnails
-                                try {
-                                    requireActivity().getExternalFilesDir(null)?.let {
-                                        val files =
-                                            File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
-                                        files?.forEach { file ->
-                                            if (file.isFile) FileUtils.deleteFile(file)
-                                        }
-                                    }
-                                    BitmapCache.clear()
-                                } catch (e: IOException) {
-                                    Log.e(this::class.java.simpleName, e.message, e)
-                                }
-                            }
-                            MedialibraryUtils.addDir(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, requireContext())
-                        }
-                    }
                     return true
                 }
             }
             "clear_app_data" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    val dialog = ConfirmDeleteDialog.newInstance(title = getString(R.string.clear_app_data), description = getString(R.string.clear_app_data_message), buttonText = getString(R.string.clear))
+                    val dialog = ConfirmDeleteDialog.newInstance(
+                        title = getString(R.string.clear_app_data),
+                        description = getString(R.string.clear_app_data_message),
+                        buttonText = getString(R.string.clear),
+                        resultType = RESULT_VALUE_CLEAR_APP_DATA
+                    )
                     dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
-                    dialog.setListener { (requireActivity().getSystemService(ACTIVITY_SERVICE) as ActivityManager).clearApplicationUserData() }
                 } else {
                     val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     i.addCategory(Intent.CATEGORY_DEFAULT)
@@ -268,13 +327,63 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 loadFragment(PreferencesOptional())
                 return true
             }
+            "export_settings" -> {
+                val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + EXPORT_SETTINGS_FILE)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    if (getWritePermission(Uri.fromFile(dst))) {
+                        PreferenceParser.exportPreferences(requireActivity(), dst)
+                    }
+                }
+                return true
+            }
+            KEY_QUICK_PLAY -> {
+                val activity = activity
+                activity?.setResult(RESULT_RESTART)
+                if (!(preference as CheckBoxPreference).isChecked) {
+                    findPreference<CheckBoxPreference>(KEY_QUICK_PLAY_DEFAULT)?.isChecked = false
+                }
+                return true
+            }
+            "restore_settings" -> {
+                val filePickerIntent = Intent(requireContext(), FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SETTINGS.ordinal)
+                startActivityForResult(filePickerIntent, FILE_PICKER_RESULT_CODE)
+
+
+
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) return
+        if (requestCode == FILE_PICKER_RESULT_CODE) {
+            if (data.hasExtra(EXTRA_MRL)) {
+                lifecycleScope.launch {
+                    lifecycleScope.launch {
+                        PreferenceParser.restoreSettings(requireActivity(), Uri.parse(data.getStringExtra(
+                            EXTRA_MRL
+                        )))
+                    }
+                    VLCInstance.restart()
+                }
+                UiTools.restartDialog(requireActivity())
+            }
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
+            KEY_AOUT -> {
+                lifecycleScope.launch { restartLibVLC() }
+                Settings.getInstance(requireActivity()).let {
+                    if (it.getString(KEY_AOUT, "0") == "2") it.putSingle("audio_digital_output", false)
+                }
+            }
             "network_caching" -> {
                 sharedPreferences.edit {
                     try {

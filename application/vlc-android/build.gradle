@@ -1,7 +1,10 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+    id 'kotlin-parcelize'
+}
 
 android {
 
@@ -17,13 +20,11 @@ android {
 
     defaultConfig {
 
-        resValue "string", "build_time", buildTime()
-        resValue "string", "build_host", hostName()
+        resValue "string", "build_time", buildTime(project)
+        resValue "string", "build_host", hostName(project)
         resValue "string", "build_revision", revision()
         resValue "string", "changelog", changelog()
         resValue "string", "dav1d_version", dav1dVersion()
-        resValue "string", "remote_access_version", remoteAccessVersion()
-        resValue "string", "build_remote_access_revision", remoteAccessRevision()
         resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.tv"
         buildConfigField 'String', 'LIBVLC_VERSION', "\"${rootProject.ext.libvlcVersion}\""
         buildConfigField 'String', 'ML_VERSION', "\"${rootProject.ext.medialibraryVersion}\""
@@ -76,10 +77,9 @@ android {
             buildConfigField "boolean", "NO_TV", "false"
             multiDexEnabled true
         }
-        noTv {
+        vlcBundle {
             initWith release
             matchingFallbacks = ['release']
-            buildConfigField "boolean", "NO_TV", "true"
         }
         signedRelease {
             initWith release
@@ -127,20 +127,20 @@ android {
 
 def generateTranslation() {
     def foundLocales = new StringBuilder()
-    foundLocales.append("new String[]{")
-
+    foundLocales.append("new String[]{\"")
+    def emptyList = []
     fileTree("../resources/src/main/res").visit { FileVisitDetails details ->
         println 'details: ' + details
         if (details.file.path.endsWith("strings.xml")) {
             def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
             languageCode = (languageCode == "values") ? "en" : languageCode
-            foundLocales.append("\"").append(languageCode).append("\"").append(",")
+            emptyList.add(languageCode)
         }
     }
-
-    foundLocales.append("}")
-    //Don't forget to remove the trailing comma
-    def foundLocalesString = foundLocales.toString().replaceAll(',}', '}')
+    emptyList.sort()
+    foundLocales.append(emptyList.join("\",\""))
+    foundLocales.append("\"}")
+    def foundLocalesString = foundLocales.toString()
     return foundLocalesString
 }
 
@@ -182,10 +182,10 @@ dependencies {
     api "androidx.window:window:$rootProject.ext.windowVersion"
     api "androidx.media:media:$rootProject.ext.mediaVersion"
     api 'androidx.gridlayout:gridlayout:1.0.0'
-    api "androidx.car.app:app:1.3.0-rc01"
+    api "androidx.car.app:app:$rootProject.ext.carVersion"
 
-    kapt ("org.xerial:sqlite-jdbc:jdbcVersion")
-    kapt("androidx.room:room-compiler:$rootProject.ext.roomVersion")
+    ksp ("org.xerial:sqlite-jdbc:jdbcVersion")
+    ksp("androidx.room:room-compiler:$rootProject.ext.roomVersion")
 
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
 
@@ -200,7 +200,7 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
-    implementation 'nl.dionsegijn:konfetti:1.2.2'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.4'
     implementation 'com.google.zxing:core:3.4.0'
     implementation "androidx.palette:palette-ktx:1.0.0"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
@@ -235,11 +235,25 @@ dependencies {
 }
 
 
-static def buildTime() {
+static def buildTime(project) {
+    if (project.hasProperty('forceDeterministic')) {
+        def code = new ByteArrayOutputStream()
+        project.exec {
+            commandLine 'git', 'show', '--no-patch', '--format=%cd' , '--date=format-local:%Y-%m-%d'
+            standardOutput = code
+        }
+        return code.toString()
+    }
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
-static def hostName() {
+static def hostName(project) {
+    if (project.hasProperty('forceDeterministic')) {
+        if (project.hasProperty('forcedHostName')) {
+            return project.findProperty("forcedHostName")
+        }
+        return 'Unknown'
+    }
     return "${System.getProperty("user.name")}@${InetAddress.localHost.hostName}"
 }
 
@@ -253,43 +267,17 @@ def revision() {
 }
 
 def dav1dVersion() {
-    def code = new ByteArrayOutputStream()
-    if (file("../../libvlcjni/vlc/contrib/src/dav1d/rules.mak").exists()) {
-        exec {
-            commandLine 'bash', '-c', 'grep "DAV1D_VERSION := " ../../libvlcjni/vlc/contrib/src/dav1d/rules.mak | cut -d = -f2'
-            standardOutput = code
-        }
-        return code.toString().replaceAll(" ", "")
-    }
-    return "0.0.0"
-}
-
-def remoteAccessVersion() {
-    def code = new ByteArrayOutputStream()
-    if (file("../../remoteaccess/package.json").exists()) {
-        try {
-            exec {
-                commandLine = ['bash', '-c', 'grep -m1 "version" ../../remoteaccess/package.json']
-                standardOutput = code
+    def code = "0.0.0"
+    File dav1dContribFile = file('../../libvlcjni/vlc/contrib/src/dav1d/rules.mak')
+    if (dav1dContribFile.exists()) {
+        dav1dContribFile.readLines().each {
+            if (it.contains('DAV1D_VERSION := ')) {
+                code = it.replaceAll("DAV1D_VERSION := ", "")
+                return
             }
-            return code.toString().split("\"")[3]
-        } catch (Exception e) {
         }
     }
-    return "unknown"
-}
-
-def remoteAccessRevision() {
-    try {
-        def hash = new ByteArrayOutputStream()
-        exec {
-            commandLine = ['bash', '-c', 'git -C ../../remoteaccess rev-parse --short HEAD']
-            standardOutput = hash
-        }
-        return hash.toString()
-    } catch (Exception e) {
-    }
-    return "unknown"
+    return code
 }
 
 /**
@@ -305,7 +293,7 @@ def changelog() {
                 if (started && !line?.trim()) break
                 if (started) {
                     if (output != "") output += "\\n"
-                    output += line.trim()
+                    output += line.trim().replaceAll(/(@|'|"|\\/|\(|\)|=|\?)/, /\\$0/)
                 }
                 if (line.contains("---")) started = true
             }
@@ -317,13 +305,4 @@ def changelog() {
 def isBeta() {
     def versionNameLower = versionName.toLowerCase()
     return (versionNameLower.contains("beta") || versionNameLower.contains("rc") || versionNameLower.contains("alpha") || versionNameLower.contains("dev")).toString()
-}
-
-
-kapt {
-    javacOptions {
-        // Increase the max count of errors from annotation processors.
-        // Default is 100.
-        option("-Xmaxerrs", 500)
-    }
 }

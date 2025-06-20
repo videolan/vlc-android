@@ -41,7 +41,7 @@ import androidx.core.content.edit
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.ENABLE_ANDROID_AUTO_SEEK_BUTTONS
 import org.videolan.tools.ENABLE_ANDROID_AUTO_SPEED_BUTTONS
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -112,9 +112,9 @@ class AutoControlScreen(carContext: CarContext) : Screen(carContext) {
 
     override fun onGetTemplate(): Template {
         val itemList = ItemList.Builder().apply {
-            addItem(buildToggleRow(R.string.playback_speed_title,
-                    R.string.playback_speed_summary,
-                    KEY_PLAYBACK_SPEED_PERSIST))
+            addItem(buildToggleRow(R.string.audio_playback_speed_global,
+                    R.string.audio_playback_speed_global_summary,
+                    KEY_PLAYBACK_SPEED_AUDIO_GLOBAL))
             addItem(buildToggleRow(
                     R.string.enable_android_auto_speed_buttons,
                     R.string.enable_android_auto_speed_buttons_summary,

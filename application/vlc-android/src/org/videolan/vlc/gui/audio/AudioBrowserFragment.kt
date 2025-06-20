@@ -24,9 +24,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.util.SparseArray
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.asFlow
@@ -46,17 +49,30 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.resources.util.waitForML
-import org.videolan.tools.*
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.HeaderMediaListActivity
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CONFIRM_PERMISSION_CHANGED
+import org.videolan.vlc.gui.dialogs.CURRENT_SORT
+import org.videolan.vlc.gui.dialogs.DEFAULT_ACTIONS
+import org.videolan.vlc.gui.dialogs.DISPLAY_IN_CARDS
+import org.videolan.vlc.gui.dialogs.DisplaySettingsDialog
+import org.videolan.vlc.gui.dialogs.KEY_PERMISSION_CHANGED
+import org.videolan.vlc.gui.dialogs.ONLY_FAVS
+import org.videolan.vlc.gui.dialogs.SHOW_ALL_ARTISTS
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addFavoritesIcon
 import org.videolan.vlc.gui.helpers.UiTools.removeDrawables
@@ -65,7 +81,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.util.launchWhenStarted
@@ -161,6 +177,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         adapters.forEach {
             it.onAnyChange { updateEmptyView() }
         }
+        requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_PERMISSION_CHANGED, viewLifecycleOwner) { requestKey, bundle ->
+            val changed = bundle.getBoolean(KEY_PERMISSION_CHANGED)
+            if (changed) viewModel.refresh()
+        }
     }
 
     override fun onDestroy() {
@@ -193,11 +213,17 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 updateTabs()
             }
             CURRENT_SORT -> {
+                lifecycleScope.launch {
+                    displaySettingsViewModel.lockSorts(true)
+                }
                 @Suppress("UNCHECKED_CAST") val sort = value as Pair<Int, Boolean>
                 viewModel.providers[currentTab].sort = sort.first
                 viewModel.providers[currentTab].desc = sort.second
                 viewModel.providers[currentTab].saveSort()
                 viewModel.refresh()
+            }
+            DEFAULT_ACTIONS -> {
+                settings.putSingle(getDefaultActionMediaType().defaultActionKey, (value as DefaultPlaybackAction).name)
             }
         }
     }
@@ -316,14 +342,17 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 val sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia, Medialibrary.SORT_INSERTIONDATE).filter {
                     viewModel.providers[currentTab].canSortBy(it)
                 }
+
                 //Open the display settings Bottom sheet
                 DisplaySettingsDialog.newInstance(
-                        displayInCards = viewModel.providersInCard[currentTab],
-                        showAllArtists = if (currentTab == 0) Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, false) else null,
-                        onlyFavs = viewModel.providers[currentTab].onlyFavorites,
-                        sorts = sorts,
-                        currentSort = viewModel.providers[currentTab].sort,
-                        currentSortDesc = viewModel.providers[currentTab].desc
+                    displayInCards = viewModel.providersInCard[currentTab],
+                    showAllArtists = if (currentTab == 0) Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, false) else null,
+                    onlyFavs = viewModel.providers[currentTab].onlyFavorites,
+                    sorts = sorts,
+                    currentSort = viewModel.providers[currentTab].sort,
+                    currentSortDesc = viewModel.providers[currentTab].desc,
+                    defaultPlaybackActions = getDefaultActionMediaType().getDefaultPlaybackActions(settings),
+                    defaultActionType = getString(getDefaultActionMediaType().title)
                 )
                         .show(requireActivity().supportFragmentManager, "DisplaySettingsDialog")
                 true
@@ -359,9 +388,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         binding.audioEmptyLoading.emptyText = viewModel.filterQuery?.let {  getString(R.string.empty_search, it) } ?: if (viewModel.providers[currentTab].onlyFavorites) getString(R.string.nofav) else getString(R.string.nomedia)
         binding.audioEmptyLoading.state = when {
             !Permissions.canReadStorage(requireActivity()) && empty -> EmptyLoadingState.MISSING_PERMISSION
+            !Permissions.canReadAudios(AppContextProvider.appContext) && empty -> EmptyLoadingState.MISSING_AUDIO_PERMISSION
             viewModel.providers[currentTab].loading.value == true && empty -> EmptyLoadingState.LOADING
-            emptyAt(currentTab) && viewModel.filterQuery?.isNotEmpty() == true -> EmptyLoadingState.EMPTY_SEARCH
             emptyAt(currentTab) && viewModel.providers[currentTab].onlyFavorites -> EmptyLoadingState.EMPTY_FAVORITES
+            emptyAt(currentTab) && viewModel.filterQuery?.isNotEmpty() == true -> EmptyLoadingState.EMPTY_SEARCH
             emptyAt(currentTab) -> EmptyLoadingState.EMPTY
             else -> EmptyLoadingState.NONE
 
@@ -432,13 +462,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 UiTools.snackerMissing(requireActivity())
                 return
             }
-            Log.d(TAG, "onClick: skbench: ")
-            if (Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL_AUDIO, false)) {
-                MediaUtils.playAll(activity,
-                    viewModel.providers[currentTab] as MedialibraryProvider<MediaWrapper>, position, false)
-            } else {
-                MediaUtils.openMedia(activity, item as MediaWrapper)
-            }
+            onMainActionClick(v, position, item)
             return
         }
         val i: Intent
@@ -469,6 +493,16 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     }
 
     override fun getCurrentRV() = lists[currentTab]
+
+    override fun getDefaultActionMediaType() = when (currentTab) {
+        0 -> DefaultPlaybackActionMediaType.ARTIST
+        1 -> DefaultPlaybackActionMediaType.ALBUM
+        2 -> DefaultPlaybackActionMediaType.TRACK
+        3 -> DefaultPlaybackActionMediaType.GENRE
+        else -> DefaultPlaybackActionMediaType.PLAYLIST
+    }
+
+    override fun getCurrentProvider() = viewModel.providers[currentTab] as? MedialibraryProvider<MediaWrapper>
 
     override fun getCurrentAdapter() = adapters[currentTab]
 

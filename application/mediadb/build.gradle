@@ -21,10 +21,11 @@
  *
  *
  */
-
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'com.google.devtools.ksp'
+}
 
 android {
 
@@ -53,7 +54,7 @@ android {
             initWith debug
             matchingFallbacks = ['debug']
         }
-        noTv {
+        vlcBundle {
             initWith release
             matchingFallbacks = ['release']
         }
@@ -72,8 +73,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
     //Room
     implementation "androidx.room:room-ktx:$rootProject.ext.roomVersion"
-    kapt ('org.xerial:sqlite-jdbc:3.36.0')
-    kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
+    ksp ('org.xerial:sqlite-jdbc:3.36.0')
+    ksp "androidx.room:room-compiler:$rootProject.ext.roomVersion"
     implementation project(':application:tools')
     implementation project(':application:resources')
 

@@ -25,30 +25,21 @@ package org.videolan.vlc.gui.preferences
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.launch
-import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.libvlc.util.HWDecoderUtil
-import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.AUDIO_DUCKING
-import org.videolan.tools.KEY_PLAYBACK_RATE
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
 import org.videolan.tools.LocaleUtils
-import org.videolan.tools.RESUME_PLAYBACK
+import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.EXTRA_MRL
@@ -56,7 +47,6 @@ import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
-import org.videolan.vlc.isVLC4
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.LocaleUtil
@@ -77,22 +67,8 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference<Preference>(AUDIO_DUCKING)?.isVisible = !AndroidUtil.isOOrLater
-        findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = AndroidDevices.isPhone
-        val aoutPref = findPreference<ListPreference>("aout")
-        val aout = HWDecoderUtil.getAudioOutputFromDevice()
-        if (aout != HWDecoderUtil.AudioOutput.ALL) {
-            /* no AudioOutput choice */
-            aoutPref?.isVisible = false
-        }
-        if (isVLC4() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            aoutPref?.entryValues = requireActivity().resources.getStringArray(R.array.aouts_complete_values)
-            aoutPref?.entries = requireActivity().resources.getStringArray(R.array.aouts_complete)
-        }
 
         updatePassThroughSummary()
-        val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
-        if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
         for (key in arrayOf("audio-replay-gain-default", "audio-replay-gain-preamp")) {
             findPreference<EditTextPreference>(key)?.setOnBindEditTextListener {
                 it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
@@ -162,12 +138,6 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         if (sharedPreferences == null || key == null || activity == null) return
 
         when (key) {
-            "aout" -> {
-                lifecycleScope.launch { restartLibVLC() }
-                val opensles = "2" == preferenceManager.sharedPreferences!!.getString("aout", "0")
-                if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
-                findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
-            }
             "audio_digital_output" -> updatePassThroughSummary()
             "audio_preferred_language" -> updatePreferredAudioTrack()
             "audio-replay-gain-enable", "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> lifecycleScope.launch { restartLibVLC() }
@@ -189,7 +159,6 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                     } else lifecycleScope.launch { restartLibVLC() }
                 }
             }
-            KEY_PLAYBACK_SPEED_PERSIST -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE, 1.0f)
         }
     }
 
@@ -199,7 +168,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     private fun prepareLocaleList() {
-        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference))
+        val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.no_track_preference), requireActivity().getLocales())
         preferredAudioTrack.entries = localePair.localeEntries
         preferredAudioTrack.entryValues = localePair.localeEntryValues
     }

@@ -21,7 +21,6 @@
 package org.videolan.television.ui
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -32,27 +31,46 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
+import androidx.lifecycle.lifecycleScope
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.models.resolver.ResolverMedia
-import org.videolan.resources.*
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.BuildConfig
+import org.videolan.resources.CATEGORY_NOW_PLAYING
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PAUSED
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP_PAUSED
+import org.videolan.resources.UPDATE_DESCRIPTION
+import org.videolan.resources.UPDATE_SEEN
+import org.videolan.resources.UPDATE_THUMB
+import org.videolan.resources.UPDATE_TIME
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.getLocaleLanguages
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.downloadIcon
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.getTvIconRes
+import org.videolan.vlc.gui.helpers.loadImage
+import org.videolan.vlc.gui.helpers.loadPlaylistImageWithWidth
 
 
 public const val FAVORITE_FLAG = 1000
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class CardPresenter(private val context: Activity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
+class CardPresenter(private val context: FragmentActivity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
 
     private var seenMediaMarkerVisible = true
     private var sDefaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_default_cone, context.theme)
@@ -94,8 +112,24 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                     loadPlaylistImageWithWidth(cardView.mainImageView, item, imageDefaultWidth.toInt(), true)
                 }
                 noArt -> {
-                    cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-                    cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
+                    if (item is MediaWrapper) {
+                        context.lifecycleScope.launch {
+                            val bitmap = withContext(Dispatchers.IO) {
+                                AudioUtil.fetchCoverBitmap(item.uri.toString(), 512)
+                            }?.let { BitmapDrawable(cardView.resources, it) }
+                            if (bitmap != null) {
+                                cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                                cardView.mainImage = bitmap
+                            } else {
+                                cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                                cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
+                            }
+                        }
+                    } else {
+                        cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                        cardView.mainImage =
+                            BitmapDrawable(cardView.resources, getDefaultImage(item))
+                    }
                 }
                 else -> loadImage(cardView, item)
             }
@@ -172,16 +206,27 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             }
         }
         if (item is DummyItem && (item.id == CATEGORY_NOW_PLAYING || item.id == CATEGORY_NOW_PLAYING_PIP)) {
-            val badge = AnimatedVectorDrawableCompat.create(context, R.drawable.anim_now_playing)!!
-            holder.cardView.badgeImage = badge
-            badge.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
-                override fun onAnimationEnd(drawable: Drawable?) {
-                    holder.cardView.post { badge.start() }
-                    super.onAnimationEnd(drawable)
-                }
-            })
-            badge.start()
+            animateBadge(holder.cardView)
+        } else if (item is DummyItem && (item.id == CATEGORY_NOW_PLAYING_PAUSED || item.id == CATEGORY_NOW_PLAYING_PIP_PAUSED)){
+            holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_now_playing_paused)
         }
+    }
+
+    fun animateBadge(cardView: ImageCardView) {
+        val badge = AnimatedVectorDrawableCompat.create(context, R.drawable.anim_now_playing)!!
+        cardView.badgeImage = badge
+        badge.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
+            override fun onAnimationEnd(drawable: Drawable?) {
+                cardView.post { badge.start() }
+                super.onAnimationEnd(drawable)
+            }
+        })
+        badge.start()
+    }
+
+    override fun onViewDetachedFromWindow(viewHolder: Presenter.ViewHolder?) {
+        super.onViewDetachedFromWindow(viewHolder)
+        ((viewHolder as? ViewHolder)?.cardView?.badgeImage as? AnimatedVectorDrawableCompat)?.clearAnimationCallbacks()
     }
 
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any, payloads: List<Any>?) {
@@ -195,6 +240,10 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                     UPDATE_DESCRIPTION -> {
                         Tools.setMediaDescription(item)
                         holder.cardView.contentText = media.description
+                        if (media.id == CATEGORY_NOW_PLAYING_PAUSED || media.id == CATEGORY_NOW_PLAYING_PIP_PAUSED)
+                            holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_now_playing_paused)
+                        if (media.id == CATEGORY_NOW_PLAYING || media.id == CATEGORY_NOW_PLAYING_PIP)
+                            animateBadge(holder.cardView)
                     }
                     UPDATE_THUMB -> loadImage(holder.cardView, media)
                     UPDATE_TIME -> {

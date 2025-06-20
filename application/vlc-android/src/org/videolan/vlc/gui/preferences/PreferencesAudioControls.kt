@@ -23,17 +23,28 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
+import android.os.Bundle
+import androidx.preference.CheckBoxPreference
 import org.videolan.tools.KEY_AUDIO_JUMP_DELAY
 import org.videolan.tools.KEY_AUDIO_LONG_JUMP_DELAY
+import org.videolan.tools.KEY_AUDIO_SHOW_BOOkMARK_BUTTONS
+import org.videolan.tools.KEY_AUDIO_SHOW_TRACK_NUMBERS
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
 class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
 
+    private lateinit var bookmarkMarkersPreference: CheckBoxPreference
+
     override fun getXml() = R.xml.preferences_audio_controls
 
     override fun getTitleId() = R.string.controls_prefs_category
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bookmarkMarkersPreference = findPreference("audio_show_bookmark_markers")!!
+    }
 
     override fun onStart() {
         super.onStart()
@@ -55,6 +66,14 @@ class PreferencesAudioControls : BasePreferenceFragment(), SharedPreferences.OnS
             }
             KEY_AUDIO_LONG_JUMP_DELAY -> {
                 Settings.audioLongJumpDelay = sharedPreferences.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
+            }
+            KEY_AUDIO_SHOW_TRACK_NUMBERS -> {
+                Settings.audioShowTrackNumbers.postValue(sharedPreferences.getBoolean(KEY_AUDIO_SHOW_TRACK_NUMBERS, false))
+            }
+            KEY_AUDIO_SHOW_BOOkMARK_BUTTONS -> {
+                if (!sharedPreferences.getBoolean(KEY_AUDIO_SHOW_BOOkMARK_BUTTONS, true)) {
+                    bookmarkMarkersPreference.isChecked = false
+                }
             }
         }
         Settings.onAudioControlsChanged()

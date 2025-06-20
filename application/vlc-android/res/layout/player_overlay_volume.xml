@@ -29,7 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        tools:visibility="visible">
 
     <TextView
             android:id="@+id/volume_value_text"
@@ -49,10 +50,11 @@
             android:id="@+id/playerVolumeProgress"
             android:layout_width="16dp"
             android:layout_height="120dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
             app:layout_constraintBottom_toTopOf="@+id/progress_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/volume_value_text" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/volume_value_text"
+            tools:ignore="RtlHardcoded" />
 
     <ImageView
             android:id="@+id/progress_icon"
@@ -76,8 +78,8 @@
             android:textAppearance="@style/VLC.Player.TimeText"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/playerVolumeProgress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/playerVolumeProgress"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/playerVolumeProgress"
             app:layout_constraintTop_toTopOf="@+id/playerVolumeProgress" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -170,6 +170,7 @@
     <string name="track_framerate_info">Fframiau: %1$.3f\n</string>
 
     <string name="playback_speed">Cyflymder chwarae</string>
+    <string name="warning_stream_speed">Gall gynyddu\'r cyflymder dros 1 i ffrydiau achosi iddynt chwarae yn dameidiog</string>
     <string name="sleep_title">Amserydd cysgu</string>
     <string name="sleep_in">Mynd i gysgu mewn</string>
     <string name="jump_to_time">Neidio i amser</string>
@@ -200,7 +201,6 @@
 
     <string name="playback_history_title">Hanes chwarae</string>
     <string name="playback_history_summary">Cadw\'r holl ffeiliau a chwaraewyd yn yr adran Hanes</string>
-    <string name="playback_speed_title">Cadw\'r cyflymder chwarae</string>
     <string name="play_button">Botwm Chwarae</string>
 
     <string name="seek">Canfod</string>
@@ -376,7 +376,6 @@
     <string name="dump_logcat_failure">Methwyd dympio logcat.</string>
     <string name="custom_libvlc_options">Dewisiadau libVLC dy hun</string>
     <string name="custom_libvlc_options_invalid">Dewisiadau libVLC annilys!</string>
-
     <string name="serious_crash">Yn anffodus, bu gwall difrifol ac roedd rhaid cae VLC.</string>
     <string name="help_us_send_log">Helpwch ni wella VLC gan anfon y log canlynol o\'r broblem:</string>
     <string name="restart_vlc">Ail-ddechrau VLC</string>
@@ -389,8 +388,6 @@
 
     <string name="no_result">Ni chanfuwyd unrhyw beth</string>
     <string name="no_internet_connection">Gwiria dy gysylltiad rhyngrwyd</string>
-    <string name="subs_download_error">Gwasanaeth ddim ar gael. Rho gynnig arall arni\'n hwyrach.</string>
-
     <string name="network_browsing">Rhwydwaith Lleol</string>
     <string name="browsing">Pori</string>
 
@@ -603,7 +600,6 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Croeso i raglen VLC beta.\nNoder ei fod yn bosib i\'r fersiwn hwn fod ag ambell wall.</string>
     <string name="welcome_beta_description_bugs">Os wyt yn sylwi gwall, plîs rho wybod amdano yn ein fforwm neu traciwr gwallau.</string>
-    <string name="welcome_beta_description_crashes">Os yw VLC yn chwalu, plîs defnyddia eicon Adroddwr VLC yn dy lansiwr i\'w anfon atom.</string>
     <string name="send">Anfon</string>
     <string name="send_crash_action_title">Beth wyt ti am wneud?</string>
     <string name="report_a_bug">Rhoi gwybod am wall</string>
@@ -690,7 +686,6 @@
     <string name="sub_result_by_name">Canlyniadau ar gyfer %s</string>
     <string name="sub_result_by_name_season">Cyfres %s</string>
     <string name="sub_result_by_name_episode">Pennod %s</string>
-
     <string name="sub_result_by_file">Canlyniadau ar gyfer dy ffeil</string>
     <string name="donate">Helpu VLC</string>
     <string name="donate_desc">Cefnogi\'r gwirfoddolwyr sy\'n adeiladu VLC</string>
@@ -727,7 +722,6 @@
     <string name="prefersmbv1_summary">Dad-ddewisa hyn os wyt yn cael anawsterau pori dy weinydd SMB</string>
     <string name="apply_to_all">Rhoi i bob fideo</string>
     <string name="audio_delay_global">Oediad sain wedi\'i osod i %s me i bob fideo</string>
-    <string name="warning_stream_speed">Gall gynyddu\'r cyflymder dros 1 i ffrydiau achosi iddynt chwarae yn dameidiog</string>
     <string name="go_to_folder">Pori\'r rhiant</string>
     <string name="no_sub_renderer">Dyw isdeitlau ddim eto ar gael wrth fwrw</string>
     </resources>

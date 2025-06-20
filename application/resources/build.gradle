@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 android {
 
@@ -15,6 +17,7 @@ android {
         compileSdk rootProject.ext.compileSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
+        buildConfigField 'String', 'VLC_OPEN_SUBTITLES_API_KEY', "\"${getOSApiKey(project)}\""
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -30,7 +33,7 @@ android {
             initWith debug
             matchingFallbacks = ['debug']
         }
-        noTv {
+        vlcBundle {
             initWith release
             matchingFallbacks = ['release']
         }
@@ -53,6 +56,11 @@ android {
     }
 
 }
+
+static def getOSApiKey(project) {
+    return System.getenv('VLC_OPEN_SUBTITLES_API_KEY') ?:  project.properties['vlc_open_subtitles_api_key'] ?: ""
+}
+
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'androidx.multidex:multidex:2.0.1'
@@ -68,8 +76,8 @@ dependencies {
     debugApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     releaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
-    noTvApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
-    noTvApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    vlcBundleApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    vlcBundleApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
 
     api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
 
@@ -78,6 +86,9 @@ dependencies {
     api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
 
     // Retrofit
+    api "com.squareup.okhttp3:okhttp:4.9.3"
+    api 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    api 'com.github.mrmike:ok2curl:0.8.0'
     api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     api "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
     api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"

@@ -22,27 +22,6 @@
  *
  */
 
-/**
- * **************************************************************************
- * PickTimeFragment.java
- * ****************************************************************************
- * Copyright © 2015 VLC authors and VideoLAN
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- * ***************************************************************************
- */
 package org.videolan.vlc.gui.dialogs
 
 import android.os.Bundle
@@ -54,6 +33,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -63,7 +43,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.vlc.R
@@ -72,10 +54,13 @@ import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 
 const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
 const val RENAME_DIALOG_FILE = "RENAME_DIALOG_FILE"
+const val RENAME_DIALOG_NEW_NAME = "RENAME_DIALOG_NEW_NAME"
+const val CONFIRM_RENAME_DIALOG_RESULT = "CONFIRM_RENAME_DIALOG_RESULT"
+const val CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT = "CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT"
+const val CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT = "CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT"
 
 class RenameDialog : VLCBottomSheetDialogFragment() {
 
-    private lateinit var listener: (media: MediaLibraryItem, name: String) -> Unit
     private lateinit var renameButton: Button
     private lateinit var newNameInputtext: TextInputEditText
     private lateinit var media: MediaLibraryItem
@@ -91,9 +76,6 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
         }
     }
 
-    fun setListener(listener:(media:MediaLibraryItem, name:String)->Unit) {
-        this.listener = listener
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         lifecycleScope.launch { if (requireActivity().showPinIfNeeded()) dismiss() }
@@ -146,7 +128,12 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
 
     private fun performRename() {
         if (newNameInputtext.text.toString().isNotEmpty()) {
-            listener.invoke(media, newNameInputtext.text.toString())
+            val key = when(media) {
+                is Bookmark -> CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
+                is Playlist -> CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT
+                else -> CONFIRM_RENAME_DIALOG_RESULT
+            }
+            setFragmentResult(key, bundleOf(RENAME_DIALOG_MEDIA to media, RENAME_DIALOG_NEW_NAME to newNameInputtext.text.toString()))
             dismiss()
         }
     }

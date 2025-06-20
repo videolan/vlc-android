@@ -70,6 +70,20 @@
             android:key="default_sleep_timer"
             android:title="@string/sleep_title"/>
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:key="incognito_mode"
+            android:defaultValue="false"
+            android:title="@string/incognito_mode"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:key="persistent_incognito"
+            android:dependency="incognito_mode"
+            android:defaultValue="true"
+            android:summary="@string/persistent_incognito_mode_summary"
+            android:title="@string/persistent_incognito_mode"/>
+
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">
@@ -83,7 +97,7 @@
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="false"
-                android:key="force_play_all_video"
+                android:key="playlist_mode_video"
                 android:summary="@string/force_play_all_summary"
                 android:title="@string/force_play_all_title"/>
         <CheckBoxPreference
@@ -107,7 +121,7 @@
         <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
-            android:key="force_play_all_audio"
+            android:key="playlist_mode_audio"
             android:summary="@string/force_play_all_audio_summary"
             android:title="@string/force_play_all_audio_title"/>
         <CheckBoxPreference

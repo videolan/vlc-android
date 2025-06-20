@@ -476,7 +476,7 @@ public class MedialibraryImpl extends Medialibrary {
     @Nullable
     public MediaWrapper addStream(String mrl, String title) {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
-        final String vlcTitle = Tools.encodeVLCMrl(title);
+        final String vlcTitle = title;
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddStream(vlcMrl, vlcTitle) : null;
     }
 

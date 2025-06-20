@@ -39,10 +39,19 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.renderscript.*
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RSInvalidStateException
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.text.TextUtils
-import android.view.*
-import android.view.animation.*
+import android.view.DragEvent
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -55,6 +64,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ActionMode
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -63,6 +73,7 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -70,26 +81,82 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
-import nl.dionsegijn.konfetti.KonfettiView
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.Rotation
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
+import nl.dionsegijn.konfetti.xml.KonfettiView
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_DISCOVER_DEVICE
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_ARTISTS
+import org.videolan.resources.CATEGORY_GENRES
+import org.videolan.resources.CATEGORY_NOW_PLAYING
+import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
+import org.videolan.resources.CATEGORY_SONGS
+import org.videolan.resources.EXTRA_PATH
+import org.videolan.resources.HEADER_DIRECTORIES
+import org.videolan.resources.HEADER_MOVIES
+import org.videolan.resources.HEADER_NETWORK
+import org.videolan.resources.HEADER_PERMISSION
+import org.videolan.resources.HEADER_PLAYLISTS
+import org.videolan.resources.HEADER_SERVER
+import org.videolan.resources.HEADER_STREAM
+import org.videolan.resources.HEADER_TV_SHOW
+import org.videolan.resources.HEADER_VIDEO
+import org.videolan.resources.ID_ABOUT_TV
+import org.videolan.resources.ID_REMOTE_ACCESS
+import org.videolan.resources.ID_SETTINGS
+import org.videolan.resources.ID_SPONSOR
+import org.videolan.resources.TAG_ITEM
+import org.videolan.resources.TV_CONFIRMATION_ACTIVITY
 import org.videolan.resources.util.launchForeground
-import org.videolan.tools.*
+import org.videolan.tools.BitmapCache
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
+import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.Settings
+import org.videolan.tools.dp
+import org.videolan.tools.isStarted
+import org.videolan.tools.putSingle
+import org.videolan.tools.setGone
 import org.videolan.vlc.BuildConfig.VLC_VERSION_NAME
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
-import org.videolan.vlc.gui.*
+import org.videolan.vlc.VlcMigrationHelper
+import org.videolan.vlc.gui.AuthorsActivity
+import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.FeedbackActivity
+import org.videolan.vlc.gui.InfoActivity
+import org.videolan.vlc.gui.LibrariesActivity
+import org.videolan.vlc.gui.LibraryWithLicense
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.AboutVersionDialog
+import org.videolan.vlc.gui.dialogs.AddToGroupDialog
+import org.videolan.vlc.gui.dialogs.LicenseDialog
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.helpers.BitmapUtil.vectorToBitmap
 import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
@@ -102,9 +169,13 @@ import org.videolan.vlc.util.LifecycleAwareScheduler
 import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.openLinkIfPossible
+import org.videolan.vlc.util.trackNumberText
+import java.security.SecureRandom
+import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
 object UiTools {
+    private var logoAnimationRunning: Boolean = false
     var currentNightMode: Int = 0
     private const val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
@@ -284,7 +355,7 @@ object UiTools {
     fun snacker(activity:Activity, message: String) {
         val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -293,12 +364,12 @@ object UiTools {
      * Print an on-screen message to alert the user, with undo action
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerConfirm(activity: Activity, message: String, overAudioPlayer: Boolean = false, @StringRes confirmMessage:Int = R.string.ok, action: () -> Unit) {
+    fun snackerConfirm(activity: Activity, message: String, overAudioPlayer: Boolean = false, @StringRes confirmMessage:Int = R.string.ok, indefinite:Boolean = false, action: () -> Unit) {
         val view = getSnackAnchorView(activity, overAudioPlayer) ?: return
-        val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        val snack = Snackbar.make(view, message, if (indefinite) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG)
                 .setAction(confirmMessage) { action.invoke() }
         if (overAudioPlayer) snack.setAnchorView(R.id.time)
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -308,7 +379,7 @@ object UiTools {
         val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(R.string.ok) { launch { action.invoke() } }
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -325,7 +396,7 @@ object UiTools {
                     sHandler.removeCallbacks(action)
                     cancelAction.invoke()
                 }
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         if (overAudioPlayer) snack.setAnchorView(R.id.time)
         snack.show()
@@ -346,7 +417,7 @@ object UiTools {
                         PreferencesActivity.launchWithPref(activity, "include_missing")
                     }
                 }
-        if (AndroidUtil.isLolliPopOrLater)
+        if (VlcMigrationHelper.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
@@ -394,34 +465,45 @@ object UiTools {
         val logo = v.findViewById<ImageView>(R.id.logo)
         val konfettiView = v.findViewById<KonfettiView>(R.id.konfetti)
         logo.setOnClickListener {
-            logo.animate().rotationBy(360F).translationY(-24.dp.toFloat()).setDuration(600).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
+            if (logoAnimationRunning) return@setOnClickListener
+            logoAnimationRunning = true
+            val iter = SecureRandom().nextInt(4) + 1
+            logo.animate().rotationBy(360F * iter).translationY(-24.dp.toFloat()).setDuration(600 + (100L * iter)).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
                 logo.animate().translationY(0F).setStartDelay(75).setDuration(300).setInterpolator(OvershootInterpolator(3.0F)).withEndAction {
-
+                    logoAnimationRunning = false
                 }
-                konfettiView.build()
-                        .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
-                        .setDirection(315.0, 360.0)
-                        .setSpeed(3f, 9f)
-                        .setFadeOutEnabled(true)
-                        .setTimeToLive(2000L)
-                        .addShapes(Shape.Circle, Shape.Square)
-                        .addSizes(Size(4))
-                        .setPosition(logo.x + logo.width - 12.dp, logo.x + logo.width - 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
-                        .setRotationEnabled(false)
-                        .setDelay(275)
-                        .burst(35)
-                konfettiView.build()
-                        .addColors(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500))
-                        .setDirection(180.0, 225.0)
-                        .setSpeed(3f, 9f)
-                        .setFadeOutEnabled(true)
-                        .setTimeToLive(2000L)
-                        .addShapes(Shape.Circle, Shape.Square)
-                        .addSizes(Size(4))
-                        .setPosition(logo.x + 12.dp, logo.x + 12.dp, logo.y + logo.height - 24.dp, logo.y + logo.height + 24.dp)
-                        .setRotationEnabled(false)
-                        .setDelay(275)
-                        .burst(35)
+                val partyRight = Party(
+                    colors = listOf(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500)),
+                    angle = 0,
+                    spread = 60,
+                    speed = 3f,
+                    maxSpeed = 18f,
+                    fadeOutEnabled = true,
+                    timeToLive = 2000L,
+                    rotation = Rotation(enabled = false),
+                    shapes = listOf(Shape.Circle),
+                    size = listOf(Size(4), Size(3), Size(2)),
+                    delay = 275,
+                    position = Position.Absolute(logo.x + logo.width - 12.dp, logo.y + logo.height - 24.dp).between(Position.Absolute(logo.x + logo.width - 12.dp, logo.y + logo.height + 24.dp)),
+                    emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(iter*30)
+                )
+                konfettiView.start(partyRight)
+                val partyLeft = Party(
+                    colors = listOf(ContextCompat.getColor(activity, R.color.orange200), ContextCompat.getColor(activity, R.color.orange800), ContextCompat.getColor(activity, R.color.orange500)),
+                    angle = 180,
+                    spread = 60,
+                    speed = 3f,
+                    maxSpeed = 18f,
+                    fadeOutEnabled = true,
+                    timeToLive = 2000L,
+                    rotation = Rotation(enabled = false),
+                    shapes = listOf(Shape.Circle),
+                    size = listOf(Size(4), Size(3), Size(2)),
+                    delay = 275,
+                    position = Position.Absolute(logo.x + 12.dp, logo.y + logo.height - 24.dp).between(Position.Absolute(logo.x + 12.dp, logo.y + logo.height + 24.dp)),
+                    emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(iter*30)
+                )
+                konfettiView.start(partyLeft)
             }
         }
 
@@ -431,8 +513,8 @@ object UiTools {
         v.findViewById<View>(R.id.about_website_container).setOnClickListener {
             activity.openLinkIfPossible("https://www.videolan.org/vlc/")
         }
-        v.findViewById<View>(R.id.about_forum_container).setOnClickListener {
-            activity.openLinkIfPossible("https://forum.videolan.org/viewforum.php?f=35")
+        v.findViewById<View>(R.id.about_report_container).setOnClickListener {
+            activity.startActivity(Intent(activity, FeedbackActivity::class.java))
         }
         v.findViewById<View>(R.id.about_sources_container).setOnClickListener {
             activity.openLinkIfPossible("https://code.videolan.org/videolan/vlc-android")
@@ -469,6 +551,28 @@ object UiTools {
 //    private fun manageDonationVisibility(activity: FragmentActivity, donationsButton:View) {
 //        if (VLCBilling.getInstance(activity.application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(activity.application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
 //    }
+
+
+    /**
+     * Update the incognito mode setting
+     *
+     * @param activity the activity that launched the change
+     * @param item the menu item that was clicked
+     * @return true if the change has been applied, false otherwise
+     */
+    fun updateIncognitoMode(activity: FragmentActivity, item: MenuItem): Boolean {
+        if (activity.showPinIfNeeded()) return false
+        val settings = Settings.getInstance(activity)
+        settings.putSingle(KEY_INCOGNITO, !settings.getBoolean(KEY_INCOGNITO, false))
+        item.isChecked = !item.isChecked
+        if (!item.isChecked) {
+            settings.edit {
+                remove(KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE)
+                remove(KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE)
+            }
+        }
+        return true
+    }
 
     fun setKeyboardVisibility(v: View?, show: Boolean) {
         if (v == null) return
@@ -523,12 +627,11 @@ object UiTools {
         return false
     }
 
-    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>, forbidNewGroup:Boolean , newGroupListener: ()->Unit) {
+    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>, forbidNewGroup:Boolean) {
         if (!isStarted()) return
         val addToGroupDialog = AddToGroupDialog()
         addToGroupDialog.arguments = bundleOf(AddToGroupDialog.KEY_TRACKS to tracks.toTypedArray(), AddToGroupDialog.FORBID_NEW_GROUP to forbidNewGroup)
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
-        addToGroupDialog.newGroupListener = newGroupListener
     }
 
     /**
@@ -771,22 +874,19 @@ object UiTools {
                 DragEvent.ACTION_DROP -> {
                     val clipData = event.clipData ?: return@OnDragListener false
                     val itemsCount = clipData.itemCount
+                    val uriList = mutableListOf<MediaWrapper>()
                     for (i in 0 until itemsCount) {
                         val permissions = activity.requestDragAndDropPermissions(event)
                         if (permissions != null) {
                             val item = clipData.getItemAt(i)
-                            if (item.uri != null)
-                                MediaUtils.openUri(activity, item.uri)
-                            else if (item.text != null) {
-                                val uri = item.text.toString().toUri()
-                                val media = MLServiceLocator.getAbstractMediaWrapper(uri)
-                                if ("file" != uri.scheme)
-                                    media.type = MediaWrapper.TYPE_STREAM
-                                MediaUtils.openMedia(activity, media)
-                            }
-                            return@OnDragListener true
+                            val uri = item.uri ?: item.text.toString().toUri()
+                            val media = MLServiceLocator.getAbstractMediaWrapper(uri)
+                            if ("file" != uri.scheme)
+                                media.type = MediaWrapper.TYPE_STREAM
+                            uriList.add(media)
                         }
                     }
+                    MediaUtils.openList(activity, uriList, 0)
                     false
                 }
                 else -> false
@@ -796,7 +896,7 @@ object UiTools {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     fun setRotationAnimation(activity: Activity) {
-        if (!AndroidUtil.isJellyBeanMR2OrLater) return
+        if (!VlcMigrationHelper.isJellyBeanMR2OrLater) return
         val win = activity.window
         val winParams = win.attributes
         winParams.rotationAnimation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.ROTATION_ANIMATION_SEAMLESS else WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT
@@ -804,10 +904,37 @@ object UiTools {
     }
 
 
-    fun restartDialog(context: Context) {
-        AlertDialog.Builder(context)
-                .setTitle(context.resources.getString(R.string.restart_vlc))
-                .setMessage(context.resources.getString(R.string.restart_message))
+    fun restartDialog(
+        activity: Activity,
+        fromLeanback: Boolean = false,
+        leanbackResultCode: Int = 0,
+        leanbackCaller: Any? = null
+    ) {
+
+        if (fromLeanback) {
+            val intent = Intent(Intent.ACTION_VIEW).setClassName(activity, TV_CONFIRMATION_ACTIVITY)
+
+            intent.putExtra(
+                "confirmation_dialog_title",
+                activity.getString(R.string.restart_vlc)
+            )
+            intent.putExtra(
+                "confirmation_dialog_text",
+                activity.getString(R.string.restart_message)
+            )
+            when (leanbackCaller) {
+                is Activity -> leanbackCaller.startActivityForResult(intent, leanbackResultCode)
+                is Fragment -> leanbackCaller.startActivityForResult(intent, leanbackResultCode)
+                is android.app.Fragment -> leanbackCaller.startActivityForResult(intent, leanbackResultCode)
+                else -> throw IllegalStateException("Invalid caller")
+            }
+
+            return
+        }
+
+        AlertDialog.Builder(activity)
+                .setTitle(activity.resources.getString(R.string.restart_vlc))
+                .setMessage(activity.resources.getString(R.string.restart_message))
                 .setPositiveButton(R.string.restart_message_OK) { _, _ -> android.os.Process.killProcess(android.os.Process.myPid()) }
                 .setNegativeButton(R.string.restart_message_Later, null)
                 .create()
@@ -929,6 +1056,11 @@ fun selectedElevation(v: View, isSelected: Boolean?) {
         val elevation = if (isSelected == true) 0.dp else 4.dp
         if (v is CardView) v.cardElevation = elevation.toFloat() else v.elevation = elevation.toFloat()
     }
+}
+
+@BindingAdapter("trackNumber")
+fun trackNumber(v: View, media: MediaWrapper) {
+    (v as? TextView)?.text = media.trackNumberText()
 }
 
 fun BaseActivity.applyTheme() {

@@ -55,6 +55,7 @@ public class FolderImpl extends Folder {
         boolean ret = false;
         if (ml.isInitiated())
             ret = nativeSetFavorite(ml, mId, favorite);
+        if (ret) mFavorite = favorite;
         return ret;
     }
 

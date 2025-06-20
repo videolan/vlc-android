@@ -74,7 +74,7 @@ object AudioUtil {
             val values = contentValuesOf(
                     MediaStore.MediaColumns.TITLE to song.title,
                     MediaStore.MediaColumns.MIME_TYPE to type,
-                    MediaStore.Audio.Media.ARTIST to song.artist,
+                    MediaStore.Audio.Media.ARTIST to song.artistName,
                     MediaStore.Audio.Media.IS_RINGTONE to true,
                     MediaStore.Audio.Media.IS_NOTIFICATION to false,
                     MediaStore.Audio.Media.IS_ALARM to false,
@@ -130,7 +130,7 @@ object AudioUtil {
     }
 
     private fun getCoverFromMediaStore(context: Context, media: MediaWrapper): String? {
-        val album = media.album ?: return null
+        val album = media.albumName ?: return null
         val contentResolver = context.contentResolver
         val uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
         val cursor = contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM, MediaStore.Audio.Albums.ALBUM_ART),

@@ -161,7 +161,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
 //        val secondaryBackgroundColor = widgetCacheEntry.widget.getBackgroundColor(context, palette = palette, secondary = true)
 
         val service = PlaybackService.serviceFlow.value
-        val playing = (service?.isPlaying == true && !forPreview) || previewPlaying
+        val playing = (service?.isPlaying == true && !forPreview && !service.isVideoPlaying) || previewPlaying
         val colorChanged = !partial || widgetCacheEntry.foregroundColor != foregroundColor || (widgetCacheEntry.widget.theme == 1 && widgetCacheEntry.playing != playing)
         widgetCacheEntry.foregroundColor = foregroundColor
 
@@ -268,8 +268,8 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
         }
 
         val artist = when {
-            forPreview -> widgetCacheEntry.currentMedia?.artist
-            playing -> service?.artist ?: widgetCacheEntry.currentMedia?.artist
+            forPreview -> widgetCacheEntry.currentMedia?.artistName
+            playing -> service?.artist ?: widgetCacheEntry.currentMedia?.artistName
             else -> settings.getString(KEY_CURRENT_AUDIO_RESUME_ARTIST, "")
         }
         setupTexts(context, views, widgetType, title, artist)
@@ -297,10 +297,10 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
             views.setImageViewBitmap(R.id.cover, cutBitmapCover(widgetType, previewBitmap!!, widgetCacheEntry))
         } else if (widgetCacheEntry.currentMedia?.artworkMrl != widgetCacheEntry.currentCover || widgetCacheEntry.currentCoverInvalidated) {
             widgetCacheEntry.currentCoverInvalidated = false
-            widgetCacheEntry.currentCover = if (service?.isVideoPlaying == false) widgetCacheEntry.currentMedia?.artworkMrl
+            widgetCacheEntry.currentCover = if (service?.isPlaying == true && !service.isVideoPlaying) widgetCacheEntry.currentMedia?.artworkMrl
                     ?: settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null) else settings.getString(KEY_CURRENT_AUDIO_RESUME_THUMB, null)
             if (!widgetCacheEntry.currentCover.isNullOrEmpty()) {
-                log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId}")
+                log(appWidgetId, WidgetLogType.INFO, "Bugfix Refresh - Update cover: ${widgetCacheEntry.currentMedia?.artworkMrl} for ${widgetCacheEntry.widget.widgetId} -> ${widgetCacheEntry.currentCover}")
                 runIO {
                     log(appWidgetId, WidgetLogType.BITMAP_GENERATION, "Generating cover")
                     val cover = AudioUtil.readCoverBitmap(Uri.decode(widgetCacheEntry.currentCover), 320)
@@ -435,8 +435,11 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
                 MediaWrapper.TYPE_AUDIO,
                 "Track name",
                 "",
+                -1L,
+                -1L,
                 "Artist name",
                 "",
+                -1L,
                 "",
                 "",
                 0,
@@ -468,7 +471,7 @@ class MiniPlayerAppWidgetProvider : AppWidgetProvider() {
     private fun setupTexts(context: Context, views: RemoteViews, widgetType: WidgetType, title: String?, artist: String?) {
         log(-1, WidgetLogType.INFO, "setupTexts: $title /// $artist")
         views.setTextViewText(R.id.songName, title)
-        views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) "${if (widgetType == WidgetType.MACRO) "" else " ${TextUtils.separator} "}$artist" else artist)
+        views.setTextViewText(R.id.artist, if (!artist.isNullOrBlank()) "${if (widgetType == WidgetType.MACRO) "" else " ${TextUtils.SEPARATOR} "}$artist" else artist)
         if (title == context.getString(R.string.widget_default_text)) {
             views.setViewVisibility(R.id.app_name, View.VISIBLE)
             views.setViewVisibility(R.id.songName, View.GONE)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -7,12 +8,13 @@
             android:id="@+id/fastscroller_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/fastscroller_handle"
             android:background="?attr/fast_scroller_bubble"
+            android:contentDescription="@string/fastscroller_handle"
             android:gravity="center"
-            android:textSize="@dimen/fastscroller_handle_text_size"
             android:textColor="@color/white"
-            android:visibility="gone" />
+            android:textSize="@dimen/fastscroller_handle_text_size"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     <ImageView
             android:id="@+id/fastscroller_handle"

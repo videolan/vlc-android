@@ -24,6 +24,11 @@
 
 package org.videolan.vlc.util
 
+import android.content.res.Configuration
+import android.text.TextUtils
+import android.view.View
+import androidx.core.text.TextUtilsCompat
+import androidx.core.view.ViewCompat
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -117,6 +122,8 @@ object LocaleUtil {
         "in" -> arrayOf("in", "id")
         else -> arrayOf(this)
     }
+
+    fun isRtl() = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault())== View.LAYOUT_DIRECTION_RTL
 
     /**
      * VLC locale object

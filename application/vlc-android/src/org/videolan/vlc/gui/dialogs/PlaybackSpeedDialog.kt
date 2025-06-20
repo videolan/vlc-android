@@ -22,31 +22,44 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.onEach
+import androidx.core.content.edit
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
+import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
+import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogPlaybackSpeedBinding
 import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
 import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.isSchemeStreaming
-import org.videolan.vlc.util.launchWhenStarted
 import kotlin.math.ln
 import kotlin.math.pow
 
 
-class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
+class PlaybackSpeedDialog : PlaybackBottomSheetDialogFragment(), PlaybackService.Callback {
 
+    private lateinit var settings: SharedPreferences
+    private val forVideo: Boolean
+        get() {
+            return !(PlaylistManager.showAudioPlayer.value ?: true)
+        }
     private lateinit var binding: DialogPlaybackSpeedBinding
 
-    private var playbackService: PlaybackService? = null
     private var textColor: Int = 0
 
     private val orangeColor:Int
@@ -62,9 +75,9 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
             if (playbackService == null || playbackService!!.currentMediaWrapper == null)
                 return
             if (fromUser) {
-                val rate = (8.0).pow(progress.toDouble() / 100.0 - 1).toFloat()
-                playbackService!!.setRate(rate, true)
-                updateInterface()
+                val coef = if (progress < 100) 4.0 else 8.0
+                val rate = (coef).pow(progress.toDouble() / 100.0 - 1).toFloat()
+                changeSpeedTo(rate, true)
             }
         }
 
@@ -101,6 +114,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = DialogPlaybackSpeedBinding.inflate(inflater, container, false)
+        settings = Settings.getInstance(requireActivity())
 
         binding.playbackSpeedSeek.setOnSeekBarChangeListener(seekBarListener)
         binding.playbackSpeedValue.setOnClickListener(resetListener)
@@ -129,6 +143,41 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         binding.buttonSpeedPlus.setOnClickListener {
             changeSpeedTo(playbackService!!.rate + 0.01f)
         }
+        binding.toggleButton.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+            if (isChecked) when (checkedId) {
+                R.id.this_media -> {
+                    settings.edit(commit = true) {
+                        putBoolean(if(forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false)
+                    }
+                    val newValue = getCurrentMedia()?.getMetaString(MediaWrapper.META_SPEED)?.toFloat() ?: 1F
+                    changeSpeedTo(newValue)
+                }
+                R.id.all_media -> {
+                    settings.edit(commit = true) {
+                        putBoolean(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, true)
+                    }
+                    val newValue = when {
+                        settings.getBoolean(KEY_INCOGNITO, false) -> settings.getFloat(if (forVideo) KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1F)
+                        else -> settings.getFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, 1F)
+                    }
+                    changeSpeedTo(newValue)
+                }
+            }
+            updateExplanation()
+        }
+
+        val initialCheckedId = if (
+            forVideo && settings.getBoolean(KEY_PLAYBACK_SPEED_VIDEO_GLOBAL, false) ||
+            !forVideo && settings.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false)
+        )
+            R.id.all_media
+        else
+            R.id.this_media
+
+        binding.toggleButton.check(initialCheckedId)
+        binding.thisMedia.text = if (forVideo) getString(R.string.playback_speed_this_video) else getString(R.string.playback_speed_this_track)
+        binding.allMedia.text = if (forVideo) getString(R.string.playback_speed_all_videos) else getString(R.string.playback_speed_all_tracks)
+        updateExplanation()
 
         textColor = binding.playbackSpeedValue.currentTextColor
 
@@ -138,24 +187,73 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchWhenStarted(lifecycleScope)
+    /**
+     * Update the explanation text based on the current playback speed mode.
+     *
+     */
+    private fun updateExplanation() {
+        binding.speedModeExplanation.text = when {
+            binding.toggleButton.checkedButtonId == R.id.all_media && settings.getBoolean(KEY_INCOGNITO, false) -> buildString {
+                append(if (forVideo) getString(R.string.playback_speed_explanation_all_videos) else getString(R.string.playback_speed_explanation_all_tracks) )
+                append("\n\n")
+                append(getString(R.string.playback_speed_explanation_all_incognito))
+            }
+            binding.toggleButton.checkedButtonId == R.id.all_media -> if (forVideo) getString(R.string.playback_speed_explanation_all_videos) else getString(R.string.playback_speed_explanation_all_tracks)
+            else -> if (forVideo) getString(R.string.playback_speed_explanation_one_video) else getString(R.string.playback_speed_explanation_one_track)
+        }
+    }
+
+    override fun onServiceAvailable() {
+        setRateProgress()
+    }
+
+    override fun onMediaChanged() {
+        setRateProgress()
     }
 
     private fun setRateProgress() {
         var speed = playbackService!!.rate.toDouble()
-        speed = 100 * (1 + ln(speed) / ln(8.0))
+        val coef = if (speed < 1.0) 4.0 else 8.0
+        speed = 100 * (1 + ln(speed) / ln(coef))
         binding.playbackSpeedSeek.progress = speed.toInt()
         updateInterface()
     }
 
-    private fun changeSpeedTo(newValue: Float) {
+    /**
+     * Change the playback speed of the current media to the [newValue] and save it in the settings or the media metadata.
+     *
+     * @param newValue the new playback speed
+     * @param preventChangeProgressbar if true, the progress bar will not be updated
+     */
+    private fun changeSpeedTo(newValue: Float, preventChangeProgressbar:Boolean = false) {
         if (playbackService == null)
             return
         if (newValue > 8.0F || newValue < 0.25F) return
+        if (binding.toggleButton.checkedButtonId == R.id.this_media) {
+            getCurrentMedia()?.setStringMeta(MediaWrapper.META_SPEED, newValue.toString())
+        } else {
+            if (settings.getBoolean(KEY_INCOGNITO, false)) {
+                settings.edit {
+                    putFloat(if (forVideo) KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, newValue)
+                }
+            } else
+                settings.edit {
+                    putFloat(if (forVideo) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE, newValue)
+                }
+        }
         playbackService!!.setRate(newValue, true)
-        setRateProgress()
+       if (!preventChangeProgressbar)
+           setRateProgress()
+        else
+            updateInterface()
+    }
+
+    private fun getCurrentMedia():MediaWrapper? {
+        PlaylistManager.currentPlayedMedia.value?.let {
+            if (it.id > 0) return it
+             return  playbackService?.medialibrary?.getMedia(it.uri)
+        }
+        return null
     }
 
     private fun updateInterface() {
@@ -170,17 +268,11 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     }
 
-    private fun onServiceChanged(service: PlaybackService?) {
-        if (service != null) {
-            playbackService = service
-            setRateProgress()
-        } else
-            playbackService = null
-    }
-
     override fun getDefaultState(): Int {
         return com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
     }
+
+    override fun allowRemote() = true
 
     override fun needToManageOrientation(): Boolean {
         return true

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
@@ -14,18 +15,35 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_OPEN_CONTENT
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.CONTENT_PREFIX
+import org.videolan.resources.EXTRA_CONTENT_ID
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.VLCOptions
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
@@ -41,10 +59,16 @@ import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.TextUtils
+import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.isOTG
+import org.videolan.vlc.util.isSD
+import org.videolan.vlc.util.isSchemeStreaming
 import java.io.File
 import java.security.SecureRandom
-import java.util.*
+import java.util.LinkedList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
@@ -52,20 +76,18 @@ private const val TAG = "VLC/MediaUtils"
 private typealias MediaContentResolver = SimpleArrayMap<String, IMediaContentResolver>
 
 object MediaUtils {
-    fun getSubs(activity: FragmentActivity, mediaList: List<MediaWrapper>) {
-        if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri }, mediaList.map { it.title })
+    fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
+        if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, media.uri, media.title)
         else {
             val intent = Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SUBS_DL)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.putParcelableArrayListExtra(DialogActivity.EXTRA_MEDIALIST, mediaList as? ArrayList
-                    ?: ArrayList(mediaList))
+            intent.putExtra(DialogActivity.EXTRA_MEDIA, media)
             ContextCompat.startActivity(activity, intent, null)
         }
     }
 
-    fun getSubs(activity: FragmentActivity, media: MediaWrapper) = getSubs(activity, listOf(media))
 
-    fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaUris: List<Uri>, mediaTitles:List<String>) {
+    fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaUris: Uri, mediaTitles:String) {
         SubtitleDownloaderDialogFragment.newInstance(mediaUris, mediaTitles).show(activity.supportFragmentManager, "Subtitle_downloader")
     }
 
@@ -128,10 +150,7 @@ object MediaUtils {
             context.let {
                 if (it is Activity) {
                     val text = context.resources.getQuantityString(R.plurals.tracks_appended, media.size, media.size)
-                    if (it is AudioPlayerContainerActivity) {
-                        Snackbar.make(it.appBarLayout, text, Snackbar.LENGTH_LONG).show()
-                    } else
-                    Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(if (it is AudioPlayerContainerActivity) it.appBarLayout else it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -150,7 +169,7 @@ object MediaUtils {
             context.let {
                 if (it is Activity) {
                     val text = context.resources.getQuantityString(R.plurals.tracks_inserted, media.size, media.size)
-                    Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(if (it is AudioPlayerContainerActivity) it.appBarLayout else it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -171,8 +190,12 @@ object MediaUtils {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) = openMediaNoUi(AppContextProvider.appContext, MLServiceLocator.getAbstractMediaWrapper(uri))
-
+    fun openMediaNoUi(ctx: Context, uri: Uri) = AppScope.launch {
+        var media = ctx.getFromMl { getMedia(uri) }
+        if (media == null)
+            media = MLServiceLocator.getAbstractMediaWrapper(uri)
+        openMediaNoUi(ctx, media)
+    }
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
         object : BaseCallBack(context) {
@@ -207,10 +230,11 @@ object MediaUtils {
         })
     }
 
-    fun playAll(context: Activity?, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean) = context?.scope?.launch {
+    fun playAll(context: Activity?, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean, forceAudio: Boolean = false) = context?.scope?.launch {
         provider.loadPagedList(context, {
             provider.getAll().toList()
         }, { l, service ->
+            if (forceAudio) l[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             l.takeIf { l.isNotEmpty() }?.let { list ->
                 service.load(list, if (shuffle) SecureRandom().nextInt(min(list.size, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
@@ -218,12 +242,13 @@ object MediaUtils {
         })
     }
 
-    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean) = context?.scope?.launch {
+    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, mediaToPlay: MediaWrapper?, shuffle: Boolean, forceAudio: Boolean = false) = context?.scope?.launch {
         provider.loadPagedList(context, {
             provider.getAll().flatMap {
                 it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, false, it.mediaCount(), 0).toList()
             }
         }, {l, service ->
+            if (forceAudio) l[l.indexOf(mediaToPlay)].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             l.takeIf { l.isNotEmpty() }?.let { list ->
                 service.load(list, if (shuffle) SecureRandom().nextInt(min(list.size, MEDIALIBRARY_PAGE_SIZE)) else list.indexOf(mediaToPlay))
                 if (shuffle && !service.isShuffling) service.shuffle()
@@ -231,10 +256,12 @@ object MediaUtils {
         })
     }
 
-    fun playAllTracks(context: Context?, provider: FoldersProvider, position: Int, shuffle: Boolean) = context?.scope?.launch {
+    fun playAllTracks(context: Context?, provider: FoldersProvider, position: Int, shuffle: Boolean, forceAudio: Boolean = false) = context?.scope?.launch {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list: List<MediaWrapper>) {
+                if (forceAudio) list[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+
                 service.load(list, if (shuffle) SecureRandom().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
@@ -299,7 +326,7 @@ object MediaUtils {
     fun getMediaArtist(ctx: Context, media: MediaWrapper?): String = when {
         media == null -> getMediaString(ctx, R.string.unknown_artist)
         media.type == MediaWrapper.TYPE_VIDEO -> ""
-        media.artist != null -> media.artist
+        media.artistName != null -> media.artistName
         media.nowPlaying != null -> media.title
         isSchemeStreaming(media.uri.scheme) -> ""
         else -> getMediaString(ctx, R.string.unknown_artist)
@@ -307,12 +334,12 @@ object MediaUtils {
 
     fun getMediaReferenceArtist(ctx: Context, media: MediaWrapper?) = getMediaArtist(ctx, media)
 
-    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtist
+    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtistName
             ?: getMediaString(ctx, R.string.unknown_artist)
 
     fun getMediaAlbum(ctx: Context, media: MediaWrapper?): String = when {
         media == null -> getMediaString(ctx, R.string.unknown_album)
-        media.album != null -> media.album
+        media.albumName != null -> media.albumName
         media.nowPlaying != null -> ""
         isSchemeStreaming(media.uri.scheme) -> ""
         else -> getMediaString(ctx, R.string.unknown_album)
@@ -329,21 +356,27 @@ object MediaUtils {
         }
         val suffix = when {
             media.type == MediaWrapper.TYPE_VIDEO -> generateResolutionClass(media.width, media.height)
-            media.length > 0L -> media.artist
+            media.length > 0L -> media.artistName
             isSchemeStreaming(media.uri.scheme) -> media.uri.toString()
-            else -> media.artist
+            else -> media.artistName
         }
         return TextUtils.separatedString(prefix, suffix)
     }
 
-    fun getDisplaySubtitle(ctx: Context, media: MediaWrapper, mediaPosition: Int, mediaSize: Int): String {
+    fun getDisplaySubtitle(ctx: Context, media: MediaWrapper): String? {
         val album = getMediaAlbum(ctx, media)
         val artist = getMediaArtist(ctx, media)
         val isAlbumUnknown = album == getMediaString(ctx, R.string.unknown_album)
         val isArtistUnknown = artist == getMediaString(ctx, R.string.unknown_artist)
-        val prefix = if (mediaSize > 1) "${mediaPosition + 1} / $mediaSize" else null
-        val suffix = if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString('-', artist.markBidi(), album.markBidi()) else null
-        return TextUtils.separatedString(prefix, suffix)
+        return if (!isArtistUnknown && !isAlbumUnknown) TextUtils.separatedString(artist.markBidi(), album.markBidi()) else null
+    }
+
+    fun getQueuePosition(mediaPosition: Int, mediaSize: Int, shortQueue: Boolean = false): String? {
+        return when {
+            shortQueue && mediaSize > 1 -> "${mediaPosition + 1}"
+            mediaSize > 1 -> "${mediaPosition + 1} / $mediaSize"
+            else -> null
+        }
     }
 
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title
@@ -441,11 +474,9 @@ object MediaUtils {
                 if (!it.isNull(nameIndex)) mw.title = it.getString(nameIndex)
             }
         }
-    } catch (ignored: UnsupportedOperationException) {
-    } catch (ignored: IllegalArgumentException) {
-    } catch (ignored: NullPointerException) {
-    } catch (ignored: IllegalStateException) {
-    } catch (ignored: SecurityException) {}
+    } catch (e: Exception) {
+        Log.e(TAG, "retrieveMediaTitle: e: $e")
+    }
 
     fun deletePlaylist(playlist: Playlist) = AppScope.launch(Dispatchers.IO) { playlist.delete() }
 
@@ -466,7 +497,7 @@ object MediaUtils {
                     }
                 } ?: return@launch
                 when (mw) {
-                    is MediaWrapper -> openMediaNoUi(mw.uri)
+                    is MediaWrapper -> openMediaNoUi(context, mw.uri)
                     is Album -> playAlbum(context, mw)
                     is Artist -> playArtist(context, mw)
                 }
@@ -497,6 +528,21 @@ object MediaUtils {
             FileUtils.copyFile(File(uri.path), VLCOptions.getSoundFontFile(context))
         }
     }
+}
+
+fun Folder.isOTG(): Boolean {
+    try {
+        return Uri.parse(mMrl).isOTG()
+    } catch (_: Exception) {
+    }
+    return false
+}
+fun Folder.isSD(): Boolean {
+    try {
+        return Uri.parse(mMrl).isSD()
+    } catch (_: Exception) {
+    }
+    return false
 }
 
 @WorkerThread

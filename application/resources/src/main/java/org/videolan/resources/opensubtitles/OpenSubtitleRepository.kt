@@ -1,5 +1,7 @@
 package org.videolan.resources.opensubtitles
 
+import retrofit2.Response
+
 class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleService) {
 
     /*
@@ -9,73 +11,46 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         3) precedence: (movieBytesize and moviehash) > imdbid > name
     */
 
-    suspend fun queryWithImdbid(imdbId: Int, tag: String?, episode: Int? , season: Int?, languageId: String? ): List<OpenSubtitle> {
-        val actualEpisode = episode ?: 0
-        val actualSeason = season ?: 0
-        val actualLanguageId = languageId ?: ""
-        val actualTag = tag ?: ""
+
+    suspend fun queryWithHash(
+        movieHash: String?,
+        languageIds: List<String>?,
+        hearingImpaired: Boolean
+    ): OpenSubV1 {
+        val actualLanguageIds =
+            languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this }
+                ?: setOf("")
         return openSubtitleService.query(
-                imdbId = String.format("%07d", imdbId),
-                tag = actualTag,
-                episode = actualEpisode,
-                season = actualSeason,
-                languageId = actualLanguageId)
+            movieHash = movieHash ?: "",
+            languageId = actualLanguageIds.sorted().joinToString(","),
+            hearingImpaired = if (hearingImpaired) "only" else "include"
+        )
     }
 
-    suspend fun queryWithHash(movieByteSize: Long, movieHash: String, languageId: String?): List<OpenSubtitle> {
-        val actualLanguageId = languageId ?: ""
-        return openSubtitleService.query(
-                movieByteSize = movieByteSize.toString(),
-                movieHash = movieHash,
-                languageId = actualLanguageId)
-    }
-
-    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageId: String?): List<OpenSubtitle> {
-        val actualEpisode = episode ?: 0
-        val actualSeason = season ?: 0
-        val actualLanguageId = languageId ?: ""
-        return openSubtitleService.query(
-                name = name,
-                episode = actualEpisode,
-                season = actualSeason,
-                languageId = actualLanguageId)
-    }
-
-    suspend fun queryWithImdbid(imdbId: Int, tag: String?, episode: Int? , season: Int?, languageIds: List<String>? ): List<OpenSubtitle> {
+    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
         val actualEpisode = episode ?: 0
         val actualSeason = season ?: 0
         val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
-        val actualTag = tag ?: ""
-        return actualLanguageIds.flatMap {
-            openSubtitleService.query(
-                    imdbId = String.format("%07d", imdbId),
-                    tag = actualTag,
-                    episode = actualEpisode,
-                    season = actualSeason,
-                    languageId = it) }
+        return openSubtitleService.query(
+            name = name,
+            episode = actualEpisode,
+            season = actualSeason,
+            languageId = actualLanguageIds.sorted().joinToString(","),
+            hearingImpaired = if (hearingImpaired) "only" else "include"
+        )
+
     }
 
-    suspend fun queryWithHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): List<OpenSubtitle> {
-        val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
-        return actualLanguageIds.flatMap {
-            openSubtitleService.query(
-                    movieByteSize = movieByteSize.toString(),
-                    movieHash = movieHash ?: "",
-                    languageId = it)
-        }
+    suspend fun getDownloadLink(fileId: Long): DownloadLink {
+        return openSubtitleService.queryDownloadUrl(DownloadLinkBody(fileId))
     }
 
-    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): List<OpenSubtitle> {
-        val actualEpisode = episode ?: 0
-        val actualSeason = season ?: 0
-        val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
-        return actualLanguageIds.flatMap {
-            openSubtitleService.query(
-                    name = name,
-                    episode = actualEpisode,
-                    season = actualSeason,
-                    languageId = it)
-        }
+    fun login(username: String, password: String): Response<OpenSubtitleAccount> {
+        return openSubtitleService.login(LoginBody(username, password)).execute()
+    }
+
+    fun userInfo(): Response<UserInfo> {
+        return openSubtitleService.userInfo().execute()
     }
 
     companion object {

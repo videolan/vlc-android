@@ -65,6 +65,10 @@ object NetworkConnectionManager {
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                 .build()
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        connectivityManager.requestNetwork(networkRequest, networkCallback)
+        try {
+            connectivityManager.requestNetwork(networkRequest, networkCallback)
+        } catch (e: SecurityException) {
+
+        }
     }
 }

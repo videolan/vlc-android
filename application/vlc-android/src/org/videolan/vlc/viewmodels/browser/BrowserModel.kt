@@ -59,6 +59,7 @@ open class BrowserModel(
         val type: Long,
         private val showDummyCategory: Boolean,
         pickerType: PickerType = PickerType.SUBTITLE,
+        mocked: ArrayList<MediaLibraryItem>? = null,
         coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
 ) : BaseModel<MediaLibraryItem>(
         context, coroutineContextProvider),
@@ -69,7 +70,7 @@ open class BrowserModel(
 
     override val provider: BrowserProvider = when (type) {
         TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType)
-        TYPE_NETWORK -> NetworkProvider(context, dataset, url)
+        TYPE_NETWORK -> NetworkProvider(context, dataset, url, mocked)
         TYPE_STORAGE -> StorageProvider(context, dataset, url)
         else -> FileBrowserProvider(context, dataset, url, showDummyCategory = showDummyCategory, sort = sort, desc = desc)
     }
@@ -162,9 +163,10 @@ open class BrowserModel(
 
     suspend fun updateMediaPlayed(mw: MediaWrapper) = withContext(Dispatchers.IO) {
         if (dataset.getList().contains(mw)) {
-            val item = provider.medialibrary.getMedia(mw.id)
-            withContext(Dispatchers.Main) {
-                dataset.replace(item)
+            provider.medialibrary.getMedia(mw.id)?.let { item ->
+                withContext(Dispatchers.Main) {
+                    dataset.replace(item)
+                }
             }
         }
     }
@@ -177,7 +179,7 @@ open class BrowserModel(
     }
 }
 
-fun Fragment.getBrowserModel(category: Long, url: String?, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
-    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url)).get(NetworkModel::class.java)
+fun Fragment.getBrowserModel(category: Long, url: String?, showDummyCategory: Boolean = false, mocked: ArrayList<MediaLibraryItem>? = null) = if (category == TYPE_NETWORK)
+    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url, mocked)).get(NetworkModel::class.java)
 else
     ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)

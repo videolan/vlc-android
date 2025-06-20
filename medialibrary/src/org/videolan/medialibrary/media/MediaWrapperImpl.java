@@ -29,6 +29,8 @@ import android.os.Parcel;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.Album;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Bookmark;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
@@ -39,22 +41,22 @@ public class MediaWrapperImpl extends MediaWrapper {
     public final static String TAG = "VLC/MediaWrapperImpl";
 
     public MediaWrapperImpl(long id, String mrl, long time, float position, long length, int type, String title,
-                            String filename, String artist, String genre, String album, String albumArtist,
+                            String filename,long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                             int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                             int discNumber, long lastModified, long seen, boolean isThumbnailGenerated,
                             boolean isFavorite, int releaseDate, boolean isPresent, long insertionDate) {
-        super(id, mrl, time, position, length, type, title, filename, artist,
-                genre, album, albumArtist, width, height, artworkURL,
+        super(id, mrl, time, position, length, type, title, filename, artistId, albumArtistId, artist,
+                genre, albumId, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
                 seen, isThumbnailGenerated, isFavorite, releaseDate, isPresent, insertionDate);
     }
 
     public MediaWrapperImpl(Uri uri, long time, float position, long length, int type,
-                            Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                            Bitmap picture, String title, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                             int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                             int discNumber, long lastModified, long seen, boolean isFavorite, long insertionDate) {
-        super(uri, time, position, length, type, picture, title, artist,
-                genre, album, albumArtist, width, height, artworkURL,
+        super(uri, time, position, length, type, picture, title, artistId, albumArtistId, artist,
+                genre, albumId, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified, seen, isFavorite, insertionDate);
     }
 
@@ -75,20 +77,41 @@ public class MediaWrapperImpl extends MediaWrapper {
         return false;
     }
 
+    @Override
+    public Album getAlbum() {
+        final Medialibrary ml = Medialibrary.getInstance();
+        if (ml.isInitiated()) return ml.getAlbum(mAlbumId);
+        return null;
+    }
+
+    @Override
+    public Artist getArtist() {
+        final Medialibrary ml = Medialibrary.getInstance();
+        if (ml.isInitiated()) return ml.getArtist(mArtistId);
+        return null;
+    }
+
+    @Override
+    public Artist getAlbumArtist() {
+        final Medialibrary ml = Medialibrary.getInstance();
+        if (ml.isInitiated()) return ml.getArtist(mAlbumArtistId);
+        return null;
+    }
+
     public void setArtist(String artist) {
-        mArtist = artist;
+        mArtistName = artist;
     }
 
     public String getReferenceArtist() {
-        return mAlbumArtist == null ? mArtist : mAlbumArtist;
+        return mAlbumArtistName == null ? mArtistName : mAlbumArtistName;
     }
 
-    public String getArtist() {
-        return mArtist;
+    public String getArtistName() {
+        return mArtistName;
     }
 
     public Boolean isArtistUnknown() {
-        return mArtist == null;
+        return mArtistName == null;
     }
 
     public String getGenre() {
@@ -104,16 +127,16 @@ public class MediaWrapperImpl extends MediaWrapper {
         return mCopyright;
     }
 
-    public String getAlbum() {
-        return mAlbum;
+    public String getAlbumName() {
+        return mAlbumName;
     }
 
-    public String getAlbumArtist() {
-        return mAlbumArtist;
+    public String getAlbumArtistName() {
+        return mAlbumArtistName;
     }
 
     public Boolean isAlbumUnknown() {
-        return mAlbum == null;
+        return mAlbumName == null;
     }
 
     public int getTrackNumber() {
@@ -305,6 +328,7 @@ public class MediaWrapperImpl extends MediaWrapper {
         boolean ret = false;
         if (ml.isInitiated())
             ret = nativeSetFavorite(ml, mId, favorite);
+        if (ret) mFavorite = favorite;
         return ret;
     }
 

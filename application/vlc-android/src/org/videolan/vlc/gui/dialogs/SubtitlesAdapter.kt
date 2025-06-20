@@ -59,7 +59,15 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEven
                 State.NotDownloaded ->R.string.not_downloaded
                 else -> R.string.downloading
             })
-            itemView.contentDescription = context.getString(R.string.talkback_subtitle_dowload_item, Locale(subtitleItem?.subLanguageID ?: "").displayLanguage, downloadString, subtitleItem?.movieReleaseName ?: "")
+            itemView.contentDescription = buildString {
+                append(context.getString(
+                    R.string.talkback_subtitle_dowload_item,
+                    Locale(subtitleItem?.subLanguageID ?: "").displayLanguage,
+                    downloadString,
+                    subtitleItem?.movieReleaseName ?: ""
+                ))
+                if (subtitleItem?.hearingImpaired == true) append(". ").append((context.getString(R.string.sub_result_by_name_hearing_impaired)))
+            }
         }
     }
 }

@@ -26,20 +26,26 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     }
     utils::jni::string artist, genre, album, albumArtist, mrl, title, thumbnail, filename;
     jint trackNumber = 0, discNumber = 0;
+    int64_t artistId = -1, albumArtistId = -1, albumId = -1;
 
     const bool isPresent = mediaPtr->isPresent();
     medialibrary::ArtistPtr artistPtr = mediaPtr->artist();
     medialibrary::GenrePtr genrePtr = mediaPtr->genre();
     medialibrary::AlbumPtr albumPtr = mediaPtr->album();
-    if (artistPtr != NULL)
+    if (artistPtr != NULL) {
         artist = vlcNewStringUTF(env, artistPtr->name().c_str());
+        artistId = artistPtr->id();
+    }
     if (genrePtr != NULL)
         genre = vlcNewStringUTF(env, genrePtr->name().c_str());
     if (albumPtr!= NULL) {
         album = vlcNewStringUTF(env, albumPtr->title().c_str());
+        albumId = albumPtr->id();
         medialibrary::ArtistPtr albumArtistPtr = albumPtr->albumArtist();
-        if (albumArtistPtr != NULL)
+        if (albumArtistPtr != NULL) {
             albumArtist = vlcNewStringUTF(env, albumArtistPtr->name().c_str());
+            albumArtistId = albumArtistPtr->id();
+        }
     }
     trackNumber = mediaPtr->trackNumber();
     discNumber = mediaPtr->discNumber();
@@ -69,7 +75,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     auto isFavorite = mediaPtr->isFavorite();
     return { env, env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
                           (jlong) mediaPtr->id(), mrl.get(), (jlong) mediaPtr->lastTime(), (jfloat) mediaPtr->lastPosition(), (jlong) duration, type,
-                          title.get(), filename.get(), artist.get(), genre.get(), album.get(),
+                          title.get(), filename.get(), (jlong) artistId, (jlong) albumArtistId, artist.get(), genre.get(), (jlong) albumId, album.get(),
                           albumArtist.get(), width, height, thumbnail.get(),
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
                           (jlong) mediaPtr->playCount(), hasThumbnail, isFavorite, mediaPtr->releaseDate(), isPresent, (jlong) mediaPtr->insertionDate())

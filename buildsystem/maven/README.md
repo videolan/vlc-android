@@ -4,7 +4,7 @@
 
 ### Signing
 
-Use [this guide](https://github.com/drduh/YubiKey-Guide#configure-smartcard) to setup a yubikey with the VideoLAN maven signing key. The key id is `e8f8f982a0cd726f020ced90f4b3cd9a1faeefe8` 
+Use [this guide](https://github.com/drduh/YubiKey-Guide#configure-smartcard) to setup a yubikey with the VideoLAN maven signing key. The key id is `49A7E6FE58DCF183F0B349DFB83763AD62ED0721` 
 
 ### Utilities
 

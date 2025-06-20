@@ -15,11 +15,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.WindowInfoTracker
@@ -38,7 +40,9 @@ import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.RemoteAccessUtils
+import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -48,6 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var settings: SharedPreferences
     private var lastDisplayedOTPCode = ""
     var windowLayoutInfo: WindowLayoutInfo? = null
+    private val displaySettingsViewModel: DisplaySettingsViewModel by viewModels()
 
     open val displayTitle = false
     open fun forcedTheme():Int? = null
@@ -56,9 +61,17 @@ abstract class BaseActivity : AppCompatActivity() {
     private var baseContextWrappingDelegate: AppCompatDelegate? = null
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            FileUtils.getUri(result.data?.data)?.let { MediaUtils.openMediaNoUi(it) }
+            FileUtils.getUri(result.data?.data)?.let { MediaUtils.openMediaNoUi(this, it) }
         }
     }
+
+    /**
+     * Triggered when a display setting is changed
+     *
+     * @param key the display settings key
+     * @param value the new display settings value
+     */
+    open fun onDisplaySettingChanged(key:String, value:Any) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         settings = Settings.getInstance(this)
@@ -93,12 +106,42 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
             }
         }
+        lifecycleScope.launch {
+            //listen to display settings changes
+            displaySettingsViewModel.settingChangeFlow
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                        onDisplaySettingChanged(it.key, it.value)
+                        displaySettingsViewModel.consume()
+                    }
+                }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Permissions.emptyCache()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE) {
+            if (System.currentTimeMillis() -  Permissions.timeAsked < 300) {
+                //Answered really quick (not human) -> forwarding to app settings
+                Permissions.showAppSettingsPage(this)
+            }
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val relockItem = menu?.findItem(R.id.pin_relocked)
         if (relockItem != null) {
-            relockItem.isVisible = PinCodeDelegate.pinUnlocked.value == true
+            relockItem.isVisible = Settings.safeMode && PinCodeDelegate.pinUnlocked.value == true
         }
         val unlockItem = menu?.findItem(R.id.pin_unlock)
         if (unlockItem != null) {

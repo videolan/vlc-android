@@ -25,8 +25,15 @@
 package org.videolan.vlc.gui.helpers
 
 import android.content.Context
-import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.util.getFilesNumber
 import org.videolan.vlc.util.getFolderNumber
@@ -46,14 +53,16 @@ object TalkbackUtil {
 
     fun getAudioTrack(context: Context, audio: MediaWrapper) = context.getString(R.string.talkback_audio_track, audio.title)
             .talkbackAppend(getDuration(context, millisToString(context, audio.length)))
-            .talkbackAppend(context.getString(R.string.talkback_album, audio.album))
-            .talkbackAppend(context.getString(R.string.talkback_artist, audio.artist))
+            .talkbackAppend(context.getString(R.string.talkback_album, audio.albumName))
+            .talkbackAppend(context.getString(R.string.talkback_artist, audio.artistName))
 
     fun getVideoGroup(context: Context, video: VideoGroup) = context.getString(R.string.talkback_video_group, video.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.videos_quantity, video.mediaCount(), video.mediaCount()))
 
     fun getGenre(context: Context, genre: Genre) = context.getString(R.string.talkback_genre, genre.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.track_quantity, genre.tracksCount, genre.tracksCount))
+
+    fun getStorage(context: Context, storage: Storage) = context.getString(R.string.talkback_folder, storage.title)
 
     fun getArtist(context: Context, artist: Artist?) = if (artist == null) null else context.getString(R.string.talkback_artist, artist.title)
             .talkbackAppend(context.resources.getQuantityString(R.plurals.albums_quantity, artist.albumsCount, artist.albumsCount))
@@ -68,7 +77,7 @@ object TalkbackUtil {
     fun getArtist(context: Context, artist: String?) = if (artist == null) "" else context.getString(R.string.talkback_artist, artist)
     fun getTrackNumber(context: Context, item: MediaWrapper) = context.getString(R.string.talkback_track_number, item.trackNumber.toString())
     fun getTimeAndArtist(context: Context, item: MediaWrapper) = millisToString(context, item.length)
-            .talkbackAppend(getArtist(context, item.artist))
+            .talkbackAppend(getArtist(context, item.artistName))
 
 
     fun getFolder(context: Context, folder: Folder): String {

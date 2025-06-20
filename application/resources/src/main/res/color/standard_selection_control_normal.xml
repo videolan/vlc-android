@@ -23,8 +23,8 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:color="@color/orange300" />
-    <item android:state_pressed="true" android:color="@color/orange300" />
-    <item android:state_focused="true" android:color="@color/orange300" />
+    <item android:state_selected="true" android:color="?attr/colorPrimary" />
+    <item android:state_pressed="true" android:color="?attr/colorPrimary" />
+    <item android:state_focused="true" android:color="?attr/colorPrimary" />
     <item android:color="?attr/colorControlNormal" />
 </selector>

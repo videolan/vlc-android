@@ -4,4 +4,7 @@
             name="external_files"
             path="."/>
     <root-path name="external_files" path="/storage/" />
+    <files-path
+        name="files"
+        path="."/>
 </paths>

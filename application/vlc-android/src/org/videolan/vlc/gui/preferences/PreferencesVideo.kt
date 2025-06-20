@@ -25,15 +25,15 @@ package org.videolan.vlc.gui.preferences
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.Preference
 import kotlinx.coroutines.launch
-import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
-import org.videolan.tools.KEY_PLAYBACK_RATE_VIDEO
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST_VIDEO
 import org.videolan.tools.POPUP_FORCE_LEGACY
+import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
+import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.util.Permissions
 
@@ -45,7 +45,11 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = AndroidUtil.isOOrLater
+        if (Settings.getInstance(requireActivity()).getBoolean(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)) {
+            UiTools.snackerConfirm(requireActivity(), requireActivity().getString(R.string.video_settings_disclaimer), indefinite = true) {
+                Settings.getInstance(AppContextProvider.appContext).putSingle(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, false)
+            }
+        }
     }
 
     override fun onStart() {
@@ -72,7 +76,6 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 if (sharedPreferences.getBoolean(key, false) && !Permissions.canDrawOverlays(requireActivity())) Permissions.checkDrawOverlaysPermission(requireActivity())
                 if (!sharedPreferences.getBoolean(key, false) && !Permissions.isPiPAllowed(requireActivity())) Permissions.checkPiPPermission(requireActivity())
             }
-            KEY_PLAYBACK_SPEED_PERSIST_VIDEO -> sharedPreferences.putSingle(KEY_PLAYBACK_RATE_VIDEO, 1.0f)
         }
     }
 }

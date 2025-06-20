@@ -75,6 +75,7 @@ public class GenreImpl extends Genre {
         boolean ret = false;
         if (ml.isInitiated())
             ret = nativeSetFavorite(ml, mId, favorite);
+        if (ret) mFavorite = favorite;
         return ret;
     }
 

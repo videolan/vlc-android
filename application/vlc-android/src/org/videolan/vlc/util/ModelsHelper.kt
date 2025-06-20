@@ -75,7 +75,7 @@ object ModelsHelper {
                 var currentArtist: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val artist = (item as MediaWrapper).artist ?: ""
+                    val artist = (item as MediaWrapper).artistName ?: ""
                     if (currentArtist === null || currentArtist != artist) {
                         currentArtist = artist
                         if (array[currentArtist].isNullOrEmpty()) array[currentArtist] = mutableListOf()
@@ -87,7 +87,7 @@ object ModelsHelper {
                 var currentAlbum: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val album = (item as MediaWrapper).album ?: ""
+                    val album = (item as MediaWrapper).albumName ?: ""
                     if (currentAlbum === null || currentAlbum != album) {
                         currentAlbum = album
                         if (array[currentAlbum].isNullOrEmpty()) array[currentAlbum] = mutableListOf()
@@ -165,18 +165,18 @@ object ModelsHelper {
             } else null
         }
         SORT_ARTIST -> {
-            val artist = (item as? MediaWrapper)?.artist ?: (item as? Album)?.albumArtist ?: ""
+            val artist = (item as? MediaWrapper)?.artistName ?: (item as? Album)?.albumArtist ?: ""
             if (aboveItem == null) artist
             else {
-                val previous = (aboveItem as? MediaWrapper)?.artist ?: (aboveItem as? Album)?.albumArtist ?: ""
+                val previous = (aboveItem as? MediaWrapper)?.artistName ?: (aboveItem as? Album)?.albumArtist ?: ""
                 artist.takeIf { it != previous }
             }
         }
         SORT_ALBUM -> {
-            val album = (item as MediaWrapper).album ?: ""
+            val album = (item as MediaWrapper).albumName ?: ""
             if (aboveItem == null) album
             else {
-                val previous = (aboveItem as MediaWrapper).album ?: ""
+                val previous = (aboveItem as MediaWrapper).albumName ?: ""
                 album.takeIf { it != previous }
             }
         }

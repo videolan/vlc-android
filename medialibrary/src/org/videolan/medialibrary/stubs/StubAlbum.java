@@ -25,7 +25,7 @@ public class StubAlbum extends Album {
     public int getRealTracksCount() {
         int count = 0;
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getAlbum().equals(this.getTitle())) count++;
+            if (media.getAlbumName().equals(this.getTitle())) count++;
         }
         return count;
     }
@@ -38,8 +38,8 @@ public class StubAlbum extends Album {
     private ArrayList<MediaWrapper> getAlbumTracks() {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getAlbum().equals(this.getTitle())
-                    && media.getAlbumArtist().equals(this.retrieveAlbumArtist().getTitle())) {
+            if (media.getAlbumName().equals(this.getTitle())
+                    && media.getAlbumArtistName().equals(this.retrieveAlbumArtist().getTitle())) {
                 results.add(media);
             }
         }
@@ -57,7 +57,7 @@ public class StubAlbum extends Album {
     public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, boolean onlyFavorites, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getAlbum().equals(this.getTitle()) ||
+            if (media.getAlbumName().equals(this.getTitle()) ||
                     Tools.hasSubString(media.getTitle(), query)) {
                 results.add(media);
             }
@@ -68,7 +68,7 @@ public class StubAlbum extends Album {
     public int searchTracksCount(String query) {
         int count = 0;
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getAlbum().equals(this.getTitle()) ||
+            if (media.getAlbumName().equals(this.getTitle()) ||
                     Tools.hasSubString(media.getTitle(), query)) {
                 count++;
             }

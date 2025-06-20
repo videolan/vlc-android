@@ -47,12 +47,11 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     val networkFavs by lazy { browserFavDao.getAllNetworkFavs() }
 
-    val browserFavorites by lazy {
+    fun getFavDao() =
         if (Permissions.canReadStorage(AppContextProvider.appContext))
             browserFavDao.getAll()
         else
             browserFavDao.getAllNetworkFavs()
-    }
 
     val localFavorites by lazy { browserFavDao.getAllLocalFavs() }
 

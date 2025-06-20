@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/bookmarks_background"
         android:layout_width="match_parent"
-        android:background="?attr/bookmark_background"
         android:layout_height="match_parent"
+        android:background="?attr/bookmark_background"
         android:focusable="false">
+
 
     <View
             android:id="@+id/top_bar"
@@ -23,10 +25,10 @@
             android:layout_marginStart="8dp"
             android:background="?attr/actionBarItemBackground"
             android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp"
             android:contentDescription="@string/close"
+            android:focusable="true"
             android:nextFocusRight="@+id/add_bookmark"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/top_bar"
             app:layout_constraintEnd_toStartOf="@+id/title"
             app:layout_constraintHorizontal_bias="0.5"
@@ -55,11 +57,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:background="?attr/actionBarItemBackground"
-            android:contentDescription="@string/add_bookmark"
             android:clickable="true"
+            android:contentDescription="@string/add_bookmark"
             android:focusable="true"
-            android:padding="8dp"
             android:nextFocusLeft="@+id/close"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/top_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -79,10 +81,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="center|end"
+            android:layout_marginBottom="8dp"
             android:clipToPadding="false"
             android:paddingTop="@dimen/default_margin"
             android:paddingBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/progressbar_guideline"
+            app:layout_constraintBottom_toTopOf="@+id/next_bookmark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_bar" />
@@ -107,12 +110,109 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_bookmark"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="16sp"
-                android:textColor="?attr/font_default" />
+                android:text="@string/no_bookmark"
+                android:textColor="?attr/font_default"
+                android:textSize="16sp" />
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/previous_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/actionBarItemBackground"
+            android:nextFocusRight="@+id/bookmark_rewind_10"
+            android:contentDescription="@string/previous_bookmark"
+            android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/progressbar_guideline"
+            app:layout_constraintEnd_toStartOf="@+id/bookmark_rewind_10"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_player_bookmark_previous"
+            tools:ignore="RtlHardcoded" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bookmark_rewind_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/actionBarItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:nextFocusRight="@id/bookmark_forward_10"
+            android:nextFocusLeft="@id/previous_bookmark"
+            app:layout_constraintBottom_toBottomOf="@+id/previous_bookmark"
+            app:layout_constraintEnd_toStartOf="@+id/bookmark_forward_10"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/previous_bookmark"
+            app:layout_constraintTop_toTopOf="@+id/previous_bookmark"
+            app:srcCompat="@drawable/ic_player_rewind_10"
+            tools:visibility="visible" />
+
+    <TextView
+            android:id="@+id/bookmark_rewind_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/player_icon_color"
+            android:textSize="8dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/bookmark_rewind_10"
+            app:layout_constraintEnd_toEndOf="@+id/bookmark_rewind_10"
+            app:layout_constraintStart_toStartOf="@+id/bookmark_rewind_10"
+            app:layout_constraintTop_toTopOf="@+id/bookmark_rewind_10"
+            tools:text="88" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bookmark_forward_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/actionBarItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="true"
+            android:nextFocusLeft="@id/bookmark_rewind_10"
+            android:nextFocusRight="@id/next_bookmark"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/previous_bookmark"
+            app:layout_constraintEnd_toStartOf="@+id/next_bookmark"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/bookmark_rewind_10"
+            app:layout_constraintTop_toTopOf="@+id/previous_bookmark"
+            app:srcCompat="@drawable/ic_player_forward_10"
+            tools:visibility="visible" />
+
+    <TextView
+            android:id="@+id/bookmark_forward_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/player_icon_color"
+            android:textSize="8dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/bookmark_forward_10"
+            app:layout_constraintEnd_toEndOf="@+id/bookmark_forward_10"
+            app:layout_constraintStart_toStartOf="@+id/bookmark_forward_10"
+            app:layout_constraintTop_toTopOf="@+id/bookmark_forward_10"
+            tools:text="88" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/next_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/actionBarItemBackground"
+            android:nextFocusLeft="@+id/bookmark_forward_10"
+            android:contentDescription="@string/next_bookmark"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/previous_bookmark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/bookmark_forward_10"
+            app:layout_constraintTop_toTopOf="@+id/previous_bookmark"
+            app:srcCompat="@drawable/ic_player_bookmark_next"
+            tools:ignore="RtlHardcoded" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

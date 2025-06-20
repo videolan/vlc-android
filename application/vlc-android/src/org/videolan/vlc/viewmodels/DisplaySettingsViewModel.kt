@@ -49,6 +49,11 @@ class DisplaySettingsViewModel: ViewModel() {
     private val _settingChangeFlow = MutableStateFlow(SettingChange())
     val settingChangeFlow = _settingChangeFlow.asStateFlow()
 
+    private val _lockSortFlow = MutableStateFlow(false)
+    val lockSortFlow = _lockSortFlow.asStateFlow()
+
+    var waitForUpdate = false
+
     /**
      * Send a new event when a setting is changed
      *
@@ -65,6 +70,13 @@ class DisplaySettingsViewModel: ViewModel() {
      */
     suspend fun consume() {
         _settingChangeFlow.emit(SettingChange())
+    }
+
+    suspend fun lockSorts(locked: Boolean) {
+        if (locked)
+            waitForUpdate = true
+        if (locked || !waitForUpdate)
+            _lockSortFlow.emit(locked)
     }
 
 }

@@ -25,7 +25,7 @@ package org.videolan.vlc.util
 
 import android.os.Bundle
 import android.provider.MediaStore
-import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.vlc.VlcMigrationHelper
 
 class VoiceSearchParams(val query: String, extras: Bundle?) {
     var isAny: Boolean = false
@@ -47,7 +47,7 @@ class VoiceSearchParams(val query: String, extras: Bundle?) {
         } else if (extras == null || !extras.containsKey(MediaStore.EXTRA_MEDIA_FOCUS)) {
             isUnstructured = true
         } else {
-            val genreKey = if (AndroidUtil.isLolliPopOrLater)
+            val genreKey = if (VlcMigrationHelper.isLolliPopOrLater)
                 MediaStore.EXTRA_MEDIA_GENRE
             else
                 "android.intent.extra.genre"

@@ -58,6 +58,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public final static int MEDIA_FORCE_AUDIO = 0x8;
     public final static int MEDIA_BENCHMARK = 0x10;
     public final static int MEDIA_FROM_START = 0x20;
+    public final static int MEDIA_NO_PARSE = 0x40;
 
     //MetaData flags
     public final static int META_RATING = 1;
@@ -91,13 +92,16 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     protected static final long PODCAST_ABSOLUTE = 3600000L;
 
     protected String mDisplayTitle;
-    protected String mArtist;
+    protected long mArtistId;
+    protected long mAlbumArtistId;
+    protected String mArtistName;
     protected String mGenre;
     protected String mCopyright;
-    protected String mAlbum;
+    protected long mAlbumId;
+    protected String mAlbumName;
     protected int mTrackNumber;
     protected int mDiscNumber;
-    protected String mAlbumArtist;
+    protected String mAlbumArtistName;
     protected String mRating;
     protected String mDate;
     protected int mReleaseYear;
@@ -148,6 +152,9 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract boolean removeBookmark(long time);
     public abstract boolean removeAllBookmarks();
     public abstract boolean markAsPlayed();
+    public abstract Album getAlbum();
+    public abstract Artist getArtist();
+    public abstract Artist getAlbumArtist();
 
     /**
      * Create a new MediaWrapper
@@ -155,7 +162,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
      * @param mrl Should not be null.
      */
     public MediaWrapper(long id, String mrl, long time, float position, long length, int type, String title,
-                        String filename, String artist, String genre, String album, String albumArtist,
+                        String filename, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isThumbnailGenerated,
                         boolean isFavorite, int releaseDate, boolean isPresent, long insertionDate) {
@@ -167,7 +174,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mFilename = filename;
         mReleaseYear = releaseDate;
         mIsPresent = isPresent;
-        init(time, position, length, type, null, title, artist, genre, album, albumArtist, width, height,
+        init(time, position, length, type, null, title, artistId, albumArtistId, artist, genre, albumId, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
                 trackNumber, discNumber, lastModified, seen, isPresent, null, isFavorite, insertionDate);
         final StringBuilder sb = new StringBuilder();
@@ -177,7 +184,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
             if (hasArtistMeta) {
                 sb.append(artist);
                 if (hasAlbumMeta)
-                    sb.append(" - ");
+                    sb.append(" · ");
             }
             if (hasAlbumMeta)
                 sb.append(album);
@@ -314,7 +321,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     private void init(long time, float position, long length, int type,
-                      Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                      Bitmap picture, String title, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                       int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
                       long seen, boolean isPresent, IMedia.Slave[] slaves, boolean isFavorite, long insertionDate) {
         mFilename = null;
@@ -331,10 +338,13 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mInsertionDate = insertionDate;
 
         mTitle = title != null ? title.trim() : null;
-        mArtist = artist != null ? artist.trim() : null;
+        mArtistId = artistId;
+        mAlbumArtistId = albumArtistId;
+        mArtistName = artist != null ? artist.trim() : null;
         mGenre = genre != null ? genre.trim() : null;
-        mAlbum = album != null ? album.trim() : null;
-        mAlbumArtist = albumArtist != null ? albumArtist.trim() : null;
+        mAlbumId = albumId;
+        mAlbumName = album != null ? album.trim() : null;
+        mAlbumArtistName = albumArtist != null ? albumArtist.trim() : null;
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
         mDiscNumber = discNumber;
@@ -346,11 +356,11 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     public MediaWrapper(Uri uri, long time, float position, long length, int type,
-                        Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                        Bitmap picture, String title, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isFavorite, long insertionDate) {
         mUri = uri;
-        init(time, position, length, type, picture, title, artist, genre, album, albumArtist,
+        init(time, position, length, type, picture, title, artistId, albumArtistId, artist, genre, albumId, album, albumArtist,
                 width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, true, null, isFavorite, insertionDate);
     }
 
@@ -417,10 +427,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     private void  updateMeta(IMedia media) {
         mTitle = getMetaTitle(media);
-        mArtist = getMetaId(media, mArtist, Media.Meta.Artist, true);
-        mAlbum = getMetaId(media, mAlbum, Media.Meta.Album, true);
+        mArtistName = getMetaId(media, mArtistName, Media.Meta.Artist, true);
+        mAlbumName = getMetaId(media, mAlbumName, Media.Meta.Album, true);
         mGenre = getMetaId(media, mGenre, Media.Meta.Genre, true);
-        mAlbumArtist = getMetaId(media, mAlbumArtist, Media.Meta.AlbumArtist, true);
+        mAlbumArtistName = getMetaId(media, mAlbumArtistName, Media.Meta.AlbumArtist, true);
         mArtworkURL = getMetaId(media, mArtworkURL, Media.Meta.ArtworkURL, false);
         mNowPlaying = getMetaId(media, mNowPlaying, Media.Meta.NowPlaying, false);
         final String trackNumber = getMetaId(media, null, Media.Meta.TrackNumber, false);
@@ -514,7 +524,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     public boolean isPodcast() {
         return mType == TYPE_AUDIO && (mLength > PODCAST_ABSOLUTE
-                || TextUtils.isEmpty(mAlbum) && mLength > PODCAST_THRESHOLD
+                || TextUtils.isEmpty(mAlbumName) && mLength > PODCAST_THRESHOLD
                 || "podcast".equalsIgnoreCase(mGenre)
                 || "audiobooks".equalsIgnoreCase(mGenre)
                 || "audiobook".equalsIgnoreCase(mGenre)
@@ -572,7 +582,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
 
     public void setArtist(String artist) {
-        mArtist = artist;
+        mArtistName = artist;
     }
 
     @Override
@@ -597,15 +607,23 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     }
 
     public String getReferenceArtist() {
-        return mAlbumArtist == null ? mArtist : mAlbumArtist;
+        return mAlbumArtistName == null ? mArtistName : mAlbumArtistName;
     }
 
-    public String getArtist() {
-        return mArtist;
+    public String getArtistName() {
+        return mArtistName;
+    }
+
+    public long getArtistId() {
+        return mArtistId;
+    }
+
+    public long getAlbumArtistId() {
+        return mAlbumArtistId;
     }
 
     public Boolean isArtistUnknown() {
-        return mArtist == null;
+        return mArtistName == null;
     }
 
     public String getGenre() {
@@ -621,16 +639,20 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         return mCopyright;
     }
 
-    public String getAlbum() {
-        return mAlbum;
+    public long getAlbumId() {
+        return mAlbumId;
     }
 
-    public String getAlbumArtist() {
-        return mAlbumArtist;
+    public String getAlbumName() {
+        return mAlbumName;
+    }
+
+    public String getAlbumArtistName() {
+        return mAlbumArtistName;
     }
 
     public Boolean isAlbumUnknown() {
-        return mAlbum == null;
+        return mAlbumName == null;
     }
 
     public int getTrackNumber() {
@@ -749,8 +771,11 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                 in.readInt(),
                 (Bitmap) in.readParcelable(Bitmap.class.getClassLoader()),
                 in.readString(),
+                in.readLong(),
+                in.readLong(),
                 in.readString(),
                 in.readString(),
+                in.readLong(),
                 in.readString(),
                 in.readString(),
                 in.readInt(),
@@ -778,10 +803,13 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         dest.writeInt(getType());
         dest.writeParcelable(getPicture(), flags);
         dest.writeString(getTitle());
-        dest.writeString(getArtist());
+        dest.writeLong(getArtistId());
+        dest.writeLong(getAlbumArtistId());
+        dest.writeString(getArtistName());
         dest.writeString(getGenre());
-        dest.writeString(getAlbum());
-        dest.writeString(getAlbumArtist());
+        dest.writeLong(getAlbumId());
+        dest.writeString(getAlbumName());
+        dest.writeString(getAlbumArtistName());
         dest.writeInt(getWidth());
         dest.writeInt(getHeight());
         dest.writeString(getArtworkURL());

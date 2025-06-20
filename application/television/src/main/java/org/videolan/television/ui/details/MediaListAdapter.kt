@@ -42,7 +42,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
         val item = getItem(position)
         holder.binding.item = item
         holder.binding.holder = holder
-        holder.binding.subtitle = if (item.getDiscNumberString() != null) "${item.artist} · ${item.getDiscNumberString()}" else item.artist
+        holder.binding.subtitle = if (item.getDiscNumberString() != null) "${item.artistName} · ${item.getDiscNumberString()}" else item.artistName
 
         val moveVisibility = if (type == MediaLibraryItem.TYPE_ALBUM) View.GONE else View.VISIBLE
         holder.binding.itemMoveDown.visibility = if (moveVisibility == View.VISIBLE && position == itemCount - 1) View.INVISIBLE else moveVisibility

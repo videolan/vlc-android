@@ -36,6 +36,7 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.DirectoryRepository
@@ -92,7 +93,7 @@ open class FileBrowserProvider(
             dataset.value = arrayListOf()
             return
         }
-        if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.isEmpty()) {
+        if (VlcMigrationHelper.isLolliPopOrLater && !ExternalMonitor.devices.isEmpty()) {
             val otg = MLServiceLocator.getAbstractMediaWrapper("otg://".toUri()).apply {
                 title = context.getString(R.string.otg_device_title)
                 type = MediaWrapper.TYPE_DIR

@@ -269,7 +269,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     open fun refresh() {
-        if (url === null) return
+        if (url === null) {
+            browseRoot()
+            return
+        }
         parsingJob?.cancel()
         parsingJob = null
         loading.postValue(true)

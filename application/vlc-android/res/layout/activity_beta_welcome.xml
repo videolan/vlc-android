@@ -11,15 +11,15 @@
             tools:context="org.videolan.vlc.gui.BetaWelcomeActivity">
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_stat_vlc"
                 android:id="@+id/imageView6"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="16dp"
-                app:layout_constraintHorizontal_chainStyle="packed" />
+                android:layout_marginTop="16dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon" />
 
         <TextView
                 android:text="@string/welcome_beta_title"
@@ -76,17 +76,6 @@
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
-        <ImageView
-                android:src="@mipmap/ic_launcher_reporter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView7"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView25"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" />
 
         <Button
                 android:text="@string/ok"
@@ -95,7 +84,7 @@
                 android:id="@+id/betaOkButton"
                 android:layout_marginTop="24dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                app:layout_constraintTop_toBottomOf="@+id/textView25"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp" />
 

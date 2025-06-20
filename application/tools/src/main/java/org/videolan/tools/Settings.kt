@@ -3,13 +3,13 @@ package org.videolan.tools
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import org.videolan.tools.Settings.audioControlsChangeListener
 import org.videolan.tools.Settings.init
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
@@ -28,12 +28,14 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var videoDoubleTapJumpDelay = 10
     var audioJumpDelay = 10
     var audioLongJumpDelay = 20
+    var audioShowTrackNumbers = MutableLiveData(false)
     var showHiddenFiles = false
     var showTrackNumber = true
     var tvFoldersFirst = true
     var incognitoMode = false
     var safeMode = false
     var remoteAccessEnabled = MutableLiveData(false)
+    var fastplaySpeed = 2f
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -53,12 +55,14 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         videoDoubleTapJumpDelay = prefs.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 10)
         audioJumpDelay = prefs.getInt(KEY_AUDIO_JUMP_DELAY, 10)
         audioLongJumpDelay = prefs.getInt(KEY_AUDIO_LONG_JUMP_DELAY, 20)
+        audioShowTrackNumbers.postValue(prefs.getBoolean(KEY_AUDIO_SHOW_TRACK_NUMBERS, false))
         showHiddenFiles = prefs.getBoolean(BROWSER_SHOW_HIDDEN_FILES, !tvUI)
         showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
         remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
+        fastplaySpeed = prefs.getString(FASTPLAY_SPEED, "2")?.toFloat() ?: 2f
         return prefs
     }
 
@@ -95,6 +99,7 @@ const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
 const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
+const val KEY_AUDIO_CONFIRM_RESUME = "audio_confirm_resume"
 const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
 const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
 const val KEY_INCLUDE_MISSING = "include_missing"
@@ -112,6 +117,12 @@ const val KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY = "video_double_tap_jump_delay"
 const val KEY_AUDIO_JUMP_DELAY = "audio_jump_delay"
 const val KEY_AUDIO_LONG_JUMP_DELAY = "audio_long_jump_delay"
 const val KEY_AUDIO_FORCE_SHUFFLE = "audio_force_shuffle"
+const val KEY_AUDIO_SHOW_TRACK_NUMBERS = "audio_show_track_numbers"
+const val KEY_AUDIO_SHOW_CHAPTER_BUTTONS = "audio_show_chapter_buttons"
+const val KEY_AUDIO_SHOW_BOOkMARK_BUTTONS = "audio_show_bookmark_buttons"
+const val KEY_AUDIO_SHOW_BOOKMARK_MARKERS = "audio_show_bookmark_markers"
+const val KEY_PERSISTENT_INCOGNITO = "persistent_incognito"
+const val KEY_BROWSE_NETWORK = "browse_network"
 
 
 // AudioPlayer
@@ -131,6 +142,7 @@ const val ML_SCAN_OFF = 1
 
 //Remote access
 const val KEY_ENABLE_REMOTE_ACCESS = "enable_remote_access"
+const val KEY_REMOTE_ACCESS_LAST_STATE_STOPPED = "remote_access_last_state_stopped"
 const val KEY_REMOTE_ACCESS_ML_CONTENT = "remote_access_medialibrary_content"
 const val REMOTE_ACCESS_FILE_BROWSER_CONTENT = "remote_access_file_browser_content"
 const val REMOTE_ACCESS_NETWORK_BROWSER_CONTENT = "remote_access_network_browser_content"
@@ -147,10 +159,11 @@ const val ENCRYPTED_KEY_NAME = "encryption_key"
 const val PREF_TIPS_SHOWN = "video_player_tips_shown"
 const val PREF_WIDGETS_TIPS_SHOWN = "widgets_tips_shown"
 const val PREF_RESTORE_VIDEO_TIPS_SHOWN = "pref_restore_video_tips_shown"
+const val PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER = "pref_show_video_settings_disclaimer"
 
 const val PREF_TV_UI = "tv_ui"
-const val FORCE_PLAY_ALL_VIDEO = "force_play_all_video"
-const val FORCE_PLAY_ALL_AUDIO = "force_play_all_audio"
+const val PLAYLIST_MODE_VIDEO = "playlist_mode_video"
+const val PLAYLIST_MODE_AUDIO = "playlist_mode_audio"
 
 const val SCREEN_ORIENTATION = "screen_orientation"
 const val VIDEO_RESUME_TIME = "VideoResumeTime"
@@ -166,10 +179,13 @@ const val ENABLE_VOLUME_GESTURE = "enable_volume_gesture"
 const val ENABLE_BRIGHTNESS_GESTURE = "enable_brightness_gesture"
 const val SCREENSHOT_MODE = "screenshot_mode"
 const val ENABLE_SCALE_GESTURE = "enable_scale_gesture"
+const val ENABLE_FASTPLAY = "enable_fastplay"
+const val FASTPLAY_SPEED = "fastplay_speed"
 const val SAVE_BRIGHTNESS = "save_brightness"
 const val BRIGHTNESS_VALUE = "brightness_value"
 const val POPUP_KEEPSCREEN = "popup_keepscreen"
 const val POPUP_FORCE_LEGACY = "popup_force_legacy"
+const val SHOW_ORIENTATION_BUTTON = "show_orientation_button"
 const val RESTORE_BACKGROUND_VIDEO = "restore_background_video"
 const val LOCK_USE_SENSOR = "lock_use_sensor"
 const val DISPLAY_UNDER_NOTCH = "display_under_notch"
@@ -182,10 +198,12 @@ const val VIDEO_PAUSED = "VideoPaused"
 const val VIDEO_SPEED = "VideoSpeed"
 const val VIDEO_RATIO = "video_ratio"
 const val LOGIN_STORE = "store_login"
-const val KEY_PLAYBACK_RATE = "playback_rate"
-const val KEY_PLAYBACK_RATE_VIDEO = "playback_rate_video"
-const val KEY_PLAYBACK_SPEED_PERSIST = "playback_speed"
-const val KEY_PLAYBACK_SPEED_PERSIST_VIDEO = "playback_speed_video"
+const val KEY_PLAYBACK_SPEED_VIDEO_GLOBAL = "playback_speed_video_global"
+const val KEY_PLAYBACK_SPEED_AUDIO_GLOBAL = "playback_speed_audio_global"
+const val KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE = "playback_speed_video_global_value"
+const val KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE = "playback_speed_audio_global_value"
+const val KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE = "incognito_playback_speed_video_global_value"
+const val KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE = "incognito_playback_speed_audio_global_value"
 const val KEY_VIDEO_APP_SWITCH = "video_action_switch"
 const val VIDEO_TRANSITION_SHOW = "video_transition_show"
 const val VIDEO_HUD_TIMEOUT = "video_hud_timeout_in_s"
@@ -229,6 +247,9 @@ const val NOTIFICATION_PERMISSION_ASKED = "notification_permission_asked"
 const val PLAYLIST_REPLACE = "playlist_replace"
 const val HTTP_USER_AGENT = "http_user_agent"
 const val DAV1D_THREAD_NUMBER = "dav1d_thread_number"
+const val KEY_QUICK_PLAY = "quick_play"
+const val KEY_QUICK_PLAY_DEFAULT = "quick_play_default"
+const val KEY_AOUT = "aout"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
@@ -241,9 +262,17 @@ const val ALBUMS_SHOW_TRACK_NUMBER = "albums_show_track_number"
 //widgets
 const val WIDGETS_PREVIEW_PLAYING = "widgets_preview_playing"
 
+//OpenSubtitles
+const val KEY_OPEN_SUBTITLES_USER = "open_subtitles_user"
+const val KEY_OPEN_SUBTITLES_LIMIT = "open_subtitles_limit"
+
+
 const val KEY_SAFE_MODE_PIN = "safe_mode_pin"
 const val KEY_RESTRICT_SETTINGS = "restrict_settings"
 const val KEY_SAFE_MODE = "safe_mode"
+
+
+const val KEY_LAST_SESSION_CRASHED = "last_session_crashed"
 
 const val ENABLE_ANDROID_AUTO_SPEED_BUTTONS = "enable_android_auto_speed_buttons"
 const val ENABLE_ANDROID_AUTO_SEEK_BUTTONS = "enable_android_auto_seek_buttons"
@@ -258,9 +287,6 @@ class DeviceInfo(context: Context) {
     val isChromeBook = pm.hasSystemFeature("org.chromium.arc.device_management")
     val isTv = isAndroidTv || !isChromeBook && !hasTsp
     val isAmazon = "Amazon" == Build.MANUFACTURER
-    val hasPiP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
-            || Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isAndroidTv
-    val pipAllowed = hasPiP || hasTsp && Build.VERSION.SDK_INT < Build.VERSION_CODES.O
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -272,7 +298,7 @@ fun SharedPreferences.putSingle(key: String, value: Any) {
         is Long -> edit { putLong(key, value) }
         is String -> edit { putString(key, value) }
         is List<*> -> edit { putStringSet(key, value.toSet() as Set<String>) }
-        else -> throw IllegalArgumentException("value class is invalid!")
+        else -> throw IllegalArgumentException("value $value class is invalid!")
     }
 }
 

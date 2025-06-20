@@ -39,7 +39,19 @@ import org.videolan.medialibrary.Tools
 import org.videolan.resources.AppContextProvider
 import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
-import org.videolan.tools.*
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_SHOW_HEADERS
+import org.videolan.tools.LocaleUtils
+import org.videolan.tools.PLAYLIST_MODE_VIDEO
+import org.videolan.tools.PREF_TV_UI
+import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
+import org.videolan.tools.Settings
+import org.videolan.tools.TV_FOLDERS_FIRST
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
@@ -58,15 +70,11 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Settings.getInstance(activity).run {
-            if (!contains(FORCE_PLAY_ALL_VIDEO)) putSingle(FORCE_PLAY_ALL_VIDEO, true)
+            if (!contains(PLAYLIST_MODE_VIDEO)) putSingle(PLAYLIST_MODE_VIDEO, true)
         }
         super.onCreate(savedInstanceState)
         tvUiPref = findPreference(PREF_TV_UI)!!
         tvUiPref.setDefaultValue(true)
-        findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
-        findPreference<Preference>(LIST_TITLE_ELLIPSIZE)?.isVisible = false
-        findPreference<Preference>(TV_FOLDERS_FIRST)?.isVisible = true
-        findPreference<Preference>(BROWSER_SHOW_HIDDEN_FILES)?.isVisible = true
         prepareLocaleList()
         currentLocale = AppContextProvider.locale
     }
@@ -106,6 +114,9 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             PREF_TV_UI -> {
                 Settings.tvUI = sharedPreferences.getBoolean(PREF_TV_UI, false)
                 (activity as PreferencesActivity).setRestartApp()
+            }
+            KEY_INCOGNITO -> {
+                Settings.incognitoMode = sharedPreferences.getBoolean(KEY_INCOGNITO, false)
             }
 
             TV_FOLDERS_FIRST -> Settings.tvFoldersFirst = sharedPreferences.getBoolean(TV_FOLDERS_FIRST, true)

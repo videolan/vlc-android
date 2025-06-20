@@ -15,6 +15,7 @@
     <string name="sortby_date">تاریخ</string>
     <string name="sortby_last_modified_date">به تازگی اضافه شده</string>
     <string name="sortby_insertion">تاریخ درج</string>
+    <string name="sortby_date_release">تاریخ انتشار</string>
     <string name="sortby_media_number">شمارهٔ رسانه</string>
     <string name="sortby_number">صداهای nb</string>
     <string name="searchable_hint">جست‌وجو…</string>
@@ -22,6 +23,8 @@
 
     <string name="sortby_length_asc">ابتدا کوتاه ترین</string>
     <string name="sortby_length_desc">ابتدا طولانی ترین</string>
+    <string name="sortby_number_asc">ویدیو های بيشتر در این گروه</string>
+    <string name="sortby_number_desc">ویدئو های کمتر در این گروه</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d نتیجه یافت شد</item>
         <item quantity="other">%d نتیجه یافت شد</item>
@@ -40,6 +43,7 @@
     <string name="video_app_switch_summary">رفتار وی‌ال‌سی را هنگامی تعویض از بازپخش ویدیو به برنامه‌ای دیگر برگزینید</string>
     <string name="play_pip_title">پخش ویدیوها در حالت تصویر در تصویر</string>
     <string name="play_as_audio_background">پخش ویدیوها در پس‌زمینه</string>
+    <string name="append">افزودن به صف پخش</string>
     <string name="insert_next">وارد کردن بعدی</string>
     <string name="play_all">پخش همه</string>
     <string name="append_all">افزودن همه</string>
@@ -174,7 +178,6 @@
     <string name="jump_to_time">پرش به زمان</string>
     <string name="subtitle_select">انتخاب فایل زیرنویس</string>
     <string name="wait_before_sleep">لطفا صبر کنید تا رسانه فعلی تمام شود</string>
-
     <string name="server_add_title">یک سرور جدید به موارد دلخواه اضافه کنید</string>
     <string name="server_domain_hint">آدرس سرور (نام دامنه یا IP)</string>
     <string name="server_share_hint">نام اشتراک شبکه (یا آدرس IP)</string>
@@ -214,8 +217,6 @@
     ابزارک
     نوتیفیکیشن رسانه</string>
     <string name="audio_resume_playback_summary">اجازه ذخیره سازی فهرست پخش صوت برای ادامه پخش در زمانی آتی</string>
-    <string name="playback_speed_title">ذخیره سرعت پخش</string>
-    <string name="playback_speed_summary">سرعت پخش را بین رسانه‌ها حفظ کنید</string>
 
     <string name="play_button">دکمه پخش</string>
 
@@ -293,6 +294,7 @@
     <string name="screen_orientation_landscape_reverse">افقی معکوس</string>
     <string name="screen_orientation_last_locked">آخرین جهت قفل شده</string>
     <string name="enable_black_theme">پوسته سیاه</string>
+    <string name="dark_theme">حالت تاریک</string>
     <string name="theme_auto">زمینه خودکار</string>
     <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
     <string name="subtitle_preferred_language">زبان دلخواه زیرنویس</string>
@@ -348,7 +350,6 @@
     <string name="browser_show_hidden_files_title">نمایش فایل های مخفی</string>
     <string name="albums_show_track_numbers">شماره قطعه را نشان بده</string>
     <string name="enable_video_screenshot">از صفحه عکس بگیر</string>
-
     <string name="subtitles_prefs_category">زیرنویس‌ ها</string>
     <string name="subtitles_size_title">اندازه زیرنویس‌ ها</string>
     <string name="subtitles_presets_title">پیش فرض زیرنویس‌ها</string>
@@ -482,7 +483,6 @@
     <string name="dump_logcat_failure">استخراج گزارش انجام نشد</string>
     <string name="custom_libvlc_options">گزینه های سفارشی کتابخانه VLC</string>
     <string name="custom_libvlc_options_invalid">گزینه های کتابخانه VLC اشتباه است</string>
-
     <string name="serious_crash">متاسفانه یک خطای جدی اتفاق داده است و VLC باید بسته شود</string>
     <string name="help_us_send_log">با ارسال گزارش زیر به ما در بهبود VLC کمک کنید :</string>
     <string name="restart_vlc">بستن کامل VLC و اجرای دوباره آن</string>
@@ -496,8 +496,6 @@
     <string name="no_result">هیچ نتیجه‌ ای یافت نشد</string>
     <string name="no_internet_connection">اتصال اینترنت خود را بررسی کنید</string>
     <string name="retry">تلاش مجدد</string>
-    <string name="subs_download_error">سرویس در دسترس نیست لطفا دوباره امتحان کنید</string>
-
     <string name="network_browsing">شبکه محلی</string>
     <string name="browsing">در حال جستجو</string>
 
@@ -541,10 +539,6 @@
     <string name="click_here">برای یادگیری بیشتر، کلیک کنید.</string>
     <string name="allow_storage_access_title">به VLC اجازه دهید تا به فایل های ویدیویی و صدا دسترسی داشته باشد</string>
     <string name="allow_storage_access_description">پخش کننده VLC به مجوز شما برای دسترسی به فایل های رسانه ای این دستگاه نیاز دارد</string>
-    <string name="allow_storage_manager_title">به VLC اجازه دسترسی به تمام فایل‌ها را بده</string>
-    <string name="allow_storage_manager_description">%s
-
-اجازه دسترسی بدهیم؟</string>
     <string name="partial_content">VLC نمی‌تواند به تمامی فایل‌های شما دسترسی یابد.</string>
     <string name="never_ask_again">دوباره نپرس</string>
     <string name="allow_settings_access_ringtone_title">به VLC اجازه دهید که آهنگ زنگ گوشی را تغییر دهد</string>
@@ -713,7 +707,6 @@
     <string name="vlc_reporter">گزارشگر VLC</string>
     <string name="welcome_beta_title">پخش کننده VLC نسخه آزمایشی</string>
     <string name="welcome_beta_description_bugs">اگر متوجه مشکلی شدید لطفا آن را در انجمن یا ردیاب مشکلات گزارش دهید</string>
-    <string name="welcome_beta_description_crashes">اگر با توقف ناگهانی روبه‌رو شدید لطفا از نماد گزارشگر VLC در اجرا کننده خود استفاده کنید تا آن را برای ما ارسال کنید</string>
     <string name="send">ارسال</string>
     <string name="send_crash_action_title">شما می خواهید چه کار انجام دهید؟</string>
     <string name="report_a_bug">گزارش یک مشکل</string>
@@ -801,7 +794,6 @@
     <string name="sub_result_by_name">نتایج برای %s</string>
     <string name="sub_result_by_name_season">فصل %s</string>
     <string name="sub_result_by_name_episode">قسمت %s</string>
-
     <string name="sub_result_by_file">نتایج برای پرونده‌تان</string>
     <string name="donate">کمک به وی‌ال‌سی</string>
     <string name="donate_desc">از داوطلبان ساخت وی‌ال‌سی پشتیبانی کنید</string>
@@ -908,4 +900,5 @@
     <string name="talkback_action_rewind">%sثانیه به عقب برگرد</string>
     <string name="talkback_action_forward">%sثانیه به جلو برو</string>
     <string name="talkback_display_settings">تنظیمات نمایش</string>
+    <string name="talkback_already_played">قبلا پخش شده است</string>
     </resources>
