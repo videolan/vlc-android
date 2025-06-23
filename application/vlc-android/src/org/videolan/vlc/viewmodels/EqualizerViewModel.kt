@@ -26,7 +26,6 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
@@ -41,10 +40,8 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.mediadb.models.EqualizerBand
@@ -53,7 +50,6 @@ import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
 import org.videolan.vlc.util.JsonUtil
 import java.io.File
-import kotlin.math.absoluteValue
 
 /**
  * View model storing data for the equalizer dialog
@@ -110,7 +106,6 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      *
      */
     fun saveInHistory(from: Int) {
-        if (BuildConfig.DEBUG) Log.d(EqualizerFragmentDialog.TAG, "saveInHistory: from $from, saving: ${from != lastSaveToHistoryFrom}, history size: ${history.size}")
         if (from != lastSaveToHistoryFrom)
             history.add(getCurrentEqualizer().copy())
         lastSaveToHistoryFrom = from
@@ -122,7 +117,6 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
      * @return the last equalizer from history
      */
     fun undoFromHistory(context: Context) = viewModelScope.launch(Dispatchers.IO) {
-        if (BuildConfig.DEBUG) Log.d(EqualizerFragmentDialog.TAG, "undoFromHistory: history size: ${history.size}")
         lastSaveToHistoryFrom = -2
         if (history.isEmpty()) return@launch
         needForceRefresh = true

@@ -26,7 +26,6 @@ import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
@@ -36,7 +35,6 @@ import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.EqualizerSettingItemBinding
 import org.videolan.vlc.databinding.EqualizerSettingsActivityBinding
@@ -53,7 +51,6 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.JsonUtil
 import org.videolan.vlc.viewmodels.EqualizerViewModel
 import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
-import kotlin.math.absoluteValue
 
 private const val FILE_PICKER_RESULT_CODE = 10000
 
@@ -176,7 +173,7 @@ class EqualizerSettingsActivity : BaseActivity() {
                             }
                         }
                     } catch (e: Exception) {
-                        Log.e("EqualizerSettingsActivity", "onActivityResult: ${e.message}", e)
+                        Log.e("EqualizerSettings", "onActivityResult: ${e.message}", e)
                         UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
                     }
                 }
@@ -269,7 +266,6 @@ fun EqualizerWithBands.getBitmap(context: Context): Bitmap {
     var x = 0
     bands.sortedBy { it.index }.forEach {
         val heightPc = (it.bandValue + 20) / 40
-        if (BuildConfig.DEBUG) Log.d("BandBitmap", "band value is ${it.bandValue} and height is ${heightPc * 38}")
         canvas.drawRect(Rect(x, imageSize, x + step, imageSize - (66 * heightPc).toInt().dp), paint)
         x += step
     }

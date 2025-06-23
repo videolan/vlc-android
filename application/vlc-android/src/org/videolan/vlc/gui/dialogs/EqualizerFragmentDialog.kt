@@ -28,7 +28,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +54,6 @@ import org.videolan.tools.dp
 import org.videolan.tools.isStarted
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogEqualizerBinding
 import org.videolan.vlc.gui.EqualizerSettingsActivity
@@ -109,7 +107,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             binding.equalizerSettings.setGone()
         }
         viewModel.equalizerEntries.observe(this) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Received new equalizer entries")
             val newEqualizerSets = it.map { it.equalizerEntry.name }
 
             if (oldEqualiserSets != newEqualizerSets) fillPresets()
@@ -273,7 +270,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      *
      */
     fun fillBands() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "fillBands")
         eqBandsViews.clear()
         binding.equalizerBands.removeAllViews()
         // bands
@@ -287,7 +283,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
             val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 1f)
             bar.layoutParams = params
-            if (BuildConfig.DEBUG) Log.d(TAG, "Add new band for ${band.index}")
             eqBandsViews.add(bar)
             bar.setSliderId(View.generateViewId())
             bar.setListener(BandListener(band.index))
@@ -402,7 +397,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
 
         override fun onProgressChanged(value: Float, fromUser: Boolean) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "onProgressChanged $index, $value, $fromUser")
             if (!fromUser)
                 return
             viewModel.saveInHistory(index)
@@ -444,7 +438,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         override fun onStopTrackingTouch() {
             oldBands.clear()
             viewModel.updateEqualizerBands(requireActivity(), newBandList)
-            if (BuildConfig.DEBUG) Log.d(TAG, "onStopTrackingTouch $index")
         }
     }
 
