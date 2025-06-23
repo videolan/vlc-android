@@ -41,6 +41,9 @@ android {
         testInstrumentationRunnerArguments clearPackageData: 'true'
 
         vectorDrawables.useSupportLibrary = true
+        ndkVersion = rootProject.ext.toolchainNdkVersion
+        if (rootProject.ext.tooclchainNdkPath != null)
+            ndkPath = rootProject.ext.tooclchainNdkPath
     }
 
     testOptions {

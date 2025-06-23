@@ -34,6 +34,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    defaultConfig {
+        ndkVersion = rootProject.ext.toolchainNdkVersion
+        if (rootProject.ext.tooclchainNdkPath != null)
+            ndkPath = rootProject.ext.tooclchainNdkPath
+    }
+
     sourceSets {
         main {
             jniLibs.srcDir 'jni/libs' // Where generated .so files are placed.
