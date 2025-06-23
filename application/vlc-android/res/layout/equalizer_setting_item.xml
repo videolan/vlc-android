@@ -53,7 +53,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageView22"
                 app:layout_constraintStart_toStartOf="@+id/imageView22"
                 app:layout_constraintTop_toTopOf="@+id/imageView22"
-                android:background="?attr/round_background"
+                android:background="@drawable/round_black_transparent"
                 app:srcCompat="@drawable/ic_check_large_white" />
 
         <TextView
