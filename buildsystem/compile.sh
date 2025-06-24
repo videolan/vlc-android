@@ -248,6 +248,10 @@ if [ ! -d "$ANDROID_SDK/licenses" ]; then
     echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_SDK/licenses/android-sdk-license"
 fi
 
+if [ "$FORCE_VLC_4" = 1 ]; then
+    gradle_prop="-PforceVlc4=true"
+fi
+
 ##########
 # GRADLE #
 ##########
@@ -263,7 +267,7 @@ if [ ! -d "gradle/wrapper" ]; then
 
     unzip -o gradle-${GRADLE_VERSION}-bin.zip || fail "gradle: unzip failed"
 
-    ./gradle-${GRADLE_VERSION}/bin/gradle wrapper || fail "gradle: wrapper failed"
+    ./gradle-${GRADLE_VERSION}/bin/gradle wrapper ${gradle_prop} || fail "gradle: wrapper failed"
 
     chmod a+x gradlew
     ./gradlew -version || fail "gradle: wrapper failed"
@@ -378,9 +382,6 @@ else
 fi
 GRADLE_TASK="${ACTION}${BUILDTYPE}"
 
-if [ "$FORCE_VLC_4" = 1 ]; then
-    gradle_prop="-PforceVlc4=true"
-fi
 if [ -n "$M2_REPO" ]; then
     gradle_prop="$gradle_prop -Dmaven.repo.local=$M2_REPO"
 fi
