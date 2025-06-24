@@ -40,7 +40,6 @@ while [ $# -gt 0 ]; do
             echo "Use -b to bypass libvlc source checks (vlc custom sources)"
             echo "Use -t to use prebuilt contribs for LibVLC"
             echo "Use -m2 to set the maven local repository path to use"
-            echo "Use -tv to include the TV module"
             exit 0
             ;;
         a|-a)
@@ -99,10 +98,6 @@ while [ $# -gt 0 ]; do
             ;;
         -vlc4)
             FORCE_VLC_4=1
-            ;;
-        -tv)
-            NO_TV=1
-            RELEASE=1
             ;;
         *)
             diagnostic "$0: Invalid option '$1'."
@@ -372,8 +367,6 @@ if [ "$TEST" = 1 ]; then
     BUILDTYPE="Debug"
 elif [ "$SIGNED_RELEASE" = 1 ]; then
     BUILDTYPE="signedRelease"
-elif [ "$NO_TV" = 1 ]; then
-    BUILDTYPE="NoTv"
 elif [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
 fi
