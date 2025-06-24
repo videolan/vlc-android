@@ -254,6 +254,7 @@ fi
 
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
+    # the SHA256 is found in https://gradle.org/release-checksums/
     GRADLE_VERSION=8.13
     GRADLE_SHA256=20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78
     GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
