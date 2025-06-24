@@ -265,8 +265,8 @@ if [ ! -d "gradle/wrapper" ]; then
 
     ./gradle-${GRADLE_VERSION}/bin/gradle wrapper || fail "gradle: wrapper failed"
 
-    ./gradlew -version || fail "gradle: wrapper failed"
     chmod a+x gradlew
+    ./gradlew -version || fail "gradle: wrapper failed"
     rm -rf gradle-${GRADLE_VERSION}-bin.zip
 fi
 
