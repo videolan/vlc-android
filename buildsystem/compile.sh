@@ -266,11 +266,11 @@ if [ ! -d "gradle/wrapper" ]; then
     echo $GRADLE_SHA256 gradle-${GRADLE_VERSION}-bin.zip | sha256sum -c || fail "gradle: hash mismatch"
 
     unzip -o gradle-${GRADLE_VERSION}-bin.zip || fail "gradle: unzip failed"
+    rm -rf gradle-${GRADLE_VERSION}-bin.zip
 
     ./gradle-${GRADLE_VERSION}/bin/gradle wrapper ${gradle_prop} || fail "gradle: wrapper failed"
 
     chmod a+x gradlew
-    rm -rf gradle-${GRADLE_VERSION}-bin.zip
 fi
 ./gradlew -version || fail "gradle: wrapper failed"
 
