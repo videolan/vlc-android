@@ -87,43 +87,53 @@
         <Preference
                 android:title="@string/interface_prefs_screen"
                 android:key="ui_category"
+                android:icon="@drawable/ic_ui"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesUi"/>
         <Preference
                 android:title="@string/video_prefs_category"
                 android:key="video_category"
+                android:icon="@drawable/ic_pref_video"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesVideo"/>
         <Preference
                 android:title="@string/subtitles_prefs_category"
                 android:key="subtitles_category"
+                android:icon="@drawable/ic_pref_subtitles"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesSubtitles"/>
         <Preference
                 android:title="@string/audio_prefs_category"
                 android:key="audio_category"
+                android:icon="@drawable/ic_pref_audio"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesAudio"/>
 
         <Preference
                 android:title="@string/equalizer"
+                android:icon="@drawable/ic_pref_equalizer"
                 android:key="equalizer"/>
         <Preference
                 android:title="@string/casting_category"
+                android:icon="@drawable/ic_renderer"
                 android:key="casting_category"/>
 
         <PreferenceScreen
                 android:key="parental_control"
                 android:singleLine="false"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesParentalControl"
+                android:icon="@drawable/ic_pref_parental_control"
                 android:title="@string/parental_control"/>
         <Preference
                 android:title="@string/remote_access"
                 android:key="remote_access_category"
+                android:icon="@drawable/ic_pref_remote_access"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesRemoteAccess"/>
         <Preference
             android:title="@string/android_auto"
             android:key="android_auto_category"
+                android:icon="@drawable/ic_pref_android_auto"
             android:fragment="org.videolan.television.ui.preferences.PreferencesAndroidAuto"/>
         <Preference
                 android:title="@string/advanced_prefs_category"
                 android:key="adv_category"
+                android:icon="@drawable/ic_pref_advanced_settings"
                 android:fragment="org.videolan.television.ui.preferences.PreferencesAdvanced"/>
 
     </PreferenceCategory>
