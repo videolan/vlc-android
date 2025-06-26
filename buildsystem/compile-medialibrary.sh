@@ -14,6 +14,7 @@ while [ $# -gt 0 ]; do
     echo "Use -a to set the ARCH"
     echo "Use --release to build in release mode"
     echo "Use --reset to reset code from git"
+    echo "Use --static-cpp to use the static C++ runtime"
     exit 1
     ;;
   a | -a)
@@ -24,11 +25,20 @@ while [ $# -gt 0 ]; do
     RELEASE=1
     ;;
   reset | --reset)
-    RESET=1
+    RESET=1 # used when calling compile-libvlc.sh
+    ;;
+  --static-cpp)
+    AVLC_STATIC_CXX=1 # used when calling compile-libvlc.sh
     ;;
   esac
   shift
 done
+
+if [ "$AVLC_STATIC_CXX" = 1 ]; then
+    NDK_APP_STL="c++_static"
+else
+    NDK_APP_STL="c++_shared"
+fi
 
 SRC_DIR=$PWD
 # gets TARGET_TUPLE / ANDROID_API / CLANG_PREFIX / CROSS_CLANG / VLC_CFLAGS / VLC_CXXFLAGS / NDK_DEBUG / MAKEFLAGS / LIBVLCJNI_SRC_DIR
@@ -220,7 +230,7 @@ MEDIALIBRARY_LDLIBS="-L$LIBVLCJNI_SRC_DIR/libvlc/jni/libs/${ANDROID_ABI}/ -lvlc 
 -lc++abi"
 
 $NDK_BUILD -C medialibrary \
-  APP_STL="c++_shared" \
+  APP_STL="$NDK_APP_STL" \
   LOCAL_CPP_FEATURES="rtti exceptions" \
   LOCAL_LDFLAGS="-Wl,-z,max-page-size=16384" \
   APP_BUILD_SCRIPT=jni/Android.mk \

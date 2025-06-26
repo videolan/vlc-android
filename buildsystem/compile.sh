@@ -40,6 +40,7 @@ while [ $# -gt 0 ]; do
             echo "Use -b to bypass libvlc source checks (vlc custom sources)"
             echo "Use -t to use prebuilt contribs for LibVLC"
             echo "Use -m2 to set the maven local repository path to use"
+            echo "Use --static-cpp to use the static C++ runtime"
             exit 0
             ;;
         a|-a)
@@ -98,6 +99,9 @@ while [ $# -gt 0 ]; do
             ;;
         -vlc4)
             FORCE_VLC_4=1
+            ;;
+        --static-cpp)
+            AVLC_STATIC_CXX=1
             ;;
         *)
             diagnostic "$0: Invalid option '$1'."
@@ -337,6 +341,10 @@ fi
 ############
 diagnostic "Configuring"
 
+if [ "$AVLC_STATIC_CXX" = 1 ]; then
+    CONFIG_ARGS="$CONFIG_ARGS --static-cpp"
+fi
+
 # Build LibVLC if asked for it, or needed by medialibrary
 OUT_DBG_DIR="$(pwd -P)/.dbg/${ANDROID_ABI}"
 mkdir -p $OUT_DBG_DIR
@@ -351,13 +359,13 @@ if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ];
         fi
         if ${VLC_LIBJNI_PATH}/vlc/extras/ci/check-url.sh "$VLC_PREBUILT_CONTRIBS_URL"; then CONTRIB_FLAGS="--with-prebuilt-contribs"; fi
     fi
-    ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh -a ${ARCH} ${CONTRIB_FLAGS}
+    ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh -a ${ARCH} ${CONTRIB_FLAGS} ${CONFIG_ARGS}
 
     cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
 fi
 
 if [ "$NO_ML" != 1 ]; then
-    medialig_args="-a $ANDROID_ABI"
+    medialig_args="-a $ANDROID_ABI $CONFIG_ARGS"
     if [ "$RELEASE" = 1 ]; then
         medialig_args="$medialig_args --release"
     fi
