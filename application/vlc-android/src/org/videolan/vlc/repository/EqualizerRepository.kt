@@ -37,11 +37,6 @@ import androidx.core.content.edit
 
 class EqualizerRepository(private val equalizerDao: EqualizerDao, private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
 
-
-    val equalizerEntries by lazy {
-            equalizerDao.getEnabledEqualizerEntries()
-    }
-
     val equalizerEntriesUnfiltered by lazy {
             equalizerDao.getAllEqualizerEntries()
     }

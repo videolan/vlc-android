@@ -84,9 +84,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         withContext(Dispatchers.IO) { if (!mediaplayer.isReleased) mediaplayer.media = media.apply { if (hasRenderer) parse() } }
         mediaplayer.setEventListener(this@PlayerController)
         if (!mediaplayer.isReleased) {
-            val repository = EqualizerRepository.getInstance(context)
-            repository.equalizerEntries
             if (Settings.getInstance(context).getBoolean(KEY_EQUALIZER_ENABLED, false)) withContext(Dispatchers.IO) {
+                val repository = EqualizerRepository.getInstance(context)
                 mediaplayer.setEqualizer(repository.getCurrentEqualizer(context).getEqualizer())
             }
             mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)

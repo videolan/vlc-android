@@ -28,6 +28,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -64,8 +65,12 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     var presetToDelete:EqualizerWithBands? = null
     private var oldEqualizer: EqualizerWithBands? = null
 
-    val equalizerEntries = equalizerRepository.equalizerEntries.asLiveData()
     val equalizerUnfilteredEntries = equalizerRepository.equalizerEntriesUnfiltered.asLiveData()
+    val equalizerEntries = MediatorLiveData<List<EqualizerWithBands>>().apply {
+        addSource(equalizerUnfilteredEntries) {
+            value = it.filter { !it.equalizerEntry.isDisabled }.sortedBy { it.equalizerEntry.presetIndex }
+        }
+    }
 
     var currentEqualizerId = 1L
         set(value) {
