@@ -77,7 +77,6 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
             field = value
             settings.edit { putLong(KEY_CURRENT_EQUALIZER_ID, value) }
             currentEqualizerIdLive.postValue(value)
-
         }
 
     fun updateEqualizer() {

@@ -94,6 +94,10 @@ class EqualizerSettingsActivity : BaseActivity() {
                 }
 
                 ClickType.EQUALIZER_EXPORT -> model.export(this, equalizer)
+                ClickType.EQUALIZER_CHANGE_CURRENT -> {
+                    model.currentEqualizerId = equalizer.equalizerEntry.id
+                    model.updateEqualizer()
+                }
             }
         }
         binding.equalizers.adapter = adapter
@@ -106,14 +110,13 @@ class EqualizerSettingsActivity : BaseActivity() {
                 val newIndex = adapter.dataset.indexOfFirst { it.equalizerEntry.id == adapter.currentId }
                 adapter.notifyItemChanged(oldIndex)
                 adapter.notifyItemChanged(newIndex)
-
             }
         }
 
         model.equalizerUnfilteredEntries.observe(this) {
             adapter.update(it)
         }
-
+        model.equalizerEntries.observe(this) { }
 
         binding.renameInputText.addTextChangedListener {
             if (model.checkForbidden(it.toString())) {
@@ -218,6 +221,10 @@ class EqualizerSettingsAdapter(private val itemClickHandler: (equalizer: Equaliz
     inner class ViewHolder(vdb: EqualizerSettingItemBinding) : SelectorViewHolder<EqualizerSettingItemBinding>(vdb) {
         init {
             binding.holder = this
+            itemView.setOnClickListener{v ->
+                if (!dataset[layoutPosition].equalizerEntry.isDisabled && currentId != dataset[position].equalizerEntry.id)
+                    itemClickHandler.invoke(dataset[layoutPosition], ClickType.EQUALIZER_CHANGE_CURRENT)
+            }
         }
 
         fun onClickEnable(@Suppress("UNUSED_PARAMETER") v: View) {
@@ -239,7 +246,7 @@ class EqualizerSettingsAdapter(private val itemClickHandler: (equalizer: Equaliz
 }
 
 enum class ClickType {
-    EQUALIZER_DISABLE, EQUALIZER_ENABLE, EQUALIZER_DELETE, EQUALIZER_EXPORT
+    EQUALIZER_DISABLE, EQUALIZER_ENABLE, EQUALIZER_DELETE, EQUALIZER_EXPORT, EQUALIZER_CHANGE_CURRENT
 }
 
 fun EqualizerWithBands.getBitmap(context: Context): Bitmap {
