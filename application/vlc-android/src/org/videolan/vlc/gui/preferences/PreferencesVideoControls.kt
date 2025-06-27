@@ -49,6 +49,7 @@ import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_HUD_TIMEOUT
 import org.videolan.tools.coerceInOrDefault
+import org.videolan.tools.readableString
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 
@@ -78,6 +79,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
         findPreference<Preference>(LOCK_USE_SENSOR)?.isVisible = !AndroidDevices.isAndroidTv
 
         updateHudTimeoutSummary()
+        updateFastplaySpeedSummary()
         val audiomanager = requireActivity().getSystemService<AudioManager>()!!
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || audiomanager.isVolumeFixed) {
             audioBoostPref?.isChecked = false
@@ -95,6 +97,10 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
             -1 -> findPreference<Preference>(VIDEO_HUD_TIMEOUT)?.summary = getString(R.string.timeout_infinite)
             else -> findPreference<Preference>(VIDEO_HUD_TIMEOUT)?.summary =  getString(R.string.video_hud_timeout_summary, Settings.videoHudDelay.toString())
         }
+    }
+
+    private fun updateFastplaySpeedSummary() {
+        findPreference<Preference>(FASTPLAY_SPEED)?.summary = getString(R.string.fastplay_speed_summary, Settings.fastplaySpeed.readableString())
     }
 
     override fun onStart() {
@@ -126,7 +132,8 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
                 Settings.videoDoubleTapJumpDelay = sharedPreferences.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
             }
             FASTPLAY_SPEED -> {
-                Settings.fastplaySpeed = sharedPreferences.getString(FASTPLAY_SPEED, "2")?.toFloat() ?: 2f
+                Settings.fastplaySpeed = sharedPreferences.getInt(FASTPLAY_SPEED, 8) * 0.25f
+                updateFastplaySpeedSummary()
             }
         }
     }
