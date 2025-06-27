@@ -130,10 +130,11 @@ def generateTranslation() {
     foundLocales.append("new String[]{\"")
     def emptyList = []
     fileTree("../resources/src/main/res").visit { FileVisitDetails details ->
-        println 'details: ' + details
+        // println 'details: ' + details
         if (details.file.path.endsWith("strings.xml")) {
             def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
             languageCode = (languageCode == "values") ? "en" : languageCode
+            // println 'adding ' + languageCode + ' strings'
             emptyList.add(languageCode)
         }
     }
