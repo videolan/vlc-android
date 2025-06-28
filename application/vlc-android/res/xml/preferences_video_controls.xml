@@ -105,16 +105,18 @@
                 android:title="@string/enable_tap_and_hold_fastplay_title"
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
-        <ListPreference
-                android:defaultValue="2"
+        <SeekBarPreference
+                android:defaultValue="8"
                 android:dependency="enable_fastplay"
-                android:entries="@array/fastplay_speed_entries"
-                android:entryValues="@array/fastplay_speed_values"
                 android:key="fastplay_speed"
+                android:max="32"
                 android:summary="%s"
                 android:title="@string/fastplay_speed_title"
                 app:iconSpaceReserved="false"
-                app:singleLineTitle="false" />
+                app:min="5"
+                app:seekBarIncrement="1"
+                app:singleLineTitle="false"
+                app:updatesContinuously="true" />
 
     </PreferenceCategory>
 

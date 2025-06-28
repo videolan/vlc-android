@@ -59,7 +59,7 @@ import org.videolan.vlc.isVLC4
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 15
+private const val CURRENT_VERSION = 16
 
 object VersionMigration {
 
@@ -124,6 +124,10 @@ object VersionMigration {
 
         if (lastVersion < 15) {
             migrateToVersion15(settings)
+        }
+
+        if (lastVersion < 16) {
+            migrateToVersion16(settings)
         }
 
         //Major version upgrade
@@ -388,6 +392,24 @@ object VersionMigration {
                 settings.edit(true) {
                     putString(DefaultPlaybackActionMediaType.TRACK.defaultActionKey, DefaultPlaybackAction.PLAY_ALL.name)
                 }
+            }
+        }
+    }
+
+    /**
+     * Migrate the fast play speed setting
+     *
+     */
+    private fun migrateToVersion16(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrate to version 16: Migrate the fast play speed setting")
+        if (settings.contains("fastplay_speed")) {
+            settings.edit(true) {
+                putInt("fastplay_speed", settings.getString("fastplay_speed", "2")
+                    ?.toFloat()
+                    ?.div(0.25f)
+                    ?.toInt()
+                    ?.coerceInOrDefault(5, 32, 8)
+                    ?: 8)
             }
         }
     }

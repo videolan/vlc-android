@@ -642,22 +642,6 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="fastplay_speed_entries">
-        <item>1.25x</item>
-        <item>1.5x</item>
-        <item>2x</item>
-        <item>4x</item>
-        <item>8x</item>
-    </string-array>
-
-    <string-array name="fastplay_speed_values">
-        <item>1.25</item>
-        <item>1.5</item>
-        <item>2</item>
-        <item>4</item>
-        <item>8</item>
-    </string-array>
-
     <string-array name="widget_themes_entries" translatable="false">
         <item>@string/material_you</item>
         <item>@string/palette</item>
