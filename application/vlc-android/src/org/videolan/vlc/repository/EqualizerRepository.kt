@@ -68,6 +68,7 @@ class EqualizerRepository(private val equalizerDao: EqualizerDao, private val co
         equalizerDao.delete(equalizerEntry)
     }
 
+    fun getCustomEqualizers(): List<EqualizerWithBands> = equalizerDao.getCustomEqualizers()
 
     companion object : SingletonHolder<EqualizerRepository, Context>({ EqualizerRepository(MediaDatabase.getInstance(it).equalizerDao()) })
 }

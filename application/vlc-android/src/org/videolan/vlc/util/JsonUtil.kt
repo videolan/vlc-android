@@ -46,11 +46,29 @@ object JsonUtil {
         return adapter.toJson(data)
     }
 
+    inline fun <reified T> convertToJson(data: List<T>?): String {
+        val moshi = Moshi.Builder().build()
+        val type = Types.newParameterizedType(MutableList::class.java, Any::class.java)
+        val adapter = moshi.adapter<List<T>>(type).nullSafe()
+        return adapter.toJson(data)
+    }
+
     fun getEqualizerFromJson(string: String): EqualizerWithBands? {
         val moshi: Moshi = Moshi.Builder().build()
         val type = Types.newParameterizedType(EqualizerWithBands::class.java)
 
         val adapter: JsonAdapter<EqualizerWithBands> = moshi.adapter(type)
+        adapter.fromJson(string)?.let {
+            return it
+        }
+        return null
+    }
+
+    fun getEqualizersFromJson(string: String): List<EqualizerWithBands>? {
+        val moshi: Moshi = Moshi.Builder().build()
+        val type = Types.newParameterizedType(MutableList::class.java, EqualizerWithBands::class.java)
+
+        val adapter: JsonAdapter<List<EqualizerWithBands>> = moshi.adapter(type)
         adapter.fromJson(string)?.let {
             return it
         }
