@@ -276,6 +276,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
             .trim()
             .replace(" ", "_")
             .replace("/", "")
+            .replace("\"", "")
         UiTools.snacker(context, context.getString(R.string.equalizer_exported, fileName))
         val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + File.separator + fileName + ".json")
         if (context.getWritePermission(Uri.fromFile(dst))) {
