@@ -38,6 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.EXPORT_EQUALIZERS_FILE
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.Settings
@@ -49,6 +50,7 @@ import org.videolan.vlc.mediadb.models.EqualizerBand
 import org.videolan.vlc.mediadb.models.EqualizerEntry
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
+import org.videolan.vlc.util.EqualizerUtil
 import org.videolan.vlc.util.JsonUtil
 import java.io.File
 
@@ -284,6 +286,11 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
                 dst.writeText(it)
             }
         }
+    }
+
+    fun exportAll(context: FragmentActivity) = viewModelScope.launch(Dispatchers.IO) {
+        EqualizerUtil.exportAllEqualizers(context)
+        UiTools.snacker(context, context.getString(R.string.equalizer_exported, EXPORT_EQUALIZERS_FILE))
     }
 
     companion object {

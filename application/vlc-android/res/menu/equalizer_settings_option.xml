@@ -50,5 +50,17 @@
             android:title="@string/hide_all"
             vlc:showAsAction="never"/>
 
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/equalizer_export_all"
+            android:title="@string/export_all"
+            vlc:showAsAction="never"/>
+
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/equalizer_import_all"
+            android:title="@string/import_all"
+            vlc:showAsAction="never"/>
+
 
 </menu>

@@ -47,12 +47,14 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.repository.EqualizerRepository
+import org.videolan.vlc.util.EqualizerUtil
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.JsonUtil
 import org.videolan.vlc.viewmodels.EqualizerViewModel
 import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
 
 private const val FILE_PICKER_RESULT_CODE = 10000
+private const val FILE_PICKER_ALL_RESULT_CODE = 10001
 
 /**
  * Equalizer settings activity allowing to enable/disable/delete/export/import the presets
@@ -153,6 +155,12 @@ class EqualizerSettingsActivity : BaseActivity() {
                 filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.EQUALIZER.ordinal)
                 startActivityForResult(filePickerIntent, FILE_PICKER_RESULT_CODE)
             }
+            R.id.equalizer_export_all -> model.exportAll(this)
+            R.id.equalizer_import_all ->  {
+                val filePickerIntent = Intent(this, FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.EQUALIZER.ordinal)
+                startActivityForResult(filePickerIntent, FILE_PICKER_ALL_RESULT_CODE)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -175,6 +183,18 @@ class EqualizerSettingsActivity : BaseActivity() {
                                 } else showOverwriteDialog(it)
                             }
                         }
+                    } catch (e: Exception) {
+                        Log.e("EqualizerSettings", "onActivityResult: ${e.message}", e)
+                        UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
+                    }
+                }
+            }
+        } else if (requestCode == FILE_PICKER_ALL_RESULT_CODE) {
+            if (data.hasExtra(EXTRA_MRL)) lifecycleScope.launch {
+                data.getStringExtra(EXTRA_MRL)?.toUri()?.path?.let {
+                    val equalizerString = FileUtils.getStringFromFile(it)
+                    try {
+                        EqualizerUtil.importAll(this@EqualizerSettingsActivity, equalizerString)
                     } catch (e: Exception) {
                         Log.e("EqualizerSettings", "onActivityResult: ${e.message}", e)
                         UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))
