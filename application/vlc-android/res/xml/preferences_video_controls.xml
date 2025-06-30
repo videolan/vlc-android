@@ -106,14 +106,14 @@
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false" />
         <SeekBarPreference
-                android:defaultValue="8"
+                android:defaultValue="20"
                 android:dependency="enable_fastplay"
                 android:key="fastplay_speed"
-                android:max="32"
+                android:max="80"
                 android:summary="%s"
                 android:title="@string/fastplay_speed_title"
                 app:iconSpaceReserved="false"
-                app:min="5"
+                app:min="11"
                 app:seekBarIncrement="1"
                 app:singleLineTitle="false"
                 app:updatesContinuously="true" />

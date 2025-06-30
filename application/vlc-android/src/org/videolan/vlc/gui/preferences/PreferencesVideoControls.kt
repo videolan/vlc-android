@@ -132,7 +132,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
                 Settings.videoDoubleTapJumpDelay = sharedPreferences.getInt(KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY, 20)
             }
             FASTPLAY_SPEED -> {
-                Settings.fastplaySpeed = sharedPreferences.getInt(FASTPLAY_SPEED, 8) * 0.25f
+                Settings.fastplaySpeed = sharedPreferences.getInt(FASTPLAY_SPEED, 20) / 10f
                 updateFastplaySpeedSummary()
             }
         }

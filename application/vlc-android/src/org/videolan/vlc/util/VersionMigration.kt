@@ -406,10 +406,10 @@ object VersionMigration {
             settings.edit(true) {
                 putInt("fastplay_speed", settings.getString("fastplay_speed", "2")
                     ?.toFloat()
-                    ?.div(0.25f)
+                    ?.times(10)
                     ?.toInt()
-                    ?.coerceInOrDefault(5, 32, 8)
-                    ?: 8)
+                    ?.coerceInOrDefault(11, 80, 20)
+                    ?: 20)
             }
         }
     }
