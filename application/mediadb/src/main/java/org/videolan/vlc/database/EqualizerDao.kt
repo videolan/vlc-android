@@ -53,6 +53,10 @@ interface EqualizerDao {
     fun getAllEqualizerEntries(): Flow<List<EqualizerWithBands>>
 
     @Transaction
+    @Query("SELECT * FROM equalizer_entry ORDER BY preset_index ASC")
+    fun getAllEqualizerEntriesSync(): List<EqualizerWithBands>
+
+    @Transaction
     @Query("SELECT * FROM equalizer_entry WHERE is_disabled = 0 ORDER BY preset_index ASC LIMIT 1")
     fun getFirstEqualizerEntry(): EqualizerWithBands
 

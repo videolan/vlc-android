@@ -38,6 +38,7 @@ import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.KEY_CURRENT_MAJOR_VERSION
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
@@ -56,6 +57,7 @@ import org.videolan.tools.VIDEO_HUD_TIMEOUT
 import org.videolan.tools.coerceInOrDefault
 import org.videolan.tools.putSingle
 import org.videolan.tools.toInt
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
@@ -455,6 +457,8 @@ object VersionMigration {
         val equalizerRepository = EqualizerRepository.getInstance(context)
         val count = MediaPlayer.Equalizer.getPresetCount()
         val bandCount = MediaPlayer.Equalizer.getBandCount()
+
+        // First, add all VLC default presets
         for (i in 0 until count) {
             val equalizer = MediaPlayer.Equalizer.createFromPreset(i)
             val bands = buildList {
@@ -466,10 +470,11 @@ object VersionMigration {
             equalizerRepository.addOrUpdateEqualizerWithBands(context, eqEntity)
         }
 
-        for ((key) in Settings.getInstance(context).all) {
+        // Then, add all custom presets
+        for ((key) in settings.all) {
             if (key.startsWith("custom_equalizer_")) {
                 val bands = Preferences.getFloatArray(settings, key)
-                val bandCount = MediaPlayer.Equalizer.getBandCount()
+                var isCurrent = settings.getString("equalizer_values", "") == settings.getString(key, "")
                 if (bands!!.size == bandCount + 1) {
                     val name = key.replace("custom_equalizer_", "").replace("_", " ")
                     val bandList = buildList {
@@ -478,12 +483,53 @@ object VersionMigration {
                         }
                     }
                     val eqEntity = EqualizerWithBands(EqualizerEntry(name, bands[0]), bandList)
-                    equalizerRepository.addOrUpdateEqualizerWithBands(context, eqEntity)
+                    val id = equalizerRepository.addOrUpdateEqualizerWithBands(context, eqEntity)
+                    if (isCurrent) settings.edit {
+                        putLong(KEY_CURRENT_EQUALIZER_ID, id)
+                        remove("equalizer_values")
+                        remove("equalizer_set")
+                    }
                 }
                 settings.edit { remove(key) }
             }
         }
 
+        //check if previous unsaved equalizer is still set
+        if (settings.contains("equalizer_values") && settings.contains("equalizer_set")) {
+            val bands = Preferences.getFloatArray(settings, "equalizer_values")
+            if (bands!!.size == bandCount + 1) {
+                val oldName = settings.getString("equalizer_set", "")?.replace("custom_equalizer_", "")?.replace("_", " ") ?: context.getString(R.string.new_equalizer_copy_template)
+                var name = oldName
+                val fromScratch = settings.getString("equalizer_set", "")?.trim()?.isEmpty() != false
+                val bandList = buildList {
+                    for (j in 0 until bandCount) {
+                        add(EqualizerBand(j, bands[j + 1]))
+                    }
+                }
+
+                var i = 0
+                while (!equalizerRepository.isNameAllowed(name)) {
+                    ++i
+                    name = if (fromScratch)
+                        context.getString(R.string.new_equalizer_copy_template, " $i")
+                    else
+                        oldName + " " + context.getString(R.string.equalizer_copy_template, " $i")
+                }
+
+                val eqEntity = EqualizerWithBands(EqualizerEntry(name, bands[0]), bandList)
+                val id = equalizerRepository.addOrUpdateEqualizerWithBands(context, eqEntity)
+                settings.edit {
+                    putLong(KEY_CURRENT_EQUALIZER_ID, id)
+                }
+            }
+        }
+
+        //finally, remove all the old shared preferences
+        settings.edit {
+            remove("equalizer_values")
+            remove("equalizer_set")
+            remove("equalizer_saved")
+        }
     }
 
     /**
