@@ -420,7 +420,6 @@
     <string name="enable_tap_and_hold_fastplay_title">Enable Fastplay</string>
     <string name="enable_tap_and_hold_fastplay_summary">Tap and hold to increase the playback speed</string>
     <string name="fastplay_speed_title">Fastplay speed</string>
-    <string name="fastplay_speed_summary">%sx</string>
     <string name="fastplay_title">Playing at %sx</string>
     <string name="fastplay_subtitle">Release to stop</string>
     <string name="show_bookmark_buttons">Show bookmark buttons</string>

@@ -100,7 +100,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
     }
 
     private fun updateFastplaySpeedSummary() {
-        findPreference<Preference>(FASTPLAY_SPEED)?.summary = getString(R.string.fastplay_speed_summary, Settings.fastplaySpeed.readableString())
+        findPreference<Preference>(FASTPLAY_SPEED)?.summary = String.format("%sx", Settings.fastplaySpeed.readableString())
     }
 
     override fun onStart() {
