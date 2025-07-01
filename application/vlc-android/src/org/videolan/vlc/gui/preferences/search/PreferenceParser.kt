@@ -214,16 +214,16 @@ object PreferenceParser {
      */
     fun getChangedPrefsString(context: Context) = buildString {
         append("\r\nMain settings:\r\n")
-        getAllChangedPrefs(context, parseUIPrefs = false, showTitle = true).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
+        getAllChangedPrefs(context, parseUIPrefs = false, showTitle = true).forEach { append("* ${it.first} -> ${it.second}\r\n") }
         val videoControls = buildString {
-            getAllChangedControlPrefs(context, forVideo = true, showTitle = true).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
+            getAllChangedControlPrefs(context, forVideo = true, showTitle = true).forEach { append("* ${it.first} -> ${it.second}\r\n") }
         }
         if (videoControls.isNotBlank()) {
             append("\r\nVideo controls:\r\n")
             append(videoControls)
         }
         val audioControls = buildString {
-            getAllChangedControlPrefs(context, forVideo = false, showTitle = true).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
+            getAllChangedControlPrefs(context, forVideo = false, showTitle = true).forEach { append("* ${it.first} -> ${it.second}\r\n") }
         }
         if (audioControls.isNotBlank()) {
             append("\r\nAudio controls:\r\n")
@@ -235,7 +235,7 @@ object PreferenceParser {
             DefaultPlaybackActionMediaType.entries.forEach {
                 val currentPlaybackAction = it.getCurrentPlaybackAction(settings)
                 if (currentPlaybackAction != DefaultPlaybackAction.PLAY) {
-                    append("\t* ${it.defaultActionKey} -> $currentPlaybackAction\r\n")
+                    append("* ${it.defaultActionKey} -> $currentPlaybackAction\r\n")
                 }
             }
         }
