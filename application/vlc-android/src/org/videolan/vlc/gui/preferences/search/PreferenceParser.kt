@@ -144,10 +144,12 @@ object PreferenceParser {
     /**
      * Compares the preference list with the set settings to get the list of the changed settings by the user
      * @param context the context to be used to retrieve the preferences
+     * @param parseUIPrefs whether to parse the UI preferences or not
+     * @param showTitle whether to show the title of the preference or not
      *
      * @return a list of changed settings in the form a of pair of the key and the value
      */
-    private fun getAllChangedPrefs(context: Context, parseUIPrefs: Boolean = true): ArrayList<Pair<String, Any>> {
+    private fun getAllChangedPrefs(context: Context, parseUIPrefs: Boolean = true, showTitle: Boolean = false): ArrayList<Pair<String, Any>> {
         val allPrefs = parsePreferences(context, parseUIPrefs = parseUIPrefs)
         val allSettings = Settings.getInstance(context).all
         val changedSettings = ArrayList<Pair<String, Any>>()
@@ -155,7 +157,10 @@ object PreferenceParser {
             allSettings.forEach { setting ->
                 if (pref.key == setting.key && pref.key != "custom_libvlc_options") {
                     setting.value?.let {
-                        if (!isSame(it, pref.defaultValue)) changedSettings.add(Pair(pref.key, it))
+                        if (!isSame(it, pref.defaultValue)) {
+                            val first = if (showTitle) "${pref.key} (${pref.title})" else pref.key
+                            changedSettings.add(Pair(first, it))
+                        }
                     }
                 }
             }
@@ -168,9 +173,10 @@ object PreferenceParser {
      *
      * @param context the context to be used to retrieve the preferences
      * @param forVideo if true, returns the video controls else the audio controls
+     * @param showTitle whether to show the title of the preference or not
      * @return a list of changed settings in the form a of pair of the key and the value
      */
-    private fun getAllChangedControlPrefs(context: Context, forVideo: Boolean = false): ArrayList<Pair<String, Any>> {
+    private fun getAllChangedControlPrefs(context: Context, forVideo: Boolean = false, showTitle: Boolean = false): ArrayList<Pair<String, Any>> {
         val allPrefs = parseControlPreferences(context, forVideo = forVideo)
         val allSettings = Settings.getInstance(context).all
         val changedSettings = ArrayList<Pair<String, Any>>()
@@ -178,7 +184,8 @@ object PreferenceParser {
             allSettings.forEach { setting ->
                 if (pref.key == setting.key && pref.key != "custom_libvlc_options") {
                     setting.value?.let {
-                        if (!isSame(it, pref.defaultValue)) changedSettings.add(Pair(pref.key, it))
+                        val first = if (showTitle) "${pref.key} (${pref.title})" else pref.key
+                        if (!isSame(it, pref.defaultValue)) changedSettings.add(Pair(first, it))
                     }
                 }
             }
@@ -207,16 +214,16 @@ object PreferenceParser {
      */
     fun getChangedPrefsString(context: Context) = buildString {
         append("\r\nMain settings:\r\n")
-        getAllChangedPrefs(context, parseUIPrefs = false).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
+        getAllChangedPrefs(context, parseUIPrefs = false, showTitle = true).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
         val videoControls = buildString {
-            getAllChangedControlPrefs(context, forVideo = true).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
+            getAllChangedControlPrefs(context, forVideo = true, showTitle = true).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
         }
         if (videoControls.isNotBlank()) {
             append("\r\nVideo controls:\r\n")
             append(videoControls)
         }
         val audioControls = buildString {
-            getAllChangedControlPrefs(context, forVideo = false).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
+            getAllChangedControlPrefs(context, forVideo = false, showTitle = true).forEach { append("\t* ${it.first} -> ${it.second}\r\n") }
         }
         if (audioControls.isNotBlank()) {
             append("\r\nAudio controls:\r\n")
