@@ -40,6 +40,7 @@ import org.videolan.resources.VLCOptions
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
+import org.videolan.vlc.gui.preferences.search.PreferenceParser.getChangedPrefsJson
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import java.io.BufferedWriter
@@ -143,6 +144,10 @@ object FeedbackUtil {
             append("Cannot retrieve changed settings\r\n")
             append(Log.getStackTraceString(e))
         }
+        append("____________________________\r\n")
+        append("Settings export/import (copy this line in a file to restore those settings)\r\n")
+        append("____________________________\r\n")
+        append("${PreferenceParser.getChangedPrefsJson(context)}\r\n")
         append("____________________________\r\n")
         append("vlc options: ${VLCOptions.libOptions.joinToString(" ")}\r\n")
         append("____________________________\r\n")

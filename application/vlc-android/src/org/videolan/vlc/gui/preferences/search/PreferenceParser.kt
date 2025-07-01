@@ -251,7 +251,7 @@ object PreferenceParser {
      *
      * @return a string of all the changed preferences
      */
-    private fun getChangedPrefsJson(context: Context) = buildString {
+    fun getChangedPrefsJson(context: Context) = buildString {
         append("{")
         val allChangedPrefs = getAllChangedPrefs(context)
         addAllOtherPrefs(context, allChangedPrefs)
