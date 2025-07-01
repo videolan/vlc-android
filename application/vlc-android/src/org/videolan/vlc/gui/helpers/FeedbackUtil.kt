@@ -42,6 +42,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
+import java.io.BufferedWriter
 import java.io.File
 
 object FeedbackUtil {
@@ -123,7 +124,7 @@ object FeedbackUtil {
         append("vlc revision: ${context.getString(R.string.build_vlc_revision)}\r\n")
         append("medialibrary: ${BuildConfig.ML_VERSION}\r\n")
         append("Android version: ${Build.VERSION.SDK_INT}\r\n")
-        append("System name: ${Build.DISPLAY}<br/>")
+        append("System name: ${Build.DISPLAY}\r\n")
         append("Device Model: ${Build.MANUFACTURER} - ${Build.MODEL}\r\n")
         append("____________________________\r\n")
         append("Permissions\r\n")
