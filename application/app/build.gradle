@@ -31,7 +31,7 @@ android {
 
     defaultConfig {
         applicationId rootProject.ext.appId
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdk rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         compileSdk = rootProject.ext.compileSdkVersion
         buildToolsVersion rootProject.ext.buildToolsVersion
@@ -83,7 +83,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
-            defaultConfig.minSdkVersion rootProject.ext.minSdkVersion
+            defaultConfig.minSdk rootProject.ext.minSdkVersion
         }
         signedRelease {
             initWith release
