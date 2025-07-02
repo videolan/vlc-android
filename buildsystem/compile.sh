@@ -274,7 +274,7 @@ if [ ! -e "./gradlew" ] || [ ! -x "./gradlew" ]; then
         rm -rf gradle-${GRADLE_VERSION}-bin.zip
     fi
 
-    gradle wrapper --gradle-version ${GRADLE_VERSION} ${gradle_prop} || fail "gradle: wrapper failed"
+    gradle wrapper ${gradle_prop} || fail "gradle: wrapper failed"
 
     chmod a+x gradlew
 fi
