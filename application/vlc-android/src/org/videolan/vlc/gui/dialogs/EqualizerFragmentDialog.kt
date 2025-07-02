@@ -165,6 +165,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
         binding.equalizerAdd.setOnClickListener {
             viewModel.createCustomEqualizer(requireActivity(), true)
+            if (!binding.equalizerButton.isChecked) binding.equalizerButton.isChecked = true
         }
 
         binding.undo.setOnClickListener {
