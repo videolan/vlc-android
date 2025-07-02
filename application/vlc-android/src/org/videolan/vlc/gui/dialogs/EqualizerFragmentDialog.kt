@@ -68,6 +68,9 @@ import org.videolan.vlc.viewmodels.EqualizerViewModel
 import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
+import androidx.core.view.isEmpty
+import androidx.core.view.isNotEmpty
+import org.videolan.vlc.viewmodels.EqualizerViewModel.Companion.currentEqualizerIdLive
 
 
 /**
@@ -132,6 +135,11 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             if (viewModel.bandCount == -1) viewModel.bandCount = withContext(Dispatchers.IO) {
                 VLCInstance.getInstance(requireContext())
                 MediaPlayer.Equalizer.getBandCount()
+            }
+        }
+        if (binding.equalizerPresets.isNotEmpty() && oldCurrentEqualizer != null && oldCurrentEqualizer?.equalizerEntry?.id != currentEqualizerIdLive.value) {
+            binding.equalizerPresets.children.forEach {
+                if (it.tag == currentEqualizerIdLive.value) it.performClick()
             }
         }
         //Workaround fix for bottom sheet bug with animateLayoutChanges
