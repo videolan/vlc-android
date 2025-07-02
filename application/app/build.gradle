@@ -32,7 +32,7 @@ android {
     defaultConfig {
         applicationId rootProject.ext.appId
         minSdk rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
         compileSdk = rootProject.ext.compileSdkVersion
         buildToolsVersion rootProject.ext.buildToolsVersion
         versionCode rootProject.ext.versionCode

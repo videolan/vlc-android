@@ -41,7 +41,7 @@ android {
         testInstrumentationRunnerArguments clearPackageData: 'true'
 
         minSdk rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
         compileSdk = rootProject.ext.compileSdkVersion
         buildToolsVersion rootProject.ext.buildToolsVersion
         vectorDrawables.useSupportLibrary = true
