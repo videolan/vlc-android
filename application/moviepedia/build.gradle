@@ -19,7 +19,6 @@ android {
 
     defaultConfig {
         minSdk rootProject.ext.minSdkVersion
-        buildToolsVersion rootProject.ext.buildToolsVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'

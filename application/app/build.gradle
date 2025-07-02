@@ -32,7 +32,6 @@ android {
     defaultConfig {
         applicationId rootProject.ext.appId
         minSdk rootProject.ext.minSdkVersion
-        buildToolsVersion rootProject.ext.buildToolsVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         vectorDrawables.useSupportLibrary = true

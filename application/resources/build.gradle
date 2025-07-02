@@ -14,7 +14,6 @@ android {
 
     defaultConfig {
         minSdk rootProject.ext.minSdkVersion
-        buildToolsVersion rootProject.ext.buildToolsVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
         buildConfigField 'String', 'VLC_OPEN_SUBTITLES_API_KEY', "\"${getOSApiKey(project)}\""

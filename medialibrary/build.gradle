@@ -36,7 +36,6 @@ android {
 
     defaultConfig {
         minSdk rootProject.ext.minSdkVersion
-        buildToolsVersion rootProject.ext.buildToolsVersion
     }
 
     sourceSets {
