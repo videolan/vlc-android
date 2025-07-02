@@ -31,7 +31,6 @@ android {
 
     defaultConfig {
         applicationId rootProject.ext.appId
-        minSdk rootProject.ext.minSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         vectorDrawables.useSupportLibrary = true
@@ -70,9 +69,6 @@ android {
         beforeVariants(selector().withBuildType("vlcBundle")) { variantBuilder ->
             variantBuilder.minSdk = 30
         }
-        beforeVariants(selector().withBuildType("vlcBundleAmazon")) { variantBuilder ->
-            variantBuilder.minSdk = rootProject.ext.minSdkVersion
-        }
     }
 
     buildTypes {
@@ -80,7 +76,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
-            defaultConfig.minSdk rootProject.ext.minSdkVersion
         }
         signedRelease {
             initWith release

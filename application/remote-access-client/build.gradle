@@ -36,8 +36,6 @@ android {
     namespace = 'org.videolan.vlc.remoteaccessclient'
 
     defaultConfig {
-        minSdk rootProject.ext.minSdkVersion
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         resValue "string", "build_remote_access_revision", remoteAccessRevision()

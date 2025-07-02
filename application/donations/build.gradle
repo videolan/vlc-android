@@ -40,8 +40,6 @@ android {
 
 
     defaultConfig {
-        minSdk rootProject.ext.minSdkVersion
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
         multiDexEnabled = true
