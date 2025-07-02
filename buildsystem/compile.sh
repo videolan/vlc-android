@@ -264,7 +264,8 @@ if [ ! -e "./gradlew" ] || [ ! -x "./gradlew" ]; then
     GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 
     export PATH="$(pwd -P)/gradle-${GRADLE_VERSION}/bin:$PATH"
-    if [ ! $(command -v gradle) >/dev/null 2>&1 ]; then
+    GRADLE_PATH_VERSION=$(cd buildsystem/gradle_version; gradle -q 2>/dev/null | grep gradle_version= | cut -b 16-)
+    if [ "$GRADLE_PATH_VERSION" != "$GRADLE_VERSION" ]; then
         diagnostic "gradle could not be found in PATH, downloading"
         wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL} || fail "gradle: download failed"
         echo $GRADLE_SHA256 gradle-${GRADLE_VERSION}-bin.zip | sha256sum -c || fail "gradle: hash mismatch"
