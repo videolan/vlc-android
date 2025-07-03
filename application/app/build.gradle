@@ -133,7 +133,7 @@ android {
                 }
                 return false // continue
             }
-            enable isReleaseBuild
+            enable = isReleaseBuild
             reset()
             include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
 //            universalApk !isReleaseBuild
@@ -142,7 +142,7 @@ android {
 
     def abiCodes = ['armeabi-v7a': 5, 'arm64-v8a': 6, 'x86': 7, 'x86_64': 8]
     lint {
-        abortOnError false
+        abortOnError = false
         disable 'MissingTranslation', 'ExtraTranslation'
     }
     namespace = 'org.videolan.mobile.app'
