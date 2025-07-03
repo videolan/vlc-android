@@ -52,7 +52,7 @@ android {
     sourceSets.dev {
         res.srcDirs = ['flavors/debug/res']
     }
-    namespace 'org.videolan.resources'
+    namespace = 'org.videolan.resources'
     buildFeatures {
         buildConfig true
     }

@@ -25,7 +25,7 @@ android {
             matchingFallbacks = ['release']
         }
     }
-    namespace 'videolan.org.commontools'
+    namespace = 'videolan.org.commontools'
     buildFeatures {
         buildConfig true
     }

@@ -48,7 +48,7 @@ android {
             matchingFallbacks = ['release']
         }
     }
-    namespace 'org.videolan.moviepedia'
+    namespace = 'org.videolan.moviepedia'
     buildFeatures {
         buildConfig true
     }

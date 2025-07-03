@@ -33,7 +33,7 @@ ext {
 }
 
 android {
-    namespace 'org.videolan.vlc.remoteaccessclient'
+    namespace = 'org.videolan.vlc.remoteaccessclient'
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion

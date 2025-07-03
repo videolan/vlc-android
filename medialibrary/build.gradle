@@ -28,7 +28,7 @@ ext {
     library_version = "$rootProject.ext.medialibraryVersion"
 }
 android {
-    namespace 'org.videolan.medialibrary'
+    namespace = 'org.videolan.medialibrary'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

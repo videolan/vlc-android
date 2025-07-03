@@ -68,7 +68,7 @@ android {
             matchingFallbacks = ['release']
         }
     }
-    namespace 'org.videolan.vlc.donations'
+    namespace = 'org.videolan.vlc.donations'
     buildFeatures {
         aidl true
         buildConfig true

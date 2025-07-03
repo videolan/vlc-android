@@ -49,7 +49,7 @@ android {
             matchingFallbacks = ['release']
         }
     }
-    namespace 'org.videolan.liveplotgraph'
+    namespace = 'org.videolan.liveplotgraph'
     buildFeatures {
         buildConfig true
     }

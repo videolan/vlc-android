@@ -60,7 +60,7 @@ android {
             matchingFallbacks = ['release']
         }
     }
-    namespace 'org.videolan.vlc.mediadb'
+    namespace = 'org.videolan.vlc.mediadb'
 
 }
 
