@@ -28,7 +28,7 @@ android {
 
         buildConfigField 'int', 'VLC_VERSION_CODE', "${rootProject.ext.versionCode}"
         buildConfigField "String", "MOVIEPEDIA_API_URL", "\"${getMoviepediaUrl(project)}\""
-        multiDexEnabled true
+        multiDexEnabled = true
     }
 
     buildTypes {

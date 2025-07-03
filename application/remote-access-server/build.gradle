@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        multiDexEnabled true
+        multiDexEnabled = true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         compileSdk = rootProject.ext.compileSdkVersion

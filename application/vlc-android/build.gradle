@@ -76,7 +76,7 @@ android {
             buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
             resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.debug.tv"
             buildConfigField "boolean", "NO_TV", "false"
-            multiDexEnabled true
+            multiDexEnabled = true
         }
         vlcBundle {
             initWith release
