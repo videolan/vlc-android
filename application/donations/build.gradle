@@ -70,7 +70,7 @@ android {
     }
     namespace = 'org.videolan.vlc.donations'
     buildFeatures {
-        aidl true
+        aidl = true
         buildConfig = true
     }
 }

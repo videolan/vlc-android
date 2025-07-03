@@ -77,7 +77,7 @@ android {
     }
     buildFeatures {
         renderScript true
-        aidl true
+        aidl = true
     }
 
     // Make per-variant version code
