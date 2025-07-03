@@ -32,13 +32,19 @@ ext {
     library_version = "$rootProject.ext.remoteAccessVersion"
 }
 
+File remoteAccessPackage = file("remoteaccess/package.json")
+def remoteAccessRevision = remoteAccessPackage.exists() ? providers.exec {
+    workingDir('remoteaccess')
+    commandLine('git', 'rev-parse', '--short', 'HEAD')
+}.standardOutput.asText.get().trim() : 'unknown'
+
 android {
     namespace = 'org.videolan.vlc.remoteaccessclient'
 
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-        resValue "string", "build_remote_access_revision", remoteAccessRevision()
+        resValue "string", "build_remote_access_revision", remoteAccessRevision
         resValue "string", "remote_access_version", remoteAccessVersion()
     }
 
@@ -99,18 +105,6 @@ def remoteAccessVersion() {
     return "unknown"
 }
 
-def remoteAccessRevision() {
-    try {
-        def hash = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', '-C', 'remoteaccess', 'rev-parse', '--short', 'HEAD'
-            standardOutput = hash
-        }
-        return hash.toString()
-    } catch (Exception e) {
-    }
-    return "unknown"
-}
 
 dependencies {
 
