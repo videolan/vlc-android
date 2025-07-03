@@ -120,7 +120,7 @@ android {
     }
     namespace = 'org.videolan.vlc'
     buildFeatures {
-        renderScript true
+        renderScript = true
         aidl = true
         buildConfig = true
     }
