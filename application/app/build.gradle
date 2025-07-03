@@ -33,7 +33,7 @@ android {
         applicationId rootProject.ext.appId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        compileSdk rootProject.ext.compileSdkVersion
+        compileSdk = rootProject.ext.compileSdkVersion
         buildToolsVersion rootProject.ext.buildToolsVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName

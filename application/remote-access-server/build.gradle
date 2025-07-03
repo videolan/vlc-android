@@ -14,7 +14,7 @@ android {
         multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        compileSdk rootProject.ext.compileSdkVersion
+        compileSdk = rootProject.ext.compileSdkVersion
         buildToolsVersion rootProject.ext.buildToolsVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
