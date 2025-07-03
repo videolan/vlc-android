@@ -39,6 +39,15 @@ object JsonUtil {
         return adapter.toJson(data)
     }
 
+    fun convertToJson(data: EqualizerExport): String {
+        val moshi = Moshi
+            .Builder()
+            .build()
+        val type = Types.newParameterizedType(EqualizerExport::class.java, EqualizerWithBands::class.java, EqualizerState::class.java)
+        val adapter = moshi.adapter<EqualizerExport>(type)
+        return adapter.toJson(data)
+    }
+
     inline fun <reified K, reified V> convertToJson(data: Map<K,V>?): String {
         val moshi = Moshi.Builder().build()
         val type = Types.newParameterizedType(MutableMap::class.java, K::class.java, V::class.java)
@@ -64,15 +73,22 @@ object JsonUtil {
         return null
     }
 
-    fun getEqualizersFromJson(string: String): List<EqualizerWithBands>? {
-        val moshi: Moshi = Moshi.Builder().build()
-        val type = Types.newParameterizedType(MutableList::class.java, EqualizerWithBands::class.java)
-
-        val adapter: JsonAdapter<List<EqualizerWithBands>> = moshi.adapter(type)
+    /**
+     * Get equalizers export from json
+     *
+     * @param string the json string
+     * @return the equalizers export
+     */
+    fun getEqualizersFromJson(string: String): EqualizerExport {
+        val moshi = Moshi
+            .Builder()
+            .build()
+        val type = Types.newParameterizedType(EqualizerExport::class.java, EqualizerWithBands::class.java, EqualizerState::class.java)
+        val adapter = moshi.adapter<EqualizerExport>(type)
         adapter.fromJson(string)?.let {
             return it
         }
-        return null
+        throw IllegalStateException("Invalid json")
     }
 }
 

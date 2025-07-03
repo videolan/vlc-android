@@ -194,7 +194,11 @@ class EqualizerSettingsActivity : BaseActivity() {
                 data.getStringExtra(EXTRA_MRL)?.toUri()?.path?.let {
                     val equalizerString = FileUtils.getStringFromFile(it)
                     try {
-                        EqualizerUtil.importAll(this@EqualizerSettingsActivity, equalizerString)
+                        EqualizerUtil.importAll(this@EqualizerSettingsActivity, equalizerString) { newId ->
+                            model.currentEqualizerId = newId
+                            model.updateEqualizer()
+                            adapter.notifyDataSetChanged()
+                        }
                     } catch (e: Exception) {
                         Log.e("EqualizerSettings", "onActivityResult: ${e.message}", e)
                         UiTools.snacker(this@EqualizerSettingsActivity, getString(R.string.invalid_equalizer_file))

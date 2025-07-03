@@ -66,4 +66,10 @@ interface EqualizerDao {
     @Query("SELECT * FROM equalizer_entry WHERE preset_index == -1")
     fun getCustomEqualizers(): List<EqualizerWithBands>
 
+    @Query("SELECT * FROM equalizer_entry WHERE preset_index != -1")
+    fun getDefaultEqualizers(): List<EqualizerWithBands>
+
+    @Query("SELECT * FROM equalizer_entry WHERE name = :name")
+    fun getByName(name: String): EqualizerWithBands
+
 }

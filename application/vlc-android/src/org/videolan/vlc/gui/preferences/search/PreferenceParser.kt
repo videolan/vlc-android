@@ -49,6 +49,7 @@ import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.DISPLAY_UNDER_NOTCH
+import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
