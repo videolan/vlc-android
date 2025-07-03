@@ -48,7 +48,7 @@ ext {
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
     remoteAccessVersion = '0.6.0'
     libvlcVersion = vlcMajorVersion == 3 ? '3.6.2' :'4.0.0-eap20'
-    medialibraryVersion = vlcMajorVersion == 3 ? '0.13.13-rc17' : '0.13.13-vlc4-rc17'
+    medialibraryVersion = '0.13.13' + (vlcMajorVersion == 3 ? '' : '-vlc4') + '-rc17'
     minSdkVersion = vlcMajorVersion == 3 ? 17 : 21
     buildToolsVersion = vlcMajorVersion == 3 ? '35.0.0' : '35.0.0'
     targetSdkVersion = 34
