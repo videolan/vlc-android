@@ -51,7 +51,7 @@ android {
     }
     namespace = 'org.videolan.liveplotgraph'
     buildFeatures {
-        buildConfig true
+        buildConfig = true
     }
 
 }

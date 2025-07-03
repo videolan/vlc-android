@@ -54,7 +54,7 @@ android {
     }
     namespace = 'org.videolan.resources'
     buildFeatures {
-        buildConfig true
+        buildConfig = true
     }
 
 }
