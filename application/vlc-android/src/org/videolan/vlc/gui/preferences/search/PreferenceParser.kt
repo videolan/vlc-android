@@ -457,7 +457,7 @@ object PreferenceParser {
         }
         withContext(Dispatchers.Main) {
             if (success)
-                if (activity is FragmentActivity)
+                if (activity is FragmentActivity && !Settings.tvUI)
                     UiTools.snackerConfirm(activity, activity.getString(R.string.export_settings_success), confirmMessage = R.string.share, overAudioPlayer = false) {
                         activity.share(dst)
                     }
@@ -480,12 +480,15 @@ object PreferenceParser {
             val adapter: JsonAdapter<SettingsBackup> = moshi.adapter(SettingsBackup::class.java)
             val savedSettings =  adapter.fromJson(changedPrefs)
 
+            if (savedSettings?.settings == null || savedSettings.version == 0) throw IllegalStateException("Invalid file")
+
+
             //First create a dedicated shared preference for restoring
             val restorePrefsName = activity.packageName + "_restore"
             val restoringPrefs = activity.getSharedPreferences(restorePrefsName, Context.MODE_PRIVATE)
 
             restoringPrefs.edit {
-                savedSettings?.settings?.forEach { settingEntry ->
+                savedSettings.settings.forEach { settingEntry ->
                     when (settingEntry.type) {
                         SettingType.BOOLEAN -> putBoolean(settingEntry.key, settingEntry.value as Boolean)
                         SettingType.INT -> putInt(settingEntry.key, (settingEntry.value as Double).toInt())

@@ -372,15 +372,20 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         if (requestCode == FILE_PICKER_RESULT_CODE) {
             if (data.hasExtra(EXTRA_MRL)) {
                 lifecycleScope.launch {
-                    PreferenceParser.restoreSettings(
-                        requireActivity(), Uri.parse(
-                            data.getStringExtra(
-                                EXTRA_MRL
+                    try {
+                        PreferenceParser.restoreSettings(
+                            requireActivity(), Uri.parse(
+                                data.getStringExtra(
+                                    EXTRA_MRL
+                                )
                             )
                         )
-                    )
-                    VLCInstance.restart()
-                    UiTools.restartDialog(requireActivity())
+                        VLCInstance.restart()
+                        UiTools.restartDialog(requireActivity())
+                    } catch (e: Exception) {
+                        Log.e("EqualizerSettings", "onActivityResult: ${e.message}", e)
+                        UiTools.snacker(requireActivity(), getString(R.string.invalid_settings_file))
+                    }
                 }
             }
         }

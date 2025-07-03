@@ -334,14 +334,20 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         if (requestCode == FILE_PICKER_RESULT_CODE) {
             if (data.hasExtra(EXTRA_MRL)) {
                 launch {
-                    PreferenceParser.restoreSettings(
-                        activity, Uri.parse(
-                            data.getStringExtra(
-                                EXTRA_MRL
+                    try {
+
+                        PreferenceParser.restoreSettings(
+                            activity, Uri.parse(
+                                data.getStringExtra(
+                                    EXTRA_MRL
+                                )
                             )
                         )
-                    )
-                    UiTools.restartDialog(activity!!, true, RESTART_CODE, this)
+                        (activity as PreferencesActivity).setRestartApp()
+                    } catch (e: Exception) {
+                        Log.e("EqualizerSettings", "onActivityResult: ${e.message}", e)
+                        Toast.makeText(activity, R.string.invalid_settings_file, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
