@@ -6,6 +6,10 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+def build_revision = providers.exec {
+    commandLine('git', 'rev-parse', '--short', 'HEAD')
+}.standardOutput.asText.get().trim()
+
 android {
 
     dataBinding {
@@ -22,7 +26,7 @@ android {
 
         resValue "string", "build_time", buildTime(project)
         resValue "string", "build_host", hostName(project)
-        resValue "string", "build_revision", revision()
+        resValue "string", "build_revision", build_revision
         resValue "string", "changelog", changelog()
         resValue "string", "dav1d_version", dav1dVersion()
         resValue 'string', 'tv_provider_authority', "${rootProject.ext.appId}.tv"
@@ -256,15 +260,6 @@ static def hostName(project) {
         return 'Unknown'
     }
     return "${System.getProperty("user.name")}@${InetAddress.localHost.hostName}"
-}
-
-def revision() {
-    def code = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = code
-    }
-    return code.toString()
 }
 
 def dav1dVersion() {
