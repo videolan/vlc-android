@@ -372,14 +372,16 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
         if (requestCode == FILE_PICKER_RESULT_CODE) {
             if (data.hasExtra(EXTRA_MRL)) {
                 lifecycleScope.launch {
-                    lifecycleScope.launch {
-                        PreferenceParser.restoreSettings(requireActivity(), Uri.parse(data.getStringExtra(
-                            EXTRA_MRL
-                        )))
-                    }
+                    PreferenceParser.restoreSettings(
+                        requireActivity(), Uri.parse(
+                            data.getStringExtra(
+                                EXTRA_MRL
+                            )
+                        )
+                    )
                     VLCInstance.restart()
+                    UiTools.restartDialog(requireActivity())
                 }
-                UiTools.restartDialog(requireActivity())
             }
         }
     }

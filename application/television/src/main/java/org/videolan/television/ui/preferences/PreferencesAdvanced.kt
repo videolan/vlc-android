@@ -341,8 +341,8 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                             )
                         )
                     )
+                    UiTools.restartDialog(activity!!, true, RESTART_CODE, this)
                 }
-                UiTools.restartDialog(activity!!, true, RESTART_CODE, this)
             }
         }
     }
