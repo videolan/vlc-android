@@ -154,7 +154,7 @@ elif [ "$ANDROID_ABI" = "x86_64" ]; then
     ARCH="x86_64"
     TRIPLET="x86_64-linux-android"
 else
-    diagnostic "Invalid arch specified: '$ANDROID_ABI'."
+    diagnostic "Invalid arch specified: '$ANDROID_ABI' (arm64-v8a|armeabi-v7a|x86_64|x86)."
     diagnostic "Try --help for more information"
     exit 1
 fi
