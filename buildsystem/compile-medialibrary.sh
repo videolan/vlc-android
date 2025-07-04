@@ -168,6 +168,9 @@ printf 'cpp = '"'"'%s'"'"'\n' "${CLANG_PREFIX}${ANDROID_API}-clang++" >&3
 printf 'ar = '"'"'llvm-ar'"'"'\n' >&3
 printf 'strip = '"'"'llvm-strip'"'"'\n' >&3
 printf 'pkgconfig = '"'"'pkg-config'"'"'\n' >&3
+if [ $(command -v cmake) >/dev/null 2>&1 ]; then
+  printf 'cmake = '"'"'%s'"'"'\n' "$(command -v cmake)" >&3
+fi
 
 printf '\n[host_machine]\n' >&3
 printf 'system = '"'"'android'"'"'\n' >&3
