@@ -123,6 +123,7 @@ class AppSetupDelegate : AppDelegate,
     // init operations executed in background threads
     private fun Context.backgroundInit() = AppScope.launch outerLaunch@ {
         VersionMigration.migrateVersion(this@backgroundInit)
+        Settings.initPostMigration(this@backgroundInit)
         launch(Dispatchers.IO) innerLaunch@ {
             if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@innerLaunch
             Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)

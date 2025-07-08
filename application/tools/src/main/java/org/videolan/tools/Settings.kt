@@ -62,8 +62,20 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
         remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
-        fastplaySpeed = prefs.getInt(FASTPLAY_SPEED, 20) / 10f
         return prefs
+    }
+
+    /**
+     * Init post migration: it can be useful when we migrate a preference by changing its type in [VersionMigration].
+     * When doing so, [init] will be called before the migration is done, resulting in a [ClassCastException].
+     * This method is called after the migration is done.
+     * Once a preference has been moved from [init] to [initPostMigration], it should never be put back in [init].
+     *
+     * @param context the context
+     */
+    fun initPostMigration(context: Context) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        fastplaySpeed = prefs.getInt(FASTPLAY_SPEED, 20) / 10f
     }
 
     fun Context.isPinCodeSet() = Settings.getInstance(this).getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
