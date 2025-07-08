@@ -40,10 +40,15 @@ import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
+import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.tools.ALBUMS_SHOW_TRACK_NUMBER
 import org.videolan.tools.AUDIO_DELAY_GLOBAL
 import org.videolan.tools.AUDIO_PLAY_PROGRESS_MODE
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.DISPLAY_UNDER_NOTCH
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
@@ -63,6 +68,15 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.providers.medialibrary.AlbumsProvider
+import org.videolan.vlc.providers.medialibrary.ArtistsProvider
+import org.videolan.vlc.providers.medialibrary.FoldersProvider
+import org.videolan.vlc.providers.medialibrary.GenresProvider
+import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
+import org.videolan.vlc.providers.medialibrary.TracksProvider
+import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
+import org.videolan.vlc.providers.medialibrary.VideosProvider
+import org.videolan.vlc.util.DummyMediaWrapperProvider
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.share
 import java.io.BufferedWriter
@@ -229,20 +243,72 @@ object PreferenceParser {
             append("\r\nAudio controls:\r\n")
             append(audioControls)
         }
-        //default actions
-        val settings = Settings.getInstance(context)
-        val defaultActions = buildString {
+        //display settings
+        val displaySettings = buildString {
+            val settings = Settings.getInstance(context)
             DefaultPlaybackActionMediaType.entries.forEach {
                 val currentPlaybackAction = it.getCurrentPlaybackAction(settings)
                 if (currentPlaybackAction != DefaultPlaybackAction.PLAY) {
                     append("* ${it.defaultActionKey} -> $currentPlaybackAction\r\n")
                 }
             }
+
+            for ((key) in settings.all) {
+                if (key.startsWith("display_mode_")) {
+                    append("* $key -> ${settings.getBoolean(key, false)}\r\n")
+                }
+            }
+
+            for ((key) in settings.all) {
+                if (key.endsWith("_only_favs")) {
+                    append("* $key -> ${settings.getBoolean(key, false)}\r\n")
+                }
+            }
+
+            if (settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false))
+                append("* $KEY_ARTISTS_SHOW_ALL -> true\r\n")
+
+            if (settings.getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false))
+                append("* $BROWSER_SHOW_ONLY_MULTIMEDIA -> true\r\n")
+
+            if (!Settings.showTrackNumber)
+                append("* $ALBUMS_SHOW_TRACK_NUMBER -> false\r\n")
+
+            if (!settings.getBoolean(BROWSER_SHOW_HIDDEN_FILES, true))
+                append("* $BROWSER_SHOW_HIDDEN_FILES -> false\r\n")
+
+            //sorts
+            arrayOf(
+                AlbumsProvider::class.java, ArtistsProvider::class.java, FoldersProvider::class.java, GenresProvider::class.java, PlaylistsProvider::class.java, TracksProvider::class.java,
+                VideoGroupsProvider::class.java, VideosProvider::class.java
+            ).forEach {
+                for ((key) in settings.all) {
+                    if (key.startsWith(it.simpleName) && !key.endsWith("_desc") && !key.endsWith("_only_favs")) {
+                        append("* Sort ${it.simpleName} -> ${settings.getInt(key, 0)} (${getSortName(settings.getInt(key, 0))}) - ${if (settings.getBoolean("${key}_desc", false)) "DESC" else "ASC"}\r\n")
+                    }
+                }
+            }
+
         }
-        if (defaultActions.isNotBlank()) {
-            append("\r\nDefault actions:\r\n")
-            append(defaultActions)
+        if (displaySettings.isNotBlank()) {
+            append("\r\nDisplay settings:\r\n")
+            append(displaySettings)
         }
+    }
+
+    fun getSortName(index:Int) = when(index) {
+        Medialibrary.SORT_DEFAULT -> "Default"
+        Medialibrary.SORT_ALPHA -> "Alphabetical"
+        Medialibrary.SORT_DURATION -> "Duration"
+        Medialibrary.SORT_INSERTIONDATE -> "Insertion date"
+        Medialibrary.SORT_LASTMODIFICATIONDATE -> "Last modification date"
+        Medialibrary.SORT_RELEASEDATE -> "Release date"
+        Medialibrary.SORT_FILESIZE -> "File size"
+        Medialibrary.SORT_ARTIST -> "Artist"
+        Medialibrary.SORT_PLAYCOUNT -> "Play count"
+        Medialibrary.SORT_ALBUM -> "Album"
+        Medialibrary.SORT_FILENAME -> "Filename"
+        else -> "Unknown"
     }
 
     /**
