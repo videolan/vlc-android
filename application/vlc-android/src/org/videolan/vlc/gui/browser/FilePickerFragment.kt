@@ -51,6 +51,10 @@ const val EXTRA_MRL = "sub_mrl"
 
 class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem> {
 
+    override var inCards: Boolean
+        get() = false
+        set(value) {}
+
     override fun createFragment(): Fragment {
         return FilePickerFragment()
     }
