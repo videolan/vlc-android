@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -44,6 +45,7 @@ import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
+import org.videolan.vlc.gui.helpers.fillActionMode
 import org.videolan.vlc.util.ContextOption
 import org.videolan.vlc.util.ContextOption.*
 import org.videolan.vlc.util.FileUtils
@@ -161,6 +163,16 @@ open class FileBrowserFragment : BaseBrowserFragment() {
                 R.drawable.ic_fav_add)
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
         }
+    }
+
+    override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+        val count = adapter.multiSelectHelper.getSelectionCount()
+        if (count == 0) {
+            stopActionMode()
+            return false
+        }
+        lifecycleScope.launch { fillActionMode(requireActivity(), mode, adapter.multiSelectHelper) }
+        return true
     }
 
 }
