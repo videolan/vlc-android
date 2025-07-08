@@ -62,6 +62,7 @@ import org.videolan.tools.PREF_TIPS_SHOWN
 import org.videolan.tools.PREF_WIDGETS_TIPS_SHOWN
 import org.videolan.tools.SCREEN_ORIENTATION
 import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.putSingle
 import org.videolan.tools.wrap
 import org.videolan.vlc.R
@@ -76,7 +77,6 @@ import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
-import org.videolan.vlc.util.DummyMediaWrapperProvider
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.share
 import java.io.BufferedWriter
@@ -172,7 +172,7 @@ object PreferenceParser {
                 if (pref.key == setting.key && pref.key != "custom_libvlc_options") {
                     setting.value?.let {
                         if (!isSame(it, pref.defaultValue)) {
-                            val first = if (showTitle) "${pref.key} (${pref.title})" else pref.key
+                            val first = if (showTitle) "${pref.key} (${pref.titleEng})" else pref.key
                             changedSettings.add(Pair(first, it))
                         }
                     }
@@ -198,7 +198,7 @@ object PreferenceParser {
             allSettings.forEach { setting ->
                 if (pref.key == setting.key && pref.key != "custom_libvlc_options") {
                     setting.value?.let {
-                        val first = if (showTitle) "${pref.key} (${pref.title})" else pref.key
+                        val first = if (showTitle) "${pref.key} (${pref.titleEng})" else pref.key
                         if (!isSame(it, pref.defaultValue)) changedSettings.add(Pair(first, it))
                     }
                 }
@@ -246,10 +246,11 @@ object PreferenceParser {
         //display settings
         val displaySettings = buildString {
             val settings = Settings.getInstance(context)
+            val englishContext = context.applicationContext.getContextWithLocale("en")
             DefaultPlaybackActionMediaType.entries.forEach {
                 val currentPlaybackAction = it.getCurrentPlaybackAction(settings)
                 if (currentPlaybackAction != DefaultPlaybackAction.PLAY) {
-                    append("* ${it.defaultActionKey} -> $currentPlaybackAction\r\n")
+                    append("* ${it.defaultActionKey} -> ${englishContext.getString(currentPlaybackAction.title)}\r\n")
                 }
             }
 
@@ -363,7 +364,7 @@ object PreferenceParser {
         val namespace = "http://schemas.android.com/apk/res/android"
         val appNamespace = "http://schemas.android.com/apk/res-auto"
         var firstPrefScreeFound = false
-        val englishContext = ContextWrapper(context).wrap("en")
+        val englishContext = context.applicationContext.getContextWithLocale("en")
         while (eventType != XmlResourceParser.END_DOCUMENT) {
             if (eventType == XmlResourceParser.START_TAG) {
                 val element = parser.name
