@@ -324,9 +324,10 @@ object PreferenceParser {
     fun getChangedPrefsJson(context: Context):String  {
         val settingsEntries = arrayListOf<SettingEntry>()
         Settings.getInstance(context).all.forEach { setting ->
-            setting.value?.let {
-                settingsEntries.add(SettingEntry(setting.key, it, SettingType.getFromAny(it)))
-            }
+            if (setting.key !in Settings.getRestoreBlacklist())
+                setting.value?.let {
+                    settingsEntries.add(SettingEntry(setting.key, it, SettingType.getFromAny(it)))
+                }
         }
         val settingsBackup = SettingsBackup(settingsEntries, VersionMigration.getCurrentVersion())
         val moshi = Moshi.Builder().build()

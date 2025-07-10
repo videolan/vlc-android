@@ -97,6 +97,22 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         audioControlsChangeListener = null
     }
 
+    /**
+     * Get the list of keys to blacklist for the backup/restore process
+     *
+     */
+    fun getRestoreBlacklist() = arrayOf(
+        //last playlist
+        KEY_CURRENT_AUDIO, KEY_CURRENT_MEDIA, KEY_CURRENT_MEDIA_RESUME, KEY_AUDIO_LAST_PLAYLIST,
+        KEY_MEDIA_LAST_PLAYLIST, KEY_MEDIA_LAST_PLAYLIST_RESUME, KEY_CURRENT_AUDIO_RESUME_THUMB,
+        POSITION_IN_MEDIA_LIST, POSITION_IN_AUDIO_LIST, POSITION_IN_SONG, POSITION_IN_MEDIA,
+        //Remote access
+        KEYSTORE_PASSWORD_IV, KEY_COOKIE_ENCRYPT_KEY, KEY_COOKIE_SIGN_KEY, KEYSTORE_PASSWORD, ENCRYPTED_KEY_NAME,
+        //Others
+        KEY_NAVIGATOR_SCREEN_UNSTABLE, KEY_FRAGMENT_ID, KEY_DEBLOCKING, KEY_LAST_SESSION_CRASHED, KEY_METERED_CONNECTION, KEY_MEDIALIBRARY_SCAN
+
+    )
+
     val showTvUi : Boolean
         get() = !overrideTvUI && device.isTv || tvUI
 }
@@ -181,6 +197,8 @@ const val REMOTE_ACCESS_LOGS = "remote_access_logs"
 const val KEYSTORE_PASSWORD = "keystore_encrypted_password"
 const val KEYSTORE_PASSWORD_IV = "keystore_encrypted_password_iv"
 const val ENCRYPTED_KEY_NAME = "encryption_key"
+const val KEY_COOKIE_ENCRYPT_KEY = "cookie_encrypt_key"
+const val KEY_COOKIE_SIGN_KEY = "cookie_sign_key"
 
 
 //Tips
@@ -384,10 +402,6 @@ const val KEY_AUDIO_REPLAY_GAIN_MODE = "audio-replay-gain-mode"
 const val KEY_AUDIO_REPLAY_GAIN_DEFAULT = "audio-replay-gain-default"
 const val KEY_AUDIO_REPLAY_GAIN_PREAMP = "audio-replay-gain-preamp"
 const val KEY_PREFERRED_RESOLUTION = "preferred_resolution"
-
-//Remote access
-const val KEY_COOKIE_ENCRYPT_KEY = "cookie_encrypt_key"
-const val KEY_COOKIE_SIGN_KEY = "cookie_sign_key"
 
 //Auto
 const val KEY_ANDROID_AUTO_QUEUE_FORMAT_VAL = "android_auto_queue_format_val"
