@@ -239,6 +239,7 @@ const val ALLOW_FOLD_AUTO_LAYOUT = "allow_fold_auto_layout"
 const val HINGE_ON_RIGHT = "hinge_on_right"
 const val AUDIO_HINGE_ON_RIGHT = "audio_hinge_on_right"
 const val TV_FOLDERS_FIRST = "tv_folders_first"
+const val KEY_OBSOLETE_RESTORE_FILE_WARNED = "obsolete_restore_file_warned"
 
 const val VIDEO_PAUSED = "VideoPaused"
 const val VIDEO_SPEED = "VideoSpeed"
