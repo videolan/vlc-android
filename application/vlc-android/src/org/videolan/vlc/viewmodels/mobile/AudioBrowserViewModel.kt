@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.KEY_AUDIO_RESUME_CARD
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.providers.medialibrary.*
@@ -45,7 +46,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider, playlistsProvider)
     val providersInCard = arrayOf(true, true, false, false, true)
 
-    var showResumeCard = settings.getBoolean("audio_resume_card", true)
+    var showResumeCard = settings.getBoolean(KEY_AUDIO_RESUME_CARD, true)
     val displayModeKeys = arrayOf("display_mode_audio_browser_artists", "display_mode_audio_browser_albums", "display_mode_audio_browser_track", "display_mode_audio_browser_genres", "display_mode_playlists_AudioOnly")
 
 

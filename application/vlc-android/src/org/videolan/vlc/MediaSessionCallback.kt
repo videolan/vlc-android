@@ -53,6 +53,7 @@ import org.videolan.resources.EXTRA_RELATIVE_MEDIA_ID
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.KEY_IGNORE_HEADSET_MEDIA_BUTTON_PRESSES
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.Settings
@@ -85,7 +86,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         val keyEvent = mediaButtonEvent.parcelable(Intent.EXTRA_KEY_EVENT) as KeyEvent? ?: return false
 
         if (playbackService.detectHeadset &&
-            playbackService.settings.getBoolean("ignore_headset_media_button_presses", false)) {
+            playbackService.settings.getBoolean(KEY_IGNORE_HEADSET_MEDIA_BUTTON_PRESSES, false)) {
             // Wired headset
             if (playbackService.headsetInserted && isWiredHeadsetHardKey(keyEvent)) {
                 return true

@@ -131,6 +131,7 @@ import org.videolan.resources.TV_CONFIRMATION_ACTIVITY
 import org.videolan.resources.util.launchForeground
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_INCLUDE_MISSING
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
@@ -414,7 +415,7 @@ object UiTools {
         val snack = Snackbar.make(view, activity.getString(R.string.missing_media_snack), Snackbar.LENGTH_LONG)
                 .setAction(R.string.ok) {
                     activity.lifecycleScope.launch {
-                        PreferencesActivity.launchWithPref(activity, "include_missing")
+                        PreferencesActivity.launchWithPref(activity, KEY_INCLUDE_MISSING)
                     }
                 }
         if (VlcMigrationHelper.isLolliPopOrLater)

@@ -37,6 +37,14 @@ import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
+import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_DEFAULT
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
+import org.videolan.tools.KEY_ENABLE_HEADSET_DETECTION
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.Settings
@@ -69,20 +77,20 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         super.onCreate(savedInstanceState)
 
         updatePassThroughSummary()
-        for (key in arrayOf("audio-replay-gain-default", "audio-replay-gain-preamp")) {
+        for (key in arrayOf(KEY_AUDIO_REPLAY_GAIN_DEFAULT, KEY_AUDIO_REPLAY_GAIN_PREAMP)) {
             findPreference<EditTextPreference>(key)?.setOnBindEditTextListener {
                 it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
                 it.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(6))
                 it.setSelection(it.editableText.length)
             }
         }
-        preferredAudioTrack = findPreference("audio_preferred_language")!!
+        preferredAudioTrack = findPreference(KEY_AUDIO_PREFERRED_LANGUAGE)!!
         updatePreferredAudioTrack()
         prepareLocaleList()
     }
 
     private fun updatePreferredAudioTrack() {
-        val value = Settings.getInstance(requireActivity()).getString("audio_preferred_language", null)
+        val value = Settings.getInstance(requireActivity()).getString(KEY_AUDIO_PREFERRED_LANGUAGE, null)
         if (value.isNullOrEmpty())
             preferredAudioTrack.summary = getString(R.string.no_track_preference)
          else
@@ -90,8 +98,8 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     }
 
     private fun updatePassThroughSummary() {
-        val pt = preferenceManager.sharedPreferences!!.getBoolean("audio_digital_output", false)
-        findPreference<Preference>("audio_digital_output")?.setSummary(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
+        val pt = preferenceManager.sharedPreferences!!.getBoolean(KEY_AUDIO_DIGITAL_OUTPUT, false)
+        findPreference<Preference>(KEY_AUDIO_DIGITAL_OUTPUT)?.setSummary(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
     }
 
     override fun onStart() {
@@ -107,7 +115,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == null) return false
         when (preference.key) {
-            "enable_headset_detection" -> {
+            KEY_ENABLE_HEADSET_DETECTION -> {
                 (requireActivity() as PreferencesActivity).detectHeadset((preference as TwoStatePreference).isChecked)
                 return true
             }
@@ -138,11 +146,11 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         if (sharedPreferences == null || key == null || activity == null) return
 
         when (key) {
-            "audio_digital_output" -> updatePassThroughSummary()
-            "audio_preferred_language" -> updatePreferredAudioTrack()
-            "audio-replay-gain-enable", "audio-replay-gain-mode", "audio-replay-gain-peak-protection" -> lifecycleScope.launch { restartLibVLC() }
-            "audio-replay-gain-default", "audio-replay-gain-preamp" -> {
-                val defValue = if (key == "audio-replay-gain-default") "-7.0" else "0.0"
+            KEY_AUDIO_DIGITAL_OUTPUT -> updatePassThroughSummary()
+            KEY_AUDIO_PREFERRED_LANGUAGE -> updatePreferredAudioTrack()
+            KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_MODE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION -> lifecycleScope.launch { restartLibVLC() }
+            KEY_AUDIO_REPLAY_GAIN_DEFAULT, KEY_AUDIO_REPLAY_GAIN_PREAMP -> {
+                val defValue = if (key == KEY_AUDIO_REPLAY_GAIN_DEFAULT) "-7.0" else "0.0"
                 val newValue = sharedPreferences.getString(key, defValue)
                 var fmtValue = defValue
                 try {

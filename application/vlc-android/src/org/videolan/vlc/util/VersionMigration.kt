@@ -43,6 +43,7 @@ import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
+import org.videolan.tools.KEY_SUBTITLES_COLOR
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
 import org.videolan.tools.PLAYLIST_MODE_AUDIO
 import org.videolan.tools.PLAYLIST_MODE_VIDEO
@@ -292,7 +293,7 @@ object VersionMigration {
                     try {
                         val oldColor = oldSetting.toInt()
                         val newColor = Color.argb(255, Color.red(oldColor), Color.green(oldColor), Color.blue(oldColor))
-                        putInt("subtitles_color", newColor)
+                        putInt(KEY_SUBTITLES_COLOR, newColor)
                     } catch (e: Exception) {
                         remove("subtitles_color")
                     }

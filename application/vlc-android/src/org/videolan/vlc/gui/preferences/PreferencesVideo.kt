@@ -28,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.KEY_PREFERRED_RESOLUTION
 import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
 import org.videolan.tools.Settings
@@ -66,7 +67,7 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
-            "preferred_resolution" -> {
+            KEY_PREFERRED_RESOLUTION -> {
                 lifecycleScope.launch {
                     VLCInstance.restart()
                     restartMediaPlayer()

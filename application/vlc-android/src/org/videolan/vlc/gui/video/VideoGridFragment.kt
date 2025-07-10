@@ -69,6 +69,8 @@ import org.videolan.resources.UPDATE_SEEN
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableArray
 import org.videolan.resources.util.waitForML
+import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
+import org.videolan.tools.KEY_MEDIA_SEEN
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.RESULT_RESTART
@@ -187,7 +189,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onCreate(savedInstanceState)
         if (!::settings.isInitialized) settings = Settings.getInstance(requireContext())
         if (!::videoListAdapter.isInitialized) {
-            val seenMarkVisible = settings.getBoolean("media_seen", true) && settings.getBoolean(PLAYBACK_HISTORY, true)
+            val seenMarkVisible = settings.getBoolean(KEY_MEDIA_SEEN, true) && settings.getBoolean(PLAYBACK_HISTORY, true)
             videoListAdapter = VideoListAdapter(seenMarkVisible, !settings.getBoolean(PLAYBACK_HISTORY, true)).apply { stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY }
             dataObserver = videoListAdapter.onAnyChange {
                 updateEmptyView()
@@ -604,7 +606,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     fun updateSeenMediaMarker() {
-        videoListAdapter.setSeenMediaMarkerVisible(settings.getBoolean("media_seen", true))
+        videoListAdapter.setSeenMediaMarkerVisible(settings.getBoolean(KEY_MEDIA_SEEN, true))
         videoListAdapter.notifyItemRangeChanged(0, videoListAdapter.itemCount - 1, UPDATE_SEEN)
     }
 
@@ -792,7 +794,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    private fun castAsAudio(): Boolean = PlaybackService.renderer.value != null && settings.getBoolean("casting_audio_only", false)
+    private fun castAsAudio(): Boolean = PlaybackService.renderer.value != null && settings.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
 
     companion object {
         fun newInstance() = VideoGridFragment()

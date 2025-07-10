@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.KEY_PREFERRED_RESOLUTION
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
@@ -52,7 +53,7 @@ class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPre
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
-            "preferred_resolution" -> {
+            KEY_PREFERRED_RESOLUTION -> {
                 launch {
                     VLCInstance.restart()
                     restartMediaPlayer()

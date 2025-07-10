@@ -66,6 +66,15 @@ import org.videolan.resources.VLCInstance
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.DAV1D_THREAD_NUMBER
 import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
+import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
+import org.videolan.tools.KEY_DEBLOCKING
+import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
+import org.videolan.tools.KEY_ENABLE_TIME_STRETCHING_AUDIO
+import org.videolan.tools.KEY_ENABLE_VERBOSE_MODE
+import org.videolan.tools.KEY_NETWORK_CACHING_VALUE
+import org.videolan.tools.KEY_OPENGL
+import org.videolan.tools.KEY_PREFER_SMBV1
 import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
 import org.videolan.tools.RESULT_RESTART
@@ -381,7 +390,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             KEY_AOUT -> {
                 lifecycleScope.launch { restartLibVLC() }
                 Settings.getInstance(requireActivity()).let {
-                    if (it.getString(KEY_AOUT, "0") == "2") it.putSingle("audio_digital_output", false)
+                    if (it.getString(KEY_AOUT, "0") == "2") it.putSingle(KEY_AUDIO_DIGITAL_OUTPUT, false)
                 }
             }
             "network_caching" -> {
@@ -389,11 +398,11 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     try {
                         val origValue = Integer.parseInt(sharedPreferences.getString(key, "0") ?: "0")
                         val newValue = origValue.coerceIn(0, 60000)
-                        putInt("network_caching_value", newValue)
+                        putInt(KEY_NETWORK_CACHING_VALUE, newValue)
                         findPreference<EditTextPreference>(key)?.let { it.text = newValue.toString() }
                         if (origValue != newValue) UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     } catch (e: NumberFormatException) {
-                        putInt("network_caching_value", 0)
+                        putInt(KEY_NETWORK_CACHING_VALUE, 0)
                         findPreference<EditTextPreference>(key)?.let { it.text = "0" }
                         UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     }
@@ -401,13 +410,13 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 lifecycleScope.launch { restartLibVLC() }
             }
             // No break because need VLCInstance.restart();
-            "custom_libvlc_options" -> {
+            KEY_CUSTOM_LIBVLC_OPTIONS -> {
                 lifecycleScope.launch {
                     try {
                         VLCInstance.restart()
                     } catch (e: IllegalStateException) {
                         UiTools.snacker(requireActivity(), R.string.custom_libvlc_options_invalid)
-                        sharedPreferences.putSingle("custom_libvlc_options", "")
+                        sharedPreferences.putSingle(KEY_CUSTOM_LIBVLC_OPTIONS, "")
                     } finally {
                         restartMediaPlayer()
                     }
@@ -430,10 +439,10 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     }
                 }
             }
-            "opengl", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
+            KEY_OPENGL, KEY_DEBLOCKING, KEY_ENABLE_FRAME_SKIP, KEY_ENABLE_TIME_STRETCHING_AUDIO, KEY_ENABLE_VERBOSE_MODE -> {
                 lifecycleScope.launch { restartLibVLC() }
             }
-            "prefer_smbv1" -> {
+            KEY_PREFER_SMBV1 -> {
                 lifecycleScope.launch { VLCInstance.restart() }
                 UiTools.restartDialog(requireActivity())
             }

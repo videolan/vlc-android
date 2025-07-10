@@ -86,7 +86,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingFragmentListener {
             putInt(PREF_FIRST_RUN, BuildConfig.VLC_VERSION_CODE)
             putBoolean(ONBOARDING_DONE_KEY, true)
             putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
-            putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
+            putInt(KEY_FRAGMENT_ID, if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
             putString(KEY_APP_THEME, viewModel.theme.toString())
         }
         if (!viewModel.scanStorages) MediaParsingService.preselectedStorages.clear()

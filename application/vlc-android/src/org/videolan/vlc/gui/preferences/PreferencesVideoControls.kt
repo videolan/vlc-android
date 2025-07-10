@@ -31,7 +31,6 @@ import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.AUDIO_BOOST
 import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
 import org.videolan.tools.ENABLE_DOUBLE_TAP_PLAY
 import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
@@ -40,6 +39,7 @@ import org.videolan.tools.ENABLE_SCALE_GESTURE
 import org.videolan.tools.ENABLE_SWIPE_SEEK
 import org.videolan.tools.ENABLE_VOLUME_GESTURE
 import org.videolan.tools.FASTPLAY_SPEED
+import org.videolan.tools.KEY_AUDIO_BOOST
 import org.videolan.tools.KEY_VIDEO_DOUBLE_TAP_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_JUMP_DELAY
 import org.videolan.tools.KEY_VIDEO_LONG_JUMP_DELAY
@@ -61,7 +61,7 @@ class PreferencesVideoControls : BasePreferenceFragment(), SharedPreferences.OnS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val audioBoostPref = findPreference<CheckBoxPreference>(AUDIO_BOOST)
+        val audioBoostPref = findPreference<CheckBoxPreference>(KEY_AUDIO_BOOST)
         val volumeGesturePref = findPreference<CheckBoxPreference>(ENABLE_VOLUME_GESTURE)
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
         audioBoostPref?.isVisible = !AndroidDevices.isAndroidTv

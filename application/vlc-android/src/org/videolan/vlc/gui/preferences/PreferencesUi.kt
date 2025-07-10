@@ -41,6 +41,9 @@ import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.KEY_BLACK_THEME
 import org.videolan.tools.KEY_DAYNIGHT
+import org.videolan.tools.KEY_INCLUDE_MISSING
+import org.videolan.tools.KEY_MEDIA_SEEN
+import org.videolan.tools.KEY_SET_LOCALE
 import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.LIST_TITLE_ELLIPSIZE
 import org.videolan.tools.LocaleUtils
@@ -141,7 +144,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 newFragment.onDismissListener  = DialogInterface.OnDismissListener { manageSleepTimerSummary() }
                 newFragment.show(requireActivity().supportFragmentManager, "time")
             }
-            "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
+            KEY_MEDIA_SEEN -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }
         return super.onPreferenceTreeClick(preference)
@@ -150,11 +153,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
-            "set_locale" -> {
+            KEY_SET_LOCALE -> {
                 (activity as PreferencesActivity).setRestart()
                 UiTools.restartDialog(requireActivity())
             }
-            "video_min_group_length" -> (activity as PreferencesActivity).setRestart()
             KEY_APP_THEME -> {
                 if (!AppContextProvider.locale.isNullOrEmpty()) UiTools.restartDialog(requireActivity()) else (activity as PreferencesActivity).exitAndRescan()
             }
@@ -162,16 +164,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 Settings.listTitleEllipsize = sharedPreferences.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
                 (activity as PreferencesActivity).setRestart()
             }
-            "video_group_size" -> {
-                val goupSizeValue = try {
-                    Settings.getInstance(requireActivity()).getString(key, "6")?.toInt() ?: 6
-                } catch (e: NumberFormatException) {
-                    6
-                }
-                Medialibrary.getInstance().setVideoGroupsPrefixLength(goupSizeValue)
-                (activity as PreferencesActivity).setRestart()
-            }
-            "include_missing" -> {
+            KEY_INCLUDE_MISSING -> {
                 Settings.includeMissing = sharedPreferences.getBoolean(key, true)
                 (activity as PreferencesActivity).setRestart()
             }
@@ -191,7 +184,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     private fun prepareLocaleList() {
         val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.device_default))
-        val lp = findPreference<ListPreference>("set_locale")
+        val lp = findPreference<ListPreference>(KEY_SET_LOCALE)
         lp?.entries = localePair.localeEntries
         lp?.entryValues = localePair.localeEntryValues
     }

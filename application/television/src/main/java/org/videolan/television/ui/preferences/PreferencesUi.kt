@@ -41,6 +41,8 @@ import org.videolan.television.ui.browser.REQUEST_CODE_RESTART_APP
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_MEDIA_SEEN
+import org.videolan.tools.KEY_SET_LOCALE
 import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.PLAYLIST_MODE_VIDEO
@@ -88,7 +90,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onResume() {
         super.onResume()
-        val setLocale = Settings.getInstance(activity).getString("set_locale", "")
+        val setLocale = Settings.getInstance(activity).getString(KEY_SET_LOCALE, "")
         if (currentLocale != setLocale) {
             val intent = Intent(activity, ConfirmationTvActivity::class.java)
             intent.putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TITLE, getString(R.string.restart_vlc))
@@ -154,7 +156,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
-            "media_seen" -> (activity as PreferencesActivity).setRestart()
+            KEY_MEDIA_SEEN -> (activity as PreferencesActivity).setRestart()
         }
         return super.onPreferenceTreeClick(preference)
     }
@@ -172,7 +174,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     private fun prepareLocaleList() {
         val localePair = LocaleUtils.getLocalesUsedInProject(BuildConfig.TRANSLATION_ARRAY, getString(R.string.device_default))
-        val lp = findPreference<ListPreference>("set_locale")
+        val lp = findPreference<ListPreference>(KEY_SET_LOCALE)
         lp?.entries = localePair.localeEntries
         lp?.entryValues = localePair.localeEntryValues
     }

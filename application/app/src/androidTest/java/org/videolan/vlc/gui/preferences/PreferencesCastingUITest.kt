@@ -7,6 +7,9 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.tools.KEY_CASTING_PASSTHROUGH
+import org.videolan.tools.KEY_CASTING_QUALITY
+import org.videolan.tools.KEY_ENABLE_CASTING
 import org.videolan.vlc.PreferenceMatchers.isEnabled
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
@@ -27,26 +30,26 @@ class PreferencesCastingUITest: BasePreferenceUITest() {
 
     @Test
     fun checkWirelessCastingSetting() {
-        val key = "enable_casting"
+        val key = KEY_ENABLE_CASTING
 
-        onPreferenceRow(R.id.recycler_view, withKey("casting_passthrough"), isEnabled)!!
+        onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), isEnabled)!!
                 .check(matches(isDisplayed()))
 
         checkToggleWorks(key, settings)
 
-        onPreferenceRow(R.id.recycler_view, withKey("casting_passthrough"), not(isEnabled))!!
+        onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), not(isEnabled))!!
                 .check(matches(isDisplayed()))
     }
 
     @Test
     fun checkAudioPassthroughSetting() {
-        val key = "casting_passthrough"
+        val key = KEY_CASTING_PASSTHROUGH
         checkToggleWorks(key, settings, default = false)
     }
 
     @Test
     fun checkCastingQualitySetting() {
-        val key = "casting_quality"
+        val key = KEY_CASTING_QUALITY
 
         checkModeChanged(key, "0", "2", MAP_CASTING_QUALITY)
         checkModeChanged(key, "1", "2", MAP_CASTING_QUALITY)

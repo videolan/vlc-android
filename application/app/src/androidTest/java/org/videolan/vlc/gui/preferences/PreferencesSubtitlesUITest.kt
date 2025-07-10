@@ -4,6 +4,11 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
+import org.videolan.tools.KEY_SUBTITLES_BOLD
+import org.videolan.tools.KEY_SUBTITLES_SIZE
+import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
@@ -23,13 +28,13 @@ class PreferencesSubtitlesUITest: BasePreferenceUITest() {
 
     @Test
     fun checkAutoLoadSubtitleSetting() {
-        val key = "subtitles_autoload"
+        val key = KEY_SUBTITLES_AUTOLOAD
         checkToggleWorks(key, settings)
     }
 
     @Test
     fun checkSubtitleSizeSetting() {
-        val key = "subtitles_size"
+        val key = KEY_SUBTITLES_SIZE
 
         checkModeChanged(key, "19", "16", MAP_SUBTITLE_SIZE)
         checkModeChanged(key, "16", "16", MAP_SUBTITLE_SIZE)
@@ -40,19 +45,19 @@ class PreferencesSubtitlesUITest: BasePreferenceUITest() {
 
     @Test
     fun checkSubtitleBackgroundSetting() {
-        val key = "subtitles_background"
+        val key = KEY_SUBTITLES_BACKGROUND
         checkToggleWorks(key, settings, default = false)
     }
 
     @Test
     fun checkBoldSubtitleSetting() {
-        val key = "subtitles_bold"
+        val key = KEY_SUBTITLES_BOLD
         checkToggleWorks(key, settings, default = false)
     }
 
     @Test
     fun checkSubtitleEncodingSetting() {
-        val key = "subtitle_text_encoding"
+        val key = KEY_SUBTITLE_TEXT_ENCODING
 
         checkModeChanged(key, "", "", MAP_SUBTITLE_ENCODING)
         checkModeChanged(key, "UTF-8", "", MAP_SUBTITLE_ENCODING)

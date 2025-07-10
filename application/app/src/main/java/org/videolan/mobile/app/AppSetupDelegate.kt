@@ -50,6 +50,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_PERSISTENT_INCOGNITO
+import org.videolan.tools.KEY_SET_LOCALE
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
@@ -96,7 +97,7 @@ class AppSetupDelegate : AppDelegate,
             settings.putSingle(KEY_INCOGNITO, false)
 
 
-        AppContextProvider.setLocale(settings.getString("set_locale", ""))
+        AppContextProvider.setLocale(settings.getString(KEY_SET_LOCALE, ""))
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()

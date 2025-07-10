@@ -28,6 +28,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
+import org.videolan.tools.KEY_CASTING_PASSTHROUGH
+import org.videolan.tools.KEY_CASTING_QUALITY
+import org.videolan.tools.KEY_ENABLE_CASTING
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
@@ -44,7 +48,7 @@ class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedP
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         return when (preference.key) {
-            "enable_casting" -> {
+            KEY_ENABLE_CASTING -> {
                 (activity as PreferencesActivity).setRestartApp()
                 true
             }
@@ -53,7 +57,7 @@ class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedP
     }
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            "casting_passthrough", "casting_quality", "casting_audio_only" -> {
+            KEY_CASTING_PASSTHROUGH, KEY_CASTING_QUALITY, KEY_CASTING_AUDIO_ONLY -> {
                 lifecycleScope.launch {
                     VLCInstance.restart()
                     restartMediaPlayer()

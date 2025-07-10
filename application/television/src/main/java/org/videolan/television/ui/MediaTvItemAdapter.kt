@@ -25,6 +25,7 @@ import org.videolan.resources.interfaces.FocusListener
 import org.videolan.television.databinding.MediaBrowserTvItemBinding
 import org.videolan.television.databinding.MediaBrowserTvItemListBinding
 import org.videolan.television.ui.browser.TvAdapterUtils
+import org.videolan.tools.KEY_MEDIA_SEEN
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.vlc.BuildConfig
@@ -55,7 +56,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             else -> null
         }
         defaultCover = ctx?.let { getMediaIconDrawable(it, type, true) }
-        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean("media_seen", true) }
+        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean(KEY_MEDIA_SEEN, true) }
                 ?: true
     }
 

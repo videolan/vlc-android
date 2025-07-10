@@ -49,6 +49,7 @@ import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.DISPLAY_UNDER_NOTCH
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_VIDEO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
@@ -169,7 +170,7 @@ object PreferenceParser {
         val changedSettings = ArrayList<Pair<String, Any>>()
         allPrefs.forEach { pref ->
             allSettings.forEach { setting ->
-                if (pref.key == setting.key && pref.key != "custom_libvlc_options") {
+                if (pref.key == setting.key && pref.key != KEY_CUSTOM_LIBVLC_OPTIONS) {
                     setting.value?.let {
                         if (!isSame(it, pref.defaultValue)) {
                             val first = if (showTitle) "${pref.key} (${pref.titleEng})" else pref.key
@@ -196,7 +197,7 @@ object PreferenceParser {
         val changedSettings = ArrayList<Pair<String, Any>>()
         allPrefs.forEach { pref ->
             allSettings.forEach { setting ->
-                if (pref.key == setting.key && pref.key != "custom_libvlc_options") {
+                if (pref.key == setting.key && pref.key != KEY_CUSTOM_LIBVLC_OPTIONS) {
                     setting.value?.let {
                         val first = if (showTitle) "${pref.key} (${pref.titleEng})" else pref.key
                         if (!isSame(it, pref.defaultValue)) changedSettings.add(Pair(first, it))
@@ -487,7 +488,7 @@ object PreferenceParser {
             val allPrefs = parsePreferences(activity, parseUIPrefs = true)
             savedSettings?.forEach { entry ->
                 allPrefs.forEach {
-                    if (it.key == entry.key  && it.key != "custom_libvlc_options") {
+                    if (it.key == entry.key  && it.key != KEY_CUSTOM_LIBVLC_OPTIONS) {
                         Log.i("PrefParser", "Restored: ${entry.key} -> ${entry.value}")
                         newPrefs.putSingle(entry.key, if (entry.value is Double) (entry.value as Double).toInt() else entry.value)
                     }

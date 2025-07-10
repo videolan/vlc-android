@@ -10,6 +10,8 @@ import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
 import org.videolan.tools.ENABLE_DOUBLE_TAP_SEEK
 import org.videolan.tools.ENABLE_SEEK_BUTTONS
 import org.videolan.tools.ENABLE_VOLUME_GESTURE
+import org.videolan.tools.KEY_AUDIO_BOOST
+import org.videolan.tools.KEY_SAVE_INDIVIDUAL_AUDIO_DELAY
 import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.tools.POPUP_KEEPSCREEN
 import org.videolan.vlc.PreferenceMatchers.withKey
@@ -31,7 +33,7 @@ class PreferencesVideoUITest: BasePreferenceUITest() {
 
     @Test
     fun checkAudioIndividualDelaySetting() {
-        val key = "save_individual_audio_delay"
+        val key = KEY_SAVE_INDIVIDUAL_AUDIO_DELAY
         checkToggleWorks(key, settings, default = false)
     }
 
@@ -56,7 +58,7 @@ class PreferencesVideoUITest: BasePreferenceUITest() {
 
     @Test
     fun checkAudioBoostSetting() {
-        val key = "audio_boost"
+        val key = KEY_AUDIO_BOOST
         checkToggleWorks(key, settings, default = false)
     }
 

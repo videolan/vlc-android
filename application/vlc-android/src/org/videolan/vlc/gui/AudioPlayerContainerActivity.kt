@@ -74,6 +74,7 @@ import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.AUDIO_RESUME_PLAYBACK
+import org.videolan.tools.KEY_AUDIO_PLAYER_SHOW_COVER
 import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
@@ -362,7 +363,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
             // [AudioPlayer.showCover] applies a new [ConstraintSet]. It cannot be done in [AudioPlayer.onCreate] because it would compete with
             // [BottomSheetBehavior.onLayoutChild] and prevent any scroll event to be forwarded by the ConstraintLayout views (the bookmark list for example)
             // That why we wait that the layout has been done to perform this. See https://code.videolan.org/videolan/vlc-android/-/issues/2241#note_291050
-            audioPlayer.showCover(settings.getBoolean("audio_player_show_cover", false))
+            audioPlayer.showCover(settings.getBoolean(KEY_AUDIO_PLAYER_SHOW_COVER, false))
             if (playerBehavior.state == STATE_COLLAPSED) audioPlayer.onSlide(0f)
         }
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {

@@ -100,10 +100,10 @@ class MiniPlayerConfigureActivity : BaseActivity() {
                 return@observe
             }
             val settings = Settings.getInstance(this@MiniPlayerConfigureActivity)
-            settings.putSingle("widget_theme", widget.theme.toString())
-            settings.putSingle("opacity", widget.opacity)
-            settings.putSingle("background_color", widget.backgroundColor)
-            settings.putSingle("foreground_color", widget.foregroundColor)
+            settings.putSingle(KEY_WIDGET_THEME, widget.theme.toString())
+            settings.putSingle(KEY_OPACITY, widget.opacity)
+            settings.putSingle(KEY_BACKGROUND_COLOR, widget.backgroundColor)
+            settings.putSingle(KEY_FOREGROUND_COLOR, widget.foregroundColor)
             updatePreview()
         }
 

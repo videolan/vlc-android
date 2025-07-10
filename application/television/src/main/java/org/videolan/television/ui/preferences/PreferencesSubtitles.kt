@@ -42,6 +42,22 @@ import org.videolan.resources.VLCInstance
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_BOLD
+import org.videolan.tools.KEY_SUBTITLES_COLOR
+import org.videolan.tools.KEY_SUBTITLES_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_SIZE
+import org.videolan.tools.KEY_SUBTITLES_SHADOW
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_SIZE
+import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.Settings
@@ -88,29 +104,29 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settings = Settings.getInstance(activity)
-        preferredSubtitleTrack = findPreference("subtitle_preferred_language")!!
+        preferredSubtitleTrack = findPreference(KEY_SUBTITLE_PREFERRED_LANGUAGE)!!
 
         //main
-        subtitlesSize = findPreference("subtitles_size")!!
-        subtitlesBold = findPreference("subtitles_bold")!!
-        subtitlesColor = findPreference("subtitles_color")!!
-        subtitlesOpacity = findPreference("subtitles_color_opacity")!!
+        subtitlesSize = findPreference(KEY_SUBTITLES_SIZE)!!
+        subtitlesBold = findPreference(KEY_SUBTITLES_BOLD)!!
+        subtitlesColor = findPreference(KEY_SUBTITLES_COLOR)!!
+        subtitlesOpacity = findPreference(KEY_SUBTITLES_COLOR_OPACITY)!!
 
         //background
-        subtitlesBackgroundEnabled = findPreference("subtitles_background")!!
-        subtitlesBackgroundColor = findPreference("subtitles_background_color")!!
-        subtitlesBackgroundOpacity = findPreference("subtitles_background_color_opacity")!!
+        subtitlesBackgroundEnabled = findPreference(KEY_SUBTITLES_BACKGROUND)!!
+        subtitlesBackgroundColor = findPreference(KEY_SUBTITLES_BACKGROUND_COLOR)!!
+        subtitlesBackgroundOpacity = findPreference(KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY)!!
 
         //shadow
-        subtitlesShadowEnabled = findPreference("subtitles_shadow")!!
-        subtitlesShadowColor = findPreference("subtitles_shadow_color")!!
-        subtitlesShadowOpacity = findPreference("subtitles_shadow_color_opacity")!!
+        subtitlesShadowEnabled = findPreference(KEY_SUBTITLES_SHADOW)!!
+        subtitlesShadowColor = findPreference(KEY_SUBTITLES_SHADOW_COLOR)!!
+        subtitlesShadowOpacity = findPreference(KEY_SUBTITLES_SHADOW_COLOR_OPACITY)!!
 
         //outline
-        subtitlesOutlineEnabled = findPreference("subtitles_outline")!!
-        subtitlesOutlineSize = findPreference("subtitles_outline_size")!!
-        subtitlesOutlineColor = findPreference("subtitles_outline_color")!!
-        subtitlesOutlineOpacity = findPreference("subtitles_outline_color_opacity")!!
+        subtitlesOutlineEnabled = findPreference(KEY_SUBTITLES_OUTLINE)!!
+        subtitlesOutlineSize = findPreference(KEY_SUBTITLES_OUTLINE_SIZE)!!
+        subtitlesOutlineColor = findPreference(KEY_SUBTITLES_OUTLINE_COLOR)!!
+        subtitlesOutlineOpacity = findPreference(KEY_SUBTITLES_OUTLINE_COLOR_OPACITY)!!
 
         val presetPreference = findPreference<ListPreference>("subtitles_presets")!!
         presetPreference.value = "-1"
@@ -209,7 +225,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
     }
 
     private fun updatePreferredSubtitleTrack() {
-        val value = Settings.getInstance(activity).getString("subtitle_preferred_language", null)
+        val value = Settings.getInstance(activity).getString(KEY_SUBTITLE_PREFERRED_LANGUAGE, null)
         if (value.isNullOrEmpty())
             preferredSubtitleTrack.summary = getString(R.string.no_track_preference)
         else
@@ -223,31 +239,31 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            "subtitles_size", "subtitles_bold", "subtitle_text_encoding",
-            "subtitles_color", "subtitles_color_opacity",
-            "subtitles_background_color", "subtitles_background_color_opacity", "subtitles_background",
-            "subtitles_outline", "subtitles_outline_size", "subtitles_outline_color", "subtitles_outline_color_opacity",
-            "subtitles_shadow", "subtitles_shadow_color", "subtitles_shadow_color_opacity" -> {
+            KEY_SUBTITLES_SIZE, KEY_SUBTITLES_BOLD, KEY_SUBTITLE_TEXT_ENCODING,
+            KEY_SUBTITLES_COLOR, KEY_SUBTITLES_COLOR_OPACITY,
+            KEY_SUBTITLES_BACKGROUND_COLOR, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY, KEY_SUBTITLES_BACKGROUND,
+            KEY_SUBTITLES_OUTLINE, KEY_SUBTITLES_OUTLINE_SIZE, KEY_SUBTITLES_OUTLINE_COLOR, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
+            KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_SHADOW_COLOR, KEY_SUBTITLES_SHADOW_COLOR_OPACITY -> {
                 launch {
                     VLCInstance.restart()
                     restartMediaPlayer()
                 }
                 managePreferenceVisibilities()
             }
-            "subtitle_preferred_language" -> updatePreferredSubtitleTrack()
+            KEY_SUBTITLE_PREFERRED_LANGUAGE -> updatePreferredSubtitleTrack()
         }
     }
 
     private fun managePreferenceVisibilities() {
-        val subtitleBackgroundEnabled = settings.getBoolean("subtitles_background", false)
+        val subtitleBackgroundEnabled = settings.getBoolean(KEY_SUBTITLES_BACKGROUND, false)
         subtitlesBackgroundColor.isVisible = subtitleBackgroundEnabled
         subtitlesBackgroundOpacity.isVisible = subtitleBackgroundEnabled
 
-        val subtitleShadowEnabled = settings.getBoolean("subtitles_shadow", true)
+        val subtitleShadowEnabled = settings.getBoolean(KEY_SUBTITLES_SHADOW, true)
         subtitlesShadowColor.isVisible = subtitleShadowEnabled
         subtitlesShadowOpacity.isVisible = subtitleShadowEnabled
 
-        val subtitleOutlineEnabled = settings.getBoolean("subtitles_outline", true)
+        val subtitleOutlineEnabled = settings.getBoolean(KEY_SUBTITLES_OUTLINE, true)
         //we disable the size for now as it causes some render issues. May be shown in the future
 //        subtitlesOutlineSize.isVisible = subtitleOutlineEnabled
         subtitlesOutlineColor.isVisible = subtitleOutlineEnabled

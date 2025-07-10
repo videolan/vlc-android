@@ -76,14 +76,6 @@ class PreferencesActivity : BaseTvActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun applyTheme() {
-        val pref = Settings.getInstance(this)
-        val enableBlackTheme = pref.getBoolean("enable_black_theme", false)
-        if (enableBlackTheme) {
-            setTheme(R.style.Theme_VLC_Black)
-        }
-    }
-
     fun setRestart() {
         setResult(RESULT_RESTART)
     }

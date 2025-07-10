@@ -7,6 +7,9 @@ import androidx.test.filters.SdkSuppress
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.KEY_AUDIO_TASK_REMOVED
+import org.videolan.tools.KEY_ENABLE_HEADSET_DETECTION
+import org.videolan.tools.KEY_ENABLE_PLAY_ON_HEADSET_INSERTION
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
@@ -33,7 +36,7 @@ class PreferencesAudioUITest: BasePreferenceUITest() {
 
     @Test
     fun checkPersistentAudioPlaybackSetting() {
-        val key = "audio_task_removed"
+        val key = KEY_AUDIO_TASK_REMOVED
         checkToggleWorks(key, settings, default = false)
     }
 
@@ -51,13 +54,13 @@ class PreferencesAudioUITest: BasePreferenceUITest() {
 
     @Test
     fun checkDetectHeadsetSetting() {
-        val key = "enable_headset_detection"
+        val key = KEY_ENABLE_HEADSET_DETECTION
         checkToggleWorks(key, settings)
     }
 
     @Test
     fun checkResumeOnHeadsetSetting() {
-        val key = "enable_play_on_headset_insertion"
+        val key = KEY_ENABLE_PLAY_ON_HEADSET_INSERTION
         checkToggleWorks(key, settings, default = false)
     }
 

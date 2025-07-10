@@ -63,6 +63,8 @@ import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.AppScope
 import org.videolan.tools.BETA_WELCOME
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
+import org.videolan.tools.KEY_FRAGMENT_ID
+import org.videolan.tools.KEY_NAVIGATOR_SCREEN_UNSTABLE
 import org.videolan.tools.KEY_TV_ONBOARDING_DONE
 import org.videolan.tools.PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER
 import org.videolan.tools.PREF_TV_UI
@@ -134,13 +136,13 @@ class StartActivity : FragmentActivity() {
         // if browse screen is unstable, revert back to the video screen
 
         val preferences = Settings.getInstance(this)
-        if (preferences.getBoolean("navigator_screen_unstable", false)) {
+        if (preferences.getBoolean(KEY_NAVIGATOR_SCREEN_UNSTABLE, false)) {
             Log.w(TAG, "Crash found in the browser!!!")
             if (!BuildConfig.DEBUG) {
                 Log.w(TAG, "Reverting to the default screen")
                 preferences.edit(true) {
-                    remove("fragment_id")
-                    remove("navigator_screen_unstable")
+                    remove(KEY_FRAGMENT_ID)
+                    remove(KEY_NAVIGATOR_SCREEN_UNSTABLE)
                 }
             }
         }

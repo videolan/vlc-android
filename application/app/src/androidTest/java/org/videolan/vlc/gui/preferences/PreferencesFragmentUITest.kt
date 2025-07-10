@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.tools.KEY_HARDWARE_ACCELERATION
 import org.videolan.tools.KEY_MEDIALIBRARY_AUTO_RESCAN
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
@@ -59,7 +60,7 @@ class PreferencesFragmentUITest: BasePreferenceUITest() {
 
     @Test
     fun checkHardwareAccelerationSetting() {
-        val key = "hardware_acceleration"
+        val key = KEY_HARDWARE_ACCELERATION
 
         checkModeChanged(key, "-1", "-1", MAP_HARDWARE_ACCEL)
         checkModeChanged(key, "0", "-1", MAP_HARDWARE_ACCEL)

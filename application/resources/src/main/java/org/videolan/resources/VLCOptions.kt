@@ -36,6 +36,41 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_DEFAULT
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
+import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
+import org.videolan.tools.KEY_CASTING_PASSTHROUGH
+import org.videolan.tools.KEY_CASTING_QUALITY
+import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
+import org.videolan.tools.KEY_DEBLOCKING
+import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
+import org.videolan.tools.KEY_ENABLE_TIME_STRETCHING_AUDIO
+import org.videolan.tools.KEY_ENABLE_VERBOSE_MODE
+import org.videolan.tools.KEY_HARDWARE_ACCELERATION
+import org.videolan.tools.KEY_NETWORK_CACHING_VALUE
+import org.videolan.tools.KEY_OPENGL
+import org.videolan.tools.KEY_PREFERRED_RESOLUTION
+import org.videolan.tools.KEY_PREFER_SMBV1
+import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_BOLD
+import org.videolan.tools.KEY_SUBTITLES_COLOR
+import org.videolan.tools.KEY_SUBTITLES_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_SIZE
+import org.videolan.tools.KEY_SUBTITLES_SHADOW
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_SIZE
+import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
 import org.videolan.tools.Preferences
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -73,59 +108,59 @@ object VLCOptions {
             val options = ArrayList<String>(50)
 
             val timeStrechingDefault = context.resources.getBoolean(R.bool.time_stretching_default)
-            val timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault)
-            val subtitlesEncoding = pref.getString("subtitle_text_encoding", "") ?: ""
-            val frameSkip = pref.getBoolean("enable_frame_skip", false)
-            val verboseMode = pref.getBoolean("enable_verbose_mode", true)
-            val castingAudioOnly = pref.getBoolean("casting_audio_only", false)
+            val timeStreching = pref.getBoolean(KEY_ENABLE_TIME_STRETCHING_AUDIO, timeStrechingDefault)
+            val subtitlesEncoding = pref.getString(KEY_SUBTITLE_TEXT_ENCODING, "") ?: ""
+            val frameSkip = pref.getBoolean(KEY_ENABLE_FRAME_SKIP, false)
+            val verboseMode = pref.getBoolean(KEY_ENABLE_VERBOSE_MODE, true)
+            val castingAudioOnly = pref.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
 
             var deblocking = -1
             try {
-                deblocking = getDeblocking(Integer.parseInt(pref.getString("deblocking", "-1")!!))
+                deblocking = getDeblocking(Integer.parseInt(pref.getString(KEY_DEBLOCKING, "-1")!!))
             } catch (ignored: NumberFormatException) {
             }
 
-            val networkCaching = pref.getInt("network_caching_value", 0).coerceIn(0, 60000)
-            val freetypeRelFontsize = pref.getString("subtitles_size", "16")
-            val freetypeBold = pref.getBoolean("subtitles_bold", false)
+            val networkCaching = pref.getInt(KEY_NETWORK_CACHING_VALUE, 0).coerceIn(0, 60000)
+            val freetypeRelFontsize = pref.getString(KEY_SUBTITLES_SIZE, "16")
+            val freetypeBold = pref.getBoolean(KEY_SUBTITLES_BOLD, false)
 
             val freetypeColor = try {
-                Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_color", 16777215))))
+                Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt(KEY_SUBTITLES_COLOR, 16777215))))
             } catch (e: ClassCastException) {
                 Log.w(TAG, "Forced migration of subtitles color")
                 //Migration failed somehow. Migrating here
                 var color = 16777215
-                pref.getString("subtitles_color", "16777215")?.let {oldSetting ->
+                pref.getString(KEY_SUBTITLES_COLOR, "16777215")?.let {oldSetting ->
                     try {
                         val oldColor = oldSetting.toInt()
                         val newColor = Color.argb(255, Color.red(oldColor), Color.green(oldColor), Color.blue(oldColor))
-                        pref.putSingle("subtitles_color", newColor)
+                        pref.putSingle(KEY_SUBTITLES_COLOR, newColor)
                         color = newColor
                     } catch (e: Exception) {
-                        pref.edit().remove("subtitles_color").apply()
+                        pref.edit().remove(KEY_SUBTITLES_COLOR).apply()
                     }
                 }
 
                 color
             }
-            val freetypeColorOpacity = pref.getInt("subtitles_color_opacity", 255)
+            val freetypeColorOpacity = pref.getInt(KEY_SUBTITLES_COLOR_OPACITY, 255)
 
-            val freetypeBackgroundColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_background_color", 16777215))))
-            val freetypeBackgroundColorOpacity = pref.getInt("subtitles_background_color_opacity", 255)
-            val freetypeBackgroundEnabled = pref.getBoolean("subtitles_background", false)
+            val freetypeBackgroundColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt(KEY_SUBTITLES_BACKGROUND_COLOR, 16777215))))
+            val freetypeBackgroundColorOpacity = pref.getInt(KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY, 255)
+            val freetypeBackgroundEnabled = pref.getBoolean(KEY_SUBTITLES_BACKGROUND, false)
 
-            val freetypeOutlineEnabled = pref.getBoolean("subtitles_outline", true)
-            val freetypeOutlineSize = pref.getString("subtitles_outline_size", "4")
-            val freetypeOutlineColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_outline_color", 0))))
-            val freetypeOutlineOpacity = pref.getInt("subtitles_outline_color_opacity", 255)
-
-
-            val freetypeShadowEnabled = pref.getBoolean("subtitles_shadow", true)
-            val freetypeShadowColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt("subtitles_shadow_color", ContextCompat.getColor(context, R.color.black)))))
-            val freetypeShadowOpacity = pref.getInt("subtitles_shadow_color_opacity", 128)
+            val freetypeOutlineEnabled = pref.getBoolean(KEY_SUBTITLES_OUTLINE, true)
+            val freetypeOutlineSize = pref.getString(KEY_SUBTITLES_OUTLINE_SIZE, "4")
+            val freetypeOutlineColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt(KEY_SUBTITLES_OUTLINE_COLOR, 0))))
+            val freetypeOutlineOpacity = pref.getInt(KEY_SUBTITLES_OUTLINE_COLOR_OPACITY, 255)
 
 
-            val opengl = Integer.parseInt(pref.getString("opengl", "-1")!!)
+            val freetypeShadowEnabled = pref.getBoolean(KEY_SUBTITLES_SHADOW, true)
+            val freetypeShadowColor = Integer.decode(String.format("0x%06X", (0xFFFFFF and pref.getInt(KEY_SUBTITLES_SHADOW_COLOR, ContextCompat.getColor(context, R.color.black)))))
+            val freetypeShadowOpacity = pref.getInt(KEY_SUBTITLES_SHADOW_COLOR_OPACITY, 128)
+
+
+            val opengl = Integer.parseInt(pref.getString(KEY_OPENGL, "-1")!!)
             if (castingAudioOnly) options.add("--no-sout-chromecast-video")
             options.add(if (timeStreching) "--audio-time-stretch" else "--no-audio-time-stretch")
             options.add("--avcodec-skiploopfilter")
@@ -172,20 +207,20 @@ object VLCOptions {
             options.add(if (verboseMode) "-vv" else "-v")
             // fixme comment temporarily
             if (!isVLC4()) {
-                if (pref.getBoolean("casting_passthrough", false))
+                if (pref.getBoolean(KEY_CASTING_PASSTHROUGH, false))
                     options.add("--sout-chromecast-audio-passthrough")
                 else
                     options.add("--no-sout-chromecast-audio-passthrough")
-                options.add("--sout-chromecast-conversion-quality=" + pref.getString("casting_quality", "2")!!)
+                options.add("--sout-chromecast-conversion-quality=" + pref.getString(KEY_CASTING_QUALITY, "2")!!)
             }
             options.add("--sout-keep")
 
-            val customOptions = pref.getString("custom_libvlc_options", null)
+            val customOptions = pref.getString(KEY_CUSTOM_LIBVLC_OPTIONS, null)
             if (!customOptions.isNullOrEmpty()) {
                 val optionsArray = customOptions.split("\\r?\\n".toRegex()).toTypedArray()
                 if (!optionsArray.isNullOrEmpty()) Collections.addAll(options, *optionsArray)
             }
-            if (pref.getBoolean("prefer_smbv1", true))
+            if (pref.getBoolean(KEY_PREFER_SMBV1, true))
                 options.add("--smb-force-v1")
             if (!Settings.showTvUi) {
                 //Ambisonic
@@ -195,11 +230,11 @@ object VLCOptions {
                 options.add("--hrtf-file")
                 options.add(hstfPath)
             }
-            if (pref.getBoolean("audio-replay-gain-enable", false)) {
-                options.add("--audio-replay-gain-mode=${pref.getString("audio-replay-gain-mode", "track")}")
-                options.add("--audio-replay-gain-preamp=${pref.getString("audio-replay-gain-preamp", "0.0")}")
-                options.add("--audio-replay-gain-default=${pref.getString("audio-replay-gain-default", "-7.0")}")
-                if (pref.getBoolean("audio-replay-gain-peak-protection", true))
+            if (pref.getBoolean(KEY_AUDIO_REPLAY_GAIN_ENABLE, false)) {
+                options.add("--audio-replay-gain-mode=${pref.getString(KEY_AUDIO_REPLAY_GAIN_MODE, "track")}")
+                options.add("--audio-replay-gain-preamp=${pref.getString(KEY_AUDIO_REPLAY_GAIN_PREAMP, "0.0")}")
+                options.add("--audio-replay-gain-default=${pref.getString(KEY_AUDIO_REPLAY_GAIN_DEFAULT, "-7.0")}")
+                if (pref.getBoolean(KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION, true))
                     options.add("--audio-replay-gain-peak-protection")
                 else
                     options.add("--no-audio-replay-gain-peak-protection")
@@ -208,15 +243,15 @@ object VLCOptions {
             if (soundFontFile.exists()) {
                 options.add("--soundfont=${soundFontFile.path}")
             }
-            options.add("--preferred-resolution=${pref.getString("preferred_resolution", "-1")!!}")
+            options.add("--preferred-resolution=${pref.getString(KEY_PREFERRED_RESOLUTION, "-1")!!}")
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "VLC Options: ${options.joinToString(" ")}")
             return options
         }
 
-    fun isAudioDigitalOutputEnabled(pref: SharedPreferences) = pref.getBoolean("audio_digital_output", false)
+    fun isAudioDigitalOutputEnabled(pref: SharedPreferences) = pref.getBoolean(KEY_AUDIO_DIGITAL_OUTPUT, false)
 
     fun setAudioDigitalOutputEnabled(pref: SharedPreferences, enabled: Boolean) {
-        pref.putSingle("audio_digital_output", enabled)
+        pref.putSingle(KEY_AUDIO_DIGITAL_OUTPUT, enabled)
     }
 
     fun getAout(pref: SharedPreferences): String? {
@@ -268,7 +303,7 @@ object VLCOptions {
 
         if (!noHardwareAcceleration) {
             try {
-                hardwareAcceleration = Integer.parseInt(prefs.getString("hardware_acceleration", "$HW_ACCELERATION_AUTOMATIC")!!)
+                hardwareAcceleration = Integer.parseInt(prefs.getString(KEY_HARDWARE_ACCELERATION, "$HW_ACCELERATION_AUTOMATIC")!!)
             } catch (ignored: NumberFormatException) {}
 
         }
@@ -284,11 +319,11 @@ object VLCOptions {
 
         if (noVideo) media.addOption(":no-video")
         if (paused) media.addOption(":start-paused")
-        if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none")
+        if (!prefs.getBoolean(KEY_SUBTITLES_AUTOLOAD, true)) media.addOption(":sub-language=none")
 
         if (hasRenderer) {
-            media.addOption(":sout-chromecast-audio-passthrough=" + prefs.getBoolean("casting_passthrough", true))
-            media.addOption(":sout-chromecast-conversion-quality=" + prefs.getString("casting_quality", "2")!!)
+            media.addOption(":sout-chromecast-audio-passthrough=" + prefs.getBoolean(KEY_CASTING_PASSTHROUGH, true))
+            media.addOption(":sout-chromecast-conversion-quality=" + prefs.getString(KEY_CASTING_QUALITY, "2")!!)
         }
     }
 

@@ -27,7 +27,6 @@ package org.videolan.vlc.remoteaccessserver
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
-import android.os.Build
 import android.text.format.Formatter
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -85,7 +84,6 @@ import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.KEY_CURRENT_MEDIA
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
-import org.videolan.resources.VLCOptions
 import org.videolan.resources.util.await
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.observeLiveDataUntil
@@ -93,6 +91,7 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.REMOTE_ACCESS_FILE_BROWSER_CONTENT
 import org.videolan.tools.REMOTE_ACCESS_HISTORY_CONTENT
 import org.videolan.tools.REMOTE_ACCESS_LOGS
@@ -111,7 +110,6 @@ import org.videolan.vlc.gui.helpers.FeedbackUtil
 import org.videolan.vlc.gui.helpers.VectorDrawableUtil
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getColoredBitmapFromColor
-import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.ResumeStatus
@@ -1012,7 +1010,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         return@get
                     }
                     if (asAudio) medias[0].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung() && settings.getString("video_action_switch", "0") != "1") {
+                    if (medias[0].type == MediaWrapper.TYPE_VIDEO && !appContext.awaitAppIsForegroung() && settings.getString(KEY_VIDEO_APP_SWITCH, "0") != "1") {
                         call.respond(HttpStatusCode.Forbidden, appContext.getString(R.string.ra_not_in_foreground))
                         return@get
                     }

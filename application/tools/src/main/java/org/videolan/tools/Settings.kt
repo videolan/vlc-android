@@ -114,7 +114,6 @@ const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
 const val KEY_AUDIO_CONFIRM_RESUME = "audio_confirm_resume"
 const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
 const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
-const val KEY_INCLUDE_MISSING = "include_missing"
 const val KEY_INCOGNITO = "incognito_mode"
 const val KEY_LAST_WHATS_NEW = "last_whats_new"
 const val KEY_SHOW_WHATS_NEW = "show_whats_new"
@@ -180,7 +179,6 @@ const val PLAYLIST_MODE_AUDIO = "playlist_mode_audio"
 const val SCREEN_ORIENTATION = "screen_orientation"
 const val VIDEO_RESUME_TIME = "VideoResumeTime"
 const val VIDEO_RESUME_URI = "VideoResumeUri"
-const val AUDIO_BOOST = "audio_boost"
 const val ENABLE_SEEK_BUTTONS = "enable_seek_buttons"
 const val SHOW_SEEK_IN_COMPACT_NOTIFICATION = "show_seek_in_compact_notification"
 const val LOCKSCREEN_COVER = "lockscreen_cover"
@@ -237,8 +235,6 @@ const val AUDIO_DUCKING = "audio_ducking"
 const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
 const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
 const val AUDIO_STOP_AFTER = "audio_stop_after"
-const val AUDIO_PREFERRED_LANGUAGE = "audio_preferred_language"
-const val SUBTITLE_PREFERRED_LANGUAGE = "subtitle_preferred_language"
 
 const val LAST_LOCK_ORIENTATION = "last_lock_orientation"
 const val INITIAL_PERMISSION_ASKED = "initial_permission_asked"
@@ -262,6 +258,45 @@ const val DAV1D_THREAD_NUMBER = "dav1d_thread_number"
 const val KEY_QUICK_PLAY = "quick_play"
 const val KEY_QUICK_PLAY_DEFAULT = "quick_play_default"
 const val KEY_AOUT = "aout"
+
+
+const val KEY_HARDWARE_ACCELERATION = "hardware_acceleration"
+const val KEY_ALWAYS_FAST_SEEK = "always_fast_seek"
+const val KEY_AUDIO_PLAYER_SHOW_COVER = "audio_player_show_cover"
+const val KEY_ENABLE_CLONE_MODE = "enable_clone_mode"
+const val KEY_USER_DECLINED_STORAGE_ACCESS = "user_declined_storage_access"
+const val KEY_METERED_CONNECTION = "metered_connection"
+
+//Widgets
+const val KEY_WIDGET_THEME = "widget_theme"
+const val KEY_OPACITY = "opacity"
+const val KEY_BACKGROUND_COLOR = "background_color"
+const val KEY_FOREGROUND_COLOR = "foreground_color"
+
+
+//TV
+const val KEY_MEDIA_SEEN = "media_seen"
+
+//Audio
+const val KEY_IGNORE_HEADSET_MEDIA_BUTTON_PRESSES = "ignore_headset_media_button_presses"
+const val KEY_ENABLE_HEADSET_DETECTION = "enable_headset_detection"
+const val KEY_ENABLE_PLAY_ON_HEADSET_INSERTION = "enable_play_on_headset_insertion"
+const val KEY_AUDIO_TASK_REMOVED = "audio_task_removed"
+const val KEY_AUDIO_BOOST = "audio_boost"
+const val KEY_SAVE_INDIVIDUAL_AUDIO_DELAY = "save_individual_audio_delay"
+const val KEY_AUDIO_RESUME_CARD = "audio_resume_card"
+const val KEY_AUDIO_PREFERRED_LANGUAGE = "audio_preferred_language"
+
+//Video
+const val KEY_VIDEO_MATCH_FRAME_RATE = "video_match_frame_rate"
+
+//Subtitles
+const val KEY_SUBTITLE_PREFERRED_LANGUAGE = "subtitle_preferred_language"
+
+
+//UI
+const val KEY_SET_LOCALE = "set_locale"
+const val KEY_INCLUDE_MISSING = "include_missing"
 
 //files
 const val BROWSER_SHOW_HIDDEN_FILES = "browser_show_hidden_files"
@@ -288,6 +323,66 @@ const val KEY_LAST_SESSION_CRASHED = "last_session_crashed"
 
 const val ENABLE_ANDROID_AUTO_SPEED_BUTTONS = "enable_android_auto_speed_buttons"
 const val ENABLE_ANDROID_AUTO_SEEK_BUTTONS = "enable_android_auto_seek_buttons"
+
+//VLC options
+const val KEY_CUSTOM_LIBVLC_OPTIONS = "custom_libvlc_options"
+const val KEY_SUBTITLES_COLOR = "subtitles_color"
+const val KEY_AUDIO_DIGITAL_OUTPUT = "audio_digital_output"
+const val KEY_ENABLE_TIME_STRETCHING_AUDIO = "enable_time_stretching_audio"
+const val KEY_SUBTITLE_TEXT_ENCODING = "subtitle_text_encoding"
+const val KEY_ENABLE_FRAME_SKIP = "enable_frame_skip"
+const val KEY_ENABLE_VERBOSE_MODE = "enable_verbose_mode"
+const val KEY_ENABLE_CASTING = "enable_casting"
+const val KEY_CASTING_AUDIO_ONLY = "casting_audio_only"
+const val KEY_CASTING_PASSTHROUGH = "casting_passthrough"
+const val KEY_CASTING_QUALITY = "casting_quality"
+const val KEY_DEBLOCKING = "deblocking"
+const val KEY_NETWORK_CACHING_VALUE = "network_caching_value"
+const val KEY_SUBTITLES_SIZE = "subtitles_size"
+const val KEY_SUBTITLES_BOLD = "subtitles_bold"
+const val KEY_SUBTITLES_BACKGROUND_COLOR = "subtitles_background_color"
+const val KEY_SUBTITLES_COLOR_OPACITY = "subtitles_color_opacity"
+const val KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY = "subtitles_background_color_opacity"
+const val KEY_SUBTITLES_BACKGROUND = "subtitles_background"
+const val KEY_SUBTITLES_OUTLINE = "subtitles_outline"
+const val KEY_SUBTITLES_OUTLINE_SIZE = "subtitles_outline_size"
+const val KEY_SUBTITLES_OUTLINE_COLOR = "subtitles_outline_color"
+const val KEY_SUBTITLES_OUTLINE_COLOR_OPACITY = "subtitles_outline_color_opacity"
+const val KEY_SUBTITLES_SHADOW = "subtitles_shadow"
+const val KEY_SUBTITLES_SHADOW_COLOR = "subtitles_shadow_color"
+const val KEY_SUBTITLES_SHADOW_COLOR_OPACITY = "subtitles_shadow_color_opacity"
+const val KEY_SUBTITLES_AUTOLOAD = "subtitles_autoload"
+const val KEY_OPENGL = "opengl"
+
+//Control settings
+const val KEY_BLURRED_COVER_BACKGROUND = "blurred_cover_background"
+
+
+//Advanced
+const val KEY_PREFER_SMBV1 = "prefer_smbv1"
+const val KEY_AUDIO_REPLAY_GAIN_ENABLE = "audio-replay-gain-enable"
+const val KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION = "audio-replay-gain-peak-protection"
+const val KEY_AUDIO_REPLAY_GAIN_MODE = "audio-replay-gain-mode"
+const val KEY_AUDIO_REPLAY_GAIN_DEFAULT = "audio-replay-gain-default"
+const val KEY_AUDIO_REPLAY_GAIN_PREAMP = "audio-replay-gain-preamp"
+const val KEY_PREFERRED_RESOLUTION = "preferred_resolution"
+
+//Remote access
+const val KEY_COOKIE_ENCRYPT_KEY = "cookie_encrypt_key"
+const val KEY_COOKIE_SIGN_KEY = "cookie_sign_key"
+
+//Auto
+const val KEY_ANDROID_AUTO_QUEUE_FORMAT_VAL = "android_auto_queue_format_val"
+const val KEY_ANDROID_AUTO_QUEUE_INFO_POS_VAL = "android_auto_queue_info_pos_val"
+const val KEY_ANDROID_AUTO_TITLE_SCALE_VAL = "android_auto_title_scale_val"
+const val KEY_ANDROID_AUTO_SUBTITLE_SCALE_VAL = "android_auto_subtitle_scale_val"
+
+
+
+//To exclude
+const val KEY_NAVIGATOR_SCREEN_UNSTABLE = "navigator_screen_unstable"
+const val KEY_FRAGMENT_ID = "fragment_id"
+
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

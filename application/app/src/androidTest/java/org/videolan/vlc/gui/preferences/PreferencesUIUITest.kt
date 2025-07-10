@@ -67,7 +67,7 @@ class PreferencesUIUITest: BasePreferenceUITest() {
 
         val MAP_LOCALE = lpValues.zip(lpEntries).toMap()
 
-        val key = "set_locale"
+        val key = KEY_SET_LOCALE
 
         checkModeChanged(key, lpValues[3], "", MAP_LOCALE)
     }
@@ -119,14 +119,14 @@ class PreferencesUIUITest: BasePreferenceUITest() {
 
     @Test
     fun checkAudioCoverBlurredBackgroundSetting() {
-        val key = "blurred_cover_background"
+        val key = KEY_BLURRED_COVER_BACKGROUND
 
         checkToggleWorks(key, settings)
     }
 
     @Test
     fun checkLastAudioResumePlayHintSetting() {
-        val key = "audio_resume_card"
+        val key = KEY_AUDIO_RESUME_CARD
 
         checkToggleWorks(key, settings)
     }

@@ -43,6 +43,7 @@ import org.videolan.resources.ID_AUDIO
 import org.videolan.resources.ID_DIRECTORIES
 import org.videolan.resources.ID_VIDEO
 import org.videolan.resources.util.parcelableList
+import org.videolan.tools.KEY_FRAGMENT_ID
 import org.videolan.tools.isStarted
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
@@ -88,7 +89,7 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        if (currentFragment === null && !currentIdIsExtension()) showFragment(if (currentFragmentId != 0) currentFragmentId else settings.getInt("fragment_id", defaultFragmentId))
+        if (currentFragment === null && !currentIdIsExtension()) showFragment(if (currentFragmentId != 0) currentFragmentId else settings.getInt(KEY_FRAGMENT_ID, defaultFragmentId))
         navigationView.forEach { it.setOnItemSelectedListener(this) }
     }
 
@@ -136,7 +137,7 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
     }
 
     override fun reloadPreferences() {
-        currentFragmentId = settings.getInt("fragment_id", defaultFragmentId)
+        currentFragmentId = settings.getInt(KEY_FRAGMENT_ID, defaultFragmentId)
     }
 
     override fun configurationChanged(size: Int) {
@@ -194,7 +195,7 @@ class Navigator : NavigationBarView.OnItemSelectedListener, DefaultLifecycleObse
                 if (current != null) current.isChecked = false
                 target.isChecked = true
                 /* Save the tab status in pref */
-                settings.edit { putInt("fragment_id", id) }
+                settings.edit { putInt(KEY_FRAGMENT_ID, id) }
             }
         }
     }

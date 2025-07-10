@@ -56,6 +56,7 @@ import org.videolan.resources.UPDATE_DESCRIPTION
 import org.videolan.resources.UPDATE_SEEN
 import org.videolan.resources.UPDATE_THUMB
 import org.videolan.resources.UPDATE_TIME
+import org.videolan.tools.KEY_MEDIA_SEEN
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.getLocaleLanguages
@@ -79,7 +80,7 @@ class CardPresenter(private val context: FragmentActivity, private val isPoster:
     private val seenDrawable: Drawable? by lazy { VectorDrawableCompat.create(context.resources, R.drawable.ic_seen_tv_normal, context.theme) }
 
     init {
-        seenMediaMarkerVisible = Settings.getInstance(context).getBoolean("media_seen", true)
+        seenMediaMarkerVisible = Settings.getInstance(context).getBoolean(KEY_MEDIA_SEEN, true)
 
     }
 

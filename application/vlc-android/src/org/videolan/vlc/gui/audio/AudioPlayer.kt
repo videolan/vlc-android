@@ -74,6 +74,7 @@ import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.AUDIO_HINGE_ON_RIGHT
 import org.videolan.tools.AUDIO_PLAY_PROGRESS_MODE
+import org.videolan.tools.KEY_AUDIO_PLAYER_SHOW_COVER
 import org.videolan.tools.KEY_AUDIO_SHOW_BOOKMARK_MARKERS
 import org.videolan.tools.KEY_AUDIO_SHOW_BOOkMARK_BUTTONS
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
@@ -796,7 +797,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onPlaylistSwitchClick(@Suppress("UNUSED_PARAMETER") view: View) {
         switchShowCover()
-        settings.putSingle("audio_player_show_cover", isShowingCover())
+        settings.putSingle(KEY_AUDIO_PLAYER_SHOW_COVER, isShowingCover())
     }
 
     fun onShuffleClick(@Suppress("UNUSED_PARAMETER") view: View) {

@@ -21,6 +21,7 @@ import org.videolan.television.R
 import org.videolan.television.databinding.MediaBrowserTvItemBinding
 import org.videolan.television.databinding.MediaBrowserTvItemListBinding
 import org.videolan.television.ui.browser.TvAdapterUtils
+import org.videolan.tools.KEY_MEDIA_SEEN
 import org.videolan.tools.Settings
 import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.DiffUtilAdapter
@@ -55,7 +56,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             else -> null
         }
         defaultCover = ctx?.let { BitmapDrawable(it.resources, getBitmapFromDrawable(it, R.drawable.ic_unknown_big)) }
-        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean("media_seen", true) }
+        seenMediaMarkerVisible = ctx?.let { Settings.getInstance(it).getBoolean(KEY_MEDIA_SEEN, true) }
                 ?: true
     }
 

@@ -48,6 +48,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.EXTRA_FOR_ESPRESSO
 import org.videolan.resources.EXTRA_TARGET
+import org.videolan.tools.KEY_AUDIO_RESUME_CARD
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.UiTools.isTablet
@@ -162,7 +163,7 @@ class PhoneScreenhotsInstrumentedTest : BaseUITest() {
 
     override fun beforeTest() {
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
-        Settings.getInstance(context).edit().putBoolean("auto_rescan", false).putBoolean("audio_resume_card", false).commit()
+        Settings.getInstance(context).edit().putBoolean("auto_rescan", false).putBoolean(KEY_AUDIO_RESUME_CARD, false).commit()
         val intent = Intent().apply {
             putExtra(EXTRA_TARGET, R.id.nav_audio)
             putParcelableArrayListExtra(

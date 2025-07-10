@@ -25,6 +25,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.core.content.edit
 import androidx.preference.Preference
+import org.videolan.tools.KEY_ANDROID_AUTO_QUEUE_INFO_POS_VAL
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -46,7 +47,7 @@ class PreferencesAndroidAuto : BasePreferenceFragment(), SharedPreferences.OnSha
     }
 
     private fun updatePassThroughSummary() {
-        preferenceManager.sharedPreferences!!.getInt("android_auto_queue_info_pos_val", 3).also {
+        preferenceManager.sharedPreferences!!.getInt(KEY_ANDROID_AUTO_QUEUE_INFO_POS_VAL, 3).also {
             findPreference<Preference>("android_auto_queue_format")?.isEnabled = (it > 0)
         }
     }

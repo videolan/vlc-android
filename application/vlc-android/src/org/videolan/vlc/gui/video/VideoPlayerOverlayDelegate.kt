@@ -68,6 +68,9 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.tools.ALLOW_FOLD_AUTO_LAYOUT
 import org.videolan.tools.ENABLE_SEEK_BUTTONS
 import org.videolan.tools.HINGE_ON_RIGHT
+import org.videolan.tools.KEY_ALWAYS_FAST_SEEK
+import org.videolan.tools.KEY_ENABLE_CASTING
+import org.videolan.tools.KEY_ENABLE_CLONE_MODE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
 import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.SHOW_ORIENTATION_BUTTON
@@ -553,8 +556,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             vscRight?.let {
                 it.setVisible()
                 hudRightBinding = DataBindingUtil.bind(player.findViewById(R.id.hud_right_overlay)) ?: return
-                if (!player.isBenchmark && player.enableCloneMode && !player.settings.contains("enable_clone_mode")) {
-                    UiTools.snackerConfirm(player, player.getString(R.string.video_save_clone_mode)) { player.settings.putSingle("enable_clone_mode", true) }
+                if (!player.isBenchmark && player.enableCloneMode && !player.settings.contains(KEY_ENABLE_CLONE_MODE)) {
+                    UiTools.snackerConfirm(player, player.getString(R.string.video_save_clone_mode)) { player.settings.putSingle(KEY_ENABLE_CLONE_MODE, true) }
                 }
             }
 
@@ -567,7 +570,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.progress = service.playlistManager.player.progress
                 abRepeatAddMarker = hudBinding.abRepeatContainer.findViewById(R.id.ab_repeat_add_marker)
                 service.playlistManager.abRepeat.observe(player) { abvalues ->
-                    if (abvalues.start != -1L && abvalues.stop != -1L && player.settings.getBoolean("always_fast_seek", false)) {
+                    if (abvalues.start != -1L && abvalues.stop != -1L && player.settings.getBoolean(KEY_ALWAYS_FAST_SEEK, false)) {
                         hudBinding.fastSeekWarning.setVisible()
                     } else {
                         hudBinding.fastSeekWarning.setGone()
@@ -606,7 +609,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 updateOrientationIcon()
                 overlayBackground = player.findViewById(R.id.player_overlay_background)
                 if (!AndroidDevices.isChromeBook && !player.isTv
-                        && player.settings.getBoolean("enable_casting", true)) {
+                        && player.settings.getBoolean(KEY_ENABLE_CASTING, true)) {
                     PlaybackService.renderer.observe(player) { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(player, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) }
                     RendererDelegate.renderers.observe(player) { updateRendererVisibility() }
                 }

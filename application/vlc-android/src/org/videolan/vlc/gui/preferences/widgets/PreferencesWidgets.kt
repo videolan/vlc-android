@@ -40,6 +40,10 @@ import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.tools.KEY_BACKGROUND_COLOR
+import org.videolan.tools.KEY_FOREGROUND_COLOR
+import org.videolan.tools.KEY_OPACITY
+import org.videolan.tools.KEY_WIDGET_THEME
 import org.videolan.tools.Settings
 import org.videolan.tools.WIDGETS_BACKGROUND_LAST_COLORS
 import org.videolan.tools.WIDGETS_FOREGROUND_LAST_COLORS
@@ -94,15 +98,15 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        backgroundPreference = findPreference("background_color")!!
-        foregroundPreference = findPreference("foreground_color")!!
+        backgroundPreference = findPreference(KEY_BACKGROUND_COLOR)!!
+        foregroundPreference = findPreference(KEY_FOREGROUND_COLOR)!!
         lightThemePreference = findPreference("widget_light_theme")!!
         showCover = findPreference("widget_show_cover")!!
         showSeek = findPreference("widget_show_seek")!!
         forwardDelay = findPreference("widget_forward_delay")!!
         rewindDelay = findPreference("widget_rewind_delay")!!
         val configurationIcon = findPreference<CheckBoxPreference>("widget_show_configure")!!
-        val themePreference = findPreference<ListPreference>("widget_theme")!!
+        val themePreference = findPreference<ListPreference>(KEY_WIDGET_THEME)!!
         val typePreference = findPreference<ListPreference>("widget_type")!!
 
         val id = (arguments?.getInt(WIDGET_ID) ?: -2)
@@ -122,7 +126,7 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
             foregroundPreference.isVisible = widget.theme != 0
             backgroundPreference.saveValue(widget.backgroundColor)
             foregroundPreference.saveValue(widget.foregroundColor)
-            findPreference<SeekBarPreference>("opacity")?.value = widget.opacity
+            findPreference<SeekBarPreference>(KEY_OPACITY)?.value = widget.opacity
             lightThemePreference.isChecked = widget.lightTheme
             lightThemePreference.isVisible = widget.theme != 2
             configurationIcon.isChecked = widget.showConfigure
@@ -145,20 +149,20 @@ class PreferencesWidgets : BasePreferenceFragment(), SharedPreferences.OnSharedP
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (sharedPreferences == null || key == null) return
         when (key) {
-            "opacity" -> {
+            KEY_OPACITY -> {
                 model.widget.value?.opacity = sharedPreferences.getInt(key, 100)
             }
-            "background_color" -> {
+            KEY_BACKGROUND_COLOR -> {
                 val newColor = sharedPreferences.getInt(key, ContextCompat.getColor(requireActivity(), R.color.black))
                 saveNewColor(false, newColor)
                 model.widget.value?.backgroundColor = newColor
             }
-            "foreground_color" -> {
+            KEY_FOREGROUND_COLOR -> {
                 val newColor = sharedPreferences.getInt(key, ContextCompat.getColor(requireActivity(), R.color.white))
                 saveNewColor(true, newColor)
                 model.widget.value?.foregroundColor = newColor
             }
-            "widget_theme" -> {
+            KEY_WIDGET_THEME -> {
                 val newValue = sharedPreferences.getString(key, "0")?.toInt() ?: 0
                 model.widget.value?.theme = newValue
                 backgroundPreference.isVisible = newValue == 2

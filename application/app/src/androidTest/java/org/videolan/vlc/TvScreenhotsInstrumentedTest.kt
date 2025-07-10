@@ -44,6 +44,7 @@ import org.videolan.resources.EXTRA_TARGET
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
+import org.videolan.tools.KEY_AUDIO_RESUME_CARD
 import org.videolan.tools.Settings
 import org.videolan.vlc.util.DpadHelper.pressBack
 import org.videolan.vlc.util.DpadHelper.pressDPad
@@ -78,7 +79,7 @@ class TvScreenhotsInstrumentedTest : BaseUITest() {
 
     override fun beforeTest() {
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
-        Settings.getInstance(context).edit().putBoolean("auto_rescan", false).putBoolean("audio_resume_card", false).commit()
+        Settings.getInstance(context).edit().putBoolean("auto_rescan", false).putBoolean(KEY_AUDIO_RESUME_CARD, false).commit()
         val intent = Intent().apply {
             putExtra(EXTRA_TARGET, R.id.nav_audio)
         }

@@ -106,6 +106,8 @@ import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.KEYSTORE_PASSWORD
+import org.videolan.tools.KEY_COOKIE_ENCRYPT_KEY
+import org.videolan.tools.KEY_COOKIE_SIGN_KEY
 import org.videolan.tools.KEY_REMOTE_ACCESS_LAST_STATE_STOPPED
 import org.videolan.tools.REMOTE_ACCESS_NETWORK_BROWSER_CONTENT
 import org.videolan.tools.Settings
@@ -548,15 +550,15 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                 install(Sessions) {
 
                     //get the encryption / signing keys and generate them if they don't exist
-                    var encryptKey = settings.getString("cookie_encrypt_key", "") ?: ""
+                    var encryptKey = settings.getString(KEY_COOKIE_ENCRYPT_KEY, "") ?: ""
                     if (encryptKey.isBlank()) {
                         encryptKey = SecretGenerator.generateRandomAlphanumericString(32)
-                        settings.putSingle("cookie_encrypt_key", encryptKey)
+                        settings.putSingle(KEY_COOKIE_ENCRYPT_KEY, encryptKey)
                     }
-                    var signkey = settings.getString("cookie_sign_key", "") ?: ""
+                    var signkey = settings.getString(KEY_COOKIE_SIGN_KEY, "") ?: ""
                     if (signkey.isBlank()) {
                         signkey = SecretGenerator.generateRandomAlphanumericString(32)
-                        settings.putSingle("cookie_sign_key", signkey)
+                        settings.putSingle(KEY_COOKIE_SIGN_KEY, signkey)
                     }
 
                     cookie<UserSession>("user_session", directorySessionStorage(File("${context.filesDir.path}/server/cache"), true)) {

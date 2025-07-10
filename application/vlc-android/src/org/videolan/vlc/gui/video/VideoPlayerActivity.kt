@@ -77,7 +77,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
-import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
@@ -140,8 +139,6 @@ import org.videolan.resources.TV_AUDIOPLAYER_ACTIVITY
 import org.videolan.resources.buildPkgString
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableList
-import org.videolan.tools.AUDIO_BOOST
-import org.videolan.tools.AUDIO_PREFERRED_LANGUAGE
 import org.videolan.tools.BRIGHTNESS_VALUE
 import org.videolan.tools.DISPLAY_UNDER_NOTCH
 import org.videolan.tools.ENABLE_BRIGHTNESS_GESTURE
@@ -152,8 +149,13 @@ import org.videolan.tools.ENABLE_SCALE_GESTURE
 import org.videolan.tools.ENABLE_SEEK_BUTTONS
 import org.videolan.tools.ENABLE_SWIPE_SEEK
 import org.videolan.tools.ENABLE_VOLUME_GESTURE
+import org.videolan.tools.KEY_AUDIO_BOOST
+import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_ENABLE_CLONE_MODE
+import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
 import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
+import org.videolan.tools.KEY_VIDEO_MATCH_FRAME_RATE
 import org.videolan.tools.LAST_LOCK_ORIENTATION
 import org.videolan.tools.LOCK_USE_SENSOR
 import org.videolan.tools.POPUP_FORCE_LEGACY
@@ -161,7 +163,6 @@ import org.videolan.tools.PREF_TIPS_SHOWN
 import org.videolan.tools.SAVE_BRIGHTNESS
 import org.videolan.tools.SCREENSHOT_MODE
 import org.videolan.tools.SCREEN_ORIENTATION
-import org.videolan.tools.SUBTITLE_PREFERRED_LANGUAGE
 import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_PAUSED
 import org.videolan.tools.VIDEO_RATIO
@@ -200,14 +201,12 @@ import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment.Companion.shouldInterceptRemote
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.dialogs.showContext
-import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.KeycodeListener
 import org.videolan.vlc.gui.helpers.PlayerKeyListenerDelegate
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
-import org.videolan.vlc.gui.helpers.UiTools.isTablet
 import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
@@ -223,10 +222,7 @@ import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
 import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
 import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM
 import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
-import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
-import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
 import org.videolan.vlc.util.ContextOption.CTX_REMOVE_FROM_PLAYLIST
-import org.videolan.vlc.util.ContextOption.CTX_SET_RINGTONE
 import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.ContextOption.CTX_STOP_AFTER_THIS
 import org.videolan.vlc.util.DialogDelegate
@@ -242,7 +238,6 @@ import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.hasNotch
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.util.share
-import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.io.File
@@ -545,9 +540,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         /* Services and miscellaneous */
         audiomanager = applicationContext.getSystemService<AudioManager>()!!
         audioMax = audiomanager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        isAudioBoostEnabled = settings.getBoolean("audio_boost", true)
+        isAudioBoostEnabled = settings.getBoolean(KEY_AUDIO_BOOST, true)
 
-        enableCloneMode = clone ?: settings.getBoolean("enable_clone_mode", false)
+        enableCloneMode = clone ?: settings.getBoolean(KEY_ENABLE_CLONE_MODE, false)
         displayManager = DisplayManager(this, PlaybackService.renderer, false, enableCloneMode, isBenchmark)
         setContentView(if (displayManager.isPrimary) R.layout.player else R.layout.player_remote_control)
 
@@ -1618,7 +1613,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 var preferredTrack = "0"
-                                val preferredAudioLang = settings.getString(AUDIO_PREFERRED_LANGUAGE, "")
+                                val preferredAudioLang = settings.getString(KEY_AUDIO_PREFERRED_LANGUAGE, "")
                                 if (!preferredAudioLang.isNullOrEmpty()) {
                                     /** ⚠️limitation: See [LocaleUtil] header comment */
                                     val allTracks = getCurrentMediaTracks()
@@ -1645,7 +1640,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 var preferredTrack = "0"
-                                val preferredSpuLang = settings.getString(SUBTITLE_PREFERRED_LANGUAGE, "")
+                                val preferredSpuLang = settings.getString(KEY_SUBTITLE_PREFERRED_LANGUAGE, "")
                                 if (!preferredSpuLang.isNullOrEmpty()) {
                                     val allTracks = getCurrentMediaTracks()
                                     service.spuTracks?.iterator()?.let { spuTracks ->
@@ -1771,7 +1766,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         //if possible, match display with content frame rate
         val preferMatchFrameRate =
-            settings.getBoolean("video_match_frame_rate", false)
+            settings.getBoolean(KEY_VIDEO_MATCH_FRAME_RATE, false)
         if (preferMatchFrameRate) {
             val surfaceView = rootView?.findViewById<View>(R.id.surface_video) as SurfaceView
             FrameRateManager(this, service!!).matchFrameRate(surfaceView, window)
@@ -2591,7 +2586,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      * Callback called when a Control setting has been changed in the advanced options
      */
     fun onChangedControlSetting(key: String) = when(key) {
-        AUDIO_BOOST -> isAudioBoostEnabled = settings.getBoolean(AUDIO_BOOST, true)
+        KEY_AUDIO_BOOST -> isAudioBoostEnabled = settings.getBoolean(KEY_AUDIO_BOOST, true)
         ENABLE_VOLUME_GESTURE, ENABLE_BRIGHTNESS_GESTURE, ENABLE_DOUBLE_TAP_SEEK, ENABLE_DOUBLE_TAP_PLAY, ENABLE_SWIPE_SEEK, ENABLE_SCALE_GESTURE, ENABLE_FASTPLAY -> touchDelegate.touchControls = generateTouchFlags()
         SCREENSHOT_MODE -> {
             touchDelegate.touchControls = generateTouchFlags()

@@ -45,6 +45,7 @@ import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.EXTRA_FOR_ESPRESSO
 import org.videolan.resources.util.parcelableList
 import org.videolan.tools.KEY_BROWSE_NETWORK
+import org.videolan.tools.KEY_NAVIGATOR_SCREEN_UNSTABLE
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
@@ -196,7 +197,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Settings.getInstance(requireActivity()).edit {
-            putBoolean("navigator_screen_unstable", true)
+            putBoolean(KEY_NAVIGATOR_SCREEN_UNSTABLE, true)
         }
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         networkMonitor = NetworkMonitor.getInstance(requireContext())
@@ -209,7 +210,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     override fun onPause() {
         super.onPause()
         Settings.getInstance(requireActivity()).edit {
-            putBoolean("navigator_screen_unstable", false)
+            putBoolean(KEY_NAVIGATOR_SCREEN_UNSTABLE, false)
         }
     }
 

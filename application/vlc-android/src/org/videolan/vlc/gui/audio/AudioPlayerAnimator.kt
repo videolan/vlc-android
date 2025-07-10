@@ -42,6 +42,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.tools.AUDIO_HINGE_ON_RIGHT
+import org.videolan.tools.KEY_BLURRED_COVER_BACKGROUND
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.setVisible
@@ -227,7 +228,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
      * Updates the player background with or without a blurred cover depending on the user setting
      */
     override suspend fun updateBackground() {
-        if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
+        if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean(KEY_BLURRED_COVER_BACKGROUND, true)) {
             val mw = audioPlayer.playlistModel.currentMediaWrapper ?: return
             if (currentCoverArt == mw.artworkMrl) {
                 if (currentCoverArt == null) setDefaultBackground()
