@@ -121,6 +121,21 @@ const val KEY_SHOW_WHATS_NEW = "show_whats_new"
 const val KEY_LAST_UPDATE_TIME = "last_update_time"
 const val KEY_SHOW_UPDATE = "show_update"
 
+// Playback settings category
+const val KEY_AUDIO_LAST_PLAYLIST = "audio_list"
+const val KEY_MEDIA_LAST_PLAYLIST = "media_list"
+const val KEY_MEDIA_LAST_PLAYLIST_RESUME = "media_list_resume"
+const val KEY_CURRENT_AUDIO = "current_song"
+const val KEY_CURRENT_MEDIA = "current_media"
+const val KEY_CURRENT_MEDIA_RESUME = "current_media_resume"
+const val KEY_CURRENT_AUDIO_RESUME_TITLE = "key_current_audio_resume_title"
+const val KEY_CURRENT_AUDIO_RESUME_ARTIST = "key_current_audio_resume_artist"
+const val KEY_CURRENT_AUDIO_RESUME_THUMB = "key_current_audio_resume_thumb"
+
+// AUDIO category
+const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
+const val KEY_AUDIO_ALBUM_SONG_CURRENT_TAB = "key_audio_album_song_current_tab"
+
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
 const val KEY_VIDEO_JUMP_DELAY = "video_jump_delay"
@@ -135,6 +150,8 @@ const val KEY_AUDIO_SHOW_BOOkMARK_BUTTONS = "audio_show_bookmark_buttons"
 const val KEY_AUDIO_SHOW_BOOKMARK_MARKERS = "audio_show_bookmark_markers"
 const val KEY_PERSISTENT_INCOGNITO = "persistent_incognito"
 const val KEY_BROWSE_NETWORK = "browse_network"
+const val KEY_VIDEOS_CARDS = "video_display_in_cards"
+const val KEY_GROUP_VIDEOS = "video_min_group_length"
 
 
 // AudioPlayer

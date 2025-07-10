@@ -70,11 +70,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.KEY_CURRENT_AUDIO
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.AUDIO_RESUME_PLAYBACK
 import org.videolan.tools.KEY_AUDIO_PLAYER_SHOW_COVER
+import org.videolan.tools.KEY_CURRENT_AUDIO
 import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
 import org.videolan.tools.Settings
 import org.videolan.tools.dp

@@ -45,8 +45,8 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.KEY_AUDIO_ALBUM_SONG_CURRENT_TAB
 import org.videolan.resources.util.parcelable
+import org.videolan.tools.KEY_AUDIO_ALBUM_SONG_CURRENT_TAB
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.putSingle

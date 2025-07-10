@@ -26,8 +26,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Playlist
-import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.KEY_AUDIO_CURRENT_TAB
 import org.videolan.tools.KEY_AUDIO_RESUME_CARD
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.audio.AudioBrowserFragment

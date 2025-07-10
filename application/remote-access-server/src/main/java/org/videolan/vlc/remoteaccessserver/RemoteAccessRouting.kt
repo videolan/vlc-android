@@ -80,8 +80,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
-import org.videolan.resources.KEY_CURRENT_AUDIO
-import org.videolan.resources.KEY_CURRENT_MEDIA
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.util.await
@@ -91,6 +89,8 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.KEY_CURRENT_AUDIO
+import org.videolan.tools.KEY_CURRENT_MEDIA
 import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.REMOTE_ACCESS_FILE_BROWSER_CONTENT
 import org.videolan.tools.REMOTE_ACCESS_HISTORY_CONTENT

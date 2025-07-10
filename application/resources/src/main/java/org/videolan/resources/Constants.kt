@@ -123,21 +123,6 @@ const val PLAY_DISABLE_HARDWARE = "disable_hardware"
 // MRLPanelFragment
 const val KEY_MRL = "mrl"
 
-// AUDIO category
-const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
-const val KEY_AUDIO_ALBUM_SONG_CURRENT_TAB = "key_audio_album_song_current_tab"
-
-// Playback settings category
-const val KEY_AUDIO_LAST_PLAYLIST = "audio_list"
-const val KEY_MEDIA_LAST_PLAYLIST = "media_list"
-const val KEY_MEDIA_LAST_PLAYLIST_RESUME = "media_list_resume"
-const val KEY_CURRENT_AUDIO = "current_song"
-const val KEY_CURRENT_MEDIA = "current_media"
-const val KEY_CURRENT_MEDIA_RESUME = "current_media_resume"
-const val KEY_CURRENT_AUDIO_RESUME_TITLE = "key_current_audio_resume_title"
-const val KEY_CURRENT_AUDIO_RESUME_ARTIST = "key_current_audio_resume_artist"
-const val KEY_CURRENT_AUDIO_RESUME_THUMB = "key_current_audio_resume_thumb"
-
 // Info Activity
 const val TAG_ITEM = "ML_ITEM"
 
@@ -186,8 +171,6 @@ const val KEY_GROUPING = "key_grouping"
 const val KEY_ANIMATED = "key_animated"
 const val FAVORITE_TITLE = "favorite_title"
 
-const val KEY_VIDEOS_CARDS = "video_display_in_cards"
-const val KEY_GROUP_VIDEOS = "video_min_group_length"
 const val GROUP_VIDEOS_NONE = "-1"
 const val GROUP_VIDEOS_FOLDER = "0"
 const val GROUP_VIDEOS_NAME = "6"

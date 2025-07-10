@@ -59,9 +59,6 @@ import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
 import org.videolan.resources.KEY_GROUPING
-import org.videolan.resources.KEY_GROUP_VIDEOS
-import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
-import org.videolan.resources.KEY_VIDEOS_CARDS
 import org.videolan.resources.MOVIEPEDIA_ACTIVITY
 import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
@@ -70,7 +67,10 @@ import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableArray
 import org.videolan.resources.util.waitForML
 import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
+import org.videolan.tools.KEY_GROUP_VIDEOS
+import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.tools.KEY_MEDIA_SEEN
+import org.videolan.tools.KEY_VIDEOS_CARDS
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.RESULT_RESTART
