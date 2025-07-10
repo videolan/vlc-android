@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.preferences.search
 
 import android.app.Activity
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.content.res.XmlResourceParser
 import android.net.Uri
@@ -34,10 +33,12 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.XmlRes
+import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -63,9 +64,9 @@ import org.videolan.tools.PREF_TIPS_SHOWN
 import org.videolan.tools.PREF_WIDGETS_TIPS_SHOWN
 import org.videolan.tools.SCREEN_ORIENTATION
 import org.videolan.tools.Settings
+import org.videolan.tools.deleteSharedPreferences
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.putSingle
-import org.videolan.tools.wrap
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
@@ -79,6 +80,7 @@ import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.VersionMigration
 import org.videolan.vlc.util.share
 import java.io.BufferedWriter
 import java.io.File
@@ -319,19 +321,17 @@ object PreferenceParser {
      *
      * @return a string of all the changed preferences
      */
-    fun getChangedPrefsJson(context: Context) = buildString {
-        append("{")
-        val allChangedPrefs = getAllChangedPrefs(context)
-        addAllOtherPrefs(context, allChangedPrefs)
-        for (allChangedPref in allChangedPrefs) {
-            when {
-                allChangedPref.second is Float || allChangedPref.second is Boolean || allChangedPref.second is Int || allChangedPref.second is Long -> append("\"${allChangedPref.first}\": ${allChangedPref.second}")
-                else -> append("\"${allChangedPref.first}\": \"${allChangedPref.second}\"")
+    fun getChangedPrefsJson(context: Context):String  {
+        val settingsEntries = arrayListOf<SettingEntry>()
+        Settings.getInstance(context).all.forEach { setting ->
+            setting.value?.let {
+                settingsEntries.add(SettingEntry(setting.key, it, SettingType.getFromAny(it)))
             }
-            if (allChangedPref != allChangedPrefs.last()) append(", ")
-
         }
-        append("}")
+        val settingsBackup = SettingsBackup(settingsEntries, VersionMigration.getCurrentVersion())
+        val moshi = Moshi.Builder().build()
+        val jsonAdapter: JsonAdapter<SettingsBackup> = moshi.adapter(SettingsBackup::class.java)
+        return jsonAdapter.toJson(settingsBackup)!!
     }
 
     private fun addAllOtherPrefs(context: Context, pairs: ArrayList<Pair<String, Any>>) {
@@ -471,44 +471,50 @@ object PreferenceParser {
      * Restore the preferences from a file
      *
      * @param activity the activity to use to restore the preferences
+     * @param file the file to restore the preferences from
      */
     suspend fun restoreSettings(activity: Activity, file: Uri) = withContext(Dispatchers.IO) {
         file.path?.let {
             val changedPrefs = FileUtils.getStringFromFile(it)
             val moshi = Moshi.Builder().build()
-            val adapter = moshi.adapter<Map<String, Any>>(
-                Types.newParameterizedType(
-                    Map::class.java,
-                    String::class.javaObjectType,
-                    Object::class.java
-                )
-            )
+            val adapter: JsonAdapter<SettingsBackup> = moshi.adapter(SettingsBackup::class.java)
             val savedSettings =  adapter.fromJson(changedPrefs)
-            val newPrefs = Settings.getInstance(activity)
-            val allPrefs = parsePreferences(activity, parseUIPrefs = true)
-            savedSettings?.forEach { entry ->
-                allPrefs.forEach {
-                    if (it.key == entry.key  && it.key != KEY_CUSTOM_LIBVLC_OPTIONS) {
-                        Log.i("PrefParser", "Restored: ${entry.key} -> ${entry.value}")
-                        newPrefs.putSingle(entry.key, if (entry.value is Double) (entry.value as Double).toInt() else entry.value)
+
+            //First create a dedicated shared preference for restoring
+            val restorePrefsName = activity.packageName + "_restore"
+            val restoringPrefs = activity.getSharedPreferences(restorePrefsName, Context.MODE_PRIVATE)
+
+            restoringPrefs.edit {
+                savedSettings?.settings?.forEach { settingEntry ->
+                    when (settingEntry.type) {
+                        SettingType.BOOLEAN -> putBoolean(settingEntry.key, settingEntry.value as Boolean)
+                        SettingType.INT -> putInt(settingEntry.key, (settingEntry.value as Double).toInt())
+                        SettingType.LONG -> putLong(settingEntry.key, (settingEntry.value as Double).toLong())
+                        SettingType.FLOAT -> putFloat(settingEntry.key, (settingEntry.value as Double).toFloat())
+                        SettingType.SET ->  putStringSet(settingEntry.key, (settingEntry.value as ArrayList<String>).toHashSet())
+
+                        else -> putString(settingEntry.key, settingEntry.value as String)
                     }
-                }
-            }
-            //restore other settings
-            savedSettings?.forEach {
-                if (it.key.startsWith("custom_equalizer_")) {
-                    newPrefs.putSingle(it.key, it.value)
                 }
             }
 
-            savedSettings?.forEach { saved ->
-                additionalSettings.forEach {
-                    if (it == saved.key) {
-                        val value = if (saved.value is Double) (saved.value as Double).toFloat() else saved.value
-                        newPrefs.putSingle(it, value)
-                    }
+            //Migrate the new shared preferences using the version of the restored json file
+            VersionMigration.migrateVersion(activity, restoringPrefs, savedSettings?.version)
+
+            // Copy all the restored settings to the main shared preferences
+            restoringPrefs.all.forEach { setting ->
+                setting.value?.let { newValue ->
+                    Settings.getInstance(activity).putSingle(setting.key, newValue)
                 }
             }
+
+            //wait a bit for the file to be available to be deleted
+            delay(100)
+
+            //Delete the restore preferences
+           if (!deleteSharedPreferences(activity, restorePrefsName))
+               Log.e("PreferenceParser", "Cannot delete restore preferences")
+
         }
     }
 }
@@ -518,3 +524,26 @@ object PreferenceParser {
  */
 @Parcelize
 data class PreferenceItem(val key: String, val parentScreen: Int, val title: String, val summary: String, val titleEng:String, val summaryEng: String, val category: String, val categoryEng: String, val defaultValue:String?) : Parcelable
+
+
+
+class SettingsBackup(val settings: List<SettingEntry>, val version: Int)
+
+class SettingEntry (val key: String, val value: Any, val type: SettingType)
+
+enum class SettingType {
+    STRING, BOOLEAN, INT, LONG, FLOAT, SET;
+
+    companion object {
+        fun getFromAny(any: Any): SettingType {
+            return when (any) {
+                is Boolean -> BOOLEAN
+                is Int -> INT
+                is Long -> LONG
+                is Float -> FLOAT
+                is HashSet<*> -> SET
+                else -> STRING
+            }
+        }
+    }
+}

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import org.videolan.tools.Settings.audioControlsChangeListener
 import org.videolan.tools.Settings.init
+import java.io.File
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
 
@@ -405,6 +406,7 @@ fun SharedPreferences.putSingle(key: String, value: Any) {
         is Long -> edit { putLong(key, value) }
         is String -> edit { putString(key, value) }
         is List<*> -> edit { putStringSet(key, value.toSet() as Set<String>) }
+        is Set<*> -> edit { putStringSet(key, value.toSet() as Set<String>) }
         else -> throw IllegalArgumentException("value $value class is invalid!")
     }
 }
@@ -418,3 +420,13 @@ fun SharedPreferences.putSingle(key: String, value: Any) {
  * @return an [Int] in the range
  */
 fun Int.coerceInOrDefault(min: Int, max: Int, defautValue: Int) = if (this < min || this > max) defautValue else this
+
+fun deleteSharedPreferences(context: Context, name: String): Boolean {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        return context.deleteSharedPreferences(name)
+    } else {
+        context.getSharedPreferences(name, Context.MODE_PRIVATE).edit().clear().commit()
+        val dir = File(context.applicationInfo.dataDir, "shared_prefs")
+        return File(dir, "$name.xml").delete()
+    }
+}
