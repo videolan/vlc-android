@@ -32,6 +32,7 @@ function red() {
 function cleanup {
   echo "Removing settings"
   rm settings.xml
+  rm pwd.txt
 }
 
 if [ $# -eq 0 ]
@@ -97,6 +98,12 @@ unzip -P $pass settings.xml.zip
 trap cleanup EXIT
 
 
+
+file="pwd.txt"
+
+PWD=$(cat "$file") 
+
+
 if [ -z "$LIBVLC_VERSION" ]; then
   purple "No version for libvlc. Skipping"
 else
@@ -109,10 +116,13 @@ else
     -Dfile=$BASE_DIR/libvlc-all-$LIBVLC_VERSION.aar \
     -Dsources=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-sources.jar \
     -Djavadoc=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-javadoc.jar \
-    -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
+    -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
     -DgroupId=org.videolan.android \
     -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
-    -DrepositoryId=ossrh
+    -DrepositoryId=central
+  curl -H "Authorization: Bearer $PWD" \
+      -X POST \
+      https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/org.videolan
 fi
 
 if [ -z "$MEDIALIB_VERSION" ]; then
@@ -127,10 +137,13 @@ else
     -Dfile=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION.aar \
     -Dsources=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-sources.jar \
     -Djavadoc=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-javadoc.jar \
-    -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
+    -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
     -DgroupId=org.videolan.android \
     -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
-    -DrepositoryId=ossrh
+    -DrepositoryId=central
+  curl -H "Authorization: Bearer $PWD" \
+      -X POST \
+      https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/org.videolan
 fi
 
 if [ -z "$REMOTE_ACCESS_VERSION" ]; then
@@ -145,10 +158,13 @@ else
     -Dfile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION.aar \
     -Dsources=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-sources.jar \
     -Djavadoc=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-javadoc.jar \
-    -Durl="https://s01.oss.sonatype.org/service/local/staging/deploy/maven2" \
+    -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
     -DgroupId=org.videolan.android \
     -Dgpg.keyname=49A7E6FE58DCF183F0B349DFB83763AD62ED0721 \
-    -DrepositoryId=ossrh
+    -DrepositoryId=central
+  curl -H "Authorization: Bearer $PWD" \
+      -X POST \
+      https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/org.videolan
 fi
 
 
