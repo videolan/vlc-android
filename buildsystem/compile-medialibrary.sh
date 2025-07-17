@@ -59,7 +59,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   rm -rf ${MEDIALIBRARY_BUILD_DIR}/build-android*
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
-  wget https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz
+  wget https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz 2>/dev/null || curl -L -O https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz
   if [ ! "$(sha512sum ${SQLITE_RELEASE}.tar.gz)" = "${SQLITE_SHA512SUM}  ${SQLITE_RELEASE}.tar.gz" ]; then
     echo "Wrong sha1 for ${SQLITE_RELEASE}.tar.gz"
     exit 1
