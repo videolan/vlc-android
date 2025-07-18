@@ -262,16 +262,17 @@ if [ ! -e "./gradlew" ] || [ ! -x "./gradlew" ]; then
     GRADLE_VERSION=8.13
     GRADLE_SHA256=20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78
     GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+    GRADLE_DOWNLOADED_ZIP=gradle-${GRADLE_VERSION}-bin.zip
 
     export PATH="$(pwd -P)/gradle-${GRADLE_VERSION}/bin:$PATH"
     GRADLE_PATH_VERSION=$(cd buildsystem/gradle_version; gradle -q 2>/dev/null | grep gradle_version= | cut -b 16-)
     if [ "$GRADLE_PATH_VERSION" != "$GRADLE_VERSION" ]; then
         diagnostic "gradle could not be found in PATH, downloading"
-        wget ${GRADLE_URL} -O gradle-${GRADLE_VERSION}-bin.zip 2>/dev/null || curl -LO ${GRADLE_URL} || fail "gradle: download failed"
-        echo $GRADLE_SHA256 gradle-${GRADLE_VERSION}-bin.zip | sha256sum -c || fail "gradle: hash mismatch"
+        wget ${GRADLE_URL} -O ${GRADLE_DOWNLOADED_ZIP}  2>/dev/null || curl -LO ${GRADLE_URL} || fail "gradle: download failed"
+        echo $GRADLE_SHA256 ${GRADLE_DOWNLOADED_ZIP} | sha256sum -c || fail "gradle: hash mismatch"
 
-        unzip -o gradle-${GRADLE_VERSION}-bin.zip || fail "gradle: unzip failed"
-        rm -rf gradle-${GRADLE_VERSION}-bin.zip
+        unzip -o ${GRADLE_DOWNLOADED_ZIP} || fail "gradle: unzip failed"
+        rm -rf ${GRADLE_DOWNLOADED_ZIP}
     fi
 
     gradle wrapper ${gradle_prop} || fail "gradle: wrapper failed"
