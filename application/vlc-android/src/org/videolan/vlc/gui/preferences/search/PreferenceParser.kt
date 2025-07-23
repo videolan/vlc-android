@@ -338,21 +338,6 @@ object PreferenceParser {
         return jsonAdapter.toJson(settingsBackup)!!
     }
 
-    private fun addAllOtherPrefs(context: Context, pairs: ArrayList<Pair<String, Any>>) {
-        for ((key, value) in Settings.getInstance(context).all) {
-            if (key.startsWith("custom_equalizer_")) {
-                value?.let {
-                    pairs.add(Pair(key, it))
-                }
-            }
-            if (key in additionalSettings) {
-                value?.let {
-                    pairs.add(Pair(key, it))
-                }
-            }
-        }
-    }
-
     /**
      * Parse a preference xml resource to get a list of [PreferenceItem]
      * @param context the context to be used to retrieve the preferences
