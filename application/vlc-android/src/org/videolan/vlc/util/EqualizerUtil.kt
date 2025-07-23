@@ -68,17 +68,17 @@ object EqualizerUtil {
         }
     }
 
-    fun getEqualizerExportString(context: Context): String {
+    fun getEqualizerExport(context: Context): EqualizerExport {
         val customEqualizers = EqualizerRepository.getInstance(context).getCustomEqualizers()
         val defaultEqualizers = EqualizerRepository.getInstance(context).getDefaultEqualizers()
-        val equalizerExport = EqualizerExport(
+        return EqualizerExport(
             customEqualizers,
             EqualizerRepository.getInstance(context).getCurrentEqualizer(context).equalizerEntry.name,
             defaultEqualizers.map { EqualizerState(it.equalizerEntry.name, it.equalizerEntry.isDisabled) }
         )
-
-        return JsonUtil.convertToJson(equalizerExport)
     }
+
+    fun getEqualizerExportString(context: Context) = JsonUtil.convertToJson(getEqualizerExport(context))
 
     fun escapeString(string: String): String? {
         val moshi = Moshi
@@ -87,14 +87,15 @@ object EqualizerUtil {
         return moshi.adapter(String::class.java).toJson(string)
     }
 
+
     /**
-     * Import all the custom equalizers
+     * Import all the custom equalizers and states
      *
      * @param context the context to be used
-     * @param json the json string to be imported
+     * @param equalizerExport the equalizer export to be imported
+     * @param listener the listener to be called when the import is finished
      */
-    suspend fun importAll(context: Context, json:String, listener: (id: Long) -> Unit) = withContext(Dispatchers.IO) {
-        val equalizerExport = JsonUtil.getEqualizersFromJson(json)
+    suspend fun importAll(context: Context, equalizerExport:EqualizerExport, listener: ((id: Long) -> Unit)?) = withContext(Dispatchers.IO) {
         val equalizerRepository = EqualizerRepository.getInstance(context)
         equalizerExport.equalizers.forEach { equalizer ->
             equalizer.equalizerEntry.id = 0
@@ -108,7 +109,18 @@ object EqualizerUtil {
             equalizerRepository.addOrUpdateEqualizerWithBands(context, equalizer.copy(equalizerEntry = equalizer.equalizerEntry.copy(isDisabled = it.disabled).apply { id = equalizer.equalizerEntry.id }))
         }
         val currentEq = equalizerRepository.getByName(equalizerExport.currentEqualizerName)
-        withContext(Dispatchers.Main) { listener.invoke(currentEq.equalizerEntry.id) }
+        withContext(Dispatchers.Main) { listener?.invoke(currentEq.equalizerEntry.id) }
+    }
+
+
+    /**
+     * Import all the custom equalizers
+     *
+     * @param context the context to be used
+     * @param json the json string to be imported
+     */
+    suspend fun importAll(context: Context, json:String, listener: (id: Long) -> Unit) = withContext(Dispatchers.IO) {
+        importAll(context,  JsonUtil.getEqualizersFromJson(json), listener)
     }
 }
 

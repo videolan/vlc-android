@@ -80,6 +80,8 @@ import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
+import org.videolan.vlc.util.EqualizerExport
+import org.videolan.vlc.util.EqualizerUtil
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.VersionMigration
 import org.videolan.vlc.util.share
@@ -330,7 +332,7 @@ object PreferenceParser {
                     settingsEntries.add(SettingEntry(setting.key, it, SettingType.getFromAny(it)))
                 }
         }
-        val settingsBackup = SettingsBackup(settingsEntries, VersionMigration.getCurrentVersion())
+        val settingsBackup = SettingsBackup(settingsEntries, EqualizerUtil.getEqualizerExport(context), VersionMigration.getCurrentVersion())
         val moshi = Moshi.Builder().build()
         val jsonAdapter: JsonAdapter<SettingsBackup> = moshi.adapter(SettingsBackup::class.java)
         return jsonAdapter.toJson(settingsBackup)!!
@@ -525,6 +527,8 @@ object PreferenceParser {
                 }
             }
 
+            EqualizerUtil.importAll(activity, savedSettings.equalizers, null)
+
             //wait a bit for the file to be available to be deleted
             delay(100)
 
@@ -544,7 +548,7 @@ data class PreferenceItem(val key: String, val parentScreen: Int, val title: Str
 
 
 
-class SettingsBackup(val settings: List<SettingEntry>, val version: Int)
+class SettingsBackup(val settings: List<SettingEntry>, val equalizers: EqualizerExport, val version: Int)
 
 class SettingEntry (val key: String, val value: Any, val type: SettingType)
 
