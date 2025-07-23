@@ -468,6 +468,18 @@ object PreferenceParser {
         }
     }
 
+
+    suspend fun checkRestoreFile(file: Uri)= withContext(Dispatchers.IO) {
+        file.path?.let {
+            val changedPrefs = FileUtils.getStringFromFile(it)
+            val moshi = Moshi.Builder().build()
+            val adapter: JsonAdapter<SettingsBackup> = moshi.adapter(SettingsBackup::class.java)
+            val savedSettings = adapter.fromJson(changedPrefs)
+
+            if (savedSettings?.settings == null || savedSettings.version == 0) throw IllegalStateException("Invalid file")
+        }
+    }
+
     /**
      * Restore the preferences from a file
      *

@@ -26,6 +26,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -36,6 +37,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -72,6 +74,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
+import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.dialogs.UPDATE_DATE
@@ -184,13 +187,19 @@ class MainActivity : ContentActivity(),
         }
         if (!settings.getBoolean(KEY_OBSOLETE_RESTORE_FILE_WARNED, false)) {
             lifecycleScope.launch {
+                val file = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + EXPORT_SETTINGS_FILE)
                 val fileExists = withContext(Dispatchers.IO) {
-                    File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + EXPORT_SETTINGS_FILE).exists()
+                    file.exists()
                 }
                 if (!fileExists) return@launch
-                UiTools.snackerConfirm(this@MainActivity, getString(R.string.obsolete_restore_settings), confirmMessage = R.string.ok, indefinite = true) {
-                    lifecycleScope.launch {
-                        PreferencesActivity.launchWithPref(this@MainActivity, "export_settings")
+                //check if file is restorable
+                try {
+                    PreferenceParser.checkRestoreFile(file.path.toUri())
+                } catch (_: Exception) {
+                    UiTools.snackerConfirm(this@MainActivity, getString(R.string.obsolete_restore_settings), confirmMessage = R.string.ok, indefinite = true) {
+                        lifecycleScope.launch {
+                            PreferencesActivity.launchWithPref(this@MainActivity, "export_settings")
+                        }
                     }
                 }
             }
