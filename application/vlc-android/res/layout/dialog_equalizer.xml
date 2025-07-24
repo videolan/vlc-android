@@ -49,7 +49,6 @@
                 android:id="@+id/equalizer_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
                 android:nextFocusLeft="@+id/equalizer_button"
                 android:nextFocusRight="@+id/equalizer_button"
                 android:nextFocusDown="@+id/equalizer_button"
@@ -139,94 +138,22 @@
             </HorizontalScrollView>
 
             <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/warning_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="8dp"
-                    android:clickable="false"
-                    android:visibility="gone"
-                    app:cardBackgroundColor="@color/red500transparent_10"
-                    app:cardCornerRadius="4dp"
-                    app:cardElevation="0dp"
-                    app:cardUseCompatPadding="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/equalizer_presets_container"
-                    tools:visibility="visible">
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                    <TextView
-                            android:id="@+id/warning_text"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="@string/confirm_delete_eq" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/warning_cancel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:background="?attr/actionBarItemBackground"
-                            android:clickable="true"
-                            android:contentDescription="@string/save"
-                            android:focusable="true"
-                            android:padding="12dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/top_bar"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/title"
-                            app:layout_constraintTop_toTopOf="@+id/top_bar"
-                            app:srcCompat="@drawable/ic_playlist_delete"
-                            app:tint="?attr/colorControlNormal" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/warning_confirm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:background="?attr/actionBarItemBackground"
-                            android:clickable="true"
-                            android:contentDescription="@string/save"
-                            android:focusable="true"
-                            android:padding="12dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/top_bar"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/title"
-                            app:layout_constraintTop_toTopOf="@+id/top_bar"
-                            app:srcCompat="@drawable/ic_check_large"
-                            app:tint="?attr/colorControlNormal" />
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardView"
                     style="@style/VLCCardView.NoShadow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:clickable="false"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="0dp"
-                    android:clickable="false"
                     app:cardUseCompatPadding="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/warning_container">
+                    app:layout_constraintTop_toBottomOf="@+id/equalizer_presets_container">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

@@ -182,22 +182,15 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         }
 
         binding.delete.setOnClickListener {
-            binding.warningContainer.setVisible()
             viewModel.presetToDelete = viewModel.getCurrentEqualizer()
-            if (getEqualizerType() == TYPE_CUSTOM) {
-                binding.warningText.text = getString(R.string.confirm_delete_eq)
+            val message = if (getEqualizerType() == TYPE_CUSTOM) {
+                 getString(R.string.confirm_delete_eq)
             } else {
-                binding.warningText.text = getString(R.string.confirm_delete_vlc_eq)
+                getString(R.string.confirm_delete_vlc_eq)
             }
-        }
-
-        binding.warningCancel.setOnClickListener {
-            binding.warningContainer.setGone()
-            viewModel.presetToDelete = null
-        }
-        binding.warningConfirm.setOnClickListener {
-            binding.warningContainer.setGone()
-            viewModel.deleteEqualizer(requireActivity())
+            UiTools.snackerConfirm(requireActivity(), message, forcedView = binding.contextMenuItemSnackbarHost) {
+                viewModel.deleteEqualizer(requireActivity())
+            }
         }
 
         binding.edit.setOnClickListener {
