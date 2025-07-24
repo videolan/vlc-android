@@ -164,7 +164,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
         binding.equalizerSettings.setOnClickListener {
             if (requireActivity() is VideoPlayerActivity)
-                UiTools.snackerConfirm(requireActivity(), getString(R.string.equalizer_leave_warning), forcedView = dialog?.window?.decorView) {
+                UiTools.snackerConfirm(requireActivity(), getString(R.string.equalizer_leave_warning), forcedView = binding.contextMenuItemSnackbarHost) {
                     startActivity(Intent(requireActivity(), EqualizerSettingsActivity::class.java))
                 }
             else
