@@ -67,6 +67,7 @@
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \"%1$s\"?</string>
     <string name="confirm_replace_playlist">Är du säker på att du vill ersätta spellistan \"%1$s\"?</string>
+    <string name="invalid_settings_file">Ogiltig inställningsfil</string>
     <string name="confirm_delete_message">Detta är permanent och kan inte ångras.</string>
     <string name="confirm_delete_album">Radera albumet \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Radera dessa %1$d mediafiler?</string>
@@ -320,6 +321,9 @@
     <string name="add_custom_path_description">Ange ytterligare valfria kataloger att söka igenom:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
     <string name="group_ban_folder">Bannlys mappen från mediabiblioteket</string>
+    <string name="ban_folder">Bannlys mapp</string>
+    <string name="ban_folder_explanation">Om du bannlyser mappen kommer du inte att kunna se mappens mediafiler i appens video- eller ljudavsnitt, men de är fortfarande tillgängliga via filväljaren.\nFör att upphäva bannlysningen går du till inställningarna, %s och trycker länge på mappen.</string>
+
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet\nAvkodning: Kan förbättra prestandan\nFull: Kan förbättra prestandan ytterligare</string>
     <string name="hardware_acceleration_disabled">Inaktiverad</string>
@@ -518,7 +522,7 @@
     <string name="show_headers">Visa sidhuvuden</string>
     <string name="show_headers_summary">Dela upp listor efter sidhuvuden beroende på sorteringstypen</string>
     <string name="tv_folders_first">Visa mappar överst</string>
-    <string name="tv_folders_first_summary">Visa mappar och sedan filer i filbläddraren</string>
+    <string name="tv_folders_first_summary">Visa mappar och sedan filer i filväljaren</string>
     <string name="tv_show_hidden_files">Visa dolda filer</string>
     <string name="tv_show_hidden_files_summary">Visa dolda filer i filväljaren</string>
     <string name="ab_repeat_fastseek_warning">Snabbsökning har aktiverats. Detta kan leda till precisionsfel</string>
@@ -592,10 +596,10 @@
     <string name="custom_libvlc_options_invalid">Ogiltiga libVLC-alternativ!</string>
     <string name="dav1d_thread_number">Trådnummer för Dav1d</string>
     <string name="dav1d_thread_number_invalid">Ogiltigt trådnummer! (>=1)</string>
-    <string name="browser_quick_play">Snabbuppspelning i webbläsarmenyn</string>
-    <string name="browser_quick_play_summary">Lägger till ett menyalternativ för snabbuppspelning i webbläsaren. Detta gör att mediafiler läser in snabbare på bekostnad av vissa metadata</string>
+    <string name="browser_quick_play">Snabbuppspelning i filväljarmenyn</string>
+    <string name="browser_quick_play_summary">Lägger till ett menyalternativ för snabbuppspelning i filväljaren. Detta gör att mediafiler läser in snabbare på bekostnad av vissa metadata</string>
     <string name="browser_quick_play_default">Snabbuppspelning som standardåtgärd</string>
-    <string name="browser_quick_play_default_summary">När detta aktiveras kommer snabbuppspelning användas för att spela upp objekt i webbläsaren</string>
+    <string name="browser_quick_play_default_summary">När detta aktiveras kommer snabbuppspelning användas för att spela upp objekt i filväljaren</string>
 
     <string name="serious_crash">Tyvärr uppstod ett allvarligt fel och VLC blev tvungen att stängas ned.</string>
     <string name="help_us_send_log">Hjälp oss att förbättra VLC genom att skicka följande kraschlogg:</string>
@@ -623,6 +627,8 @@
     <string name="network_shares_discovery">Letar efter nätverksdelningar</string>
     <string name="network_empty">Denna katalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
+    <string name="network_disabled">Bläddra nätverk har inaktiverats</string>
+    <string name="browse_network">Bläddra nätverk</string>
     <string name="search_hint">Sök media</string>
     <string name="search_in_list_hint">Sök i nuvarande lista</string>
     <string name="search_global">Sök i alla mediabibliotek</string>
@@ -805,11 +811,11 @@
     <string name="playback_rewind">Spola tillbaka</string>
     <string name="playback_forward">Spola framåt</string>
     <string name="ml_wizard_scan_checkbox">Skanna enheten för mediainnehåll</string>
-    <string name="ml_wizard_description">Välj om VLC ska skanna din enhetslagring för att organisera ditt mediabibliotek eller ska bara användas som en enkel uppspelare med en integrerad filbläddrare.</string>
+    <string name="ml_wizard_description">Välj om VLC ska skanna din enhetslagring för att organisera ditt mediabibliotek eller ska bara användas som en enkel uppspelare med en integrerad filväljare.</string>
     <string name="tv_my_new_videos">Mina nya videor</string>
     <string name="cast_option_title">Casta mediafiler på en annan skärm</string>
     <string name="otg_device_title">OTG-enhet</string>
-    <string name="browser">Filbläddrare</string>
+    <string name="browser">Filväljare</string>
     <string name="ab_repeat">Upprepa A-B</string>
     <string name="ab_repeat_reset">Nollställ A-B-upprepning</string>
     <string name="ab_repeat_stop">Stoppa A-B-upprepning</string>
@@ -1346,6 +1352,7 @@
     <string name="export_settings">Exportera inställningar</string>
     <string name="restore_settings_summary">Återställ dina inställningar från en tidigare exportering</string>
     <string name="restore_settings">Återställ inställningar</string>
+    <string name="obsolete_restore_settings">Dina exporterade inställningar är föråldrade. Exportera dem igen.</string>
     <string name="export_settings_success">Inställningarna exporterades till intern lagringsrot</string>
     <string name="export_settings_failure">Någonting gick fel när dina inställningar exporterades</string>
 

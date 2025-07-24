@@ -66,6 +66,7 @@
     <string name="info">資訊</string>
     <string name="confirm_delete">是否刪除檔案「%1$s」？</string>
     <string name="confirm_replace_playlist">您確定您要取代播放清單「%1$s」嗎？</string>
+    <string name="invalid_settings_file">無效的設定檔</string>
     <string name="confirm_delete_message">此為永久且無法復原。</string>
     <string name="confirm_delete_album">刪除專輯「%1$s」？</string>
     <string name="confirm_delete_several_media">刪除這 %1$d 個媒體嗎？</string>
@@ -309,6 +310,9 @@
     <string name="add_custom_path_description">輸入額外的自訂目錄以掃瞄:</string>
     <string name="remove_custom_path">移除自訂路徑</string>
     <string name="group_ban_folder">從媒體庫封鎖資料夾</string>
+    <string name="ban_folder">封鎖資料夾</string>
+    <string name="ban_folder_explanation">封鎖此資料夾代表雖然其中的媒體仍可透過瀏覽器存取，但您無法在應用程式的視訊或音訊區塊看到它們。\n要取消封鎖，請到設定，%s 然後長按此資料夾。</string>
+
     <string name="hardware_acceleration">硬體加速</string>
     <string name="hardware_acceleration_summary">停用：較為穩定\n解碼：可提升性能\n全開：可進一步提升性能</string>
     <string name="hardware_acceleration_disabled">停用</string>
@@ -612,6 +616,8 @@
     <string name="network_shares_discovery">正在尋找網路分享</string>
     <string name="network_empty">這個資料夾是空的。</string>
     <string name="network_connection_needed">無區域網路連線。</string>
+    <string name="network_disabled">已停用網路瀏覽</string>
+    <string name="browse_network">瀏覽網路</string>
     <string name="search_hint">搜尋媒體</string>
     <string name="search_in_list_hint">在目前的清單中搜尋</string>
     <string name="search_global">在所有媒體櫃中搜尋</string>
@@ -1331,6 +1337,7 @@
     <string name="export_settings">匯出設定</string>
     <string name="restore_settings_summary">從先前的匯出還原您的設定</string>
     <string name="restore_settings">還原設定</string>
+    <string name="obsolete_restore_settings">您的匯出的設定已過期。請再次匯出</string>
     <string name="export_settings_success">設定已成功匯出至內部儲存空間根目錄</string>
     <string name="export_settings_failure">匯出您的設定時發生問題</string>
 

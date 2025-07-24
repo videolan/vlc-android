@@ -67,6 +67,7 @@
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
     <string name="confirm_replace_playlist">Möchten Sie die Playlist \'%1$s\' wirklich ersetzen?</string>
+    <string name="invalid_settings_file">Ungültige Einstellungsdatei</string>
     <string name="confirm_delete_message">Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.</string>
     <string name="confirm_delete_album">Das Album \'%1$s\' löschen?</string>
     <string name="confirm_delete_several_media">%1$d wirklich löschen?</string>
@@ -320,6 +321,9 @@
     <string name="add_custom_path_description">Ein zusätzliches, benutzerdefiniertes Verzeichnis zum Durchsuchen eingeben:</string>
     <string name="remove_custom_path">Benutzerdefinierten Pfad entfernen</string>
     <string name="group_ban_folder">Ordner aus Medienbibliothek ausblenden</string>
+    <string name="ban_folder">Ordner sperren</string>
+    <string name="ban_folder_explanation">Das Sperren dieses Ordners bedeutet, dass Sie seine Medien nicht im Video- oder Audiobereich der App sehen, sie sind jedoch weiterhin über den Browser zugänglich.\nUm die Sperre aufzuheben, gehen Sie zu den Einstellungen %s und tippen Sie lange auf diesen Ordner.</string>
+
     <string name="hardware_acceleration">Hardwarebeschleunigung</string>
     <string name="hardware_acceleration_summary">Deaktiviert: bessere Stabilität\nDekodierung: kann die Leistung verbessern\nVoll: kann die Leistung noch weiter verbessern</string>
     <string name="hardware_acceleration_disabled">Deaktiviert</string>
@@ -614,7 +618,7 @@
     <string name="open_subs_download_error">OpenSubtitles ist derzeit nicht verfügbar. Bitte später erneut versuchen</string>
 
     <string name="network_browsing">Lokales Netzwerk</string>
-    <string name="browsing">Surfen</string>
+    <string name="browsing">Durchsuchen</string>
 
     <string name="file_size">Dateigröße</string>
 
@@ -623,6 +627,8 @@
     <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht</string>
     <string name="network_empty">Das Verzeichnis ist leer.</string>
     <string name="network_connection_needed">Keine Verbindung zum lokalen Netzwerk.</string>
+    <string name="network_disabled">Netzwerk durchsuchen deaktiviert</string>
+    <string name="browse_network">Netzwerk durchsuchen</string>
     <string name="search_hint">Medien suchen</string>
     <string name="search_in_list_hint">Suche in aktueller Liste</string>
     <string name="search_global">Suche in allen Medienbibliotheken</string>
@@ -1284,6 +1290,7 @@
     <string name="ra_prepare_download">Vorbereitung des Herunterladens</string>
     <string name="ra_forbidden">Inhalt in den Einstellungen deaktiviert</string>
     <string name="ra_playback_forbidden">Wiedergabesteuerung in den Einstellungen deaktiviert</string>
+    <string name="ra_logs_forbidden">Freigabe von Protokollen in den Einstellungen deaktiviert</string>
     <string name="ra_code_requested_explanation">Um Ihren Server zu schützen, ist der Zugriff geschützt.\nBitte geben Sie den Code aus den Benachrichtigungen ein</string>
     <string name="ra_ssl_explanation_title">Unsichere Verbindung</string>
     <string name="ra_ssl_explanation">Ihre Verbindung ist nicht sicher.</string>
@@ -1345,6 +1352,7 @@
     <string name="export_settings">Exporteinstellungen</string>
     <string name="restore_settings_summary">Ihre Einstellungen aus einem vorherigen Export wieder herstellen</string>
     <string name="restore_settings">Einstellungen wiederherstellen</string>
+    <string name="obsolete_restore_settings">Ihr Einstellungsexport ist veraltet. Bitte exportieren Sie ihn erneut.</string>
     <string name="export_settings_success">Einstellungen erfolgreich in das interne Speicherstammverzeichnis exportiert</string>
     <string name="export_settings_failure">Beim Exportieren Ihrer Einstellungen ist ein Fehler aufgetreten</string>
 
@@ -1374,4 +1382,13 @@
     <string name="generating_logs">Protokolle werden erstellt. Bitte warten.</string>
     <string name="default_playback_action">Wiedergabeaktion</string>
     <string name="files">Dateien</string>
+    <string name="remote_access_feedback_generate">Bericht erstellen</string>
+    <string name="remote_access_feedback_generated">Ihr Feedback-Bericht wurde erstellt</string>
+    <string name="remote_access_feedback_generated_explanation">Tippen Sie auf die Schaltfläche unten, um die E-Mail mit Ihrem Standard-E-Mail-Client zu versenden. Bei Problemen können Sie die Felder unten kopieren und einfügen und die E-Mail selbst versenden.</string>
+    <string name="remote_access_feedback_file_explanation">Sie haben die benötigte Datei heruntergeladen. Bitte denken Sie daran, sie Ihrer E-Mail anzuhängen.</string>
+    <string name="generic_copied_to_clipboard">In die Zwischenablage kopiert</string>
+    <string name="feedback_email_warning">Kein E-Mail-Client installiert</string>
+    <string name="feedback_email_warning_explanation">Am einfachsten können Sie Ihr Feedback über diese %1$s-Funktion teilen.\nAktivieren Sie dazu den Fernzugriff in den Einstellungen, folgen Sie den Anweisungen und wählen Sie den %2$s Eintrag im Menü.</string>
+    <string name="feedback_email_warning_remote_action">Einstellungen öffnen</string>
+    <string name="feedback_email_warning_try_anyway">Trotzdem versuchen</string>
     </resources>

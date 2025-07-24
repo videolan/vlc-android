@@ -69,6 +69,7 @@
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor „%1$s“?</string>
     <string name="confirm_replace_playlist">Naozaj chcete nahradiť playlist \'%1$s\'?</string>
+    <string name="invalid_settings_file">Neplatný súbor s nastaveniami</string>
     <string name="confirm_delete_message">Tento úkon je trvalý a nevratný.</string>
     <string name="confirm_delete_album">Vymazať album „%1$s“?</string>
     <string name="confirm_delete_several_media">Vymazať tieto médiá v počte: %1$d?</string>
@@ -342,6 +343,9 @@
     <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavený priečinok</string>
     <string name="remove_custom_path">Odstrániť cestu nastavenú používateľom</string>
     <string name="group_ban_folder">Vylúčiť priečinok z knižnice s médiami</string>
+    <string name="ban_folder">Zablokovať priečinok</string>
+    <string name="ban_folder_explanation">Zablokovanie priečinka znamená, že v audio- a video-sekcii aplikácie neuvidíte médiá uložené v tomto priečinku. Z prehliadača však budú naďalej dostupné.\nPre odblokovanie prejdite do nastavení, %s a dlho podržte tento priečinok.</string>
+
     <string name="hardware_acceleration">Hardvérová akcelerácia</string>
     <string name="hardware_acceleration_summary">Vypnuté: lepšia stabilita\nDekódovanie: môže zlepšiť výkon\nÚplné: môže ešte viac vylepšiť výkon</string>
     <string name="hardware_acceleration_disabled">Vypnuté</string>
@@ -645,6 +649,8 @@
     <string name="network_shares_discovery">Vyhľadávanie sieťových zdieľaní</string>
     <string name="network_empty">Tento priečinok je prázdny.</string>
     <string name="network_connection_needed">Bez pripojenia k lokálnej sieti.</string>
+    <string name="network_disabled">Prehľadávanie siete vypnuté</string>
+    <string name="browse_network">Prehľadávať sieť</string>
     <string name="search_hint">Vyhľadávanie média</string>
     <string name="search_in_list_hint">Vyhľadať v aktuálnom zozname</string>
     <string name="search_global">Hľadať v celej knižnici s médiami</string>
@@ -1376,6 +1382,7 @@
     <string name="export_settings">Exportovať nastavenia</string>
     <string name="restore_settings_summary">Obnovte svoje nastavenia z predchádzajúceho exportu</string>
     <string name="restore_settings">Obnoviť nastavenia</string>
+    <string name="obsolete_restore_settings">Váš export nastavení je zastaraný. Prosím, vykonajte nový export</string>
     <string name="export_settings_success">Nastavenia boli úspešne exportované do hlavného interného úložiska</string>
     <string name="export_settings_failure">Počas exportovania nastavení došlo k chybe</string>
 

@@ -40,6 +40,7 @@
     </plurals>
 
     <string name="play">Predvajaj</string>
+    <string name="quick_play">Hitro predvajanje</string>
     <string name="playback">Predvajanje</string>
     <string name="playback_controls">Nadzor predvajanja</string>
     <string name="medialibrary_scan">Pregled knjižnice predstavnih vsebin</string>
@@ -58,6 +59,8 @@
     <string name="append_all">Dodaj vse</string>
     <string name="resume_playback_short_title">Nadaljuj predvajanje</string>
     <string name="resume_playback_long_title">Nadaljuje predvajanje z zadnjega seznama predvajanj</string>
+    <string name="resume_audio_playback_short_title">Nadaljuj predvajanje</string>
+    <string name="resume_audio_playback_long_title">Nadaljuj predvajanje zadnjega seznama zvočnih vsebin</string>
     <string name="resume_playback_error">Z ničemer ni mogoče nadaljevati</string>
     <string name="delete">Izbriši</string>
     <string name="remove">Odstrani</string>
@@ -65,6 +68,7 @@
     <string name="set_song_question">Nastavi \'%1$s\' kot zvonjenje</string>
     <string name="info">Podatki</string>
     <string name="confirm_delete">Ali želite izbrisati datoteko »%1$s«?</string>
+    <string name="confirm_replace_playlist">Ali res želite nadomestiti seznam predvajanja \'%1$s\'?</string>
     <string name="confirm_delete_message">To je za stalno in tega mogoče razveljaviti.</string>
     <string name="confirm_delete_album">Ali želite izbrisati album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Izbrišem teh %1$d vsebin?</string>
@@ -213,6 +217,18 @@
 
     <string name="playback_speed">Hitrost predvajanja</string>
     <string name="warning_stream_speed">Povečanje hitrosti nad 1 lahko povzroči zatikanje</string>
+    <string name="playback_speed_this_video">Ta video</string>
+    <string name="playback_speed_this_track">Ta skladba</string>
+    <string name="playback_speed_all_videos">Vsi videi</string>
+    <string name="playback_speed_all_tracks">Vse skladbe</string>
+    <string name="playback_speed_explanation_all_videos">Hitrost bo uporabljena za vse video posenetke.\nIndividualne nastavitve hitrosti predvajanja ne bodo upoštevane.</string>
+    <string name="playback_speed_explanation_all_tracks">Hitrost bo uporabljena za vse skladbe.\nIndividualne nastavitve hitrosti predvajanja ne bodo upoštevane.</string>
+    <string name="playback_speed_explanation_all_incognito">Ste v načinu inkognito. Hitrost se bo povrnila na normalno, ko boste zapustili ta način.</string>
+    <string name="playback_speed_explanation_one_video">Hitrost bo uporabljena le za ta video.</string>
+    <string name="playback_speed_explanation_one_track">Hitrost bo uporabljena le za to skladbo</string>
+    <string name="audio_playback_speed_global">Uporabi globalno hitrost predvajanja</string>
+    <string name="audio_playback_speed_global_summary">Uporabi globalno določeno hitrost predvajanja za vse skladbe.\nIndividualne nastavitve hitrosti predvajanja ne bodo upoštevane.</string>
+
     <string name="sleep_title">Časovnik mirovanja</string>
     <string name="sleep_in">Obmiruj čez</string>
     <string name="jump_to_time">Skoči na čas</string>
@@ -256,6 +272,7 @@
     <string name="video_resume_playback_summary">Dovoli shranjevanje čakalne vrste predvajanja videa za kasnejše nadaljevanje</string>
     <string name="audio_resume_playback_title">Zgodovina čakalne vrste zvoka</string>
     <string name="audio_resume_playback_warning">Izklop zgodovine čakalne vrste lahko povzroči težave v obnašanju programau.\nPo izklopu morda ne bo mogoče nadaljevati predvajanja z:\n\n\t- bluetooth naprave\n\t- gradnika\n\t- obvestila vsebine</string>
+    <string name="playback_history_warning">Izklop zgodovine predvajanja bo skril zgodovino, napredek po vsebinah in vidne oznake. Aplikacija bo še vedno beležila vašo dejavnost, ki bo obnovljena če ponovno vključite zgodovino.\nČe želite popolnoma prenehati beležiti vašo dejavnost, uporabite način inkognito.\nLahko tudi pobrišete zgodovino na prikazu zgodovine ali v naprednih nastavitvah.</string>
     <string name="audio_resume_playback_summary">Dovoli shranjevanje čakalne vrste predvajanja zvoka za kasnejše nadaljevanje</string>
 
     <string name="play_button">Gumb Predvajaj</string>
@@ -325,6 +342,8 @@
     <string name="add_custom_path_description">Vnesite pot do nove mape za preiskovanje:</string>
     <string name="remove_custom_path">Odstrani pot po meri</string>
     <string name="group_ban_folder">Prepoved mape v knjižnici vsebin</string>
+    <string name="ban_folder">Prepovej mapo</string>
+    <string name="ban_folder_explanation">Prepoved te mape onemogoči prikaz njenih vsebin v video ali zvočnem razdelku aplikacije, še vedno pa bo do njih mogoče dostopati preko brskalnika.\nZa preklic prepovedi pojdite v nastavitve, %s in dolgo držite to mapo.</string>
 
     <string name="hardware_acceleration">Strojno pospeševanje</string>
     <string name="hardware_acceleration_summary">Onemogočeno: boljša stabilnost\nOdkodiranje: lahko izboljša zmogljivost\nPolno: Lahko še bolj izboljša zmogljivost</string>
@@ -377,6 +396,7 @@
     <string name="save_brightness_title">Shrani nivo svetosti</string>
     <string name="save_audiodelay_summary">Program shrani zamik zvoka za vsak video posnetek</string>
     <string name="save_audiodelay_title">Shrani zamik zvoka</string>
+    <string name="video_show_orientation_button">Prikaz gumba za orientacijo</string>
     <string name="enable_brightness_gesture_title">Kretnja za svetlost</string>
     <string name="enable_brightness_gesture_summary">Nastavljanje svetlosti predvajanega videa s pomočjo kretenj</string>
     <string name="enable_volume_gesture_title">Kretnja za glasnost</string>
@@ -387,6 +407,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Prikaz nadzora hitrosti v prekrivnem meniju</string>
     <string name="enable_android_auto_seek_buttons">Androidni gumbi za samodejno preskakovanje</string>
     <string name="enable_android_auto_seek_buttons_summary">Prikaz hitrega previjanja naprej in nazaj v prektivnem meniju. Pred vklopom preizkusite pritisniti gumba Prejšnje in Naslednje na krmilnem obroču.</string>
+    <string name="artist">Izvajalec</string>
+    <string name="album">Album</string>
+    <string name="track">Skladba</string>
+    <string name="genre">Zvrst</string>
+    <string name="playlist">Seznam predvajanja</string>
     <string name="enable_double_tap_seek_title">Dvojni tap za preskakovanje</string>
     <string name="enable_double_tap_seek_summary">Dvojni tap na rob zaslona za 10 sekundni preskok</string>
     <string name="enable_double_tap_play_title">Dvojni tap za predvajanje/premor</string>
@@ -405,6 +430,13 @@
     <string name="fastplay_speed_title">Hitrost predvajanja</string>
     <string name="fastplay_title">Pospešeno za %sx</string>
     <string name="fastplay_subtitle">Spustite za zaustavitev</string>
+    <string name="show_bookmark_buttons">Prikaži gumbe zaznamkov</string>
+    <string name="show_bookmark_buttons_summary">Prikaže gumbe za premikanje po zaznamkih</string>
+    <string name="show_bookmark_markers">Prikaži oznake zaznamkov</string>
+    <string name="show_bookmark_markers_summary">Nad časovnico prikaže oznake zaznamkov</string>
+    <string name="show_chapter_buttons">Prikaži gumbe poglavji</string>
+    <string name="show_chapter_buttons_summary">Prikaže gumbe za premikanje po poglavjih</string>
+
     <string name="subtitles_prefs_category">Podnapisi</string>
     <string name="subtitles_size_title">Velikost podnapisov</string>
     <string name="subtitles_presets_title">Predloge podnapisov</string>
@@ -585,8 +617,14 @@
     <string name="custom_libvlc_options_invalid">Neveljavne možnosti za libVLC!</string>
     <string name="dav1d_thread_number">Dav1d številka niti</string>
     <string name="dav1d_thread_number_invalid">Napačna številka niti! (>=1)</string>
+    <string name="browser_quick_play">Meni brskalnika za hitro predvajanje</string>
+    <string name="browser_quick_play_summary">V meni brskalnik s predmeti doda hitro predvajanje. To bo hitreje naložilo vsebino, lahko pa manjkajo nekateri metapodatki.</string>
+    <string name="browser_quick_play_default">Hitro predvajanje kot privzeto dejanje</string>
+    <string name="browser_quick_play_default_summary">Ko je aktivirano, se bo predmet hitro predvajal po tapu nanj v brskalniku</string>
+
     <string name="serious_crash">Prišlo do resne programske napake in predvajalnik VLC se je zaprl.</string>
     <string name="help_us_send_log">Pomagajte izboljšati program VLC in pošljite poročilo o sesutju:</string>
+    <string name="ml_crash_send">Knjižnica vsebin je povzročila napako. Pomagajte nam in nam pošljite beležke.</string>
     <string name="restart_vlc">Ponovno zaženi VLC</string>
     <string name="send_log">Pošlji dnevnik</string>
     <string name="sending_log">Poteka pošiljanje dnevnika …</string>
@@ -610,6 +648,8 @@
     <string name="network_shares_discovery">Iskanje omrežnih mest v skupni rabi</string>
     <string name="network_empty">Mapa je prazna.</string>
     <string name="network_connection_needed">Ni povezave s krajevnim omrežjem.</string>
+    <string name="network_disabled">Onemogočeno brskanje po omrežju</string>
+    <string name="browse_network">Brskanje po omrežju</string>
     <string name="search_hint">Poišči vsebino</string>
     <string name="search_in_list_hint">Iskanje v trenutnem seznamu</string>
     <string name="search_global">Preišči celotno knjižnico predstavnih vsebin</string>
@@ -736,6 +776,7 @@
     <string name="episodes">epizode</string>
     <string name="movies">filmi</string>
     <string name="videos">videi</string>
+    <string name="default_action_videos">Video posnetki</string>
     <string name="videos_all">Vsi videoposnetki</string>
     <string name="clear_playback_history">Počisti zgodovino predvajanja</string>
     <string name="ml_scanning">Iskanje predstavnih datotek</string>
@@ -892,6 +933,8 @@
     <string name="validation_delete_playlist_text">Tega dejanja ni mogoče razveljaviti.</string>
     <string name="display_settings">Nastavitve prikaza</string>
     <string name="incognito_mode">Inkognito način</string>
+    <string name="persistent_incognito_mode">Stalni inkognito način</string>
+    <string name="persistent_incognito_mode_summary">Način inkognito naj bo vklopljen tudi po ponovnem zagonu</string>
     <string name="display_in_list">Prikaži v seznamu</string>
     <string name="display_in_grid">Prikaži v mreži</string>
     <string name="dump_db_succes">Podatkovna baza je bila skopirana v notranji korenski pomnilnik</string>
@@ -900,13 +943,16 @@
     <string name="send_crash_description">S pošiljanjem podatkov o sesutju nam pomagate izboljšati zanesljivost delovanja VLC.</string>
     <string name="send_crash_warning">Poskrbite, da odstranite občutljive podatke, ki jih ne želite poslati.</string>
     <string name="include_medialib">Vključi podatkovno bazo</string>
+    <string name="include_logs">Dodajte beležke</string>
     <string name="vlc_reporter">VLC javljalnik</string>
     <string name="welcome_beta_title">VLC beta</string>
     <string name="welcome_beta_description">Dobrodošli v programu VLC beta.\nProsimo upoštevajte, da ima lahko ta različica nekatere hrošče.</string>
     <string name="welcome_beta_description_bugs">Če opazite hrošča, ga prosim javite na našem forumu ali v sledilniku hroščev.</string>
+    <string name="welcome_beta_description_crashes">Če naletite na hrošča ali napako v programu, odprite zaslon O programu in uporabite Povratna inormacija > Kontaktiraj podporno skupino</string>
     <string name="send">Pošlji</string>
     <string name="send_crash_action_title">Kaj želite storiti?</string>
     <string name="report_a_bug">Prijavi hrošča</string>
+    <string name="send_feedback">Pošlji odziv</string>
     <string name="report_a_crash">Prijavi sesutje</string>
     <string name="describe_crash">Opišite, kako je prišlo do sesutja</string>
     <string name="favorite">Priljulbjeno</string>
@@ -1090,6 +1136,8 @@
     <string name="bookmark_name">Zaznamek %s</string>
     <string name="add_bookmark">Dodaj zaznamek</string>
     <string name="bookmark_added">Zaznamek je dodan</string>
+    <string name="previous_bookmark">Prejšnji zaznamek</string>
+    <string name="next_bookmark">Naslednji zaznamek</string>
     <string name="show">Prikaži</string>
     <string name="optional_features">Dodatne možnosti</string>
     <string name="optional_features_summary">Beta funkcije, ki so še v preizkusni fazi in so lahko nestabilne</string>
@@ -1271,6 +1319,7 @@
     <string name="ra_prepare_download">Pripravljam prenos</string>
     <string name="ra_forbidden">onemogočena v nastavitvah</string>
     <string name="ra_playback_forbidden">Nadzor predvajanja je onemogočen v nastavitvah</string>
+    <string name="ra_logs_forbidden">Posredovanje beležk je izklopljeno v nastavitvah</string>
     <string name="ra_code_requested_explanation">Zaradi zaščite strežnika je dostop omejen.\nVnesite kodo, ki je prikazana v obvestilih.</string>
     <string name="ra_ssl_explanation_title">Nezaščitena povezava</string>
     <string name="ra_ssl_explanation">Vaša povezava ni varna.</string>
@@ -1347,4 +1396,27 @@
     <string name="queue_format">Oblika čakalne vrste</string>
     <string name="queue_format_short_desc">Položaj v čakalni vrsti</string>
     <string name="queue_format_long_desc">Položaj v čakalni vrsti / velikost čakalne vrste</string>
+    <string name="video_settings_disclaimer">Nekatere nastavitve so bile prewstavljene v nastavitve video kontrol in predvajalnik videa.</string>
+    <string name="get_help">Poišči pomoč</string>
+    <string name="feedback_type">Vrsta odziva</string>
+    <string name="how_to_use">Naučite se rabe</string>
+    <string name="send_feedback_request">Odziv / predlog za nadgradnjo</string>
+    <string name="report_crash">Prijava sesutja</string>
+    <string name="email_support">Kontakt s podporno ekipo preko elektronske pošte</string>
+    <string name="read_doc">Preberite dokumentacijo</string>
+    <string name="subject">Subjekt</string>
+    <string name="body">Sporočilo</string>
+    <string name="rate_us">Ocenite aplikacijo</string>
+    <string name="generating_logs">Ustvarjanje beležk. Počakajte.</string>
+    <string name="default_playback_action">Dejanje predvajanja</string>
+    <string name="files">Daoteke</string>
+    <string name="remote_access_feedback_generate">Ustvari poročila</string>
+    <string name="remote_access_feedback_generated">Vaše odzivno poročilo je bilo ustvarjeno</string>
+    <string name="remote_access_feedback_generated_explanation">Tapnite na spodnji gumb za pošiljanje s privzetim odjemalcem pošte. V primeru težav lahko prekopirate spodnja polja in jih prilepite v sporočilo, ki ga sami pošljete.</string>
+    <string name="remote_access_feedback_file_explanation">Prenesli ste potrebne datoteke. Ne pozabite jih pripeti k sporočilu.</string>
+    <string name="generic_copied_to_clipboard">Kopirano na odložišče</string>
+    <string name="feedback_email_warning">Noben poštni odjemalec ni nameščen</string>
+    <string name="feedback_email_warning_explanation">Najlažji način za posredovanje vašega odziva je uporaba možnosti %1$s.-\nV ta namen v nastavitvah vklopite oddaljeni dostop, sledite navodilom in v meniju izberite vnos %2$s.</string>
+    <string name="feedback_email_warning_remote_action">Odpri nastavitve</string>
+    <string name="feedback_email_warning_try_anyway">Vseeno poskusi</string>
     </resources>

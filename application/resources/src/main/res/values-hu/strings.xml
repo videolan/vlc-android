@@ -320,6 +320,9 @@
     <string name="add_custom_path_description">Adjon meg egy egyéni könyvtárat a kereséshez:</string>
     <string name="remove_custom_path">Egyéni útvonal eltávolítása</string>
     <string name="group_ban_folder">Mappa kitiltása a méditárból</string>
+    <string name="ban_folder">Mappa tiltása</string>
+    <string name="ban_folder_explanation">A mappa tiltása azt jelenti, hogy nem fogja látni a médiatartalmát az alkalmazás videó vagy hang szakaszában, de továbbra is elérhető lesz a böngészőből.\nA tiltás visszavonásához ugorjon a beállításokhoz, %s és koppintson hosszan erre a mappára.</string>
+
     <string name="hardware_acceleration">Hardveres gyorsítás</string>
     <string name="hardware_acceleration_summary">Kikapcsolva: jobb stabilitás\nDekódolás: javulhat a teljesítmény\nTeljes: tovább javulhat a teljesítmény</string>
     <string name="hardware_acceleration_disabled">Kikapcsolva</string>
@@ -623,6 +626,8 @@
     <string name="network_shares_discovery">Hálózati megosztások keresése</string>
     <string name="network_empty">Ez a könyvtár üres.</string>
     <string name="network_connection_needed">Nincs kapcsolat a helyi hálózathoz.</string>
+    <string name="network_disabled">Hálózati böngészés letiltva</string>
+    <string name="browse_network">Hálózat böngészése</string>
     <string name="search_hint">Média keresése</string>
     <string name="search_in_list_hint">Keresés a jelenlegi listában</string>
     <string name="search_global">Keresés a médiatárban</string>
@@ -1284,6 +1289,7 @@
     <string name="ra_prepare_download">A letöltése előkészítése</string>
     <string name="ra_forbidden">A tartalom le van tiltva a beállításokban</string>
     <string name="ra_playback_forbidden">A lejátszásvezérlés le van tiltva a beállításokban</string>
+    <string name="ra_logs_forbidden">A naplómegosztás le van tiltva a beállításokban</string>
     <string name="ra_code_requested_explanation">A kiszolgáló védelme érdekében az elérés védve van.\nAdja meg az értesítések között megjelenített kódot.</string>
     <string name="ra_ssl_explanation_title">Nem biztonságos kapcsolat</string>
     <string name="ra_ssl_explanation">A kapcsolata nem biztonságos.</string>
@@ -1374,4 +1380,13 @@
     <string name="generating_logs">Naplók előállítása. Kis türelmet.</string>
     <string name="default_playback_action">Lejátszási művelet</string>
     <string name="files">Fájlok</string>
+    <string name="remote_access_feedback_generate">Riport előállítása</string>
+    <string name="remote_access_feedback_generated">A visszajelzési jelentés elő lett állítva</string>
+    <string name="remote_access_feedback_generated_explanation">Koppintson a lenti gombra, hogy elküldje az alapértelmezett levelezőkliensével. Ha bármilyen problémába ütközik, akkor másolhatja és beillesztheti a lenti mezőket, és maga küldheti el a az e-mailt.</string>
+    <string name="remote_access_feedback_file_explanation">Most töltötte le a szükséges fájlt. Ne felejtse el mellékelni a leveléhez.</string>
+    <string name="generic_copied_to_clipboard">A vágólapra másolva</string>
+    <string name="feedback_email_warning">Nincs levelezőkliens telepítve</string>
+    <string name="feedback_email_warning_explanation">A visszajelzés legkönnyebb módja a %1$s funkció használata.\nEhhez engedélyezze a távoli elérést a beállításokban, kövesse az utasításokat és válassza a %2$s elemet a menüben.</string>
+    <string name="feedback_email_warning_remote_action">A beállítások megnyitása</string>
+    <string name="feedback_email_warning_try_anyway">Megpróbálás mindenképp</string>
     </resources>

@@ -67,6 +67,7 @@
     <string name="info">Informació</string>
     <string name="confirm_delete">Voleu esborrar el fitxer «%1$s»?</string>
     <string name="confirm_replace_playlist">Esteu segur que voleu substituir la llista de reproducció \'%1$s\'?</string>
+    <string name="invalid_settings_file">El fitxer de configuració no és vàlid</string>
     <string name="confirm_delete_message">Això és permanent i no es pot desfer.</string>
     <string name="confirm_delete_album">Voleu suprimir l\'àlbum «%1$s»?</string>
     <string name="confirm_delete_several_media">Voleu esborrar aquests %1$d medis?</string>
@@ -320,6 +321,9 @@
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
     <string name="remove_custom_path">Elimina el camí personalitzat</string>
     <string name="group_ban_folder">Prohibir la carpeta de la mediateca</string>
+    <string name="ban_folder">Prohibeix la carpeta</string>
+    <string name="ban_folder_explanation">Prohibir aquesta carpeta significa que no veureu els seus continguts multimèdia a la secció de vídeo o àudio de l\'aplicació, tot i que encara hi podreu accedir des del navegador.\nPer desactivar la prohibició, aneu a la configuració, %s i manteniu premuda una estona aquesta carpeta.</string>
+
     <string name="hardware_acceleration">Acceleració per maquinari</string>
     <string name="hardware_acceleration_summary">Desactivat: millor estabilitat\nDecodificant: pot millorar el rendiment\nSencer: pot millorar encara més el rendiment.</string>
     <string name="hardware_acceleration_disabled">Inhabilitat</string>
@@ -623,6 +627,8 @@
     <string name="network_shares_discovery">Buscant comparticions a la xarxa</string>
     <string name="network_empty">Aquest directori és buit</string>
     <string name="network_connection_needed">Sense connexió a la xarxa local.</string>
+    <string name="network_disabled">Navegació per xarxa desactivada</string>
+    <string name="browse_network">Explora la xarxa</string>
     <string name="search_hint">Cerca multimèdia</string>
     <string name="search_in_list_hint">Cerca en la llista actual</string>
     <string name="search_global">Cerca a tota la mediateca</string>
@@ -1346,6 +1352,7 @@
     <string name="export_settings">Exportar configuració</string>
     <string name="restore_settings_summary">Restaurar la configuració des d\'una exportació prèvia</string>
     <string name="restore_settings">Restaurar la configuració</string>
+    <string name="obsolete_restore_settings">L\'exportació de la vostra configuració està obsoleta. Exporteu-la de nou.</string>
     <string name="export_settings_success">S\'ha exportat la configuració satisfactòriament a l’arrel de l’emmagatzematge intern </string>
     <string name="export_settings_failure">Alguna cosa ha fallat durant l\'exportació de la configuració</string>
 

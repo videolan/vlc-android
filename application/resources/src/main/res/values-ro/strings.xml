@@ -68,6 +68,7 @@
     <string name="info">Informații</string>
     <string name="confirm_delete">Ștergeți fișierul \'%1$s\'?</string>
     <string name="confirm_replace_playlist">Ești sigur(ă) că vrei să înlocuiești lista de redare/playlist-ul \'%1$ss\'?</string>
+    <string name="invalid_settings_file">Fișier de setări nevalid</string>
     <string name="confirm_delete_message">Aceasta actiune este permanenta si nu poate fi anulata</string>
     <string name="confirm_delete_album">Ștergi albumul \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Ștergeți  %1$d fișiere media?</string>
@@ -331,6 +332,8 @@
     <string name="add_custom_path_description">Introduceţi un alt dosar pentru a fi scanat:</string>
     <string name="remove_custom_path">Eliminare cale personalizată</string>
     <string name="group_ban_folder">Interzice folderul din biblioteca media</string>
+    <string name="ban_folder">Interzice folderul (dosarul)</string>
+    <string name="ban_folder_explanation">Interzicerea acestui folder (dosar) înseamnă că nu vei vedea fișierele media din secțiunea video sau audio a aplicației, deși acestea vor fi în continuare accesibile din navigator.\nPentru a-l reactiva, accesează setările %s și atinge lung acest folder (dosar).</string>
 
     <string name="hardware_acceleration">Accelerare hardware</string>
     <string name="hardware_acceleration_summary">Dezactivat: o mai bună stabilitate\nDecodare: poate îmbunătăți performanța\nComplet: poate îmbunătăți și mai mult performanța.</string>
@@ -635,6 +638,8 @@
     <string name="network_shares_discovery">Caut rețele partajate</string>
     <string name="network_empty">Acest director este gol.</string>
     <string name="network_connection_needed">Nu există nicio conexiune la rețeaua locală.</string>
+    <string name="network_disabled">Navigarea în rețea e dezactivată</string>
+    <string name="browse_network">Navighează în rețea</string>
     <string name="search_hint">Cautare media</string>
     <string name="search_in_list_hint">Căutare în lista curentă</string>
     <string name="search_global">Caută în toate bibliotecile media</string>
@@ -1300,6 +1305,7 @@
     <string name="ra_prepare_download">Se pregătește descărcarea ta</string>
     <string name="ra_forbidden">Conținutul e dezactivat din setări</string>
     <string name="ra_playback_forbidden">Controlul de redare e dezactivat din setări</string>
+    <string name="ra_logs_forbidden">Partajarea jurnalelor este dezactivată în setări</string>
     <string name="ra_code_requested_explanation">Pentru a-ți proteja serverul accesul e protejat.\nTe rugăm să introduci codul afișat în notificările tale</string>
     <string name="ra_ssl_explanation_title">Desecurizează conexiunea</string>
     <string name="ra_ssl_explanation">Conexiunea ta nu e sigură.</string>
@@ -1361,6 +1367,7 @@
     <string name="export_settings">Exportă setările</string>
     <string name="restore_settings_summary">Restaurează-ți setările dintr-un export anterior</string>
     <string name="restore_settings">Restaurează setările</string>
+    <string name="obsolete_restore_settings">Exportul setărilor tale este învechit. Te rugăm să le exporți din nou.</string>
     <string name="export_settings_success">Setările au fost exportate cu succes în rădăcina de stocare internă</string>
     <string name="export_settings_failure">Ceva a mers greșit în timpul exportării setărilor tale</string>
 
@@ -1390,4 +1397,13 @@
     <string name="generating_logs">Se generează jurnalele. Te rugăm să aștepți.</string>
     <string name="default_playback_action">Acțiune de redare</string>
     <string name="files">Fișiere</string>
-</resources>
+    <string name="remote_access_feedback_generate">Generează un raport</string>
+    <string name="remote_access_feedback_generated">Raportul tău de feedback a fost generat</string>
+    <string name="remote_access_feedback_generated_explanation">Atinge butonul de mai jos pentru a-l trimite folosindu-ți clientul de e-mail implicit. Dacă întâmpini probleme, poți copia și lipi câmpurile de mai jos și îți poți trimite ție e-mailul.</string>
+    <string name="remote_access_feedback_file_explanation">Tocmai ai descărcat fișierul necesar. Te rugăm să nu uiți să îl atașezi la adresa ta de e-mail.</string>
+    <string name="generic_copied_to_clipboard">Copiat(ă) în clipboard</string>
+    <string name="feedback_email_warning">Nu e instalat niciun client email</string>
+    <string name="feedback_email_warning_explanation">Cea mai ușoară modalitate de a-ți oferi feedbac-ulk este să utilizați funcția %1$s.\nPentru a face acest lucru, activează accesul de la distanță în setări, urmează instrucțiunile și selectează intrarea %2$s din meniu.</string>
+    <string name="feedback_email_warning_remote_action">Deschide setările</string>
+    <string name="feedback_email_warning_try_anyway">Încearcă oricum</string>
+    </resources>

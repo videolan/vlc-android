@@ -331,6 +331,9 @@
     <string name="add_custom_path_description">Insira uma pasta personalizada adicional para pesquisar:</string>
     <string name="remove_custom_path">Remover caminho personalizado</string>
     <string name="group_ban_folder">Banir pasta da mediateca</string>
+    <string name="ban_folder">Banir pasta</string>
+    <string name="ban_folder_explanation">Banir esta pasta significa que não verá os seus conteúdos de multimédia na secção de vídeo ou áudio da aplicação, embora estes continuem acessíveis a partir do navegador.\nPara remover o bane, aceda às definições, %s e toque prolongado nesta pasta.</string>
+
     <string name="hardware_acceleration">Aceleração por Hardware</string>
     <string name="hardware_acceleration_summary">Desativado: maior estabilidade\nDescodificação: pode aumentar o desempenho\nTotal: pode aumentar ainda mais o desempenho</string>
     <string name="hardware_acceleration_disabled">Desativada</string>
@@ -373,11 +376,11 @@
     <string name="video_transition_title">Transição de vídeos </string>
     <string name="video_transition_summary">Mostrar o titulo do novo vídeo na transição </string>
     <string name="media_seen">Mostrar marcador de vídeo visto</string>
-    <string name="media_seen_summary">Marcar vídeo como visto se reproduzido até ao final</string>
+    <string name="media_seen_summary">Marcar vídeo como visto se reproduzido até ao fim</string>
     <string name="force_play_all_summary">Reproduzir todos os vídeos, iniciando com o que for clicado</string>
     <string name="force_play_all_audio_summary">Reproduzir todos os áudios, começando no que for clicado</string>
-    <string name="force_play_all_title">Modo de lista de reprodução de vídeo</string>
-    <string name="force_play_all_audio_title">Modo de lista de reprodução de áudio</string>
+    <string name="force_play_all_title">Modo da lista de reprodução de vídeo</string>
+    <string name="force_play_all_audio_title">Modo da lista de reprodução de áudio</string>
     <string name="save_brightness_summary">Manter o nível de brilho entre multimédia</string>
     <string name="save_brightness_title">Guardar nível de brilho</string>
     <string name="save_audiodelay_summary">Guardar atraso de áudio de cada vídeo individualmente</string>
@@ -632,8 +635,10 @@
     <string name="audio_delay">Atraso de áudio</string>
     <string name="spu_delay">Atraso de legendas</string>
     <string name="network_shares_discovery">A procurar por partilhas de rede</string>
-    <string name="network_empty">Esta pasta está vazia.</string>
+    <string name="network_empty">Este diretório está vazio.</string>
     <string name="network_connection_needed">Sem ligação à rede local</string>
+    <string name="network_disabled">Navegação em rede desativada</string>
+    <string name="browse_network">Navegar na rede</string>
     <string name="search_hint">Pesquisa multimédia</string>
     <string name="search_in_list_hint">Procurar na lista atual</string>
     <string name="search_global">Pesquisar em toda a mediateca</string>
@@ -661,7 +666,7 @@
     <string name="update_title">Atualização disponível</string>
     <string name="install_nightly_title">Instalar a versão nightly</string>
     <string name="update_text">Uma nova versão nightly do VLC para Android está disponível!\n\nEstá a ver isto porque está a utilizar uma versão nightly.</string>
-    <string name="install_text">As versões nightly são atualizadas automaticamente todos os dias com as mais recentes funcionalidades e correções.\n\nDescarregar agora?</string>
+    <string name="install_text">As versões Nightly são atualizadas automaticamente todos os dias com as funcionalidades mais recentes e correções.\n\nTransferir agora?</string>
 
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="install">Instalar</string>
@@ -677,7 +682,7 @@
     <string name="more_actions">Mais ações</string>
     <string name="back_quit_lock">Prima novamente em \'voltar\' para sair do vídeo</string>
     <string name="stream_deleted">Transmissão eliminada</string>
-    <string name="no_subs_found">Não existem legendas nesta pasta</string>
+    <string name="no_subs_found">Não existem legendas neste diretório</string>
     <string name="music_now_playing">A reproduzir</string>
 
     <!-- Widget -->
@@ -1296,9 +1301,10 @@
     <string name="ra_upload_remaining">A enviar %s ficheiros</string>
     <string name="ra_upload_all">Enviar tudo</string>
     <string name="ra_drop_files_tip">Largue ficheiros em qualquer lugar para os enviar para o seu dispositivo</string>
-    <string name="ra_prepare_download">A preparar a descarga</string>
+    <string name="ra_prepare_download">A preparar a sua transferência</string>
     <string name="ra_forbidden">Conteúdo desativado nas definições</string>
     <string name="ra_playback_forbidden">Controlo de reprodução desativado nas definições</string>
+    <string name="ra_logs_forbidden">Partilha de registos desativada nas definições</string>
     <string name="ra_code_requested_explanation">Para proteger o seu servidor, o acesso é protegido.\nPor favor, introduza o código apresentado nas suas notificações</string>
     <string name="ra_ssl_explanation_title">Conexão insegura</string>
     <string name="ra_ssl_explanation">A sua conexão não é segura.</string>
@@ -1389,4 +1395,13 @@
     <string name="generating_logs">A gerar registos. Aguarde.</string>
     <string name="default_playback_action">Ação de reprodução</string>
     <string name="files">Ficheiros</string>
+    <string name="remote_access_feedback_generate">Gerar relatório</string>
+    <string name="remote_access_feedback_generated">O seu relatório de feedback foi gerado</string>
+    <string name="remote_access_feedback_generated_explanation">Toque no botão abaixo para o enviar utilizando o seu cliente de correio eletrónico predefinido. Se tiver algum problema, pode copiar e colar os campos abaixo e enviar a mensagem de correio eletrónico.</string>
+    <string name="remote_access_feedback_file_explanation">Acabou de transferir o ficheiro necessário. Por favor, não se esqueça de o anexar à sua mensagem.</string>
+    <string name="generic_copied_to_clipboard">Copiado para a área de transferência</string>
+    <string name="feedback_email_warning">Nenhum cliente de correio eletrónico instalado</string>
+    <string name="feedback_email_warning_explanation">A forma mais fácil de partilhar os seus comentários é utilizar a funcionalidade %1$s. Para o fazer, ative o acesso remoto nas definições, siga as instruções e escolha a entrada no menu %2$s.</string>
+    <string name="feedback_email_warning_remote_action">Abrir as definições</string>
+    <string name="feedback_email_warning_try_anyway">Tentar na mesma</string>
     </resources>

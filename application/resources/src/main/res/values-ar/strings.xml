@@ -380,6 +380,7 @@
     <string name="enable_volume_gesture_title">إيماء الصوت</string>
     <string name="enable_volume_gesture_summary">التحكم في الصوت بالإيماء أثناء تشغيل الفيديو</string>
     <string name="enable_seek_buttons">أزرار البحث</string>
+    <string name="playlist">قائمة التشغيل</string>
     <string name="enable_double_tap_seek_title">اضغط مرتين للبحث</string>
     <string name="enable_double_tap_seek_summary">اضغط مزدوجًا في زوايا الشاشة للتقديم او التأخي بـ10 ثواني</string>
     <string name="enable_scale_gesture_title">تكبير بإصبعين</string>

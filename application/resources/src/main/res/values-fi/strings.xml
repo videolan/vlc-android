@@ -325,6 +325,9 @@ Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
     <string name="add_custom_path_description">Anna lisähakemisto jonka haluat tutkia:</string>
     <string name="remove_custom_path">Poista mukautettu polku</string>
     <string name="group_ban_folder">Estä kansio mediakirjastosta</string>
+    <string name="ban_folder">Kansion esto</string>
+    <string name="ban_folder_explanation">Kansion esto tarkoittaa, että et näe sen sisältämää mediaa, vaikka sitä voi edelleen selata sovelluksessa.\nVoit poistaa eston siirtymällä asetuksiin, valitsemalla %s ja painaa pitkään tätä kansiota.</string>
+
     <string name="hardware_acceleration">Laitteistokiihdytys</string>
     <string name="hardware_acceleration_summary">Poistettu käytöstä: parempi vakaus.
 Purkukiihdytys: voi parantaa suorituskykyä.
@@ -633,6 +636,8 @@ Käynnistätkö uudelleen?</string>
     <string name="network_shares_discovery">Etsitään verkkojakoja</string>
     <string name="network_empty">Tämä hakemisto on tyhjä.</string>
     <string name="network_connection_needed">Ei yhteyttä paikalliseen verkkoon.</string>
+    <string name="network_disabled">Verkkoselailu poistettu käytöstä</string>
+    <string name="browse_network">Selaa lähiverkkoa</string>
     <string name="search_hint">Hae mediaa</string>
     <string name="search_in_list_hint">Hae nykyisestä listasta</string>
     <string name="search_global">Hae koko mediakirjastosta</string>

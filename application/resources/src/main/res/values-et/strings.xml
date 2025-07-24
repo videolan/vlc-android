@@ -67,6 +67,7 @@
     <string name="info">Informatsioon</string>
     <string name="confirm_delete">Kas kustutame \'%1$s\' faili?</string>
     <string name="confirm_replace_playlist">Kas sa oled kindel, et soovid „%1$s“ esitusloendi asendada?</string>
+    <string name="invalid_settings_file">Vigane seadistuste fail</string>
     <string name="confirm_delete_message">See on lõplik muudatus, mida tagasi pöörata ei saa.</string>
     <string name="confirm_delete_album">Kas kustutame \'%1$s\' albumi?</string>
     <string name="confirm_delete_several_media">Kustuta need %1$d?</string>
@@ -256,12 +257,12 @@
     <string name="play_button">Esitamise nupp</string>
 
     <!-- Tips -->
-    <string name="tips_title">Videomängija näpunäited</string>
+    <string name="tips_title">Vide näpunäited</string>
     <string name="seek">Keri</string>
     <string name="subtitles">Subtiitrid</string>
     <string name="tips_player_controls">Mängija juhtnupud</string>
-    <string name="tips_player_controls_description">Puudutage allolevaid mängija juhtnuppe, et teada saada, milleks neid kasutatakse</string>
-    <string name="tips_audio_sub">Helirajad ja subtiitrid</string>
+    <string name="tips_player_controls_description">Puuduta allolevaid meediaesituse juhtnuppe, et teada saada, milleks neid kasutatakse</string>
+    <string name="tips_audio_sub">Heliribad ja subtiitrid</string>
     <string name="tips_play_description">Video esitamiseks puuduta</string>
     <string name="lock">Lukusta</string>
     <string name="tap">Vaatamiseks puuduta</string>
@@ -320,6 +321,9 @@
     <string name="add_custom_path_description">Sisesta meedia tuvastamiseks täiendav kaust:</string>
     <string name="remove_custom_path">Kohandatud raja eemaldamine</string>
     <string name="group_ban_folder">Keela kaust meediakogust</string>
+    <string name="ban_folder">Keela see kaust</string>
+    <string name="ban_folder_explanation">Kausta keelamine tähendab, et sa ei näe tema heli- ega videofaile selle rakenduse meediavalikus, aga need on jätkuvalt nähtavad failihaldurist.\nKeelu eemaldamiseks ava seadistused, sealt „%s“ ning vajuta pikalt kausta nimel.</string>
+
     <string name="hardware_acceleration">Riistvaraline kiirendus</string>
     <string name="hardware_acceleration_summary">Väljalülitatud: suurem stabiilsus\nDekodeerimine: võib parandada sooritust\nKõik: võib tulevikus parandada sooritust</string>
     <string name="hardware_acceleration_disabled">Väljalülitatud</string>
@@ -395,7 +399,7 @@
     <string name="enable_swipe_seek_summary">Kerimiseks viipa sõrmega üle ekraani</string>
     <string name="enable_scale_gesture_title">Suumimine kahe sõrmega</string>
     <string name="enable_scale_gesture_summary">Suumi sisse ja välja kahe sõrmega</string>
-    <string name="popup_keepscreen_title">Hoia Pop-Up rezhiimis ekraan sees</string>
+    <string name="popup_keepscreen_title">Hoia hüpikakna režiimis ekraan sees</string>
     <string name="popup_keepscreen_summary">Hoia alati Pop-Up rezhiimis ekraan sees. Isegi kui video on pausil.</string>
     <string name="browser_show_hidden_files_title">Näita peidetud faile</string>
     <string name="albums_show_track_numbers">Näita lugude numbreid</string>
@@ -461,12 +465,12 @@
     <string name="enable_headset_detection_summary">Tuvasta kõrvaklappide ühendamine ja väljavõtmine</string>
     <string name="enable_play_on_headset_insertion">Jätka peakomplekti sisestamisel</string>
     <string name="enable_play_on_headset_insertion_summary">Muul juhul pausi</string>
-    <string name="replaygain_prefs_category">Taasesituse tundlikkus</string>
+    <string name="replaygain_prefs_category">Esitusvaljuse tundlikkus</string>
     <string name="replaygain_enable">Lülita taasesituse tundlikkus sisse</string>
     <string name="replaygain_enable_summary">Meediavood, kus taasesituse tundlikkus on määratlemata, võivad vaikimisi määratud taasesituse tundlikkuse tõttu tunduda vaiksemad</string>
     <string name="replaygain_mode">Esitusvaljuse tundlikkus</string>
     <string name="replaygain_mode_summary">Kui esitusvaljuse andmed on olemas, siis lugudekohase režiimi puhul esituvad kõik lood sama valjult. Albumikohase režiimi puhul säilub suhteline valjus läbi kogu albumi.</string>
-    <string name="replaygain_preamp">Taasesituse eelvõimendus</string>
+    <string name="replaygain_preamp">Esitusvaljuse eelvõimendus</string>
     <string name="replaygain_preamp_summary">See lubab sul muuta vaikimisi sihtnivood (89 dB) meediavoogudele, millel on taasesituse tundlikkuse info olemas</string>
     <string name="replaygain_default">Vaikimisi esitusvaljuse tundlikkus</string>
     <string name="replaygain_default_summary">Kehtib meediavoogudele, kus taasesituse tundlikkus on määramata\nVäljalülitamiseks sisesta väärtuseks 0</string>
@@ -623,6 +627,8 @@
     <string name="network_shares_discovery">Püüan leida võrgujagamisi</string>
     <string name="network_empty">See kaust on tühi.</string>
     <string name="network_connection_needed">Kohaliku võrguga pole ühendust.</string>
+    <string name="network_disabled">Võrgu sirvimine on keelatud</string>
+    <string name="browse_network">Sirvi võrku</string>
     <string name="search_hint">Otsi meediat</string>
     <string name="search_in_list_hint">Otsi praegusest nimekirjast</string>
     <string name="search_global">Otsi tervest meediakogust</string>
@@ -768,7 +774,7 @@
     <string name="auto_my_library">Minu meediakogu</string>
     <string name="auto_home">Kodu</string>
     <string name="no">Ei</string>
-    <string name="loading_medialibrary">Meediakogu laadimine...</string>
+    <string name="loading_medialibrary">Laadin meediakogu...</string>
     <string name="yes">Jah</string>
 
     <string name="custom_set_save_title">Salvestamata muudatuse</string>
@@ -1010,8 +1016,8 @@
     <string name="empty_directory">Tühi</string>
     <string name="no_track">Rada pole</string>
 
-    <string name="swipe_unlock">Avamiseks libista</string>
-    <string name="swipe_unlock_no_touch">Avamiseks tee pikk vajutus</string>
+    <string name="swipe_unlock">Avamiseks viipa</string>
+    <string name="swipe_unlock_no_touch">Avamiseks vajuta pikalt</string>
     <string name="sub_result_by_name">%s - tulemused</string>
     <string name="sub_result_by_name_season">Hooaeg %s</string>
     <string name="sub_result_by_name_episode">Episood %s</string>
@@ -1150,7 +1156,7 @@
     <string name="control_setting">Juhtimise seaded</string>
     <string name="controls_setting">Juhtimise seaded</string> <!-- Unused -->
     <string name="gestures">Viipekäsud</string>
-    <string name="player_controls">Mängija juhtnupud</string>
+    <string name="player_controls">Taasesituse juhtnupud</string>
     <string name="video_double_tap_jump_delay">Viivitus topeltpuudutusel</string>
     <string name="video_key_jump_delay">Viivitus juhtimisnuppude kasutamisel</string>
     <string name="banned">Keelatud kaust (muutmiseks vajuta pikalt)</string>
@@ -1207,8 +1213,8 @@
     <string name="open_vlc">Ava VLC</string>
     <string name="playing">Mängib</string>
     <string name="disable_track">Keela rada</string>
-    <string name="ascending">Kasvav</string>
-    <string name="descending">Kahanev</string>
+    <string name="ascending">Kasvavalt</string>
+    <string name="descending">Kahanevalt</string>
     <string name="screenshot_error">Kuvatõmmise tegemisel tekkis viga</string>
     <string name="disabled">Väljalülitatud</string>
     <string name="enable_screenshot_gesture">Puuduta 3 sõrmega</string>
@@ -1232,13 +1238,13 @@
     <string name="talkback_release_date">Avaldatud %s</string>
     <string name="talkback_video">Video: %s</string>
     <string name="talkback_stream">Voog: %s</string>
-    <string name="talkback_audio_track">Audiorada: %s</string>
+    <string name="talkback_audio_track">Heliriba: %s</string>
     <string name="talkback_video_group">Video grupp: %s</string>
     <string name="talkback_hours">tundi</string>
     <string name="talkback_minutes">minutit</string>
     <string name="talkback_seconds">sekundit</string>
     <string name="talkback_list_section">Päis: %s</string>
-    <string name="talkback_enter_screen">Navigeeri %s</string>
+    <string name="talkback_enter_screen">Ava %s</string>
     <string name="talkback_file_size">Faili suurus: %s</string>
     <string name="talkback_open_in_browser">Ava veebilehitsejas</string>
     <string name="talkback_video_player">Videomängija. Juhtnupude kuvamiseks klõpsi. Tagasi-nupu vajutusega peidad juhtnupud</string>
@@ -1261,12 +1267,12 @@
     <string name="talkback_track_index">Rada %1$s/%2$s</string>
     <string name="downloaded">Allalaaditud</string>
     <string name="not_downloaded">Allalaadimata</string>
-    <string name="downloading">Allalaadimine</string>
+    <string name="downloading">Allalaadimisel</string>
     <string name="talkback_action_rewind">Keri tagasi %s sekundit</string>
     <string name="talkback_action_forward">Keri %s sekundit edasi</string>
     <string name="talkback_display_settings">Kuvaseaded</string>
     <string name="talkback_already_played">Juba esitatud</string>
-    <string name="show_only_favs">Kuva ainult lemmikud</string>
+    <string name="show_only_favs">Näita ainult lemmikud</string>
     <string name="ignore_headset_media_button_presses">Eira kõrvaklappide meedianuppude vajutusi</string>
     <string name="ignore_headset_media_button_presses_summary">Sobilik kasutamiseks näiteks siis, kui sinu kõrvaklappide juhtnupud on katki</string>
     <string name="replace_playlist">Asenda esitusloend</string>
@@ -1349,6 +1355,7 @@
     <string name="export_settings">Ekspordi seaded</string>
     <string name="restore_settings_summary">Taasta mõnest varasemast ekspordifailis leiduvad seadistused</string>
     <string name="restore_settings">Taasta seaded</string>
+    <string name="obsolete_restore_settings">Sinu eksporditud seadistuste vorming on aegunud. Palun ekspordi nad uuesti.</string>
     <string name="export_settings_success">Seadistuste eksportimine õnnestus sisemise andmehoidla juurkausta</string>
     <string name="export_settings_failure">Midagi läks valesti sinu seadistuste eksportimisel</string>
 

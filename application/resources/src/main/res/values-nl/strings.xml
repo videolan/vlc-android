@@ -23,14 +23,22 @@
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">Kortste eerst</string>
     <string name="sortby_length_desc">Langste eerst</string>
+    <string name="sortby_number_asc">Meer video\'s in groep</string>
+    <string name="sortby_number_desc">Minder video\'s in groep</string>
+    <string name="sort_date_asc">Oudste eerst</string>
+    <string name="sort_date_desc">Nieuwste eerst</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultaat gevonden</item>
         <item quantity="other">%d resultaten gevonden</item>
     </plurals>
 
     <string name="play">Afspelen</string>
+    <string name="quick_play">Snel afspelen</string>
     <string name="playback">Afspelen</string>
     <string name="playback_controls">Afspeelbesturing</string>
     <string name="medialibrary_scan">Mediabibliotheek-scan</string>
@@ -49,6 +57,8 @@
     <string name="append_all">Alles toevoegen</string>
     <string name="resume_playback_short_title">Afspelen hervatten</string>
     <string name="resume_playback_long_title">Afspelen van laatste afspeellijst hervatten</string>
+    <string name="resume_audio_playback_short_title">Afspelen van audio hervatten</string>
+    <string name="resume_audio_playback_long_title">Afspelen hervatten van laatste audio-afspeellijst</string>
     <string name="resume_playback_error">Niets om te hervatten</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
@@ -56,6 +66,7 @@
     <string name="set_song_question">\'%1$s\' als beltoon instellen?</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="confirm_replace_playlist">Weet u zeker dat u afspeellijst \'%1$s\' wilt vervangen?</string>
     <string name="confirm_delete_message">Dit is permanent an kan niet ongedaan worden gemaakt</string>
     <string name="confirm_delete_album">Album \'%1$s\' verwijderen?</string>
     <string name="confirm_delete_several_media">Deze %1$d media verwijderen?</string>
@@ -76,6 +87,11 @@
     <string name="artists">Artiesten</string>
     <string name="albums">Albums</string>
     <string name="tracks">Tracks</string>
+
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 opgeslagen bladwijzer</item>
+        <item quantity="other">%d opgeslagen bladwijzers</item>
+    </plurals>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -129,6 +145,8 @@
     <string name="nosubfolder">Geen submap</string>
     <string name="directorynotfound">Het pad \'%1$s\' werd niet teruggevonden.</string>
     <string name="nohistory">U hebt nog geen afspeelgeschiedenis.</string>
+    <string name="cant_ban_root">U kunt geen root-map verbannen</string>
+
     <string name="cover_art">Albumhoes</string>
     <string name="shuffle_all_title">Alles in willekeurige volgorde</string>
     <string name="shuffle_title">Modus willekeurige volgorde</string>
@@ -136,6 +154,7 @@
     <string name="shuffle_on">Willekeurige volgorde aan</string>
     <string name="shuffle_play">Willekeurige volgorde</string>
     <string name="repeat_title">Modus herhalen</string>
+    <string name="repeat_none">Niet herhalen</string>
     <string name="repeat_single">Een herhalen</string>
     <string name="repeat_all">Alles herhalen</string>
     <string name="previous">Vorige</string>
@@ -158,6 +177,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Taal: %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="system_volume_disabled">%s\nGeen toegang tot systeemvolume</string>
     <string name="sound_on">Geluid aan</string>
     <string name="sound_off">Geluid uit</string>
     <string name="brightness">Helderheid</string>
@@ -175,11 +195,28 @@
 
     <string name="playback_speed">Afspeelsnelheid</string>
     <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
+    <string name="playback_speed_this_video">Deze video</string>
+    <string name="playback_speed_this_track">Deze track</string>
+    <string name="playback_speed_all_videos">Alle video\'s</string>
+    <string name="playback_speed_all_tracks">Alle tracks</string>
+    <string name="playback_speed_explanation_all_videos">De snelheid wordt toegepast op alle video\'s.\nDe afspeelsnelheid van individuele video\'s wordt genegeerd.</string>
+    <string name="playback_speed_explanation_all_tracks">De snelheid wordt toegepast op alle tracks.\nDe afspeelsnelheid van individuele tracks wordt genegeerd.</string>
+    <string name="playback_speed_explanation_all_incognito">U bent in incognito-modus. De snelheid zal terugkeren naar normaal wanneer u de incognito-modus verlaat.</string>
+    <string name="playback_speed_explanation_one_video">De snelheid zal alleen op deze video worden toegepast</string>
+    <string name="playback_speed_explanation_one_track">De snelheid zal alleen op deze track worden toegepast</string>
+    <string name="audio_playback_speed_global">Algemene afspeelsnelheid gebruiken</string>
+    <string name="audio_playback_speed_global_summary">Gebruik de afspeelsnelheid die globaal is ingesteld voor alle tracks.\nDe afspeelsnelheid van individuele tracks wordt genegeerd.</string>
+
     <string name="sleep_title">Slaaptimer</string>
     <string name="sleep_in">Slapen over</string>
     <string name="jump_to_time">Naar tijdstip springen</string>
     <string name="subtitle_select">Ondertitelbestand selecteren</string>
     <string name="wait_before_sleep">Eerst wachten tot huidig media-item klaar is</string>
+    <string name="reset_on_interaction">Herstellen bij om het even welke interactie</string>
+    <string name="default_sleep_timer_summary">%1$s, wachten op media-einde: %2$s, herstellen bij interactie: %3$s</string>
+    <string name="video_player_remote">Videospeler-afstandsbediening</string>
+    <string name="remote_keyboard_navigation">Toetsenbordnavigatie</string>
+
     <string name="server_add_title">Nieuwe server aan favorieten toevoegen</string>
     <string name="server_domain_hint">Server-adres (domeinnaam of IP)</string>
     <string name="server_share_hint">Netwerkshare-naam (of IP-adres)</string>
@@ -213,6 +250,7 @@
     <string name="video_resume_playback_summary">Opslaan van de video-afspeelwachtrij toestaan om later te hervatten</string>
     <string name="audio_resume_playback_title">Geschiedenis van audio-afspeelwachtrij</string>
     <string name="audio_resume_playback_warning">Het uitschakelen van de geschiedenis van de audio-afspeelwachtrij kan leiden tot gedragsproblemen.\nNa het uitschakelen is het mogelijk dat u het afspelen niet kunt hervatten vanaf:\n\n\t- een bluetooth apparaat\n\t- de widget\n\t- de mediamelding</string>
+    <string name="playback_history_warning">Het uitschakelen van de afspeelgeschiedenis zal de geschiedenis, de mediavoortgang en de geziene markeringen verbergen. De app zal uw activiteit blijven opslaan en deze zal worden hersteld als de geschiedenis weer wordt ingeschakeld.\nAls u helemaal wilt stoppen met het opslaan van uw activiteit, gebruik dan de incognitomodus.\nU kunt uw geschiedenis ook wissen in het geschiedenisscherm of in de geavanceerde instellingen.</string>
     <string name="audio_resume_playback_summary">Opslaan van de audio-afspeelwachtrij toestaan om later te hervatten</string>
 
     <string name="play_button">Afspeelknop</string>
@@ -266,6 +304,7 @@
     <string name="authors">Auteurs</string>
     <string name="vlc_authors">en VLC-auteurs.</string>
     <string name="is_compiled_by">Gecompileerd door</string>
+    <string name="is_signed_by">Getekend door</string>
     <string name="sources">Broncode</string>
     <string name="libraries">Bibliotheken</string>
     <string name="feedback_forum">Feedback-forum</string>
@@ -281,6 +320,8 @@
     <string name="add_custom_path_description">Aangepaste map toevoegen om te controleren:</string>
     <string name="remove_custom_path">Aangepast pad verwijderen</string>
     <string name="group_ban_folder">Map uit mediabibliotheek verbannen</string>
+    <string name="ban_folder">Map verbannen</string>
+    <string name="ban_folder_explanation">Door deze map te verbannen, ziet u de media ervan niet meer in het video- of audiogedeelte van de app, hoewel ze nog wel toegankelijk zijn vanuit de browser. Om de map te verbieden, gaat u naar de instellingen, %s en tikt u lang op deze map.</string>
 
     <string name="hardware_acceleration">Hardwareversnelling</string>
     <string name="hardware_acceleration_summary">Uitgeschakeld: betere stabiliteit\nDecoderen: kan prestaties verbeteren\nVolledig: kan prestaties nog meer verbeteren</string>
@@ -299,6 +340,7 @@
     <string name="screen_orientation_landscape_sensor">Liggend (sensor)</string>
     <string name="screen_orientation_last_locked">Laatst vergrendelde oriëntatie</string>
     <string name="enable_black_theme">Zwart thema</string>
+    <string name="dark_theme">Donker thema</string>
     <string name="theme_auto">Automatisch thema</string>
     <string name="subtitle_text_encoding">Ondertitel-tekstcodering</string>
     <string name="subtitle_preferred_language">Voorkeurstaal ondertitels</string>
@@ -332,6 +374,7 @@
     <string name="save_brightness_title">Helderheidsniveau opslaan</string>
     <string name="save_audiodelay_summary">Individuele audiovertraging opslaan voor elke video</string>
     <string name="save_audiodelay_title">Audiovertraging opslaan</string>
+    <string name="video_show_orientation_button">Oriëntatie-knop weergeven</string>
     <string name="enable_brightness_gesture_title">Helderheidsgebaar</string>
     <string name="enable_brightness_gesture_summary">Helderheid aanpassen door middel van gebaren tijdens afspelen van video</string>
     <string name="enable_volume_gesture_title">Volumegebaar</string>
@@ -342,6 +385,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Snelheidsbediening weergeven in het overflow-menu</string>
     <string name="enable_android_auto_seek_buttons">Android Auto zoekknoppen</string>
     <string name="enable_android_auto_seek_buttons_summary">Terugspoelen en vooruitspoelen weergeven in het overflow-menu. Probeer de knoppen \"vorige\" en \"volgende\" op het stuurwiel in te houden voordat u dit inschakelt.</string>
+    <string name="artist">Artiest</string>
+    <string name="album">Album</string>
+    <string name="track">Track</string>
+    <string name="genre">Genre</string>
+    <string name="playlist">Afspeellijst</string>
     <string name="enable_double_tap_seek_title">Dubbel tikken om te zoeken</string>
     <string name="enable_double_tap_seek_summary">Dubbel tikken op schermranden om 10 seconden te verspringen</string>
     <string name="enable_double_tap_play_title">Dubbel tikken voor afspelen/pauzeren</string>
@@ -355,6 +403,18 @@
     <string name="browser_show_hidden_files_title">Verborgen bestanden weergeven</string>
     <string name="albums_show_track_numbers">Tracknummers weergeven</string>
     <string name="enable_video_screenshot">Een screenshot maken</string>
+    <string name="enable_tap_and_hold_fastplay_title">Snel afspelen inschakelen</string>
+    <string name="enable_tap_and_hold_fastplay_summary">Tikken en inhouden om de afspeelsnelheid te verhogen</string>
+    <string name="fastplay_speed_title">Snelheid voor snel afspelen</string>
+    <string name="fastplay_title">Afspelen aan %sx</string>
+    <string name="fastplay_subtitle">Loslaten om te stoppen</string>
+    <string name="show_bookmark_buttons">Bladwijzerknoppen weergeven</string>
+    <string name="show_bookmark_buttons_summary">Knoppen weergeven om te navigeren tussen bladwijzers</string>
+    <string name="show_bookmark_markers">Bladwijzermarkeringen weergeven</string>
+    <string name="show_bookmark_markers_summary">Bladwijzermarkeringen weergeven bovenop de tijdlijn</string>
+    <string name="show_chapter_buttons">Hoofdstuk-knoppen weergeven</string>
+    <string name="show_chapter_buttons_summary">Knoppen weergeven om te navigeren tussen hoofdstukken</string>
+
     <string name="subtitles_prefs_category">Ondertitels</string>
     <string name="subtitles_size_title">Ondertitelgrootte</string>
     <string name="subtitles_presets_title">Ondertitelpresets</string>
@@ -423,14 +483,33 @@
     <string name="audio_ducking_summary">Helpt om audiomeldingen, navigatie-instructies of het praten van de assistent te horen</string>
     <string name="casting_category">Uitzenden</string>
     <string name="remote_access">Externe toegang</string>
+    <string name="remote_access_version_title">Externe toegang versie</string>
+    <string name="remote_access_hash_title">Externe toegang hash</string>
     <string name="remote_access_status">Serverstatus</string>
     <string name="remote_access_status_summary">Tikken om de serverstatus te zien</string>
     <string name="remote_access_connections">Verbindingen</string>
     <string name="remote_access_links">Koppelingen</string>
     <string name="remote_access_active">Externe toegang actief</string>
+    <string name="remote_access_notification">Externe toegang actief op %s</string>
+    <string name="remote_access_notification_stopped">Externe toegang gestopt</string>
+    <string name="remote_access_notification_connecting">Externe toegang verbinden</string>
+    <string name="remote_access_notification_error">Externe toegang fout</string>
+    <string name="remote_access_notification_stopping">Externe toegang aan het stoppen</string>
+    <string name="remote_access_notification_not_init">Externe toegang initialiseren</string>
+    <string name="enable_remote_access">Externe toegang inschakelen</string>
+    <string name="remote_access_info">Externe toegang informatie</string>
+    <string name="remote_access_content">Inhoud</string>
+    <string name="remote_access_medialibrary_content">Inhoud van mediabibliotheek</string>
+    <string name="remote_access_medialibrary_content_summary">Ingeschakeld: %1$s\nUitgeschakeld: %2$s</string>
+    <string name="remote_access_file_browser_content">Bestandsverkenner</string>
+    <string name="remote_access_network_browser_content">Netwerkverkenner</string>
+    <string name="remote_access_playback_control">Afspelen bedienen</string>
+    <string name="remote_access_logs">Logebestanden delen</string>
     <string name="casting_switch_title">Draadloos casten</string>
     <string name="casting_passthrough_title">Audiodoorvoer</string>
     <string name="casting_passthrough_summary">Laat uw tv het renderen van audio beheren</string>
+    <string name="casting_audio_only">Alleen audio</string>
+    <string name="casting_audio_only_summary">Alleen audio casten, geen video</string>
     <string name="casting_conversion_quality_title">Conversiekwaliteit</string>
     <string name="casting_conversion_quality_summary">Selecteer de conversiekwaliteit bij uitzenden op extern beeldscherm</string>
     <string name="casting_quality_high">Hoog</string>
@@ -443,12 +522,16 @@
     <string name="show_headers_summary">Lijsten splitsen op koptekst afhankelijk van het sorteertype</string>
     <string name="tv_folders_first">Mappen eerst weergeven</string>
     <string name="tv_folders_first_summary">Eerst mappen en daarna bestanden weergeven in de bestandsverkenner</string>
+    <string name="tv_show_hidden_files">Verborgen bestanden weergeven</string>
+    <string name="tv_show_hidden_files_summary">Verborgen bestanden in de bestandsverkenner weergeven</string>
+    <string name="ab_repeat_fastseek_warning">Snel zoeken is ingeschakeld. Het kan leiden tot precisie-problemen</string>
+
     <string name="extensions_prefs_category">Extensies</string>
     <string name="extensions_empty">Geen extensie gedetecteerd</string>
     <string name="extension_permission_title">Nieuwe extensie \"%1$s\" inschakelen?</string>
     <string name="extension_permission_checkbox_title">Weergeven in %1$s</string>
     <string name="extension_prefs_activation_title">Inschakelen</string>
-    <string name="android_auto">Android-auto</string>
+    <string name="android_auto">Android Auto</string>
 
     <string name="controls_prefs_category">Besturing</string>
 
@@ -490,6 +573,8 @@
     <string name="restart_message">Wijzigingen zullen van kracht worden van zodra de toepassing opnieuw gestart is.\n\nNu opnieuw starten?</string>
     <string name="restart_message_OK">Ok</string>
     <string name="restart_message_Later">Later</string>
+    <string name="browser_show_all_title">Alleen multimedia-bestanden weergeven</string>
+
     <string name="developer_prefs_category">Ontwikkelaar</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
     <string name="enable_verbose_mode_summary">Verbosity verhogen (logcat)</string>
@@ -505,10 +590,19 @@
     <string name="dump_logcat">Logcat-log wegschrijven</string>
     <string name="dump_logcat_success">Logcat succesvol weggeschreven naar %1$s!</string>
     <string name="dump_logcat_failure">Logcat wegschrijven mislukt.</string>
+    <string name="http_user_agent">HTTP user agent</string>
     <string name="custom_libvlc_options">Aangepaste libVLC-opties</string>
     <string name="custom_libvlc_options_invalid">Ongeldige libVLC-opties!</string>
+    <string name="dav1d_thread_number">Dav1d thread-nummer</string>
+    <string name="dav1d_thread_number_invalid">Ongeldig thread-nummer! (>=1)</string>
+    <string name="browser_quick_play">Verkenner snel-afspelen-menu</string>
+    <string name="browser_quick_play_summary">Voeg een ‘snel afspelen’-actie toe in het menu ‘items’ van de browser. Het zal uw media sneller laden, maar sommige metadata kunnen ontbreken.</string>
+    <string name="browser_quick_play_default">Snel afspelen als standaard-actie</string>
+    <string name="browser_quick_play_default_summary">Indien geactiveerd, wordt een item in de browser afgespeeld via snel afspelen door erop te tikken.</string>
+
     <string name="serious_crash">Er trad spijtig genoeg een ernstige fout op en VLC moest afsluiten.</string>
     <string name="help_us_send_log">Help ons om VLC te verbeteren door de volgende crash-log te verzenden:</string>
+    <string name="ml_crash_send">De mediabibliotheek is net gecrasht. Help ons door de logboeken te versturen.</string>
     <string name="restart_vlc">VLC opnieuw starten</string>
     <string name="send_log">Log verzenden</string>
     <string name="sending_log">Log verzenden…</string>
@@ -520,6 +614,8 @@
     <string name="no_result">Geen resultaten gevonden</string>
     <string name="no_internet_connection">Controleer uw internetverbinding</string>
     <string name="retry">Opnieuw proberen</string>
+    <string name="open_subs_download_error">OpenSubtitles is niet beschikbaar. Probeer het later opnieuw.</string>
+
     <string name="network_browsing">Lokaal netwerk</string>
     <string name="browsing">Bladeren</string>
 
@@ -530,20 +626,28 @@
     <string name="network_shares_discovery">Zoeken naar gedeelde netwerkbestanden</string>
     <string name="network_empty">Deze map is leeg.</string>
     <string name="network_connection_needed">Geen verbinding met lokaal netwerk.</string>
+    <string name="network_disabled">Netwerk verkennen uitgeschakeld</string>
+    <string name="browse_network">Netwerk verkennen</string>
     <string name="search_hint">Media zoeken</string>
     <string name="search_in_list_hint">Zoeken in huidige lijst</string>
     <string name="search_global">In volledige mediabibliotheek zoeken</string>
     <string name="playlist_save">Afspeellijst opslaan</string>
     <string name="playlist_name_hint">Naam afspeellijst</string>
+    <string name="chapters">Hoofdstukken</string>
+    <string name="notset">Niet ingesteld</string>
     <string name="go_to_chapter">Naar hoofdstuk gaan…</string>
     <string name="current_chapter">Hoofdstuk: %s</string>
     <string name="confirm_resume">Hervatten vanaf laatste positie?</string>
+    <string name="apply_playqueue">Toepassen op de volledige afspeelwachtrij</string>
     <string name="confirm_resume_title">Afgespeelde video\'s hervatten</string>
+    <string name="confirm_resume_audio_title">Afgespeelde audio hervatten</string>
     <string name="tv_ui_title">Android tv-interface</string>
     <string name="tv_ui_summary">UI wijzigen naar aangepast tv-thema</string>
     <string name="medialibrary">Mediabibliotheek</string>
     <string name="medialibrary_directories">Mediabibliotheek-mappen</string>
 
+    <!--What's new-->
+    <string name="whats_new_title">Nieuw in VLC voor Android %s</string>
     <!-- Accessibility -->
     <string name="more_actions">Meer acties</string>
     <string name="back_quit_lock">Nogmaals op terug drukken om video af te sluiten</string>

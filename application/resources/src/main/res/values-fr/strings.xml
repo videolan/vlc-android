@@ -331,6 +331,8 @@
     <string name="add_custom_path_description">Entrer un dossier additionnel à analyser :</string>
     <string name="remove_custom_path">Supprimer le chemin personnalisé</string>
     <string name="group_ban_folder">Bannir un dossier de la bibliothèque multimédia</string>
+    <string name="ban_folder">Bannir un dossier</string>
+    <string name="ban_folder_explanation">En interdisant ce dossier, vous ne verrez pas ses médias dans la section vidéo ou audio de l’application, mais ils seront toujours accessibles à partir du navigateur.\nPour le rendre à nouveau visible, allez dans les paramètres, %s et appuyez longuement sur ce dossier.</string>
 
     <string name="hardware_acceleration">Accélération matérielle</string>
     <string name="hardware_acceleration_summary">Désactivée : meilleure stabilité.\nAu décodage : peut améliorer les performances.\nComplète : peut améliorer davantage les performances</string>
@@ -635,6 +637,8 @@
     <string name="network_shares_discovery">Recherche de partages réseau</string>
     <string name="network_empty">Ce dossier est vide.</string>
     <string name="network_connection_needed">Pas de connexion au réseau local.</string>
+    <string name="network_disabled">Navigation réseau désactivée</string>
+    <string name="browse_network">Parcourir le réseau</string>
     <string name="search_hint">Recherche de média</string>
     <string name="search_in_list_hint">Rechercher dans la liste actuelle</string>
     <string name="search_global">Rechercher dans toute la médiathèque</string>
@@ -915,7 +919,9 @@
     <string name="validation_delete_playlist">Voulez-vous vraiment supprimer cette liste de lecture ?</string>
     <string name="validation_delete_playlist_text">Cette action ne peut pas être annulée.</string>
     <string name="display_settings">Paramètres d’affichage</string>
-    <string name="incognito_mode">Mode privé</string>
+    <string name="incognito_mode">Mode incognito</string>
+    <string name="persistent_incognito_mode">Mode incognito persistant</string>
+    <string name="persistent_incognito_mode_summary">Le mode incognito reste activé même si l’application est redémarrée.</string>
     <string name="display_in_list">Afficher en liste</string>
     <string name="display_in_grid">Afficher en grille</string>
     <string name="dump_db_succes">Base de données exportée à la racine du stockage interne</string>
@@ -1298,6 +1304,7 @@
     <string name="ra_prepare_download">Préparation du téléchargement</string>
     <string name="ra_forbidden">Contenu désactivé dans les paramètres</string>
     <string name="ra_playback_forbidden">Contrôle de lecture désactivé dans les paramètres</string>
+    <string name="ra_logs_forbidden">Partage des journaux désactivé dans les paramètres</string>
     <string name="ra_code_requested_explanation">Pour protéger votre serveur, l’accès est protégé.\nVeuillez saisir le code affiché dans vos notifications</string>
     <string name="ra_ssl_explanation_title">Connexion non sécurisée</string>
     <string name="ra_ssl_explanation">Votre connexion n’est pas sécurisée.</string>
@@ -1388,4 +1395,13 @@
     <string name="generating_logs">Création de journaux. Veuillez patienter.</string>
     <string name="default_playback_action">Action de lecture</string>
     <string name="files">Fichiers</string>
-</resources>
+    <string name="remote_access_feedback_generate">Générer un rapport</string>
+    <string name="remote_access_feedback_generated">Votre rapport d’évaluation a été généré</string>
+    <string name="remote_access_feedback_generated_explanation">Appuyez sur le bouton ci-dessous pour l’envoyer à l’aide de votre client de messagerie par défaut. Si vous rencontrez des difficultés, vous pouvez copier-coller les champs ci-dessous et envoyer le courriel par vos propres moyens.</string>
+    <string name="remote_access_feedback_file_explanation">Vous venez de télécharger le fichier nécessaire. N’oubliez pas de le joindre à votre courriel.</string>
+    <string name="generic_copied_to_clipboard">Copié dans le presse-papiers</string>
+    <string name="feedback_email_warning">Aucun client de messagerie installé</string>
+    <string name="feedback_email_warning_explanation">Le moyen le plus simple de partager vos commentaires est d’utiliser la fonction %1$s.\nPour ce faire, activez l’accès à distance dans les paramètres, suivez les instructions et choisissez l’entrée %2$s dans le menu.</string>
+    <string name="feedback_email_warning_remote_action">Ouvrir les paramètres</string>
+    <string name="feedback_email_warning_try_anyway">Essayer tout de même</string>
+    </resources>

@@ -37,7 +37,8 @@
     </plurals>
 
     <string name="play">播放</string>
-    <string name="playback">回放</string>
+    <string name="quick_play">快速播放</string>
+    <string name="playback">播放</string>
     <string name="playback_controls">播放控制按钮</string>
     <string name="medialibrary_scan">媒体库扫描</string>
     <string name="Medialibrary_progress">媒体库扫描进度更新</string>
@@ -46,7 +47,7 @@
     <string name="play_as_video">作为视频播放</string>
     <string name="return_to_video">长按封面可恢复视频</string>
     <string name="video_app_switch_title">背景/画中画模式</string>
-    <string name="video_app_switch_summary">视频回放过程中切换到其他应用程序时 VLC 的行为</string>
+    <string name="video_app_switch_summary">视频播放过程中切换到其他应用程序时 VLC 的行为</string>
     <string name="play_pip_title">以画中画模式播放视频</string>
     <string name="play_as_audio_background">在后台播放视频</string>
     <string name="append">添加到播放队列</string>
@@ -55,6 +56,8 @@
     <string name="append_all">追加全部</string>
     <string name="resume_playback_short_title">继续播放</string>
     <string name="resume_playback_long_title">继续播放上次播放的媒体</string>
+    <string name="resume_audio_playback_short_title">继续播放音频</string>
+    <string name="resume_audio_playback_long_title"> 继续播放上次的音频播放列表</string>
     <string name="resume_playback_error">没有可继续播放的内容</string>
     <string name="delete">删除</string>
     <string name="remove">移除</string>
@@ -62,6 +65,7 @@
     <string name="set_song_question">是否将「%1$s」设为铃声?</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
+    <string name="confirm_replace_playlist">您是否确定要替换播放列表 ｢%1$s｣?</string>
     <string name="confirm_delete_message">这是持久性操作，无法撤消。</string>
     <string name="confirm_delete_album">是否删除专辑「%1$s」?</string>
     <string name="confirm_delete_several_media">删除这些 %1$d 媒体?</string>
@@ -178,8 +182,20 @@
     <string name="track_resolution_info">分辨率: %1$dx%2$d\n</string>
     <string name="track_framerate_info">帧率: %1$.3f\n</string>
 
-    <string name="playback_speed">回放速度</string>
-    <string name="warning_stream_speed">将流的回放速度加快到1以上可能会导致播放卡顿</string>
+    <string name="playback_speed">播放速度</string>
+    <string name="warning_stream_speed">大于 1 的播放速度可能产生卡顿的效果</string>
+    <string name="playback_speed_this_video">此视频</string>
+    <string name="playback_speed_this_track">此轨道</string>
+    <string name="playback_speed_all_videos">所有视频</string>
+    <string name="playback_speed_all_tracks">所有轨道</string>
+    <string name="playback_speed_explanation_all_videos">此速度将用于所有视频。\n将忽略各视频本身的播放速度。</string>
+    <string name="playback_speed_explanation_all_tracks">此速度将用于所有轨道。\n将忽略各轨道本身的播放速度。</string>
+    <string name="playback_speed_explanation_all_incognito">您正处于无痕模式。离开无痕模式后，播放速度将恢复原样。</string>
+    <string name="playback_speed_explanation_one_video">此速度只对该视频起作用</string>
+    <string name="playback_speed_explanation_one_track">此速度只对该轨道起作用</string>
+    <string name="audio_playback_speed_global">使用全局播放速度</string>
+    <string name="audio_playback_speed_global_summary">针对所有轨道，使用已经设置的全局播放速度。\n将忽略各轨道自身的播放速度。</string>
+
     <string name="sleep_title">睡眠计时器</string>
     <string name="sleep_in">睡眠倒计时</string>
     <string name="jump_to_time">转到时间</string>
@@ -209,7 +225,7 @@
 
     <string name="streams">串流</string>
     <string name="open_mrl_dialog_msg">请输入网络地址: 如 http://、mms:// 或 rtsp://</string>
-    <string name="encountered_error_title">回放错误</string>
+    <string name="encountered_error_title">播放错误</string>
     <string name="encountered_error_message">VLC 处理该媒体时发生错误。\n请尝试刷新媒体库。</string>
     <string name="invalid_location">无法播放位置 %1$s。</string>
     <string name="missing_location">此媒体所存放的位置暂不可用，无法播放。</string>
@@ -217,7 +233,7 @@
     <string name="search">搜索</string>
 
 
-    <string name="playback_history_title">回放历史</string>
+    <string name="playback_history_title">播放历史</string>
     <string name="playback_history_summary">在「历史记录」下保留所有播放过的媒体</string>
     <string name="video_resume_playback_title">视频播放队列历史</string>
     <string name="video_resume_playback_summary">允许储存视频播放队列内容，以便稍后继续播放</string>
@@ -292,7 +308,7 @@
     <string name="add_custom_path_description">输入要扫描的其他自定义目录:</string>
     <string name="remove_custom_path">移除自定义路径</string>
     <string name="group_ban_folder">从媒体库屏蔽该文件夹</string>
-
+    <string name="ban_folder">屏蔽文件夹</string>
     <string name="hardware_acceleration">硬件加速</string>
     <string name="hardware_acceleration_summary">禁用: 稳定性更高\n解码: 可能提升性能\n完全: 可能进一步提升性能</string>
     <string name="hardware_acceleration_disabled">禁用</string>
@@ -344,16 +360,22 @@
     <string name="save_brightness_title">记住亮度级别</string>
     <string name="save_audiodelay_summary">保存每个视频相应的音频延迟</string>
     <string name="save_audiodelay_title">保存音频延迟</string>
+    <string name="video_show_orientation_button">显示方向按钮</string>
     <string name="enable_brightness_gesture_title">亮度手势</string>
-    <string name="enable_brightness_gesture_summary">在视频回放过程中，通过手势控制显示亮度</string>
+    <string name="enable_brightness_gesture_summary">在视频播放过程中，通过手势控制显示亮度</string>
     <string name="enable_volume_gesture_title">音量手势</string>
-    <string name="enable_volume_gesture_summary">在视频回放过程中，通过手势控制音量</string>
+    <string name="enable_volume_gesture_summary">在视频播放过程中，通过手势控制音量</string>
     <string name="enable_seek_buttons">定位按钮</string>
     <string name="enable_seek_buttons_summary">在视频界面显示 ｢快退｣ 与 ｢快进｣ 按钮</string>
     <string name="enable_android_auto_speed_buttons">Android Auto 播放速度</string>
     <string name="enable_android_auto_speed_buttons_summary">在弹出菜单中显示速度控制按钮</string>
     <string name="enable_android_auto_seek_buttons">Android Auto 定位按钮</string>
     <string name="enable_android_auto_seek_buttons_summary">在溢出菜单中显示 ｢快退｣ 与 ｢快进｣。启用前，试着按住方向盘上的 ｢前一项｣ 和 ｢后一项｣ 按钮。</string>
+    <string name="artist">艺术家</string>
+    <string name="album">专辑</string>
+    <string name="track">轨道</string>
+    <string name="genre">流派</string>
+    <string name="playlist">播放列表</string>
     <string name="enable_double_tap_seek_title">轻按两下可进退</string>
     <string name="enable_double_tap_seek_summary">在屏幕边缘轻按两下，可快进 / 快退 10 秒</string>
     <string name="enable_double_tap_play_title">轻按两下可播放／暂停</string>
@@ -372,6 +394,13 @@
     <string name="fastplay_speed_title">｢快放｣ 速度</string>
     <string name="fastplay_title">正以 %s 倍速播放</string>
     <string name="fastplay_subtitle">松开可恢复原速</string>
+    <string name="show_bookmark_buttons">显示书签按钮</string>
+    <string name="show_bookmark_buttons_summary">显示用于在书签之间跳转的按钮</string>
+    <string name="show_bookmark_markers">显示书签标记</string>
+    <string name="show_bookmark_markers_summary">在时间轴上显示书签标记</string>
+    <string name="show_chapter_buttons">显示章节按钮</string>
+    <string name="show_chapter_buttons_summary">显示用于在章节之间跳转的按钮</string>
+
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
     <string name="subtitles_presets_title">字幕预设</string>
@@ -552,6 +581,8 @@
     <string name="custom_libvlc_options_invalid">无效的 libVLC 选项!</string>
     <string name="dav1d_thread_number">Dav1d 线程数</string>
     <string name="dav1d_thread_number_invalid">无效的线程数! (>=1)</string>
+    <string name="browser_quick_play">浏览快速播放按钮</string>
+    <string name="browser_quick_play_default">快速播放作为默认动作</string>
     <string name="serious_crash">真不走运，发生了很严重的错误，VLC 不得不关闭鸟。</string>
     <string name="help_us_send_log">您可以将下述崩溃日志发送给我们，协助改进 VLC:</string>
     <string name="restart_vlc">重新启动 VLC</string>
@@ -577,6 +608,8 @@
     <string name="network_shares_discovery">查找网络共享</string>
     <string name="network_empty">该目录为空。</string>
     <string name="network_connection_needed">本地网络无连接。</string>
+    <string name="network_disabled">网络浏览已禁用</string>
+    <string name="browse_network">浏览网络</string>
     <string name="search_hint">搜索媒体</string>
     <string name="search_in_list_hint">在当前列表中搜索</string>
     <string name="search_global">在所有媒体库中搜索媒体</string>
@@ -703,8 +736,9 @@
     <string name="episodes">剧集</string>
     <string name="movies">影片</string>
     <string name="videos">视频</string>
+    <string name="default_action_videos">视频</string>
     <string name="videos_all">所有视频</string>
-    <string name="clear_playback_history">清除回放历史记录</string>
+    <string name="clear_playback_history">清除播放历史记录</string>
     <string name="ml_scanning">正在扫描媒体文件</string>
     <string name="ml_parse_media">正在解析媒体</string>
     <string name="ml_discovering">正在扫描</string>
@@ -810,6 +844,7 @@
     <string name="permission_video">VLC 需要您的许可，才能访问您设备上的视频文件</string>
     <string name="permission_audio">VLC 需要您的许可，才能访问您设备上的音频文件</string>
     <string name="medialibrary_scan_explanation">VLC 可自动扫描您的设备，构建您的媒体库。</string>
+    <string name="player_title_fd_warning">没有 ｢存储｣ 权限，VLC 将无法提取媒体标题或保存播放进度</string>
     <string name="onboarding_theme_title">就像在自己家</string>
     <string name="done">完成</string>
     <string name="onboarding_scan_title">自动扫描媒体文件</string>
@@ -852,6 +887,8 @@
     <string name="validation_delete_playlist_text">此操作不可撤消。</string>
     <string name="display_settings">显示设置</string>
     <string name="incognito_mode">隐身模式</string>
+    <string name="persistent_incognito_mode">持久化的无痕模式</string>
+    <string name="persistent_incognito_mode_summary">保持无痕模式长期开启，即使应用重启也保持开启</string>
     <string name="display_in_list">以列表形式显示</string>
     <string name="display_in_grid">以网格形式显示</string>
     <string name="dump_db_succes">数据库已转储到内部存储的根目录中</string>
@@ -860,6 +897,7 @@
     <string name="send_crash_description">您可通过发送与此次崩溃相关的数据，来帮助我们提升 VLC 的稳定性。</string>
     <string name="send_crash_warning">若存在您不希望发送的敏感数据，请确保取消选中它们。</string>
     <string name="include_medialib">同时发送您的数据库（含媒体库信息！）</string>
+    <string name="include_logs">包括您的日志</string>
     <string name="vlc_reporter">VLC 辅助报告程序</string>
     <string name="welcome_beta_title">VLC beta</string>
     <string name="welcome_beta_description">欢迎使用 VLC beta 版。\n请注意此版本可能一定量的 bug。</string>
@@ -867,6 +905,7 @@
     <string name="send">发送</string>
     <string name="send_crash_action_title">您打算做什么?</string>
     <string name="report_a_bug">报告 bug</string>
+    <string name="send_feedback">发送反馈</string>
     <string name="report_a_crash">报告崩溃事件</string>
     <string name="describe_crash">请描述一下崩溃发生时的情况</string>
     <string name="favorite">收藏</string>
@@ -1050,6 +1089,8 @@
     <string name="bookmark_name">添加 %s 为书签</string>
     <string name="add_bookmark">添加书签</string>
     <string name="bookmark_added">已添加书签</string>
+    <string name="previous_bookmark">上一个书签</string>
+    <string name="next_bookmark">下一个书签</string>
     <string name="show">显示</string>
     <string name="optional_features">可选功能</string>
     <string name="optional_features_summary">目前正在测试中的 Beta 功能，可能并不稳定 </string>
@@ -1225,7 +1266,8 @@
     <string name="ra_drop_files_tip">将文件拖到任意位置，即可发送到设备</string>
     <string name="ra_prepare_download">正在准备要下载的内容</string>
     <string name="ra_forbidden">内容访问已在 ｢设置｣ 中禁用</string>
-    <string name="ra_playback_forbidden">播放控制已在 ｢设置｣ 中禁用</string>
+    <string name="ra_playback_forbidden">播放控制按钮已在 ｢设置｣ 中禁用</string>
+    <string name="ra_logs_forbidden">已在设置中关闭日志分享</string>
     <string name="ra_code_requested_explanation">为保护服务器的安全，我们采取了验证措施。\n请输入通知消息中显示的验证码</string>
     <string name="ra_ssl_explanation_title">未加密的连接</string>
     <string name="ra_ssl_explanation">您的连接未加密。</string>
@@ -1244,7 +1286,7 @@
 
     <string name="ra_onboarding_welcome_desc">欢迎使用 ｢VLC for Android｣ 的远程访问功能！\n启用此功能，即可从其他设备控制此设备的播放，还能做到很多其他事情</string>
     <string name="ra_onboarding_how_title">控制您的设备</string>
-    <string name="ra_onboarding_how_desc">控制您设备的播放，发送或下载文件……</string>
+    <string name="ra_onboarding_how_desc">控制您设备的播放、发送或下载文件，以及其他功能</string>
     <string name="ra_onboarding_ssl_title">数据加密</string>
     <string name="ra_onboarding_ssl_desc">远程访问功能支持加密连接，可避免您的数据遭泄露</string>
     <string name="ra_onboarding_otp_title">身份认证</string>
@@ -1302,4 +1344,26 @@
     <string name="queue_format">队列格式</string>
     <string name="queue_format_short_desc">队列位置</string>
     <string name="queue_format_long_desc">队列位置 / 队列总长</string>
+    <string name="video_settings_disclaimer">部分设置项已移至视频播放器中的视频控制按钮设置。</string>
+    <string name="get_help">获取帮助</string>
+    <string name="feedback_type">反馈类型</string>
+    <string name="how_to_use">了解如何使用</string>
+    <string name="send_feedback_request">反馈 / 功能请求</string>
+    <string name="report_crash">报告崩溃事件</string>
+    <string name="email_support">通过电子邮件联系支持团队</string>
+    <string name="read_doc">阅读文档</string>
+    <string name="subject">主题</string>
+    <string name="body">邮件正文</string>
+    <string name="rate_us">给应用打分</string>
+    <string name="generating_logs">正在生成日志，请稍候。</string>
+    <string name="default_playback_action">｢播放｣ 动作</string>
+    <string name="files">文件</string>
+    <string name="remote_access_feedback_generate">生成报告</string>
+    <string name="remote_access_feedback_generated">您的反馈报告已生成</string>
+    <string name="remote_access_feedback_generated_explanation">点击下方按钮，将使用您默认的电子邮件客户端发送它。如果发送时出现问题，可复制、粘贴以下字段，手动发送电子邮件。</string>
+    <string name="remote_access_feedback_file_explanation">您已下载所需的文件。请记得将它作为电子邮件的附件发出。</string>
+    <string name="generic_copied_to_clipboard">已复制到剪贴板</string>
+    <string name="feedback_email_warning">未安装电子邮件客户端</string>
+    <string name="feedback_email_warning_remote_action">打开设置</string>
+    <string name="feedback_email_warning_try_anyway">仍然尝试</string>
     </resources>

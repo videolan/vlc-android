@@ -320,6 +320,9 @@
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
     <string name="remove_custom_path">Fjern brugerdefineret sti</string>
     <string name="group_ban_folder">Bandlys mappe fra mediebibliotek</string>
+    <string name="ban_folder">Bandlys folder</string>
+    <string name="ban_folder_explanation">Bandlysning af folderen skjuler video og lyd for app\'en, hvor filerne stadig kan nås gennem browseren. \nFor at stoppe bandlysning gå til indstillinger %s og langtidsklik på folderen.</string>
+
     <string name="hardware_acceleration">Hardwareacceleration</string>
     <string name="hardware_acceleration_summary">Deaktiveret: Bedre stabilitet\nDekodning: Kan forbedre ydelsen\nFuld: Kan forbedre ydelsen mere</string>
     <string name="hardware_acceleration_disabled">Deaktiveret</string>
@@ -499,7 +502,7 @@
     <string name="remote_access_medialibrary_content">Mediebiblioteksindhold</string>
     <string name="remote_access_medialibrary_content_summary">Slået til: %1$s\nSlået fra: %2$s</string>
     <string name="remote_access_file_browser_content">Fil-browser</string>
-    <string name="remote_access_network_browser_content">Netværks-browser</string>
+    <string name="remote_access_network_browser_content">Netværksbrowser</string>
     <string name="remote_access_playback_control">Kontrollér afspilning</string>
     <string name="remote_access_logs">Del logfiler</string>
     <string name="casting_switch_title">Trådløs udsending</string>
@@ -520,7 +523,7 @@
     <string name="tv_folders_first">Vis mapper først</string>
     <string name="tv_folders_first_summary">Vis mapper og dernæst filer i filbrowseren</string>
     <string name="tv_show_hidden_files">Vis skjulte filer</string>
-    <string name="tv_show_hidden_files_summary">Vis skjulte filer i fil-browseren</string>
+    <string name="tv_show_hidden_files_summary">Vis skjulte filer i filbrowseren</string>
     <string name="ab_repeat_fastseek_warning">Hurtigsøgning er slået til. Det kan medføre præcisionsproblemer</string>
 
     <string name="extensions_prefs_category">Udvidelser</string>
@@ -623,6 +626,8 @@
     <string name="network_shares_discovery">Leder efter netværksdelinger</string>
     <string name="network_empty">Denne mappe er tom.</string>
     <string name="network_connection_needed">Ingen forbindelse til lokalt netværk.</string>
+    <string name="network_disabled">Netværksgennemsyn slået fra</string>
+    <string name="browse_network">Gennemse netværk</string>
     <string name="search_hint">Søger efter medie</string>
     <string name="search_in_list_hint">Søg i den nuværende liste</string>
     <string name="search_global">Søg i alle mediebiblioteker</string>
@@ -1284,6 +1289,7 @@
     <string name="ra_prepare_download">Forbereder din download</string>
     <string name="ra_forbidden">Indhold slået fra i indstillingerne</string>
     <string name="ra_playback_forbidden">Forældrekontrol slået fra i indstillingerne</string>
+    <string name="ra_logs_forbidden">Logdeling slået fra i indstillingerne</string>
     <string name="ra_code_requested_explanation">For at beskytte din server er der beskyttet adgang.\nIndtast koden vist i dine notifikationer</string>
     <string name="ra_ssl_explanation_title">Usikker forbindelse</string>
     <string name="ra_ssl_explanation">Din forbindelse er ikke sikker.</string>
@@ -1310,7 +1316,7 @@
     <string name="ra_onboarding_content_title">Indholdsadgang</string>
     <string name="ra_onboarding_content_desc">Vælg hvad der kan og ikke kan tilgås</string>
     <string name="ra_onboarding_content_ml">Mediebiblioteksindholdsadgang</string>
-    <string name="ra_onboarding_content_files">Fil-browser</string>
+    <string name="ra_onboarding_content_files">Filbrowser</string>
     <string name="ra_onboarding_content_playback">Afspilningskontrol</string>
     <string name="ra_disable">Slå fra</string>
     <string name="ra_log_web">Fjernadgangslog</string>
@@ -1374,4 +1380,13 @@
     <string name="generating_logs">Opretter log. Vent venligst. AllerVenligst!</string>
     <string name="default_playback_action">Afspilningshandling</string>
     <string name="files">Filer</string>
+    <string name="remote_access_feedback_generate">Opret rapport</string>
+    <string name="remote_access_feedback_generated">Din feedbackrapport er oprettet</string>
+    <string name="remote_access_feedback_generated_explanation">Tap på knappen herunder for at sende med din standard mailklient. Ved fejl kopiér felterne herunder og send emailen manuelt.</string>
+    <string name="remote_access_feedback_file_explanation">Du har hentet den nødvendige fil. Husk at vedhæfte den til din email.</string>
+    <string name="generic_copied_to_clipboard">Kopieret til udklipsholder</string>
+    <string name="feedback_email_warning">Ingen emailklient er installeret</string>
+    <string name="feedback_email_warning_explanation">Den mest enkle måde at dele din feedback er via %1$s muligheden.\nFor at gøre det slå fjernadgang til i indstillingerne, følg instrukserne og vælg %2$s fra menuen.</string>
+    <string name="feedback_email_warning_remote_action">Åbn indstillingerne</string>
+    <string name="feedback_email_warning_try_anyway">Prøv alligevel</string>
     </resources>

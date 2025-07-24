@@ -66,6 +66,7 @@
     <string name="info">情報</string>
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
     <string name="confirm_replace_playlist">本当にこのプレイリスト \'%1$s\' を置き換えますか？</string>
+    <string name="invalid_settings_file">無効な設定ファイル</string>
     <string name="confirm_delete_message">この操作は永続的で取消できません。</string>
     <string name="confirm_delete_album">アルバム \'%1$s\' を削除しますか？</string>
     <string name="confirm_delete_several_media">これらの %1$d のメディアを削除しますか?</string>
@@ -309,6 +310,9 @@
     <string name="add_custom_path_description">検索するカスタムディレクトリの追加:</string>
     <string name="remove_custom_path">カスタムパスの削除</string>
     <string name="group_ban_folder">メディアライブラリからフォルダを禁止</string>
+    <string name="ban_folder">禁止フォルダー</string>
+    <string name="ban_folder_explanation">このフォルダーを禁止すると、アプリのビデオまたはオーディオセクションにそのメディアが表示されなくなりますが、ブラウザーからは引き続きアクセス可能です。\n禁止を解除するには、設定に移動し、 %s とこのフォルダーを長押しします。</string>
+
     <string name="hardware_acceleration">ハードウェアアクセラレーション</string>
     <string name="hardware_acceleration_summary">無効: 安定性重視\nデコーディング: 性能改善\nフル: より改善された性能</string>
     <string name="hardware_acceleration_disabled">無効</string>
@@ -612,6 +616,8 @@
     <string name="network_shares_discovery">ネットワーク共有の検索</string>
     <string name="network_empty">このディレクトリは空です。</string>
     <string name="network_connection_needed">ローカルネットワークへの接続がありません。</string>
+    <string name="network_disabled">ネットワークブラウザの無効化</string>
+    <string name="browse_network">ネットワークブラウザ</string>
     <string name="search_hint">メディアの検索</string>
     <string name="search_in_list_hint">現在のリストから検索</string>
     <string name="search_global">すべてのメディアライブラリから検索</string>
@@ -1331,6 +1337,7 @@
     <string name="export_settings">設定をエクスポートする</string>
     <string name="restore_settings_summary">エクスポート済みの設定をインポートして設定をリストアする</string>
     <string name="restore_settings">設定をリストアする</string>
+    <string name="obsolete_restore_settings">設定のエクスポートは古いため、改めてエクスポートしてください。</string>
     <string name="export_settings_success">内部ストレージのルートに設定が正常にエクスポートされました</string>
     <string name="export_settings_failure">設定をエクスポート中に何らかの異常が発生しました</string>
 
@@ -1362,6 +1369,7 @@
     <string name="files">ファイル</string>
     <string name="remote_access_feedback_generate">レポートを生成</string>
     <string name="remote_access_feedback_generated">フェードバックレポートが生成されました</string>
+    <string name="remote_access_feedback_generated_explanation">以下のボタンをアップして、デフォルトのメールクライアントで送信してください。問題が発生した場合、以下のフィールドをコピーペーストして、ご自身でメールを送信するようお願い致します。</string>
     <string name="remote_access_feedback_file_explanation">必要なファイルがダウンロードされました。メールにこれらのファイルを添付する様お願い致します。</string>
     <string name="generic_copied_to_clipboard">クリップボードにコピーされました</string>
     <string name="feedback_email_warning">メールクライアントがインストールされていません</string>

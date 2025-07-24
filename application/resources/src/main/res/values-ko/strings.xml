@@ -22,31 +22,40 @@
     <string name="searchable_hint">검색…</string>
     <string name="history">히스토리</string>
 
+    <string name="sort_alpha_asc">A → Z</string>
+    <string name="sort_alpha_desc">Z → A</string>
     <string name="sortby_length_asc">가장 짧은 것부터</string>
     <string name="sortby_length_desc">가장 긴 것부터</string>
+    <string name="sortby_number_asc">그룹 내 동영상 더 많이 보기</string>
+    <string name="sortby_number_desc">그룹 내 동영상 줄이기</string>
+    <string name="sort_date_asc">오래된 순서대로</string>
+    <string name="sort_date_desc">새로운 순서대로</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">검색 결과 %d개</item>
     </plurals>
 
     <string name="play">재생</string>
+    <string name="quick_play">바로 재생하기</string>
     <string name="playback">재생</string>
     <string name="playback_controls">재생 컨트롤</string>
     <string name="medialibrary_scan">미디어 라이브러리 스캔</string>
     <string name="Medialibrary_progress">미디어 라이브러리 스캔 진행 상황 업데이트</string>
     <string name="play_from_start">처음부터 재생하기</string>
     <string name="play_as_audio">오디오로 재생</string>
-    <string name="play_as_video">비디오로 재생</string>
-    <string name="return_to_video">비디오을 복원하려면 표지를 길게 누르기</string>
+    <string name="play_as_video">동영상으로 재생</string>
+    <string name="return_to_video">동영상을 복원하려면 표지를 길게 누르기</string>
     <string name="video_app_switch_title">백그라운드/PIP 모드</string>
-    <string name="video_app_switch_summary">비디오 재생에서 다른 응용프로그램으로 전환할 때 VLC 동작 선택</string>
-    <string name="play_pip_title">PIP 모드에서 비디오 재생하기</string>
-    <string name="play_as_audio_background">백그라운드로 비디오 재생하기</string>
+    <string name="video_app_switch_summary">동영상 재생에서 다른 응용프로그램으로 전환할 때 VLC 동작 선택</string>
+    <string name="play_pip_title">PIP 모드에서 동영상 재생하기</string>
+    <string name="play_as_audio_background">백그라운드로 동영상 재생하기</string>
     <string name="append">재생 큐에 추가</string>
     <string name="insert_next">다음을 넣으세요</string>
     <string name="play_all">모두 재생</string>
     <string name="append_all">모두 추가</string>
     <string name="resume_playback_short_title">재생 이어보기</string>
     <string name="resume_playback_long_title">마지막 재생 리스트의 재생 이어보기</string>
+    <string name="resume_audio_playback_short_title">오디오 재생 이어듣기</string>
     <string name="resume_playback_error">재개할 항목 없음</string>
     <string name="delete">삭제하기</string>
     <string name="remove">제거하기</string>
@@ -88,10 +97,10 @@
         <item quantity="other">미디어 파일 %d개</item>
     </plurals>
     <plurals name="videos_quantity">
-        <item quantity="other">비디오 %d개</item>
+        <item quantity="other">동영상 %d개</item>
     </plurals>
     <plurals name="movies_quantity">
-        <item quantity="other">동영상 %d개</item>
+        <item quantity="other"> %d개 영화</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="other">TV 프로그램 %d개</item>
@@ -102,7 +111,7 @@
 
     <string name="internal_memory">내부 메모리</string>
     <string name="audio">오디오</string>
-    <string name="video">비디오</string>
+    <string name="video">동영상</string>
     <string name="bookmarks">바로찾기</string>
     <string name="equalizer">이퀄라이저</string>
     <string name="all_albums">모든 앨범</string>
@@ -113,7 +122,7 @@
     <string name="loading">불러오는 중…</string>
     <string name="please_wait">기다려 주세요…</string>
     <string name="nomedia">미디어 파일을 찾을 수 없습니다.
-일부 파일을 장치로 전송하거나 기본설정을 조정하십시오.</string>
+일부 파일을 장치로 전송하거나 환경설정을 조정하십시오.</string>
     <string name="empty_search">검색어 %s의 검색 결과가 없습니다</string>
     <string name="noplaylist">재생목록이 없습니다.</string>
     <string name="nosubfolder">하위폴더 없음</string>
@@ -141,7 +150,7 @@
     <string name="unseekable_stream">찾을 수 없는 스트림</string>
     <string name="refresh">새로 고침</string>
     <string name="track_audio">오디오 트랙</string>
-    <string name="track_video">비디오 트랙</string>
+    <string name="track_video">동영상 트랙</string>
     <string name="track_text">자막 트랙</string>
     <string name="track_unknown">알수없는 트랙</string>
     <string name="track_bitrate_info">비트 전송속도: %1$s/s\n</string>
@@ -164,11 +173,20 @@
 
     <string name="playback_speed">재생 속도</string>
     <string name="warning_stream_speed">스트림의 재생 속도를 1보다 높이면 더듬거리는 현상이 발생할 수 있습니다</string>
+    <string name="playback_speed_this_video">이 동영상</string>
+    <string name="playback_speed_this_track">이 트랙</string>
+    <string name="playback_speed_all_videos">모든 동영상</string>
+    <string name="playback_speed_all_tracks">모든 트랙</string>
+    <string name="playback_speed_explanation_all_videos">모든 동영상에 속도가 적용됩니다. 개별 동영상의 재생 속도는 무시됩니다.</string>
+    <string name="playback_speed_explanation_one_video">이 동영상에만 속도가 적용됩니다.</string>
     <string name="sleep_title">슬립 타이머</string>
     <string name="sleep_in">잠자기 시간:</string>
     <string name="jump_to_time">시간으로 이동하기</string>
     <string name="subtitle_select">자막 파일 선택하기</string>
     <string name="wait_before_sleep">현재 미디어 항목이 먼저 완료될 때까지 대기하기</string>
+    <string name="video_player_remote">동영상 재생기 리모컨</string>
+    <string name="remote_keyboard_navigation">키보드 탐색</string>
+
     <string name="server_add_title">즐겨찾기에 새로운 서버 추가하기</string>
     <string name="server_domain_hint">서버 주소 (도메인 이름 또는 IP)</string>
     <string name="server_share_hint">네트워크 공유 이름 (또는 IP 주소)</string>
@@ -198,7 +216,7 @@
 
     <string name="playback_history_title">재생 히스토리</string>
     <string name="playback_history_summary">히스토리 섹션에서 재생된 모든 미디어 저장</string>
-    <string name="video_resume_playback_title">비디오 재생 대기열 히스토리</string>
+    <string name="video_resume_playback_title">동영상 재생 대기열 히스토리</string>
     <string name="video_resume_playback_summary">나중에 이어보도록 영상 재생 대기열 저장 허용하기</string>
     <string name="audio_resume_playback_title">오디오 재생 대기열 히스토리</string>
     <string name="audio_resume_playback_warning">오디오 재생 대기열 히스토리를 비활성화하면 일부 동작 문제가 발생할 수 있습니다.\n이 기능을 비활성화하면 재생을 이어듣지 못할 수 있습니다:\n\n\t- 블루투스 장치\n\t- 위젯\n\t- 미디어 알림</string>
@@ -207,13 +225,13 @@
     <string name="play_button">재생 버튼</string>
 
     <!-- Tips -->
-    <string name="tips_title">비디오 재생기 팁</string>
+    <string name="tips_title">동영상 재생기 팁</string>
     <string name="seek">찾기</string>
     <string name="subtitles">자막</string>
     <string name="tips_player_controls">재생기 컨트롤</string>
     <string name="tips_player_controls_description">아래 재생기 컨트롤을 눌러 어디에 사용되는지 알아보기</string>
     <string name="tips_audio_sub">오디오 트랙 및 자막</string>
-    <string name="tips_play_description">비디오을 재생하려면 가볍게 누르기</string>
+    <string name="tips_play_description">동영상을 재생하려면 가볍게 누르기</string>
     <string name="lock">잠금</string>
     <string name="tap">보려면 가볍게 누르기</string>
     <string name="tap_to_remove">제거하려면 가볍게 누르기</string>
@@ -222,7 +240,7 @@
     <string name="lock_orientation">방향</string>
     <string name="lock_orientation_description">방향 고정/고정해제 하려면 가볍게 누르기</string>
     <string name="aspect_ratio">화면 비율</string>
-    <string name="aspect_ratio_description">비디오 가로세로 비율을 변경하려면 가볍게 누르기</string>
+    <string name="aspect_ratio_description">동영상 가로세로 비율을 변경하려면 가볍게 누르기</string>
     <string name="advanced_options">고급 옵션</string>
     <string name="advanced_options_description">재생 속도, 반복 모드, ... 등</string>
     <string name="tips_swipe">위아래로 스와이프</string>
@@ -237,7 +255,7 @@
 
     <string name="playlist_tips">재생목록 팁</string>
     <string name="remove_song">곡 제거하기</string>
-    <string name="remove_playlist_item">재생목록에서 %1$s를 제거했습니다</string>
+    <string name="remove_playlist_item">%1$s이(가) 재생목록에서 해제되었습니다</string>
     <string name="rearrange_order">곡 순서를 바꾸기</string>
     <string name="hold_to_seek">찾으려면 길게 누르기</string>
 
@@ -266,6 +284,9 @@
     <string name="add_custom_path">사용자 지정 경로 추가하기</string>
     <string name="add_custom_path_description">스캔할 부가적인 사용자 디렉터리 입력:</string>
     <string name="remove_custom_path">사용자 지정 경로 제거</string>
+    <string name="ban_folder">금지 폴더</string>
+    <string name="ban_folder_explanation">이 폴더를 차단하면 앱의 동영상 또는 오디오 섹션에서 해당 미디어를 볼 수 없지만 브라우저에서는 계속 액세스할 수 있습니다. 차단을 해제하려면 설정, %s로 가서 이 폴더를 길게 탭하세요.</string>
+
     <string name="hardware_acceleration">하드웨어 가속</string>
     <string name="hardware_acceleration_summary">사용 안함: 안정성이 더 좋습니다\n디코딩: 성능이 향상될 수 있습니다\n전부: 성능이 더 향상될 수 있습니다</string>
     <string name="hardware_acceleration_disabled">비활성화됨</string>
@@ -286,8 +307,8 @@
     <string name="subtitle_preferred_language">선호하는 자막 언어</string>
     <string name="daynight_title">낮밤 모드</string>
     <string name="daynight_follow_system_title">시스템 모드 따르기</string>
-    <string name="no_track_preference">언어 설정 없음</string>
-    <string name="track_preference">트랙 설정: %s</string>
+    <string name="no_track_preference">언어 환경설정 없음</string>
+    <string name="track_preference">트랙 환경설정: %s</string>
 
     <string name="extra_prefs_category">추가 설정</string>
 
@@ -297,33 +318,34 @@
     <string name="enable_clone_mode">복제 모드 우선 사용하기</string>
     <string name="enable_clone_mode_summary">원격 조작 없이 기기의 화면을 복제합니다</string>
 
-    <string name="video_prefs_category">비디오</string>
-    <string name="video_min_group_length_title">비디오 분류</string>
-    <string name="video_min_group_length_disable">비디오 그룹 만들지 않기</string>
+    <string name="video_prefs_category">동영상</string>
+    <string name="video_min_group_length_title">동영상 분류</string>
+    <string name="video_min_group_length_disable">동영상 그룹 만들지 않기</string>
     <string name="video_min_group_length_folder">폴더로 분류하기</string>
     <string name="video_min_group_length_name">이름으로 분류하기</string>
-    <string name="video_transition_title">비디오 전환</string>
-    <string name="video_transition_summary">전환 시 새 비디오 제목 표시하기</string>
-    <string name="media_seen">시청한 비디오에 마커 표시하기</string>
-    <string name="media_seen_summary">끝까지 재생한 비디오을 본 것으로 표시합니다</string>
-    <string name="force_play_all_summary">클릭한 항목과 그 이후의 모든 비디오을 재생합니다</string>
+    <string name="video_transition_title">동영상 전환</string>
+    <string name="video_transition_summary">전환 시 새 동영상 제목 표시하기</string>
+    <string name="media_seen">시청한 동영상에 마커 표시하기</string>
+    <string name="media_seen_summary">끝까지 재생한 동영상을 본 것으로 표시합니다</string>
+    <string name="force_play_all_summary">클릭한 항목과 그 이후의 모든 동영상을 재생합니다</string>
     <string name="force_play_all_audio_summary">클릭한 것부터 시작하여, 모든 오디오 재생</string>
-    <string name="force_play_all_title">비디오 재생목록 모드</string>
+    <string name="force_play_all_title">동영상 재생목록 모드</string>
     <string name="force_play_all_audio_title">오디오 재생목록 모드</string>
     <string name="save_brightness_summary">미디어간 밝기 단계 유지하기</string>
     <string name="save_brightness_title">밝기 단계 저장</string>
-    <string name="save_audiodelay_summary">각각의 비디오에 대해 설정한 오디오 지연 시간을 개별적으로 저장합니다</string>
+    <string name="save_audiodelay_summary">각각의 동영상에 대해 설정한 오디오 지연 시간을 개별적으로 저장합니다</string>
     <string name="save_audiodelay_title">오디오 싱크 저장하기</string>
     <string name="enable_brightness_gesture_title">밝기 제스처</string>
-    <string name="enable_brightness_gesture_summary">비디오 재생 중에 제스처로 밝기를 조절합니다</string>
+    <string name="enable_brightness_gesture_summary">동영상 재생 중에 제스처로 밝기를 조절합니다</string>
     <string name="enable_volume_gesture_title">음량 제스처</string>
-    <string name="enable_volume_gesture_summary">비디오 재생 중에 제스처로 음량을 조절합니다</string>
+    <string name="enable_volume_gesture_summary">동영상 재생 중에 제스처로 음량을 조절합니다</string>
     <string name="enable_seek_buttons">찾기 버튼</string>
-    <string name="enable_seek_buttons_summary">비디오 인터페이스에 되감기 및 빨리감기 버튼 표시</string>
+    <string name="enable_seek_buttons_summary">동영상 인터페이스에 되감기 및 빨리감기 버튼 표시</string>
     <string name="enable_android_auto_speed_buttons">안드로이드 자동 재생 속도</string>
     <string name="enable_android_auto_speed_buttons_summary">오버플로 메뉴에 속도 제어 표시</string>
     <string name="enable_android_auto_seek_buttons">Android 자동 찾기 버튼</string>
     <string name="enable_android_auto_seek_buttons_summary">오버플로 메뉴에 되감기 및 빨리감기를 표시합니다. 활성화하기 전에 스티어링 휠을 이전 및 다음 버튼으로 유지하십시오.</string>
+    <string name="artist">아티스트</string>
     <string name="enable_double_tap_seek_title">찾으려면 가볍게 두 번 누르기</string>
     <string name="enable_double_tap_seek_summary">10초 단위로 탐색하려면 화면 가장자리를 가볍게 두 번 누르기</string>
     <string name="enable_double_tap_play_title">재생/일시정지 하려면 가볍게 두 번 누르기</string>
@@ -332,7 +354,7 @@
     <string name="enable_scale_gesture_title">두 손가락 확대/축소</string>
     <string name="enable_scale_gesture_summary">두 손가락으로 확대 및 축소하기</string>
     <string name="popup_keepscreen_title">팝업 모드에서 화면 켜짐 유지</string>
-    <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 비디오이 일시정지여도 화면 켜짐을 유지합니다</string>
+    <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 동영상이 일시정지여도 화면 켜짐을 유지합니다</string>
     <string name="browser_show_hidden_files_title">숨김 파일 표시</string>
     <string name="albums_show_track_numbers">트랙 번호 표시하기</string>
     <string name="enable_video_screenshot">스크린숏 찍기</string>
@@ -418,6 +440,7 @@
     <string name="casting_switch_title">무선 카스트</string>
     <string name="casting_passthrough_title">오디오 패스스루</string>
     <string name="casting_passthrough_summary">TV가 오디오 렌더링을 관리하도록 합니다</string>
+    <string name="casting_audio_only_summary">오디오만 전송하고 동영상은 전송하지 않습니다</string>
     <string name="casting_conversion_quality_title">변환 품질</string>
     <string name="casting_conversion_quality_summary">원격 화면에 캐스팅시 변환 품질을 선택합니다</string>
     <string name="casting_quality_high">높음</string>
@@ -442,7 +465,7 @@
 
     <string name="performance_prefs_category">성능</string>
     <string name="deblocking">깍두기 제거 필터 설정</string>
-    <string name="deblocking_summary">Deblocking 필터 설정을 변경해서 비디오 품질을 향상시킬 수 있지만 주의해서 사용하세요</string>
+    <string name="deblocking_summary">Deblocking 필터 설정을 변경해서 동영상 품질을 향상시킬 수 있지만 주의해서 사용하세요</string>
     <string name="deblocking_always">전체 깍두기 제거 (가장 느림)</string>
     <string name="deblocking_nonref">중간 깍두기 제거</string>
     <string name="deblocking_nonkey">낮은 깍두기 제거</string>
@@ -527,6 +550,7 @@
     <string name="current_chapter">챕터: %s</string>
     <string name="confirm_resume">마지막 위치에서 재생을 시작할까요?</string>
     <string name="confirm_resume_title">재생된 영상 이어보기</string>
+    <string name="confirm_resume_audio_title">재생된 오디오 이어듣기</string>
     <string name="tv_ui_title">안드로이드 TV 인터페이스 사용하기</string>
     <string name="tv_ui_summary">UI를 TV에 맞춘 테마로 바꿉니다</string>
     <string name="medialibrary">미디어 라이브러리</string>
@@ -534,7 +558,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">더 많은 동작</string>
-    <string name="back_quit_lock">비디오을 끝내려면  \"뒤로\"를 다시 누르세요</string>
+    <string name="back_quit_lock">동영상을 끝내려면  \"뒤로\"를 다시 누르세요</string>
     <string name="stream_deleted">스트림이 삭제되었습니다</string>
     <string name="no_subs_found">이 디렉터리에 자막이 없습니다</string>
     <string name="music_now_playing">지금 재생 중</string>
@@ -548,7 +572,7 @@
     <string name="whats_next">다음에 할 작업은 무엇입니까?</string>
     <string name="widget_old_description_end">사용자의 런처에 위젯들이 이미 위젯이 있습니다. 유감스럽게도, 그 위젯들은 새로 개선된 위젯들과 호환되지 않습니다.n사용자의 런처에 따라, 당신은 이전 버전을 제거해야 할 수도 있습니다.</string>
     <string name="click_here">여기를 눌러 더 알아보세요.</string>
-    <string name="allow_storage_access_title">VLC에서 비디오과 오디오 파일에 접근합니다</string>
+    <string name="allow_storage_access_title">VLC에서 동영상과 오디오 파일에 접근합니다</string>
     <string name="allow_storage_access_description">이 장치에서 VLC가 미디어 파일에 접근하려면 사용자의 승인이 필요합니다.</string>
     <string name="partial_content">VLC가 일부 파일에 액세스할 수 없습니다</string>
     <string name="partial_content_description">Android 11부터 응용프로그램은 모든 기기의 파일에 액세스하려면 특별한 권한이 필요합니다.\n\n%s</string>
@@ -558,9 +582,9 @@
     <string name="allow_settings_access_brightness_title">VLC에서 밝기 모드 변경 허용하기</string>
     <string name="allow_settings_access_brightness_description">VLC에서 밝기 모드를 바꾸려면 사용자의 승인이 필요합니다.</string>
     <string name="allow_draw_overlays_title">다른 앱 위로 VLC 재생기 팝업 허용하기</string>
-    <string name="allow_sdraw_overlays_description">VLC의 비디오을 다른 앱 위로 띄우려면 사용자의 승인이 필요합니다.</string>
+    <string name="allow_sdraw_overlays_description">VLC의 동영상을 다른 앱 위로 띄우려면 사용자의 승인이 필요합니다.</string>
     <string name="allow_pip">VLC 재생기에서 PIP를 실행하도록 허용하기</string>
-    <string name="allow_pip_description">VLC는 PIP 모드에서 비디오을 표시하려면 이 권한을 부여해야 합니다.</string>
+    <string name="allow_pip_description">VLC는 PIP 모드에서 동영상을 표시하려면 이 권한을 부여해야 합니다.</string>
     <string name="permission_ask_again">사용 허락하기</string>
     <string name="pick_file">파일 고르기</string>
     <string name="permission_not_granted">사용 권한이 부여되지 않음</string>
@@ -586,7 +610,7 @@
     <string name="extension_empty">표시할 항목이 없습니다. 확장자 설정을 확인하십시오.</string>
 
     <string name="opengl_title">OpenGL ES2 사용</string>
-    <string name="opengl_summary">기본적으로, 필요시 (360도 비디오) 소프트웨어/하드웨어 디코딩용으로 OpenGL ES2를 사용합니다.</string>
+    <string name="opengl_summary">기본적으로, 필요시 (360도 동영상) 소프트웨어/하드웨어 디코딩용으로 OpenGL ES2를 사용합니다.</string>
     <string name="opengl_automatic">자동</string>
     <string name="opengl_on">켬 강제 지정</string>
     <string name="opengl_off">끔 강제 지정</string>
@@ -595,17 +619,18 @@
     <string name="encryption_warning">경고! 이 안드로이드 버전에서는 암호화를 이용할 수 없습니다. 비밀번호는 은밀한 공간에 저장되지만 암호화되지는 않을 것입니다</string>
     <string name="store_password">비밀번호 기억하기</string>
     <string name="add_to_playlist">재생목록에 추가하기</string>
-    <string name="popup_playback_title">비디오을 팝업 창에서 재생하기</string>
+    <string name="popup_playback_title">동영상을 팝업 창에서 재생하기</string>
     <string name="popup_playback">팝업 창에서 재생 중</string>
-    <string name="popup_expand">비디오 확장하기</string>
+    <string name="popup_expand">동영상 확장하기</string>
     <string name="download_subtitles">자막 다운로드</string>
     <string name="browse_folder">폴더 탐색하기</string>
     <string name="listen">듣기</string>
     <string name="apply_to_bt">블루투스 장치에 적용</string>
     <string name="episodes">에피소드</string>
-    <string name="movies">동영상</string>
+    <string name="movies">영화</string>
     <string name="videos">영상</string>
-    <string name="videos_all">모든 비디오</string>
+    <string name="default_action_videos">동영상</string>
+    <string name="videos_all">모든 동영상</string>
     <string name="clear_playback_history">재생 히스토리 비우기</string>
     <string name="ml_scanning">미디어 파일 스캔 중</string>
     <string name="ml_parse_media">미디어 분석 중</string>
@@ -654,14 +679,14 @@
     <string name="audio_preferred_language">선호하는 음성 언어</string>
     <string name="audio_digital_title">디지털 오디오 출력 (패스스루)</string>
     <string name="audio_task_cleared_title">응용프로그램 스와이프 시 중지</string>
-    <string name="audio_task_cleared_summary">응용프로그램이 취소될 때 재생 중지</string>
+    <string name="audio_task_cleared_summary">응용프로그램이 닫힐 때 재생 중지</string>
     <string name="audio_resume_card_title">마지막 재생목록 팁 표시</string>
     <string name="audio_resume_card_summary">앱 시작 시 오디오 재생을 이어들으려면 도움이 되는 팁을 표시합니다</string>
     <string name="playback_rewind">되감기</string>
     <string name="playback_forward">빨리 감기</string>
     <string name="ml_wizard_scan_checkbox">장치에서 미디어 콘텐츠 검색</string>
     <string name="ml_wizard_description">미디어 라이브러리를 정리할 때는 VLC가 기기에 저장된 미디어를 검색하거나 기기를 단순 재생 장치 및 브라우서로 이용하는지 지시하십시오.</string>
-    <string name="tv_my_new_videos">새 비디오</string>
+    <string name="tv_my_new_videos">새 동영상</string>
     <string name="cast_option_title">다른 화면에 미디어 전송하기</string>
     <string name="otg_device_title">OTG 기기</string>
     <string name="browser">브라우저</string>
@@ -692,14 +717,14 @@
     <string name="skip">건너뛰기</string>
     <string name="next_step">다음</string>
     <string name="download">다운로드</string>
-    <string name="ctx_player_video_track">비디오 트랙을 선택하기</string>
+    <string name="ctx_player_video_track">동영상 트랙을 선택하기</string>
     <string name="ctx_player_audio_track">오디오 트랙</string>
     <string name="ctx_player_subs_track">자막 트랙</string>
     <string name="ctx_pip_title">팝업 재생기</string>
     <string name="device_dialog_title">외부의 기기가 삽입되었다</string>
     <string name="device_dialog_message">TV에 새로운 기기를 넣으셨습니다. VLC로 그 기기를 열까?</string>
-    <string name="videos_folders_title">폴더로 비디오 표시</string>
-    <string name="videos_groups_title">비디오 그룹</string>
+    <string name="videos_folders_title">폴더로 동영상 표시</string>
+    <string name="videos_groups_title">동영상 그룹</string>
     <string name="video_save_clone_mode">클론 모드를 자동으로 활성화하시겠습니까?</string>
     <string name="video_remote_enable">리모콘 모드로 전환하기</string>
     <string name="video_remote_disable">화면을 복사하기</string>
@@ -707,6 +732,7 @@
     <string name="welcome_title">VLC에 오신 것을 환영합니다!</string>
     <string name="welcome_subtitle">자유로운 오픈 소스 멀티미디어 재생기</string>
     <string name="permission_media">VLC는 장치의 미디어에 액세스하려면 권한이 필요합니다</string>
+    <string name="permission_video">VLC가 기기의 동영상 미디어에 액세스하려면 사용자의 권한이 필요합니다</string>
     <string name="medialibrary_scan_explanation">VLC는 자동으로 장치를 스캔하여 미디어 컬렉션을 구성할 수 있습니다.</string>
     <string name="onboarding_theme_title">편하게 계십시오</string>
     <string name="done">완료</string>
@@ -717,7 +743,7 @@
     <string name="daynight_legacy_explanation">시간에 맞춰 VLC는 자동으로 야간 모드로 전환됩니다</string>
     <string name="onboarding_scanning_enable">VLC가 내 장치에서 미디어 콘텐츠를 검색하도록 합니다</string>
     <string name="onboarding_scan_customize">VLC에서 검색할 폴더를 정합니다</string>
-    <string name="button_medialibrary_preferences">미디어라이브러리 기본설정으로 가기</string>
+    <string name="button_medialibrary_preferences">미디어라이브러리 환경설정으로 가기</string>
     <string name="light_theme">밝은 테마</string>
     <string name="add">추가하기</string>
     <string name="add_to_new_playlist">새로운 재생목록에 추가하기</string>
@@ -725,11 +751,13 @@
     <string name="misc">기타</string>
     <string name="popup_force_legacy_title">사용자 지정 PIP 팝업 사용</string>
     <string name="popup_force_legacy_summary">크기 조정 가능한 사용자 지정 PIP 팝업 사용</string>
+    <string name="restore_background_video_title">백그라운드에서 동영상 복원하기</string>
+    <string name="restore_background_video_summary">Android용 VLC를 다시 열 때 백그라운드에서 동영상 복원하기</string>
     <string name="device_default">장치 기본값</string>
     <string name="track_number">트랙 %d개</string>
     <string name="jump_to">다음으로 넘어가기</string>
-    <string name="show_video_thumbnails_summary">목록으로 비디오 섬네일을 표시하기</string>
-    <string name="show_video_thumbnails">비디오 섬네일</string>
+    <string name="show_video_thumbnails_summary">목록으로 동영상 섬네일을 표시하기</string>
+    <string name="show_video_thumbnails">동영상 섬네일</string>
     <string name="eq_snap_bands">Snap bands</string>
     <string name="enable_equalizer">활성화</string>
     <string name="preamp">프리앰프</string>
@@ -777,7 +805,7 @@
     <string name="share_message">여기 있어요 %s</string>
     <string name="find_metadata">메타데이터 찾기</string>
     <string name="moviepedia_hint">메타데이터 검색</string>
-    <string name="moviepedia_result">비디오 결과</string>
+    <string name="moviepedia_result">동영상 결과</string>
     <string name="directed_by">감독</string>
     <string name="casting">캐스팅</string>
     <string name="produced_by">프로듀서</string>
@@ -786,7 +814,7 @@
     <string name="posters">포스터</string>
     <string name="backdrops">Backdrops</string>
     <string name="header_tvshows">TV 프로그램</string>
-    <string name="header_movies">동영상</string>
+    <string name="header_movies">영화</string>
     <string name="season_number">시즌 %s</string>
     <string name="resume_episode">이어서 재생하기 (%s)</string>
     <string name="start_over">처음부터 다시 시작</string>
@@ -802,7 +830,7 @@
     <string name="abrepeat_add_second_marker">종료 지점 설정</string>
     <string name="demux_bitrate">Demux 비트 전송속도</string>
     <string name="input_bitrate">입력 비트 전송속도</string>
-    <string name="video_information">비디오 정보</string>
+    <string name="video_information">동영상 정보</string>
 
     <string name="channels">채널</string>
     <string name="resolution">해상도</string>
@@ -834,9 +862,9 @@
     <string name="more">더보기</string>
     <string name="favorites">즐겨찾기</string>
     <string name="new_stream">새 스트림</string>
-    <string name="add_to_group">비디오 그룹에 추가하기</string>
-    <string name="remove_from_group">비디오 그룹에서 제거하기</string>
-    <string name="rename_group">비디오 그룹 이름 바꾸기</string>
+    <string name="add_to_group">동영상 그룹에 추가하기</string>
+    <string name="remove_from_group">동영상 그룹에서 제거하기</string>
+    <string name="rename_group">동영상 그룹 이름 바꾸기</string>
     <string name="ungroup">그룹에서 제외하기</string>
     <string name="group_similar">자동으로 재그룹</string>
     <string name="no_group_found">영상 그룹을 찾을 수 없습니다</string>
@@ -880,15 +908,16 @@
     <string name="allow_otg">OTG 접근 허용</string>
     <string name="allow_otg_description">VLC가 접근할 OTG 드라이브를 선택해 주세요.</string>
     <string name="timeout_infinite">무한</string>
-    <string name="video_hud_timeout">비디오 재생기 제어 숨기기 지연 시간</string>
+    <string name="video_hud_timeout">동영상 재생기 제어 숨기기 지연 시간</string>
     <string name="video_hud_timeout_summary">%s초</string>
     <string name="remove_from_history">히스토리에서 제거하기</string>
     <string name="prefersmbv1">SMB 1 선호</string>
     <string name="prefersmbv1_summary">SMB 서버를 탐색하는 데에 문제가 있다면 이 설정을 해제하세요</string>
-    <string name="apply_to_all">모든 비디오에 적용</string>
-    <string name="audio_delay_global">모든 비디오에 대해 오디오 지연이 %s 밀리초로 설정되었습니다</string>
+    <string name="apply_to_all">모든 동영상에 적용</string>
+    <string name="audio_delay_global">모든 동영상에 대해 오디오 지연이 %s 밀리초로 설정되었습니다</string>
     <string name="audio_delay_bt">블루투스 장치의 오디오 지연이 %sms로 설정됨</string>
     <string name="go_to_folder">상위 찾아보기</string>
+    <string name="go_to_artist">아티스트로 가기</string>
     <string name="create_shortcut">런처 단축키 만들기</string>
     <string name="no_sub_renderer">전송 중에는 자막이 지원되지 않습니다</string>
     <string name="enqueuing">사용자의 미디어 불러오는 중</string>
@@ -905,7 +934,7 @@
     <string name="search_prefs">검색 설정</string>
     <string name="video_match_frame_rate_title">디스플레이 프레임 속도 일치시키기</string>
     <string name="video_match_frame_rate_summary">디스플레이 새로고침 빈도를 미디어 프레임 빈도와 일치시킵니다. 예를 들어, 24p 필름은 24p로 재생되어야 합니다</string>
-    <string name="preferred_resolution">선호하는 비디오 해상도</string>
+    <string name="preferred_resolution">선호하는 동영상 해상도</string>
     <string name="preferred_resolution_summary">해당되는 경우 스트림의 최대 영상 화질은 다음과 같습니다: %s</string>
     <string name="pref_resolution_best_available">사용가능한 최적</string>
     <string name="pref_resolution_very_low">매우 낮은 해상도 (240 라인)</string>
@@ -956,7 +985,7 @@
     <string name="banned_parent">상위 폴더에 의해 금지됨</string>
     <string name="official_website">공식 웹사이트</string>
     <string name="view_online">온라인 보기</string>
-    <string name="player_under_notch">노치 아래에 비디오 화면표시</string>
+    <string name="player_under_notch">노치 아래에 동영상 화면표시</string>
     <string name="notch">노치</string>
     <string name="always_fast_seek">항상 빠른 찾기 사용하기</string>
     <string name="always_fast_seek_summary">찾기는 더 빠르지만 정확도는 떨어질 수 있습니다</string>
@@ -964,7 +993,7 @@
     <string name="touch_only_description">모바일 인터페이스로의 전환은 터치 화면이나 마우스로만 수행할 수 있습니다.\n이 기능을 변경하는 것이 안전한지 확인하려면 아래를 슬라이드하십시오.</string>
     <string name="no_web_browser">웹 브라우저가 설치되지 않았습니다</string>
     <string name="no_web_browser_message">사용자의 스마트폰에서 스캔할 수 있습니다.\nURL은 %s입니다</string>
-    <string name="no_video">사용 가능한 비디오 없음</string>
+    <string name="no_video">사용 가능한 동영상 없음</string>
     <string name="fold_optimized">사용자의 접는 화면에 최적화됨</string>
     <string name="fold_optimize">접는 화면에 최적화</string>
     <string name="foldable">접혀지는 화면</string>
@@ -1012,10 +1041,10 @@
     <string name="talkback_album">앨범: %s</string>
     <string name="talkback_artist">아티스트: %s</string>
     <string name="talkback_release_date">%s에서 발매됨</string>
-    <string name="talkback_video">비디오: %s</string>
+    <string name="talkback_video">동영상: %s</string>
     <string name="talkback_stream">스트림: %s</string>
     <string name="talkback_audio_track">오디오 트랙: %s</string>
-    <string name="talkback_video_group">비디오 그룹: %s</string>
+    <string name="talkback_video_group">동영상 그룹: %s</string>
     <string name="talkback_hours">시간</string>
     <string name="talkback_minutes">분</string>
     <string name="talkback_seconds">초</string>
@@ -1023,8 +1052,8 @@
     <string name="talkback_enter_screen">%s에서 탐색하기</string>
     <string name="talkback_file_size">파일 크기: %s</string>
     <string name="talkback_open_in_browser">웹 브라우저에서 열기</string>
-    <string name="talkback_video_player">비디오 재생기. 컨트롤을 표시하려면 누릅니다. 숨기려면 뒤로 버튼을 누릅니다.</string>
-    <string name="talkback_video_tracks">비디오 트랙</string>
+    <string name="talkback_video_player">동영상 재생기. 컨트롤을 표시하려면 누릅니다. 숨기려면 뒤로 버튼을 누릅니다.</string>
+    <string name="talkback_video_tracks">동영상 트랙</string>
     <string name="talkback_audio_tracks">오디오 트랙</string>
     <string name="talkback_subtitle_tracks">자막 트랙</string>
     <string name="selected">선택됨</string>
@@ -1053,6 +1082,7 @@
     <string name="ra_remote_access">원격 제어</string>
     <string name="ra_log_file">로그 파일</string>
     <string name="ra_send_files">파일 보내기</string>
+    <string name="ra_not_in_foreground">애플리케이션이 포그라운드에 있지 않습니다. 동영상를 시작할 수 없습니다.</string>
     <string name="ra_file">파일</string>
     <string name="ra_upload_all">전체 업로드</string>
     <string name="ra_ssl_button">보안 연결 사용</string>
@@ -1065,4 +1095,6 @@
     <!-- car screens -->
     <string name="help">도움말</string>
     <string name="voice_control">음성 제어</string>
+    <string name="video_settings_disclaimer">일부 설정이 동영상 재생기의 동영상 컨트롤 설정으로 이동되었습니다.</string>
+    <string name="read_doc">설명서를 읽어보세요</string>
     </resources>

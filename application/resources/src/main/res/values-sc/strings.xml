@@ -320,6 +320,9 @@
     <string name="add_custom_path_description">Inserta una cartella personalizada de analizare:</string>
     <string name="remove_custom_path">Boga s\'àndala personalizada</string>
     <string name="group_ban_folder">Nega s\'atzessu a sa cartella de sa regorta multimediale</string>
+    <string name="ban_folder">Bandi cartella</string>
+    <string name="ban_folder_explanation">Sa bandidura de custa cartella bolet nàrrere chi no as prus a bìdere sos cuntenutos multimediales suos in sas setziones vìdeu o àudio de s\'aplicatzione, ma ant a abarrare atzessìbiles dae su navigadore.\nPro nche li bogare sa bandidura, bae a sas impostatziones, %s e incarca custa cartella.</string>
+
     <string name="hardware_acceleration">Atzelleratzione hardware</string>
     <string name="hardware_acceleration_summary">Disabilitada: istabilidade prus manna.\nDecodìfica: diat pòdere megiorare sas prestatziones.\nIntrea: diat pòdere megiorare sas prestatziones galu de prus</string>
     <string name="hardware_acceleration_disabled">Disabilitada</string>
@@ -623,6 +626,8 @@
     <string name="network_shares_discovery">Chirchende cumpartziduras de retza</string>
     <string name="network_empty">Custa cartella est bòida.</string>
     <string name="network_connection_needed">Peruna connessione a sa retza locale.</string>
+    <string name="network_disabled">Navigatzione de sa rete disabilitada</string>
+    <string name="browse_network">Esplora sa rete</string>
     <string name="search_hint">Chirca documentos multimediales</string>
     <string name="search_in_list_hint">Chirca in sa lista atuale</string>
     <string name="search_global">Chirca in totu sa biblioteca multimediale</string>
@@ -1284,6 +1289,7 @@
     <string name="ra_prepare_download">Ammaniende s\'iscarrigamentu tuo</string>
     <string name="ra_forbidden">Cuntenutu disabilitadu in sas impostatziones</string>
     <string name="ra_playback_forbidden">Controllu de riprodutzione disabilitadu in sas impostatziones</string>
+    <string name="ra_logs_forbidden">Cumpartzidura de sos registros disabilitada in sas impostatziones</string>
     <string name="ra_code_requested_explanation">Pro amparare su serbidore tuo, s\'atzessu est amparadu.\nPro praghere inserta su còdighe mustradu in sas notìficas tuas</string>
     <string name="ra_ssl_explanation_title">Connessione non segura</string>
     <string name="ra_ssl_explanation">Sa connessione tua no est segura</string>
@@ -1374,4 +1380,13 @@
     <string name="generating_logs">Generende sos registros. Iseta.</string>
     <string name="default_playback_action">Atzione de riprodutzione</string>
     <string name="files">Documentos</string>
+    <string name="remote_access_feedback_generate">Crea unu raportu</string>
+    <string name="remote_access_feedback_generated">Su raportu de sinnalatzione tuo est istadu creadu</string>
+    <string name="remote_access_feedback_generated_explanation">Toca su butone inoghe in suta pro l\'imbiare impreende su cliente predefinidu tuo de posta eletrònica. Si atzapas carchi problema, podes copiare e incollare sos campos inoghe in suta e imbiare sa lìtera eletrònica a contu tuo.</string>
+    <string name="remote_access_feedback_file_explanation">Como as iscarrigadu su documentu chi ti bisòngiat. Ammenta·ti de l\'alligare a sa lìtera eletrònica tua.</string>
+    <string name="generic_copied_to_clipboard">Copiadu in punta de billete</string>
+    <string name="feedback_email_warning">Perunu cliente de posta installadu</string>
+    <string name="feedback_email_warning_explanation">Sa manera prus fàtzile de cumpartzire su parre tuo est sa de impreare sa funtzionalidade %1$s.\nPro lu fàghere, abìlita s\'atzessu remotu in sas impostatziones, sighi sos inditos e issèbera s\'elementu %2$sin su menù.</string>
+    <string name="feedback_email_warning_remote_action">Aberi sas impostatziones</string>
+    <string name="feedback_email_warning_try_anyway">Proa su matessi</string>
     </resources>

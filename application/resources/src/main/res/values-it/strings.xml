@@ -68,6 +68,7 @@
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
     <string name="confirm_replace_playlist">Sei sicuro di voler sostituire la scaletta \'%1$s\'?</string>
+    <string name="invalid_settings_file">File delle impostazioni non valido </string>
     <string name="confirm_delete_message">Questa azione è definitiva e non può essere annullata.</string>
     <string name="confirm_delete_album">Vuoi eliminare l\'album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Vuoi eliminare questi %1$d media?</string>
@@ -331,6 +332,9 @@
     <string name="add_custom_path_description">Inserisci cartella personalizzata da analizzare:</string>
     <string name="remove_custom_path">Rimuovi percorso personalizzato</string>
     <string name="group_ban_folder">Vieta l\'accesso alla cartella dalla raccolta multimediale</string>
+    <string name="ban_folder">Vieta cartella</string>
+    <string name="ban_folder_explanation">L\'esclusione di questa cartella significa che non vedrai più i suoi contenuti multimediali nella sezione video o audio dell\'applicazione, ma saranno comunque accessibili dal browser. Per sbloccarla, vai alle impostazioni, %s e esegui un tocco prolungato su questa cartella.</string>
+
     <string name="hardware_acceleration">Accelerazione hardware</string>
     <string name="hardware_acceleration_summary">Disabilitata: maggiore stabilità.\nDecodifica: potrebbe migliorare le prestazioni.\nCompleta: potrebbe migliorare ulteriormente le prestazioni</string>
     <string name="hardware_acceleration_disabled">Disabilitata</string>
@@ -634,6 +638,8 @@
     <string name="network_shares_discovery">Ricerca condivisioni di rete</string>
     <string name="network_empty">Questa cartella è vuota.</string>
     <string name="network_connection_needed">Nessuna connessione alla rete locale.</string>
+    <string name="network_disabled">Navigazione della rete disabilitata</string>
+    <string name="browse_network">Sfoglia la rete</string>
     <string name="search_hint">Cerca media</string>
     <string name="search_in_list_hint">Cerca nell\'elenco attuale</string>
     <string name="search_global">Cerca in tutta la raccolta multimediale</string>
@@ -1361,6 +1367,7 @@
     <string name="export_settings">Esporta le impostazioni</string>
     <string name="restore_settings_summary">Ripristina le tue impostazioni da un\'esportazione precedente</string>
     <string name="restore_settings">Ripristina le impostazioni</string>
+    <string name="obsolete_restore_settings">L\'esportazione delle tue impostazioni è obsoleta. Esportale nuovamente</string>
     <string name="export_settings_success">Impostazioni esportate correttamente nella radice dell\'archiviazione interna</string>
     <string name="export_settings_failure">Si è verificato un problema durante l\'esportazione delle impostazioni</string>
 

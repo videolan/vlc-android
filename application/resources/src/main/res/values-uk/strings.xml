@@ -40,6 +40,7 @@
     </plurals>
 
     <string name="play">Відтворити</string>
+    <string name="quick_play">Швидке відтворення</string>
     <string name="playback">Відтворення</string>
     <string name="playback_controls">Керування відтворенням</string>
     <string name="medialibrary_scan">Сканувати медіатеку</string>
@@ -338,7 +339,6 @@
     <string name="add_custom_path_description">Введіть свій каталог для сканування:</string>
     <string name="remove_custom_path">Видалити свій шлях</string>
     <string name="group_ban_folder">Заборонити теку з бібліотеки медіа</string>
-
     <string name="hardware_acceleration">Апаратне прискорення</string>
     <string name="hardware_acceleration_summary">Вимкнено: краща стабільність.\nПрограмне: може поліпшити швидкодію.\nПовне: згодом може поліпшити швидкодію.</string>
     <string name="hardware_acceleration_disabled">Вимкнено</string>
@@ -390,6 +390,7 @@
     <string name="save_brightness_title">Зберегти рівень яскравості</string>
     <string name="save_audiodelay_summary">Зберігати індивідуальну затримку звуку для кожного відео</string>
     <string name="save_audiodelay_title">Зберігати затримку звуку</string>
+    <string name="video_show_orientation_button">Показати кнопку орієнтації</string>
     <string name="enable_brightness_gesture_title">Жест яскравості</string>
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
     <string name="enable_volume_gesture_title">Жест гучності</string>
@@ -423,6 +424,9 @@
     <string name="fastplay_speed_title">Швидкість швидкого відтворення</string>
     <string name="fastplay_title">Відтворюється на швидкості %sx</string>
     <string name="fastplay_subtitle">Відпустіть, щоб зупинитись</string>
+    <string name="show_bookmark_buttons">Показати кнопки закладок</string>
+    <string name="show_bookmark_markers">Показати маркери закладок</string>
+    <string name="show_bookmark_markers_summary">Показати маркери заклади над часовою шкалою</string>
     <string name="subtitles_prefs_category">Субтитри</string>
     <string name="subtitles_size_title">Розмір субтитрів</string>
     <string name="subtitles_presets_title">Попередні налаштування субтитрів</string>
@@ -919,6 +923,7 @@
     <string name="send_crash_description">Надсиланням свого звіту ви допоможете нам покращити стабільність VLC.</string>
     <string name="send_crash_warning">Не забудьте видалити будь-які конфіденційні дані, які ви не хочете надсилати.</string>
     <string name="include_medialib">Долучити вашу базу даних</string>
+    <string name="include_logs">Включити ваші журнали</string>
     <string name="vlc_reporter">Складач звітів VLC</string>
     <string name="welcome_beta_title">VLC бета</string>
     <string name="welcome_beta_description">Вітаємо у програмі VLC бета.\nБудь ласка, зауважте, що ця версія може містити хиби.</string>
@@ -926,6 +931,7 @@
     <string name="send">Надіслати</string>
     <string name="send_crash_action_title">Що ви хочете робити?</string>
     <string name="report_a_bug">Повідомити про хибу</string>
+    <string name="send_feedback">Надіслати відгук</string>
     <string name="report_a_crash">Повідомити про збій</string>
     <string name="describe_crash">Будь ласка, опишіть як трапився цей збій</string>
     <string name="favorite">Обране</string>
@@ -1109,6 +1115,8 @@
     <string name="bookmark_name">Закладка %s</string>
     <string name="add_bookmark">Додати закладку</string>
     <string name="bookmark_added">Додано закладку</string>
+    <string name="previous_bookmark">Попередня закладка</string>
+    <string name="next_bookmark">Наступна закладка</string>
     <string name="show">Показати</string>
     <string name="optional_features">Додаткові можливості</string>
     <string name="optional_features_summary">Бета-функції, що наразі тестуються і можуть бути нестійкими</string>
@@ -1366,4 +1374,9 @@
     <string name="queue_format">Формат черги</string>
     <string name="queue_format_short_desc">Позиція у черзі</string>
     <string name="queue_format_long_desc">Позиція у черзі / розмір черги</string>
+    <string name="get_help">Отримати деяку довідку</string>
+    <string name="feedback_type">Тип відгуку</string>
+    <string name="how_to_use">Дізнатися як використовувати</string>
+    <string name="report_crash">Повідомити про збій</string>
+    <string name="email_support">Зв\'язатися з командою підтримки через ел. пошту</string>
     </resources>

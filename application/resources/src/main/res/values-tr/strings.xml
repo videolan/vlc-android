@@ -67,6 +67,7 @@
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
     <string name="confirm_replace_playlist">\'%1$s\' oynatma listesini değiştirmek istediğinize emin misiniz?</string>
+    <string name="invalid_settings_file">Ayarlar dosyası geçersiz</string>
     <string name="confirm_delete_message">Bu işlem kalıcıdır ve geri alınamaz.</string>
     <string name="confirm_delete_album">\'%1$s\' albümü silinsin mi?</string>
     <string name="confirm_delete_several_media">Bu %1$d ortam silinsin mi?</string>
@@ -145,7 +146,7 @@
     <string name="nosubfolder">Alt klasör yok</string>
     <string name="directorynotfound">\'%1$s\' klasör yolu bulunamadı.</string>
     <string name="nohistory">Henüz bir oynatma geçmişiniz yok.</string>
-    <string name="cant_ban_root">Bir kök klasörü engelleyemezsiniz</string>
+    <string name="cant_ban_root">Bir kök klasörü yasaklayamazsınız</string>
 
     <string name="cover_art">Kapak görseli</string>
     <string name="shuffle_all_title">Tümünü karıştır</string>
@@ -319,7 +320,10 @@
     <string name="add_custom_path">Özel klasör ekle</string>
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
     <string name="remove_custom_path">Özel klasörü sil</string>
-    <string name="group_ban_folder">Klasörü ortam kitaplığında engelle</string>
+    <string name="group_ban_folder">Klasörü ortam kitaplığında yasakla</string>
+    <string name="ban_folder">Klasörü yasakla</string>
+    <string name="ban_folder_explanation">Bu klasörü yasaklamak, tarayıcıdan yine de erişilebilir olsa da, uygulamanın video veya ses bölümünde ortamlarını göremeyeceğiniz anlamına gelir.\nYasağı kaldırmak için ayarlar bölümünde, %s ve bu klasöre uzun dokunun.</string>
+
     <string name="hardware_acceleration">Donanım hızlandırması</string>
     <string name="hardware_acceleration_summary">Kapalı: Daha iyi kararlılık\nKod çözme: Başarımı artırabilir\nTam: Başarımı daha çok artırabilir</string>
     <string name="hardware_acceleration_disabled">Kapalı</string>
@@ -623,6 +627,8 @@
     <string name="network_shares_discovery">Ağ paylaşımları aranıyor</string>
     <string name="network_empty">Bu klasör boş.</string>
     <string name="network_connection_needed">Yerel ağ bağlantısı yok.</string>
+    <string name="network_disabled">Ağa göz atma kapalı</string>
+    <string name="browse_network">Ağa göz at</string>
     <string name="search_hint">Ortam arama</string>
     <string name="search_in_list_hint">Geçerli listede ara</string>
     <string name="search_global">Tüm ortam kitaplığında ara</string>
@@ -1151,8 +1157,8 @@
     <string name="player_controls">Oynatıcı denetimleri</string>
     <string name="video_double_tap_jump_delay">Çift dokunma zaman gecikmesi</string>
     <string name="video_key_jump_delay">Gezinme tuşları zaman gecikmesi</string>
-    <string name="banned">Yasak klasör (uzun dokun değiştir)</string>
-    <string name="banned_tv">Engellenmiş klasör</string>
+    <string name="banned">Yasaklanmış klasör (uzun dokun değiştir)</string>
+    <string name="banned_tv">Yasaklanmış klasör</string>
     <string name="banned_parent">Üst klasörce yasaklanmış</string>
     <plurals name="duplicate_two_options_secondary">
         <item quantity="one">Bu öge zaten \"%s\" oynatma listesinde var.</item>
@@ -1347,6 +1353,7 @@
     <string name="export_settings">Ayarları dışa aktar</string>
     <string name="restore_settings_summary">Daha önce dışa aktardığınız ayarları geri yükleyin</string>
     <string name="restore_settings">Ayarları geri yükle</string>
+    <string name="obsolete_restore_settings">Dışa aktarılmış ayarlar dosyanız geçersiz Lütfen ayarları yeniden dışa aktarın</string>
     <string name="export_settings_success">Ayarlar iç depolama alanı kök klasörüne dışa aktarıldı</string>
     <string name="export_settings_failure">Ayarlarınız dışa aktarılırken bir sorun çıktı</string>
 
