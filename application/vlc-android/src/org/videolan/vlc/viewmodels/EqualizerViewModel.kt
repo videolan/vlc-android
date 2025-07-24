@@ -280,7 +280,7 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
             .replace(" ", "_")
             .replace("/", "")
             .replace("\"", "")
-        val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + File.separator + fileName + ".json")
+        val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + File.separator + "vlc_" + fileName + ".json")
         UiTools.snackerConfirm(context, context.getString(R.string.equalizer_exported, dst.toString()), confirmMessage = R.string.share, overAudioPlayer = false) {
             context.share(dst)
         }
