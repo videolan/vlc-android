@@ -307,6 +307,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 viewModel.refresh()
             }
         }
+        lifecycleScope.launch {
+            PlaylistManager.shuffling.collect {
+                setupFab()
+            }
+        }
     }
 
     override fun onDisplaySettingChanged(key: String, value: Any) {
@@ -397,12 +402,16 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             it?.addCallback(this)
         }.launchIn(startedScope)
 
+        setupFab()
+        (activity as? AudioPlayerContainerActivity)?.expandAppBar()
+    }
+
+    private fun setupFab() {
         fabPlay?.run {
-            setImageResource(R.drawable.ic_fab_play)
+            setImageResource(if (PlaylistManager.shuffling.value) R.drawable.ic_fab_shuffle else R.drawable.ic_fab_play)
             updateFab()
             fabPlay?.contentDescription = getString(R.string.play)
         }
-        (activity as? AudioPlayerContainerActivity)?.expandAppBar()
     }
 
 
@@ -579,7 +588,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     }
             }
             scheduler.startAction(MSG_HIDE_ENQUEUING)
-            activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist) }
+            activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist, shuffle = PlaylistManager.shuffling.value) }
         }
     }
 

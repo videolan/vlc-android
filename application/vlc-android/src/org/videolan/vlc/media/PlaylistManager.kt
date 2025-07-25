@@ -122,6 +122,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         private val mediaList = MediaWrapperList()
         fun hasMedia() = mediaList.size() != 0
         val repeating = MutableStateFlow(PlaybackStateCompat.REPEAT_MODE_NONE)
+        val shuffling = MutableStateFlow(false)
         var playingAsAudio = false
     }
 
@@ -138,7 +139,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var prevIndex = -1
     private var previous = Stack<Int>()
     var stopAfter = -1
-    var shuffling = false
+    var shuffling: Boolean = false
+        set(value) {
+            field = value
+            AppScope.launch {
+                PlaylistManager.shuffling.emit(value)
+            }
+        }
     var videoBackground = false
         private set
     var isBenchmark = false

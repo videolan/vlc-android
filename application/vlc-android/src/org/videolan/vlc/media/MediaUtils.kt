@@ -294,7 +294,9 @@ object MediaUtils {
     fun openList(context: Context?, list: List<MediaWrapper>, position: Int, shuffle: Boolean = false) {
         if (list.isEmpty() || context == null) return
         SuspendDialogCallback(context) { service ->
-            service.load(list, position)
+            val realPos = if (shuffle) SecureRandom().nextInt(list.size)
+            else position
+            service.load(list, realPos)
             if (shuffle && !service.isShuffling) service.shuffle()
         }
     }
