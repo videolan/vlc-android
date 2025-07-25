@@ -63,6 +63,7 @@ private const val FILE_PICKER_ALL_RESULT_CODE = 10001
  */
 class EqualizerSettingsActivity : BaseActivity() {
 
+    private var scrollTopNext: Boolean = false
     private lateinit var adapter: EqualizerSettingsAdapter
 
     private val model: EqualizerViewModel by viewModels {
@@ -112,6 +113,10 @@ class EqualizerSettingsActivity : BaseActivity() {
                 val newIndex = adapter.dataset.indexOfFirst { it.equalizerEntry.id == adapter.currentId }
                 adapter.notifyItemChanged(oldIndex)
                 adapter.notifyItemChanged(newIndex)
+            }
+            if (scrollTopNext) {
+                binding.equalizers.scrollToPosition(0)
+                scrollTopNext = false
             }
         }
 
@@ -194,6 +199,7 @@ class EqualizerSettingsActivity : BaseActivity() {
                 data.getStringExtra(EXTRA_MRL)?.toUri()?.path?.let {
                     val equalizerString = FileUtils.getStringFromFile(it)
                     try {
+                        scrollTopNext = true
                         EqualizerUtil.importAll(this@EqualizerSettingsActivity, equalizerString) { newId ->
                             model.currentEqualizerId = newId
                             model.updateEqualizer()
