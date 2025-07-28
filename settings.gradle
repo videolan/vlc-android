@@ -13,9 +13,9 @@ def vlcMajorVersion = hasProperty('forceVlc4') && getProperty('forceVlc4') ? 4 :
 
 android {
     minSdk = vlcMajorVersion == 3 ? 17 : 21
-    targetSdk = 35
-    compileSdk = 35 // Dockers: 3.0=36 / 4.0=36
-    buildToolsVersion = '35.0.0'
+    targetSdk = 36
+    compileSdk = 36 // Dockers: 3.0=36 / 4.0=36
+    buildToolsVersion = '36.0.0'
 }
 
 include ':libvlcjni:libvlc', ':medialibrary'
