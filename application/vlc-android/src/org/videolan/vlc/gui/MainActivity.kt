@@ -21,18 +21,18 @@
 package org.videolan.vlc.gui
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -69,7 +69,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.dialogs.UPDATE_DATE
@@ -100,6 +99,7 @@ private const val TAG = "VLC/MainActivity"
 class MainActivity : ContentActivity(),
         INavigator by Navigator()
 {
+    private lateinit var backPressedCallback: OnBackPressedCallback
     var refreshing: Boolean = false
         set(value) {
             field = value
@@ -200,7 +200,15 @@ class MainActivity : ContentActivity(),
             }
         }
         settings.putSingle(KEY_OBSOLETE_RESTORE_FILE_WARNED, true)
+        backPressedCallback = onBackPressedDispatcher.addCallback(enabled = true) {
+            if (AndroidUtil.isNougatOrLater && isInMultiWindowMode) {
+                UiTools.confirmExit(this@MainActivity)
+                return@addCallback
+            }
+        }
+        backPressedCallback.isEnabled = AndroidUtil.isNougatOrLater && isInMultiWindowMode
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -266,26 +274,6 @@ class MainActivity : ContentActivity(),
         super.onRestart()
         /* Reload the latest preferences */
         reloadPreferences()
-    }
-
-    @TargetApi(Build.VERSION_CODES.N)
-    override fun onBackPressed() {
-
-
-        /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
-        if (isAudioPlayerReady && (audioPlayer.backPressed() || slideDownAudioPlayer()))
-            return
-
-        // If it's the directory view, a "backpressed" action shows a parent.
-        val fragment = currentFragment
-        if (fragment is BaseBrowserFragment && fragment.goBack()) {
-            return
-        }
-        if (AndroidUtil.isNougatOrLater && isInMultiWindowMode) {
-            UiTools.confirmExit(this)
-            return
-        }
-        finish()
     }
 
     override fun startSupportActionMode(callback: ActionMode.Callback): ActionMode? {
