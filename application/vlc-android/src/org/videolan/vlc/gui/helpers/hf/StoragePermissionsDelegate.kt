@@ -161,7 +161,6 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
     private fun askAllAccessPermission(intent: Intent) {
         val code = android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
         askedPermission = Permissions.MANAGE_EXTERNAL_STORAGE
-        timeAsked = System.currentTimeMillis()
         activityResultLauncher.launch(code)
         startActivity(intent)
     }
