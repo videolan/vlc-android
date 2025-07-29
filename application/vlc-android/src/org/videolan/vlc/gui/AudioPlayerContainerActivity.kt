@@ -119,6 +119,7 @@ private const val BOOKMARK_VISIBLE: String = "bookmark_visible"
 
 open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, SchedulerCallback, PlayerOptionsDelegateCallback {
 
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var bottomBar: BottomNavigationView? = null
     lateinit var appBarLayout: AppBarLayout
     protected lateinit var toolbar: Toolbar
@@ -225,7 +226,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
 
             WindowInsetsCompat.CONSUMED
         }
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (slideDownAudioPlayer()) return
                 if (supportFragmentManager.backStackEntryCount == 0)
@@ -234,7 +235,17 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
                     supportFragmentManager.popBackStack()
                 }
             }
-        })
+        }
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            manageBackstate()
+        }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        manageBackstate()
+    }
+
+    private fun manageBackstate() {
+        onBackPressedCallback.isEnabled = supportFragmentManager.backStackEntryCount > 0 || isAudioPlayerExpanded
     }
 
     /**
@@ -392,6 +403,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), KeycodeListener, Sched
                         STATE_HIDDEN -> audioPlayerContainer.announceForAccessibility(getString(R.string.talkback_audio_player_closed))
                     }
                 }
+                manageBackstate()
                 updateToolbarScrollability(newState == STATE_COLLAPSED)
             }
         })
