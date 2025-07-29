@@ -42,15 +42,6 @@ class OTPCodeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.otp_code_activity)
-
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                lifecycleScope.launch {
-                    RemoteAccessUtils.otpFlow.emit(null)
-                }
-                finish()
-            }
-        })
     }
 
 
