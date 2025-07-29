@@ -23,6 +23,8 @@ fail()
 
 RELEASE=0
 RESET=0
+# Indicates the license of contribs
+AVLC_CONTRIB_LICENSE=g
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
@@ -41,6 +43,10 @@ while [ $# -gt 0 ]; do
             echo "Use -t to use prebuilt contribs for LibVLC"
             echo "Use -m2 to set the maven local repository path to use"
             echo "Use --static-cpp to use the static C++ runtime"
+            echo "Use --license <l> to build contribs with license l"
+            echo "   g: GPLv3 (default)"
+            echo "   l: LGPLv3 + ad-clauses"
+            echo "   a: LGPLv2 + ad-clauses"
             exit 0
             ;;
         a|-a)
@@ -64,6 +70,10 @@ while [ $# -gt 0 ]; do
             ;;
         -m2|--local-maven)
             M2_REPO=$2
+            shift
+            ;;
+        --license)
+            AVLC_CONTRIB_LICENSE=$2
             shift
             ;;
         -l)
@@ -359,7 +369,7 @@ if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ];
         fi
         if ${VLC_LIBJNI_PATH}/vlc/extras/ci/check-url.sh "$VLC_PREBUILT_CONTRIBS_URL"; then CONTRIB_FLAGS="--with-prebuilt-contribs"; fi
     fi
-    ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh -a ${ARCH} ${CONTRIB_FLAGS} ${CONFIG_ARGS}
+    ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh -a ${ARCH} ${CONTRIB_FLAGS} ${CONFIG_ARGS} --license $AVLC_CONTRIB_LICENSE
 
     cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
 fi
