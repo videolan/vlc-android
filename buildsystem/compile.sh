@@ -287,9 +287,11 @@ fi
 
 
 if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=e90807431330d949b855b37695b9004af6b00bd9
+    LIBVLCJNI_TESTED_HASH=798d9e9c80904163db64c3bf4193c35521eb7ed3
+    LIBVLCJNI_BRANCH="master"
 else
-    LIBVLCJNI_TESTED_HASH=28b690d499711e7362eb61d03855e06e2854f396
+    LIBVLCJNI_TESTED_HASH=cef9bee0c8483127da342f589d6499ed9894cbe7
+    LIBVLCJNI_BRANCH="libvlcjni-3.x"
 fi
 LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
 
@@ -297,19 +299,14 @@ LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
 
 if [ ! -d "$VLC_LIBJNI_PATH" ] || [ ! -d "$VLC_LIBJNI_PATH/.git" ]; then
     diagnostic "libvlcjni sources: not found, cloning"
-    if [ "$FORCE_VLC_4" = 1 ]; then
-        branch="master"
-    else
-        branch="libvlcjni-3.x"
-    fi
     if [ ! -d "$VLC_LIBJNI_PATH" ]; then
-        git clone --single-branch --branch ${branch} "${LIBVLCJNI_REPOSITORY}"
+        git clone --single-branch --branch ${LIBVLCJNI_BRANCH} "${LIBVLCJNI_REPOSITORY}"
         cd libvlcjni
     else # folder exist with only the artifacts
         cd libvlcjni
         git init
         git remote add origin "${LIBVLCJNI_REPOSITORY}"
-        git pull origin ${branch}
+        git pull origin ${LIBVLCJNI_BRANCH}
     fi
     git reset --hard ${LIBVLCJNI_TESTED_HASH} || fail "libvlcjni sources: LIBVLCJNI_TESTED_HASH ${LIBVLCJNI_TESTED_HASH} not found"
     init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
