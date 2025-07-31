@@ -158,8 +158,6 @@ continuous-app-build-v4:
 
 build-libvlc-arm64:
     extends: .build-libvlc-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm64
 
@@ -179,15 +177,11 @@ build-libvlc-x86:
 
 build-libvlc-x86_64:
     extends: .build-libvlc-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: x86_64
 
 build-ml-arm64:
     extends: .build-ml-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm64
 
@@ -207,8 +201,6 @@ build-ml-x86:
 
 build-ml-x86_64:
     extends: .build-ml-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: x86_64
 
@@ -239,8 +231,6 @@ build-ml-x86_64-v4:
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:
     extends: .build-all-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     needs:
@@ -284,8 +274,6 @@ nightly-x86:
 
 nightly-x86_64:
     extends: .build-all-base
-    image:
-        name: $VLC_ANDROID_IMAGE_30
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     needs:
@@ -355,8 +343,6 @@ nightly-x86_64-v4:
         expire_in: 2 weeks
 
 .build-libs-base:
-    image:
-        name: $VLC_ANDROID_IMAGE_30
     rules:
       - if: '$CI_COMMIT_TAG =~ /^libvlc-3.*$/'
     stage: build
@@ -399,11 +385,15 @@ build-libs-arm64:
 
 build-libs-armv7:
     extends: .build-libs-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: arm
 
 build-libs-x86:
     extends: .build-libs-base
+    image:
+        name: $VLC_ANDROID_IMAGE_30
     variables:
         ARCH: x86
 
