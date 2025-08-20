@@ -983,8 +983,9 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
                 val medias = appContext.getFromMl {
                     if (path?.isNotBlank() == true) {
-                        if (id.toLong() > 0)
-                            arrayOf(getMedia(id.toLong()))
+                        val media = getMedia(path.toUri())
+                        if (media != null)
+                            arrayOf(media)
                         else
                             arrayOf(MLServiceLocator.getAbstractMediaWrapper(path.toUri()))
                     } else when (type) {
