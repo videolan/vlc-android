@@ -1000,7 +1000,7 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
     data class WSChapter(val title: String, val time: Long)
 
     data class PlayQueue(val medias: List<PlayQueueItem>) : WSMessage(WSMessageType.PLAY_QUEUE)
-    data class PlayQueueItem(val id: Long, val title: String, val artist: String, val duration: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false, val progress: Long = 0L, val played: Boolean = false, var fileType: String = "", val favorite: Boolean = false)
+    data class PlayQueueItem(val id: Long, val title: String, var artist: String, val duration: Long, val artworkURL: String, val playing: Boolean, val resolution: String = "", val path: String = "", val isFolder: Boolean = false, val progress: Long = 0L, val played: Boolean = false, var fileType: String = "", val favorite: Boolean = false)
     data class WebSocketAuthorization(val status:String, val initialMessage:String) : WSMessage(WSMessageType.AUTH)
     data class Volume(val volume: Int) : WSMessage(WSMessageType.VOLUME)
     data class PlayerStatus(val playing: Boolean) : WSMessage(WSMessageType.PLAYER_STATUS)

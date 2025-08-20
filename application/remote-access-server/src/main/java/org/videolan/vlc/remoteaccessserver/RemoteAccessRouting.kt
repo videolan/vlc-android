@@ -944,8 +944,18 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                         else -> "file"
                     }
                 }
-                RemoteAccessServer.PlayQueueItem(1000L + index, title, it.description ?: "", 0, it.artworkMrl
-                        ?: "", false, "", filePath, isFolder, fileType = fileType)
+                val id = if (it is MediaWrapper && it.id > 0) it.id else 1000L + index
+                val played = if (it is MediaWrapper) it.seen >  0 else false
+
+                if (it is MediaWrapper && it.id > 0) {
+                    it.toPlayQueueItem().apply {
+                        this.fileType = fileType
+                        this.artist = it.description
+                    }
+                } else
+                    RemoteAccessServer.PlayQueueItem(
+                        id, title, it.description ?: "", 0, it.artworkMrl
+                            ?: "", false, "", filePath, isFolder, fileType = fileType, played = played)
             }
 
             //segments
@@ -1616,7 +1626,7 @@ fun Playlist.toPlayQueueItem(appContext: Context) = RemoteAccessServer.PlayQueue
         ?: "", false, "", favorite = isFavorite)
 
 fun MediaWrapper.toPlayQueueItem(defaultArtist: String = "") = RemoteAccessServer.PlayQueueItem(id, title, artistName?.ifEmpty { defaultArtist } ?: defaultArtist, length, artworkMrl
-        ?: "", false, generateResolutionClass(width, height) ?: "", progress = time, played = seen > 0, favorite = isFavorite)
+        ?: "", false, generateResolutionClass(width, height) ?: "", progress = time, played = seen > 0, favorite = isFavorite, path = uri.toString())
 
 fun Folder.toPlayQueueItem(context: Context) = RemoteAccessServer.PlayQueueItem(id, title, context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, mediaCount(Folder.TYPE_FOLDER_VIDEO), mediaCount(Folder.TYPE_FOLDER_VIDEO))
         ?: "", 0, artworkMrl
