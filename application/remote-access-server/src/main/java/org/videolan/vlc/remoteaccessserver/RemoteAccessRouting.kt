@@ -1358,6 +1358,24 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     return@get
                 }
             }
+            if (type == "file_big") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_unknown_big, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
+            if (type == "subtitle") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_subtitles, 256, 256), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
+            if (type == "subtitle_big") {
+                BitmapUtil.encodeImage(BitmapUtil.vectorToBitmap(appContext, R.drawable.ic_subtitles, 512, 512), true)?.let {
+                    call.respondBytes(ContentType.Image.PNG) { it }
+                    return@get
+                }
+            }
             try {
                 val artworkMrl = call.request.queryParameters["artwork"] ?: RemoteAccessServer.getInstance(appContext).service?.coverArt
 
