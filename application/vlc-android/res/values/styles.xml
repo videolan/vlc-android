@@ -451,6 +451,7 @@
     </style>
 
     <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
+        <item name="colorControlNormal">@color/grey300</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
     </style>
 
