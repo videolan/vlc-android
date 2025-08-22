@@ -199,6 +199,7 @@ const val KEYSTORE_PASSWORD_IV = "keystore_encrypted_password_iv"
 const val ENCRYPTED_KEY_NAME = "encryption_key"
 const val KEY_COOKIE_ENCRYPT_KEY = "cookie_encrypt_key"
 const val KEY_COOKIE_SIGN_KEY = "cookie_sign_key"
+const val KEY_REMOTE_ACCESS_INFO = "remote_access_info"
 
 //Equalizer
 const val KEY_CURRENT_EQUALIZER_ID = "current_equalizer_id"
