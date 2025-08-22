@@ -451,6 +451,8 @@
     </style>
 
     <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
+        <item name="colorAccent">@color/orange500</item>
+        <item name="android:colorAccent">@color/orange500</item>
         <item name="colorControlNormal">@color/grey300</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
     </style>
@@ -472,7 +474,7 @@
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange500</item>
-        <item name="colorAccent">@color/orange500</item>
+        <item name="android:colorAccent">@color/orange500</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
