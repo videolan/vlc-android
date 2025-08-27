@@ -804,6 +804,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     if (!isAudio && isMedia) add(CTX_PLAY_AS_AUDIO)
                     if (!isMedia) add(CTX_PLAY)
                     if (isVideo) add(CTX_DOWNLOAD_SUBTITLES)
+                    if (isVideo && mw.seen > 0L) add(ContextOption.CTX_MARK_AS_UNPLAYED)
+                    if (isVideo && mw.seen == 0L) add(ContextOption.CTX_MARK_AS_PLAYED)
                 }
                 add(CTX_PLAY_NEXT)
             }
@@ -879,6 +881,16 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> {
                 requireActivity().addToPlaylistAsync(mw.uri.toString(), true, mw.title)
+            }
+            ContextOption.CTX_MARK_AS_UNPLAYED -> {
+                mw.setPlayCount(0L)
+                mw.seen = 0L
+                adapter.notifyItemChanged(position)
+            }
+            ContextOption.CTX_MARK_AS_PLAYED -> {
+                mw.setPlayCount(mw.seen + 1L)
+                mw.seen = mw.seen + 1L
+                adapter.notifyItemChanged(position)
             }
 
             else -> {}
