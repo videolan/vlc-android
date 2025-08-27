@@ -174,7 +174,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             val max = (media.length / 1000).toInt()
             val progress = (media.displayTime / 1000).toInt()
             (holder as MediaViewHolder).bindingContainer.setProgress(holder.bindingContainer.container.context, progress, max)
-            if (media.type != MediaWrapper.TYPE_AUDIO) holder.bindingContainer.setIsPlayed(holder.bindingContainer.container.context, media.playCount > 0)
+            if (media.type != MediaWrapper.TYPE_AUDIO || media.isPodcast) holder.bindingContainer.setIsPlayed(holder.bindingContainer.container.context, media.playCount > 0)
         }  else if (payloads[0] is CharSequence) {
             (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
             holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
@@ -193,7 +193,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         val max = (media.length / 1000).toInt()
         val progress = (media.displayTime / 1000).toInt()
         vh.bindingContainer.setProgress(vh.bindingContainer.container.context, progress, max)
-        if (media.type != MediaWrapper.TYPE_AUDIO) vh.bindingContainer.setIsPlayed(vh.bindingContainer.container.context, media.playCount > 0)
+        if (media.type != MediaWrapper.TYPE_AUDIO || media.isPodcast) vh.bindingContainer.setIsPlayed(vh.bindingContainer.container.context, media.playCount > 0)
         vh.bindingContainer.setItem(media)
         vh.bindingContainer.setIsFavorite(isFavorite)
         val scheme = media.uri?.scheme ?: ""
