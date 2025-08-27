@@ -804,8 +804,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     if (!isAudio && isMedia) add(CTX_PLAY_AS_AUDIO)
                     if (!isMedia) add(CTX_PLAY)
                     if (isVideo) add(CTX_DOWNLOAD_SUBTITLES)
-                    if (isVideo && mw.seen > 0L) add(ContextOption.CTX_MARK_AS_UNPLAYED)
-                    if (isVideo && mw.seen == 0L) add(ContextOption.CTX_MARK_AS_PLAYED)
+                    if ((isVideo || mw.isPodcast) && mw.seen > 0L) add(ContextOption.CTX_MARK_AS_UNPLAYED)
+                    if ((isVideo || mw.isPodcast) && mw.seen == 0L) add(ContextOption.CTX_MARK_AS_PLAYED)
                 }
                 add(CTX_PLAY_NEXT)
             }
