@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:clickable="true"
-            android:background="@{current ? @color/orange_500_transparent_20 : @color/transparent}"
+            app:equalizerBackgroundColor="@{current}"
             android:orientation="vertical"
             android:focusable="true">
 

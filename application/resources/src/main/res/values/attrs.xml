@@ -30,6 +30,7 @@
     <attr name="audio_header_background" format="reference|color" />
     <attr name="audio_header_divider" format="color" />
     <attr name="default_divider" format="color" />
+    <attr name="subtle_selection" format="color" />
     <attr name="audio_menu_icon" format="color" />
     <attr name="audio_list_background" format="reference|color" />
     <attr name="bottom_sheet_background" format="reference|color" />

@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -52,6 +53,7 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.JsonUtil
 import org.videolan.vlc.viewmodels.EqualizerViewModel
 import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
+import androidx.core.graphics.drawable.toDrawable
 
 private const val FILE_PICKER_RESULT_CODE = 10000
 private const val FILE_PICKER_ALL_RESULT_CODE = 10001
@@ -324,6 +326,18 @@ fun equalizerNameColor(view: TextView, item: EqualizerWithBands) {
     theme.resolveAttribute(if (item.equalizerEntry.isDisabled)R.attr.font_disabled else R.attr.font_default, typedValue, true)
     @ColorInt val color: Int = typedValue.data
     view.setTextColor(color)
+}
+
+@BindingAdapter("equalizerBackgroundColor")
+fun equalizerBackgroundColor(view: View, current: Boolean) {
+    if (current) {
+        val typedValue = TypedValue()
+        val theme = view.context.theme
+        theme.resolveAttribute(R.attr.subtle_selection, typedValue, true)
+        @ColorInt val color: Int = typedValue.data
+        view.background = color.toDrawable()
+    } else view.background = null
+
 }
 
 
