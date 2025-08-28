@@ -190,6 +190,15 @@
                             android:text="@string/whats_new_37_import_export"
                             android:textColor="?android:attr/textColorSecondary" />
 
+                    <Button
+                            android:id="@+id/show_in_settings2"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/show_in_settings" />
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </com.google.android.material.card.MaterialCardView>

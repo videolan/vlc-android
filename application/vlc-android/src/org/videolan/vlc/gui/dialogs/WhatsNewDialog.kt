@@ -63,6 +63,12 @@ class WhatsNewDialog : VLCBottomSheetDialogFragment() {
                 dismiss()
             }
         }
+        binding.showInSettings2.setOnClickListener {
+            lifecycleScope.launch {
+                PreferencesActivity.launchWithPref(requireActivity(), "export_settings")
+                dismiss()
+            }
+        }
         binding.neverAgain.setOnCheckedChangeListener { _, isChecked ->
             Settings.getInstance(requireActivity()).putSingle(KEY_SHOW_WHATS_NEW, !isChecked)
         }
