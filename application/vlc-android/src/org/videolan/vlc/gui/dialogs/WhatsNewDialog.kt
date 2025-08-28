@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.gui.dialogs
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,11 +33,13 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.KEY_SHOW_WHATS_NEW
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogWhatsNewBinding
+import org.videolan.vlc.gui.EqualizerSettingsActivity
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 
 class WhatsNewDialog : VLCBottomSheetDialogFragment() {
@@ -53,10 +56,10 @@ class WhatsNewDialog : VLCBottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogWhatsNewBinding.inflate(layoutInflater, container, false)
-        binding.title.text = getString(R.string.whats_new_title, "3.6")
-        binding.webserverMore.setOnClickListener {
+        binding.title.text = getString(R.string.whats_new_title, "3.7")
+        binding.showInSettings.setOnClickListener {
             lifecycleScope.launch {
-                PreferencesActivity.launchWithPref(requireActivity(), KEY_ENABLE_REMOTE_ACCESS)
+                startActivity(Intent(requireActivity().applicationContext, EqualizerSettingsActivity::class.java))
                 dismiss()
             }
         }

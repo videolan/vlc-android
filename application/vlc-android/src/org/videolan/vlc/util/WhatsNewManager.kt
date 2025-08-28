@@ -35,7 +35,7 @@ import org.videolan.vlc.gui.dialogs.WhatsNewDialog
 object WhatsNewManager {
     fun launchIfNeeded(context: AppCompatActivity) {
         val preferences = Settings.getInstance(context)
-        val needed = preferences.getBoolean(KEY_SHOW_WHATS_NEW, true) && preferences.getString(KEY_LAST_WHATS_NEW, "") != "3.6"
+        val needed = preferences.getBoolean(KEY_SHOW_WHATS_NEW, true) && preferences.getString(KEY_LAST_WHATS_NEW, "") != "3.7"
         if (needed) {
             markAsShown(preferences)
             val whatsNewDialog = WhatsNewDialog()
@@ -44,6 +44,6 @@ object WhatsNewManager {
     }
 
     fun markAsShown(preferences: SharedPreferences) {
-        preferences.putSingle(KEY_LAST_WHATS_NEW, "3.6")
+        preferences.putSingle(KEY_LAST_WHATS_NEW, "3.7")
     }
 }
