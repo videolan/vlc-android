@@ -63,6 +63,7 @@ import org.videolan.tools.isStarted
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.browser.KEY_JUMP_TO
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import java.io.File
 import java.lang.ref.WeakReference
@@ -519,6 +520,7 @@ fun Fragment.showParentFolder(media: MediaWrapper) {
     }
     val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
     intent.putExtra(KEY_MEDIA, parent)
+    intent.putExtra(KEY_JUMP_TO, media)
     intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
     startActivity(intent)
 }

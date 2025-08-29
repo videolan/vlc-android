@@ -58,6 +58,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.FileBrowserFragment
+import org.videolan.vlc.gui.browser.KEY_JUMP_TO
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.browser.MLStorageBrowserFragment
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment
@@ -222,7 +223,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
                 (intent.parcelable(KEY_MEDIA) as? MediaWrapper)?.let { media ->
                     fragment = if (media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
                     else FileBrowserFragment()
-                    fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
+                    fragment?.apply { arguments = bundleOf(KEY_MEDIA to media, KEY_JUMP_TO to intent.parcelable(KEY_JUMP_TO)) }
                 }
             }
             else -> throw IllegalArgumentException("Wrong fragment id.")

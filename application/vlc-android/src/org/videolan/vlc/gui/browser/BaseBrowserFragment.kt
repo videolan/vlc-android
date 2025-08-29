@@ -44,6 +44,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.preference.PreferenceGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,6 +85,7 @@ import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
+import org.videolan.tools.getposition
 import org.videolan.tools.isStarted
 import org.videolan.tools.putSingle
 import org.videolan.tools.removeFileScheme
@@ -148,6 +150,7 @@ import org.videolan.vlc.util.SchedulerCallback
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.util.isTalkbackIsEnabled
 import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.io.File
@@ -156,6 +159,7 @@ import java.util.LinkedList
 private const val TAG = "VLC/BaseBrowserFragment"
 
 internal const val KEY_MEDIA = "key_media"
+internal const val KEY_JUMP_TO = "key_jump_to"
 const val KEY_PICKER_TYPE = "key_picker_type"
 private const val MSG_SHOW_LOADING = "msg_show_loading"
 internal const val MSG_HIDE_LOADING = "msg_hide_loading"
@@ -170,6 +174,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     private lateinit var layoutManager: LinearLayoutManager
     override var mrl: String? = null
     protected var currentMedia: MediaWrapper? = null
+    protected var currentJumpTo: MediaWrapper? = null
     override var isRootDirectory: Boolean = false
     override val scannedDirectory = false
     override var inCards = true
@@ -195,6 +200,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val bundle = savedInstanceState ?: arguments
         if (bundle != null) {
             currentMedia = bundle.parcelable(KEY_MEDIA)
+            currentJumpTo = bundle.parcelable(KEY_JUMP_TO)
             mrl = currentMedia?.location ?: bundle.getString(KEY_MRL)
         } else if (requireActivity().intent != null) {
             mrl = requireActivity().intent.dataString
@@ -266,6 +272,19 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.dataset.observe(viewLifecycleOwner) { mediaLibraryItems ->
             adapter.update(mediaLibraryItems!!)
             if (::addPlaylistFolderOnly.isInitialized) addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
+        }
+        adapter.onAnyChange {
+            if (currentJumpTo != null) {
+                val position = adapter.dataset.getposition(currentJumpTo)
+                binding.networkList.postDelayed({
+                    binding.networkList.layoutManager?.findViewByPosition(position)?.isPressed  = true
+                    binding.networkList.postDelayed({
+                        binding.networkList.layoutManager?.findViewByPosition(position)?.isPressed  = false
+                            }, 600)
+                }, 200)
+                binding.networkList.scrollToPosition(position)
+                currentJumpTo = null
+            }
         }
         viewModel.getDescriptionUpdate().observe(viewLifecycleOwner) { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
