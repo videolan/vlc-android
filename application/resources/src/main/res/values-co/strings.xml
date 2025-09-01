@@ -66,7 +66,17 @@
     <string name="set_song_question">Definisce « %1$s » cum’è suneria</string>
     <string name="info">Infurmazione</string>
     <string name="confirm_delete">Squassà u schedariu « %1$s » ?</string>
+    <string name="equalizer_overwrite_warning">St’ugualizatore esiste dighjà</string>
+    <string name="overwrite">Rimpiazzà</string>
+    <string name="eq_cannot_overwrite">Impussibule di rimpiazzà un ugualizatore predefinitu</string>
+    <string name="equalizer_name">Nome di l’ugualizatore</string>
+    <string name="equalizer_deleted">L’ugualizatore hè statu squassatu</string>
+    <string name="equalizer_leave_warning">Avete da lascià u lettore di filmettu</string>
+    <string name="invalid_equalizer_file">Schedariu d’ugualizatore inaccettevule</string>
+    <string name="confirm_delete_eq">Da veru, vulete squassà sta prerigatura ?</string>
+    <string name="confirm_delete_vlc_eq">Da veru, vulete piattà sta prerigatura ?\nPudete risturallu in i parametri di l’ugualizatore.</string>
     <string name="confirm_replace_playlist">Site sicuru di vulè rimpiazzà a lista di lettura « %1$s » ?</string>
+    <string name="invalid_settings_file">Schedariu di parametri inaccettevule</string>
     <string name="confirm_delete_message">St’azzione hè permanente è irriversibule.</string>
     <string name="confirm_delete_album">Squassà l’albumu « %1$s » ?</string>
     <string name="confirm_delete_several_media">Squassà sti %1$d medià ?</string>
@@ -131,6 +141,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Indette</string>
     <string name="equalizer">Ugualizatore</string>
+    <string name="import_equalizer">Impurtà l’ugualizatore</string>
+    <string name="equalizer_exported">Ugualizatore(i) espurtatu(i) versu %s</string>
+    <string name="equalizer_copy_template">(cupià %s)</string>
+    <string name="new_equalizer_copy_template">Ugualizatore novu %s</string>
+    <string name="show_all">Tuttu affissà</string>
+    <string name="hide_all">Tuttu piattà</string>
+    <string name="export_all">Tuttu espurtà</string>
+    <string name="import_all">Tuttu impurtà</string>
     <string name="all_albums">Tutti l’albumi</string>
     <string name="genres">Generi</string>
     <string name="playlists">Liste di lettura</string>
@@ -236,8 +254,6 @@
 
     <string name="streams">Flussi</string>
     <string name="open_mrl_dialog_msg">Scrivite un indirizzu di reta : p.i. http://, mms:// o rtsp://</string>
-    <string name="encountered_error_title">Sbagliu di ripruduzzione</string>
-    <string name="encountered_error_message">VLC hà scuntratu un sbagliu cù stu medià.\nCi vole à pruvà di rinfrescà a vostra mediateca.</string>
     <string name="invalid_location">A lucalizazione %1$s ùn pò micca esse sunata.</string>
     <string name="missing_location">Stu medià pruvene da un discu indispunibule è ùn pò micca esse sunatu.</string>
 
@@ -320,6 +336,8 @@
     <string name="add_custom_path_description">Scrivite un cartulare persunalizatu addiziunale à analizà :</string>
     <string name="remove_custom_path">Caccià u chjassu persunalizatu</string>
     <string name="group_ban_folder">Bandì un cartulare da a mediateca</string>
+    <string name="ban_folder">Pruibisce u cartulare</string>
+    <string name="ban_folder_explanation">L’esclusione di stu cartulare vole dì chì vo ùn viderete più i so medià in a sezzione filmettu o audio di l’appiecazione, ma seranu sempre accessibile da u navigatore.\nPer rendelu torna accessibile, andate à i parametri, %s è fate una longa picchicciata nant’à stu cartulare.</string>
 
     <string name="hardware_acceleration">Accelerazione Materiale</string>
     <string name="hardware_acceleration_summary">Disattivata : stabilità più bella\nÀ a discudificazione : pò megliurà e perfurmenze\nCumpleta : pò ancu megliurà e perfurmenze</string>
@@ -624,6 +642,8 @@
     <string name="network_shares_discovery">Ricerca di spartere di reta</string>
     <string name="network_empty">Stu cartulare hè viotu.</string>
     <string name="network_connection_needed">Alcuna cunnessione à a reta lucale.</string>
+    <string name="network_disabled">Navigazione di a reta disattivata</string>
+    <string name="browse_network">Navigà nant’à a reta</string>
     <string name="search_hint">Circà u medià</string>
     <string name="search_in_list_hint">Circà in a lista attuale</string>
     <string name="search_global">Circà in tutte e mediateche</string>
@@ -644,8 +664,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Ciò chì hè novu in VLC per Android %s</string>
-    <string name="whats_new_36_webserver_text">Grazia à a funzione nova d’accessu à distanza, pigliate u cuntrollu di VLC per Android da qualsiasi altru apparechju.\nMandate u vostru medià in e duie direzzioni, cuntrollate a vostra ripruduzzione è ancu di più !</string>
-    <string name="whats_new_36_favorites_text">Avà si pò aghjunghje cum’è favuriti i vostri medià, liste di lettura, artisti o albumi.\nRitruvate in un’ochjata i vostri cuntenuti preferiti filtrenduli da i favuriti solu !</string>
+    <string name="whats_new_37_equalizer_text">L’ugualizatore hè statu ripensatu sanu. U so impiegu hè più faciule, vi permette di disattivà e prerigature predefinite è di fà salvaguardia, risturazione è spartera di e vostre prerigature.</string>
+    <string name="whats_new_37_import_export">Avemu amendatu a funzione di salvaguardia è di risturazione di i parametri. Ora, vi permette di fà a salvaguardia d’altri parametri, cum’è e prerigature di l’ugualizatore.</string>
+    <string name="show_in_settings">Affissà in i parametri</string>
 
 <!--    update-->
     <string name="update_title">Versione nova dispunibule</string>
@@ -888,7 +909,6 @@
     <string name="eq_snap_bands">Fasce elastiche</string>
     <string name="enable_equalizer">Attivà</string>
     <string name="preamp">Preamplificazione</string>
-    <string name="presets">Preselezzioni</string>
     <string name="reset">Viutà</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d Traccia frametta</item>
@@ -903,6 +923,8 @@
     <string name="validation_delete_playlist_text">St’azzione hè irriversibule.</string>
     <string name="display_settings">Parametri d’affissera</string>
     <string name="incognito_mode">Modu incognitu</string>
+    <string name="persistent_incognito_mode">Modu incognitu persistente</string>
+    <string name="persistent_incognito_mode_summary">Cunservà u modu incognitu attivatu ancu s’è l’appiecazione hè rilanciata</string>
     <string name="display_in_list">Affissà in lista</string>
     <string name="display_in_grid">Affissà in quadrittera</string>
     <string name="dump_db_succes">Banca di dati espurtata ver di a radica di a memoria interna</string>
@@ -1120,6 +1142,11 @@
     <string name="move_down">Dispiazzà inghjò</string>
     <string name="remove_from_playlist">Caccià da a lista di lettura</string>
     <string name="play_media">Sunà %s</string>
+    <string name="edit_eq_preset">Mudificà a prerigatura di l’ugualizatore</string>
+    <string name="edit_eq_name_not_allowed">Stu nome ùn hè micca permessu</string>
+    <string name="export_equalizer">Espurtà l’ugualizatore</string>
+    <string name="hide_equalizer">Piattà l’ugualizatore</string>
+    <string name="show_equalizer">Affissà l’ugualizatore</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Aghjunghje l’elementu(i) duppiatu(i) ?</string>
@@ -1149,9 +1176,9 @@
     <string name="player_controls">Cuntrolli di u lettore</string>
     <string name="video_double_tap_jump_delay">Tempurizazione da doppia picchicciata</string>
     <string name="video_key_jump_delay">Tempurizazione di i tasti di navigazione</string>
-    <string name="banned">Cartulare difesu (longa picchicciata per cambià)</string>
-    <string name="banned_tv">Cartulare difesu</string>
-    <string name="banned_parent">Difesu da u cartulare di livellu superiore</string>
+    <string name="banned">Cartulare pruibitu (longa picchicciata per cambià)</string>
+    <string name="banned_tv">Cartulare pruibitu</string>
+    <string name="banned_parent">Pruibitu da u cartulare di livellu superiore</string>
     <plurals name="duplicate_two_options_secondary">
         <item quantity="one">St’elementu hè dighjà in a lista di lettura « %s ».</item>
         <item quantity="other">St’elementi sò dighjà in a lista di lettura « %s ».</item>
@@ -1283,6 +1310,7 @@
     <string name="ra_prepare_download">Preparazione di u vostru scaricamentu</string>
     <string name="ra_forbidden">Cuntenutu disattivatu in i parametri</string>
     <string name="ra_playback_forbidden">Cuntrollu di a ripruduzzione disattivatu in i parametri</string>
+    <string name="ra_logs_forbidden">Spartera di i ghjurnali disattivata in i parametri</string>
     <string name="ra_code_requested_explanation">Per difende u vostru servitore, l’accessu hè prutettu.\nCi vole à stampittà u codice affissatu in e vostre nutificazioni</string>
     <string name="ra_ssl_explanation_title">Cunnessione micca assicurizata</string>
     <string name="ra_ssl_explanation">A vostra cunnessione ùn hè micca assicurata.</string>
@@ -1344,6 +1372,7 @@
     <string name="export_settings">Espurtà i parametri</string>
     <string name="restore_settings_summary">Risturà i vostri parametri grazia à un’espurtazione precedente</string>
     <string name="restore_settings">Risturà i parametri</string>
+    <string name="obsolete_restore_settings">A vostra espurtazione di parametri hè anziana. Ci vole à espurtalli torna</string>
     <string name="export_settings_success">I parametri sò stati espurtati bè ver di a radica di a memoria interna</string>
     <string name="export_settings_failure">Un sbagliu hè accadutu durante l’espurtazione di i vostri parametri</string>
 
@@ -1373,4 +1402,13 @@
     <string name="generating_logs">Generazione di i ghjurnali di messaghji. Aspittate per piacè.</string>
     <string name="default_playback_action">Azzione di lettura</string>
     <string name="files">Schedarii</string>
-</resources>
+    <string name="remote_access_feedback_generate">Ingenerà un raportu</string>
+    <string name="remote_access_feedback_generated">U vostru raportu di valutazione hè statu ingeneratu</string>
+    <string name="remote_access_feedback_generated_explanation">Appughjate nant’à u buttone quaghjò per mandallu via a vostra messaghjeria predefinita. In casu di prublema, pudete cupià è incullà i campi quaghjò è mandà u messaghju elettronicu dapervoi.</string>
+    <string name="remote_access_feedback_file_explanation">Avete ghjustu scaricatu u schedariu richiestu. Ùn vi scurdate di ghjunghjelu à u vostru messaghju elettronicu.</string>
+    <string name="generic_copied_to_clipboard">Cupiatu in u preme’papei</string>
+    <string name="feedback_email_warning">Niisuna messaghjeria installata</string>
+    <string name="feedback_email_warning_explanation">A manera a più faciule di sparte i vostri cummenti hè d’impiegà a funzione %1$s.\nPer fà què, attivate l’accessu alluntanatu in i parametri, seguitate l’istruzzioni è sciglite l’ozzione %2$s di u listinu.</string>
+    <string name="feedback_email_warning_remote_action">Apre i parametri</string>
+    <string name="feedback_email_warning_try_anyway">Pruvà quantunque</string>
+    </resources>

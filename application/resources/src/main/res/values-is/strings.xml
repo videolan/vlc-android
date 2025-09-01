@@ -203,8 +203,6 @@
 
     <string name="streams">Straumar</string>
     <string name="open_mrl_dialog_msg">Settu inn netslóð: t.d. http://, mms:// eða rtsp://</string>
-    <string name="encountered_error_title">Afspilunarvilla</string>
-    <string name="encountered_error_message">VLC rakst á villu í þessum miðli.\nReyndu að endurlesa margmiðlunarsafnið.</string>
     <string name="invalid_location">Ekki er hægt að spila staðsetninguna %1$s</string>
     <string name="search">Leita</string>
 
@@ -717,7 +715,6 @@
     <string name="eq_snap_bands">Hengja við næstu tíðnisvið</string>
     <string name="enable_equalizer">Virkja</string>
     <string name="preamp">Formögnun</string>
-    <string name="presets">Forstillingar</string>
     <string name="reset">Endurstilla</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d lag sett inn</item>
@@ -900,7 +897,6 @@
     <string name="move_down">Færa niður</string>
     <string name="remove_from_playlist">Fjarlægja af spilunarlista</string>
     <string name="play_media">Spila %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Bæta við tvíteknum atriðum?</string>
     <string name="add_button">Bæta við</string>

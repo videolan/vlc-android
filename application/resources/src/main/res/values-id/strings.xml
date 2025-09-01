@@ -193,8 +193,6 @@
 
     <string name="streams">Lansiran (stream)</string>
     <string name="open_mrl_dialog_msg">Masukkan alamat jaringan: misal http://, mms:// atau rtsp://</string>
-    <string name="encountered_error_title">Galat pada pemutaran</string>
-    <string name="encountered_error_message">VLC mengalami galat dengan media ini.\nSilakan coba segarkan pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak bisa dimainkan.</string>
     <string name="missing_location">Media ini dari penyimpanan yang tidak tersedia dan tidak bisa dimainkan.</string>
 
@@ -272,7 +270,6 @@
     <string name="add_custom_path_description">Masukkan direktori tambahan untuk dipindai:</string>
     <string name="remove_custom_path">Buang jalur manual</string>
     <string name="group_ban_folder">Cekal folder dari pustaka media</string>
-
     <string name="hardware_acceleration">Akselerasi Perangkat Keras</string>
     <string name="hardware_acceleration_summary">Nonaktif: stabilitas lebih baik\nDekoding: dapat meningkatkan kinerja.\nPenuh: dapat meningkatkan kinerja lebih baik</string>
     <string name="hardware_acceleration_disabled">Dimatikan</string>
@@ -746,7 +743,6 @@
     <string name="eq_snap_bands">Snap band</string>
     <string name="enable_equalizer">Aktif</string>
     <string name="preamp">Penguatan awal</string>
-    <string name="presets">pengaturan awal</string>
     <string name="reset">Setel ulang</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d trek dimasukkan</item>
@@ -939,7 +935,6 @@
     <string name="move_down">Ke bawah</string>
     <string name="remove_from_playlist">Hapus dari playlist</string>
     <string name="play_media">Mulai %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Tambahkan item duplikat?</string>
     <string name="add_button">Tambahkan</string>

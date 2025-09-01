@@ -201,8 +201,6 @@
 
     <string name="streams">Fluxos</string>
     <string name="open_mrl_dialog_msg">Introduza o enderezo de rede, p.e.: http://, mms:// ou rtsp://</string>
-    <string name="encountered_error_title">Erro de reprodución</string>
-    <string name="encountered_error_message">O VLC encontrou un erro con este multimedia.\nProbe a actualizar a biblioteca multimedia.</string>
     <string name="invalid_location">Non é posíbel reproducir a localización %1$s.</string>
     <string name="search">Buscar</string>
 
@@ -655,7 +653,6 @@
     <string name="eq_snap_bands">Modificar frecuencias próximas</string>
     <string name="enable_equalizer">Activar</string>
     <string name="preamp">Preamplificación</string>
-    <string name="presets">Predeterminados</string>
     <string name="reset">Restabelecer</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d pista inserida</item>
@@ -842,7 +839,6 @@
     <string name="start_vlc">Iniciar VLC</string>
     <string name="jump_delay_summary">%s segundos</string>
     <string name="play_media">Reproducir %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Desexa engadir elementos duplicados?</string>
     <string name="add_button">Engadir</string>

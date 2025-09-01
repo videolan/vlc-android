@@ -242,8 +242,6 @@
 
     <string name="streams">Srautai</string>
     <string name="open_mrl_dialog_msg">Įveskite tinklo adresą, pvz.: http://, mms:// ar rtsp://</string>
-    <string name="encountered_error_title">Grojimo klaida</string>
-    <string name="encountered_error_message">Grodama šį kūrinį VLC programa sutriko.\nPabandykite atnaujinti savo mediateką.</string>
     <string name="invalid_location">Nepavyko atkurti %1$s</string>
     <string name="missing_location">Ši medijos rinkmena yra nepasiekiamoje saugykloje ir jos negalima atkurti.</string>
 
@@ -325,7 +323,6 @@
     <string name="add_custom_path_description">Įtraukti papildomą žvalgytiną katalogą:</string>
     <string name="remove_custom_path">Pašalinti papildomą kelią</string>
     <string name="group_ban_folder">Uždrausti aplanką mediatekoje</string>
-
     <string name="hardware_acceleration">Aparatinis spartinimas</string>
     <string name="hardware_acceleration_summary">Išjungtas: geresnis stabilumas\nIškodavimo: gali pagerinti našumą\nVisiškas: gali dar labiau pagerinti našumą</string>
     <string name="hardware_acceleration_disabled">Išjungtas</string>
@@ -630,10 +627,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Kas naujo VLC, skirtoje „Android“ sistemai %s</string>
-    <string name="whats_new_36_webserver_text">Naudojant naują nuotolinės prieigos funkciją, galima valdyti VLC, skirtą „Android“ sistemai, iš bet kurio kito įrenginio.\nSiųsti ir priimti rinkmenas, valdyti atkūrimą ir dar daugiau!</string>
-    <string name="whats_new_36_favorites_text">Dabar galite įtraukti į „Mėgstamiausius“ savo kūrinius, grojaraščius, atlikėjus arba albumus.\nRaskite pageidaujamą turinį filtruodami jį „Mėgstamiausiuose“!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Galimas atnaujinimas</string>
     <string name="install_nightly_title">„Naktinės“ versijos diegimas</string>
     <string name="update_text">Galimas naktinės VLC, skirtos „Android“ sistemai, atnaujinimas!\n\nJūs tai matote, nes naudojate naktinę versiją.</string>
@@ -873,7 +867,6 @@
     <string name="eq_snap_bands">Regul. su šoniniais</string>
     <string name="enable_equalizer">Įgalinti</string>
     <string name="preamp">Stiprinimas</string>
-    <string name="presets">Deriniai</string>
     <string name="reset">Atstatyti</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Įtrauktas %d takelis</item>
@@ -1104,7 +1097,6 @@
     <string name="move_down">Nuleisti žemyn</string>
     <string name="remove_from_playlist">Pašalinti iš grojaraščio</string>
     <string name="play_media">Groti: %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Pridėti pasikartojančius?</string>
     <string name="add_button">Pridėti</string>

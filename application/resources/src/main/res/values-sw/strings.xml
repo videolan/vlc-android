@@ -194,8 +194,6 @@
 
     <string name="streams">Mitiririko</string>
     <string name="open_mrl_dialog_msg">Ingiza anwani ya mtandao: k.m. http://, mms:// au rtsp://</string>
-    <string name="encountered_error_title">Hitlafu katika uchezaji</string>
-    <string name="encountered_error_message">VLC imepata hitlafu wakati wa kucheza midia hii.\nTafadhali jaribu kuchangamsha maktaba ya midia</string>
     <string name="invalid_location">Eneo %1$s haliwezi likachezwa.</string>
     <string name="missing_location">Hifadhi ya midia hii haipatikani, kwa hivyo, haiwezi kuchezwa</string>
 
@@ -718,7 +716,6 @@
     <string name="eq_snap_bands">Landanisha bendi</string>
     <string name="enable_equalizer">Wezesha</string>
     <string name="preamp">Amplifaya awali</string>
-    <string name="presets">Setiawali</string>
     <string name="reset">Weka upya</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Nakala %d imeingizwa</item>
@@ -910,7 +907,6 @@
     <string name="move_down">Nenda chini</string>
     <string name="remove_from_playlist">Ondoa kutoka orodha chezeshi</string>
     <string name="play_media">Cheza %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Ongeza vilivyorudiwa?</string>
     <string name="add_button">Ongeza</string>

@@ -217,8 +217,6 @@
 
     <string name="streams">Transmisiones</string>
     <string name="open_mrl_dialog_msg">Introducir dirección de red: p. ej. http://, mms:// o rtsp://</string>
-    <string name="encountered_error_title">Error de reproducción</string>
-    <string name="encountered_error_message">VLC a encontrado un error con este medio.\nPor favor intente actualizar la biblioteca</string>
     <string name="invalid_location">La ubicación %1$s no se puede reproducir.</string>
     <string name="search">Busqueda</string>
 
@@ -669,7 +667,6 @@
     <string name="eq_snap_bands">Anclar bandas</string>
     <string name="enable_equalizer">Habilitar</string>
     <string name="preamp">Preamp</string>
-    <string name="presets">Predefinidos</string>
     <string name="reset">Restablecer</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d Pista agregada</item>

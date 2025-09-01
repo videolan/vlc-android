@@ -65,6 +65,15 @@
     <string name="set_song_question">\'%1$s\' を着信音として設定?</string>
     <string name="info">情報</string>
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
+    <string name="equalizer_overwrite_warning">このイコライザーすでに存在します</string>
+    <string name="overwrite">上書き</string>
+    <string name="eq_cannot_overwrite">デフォルトのイコライザーは上書きできません</string>
+    <string name="equalizer_name">イコライザー名</string>
+    <string name="equalizer_deleted">イコライザーはすでに削除されています</string>
+    <string name="equalizer_leave_warning">ビデオプレイヤーから離れます</string>
+    <string name="invalid_equalizer_file">無効なイコライザーファイル</string>
+    <string name="confirm_delete_eq">本当にこのプリセットを削除しますか？</string>
+    <string name="confirm_delete_vlc_eq">本当にこのプリセットを隠しますか？\nイコライザー設定からリストアできます。</string>
     <string name="confirm_replace_playlist">本当にこのプレイリスト \'%1$s\' を置き換えますか？</string>
     <string name="invalid_settings_file">無効な設定ファイル</string>
     <string name="confirm_delete_message">この操作は永続的で取消できません。</string>
@@ -122,6 +131,14 @@
     <string name="video">ビデオ</string>
     <string name="bookmarks">ブックマーク</string>
     <string name="equalizer">イコライザー</string>
+    <string name="import_equalizer">イコライザーのインポート</string>
+    <string name="equalizer_exported">イコライザーを %s にエクスポート</string>
+    <string name="equalizer_copy_template">(コピー%s)</string>
+    <string name="new_equalizer_copy_template">新しいイコライザー%s</string>
+    <string name="show_all">すべてを表示</string>
+    <string name="hide_all">すべてを隠す</string>
+    <string name="export_all">すべてをエクスポート</string>
+    <string name="import_all">すべてをインポート</string>
     <string name="all_albums">すべてのアルバム</string>
     <string name="genres">ジャンル</string>
     <string name="playlists">プレイリスト</string>
@@ -226,8 +243,6 @@
 
     <string name="streams">ストリーム</string>
     <string name="open_mrl_dialog_msg">ネットワークMRLを入力: 例 http://, mms:// または rtsp://</string>
-    <string name="encountered_error_title">再生エラー</string>
-    <string name="encountered_error_message">このメディアでエラーを検出しました。\nメディアライブラリをリフレッシュしてみてください。</string>
     <string name="invalid_location">その場所 %1$s は再生できません</string>
     <string name="missing_location">このメディアは現在利用不可能なストレージ上にあるため再生できません。</string>
 
@@ -638,8 +653,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">VLC for Android %s の更新情報</string>
-    <string name="whats_new_36_webserver_text">新しいリモートアクセス機能を利用すると、他のデバイスからAndroid版VLCを制御することができます。\nメディアを双方向に送信したり再生したりなど色々な制御ができます!</string>
-    <string name="whats_new_36_favorites_text">メディア、プレイリスト、アーティスト、アルバムをお気に入りに追加することができるようになりました。\nお気に入りでフィルタリングすると好きなコンテンツが一目で見つけられます!</string>
+    <string name="whats_new_37_equalizer_text">イコライザーを一から見直しました。より使いやすくなり、デフォルトのプリセットを無効化できるようになり、バックアップ、復元、共有も可能になりました。</string>
+    <string name="whats_new_37_import_export">設定のバックアップと復元機能を改善しました。イコライザープリセットを含む、より多くの設定をバックアップできるようになりました。</string>
+    <string name="show_in_settings">設定で表示</string>
 
 <!--    update-->
     <string name="update_title">アップデートがあります</string>
@@ -882,7 +898,6 @@
     <string name="eq_snap_bands">スナップバンド</string>
     <string name="enable_equalizer">有効化</string>
     <string name="preamp">プリアンプ</string>
-    <string name="presets">プリセット</string>
     <string name="reset">リセット</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d トラックが挿入されました</item>
@@ -1114,6 +1129,11 @@
     <string name="move_down">下に移動</string>
     <string name="remove_from_playlist">プレイリストから削除</string>
     <string name="play_media"> %sを再生</string>
+    <string name="edit_eq_preset">イコライザーのプリセットを編集</string>
+    <string name="edit_eq_name_not_allowed">この名前は使用できません</string>
+    <string name="export_equalizer">イコライザーをエクスポート</string>
+    <string name="hide_equalizer">イコライザーを隠す</string>
+    <string name="show_equalizer">イコライザーを表示</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">重複する項目を追加しますか?</string>

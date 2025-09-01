@@ -38,6 +38,7 @@
     </plurals>
 
     <string name="play">Erreproduzitu</string>
+    <string name="quick_play">Azkar erreproduzitu</string>
     <string name="playback">Erreprodukzioa</string>
     <string name="playback_controls">Erreprodukzio-kontrolak</string>
     <string name="medialibrary_scan">Multimedia-liburutegia eskaneatzea</string>
@@ -56,6 +57,8 @@
     <string name="append_all">Erantsi denak</string>
     <string name="resume_playback_short_title">Berrekin erreprodukzioa</string>
     <string name="resume_playback_long_title">Berrekin azken erreprodukzio-zerrendaren erreprodukzioa</string>
+    <string name="resume_audio_playback_short_title">Berrekin audio erreprodukzioa</string>
+    <string name="resume_audio_playback_long_title">Berrekin azken audio erreprodukzio-zerrenda erreprodukzioa</string>
     <string name="resume_playback_error">Ezer ez  berrabiarazteko</string>
     <string name="delete">Ezabatu</string>
     <string name="remove">Kendu</string>
@@ -63,6 +66,12 @@
     <string name="set_song_question">Ezarri %1$s dei-tonu gisa?</string>
     <string name="info">Informazioa</string>
     <string name="confirm_delete">Ezabatu \'%1$s\' fitxategia?</string>
+    <string name="equalizer_overwrite_warning">Ekualizadore hau badago lehendik</string>
+    <string name="overwrite">Gainidatzi</string>
+    <string name="eq_cannot_overwrite">Ezin izan da lehenetsitako ekualizadorea gainidatzi</string>
+    <string name="equalizer_name">Ekualizadorearen izena</string>
+    <string name="equalizer_deleted">Ekualizadorea ezabatu da</string>
+    <string name="equalizer_leave_warning">Utzi behar duzu bideo erreproduzigailua</string>
     <string name="confirm_replace_playlist">Ziur \'%1$s\' erreproduzitu zerrenda ordezkatu nahi duzula?</string>
     <string name="confirm_delete_message">Betirako da eta ezin da desegin</string>
     <string name="confirm_delete_album">Ezabatu  \'%1$s\' albuma?</string>
@@ -228,8 +237,6 @@
 
     <string name="streams">Transmisioak</string>
     <string name="open_mrl_dialog_msg">Sartu sareko helbidea: adib. http://, mms:// edo rtsp://</string>
-    <string name="encountered_error_title">Erreprodukzio-errorea</string>
-    <string name="encountered_error_message">VLCk errore bat aurkitu du multimedia honekin.\nSaiatu multimedia-liburutegia berritzen.</string>
     <string name="invalid_location">Ezin da %1$s kokalekua erreproduzitu.</string>
     <string name="missing_location">Multimedia hau erabilgarri ez dagoen biltegiratze batekoa da eta ezin da erreproduzitu.</string>
 
@@ -310,7 +317,6 @@
     <string name="add_custom_path_description">Idatzi eskaneatzeko direktorio gehigarriak:</string>
     <string name="remove_custom_path">Kendu bide pertsonalizatua</string>
     <string name="group_ban_folder">Debekatu karpeta multimedia liburutegitik</string>
-
     <string name="hardware_acceleration">Hardware-azelerazioa</string>
     <string name="hardware_acceleration_summary">Desgaituta: egonkortasun handiagoa\nDekodifikazioa: errendimendua hobe dezake\nOsoa: errendimendua gehiago hobetu dezake</string>
     <string name="hardware_acceleration_disabled">Desgaituta</string>
@@ -810,7 +816,6 @@
     <string name="eq_snap_bands">Kolpetik mugitu bandak</string>
     <string name="enable_equalizer">Gaitu</string>
     <string name="preamp">Aurreanp</string>
-    <string name="presets">Aurrezarpenak</string>
     <string name="reset">Berrezarri</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Pista %d txertatuta</item>
@@ -1008,7 +1013,6 @@
     <string name="move_down">Behera</string>
     <string name="remove_from_playlist">Kendu erreprodukzio zerrendatik</string>
     <string name="play_media">Erreproduzitu %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Bikoiztutako elementua(k) gehitu?</string>
     <string name="add_button">Gehitu</string>

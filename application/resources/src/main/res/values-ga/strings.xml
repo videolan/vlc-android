@@ -191,7 +191,6 @@
 
     <string name="streams">Sruthanna</string>
     <string name="open_mrl_dialog_msg">Cuir isteach seoladh an líonra: m.sh. http://, mms:// nó rtsp://</string>
-    <string name="encountered_error_title">Earráid athsheanma</string>
     <string name="invalid_location">Ní féidir an suíomh %1$s a sheinm.</string>
     <string name="search">Cuardaigh</string>
 
@@ -579,7 +578,6 @@
     <string name="show_video_thumbnails_summary">Taispeáin mionsamhlacha na bhfíseán i liostaí</string>
     <string name="show_video_thumbnails">Mionsamhlacha na bhfíseán</string>
     <string name="enable_equalizer">Cumasaigh</string>
-    <string name="presets">Réamhshocruithe</string>
     <string name="reset">Athshocraigh é</string>
     <string name="remove_current">Bain an ceann reatha</string>
     <string name="validation_delete_playlist">An bhfuil tú cinnte gur mian leat an seinmliosta seo a scriosadh?</string>
@@ -723,7 +721,6 @@
     <string name="move_up">Bog suas é</string>
     <string name="move_down">Bog síos é</string>
     <string name="play_media">Seinn %s</string>
-
     <string name="add_button">Cuir leis</string>
     <string name="add_all_button">Cuir gach ceann leis</string>
     <string name="add_new_only_button">Ná cuir ach cinn nua leis</string>

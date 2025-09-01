@@ -194,8 +194,6 @@
 
     <string name="streams">സ്ട്രീമുകൾ </string>
     <string name="open_mrl_dialog_msg">ശ്രിന്ഘല വിലാസം തരു. ഉദാഹരണം :  http://, mms:// or rtsp://</string>
-    <string name="encountered_error_title">പ്രവര്‍ത്തിക്കുന്നതില്‍ പിഴവ്</string>
-    <string name="encountered_error_message">ഈ മീഡിയ പ്രവര്‍ത്തിപ്പിക്കുന്നതില്‍ വിഎല്‍സിക്ക് പിഴവ് സംഭവിച്ചിരിക്കുന്നു\n മീഡിയ ലൈബ്രറി റീഫ്രഷ് ചെയ്ത് നോക്കുക</string>
     <string name="invalid_location">%1$sഎന്ന സ്ഥലത്തുള്ളവ കാണാനാവില്ല</string>
     <string name="missing_location">ഈ മീഡിയ ലഭ്യമല്ലാത്ത സ്റ്റോറേജിൽ നിന്നുള്ളതാണ്, പ്ലേ ചെയ്യാൻ കഴിയില്ല.</string>
 
@@ -687,7 +685,6 @@
     <string name="eq_snap_bands">സ്നാപ്പ് ബാൻഡുകൾ</string>
     <string name="enable_equalizer">പ്രവർത്തനക്ഷമമാക്കുക</string>
     <string name="preamp">പ്രീ ആംപ് </string>
-    <string name="presets">പ്രീസെറ്റുകൾ</string>
     <string name="reset">റീസെറ്റ് </string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d ട്രാക്കുകൾ ചേർത്തു</item>
@@ -879,7 +876,6 @@
     <string name="move_down">താഴേക്ക് നീക്കുക</string>
     <string name="remove_from_playlist">പ്ലേലിസ്റ്റിൽ നിന്ന് നീക്കം ചെയ്യുക</string>
     <string name="play_media">%s പ്ലേ ചെയ്യുക</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">തനിപ്പകർപ്പ് ഇനം (കൾ) ചേർക്കണോ?</string>
     <string name="add_button">ചേർക്കുക</string>

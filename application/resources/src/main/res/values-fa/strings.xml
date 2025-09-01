@@ -197,8 +197,6 @@
 
     <string name="streams">جریان‌ها</string>
     <string name="open_mrl_dialog_msg">نشانی شبکه را وارد کنید؛ مانند: http://‎ و mms://‎ یا rtsp://‎</string>
-    <string name="encountered_error_title">خطای پخش</string>
-    <string name="encountered_error_message">وی‌ال‌سی با خطایی در این رسانه مواجه شد.\n لطفاً کتابخانهٔ رسانه را نوسازی کنید.</string>
     <string name="invalid_location">محل %1$s قابل پخش نیست</string>
     <string name="missing_location">این رسانه متعلق به حافظه ای خارج ار دسترس میباشد و قابل پخش نیست</string>
 
@@ -694,7 +692,6 @@
     <string name="show_video_thumbnails">عکس های کوچک ویدیو ها</string>
     <string name="enable_equalizer">فعال</string>
     <string name="preamp">تقویت کننده</string>
-    <string name="presets">تنظیمات از پیش تعیین شده</string>
     <string name="reset">بازنشانی</string>
     <string name="remove_current">حذف کنونی</string>
     <string name="validation_delete_playlist">آیا می‌خواهید این فهرست پخش را حذف کنید؟</string>
@@ -842,7 +839,6 @@
     <string name="move_down">پایین ببر</string>
     <string name="remove_from_playlist">از فهرست پخش حذف کن</string>
     <string name="play_media">%sرا پخش کن</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">موارد تکراری اضافه شوند؟</string>
     <string name="add_button">افزودن</string>

@@ -231,8 +231,6 @@
 
     <string name="streams">Streamy</string>
     <string name="open_mrl_dialog_msg">Zadejte adresu URL: [např. http://, mms:// nebo rtsp://]</string>
-    <string name="encountered_error_title">Chyba přehrávání</string>
-    <string name="encountered_error_message">Chyba média…\nObnovte Knihovnu médií.</string>
     <string name="invalid_location">Nelze přehrát z umístění \'%1$s\'</string>
     <string name="missing_location">Toto médium je umístěné na nedostupném úložišti a nelze je přehrát. </string>
 
@@ -313,7 +311,6 @@
     <string name="add_custom_path_description">Zadejte umístění adresáře pro prohledání:</string>
     <string name="remove_custom_path">Odstranit vlastní umístění</string>
     <string name="group_ban_folder">Zakázat složku z knihovny médií</string>
-
     <string name="hardware_acceleration">Hardwarová akcelerace</string>
     <string name="hardware_acceleration_summary">Zakázat: lepší stabilita\nDekódování: zlepší výkon\nPlná: více zlepší výkon</string>
     <string name="hardware_acceleration_disabled">Zakázat akceleraci</string>
@@ -603,10 +600,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Co je nového ve VLC pro Android %s</string>
-    <string name="whats_new_36_webserver_text">S novou funkcí vzdáleného přístupu převezměte kontrolu nad VLC pro Android z jakéhokoli jiného zařízení.\nPosílejte svá média oběma směry, ovládejte přehrávání a mnohem více!</string>
-    <string name="whats_new_36_favorites_text">Nyní můžete upřednostnit svá média, seznamy skladeb, umělce nebo alba.\nNajděte svůj preferovaný obsah na první pohled filtrováním obsahu pouze podle oblíbených!</string>
-
-<!-- Accessibility -->
+    <!-- Accessibility -->
     <string name="more_actions">Více…</string>
     <string name="back_quit_lock">Stiskněte znovu tlačítko Zpět pro ukončení…</string>
     <string name="stream_deleted">Stream byl smazán</string>
@@ -811,7 +805,6 @@
     <string name="eq_snap_bands">Spřáhnout pásma</string>
     <string name="enable_equalizer">Povolit</string>
     <string name="preamp">Předzesílení</string>
-    <string name="presets">Předvolby</string>
     <string name="reset">Obnovit</string>
     <plurals name="tracks_inserted">
         <item quantity="one">1 skladba vložena</item>
@@ -1036,7 +1029,6 @@
     <string name="move_down">Posunout dolů</string>
     <string name="remove_from_playlist">Odstranit ze seznamu skladeb</string>
     <string name="play_media">Přehrát %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Chcete přidat duplikované položky?</string>
     <string name="add_button">Přidat</string>

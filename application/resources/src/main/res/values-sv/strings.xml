@@ -66,6 +66,15 @@
     <string name="set_song_question">Ange  \"%1$s\" som ringsignal?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \"%1$s\"?</string>
+    <string name="equalizer_overwrite_warning">Denna equalizer finns redan</string>
+    <string name="overwrite">Skriv över</string>
+    <string name="eq_cannot_overwrite">Kan inte skriva över en standardequalizer</string>
+    <string name="equalizer_name">Equalizernamn</string>
+    <string name="equalizer_deleted">Equalizern har raderats</string>
+    <string name="equalizer_leave_warning">Du kommer att lämna videospelaren</string>
+    <string name="invalid_equalizer_file">Ogiltigt namn på equalizer</string>
+    <string name="confirm_delete_eq">Är du säker på att du vill radera denna förinställning?</string>
+    <string name="confirm_delete_vlc_eq">Är du säker på att du vill dölja denna förinställning?\nDu kan återställa den i equalizerinställningarna.</string>
     <string name="confirm_replace_playlist">Är du säker på att du vill ersätta spellistan \"%1$s\"?</string>
     <string name="invalid_settings_file">Ogiltig inställningsfil</string>
     <string name="confirm_delete_message">Detta är permanent och kan inte ångras.</string>
@@ -132,6 +141,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Bokmärken</string>
     <string name="equalizer">Equalizer</string>
+    <string name="import_equalizer">Importera equalizer</string>
+    <string name="equalizer_exported">Equalizer exporterades till %s</string>
+    <string name="equalizer_copy_template">(kopiera %s)</string>
+    <string name="new_equalizer_copy_template">Ny equalizer%s</string>
+    <string name="show_all">Visa alla</string>
+    <string name="hide_all">Dölj alla</string>
+    <string name="export_all">Exportera alla</string>
+    <string name="import_all">Importera alla</string>
     <string name="all_albums">Alla album</string>
     <string name="genres">Genrer</string>
     <string name="playlists">Spellistor</string>
@@ -237,8 +254,6 @@
 
     <string name="streams">Strömmar</string>
     <string name="open_mrl_dialog_msg">Ange nätverksadress: d.v.s. http://, mms:// eller rtsp://</string>
-    <string name="encountered_error_title">Uppspelningsfel</string>
-    <string name="encountered_error_message">VLC stötte på ett fel med denna mediafil.\nFörsök att uppdatera mediebiblioteket.</string>
     <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
     <string name="missing_location">Denna mediafil kommer från ett otillgängligt lagringsutrymme och kan inte spelas upp.</string>
 
@@ -649,8 +664,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Vad är nytt i VLC for Android %s</string>
-    <string name="whats_new_36_webserver_text">Med denna nya funktionalitet kan du fjärrstyra VLC for Android från en annan enhet.\nSkicka dina mediafiler åt båda håll, styr din uppspelning och mycket mer!</string>
-    <string name="whats_new_36_favorites_text">Du kan nu favoritmarkera dina mediafiler, spellistor, artister och album.\nHitta innehållet du föredrar på ett ögonblick genom att filtrera innehållet efter endast favoriter!</string>
+    <string name="whats_new_37_equalizer_text">Equalizern har omarbetats från grunden. Den är enklare att använda, låter dig inaktiverat standardinställningarna och gör det möjligt att säkerhetskopiera, återställa och dela dina inställningar.</string>
+    <string name="whats_new_37_import_export">Vi har förbättrat funktionen för säkerhetskopiering och återställning av inställningar. Nu kan du säkerhetskopiera fler inställningar, inklusive förinställningarna för equalizern.</string>
+    <string name="show_in_settings">Visa i inställningar</string>
 
 <!--    update-->
     <string name="update_title">Uppdatering är tillgänglig</string>
@@ -893,7 +909,6 @@
     <string name="eq_snap_bands">Fäst band</string>
     <string name="enable_equalizer">Aktivera</string>
     <string name="preamp">Försteg</string>
-    <string name="presets">Förinställningar</string>
     <string name="reset">Nollställ</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d spår lades till</item>
@@ -1127,6 +1142,11 @@
     <string name="move_down">Flytta ned</string>
     <string name="remove_from_playlist">Ta bort från spellistan</string>
     <string name="play_media">Spela upp %s</string>
+    <string name="edit_eq_preset">Redigera förinställningar för equalizer</string>
+    <string name="edit_eq_name_not_allowed">Namnet är inte tillåtet</string>
+    <string name="export_equalizer">Exportera equalizer</string>
+    <string name="hide_equalizer">Dölj equalizer</string>
+    <string name="show_equalizer">Visa equalizer</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Lägg till duplicerade objekt?</string>

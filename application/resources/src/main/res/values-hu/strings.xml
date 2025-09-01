@@ -66,7 +66,17 @@
     <string name="set_song_question">Beállítja csengőhangként a(z) „%1$s” fájlt?</string>
     <string name="info">Információ</string>
     <string name="confirm_delete">Törli ezt a fájlt: „%1$s”?</string>
+    <string name="equalizer_overwrite_warning">A hangszínszabályzó már létezik</string>
+    <string name="overwrite">Felülírás</string>
+    <string name="eq_cannot_overwrite">Az alapértelmezett hangszínszabályzó nem írható felül</string>
+    <string name="equalizer_name">Hangszínszabályzó neve</string>
+    <string name="equalizer_deleted">A hangszínszabályzó törölve lett</string>
+    <string name="equalizer_leave_warning">El fogja hagyni a videólejátszót</string>
+    <string name="invalid_equalizer_file">Érvénytelen hangszínszabályzófájl</string>
+    <string name="confirm_delete_eq">Biztos, hogy törli ezt az előbeállítást?</string>
+    <string name="confirm_delete_vlc_eq">Biztos, hogy elrejti ezt az előbeállítást? A hangszínszabályzó beállításaiban állíthatja helyre.</string>
     <string name="confirm_replace_playlist">Biztos, hogy törli a(z) „%1$s” lejátszólistát?</string>
+    <string name="invalid_settings_file">Érvénytelen beállítófájl</string>
     <string name="confirm_delete_message">Ez végleges, és nem lehet visszavonni.</string>
     <string name="confirm_delete_album">Törli ezt az albumot: „%1$s”?</string>
     <string name="confirm_delete_several_media">Törli ezt a(z) %1$d médiát?</string>
@@ -131,6 +141,14 @@
     <string name="video">Videó</string>
     <string name="bookmarks">Könyvjelzők</string>
     <string name="equalizer">Hangszínszabályzó</string>
+    <string name="import_equalizer">Hangszínszabályzó importálása</string>
+    <string name="equalizer_exported">Hangszínszabályzók exportálva ide: %s</string>
+    <string name="equalizer_copy_template">(%s másolása)</string>
+    <string name="new_equalizer_copy_template">Új hangszínszabályzó: %s</string>
+    <string name="show_all">Összes megjelenítése</string>
+    <string name="hide_all">Összes elrejtése</string>
+    <string name="export_all">Összes exportálása</string>
+    <string name="import_all">Összes importálása</string>
     <string name="all_albums">Összes album</string>
     <string name="genres">Műfajok</string>
     <string name="playlists">Lejátszólisták</string>
@@ -236,8 +254,6 @@
 
     <string name="streams">Közvetítések</string>
     <string name="open_mrl_dialog_msg">Írja be a hálózati címet: pl. http://, mms:// vagy rtsp://</string>
-    <string name="encountered_error_title">Lejátszási hiba</string>
-    <string name="encountered_error_message">A VLC hibát tapasztalt ezzel a médiával.\nPróbálja meg frissíteni a médiatárat.</string>
     <string name="invalid_location">A(z) %1$s helyet nem lehet lejátszani.</string>
     <string name="missing_location">A média egy nem elérhető tárhelyen található, ezért nem lehet lejátszani.</string>
 
@@ -648,10 +664,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">A VLC for Android %s újdonságai</string>
-    <string name="whats_new_36_webserver_text">Az új távoli elérési funkcióval tetszőleges eszközről irányíthatja a VLC for Androidot.\nKüldjön médiafájlokat mindkét irányba, vezérelje a lejátszást, és ez csak a kezdet!</string>
-    <string name="whats_new_36_favorites_text">Most már kedvencnek jelölheti a médiafájljait, lejátszólistáit, előadóit vagy albumait.\nTalálja meg az előnyben részesített tartalmait egy pillantás alatt azáltal, hogy csak a kedvenceire szűr!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Frissítés érhető el</string>
     <string name="install_nightly_title">A napi verzió telepítése</string>
     <string name="update_text">A VLC for Android új napi kiadása elérhető!\n\nEzt azért látja, mert napi összeállítást használ.</string>
@@ -892,7 +905,6 @@
     <string name="eq_snap_bands">Sávok egymáshoz tapasztása</string>
     <string name="enable_equalizer">Engedélyezés</string>
     <string name="preamp">Előerősítés</string>
-    <string name="presets">Előbeállítások</string>
     <string name="reset">Visszaállítás</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d szám beszúrva</item>
@@ -1126,6 +1138,11 @@
     <string name="move_down">Mozgatás lefelé</string>
     <string name="remove_from_playlist">Eltávolítás a lejátszólistáról</string>
     <string name="play_media">%s lejátszása</string>
+    <string name="edit_eq_preset">Hangszínszabályzó-előbeállítás szerkesztése</string>
+    <string name="edit_eq_name_not_allowed">Ez a név nem engedélyezett</string>
+    <string name="export_equalizer">Hangszínszabályzó exportálása</string>
+    <string name="hide_equalizer">Hangszínszabályzó elrejtése</string>
+    <string name="show_equalizer">Hangszínszabályzó megjelenítése</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Hozzáadja az ismételt elemeket?</string>
@@ -1351,6 +1368,7 @@
     <string name="export_settings">Beállítások exportálása</string>
     <string name="restore_settings_summary">A beállítások helyreállítása egy korábbi exportból</string>
     <string name="restore_settings">Beállítások helyreállítása</string>
+    <string name="obsolete_restore_settings">A beállítások exportja elavult. Exportálja őket újra.</string>
     <string name="export_settings_success">A beállítások sikeresen exportálva lettek a belső tároló gyökerébe</string>
     <string name="export_settings_failure">Hiba történt a beállítások exportálása során</string>
 

@@ -226,8 +226,6 @@
 
     <string name="streams">Патокі</string>
     <string name="open_mrl_dialog_msg">Сеткавы адрас, http://, mms:// або rtsp://</string>
-    <string name="encountered_error_title">Памылка прайгравання</string>
-    <string name="encountered_error_message">У VLC узніклі цяжкасці з гэтым медыя-аб’ектам.\nПаспрабуйце абнавіць медыятэку.</string>
     <string name="invalid_location">Немагчыма прайграць размяшчэнне %1$s.</string>
     <string name="search">Пошук</string>
 
@@ -301,7 +299,6 @@
     <string name="add_custom_path_description">Увядзіце дадатковы каталог для сканавання:</string>
     <string name="remove_custom_path">Выдаліць уласны шлях</string>
     <string name="group_ban_folder">Выключыць папку з медыятэкі</string>
-
     <string name="hardware_acceleration">Апаратнае паскарэнне</string>
     <string name="hardware_acceleration_summary">Адключана: лепшая стабільнасць\nДэкадаванне: можа палепшыць прадукцыйнасць\nПоўнае: можа дадаткова палепшыць прадукцыйнасць</string>
     <string name="hardware_acceleration_disabled">Адключана</string>
@@ -522,7 +519,6 @@
     <string name="custom_libvlc_options_invalid">Недапушчальныя параметры libVLC</string>
     <string name="dav1d_thread_number">Нумар патоку Dav1d </string>
     <string name="dav1d_thread_number_invalid">Няправільны нумар патоку (>=1)</string>
-
     <string name="serious_crash">На жаль, здарылася сур’ёзная памылка і VLC давялося закрыцца.</string>
     <string name="help_us_send_log">Дапамажыце палепшыць VLC, адправіўшы гэтую справаздачу:</string>
     <string name="restart_vlc">Перазапусціць VLC</string>
@@ -567,10 +563,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Што новага ў VLC для Android %s</string>
-    <string name="whats_new_36_webserver_text">З новай функцыяй аддаленага доступу можна кіраваць VLC для Android з іншых прылад.\nПерадача медыяфайлаў ў абодва бакі, кіраванне прайграваннем і шмат іншага!</string>
-    <string name="whats_new_36_favorites_text">Цяпер можна дадаваць у абраныя мультымедыя, плэйлісты, выканаўцаў і альбомы.\nЗнаходзьце важнае змесціва з аднаго позірку праз абраныя!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Даступна абнаўленне</string>
     <string name="install_nightly_title">Усталяваць начную зборку</string>
     <string name="update_text">Даступны начны выпуск VLC для Android!\n\nВы бачыце гэта паведамленне, бо карыстаецеся начной зборкай.</string>
@@ -751,7 +744,6 @@
     <string name="eq_snap_bands">Звязаць рэгулятары</string>
     <string name="enable_equalizer">Уключыць</string>
     <string name="preamp">Перадузмацненне</string>
-    <string name="presets">Наборы налад</string>
     <string name="reset">Скінуць</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Устаўлена %d дарожка</item>
@@ -935,7 +927,6 @@
     <string name="move_down">Перамясціць ніжэй</string>
     <string name="remove_from_playlist">Прыбраць з плэйліста</string>
     <string name="play_media">Прайграць %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Дадаць дублікат(ы)?</string>
     <string name="add_button">Дадаць</string>
@@ -1119,4 +1110,4 @@
     <string name="queue_format">Фармат чаргі</string>
     <string name="queue_format_short_desc">Пазіцыя ў чарзе</string>
     <string name="queue_format_long_desc">Пазіцыя ў чарзе / Памер чаргі</string>
-</resources>
+    </resources>

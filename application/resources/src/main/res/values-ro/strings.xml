@@ -67,6 +67,15 @@
     <string name="set_song_question">Setare \'%1$s\' ca ton de apel?</string>
     <string name="info">Informații</string>
     <string name="confirm_delete">Ștergeți fișierul \'%1$s\'?</string>
+    <string name="equalizer_overwrite_warning">Egalizatorul există deja</string>
+    <string name="overwrite">Suprascrie-l</string>
+    <string name="eq_cannot_overwrite">Nu se poate suprascrie egalizatorul implicit</string>
+    <string name="equalizer_name">Numele egalizatorului</string>
+    <string name="equalizer_deleted">Egalizatorul a fost șters</string>
+    <string name="equalizer_leave_warning">Vei părăsi playerul video</string>
+    <string name="invalid_equalizer_file">Fișierulk de egalizatoare e nevalid</string>
+    <string name="confirm_delete_eq">Ești sigur(ă) că vrei să ștergi această presetare?</string>
+    <string name="confirm_delete_vlc_eq">Ești sigur(ă) că vrei să ștergi această presetare?\nO poți restaura din setările egalizatorului.</string>
     <string name="confirm_replace_playlist">Ești sigur(ă) că vrei să înlocuiești lista de redare/playlist-ul \'%1$ss\'?</string>
     <string name="invalid_settings_file">Fișier de setări nevalid</string>
     <string name="confirm_delete_message">Aceasta actiune este permanenta si nu poate fi anulata</string>
@@ -142,6 +151,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Marcaje</string>
     <string name="equalizer">Egalizator</string>
+    <string name="import_equalizer">Importă egalizatorul</string>
+    <string name="equalizer_exported">Egalizatorul exportat (Egalizatoarele exportate) în %s</string>
+    <string name="equalizer_copy_template">(copiază %s)</string>
+    <string name="new_equalizer_copy_template">Egalizatorul nou %s</string>
+    <string name="show_all">Afișează-le pe toate</string>
+    <string name="hide_all">Ascunde-le pe toate</string>
+    <string name="export_all">Exportă-le pe toate</string>
+    <string name="import_all">Importă-le pe toate</string>
     <string name="all_albums">Toate albumele</string>
     <string name="genres">Genuri</string>
     <string name="playlists">Liste de redare</string>
@@ -248,8 +265,6 @@
 
     <string name="streams">Fluxuri</string>
     <string name="open_mrl_dialog_msg">Adaugă adresa de rețea: de exemplu http://, mms:// sau rtsp://</string>
-    <string name="encountered_error_title">Eroare de redare</string>
-    <string name="encountered_error_message">VLC a întâmpinat o eroare cu acest suport. \ nÎncercați să reîmprospătați biblioteca media.</string>
     <string name="invalid_location">Locaţia %1$s nu poate fi redată.</string>
     <string name="missing_location">Locația nu poate fi găsită.</string>
 
@@ -660,8 +675,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Ce e nou în VLC pentru Android %s</string>
-    <string name="whats_new_36_webserver_text">Cu această nouă funcție de acces la distanță, preia controlul lui VLC pentru Android de pe orice al dispozitiv.\nTrimite-ți fișierele media în ambele direcții, controlează-ți lista de redare și multe altele!</string>
-    <string name="whats_new_36_favorites_text">De acum îți poți adăuga fișierele media, listele de redare, artiștii și albumele la favorite.\nGăsește-ți conținutul preferat dintr-o privire prin filtrarea conținutului numai după favorite!</string>
+    <string name="whats_new_37_equalizer_text">Egalizatorul a fost refăcut de la zero. Este mai ușor de utilizat, îți permite să dezactivezi presetările implicite și îți permite să-ți faci backup (copie de rezervă), să îți restaurezi și să îți partajezi presetările.</string>
+    <string name="whats_new_37_import_export">Am îmbunătățit funcția de backup (de copie de rezervă) și restaurare a setărilor. Acum îți permite să faci backup (copie de rezervă) la mai multe setări, inclusiv la presetările egalizatorului.</string>
+    <string name="show_in_settings">Afișează în setări</string>
 
 <!--    update-->
     <string name="update_title">O actualizare disponibilă</string>
@@ -904,7 +920,6 @@
     <string name="eq_snap_bands">Benzile de fixare</string>
     <string name="enable_equalizer">Activează</string>
     <string name="preamp">Preamplificator</string>
-    <string name="presets">Setări predefinite</string>
     <string name="reset">Resetează</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d pistă inserată</item>
@@ -1140,6 +1155,11 @@
     <string name="move_down">Mută jos</string>
     <string name="remove_from_playlist">Șterge din lista de redare</string>
     <string name="play_media">Redă%s</string>
+    <string name="edit_eq_preset">Editează presetarea egalizatorului</string>
+    <string name="edit_eq_name_not_allowed">Acest nume nu e permis</string>
+    <string name="export_equalizer">Exportă egalizatorul</string>
+    <string name="hide_equalizer">Ascunde egalizatorul</string>
+    <string name="show_equalizer">Afișează egalizatorul</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Adăugați element(e) duplicate?</string>

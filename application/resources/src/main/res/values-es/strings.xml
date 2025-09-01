@@ -196,8 +196,6 @@
 
     <string name="streams">Flujos</string>
     <string name="open_mrl_dialog_msg">Ingrese dirección de red: p.e. http://, mms:// o rtsp://</string>
-    <string name="encountered_error_title">Error de reproducción</string>
-    <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
     <string name="invalid_location">La localización %1$s no puede reproducirse.</string>
     <string name="search">Buscar</string>
 
@@ -581,7 +579,6 @@
     <string name="eq_snap_bands">Bandas «snap»</string>
     <string name="enable_equalizer">Habilitar</string>
     <string name="preamp">Preamp</string>
-    <string name="presets">Predefiniciones</string>
     <string name="reset">Restaurar</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d pista insertada</item>

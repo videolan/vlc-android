@@ -236,8 +236,6 @@
 
     <string name="streams">Μεταδόσεις</string>
     <string name="open_mrl_dialog_msg">Εισάγετε διεύθυνση δικτύου: πχ http://, mms:// ή rtsp://</string>
-    <string name="encountered_error_title">Σφάλμα αναπαραγωγής</string>
-    <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το αρχείο.\nΔοκιμάστε να ανανεώσετε την βιβλιοθήκη πολυμέσων.</string>
     <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να αναπαραχθεί.</string>
     <string name="missing_location">Αυτό το μέσο προέρχεται από μη διαθέσιμο χώρο αποθήκευσης και δεν μπορεί να αναπαραχθεί.</string>
 
@@ -643,10 +641,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Τι νέο υπάρχει σχετικά με το VLC για το Android %s</string>
-    <string name="whats_new_36_webserver_text">Με τη νέα δυνατότητα απομακρυσμένης πρόσβασης, ελέγξτε το VLC για Android από οποιαδήποτε άλλη συσκευή.\nΜεταφέρετε τα πολυμέσα σας, ελέγξτε την αναπαραγωγή και πολλά άλλα!</string>
-    <string name="whats_new_36_favorites_text">Μπορείτε πλέον να προσθέσετε στα αγαπημένα τα πολυμέσα σας, τις λίστες αναπαραγωγής, τους καλλιτέχνες ή τα άλμπουμ σας.\nΒρείτε το περιεχόμενο που προτιμάτε με μια ματιά, φιλτράροντας το περιεχόμενο μόνο βάσει αγαπημένων!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Διατίθεται ενημέρωση</string>
     <string name="install_nightly_title">Εγκατάσταση της έκδοσης nightly</string>
     <string name="update_text">Μια νέα έκδοση nightly για το Android είναι διαθέσιμη!\n\nΒλέπετε αυτό το μήνυμα επειδή χρησιμοποιείτε μια έκδοση nightly.</string>
@@ -887,7 +882,6 @@
     <string name="eq_snap_bands">Ελαστικές ζώνες</string>
     <string name="enable_equalizer">Ενεργοποίηση</string>
     <string name="preamp">Προενίσχυση</string>
-    <string name="presets">Προρυθμίσεις</string>
     <string name="reset">Επαναφορά</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Εισήχθη %dκομμάτι</item>
@@ -1121,7 +1115,6 @@
     <string name="move_down">Μετακίνηση κάτω</string>
     <string name="remove_from_playlist">Κατάργηση από τη λίστα αναπαραγωγής</string>
     <string name="play_media">Αναπαραγωγή %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Προσθήκη διπλότυπου(ων) στοιχείου(ων);</string>
     <string name="add_button">Προσθήκη</string>

@@ -66,6 +66,11 @@
     <string name="set_song_question">Voleu configurar «%1$s» com a to de trucada?</string>
     <string name="info">Informació</string>
     <string name="confirm_delete">Voleu esborrar el fitxer «%1$s»?</string>
+    <string name="equalizer_overwrite_warning">Aquest equalitzador ja existeix</string>
+    <string name="overwrite">Sobreescriu</string>
+    <string name="eq_cannot_overwrite">No es pot sobreescriure un equalitzador per defecte</string>
+    <string name="equalizer_name">Nom de l\'equalitzador</string>
+    <string name="equalizer_deleted">L\'equalitzador s\'ha eliminat</string>
     <string name="confirm_replace_playlist">Esteu segur que voleu substituir la llista de reproducció \'%1$s\'?</string>
     <string name="invalid_settings_file">El fitxer de configuració no és vàlid</string>
     <string name="confirm_delete_message">Això és permanent i no es pot desfer.</string>
@@ -237,8 +242,6 @@
 
     <string name="streams">Fluxos de dades</string>
     <string name="open_mrl_dialog_msg">Introdueix l\'adreça de xarxa: p. ex. http://, mms:// o rtsp://</string>
-    <string name="encountered_error_title">Error de reproducció</string>
-    <string name="encountered_error_message">VLC ha trobat un error en aquest suport.\nActualitzeu la llibreria multimèdia.</string>
     <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
     <string name="missing_location">Aquest element multimèdia no es pot reproduir perquè s\'ubica en un dispositiu no disponible.</string>
 
@@ -649,10 +652,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Què hi ha de nou al VLC per a Android %s</string>
-    <string name="whats_new_36_webserver_text">Amb la nova funció d\'accés remot, preneu el control del VLC per a Android des de qualsevol altre dispositiu.\nEnvieu els vostres mitjans en ambdós sentits, controleu la reproducció i molt més!</string>
-    <string name="whats_new_36_favorites_text">Ara podeu afegir als preferits els vostres mitjans, llistes de reproducció, artistes o àlbums.\nTrobeu el contingut preferit d\'un cop d\'ull filtrant només els preferits!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Actualització disponible</string>
     <string name="install_nightly_title">Instal·la la versió nocturna</string>
     <string name="update_text">Hi ha disponible un nou llançament nocturn del VLC per a Android!\n\nVeieu aquest missatge perquè esteu usant un muntatge nocturn.</string>
@@ -893,7 +893,6 @@
     <string name="eq_snap_bands">Grups de captura</string>
     <string name="enable_equalizer">Activa</string>
     <string name="preamp">Preamplifica</string>
-    <string name="presets">Preestablerts</string>
     <string name="reset">Inicialitza</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d pista inserida</item>
@@ -965,7 +964,7 @@
     <string name="recently_played">Reproduït ara mateix</string>
     <string name="recently_added">Acabat d\'afegir</string>
     <string name="playback_multiple_errors">No es poden reproduir múltiples multimèdia</string>
-    <string name="clear_media_db_message">Perdreu els progressos, els preferits i les llistes de reproducció que hàgiu creat però mantindreu la configuració del VLC per a l\'Android</string>
+    <string name="clear_media_db_message">Perdreu els progressos, els preferits i les llistes de reproducció que hàgiu creat però mantindreu la configuració del VLC per a Android</string>
     <string name="clear_app_data_message">Perdreu els progressos, els preferits, les llistes de reproducció i la configuració completa del VLC</string>
     <string name="clear">Neteja</string>
     <string name="abrepeat_add_first_marker">Establir el punt d\'inici</string>
@@ -1127,7 +1126,6 @@
     <string name="move_down">Moure avall</string>
     <string name="remove_from_playlist">Treure de la llista de reproducció</string>
     <string name="play_media">Reprodueix %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Afegir element(s) duplicat(s)?</string>
     <string name="add_button">Afegir</string>
@@ -1307,7 +1305,7 @@
     <string name="ra_otp_subtitle">Si ets tu, introdueix aquest codi a l\'altre dispositiu</string>
     <string name="ra_otp_not_me">No sóc jo</string>
 
-    <string name="ra_onboarding_welcome_desc">Benvingut a l\'accés remot del VLC per a Android\nEn habilitar-ho, podreu controlar la reproducció d\'aquest dispositiu i més</string>
+    <string name="ra_onboarding_welcome_desc">Benvingut a l\'accés remot del VLC per a Android\nEn habilitar-lo, podreu controlar la reproducció d\'aquest dispositiu i més</string>
     <string name="ra_onboarding_how_title">Controla el vostre dispositiu</string>
     <string name="ra_onboarding_how_desc">Controla la reproducció del vostre dispositiu, envia o recupera fitxers i més</string>
     <string name="ra_onboarding_ssl_title">Encriptatge de dades</string>

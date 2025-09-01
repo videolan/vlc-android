@@ -225,8 +225,6 @@
 
     <string name="streams">串流</string>
     <string name="open_mrl_dialog_msg">请输入网络地址: 如 http://、mms:// 或 rtsp://</string>
-    <string name="encountered_error_title">播放错误</string>
-    <string name="encountered_error_message">VLC 处理该媒体时发生错误。\n请尝试刷新媒体库。</string>
     <string name="invalid_location">无法播放位置 %1$s。</string>
     <string name="missing_location">此媒体所存放的位置暂不可用，无法播放。</string>
 
@@ -630,10 +628,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">VLC for Android %s 版本的新功能</string>
-    <string name="whats_new_36_webserver_text">通过 ｢远程访问｣ 功能，可在其他设备上远程控制 VLC for Android 的播放、\n双向传输媒体文件，还有其他强劲功能等您发掘!</string>
-    <string name="whats_new_36_favorites_text">现在媒体内容、播放列表、艺术家和专辑都可以加入收藏。\n只需翻阅收藏夹，就能迅速找到想要播放的内容!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">有更新可用</string>
     <string name="install_nightly_title">安装每日构建版</string>
     <string name="update_text">VLC for Android 的每日构建版已发布新版本!\n\n您看到本消息，是因为您正在使用的是每日构建版。</string>
@@ -874,7 +869,6 @@
     <string name="eq_snap_bands">同时影响附近频段</string>
     <string name="enable_equalizer">启用</string>
     <string name="preamp">前置放大器</string>
-    <string name="presets">预设</string>
     <string name="reset">重置</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d 条轨道已插入</item>
@@ -1106,7 +1100,6 @@
     <string name="move_down">下移</string>
     <string name="remove_from_playlist">从播放列表删除</string>
     <string name="play_media">播放 %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">添加重复项？</string>
     <string name="add_button">添加</string>

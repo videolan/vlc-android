@@ -256,8 +256,6 @@
 
     <string name="streams">Потоки</string>
     <string name="open_mrl_dialog_msg">Уведіть мережеву MRL-адресу, наприклад, http://, mms:// або rtsp://</string>
-    <string name="encountered_error_title">Помилка відтворення</string>
-    <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
     <string name="invalid_location">Розташування %1$s не можливо відтворити.</string>
     <string name="missing_location">Цей медіафайл лежить на недоступному носієві, а тому його неможливо відтворити.</string>
 
@@ -652,10 +650,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Що нового у VLC для Андроїд %s</string>
-    <string name="whats_new_36_webserver_text">З новою функцією віддаленого доступу ви можете керувати VLC для Android з будь-якого іншого пристрою.\nВідправляйте медіафайли в обидва боки, керуйте відтворенням і багато іншого!</string>
-    <string name="whats_new_36_favorites_text">Тепер ви можете додавати медіафайли, списки відтворення, виконавців або альбоми до улюблених.\nЗнаходьте потрібний вміст з першого погляду, відфільтрувавши його лише за обраним!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Доступне оновлення</string>
     <string name="install_nightly_title">Встановити нічну збірку</string>
     <string name="update_text">Вийшов новий нічний випуск VLC для Android! \n\nВи бачите це, тому що використовуєте нічну збірку.</string>
@@ -896,7 +891,6 @@
     <string name="eq_snap_bands">Вхопити смуги</string>
     <string name="enable_equalizer">Увімкнути</string>
     <string name="preamp">Попередній підсилювач</string>
-    <string name="presets">Переднабори</string>
     <string name="reset">Очистити</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d доріжка вставлена</item>
@@ -1131,7 +1125,6 @@
     <string name="move_down">Перемістити вниз</string>
     <string name="remove_from_playlist">Вилучити зі списку відтворення</string>
     <string name="play_media">Відтворити %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Додати повторювані елемент(и)?</string>
     <string name="add_button">Додати</string>

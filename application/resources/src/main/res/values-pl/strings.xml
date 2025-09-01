@@ -209,8 +209,6 @@
 
     <string name="streams">Strumienie</string>
     <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
-    <string name="encountered_error_title">Błąd odtwarzania</string>
-    <string name="encountered_error_message">VLC napotkał błąd tego nośnika.\nSpróbuj odświeżyć bibliotekę multimediów.</string>
     <string name="invalid_location">Pozycja %1$s nie może zostać odtworzona.</string>
     <string name="search">Szukaj</string>
 
@@ -635,7 +633,6 @@
     <string name="eq_snap_bands">Pociągnij pasma</string>
     <string name="enable_equalizer">Włącz</string>
     <string name="preamp">Przedwzmacniacz</string>
-    <string name="presets">Presety</string>
     <string name="reset">Resetuj</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Wstawiono %d utwór</item>
@@ -823,7 +820,6 @@
     <string name="move_down">Przenieś w dół</string>
     <string name="remove_from_playlist">Usuń z playlisty</string>
     <string name="play_media">Odtwarzaj %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Dodać zduplikowane element(y)?</string>
     <string name="add_button">Dodaj</string>

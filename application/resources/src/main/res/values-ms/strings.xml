@@ -223,8 +223,6 @@
 
     <string name="streams">Strim</string>
     <string name="open_mrl_dialog_msg">Masukkan alamat rangkaian: cth. http://, mms:// atau rtsp://</string>
-    <string name="encountered_error_title">Ralat main balik</string>
-    <string name="encountered_error_message">VLC menghadapi satu ralat dengan media ini.\nSila segar semula pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan.</string>
     <string name="missing_location">Media ini berasal daripada storan yang tidak tersedia dan tidak dapat dimainkan.</string>
 
@@ -307,7 +305,6 @@
     <string name="add_custom_path_description">Masukkan direktori suai tambahan untuk diimbas</string>
     <string name="remove_custom_path">Buang laluan suai</string>
     <string name="group_ban_folder">Sekat folder daripada pustaka media</string>
-
     <string name="hardware_acceleration">Pemecutan Perkakasan</string>
     <string name="hardware_acceleration_summary">Dilumpuhkan: kestabilan lebih baik.\nPenyahkodan: mungkin meningkatkan prestasi.\nPenuh: mungkin meningkatkan lagi prestasi</string>
     <string name="hardware_acceleration_disabled">Dilumpuhkan</string>
@@ -619,10 +616,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Terbaharu di VLC untuk Android %s</string>
-    <string name="whats_new_36_webserver_text">Dengan cari capaian jauh baharu, kawal VLC untuk Android dari mana-mana peranti.\nHantar media anda dengan kedua-dua cara, kawal main balik anda dan banyak lagi!</string>
-    <string name="whats_new_36_favorites_text">Kini anda boleh tentukan media, senarai main, artis atau album kegemaran anda. \nCari kandungan kegemaran anda dengan cara menapis kandungan ikut kegemaran sahaja!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Kemas kini tersedia</string>
     <string name="install_nightly_title">Pasang versi semalaman</string>
     <string name="update_text">Satu keluaran semalaman baharu VLC untuk Android telah tersedia!\n\nAnda melihat ini kerana anda menggunakan binaan semalaman.</string>
@@ -862,7 +856,6 @@
     <string name="eq_snap_bands">Lekap jalur</string>
     <string name="enable_equalizer">Dayakan</string>
     <string name="preamp">Praamp</string>
-    <string name="presets">Praset</string>
     <string name="reset">Tetap Semula</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d Trek disisip</item>
@@ -1089,7 +1082,6 @@
     <string name="move_down">Alih ke bawah</string>
     <string name="remove_from_playlist">Buang daripada senarai main</string>
     <string name="play_media">Main %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Tambah item pendua?</string>
     <string name="add_button">Tambah</string>

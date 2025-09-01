@@ -66,6 +66,15 @@
     <string name="set_song_question">\'%1$s\' zil sesi olarak ayarlansın mı?</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
+    <string name="equalizer_overwrite_warning">Bu dengeleyici zaten var</string>
+    <string name="overwrite">Üzerine yaz</string>
+    <string name="eq_cannot_overwrite">Varsayılan dengeleyici üzerine yazılamaz</string>
+    <string name="equalizer_name">Dengeleyici adı</string>
+    <string name="equalizer_deleted">Dengeleyici silindi</string>
+    <string name="equalizer_leave_warning">Görüntü oynatıcıdan çıkacaksınız</string>
+    <string name="invalid_equalizer_file">Dengeleyici dosyası geçersiz</string>
+    <string name="confirm_delete_eq">Bu hazır ayarı silmek istediğinize emin misiniz?</string>
+    <string name="confirm_delete_vlc_eq">Bu hazır ayarı gizlemek istediğinize emin misiniz?\nDengeleyici ayarlarından geri yükleyebilirsiniz.</string>
     <string name="confirm_replace_playlist">\'%1$s\' oynatma listesini değiştirmek istediğinize emin misiniz?</string>
     <string name="invalid_settings_file">Ayarlar dosyası geçersiz</string>
     <string name="confirm_delete_message">Bu işlem kalıcıdır ve geri alınamaz.</string>
@@ -132,6 +141,14 @@
     <string name="video">Görüntü</string>
     <string name="bookmarks">Yer imleri</string>
     <string name="equalizer">Dengeleyici</string>
+    <string name="import_equalizer">Dengeleyiciyi içe aktar</string>
+    <string name="equalizer_exported">Dengeleyiciler %s dosyasına dışa aktarıldı</string>
+    <string name="equalizer_copy_template">(%s kopyası)</string>
+    <string name="new_equalizer_copy_template">Yeni dengeleyici%s</string>
+    <string name="show_all">Tümünü görüntüle</string>
+    <string name="hide_all">Tümünü gizle</string>
+    <string name="export_all">Tümünü dışa aktar</string>
+    <string name="import_all">Tümünü içe aktar</string>
     <string name="all_albums">Tüm albümler</string>
     <string name="genres">Türler</string>
     <string name="playlists">Listeler</string>
@@ -237,8 +254,6 @@
 
     <string name="streams">Akışlar</string>
     <string name="open_mrl_dialog_msg">Ağ adresini yazın: örneğin http://, mms:// ya da rtsp://</string>
-    <string name="encountered_error_title">Oynatma sorunu</string>
-    <string name="encountered_error_message">VLC bu ortamı kullanırken bir sorun çıktı.\nLütfen ortam kitaplığını yenilemeyi deneyin.</string>
     <string name="invalid_location">%1$s konumu oynatılamadı.</string>
     <string name="missing_location">Bu ortam kullanılamayan depolama biriminde bulunduğundan oynatılamaz.</string>
 
@@ -649,8 +664,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Android için VLC %s yenilikleri</string>
-    <string name="whats_new_36_webserver_text">Yeni uzaktan erişim özelliğiyle başka bir aygıttan Android için VLC uygulamasını denetleyebilirsiniz.\nOrtamınızı iki yönde de gönderin, oynatmayı denetleyin ve diğer işlemleri yapın!</string>
-    <string name="whats_new_36_favorites_text">Artık ortamlarınızı, oynatma listelerinizi, sanatçılarınızı veya albümlerinizi sık kullanılanlara ekleyebilirsiniz.\nİçeriği yalnızca sık kullanılanlara göre süzerek istediğiniz içeriği bir bakışta bulun!</string>
+    <string name="whats_new_37_equalizer_text">Dengeleyici sıfırdan yeniden hazırlandı. Kullanımı daha kolay. Varsayılan hazır ayarları kullanımdan kaldırmanın yanında hazır ayarlarınızı yedeklemenizi, geri yüklemenizi ve paylaşmanızı sağlar.</string>
+    <string name="whats_new_37_import_export">Yedekleme ve geri yükleme ayarları özelliğini geliştirdik. Artık dengeleyici hazır ayarları ile birlikte daha fazla ayar yedeklenebiliyor.</string>
+    <string name="show_in_settings">Ayarlarda görüntüle</string>
 
 <!--    update-->
     <string name="update_title">Güncelleme yayınlanmış</string>
@@ -894,7 +910,6 @@
     <string name="eq_snap_bands">Bantlar ayrılsın</string>
     <string name="enable_equalizer">Aç</string>
     <string name="preamp">Ön güçlendirme</string>
-    <string name="presets">Hazır ayarlar</string>
     <string name="reset">Sıfırla</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d kayıt eklendi</item>
@@ -1128,6 +1143,11 @@
     <string name="move_down">Aşağı taşı</string>
     <string name="remove_from_playlist">Listeden çıkar</string>
     <string name="play_media">%s oynat</string>
+    <string name="edit_eq_preset">Dengeleyici hazır ayarını düzenle</string>
+    <string name="edit_eq_name_not_allowed">Bu ad kullanılamaz</string>
+    <string name="export_equalizer">Dengeleyiciyi dışa aktar</string>
+    <string name="hide_equalizer">Dengeleyiciyi gizle</string>
+    <string name="show_equalizer">Dengeleyiciyi görüntüle</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Çift ögeler eklensin mi?</string>

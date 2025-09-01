@@ -258,8 +258,6 @@
 
     <string name="streams">Pretoki</string>
     <string name="open_mrl_dialog_msg">Omrežni naslov http://, mms:// ali rtsp://.</string>
-    <string name="encountered_error_title">Napaka pri predvajanju</string>
-    <string name="encountered_error_message">VLC je naletel na napako za to vsebino.\nPoskusite osvežiti knjižnico predstavnih vsebin.</string>
     <string name="invalid_location">Posnetkov z mesta %1$s ni mogoče predvajati.</string>
     <string name="missing_location">Ta vsebina je z nosilca, ki ni na voljo, zato je ni mogoče predvajati.</string>
 
@@ -670,10 +668,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Kaj je novega v VLC za Android %s</string>
-    <string name="whats_new_36_webserver_text">Nova možnost oddaljenega dostopa omogoča krmiljenje VLC za Android s poljubno napravo.\nPošljite vsebine v obe smeri, krmilite predvajanje in mnogo več!</string>
-    <string name="whats_new_36_favorites_text">Sedaj lahko za priljubljene označite vsebine, sezname predvajanj, izvajalce ali albume.\nEnostavno najdite najljubše vsebine s pomočjo filtra za priljubljene!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Na voljo je posodobitev</string>
     <string name="install_nightly_title">Namesti nočno različico</string>
     <string name="update_text">Na voljo je nova nočna izdaja VLC za Android!\n\nTo sporočilo je prikazano, ker uporabljate nočno izdajo programa.</string>
@@ -914,7 +909,6 @@
     <string name="eq_snap_bands">Poveži zasedbe</string>
     <string name="enable_equalizer">Omogoči</string>
     <string name="preamp">Predokrepitev</string>
-    <string name="presets">Prednastavljeno</string>
     <string name="reset">Ponastavi</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Vrinjena je %d vsebina</item>
@@ -1152,7 +1146,6 @@
     <string name="move_down">premakni dol</string>
     <string name="remove_from_playlist">Odstrani s seznama</string>
     <string name="play_media">Predvajaj %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Dodam podvojen(e) predmet(e)?</string>
     <string name="add_button">Dodaj</string>

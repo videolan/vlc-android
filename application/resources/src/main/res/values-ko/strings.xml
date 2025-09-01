@@ -206,8 +206,6 @@
 
     <string name="streams">스트림</string>
     <string name="open_mrl_dialog_msg">네트워크 주소 입력: 예) http://, mms:// 또는 rtsp://</string>
-    <string name="encountered_error_title">재생 오류</string>
-    <string name="encountered_error_message">이 미디어에서 오류가 발생했습니다.\n미디어 라이브러리를 새로 고침 해보세요.</string>
     <string name="invalid_location">%1$s 위치를 재생할 수 없습니다.</string>
     <string name="missing_location">이 미디어는 사용할 수 없는 저장소에 있으며 재생할 수 없습니다.</string>
 
@@ -761,7 +759,6 @@
     <string name="eq_snap_bands">Snap bands</string>
     <string name="enable_equalizer">활성화</string>
     <string name="preamp">프리앰프</string>
-    <string name="presets">프리셋</string>
     <string name="reset">재설정</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d개 트랙 삽입됨</item>
@@ -960,7 +957,6 @@
     <string name="move_down">아래로 이동</string>
     <string name="remove_from_playlist">재생목록에서 제거</string>
     <string name="play_media">%s 재생하기</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">중복된 항목(들)을 추가하시겠습니까?</string>
     <string name="add_button">추가하기</string>
@@ -1096,5 +1092,10 @@
     <string name="help">도움말</string>
     <string name="voice_control">음성 제어</string>
     <string name="video_settings_disclaimer">일부 설정이 동영상 재생기의 동영상 컨트롤 설정으로 이동되었습니다.</string>
+    <string name="feedback_type">피드백 유형</string>
     <string name="read_doc">설명서를 읽어보세요</string>
+    <string name="body">메시지</string>
+    <string name="files">파일</string>
+    <string name="remote_access_feedback_generate">보고서 생성하기</string>
+    <string name="feedback_email_warning_remote_action">설정을 엽니다</string>
     </resources>

@@ -67,7 +67,17 @@
     <string name="set_song_question">Definir \'%1$s\' como toque de chamada?</string>
     <string name="info">Informação</string>
     <string name="confirm_delete">Eliminar o ficheiro \'%1$s\'?</string>
+    <string name="equalizer_overwrite_warning">Este equalizador já existe</string>
+    <string name="overwrite">Substituir</string>
+    <string name="eq_cannot_overwrite">Não é possível substituir um equalizador predefinido</string>
+    <string name="equalizer_name">Nome do equalizador</string>
+    <string name="equalizer_deleted">O equalizador foi eliminado</string>
+    <string name="equalizer_leave_warning">Vai sair do reprodutor de vídeo</string>
+    <string name="invalid_equalizer_file">Ficheiro de equalizador inválido</string>
+    <string name="confirm_delete_eq">Tem a certeza de que pretende eliminar esta predefinição?</string>
+    <string name="confirm_delete_vlc_eq">Tem a certeza de que pretende ocultar esta predefinição?\nPode restaurá-la nas definições do equalizador.</string>
     <string name="confirm_replace_playlist">Tem a certeza que pretende substituir a lista de reprodução \'%1$s\'?</string>
+    <string name="invalid_settings_file">Ficheiro de definições inválido</string>
     <string name="confirm_delete_message">Isto é permanente e não pode ser anulado.</string>
     <string name="confirm_delete_album">Eliminar o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Eliminar estes %1$d ficheiros?</string>
@@ -141,6 +151,14 @@
     <string name="video">Vídeo</string>
     <string name="bookmarks">Marcadores</string>
     <string name="equalizer">Equalizador</string>
+    <string name="import_equalizer">Importar equalizador</string>
+    <string name="equalizer_exported">Equalizador(es) exportado(s) para %s</string>
+    <string name="equalizer_copy_template">(copiar%s)</string>
+    <string name="new_equalizer_copy_template">Novo equalizador%s</string>
+    <string name="show_all">Mostrar tudo</string>
+    <string name="hide_all">Ocultar tudo</string>
+    <string name="export_all">Exportar tudo</string>
+    <string name="import_all">Importar tudo</string>
     <string name="all_albums">Todos os álbuns</string>
     <string name="genres">Géneros</string>
     <string name="playlists">Listas de reprodução</string>
@@ -247,8 +265,6 @@
 
     <string name="streams">Transmissões</string>
     <string name="open_mrl_dialog_msg">Insira o endereço de rede: por exemplo, http://, mms:// ou rtsp://</string>
-    <string name="encountered_error_title">Erro de reprodução</string>
-    <string name="encountered_error_message">O VLC encontrou um erro com esta média.\nPor favor, tente atualizar a mediateca.</string>
     <string name="invalid_location">A localização %1$s não pode ser reproduzida.</string>
     <string name="missing_location">Este ficheiro está num armazenamento indisponível e por isso não pode ser reproduzido.</string>
 
@@ -659,10 +675,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">O que há de novo no VLC para Android %s</string>
-    <string name="whats_new_36_webserver_text">Com a nova funcionalidade de acesso remoto, controle o VLC para Android a partir de qualquer outro dispositivo.\nEnvie os seus conteúdos multimédia para ambos os lados, controle a sua reprodução e muito mais!</string>
-    <string name="whats_new_36_favorites_text">Agora pode adicionar os seus conteúdos multimédia, listas de reprodução, artistas ou álbuns aos favoritos.\nEncontre rapidamente os seus conteúdos preferidos filtrando-os apenas pelos favoritos!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Atualização disponível</string>
     <string name="install_nightly_title">Instalar a versão nightly</string>
     <string name="update_text">Uma nova versão nightly do VLC para Android está disponível!\n\nEstá a ver isto porque está a utilizar uma versão nightly.</string>
@@ -903,7 +916,6 @@
     <string name="eq_snap_bands">Atrair bandas</string>
     <string name="enable_equalizer">Ativar</string>
     <string name="preamp">Pré-amplificação</string>
-    <string name="presets">Predefinições</string>
     <string name="reset">Repor</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d faixa inserida</item>
@@ -1139,6 +1151,11 @@
     <string name="move_down">Descer</string>
     <string name="remove_from_playlist">Remover da lista de reprodução</string>
     <string name="play_media">Reproduzir %s</string>
+    <string name="edit_eq_preset">Editar equalizador predefinido</string>
+    <string name="edit_eq_name_not_allowed">Este nome não é permitido</string>
+    <string name="export_equalizer">Exportar equalizador</string>
+    <string name="hide_equalizer">Ocultar equalizador</string>
+    <string name="show_equalizer">Mostrar equalizador</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Adicionar itens duplicados?</string>
@@ -1366,6 +1383,7 @@
     <string name="export_settings">Exportar definições</string>
     <string name="restore_settings_summary">Restaurar as suas definições de uma exportação anterior</string>
     <string name="restore_settings">Restaurar definições</string>
+    <string name="obsolete_restore_settings">A sua exportação de definições está desatualizada. Exporte-as novamente.</string>
     <string name="export_settings_success">Definições exportadas com êxito para a raiz do armazenamento interno</string>
     <string name="export_settings_failure">Algo correu mal ao exportar as suas definições</string>
 

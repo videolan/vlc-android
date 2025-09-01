@@ -67,6 +67,15 @@
     <string name="set_song_question">Vuoi impostare \'%1$s\' come suoneria?</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
+    <string name="equalizer_overwrite_warning">Questo equalizzatore esiste già</string>
+    <string name="overwrite">Sovrascrivi</string>
+    <string name="eq_cannot_overwrite">Impossibile sovrascrivere un equalizzatore predefinito</string>
+    <string name="equalizer_name">Nome dell\'equalizzatore</string>
+    <string name="equalizer_deleted">L\'equalizzatore è stato eliminato</string>
+    <string name="equalizer_leave_warning">Abbandonerai il lettore video</string>
+    <string name="invalid_equalizer_file">File di equalizzatore non valido</string>
+    <string name="confirm_delete_eq">Sei sicuro di voler eliminare questa preimpostazione?</string>
+    <string name="confirm_delete_vlc_eq">Sei sicuro di voler nascondere questa tua preimpostazione?\nPuoi ripristinarla nelle impostazioni dell\'equalizzatore.</string>
     <string name="confirm_replace_playlist">Sei sicuro di voler sostituire la scaletta \'%1$s\'?</string>
     <string name="invalid_settings_file">File delle impostazioni non valido </string>
     <string name="confirm_delete_message">Questa azione è definitiva e non può essere annullata.</string>
@@ -142,6 +151,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Segnalibri</string>
     <string name="equalizer">Equalizzatore</string>
+    <string name="import_equalizer">Importa equalizzatore</string>
+    <string name="equalizer_exported">Equalizzatori esportati in %s</string>
+    <string name="equalizer_copy_template">(copia%s)</string>
+    <string name="new_equalizer_copy_template">Nuovo equalizzatore%s</string>
+    <string name="show_all">Mostra tutto</string>
+    <string name="hide_all">Nascondi tutto</string>
+    <string name="export_all">Esporta tutto</string>
+    <string name="import_all">Importa tutto</string>
     <string name="all_albums">Tutti gli album</string>
     <string name="genres">Generi</string>
     <string name="playlists">Scalette</string>
@@ -248,8 +265,6 @@
 
     <string name="streams">Flussi</string>
     <string name="open_mrl_dialog_msg">Digita indirizzo di rete: ad es. http://, mms:// o rtsp://</string>
-    <string name="encountered_error_title">Errore di riproduzione</string>
-    <string name="encountered_error_message">VLC ha riscontrato un errore con questo media.\nProva ad aggiornare la raccolta multimediale.</string>
     <string name="invalid_location">La posizione %1$s non può essere riprodotta.</string>
     <string name="missing_location">Questo media proviene da un\'archiviazione non disponibile e non può essere riprodotto.</string>
 
@@ -660,8 +675,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Cosa c\'è di nuovo in VLC per Android %s</string>
-    <string name="whats_new_36_webserver_text">Con la nuova funzione di accesso remoto, prendi il controllo di VLC per Android da qualsiasi altro dispositivo. Invia i tuoi media in entrambe le direzioni, controlla la riproduzione e molto altro!</string>
-    <string name="whats_new_36_favorites_text">Ora puoi aggiungere ai preferiti i tuoi media, scalette, artisti o album.\nTrova facilmente i contenuti che ti piacciono filtrando solo i preferiti!</string>
+    <string name="whats_new_37_equalizer_text">L\'equalizzatore è stato riprogettato da zero. È più facile da usare, consente di disattivare le preimpostazioni predefinite e di eseguire il backup, il ripristino e la condivisione delle preimpostazioni.</string>
+    <string name="whats_new_37_import_export">Abbiamo migliorato la funzionalità di backup e ripristino delle impostazioni. Ora è possibile eseguire il backup di più impostazioni, incluse le preimpostazioni dell\'equalizzatore.</string>
+    <string name="show_in_settings">Mostra nelle impostazioni</string>
 
 <!--    update-->
     <string name="update_title">Aggiornamento disponibile</string>
@@ -904,7 +920,6 @@
     <string name="eq_snap_bands">Bande a scatto</string>
     <string name="enable_equalizer">Abilita</string>
     <string name="preamp">Preamplificazione</string>
-    <string name="presets">Preimpostazioni</string>
     <string name="reset">Ripristina</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d traccia inserita</item>
@@ -1140,6 +1155,11 @@
     <string name="move_down">Sposta giù</string>
     <string name="remove_from_playlist">Rimuovi dalla scaletta</string>
     <string name="play_media">Riproduci %s</string>
+    <string name="edit_eq_preset">Modifica preimpostazioni equalizzatore</string>
+    <string name="edit_eq_name_not_allowed">Questa nome non è consentito</string>
+    <string name="export_equalizer">Esporta equalizzatore</string>
+    <string name="hide_equalizer">Nascondi equalizzatore</string>
+    <string name="show_equalizer">Mostra equalizzatore</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Vuoi aggiungere gli elementi duplicati?</string>

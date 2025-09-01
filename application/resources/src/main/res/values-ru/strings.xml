@@ -211,8 +211,6 @@
 
     <string name="streams">Потоки</string>
     <string name="open_mrl_dialog_msg">Сетевой адрес MRL: http://, mms:// или rtsp://</string>
-    <string name="encountered_error_title">Ошибка воспроизведения</string>
-    <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\nПопробуйте обновить медиатеку.</string>
     <string name="invalid_location">Воспроизвести %1$s нельзя.</string>
     <string name="missing_location">Этот медиаобъект в недоступном хранилище, воспроизвести его нельзя.</string>
 
@@ -689,7 +687,6 @@
     <string name="eq_snap_bands">Перемещать с соседними</string>
     <string name="enable_equalizer">Включить</string>
     <string name="preamp">Предусилитель</string>
-    <string name="presets">Предустановки</string>
     <string name="reset">Сброс</string>
     <plurals name="tracks_inserted">
         <item quantity="one">Вставлено дорожек: %d</item>
@@ -882,7 +879,6 @@
     <string name="move_down">Опустить ниже</string>
     <string name="remove_from_playlist">Убрать из плейлиста</string>
     <string name="play_media">Воспроизвести %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Добавить повторяющиеся элементы?</string>
     <string name="add_button">Добавить</string>

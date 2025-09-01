@@ -66,7 +66,17 @@
     <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="equalizer_overwrite_warning">This equaliser already exists</string>
+    <string name="overwrite">Overwrite</string>
+    <string name="eq_cannot_overwrite">Cannot overwrite a default equaliser</string>
+    <string name="equalizer_name">Equaliser name</string>
+    <string name="equalizer_deleted">The equaliser has been deleted</string>
+    <string name="equalizer_leave_warning">You will leave the video player</string>
+    <string name="invalid_equalizer_file">Invalid equaliser file</string>
+    <string name="confirm_delete_eq">Are you sure you want to delete this preset?</string>
+    <string name="confirm_delete_vlc_eq">Are you sure you want to hide this preset?\nYou can restore it in the equaliser settings.</string>
     <string name="confirm_replace_playlist">Are you sure you want to replace the playlist \'%1$s\'?</string>
+    <string name="invalid_settings_file">Invalid settings file</string>
     <string name="confirm_delete_message">This is permanent and cannot be undone.</string>
     <string name="confirm_delete_album">Delete the album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Delete these %1$d media?</string>
@@ -131,6 +141,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="equalizer">Equalizer</string>
+    <string name="import_equalizer">Import equaliser</string>
+    <string name="equalizer_exported">Equaliser(s) exported to %s</string>
+    <string name="equalizer_copy_template">(copy%s)</string>
+    <string name="new_equalizer_copy_template">New equaliser%s</string>
+    <string name="show_all">Show all</string>
+    <string name="hide_all">Hide all</string>
+    <string name="export_all">Export all</string>
+    <string name="import_all">Import all</string>
     <string name="all_albums">All albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Playlists</string>
@@ -236,8 +254,6 @@
 
     <string name="streams">Streams</string>
     <string name="open_mrl_dialog_msg">Enter network address: e.g. http://, mms:// or rtsp://</string>
-    <string name="encountered_error_title">Playback error</string>
-    <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
     <string name="invalid_location">The location %1$s cannot be played.</string>
     <string name="missing_location">This media is from a unavailable storage and cannot be played.</string>
 
@@ -320,6 +336,9 @@
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
     <string name="group_ban_folder">Ban folder from media library</string>
+    <string name="ban_folder">Ban folder</string>
+    <string name="ban_folder_explanation">Banning this folder means that you won\'t see its media in the video or audio section of the app, though they will still be accessible from the browser.\nTo unban it, go to the settings, %s and long tap this folder.</string>
+
     <string name="hardware_acceleration">Hardware Acceleration</string>
     <string name="hardware_acceleration_summary">Disabled: better stability\nDecoding: may improve performance\nFull: may improve performance further</string>
     <string name="hardware_acceleration_disabled">Disabled</string>
@@ -623,6 +642,8 @@
     <string name="network_shares_discovery">Looking for network shares</string>
     <string name="network_empty">This directory is empty.</string>
     <string name="network_connection_needed">No connection to local network.</string>
+    <string name="network_disabled">Network browsing disabled</string>
+    <string name="browse_network">Browse network</string>
     <string name="search_hint">Search media</string>
     <string name="search_in_list_hint">Search in current list</string>
     <string name="search_global">Search in all media library</string>
@@ -643,10 +664,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">What\'s new in VLC for Android %s</string>
-    <string name="whats_new_36_webserver_text">With the new remote access feature, take control of VLC for Android from any other device.\nSend your media both ways, control your playback and much more!</string>
-    <string name="whats_new_36_favorites_text">You can now favorite your media, playlists, artists or albums.\nFind your preferred content at a glance by filtering the content by favorites only!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Update available</string>
     <string name="install_nightly_title">Install the nightly version</string>
     <string name="update_text">A new nightly release of VLC for Android is available!\n\nYou\'re seeing this because you are using a nightly build.</string>
@@ -887,7 +905,6 @@
     <string name="eq_snap_bands">Snap bands</string>
     <string name="enable_equalizer">Enable</string>
     <string name="preamp">Preamp</string>
-    <string name="presets">Presets</string>
     <string name="reset">Reset</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d Track inserted</item>
@@ -1121,6 +1138,11 @@
     <string name="move_down">Move down</string>
     <string name="remove_from_playlist">Remove from playlist</string>
     <string name="play_media">Play %s</string>
+    <string name="edit_eq_preset">Edit equaliser preset</string>
+    <string name="edit_eq_name_not_allowed">This name is not allowed</string>
+    <string name="export_equalizer">Export equaliser</string>
+    <string name="hide_equalizer">Hide equaliser</string>
+    <string name="show_equalizer">Show equaliser</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Add duplicated item(s)?</string>
@@ -1284,6 +1306,7 @@
     <string name="ra_prepare_download">Preparing your download</string>
     <string name="ra_forbidden">Content disabled in the settings</string>
     <string name="ra_playback_forbidden">Playback control disabled in the settings</string>
+    <string name="ra_logs_forbidden">Logs sharing disabled in the settings</string>
     <string name="ra_code_requested_explanation">To protect your server, the access is protected.\nPlease enter the code displayed in your notifications</string>
     <string name="ra_ssl_explanation_title">Unsecure connection</string>
     <string name="ra_ssl_explanation">Your connection is not secure.</string>
@@ -1345,6 +1368,7 @@
     <string name="export_settings">Export settings</string>
     <string name="restore_settings_summary">Restore your settings from a previous export</string>
     <string name="restore_settings">Restore settings</string>
+    <string name="obsolete_restore_settings">Your settings export is obsolete. Please export them again</string>
     <string name="export_settings_success">Settings exported successfully to the internal storage root</string>
     <string name="export_settings_failure">Something went wrong while exporting your settings</string>
 
@@ -1374,4 +1398,13 @@
     <string name="generating_logs">Generating logs. Please wait.</string>
     <string name="default_playback_action">Playback action</string>
     <string name="files">Files</string>
+    <string name="remote_access_feedback_generate">Generate report</string>
+    <string name="remote_access_feedback_generated">Your feedback report has been generated</string>
+    <string name="remote_access_feedback_generated_explanation">Tap the button below to send it using your default email client. If you encounter any issues, you can copy paste the fields below and send the email yourself.</string>
+    <string name="remote_access_feedback_file_explanation">You just downloaded the needed file. Please remember to attach it to your email.</string>
+    <string name="generic_copied_to_clipboard">Copied to clipboard</string>
+    <string name="feedback_email_warning">No email client installed</string>
+    <string name="feedback_email_warning_explanation">The easiest way to share your feedback is to use the %1$s feature.\nTo do so, enable the remote access in the settings, follow the instructions and choose the %2$s entry in the menu.</string>
+    <string name="feedback_email_warning_remote_action">Open the settings</string>
+    <string name="feedback_email_warning_try_anyway">Try anyway</string>
     </resources>

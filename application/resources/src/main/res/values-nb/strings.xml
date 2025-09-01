@@ -214,8 +214,6 @@
 
     <string name="streams">Strømmer</string>
     <string name="open_mrl_dialog_msg">Skriv inn nettverksadresse: f.eks. https://, http://, mms:// eller rtsp://</string>
-    <string name="encountered_error_title">Avspillingsfeil</string>
-    <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\nPrøv å oppdatere mediebiblioteket.</string>
     <string name="invalid_location">Plasseringen %1$s kan ikke avspilles.</string>
     <string name="missing_location">Dette mediet er fra en utilgjengelig kilde og kan ikke spilles.</string>
 
@@ -740,7 +738,6 @@
     <string name="show_video_thumbnails">Miniatyrbilde for videoer</string>
     <string name="enable_equalizer">Slå på</string>
     <string name="preamp">Førforsterker</string>
-    <string name="presets">Forvalg</string>
     <string name="reset">Tilbakestill</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d spor lagt til</item>
@@ -915,7 +912,6 @@
     <string name="move_down">Flytt ned</string>
     <string name="remove_from_playlist">Fjern fra spilleliste</string>
     <string name="play_media">Spill %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Legg til duplikate element(er)?</string>
     <string name="add_button">Legg til</string>

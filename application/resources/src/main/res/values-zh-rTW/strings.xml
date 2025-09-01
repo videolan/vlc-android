@@ -65,6 +65,15 @@
     <string name="set_song_question">要將「%1$s」設為鈴聲嗎？</string>
     <string name="info">資訊</string>
     <string name="confirm_delete">是否刪除檔案「%1$s」？</string>
+    <string name="equalizer_overwrite_warning">此等化器已存在</string>
+    <string name="overwrite">覆寫</string>
+    <string name="eq_cannot_overwrite">無法覆寫預設的等化器</string>
+    <string name="equalizer_name">等化器名稱</string>
+    <string name="equalizer_deleted">已刪除等化器</string>
+    <string name="equalizer_leave_warning">您將會離開視訊播放程式</string>
+    <string name="invalid_equalizer_file">無效的等化器檔案</string>
+    <string name="confirm_delete_eq">您確定您想要刪除此預先設定集嗎？</string>
+    <string name="confirm_delete_vlc_eq">您確定您想要隱藏此預先設定集？\n您可以在等化器設定中還原。</string>
     <string name="confirm_replace_playlist">您確定您要取代播放清單「%1$s」嗎？</string>
     <string name="invalid_settings_file">無效的設定檔</string>
     <string name="confirm_delete_message">此為永久且無法復原。</string>
@@ -122,6 +131,14 @@
     <string name="video">視訊</string>
     <string name="bookmarks">書籤</string>
     <string name="equalizer">等化器</string>
+    <string name="import_equalizer">匯入等化器</string>
+    <string name="equalizer_exported">等化器已匯出至 %s</string>
+    <string name="equalizer_copy_template">（副本%s）</string>
+    <string name="new_equalizer_copy_template">新等化器%s</string>
+    <string name="show_all">顯示全部</string>
+    <string name="hide_all">隱藏全部</string>
+    <string name="export_all">匯出全部</string>
+    <string name="import_all">匯入全部</string>
     <string name="all_albums">所有專輯</string>
     <string name="genres">類型</string>
     <string name="playlists">播放清單</string>
@@ -226,8 +243,6 @@
 
     <string name="streams">串流</string>
     <string name="open_mrl_dialog_msg">請輸入網址：例如 http://、mms:// 或 rtsp://</string>
-    <string name="encountered_error_title">播放錯誤</string>
-    <string name="encountered_error_message">VLC 處理該媒體時發生錯誤。\n請嘗試重新整理媒體櫃。</string>
     <string name="invalid_location">位置 %1$s 無法被播放。</string>
     <string name="missing_location">此媒體來自不可用的儲存空間，無法播放。</string>
 
@@ -638,8 +653,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Android 版 VLC %s 中有什麼新功能</string>
-    <string name="whats_new_36_webserver_text">使用新的遠端存取功能，可以從任何其他裝置控制 Android 版 VLC。\n雙向傳送媒體、控制播放等等！</string>
-    <string name="whats_new_36_favorites_text">您現在可以收藏您的媒體、播放清單、藝人或專輯。\n僅按收藏過濾內容，一目了然地找到您喜歡的內容！</string>
+    <string name="whats_new_37_equalizer_text">等化器已重新設計。操作更簡單，可停用預先設定集，並支援備份、還原與分享您的預先設定集。</string>
+    <string name="whats_new_37_import_export">我們改進了備份與還原設定功能。您可以備份更多設定，包含等化器的預先設定集。</string>
+    <string name="show_in_settings">在設定中顯示</string>
 
 <!--    update-->
     <string name="update_title">有可用的更新</string>
@@ -882,7 +898,6 @@
     <string name="eq_snap_bands">捕捉樂團</string>
     <string name="enable_equalizer">啟用</string>
     <string name="preamp">前置放大</string>
-    <string name="presets">預置</string>
     <string name="reset">重設</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d 軌道已插入</item>
@@ -1114,6 +1129,11 @@
     <string name="move_down">下移</string>
     <string name="remove_from_playlist">從播放清單中移除</string>
     <string name="play_media">播放 %s</string>
+    <string name="edit_eq_preset">編輯等化器預先設定集</string>
+    <string name="edit_eq_name_not_allowed">不允許此名稱</string>
+    <string name="export_equalizer">匯出等化器</string>
+    <string name="hide_equalizer">隱藏等化器</string>
+    <string name="show_equalizer">顯示等化器</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">新增重複的項目？</string>

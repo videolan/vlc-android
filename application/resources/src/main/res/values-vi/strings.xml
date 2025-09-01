@@ -201,8 +201,6 @@
 
     <string name="streams">Luồng</string>
     <string name="open_mrl_dialog_msg">Nhập địa chỉ mạng: ví dụ http://, mms:// hoặc rtsp://</string>
-    <string name="encountered_error_title">Lỗi khi phát</string>
-    <string name="encountered_error_message">VLC gặp phải trục trặc với tập tin media này. \nHãy thử cập nhật lại hệ thống thư viện tập tin của bạn.</string>
     <string name="invalid_location">Vị trí %1$s không thể phát được.</string>
     <string name="missing_location">Phương tiện này đến từ kho lưu trữ không có sẵn và không thể được phát.</string>
 
@@ -283,7 +281,6 @@
     <string name="add_custom_path_description">Thêm vào thư mục do bạn chỉ định để quét:</string>
     <string name="remove_custom_path">Xoá đường dẫn tuỳ chỉnh</string>
     <string name="group_ban_folder">Cấm folder khỏi thư viện đa phương tiện</string>
-
     <string name="hardware_acceleration">Tăng tốc phần cứng</string>
     <string name="hardware_acceleration_summary">Tắt: sẽ ổn định hơn, không bj giật\nGiải mã: có thể cải thiện hiệu suất\n Đầy đủ: có thể cải thiện hiệu suất hơn nữa</string>
     <string name="hardware_acceleration_disabled">Tắt</string>
@@ -578,10 +575,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">VLC cho Android %s có gì mới? </string>
-    <string name="whats_new_36_webserver_text">Với tính năng truy cập từ xa mới, bạn có thể điều khiển VLC cho Android từ bất kỳ thiết bị nào.\nGửi phương tiện của bạn theo cả hai chiều, điều khiển phát và còn nhiều tính năng hơn thế nữa!</string>
-    <string name="whats_new_36_favorites_text">Giờ đây, bạn có thể yêu thích phương tiện, danh sách phát, nghệ sĩ hoặc album của mình.\nTìm nhanh nội dung ưa thích của bạn bằng cách chỉ lọc nội dung theo mục yêu thích!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Cập nhật sẵn sàng</string>
     <string name="install_nightly_title">Cài đặt phiên bản mới nhất hàng ngày</string>
     <string name="update_text">Một phiên bản mới hàng ngày của VLC cho Android đã sẵn sàng!\n\nBạn nhìn thấy điều này do bạn đang sử dụng một phiên bản hàng ngày.</string>
@@ -799,7 +793,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="eq_snap_bands">Mượt mà băng tần</string>
     <string name="enable_equalizer">Bật</string>
     <string name="preamp">Tiền khuếch đại</string>
-    <string name="presets">Phần thiết lập sẵn</string>
     <string name="reset">Đặt lại</string>
     <plurals name="tracks_inserted">
         <item quantity="other">%d tập tin được thêm vào</item>
@@ -1017,7 +1010,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="move_down">Di chuyển xuống</string>
     <string name="remove_from_playlist">Xóa khỏi danh sách phát</string>
     <string name="play_media">Phát %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Thêm đối tượng bị trùng lập?</string>
     <string name="add_button">Thêm</string>

@@ -66,7 +66,17 @@
     <string name="set_song_question">გსურთ „%1$s“ მიეთითოს ზარის ხმად?</string>
     <string name="info">მონაცემები</string>
     <string name="confirm_delete">წაიშალოს ფაილი „%1$s“?</string>
+    <string name="equalizer_overwrite_warning">ეს მათანაბრებელი უკვე არსებობს</string>
+    <string name="overwrite">ჩანაცვლება</string>
+    <string name="eq_cannot_overwrite">ვერ ჩანაცვლდება ნაგულისხმევი მათანაბრებელი</string>
+    <string name="equalizer_name">მათანაბრებლის სახელი</string>
+    <string name="equalizer_deleted">მათანაბრებელი წაშლილია</string>
+    <string name="equalizer_leave_warning">თქვენ ტოვებთ ვიდეოგამშვებს</string>
+    <string name="invalid_equalizer_file">მათანაბრებლის უმართებულო ფაილი</string>
+    <string name="confirm_delete_eq">ნამდვილად გსურთ ამ მზა გამართვის წაშლა?</string>
+    <string name="confirm_delete_vlc_eq">ნამდვილად გსურთ, დაიმალოს ეს მზა გამართვა?\nაღდგენას შეძლებთ მათანაბრებლის პარამეტრებიდან.</string>
     <string name="confirm_replace_playlist">ნამდვილად გსურთ, ჩანაცვლდეს დასაკრავი სია „%1$s“?</string>
+    <string name="invalid_settings_file">პარამეტრების უმართებულო ფაილი</string>
     <string name="confirm_delete_message">სამუდამოა და შეუქცევადი.</string>
     <string name="confirm_delete_album">წაიშალოს ალბომი „%1$s“?</string>
     <string name="confirm_delete_several_media">წაიშალოს %1$d მედიაფაილი?</string>
@@ -131,6 +141,14 @@
     <string name="video">ვიდეო</string>
     <string name="bookmarks">სანიშნები</string>
     <string name="equalizer">მათანაბრებელი</string>
+    <string name="import_equalizer">მათანაბრებლის გადმოტანა</string>
+    <string name="equalizer_exported">მათანაბრებელს(ებს) გადაიტანს %s</string>
+    <string name="equalizer_copy_template">(ასლი%s)</string>
+    <string name="new_equalizer_copy_template">ახალი მათანაბრებელი %s</string>
+    <string name="show_all">ყველას გამოჩენა</string>
+    <string name="hide_all">ყველას დამალვა</string>
+    <string name="export_all">ყველას გადატანა</string>
+    <string name="import_all">ყველას გადმოტანა</string>
     <string name="all_albums">ყველა ალბომი</string>
     <string name="genres">ჟანრები</string>
     <string name="playlists">სიები</string>
@@ -201,7 +219,7 @@
     <string name="playback_speed_all_tracks">ყველა ჩანაწერზე</string>
     <string name="playback_speed_explanation_all_videos">სიჩქარის ცვლილება შეეხება ყველა ვიდეოს.\nცალკეული ვიდეოს სიჩქარეს არ გაითვალისწინებს.</string>
     <string name="playback_speed_explanation_all_tracks">სიჩქარის ცვლილება შეეხება ყველა ჩანაწერს.\nცალკეული ჩანაწერის სიჩქარეს არ გაითვალისწინებს.</string>
-    <string name="playback_speed_explanation_all_incognito">ფარულ რეჟიმში ხართ. სიჩქარე დაუბრუნდება საშუალო მნიშვნელობას ფარული რეჟიმის დატოვებისას.</string>
+    <string name="playback_speed_explanation_all_incognito">ფარულ რეჟიმში ხართ. სიჩქარე დაუბრუნდება საშუალო მნიშვნელობას ფარული რეჟიმიდან გამოსვლისას.</string>
     <string name="playback_speed_explanation_one_video">სიჩქარის ცვლილება შეეხება მხოლოდ ამ ვიდეოს</string>
     <string name="playback_speed_explanation_one_track">სიჩქარის ცვლილება შეეხება მხოლოდ ამ ჩანაწერს</string>
     <string name="audio_playback_speed_global">დაკვრის საერთო სიჩქარის გამოყენება</string>
@@ -213,7 +231,7 @@
     <string name="subtitle_select">აირჩიეთ ქვეწარწერების ფაილი</string>
     <string name="wait_before_sleep">გაშვებული ფაილის დასრულებამდე მოცდა</string>
     <string name="reset_on_interaction">განულება ნებისმიერი ურთიერთქმედებისას</string>
-    <string name="default_sleep_timer_summary">%1$s, მოიცდის დასრულებამდე: %2$s, ჩამოიყრება ურთიერთქმედებისას: %3$s</string>
+    <string name="default_sleep_timer_summary">%1$s, მოცდა დასრულებამდე: %2$s, განულება ურთიერთქმედებისას: %3$s</string>
     <string name="video_player_remote">ვიდეოდამკვრელი დაშორებულად</string>
     <string name="remote_keyboard_navigation">კლავიატურით გადასვლა</string>
 
@@ -236,8 +254,6 @@
 
     <string name="streams">ნაკადები</string>
     <string name="open_mrl_dialog_msg">ქსელის მისამართი: მაგ. http://, mms:// ან rtsp://</string>
-    <string name="encountered_error_title">დაკვრის შეცდომა</string>
-    <string name="encountered_error_message">VLC წააწყდა ხარვეზს ამ ფაილზე.\nგთხოვთ, ცადოთ მედიათეკის განახლება.</string>
     <string name="invalid_location">%1$s მისამართიდან ვერ ეშვება.</string>
     <string name="missing_location">ფაილი მიუწვდომელი მეხსიერებიდანაა და ვერ გაეშვება.</string>
 
@@ -320,6 +336,9 @@
     <string name="add_custom_path_description">დამატებით შეიყვანეთ სასურველი საქაღალდე, მოსაძიებლად:</string>
     <string name="remove_custom_path">მითითებული მდებარეობის მოცილება</string>
     <string name="group_ban_folder">საქაღალდის ამოკლება მედიათეკიდან</string>
+    <string name="ban_folder">საქაღალდის შეზღუდვა</string>
+    <string name="ban_folder_explanation">საქაღალდის შეზღუდვის შედეგად ვეღარ იხილავთ მანდედან ფაილებს ვიდეოს ან ხმოვანი ჩანაწერების არეში, თუმცა ხელმისაწვდომი დარჩება ფაილების ასარჩევში.\nშეზღუდვის მოსახსნელად გახსენით პარამეტრები, %s და ხანგრძლივად შეეხეთ საქაღალდეს.</string>
+
     <string name="hardware_acceleration">აპარატული აჩქარება</string>
     <string name="hardware_acceleration_summary">გამორთული: მეტად მდგრადია\nგაშიფვრა: შეიძლება გაზარდოს წარმადობა\სრული: შესაძლოა, უფრო მეტად გაზარდოს წარმადობა</string>
     <string name="hardware_acceleration_disabled">გამორთული</string>
@@ -352,7 +371,7 @@
     <string name="interface_secondary_display_category_title">დამატებითი ეკრანი</string>
     <string name="interface_secondary_display_category_summary">პარამეტრები დამატებით მიერთებული ეკრანებისთვის (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">ამჯობინოს გაორკეცება</string>
-    <string name="enable_clone_mode_summary">მოწყობილობის ეკრანის გაორკეცება დაშორებული მართვის გარეშე</string>
+    <string name="enable_clone_mode_summary">მოწყობილობის ეკრანის გაორკეცება შორიდან მართვის გარეშე</string>
 
     <string name="video_prefs_category">ვიდეო</string>
     <string name="video_min_group_length_title">ვიდეოების დაჯგუფება</string>
@@ -453,7 +472,7 @@
     <string name="list_title_ellipsize_left">მარცხენა</string>
     <string name="list_title_ellipsize_right">მარჯვენა</string>
     <string name="list_title_ellipsize_middle">შუა</string>
-    <string name="list_title_ellipsize_marquee">მორებენალი</string>
+    <string name="list_title_ellipsize_marquee">მორბენალი</string>
     <string name="audio_boost_title">ხმის გაძლიერება</string>
     <string name="audio_boost_summary">ხმის 200%-მდე მომატების დაშვება</string>
     <string name="headset_prefs_category">ყურსასმენები</string>
@@ -588,7 +607,7 @@
     <string name="dump_logcat_success">Logcat წარმატებითაა გადატანილი %1$s-ში!</string>
     <string name="dump_logcat_failure">ვერ მოხერხდა აღრიცხვების გადატანა</string>
     <string name="http_user_agent">HTTP-მომნახულებელი</string>
-    <string name="custom_libvlc_options">მორგებული libVLC-პარამეტრები</string>
+    <string name="custom_libvlc_options">libVLC-პარამეტრების მითითება</string>
     <string name="custom_libvlc_options_invalid">არასწორი libVLC-პარამეტრები!</string>
     <string name="dav1d_thread_number">Dav1d-ნაკადის ნომერი</string>
     <string name="dav1d_thread_number_invalid">ნაკადის უმართებულო ნომერი! (>=1)</string>
@@ -623,6 +642,8 @@
     <string name="network_shares_discovery">ქსელში გაზიარებების მონახვა</string>
     <string name="network_empty">ეს საქაღალდე ცარიელია.</string>
     <string name="network_connection_needed">არაა კავშირი ადგილობრივ ქსელთან.</string>
+    <string name="network_disabled">ქსელში საძიებო გათიშულია</string>
+    <string name="browse_network">ქსელში ძიება</string>
     <string name="search_hint">ფაილების ძიება</string>
     <string name="search_in_list_hint">ძიება არსებულ სიაში</string>
     <string name="search_global">ძიება მთელ მედიათეკაში</string>
@@ -643,10 +664,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">რა სიახლეებითაა VLC Android %s</string>
-    <string name="whats_new_36_webserver_text">ახლად დამატებული დაშორებული წვდომით შესაძლებელია იმართოს VLC Android ნებისმიერი სხვა მოწყობილობიდან.\nგაგზავნეთ ფაილები ორივე მიმართულებით, მართეთ დამკვრელი და კიდევ უამრავი სხვა რამ!</string>
-    <string name="whats_new_36_favorites_text">შეგიძლიათ რჩეულად მონიშნოთ თქვენი ფაილები, სიები, შემსრულებლები ან ალბომები.\nდაუყოვნებლივ მონახეთ სასურველი მასალები შიგთავსიდან მხოლოდ რჩეულების გამოცალკევებით!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">განახლება ხელმისაწვდომია</string>
     <string name="install_nightly_title">საცდელი Nightly-ანაწყობის დაყენება</string>
     <string name="update_text">ხელმისაწვდომია ახალი საცდელი Nightly-ვერსიის VLC Android!\n\nამას ხედავთ იმიტომ, რომ იყენებთ Nightly-ანაწყობს.</string>
@@ -887,7 +905,6 @@
     <string name="eq_snap_bands">სიხშირეების გადაბმა</string>
     <string name="enable_equalizer">ჩართული</string>
     <string name="preamp">მაძლიერ.</string>
-    <string name="presets">მზა პარამეტრები</string>
     <string name="reset">განულება</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d ჩანაწერი ჩაემატა</item>
@@ -903,7 +920,7 @@
     <string name="display_settings">ჩვენების პარამეტრები</string>
     <string name="incognito_mode">ფარული რეჟიმი</string>
     <string name="persistent_incognito_mode">მუდმივად ფარული რეჟიმი</string>
-    <string name="persistent_incognito_mode_summary">ფარული რეჟიმის დატოვება პროგრამის ახლიდან გაშვების დროსაც</string>
+    <string name="persistent_incognito_mode_summary">ფარული რეჟიმის შენარჩუნება პროგრამის ახლიდან გაშვების დროსაც</string>
     <string name="display_in_list">სიაში ჩვენება</string>
     <string name="display_in_grid">ცხრილურად ჩვენება</string>
     <string name="dump_db_succes">მონაცემთა კრებული გადატანილია შიდა მეხსიერების ძირეულ საქაღალდეში.</string>
@@ -1066,7 +1083,7 @@
     <string name="soundfont_summary">SoundFont-ფაილის არჩევა MIDI-ჩანაწერების დასაკრავად</string>
     <string name="missing_media_snack">ფაილი აკლია. დაიმალოს ყველა ნაკლული ფაილი?</string>
     <string name="browser_show_missing_media">ნაკლული ფაილის ჩვენება</string>
-    <string name="browser_show_missing_media_summary">დაშორებული ფაილის ჩვენება მაშინაც კი, თუ არაა წარმოდგენილი</string>
+    <string name="browser_show_missing_media_summary">დაშორებულად მდებარე ფაილის ჩვენება მაშინაც კი, თუ არაა წარმოდგენილი</string>
     <string name="parental_control">მშობლის ზედამხედველობა</string>
     <string name="safe_mode">უსაფრთხო რეჟიმი</string>
     <string name="safe_mode_summary">როცა მოქმედია, ფაილები ვერ წაიშლება და დასაკრავი სია ვერ შეიცვლება პინკოდის გარეშე.</string>
@@ -1121,6 +1138,11 @@
     <string name="move_down">ჩამოწევა</string>
     <string name="remove_from_playlist">დასაკრავი სიიდან მოცილება</string>
     <string name="play_media">გაეშვას %s</string>
+    <string name="edit_eq_preset">მათანაბრებლის მზა გამართვის ჩასწორება</string>
+    <string name="edit_eq_name_not_allowed">ეს სახელი არაა ნებადართული</string>
+    <string name="export_equalizer">მათანაბრებლის გადატანა</string>
+    <string name="hide_equalizer">მათანაბრებლის დამალვა</string>
+    <string name="show_equalizer">მათანაბრებლის გამოჩენა</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">დაემატოს ერთნაირ(ებ)ი?</string>
@@ -1284,6 +1306,7 @@
     <string name="ra_prepare_download">მზადდება ჩამოტვირთვა</string>
     <string name="ra_forbidden">შიგთავსი შეზღუდულია პარამეტრებში</string>
     <string name="ra_playback_forbidden">დაკვრის მართვა შეზღუდულია პარამეტრებში</string>
+    <string name="ra_logs_forbidden">აღრიცხვის გაზიარება გათიშულია პარამეტრებიდან</string>
     <string name="ra_code_requested_explanation">თქვენი სერვერის უსაფრთხოებისთვის წვდომა დაცულია.\nგთხოვთ შეიყვანოთ შეტყობინებაში მოცემული კოდი</string>
     <string name="ra_ssl_explanation_title">დაუცველი კავშირი</string>
     <string name="ra_ssl_explanation">თქვენი კავშირი დაუცველია.</string>
@@ -1345,6 +1368,7 @@
     <string name="export_settings">პარამეტრების გატანა</string>
     <string name="restore_settings_summary">პარამეტრების აღდგენა წინა გატანილიდან</string>
     <string name="restore_settings">პარამეტრების აღდგენა</string>
+    <string name="obsolete_restore_settings">თქვენი გატანილი პარამეტრები დაიკარგა. გთხოვთ გაიტანოთ ხელახლა</string>
     <string name="export_settings_success">პარამეტრები გატანილია წარმატებით შიდა მეხსიერების ძირეულ საქაღალდეში</string>
     <string name="export_settings_failure">რაღაც ხარვეზი წარმოიშვა პარამეტრების გატანისას</string>
 
@@ -1374,4 +1398,13 @@
     <string name="generating_logs">იქმნება აღრიცხვის ჩანაწერები. მოითმინეთ.</string>
     <string name="default_playback_action">დაკვრის მოქმედება</string>
     <string name="files">ფაილები</string>
+    <string name="remote_access_feedback_generate">მოხსენების შედგენა</string>
+    <string name="remote_access_feedback_generated">თქვენი გამოხმარების მოხსენება შედგენილია</string>
+    <string name="remote_access_feedback_generated_explanation">შეეხეთ ღილაკს ქვემოთ ნაგულისხმევი ელფოსტის პროგრამით გამოსაგზავნად. თუ დაბრკოლებას წააწყდით, შეგიძლიათ ასლები აიღოთ და ხელით ჩასვათ ელფოსტის გამოგზავნისას.</string>
+    <string name="remote_access_feedback_file_explanation">თქვენ ახლახან ჩამოტვირთეთ საჭირო ფაილი. გთხოვთ, არ დაგავიწყდეთ, დაურთოთ ელფოსტას.</string>
+    <string name="generic_copied_to_clipboard">ასლი აღებულია</string>
+    <string name="feedback_email_warning">ელფოსტის პროგრამა არ აყენია</string>
+    <string name="feedback_email_warning_explanation">გამოხმაურებისთვის უადვილესი გზაა, გამოიყენოთ შესაძლებლობა %1$s .\nამისთვის ჩართეთ დაშორებული წვდომა პარამეტრებიდან, მიჰყევით მითითებებს და აირჩიეთ %2$s მენიუდან.</string>
+    <string name="feedback_email_warning_remote_action">პარამეტრების გახსნა</string>
+    <string name="feedback_email_warning_try_anyway">მაინც მოსინჯვა</string>
     </resources>

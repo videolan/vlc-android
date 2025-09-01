@@ -236,8 +236,6 @@
 
     <string name="streams">Streams</string>
     <string name="open_mrl_dialog_msg">Indtast netværksadresse: f.eks. http://, mms:// eller rtsp://</string>
-    <string name="encountered_error_title">Afspilningsfejl</string>
-    <string name="encountered_error_message">VLC stødte på en fejl med dette medie.\nForsøg venligst at genopfriske mediebiblioteket.</string>
     <string name="invalid_location">Placeringen %1$s kan ikke afspilles.</string>
     <string name="missing_location">Dette medie er fra et utilgængeligt lager og kan ikke afspilles.</string>
 
@@ -648,10 +646,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Hvad er nyt i VLC til Android %s</string>
-    <string name="whats_new_36_webserver_text">Med den nye fjernadgangsmulighed kan du styre VLC til Android fra alle enheder.\nSende dine medier frem og tilbage, kontrollere din afspilning og meget mere!</string>
-    <string name="whats_new_36_favorites_text">Du kan nu favorisere dine medier, afspilningslister, kunstnere eller albummer.\nFind dit foretrukne indhold ved at filtrere indhold kun fra favoritter!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Tilgængelig opdatering</string>
     <string name="install_nightly_title">Installér natlig version</string>
     <string name="update_text">Der er en ny natlig version af VLC til Android tilgængelig!\n\nDu ser denne besked, fordi du anvender en natlig version.</string>
@@ -892,7 +887,6 @@
     <string name="eq_snap_bands">Fastgørelsesbånd</string>
     <string name="enable_equalizer">Aktivér</string>
     <string name="preamp">Forforstærkning</string>
-    <string name="presets">Forudindstillinger</string>
     <string name="reset">Nulstil</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d spor indsat</item>
@@ -1126,7 +1120,6 @@
     <string name="move_down">Flyt ned</string>
     <string name="remove_from_playlist">Fjern fra afspilningsliste</string>
     <string name="play_media">Afspil %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Tilføj duplikerede element(er)?</string>
     <string name="add_button">Tilføj</string>

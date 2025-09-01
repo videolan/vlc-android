@@ -68,6 +68,15 @@
     <string name="set_song_question">Nastaviť „%1$s“ ako zvonenie?</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor „%1$s“?</string>
+    <string name="equalizer_overwrite_warning">Tento ekvalizér už existuje</string>
+    <string name="overwrite">Prepísať</string>
+    <string name="eq_cannot_overwrite">Predvolený ekvalizér nemožno prepísať</string>
+    <string name="equalizer_name">Názov ekvalizéra</string>
+    <string name="equalizer_deleted">Ekvalizér bol vymazaný</string>
+    <string name="equalizer_leave_warning">Týmto opustíte prostredie prehrávača videa</string>
+    <string name="invalid_equalizer_file">Neplatný súbor s ekvalizérom</string>
+    <string name="confirm_delete_eq">Naozaj chcete vymazať toto prednastavenie?</string>
+    <string name="confirm_delete_vlc_eq">Naozaj chcete skryť toto prednastavenie?\nMôžete ho obnoviť v nastaveniach ekvalizéra.</string>
     <string name="confirm_replace_playlist">Naozaj chcete nahradiť playlist \'%1$s\'?</string>
     <string name="invalid_settings_file">Neplatný súbor s nastaveniami</string>
     <string name="confirm_delete_message">Tento úkon je trvalý a nevratný.</string>
@@ -152,6 +161,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Záložky</string>
     <string name="equalizer">Ekvalizér</string>
+    <string name="import_equalizer">Importovať ekvalizér</string>
+    <string name="equalizer_exported">Ekvalizér bol exportovaný do %s</string>
+    <string name="equalizer_copy_template">(kópia%s)</string>
+    <string name="new_equalizer_copy_template">Nový ekvalizér%s</string>
+    <string name="show_all">Zobraziť všetko</string>
+    <string name="hide_all">Skryť všetko</string>
+    <string name="export_all">Exportovať všetko</string>
+    <string name="import_all">Importovať všetko</string>
     <string name="all_albums">Všetky albumy</string>
     <string name="genres">Žánre</string>
     <string name="playlists">Playlisty</string>
@@ -259,8 +276,6 @@
 
     <string name="streams">Streamy</string>
     <string name="open_mrl_dialog_msg">Zadajte sieťovú adresu: napr. http://, mms:// alebo rtsp://</string>
-    <string name="encountered_error_title">Chyba počas prehrávania</string>
-    <string name="encountered_error_message">Aplikácia VLC zaznamenala chybu spojenú s týmto médiom.\nProsím obnovte knižnicu s médiami.</string>
     <string name="invalid_location">Z umiestnenia %1$s nie je možné prehrávanie.</string>
     <string name="missing_location">Toto médium je uložené na nedostupnom úložisku a nedá sa prehrať.</string>
 
@@ -671,8 +686,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Čo je nové vo VLC for Android %s</string>
-    <string name="whats_new_36_webserver_text">S novou funkciou pre vzdialený prístup prevezmete ovládanie aplikácie VLC for Android z akéhokoľvek iného zariadenia.\nOdosielajte médiá obidvomi smermi, ovládajte prehrávanie a mnoho iného!</string>
-    <string name="whats_new_36_favorites_text">Teraz môžete uprednostniť vaše médiá, playlisty, umelcov alebo albumy.\nNájdite preferovaný obsah ihneď, filtrovaním obsahu len podľa obľúbených položiek!</string>
+    <string name="whats_new_37_equalizer_text">Ekvalizér bol od základu prepracovaný. Jeho používanie je teraz jednoduchšie, umožňuje deaktivovanie predvolených nastavení a umožňuje zálohovať, obnoviť a zdieľať vaše predvoľby.</string>
+    <string name="whats_new_37_import_export">Vylepšili sme funkciu zálohovania a obnovy nastavení. Teraz dokáže zálohovať viac nastavení, vrátane prednastavení ekvalizéra.</string>
+    <string name="show_in_settings">Zobraziť v nastaveniach</string>
 
 <!--    update-->
     <string name="update_title">Je dostupná aktualizácia</string>
@@ -915,7 +931,6 @@
     <string name="eq_snap_bands">Prichytiť pásma</string>
     <string name="enable_equalizer">Aktivovať</string>
     <string name="preamp">Predbežné zosilnenie</string>
-    <string name="presets">Prednastavenia</string>
     <string name="reset">Reset</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d vložená stopa</item>
@@ -1153,6 +1168,11 @@
     <string name="move_down">Posunúť nadol</string>
     <string name="remove_from_playlist">Odstrániť z playlistu</string>
     <string name="play_media">Prehrať %s</string>
+    <string name="edit_eq_preset">Upraviť prednastavenie ekvalizéra</string>
+    <string name="edit_eq_name_not_allowed">Takýto názov nie je povolený</string>
+    <string name="export_equalizer">Exportovať ekvalizér</string>
+    <string name="hide_equalizer">Skryť ekvalizér</string>
+    <string name="show_equalizer">Zobraziť ekvalizér</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Pridať duplikované položky?</string>

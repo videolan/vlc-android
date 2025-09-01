@@ -66,7 +66,17 @@
     <string name="set_song_question">Asetetaanko \"%1$s\" soittoääneksi?</string>
     <string name="info">Tietoja</string>
     <string name="confirm_delete">Poistatko tiedoston \"%1$s\"?</string>
+    <string name="equalizer_overwrite_warning">Tämä taajuuskorjain on jo olemassa</string>
+    <string name="overwrite">Korvaa</string>
+    <string name="eq_cannot_overwrite">Oletus taajuuskorjainta ei voi korvata</string>
+    <string name="equalizer_name">Taajuuskorjaimen nimi</string>
+    <string name="equalizer_deleted">Taajuuskorjain on poistettu</string>
+    <string name="equalizer_leave_warning">Poistut videotoistimesta</string>
+    <string name="invalid_equalizer_file">Virheellinen tiedosto taajuuskorjaimelle</string>
+    <string name="confirm_delete_eq">Haluatko poistaa tämän esiasetuksen?</string>
+    <string name="confirm_delete_vlc_eq">Haluatko piilottaa tämän esiasetuksen?\nVoit palauttaa sen taajuuskorjaimen asetuksista.</string>
     <string name="confirm_replace_playlist">Haluatko korvata soittolistan \"%1$s\"?</string>
+    <string name="invalid_settings_file">Virheellinen asetustiedosto</string>
     <string name="confirm_delete_message">Tätä ei voi kumota.</string>
     <string name="confirm_delete_album">Poistetaanko albumi \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Poistetaanko nämä \"%1$d\" kappaletta?</string>
@@ -131,6 +141,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Kirjanmerkit</string>
     <string name="equalizer">Taajuuskorjain</string>
+    <string name="import_equalizer">Tuo taajuuskorjain</string>
+    <string name="equalizer_exported">Taajuuskorjaimet vietiin %s</string>
+    <string name="equalizer_copy_template">(kopio%s)</string>
+    <string name="new_equalizer_copy_template">Uusi taajuuskorjain %s</string>
+    <string name="show_all">Näytä kaikki</string>
+    <string name="hide_all">Piilota kaikki</string>
+    <string name="export_all">Vie kaikki</string>
+    <string name="import_all">Tuo kaikki</string>
     <string name="all_albums">Kaikki albumit</string>
     <string name="genres">Genret</string>
     <string name="playlists">Soittolistat</string>
@@ -236,8 +254,6 @@
 
     <string name="streams">Suoratoistot</string>
     <string name="open_mrl_dialog_msg">Kirjoita verkko-osoite: esim. http://, mms:// tai rtsp://</string>
-    <string name="encountered_error_title">Toistovirhe</string>
-    <string name="encountered_error_message">VLC kohtasi virheen tämän median kanssa.\nKokeilethan mediakirjastosi päivittämistä.</string>
     <string name="invalid_location">Kohdetta %1$s ei voida toistaa.</string>
     <string name="missing_location">Tämä media on muistikotilla, joka ei ole käytettävissä, eikä sitä voi toistaa.</string>
 
@@ -658,10 +674,7 @@ Käynnistätkö uudelleen?</string>
 
     <!--What's new-->
     <string name="whats_new_title">Mitä uutta VLC Android %s</string>
-    <string name="whats_new_36_webserver_text">Uuden etäkäytön avulla hallitset VLC Androidin mistä tahansa muusta laitteesta.\nLähetä mediaa molempiin suuntiin ja ohjaa toistoa!</string>
-    <string name="whats_new_36_favorites_text">Voit lisätä mediat, soittolistat, artististit tai albumit suosikkeihin.\nLöydät haluamasi sisällön yhdellä silmäyksellä suodattamalla sisältöä vain suosikkien mukaan!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">Päivitys saatavilla</string>
     <string name="install_nightly_title">Asenna ennakkoversio</string>
     <string name="update_text">Uusi VLC Android:lle on saatavilla ennakkoversiona
@@ -911,7 +924,6 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="eq_snap_bands">Kohdista kanavat</string>
     <string name="enable_equalizer">Käytä</string>
     <string name="preamp">Esivahvistin</string>
-    <string name="presets">Esiasetukset</string>
     <string name="reset">Nollaa</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d kappaletta lisätty</item>
@@ -1145,6 +1157,11 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="move_down">Siirrä alas</string>
     <string name="remove_from_playlist">Poista soittolistalta</string>
     <string name="play_media">Toista %s</string>
+    <string name="edit_eq_preset">Muokkaa taajuuskorjaimen esiasetusta</string>
+    <string name="edit_eq_name_not_allowed">Tätä nimeä ei sallita</string>
+    <string name="export_equalizer">Vie taajuuskorjain</string>
+    <string name="hide_equalizer">Piilota taajuuskorjain</string>
+    <string name="show_equalizer">Näytä taajuuskorjain</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Lisätäänkö päällekkäiset?</string>
@@ -1376,6 +1393,7 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="export_settings">Vie asetukset</string>
     <string name="restore_settings_summary">Palauta asetukset edellisestä viennistä</string>
     <string name="restore_settings">Palauta asetukset</string>
+    <string name="obsolete_restore_settings">Asetuksien vienti on vanhentunut. Vie ne uudelleen.</string>
     <string name="export_settings_success">Asetukset vietiin sisäisen tallennustilan juureen</string>
     <string name="export_settings_failure">Jotain meni vikaan vietäessä asetuksia</string>
 

@@ -253,8 +253,6 @@
 
     <string name="streams">دفق</string>
     <string name="open_mrl_dialog_msg">أدخِل عنوان الشبكة على سبيل المثال: http: // أو mms: // أو rtsp: //</string>
-    <string name="encountered_error_title">خطأ تشغيلي</string>
-    <string name="encountered_error_message">صادف VLC خطأ عند قراءة هذا الوسيط.\nيُرجى إعادة إنعاش مكتبة الوسائط.</string>
     <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
     <string name="missing_location">إن مكان تخزين هذا الوسيط غير متاح، لذلك لا يمكن تشغيله.</string>
 
@@ -576,7 +574,6 @@
 
     <!--What's new-->
     <string name="whats_new_title">ما الجديد في برنامج VLC للأندرويد %s</string>
-    <string name="whats_new_36_webserver_text">بفضل ميزة الوصول عن بعد الجديدة، يمكنك التحكم في VLC لأجهزة Android من أي جهاز آخر.\nأرسل الوسائط الخاصة بك في كلا الاتجاهين، وتحكم في التشغيل وغير ذلك الكثير!</string>
     <!--    update-->
     <string name="update_title">التحديث متاح</string>
     <string name="open_in_browser">افتح في المتصفح </string>
@@ -775,7 +772,6 @@
     <string name="eq_snap_bands">أشرطة المفاجئة</string>
     <string name="enable_equalizer">فعّل</string>
     <string name="preamp">Preamp</string>
-    <string name="presets">الإعدادات المسبقة</string>
     <string name="reset">صفّر</string>
     <plurals name="tracks_inserted">
         <item quantity="zero">%d مسار مدرج</item>
@@ -983,7 +979,6 @@
     <string name="move_up">تحرك للأعلى</string>
     <string name="move_down">تحرك للأسفل</string>
     <string name="play_media">تشغيل%s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">هل تريد إضافة عنصر (عناصر) مكررة؟</string>
     <string name="add_button">أضِف</string>

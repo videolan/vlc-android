@@ -66,6 +66,15 @@
     <string name="set_song_question">Kas määrame \'%1$s\' helinaks?</string>
     <string name="info">Informatsioon</string>
     <string name="confirm_delete">Kas kustutame \'%1$s\' faili?</string>
+    <string name="equalizer_overwrite_warning">See ekvalaiser on juba olemas</string>
+    <string name="overwrite">Kirjuta üle</string>
+    <string name="eq_cannot_overwrite">Vaikimisi ekvalaiserit ei saa üle kirjutada</string>
+    <string name="equalizer_name">Ekvalaiseri nimi</string>
+    <string name="equalizer_deleted">See ekvalaiser on kustutatud</string>
+    <string name="equalizer_leave_warning">Sa lahkud videoesitajast</string>
+    <string name="invalid_equalizer_file">Vigane ekvalaiserifaili</string>
+    <string name="confirm_delete_eq">Kas oled kindel, et soovid selle eelseadistuse kustutada?</string>
+    <string name="confirm_delete_vlc_eq">Kas oled kindel, et soovid selle eelseadistuse peita?\nSaad ta hiljem ekvalaiseri seadistustest taastada.</string>
     <string name="confirm_replace_playlist">Kas sa oled kindel, et soovid „%1$s“ esitusloendi asendada?</string>
     <string name="invalid_settings_file">Vigane seadistuste fail</string>
     <string name="confirm_delete_message">See on lõplik muudatus, mida tagasi pöörata ei saa.</string>
@@ -132,6 +141,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Järjehoidjad</string>
     <string name="equalizer">Ekvalaiser</string>
+    <string name="import_equalizer">Impordi ekvalaiser</string>
+    <string name="equalizer_exported">Ekvalaiser(id) on eksporditud %s faili</string>
+    <string name="equalizer_copy_template">(koopia%s)</string>
+    <string name="new_equalizer_copy_template">Uus ekvalaiser: %s</string>
+    <string name="show_all">Näita kõiki</string>
+    <string name="hide_all">Peida kõik</string>
+    <string name="export_all">Ekspordi kõik</string>
+    <string name="import_all">Impordi kõik</string>
     <string name="all_albums">Kõik albumid</string>
     <string name="genres">Žanrid</string>
     <string name="playlists">Esitusloendid</string>
@@ -237,8 +254,6 @@
 
     <string name="streams">Vood</string>
     <string name="open_mrl_dialog_msg">Sisesta võrguaadress: nt. http://, mms:// või rtsp://</string>
-    <string name="encountered_error_title">Tõrge taasesitamisel</string>
-    <string name="encountered_error_message">VLC põrkus takistusele selle meedia juures.\nPalun värskenda meediakogu.</string>
     <string name="invalid_location">Asukohta %1$s ei saa esitada.</string>
     <string name="missing_location">See meedia asub andmekandjal, mida hetkel ei leidu ja tema esitamine pole seega võimalik.</string>
 
@@ -311,9 +326,9 @@
     <string name="feedback_forum">Tagasiside foorum</string>
 
     <!-- Preferences -->
-    <string name="preferences">Seaded</string>
-    <string name="more_preferences">Täiendavad seaded</string>
-    <string name="prefs_opened_on_phone">Seaded telefonis</string>
+    <string name="preferences">Seadistused</string>
+    <string name="more_preferences">Täiendavad seadistused</string>
+    <string name="prefs_opened_on_phone">Seadistused on avatud telefonis</string>
     <string name="open_on_phone">Ava nutiseadme ekraanil</string>
 
     <string name="directories_summary">Vali kaustad, mida lisame meediakogusse</string>
@@ -350,11 +365,11 @@
     <string name="no_track_preference">Ilma keele eelistuseta</string>
     <string name="track_preference">Raja eelistus: %s</string>
 
-    <string name="extra_prefs_category">Lisaseaded</string>
+    <string name="extra_prefs_category">Lisaseadistused</string>
 
     <string name="interface_prefs_screen">Kasutajaliides</string>
     <string name="interface_secondary_display_category_title">Teine ekraan</string>
-    <string name="interface_secondary_display_category_summary">Seaded lisaekraanide jaoks (HDMI/Chromecast)</string>
+    <string name="interface_secondary_display_category_summary">Seadistused lisaekraanide jaoks (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Eelista klooni</string>
     <string name="enable_clone_mode_summary">Klooni seadme ekraan ilma kaughalduseta</string>
 
@@ -649,8 +664,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Mida uut leidub VLC Androidi versioonis %s</string>
-    <string name="whats_new_36_webserver_text">Uue kaugligipääsu abil juhi oma VLCd Androidile ükspuha mis nutiseadmest.\nLiiguta meediat mõlemas suunas, juhi taasesitust ja palju muud põnevat!</string>
-    <string name="whats_new_36_favorites_text">Nüüd saad meediat, esitusloendeid, esitajaid ja albumeid märkida lemmikuks\nJa sulle meeldivat sisu saad kergemini leida otsides vaid lemmikute hulgast!</string>
+    <string name="whats_new_37_equalizer_text">Ekvalaiseri liides on nullist ümber ehitatud. Ta on nüüd mugavamalt kasutatav, vaikimisi eelseadistusi saad kasutuselt eemaldada ning võimaldab sinu eelseadistusi varundada, taastada ja jagada.</string>
+    <string name="whats_new_37_import_export">Me oleme täiendanud varundamise ja taastamise seadistusi. Nüüd saad varundada enam seadistusi, sealhulgas ekvalaiseri eelseadistused.</string>
+    <string name="show_in_settings">Näita seadistustes</string>
 
 <!--    update-->
     <string name="update_title">Saadaval on uuendus</string>
@@ -722,7 +738,7 @@
     <!-- Plugins -->
     <string name="plugins">Pluginad</string>
     <string name="download_on_device">Laadi alla</string>
-    <string name="extension_empty">Ühtegi objekti ei leidu kuvamiseks, ava laienduste seaded ja laadi mõni.</string>
+    <string name="extension_empty">Ühtegi objekti ei leidu kuvamiseks, ava laienduste seadistused ja laadi mõni.</string>
 
     <string name="opengl_title">OpenGL ES2 kasutamine</string>
     <string name="opengl_summary">Vaikimisi on raudvaralise ja tarkvaralise dekodeerimise jaoks vastavalt vajadusele kasutusel OpenGL ES2 (360° videod)</string>
@@ -895,7 +911,6 @@
     <string name="eq_snap_bands">Liida heliribad</string>
     <string name="enable_equalizer">Luba</string>
     <string name="preamp">Eelvõim</string>
-    <string name="presets">Eelseaded</string>
     <string name="reset">Nulli</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d rada sisestatud</item>
@@ -908,7 +923,7 @@
     <string name="remove_current">Eemalda praegune</string>
     <string name="validation_delete_playlist">Kas soovid selle esitusloendi kustutada?</string>
     <string name="validation_delete_playlist_text">Seda tegevust ei saa tagasi võtta.</string>
-    <string name="display_settings">Ekraani seaded</string>
+    <string name="display_settings">Ekraani seadistused</string>
     <string name="incognito_mode">Privaatne vaade</string>
     <string name="persistent_incognito_mode">Püsiv privaatne vaade</string>
     <string name="persistent_incognito_mode_summary">Jäta privaatne vaade tööle ka rakenduse uuel käivitamisel</string>
@@ -963,7 +978,7 @@
     <string name="resume_episode">Jätka (%s)</string>
     <string name="start_over">Alusta algusest</string>
     <string name="next_episode">Järgmine episood</string>
-    <string name="open_network_settings">Avame võrgu seaded?</string>
+    <string name="open_network_settings">Avame võrgu seadistused?</string>
     <string name="recently_played">Hiljuti esitatud</string>
     <string name="recently_added">Hiljuti lisatud</string>
     <string name="playback_multiple_errors">Mitut meediafaili ei saa korraga esitada</string>
@@ -1097,7 +1112,7 @@
     <string name="unlock_with_pin">Eemalda turvalise režiimi lukustus</string>
     <string name="lock_with_pin_short">PIN-koodi põhine lukustus</string>
     <string name="restrict_settings">Piira ligipääsu seadistustele</string>
-    <string name="search_prefs">Otsingu seaded</string>
+    <string name="search_prefs">Otsingu seadistused</string>
     <string name="video_match_frame_rate_title">Ühilda ekraani kaadrisagedusega</string>
     <string name="video_match_frame_rate_summary">Ühilda meedia kaadrisagedus ekraani kaadrisagedusega. Näiteks 24 kaadrit sekundist kodeeritud film peaks olema ka esitamisel sama kaadrisagedusega.</string>
     <string name="preferred_resolution">Eelistatud video eraldusvõime</string>
@@ -1130,6 +1145,11 @@
     <string name="move_down">Liigu alla</string>
     <string name="remove_from_playlist">Eemalda esitusloendist</string>
     <string name="play_media">Mängi %s</string>
+    <string name="edit_eq_preset">Muuda ekvalaiseri eelseadistust</string>
+    <string name="edit_eq_name_not_allowed">Selle nime kasutamine pole lubatud</string>
+    <string name="export_equalizer">Ekspordi ekvalaiser</string>
+    <string name="hide_equalizer">Peida ekvalaiser</string>
+    <string name="show_equalizer">Näita ekvalaiserit</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Kas lisame topeltkirje(d)?</string>
@@ -1153,8 +1173,8 @@
     <string name="permission_media_warning">Selle valiku sisselülitamiseks pead esmalt eemaldama ligipääsu kõikidele failidele</string>
     <string name="customize">Kohanda</string>
     <string name="selection_count">%d valitud</string>
-    <string name="control_setting">Juhtimise seaded</string>
-    <string name="controls_setting">Juhtimise seaded</string> <!-- Unused -->
+    <string name="control_setting">Juhtimise seadistused</string>
+    <string name="controls_setting">Juhtimise seadistused</string> <!-- Unused -->
     <string name="gestures">Viipekäsud</string>
     <string name="player_controls">Taasesituse juhtnupud</string>
     <string name="video_double_tap_jump_delay">Viivitus topeltpuudutusel</string>
@@ -1270,7 +1290,7 @@
     <string name="downloading">Allalaadimisel</string>
     <string name="talkback_action_rewind">Keri tagasi %s sekundit</string>
     <string name="talkback_action_forward">Keri %s sekundit edasi</string>
-    <string name="talkback_display_settings">Kuvaseaded</string>
+    <string name="talkback_display_settings">Ekraani seadistused</string>
     <string name="talkback_already_played">Juba esitatud</string>
     <string name="show_only_favs">Näita ainult lemmikud</string>
     <string name="ignore_headset_media_button_presses">Eira kõrvaklappide meedianuppude vajutusi</string>
@@ -1291,8 +1311,8 @@
     <string name="ra_upload_all">Laadi kõik üles</string>
     <string name="ra_drop_files_tip">Oma seadmesse saatmiseks lohista failid kuhugile siia</string>
     <string name="ra_prepare_download">Valmistame ette sinu allalaadimist</string>
-    <string name="ra_forbidden">Sisu on seadetest keelatud</string>
-    <string name="ra_playback_forbidden">Taasesituse juhtimine on seadetes keelatud</string>
+    <string name="ra_forbidden">Sisu on seadistustest keelatud</string>
+    <string name="ra_playback_forbidden">Taasesituse juhtimine on seadistustest keelatud</string>
     <string name="ra_logs_forbidden">Logide jagamine on seadistustest välja lülitatud</string>
     <string name="ra_code_requested_explanation">Serveri turvamiseks ligipääs ei ole avalik\nPalun sisesta teavitustes kuvatud kood</string>
     <string name="ra_ssl_explanation_title">Ebaturvaline ühendus</string>
@@ -1352,9 +1372,9 @@
     <string name="model">Seadme mudel</string>
     <string name="prefs_app_data">Rakenduse andmed</string>
     <string name="export_settings_summary">Eksportides sinu loodud seadistused faili, saad need hiljem mõnes muus VLC instantsis importida</string>
-    <string name="export_settings">Ekspordi seaded</string>
+    <string name="export_settings">Ekspordi seadistused</string>
     <string name="restore_settings_summary">Taasta mõnest varasemast ekspordifailis leiduvad seadistused</string>
-    <string name="restore_settings">Taasta seaded</string>
+    <string name="restore_settings">Taasta seadistused</string>
     <string name="obsolete_restore_settings">Sinu eksporditud seadistuste vorming on aegunud. Palun ekspordi nad uuesti.</string>
     <string name="export_settings_success">Seadistuste eksportimine õnnestus sisemise andmehoidla juurkausta</string>
     <string name="export_settings_failure">Midagi läks valesti sinu seadistuste eksportimisel</string>

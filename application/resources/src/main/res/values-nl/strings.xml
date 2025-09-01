@@ -236,8 +236,6 @@
 
     <string name="streams">Streams</string>
     <string name="open_mrl_dialog_msg">Geef netwerk-MRL op: bijvoorbeeld http://, mms:// of rtsp://</string>
-    <string name="encountered_error_title">Fout bij afspelen</string>
-    <string name="encountered_error_message">VLC heeft een fout aangetroffen bij dit mediabestand.\nProbeer de mediabibliotheek te vernieuwen.</string>
     <string name="invalid_location">De locatie %1$s kan niet afgespeeld worden.</string>
     <string name="missing_location">Dit medium staat op een niet-beschikbare opslag en kan niet worden afgespeeld.</string>
 
@@ -845,7 +843,6 @@
     <string name="eq_snap_bands">Banden uitlijnen</string>
     <string name="enable_equalizer">Inschakelen</string>
     <string name="preamp">Voorversterking</string>
-    <string name="presets">Presets</string>
     <string name="reset">Herstellen</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d track ingevoegd</item>
@@ -1040,7 +1037,6 @@
     <string name="move_down">Omlaag verplaatsen</string>
     <string name="remove_from_playlist">Verwijderen uit afspeellijst</string>
     <string name="play_media">%s afspelen</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Dubbele items toevoegen?</string>
     <string name="add_button">Toevoegen</string>

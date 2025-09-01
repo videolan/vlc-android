@@ -240,8 +240,6 @@
 
     <string name="streams">Froudoù</string>
     <string name="open_mrl_dialog_msg">Ebarzhiñ ar chomlec\'h kenrouedad: http://, mms:// pe rtsp:// da skouer</string>
-    <string name="encountered_error_title">Fazi lenn</string>
-    <string name="encountered_error_message">VLC a zo en em gavet gant ur fazi gant ar media-mañ.\nKlaskit freskaat al levraoueg mediaoù.</string>
     <string name="invalid_location">Ne c\'hall ket bezañ lennet al lec\'hiadur %1$s.</string>
     <string name="missing_location">Dont a ra ar meziant-mañ eus ul lec\'h-stokañ dizimplijadus ha n\'hall ket bezañ lennet.</string>
 
@@ -322,7 +320,6 @@
     <string name="add_custom_path_description">Ebarzhit kavlec\'hioù personel all da vezañ skanet:</string>
     <string name="remove_custom_path">Dilamit an hent personel</string>
     <string name="group_ban_folder">Berziañ an teuliad diouzh al levraoueg mediaoù</string>
-
     <string name="hardware_acceleration">Buanadur periant</string>
     <string name="hardware_acceleration_summary">Lazhet: stabilded welloc\'h\nO tigodañ: gellout a ra gwellaat an efedusted\nKlok: gellout a ra gwellaat a-galz an efedusted</string>
     <string name="hardware_acceleration_disabled">Lazhet</string>
@@ -713,7 +710,6 @@
     <string name="eq_snap_bands">Bandennoù stirennek</string>
     <string name="enable_equalizer">Enaouiñ</string>
     <string name="preamp">Ragamplaer</string>
-    <string name="presets">Rakdibaboù</string>
     <string name="reset">Adderaouiñ</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d roudenn ensoc\'het</item>

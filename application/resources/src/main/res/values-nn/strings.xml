@@ -227,8 +227,6 @@
 
     <string name="streams">Straumar</string>
     <string name="open_mrl_dialog_msg">Skriv inn nettverkadresse: t.d. http://, mms:// or rtsp://</string>
-    <string name="encountered_error_title">Avspelingsfeil</string>
-    <string name="encountered_error_message">VLC oppdaga ein feil med dette mediet.\nPrøv å oppdatere mediebiblioteket.</string>
     <string name="invalid_location">Plasseringa %1$skan ikkje spelast.</string>
     <string name="missing_location">Dette mediet er frå ei utilgjengeleg lagring og kan ikkje spelast av.</string>
 
@@ -578,7 +576,6 @@
     <string name="show_video_thumbnails">Videominiatyrbilde</string>
     <string name="enable_equalizer">Slå på</string>
     <string name="preamp">Forforsterkar</string>
-    <string name="presets">Førehandsinnstillingar</string>
     <string name="reset">Nullstill</string>
     <string name="remove_current">Fjern gjeldande</string>
     <string name="display_settings">Visingsinnstillingar</string>
@@ -666,7 +663,6 @@
     <string name="move_down">Flytt ned</string>
     <string name="remove_from_playlist">Fjern frå speleliste</string>
     <string name="play_media">Spel %s</string>
-
     <string name="add_button">Legg til</string>
     <string name="add_all_button">Legg til alle</string>
     <string name="start">Start</string>

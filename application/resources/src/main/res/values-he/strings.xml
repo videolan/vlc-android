@@ -68,6 +68,15 @@
     <string name="set_song_question">להגדיר את ‚%1$s’ כצלצול?</string>
     <string name="info">מידע</string>
     <string name="confirm_delete">למחוק את הקובץ „%1$s“?</string>
+    <string name="equalizer_overwrite_warning">האקוולייזר הזה כבר קיים</string>
+    <string name="overwrite">שכתוב</string>
+    <string name="eq_cannot_overwrite">לא ניתן לשכתב על אקוולייזר ברירת המחדל</string>
+    <string name="equalizer_name">שם האקוולייזר</string>
+    <string name="equalizer_deleted">האקוולייזר נמחק</string>
+    <string name="equalizer_leave_warning">יוביל ליציאה מנגן הווידאו</string>
+    <string name="invalid_equalizer_file">קובץ אקוולייזר שגוי</string>
+    <string name="confirm_delete_eq">למחוק את הערכה הזאת?</string>
+    <string name="confirm_delete_vlc_eq">להסתיר את הערכה הזאת?\nאפשר לשחזור אותה בהגדרות האקוולייזרים.</string>
     <string name="confirm_replace_playlist">להחליף את רשימת הנגינה ‚%1$s’?</string>
     <string name="invalid_settings_file">קובץ הגדרות שגוי</string>
     <string name="confirm_delete_message">מדובר בשינוי קבוע ולא ניתן לבטל אותו.</string>
@@ -146,6 +155,14 @@
     <string name="video">וידאו</string>
     <string name="bookmarks">סימניות</string>
     <string name="equalizer">אקולייזר</string>
+    <string name="import_equalizer">ייבוא אקוולייזר</string>
+    <string name="equalizer_exported">האקוולייזר/ים יוצאו אל %s</string>
+    <string name="equalizer_copy_template">(עותק%s)</string>
+    <string name="new_equalizer_copy_template">אקוולייזר חדש%s</string>
+    <string name="show_all">להציג הכול</string>
+    <string name="hide_all">להסתיר הכול</string>
+    <string name="export_all">לייצא הכול</string>
+    <string name="import_all">לייבא הכול</string>
     <string name="all_albums">כל האלבומים</string>
     <string name="genres">סגנונות</string>
     <string name="playlists">רשימות השמעה</string>
@@ -253,8 +270,6 @@
 
     <string name="streams">תזרימים</string>
     <string name="open_mrl_dialog_msg">להזין כתובת הרשת: למשל http://‎,‏ mms://‎ או rtsp://‎</string>
-    <string name="encountered_error_title">שגיאת נגינה</string>
-    <string name="encountered_error_message">התכנית VLC גילתה שגיאה עם המדיה הזאת.\nנא לנסות לרענן את ספריית המדיה.</string>
     <string name="invalid_location">לא ניתן לנגן את המיקום %1$s.</string>
     <string name="missing_location">פריט המדיה הזה מגיע מאמצעי אחסון שאינו זמין עוד ולא ניתן לנגן אותו.</string>
 
@@ -665,10 +680,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">מה חדש ב־VLC ל־Android %s</string>
-    <string name="whats_new_36_webserver_text">עם יכולת החדשה לגישה מרחוק, אפשר לשלוט ב־VLC ל־Android מכל מכשיר אחר.\nלשלוח את המדיה שלך בשני הכיוונים, לשלוט בנגינה ועוד המון יכולות חיוניות!</string>
-    <string name="whats_new_36_favorites_text">אפשר לסמן את המדיה, האומנים והאלבומים שלך כמועדפים.\nלאתר את התוכן המועדף עליך במבט חטוף על ידי סינון התוכן לפי מועדפים בלבד!</string>
-
-<!--    update-->
+    <!--    update-->
     <string name="update_title">עדכון זמין</string>
     <string name="install_nightly_title">התקנת המהדורה שנבנתה בלילה</string>
     <string name="update_text">מהדורה לילית של VLC ל־Android זמינה!\n\nהסיבה שזה מופיע היא כי הגרסה שלך היא מהדורה לילית.</string>
@@ -909,7 +921,6 @@
     <string name="eq_snap_bands">הצמדת ערוצים</string>
     <string name="enable_equalizer">הפעלה</string>
     <string name="preamp">הגברת קדם</string>
-    <string name="presets">ערכות מוגדרות</string>
     <string name="reset">איפוס</string>
     <plurals name="tracks_inserted">
         <item quantity="one">רצועה %d נוספת</item>
@@ -1145,6 +1156,11 @@
     <string name="move_down">להוריד למטה</string>
     <string name="remove_from_playlist">הסרה מרשימת הנגינה</string>
     <string name="play_media">לנגן את %s</string>
+    <string name="edit_eq_preset">עריכת ערכת אקוולייזרים</string>
+    <string name="edit_eq_name_not_allowed">השם הזה אסור לשימוש</string>
+    <string name="export_equalizer">ייצוא אקוולייזר</string>
+    <string name="hide_equalizer">הסתרת אקוולייזר</string>
+    <string name="show_equalizer">הצגת אקוולייזר</string>
 
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">להוסיף פריטים כפולים?</string>

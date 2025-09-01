@@ -231,8 +231,6 @@
 
     <string name="streams">transmissões</string>
     <string name="open_mrl_dialog_msg">Digite o endereço de rede: Ex.: http://, mms:// ou rtsp://</string>
-    <string name="encountered_error_title">Erro de reprodução</string>
-    <string name="encountered_error_message">O VLC encontrou um erro nesta mídia.\nPor favor, tente atualizar a biblioteca de mídias.</string>
     <string name="invalid_location">Não é possível reproduzir na área %1$s.</string>
     <string name="missing_location">Essa mídia está em um armazenamento indisponível e não pode ser reproduzida.</string>
 
@@ -314,7 +312,6 @@
     <string name="add_custom_path_description">Preencha uma pasta personalizada para verificação:</string>
     <string name="remove_custom_path">Excluir caminho personalizado</string>
     <string name="group_ban_folder">Banir pasta da biblioteca de mídias</string>
-
     <string name="hardware_acceleration">Aceleração por Hardware</string>
     <string name="hardware_acceleration_summary">Desabilitado: maior estabilidade\nDecodificação: pode aumentar o desempenho\nTotal: pode aumentar mais ainda o desempenho</string>
     <string name="hardware_acceleration_disabled">Desabilitado</string>
@@ -812,7 +809,6 @@
     <string name="eq_snap_bands">Braceletes</string>
     <string name="enable_equalizer">Habilitar</string>
     <string name="preamp">Pré amplificador</string>
-    <string name="presets">Padrões</string>
     <string name="reset">Restaurar</string>
     <plurals name="tracks_inserted">
         <item quantity="one">%d Trilha incluída</item>
@@ -1002,7 +998,6 @@
     <string name="move_down">Descer</string>
     <string name="remove_from_playlist">Excluir da lista de reprodução</string>
     <string name="play_media">Reproduzir %s</string>
-
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Adicionar item(ns) duplicado(s)?</string>
     <string name="add_button">Adicionar</string>
