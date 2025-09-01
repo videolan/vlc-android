@@ -1,3 +1,11 @@
+Changes between 3.6.5-1 and 3.7.0 Beta 1:
+------------------
+ * New equalizer
+ * Better setting export/import
+ * Support for 16k alignment devices
+ * Move the Android Auto settings to the mobile app
+ * Behavior and crash fixes
+
 Changes between 3.6.5 and 3.6.5-1:
 ------------------
  * Improve settings backup/restore
