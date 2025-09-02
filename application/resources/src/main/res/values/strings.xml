@@ -683,6 +683,7 @@
     <string name="whats_new_title">What\'s new in VLC for Android %s</string>
     <string name="whats_new_37_equalizer_text">The equalizer has been reworked from scratch. It\'s easier to use, lets you disable the default presets and allows you to backup, restore and share your presets.</string>
     <string name="whats_new_37_import_export">We improved the backup and restore settings feature. It now lets you backup more settings, including the equalizer presets.</string>
+    <string name="whats_new_37_android_auto">Due to some new store constraints, the Android Auto settings have all been moved to the mobile application. It becomes the new place to change your automotive experience.</string>
     <string name="show_in_settings">Show in settings</string>
 
 <!--    update-->

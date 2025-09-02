@@ -69,6 +69,12 @@ class WhatsNewDialog : VLCBottomSheetDialogFragment() {
                 dismiss()
             }
         }
+        binding.showInSettings3.setOnClickListener {
+            lifecycleScope.launch {
+                PreferencesActivity.launchWithPref(requireActivity(), "playback_speed_audio_global")
+                dismiss()
+            }
+        }
         binding.neverAgain.setOnCheckedChangeListener { _, isChecked ->
             Settings.getInstance(requireActivity()).putSingle(KEY_SHOW_WHATS_NEW, !isChecked)
         }
