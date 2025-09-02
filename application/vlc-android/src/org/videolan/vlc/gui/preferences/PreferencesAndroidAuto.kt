@@ -21,14 +21,21 @@
  */
 package org.videolan.vlc.gui.preferences
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.core.content.edit
 import androidx.preference.Preference
+import org.videolan.resources.REMOTE_ACCESS_ONBOARDING
 import org.videolan.tools.KEY_ANDROID_AUTO_QUEUE_INFO_POS_VAL
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.AboutVersionDialog
+import org.videolan.vlc.gui.dialogs.AutoInfoDialog
 import java.lang.NumberFormatException
 
 class PreferencesAndroidAuto : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -55,6 +62,22 @@ class PreferencesAndroidAuto : BasePreferenceFragment(), SharedPreferences.OnSha
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         super.onCreatePreferences(bundle, s)
         settings = Settings.getInstance(requireActivity())
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_android_auto_info)
+            AutoInfoDialog.newInstance().show(requireActivity().supportFragmentManager, "AutoInfoDialog")
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.menu_android_auto_info).isVisible = true
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.menu_android_auto_info).isVisible = true
+        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
