@@ -60,7 +60,6 @@ import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.car.app.connection.CarConnection
-import androidx.car.app.notification.CarPendingIntent
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.edit
@@ -110,10 +109,8 @@ import org.videolan.resources.ACTION_REMOTE_SEEK_BACKWARD
 import org.videolan.resources.ACTION_REMOTE_SEEK_FORWARD
 import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
-import org.videolan.resources.ANDROID_AUTO_APP_PKG
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
-import org.videolan.resources.CAR_SETTINGS
 import org.videolan.resources.CUSTOM_ACTION
 import org.videolan.resources.CUSTOM_ACTION_BOOKMARK
 import org.videolan.resources.CUSTOM_ACTION_FAST_FORWARD
@@ -163,7 +160,6 @@ import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.getResourceUri
 import org.videolan.tools.markBidi
 import org.videolan.tools.readableSize
-import org.videolan.vlc.car.VLCCarService
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
@@ -1932,13 +1928,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 val extras = MediaSessionBrowser.getContentStyle().apply {
                     putBoolean(BrowserRoot.EXTRA_SUGGESTED, true)
                     putBoolean(MediaConstants.BROWSER_SERVICE_EXTRAS_KEY_SEARCH_SUPPORTED, true)
-                }
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O && clientPackageName == ANDROID_AUTO_APP_PKG) {
-                    val intent = Intent(CAR_SETTINGS).apply {
-                        component = ComponentName(ctx, VLCCarService::class.java)
-                    }
-                    val pendingIntent = CarPendingIntent.getCarApp(ctx, 0, intent, PendingIntent.FLAG_MUTABLE)
-                    extras.putParcelable(MediaConstants.BROWSER_SERVICE_EXTRAS_KEY_APPLICATION_PREFERENCES_USING_CAR_APP_LIBRARY_INTENT, pendingIntent)
                 }
                 BrowserRoot(rootId, extras)
             }

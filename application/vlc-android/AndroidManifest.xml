@@ -1068,18 +1068,6 @@
         </service>
 
         <service
-            android:name=".car.VLCCarService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="androidx.car.app.CarAppService" />
-                <category android:name="androidx.car.app.category.SETTINGS"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="${applicationId}.car.SETTINGS" />
-            </intent-filter>
-        </service>
-
-        <service
                 android:name=".MediaParsingService"
                 android:foregroundServiceType="dataSync" />
         <receiver

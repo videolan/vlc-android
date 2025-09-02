@@ -70,7 +70,6 @@ val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()
 @JvmField val EXTRA_CUSTOM_ACTION_ID = "EXTRA_CUSTOM_ACTION_ID".buildPkgString()
 @JvmField val EXTRA_SEEK_DELAY = "EXTRA_CUSTOM_ACTION_ID".buildPkgString()
 @JvmField val EXTRA_RELATIVE_MEDIA_ID = "EXTRA_RELATIVE_MEDIA_ID".buildPkgString()
-@JvmField val CAR_SETTINGS = "car.SETTINGS".buildPkgString()
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
 const val PLAYLIST_TYPE_ALL = 2
