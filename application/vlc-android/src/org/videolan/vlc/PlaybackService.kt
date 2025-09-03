@@ -150,12 +150,14 @@ import org.videolan.tools.KEY_AUDIO_TASK_REMOVED
 import org.videolan.tools.KEY_ENABLE_HEADSET_DETECTION
 import org.videolan.tools.KEY_ENABLE_PLAY_ON_HEADSET_INSERTION
 import org.videolan.tools.KEY_METERED_CONNECTION
+import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.LOCKSCREEN_COVER
 import org.videolan.tools.POSITION_IN_AUDIO_LIST
 import org.videolan.tools.POSITION_IN_SONG
 import org.videolan.tools.SHOW_SEEK_IN_COMPACT_NOTIFICATION
 import org.videolan.tools.Settings
+import org.videolan.tools.formatRateString
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.getResourceUri
 import org.videolan.tools.markBidi
@@ -269,11 +271,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
      */
     lateinit var mediaBrowserCompat:MediaBrowserCompat
 
-    /**
-     * Once a media has shown the speed action once,
-     * continue showing it until the media changes even if the other conditions are not met
-     */
-    private var forceAutoShowSpeed:Pair<String?, Boolean> = Pair(null, false)
 
 
     private val receiver = object : BroadcastReceiver() {
@@ -1183,6 +1180,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                 putLong(MediaMetadataCompat.METADATA_KEY_DURATION, if (length != 0L) length else -1L)
             }
             if (carMode) {
+                val speedStr = buildString {
+                    append(speed.formatRateString())
+                    if (settings.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false))
+                        append(" (${getString(R.string.playback_speed_all_tracks)})")
+                    else
+                        append(" (${getString(R.string.playback_speed_this_track)})")
+                }
                 var carTitle = title
                 var carSubtitle = MediaUtils.getDisplaySubtitle(ctx, media)
                 val shortQueue = settings.getInt(KEY_ANDROID_AUTO_QUEUE_FORMAT_VAL, 1) == 0
@@ -1194,6 +1198,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     2 -> carTitle = TextUtils.separatedString(carTitle.markBidi(), queueInfo)
                     3 -> carSubtitle = TextUtils.separatedString(queueInfo, carSubtitle)
                 }
+                if (speed != 1F) carSubtitle = TextUtils.separatedString(speedStr, carSubtitle)
                 /**
                  * This section allows for variability in the title and subtitle contents.
                  */
@@ -1358,10 +1363,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     }
 
     private fun addCustomSpeedActions(pscb: PlaybackStateCompat.Builder, showSpeedActions: Boolean = true) {
-        if (speed != 1.0F || showSpeedActions || ( currentMediaWrapper?.uri != null && forceAutoShowSpeed.first == currentMediaWrapper?.uri?.toString() && forceAutoShowSpeed.second)) {
-            currentMediaWrapper?.uri?.let {
-                forceAutoShowSpeed = Pair(it.toString(), true)
-            }
+        if (showSpeedActions) {
             val speedIcons = hashMapOf(
                     0.50f to R.drawable.ic_auto_speed_0_50,
                     0.80f to R.drawable.ic_auto_speed_0_80,
@@ -1374,7 +1376,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             val speedResId = speedIcons[speedIcons.keys.minByOrNull { (speed - it).absoluteValue }]
                     ?: R.drawable.ic_auto_speed
             pscb.addCustomAction(CUSTOM_ACTION_SPEED, getString(R.string.playback_speed), speedResId)
-        } else forceAutoShowSpeed = Pair(null, false)
+        }
     }
 
     fun notifyTrackChanged() {
@@ -1777,7 +1779,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
     fun setRate(rate: Float, save: Boolean) {
         playlistManager.player.setRate(rate, save)
         lifecycleScope.launch(Dispatchers.Main) {
-            publishState()
+            executeUpdate(true)
         }
     }
 
