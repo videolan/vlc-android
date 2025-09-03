@@ -28,7 +28,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.core.content.edit
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.resources.REMOTE_ACCESS_ONBOARDING
 import org.videolan.tools.KEY_ANDROID_AUTO_QUEUE_INFO_POS_VAL
 import org.videolan.tools.Settings
@@ -102,6 +105,16 @@ class PreferencesAndroidAuto : BasePreferenceFragment(), SharedPreferences.OnSha
         }
         when (key) {
             "android_auto_queue_info_pos" -> updatePassThroughSummary()
+            "playback_speed_audio_global" -> {
+                PlaybackService.instance?.let {service ->
+                    service.playlistManager.getCurrentMedia()?.let {
+                        service.playlistManager.restoreSpeed(it)
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            PlaybackService.updateState()
+                        }
+                    }
+                }
+            }
         }
         PlaybackService.updateState()
     }

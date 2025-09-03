@@ -754,7 +754,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      *
      * @param media
      */
-    private fun restoreSpeed(media: MediaWrapper) {
+    fun restoreSpeed(media: MediaWrapper) {
         val incognitoMode = settings.getBoolean(KEY_INCOGNITO, false)
         val playbackSpeedModeAll = settings.getBoolean(if (player.isVideoPlaying()) KEY_PLAYBACK_SPEED_VIDEO_GLOBAL else KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false)
         val playbackRate = when {
