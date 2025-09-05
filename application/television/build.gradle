@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.google.devtools.ksp'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 android {
@@ -20,6 +21,9 @@ android {
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -37,13 +41,39 @@ android {
         }
     }
     namespace = 'org.videolan.television'
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.1'
+    }
 
 }
 
 dependencies {
     implementation project(':application:vlc-android')
     api project(':application:moviepedia')
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
+    androidTestImplementation platform('androidx.compose:compose-bom:2025.08.01')
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    def composeBom = platform('androidx.compose:compose-bom:2025.08.01')
+    implementation composeBom
+
+    // General compose dependencies
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation("androidx.compose.ui:ui:1.9.0")
+
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    // Compose for TV dependencies
+    implementation "androidx.tv:tv-foundation:$rootProject.ext.tvFoundation"
+    implementation "androidx.tv:tv-material:$rootProject.ext.tvCompose"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$rootProject.ext.lifecycleVersion"
+    implementation "androidx.compose.runtime:runtime-livedata:1.9.0"
+
 }
