@@ -527,6 +527,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (isVideoPlaying) {
                 start = if (forceRestart
                     || videoResumeStatus == ResumeStatus.NEVER) 0L else getStartTime(mw)
+                // If we explicitly restart or NEVER resume is set, ensure any leftover savedTime is cleared
+                if (start == 0L && (forceRestart || videoResumeStatus == ResumeStatus.NEVER)) savedTime = 0L
                 if (!forceResume && videoResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
                     waitForConfirmation.postValue(WaitConfirmation(mw.title, index, flags))
                     return
@@ -534,6 +536,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             } else {
                 start = if (forceRestart
                     || audioResumeStatus == ResumeStatus.NEVER) 0L else getStartTime(mw)
+                // If we explicitly restart or NEVER resume is set, ensure any leftover savedTime is cleared
+                if (start == 0L && (forceRestart || audioResumeStatus == ResumeStatus.NEVER)) savedTime = 0L
                 if (!forceResume && audioResumeStatus == ResumeStatus.ASK && start > 0 && isAppStarted()) {
                     val confirmation = WaitConfirmation(mw.title, index, flags)
                     waitForConfirmationAudio.postValue(confirmation)
