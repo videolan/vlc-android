@@ -459,12 +459,12 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                     }
                     result
                 } else if (folderId != 0L) {
-                val result = getFolder(Folder.TYPE_FOLDER_VIDEO, folderId)?.let { folder ->
-                    groupTitle = folder.title
-                    folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
-                }
-                result
-            } else when (grouping) {
+                    val result = getFolder(Folder.TYPE_FOLDER_VIDEO, folderId)?.let { folder ->
+                        groupTitle = folder.title
+                        folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, folder.mediaCount(Folder.TYPE_FOLDER_VIDEO), 0)
+                    }
+                    result
+                } else when (grouping) {
                     0 -> getVideos(Medialibrary.SORT_DEFAULT, false, false, false)
                     1 -> getFolders(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0)
                     else -> getVideoGroups(Medialibrary.SORT_DEFAULT, false, false, false, 100000, 0).sanitizeGroups()
@@ -478,7 +478,7 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             val list = ArrayList<RemoteAccessServer.PlayQueueItem>(videos.size)
             videos.forEach { video ->
                 when (video) {
-                    is MediaWrapper->list.add(video.toPlayQueueItem())
+                    is MediaWrapper -> list.add(video.toPlayQueueItem())
                     is Folder -> list.add(video.toPlayQueueItem(appContext))
                     is VideoGroup -> list.add(video.toPlayQueueItem(appContext))
                 }

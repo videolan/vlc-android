@@ -1,98 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
+
     <application>
         <activity
-            android:name="org.videolan.television.ui.MainTvActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity"/>
+                android:name=".ui.MainActivity"
+                android:exported="false"
+                android:label="@string/app_name"
+                android:theme="@style/Theme.VLC" />
         <activity
-            android:name="org.videolan.television.ui.OnboardingActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV.Onboarding"
-            tools:ignore="LockedOrientationActivity"/>
+                android:name=".ui.MainTvActivity"
+                android:label="@string/app_name"
+                android:launchMode="singleTask"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.dialogs.ConfirmationTvActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity"/>
+                android:name=".ui.OnboardingActivity"
+                android:label="@string/app_name"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV.Onboarding"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.DetailsActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Leanback.Details"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.dialogs.ConfirmationTvActivity"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name="org.videolan.television.ui.MediaScrapingTvshowDetailsActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Leanback.Details"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.DetailsActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.Leanback.Details"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.browser.VerticalGridActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.MediaScrapingTvshowDetailsActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.Leanback.Details"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.details.MediaListActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.browser.VerticalGridActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.browser.TVActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.Black"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.details.MediaListActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name="org.videolan.television.ui.MediaScrapingTvActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.browser.TVActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.Black"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.SearchActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity"/>
+                android:name=".ui.MediaScrapingTvActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.audioplayer.AudioPlayerActivity"
-            android:allowTaskReparenting="true"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV.Audio"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.SearchActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.preferences.PreferencesActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.Leanback.Preferences"
-            tools:ignore="LockedOrientationActivity" />
+                android:name=".ui.audioplayer.AudioPlayerActivity"
+                android:allowTaskReparenting="true"
+                android:exported="true"
+                android:launchMode="singleTask"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV.Audio"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.AboutActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.Black"
-            tools:ignore="LockedOrientationActivity" />
-
+                android:name=".ui.preferences.PreferencesActivity"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.Leanback.Preferences"
+                tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="org.videolan.television.ui.ColorPickerActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.Material.TV"
-            tools:ignore="LockedOrientationActivity" />
-        <!-- Provides search suggestions for keywords against video meta data. -->
+                android:name=".ui.AboutActivity"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.Black"
+                tools:ignore="LockedOrientationActivity" />
+        <activity
+                android:name=".ui.ColorPickerActivity"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.Material.TV"
+                tools:ignore="LockedOrientationActivity" /> <!-- Provides search suggestions for keywords against video meta data. -->
         <provider
-            android:name="org.videolan.television.util.TVSearchProvider"
-            android:authorities="@string/tv_provider_authority"
-            android:exported="true">
+                android:name=".util.TVSearchProvider"
+                android:authorities="@string/tv_provider_authority"
+                android:exported="true">
             <path-permission
-                android:pathPrefix="/search"
-                android:readPermission="android.permission.GLOBAL_SEARCH" />
+                    android:pathPrefix="/search"
+                    android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
     </application>
+
 </manifest>
