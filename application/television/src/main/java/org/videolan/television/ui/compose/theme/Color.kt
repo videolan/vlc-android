@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 
 val BackgroundColor = Color(0xFF34434e)
 val BackgroundColorDark = Color(0xFF011422)
+val BackgroundColorDarkTransparent50 = Color(0x88011422)
 
 
 
@@ -43,5 +44,7 @@ val Orange800 = Color(0XFFFF610A)
 val Orange900 = Color(0XFFFF5014)
 
 val White = Color(0XFFFFFFFF)
-val Black = Color(0X00000000)
+val WhiteTransparent50 = Color(0X88FFFFFF)
+val Black = Color(0XFF000000)
+val BlackTransparent50 = Color(0X88000000)
 val Transparent = Color(0X00FFFFFF)

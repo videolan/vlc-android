@@ -26,31 +26,29 @@ package org.videolan.television.ui.compose.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.darkColorScheme
-import androidx.tv.material3.lightColorScheme
 
 private val DarkColorScheme = darkColorScheme(
     primary = Orange500,
     secondary = Orange800,
-    tertiary = Orange400,
     background = BackgroundColor,
     surface = BackgroundColor,
-    surfaceVariant = BackgroundColorDark,
+    onSurface = White
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Orange800,
     secondary = Orange500,
-    tertiary = Orange400,
     background = BackgroundColor,
     surface = BackgroundColor,
-    surfaceVariant = BackgroundColorDark,
+    onSurface = Black
 
 )
 
