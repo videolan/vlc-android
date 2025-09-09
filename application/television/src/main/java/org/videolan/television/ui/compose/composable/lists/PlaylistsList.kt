@@ -24,8 +24,8 @@
 
 package org.videolan.television.ui.compose.composable.lists
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.tv.material3.Text
 
 @Composable
 fun PlaylistsList() {

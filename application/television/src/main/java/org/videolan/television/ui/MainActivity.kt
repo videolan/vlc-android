@@ -29,10 +29,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.tv.material3.Surface
 import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.screens.MainScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme

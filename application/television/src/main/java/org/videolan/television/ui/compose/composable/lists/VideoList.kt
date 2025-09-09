@@ -24,29 +24,49 @@
 
 package org.videolan.television.ui.compose.composable.lists
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.tv.material3.Border
-import androidx.tv.material3.MaterialTheme
 import org.videolan.television.ui.compose.composable.VideoItem
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.vlc.BuildConfig
 
 @Composable
 fun VideoListScreen(viewModel: MainActivityViewModel = viewModel()) {
-    val border = Border(
-        border = BorderStroke(2.dp, MaterialTheme.colorScheme.border),
-    )
-
     val videos by viewModel.videos.observeAsState()
-    LazyVerticalGrid(columns = GridCells.Adaptive(280.dp)) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(200.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(top = 16.dp),
+        modifier = Modifier
+            .focusProperties{
+            onExit = {
+                when (requestedFocusDirection) {
+                    FocusDirection.Left -> cancelFocusChange()
+                    FocusDirection.Right -> cancelFocusChange()
+                }
+                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "onExit")
+            }
+
+
+        }
+    ) {
         items(videos?.size ?: 0) { index ->
-            VideoItem(videos!!, index, border)
+            VideoItem(videos!!, index)
         }
     }
 }
