@@ -71,8 +71,9 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     // Compose for TV dependencies
-    implementation "androidx.tv:tv-foundation:$rootProject.ext.tvFoundation"
-    implementation "androidx.tv:tv-material:$rootProject.ext.tvCompose"
+    implementation "androidx.compose.foundation:foundation:$rootProject.ext.composeFoundation"
+    implementation "androidx.compose.material3:material3:$rootProject.ext.composeMaterial"
+//    implementation "androidx.tv:tv-material:$rootProject.ext.tvCompose"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$rootProject.ext.lifecycleVersion"
     implementation "androidx.compose.runtime:runtime-livedata:1.9.0"
 

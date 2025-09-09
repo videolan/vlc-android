@@ -24,7 +24,6 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,32 +31,40 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.tv.material3.Icon
-import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.Tab
-import androidx.tv.material3.TabRow
-import androidx.tv.material3.Text
+import kotlinx.coroutines.launch
 import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
 import org.videolan.television.ui.compose.composable.lists.AudioListScreen
 import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
-import org.videolan.television.ui.compose.theme.Orange800
-import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.viewmodel.MainActivityViewModel
 
 @Composable
@@ -72,10 +79,14 @@ fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
     Tabs(viewModel.tabs)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Tabs(tabs: List<Pair<Int, Int>>) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
     val selectedItemFocusRestorer = remember { FocusRequester() }
+    var hasFocus by remember { mutableStateOf(false) }
+    val pagerState = rememberPagerState(
+        pageCount = { tabs.size }
+    )
 
     Column(
         modifier = Modifier
@@ -83,57 +94,79 @@ private fun Tabs(tabs: List<Pair<Int, Int>>) {
             .padding(vertical = 24.dp, horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TabRow(
-            selectedTabIndex = selectedTabIndex,
+
+        PrimaryTabRow(
+            selectedTabIndex = pagerState.currentPage,
+            divider = {},
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.background,
             modifier = Modifier
                 .focusRestorer(selectedItemFocusRestorer)
+                .padding(vertical = 4.dp, horizontal = 8.dp)
+                .align(Alignment.CenterHorizontally)
+                .onFocusChanged {
+                    hasFocus = it.isFocused
+                },
+            indicator = { RoundedRectangleIndicator(pagerState.currentPage, hasFocus) }
         ) {
             tabs.forEachIndexed { index, tab ->
+                val selected = pagerState.currentPage == index
+                val coroutineScope = rememberCoroutineScope()
                 Tab(
-                    selected = index == selectedTabIndex,
-                    onFocus = { selectedTabIndex = index },
-                    modifier = Modifier.focusRestorer(if (index == selectedTabIndex) selectedItemFocusRestorer else FocusRequester.Default)
-                ) {
-                    Row(modifier = Modifier.padding(8.dp)) {
-                        Icon(
-                            painter = painterResource(tab.second),
-                            tint = if (selectedTabIndex == index) Orange800 else White.copy(0.4F),
-                            contentDescription = stringResource(id = R.string.reset),
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(24.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-                        Text(
-                            text = stringResource(tab.first),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = if (selectedTabIndex == index) Orange800 else White.copy(0.4F),
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp, vertical = 0.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-                    }
-                }
+                    selected = selected,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .zIndex(2f)
+                        .focusRestorer(if (selected) selectedItemFocusRestorer else FocusRequester.Default)
+                        .onFocusChanged {
+                            if (it.isFocused) {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
+                            }
+                        },
+                    text = {
+                        Row {
+                            Icon(
+                                painter = painterResource(tab.second),
+                                tint = if (pagerState.currentPage == index) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                contentDescription = stringResource(id = R.string.reset),
+                                modifier = Modifier
+                                    .width(24.dp)
+                                    .height(24.dp)
+                            )
+                            Text(
+                                text = stringResource(tab.first),
+                                color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp, vertical = 0.dp)
+                                    .align(Alignment.CenterVertically)
+                            )
+                        }
+                    },
+                    icon = null,
+                    enabled = true,
+                )
             }
         }
-        TabPanels(selectedTabIndex = selectedTabIndex)
+        HorizontalPager(pagerState, userScrollEnabled = false) {page ->
+            TabPanels(page)
+        }
     }
 }
 
 @Composable
-private fun TabPanels(selectedTabIndex: Int, viewModel: MainActivityViewModel = viewModel()) {
-    var value = 0
-    Box(modifier = Modifier.padding(16.dp)) {
-        AnimatedContent(targetState = selectedTabIndex, label = "") {
-            value = it
-
-            when (viewModel.tabs[selectedTabIndex].first) {
-                R.string.video -> VideoListScreen()
-                R.string.audio -> AudioListScreen()
-                R.string.browse -> BrowseList()
-                R.string.playlists -> PlaylistsList()
-                else -> MoreScreen()
-            }
-        }
+private fun TabPanels(pagerState: Int, viewModel: MainActivityViewModel = viewModel()) {
+    when (viewModel.tabs[pagerState].first) {
+        R.string.video -> VideoListScreen()
+        R.string.audio -> AudioListScreen()
+        R.string.browse -> BrowseList()
+        R.string.playlists -> PlaylistsList()
+        else -> MoreScreen()
     }
 }
