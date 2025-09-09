@@ -25,81 +25,122 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SecondaryTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.tv.material3.Border
-import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.Tab
-import androidx.tv.material3.TabRow
-import androidx.tv.material3.Text
+import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.AudioItem
-import org.videolan.television.ui.compose.theme.Orange800
-import org.videolan.television.ui.compose.theme.White
+import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
+import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.viewmodel.AudioListViewModel
 import org.videolan.tools.Settings
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioListScreen(viewModel: AudioListViewModel = viewModel()) {
     val context = LocalContext.current
     val settings = Settings.getInstance(context)
-    var selectedTabIndex by remember { mutableIntStateOf(settings.getInt("audio_tab", 0)) }
     val selectedItemFocusRestorer = remember { FocusRequester.Default }
+    var hasFocus by remember { mutableStateOf(false) }
+    val pagerState = rememberPagerState(
+        pageCount = { viewModel.audioTabs.size }
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        // Initial tab selection
+        pagerState.scrollToPage(settings.getInt("audio_tab", 0))
+    }
+
     Column {
-        TabRow(
-            selectedTabIndex = selectedTabIndex,
+        SecondaryTabRow(
+            selectedTabIndex = pagerState.currentPage,
+            divider = {},
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.background,
             modifier = Modifier
                 .focusRestorer(selectedItemFocusRestorer)
+                .padding(vertical = 4.dp, horizontal = 8.dp)
                 .align(Alignment.CenterHorizontally)
+                .onFocusChanged {
+                    hasFocus = it.isFocused
+                },
+            indicator = { RoundedRectangleIndicator(pagerState.currentPage, hasFocus) }
         ) {
             viewModel.audioTabs.forEachIndexed { index, tab ->
                 Tab(
-                    selected = index == selectedTabIndex,
-                    onFocus = {
-                        selectedTabIndex = index
-                        settings.edit { putInt("audio_tab", index) }
+                    selected = index == pagerState.currentPage,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
                     },
-                    modifier = Modifier.focusRestorer(if (index == selectedTabIndex) selectedItemFocusRestorer else FocusRequester.Default)
-                ) {
-                    Row(modifier = Modifier.padding(8.dp)) {
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .zIndex(2f)
+                        .focusRestorer(if (index == pagerState.currentPage) selectedItemFocusRestorer else FocusRequester.Default)
+                        .onFocusChanged {
+                            if (it.isFocused) {
+                                settings.edit { putInt("audio_tab", index) }
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
+                            }
+                        },
+                    text = {
                         Text(
                             text = stringResource(tab),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = if (selectedTabIndex == index) Orange800 else White.copy(0.4F),
+                            color = if (index == pagerState.currentPage) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 0.dp)
-                                .align(Alignment.CenterVertically)
+                                .align(Alignment.CenterHorizontally)
                         )
-                    }
-                }
+                    },
+                    icon = null,
+                    enabled = true,
+                )
             }
         }
-        when (selectedTabIndex) {
-            0 -> ArtistsList()
-            1 -> AlbumsList()
-            2 -> TracksList()
-            3 -> GenresList()
-            4 -> AudioPlaylistsList()
+        HorizontalPager(pagerState, userScrollEnabled = false) { page ->
+            when (page) {
+                0 -> ArtistsList()
+                1 -> AlbumsList()
+                2 -> TracksList()
+                3 -> GenresList()
+                4 -> AudioPlaylistsList()
+            }
         }
     }
 }
@@ -110,11 +151,12 @@ fun ArtistsList(viewModel: AudioListViewModel = viewModel()) {
     val audios by viewModel.audioArtists.observeAsState()
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
+        contentPadding = PaddingValues(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index, vlcBorder())
+            AudioItem(audios!!, index)
 
         }
     }
@@ -126,11 +168,12 @@ fun AlbumsList(viewModel: AudioListViewModel = viewModel()) {
     val audios by viewModel.audioAlbums.observeAsState()
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
+        contentPadding = PaddingValues(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index, vlcBorder())
+            AudioItem(audios!!, index)
 
         }
     }
@@ -142,11 +185,12 @@ fun TracksList(viewModel: AudioListViewModel = viewModel()) {
     val audios by viewModel.audioTracks.observeAsState()
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
+        contentPadding = PaddingValues(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index, vlcBorder())
+            AudioItem(audios!!, index)
 
         }
     }
@@ -158,11 +202,12 @@ fun AudioPlaylistsList(viewModel: AudioListViewModel = viewModel()) {
     val audios by viewModel.audioPlaylists.observeAsState()
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
+        contentPadding = PaddingValues(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index, vlcBorder())
+            AudioItem(audios!!, index)
 
         }
     }
@@ -174,17 +219,16 @@ fun GenresList(viewModel: AudioListViewModel = viewModel()) {
     val audios by viewModel.audioGenres.observeAsState()
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
+        contentPadding = PaddingValues(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index, vlcBorder())
+            AudioItem(audios!!, index)
 
         }
     }
 }
 
 @Composable
-fun vlcBorder() = Border(
-    border = BorderStroke(3.dp, MaterialTheme.colorScheme.border),
-)
+fun vlcBorder(focus: Boolean) = if (focus) BorderStroke(3.dp, MaterialTheme.colorScheme.onSurface) else BorderStroke(0.dp, Transparent)
