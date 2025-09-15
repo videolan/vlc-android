@@ -41,8 +41,8 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_CURRENT_EQUALIZER_ID
 import org.videolan.tools.KEY_CURRENT_MAJOR_VERSION
-import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION
 import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
+import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION_AFTER_LIBVLC_INSTANTIATION
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_VIDEO_GLOBAL
@@ -70,7 +70,7 @@ import org.videolan.vlc.repository.EqualizerRepository
 import java.io.File
 import java.io.IOException
 
-private const val CURRENT_VERSION = 16
+private const val CURRENT_VERSION = 17
 private const val CURRENT_VERSION_LIBVLC = 1
 
 object VersionMigration {
@@ -150,6 +150,10 @@ object VersionMigration {
 
         if (lastVersion < 16) {
             migrateToVersion16(settings)
+        }
+
+        if (lastVersion < 17) {
+            migrateToVersion17(settings)
         }
 
         //Major version upgrade
@@ -465,6 +469,32 @@ object VersionMigration {
                     ?.toInt()
                     ?.coerceInOrDefault(11, 80, 20)
                     ?: 20)
+            }
+        }
+    }
+
+    /**
+     * Migrate the wrongly typed remote_access_medialibrary_content setting
+     *
+     */
+    private fun migrateToVersion17(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrate to version 17: Migrate the wrongly typed remote_access_medialibrary_content setting")
+        if (settings.contains("remote_access_medialibrary_content")) {
+            try {
+                settings.getString("remote_access_medialibrary_content", "")?.let {  oldValue ->
+                    settings.edit(true) {
+                        putStringSet(
+                            "remote_access_medialibrary_content",
+                            oldValue
+                                .split(",")
+                                .map { it.filter(Char::isDigit) }
+                                .toSet()
+                        )
+                    }
+                }
+
+            } catch (_: ClassCastException) {
+                //Not a string. Safe to keep
             }
         }
     }
