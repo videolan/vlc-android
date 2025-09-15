@@ -25,6 +25,7 @@
 package org.videolan.television.ui
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.screens.MainScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.util.EventThrottler
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.Settings
@@ -43,11 +45,15 @@ import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.util.AutoUpdate
+import kotlin.time.Duration.Companion.milliseconds
 
 
 class MainActivity : AppCompatActivity() {
 
     private val myViewModel by viewModels<MainActivityViewModel>()
+    private val horizontalThrottler = EventThrottler(75L)
+    private val verticalThrottler = EventThrottler(200L)
+    private val selectThrottler = EventThrottler(500L)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,5 +77,29 @@ class MainActivity : AppCompatActivity() {
                 updateDialog.show(supportFragmentManager, "fragment_update")
             }
         }
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (event.action != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event)
+
+        val isThrottled = when (event.keyCode) {
+            KeyEvent.KEYCODE_DPAD_LEFT,
+            KeyEvent.KEYCODE_DPAD_RIGHT -> {
+                horizontalThrottler.throttleEvent()
+            }
+
+            KeyEvent.KEYCODE_DPAD_UP,
+            KeyEvent.KEYCODE_DPAD_DOWN -> {
+                verticalThrottler.throttleEvent()
+            }
+
+            KeyEvent.KEYCODE_DPAD_CENTER -> {
+                selectThrottler.throttleEvent()
+            }
+
+            else -> false
+        }
+
+        return isThrottled || super.dispatchKeyEvent(event)
     }
 }
