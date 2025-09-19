@@ -24,10 +24,15 @@
 
 package org.videolan.television.ui.compose.composable.lists
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -36,8 +41,9 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecondaryTabRow
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,7 +56,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
@@ -61,15 +69,17 @@ import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.AudioItem
-import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
 import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.White
+import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.AudioListViewModel
 import org.videolan.tools.Settings
+import org.videolan.vlc.BuildConfig
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AudioListScreen(viewModel: AudioListViewModel = viewModel()) {
+fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: AudioListViewModel = viewModel()) {
     val context = LocalContext.current
     val settings = Settings.getInstance(context)
     val selectedItemFocusRestorer = remember { FocusRequester.Default }
@@ -84,20 +94,46 @@ fun AudioListScreen(viewModel: AudioListViewModel = viewModel()) {
         pagerState.scrollToPage(settings.getInt("audio_tab", 0))
     }
 
-    Column {
-        SecondaryTabRow(
+    Column(
+        modifier = Modifier
+            .focusProperties {
+                onExit = {
+
+                    if (requestedFocusDirection == FocusDirection.Up) {
+                        if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
+                        onFocusExit()
+                    }
+                }
+                onEnter = {
+                    if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusEnter triggered for Column")
+                    onFocusEnter()
+                }
+            }
+    ) {
+        ScrollableTabRow (
             selectedTabIndex = pagerState.currentPage,
             divider = {},
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.background,
+            edgePadding = 0.dp,
             modifier = Modifier
                 .focusRestorer(selectedItemFocusRestorer)
                 .padding(vertical = 4.dp, horizontal = 8.dp)
-                .align(Alignment.CenterHorizontally)
                 .onFocusChanged {
-                    hasFocus = it.isFocused
+                    hasFocus = it.hasFocus
                 },
-            indicator = { RoundedRectangleIndicator(pagerState.currentPage, hasFocus) }
+            indicator = { tabPositions ->
+                Box(
+                    Modifier
+                        .tabIndicatorOffset(tabPositions[pagerState.currentPage])
+                        .fillMaxWidth()
+                        .height(36.dp)
+                        .background(
+                            color = if (hasFocus) White else WhiteTransparent50,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                )
+            }
         ) {
             viewModel.audioTabs.forEachIndexed { index, tab ->
                 Tab(
@@ -108,6 +144,7 @@ fun AudioListScreen(viewModel: AudioListViewModel = viewModel()) {
                         }
                     },
                     modifier = Modifier
+                        .height(36.dp)
                         .clip(RoundedCornerShape(50))
                         .zIndex(2f)
                         .focusRestorer(if (index == pagerState.currentPage) selectedItemFocusRestorer else FocusRequester.Default)
