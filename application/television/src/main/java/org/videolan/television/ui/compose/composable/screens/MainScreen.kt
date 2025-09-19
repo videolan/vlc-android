@@ -24,14 +24,25 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import android.util.Log
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,7 +59,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
@@ -66,6 +79,7 @@ import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.vlc.BuildConfig
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
@@ -74,97 +88,144 @@ fun MainScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
-    Tabs(viewModel.tabs)
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Tabs(tabs: List<Pair<Int, Int>>) {
+fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
+    val tabs = viewModel.tabs
     val selectedItemFocusRestorer = remember { FocusRequester() }
     var hasFocus by remember { mutableStateOf(false) }
+    var visible by remember { mutableStateOf(true) }
     val pagerState = rememberPagerState(
         pageCount = { tabs.size }
     )
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 24.dp, horizontal = 32.dp),
+            .padding(top = if (visible) 24.dp else 0.dp, start = 32.dp, end = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        PrimaryTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            divider = {},
-            containerColor = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.background,
-            modifier = Modifier
-                .focusRestorer(selectedItemFocusRestorer)
-                .padding(vertical = 4.dp, horizontal = 8.dp)
-                .align(Alignment.CenterHorizontally)
-                .onFocusChanged {
-                    hasFocus = it.isFocused
-                },
-            indicator = { RoundedRectangleIndicator(pagerState.currentPage, hasFocus) }
-        ) {
-            tabs.forEachIndexed { index, tab ->
-                val selected = pagerState.currentPage == index
-                val coroutineScope = rememberCoroutineScope()
-                Tab(
-                    selected = selected,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
+        AnimatedContent(
+            targetState = visible,
+            transitionSpec = {
+                if (!targetState) {
+                    slideInVertically { height -> height } + fadeIn() togetherWith
+                            slideOutVertically { height -> -height } + fadeOut()
+                } else {
+                    slideInVertically { height -> -height } + fadeIn() togetherWith
+                            slideOutVertically { height -> height } + fadeOut()
+                }.using(
+                    SizeTransform(clip = false)
+                )
+            }, label = "tabs collapsing animation"
+        ) { tabsVisible ->
+            if (tabsVisible)
+                PrimaryTabRow(
+                    selectedTabIndex = pagerState.currentPage,
+                    divider = {},
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(50))
-                        .zIndex(2f)
-                        .focusRestorer(if (selected) selectedItemFocusRestorer else FocusRequester.Default)
+                        .focusRestorer(selectedItemFocusRestorer)
+                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                        .align(Alignment.CenterHorizontally)
                         .onFocusChanged {
-                            if (it.isFocused) {
+                            hasFocus = it.isFocused
+                        },
+                    indicator = { RoundedRectangleIndicator(pagerState.currentPage, hasFocus) }
+                ) {
+                    tabs.forEachIndexed { index, tab ->
+                        val selected = pagerState.currentPage == index
+                        val coroutineScope = rememberCoroutineScope()
+                        Tab(
+                            selected = selected,
+                            onClick = {
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
-                            }
-                        },
-                    text = {
-                        Row {
-                            Icon(
-                                painter = painterResource(tab.second),
-                                tint = if (pagerState.currentPage == index) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
-                                contentDescription = stringResource(id = R.string.reset),
-                                modifier = Modifier
-                                    .width(24.dp)
-                                    .height(24.dp)
-                            )
-                            Text(
-                                text = stringResource(tab.first),
-                                color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp, vertical = 0.dp)
-                                    .align(Alignment.CenterVertically)
-                            )
-                        }
-                    },
-                    icon = null,
-                    enabled = true,
-                )
-            }
+                            },
+                            modifier = Modifier
+                                .height(36.dp)
+                                .clip(RoundedCornerShape(50))
+                                .zIndex(2f)
+                                .focusRestorer(if (selected) selectedItemFocusRestorer else FocusRequester.Default)
+                                .onFocusChanged {
+                                    if (it.isFocused) {
+                                        coroutineScope.launch {
+                                            pagerState.animateScrollToPage(index)
+                                        }
+                                    }
+                                },
+                            text = {
+                                Row {
+                                    Icon(
+                                        painter = painterResource(tab.second),
+                                        tint = if (pagerState.currentPage == index) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                        contentDescription = stringResource(id = R.string.reset),
+                                        modifier = Modifier
+                                            .width(24.dp)
+                                            .height(24.dp)
+                                    )
+                                    Text(
+                                        text = stringResource(tab.first),
+                                        color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                        modifier = Modifier
+                                            .padding(horizontal = 16.dp, vertical = 0.dp)
+                                            .align(Alignment.CenterVertically)
+                                    )
+                                }
+                            },
+                            icon = null,
+                            enabled = true,
+                        )
+                    }
+                }
+            else
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusable(true)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_collapse_arrow),
+                        contentDescription = stringResource(id = R.string.reset),
+                        modifier = Modifier
+                            .width(24.dp)
+                            .height(24.dp)
+                            .align(Alignment.Center)
+                            .rotate(180f)
+                            .alpha(0.5f)
+                    )
+                }
+
         }
-        HorizontalPager(pagerState, userScrollEnabled = false) {page ->
-            TabPanels(page)
+        VLCContentPanel(pagerState, selectedItemFocusRestorer) {
+            visible = it
         }
     }
 }
 
 @Composable
-private fun TabPanels(pagerState: Int, viewModel: MainActivityViewModel = viewModel()) {
+private fun VLCContentPanel(pagerState: PagerState, selectedItemFocusRestorer: FocusRequester, onVisibleChange: (Boolean) -> Unit) {
+    HorizontalPager(pagerState, userScrollEnabled = false) { page ->
+        TabPanels(page, onFocusExit = {
+            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit received")
+            onVisibleChange(true)
+            selectedItemFocusRestorer.requestFocus()
+        }, onFocusEnter = {
+            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusEnter received")
+            onVisibleChange(false)
+            selectedItemFocusRestorer.requestFocus()
+        })
+    }
+}
+
+@Composable
+private fun TabPanels(pagerState: Int, onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MainActivityViewModel = viewModel()) {
     when (viewModel.tabs[pagerState].first) {
-        R.string.video -> VideoListScreen()
-        R.string.audio -> AudioListScreen()
+        R.string.video -> VideoListScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
+        R.string.audio -> AudioListScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         R.string.browse -> BrowseList()
         R.string.playlists -> PlaylistsList()
         else -> MoreScreen()
