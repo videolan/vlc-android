@@ -156,6 +156,7 @@ fun VideoItem(videos: List<MediaLibraryItem>, index: Int) {
             video.title ?: "",
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.labelLarge,
             modifier = Modifier
                 .padding(start = 4.dp, end = 4.dp, top = 4.dp)
                 .fillMaxWidth()
@@ -164,6 +165,7 @@ fun VideoItem(videos: List<MediaLibraryItem>, index: Int) {
             video.description ?: "",
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodySmall,
             modifier = Modifier
                 .padding(start = 4.dp, end = 4.dp, bottom = 16.dp)
                 .fillMaxWidth()
