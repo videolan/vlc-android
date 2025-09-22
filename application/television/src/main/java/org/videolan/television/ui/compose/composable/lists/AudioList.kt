@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
@@ -69,6 +70,8 @@ import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.AudioItem
+import org.videolan.television.ui.compose.composable.AudioItemCard
+import org.videolan.television.ui.compose.composable.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
@@ -220,15 +223,27 @@ fun AlbumsList(viewModel: AudioListViewModel = viewModel()) {
 fun TracksList(viewModel: AudioListViewModel = viewModel()) {
     viewModel.updateAudioTracks()
     val audios by viewModel.audioTracks.observeAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(top = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index)
+    val inCard = false
+    if (inCard) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(audios?.size ?: 0) { index ->
+                AudioItemCard(audios!!, index)
 
+            }
+        }
+    } else {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(audios?.size ?: 0) { index ->
+                AudioItemList(audios!!, index)
+
+            }
         }
     }
 }
