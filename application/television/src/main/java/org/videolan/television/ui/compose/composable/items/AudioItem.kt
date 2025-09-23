@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.television.ui.compose.composable
+package org.videolan.television.ui.compose.composable.items
 
 import android.graphics.Bitmap
 import androidx.activity.compose.LocalActivity
