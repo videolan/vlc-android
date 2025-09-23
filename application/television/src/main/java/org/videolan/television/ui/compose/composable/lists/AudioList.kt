@@ -27,6 +27,7 @@ package org.videolan.television.ui.compose.composable.lists
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -85,46 +86,42 @@ import org.videolan.vlc.BuildConfig
 fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: AudioListViewModel = viewModel()) {
     val context = LocalContext.current
     val settings = Settings.getInstance(context)
-    val selectedItemFocusRestorer = remember { FocusRequester.Default }
+    val focusRequesters = remember {
+        List(viewModel.audioTabs.size) { FocusRequester() }
+    }
     var hasFocus by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(
         pageCount = { viewModel.audioTabs.size }
     )
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(Unit) {
-        // Initial tab selection
-        pagerState.scrollToPage(settings.getInt("audio_tab", 0))
-    }
-
     Column(
         modifier = Modifier
-            .focusProperties {
-                onExit = {
-
-                    if (requestedFocusDirection == FocusDirection.Up) {
-                        if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
-                        onFocusExit()
-                    }
-                }
-                onEnter = {
-                    if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusEnter triggered for Column")
-                    onFocusEnter()
-                }
-            }
     ) {
-        ScrollableTabRow (
+        ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
             divider = {},
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.background,
             edgePadding = 0.dp,
             modifier = Modifier
-                .focusRestorer(selectedItemFocusRestorer)
                 .padding(vertical = 4.dp, horizontal = 8.dp)
-                .onFocusChanged {
-                    hasFocus = it.hasFocus
-                },
+                .focusProperties {
+                    onEnter = {
+                        focusRequesters[pagerState.currentPage].requestFocus()
+                        hasFocus = true
+                        onFocusEnter()
+
+                    }
+                    onExit = {
+                        hasFocus = false
+                        if (requestedFocusDirection == FocusDirection.Up) {
+                            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
+                            onFocusExit()
+                        }
+                    }
+                }
+                .focusGroup(),
             indicator = { tabPositions ->
                 Box(
                     Modifier
@@ -139,8 +136,9 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
             }
         ) {
             viewModel.audioTabs.forEachIndexed { index, tab ->
+                val selected = pagerState.currentPage == index
                 Tab(
-                    selected = index == pagerState.currentPage,
+                    selected = selected,
                     onClick = {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(index)
@@ -150,7 +148,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                         .height(36.dp)
                         .clip(RoundedCornerShape(50))
                         .zIndex(2f)
-                        .focusRestorer(if (index == pagerState.currentPage) selectedItemFocusRestorer else FocusRequester.Default)
+                        .focusRequester(focusRequester = focusRequesters[index])
                         .onFocusChanged {
                             if (it.isFocused) {
                                 settings.edit { putInt("audio_tab", index) }
@@ -162,7 +160,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                     text = {
                         Text(
                             text = stringResource(tab),
-                            color = if (index == pagerState.currentPage) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                            color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 0.dp)
                                 .align(Alignment.CenterHorizontally)
@@ -182,6 +180,10 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                 4 -> AudioPlaylistsList()
             }
         }
+    }
+    LaunchedEffect(Unit) {
+        // Initial tab selection
+        pagerState.scrollToPage(settings.getInt("audio_tab", 0))
     }
 }
 
