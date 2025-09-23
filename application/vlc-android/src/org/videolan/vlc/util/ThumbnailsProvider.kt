@@ -14,7 +14,9 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.Medialibrary.MEDIALIB_FOLDER_NAME
 import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
@@ -209,6 +211,8 @@ object ThumbnailsProvider {
             is MediaWrapper -> getMediaThumbnail(item, width)
             is Folder -> getFolderThumbnail(item, width)
             is VideoGroup -> getVideoGroupThumbnail(item, width)
+            is Playlist -> getPlaylistOrGenreImage("playlist:${item.id}_$width", item.tracks.toList(), width)
+            is Genre -> getPlaylistOrGenreImage("genre:${item.id}_$width", item.tracks.toList(), width)
             else -> readCoverBitmap(Uri.decode(item.artworkMrl), width)
         }
     }
