@@ -37,7 +37,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.videolan.television.ui.compose.composable.VideoItem
+import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.BuildConfig
 

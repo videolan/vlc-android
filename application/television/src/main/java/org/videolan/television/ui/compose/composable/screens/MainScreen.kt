@@ -24,7 +24,6 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
@@ -32,23 +31,16 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -73,7 +65,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -82,17 +73,13 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
-import org.videolan.television.ui.compose.composable.AudioItem
 import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
 import org.videolan.television.ui.compose.composable.lists.AudioListScreen
 import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
-import org.videolan.television.ui.compose.composable.lists.vlcBorder
-import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.vlc.BuildConfig
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {

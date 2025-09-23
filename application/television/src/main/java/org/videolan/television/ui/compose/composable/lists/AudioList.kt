@@ -70,9 +70,9 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
-import org.videolan.television.ui.compose.composable.AudioItem
-import org.videolan.television.ui.compose.composable.AudioItemCard
-import org.videolan.television.ui.compose.composable.AudioItemList
+import org.videolan.television.ui.compose.composable.items.AudioItem
+import org.videolan.television.ui.compose.composable.items.AudioItemCard
+import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
