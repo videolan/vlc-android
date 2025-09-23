@@ -22,13 +22,12 @@
  *
  */
 
-package org.videolan.television.ui.compose.composable
+package org.videolan.television.ui.compose.composable.items
 
 import android.graphics.Bitmap
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

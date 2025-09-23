@@ -63,7 +63,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.MainTvActivity
-import org.videolan.television.ui.compose.composable.AudioItem
+import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.composable.components.VLCButton
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
