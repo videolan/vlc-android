@@ -128,21 +128,29 @@ fun VideoItem(videos: List<MediaLibraryItem>, index: Int) {
                     }
                 }
                 if ((video as MediaWrapper).seen > 0) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_seen_normal),
-                        contentDescription = stringResource(R.string.media_seen),
-                        modifier = Modifier.align(Alignment.TopEnd),
-                    )
+                    Box(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_check),
+                            contentDescription = stringResource(R.string.media_seen),
+                            modifier = Modifier
+                                .background(BlackTransparent50, RoundedCornerShape(4.dp))
+                                .padding(4.dp),
+                        )
+                    }
                 }
                 generateResolutionClass(video.width, video.height)?.let {
                     Box(
                         modifier = Modifier
-                            .padding(4.dp)
+                            .padding(8.dp)
                             .align(Alignment.BottomEnd)
                     ) {
                         Text(
                             text = it,
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.labelSmall,
                             modifier = Modifier
                                 .background(BlackTransparent50, RoundedCornerShape(4.dp))
                                 .padding(4.dp),
