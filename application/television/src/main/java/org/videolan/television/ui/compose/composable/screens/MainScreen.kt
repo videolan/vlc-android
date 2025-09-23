@@ -32,15 +32,23 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -63,6 +71,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
@@ -72,12 +82,15 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.AudioItem
 import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
 import org.videolan.television.ui.compose.composable.lists.AudioListScreen
 import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
+import org.videolan.television.ui.compose.composable.lists.vlcBorder
+import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.BuildConfig
 
@@ -92,13 +105,14 @@ fun MainScreen(modifier: Modifier = Modifier) {
 @Composable
 fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
     val tabs = viewModel.tabs
-    val selectedItemFocusRestorer = remember { FocusRequester() }
+    val focusRequesters = remember {
+        List(tabs.size) { FocusRequester() }
+    }
     var hasFocus by remember { mutableStateOf(false) }
     var visible by remember { mutableStateOf(true) }
     val pagerState = rememberPagerState(
         pageCount = { tabs.size }
     )
-
 
     Column(
         modifier = Modifier
@@ -127,12 +141,18 @@ fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
                     containerColor = MaterialTheme.colorScheme.background,
                     contentColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier
-                        .focusRestorer(selectedItemFocusRestorer)
+                        .focusProperties {
+                            onEnter = {
+                                focusRequesters[pagerState.currentPage].requestFocus()
+                                hasFocus = true
+                            }
+                            onExit = {
+                                hasFocus = false
+                            }
+                        }
                         .padding(vertical = 4.dp, horizontal = 8.dp)
                         .align(Alignment.CenterHorizontally)
-                        .onFocusChanged {
-                            hasFocus = it.isFocused
-                        },
+                        .focusGroup(),
                     indicator = { RoundedRectangleIndicator(pagerState.currentPage, hasFocus) }
                 ) {
                     tabs.forEachIndexed { index, tab ->
@@ -149,7 +169,7 @@ fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
                                 .height(36.dp)
                                 .clip(RoundedCornerShape(50))
                                 .zIndex(2f)
-                                .focusRestorer(if (selected) selectedItemFocusRestorer else FocusRequester.Default)
+                                .focusRequester(focusRequester = focusRequesters[index])
                                 .onFocusChanged {
                                     if (it.isFocused) {
                                         coroutineScope.launch {
@@ -200,24 +220,19 @@ fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
                 }
 
         }
-        VLCContentPanel(pagerState, selectedItemFocusRestorer) {
+        VLCContentPanel(pagerState) {
             visible = it
         }
     }
 }
 
 @Composable
-private fun VLCContentPanel(pagerState: PagerState, selectedItemFocusRestorer: FocusRequester, onVisibleChange: (Boolean) -> Unit) {
+private fun VLCContentPanel(pagerState: PagerState, onVisibleChange: (Boolean) -> Unit) {
     HorizontalPager(pagerState, userScrollEnabled = false) { page ->
-        TabPanels(page, onFocusExit = {
-            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit received")
-            onVisibleChange(true)
-            selectedItemFocusRestorer.requestFocus()
-        }, onFocusEnter = {
-            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusEnter received")
-            onVisibleChange(false)
-            selectedItemFocusRestorer.requestFocus()
-        })
+        TabPanels(
+            page,
+            onFocusExit = { onVisibleChange(true) },
+            onFocusEnter = { onVisibleChange(false) })
     }
 }
 
@@ -228,6 +243,6 @@ private fun TabPanels(pagerState: Int, onFocusExit: () -> Unit, onFocusEnter: ()
         R.string.audio -> AudioListScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         R.string.browse -> BrowseList()
         R.string.playlists -> PlaylistsList()
-        else -> MoreScreen()
+        else -> MoreScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
     }
 }
