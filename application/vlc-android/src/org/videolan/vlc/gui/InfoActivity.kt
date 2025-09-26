@@ -209,12 +209,12 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                 binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_album))
                 binding.extraTitleText = getString(R.string.tracks)
                 binding.extraValueText = nbTracks.toString()
-                binding.extraIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_song))
+                binding.extraIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_song_small))
             }
             else -> {
                 binding.sizeTitleText = getString(R.string.tracks)
                 binding.sizeValueText = nbTracks.toString()
-                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_song))
+                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_song_small))
             }
         }
     }
