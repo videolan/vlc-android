@@ -1216,20 +1216,35 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
             }
             call.respond(HttpStatusCode.NotFound)
         }
-        //Download a file previously prepared
+        // Download a file previously prepared
         get("/download") {
-            call.request.queryParameters["file"]?.let {
-                val dst = File("${RemoteAccessServer.getInstance(appContext).downloadFolder}/$it")
-                call.response.header(
-                        HttpHeaders.ContentDisposition,
-                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, dst.toUri().lastPathSegment
-                                ?: "")
-                                .toString()
-                )
-                call.respondFile(dst)
-                dst.delete()
+            val requested = call.request.queryParameters["file"] ?: run {
+                call.respond(HttpStatusCode.BadRequest, "Missing file parameter")
+                return@get
             }
-            call.respond(HttpStatusCode.NotFound)
+
+            val baseDir = File(RemoteAccessServer.getInstance(appContext).downloadFolder).canonicalFile
+            val dstFile = File(baseDir, requested).canonicalFile
+
+            // Enforce that the resolved path stays within the intended download directory
+            if (!dstFile.path.startsWith(baseDir.path + File.separator)) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid file path")
+                return@get
+            }
+
+            // Send as attachment with a safe filename
+            call.response.header(
+                HttpHeaders.ContentDisposition,
+                ContentDisposition.Attachment
+                    .withParameter(ContentDisposition.Parameters.FileName, dstFile.name)
+                    .toString()
+            )
+
+            // Stream the file, then return early to avoid double responses
+            call.respondFile(dstFile)
+            // Optionally delete only if it resides in baseDir
+            runCatching { if (dstFile.exists()) dstFile.delete() }
+            return@get
         }
         //Change the favorite state of a media
         get("/favorite") {
