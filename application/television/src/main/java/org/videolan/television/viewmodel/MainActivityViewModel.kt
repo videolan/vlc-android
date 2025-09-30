@@ -52,46 +52,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
             Pair(R.string.more, R.drawable.ic_nav_more),
     )
 
-
-    val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val audioTracks: LiveData<List<MediaWrapper>> = MutableLiveData()
-    val context = getApplication<Application>().getContextWithLocale(AppContextProvider.locale)
-
-
-    private fun updateVideos() = viewModelScope.launch {
-        if (!Permissions.canReadStorage(context)) {
-            (videos as MutableLiveData).value =
-                    listOf(DummyItem(HEADER_PERMISSION, context.getString(org.videolan.vlc.R.string.permission_media), context.getString(org.videolan.vlc.R.string.permission_ask_again)))
-            return@launch
-        }
-        context.getFromMl {
-            getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
-                addAll(it)
-            }
-        }
-    }
-
-    fun updateAudio() = viewModelScope.launch {
-        if (!Permissions.canReadStorage(context)) {
-            (videos as MutableLiveData).value =
-                    listOf(DummyItem(HEADER_PERMISSION, context.getString(org.videolan.vlc.R.string.permission_media), context.getString(org.videolan.vlc.R.string.permission_ask_again)))
-            return@launch
-        }
-        context.getFromMl {
-            getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            (audioTracks as MutableLiveData).value = mutableListOf<MediaWrapper>().apply {
-                addAll(it)
-            }
-        }
-    }
-
-
-    fun refresh() {
-        viewModelScope.launch {
-            updateVideos()
-        }
-    }
+    val audioTabs = listOf(
+        R.string.artists,
+        R.string.albums,
+        R.string.tracks,
+        R.string.genres,
+        R.string.playlists,
+    )
 }
