@@ -65,6 +65,7 @@ import org.videolan.television.R
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.composable.components.VLCButton
+import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.viewmodel.MoreViewModel
@@ -75,6 +76,8 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
     viewModel.updateStreams()
     val history by viewModel.history.observeAsState()
     val streams by viewModel.streams.observeAsState()
+    val historyLoading by viewModel.historyLoading.observeAsState()
+    val streamsLoading by viewModel.streamsLoading.observeAsState()
     val activity = LocalActivity.current
     Column(
         modifier = Modifier
@@ -104,25 +107,25 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
             }
 
         }
-        ContentLine(history, R.string.history)
-        ContentLine(streams, R.string.streams)
+        ContentLine(history, historyLoading, R.string.history)
+        ContentLine(streams, streamsLoading, R.string.streams)
     }
 }
 
 @Composable
-fun ContentLine(items: List<MediaLibraryItem>?, text: Int) {
-    var historyFocused by remember { mutableStateOf(false) }
+fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int) {
+    var focused by remember { mutableStateOf(false) }
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .onFocusChanged {
-                historyFocused = it.isFocused
+                focused = it.isFocused
             }
             .padding(top = 24.dp)
             .clip(RoundedCornerShape(50))
-            .background(if (historyFocused) WhiteTransparent10 else Transparent)
+            .background(if (focused) WhiteTransparent10 else Transparent)
             .focusable()
     ) {
         Text(
@@ -142,14 +145,16 @@ fun ContentLine(items: List<MediaLibraryItem>?, text: Int) {
                 .padding(end = 16.dp)
         )
     }
-    LazyRow(
-        contentPadding = PaddingValues(top = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.focusGroup()
-    ) {
-        items(items?.size ?: 0) { index ->
-            Box(modifier = Modifier.width(150.dp)) {
-                AudioItem(items!!, index)
+    VlcLoader(historyLoading) {
+        LazyRow(
+            contentPadding = PaddingValues(top = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.focusGroup()
+        ) {
+            items(items?.size ?: 0) { index ->
+                Box(modifier = Modifier.width(150.dp)) {
+                    AudioItem(items!!, index)
+                }
             }
         }
     }

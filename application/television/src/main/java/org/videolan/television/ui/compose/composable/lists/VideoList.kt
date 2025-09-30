@@ -37,6 +37,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.viewmodel.MediaListsViewModel
 import org.videolan.vlc.BuildConfig
@@ -45,33 +46,36 @@ import org.videolan.vlc.BuildConfig
 fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateVideos()
     val videos by viewModel.videos.observeAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(200.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(top = 16.dp),
-        modifier = Modifier
-            .focusProperties {
-                onExit = {
-                    when (requestedFocusDirection) {
-                        FocusDirection.Left -> cancelFocusChange()
-                        FocusDirection.Right -> cancelFocusChange()
-                        FocusDirection.Up -> {
-                            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered")
-                            onFocusExit()
+    val videoLoading by viewModel.videoLoading.observeAsState()
+    VlcLoader(videoLoading) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(200.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(top = 16.dp),
+            modifier = Modifier
+                .focusProperties {
+                    onExit = {
+                        when (requestedFocusDirection) {
+                            FocusDirection.Left -> cancelFocusChange()
+                            FocusDirection.Right -> cancelFocusChange()
+                            FocusDirection.Up -> {
+                                if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered")
+                                onFocusExit()
+                            }
                         }
+                        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "onExit")
                     }
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "onExit")
-                }
-                onEnter = {
-                    onFocusEnter()
-                }
+                    onEnter = {
+                        onFocusEnter()
+                    }
 
 
+                }
+        ) {
+            items(videos?.size ?: 0) { index ->
+                VideoItem(videos!!, index)
             }
-    ) {
-        items(videos?.size ?: 0) { index ->
-            VideoItem(videos!!, index)
         }
     }
 }
