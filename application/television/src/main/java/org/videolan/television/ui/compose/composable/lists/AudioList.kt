@@ -205,7 +205,7 @@ fun ArtistsList(viewModel: MediaListsViewModel = viewModel()) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(audios?.size ?: 0) { index ->
+            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
                 AudioItem(audios!!, index)
 
             }
@@ -225,7 +225,7 @@ fun AlbumsList(viewModel: MediaListsViewModel = viewModel()) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(audios?.size ?: 0) { index ->
+            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
                 AudioItem(audios!!, index)
 
             }
@@ -247,7 +247,7 @@ fun TracksList(viewModel: MediaListsViewModel = viewModel()) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(audios?.size ?: 0) { index ->
+                items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
                     AudioItemCard(audios!!, index)
 
                 }
@@ -256,7 +256,7 @@ fun TracksList(viewModel: MediaListsViewModel = viewModel()) {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(audios?.size ?: 0) { index ->
+                items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
                     AudioItemList(audios!!, index)
 
                 }
@@ -277,7 +277,7 @@ fun AudioPlaylistsList(viewModel: MediaListsViewModel = viewModel()) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(audios?.size ?: 0) { index ->
+            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
                 AudioItem(audios!!, index)
 
             }
@@ -297,7 +297,7 @@ fun GenresList(viewModel: MediaListsViewModel = viewModel()) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(audios?.size ?: 0) { index ->
+            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
                 AudioItem(audios!!, index)
 
             }
