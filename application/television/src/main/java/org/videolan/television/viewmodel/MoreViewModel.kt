@@ -26,67 +26,64 @@ package org.videolan.television.viewmodel
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.BuildConfig
-import org.videolan.resources.HEADER_PERMISSION
 import org.videolan.resources.util.getFromMl
-import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.util.Permissions
 
-class MoreViewModel(app: Application) : AndroidViewModel(app) {
+private const val TAG = "VLC/MoreViewModel"
+class MoreViewModel(app: Application) : TvMediaViewModel(app) {
 
 
-    val history: LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val streams: LiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val history: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val streams: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
+
+    val historyLoading = MutableLiveData(false)
+    val streamsLoading = MutableLiveData(false)
+
     var historyLoaded = false
     var streamsLoaded = false
-
-
-    val context = getApplication<Application>().getContextWithLocale(AppContextProvider.locale)
-
 
     fun updateHistory() = viewModelScope.launch {
         if (historyLoaded) return@launch
         historyLoaded = true
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "updateAudioTracks")
-        if (!Permissions.canReadStorage(context)) {
-            (history as MutableLiveData).value =
-                    listOf(DummyItem(HEADER_PERMISSION, context.getString(org.videolan.vlc.R.string.permission_media), context.getString(org.videolan.vlc.R.string.permission_ask_again)))
+        if (BuildConfig.DEBUG) Log.d(TAG, "updateHistory")
+        setLoading(historyLoading, true)
+        if (!Permissions.canReadStorage(getContext())) {
+            showPermissionItem(history)
             return@launch
         }
-        context.getFromMl {
+        getContext().getFromMl {
             history(Medialibrary.HISTORY_TYPE_LOCAL)
         }.let {
-            (history as MutableLiveData).value = mutableListOf<MediaWrapper>().apply {
+            history.value = mutableListOf<MediaWrapper>().apply {
                 addAll(it)
             }
         }
+        setLoading(historyLoading, false)
     }
 
     fun updateStreams() = viewModelScope.launch {
         if (streamsLoaded) return@launch
         streamsLoaded = true
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "updateAudioTracks")
-        if (!Permissions.canReadStorage(context)) {
-            (streams as MutableLiveData).value =
-                    listOf(DummyItem(HEADER_PERMISSION, context.getString(org.videolan.vlc.R.string.permission_media), context.getString(org.videolan.vlc.R.string.permission_ask_again)))
+        if (BuildConfig.DEBUG) Log.d(TAG, "updateStreams")
+        setLoading(streamsLoading, true)
+        if (!Permissions.canReadStorage(getContext())) {
+            showPermissionItem(streams)
             return@launch
         }
-        context.getFromMl {
+        getContext().getFromMl {
             history(Medialibrary.HISTORY_TYPE_NETWORK)
         }.let {
-            (streams as MutableLiveData).value = mutableListOf<MediaWrapper>().apply {
+            streams.value = mutableListOf<MediaWrapper>().apply {
                 addAll(it)
             }
         }
+        setLoading(streamsLoading, false)
     }
 }

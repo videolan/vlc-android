@@ -70,6 +70,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
@@ -192,15 +193,18 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
 fun ArtistsList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioArtists()
     val audios by viewModel.audioArtists.observeAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(top = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index)
+    val audioLoading by viewModel.audioArtistsLoading.observeAsState()
+    VlcLoader(audioLoading) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(audios?.size ?: 0) { index ->
+                AudioItem(audios!!, index)
 
+            }
         }
     }
 }
@@ -209,15 +213,18 @@ fun ArtistsList(viewModel: MediaListsViewModel = viewModel()) {
 fun AlbumsList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioAlbums()
     val audios by viewModel.audioAlbums.observeAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(top = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index)
+    val audioLoading by viewModel.audioAlbumsLoading.observeAsState()
+    VlcLoader(audioLoading) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(audios?.size ?: 0) { index ->
+                AudioItem(audios!!, index)
 
+            }
         }
     }
 }
@@ -226,26 +233,29 @@ fun AlbumsList(viewModel: MediaListsViewModel = viewModel()) {
 fun TracksList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioTracks()
     val audios by viewModel.audioTracks.observeAsState()
-    val inCard = false
-    if (inCard) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(150.dp),
-            contentPadding = PaddingValues(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(audios?.size ?: 0) { index ->
-                AudioItemCard(audios!!, index)
+    val audioLoading by viewModel.audioTracksLoading.observeAsState()
+    VlcLoader(audioLoading) {
+        val inCard = false
+        if (inCard) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(150.dp),
+                contentPadding = PaddingValues(top = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(audios?.size ?: 0) { index ->
+                    AudioItemCard(audios!!, index)
 
+                }
             }
-        }
-    } else {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(audios?.size ?: 0) { index ->
-                AudioItemList(audios!!, index)
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(audios?.size ?: 0) { index ->
+                    AudioItemList(audios!!, index)
 
+                }
             }
         }
     }
@@ -255,15 +265,18 @@ fun TracksList(viewModel: MediaListsViewModel = viewModel()) {
 fun AudioPlaylistsList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioPlaylists()
     val audios by viewModel.audioPlaylists.observeAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(top = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index)
+    val audioLoading by viewModel.audioPlaylistsLoading.observeAsState()
+    VlcLoader(audioLoading) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(audios?.size ?: 0) { index ->
+                AudioItem(audios!!, index)
 
+            }
         }
     }
 }
@@ -272,15 +285,18 @@ fun AudioPlaylistsList(viewModel: MediaListsViewModel = viewModel()) {
 fun GenresList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioGenres()
     val audios by viewModel.audioGenres.observeAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(top = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index)
+    val audioLoading by viewModel.audioGenresLoading.observeAsState()
+    VlcLoader(audioLoading) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(audios?.size ?: 0) { index ->
+                AudioItem(audios!!, index)
 
+            }
         }
     }
 }
