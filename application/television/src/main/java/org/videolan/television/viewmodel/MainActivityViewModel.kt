@@ -26,21 +26,15 @@ package org.videolan.television.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.media.DummyItem
-import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppContextProvider
-import org.videolan.resources.HEADER_PERMISSION
-import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
-import org.videolan.resources.util.getFromMl
 import org.videolan.television.R
-import org.videolan.tools.getContextWithLocale
-import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.MediaParsingService
+import org.videolan.vlc.ScanProgress
 
 class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -59,4 +53,16 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         R.string.genres,
         R.string.playlists,
     )
+
+    val progress = MutableLiveData<ScanProgress?>(null)
+
+    init {
+        viewModelScope.launch {
+            MediaParsingService.progress.asFlow().collect {
+                progress.value = it
+                delay(100)
+                if (!Medialibrary.getInstance().isWorking) progress.value = null
+            }
+        }
+    }
 }
