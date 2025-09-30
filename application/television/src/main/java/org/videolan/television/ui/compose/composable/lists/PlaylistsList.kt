@@ -37,35 +37,38 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.AudioItem
-import org.videolan.television.viewmodel.PlaylistsViewModel
+import org.videolan.television.viewmodel.MediaListsViewModel
 
 @Composable
-fun PlaylistsList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit,viewModel: PlaylistsViewModel = viewModel()) {
-    viewModel.updatePlaylists()
-    val audios by viewModel.playlists.observeAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(top = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .focusProperties {
-                onEnter = {
-                    onFocusEnter()
+fun PlaylistsList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit,viewModel: MediaListsViewModel = viewModel()) {
+    viewModel.updateAllPlaylists()
+    val audios by viewModel.allPlaylists.observeAsState()
+    val loading by viewModel.allPlaylistsLoading.observeAsState()
+    VlcLoader(loading) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            contentPadding = PaddingValues(top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .focusProperties {
+                    onEnter = {
+                        onFocusEnter()
 
-                }
-                onExit = {
-                    if (requestedFocusDirection == FocusDirection.Up) {
-                        onFocusExit()
+                    }
+                    onExit = {
+                        if (requestedFocusDirection == FocusDirection.Up) {
+                            onFocusExit()
+                        }
                     }
                 }
+                .focusGroup(),
+        ) {
+            items(audios?.size ?: 0) { index ->
+                AudioItem(audios!!, index)
             }
-            .focusGroup(),
-    ) {
-        items(audios?.size ?: 0) { index ->
-            AudioItem(audios!!, index)
-
         }
     }
 }
