@@ -73,7 +73,7 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
 
                 }
         ) {
-            items(videos?.size ?: 0) { index ->
+            items(videos?.size ?: 0, key = { index -> videos!![index].id }) { index ->
                 VideoItem(videos!!, index)
             }
         }
