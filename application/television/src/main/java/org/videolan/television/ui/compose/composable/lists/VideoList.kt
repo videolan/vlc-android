@@ -38,11 +38,12 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.television.ui.compose.composable.items.VideoItem
-import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.MediaListsViewModel
 import org.videolan.vlc.BuildConfig
 
 @Composable
-fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MainActivityViewModel = viewModel()) {
+fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MediaListsViewModel = viewModel()) {
+    viewModel.updateVideos()
     val videos by viewModel.videos.observeAsState()
     LazyVerticalGrid(
         columns = GridCells.Adaptive(200.dp),
