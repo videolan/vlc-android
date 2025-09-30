@@ -217,7 +217,13 @@ fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
 
 @Composable
 private fun VLCContentPanel(pagerState: PagerState, onVisibleChange: (Boolean) -> Unit) {
-    HorizontalPager(pagerState, userScrollEnabled = false) { page ->
+    HorizontalPager(
+        pagerState,
+        userScrollEnabled = false,
+        verticalAlignment = Alignment.Top,
+        modifier = Modifier
+            .fillMaxSize()
+    ) { page ->
         TabPanels(
             page,
             onFocusExit = { onVisibleChange(true) },
