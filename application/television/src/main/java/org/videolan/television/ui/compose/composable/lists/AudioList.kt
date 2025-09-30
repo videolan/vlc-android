@@ -76,22 +76,23 @@ import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
-import org.videolan.television.viewmodel.AudioListViewModel
+import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.MediaListsViewModel
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: AudioListViewModel = viewModel()) {
+fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MediaListsViewModel = viewModel(), mainActivityViewModel: MainActivityViewModel = viewModel()) {
     val context = LocalContext.current
     val settings = Settings.getInstance(context)
     val focusRequesters = remember {
-        List(viewModel.audioTabs.size) { FocusRequester() }
+        List(mainActivityViewModel.audioTabs.size) { FocusRequester() }
     }
     var hasFocus by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(
-        pageCount = { viewModel.audioTabs.size }
+        pageCount = { mainActivityViewModel.audioTabs.size }
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -135,7 +136,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                 )
             }
         ) {
-            viewModel.audioTabs.forEachIndexed { index, tab ->
+            mainActivityViewModel.audioTabs.forEachIndexed { index, tab ->
                 val selected = pagerState.currentPage == index
                 Tab(
                     selected = selected,
@@ -188,7 +189,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
 }
 
 @Composable
-fun ArtistsList(viewModel: AudioListViewModel = viewModel()) {
+fun ArtistsList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioArtists()
     val audios by viewModel.audioArtists.observeAsState()
     LazyVerticalGrid(
@@ -205,7 +206,7 @@ fun ArtistsList(viewModel: AudioListViewModel = viewModel()) {
 }
 
 @Composable
-fun AlbumsList(viewModel: AudioListViewModel = viewModel()) {
+fun AlbumsList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioAlbums()
     val audios by viewModel.audioAlbums.observeAsState()
     LazyVerticalGrid(
@@ -222,7 +223,7 @@ fun AlbumsList(viewModel: AudioListViewModel = viewModel()) {
 }
 
 @Composable
-fun TracksList(viewModel: AudioListViewModel = viewModel()) {
+fun TracksList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioTracks()
     val audios by viewModel.audioTracks.observeAsState()
     val inCard = false
@@ -251,7 +252,7 @@ fun TracksList(viewModel: AudioListViewModel = viewModel()) {
 }
 
 @Composable
-fun AudioPlaylistsList(viewModel: AudioListViewModel = viewModel()) {
+fun AudioPlaylistsList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioPlaylists()
     val audios by viewModel.audioPlaylists.observeAsState()
     LazyVerticalGrid(
@@ -268,7 +269,7 @@ fun AudioPlaylistsList(viewModel: AudioListViewModel = viewModel()) {
 }
 
 @Composable
-fun GenresList(viewModel: AudioListViewModel = viewModel()) {
+fun GenresList(viewModel: MediaListsViewModel = viewModel()) {
     viewModel.updateAudioGenres()
     val audios by viewModel.audioGenres.observeAsState()
     LazyVerticalGrid(
