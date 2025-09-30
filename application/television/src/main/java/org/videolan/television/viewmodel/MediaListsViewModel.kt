@@ -38,9 +38,12 @@ import org.videolan.resources.BuildConfig
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.viewmodels.CallBackDelegate
+import org.videolan.vlc.viewmodels.ICallBackHandler
 
 private const val TAG = "VLC/MediaListsViewModel"
-class MediaListsViewModel(app: Application) : TvMediaViewModel(app) {
+
+class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHandler by CallBackDelegate() {
 
 
     val audioArtists: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
@@ -66,6 +69,11 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app) {
     var audioPlaylistLoaded = false
     var allPlaylistLoaded = false
     var videosLoaded = false
+
+    init {
+        @Suppress("LeakingThis")
+        viewModelScope.registerCallBacks { refresh() }
+    }
 
     fun updateVideos() = viewModelScope.launch {
         if (videosLoaded) return@launch
@@ -199,5 +207,36 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app) {
             }
         }
         setLoading(allPlaylistsLoading, false)
+    }
+
+    fun refresh() {
+        if (videosLoaded) {
+            videosLoaded = false
+            updateVideos()
+        }
+        if (audioGenreLoaded) {
+            audioGenreLoaded = false
+            updateAudioGenres()
+        }
+        if (audioArtistLoaded) {
+            audioArtistLoaded = false
+            updateAudioArtists()
+        }
+        if (audioAlbumLoaded) {
+            audioAlbumLoaded = false
+            updateAudioAlbums()
+        }
+        if (audioTrackLoaded) {
+            audioTrackLoaded = false
+            updateAudioTracks()
+        }
+        if (audioPlaylistLoaded) {
+            audioPlaylistLoaded = false
+            updateAudioPlaylists()
+        }
+        if (allPlaylistLoaded) {
+            allPlaylistLoaded = false
+            updateAllPlaylists()
+        }
     }
 }
