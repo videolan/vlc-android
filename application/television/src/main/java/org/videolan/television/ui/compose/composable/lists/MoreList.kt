@@ -61,6 +61,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.television.R
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.compose.composable.items.AudioItem
@@ -68,6 +69,7 @@ import org.videolan.television.ui.compose.composable.components.VLCButton
 import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.television.viewmodel.MoreViewModel
 
 @Composable
@@ -100,7 +102,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 .focusGroup()
         ) {
             VLCButton(R.drawable.ic_settings, R.string.preferences) {
-
+                activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
             }
             VLCButton(R.drawable.ic_more_about, R.string.about) {
                 activity?.startActivity(Intent(activity.applicationContext, MainTvActivity::class.java))
