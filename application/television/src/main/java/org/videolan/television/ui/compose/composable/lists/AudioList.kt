@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -173,7 +174,10 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                 )
             }
         }
-        HorizontalPager(pagerState, userScrollEnabled = false) { page ->
+        HorizontalPager(pagerState,
+            userScrollEnabled = false,
+            verticalAlignment = Alignment.Top,
+            modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
                 0 -> ArtistsList()
                 1 -> AlbumsList()
