@@ -27,8 +27,7 @@ package org.videolan.television.ui.compose.composable.lists
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -37,6 +36,9 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
+import org.videolan.television.ui.compose.composable.components.PaginatedLazyGrid
 import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.viewmodel.MediaListModelEntry
@@ -45,15 +47,18 @@ import org.videolan.vlc.BuildConfig
 
 @Composable
 fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MediaListsViewModel = viewModel()) {
-    MediaListModelEntry.VIDEO.updateMediaList(viewModel)
     val videos by MediaListModelEntry.VIDEO.getMediaList(viewModel).observeAsState()
     val videoLoading by MediaListModelEntry.VIDEO.getLoadingState(viewModel).observeAsState()
+    val listState = rememberLazyGridState()
     VlcLoader(videoLoading) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(200.dp),
+        PaginatedLazyGrid(
+            items = videos?.toPersistentList() ?: persistentListOf(),
+            loadMoreItems = { viewModel.loadMore(MediaListModelEntry.VIDEO) },
+            listState = listState,
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(top = 16.dp),
+            isLoading = videoLoading ?: false,
             modifier = Modifier
                 .focusProperties {
                     onExit = {
@@ -70,13 +75,9 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                     onEnter = {
                         onFocusEnter()
                     }
-
-
                 }
         ) {
-            items(videos?.size ?: 0, key = { index -> videos!![index].id }) { index ->
-                VideoItem(videos!!, index)
-            }
+            VideoItem(it)
         }
     }
 }
