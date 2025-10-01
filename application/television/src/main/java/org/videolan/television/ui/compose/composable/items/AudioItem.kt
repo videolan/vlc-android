@@ -73,11 +73,11 @@ import org.videolan.vlc.util.ThumbnailsProvider
 
 @Composable
 fun AudioItem(audios: List<MediaLibraryItem>, index: Int, inCard: Boolean = true) {
-    if (inCard) AudioItemCard(audios, index) else AudioItemList(audios, index)
+    if (inCard) AudioItemCard(audios[index]) else AudioItemList(audios[index])
 }
 
 @Composable
-fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
+fun AudioItemCard(item: MediaLibraryItem) {
     val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -93,7 +93,7 @@ fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
                 }
                 .combinedClickable(
                     onClick = {
-                        val item = audios[index]
+                        val item = item
                         when (item) {
                             is Artist -> TvUtil.openAudioCategory(activity!!, item)
                             is Album -> TvUtil.openAudioCategory(activity!!, item)
@@ -103,7 +103,7 @@ fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
                         }
                     },
                     onLongClick = {
-                        val item = audios[index]
+                        val item = item
                         if (item is MediaWrapper)
                             TvUtil.showMediaDetail(activity!!, item, false)
                         else
@@ -124,7 +124,7 @@ fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
                         .aspectRatio(1F)
                 )
             } else {
-                val defaultIconId = when (audios[index]) {
+                val defaultIconId = when (item) {
                     is Artist -> R.drawable.ic_artist_big
                     is Album -> R.drawable.ic_album_big
                     is Genre -> R.drawable.ic_genre_big
@@ -141,7 +141,7 @@ fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
                 LaunchedEffect(key1 = "") {
 
                     coroutineScope.launch {
-                        audios[index].let {
+                        item.let {
                             mapBitmap.value = ThumbnailsProvider.obtainBitmap(it, 150.dp.value.toInt())
                         }
                     }
@@ -150,7 +150,7 @@ fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
 
         }
         Text(
-            audios[index].title ?: "",
+            item.title ?: "",
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.labelLarge,
@@ -159,7 +159,7 @@ fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
                 .fillMaxWidth()
         )
         Text(
-            audios[index].description ?: "",
+            item.description ?: "",
             maxLines = 1,
             style = MaterialTheme.typography.bodySmall,
             overflow = TextOverflow.Ellipsis,
@@ -171,7 +171,7 @@ fun AudioItemCard(audios: List<MediaLibraryItem>, index: Int) {
 }
 
 @Composable
-fun AudioItemList(audios: List<MediaLibraryItem>, index: Int) {
+fun AudioItemList(item: MediaLibraryItem) {
     val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -187,7 +187,6 @@ fun AudioItemList(audios: List<MediaLibraryItem>, index: Int) {
             .background(color = if (focused.value) WhiteTransparent10 else Transparent, shape = MaterialTheme.shapes.medium)
             .combinedClickable(
                 onClick = {
-                    val item = audios[index]
                     when (item) {
                         is Artist -> TvUtil.openAudioCategory(activity!!, item)
                         is Album -> TvUtil.openAudioCategory(activity!!, item)
@@ -197,7 +196,6 @@ fun AudioItemList(audios: List<MediaLibraryItem>, index: Int) {
                     }
                 },
                 onLongClick = {
-                    val item = audios[index]
                     if (item is MediaWrapper)
                         TvUtil.showMediaDetail(activity!!, item, false)
                     else
@@ -221,7 +219,7 @@ fun AudioItemList(audios: List<MediaLibraryItem>, index: Int) {
                             .aspectRatio(1F)
                     )
                 } else {
-                    val defaultIconId = when (audios[index]) {
+                    val defaultIconId = when (item) {
                         is Artist -> R.drawable.ic_artist_big
                         is Album -> R.drawable.ic_album_big
                         is Genre -> R.drawable.ic_genre_big
@@ -238,7 +236,7 @@ fun AudioItemList(audios: List<MediaLibraryItem>, index: Int) {
                     LaunchedEffect(key1 = "") {
 
                         coroutineScope.launch {
-                            audios[index].let {
+                            item.let {
                                 mapBitmap.value = ThumbnailsProvider.obtainBitmap(it, 150.dp.value.toInt())
                             }
                         }
@@ -253,7 +251,7 @@ fun AudioItemList(audios: List<MediaLibraryItem>, index: Int) {
                 .align(Alignment.CenterVertically)
             ) {
                 Text(
-                    audios[index].title ?: "",
+                    item.title ?: "",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelLarge,
@@ -262,7 +260,7 @@ fun AudioItemList(audios: List<MediaLibraryItem>, index: Int) {
                         .fillMaxWidth()
                 )
                 Text(
-                    audios[index].description ?: "",
+                    item.description ?: "",
                     maxLines = 1,
                     style = MaterialTheme.typography.bodySmall,
                     overflow = TextOverflow.Ellipsis,

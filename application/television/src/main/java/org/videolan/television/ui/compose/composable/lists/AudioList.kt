@@ -32,20 +32,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
@@ -68,14 +64,16 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
-import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.components.PaginatedLazyColumn
+import org.videolan.television.ui.compose.composable.components.PaginatedLazyGrid
 import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
@@ -179,10 +177,12 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                 )
             }
         }
-        HorizontalPager(pagerState,
+        HorizontalPager(
+            pagerState,
             userScrollEnabled = false,
             verticalAlignment = Alignment.Top,
-            modifier = Modifier.fillMaxSize()) { page ->
+            modifier = Modifier.fillMaxSize()
+        ) { page ->
             when (page) {
                 0 -> MediaList(MediaListModelEntry.ARTISTS)
                 1 -> MediaList(MediaListModelEntry.ALBUMS)
@@ -201,32 +201,36 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
 @Composable
 fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewModel()) {
     val context = LocalContext.current
-    entry.updateMediaList(viewModel)
     val audios by entry.getMediaList(viewModel).observeAsState()
     val audioLoading by entry.getLoadingState(viewModel).observeAsState()
     val inCard = entry.displayInCard(context)
+    val listState = rememberLazyListState()
     VlcLoader(audioLoading) {
-            if (inCard) {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(150.dp),
-                    contentPadding = PaddingValues(top = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                        AudioItemCard(audios!!, index)
-
-                    }
-                }
-            } else {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                        AudioItemList(audios!!, index)
-
-                    }
-                }
+        if (inCard) {
+            val listState = rememberLazyGridState()
+            PaginatedLazyGrid(
+                modifier = Modifier.fillMaxSize(),
+                listState = listState,
+                items = audios?.toPersistentList() ?: persistentListOf(),
+                loadMoreItems = { viewModel.loadMore(entry) },
+                isLoading = audioLoading ?: false,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(0.dp),
+                contentPadding = PaddingValues(top = 16.dp),
+            ) {
+                AudioItemCard(it)
+            }
+        } else {
+            PaginatedLazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                items = audios?.toPersistentList() ?: persistentListOf(),
+                loadMoreItems = { viewModel.loadMore(entry) },
+                listState = listState,
+                isLoading = audioLoading ?: false,
+                contentPadding = PaddingValues(top = 16.dp)
+            ) {
+                AudioItemList(it)
+            }
         }
     }
 }

@@ -70,12 +70,11 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
 
 @Composable
-fun VideoItem(videos: List<MediaLibraryItem>, index: Int) {
+fun VideoItem(video: MediaLibraryItem) {
     val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
-    val video = videos[index]
 
     Column(modifier = Modifier.width(280.dp)) {
         Card(
