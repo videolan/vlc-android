@@ -44,5 +44,6 @@ fun VlcLoader(loading: Boolean?, content: @Composable ()-> Unit) {
                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         }
-    } else content()
+    }
+    content()
 }
