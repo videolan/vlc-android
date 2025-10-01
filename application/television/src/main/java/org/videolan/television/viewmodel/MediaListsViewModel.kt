@@ -53,60 +53,63 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHa
         viewModelScope.registerCallBacks { refresh() }
     }
 
-    fun update(entry: MediaListModelEntry) = viewModelScope.launch {
-        if (entry.loaded) return@launch
-        entry.loaded = true
-        if (BuildConfig.DEBUG) Log.d(TAG, "update: $entry -> loading true")
+    fun load(entry: MediaListModelEntry, page: Int) = viewModelScope.launch {
         setLoading(entry.getLoadingState(this@MediaListsViewModel), true)
         if (!Permissions.canReadStorage(getContext())) {
             showPermissionItem(entry.getMediaList(this@MediaListsViewModel))
             return@launch
         }
         getContext().getFromMl {
-            entry.getQuery(this)
-        }.let {
+            entry.getQuery(this, page)
+        }.let { newList ->
             entry.getMediaList(this@MediaListsViewModel).value = mutableListOf<MediaLibraryItem>().apply {
-                addAll(it)
+                entry.getMediaList(this@MediaListsViewModel).value?.let { oldList ->
+                    addAll(oldList)
+                }
+                addAll(newList)
             }
         }
         setLoading(entry.getLoadingState(this@MediaListsViewModel), false)
-        if (BuildConfig.DEBUG) Log.d(TAG, "update: $entry -> false")
     }
 
 
     fun refresh() {
         MediaListModelEntry.entries.forEach {
-            if (it.loaded) {
-                it.loaded = false
-                update(it)
-            }
+            it.currentPage = 0
+            lists[it.ordinal].value = emptyList()
+            load(it, 0)
         }
+    }
+
+    fun loadMore(entry: MediaListModelEntry) {
+        entry.currentPage++
+        entry.updateMediaList(this, entry.currentPage)
     }
 }
 
-enum class MediaListModelEntry(var loaded: Boolean = false, val inCardsKey: String, val defaultInCard: Boolean) {
+enum class MediaListModelEntry(var currentPage:Int = -1, val inCardsKey: String, val defaultInCard: Boolean) {
     VIDEO(inCardsKey = "video_display_in_cards", defaultInCard = true),
     ARTISTS(inCardsKey = "display_mode_audio_browser_artists", defaultInCard = true),
     ALBUMS(inCardsKey = "display_mode_audio_browser_albums", defaultInCard = true),
     TRACKS(inCardsKey = "display_mode_audio_browser_track", defaultInCard = false),
     GENRES(inCardsKey = "display_mode_audio_browser_genres", defaultInCard = false),
     AUDIO_PLAYLISTS(inCardsKey = "display_mode_playlists_AudioOnly", defaultInCard = true),
-    ALL_PLAYLISTS(inCardsKey = "display_mode_playlists_All", defaultInCard = true);
+    ALL_PLAYLISTS(inCardsKey = "display_mode_playlists_All", defaultInCard = false);
 
-    fun updateMediaList(viewModel: MediaListsViewModel) = viewModel.update(this)
+    fun updateMediaList(viewModel: MediaListsViewModel, page: Int) = viewModel.load(this, page)
 
     fun getMediaList(viewModel: MediaListsViewModel) = viewModel.lists[ordinal]
 
     fun getLoadingState(viewModel: MediaListsViewModel) = viewModel.loadingStates[ordinal]
 
-    fun getQuery(medialibrary: Medialibrary) = when (this) {
-        VIDEO -> medialibrary.getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        ARTISTS -> medialibrary.getPagedArtists(true, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        ALBUMS -> medialibrary.getPagedAlbums(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        TRACKS -> medialibrary.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        GENRES -> medialibrary.getPagedGenres(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        AUDIO_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.Audio, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        ALL_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.All, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+    fun getQuery(medialibrary: Medialibrary, page: Int) = when (this) {
+        VIDEO -> medialibrary.getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        ARTISTS -> medialibrary.getPagedArtists(true, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        ALBUMS -> medialibrary.getPagedAlbums(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        TRACKS -> medialibrary.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        GENRES -> medialibrary.getPagedGenres(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        AUDIO_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.Audio, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        ALL_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.All, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
     }
 
     fun displayInCard(context: Context): Boolean {
