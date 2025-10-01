@@ -61,6 +61,8 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     def composeBom = platform('androidx.compose:compose-bom:2025.09.00')
     implementation composeBom
+    implementation("androidx.paging:paging-compose:3.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
 
     // General compose dependencies
     implementation 'androidx.activity:activity-compose:1.11.0'
