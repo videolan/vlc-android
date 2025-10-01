@@ -25,18 +25,18 @@
 package org.videolan.television.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.BuildConfig
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.CallBackDelegate
 import org.videolan.vlc.viewmodels.ICallBackHandler
@@ -45,198 +45,71 @@ private const val TAG = "VLC/MediaListsViewModel"
 
 class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHandler by CallBackDelegate() {
 
-
-    val audioArtists: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val audioAlbums: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val audioTracks: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val audioGenres: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val audioPlaylists: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val allPlaylists: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val videos: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
-
-    val audioArtistsLoading = MutableLiveData(false)
-    val audioAlbumsLoading = MutableLiveData(false)
-    val audioTracksLoading = MutableLiveData(false)
-    val audioGenresLoading = MutableLiveData(false)
-    val audioPlaylistsLoading = MutableLiveData(false)
-    val allPlaylistsLoading = MutableLiveData(false)
-    val videoLoading = MutableLiveData(false)
-
-    var audioArtistLoaded = false
-    var audioAlbumLoaded = false
-    var audioTrackLoaded = false
-    var audioGenreLoaded = false
-    var audioPlaylistLoaded = false
-    var allPlaylistLoaded = false
-    var videosLoaded = false
+    val lists = List(MediaListModelEntry.entries.size) { MutableLiveData<List<MediaLibraryItem>>()}
+    val loadingStates = List(MediaListModelEntry.entries.size) { MutableLiveData(false)}
 
     init {
         @Suppress("LeakingThis")
         viewModelScope.registerCallBacks { refresh() }
     }
 
-    fun updateVideos() = viewModelScope.launch {
-        if (videosLoaded) return@launch
-        videosLoaded = true
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateVideos -> true")
-        setLoading(videoLoading, true)
+    fun update(entry: MediaListModelEntry) = viewModelScope.launch {
+        if (entry.loaded) return@launch
+        entry.loaded = true
+        if (BuildConfig.DEBUG) Log.d(TAG, "update: $entry -> loading true")
+        setLoading(entry.getLoadingState(this@MediaListsViewModel), true)
         if (!Permissions.canReadStorage(getContext())) {
-            showPermissionItem(videos)
+            showPermissionItem(entry.getMediaList(this@MediaListsViewModel))
             return@launch
         }
         getContext().getFromMl {
-            getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+            entry.getQuery(this)
         }.let {
-            videos.value = mutableListOf<MediaLibraryItem>().apply {
+            entry.getMediaList(this@MediaListsViewModel).value = mutableListOf<MediaLibraryItem>().apply {
                 addAll(it)
             }
         }
-        setLoading(videoLoading, false)
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateVideos -> false")
+        setLoading(entry.getLoadingState(this@MediaListsViewModel), false)
+        if (BuildConfig.DEBUG) Log.d(TAG, "update: $entry -> false")
     }
 
-    fun updateAudioTracks() = viewModelScope.launch(Dispatchers.IO) {
-        if (audioTrackLoaded) return@launch
-        audioTrackLoaded = true
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateAudioTracks")
-        setLoading(audioTracksLoading, true)
-        if (!Permissions.canReadStorage(getContext())) {
-            showPermissionItem(audioTracks)
-            return@launch
-        }
-        getContext().getFromMl {
-            getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            withContext(Dispatchers.Main) {
-                audioTracks.value = it.toMutableList()
-            }
-        }
-        setLoading(audioTracksLoading, false)
-    }
-
-    fun updateAudioArtists() = viewModelScope.launch(Dispatchers.IO) {
-        if (audioArtistLoaded) return@launch
-        audioArtistLoaded = true
-        setLoading(audioArtistsLoading, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateAudioArtists")
-        if (!Permissions.canReadStorage(getContext())) {
-            showPermissionItem(audioArtists)
-            return@launch
-        }
-        getContext().getFromMl {
-            getPagedArtists(true, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            withContext(Dispatchers.Main) {
-                audioArtists.value = it.toMutableList()
-            }
-        }
-        setLoading(audioArtistsLoading, false)
-    }
-
-    fun updateAudioAlbums() = viewModelScope.launch(Dispatchers.IO) {
-        if (audioAlbumLoaded) return@launch
-        audioAlbumLoaded = true
-        setLoading(audioAlbumsLoading, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateAudioAlbums")
-        if (!Permissions.canReadStorage(getContext())) {
-            showPermissionItem(audioAlbums)
-            return@launch
-        }
-        getContext().getFromMl {
-            getPagedAlbums(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            withContext(Dispatchers.Main) {
-                audioAlbums.value = it.toMutableList()
-            }
-        }
-        setLoading(audioAlbumsLoading, false)
-    }
-
-    fun updateAudioPlaylists() = viewModelScope.launch(Dispatchers.IO) {
-        if (audioPlaylistLoaded) return@launch
-        audioPlaylistLoaded = true
-        setLoading(audioPlaylistsLoading, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateAudioPlaylists")
-        if (!Permissions.canReadStorage(getContext())) {
-            showPermissionItem(audioPlaylists)
-            return@launch
-        }
-        getContext().getFromMl {
-            getPagedPlaylists(Playlist.Type.Audio, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            withContext(Dispatchers.Main) {
-                audioPlaylists.value = it.toMutableList()
-            }
-        }
-        setLoading(audioPlaylistsLoading, false)
-    }
-
-    fun updateAudioGenres() = viewModelScope.launch(Dispatchers.IO) {
-        if (audioGenreLoaded) return@launch
-        audioGenreLoaded = true
-        setLoading(audioGenresLoading, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateAudioGenres")
-        if (!Permissions.canReadStorage(getContext())) {
-            showPermissionItem(audioGenres)
-            return@launch
-        }
-        getContext().getFromMl {
-            getPagedGenres(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            withContext(Dispatchers.Main) {
-                audioGenres.value = it.toMutableList()
-            }
-        }
-        setLoading(audioGenresLoading, false)
-    }
-
-    fun updateAllPlaylists() = viewModelScope.launch(Dispatchers.IO) {
-        if (allPlaylistLoaded) return@launch
-        allPlaylistLoaded = true
-        setLoading(allPlaylistsLoading, true)
-        if (BuildConfig.DEBUG) Log.d(TAG, "updateAudioPlaylists")
-        if (!Permissions.canReadStorage(getContext())) {
-            showPermissionItem(audioPlaylists)
-            return@launch
-        }
-        getContext().getFromMl {
-            getPagedPlaylists(Playlist.Type.All,Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
-        }.let {
-            withContext(Dispatchers.Main) {
-                allPlaylists.value = it.toMutableList()
-            }
-        }
-        setLoading(allPlaylistsLoading, false)
-    }
 
     fun refresh() {
-        if (videosLoaded) {
-            videosLoaded = false
-            updateVideos()
+        MediaListModelEntry.entries.forEach {
+            if (it.loaded) {
+                it.loaded = false
+                update(it)
+            }
         }
-        if (audioGenreLoaded) {
-            audioGenreLoaded = false
-            updateAudioGenres()
-        }
-        if (audioArtistLoaded) {
-            audioArtistLoaded = false
-            updateAudioArtists()
-        }
-        if (audioAlbumLoaded) {
-            audioAlbumLoaded = false
-            updateAudioAlbums()
-        }
-        if (audioTrackLoaded) {
-            audioTrackLoaded = false
-            updateAudioTracks()
-        }
-        if (audioPlaylistLoaded) {
-            audioPlaylistLoaded = false
-            updateAudioPlaylists()
-        }
-        if (allPlaylistLoaded) {
-            allPlaylistLoaded = false
-            updateAllPlaylists()
-        }
+    }
+}
+
+enum class MediaListModelEntry(var loaded: Boolean = false, val inCardsKey: String, val defaultInCard: Boolean) {
+    VIDEO(inCardsKey = "video_display_in_cards", defaultInCard = true),
+    ARTISTS(inCardsKey = "display_mode_audio_browser_artists", defaultInCard = true),
+    ALBUMS(inCardsKey = "display_mode_audio_browser_albums", defaultInCard = true),
+    TRACKS(inCardsKey = "display_mode_audio_browser_track", defaultInCard = false),
+    GENRES(inCardsKey = "display_mode_audio_browser_genres", defaultInCard = false),
+    AUDIO_PLAYLISTS(inCardsKey = "display_mode_playlists_AudioOnly", defaultInCard = true),
+    ALL_PLAYLISTS(inCardsKey = "display_mode_playlists_All", defaultInCard = true);
+
+    fun updateMediaList(viewModel: MediaListsViewModel) = viewModel.update(this)
+
+    fun getMediaList(viewModel: MediaListsViewModel) = viewModel.lists[ordinal]
+
+    fun getLoadingState(viewModel: MediaListsViewModel) = viewModel.loadingStates[ordinal]
+
+    fun getQuery(medialibrary: Medialibrary) = when (this) {
+        VIDEO -> medialibrary.getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+        ARTISTS -> medialibrary.getPagedArtists(true, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+        ALBUMS -> medialibrary.getPagedAlbums(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+        TRACKS -> medialibrary.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+        GENRES -> medialibrary.getPagedGenres(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+        AUDIO_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.Audio, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+        ALL_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.All, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, 0)
+    }
+
+    fun displayInCard(context: Context): Boolean {
+        return Settings.getInstance(context).getBoolean(inCardsKey, defaultInCard)
     }
 }
