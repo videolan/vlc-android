@@ -26,6 +26,7 @@ package org.videolan.television.ui.compose.composable.lists
 
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -39,36 +40,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.AudioItem
+import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
 
 @Composable
-fun PlaylistsList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit,viewModel: MediaListsViewModel = viewModel()) {
-    viewModel.updateAllPlaylists()
-    val audios by viewModel.allPlaylists.observeAsState()
-    val loading by viewModel.allPlaylistsLoading.observeAsState()
-    VlcLoader(loading) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(150.dp),
-            contentPadding = PaddingValues(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .focusProperties {
-                    onEnter = {
-                        onFocusEnter()
+fun PlaylistsList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {
+    Box(modifier = Modifier
+        .focusProperties {
+            onEnter = {
+                onFocusEnter()
 
-                    }
-                    onExit = {
-                        if (requestedFocusDirection == FocusDirection.Up) {
-                            onFocusExit()
-                        }
-                    }
+            }
+            onExit = {
+                if (requestedFocusDirection == FocusDirection.Up) {
+                    onFocusExit()
                 }
-                .focusGroup(),
-        ) {
-            items(audios?.size ?: 0) { index ->
-                AudioItem(audios!!, index)
             }
         }
+        .focusGroup(),) {
+        MediaList(MediaListModelEntry.ALL_PLAYLISTS)
     }
 }

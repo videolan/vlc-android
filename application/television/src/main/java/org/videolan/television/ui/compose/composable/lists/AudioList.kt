@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,6 +44,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
@@ -65,20 +68,22 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.VlcLoader
-import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
@@ -179,11 +184,11 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
             verticalAlignment = Alignment.Top,
             modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
-                0 -> ArtistsList()
-                1 -> AlbumsList()
-                2 -> TracksList()
-                3 -> GenresList()
-                4 -> AudioPlaylistsList()
+                0 -> MediaList(MediaListModelEntry.ARTISTS)
+                1 -> MediaList(MediaListModelEntry.ALBUMS)
+                2 -> MediaList(MediaListModelEntry.TRACKS)
+                3 -> MediaList(MediaListModelEntry.GENRES)
+                4 -> MediaList(MediaListModelEntry.AUDIO_PLAYLISTS)
             }
         }
     }
@@ -194,113 +199,34 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
 }
 
 @Composable
-fun ArtistsList(viewModel: MediaListsViewModel = viewModel()) {
-    viewModel.updateAudioArtists()
-    val audios by viewModel.audioArtists.observeAsState()
-    val audioLoading by viewModel.audioArtistsLoading.observeAsState()
+fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewModel()) {
+    val context = LocalContext.current
+    entry.updateMediaList(viewModel)
+    val audios by entry.getMediaList(viewModel).observeAsState()
+    val audioLoading by entry.getLoadingState(viewModel).observeAsState()
+    val inCard = entry.displayInCard(context)
     VlcLoader(audioLoading) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(150.dp),
-            contentPadding = PaddingValues(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                AudioItem(audios!!, index)
+            if (inCard) {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(150.dp),
+                    contentPadding = PaddingValues(top = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
+                        AudioItemCard(audios!!, index)
 
-            }
-        }
-    }
-}
-
-@Composable
-fun AlbumsList(viewModel: MediaListsViewModel = viewModel()) {
-    viewModel.updateAudioAlbums()
-    val audios by viewModel.audioAlbums.observeAsState()
-    val audioLoading by viewModel.audioAlbumsLoading.observeAsState()
-    VlcLoader(audioLoading) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(150.dp),
-            contentPadding = PaddingValues(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                AudioItem(audios!!, index)
-
-            }
-        }
-    }
-}
-
-@Composable
-fun TracksList(viewModel: MediaListsViewModel = viewModel()) {
-    viewModel.updateAudioTracks()
-    val audios by viewModel.audioTracks.observeAsState()
-    val audioLoading by viewModel.audioTracksLoading.observeAsState()
-    VlcLoader(audioLoading) {
-        val inCard = false
-        if (inCard) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(150.dp),
-                contentPadding = PaddingValues(top = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                    AudioItemCard(audios!!, index)
-
+                    }
                 }
-            }
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                    AudioItemList(audios!!, index)
+            } else {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
+                        AudioItemList(audios!!, index)
 
+                    }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun AudioPlaylistsList(viewModel: MediaListsViewModel = viewModel()) {
-    viewModel.updateAudioPlaylists()
-    val audios by viewModel.audioPlaylists.observeAsState()
-    val audioLoading by viewModel.audioPlaylistsLoading.observeAsState()
-    VlcLoader(audioLoading) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(150.dp),
-            contentPadding = PaddingValues(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                AudioItem(audios!!, index)
-
-            }
-        }
-    }
-}
-
-@Composable
-fun GenresList(viewModel: MediaListsViewModel = viewModel()) {
-    viewModel.updateAudioGenres()
-    val audios by viewModel.audioGenres.observeAsState()
-    val audioLoading by viewModel.audioGenresLoading.observeAsState()
-    VlcLoader(audioLoading) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(150.dp),
-            contentPadding = PaddingValues(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(audios?.size ?: 0, key = { index -> audios!![index].id }) { index ->
-                AudioItem(audios!!, index)
-
-            }
         }
     }
 }
