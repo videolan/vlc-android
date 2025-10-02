@@ -33,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.components.TooltipInfo
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.ScanProgress
 
@@ -55,6 +56,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     )
 
     val progress = MutableLiveData<ScanProgress?>(null)
+    val tooltip = MutableLiveData<TooltipInfo?>(null)
 
     init {
         viewModelScope.launch {
