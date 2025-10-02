@@ -28,8 +28,8 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
     }
 
     suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>?, hearingImpaired: Boolean): OpenSubV1 {
-        val actualEpisode = episode ?: 0
-        val actualSeason = season ?: 0
+        val actualEpisode = episode
+        val actualSeason = season
         val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         return openSubtitleService.query(
             name = name,
