@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -72,6 +73,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
+import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyColumn
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyGrid
 import org.videolan.television.ui.compose.composable.components.VlcLoader
@@ -205,31 +207,35 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
     val audioLoading by entry.getLoadingState(viewModel).observeAsState()
     val inCard = entry.displayInCard(context)
     val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
     VlcLoader(audioLoading) {
-        if (inCard) {
-            val listState = rememberLazyGridState()
-            PaginatedLazyGrid(
-                modifier = Modifier.fillMaxSize(),
-                listState = listState,
-                items = audios?.toPersistentList() ?: persistentListOf(),
-                loadMoreItems = { viewModel.loadMore(entry) },
-                isLoading = audioLoading ?: false,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(0.dp),
-                contentPadding = PaddingValues(top = 16.dp),
-            ) {
-                AudioItemCard(it)
-            }
-        } else {
-            PaginatedLazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                items = audios?.toPersistentList() ?: persistentListOf(),
-                loadMoreItems = { viewModel.loadMore(entry) },
-                listState = listState,
-                isLoading = audioLoading ?: false,
-                contentPadding = PaddingValues(top = 16.dp)
-            ) {
-                AudioItemList(it)
+        Row {
+            MediaListSidePanel(inCard, listState, gridState, entry)
+
+            if (inCard) {
+                PaginatedLazyGrid(
+                    modifier = Modifier.fillMaxSize(),
+                    listState = gridState,
+                    items = audios?.toPersistentList() ?: persistentListOf(),
+                    loadMoreItems = { viewModel.loadMore(entry) },
+                    isLoading = audioLoading ?: false,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(0.dp),
+                    contentPadding = PaddingValues(top = 16.dp),
+                ) {
+                    AudioItemCard(it)
+                }
+            } else {
+                PaginatedLazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    items = audios?.toPersistentList() ?: persistentListOf(),
+                    loadMoreItems = { viewModel.loadMore(entry) },
+                    listState = listState,
+                    isLoading = audioLoading ?: false,
+                    contentPadding = PaddingValues(top = 16.dp)
+                ) {
+                    AudioItemList(it)
+                }
             }
         }
     }
