@@ -26,14 +26,13 @@ package org.videolan.television.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
+import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.BuildConfig
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.Settings
@@ -84,6 +83,12 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHa
     fun loadMore(entry: MediaListModelEntry) {
         entry.currentPage++
         entry.updateMediaList(this, entry.currentPage)
+    }
+
+    fun changeDisplayInCard(entry: MediaListModelEntry) {
+        Settings.getInstance(getContext()).edit { putBoolean(entry.inCardsKey, !entry.displayInCard(getContext())) }
+        load(entry, 0)
+        entry.currentPage = 0
     }
 }
 
