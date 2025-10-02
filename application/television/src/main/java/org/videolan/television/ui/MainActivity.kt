@@ -27,7 +27,6 @@ package org.videolan.television.ui
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -38,21 +37,18 @@ import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.screens.MainScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.util.EventThrottler
-import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.util.AutoUpdate
-import kotlin.time.Duration.Companion.milliseconds
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val myViewModel by viewModels<MainActivityViewModel>()
     private val horizontalThrottler = EventThrottler(75L)
-    private val verticalThrottler = EventThrottler(200L)
+    private val verticalThrottler = EventThrottler(100L)
     private val selectThrottler = EventThrottler(500L)
 
     override fun onCreate(savedInstanceState: Bundle?) {
