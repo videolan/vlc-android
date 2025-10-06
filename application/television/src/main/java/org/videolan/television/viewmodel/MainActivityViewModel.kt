@@ -33,7 +33,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
-import org.videolan.television.ui.compose.composable.components.TooltipInfo
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.ScanProgress
 
@@ -56,8 +55,6 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     )
 
     val progress = MutableLiveData<ScanProgress?>(null)
-    val tooltip = MutableLiveData<TooltipInfo?>(null)
-
     private var progressJob: Job = viewModelScope.launch {
         MediaParsingService.progress.asFlow().collect {
             if (Medialibrary.getState().value == false) {
