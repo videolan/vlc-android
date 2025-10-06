@@ -27,6 +27,7 @@ package org.videolan.television.ui.compose.theme
 import androidx.compose.ui.graphics.Color
 
 val BackgroundColor = Color(0xFF34434e)
+val BackgroundColorMedium = Color(0xFF152836)
 val BackgroundColorDark = Color(0xFF011422)
 val BackgroundColorDarkTransparent50 = Color(0x88011422)
 
