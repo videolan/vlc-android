@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -210,11 +211,9 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
     val gridState = rememberLazyGridState()
     VlcLoader(audioLoading) {
         Row {
-            MediaListSidePanel(inCard, listState, gridState, entry)
-
             if (inCard) {
                 PaginatedLazyGrid(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxHeight().weight(1f),
                     listState = gridState,
                     items = audios?.toPersistentList() ?: persistentListOf(),
                     loadMoreItems = { viewModel.loadMore(entry) },
@@ -227,7 +226,7 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
                 }
             } else {
                 PaginatedLazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxHeight().weight(1f),
                     items = audios?.toPersistentList() ?: persistentListOf(),
                     loadMoreItems = { viewModel.loadMore(entry) },
                     listState = listState,
@@ -237,6 +236,7 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
                     AudioItemList(it)
                 }
             }
+            MediaListSidePanel(inCard, if (inCard) gridState else listState, entry)
         }
     }
 }
