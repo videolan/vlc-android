@@ -78,6 +78,7 @@ class OTPCodeFragment : BaseFragment() {
         requireActivity().findViewById<View>(R.id.sliding_tabs).setGone()
         binding.cancelButton.setOnClickListener {
             lifecycleScope.launch {
+                RemoteAccessUtils.otpCodeRemoveFlow.emit(code)
                 RemoteAccessUtils.otpFlow.emit(null)
             }
             requireActivity().finish()

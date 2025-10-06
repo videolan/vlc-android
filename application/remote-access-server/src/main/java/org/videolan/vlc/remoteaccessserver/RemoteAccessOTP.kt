@@ -105,6 +105,18 @@ object RemoteAccessOTP {
     fun removeCodeWithChallenge(challenge: String) {
         codes.remove(codes.find { challenge == it.challenge })
     }
+
+    /**
+     * Remove code when the "it's not me" button is pressed
+     *
+     * @param code the code to remove
+     */
+    fun removeCode(appContext: Context, code: String) {
+        codes.remove(codes.find { code == it.code })
+        with(NotificationManagerCompat.from(appContext)) {
+            cancel(REMOTE_ACCESS_CODE_ID)
+        }
+    }
 }
 
 data class OTPCode(val code: String, val challenge: String, val expiration: Long)

@@ -28,5 +28,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 object RemoteAccessUtils {
     val otpFlow = MutableStateFlow<String?>(null)
+    val otpCodeRemoveFlow = MutableStateFlow<String?>(null)
 
 }
