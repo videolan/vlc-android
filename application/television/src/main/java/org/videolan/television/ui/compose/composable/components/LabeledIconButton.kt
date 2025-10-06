@@ -24,39 +24,52 @@
 
 package org.videolan.television.ui.compose.composable.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.television.R
 import org.videolan.television.viewmodel.MainActivityViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage: ImageVector, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit) {
-    var hasFocus by remember { mutableStateOf(false) }
-    Box(modifier = Modifier
-        .onFocusChanged{
-            hasFocus = it.isFocused
-            if (!it.hasFocus) {
-                viewModel.tooltip.value = null
+fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage: ImageVector, onClick: () -> Unit) {
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below),
+        tooltip = {
+            PlainTooltip(
+                shape = RoundedCornerShape(50),
+                containerColor = MaterialTheme.colorScheme.surfaceDim,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(50))
+            ) {
+                Text(label)
             }
-        }
-        .onGloballyPositioned {
-            if (hasFocus)
-               with(it.positionInRoot()) {
-                   viewModel.tooltip.value = TooltipInfo(label, x.toInt() + it.size.width / 2, y.toInt() + it.size.height)
-               }
-        }
+        },
+        state = rememberTooltipState()
     ) {
         IconButton(
             onClick = onClick,
@@ -71,5 +84,3 @@ fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage:
 
     }
 }
-
-data class TooltipInfo(val label: String, val x: Int, val y: Int)
