@@ -29,7 +29,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
@@ -40,11 +40,11 @@ import org.videolan.vlc.ScanProgress
 class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     val tabs = listOf(
-            Pair(R.string.video, R.drawable.ic_video),
-            Pair(R.string.audio, R.drawable.ic_menu_audio),
-            Pair(R.string.browse, R.drawable.ic_folder),
-            Pair(R.string.playlists, R.drawable.ic_playlist),
-            Pair(R.string.more, R.drawable.ic_nav_more),
+        Pair(R.string.video, R.drawable.ic_video),
+        Pair(R.string.audio, R.drawable.ic_menu_audio),
+        Pair(R.string.browse, R.drawable.ic_folder),
+        Pair(R.string.playlists, R.drawable.ic_playlist),
+        Pair(R.string.more, R.drawable.ic_nav_more),
     )
 
     val audioTabs = listOf(
@@ -58,13 +58,25 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     val progress = MutableLiveData<ScanProgress?>(null)
     val tooltip = MutableLiveData<TooltipInfo?>(null)
 
-    init {
-        viewModelScope.launch {
-            MediaParsingService.progress.asFlow().collect {
-                progress.value = it
-                delay(100)
-                if (!Medialibrary.getInstance().isWorking) progress.value = null
+    private var progressJob: Job = viewModelScope.launch {
+        MediaParsingService.progress.asFlow().collect {
+            if (Medialibrary.getState().value == false) {
+                progress.value = null
+                return@collect
             }
+            progress.value = it
         }
+    }
+
+    private var workingJob: Job = viewModelScope.launch {
+        Medialibrary.getState().asFlow().collect {
+            if (!it) progress.value = null
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        progressJob.cancel()
+        workingJob.cancel()
     }
 }
