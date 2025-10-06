@@ -77,7 +77,6 @@ import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.MlProgress
 import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
-import org.videolan.television.ui.compose.composable.components.VlcTooltip
 import org.videolan.television.ui.compose.composable.lists.AudioListScreen
 import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
@@ -90,7 +89,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
     Box {
         MainContent()
         MlProgress(modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp))
-        VlcTooltip()
     }
 }
 
