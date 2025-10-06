@@ -708,20 +708,20 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onJumpBack(@Suppress("UNUSED_PARAMETER") view: View) {
-        jump(forward = false, long = false)
+        playlistModel.jump(forward = false, long = false, requireActivity())
     }
 
     fun onJumpBackLong(@Suppress("UNUSED_PARAMETER") view: View):Boolean {
-        jump(forward = false, long = true)
+        playlistModel.jump(forward = false, long = true, requireActivity())
         return true
     }
 
     fun onJumpForward(@Suppress("UNUSED_PARAMETER") view: View) {
-        jump(forward = true, long = false)
+        playlistModel.jump(forward = true, long = false, requireActivity())
     }
 
     fun onJumpForwardLong(@Suppress("UNUSED_PARAMETER") view: View):Boolean {
-        jump(forward = true, long = true)
+        playlistModel.jump(forward = true, long = true, requireActivity())
         return true
     }
 
@@ -736,28 +736,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         val bookmark = if (LocaleUtil.isRtl()) bookmarkModel.findPrevious() else bookmarkModel.findNext()
         bookmark?.let {
             bookmarkModel.service?.setTime(it.time)
-        }
-    }
-
-    /**
-     * Jump backward or forward, with a long or small delay
-     * depending on the audio control setting chosen by the user
-     *
-     * @param forward is the jump forward?
-     * @param long has it been triggered by a long tap?
-     */
-    private fun jump(forward:Boolean, long:Boolean) {
-        playlistModel.service ?.let { service ->
-            val jumpDelay = if (long) Settings.audioLongJumpDelay else Settings.audioJumpDelay
-            var delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
-            if (LocaleUtil.isRtl()) delay = -delay
-            var position = service.getTime() + delay
-            if (position < 0) position = 0
-            if (position > service.length) position = service.length
-            service.seek(position, service.length.toDouble(), true, fast = false)
-            service.playlistManager.player.updateProgress(position)
-            if (service.playlistManager.player.lastPosition == 0.0f && (forward || service.getTime() > 0))
-                UiTools.snacker(requireActivity(), getString(R.string.unseekable_stream))
         }
     }
 
@@ -843,7 +821,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 }
             }
             bookmarkListDelegate.seekListener = { forward, long ->
-                jump(forward , long)
+                playlistModel.jump(forward , long, requireActivity())
             }
             bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
         }

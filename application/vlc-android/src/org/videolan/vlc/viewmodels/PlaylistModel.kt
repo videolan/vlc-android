@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.app.Activity
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
@@ -38,10 +39,14 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.PlaylistFilterDelegate
 
 class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback {
@@ -82,6 +87,29 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     private fun setup(service: PlaybackService) {
         service.addCallback(this)
         update()
+    }
+
+    /**
+     * Jump backward or forward, with a long or small delay
+     * depending on the audio control setting chosen by the user
+     *
+     * @param forward is the jump forward?
+     * @param long has it been triggered by a long tap?
+     * @param activity the activity used to display the snackbar if needed
+     */
+    fun jump(forward:Boolean, long:Boolean, activity: Activity) {
+        service ?.let { service ->
+            val jumpDelay = if (long) Settings.audioLongJumpDelay else Settings.audioJumpDelay
+            var delay = if (forward) jumpDelay * 1000 else -(jumpDelay * 1000)
+            if (LocaleUtil.isRtl()) delay = -delay
+            var position = service.getTime() + delay
+            if (position < 0) position = 0
+            if (position > service.length) position = service.length
+            service.seek(position, service.length.toDouble(), true, fast = false)
+            service.playlistManager.player.updateProgress(position)
+            if (service.playlistManager.player.lastPosition == 0.0f && (forward || service.getTime() > 0))
+                UiTools.snacker(activity, activity.getString(R.string.unseekable_stream))
+        }
     }
 
     override fun update() {
