@@ -36,6 +36,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -73,6 +74,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.MlProgress
 import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
 import org.videolan.television.ui.compose.composable.components.VlcTooltip
@@ -86,15 +88,23 @@ import org.videolan.television.viewmodel.MainActivityViewModel
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
     Box {
-        Tabs()
+        MainContent()
         MlProgress(modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp))
         VlcTooltip()
     }
 }
 
+@Composable
+fun MainContent() {
+    Row {
+        AudioPlayer()
+        Tabs(modifier = Modifier.weight(1f))
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
+fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
     val tabs = viewModel.tabs
     val focusRequesters = remember {
         List(tabs.size) { FocusRequester() }
@@ -106,8 +116,8 @@ fun Tabs(viewModel: MainActivityViewModel = viewModel()) {
     )
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
+            .fillMaxHeight()
             .padding(top = if (visible) 24.dp else 0.dp, start = 32.dp, end = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

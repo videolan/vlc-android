@@ -63,8 +63,6 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                 .focusProperties {
                     onExit = {
                         when (requestedFocusDirection) {
-                            FocusDirection.Left -> cancelFocusChange()
-                            FocusDirection.Right -> cancelFocusChange()
                             FocusDirection.Up -> {
                                 if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered")
                                 onFocusExit()
