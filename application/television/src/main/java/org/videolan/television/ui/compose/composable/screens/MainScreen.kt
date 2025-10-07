@@ -246,7 +246,7 @@ private fun TabPanels(pagerState: Int, onFocusExit: () -> Unit, onFocusEnter: ()
     when (viewModel.tabs[pagerState].first) {
         R.string.video -> VideoListScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         R.string.audio -> AudioListScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
-        R.string.browse -> BrowseList()
+        R.string.browse -> BrowseList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         R.string.playlists -> PlaylistsList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         else -> MoreScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
     }
