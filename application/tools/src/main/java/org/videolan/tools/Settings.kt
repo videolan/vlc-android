@@ -147,6 +147,7 @@ const val KEY_CURRENT_MEDIA_RESUME = "current_media_resume"
 const val KEY_CURRENT_AUDIO_RESUME_TITLE = "key_current_audio_resume_title"
 const val KEY_CURRENT_AUDIO_RESUME_ARTIST = "key_current_audio_resume_artist"
 const val KEY_CURRENT_AUDIO_RESUME_THUMB = "key_current_audio_resume_thumb"
+const val KEY_CURRENT_MEDIA_IS_AUDIO = "key_current_media_is_audio"
 
 // AUDIO category
 const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"

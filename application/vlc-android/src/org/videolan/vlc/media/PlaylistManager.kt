@@ -54,6 +54,7 @@ import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_ARTIST
 import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_THUMB
 import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_TITLE
 import org.videolan.tools.KEY_CURRENT_MEDIA
+import org.videolan.tools.KEY_CURRENT_MEDIA_IS_AUDIO
 import org.videolan.tools.KEY_CURRENT_MEDIA_RESUME
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_INCOGNITO_PLAYBACK_SPEED_AUDIO_GLOBAL_VALUE
@@ -777,6 +778,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (settings.getBoolean(KEY_INCOGNITO, false)) return
         val media = getCurrentMedia() ?: return
         val isAudio = isAudioList() || forceVideo
+        settings.putSingle(KEY_CURRENT_MEDIA_IS_AUDIO, isAudio)
+
         if (media.uri.scheme.isSchemeFD()) {
             if (isAudio) {
                 settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, "")

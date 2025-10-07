@@ -147,6 +147,7 @@ import org.videolan.tools.KEY_ANDROID_AUTO_QUEUE_INFO_POS_VAL
 import org.videolan.tools.KEY_ANDROID_AUTO_SUBTITLE_SCALE_VAL
 import org.videolan.tools.KEY_ANDROID_AUTO_TITLE_SCALE_VAL
 import org.videolan.tools.KEY_AUDIO_TASK_REMOVED
+import org.videolan.tools.KEY_CURRENT_MEDIA_IS_AUDIO
 import org.videolan.tools.KEY_ENABLE_HEADSET_DETECTION
 import org.videolan.tools.KEY_ENABLE_PLAY_ON_HEADSET_INSERTION
 import org.videolan.tools.KEY_METERED_CONNECTION
@@ -1454,7 +1455,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         if (!AndroidDevices.isAndroidTv) {
             // If playback in background is enabled it should load the last media of any type
             // not only audio
-            val playlistType = if (settings.getString(KEY_VIDEO_APP_SWITCH, "0") == "1") PLAYLIST_TYPE_ALL else PLAYLIST_TYPE_AUDIO
+            // If playback in background isn't enabled, then only audio should be played whether the
+            // last media played is audio or not
+            val videoPlaybackInBackground = settings.getString(KEY_VIDEO_APP_SWITCH, "0") == "1"
+            val lastMediaPlayedIsAudio = settings.getBoolean(KEY_CURRENT_MEDIA_IS_AUDIO, false)
+
+            val playlistType = if (lastMediaPlayedIsAudio || !videoPlaybackInBackground)
+                PLAYLIST_TYPE_AUDIO
+            else
+                PLAYLIST_TYPE_ALL
             loadLastPlaylist(playlistType)
         }
     }
