@@ -24,10 +24,41 @@
 
 package org.videolan.television.ui.compose.composable.lists
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.components.ContentLine
+import org.videolan.television.viewmodel.BrowserViewModel
 
 @Composable
-fun BrowseList() {
-    Text("Not implemented yet")
+fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: BrowserViewModel = viewModel()) {
+    val favorites by viewModel.favoritesList.observeAsState()
+    val browsers by viewModel.browsers.observeAsState()
+    val favoritesLoading by viewModel.favoritesLoading.observeAsState()
+    val browsersLoading by viewModel.browsersLoading.observeAsState()
+    Column(
+        modifier = Modifier
+            .focusProperties {
+                onExit = {
+                    onFocusExit()
+                }
+                onEnter = {
+                    onFocusEnter()
+                }
+            }
+            .verticalScroll(rememberScrollState())
+            .focusGroup()
+    ) {
+        if (!favorites.isNullOrEmpty())
+            ContentLine(favorites, favoritesLoading, R.string.favorites, titleFocusable = false)
+        ContentLine(browsers, browsersLoading, R.string.browsing, titleFocusable = false)
+    }
 }
