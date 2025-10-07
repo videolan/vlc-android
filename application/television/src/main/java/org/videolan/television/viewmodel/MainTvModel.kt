@@ -63,6 +63,7 @@ import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
 import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP_PAUSED
 import org.videolan.resources.CATEGORY_SONGS
 import org.videolan.resources.FAVORITE_TITLE
+import org.videolan.resources.HEADER_ADD_STREAM
 import org.videolan.resources.HEADER_DIRECTORIES
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_NETWORK
@@ -330,7 +331,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
             }
             is DummyItem -> when (item.id) {
                 HEADER_PERMISSION -> activity.askStoragePermission(false, null)
-                HEADER_STREAM -> {
+                HEADER_STREAM, HEADER_ADD_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)

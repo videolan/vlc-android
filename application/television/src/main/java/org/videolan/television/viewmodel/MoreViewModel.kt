@@ -31,9 +31,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.BuildConfig
+import org.videolan.resources.HEADER_ADD_STREAM
+import org.videolan.resources.HEADER_STREAM
 import org.videolan.resources.util.getFromMl
+import org.videolan.vlc.R
 import org.videolan.vlc.util.Permissions
 
 private const val TAG = "VLC/MoreViewModel"
@@ -80,8 +84,11 @@ class MoreViewModel(app: Application) : TvMediaViewModel(app) {
         getContext().getFromMl {
             history(Medialibrary.HISTORY_TYPE_NETWORK)
         }.let {
-            streams.value = mutableListOf<MediaWrapper>().apply {
+            streams.value = mutableListOf<MediaLibraryItem>().apply {
+                if (it.isNotEmpty())
                 addAll(it)
+                else
+                    add(DummyItem(HEADER_ADD_STREAM, getContext().getString(R.string.new_stream), ""))
             }
         }
         setLoading(streamsLoading, false)
