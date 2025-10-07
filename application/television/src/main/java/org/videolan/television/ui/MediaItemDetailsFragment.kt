@@ -379,15 +379,23 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 }
                 ID_PLAYLIST -> requireActivity().addToPlaylist(arrayListOf(viewModel.media))
                 ID_FAVORITE_ADD -> {
-                    val uri = viewModel.mediaItemDetails.location!!.toUri()
-                    val local = "file" == uri.scheme
-                    lifecycleScope.launch {
-                        if (local)
-                            browserFavRepository.addLocalFavItem(uri, viewModel.mediaItemDetails.title
-                                    ?: "", viewModel.mediaItemDetails.artworkUrl)
-                        else
-                            browserFavRepository.addNetworkFavItem(uri, viewModel.mediaItemDetails.title
-                                    ?: "", viewModel.mediaItemDetails.artworkUrl)
+                    if (viewModel.media.type != MediaWrapper.TYPE_DIR)
+                        viewModel.media.isFavorite = true
+                    else {
+                        val uri = viewModel.mediaItemDetails.location!!.toUri()
+                        val local = "file" == uri.scheme
+                        lifecycleScope.launch {
+                            if (local)
+                                browserFavRepository.addLocalFavItem(
+                                    uri, viewModel.mediaItemDetails.title
+                                        ?: "", viewModel.mediaItemDetails.artworkUrl
+                                )
+                            else
+                                browserFavRepository.addNetworkFavItem(
+                                    uri, viewModel.mediaItemDetails.title
+                                        ?: "", viewModel.mediaItemDetails.artworkUrl
+                                )
+                        }
                     }
                     actionsAdapter.set(ID_FAVORITE, actionDelete)
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
@@ -400,7 +408,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     })
                 }
                 ID_FAVORITE_DELETE -> {
-                    lifecycleScope.launch { browserFavRepository.deleteBrowserFav(viewModel.mediaItemDetails.location!!.toUri()) }
+                    if (viewModel.media.type != MediaWrapper.TYPE_DIR)
+                        viewModel.media.isFavorite = false
+                    else
+                        lifecycleScope.launch { browserFavRepository.deleteBrowserFav(viewModel.mediaItemDetails.location!!.toUri()) }
                     actionsAdapter.set(ID_FAVORITE, actionAdd)
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
                     Toast.makeText(activity, R.string.favorite_removed, Toast.LENGTH_SHORT).show()
@@ -460,6 +471,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 actionsAdapter.set(ID_LISTEN, Action(ID_LISTEN.toLong(), res.getString(R.string.listen)))
                 actionsAdapter.set(ID_PLAYLIST, Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
                 if (viewModel.media.uri.scheme.isSchemeFile()) actionsAdapter.set(ID_DELETE, Action(ID_DELETE.toLong(), res.getString(R.string.delete)))
+                if (viewModel.media.isFavorite) actionsAdapter.set(ID_FAVORITE, actionDelete) else actionsAdapter.set(ID_FAVORITE, actionAdd)
             } else if (viewModel.media.type == MediaWrapper.TYPE_VIDEO) {
                 // Add images and action buttons to the details view
                 if (cover == null) {
@@ -479,6 +491,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 //todo reenable entry point when ready
                 if (BuildConfig.DEBUG) actionsAdapter.set(ID_GET_INFO, Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
                 if (viewModel.media.uri.scheme.isSchemeFile()) actionsAdapter.set(ID_DELETE, Action(ID_DELETE.toLong(), res.getString(R.string.delete)))
+                if (viewModel.media.isFavorite) actionsAdapter.set(ID_FAVORITE, actionDelete) else actionsAdapter.set(ID_FAVORITE, actionAdd)
             } else if (viewModel.media.type == MediaWrapper.TYPE_ALL) {
                 if (cover == null) {
                     detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, R.drawable.ic_default_cone)
