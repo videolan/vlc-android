@@ -55,7 +55,7 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
             items = videos?.toPersistentList() ?: persistentListOf(),
             loadMoreItems = { viewModel.loadMore(MediaListModelEntry.VIDEO) },
             listState = listState,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(top = 16.dp),
             isLoading = videoLoading ?: false,
