@@ -67,6 +67,7 @@ import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -184,7 +185,8 @@ fun AudioItemList(item: MediaLibraryItem) {
                 focused.value = it.isFocused
             }
 //            .border(vlcBorder(focused.value))
-            .background(color = if (focused.value) WhiteTransparent10 else Transparent, shape = MaterialTheme.shapes.medium)
+//            .padding(vertical = if (focused.value) 8.dp else 0.dp)
+            .background(color = if (focused.value) WhiteTransparent10 else WhiteTransparent05, shape = MaterialTheme.shapes.medium)
             .combinedClickable(
                 onClick = {
                     when (item) {
