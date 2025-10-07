@@ -29,6 +29,8 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -36,9 +38,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,6 +57,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
@@ -62,13 +67,17 @@ import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
+import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.util.ThumbnailsProvider
 
@@ -114,60 +123,77 @@ fun AudioItemCard(item: MediaLibraryItem) {
                     interactionSource = null
                 )
         ) {
-            if (mapBitmap.value != null) {
+            Box {
+                if (mapBitmap.value != null) {
 
-                Image(
-                    bitmap = mapBitmap.value!!.asImageBitmap(),
-                    contentDescription = "Map snapshot",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .width(150.dp)
-                        .aspectRatio(1F)
-                )
-            } else {
-                val defaultIconId = when (item) {
-                    is Artist -> R.drawable.ic_artist_big
-                    is Album -> R.drawable.ic_album_big
-                    is Genre -> R.drawable.ic_genre_big
-                    is Playlist -> R.drawable.ic_playlist_big
-                    else -> R.drawable.ic_folder
-                }
-                Image(
-                    painter = painterResource(id = defaultIconId),
-                    contentDescription = "Map snapshot",
-                    modifier = Modifier
-                        .width(150.dp)
-                        .aspectRatio(1F)
-                )
-                LaunchedEffect(key1 = "") {
+                    Image(
+                        bitmap = mapBitmap.value!!.asImageBitmap(),
+                        contentDescription = "Map snapshot",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .width(150.dp)
+                            .aspectRatio(1F)
+                    )
+                } else {
+                    val defaultIconId = when (item) {
+                        is Artist -> R.drawable.ic_artist_big
+                        is Album -> R.drawable.ic_album_big
+                        is Genre -> R.drawable.ic_genre_big
+                        is Playlist -> R.drawable.ic_playlist_big
+                        is DummyItem -> getTvIconRes(item)
+                        else -> R.drawable.ic_folder
+                    }
+                    Image(
+                        painter = painterResource(id = defaultIconId),
+                        contentDescription = "Map snapshot",
+                        modifier = Modifier
+                            .width(150.dp)
+                            .aspectRatio(1F)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                    )
+                    LaunchedEffect(key1 = "") {
 
-                    coroutineScope.launch {
-                        item.let {
-                            mapBitmap.value = ThumbnailsProvider.obtainBitmap(it, 150.dp.value.toInt())
+                        coroutineScope.launch {
+                            item.let {
+                                if (item !is DummyItem)
+                                    mapBitmap.value = ThumbnailsProvider.obtainBitmap(it, 150.dp.value.toInt())
+                            }
                         }
                     }
                 }
             }
-
         }
-        Text(
-            item.title ?: "",
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier
-                .padding(start = 4.dp, end = 4.dp, top = 4.dp)
-                .fillMaxWidth()
-        )
-        Text(
-            item.description ?: "",
-            maxLines = 1,
-            style = MaterialTheme.typography.bodySmall,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .padding(start = 4.dp, end = 4.dp, bottom = 16.dp)
-                .fillMaxWidth()
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    item.title ?: "",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier
+                        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+                        .fillMaxWidth()
+                )
+                Text(
+                    item.description ?: "",
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodySmall,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(start = 4.dp, end = 4.dp)
+                        .fillMaxWidth()
+                )
+            }
+            if (item.isFavorite || (item as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
+                Icon(
+                    painterResource(R.drawable.ic_favorite),
+                    contentDescription = stringResource(R.string.favorite),
+                    modifier = Modifier.padding(8.dp).size(16.dp)
+                )
+            }
+        }
     }
 }
 
@@ -178,7 +204,9 @@ fun AudioItemList(item: MediaLibraryItem) {
     val activity = LocalActivity.current
     val focused = remember { mutableStateOf(false) }
 
-        Row(modifier = Modifier
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
             .fillMaxWidth()
             .height(52.dp)
             .onFocusChanged {
@@ -234,6 +262,7 @@ fun AudioItemList(item: MediaLibraryItem) {
                         modifier = Modifier
                             .fillMaxHeight()
                             .aspectRatio(1F)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
                     )
                     LaunchedEffect(key1 = "") {
 
@@ -249,7 +278,7 @@ fun AudioItemList(item: MediaLibraryItem) {
 
             Column(modifier = Modifier
                 .wrapContentHeight()
-                .fillMaxWidth()
+                .weight(1f)
                 .align(Alignment.CenterVertically)
             ) {
                 Text(
@@ -269,6 +298,13 @@ fun AudioItemList(item: MediaLibraryItem) {
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .fillMaxWidth()
+                )
+            }
+            if (item.isFavorite || (item as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
+                Icon(
+                    painterResource(R.drawable.ic_favorite),
+                    contentDescription = stringResource(R.string.favorite),
+                    modifier = Modifier.padding(8.dp).size(16.dp)
                 )
             }
     }

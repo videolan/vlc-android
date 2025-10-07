@@ -31,13 +31,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,6 +66,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
+import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.BlackTransparent50
@@ -158,23 +162,36 @@ fun VideoItem(video: MediaLibraryItem) {
             }
 
         }
-        Text(
-            video.title ?: "",
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier
-                .padding(start = 4.dp, end = 4.dp, top = 4.dp)
-                .fillMaxWidth()
-        )
-        Text(
-            video.description ?: "",
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .padding(start = 4.dp, end = 4.dp, bottom = 16.dp)
-                .fillMaxWidth()
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    video.title ?: "",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier
+                        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+                        .fillMaxWidth()
+                )
+                Text(
+                    video.description ?: "",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .padding(start = 4.dp, end = 4.dp)
+                        .fillMaxWidth()
+                )
+            }
+            if (video.isFavorite || (video as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
+                Icon(
+                    painterResource(R.drawable.ic_favorite),
+                    contentDescription = stringResource(R.string.favorite),
+                    modifier = Modifier.padding(8.dp).size(16.dp)
+                )
+            }
+        }
     }
 }
