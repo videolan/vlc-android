@@ -792,7 +792,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val saveVideoPlayQueue = settings.getBoolean(VIDEO_RESUME_PLAYBACK, true)
         if (!isAudio && saveVideoPlayQueue) {
             settings.putSingle(KEY_CURRENT_MEDIA_RESUME, media.location)
-            if (Settings.getInstance(ctx).getString(KEY_VIDEO_APP_SWITCH, "0") == "1") {
+            // !player.isVideoPlaying means that there are no view attached, but if the media is a
+            // video then it must have been played as Audio
+            if (Settings.getInstance(ctx).getString(KEY_VIDEO_APP_SWITCH, "0") == "1" || !player.isVideoPlaying()) {
                 settings.putSingle(KEY_CURRENT_AUDIO_RESUME_TITLE, media.title ?: "")
                 settings.putSingle(KEY_CURRENT_AUDIO_RESUME_ARTIST, media.artistName ?: "")
                 settings.putSingle(KEY_CURRENT_AUDIO_RESUME_THUMB, media.artworkURL ?: "")
