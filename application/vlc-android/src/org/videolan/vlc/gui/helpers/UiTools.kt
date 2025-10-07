@@ -115,6 +115,7 @@ import org.videolan.resources.CATEGORY_NOW_PLAYING
 import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
 import org.videolan.resources.CATEGORY_SONGS
 import org.videolan.resources.EXTRA_PATH
+import org.videolan.resources.HEADER_ADD_STREAM
 import org.videolan.resources.HEADER_DIRECTORIES
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_NETWORK
@@ -1117,6 +1118,7 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
             HEADER_PLAYLISTS -> R.drawable.ic_playlist_big
             HEADER_MOVIES, CATEGORY_NOW_PLAYING_PIP -> R.drawable.ic_browser_movie_big
             HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
+            HEADER_ADD_STREAM -> R.drawable.ic_stream_add
             ID_SETTINGS -> R.drawable.ic_settings_big
             ID_ABOUT_TV -> R.drawable.ic_default_cone
             ID_REMOTE_ACCESS -> R.drawable.ic_remote_access_big
