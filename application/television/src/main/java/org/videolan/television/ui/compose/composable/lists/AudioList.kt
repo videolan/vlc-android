@@ -218,7 +218,7 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
                     items = audios?.toPersistentList() ?: persistentListOf(),
                     loadMoreItems = { viewModel.loadMore(entry) },
                     isLoading = audioLoading ?: false,
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
                     horizontalArrangement = Arrangement.spacedBy(0.dp),
                     contentPadding = PaddingValues(top = 16.dp),
                 ) {
