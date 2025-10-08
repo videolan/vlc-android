@@ -53,20 +53,20 @@ android {
 dependencies {
     implementation project(':application:vlc-android')
     api project(':application:moviepedia')
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.4'
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
-    androidTestImplementation platform('androidx.compose:compose-bom:2025.09.00')
+    androidTestImplementation platform('androidx.compose:compose-bom:2025.09.01')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    def composeBom = platform('androidx.compose:compose-bom:2025.09.00')
+    def composeBom = platform('androidx.compose:compose-bom:2025.09.01')
     implementation composeBom
     implementation("androidx.paging:paging-compose:3.3.6")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
 
     // General compose dependencies
     implementation 'androidx.activity:activity-compose:1.11.0'
-    implementation("androidx.compose.ui:ui:1.9.1")
+    implementation("androidx.compose.ui:ui:1.9.2")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     implementation 'androidx.compose.ui:ui-tooling-preview'
@@ -78,6 +78,6 @@ dependencies {
     implementation "androidx.compose.material3:material3:$rootProject.ext.composeMaterial"
 //    implementation "androidx.tv:tv-material:$rootProject.ext.tvCompose"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$rootProject.ext.lifecycleVersion"
-    implementation "androidx.compose.runtime:runtime-livedata:1.9.1"
+    implementation "androidx.compose.runtime:runtime-livedata:1.9.2"
 
 }
