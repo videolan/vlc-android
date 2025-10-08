@@ -85,7 +85,7 @@ import org.videolan.television.ui.compose.composable.lists.VideoListScreen
 import org.videolan.television.viewmodel.MainActivityViewModel
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen() {
     Box {
         MainContent()
         MlProgress(modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp))
@@ -152,7 +152,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                         .padding(vertical = 4.dp, horizontal = 8.dp)
                         .align(Alignment.CenterHorizontally)
                         .focusGroup(),
-                    indicator = { RoundedRectangleIndicator(pagerState.currentPage, hasFocus) }
+                    indicator = { RoundedRectangleIndicator(hasFocus, Modifier.tabIndicatorOffset(pagerState.currentPage, matchContentSize = false)) }
                 ) {
                     tabs.forEachIndexed { index, tab ->
                         val selected = pagerState.currentPage == index
