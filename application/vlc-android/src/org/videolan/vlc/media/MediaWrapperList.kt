@@ -160,11 +160,13 @@ class MediaWrapperList {
     fun replaceWith(list: List<MediaWrapper>) {
         internalList.clear()
         internalList.addAll(list)
+        videoCount = internalList.count { it.type == MediaWrapper.TYPE_VIDEO }
     }
 
     @Synchronized
     fun map(list: List<MediaWrapper>) {
         internalList.addAll(list)
+        videoCount = internalList.count { it.type == MediaWrapper.TYPE_VIDEO }
     }
 
     /**
