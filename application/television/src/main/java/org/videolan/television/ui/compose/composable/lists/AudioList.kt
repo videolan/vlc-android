@@ -26,16 +26,13 @@ package org.videolan.television.ui.compose.composable.lists
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -45,9 +42,8 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -77,12 +73,11 @@ import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyColumn
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyGrid
+import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
 import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
-import org.videolan.television.ui.compose.theme.White
-import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
@@ -107,7 +102,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
     Column(
         modifier = Modifier
     ) {
-        ScrollableTabRow(
+        SecondaryScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
             divider = {},
             containerColor = MaterialTheme.colorScheme.background,
@@ -131,18 +126,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                     }
                 }
                 .focusGroup(),
-            indicator = { tabPositions ->
-                Box(
-                    Modifier
-                        .tabIndicatorOffset(tabPositions[pagerState.currentPage])
-                        .fillMaxWidth()
-                        .height(36.dp)
-                        .background(
-                            color = if (hasFocus) White else WhiteTransparent50,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                )
-            }
+            indicator = { RoundedRectangleIndicator(hasFocus, Modifier.tabIndicatorOffset(pagerState.currentPage, matchContentSize = false)) }
         ) {
             mainActivityViewModel.audioTabs.forEachIndexed { index, tab ->
                 val selected = pagerState.currentPage == index
@@ -171,7 +155,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                             text = stringResource(tab),
                             color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
                             modifier = Modifier
-                                .padding(horizontal = 16.dp, vertical = 0.dp)
+                                .padding(vertical = 0.dp)
                                 .align(Alignment.CenterHorizontally)
                         )
                     },
@@ -213,7 +197,9 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
         Row {
             if (inCard) {
                 PaginatedLazyGrid(
-                    modifier = Modifier.fillMaxHeight().weight(1f),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
                     listState = gridState,
                     items = audios?.toPersistentList() ?: persistentListOf(),
                     loadMoreItems = { viewModel.loadMore(entry) },
@@ -226,7 +212,9 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
                 }
             } else {
                 PaginatedLazyColumn(
-                    modifier = Modifier.fillMaxHeight().weight(1f),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
                     items = audios?.toPersistentList() ?: persistentListOf(),
                     loadMoreItems = { viewModel.loadMore(entry) },
                     listState = listState,
