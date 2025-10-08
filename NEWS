@@ -1,3 +1,9 @@
+Changes between 3.7.0 Beta 1 and 3.7.0 Beta 2:
+------------------
+ * Improve subtitles search
+ * Update libvlc version
+ * Behavior and crash fixes
+
 Changes between 3.6.5-1 and 3.7.0 Beta 1:
 ------------------
  * New equalizer
