@@ -116,10 +116,12 @@ get_font() {
         'ko-KR') echo "NotoSansKR";;
         'hi-IN') echo "NotoSans";;
         'el-GR') echo "NotoSans";;
+        'bn-BD') echo "NotoSansBengali";;
         'ka-GE') echo "NotoSansGeorgian";;
         'he-IL') echo "NotoSansHebrew";;
         'zh-TW') echo "NotoSansSC";;
         'zh-CN') echo "NotoSansSC";;
+        'fa') echo "NotoAR";;
         'ar') echo "NotoAR";;
         *) echo 'Raleway';;
     esac
@@ -196,9 +198,9 @@ generate_screenshot () {
       imageOffsetLandscapeY=592
       templatePrefix="background_pixel_2_XL"
       eqWidth=1440
-      eqHeight=1815
+      eqHeight=2049
       eqX=0
-      eqY=975
+      eqY=747
       eqFrameX=550
       eqFrameY=1360
       pipFrameX=1050
@@ -225,9 +227,9 @@ generate_screenshot () {
         imageOffsetLandscapeX=720
         imageOffsetLandscapeY=520
         eqWidth=1024
-        eqHeight=1038
+        eqHeight=1174
         eqX=238
-        eqY=1298
+        eqY=1162
         eqFrameX=900
         eqFrameY=2050
         pipFrameY=2460
@@ -242,9 +244,9 @@ generate_screenshot () {
         imageOffsetLandscapeX=920
         imageOffsetLandscapeY=544
         eqWidth=768
-        eqHeight=782
+        eqHeight=881
         eqX=616
-        eqY=670
+        eqY=571
         eqFrameX=2600
         eqFrameY=1050
         pipFrameX=2450
