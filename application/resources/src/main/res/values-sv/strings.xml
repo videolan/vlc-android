@@ -666,6 +666,7 @@
     <string name="whats_new_title">Vad är nytt i VLC for Android %s</string>
     <string name="whats_new_37_equalizer_text">Equalizern har omarbetats från grunden. Den är enklare att använda, låter dig inaktiverat standardinställningarna och gör det möjligt att säkerhetskopiera, återställa och dela dina inställningar.</string>
     <string name="whats_new_37_import_export">Vi har förbättrat funktionen för säkerhetskopiering och återställning av inställningar. Nu kan du säkerhetskopiera fler inställningar, inklusive förinställningarna för equalizern.</string>
+    <string name="whats_new_37_android_auto">På grund av vissa nya begränsningar i appbutiken har alla Android Auto-inställningar flyttats till mobilappen. Detta blir den nya platsen för att förändra din bilupplevelse.</string>
     <string name="show_in_settings">Visa i inställningar</string>
 
 <!--    update-->

@@ -71,6 +71,10 @@
     <string name="eq_cannot_overwrite">No es pot sobreescriure un equalitzador per defecte</string>
     <string name="equalizer_name">Nom de l\'equalitzador</string>
     <string name="equalizer_deleted">L\'equalitzador s\'ha eliminat</string>
+    <string name="equalizer_leave_warning">Sortiràs del reproductor de vídeo</string>
+    <string name="invalid_equalizer_file">Fitxer d\'equalitzador no vàlid</string>
+    <string name="confirm_delete_eq">Esteu segur que voleu suprimir aquesta configuració predefinida?</string>
+    <string name="confirm_delete_vlc_eq">Esteu segur que voleu amagar aquesta configuració predefinida?\nLa podeu restaurar a la configuració de l\'equalitzador.</string>
     <string name="confirm_replace_playlist">Esteu segur que voleu substituir la llista de reproducció \'%1$s\'?</string>
     <string name="invalid_settings_file">El fitxer de configuració no és vàlid</string>
     <string name="confirm_delete_message">Això és permanent i no es pot desfer.</string>
@@ -137,6 +141,14 @@
     <string name="video">Vídeo</string>
     <string name="bookmarks">Preferits</string>
     <string name="equalizer">Equalitzador</string>
+    <string name="import_equalizer">Importa l\'equalitzador</string>
+    <string name="equalizer_exported">Equalitzador(s) exportat a %s</string>
+    <string name="equalizer_copy_template">(copia%s)</string>
+    <string name="new_equalizer_copy_template">Nou equalitzador%s</string>
+    <string name="show_all">Mostra-ho tot</string>
+    <string name="hide_all">Amaga-ho tot</string>
+    <string name="export_all">Exporta-ho tot</string>
+    <string name="import_all">Importa-ho tot</string>
     <string name="all_albums">Tots els àlbums</string>
     <string name="genres">Gèneres</string>
     <string name="playlists">Llistes de reproducció</string>
@@ -652,7 +664,12 @@
 
     <!--What's new-->
     <string name="whats_new_title">Què hi ha de nou al VLC per a Android %s</string>
-    <!--    update-->
+    <string name="whats_new_37_equalizer_text">L\'equalitzador s\'ha reelaborat des de zero. És més fàcil d\'utilitzar, permet desactivar els preajustos predeterminats i permet fer còpies de seguretat, restaurar i compartir els preajustos.</string>
+    <string name="whats_new_37_import_export">Hem millorat la funció de còpia de seguretat i restauració de la configuració. Ara permet fer còpies de seguretat de més configuracions, incloses les configuracions predefinides de l\'equalitzador.</string>
+    <string name="whats_new_37_android_auto">A causa d\'algunes noves restriccions de la botiga, la configuració d\'Android Auto s\'ha traslladat a l\'aplicació mòbil. Esdevé el nou lloc per canviar la teva experiència automobilística.</string>
+    <string name="show_in_settings">Mostra a la configuració</string>
+
+<!--    update-->
     <string name="update_title">Actualització disponible</string>
     <string name="install_nightly_title">Instal·la la versió nocturna</string>
     <string name="update_text">Hi ha disponible un nou llançament nocturn del VLC per a Android!\n\nVeieu aquest missatge perquè esteu usant un muntatge nocturn.</string>
@@ -1126,6 +1143,12 @@
     <string name="move_down">Moure avall</string>
     <string name="remove_from_playlist">Treure de la llista de reproducció</string>
     <string name="play_media">Reprodueix %s</string>
+    <string name="edit_eq_preset">Edita la configuració predefinida de l\'equalitzador</string>
+    <string name="edit_eq_name_not_allowed">Aquest nom no està permès</string>
+    <string name="export_equalizer">Exporta l\'equalitzador</string>
+    <string name="hide_equalizer">Amaga l\'equalitzador</string>
+    <string name="show_equalizer">Mostra l\'equalitzador</string>
+
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Afegir element(s) duplicat(s)?</string>
     <string name="add_button">Afegir</string>

@@ -65,6 +65,7 @@
     <string name="set_song_question">Chcete nastavit \'%1$s\' jako vyzváněcí melodii?</string>
     <string name="info">Informace</string>
     <string name="confirm_delete">Chcete smazat soubor \'%1$s\'?</string>
+    <string name="overwrite">Přepsat</string>
     <string name="confirm_delete_message">Tento krok je trvalý a nelze jej vrátit zpět. </string>
     <string name="confirm_delete_album">Chcete smazat album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Chcete smazat tento počet médií: %1$d?</string>
@@ -140,6 +141,7 @@
     <string name="video">VIDEO</string>
     <string name="bookmarks">Záložky</string>
     <string name="equalizer">Ekvalizér</string>
+    <string name="show_all">Zobrazit vše</string>
     <string name="all_albums">Všechna alba</string>
     <string name="genres">Žánry</string>
     <string name="playlists">Seznamy skladeb</string>
@@ -205,6 +207,7 @@
 
     <string name="playback_speed">Rychlost přehrávání</string>
     <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
+    <string name="playback_speed_all_videos">Všechna videa</string>
     <string name="sleep_title">Časovač</string>
     <string name="sleep_in">Vypnout za…</string>
     <string name="jump_to_time">Přejít na pozici</string>
@@ -372,6 +375,11 @@
     <string name="enable_android_auto_speed_buttons_summary">Zobrazit ovládání rychlosti v rozbalovací nabídce</string>
     <string name="enable_android_auto_seek_buttons">Zobrazit tlačítka posunutí v Android Auto</string>
     <string name="enable_android_auto_seek_buttons_summary">Zobrazit tlačítka posunutí dopředu/dozadu v rozbalovací nabídce. Před aktivací zkuste podržet tlačítka předchozí/následující na volantu. </string>
+    <string name="artist">Umělec</string>
+    <string name="album">Album</string>
+    <string name="track">Skladba</string>
+    <string name="genre">Žánr</string>
+    <string name="playlist">Seznam skladeb</string>
     <string name="enable_double_tap_seek_title">Dvakrát klikněte pro posunutí</string>
     <string name="enable_double_tap_seek_summary">Dvakrát klikněte na okraj obrazovky pro posunutí o 10 sek.</string>
     <string name="enable_double_tap_play_title">Dvakrát klikněte pro přehrávání/pozastavení</string>
@@ -589,6 +597,8 @@
     <string name="search_global">Prohledat v celé Knihovně médií</string>
     <string name="playlist_save">Uložit...</string>
     <string name="playlist_name_hint">Název seznamu skladeb</string>
+    <string name="chapters">Kapitoly</string>
+    <string name="notset">Nenastaveno</string>
     <string name="go_to_chapter">Přejít na kapitolu…</string>
     <string name="current_chapter">Kapitola: %s</string>
     <string name="confirm_resume">Chcete pokračovat od poslední pozice?</string>
@@ -600,6 +610,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Co je nového ve VLC pro Android %s</string>
+    <string name="install">Instalovat</string>
     <!-- Accessibility -->
     <string name="more_actions">Více…</string>
     <string name="back_quit_lock">Stiskněte znovu tlačítko Zpět pro ukončení…</string>
@@ -668,12 +679,16 @@
     <string name="popup_playback">Přehrávání videa v režimu Obraz v obraze (PiP).</string>
     <string name="popup_expand">Roztáhnout video</string>
     <string name="download_subtitles">Stáhnout titulky</string>
+    <string name="open_subtitles_username">Uživatelské jméno</string>
+    <string name="open_subtitles_password">Heslo</string>
+    <string name="open_subtitles_is_vip">VIP konto</string>
     <string name="browse_folder">Procházet složku</string>
     <string name="listen">Poslouchat</string>
     <string name="apply_to_bt">Použít v zařízení Bluetooth</string>
     <string name="episodes">epizody</string>
     <string name="movies">filmy</string>
     <string name="videos">videa</string>
+    <string name="default_action_videos">Videa</string>
     <string name="videos_all">Všechna videa</string>
     <string name="clear_playback_history">Smazat historii přehrávání</string>
     <string name="ml_scanning">Prohledávání složek s médii…</string>
@@ -797,6 +812,7 @@
     <string name="popup_force_legacy_title">Použít vlastní režim Obraz v obraze</string>
     <string name="popup_force_legacy_summary">Použít vlastní režim Obraz v obraze (PiP) s možností změny velikosti.</string>
     <string name="restore_background_video_title">Obnovit video z pozadí</string>
+    <string name="restore_background_video_summary">Obnovit video z pozadí při opětovném otevření VLC pro Android</string>
     <string name="device_default">Výchozí (podle systému)</string>
     <string name="track_number">Počet skladeb: %d</string>
     <string name="jump_to">Přejít</string>
@@ -838,6 +854,7 @@
     <string name="send">Odeslat</string>
     <string name="send_crash_action_title">Co chcete dělat?</string>
     <string name="report_a_bug">Nahlásit chybu</string>
+    <string name="send_feedback">Odeslat zpětnou vazbu</string>
     <string name="report_a_crash">Nahlásit selhání</string>
     <string name="describe_crash">Popište selhání aplikace</string>
     <string name="favorite">Oblíbené</string>
@@ -1041,6 +1058,7 @@
     <string name="notification_permission">Oprávnění pro oznámení</string>
     <string name="notification_permission_explanation">Aplikace VLC vyžaduje oprávnění pro zasílání oznámení.\nAplikace Vás upozorní pouze při skenování Vašich médií nebo při použití vlastního videa v režimu obraz v obraze.\nOdmítnutím oprávnění zůstanou oznámení skrytá. Na funkčnost aplikace VLC odmítnutí oprávnění nemá vliv.</string>
     <string name="permission">Oprávnění</string>
+    <string name="permissions">Oprávnění</string>
     <string name="customize">Přizpůsobit</string>
     <string name="selection_count">Vybráno: %d</string>
     <string name="control_setting">Nastavení ovládání</string>
@@ -1240,4 +1258,10 @@
     <string name="metered_connection_warning">Vaše připojení je měřené. Můžou vzniknout dodatečné poplatky.</string>
     <string name="adding">Přidávání</string>
     <string name="to">do</string>
+    <string name="device">Zařízení</string>
+    <string name="export_settings">Exportovat nastavení</string>
+    <string name="restore_settings">Obnovit nastavení</string>
+    <string name="report_crash">Nahlásit selhání</string>
+    <string name="subject">Předmět</string>
+    <string name="files">Soubory</string>
     </resources>

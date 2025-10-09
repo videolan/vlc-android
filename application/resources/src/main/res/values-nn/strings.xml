@@ -66,6 +66,13 @@
     <string name="set_song_question">Bruke \'%1$s\' som ringjetone?</string>
     <string name="info">Informasjon</string>
     <string name="confirm_delete">Slette fila \'%1$s\'?</string>
+    <string name="equalizer_overwrite_warning">Denne tonekontrollen finst frå før</string>
+    <string name="overwrite">Skriv over</string>
+    <string name="eq_cannot_overwrite">Kan ikkje skrive over ein standard tonekontroll</string>
+    <string name="equalizer_name">Tonekontrollnamn</string>
+    <string name="equalizer_deleted">Tonekontrollen er sletta</string>
+    <string name="invalid_equalizer_file">Ugyldig tonekontrollfil</string>
+    <string name="confirm_delete_vlc_eq">Er du sikker på at du vil skjula denne førehandsinnstillinga?\nDu kan stilla tilbake dette i tonekontrollinnstillingane.</string>
     <string name="confirm_replace_playlist">Er du sikker på at du vil erstatta spelelista \'%1$s\'?</string>
     <string name="confirm_delete_message">Dette er endeleg og kan ikkje angrast.</string>
     <string name="confirm_delete_album">Slette albumet \'%1$s\'?</string>
@@ -131,6 +138,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Bokmerke</string>
     <string name="equalizer">Tonekontroll</string>
+    <string name="import_equalizer">Importer tonekontroll</string>
+    <string name="equalizer_exported">Tonekontroll(ar)ksportert(e) til %s</string>
+    <string name="equalizer_copy_template">(kopier%s)</string>
+    <string name="new_equalizer_copy_template">Ny tonekontroll%s</string>
+    <string name="show_all">Vis alle</string>
+    <string name="hide_all">Gøym alle</string>
+    <string name="export_all">Eksporter alle</string>
+    <string name="import_all">Importer alle</string>
     <string name="all_albums">Alle album</string>
     <string name="genres">Sjangrar</string>
     <string name="playlists">Spelelister</string>
@@ -472,7 +487,9 @@
     <string name="medialibrary">Mediebibliotek</string>
     <!--What's new-->
     <string name="whats_new_title">Kva er nytt i VLC for Android %s</string>
-    <!--    update-->
+    <string name="show_in_settings">Vis i innstillingar</string>
+
+<!--    update-->
     <string name="update_title">Oppdatering tilgjengeleg</string>
     <string name="install_nightly_title">Installer nightly-versjonen</string>
     <string name="open_in_browser">Opne i nettlesar</string>
@@ -482,11 +499,16 @@
     <!-- Accessibility -->
     <string name="more_actions">Fleire handlingar</string>
     <string name="stream_deleted">Straum sletta</string>
+    <string name="no_subs_found">Ingen undertekstar i denne mappa</string>
     <string name="music_now_playing">Spelar no</string>
 
     <string name="widget_name_mini_player">VLC minispelar</string>
     <string name="click_here">Trykk her for å lesa meir.</string>
+    <string name="allow_storage_access_title">Tillat VLC tilgang til video- og lydfiler</string>
+    <string name="never_ask_again">Ikkje spør meir</string>
+    <string name="permission_ask_again">Gje løyve</string>
     <string name="pick_file">Vel ei fil</string>
+    <string name="permission_not_granted">Løyve ikkje gjeve</string>
     <string name="exit_app">Avslutt VLC</string>
     <string name="exit_app_msg">Er du sikker på at du vil avslutta VLC?</string>
     <!-- Plugins -->
@@ -503,12 +525,24 @@
     <string name="store_password">Hugs passord</string>
     <string name="add_to_playlist">Legg til i speleliste</string>
     <string name="download_subtitles">Last ned undertekstar</string>
+    <string name="powered_opensubtitles">Driven av OpenSubtitles</string>
+    <string name="open_subtitles_log_out">Logg ut</string>
+    <string name="open_subtitles_username">Brukarnamn</string>
+    <string name="open_subtitles_password">Passord</string>
+    <string name="open_subtitles_is_vip">VIP-konto</string>
+    <string name="open_subtitles_is_not_vip">Standardkonto</string>
+    <string name="unknown_error">Uventa feil</string>
     <string name="browse_folder">Bla i mappe</string>
     <string name="apply_to_bt">Bruk på bluetooth-eining</string>
     <string name="episodes">episodar</string>
     <string name="movies">filmar</string>
     <string name="videos">videoar</string>
+    <string name="default_action_videos">Videoar</string>
     <string name="videos_all">Alle videoar</string>
+    <string name="clear_playback_history">Tøm avspelingshistorikk</string>
+    <string name="ml_scanning">Skannar etter mediefiler</string>
+    <string name="ml_parse_media">Les media</string>
+    <string name="ml_discovering">Oppdagar</string>
     <string name="resume">Fortset</string>
     <string name="length">Lengde</string>
     <string name="ml_external_storage_msg">Vil du at VLC skal leggja til eininga %1$s til mediebiblioteket ditt?</string>
@@ -537,8 +571,11 @@
     <string name="audio_digital_failed">Klarte ikkje å endra Digital lydutgang-tilstanden</string>
     <string name="audio_digital_output_enabled">Digital lyd ut aktivert</string>
     <string name="audio_digital_output_disabled">Digital lydutgang aktivert</string>
+    <string name="audio_preferred_language">Føretrekt lydspråk</string>
     <string name="audio_digital_title">Digital lydutdata (gjennompassering)</string>
     <string name="audio_resume_card_summary">Viser eit tips som hjelper deg med å fortsetja lydavspeling når appen startar</string>
+    <string name="playback_rewind">Spol tilbake</string>
+    <string name="playback_forward">Spol framover</string>
     <string name="ml_wizard_scan_checkbox">Skann etter medieinnhald på eininga</string>
     <string name="otg_device_title">OTG-eining</string>
     <string name="browser">Nettlesar</string>
@@ -642,6 +679,8 @@
     <string name="sub_result_by_name_season">Sesong %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
     <string name="donate">Hjelp VLC</string>
+    <string name="air_action_rewind">Spol tilbake 10 sek.</string>
+    <string name="air_action_forward">Søk framover 10 sek.</string>
     <string name="air_action_play_pause">Pause/Fortset avspeling</string>
     <string name="allow_otg">Tillat OTG-tilgang</string>
     <string name="allow_otg_description">Vel OTG-eining for å tillate tilgang til VLC.</string>
@@ -657,6 +696,7 @@
     <string name="search_prefs">Søk i innstillingar</string>
     <string name="bookmarks_title">Bokmerke</string>
     <string name="show">Vis</string>
+    <string name="optional_features">Valfrie funksjonar</string>
     <string name="start_vlc">Start VLC</string>
     <string name="jump_delay_summary">%s sekund</string>
     <string name="move_up">Flytt opp</string>
@@ -667,16 +707,24 @@
     <string name="add_all_button">Legg til alle</string>
     <string name="start">Start</string>
     <string name="permission">Løyve</string>
+    <string name="permissions">Løyve</string>
+    <string name="permissions_summary">Liste over alle løyve</string>
+    <string name="manage_storage_permission">Filløyve</string>
+    <string name="customize">Tilpass</string>
     <string name="control_setting">Kontrollinnstillingar</string>
     <string name="controls_setting">Kontrollinnstillingar</string> <!-- Unused -->
     <string name="gestures">Rørsler</string>
+    <string name="player_controls">Spelarkontrollar</string>
+    <string name="official_website">Offisiell nettstad</string>
     <string name="no_web_browser">Ingen nettlesar er installert</string>
+    <string name="no_video">Ingen video tilgjengeleg</string>
     <string name="custom">Tilpassa</string>
     <string name="widget_type_normal">Normal</string>
     <string name="widget_type_large">Stor</string>
     <string name="opacity">Ugjennomskinlegheit</string>
     <string name="widget_background">Bakgrunn</string>
     <string name="widget_foreground">Framgrunn</string>
+    <string name="widget_show_cover">Vis omslag</string>
     <string name="open_vlc">Opne VLC</string>
     <string name="playing">Spelar</string>
     <string name="disabled">Deaktivert</string>
@@ -717,6 +765,8 @@
     <string name="talkback_decrease_speed">Reduser fart</string>
     <string name="talkback_subtitle_history">Undertekst-historikk</string>
     <string name="talkback_language_selection">%s valde språk</string>
+    <string name="talkback_audio_player_opened">Lydspelar opna</string>
+    <string name="talkback_audio_player">Lydspelar. Spelar no: %s</string>
     <string name="downloaded">Nedlasta</string>
     <string name="not_downloaded">Ikkje nedlasta</string>
     <string name="downloading">Lastar ned</string>
@@ -725,11 +775,24 @@
     <string name="talkback_display_settings">Visingsinnstillingar</string>
     <string name="talkback_already_played">Allereie spela</string>
     <string name="show_only_favs">Vis berre favorittar</string>
+    <string name="ra_log_file">Logfiler</string>
+    <string name="ra_send_files">Send filer</string>
     <string name="ra_file">Fil</string>
     <string name="ra_upload_remaining">Lastar opp%s filer</string>
     <string name="ra_upload_all">Last opp alle</string>
     <string name="ra_forbidden">Innhald avslått i innstillingar</string>
     <string name="ra_playback_forbidden">Avspelingskontroll avslått i innstillingar</string>
+    <string name="ra_ssl_button">Bruk ei trygg tilkopling</string>
+    <string name="ra_new_code">Send ein ny kode</string>
+    <string name="home">Heim</string>
+    <string name="ra_code">Skriv inn denne koden: %s</string>
+    <string name="ra_otp_not_me">Det er ikkje meg</string>
+
+    <string name="ra_onboarding_how_title">Kontroller eininga di</string>
+    <string name="ra_onboarding_ssl_title">Datakryptering</string>
+    <string name="ra_onboarding_otp_title">Autentisering</string>
+    <string name="ra_onboarding_content_title">Innhaldstilgang</string>
+    <string name="ra_onboarding_content_files">Filveljar</string>
     <string name="ra_onboarding_content_playback">Avspelingskontroll</string>
     <string name="ra_disable">Slå av</string>
     <string name="ra_log_web">Logg for ekstern tilgang</string>
@@ -739,6 +802,7 @@
 
     <!-- car screens -->
     <string name="help">Hjelp</string>
+    <string name="podcast_mode">Podkastmodus</string>
     <string name="network" >Nettverk</string>
     <string name="metered_do_nothing">Ikkje gjer noko</string>
     <string name="metered_stop">Stopp avspeling</string>
@@ -754,8 +818,23 @@
     <string name="export_settings_success">Innstillingar eksporterte til intern lagringsrot</string>
     <string name="export_settings_failure">Noko gjekk gale under eksportering av innstillingane dine</string>
 
+    <string name="queue_info">Køinformasjon</string>
+    <string name="queue_info_none">Ikkje vis køposisjon</string>
+    <string name="queue_info_before_title">Før tittel</string>
+    <string name="queue_info_after_title">Etter tittel</string>
+    <string name="queue_info_before_subtitle">Før undertekst</string>
+
+    <string name="queue_format">Køformat</string>
+    <string name="get_help">Få hjelp</string>
+    <string name="report_crash">Rapporter eit krasj</string>
+    <string name="email_support">Kontak brukarstøtte på e-post</string>
+    <string name="read_doc">Les dokumentasjonen</string>
     <string name="subject">Emne</string>
     <string name="body">Melding</string>
     <string name="rate_us">Vurder appen</string>
     <string name="files">Filer</string>
+    <string name="remote_access_feedback_generate">Generer rapport</string>
+    <string name="generic_copied_to_clipboard">Kopiert til utklippstavla</string>
+    <string name="feedback_email_warning_remote_action">Opne innstillingane</string>
+    <string name="feedback_email_warning_try_anyway">Prøv likevel</string>
     </resources>

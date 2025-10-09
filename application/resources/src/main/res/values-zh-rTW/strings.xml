@@ -655,6 +655,7 @@
     <string name="whats_new_title">Android 版 VLC %s 中有什麼新功能</string>
     <string name="whats_new_37_equalizer_text">等化器已重新設計。操作更簡單，可停用預先設定集，並支援備份、還原與分享您的預先設定集。</string>
     <string name="whats_new_37_import_export">我們改進了備份與還原設定功能。您可以備份更多設定，包含等化器的預先設定集。</string>
+    <string name="whats_new_37_android_auto">由於商店政策的新限制，Android Auto 的所有設定項目已移轉至行動應用程式。此處將成為您調整車載體驗的新入口。</string>
     <string name="show_in_settings">在設定中顯示</string>
 
 <!--    update-->

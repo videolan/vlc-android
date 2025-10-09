@@ -655,6 +655,7 @@
     <string name="whats_new_title">VLC for Android %s の更新情報</string>
     <string name="whats_new_37_equalizer_text">イコライザーを一から見直しました。より使いやすくなり、デフォルトのプリセットを無効化できるようになり、バックアップ、復元、共有も可能になりました。</string>
     <string name="whats_new_37_import_export">設定のバックアップと復元機能を改善しました。イコライザープリセットを含む、より多くの設定をバックアップできるようになりました。</string>
+    <string name="whats_new_37_android_auto">ストア側の新たな制約により、Android Autoの設定はすべてモバイルアプリに移行しました。モバイルアプリは、あなたのカーエクスペリエンスを変えるための新たな場所となります。</string>
     <string name="show_in_settings">設定で表示</string>
 
 <!--    update-->

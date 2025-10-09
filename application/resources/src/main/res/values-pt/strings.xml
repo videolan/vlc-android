@@ -74,8 +74,8 @@
     <string name="equalizer_deleted">O equalizador foi eliminado</string>
     <string name="equalizer_leave_warning">Vai sair do reprodutor de vídeo</string>
     <string name="invalid_equalizer_file">Ficheiro de equalizador inválido</string>
-    <string name="confirm_delete_eq">Tem a certeza de que pretende eliminar esta predefinição?</string>
-    <string name="confirm_delete_vlc_eq">Tem a certeza de que pretende ocultar esta predefinição?\nPode restaurá-la nas definições do equalizador.</string>
+    <string name="confirm_delete_eq">Tem a certeza que pretende eliminar este ajuste predefinido?</string>
+    <string name="confirm_delete_vlc_eq">Tem a certeza que pretende ocultar este ajuste predefinido?\nPode restaurá-lo nas definições do equalizador.</string>
     <string name="confirm_replace_playlist">Tem a certeza que pretende substituir a lista de reprodução \'%1$s\'?</string>
     <string name="invalid_settings_file">Ficheiro de definições inválido</string>
     <string name="confirm_delete_message">Isto é permanente e não pode ser anulado.</string>
@@ -87,7 +87,7 @@
     <string name="confirm_delete_folders_and_files">Eliminar estas %1$s pastas e %2$s ficheiros?</string>
     <string name="confirm_delete_playlist">Eliminar a lista de reprodução \'%1$s\'?</string>
     <string name="ringtone_set">O ficheiro \'%1$s\' foi definido como toque de chamada.</string>
-    <string name="ringtone_error">Ocorreu um erro ao definir o toque de chamada.</string>
+    <string name="ringtone_error">Ocorreu um erro ao definir o toque.</string>
     <string name="pause">Pausar</string>
     <string name="unknown_artist">Artista desconhecido</string>
     <string name="unknown_album">Álbum desconhecido</string>
@@ -436,7 +436,7 @@
     <string name="fastplay_title">A reproduzir a %sx</string>
     <string name="fastplay_subtitle">Soltar para parar</string>
     <string name="show_bookmark_buttons">Mostrar botões de marcadores</string>
-    <string name="show_bookmark_buttons_summary">Mostrar botões para navegar entre marcadores</string>
+    <string name="show_bookmark_buttons_summary">Mostrar os botões para navegar entre os marcadores</string>
     <string name="show_bookmark_markers">Mostrar marcadores de favoritos</string>
     <string name="show_bookmark_markers_summary">Mostrar marcadores de favoritos na barra cronológica</string>
     <string name="show_chapter_buttons">Mostrar botões de capítulos</string>
@@ -444,7 +444,7 @@
 
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho das Legendas</string>
-    <string name="subtitles_presets_title">Pré-ajustes de legendas</string>
+    <string name="subtitles_presets_title">Ajustes predefinidos das legendas</string>
     <string name="subtitles_size_small">Pequeno</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Grande</string>
@@ -496,7 +496,7 @@
     <string name="replaygain_enable_summary">As transmissões sem informação de ganho de reprodução podem ser mais silenciosas devido ao ganho padrão</string>
     <string name="replaygain_mode">Modo do ganho de reprodução</string>
     <string name="replaygain_mode_summary">O modo de faixa reproduz transmissões com informação do ganho de reprodução com o mesmo volume. O modo de álbum preserva o volume relativo da transmissão num mesmo álbum.</string>
-    <string name="replaygain_preamp">Pré amplificação de repetição</string>
+    <string name="replaygain_preamp">Pré-amplificação de repetição</string>
     <string name="replaygain_preamp_summary">Altera o nível alvo padrão (89 dB) para transmissões com informação de ganho de repetição</string>
     <string name="replaygain_default">Ganho de reprodução predefinido</string>
     <string name="replaygain_default_summary">Aplica-se a transmissões sem a informação do ganho de reprodução\nDefina como 0 para desativar</string>
@@ -542,7 +542,7 @@
     <string name="casting_quality_high">Alta</string>
     <string name="casting_quality_medium">Média</string>
     <string name="casting_quality_low">Baixa</string>
-    <string name="casting_quality_lowcpu">Baixíssima</string>
+    <string name="casting_quality_lowcpu">A mais baixa</string>
     <string name="casting_connected_renderer">Ligado ao renderizador \'%1$s\'</string>
     <string name="artists_show_all_title">Mostrar todos os artistas</string>
     <string name="show_headers">Mostrar cabeçalhos</string>
@@ -603,8 +603,8 @@
     <string name="browser_show_all_title">Mostrar apenas os ficheiros multimédia</string>
 
     <string name="developer_prefs_category">Programador</string>
-    <string name="enable_verbose_mode">Detalhado</string>
-    <string name="enable_verbose_mode_summary">Aumentar detalhe (logcat)</string>
+    <string name="enable_verbose_mode">Verboso</string>
+    <string name="enable_verbose_mode_summary">Aumentar a verbosidade (logcat)</string>
     <string name="debug_logs">Registos de depuração</string>
     <string name="start_logging">Iniciar gravação de registos</string>
     <string name="stop_logging">Parar gravação de registos</string>
@@ -617,14 +617,14 @@
     <string name="dump_logcat">Enviar ficheiro de registos</string>
     <string name="dump_logcat_success">O ficheiro de registos foi enviado com sucesso para %1$s!</string>
     <string name="dump_logcat_failure">Não foi possível enviar o ficheiro de registos.</string>
-    <string name="http_user_agent">HTTP user agent</string>
+    <string name="http_user_agent">Agente do utilizador HTTP</string>
     <string name="custom_libvlc_options">Opções personalizadas libVLC</string>
     <string name="custom_libvlc_options_invalid">Opções de libVLC inválidas!</string>
     <string name="dav1d_thread_number">Número do \'thread\' Dav1d</string>
     <string name="dav1d_thread_number_invalid">Número do \'thread\' inválido! (>=1)</string>
     <string name="browser_quick_play">Menu de reprodução rápida do navegador</string>
     <string name="browser_quick_play_summary">Adicione uma ação de reprodução rápida no menu de itens do navegador. Irá carregar os seus ficheiros mais rapidamente, mas poderão faltar alguns metadados</string>
-    <string name="browser_quick_play_default">Reprodução rápida como ação predefinida</string>
+    <string name="browser_quick_play_default">Reproduzir rápido como ação predefinida</string>
     <string name="browser_quick_play_default_summary">Se estiver ativado, tocar num item do navegador irá reproduzi-lo utilizando a reprodução rápida</string>
 
     <string name="serious_crash">Infelizmente, ocorreu um erro sério e o VLC teve de fechar.</string>
@@ -640,10 +640,10 @@
 
     <string name="no_result">Não existem resultados</string>
     <string name="no_internet_connection">Verifique a sua ligação à Internet</string>
-    <string name="retry">Voltar a tentar</string>
-    <string name="open_subs_download_error">O OpenSubtitles está atualmente indisponível. Tente novamente mais tarde</string>
+    <string name="retry">Repetir</string>
+    <string name="open_subs_download_error">OpenSubtitles está atualmente indisponível. Por favor, tente novamente mais tarde</string>
 
-    <string name="network_browsing">Rede local</string>
+    <string name="network_browsing">Rede Local</string>
     <string name="browsing">Navegação</string>
 
     <string name="file_size">Tamanho do ficheiro</string>
@@ -651,88 +651,93 @@
     <string name="audio_delay">Atraso de áudio</string>
     <string name="spu_delay">Atraso de legendas</string>
     <string name="network_shares_discovery">A procurar por partilhas de rede</string>
-    <string name="network_empty">Este diretório está vazio.</string>
+    <string name="network_empty">Esta diretoria está vazia.</string>
     <string name="network_connection_needed">Sem ligação à rede local</string>
-    <string name="network_disabled">Navegação em rede desativada</string>
-    <string name="browse_network">Navegar na rede</string>
-    <string name="search_hint">Pesquisa multimédia</string>
+    <string name="network_disabled">Navegação na rede desativada</string>
+    <string name="browse_network">Explorar na rede</string>
+    <string name="search_hint">Procurar multimédia</string>
     <string name="search_in_list_hint">Procurar na lista atual</string>
     <string name="search_global">Pesquisar em toda a mediateca</string>
-    <string name="playlist_save">Guardar lista de reprodução</string>
+    <string name="playlist_save">Guardar Lista de Reprodução</string>
     <string name="playlist_name_hint">Nome da lista de reprodução</string>
     <string name="chapters">Capítulos</string>
     <string name="notset">Não definido</string>
-    <string name="go_to_chapter">Ir para o capítulo…</string>
+    <string name="go_to_chapter">Ir para capítulo…</string>
     <string name="current_chapter">Capítulo: %s</string>
-    <string name="confirm_resume">Retomar da última posição?</string>
+    <string name="confirm_resume">Resumir da última posição?</string>
     <string name="apply_playqueue">Aplicar a todas as filas de reprodução</string>
-    <string name="confirm_resume_title">Retomar vídeos reproduzidos</string>
-    <string name="confirm_resume_audio_title">Retomar o áudio reproduzido</string>
-    <string name="tv_ui_title">Interface Android TV</string>
-    <string name="tv_ui_summary">Alterar interface para o tema adaptado de TV</string>
+    <string name="confirm_resume_title">Resumir vídeos reproduzidos</string>
+    <string name="confirm_resume_audio_title">Resumir áudio reproduzido</string>
+    <string name="tv_ui_title">Interface de Android TV</string>
+    <string name="tv_ui_summary">Alterar a IU para o tema adaptado da TV</string>
     <string name="medialibrary">Mediateca</string>
     <string name="medialibrary_directories">Pastas de mediateca</string>
 
     <!--What's new-->
     <string name="whats_new_title">O que há de novo no VLC para Android %s</string>
-    <!--    update-->
+    <string name="whats_new_37_equalizer_text">O equalizador foi reformulado do zero. É mais fácil de utilizar, permite desativar os ajustes predefinidos e efetuar cópias de segurança, restaurar e partilhar os seus pré-ajustes.</string>
+    <string name="whats_new_37_import_export">Nós melhoramos a funcionalidade das definições da cópia de segurança e restauro. Esta agora permite efetuar cópias de segurança mais definições, incluindo os ajustes predefinidos do equalizador.</string>
+    <string name="whats_new_37_android_auto">Devido a algumas novas restrições da loja, as definições do Android Auto foram todas movidas para a aplicação móvel. Esta torna-se o novo lugar para alterar a sua experiência automóvel.</string>
+    <string name="show_in_settings">Mostrar nas definições</string>
+
+<!--    update-->
     <string name="update_title">Atualização disponível</string>
-    <string name="install_nightly_title">Instalar a versão nightly</string>
-    <string name="update_text">Uma nova versão nightly do VLC para Android está disponível!\n\nEstá a ver isto porque está a utilizar uma versão nightly.</string>
+    <string name="install_nightly_title">Instalar a versão Nightly</string>
+    <string name="update_text">Está disponível uma nova versão Nightly do VLC para Android!\n\nEstá a ver isto porque está a utilizar uma versão Nightly.</string>
     <string name="install_text">As versões Nightly são atualizadas automaticamente todos os dias com as funcionalidades mais recentes e correções.\n\nTransferir agora?</string>
 
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="install">Instalar</string>
-    <string name="install_nightly">Instalar a versão nightly</string>
-    <string name="install_nightly_alert">As compilações nightly são versões experimentais atualizadas todos os dias.\n\nEspere novas funcionalidades mas também novos erros!</string>
+    <string name="install_nightly">Instalar a versão Nightly</string>
+    <string name="install_nightly_alert">As versões Nightly são versões experimentais atualizadas diariamente.\n\nEspere novas funcionalidades mas também novos erros!</string>
     <string name="nightly_version">Versão encontrada: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Está a executar uma versão nightly. Gostaria de procurar atualizações periodicamente?</string>
+    <string name="update_nightly_alert">Está a executar uma versão Nightly. Gostaria de procurar por atualizações periodicamente?</string>
     <string name="update_nightly">Atualizar automaticamente</string>
-    <string name="update_nightly_summary">Procurar por atualização nightly periodicamente</string>
+    <string name="update_nightly_summary">Procurar por atualização Nightly periodicamente</string>
 
 
     <!-- Accessibility -->
-    <string name="more_actions">Mais ações</string>
-    <string name="back_quit_lock">Prima novamente em \'voltar\' para sair do vídeo</string>
+    <string name="more_actions">Mais Ações</string>
+    <string name="back_quit_lock">Pressione novamente \'Voltar\' para sair do vídeo</string>
     <string name="stream_deleted">Transmissão eliminada</string>
-    <string name="no_subs_found">Não existem legendas neste diretório</string>
-    <string name="music_now_playing">A reproduzir</string>
+    <string name="no_subs_found">Não existem legendas nesta diretoria</string>
+    <string name="music_now_playing">A Reproduzir</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget claro</string>
-    <string name="widget_name_b">Widget escuro</string>
+    <string name="widget_name_w">Widget Claro do VLC</string>
+    <string name="widget_name_b">Widget Escuro  do VLC</string>
     <string name="widget_name_mini_player">Mini reprodutor VLC</string>
-    <string name="widget_old_text">Atualizamos os nossos widgets!</string>
-    <string name="widget_old_description_start">Boas notícias! Lançamos widgets melhorados.\nEstes fornecem mais interatividade e personalização</string>
+    <string name="widget_old_text">Nós atualizamos os nossos \'\'widgets\'\'!</string>
+    <string name="widget_old_description_start">Boas notícias! Nós lançamos \'\'widgets\'\' melhorados.\nEles oferecem mais capacidade de resposta e personalização</string>
     <string name="whats_next">O que se segue?</string>
-    <string name="widget_old_description_end">Detetámos que já tem widgets no seu iniciador. Infelizmente, não são compatíveis com os nossos novos widgets melhorados.\nDependendo do seu lançador, poderá ter de remover os antigos para os substituir.</string>
+    <string name="widget_old_description_end">Nós detetámos que já tem \'\'widgets\'\' no seu iniciador. Infelizmente, eles não são compatíveis com os nossos novos \'\'widgets\'\' melhorados.\nDependendo do seu iniciador, poderá ter que remover os antigos para os substituir.</string>
     <string name="click_here">Clique aqui para saber mais.</string>
-    <string name="allow_storage_access_title">Permitir que o VLC aceda a ficheiros de vídeo e áudio</string>
-    <string name="allow_storage_access_description">O VLC necessita desta permissão para aceder aos ficheiros multimédia do dispositivo.</string>
+    <string name="allow_storage_access_title">Permitir que o VLC aceda aos ficheiros de vídeo e de áudio</string>
+    <string name="allow_storage_access_description">O VLC necessita desta permissão para aceder aos ficheiros de multimédia neste dispositivo.</string>
     <string name="partial_content">O VLC não consegue aceder a todos os seus ficheiros</string>
     <string name="partial_content_description">A partir do Android 11, as aplicações precisam de permissão especial para aceder a todos os ficheiros de um dispositivo.\n\n%s</string>
     <string name="never_ask_again">Não perguntar novamente</string>
     <string name="never_show_again">Não voltar a mostrar, mesmo em versões futuras</string>
     <string name="allow_settings_access_ringtone_title">Permitir que o VLC defina o toque</string>
-    <string name="allow_settings_access_ringtone_description">O VLC necessita desta permissão para definir uma faixa como toque de chamada.</string>
+    <string name="allow_settings_access_ringtone_description">O VLC necessita desta permissão para definir esta música como toque.</string>
     <string name="allow_settings_access_brightness_title">Permitir que o VLC altere o brilho</string>
     <string name="allow_settings_access_brightness_description">O VLC necessita desta permissão para alterar o modo de brilho.</string>
     <string name="allow_draw_overlays_title">Permitir que o VLC apareça por cima das outras aplicações</string>
     <string name="allow_sdraw_overlays_description">O VLC necessita desta permissão para mostrar os vídeos por cima das outras aplicações.</string>
-    <string name="allow_pip">Permitir ao VLC lançar a imagem na imagem</string>
-    <string name="allow_pip_description">O VLC necessita desta permissão para mostrar a miniatura do vídeo por cima das outras aplicações.</string>
+    <string name="allow_pip">Permitir que o VLC inicie \"imagem sobre Imagem\"</string>
+    <string name="allow_pip_description">O VLC necessita desta permissão para exibir o seu vídeo no modo \"Imagem sobre Imagem\".</string>
     <string name="permission_ask_again">Permitir</string>
     <string name="pick_file">Escolher um ficheiro</string>
-    <string name="permission_not_granted">Permissão não concedida</string>
+    <string name="permission_not_granted">Permissão negada</string>
     <string name="permission_expanation_no_allow">Não será possível descobrir automaticamente ficheiros multimédia nem usar legendas externas</string>
     <string name="permission_expanation_allow">Apenas poderá reproduzir transmissões ou multimédia de rede</string>
     <string name="permission_onboarding_no_perm">Não será possível descobrir automaticamente ficheiros multimédia.\nApenas poderá reproduzir transmissões ou multimédia de rede</string>
     <string name="permission_onboarding_perm_media">Apenas poderá descobrir automaticamente ficheiros multimédia comuns</string>
     <string name="permission_onboarding_perm_all">Poderá descobrir automaticamente todos os seus ficheiros multimédia e reproduzir todos os tipos de ficheiros multimédia, mesmo os incomuns ou comprimidos</string>
     <string name="exit_app">Fechar VLC</string>
-    <string name="exit_app_msg">Tem a certeza de que deseja fechar o VLC?</string>
-    <string name="widget_explanation_title">Widgets VLC</string>
-    <string name="widget_explanation_size">Os widgets existem em diferentes tamanhos e sabores</string>
+    <string name="exit_app_msg">Tem a certeza que deseja sair do VLC?</string>
+    <string name="widget_explanation_title">Widgets do VLC</string>
+    <string name="widget_explanation_size">Os \'\'widgets\'\' existem em diferentes tamanhos e gostos</string>
     <string name="widget_explanation_resize">Para alterar o tipo de widget, mantenha-o premido e utilize as pegas para o redimensionar para o tamanho pretendido</string>
     <string name="widget_explanation_end">Os widgets são altamente personalizáveis. Dê largas à sua criatividade e faça com que se pareçam consigo!</string>
 
@@ -741,11 +746,11 @@
     <string name="fastscroller_handle">Manipulação FastScroller</string>
 
     <!-- Plugins -->
-    <string name="plugins">Extras</string>
+    <string name="plugins">Plug-ins</string>
     <string name="download_on_device">Transferir</string>
     <string name="extension_empty">Sem itens, aceda as definições da extensão para obter alguns.</string>
 
-    <string name="opengl_title">Utilização OpenGL ES2</string>
+    <string name="opengl_title">Utilização de OpenGL ES2</string>
     <string name="opengl_summary">Por definição, OpenGL ES2 é utilizado se for necessário para a descodificação de software e hardware (vídeos 360º)</string>
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Sim</string>
@@ -1151,7 +1156,7 @@
     <string name="move_down">Descer</string>
     <string name="remove_from_playlist">Remover da lista de reprodução</string>
     <string name="play_media">Reproduzir %s</string>
-    <string name="edit_eq_preset">Editar equalizador predefinido</string>
+    <string name="edit_eq_preset">Editar ajuste predefinido do equalizador</string>
     <string name="edit_eq_name_not_allowed">Este nome não é permitido</string>
     <string name="export_equalizer">Exportar equalizador</string>
     <string name="hide_equalizer">Ocultar equalizador</string>

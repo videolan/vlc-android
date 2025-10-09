@@ -137,6 +137,10 @@
     <string name="video">Bideoa</string>
     <string name="bookmarks">Laster-markak</string>
     <string name="equalizer">Ekualizadorea</string>
+    <string name="show_all">Erakutsi dena</string>
+    <string name="hide_all">Ezkutatu dena</string>
+    <string name="export_all">Esportatu dena</string>
+    <string name="import_all">Inportatu dena</string>
     <string name="all_albums">Album guztiak</string>
     <string name="genres">Generoak</string>
     <string name="playlists">Erreprodukzio-zerrendak</string>
@@ -218,6 +222,8 @@
     <string name="wait_before_sleep">Itxaron uneko multimedia amaitu arte</string>
     <string name="reset_on_interaction">Berrezarri edozein interakziotan</string>
     <string name="default_sleep_timer_summary">%1$s, itxaron multimediaren bukaera: %2$s, berrezarri interakzioan:%3$s</string>
+    <string name="remote_keyboard_navigation">Teklatu bidezko nabigazioa</string>
+
     <string name="server_add_title">Gehitu zerbitzari berri bat gogokoetara</string>
     <string name="server_domain_hint">Zerbitzariaren helbidea (domeinu-izena edo IPa)</string>
     <string name="server_share_hint">Sareko partekatzearen izena (edo IP helbidea)</string>
@@ -679,12 +685,19 @@
     <string name="popup_playback">Laster-leiho batean erreproduzitzen</string>
     <string name="popup_expand">Zabaldu bideoa</string>
     <string name="download_subtitles">Deskargatu azpitituluak</string>
+    <string name="open_subtitles_logged_in">Saioa hasita %1$s gisa</string>
+    <string name="open_subtitles_log_out">Itxi saioa</string>
+    <string name="open_subtitles_username">Erabiltzaile izena</string>
+    <string name="open_subtitles_password">Pasahitza</string>
+    <string name="open_subtitles_is_vip">VIP kontua</string>
+    <string name="open_subtitles_is_not_vip">Kontu arrunta</string>
     <string name="browse_folder">Arakatu karpeta</string>
     <string name="listen">Entzun</string>
     <string name="apply_to_bt">Aplikatu bluetooth gailuan</string>
     <string name="episodes">pasaarteak</string>
     <string name="movies">filmak</string>
     <string name="videos">bideoak</string>
+    <string name="default_action_videos">Bideoak</string>
     <string name="videos_all">Bideo guztiak</string>
     <string name="clear_playback_history">Garbitu erreprodukzio-historia</string>
     <string name="ml_scanning">Multimedia-fitxategien bila eskaneatzen</string>
@@ -762,12 +775,14 @@
     <string name="rename_media">Berrizendatu %1$s</string>
     <string name="manual_search">Eskuzko bilaketa</string>
     <string name="subtitle_search_name_hint">Izena</string>
+    <string name="subtitle_query_edit">Editatu azpititulua bilatzeko kontsulta</string>
     <string name="subtitle_search_episode_hint">Kapitulua</string>
     <string name="subtitle_search_season_hint">Aroa</string>
     <string name="subtitles_download_failed">Ezin izan da deskargatu</string>
     <string name="language_to_download">Hizkuntza</string>
     <string name="delete_the_selected">Ezabatu hautaketa</string>
     <string name="download_the_selected">Deskargatu hautaketa</string>
+    <string name="no_sub_history">Media honek ez dauka azpititulurik</string>
     <string name="next">Hurrengoa</string>
     <string name="skip">Saltatu</string>
     <string name="next_step">Hurrengoa</string>
@@ -787,6 +802,8 @@
     <string name="welcome_title">Ongi etorri VLC-ra!</string>
     <string name="welcome_subtitle">Multimedia-erreproduzigailu libre eta doakoa</string>
     <string name="permission_media">VLC-k zure baimena behar du zure gailuko multimedia atzitzeko</string>
+    <string name="permission_video">VLCk baimena behar du zure gailuan bideoa atzitzeko</string>
+    <string name="permission_audio">VLCk baimena behar du zure gailuan audioa atzitzeko</string>
     <string name="medialibrary_scan_explanation">VLC-k automatikoki eskaneatu dezake zure gailua zure multimedia bilduma antolatzeko</string>
     <string name="onboarding_theme_title">Jarri zaitez eroso</string>
     <string name="done">Egina</string>

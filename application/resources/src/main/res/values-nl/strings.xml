@@ -66,7 +66,17 @@
     <string name="set_song_question">\'%1$s\' als beltoon instellen?</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="equalizer_overwrite_warning">Deze equalizer bestaat al</string>
+    <string name="overwrite">Overschrijven</string>
+    <string name="eq_cannot_overwrite">Kan geen standaard equalizer overschrijven</string>
+    <string name="equalizer_name">Naam equalizer</string>
+    <string name="equalizer_deleted">Deze equalizer is verwijderd</string>
+    <string name="equalizer_leave_warning">U zult de videospeler verlaten</string>
+    <string name="invalid_equalizer_file">Ongeldig equalizerbestand</string>
+    <string name="confirm_delete_eq">Weet u zeker dat u deze voorinstelling wilt verwijderen?</string>
+    <string name="confirm_delete_vlc_eq">Weet u zeker dat u deze voorinstelling wilt verbergen?\nU kunt ze herstellen in de equalizer-instellingen</string>
     <string name="confirm_replace_playlist">Weet u zeker dat u afspeellijst \'%1$s\' wilt vervangen?</string>
+    <string name="invalid_settings_file">Ongeldig instellingenbestand</string>
     <string name="confirm_delete_message">Dit is permanent an kan niet ongedaan worden gemaakt</string>
     <string name="confirm_delete_album">Album \'%1$s\' verwijderen?</string>
     <string name="confirm_delete_several_media">Deze %1$d media verwijderen?</string>
@@ -131,6 +141,14 @@
     <string name="video">Video</string>
     <string name="bookmarks">Bladwijzers</string>
     <string name="equalizer">Equalizer</string>
+    <string name="import_equalizer">Equalizer importeren</string>
+    <string name="equalizer_exported">Equalizer(s) geëxporteerd naar %s</string>
+    <string name="equalizer_copy_template">(kopie%s)</string>
+    <string name="new_equalizer_copy_template">Nieuwe equalizer%s</string>
+    <string name="show_all">Alles weergeven</string>
+    <string name="hide_all">Alles verbergen</string>
+    <string name="export_all">Alles exporteren</string>
+    <string name="import_all">Alles importeren</string>
     <string name="all_albums">Alle albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Afspeellijsten</string>
@@ -646,6 +664,27 @@
 
     <!--What's new-->
     <string name="whats_new_title">Nieuw in VLC voor Android %s</string>
+    <string name="whats_new_37_equalizer_text">De equalizer is volledig opnieuw ontworpen. Hij is gebruiksvriendelijker, u kunt de standaardvoorinstellingen uitschakelen en u kunt uw voorinstellingen back-uppen, herstellen en delen.</string>
+    <string name="whats_new_37_import_export">We hebben de functie voor het maken en herstellen van back-ups van instellingen verbeterd. Nu kunt u van meer instellingen een back-up maken, waaronder de voorinstellingen van de equalizer.</string>
+    <string name="whats_new_37_android_auto">Vanwege enkele nieuwe beperkingen in de winkel zijn de Android Auto-instellingen allemaal verplaatst naar de mobiele applicatie. Dit wordt de nieuwe plek om uw auto-ervaring aan te passen.</string>
+    <string name="show_in_settings">Weergeven in instellingen</string>
+
+<!--    update-->
+    <string name="update_title">Update beschikbaar</string>
+    <string name="install_nightly_title">De nachtelijke versie installeren</string>
+    <string name="update_text">Er is een nieuwe nachtelijke release van VLC voor Android beschikbaar!\n\nU ziet dit omdat u een nachtelijke build gebruikt.</string>
+    <string name="install_text">De nachtelijke versies worden elke dag automatisch bijgewerkt met de nieuwste functies en fixes.\n\nNu downloaden?</string>
+
+    <string name="open_in_browser">Openen in browser</string>
+    <string name="install">Installeren</string>
+    <string name="install_nightly">De nachtelijke versie installeren</string>
+    <string name="install_nightly_alert">Nachtelijke builds zijn experimentele versies die dagelijks worden bijgewerkt.\n\nVerwacht nieuwe functies, maar ook nieuwe bugs!</string>
+    <string name="nightly_version">Versie gevonden: %2$s - %1$s</string>
+    <string name="update_nightly_alert">U gebruikt een nachtelijke versie. Wilt u regelmatig controleren of er updates beschikbaar zijn?</string>
+    <string name="update_nightly">Automatisch bijwerken</string>
+    <string name="update_nightly_summary">Regelmatig zoeken naar nachtelijke updates</string>
+
+
     <!-- Accessibility -->
     <string name="more_actions">Meer acties</string>
     <string name="back_quit_lock">Nogmaals op terug drukken om video af te sluiten</string>
@@ -667,6 +706,7 @@
     <string name="partial_content">VLC heeft geen toegang tot al uw bestanden</string>
     <string name="partial_content_description">Vanaf Android 11 hebben toepassingen een speciale toestemming nodig om toegang te krijgen tot alle bestanden op het apparaat.\n\n%s</string>
     <string name="never_ask_again">Nooit meer vragen</string>
+    <string name="never_show_again">Nooit meer weergeven, zelfs voor toekomstige versies</string>
     <string name="allow_settings_access_ringtone_title">VLC toelaten om de ringtone in te stellen</string>
     <string name="allow_settings_access_ringtone_description">VLC moet uw toestemming hebben om dit nummer in te stellen als uw ringtone.</string>
     <string name="allow_settings_access_brightness_title">VLC toelaten om helderheidsmodus te wijzigen</string>
@@ -713,12 +753,26 @@
     <string name="popup_playback">Afspelen in een popup-venster</string>
     <string name="popup_expand">Video uitklappen</string>
     <string name="download_subtitles">Ondertitels downloaden</string>
+    <string name="powered_opensubtitles">Aangedreven door OpenSubtitles</string>
+    <string name="open_subtitles_not_logged_in">U bent niet aangemeld bij OpenSubtitles\nAls u zich aanmeldt, krijgt u toegang tot meer downloads</string>
+    <string name="open_subtitles_logged_in">Aangemeld als %1$s</string>
+    <string name="open_subtitles_limits">U hebt nog %1$s van %2$s downloads over. Uw limiet wordt opnieuw ingesteld op %3$s.</string>
+    <string name="open_subtitles_vip">U bent een VIP OpenSubtitles-gebruiker</string>
+    <string name="open_subtitles_register">Registreren</string>
+    <string name="open_subtitles_log_out">Afmelden</string>
+    <string name="open_subtitles_username">Gebruikersnaam</string>
+    <string name="open_subtitles_password">Wachtwoord</string>
+    <string name="open_subtitles_is_vip">VIP-account</string>
+    <string name="open_subtitles_is_not_vip">Standaard account</string>
+    <string name="login_error">Ongeldige aanmeldingsgegevens</string>
+    <string name="unknown_error">Onverwachte fout</string>
     <string name="browse_folder">Bladeren in map</string>
     <string name="listen">Luisteren</string>
     <string name="apply_to_bt">Toepassen op bluetooth-apparaat</string>
     <string name="episodes">afleveringen</string>
     <string name="movies">films</string>
     <string name="videos">video\'s</string>
+    <string name="default_action_videos">Video\'s</string>
     <string name="videos_all">Alle video\'s</string>
     <string name="clear_playback_history">Afspeelgeschiedenis wissen</string>
     <string name="ml_scanning">Zoeken naar mediabestanden</string>
@@ -784,6 +838,10 @@
     <string name="ab_repeat_stop">A-B herhalen stoppen</string>
     <string name="stop_after_this">Stoppen na deze track</string>
     <string name="time_category_new">Nieuwe media</string>
+    <string name="time_category_today">Vandaag</string>
+    <string name="time_category_yesterday">Gisteren</string>
+    <string name="time_category_current_week">Deze week</string>
+    <string name="time_category_last_week">Vorige week</string>
     <string name="time_category_current_month">Deze maand</string>
     <string name="time_category_current_year">Dit jaar</string>
     <string name="time_category_last_year">Vorig jaar</string>
@@ -792,12 +850,14 @@
     <string name="rename_media">%1$s hernoemen</string>
     <string name="manual_search">Manueel zoeken</string>
     <string name="subtitle_search_name_hint">Naam</string>
+    <string name="subtitle_query_edit">Zoekopdracht voor ondertitel bewerken</string>
     <string name="subtitle_search_episode_hint">Aflevering</string>
     <string name="subtitle_search_season_hint">Seizoen</string>
     <string name="subtitles_download_failed">Downloaden mislukt</string>
     <string name="language_to_download">Taal</string>
     <string name="delete_the_selected">Selectie verwijderen</string>
     <string name="download_the_selected">Selectie downloaden</string>
+    <string name="no_sub_history">Geen ondertitel voor dit media-item</string>
     <string name="next">Volgende</string>
     <string name="skip">Overslaan</string>
     <string name="next_step">Volgende</string>
@@ -817,7 +877,10 @@
     <string name="welcome_title">Welkom bij VLC!</string>
     <string name="welcome_subtitle">De gratis en opensource multimedia-speler</string>
     <string name="permission_media">VLC heeft uw toestemming nodig om toegang te krijgen tot media op uw apparaat</string>
+    <string name="permission_video">VLC heeft uw toestemming nodig om toegang te krijgen tot video-media op uw apparaat</string>
+    <string name="permission_audio">VLC heeft uw toestemming nodig om toegang te krijgen tot audio-media op uw apparaat</string>
     <string name="medialibrary_scan_explanation">VLC kan uw apparaat automatisch scannen om uw mediaverzameling te organiseren.</string>
+    <string name="player_title_fd_warning">Zonder opslagtoestemming kan VLC de mediatitel niet ophalen en de voortgang niet opslaan.</string>
     <string name="onboarding_theme_title">Doe alsof u thuis bent</string>
     <string name="done">Klaar</string>
     <string name="onboarding_scan_title">Uw media automatisch ontdekken</string>
@@ -831,10 +894,14 @@
     <string name="light_theme">Licht thema</string>
     <string name="add">Toevoegen</string>
     <string name="add_to_new_playlist">Aan nieuwe afspeellijst toevoegen</string>
+    <string name="create_new_playlist">Nieuwe afspeellijst aanmaken</string>
+    <string name="create">Aanmaken</string>
     <string name="resume_card_message">Afspelen van %1$s hervatten?</string>
     <string name="misc">Overige</string>
     <string name="popup_force_legacy_title">Aangepaste beeld-in-beeld popup gebruiken</string>
     <string name="popup_force_legacy_summary">Aangepaste grootte-instelbare beeld-in-beeld popup gebruiken</string>
+    <string name="restore_background_video_title">Video uit achtergrond herstellen</string>
+    <string name="restore_background_video_summary">Video uit de achtergrond herstellen bij het opnieuw openen van VLC voor Android</string>
     <string name="device_default">Standaard van apparaat</string>
     <string name="track_number">%d tracks</string>
     <string name="jump_to">Springen naar</string>
@@ -856,6 +923,9 @@
     <string name="validation_delete_playlist">Weer u zeker dat u deze afspeellijst wilt verwijderen?</string>
     <string name="validation_delete_playlist_text">Deze handeling kan niet ongedaan worden gemaakt.</string>
     <string name="display_settings">Weergave-instellingen</string>
+    <string name="incognito_mode">Incognito-modus</string>
+    <string name="persistent_incognito_mode">Blijvende incognito-modus</string>
+    <string name="persistent_incognito_mode_summary">De incognito-modus ingeschakeld houden, zelfs als de app opnieuw wordt opgestart</string>
     <string name="display_in_list">Weergeven in lijst</string>
     <string name="display_in_grid">Weergeven in raster</string>
     <string name="dump_db_succes">Database naar hoofdmap van interne opslag weggeschreven</string>
@@ -864,13 +934,16 @@
     <string name="send_crash_description">Door uw crash te versturen, helpt u ons de stabiliteit van VLC te verbeteren.</string>
     <string name="send_crash_warning">Verzeker u ervan dat u gevoelige data verwijdert die u niet wilt versturen.</string>
     <string name="include_medialib">Uw database insluiten</string>
+    <string name="include_logs">Uw logs insluiten</string>
     <string name="vlc_reporter">VLC-reporter</string>
     <string name="welcome_beta_title">VLC bèta</string>
     <string name="welcome_beta_description">Welkom bij het VLC bèta-programma.\nMerk op dat deze versie bugs kan bevatten.</string>
     <string name="welcome_beta_description_bugs">Als u een bug opmerkt, rapporteer hem op ons forum of onze bug-tracker.</string>
+    <string name="welcome_beta_description_crashes">Als u een bug of crash ondervindt, open dan het scherm ‘Over’ en gebruik de knop ‘Feedback > Contact opnemen met het ondersteuningsteam’.</string>
     <string name="send">Versturen</string>
     <string name="send_crash_action_title">Wat wilt u doen?</string>
     <string name="report_a_bug">Een bug rapporteren</string>
+    <string name="send_feedback">Feedback verzenden</string>
     <string name="report_a_crash">Een crash rapporteren</string>
     <string name="describe_crash">Beschrijf hoe deze crash gebeurde</string>
     <string name="favorite">Favoriet</string>
@@ -886,6 +959,8 @@
     <string name="invalid_file">Ongeldig bestand. Kan niet gedeeld worden.</string>
     <string name="share_file">%s delen</string>
     <string name="share_message">Hier is %s</string>
+    <string name="share_track_info">Track-info delen</string>
+    <string name="share_track">Luistert momenteel naar %s</string>
     <string name="find_metadata">Metadata zoeken</string>
     <string name="moviepedia_hint">Metadata doorzoeken</string>
     <string name="moviepedia_result">Videoresultaten</string>
@@ -960,6 +1035,8 @@
     <string name="sub_result_by_name">Resultaten voor %s</string>
     <string name="sub_result_by_name_season">Seizoen %s</string>
     <string name="sub_result_by_name_episode">Aflevering %s</string>
+    <string name="sub_result_by_name_hearing_impaired">Alleen slechthorend</string>
+
     <string name="sub_result_by_file">Resultaten voor uw bestand</string>
     <string name="donate">VLC helpen</string>
     <string name="donate_desc">Ondersteun de vrijwilligers die VLC maken</string>
@@ -978,6 +1055,7 @@
     <string name="mark_as_played">Markeren als afgespeeld</string>
     <string name="mark_as_not_played">Markeren als niet afgespeeld</string>
     <string name="mark_all_as_played">Alles markeren als afgespeeld</string>
+    <string name="mark_all_as_not_played">Alles markeren als niet afgespeeld</string>
     <string name="new_group">Nieuwe groep</string>
     <string name="new_group_desc">Nieuwe groep aanmaken</string>
 
@@ -1000,6 +1078,9 @@
     <string name="audio_delay_global">Audiovertraging ingesteld op %s ms voor alle video\'s</string>
     <string name="audio_delay_bt">Audiovertraging ingesteld op %s ms voor het bluetooth-apparaat</string>
     <string name="go_to_folder">Bladeren in bovenliggende map</string>
+    <string name="go_to_album">Naar album gaan</string>
+    <string name="go_to_artist">Naar artiest gaan</string>
+    <string name="go_to_album_artist">Naar album-artiest gaan</string>
     <string name="create_shortcut">Launcher-snelkoppeling aanmaken</string>
     <string name="no_sub_renderer">Ondertitels worden nog niet ondersteund tijdens het casten</string>
     <string name="enqueuing">Uw media laden</string>
@@ -1008,6 +1089,28 @@
     <string name="missing_media_snack">Media ontbreekt. Alle ontbrekende gegevens verbergen?</string>
     <string name="browser_show_missing_media">Ontbrekende media weergeven</string>
     <string name="browser_show_missing_media_summary">Externe media weergeven zelfs als ze niet aanwezig zijn</string>
+    <string name="parental_control">Ouderlijk toezicht</string>
+    <string name="safe_mode">Veilige modus</string>
+    <string name="safe_mode_summary">Wanneer deze functie is geactiveerd, kunnen bestanden niet worden verwijderd en kan de afspeellijst niet worden gewijzigd zonder de pincode in te voeren.</string>
+    <string name="safe_mode_pin">Voer uw pincode in</string>
+    <string name="pin_unlock_success">Met succes ontgrendeld. Tik op dit pictogram in de app om de veilige modus opnieuw in te schakelen:</string>
+    <string name="safe_mode_new_pin">Voer uw nieuwe pincode in</string>
+    <string name="safe_mode_re_pin">Voer uw pincode opnieuw in</string>
+    <string name="safe_mode_no_match">Pincodes komen niet overeen</string>
+    <string name="safe_mode_invalid_pin">Foute pincode</string>
+    <string name="safe_mode_pin_error">Uw pincode mag alleen cijfers bevatten</string>
+    <string name="pin_code_reason_create">Laten we eerst uw pincode aanmaken</string>
+    <string name="pin_code_reason_modify">Uw pincode wijzigen</string>
+    <string name="pin_code_modified">Pincode met succes gewijzigd</string>
+    <string name="pin_code_reason_check">Toegang beperkt. Voer uw pincode in</string>
+    <string name="pin_code_access_granted">Toegang verleend. U kunt opnieuw vergrendelen in het hoofdscherm</string>
+    <string name="safe_mode_enabled">Veilige modus is nu ingeschakeld</string>
+    <string name="restricted_access">Toegang beperkt</string>
+    <string name="unlock">Ontgrendelen</string>
+    <string name="lock_with_pin">Pin-vergrendeling opnieuw inschakelen</string>
+    <string name="unlock_with_pin">Veilige modus ontgrendelen</string>
+    <string name="lock_with_pin_short">Pin-vergrendeling</string>
+    <string name="restrict_settings">Toegang tot instellingen beperken</string>
     <string name="search_prefs">Instellingen doorzoeken</string>
     <string name="video_match_frame_rate_title">Zelfde beeldsnelheid als scherm</string>
     <string name="video_match_frame_rate_summary">De vernieuwingsfrequentie van het scherm afstemmen op de beeldsnelheid van de media. Bijvoorbeeld, een 24p film zou op 24p moeten worden afgespeeld.</string>
@@ -1019,10 +1122,13 @@
     <string name="delete_forever">Voor altijd verwijderen</string>
     <string name="add_to_existing_playlist">Aan bestaande afspeellijst toevoegen</string>
     <string name="bookmarks_title">Bladwijzers</string>
+    <string name="no_bookmark">Geen bladwijzer ingesteld</string>
     <string name="bookmark_default_name">Bladwijzer op %s</string>
     <string name="bookmark_name">Bladwijzer %s</string>
     <string name="add_bookmark">Bladwijzer toevoegen</string>
     <string name="bookmark_added">Bladwijzer toegevoegd</string>
+    <string name="previous_bookmark">Vorige bladwijzer</string>
+    <string name="next_bookmark">Volgende bladwijzer</string>
     <string name="show">Weergeven</string>
     <string name="optional_features">Optionele functies</string>
     <string name="optional_features_summary">Bèta-functies die momenteel worden getest en mogelijk niet stabiel zijn</string>
@@ -1037,6 +1143,12 @@
     <string name="move_down">Omlaag verplaatsen</string>
     <string name="remove_from_playlist">Verwijderen uit afspeellijst</string>
     <string name="play_media">%s afspelen</string>
+    <string name="edit_eq_preset">Equalizer-voorinstelling bewerken</string>
+    <string name="edit_eq_name_not_allowed">Deze naam is niet toegelaten</string>
+    <string name="export_equalizer">Equalizer exporteren</string>
+    <string name="hide_equalizer">Equalizer verbergen</string>
+    <string name="show_equalizer">Equalizer weergeven</string>
+
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Dubbele items toevoegen?</string>
     <string name="add_button">Toevoegen</string>
@@ -1049,8 +1161,17 @@
     <string name="notification_permission">Toestemming voor meldingen</string>
     <string name="notification_permission_explanation">VLC heeft uw toestemming nodig om meldingen te versturen.\nDe app zal u alleen verwittigen wanneer u uw media scant of de aangepaste video Picture in Picture gebruikt.\Weigeren zal niet voorkomen dat VLC werkt, maar de meldingen zullen worden verborgen.</string>
     <string name="permission">Toestemming</string>
+    <string name="permission_no_access">Geen bestandstoegang</string>
+    <string name="permissions">Machtigingen</string>
+    <string name="permissions_summary">Lijst van alle machtigingen</string>
+    <string name="manage_storage_permission">Bestandsmachtigingen</string>
+    <string name="permission_media_title">Toegang tot standaard media</string>
+    <string name="permission_all_title">Toegang tot alle bestanden</string>
+    <string name="permission_all_warning">Om dit in te schakelen moet u eerst de toegang tot standaard mediabestanden uitschakelen</string>
+    <string name="permission_media_warning">Om dit in te schakelen moet u eerst de machtiging voor volledige bestandstoegang uitschakelen</string>
     <string name="customize">Aanpassen</string>
     <string name="selection_count">%d geselecteerd</string>
+    <string name="control_setting">Bedieningsinstellingen</string>
     <string name="controls_setting">Bedieningsinstellingen</string> <!-- Unused -->
     <string name="gestures">Gebaren</string>
     <string name="player_controls">Spelerbediening</string>
@@ -1059,6 +1180,14 @@
     <string name="banned">Verbannen map (lang tikken om te wijzigen)</string>
     <string name="banned_tv">Verbannen map</string>
     <string name="banned_parent">Verbannen door bovenliggende map</string>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Dit item staat al in afspeellijst \"%s\".</item>
+        <item quantity="other">Deze items staan al in afspeellijst \"%s\".</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Een van de geselecteerde items staat al in afspeellijst \"%s\".</item>
+        <item quantity="other">%d van de geselecteerde items staan al in afspeellijst \"%s\".</item>
+    </plurals>
     <string name="official_website">Officiële website</string>
     <string name="view_online">Online weergeven</string>
     <string name="player_under_notch">Video weergeven onder notch</string>
@@ -1080,6 +1209,12 @@
     <string name="material_you">Material You (haalt kleuren van achtergrond)</string>
     <string name="palette">Palet (haalt kleuren van de albumhoes)</string>
     <string name="custom">Aangepast</string>
+    <string name="widget_type">Type widget</string>
+    <string name="widget_type_pill">Pil</string>
+    <string name="widget_type_normal">Normaal</string>
+    <string name="widget_type_circle">Cirkel</string>
+    <string name="widget_type_large">Groot</string>
+    <string name="widget_type_error">Dit type widget is te groot voor de widgetgrootte. Dit kan leiden tot visuele problemen.</string>
     <string name="opacity">Dekking</string>
     <string name="widget_background">Achtergrond</string>
     <string name="widget_foreground">Voorgrond</string>
@@ -1106,6 +1241,8 @@
 
 
 
+    <!--    accessibility-->
+    <string name="talkback_media_content_description">%1$s - titel: %2$s - duur: %3$s</string>
     <string name="talkback_genre">Genre: %s</string>
     <string name="talkback_history_item">Geschiedenis item</string>
     <string name="talkback_playlist">Afspeellijst: %s</string>
@@ -1132,6 +1269,7 @@
     <string name="talkback_video_tracks">Videosporen</string>
     <string name="talkback_audio_tracks">Audiosporen</string>
     <string name="talkback_subtitle_tracks">Ondertitelsporen</string>
+    <string name="talkback_subtitle_dowload_item">Taal: %1$s. %2$s. Naam: %3$s</string>
     <string name="selected">Geselecteerd</string>
     <string name="talkback_increase_delay">Vertraging vergroten</string>
     <string name="talkback_decrease_delay">Vertraging verkleinen</string>
@@ -1143,6 +1281,8 @@
     <string name="talkback_audio_player_collapsed">Audiospeler ingeklapt</string>
     <string name="talkback_audio_player_closed">Audiospeler gesloten</string>
     <string name="talkback_audio_player">Audiospeler. Nu speelt: %s</string>
+    <string name="talkback_out_of">%1$s van %2$s</string>
+    <string name="talkback_track_index">Track %1$s van %2$s</string>
     <string name="downloaded">Gedownload</string>
     <string name="not_downloaded">Niet gedownload</string>
     <string name="downloading">Downloaden</string>
@@ -1153,4 +1293,123 @@
     <string name="show_only_favs">Alleen favorieten weergeven</string>
     <string name="ignore_headset_media_button_presses">Indrukken van mediaknoppen op headset negeren</string>
     <string name="ignore_headset_media_button_presses_summary">Handig als u bijvoorbeeld een headset gebruikt met kapotte fysieke knoppen</string>
+    <string name="replace_playlist">Afspeellijst vervangen</string>
+
+    <!-- Remote access -->
+    <string name="ra_server_running">Externe toegang actief</string>
+    <string name="ra_remote_access">Externe toegang</string>
+    <string name="ra_remote_access_description">Statusmelding voor externe toegang</string>
+    <string name="ra_log_file">Logbestanden</string>
+    <string name="ra_log_type">Logtype</string>
+    <string name="ra_send_files">Bestanden verzenen</string>
+    <string name="ra_not_in_foreground">Toepassing is niet op de voorgrond. Kan video niet starten.</string>
+    <string name="ra_disconnected">Verbinding met apparaat verbroken</string>
+    <string name="ra_file">Bestand</string>
+    <string name="ra_upload_remaining">%s bestanden uploaden</string>
+    <string name="ra_upload_all">Alles uploaden</string>
+    <string name="ra_drop_files_tip">Zet bestanden ergens neer om naar uw apparaat te verzenden</string>
+    <string name="ra_prepare_download">Uw download klaarmaken</string>
+    <string name="ra_forbidden">Inhoud uitgeschakeld in de instellingen</string>
+    <string name="ra_playback_forbidden">Afspeelbediening uitgeschakeld in de instellingen</string>
+    <string name="ra_logs_forbidden">Delen van logs uitgeschakeld in de instellingen</string>
+    <string name="ra_code_requested_explanation">Om uw server te beschermen is de toegang beschermd.\nVoer de code in die weergegeven wordt in uw meldingen</string>
+    <string name="ra_ssl_explanation_title">Niet-beveiligde verbinding</string>
+    <string name="ra_ssl_explanation">Uw verbinding is niet beveiligd</string>
+    <string name="ra_ssl_explanation_browser">Vanwege de beveiligingsinstellingen van uw browser krijgt u op de volgende pagina een beveiligingswaarschuwing te zien.</string>
+    <string name="ra_ssl_explanation_accept">Zorg ervoor dat u het certificaat accepteert om gebruik te kunnen maken van de externe toegang.</string>
+    <string name="ra_ssl_button">Gebruik een beveiligde verbinding</string>
+    <string name="ra_new_code">Een nieuwe code versturen</string>
+    <string name="home">Home</string>
+    <string name="ra_code">Voer deze code in: %s</string>
+    <string name="ra_send_logs">Logs van externe toegang opslaan op het apparaat</string>
+    <string name="ra_otp">Eenmalig wachtwoord voor externe toegang</string>
+    <string name="ra_otp_description">Toegangsaanvragen voor de externe toegang</string>
+    <string name="ra_otp_title">Aanmeldingspoging voor externe toegang</string>
+    <string name="ra_otp_subtitle">Als u dit bent, voer dan deze code in op het andere apparaat</string>
+    <string name="ra_otp_not_me">Dit ben ik niet</string>
+
+    <string name="ra_onboarding_welcome_desc">Welkom bij externe toegang in VLC voor Android\nDoor deze functie in te schakelen, kunt u het afspelen op dit apparaat regelen en nog veel meer.</string>
+    <string name="ra_onboarding_how_title">Uw apparaat bedienen</string>
+    <string name="ra_onboarding_how_desc">Bedien de afspeelfuncties van uw apparaat, verstuur of haal bestanden op en nog veel meer.</string>
+    <string name="ra_onboarding_ssl_title">Gegevensversleuteling</string>
+    <string name="ra_onboarding_ssl_desc">De externe toegang is versleuteld om het lekken van uw gegevens te voorkomen</string>
+    <string name="ra_onboarding_otp_title">Authenticatie</string>
+    <string name="ra_onboarding_otp_desc">Met de eenmalige wachtwoordverificatie voorkomt u ongewenste toegang tot uw gegevens.</string>
+    <string name="ra_onboarding_content_title">Toegang tot inhoud</string>
+    <string name="ra_onboarding_content_desc">Kies wat toegankelijk is en wat niet</string>
+    <string name="ra_onboarding_content_ml">Toegang tot inhoud van mediabibliotheek</string>
+    <string name="ra_onboarding_content_files">Bestandsverkenner</string>
+    <string name="ra_onboarding_content_playback">Afspeelbediening</string>
+    <string name="ra_disable">Uitschakelen</string>
+    <string name="ra_log_web">Externe toegang log</string>
+    <string name="ra_log_crash">Crash log</string>
+    <string name="ra_log_mobile">Apparaat log</string>
+    <string name="ra_log_current">Huidige lokale logs</string>
+    <string name="ra_invalid_login">U moet aanmelden op uw apparaat</string>
+    <string name="ra_invalid_otp">Ongeldige code opgegeven</string>
+    <string name="learn_more">Meer informatie</string>
+
+    <!-- car screens -->
+    <string name="help">Help</string>
+    <string name="podcast_mode">Podcast-modus</string>
+    <string name="podcast_mode_help">Podcastbedieningselementen verschijnen bij het afspelen van een enkel nummer dat aan een van de volgende criteria voldoet:\n\t• Lengte groter dan 60 minuten\n\t• Lengte groter dan 15 minuten zonder albumnaam\n\t• Genre is %s</string>
+    <string name="voice_control">Spraakbesturing</string>
+    <string name="voice_control_help">VLC kan bediend worden via Google Assistant door de volgende opdrachten uit te spreken:\n\t• Afspelen, Pauzeren, Stoppen, Vorige, Volgende\n\t• Terugspoelen, Vooruitspoelen, Herhalen &lt;alles|een|uit&gt;\n\t• Springen naar &lt;tijd&gt;, Overslaan &lt;duur&gt;\n\t• Wat is &lt;artiest|album|nummer&gt;\n\t• Speel [artiest|album|nummer|genre|afspeellijst] &lt;naam&gt;</string>
+
+    <string name="network" >Netwerk</string>
+    <string name="metered_connection">Actie voor streams wanneer de verbinding een datalimiet heeft</string>
+    <string name="metered_do_nothing">Niets doen</string>
+    <string name="metered_stop">Afspelen stoppen</string>
+    <string name="metered_warn">Waarschuw mij (de waarschuwing kan worden gemist bij het afspelen van audio)</string>
+    <string name="metered_connection_stopped">Media gestopt omdat de verbinding een datalimiet heeft</string>
+    <string name="metered_connection_warning">Uw verbinding heeft een datalimiet. Er kunnen kosten van toepassing zijn.</string>
+    <string name="adding">Toevoegen</string>
+    <string name="to">aan</string>
+    <string name="device">Apparaat</string>
+    <string name="connected_device">Verbonden apparaat</string>
+    <string name="model">Model apparaat</string>
+    <string name="prefs_app_data">Toepassingsgegevens</string>
+    <string name="export_settings_summary">Uw instellingen exporteren naar een bestand om ze later te importeren</string>
+    <string name="export_settings">Instellingen exporteren</string>
+    <string name="restore_settings_summary">Uw instellingen herstellen van een vorige export</string>
+    <string name="restore_settings">Instellingen herstellen</string>
+    <string name="obsolete_restore_settings">De export van uw instellingen is verouderd. Exporteer ze opnieuw</string>
+    <string name="export_settings_success">Instellingen met succes geëxporteerd naar de hoofdmap van de interne opslag</string>
+    <string name="export_settings_failure">Er ging iets mis bij het exporteren van uw instellingen</string>
+
+    <string name="queue_info">Wachtrij-informatie</string>
+    <string name="queue_info_none">Wachtrij-positie niet weergeven</string>
+    <string name="queue_info_before_title">Voor titel</string>
+    <string name="queue_info_after_title">Achter titel</string>
+    <string name="queue_info_before_subtitle">Voor ondertitel</string>
+
+    <string name="title_size">Tekstgrootte titel</string>
+    <string name="subtitle_size">Tekstgrootte ondertitel</string>
+
+    <string name="queue_format">Wachtrij formaat</string>
+    <string name="queue_format_short_desc">Wachtrij-positie</string>
+    <string name="queue_format_long_desc">Wachtrij-positie / wachtrij-grootte</string>
+    <string name="video_settings_disclaimer">Sommige instellingen zijn verplaatst naar de instellingen voor videobedieningen in de videospeler.</string>
+    <string name="get_help">Hulp vragen</string>
+    <string name="feedback_type">Feedback-type</string>
+    <string name="how_to_use">Leer hoe te gebruiken</string>
+    <string name="send_feedback_request">Feedback / functie-aanvraag</string>
+    <string name="report_crash">Een crash rapporteren</string>
+    <string name="email_support">Contact opnemen met het ondersteuningsteam via e-mail</string>
+    <string name="read_doc">De documentatie lezen</string>
+    <string name="subject">Onderwerp</string>
+    <string name="body">Bericht</string>
+    <string name="rate_us">De app beoordelen</string>
+    <string name="generating_logs">Logs genereren. Even geduld.</string>
+    <string name="default_playback_action">Afspeel-actie</string>
+    <string name="files">Bestanden</string>
+    <string name="remote_access_feedback_generate">Rapport genereren</string>
+    <string name="remote_access_feedback_generated">Uw feedback-rapport is gegenereerd</string>
+    <string name="remote_access_feedback_generated_explanation">Tik op de onderstaande knop om het bericht te verzenden via uw standaard e-mailprogramma. Als u problemen ondervindt, kunt u de onderstaande velden kopiëren en plakken en het e-mailbericht zelf verzenden.</string>
+    <string name="remote_access_feedback_file_explanation">U hebt zojuist het benodigde bestand gedownload. Vergeet niet om het aan uw e-mail toe te voegen.</string>
+    <string name="generic_copied_to_clipboard">Naar klembord gekopieerd</string>
+    <string name="feedback_email_warning">Geen e-mail-client geïnstalleerd</string>
+    <string name="feedback_email_warning_explanation">De eenvoudigste manier om uw feedback te delen, is door gebruik te maken van de functie %1$s.\nSchakel hiervoor de externe toegang in via de instellingen, volg de instructies en kies de optie %2$s in het menu.</string>
+    <string name="feedback_email_warning_remote_action">De instellingen openen</string>
+    <string name="feedback_email_warning_try_anyway">Toch proberen</string>
     </resources>

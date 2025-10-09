@@ -68,6 +68,7 @@
     <string name="set_song_question">Встановити \'%1$s\' як мелодію дзвінків?</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
+    <string name="overwrite">Переписати</string>
     <string name="confirm_delete_message">Це незворотна дія, її неможливо повернути.</string>
     <string name="confirm_delete_album">Вилучити альбом%1$s?</string>
     <string name="confirm_delete_several_media">Вилучити ці %1$d медіа?</string>

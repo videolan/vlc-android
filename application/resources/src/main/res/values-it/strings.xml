@@ -677,6 +677,7 @@
     <string name="whats_new_title">Cosa c\'è di nuovo in VLC per Android %s</string>
     <string name="whats_new_37_equalizer_text">L\'equalizzatore è stato riprogettato da zero. È più facile da usare, consente di disattivare le preimpostazioni predefinite e di eseguire il backup, il ripristino e la condivisione delle preimpostazioni.</string>
     <string name="whats_new_37_import_export">Abbiamo migliorato la funzionalità di backup e ripristino delle impostazioni. Ora è possibile eseguire il backup di più impostazioni, incluse le preimpostazioni dell\'equalizzatore.</string>
+    <string name="whats_new_37_android_auto">A causa di alcuni vincoli di archiviazione, le impostazioni di Android Auto sono state spostate nell\'applicazione mobile. Questa è diventata la nuova posizione dove cambiare la tua esperienza di automotive.</string>
     <string name="show_in_settings">Mostra nelle impostazioni</string>
 
 <!--    update-->

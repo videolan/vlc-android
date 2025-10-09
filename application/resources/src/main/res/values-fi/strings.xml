@@ -674,7 +674,12 @@ Käynnistätkö uudelleen?</string>
 
     <!--What's new-->
     <string name="whats_new_title">Mitä uutta VLC Android %s</string>
-    <!--    update-->
+    <string name="whats_new_37_equalizer_text">Taajuuskorjain on uusittu kokonaan. Sitä on helppo käyttää. Oletukset voi poistaa käytöstä tai varmuuskopioida, palauttaa ja jakaa esiasetuksena.</string>
+    <string name="whats_new_37_import_export">Asetusten varmuuskopiointi- ja palautusominaisuutta on parannettu. Voit nyt varmuuskopioida useampia asetuksia, mukaan lukien taajuuskorjaimen esiasetukset.</string>
+    <string name="whats_new_37_android_auto">Uusien rajoitusten vuoksi Android Auton asetukset on siirretty mobiilisovellukseen. Tämä on uusi asia, joka muuttaa autoilukokemuksesi..</string>
+    <string name="show_in_settings">Näytä asetuksissa</string>
+
+<!--    update-->
     <string name="update_title">Päivitys saatavilla</string>
     <string name="install_nightly_title">Asenna ennakkoversio</string>
     <string name="update_text">Uusi VLC Android:lle on saatavilla ennakkoversiona

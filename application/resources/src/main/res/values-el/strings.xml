@@ -66,7 +66,14 @@
     <string name="set_song_question">Ορισμός \'%1$s\' ως ήχο κλήσης;</string>
     <string name="info">Πληροφορίες</string>
     <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\';</string>
+    <string name="equalizer_overwrite_warning">Αυτός ο ισοσταθμιστής υπάρχει ήδη</string>
+    <string name="overwrite">Αντικατάσταση</string>
+    <string name="eq_cannot_overwrite">Δεν είναι δυνατή η αντικατάσταση ενός προεπιλεγμένου ισοσταθμιστή</string>
+    <string name="equalizer_name">Όνομα ισοσταθμιστή</string>
+    <string name="equalizer_deleted">Ο ισοσταθμιστής έχει διαγραφεί</string>
+    <string name="invalid_equalizer_file">Μη έγκυρο αρχείο ισοσταθμιστή</string>
     <string name="confirm_replace_playlist">Είστε σίγουροι ότι θέλετε να αντικαταστήσετε την λίστα αναπαραγωγής %1$s;</string>
+    <string name="invalid_settings_file">Μη έγκυρο αρχείο ρυθμίσεων</string>
     <string name="confirm_delete_message">Αυτό είναι μόνιμο και δεν μπορεί να αναιρεθεί.</string>
     <string name="confirm_delete_album">Διαγραφή του άλμπουμ \'%1$s\';</string>
     <string name="confirm_delete_several_media">Διαγραφή των αρχείων %1$d;</string>
@@ -131,6 +138,12 @@
     <string name="video">Βίντεο</string>
     <string name="bookmarks">Σελιδοδείκτες</string>
     <string name="equalizer">Ισοσταθμιστής</string>
+    <string name="import_equalizer">Εισαγωγή ισοσταθμιστή</string>
+    <string name="new_equalizer_copy_template">Νέος ισοσταθμιστής%s</string>
+    <string name="show_all">Προβολή όλων</string>
+    <string name="hide_all">Απόκρυψη όλων</string>
+    <string name="export_all">Εξαγωγή όλων</string>
+    <string name="import_all">Εισαγωγή όλων</string>
     <string name="all_albums">Όλα τα άλμπουμ</string>
     <string name="genres">Είδη</string>
     <string name="playlists">Λίστα αναπαραγωγής</string>
@@ -318,6 +331,7 @@
     <string name="add_custom_path_description">Καταχωρήστε πρόσθετους εξατομικευμένους καταλόγους για σάρωση:</string>
     <string name="remove_custom_path">Αφαίρεση εξατομικευμένης διαδρομής</string>
     <string name="group_ban_folder">Αποκλεισμός φακέλου από την βιβλιοθήκη πολυμέσων</string>
+    <string name="ban_folder">Αποκλεισμός φακέλου</string>
     <string name="hardware_acceleration">Επιτάχυνση υλικού</string>
     <string name="hardware_acceleration_summary">Απενεργοποιημένο: μεγαλύτερη σταθερότητα \nΑποκωδικοποίηση: ενδέχεται να βελτιώσει την απόδοση\nΠλήρης: ενδέχεται να βελτιώσει περαιτέρω την απόδοση</string>
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
@@ -641,7 +655,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Τι νέο υπάρχει σχετικά με το VLC για το Android %s</string>
-    <!--    update-->
+    <string name="show_in_settings">Προβολή στις ρυθμίσεις</string>
+
+<!--    update-->
     <string name="update_title">Διατίθεται ενημέρωση</string>
     <string name="install_nightly_title">Εγκατάσταση της έκδοσης nightly</string>
     <string name="update_text">Μια νέα έκδοση nightly για το Android είναι διαθέσιμη!\n\nΒλέπετε αυτό το μήνυμα επειδή χρησιμοποιείτε μια έκδοση nightly.</string>
@@ -1115,6 +1131,11 @@
     <string name="move_down">Μετακίνηση κάτω</string>
     <string name="remove_from_playlist">Κατάργηση από τη λίστα αναπαραγωγής</string>
     <string name="play_media">Αναπαραγωγή %s</string>
+    <string name="edit_eq_name_not_allowed">Αυτό το όνομα δεν είναι επιτρεπτό</string>
+    <string name="export_equalizer">Εξαγωγή ισοσταθμιστή</string>
+    <string name="hide_equalizer">Απόκρυψη ισοσταθμιστή</string>
+    <string name="show_equalizer">Προβολή ισοσταθμιστή</string>
+
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">Προσθήκη διπλότυπου(ων) στοιχείου(ων);</string>
     <string name="add_button">Προσθήκη</string>

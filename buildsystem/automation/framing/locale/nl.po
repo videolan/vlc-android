@@ -1,42 +1,42 @@
 # 
 # Translators:
-# Nicolas POMEPUY <npomepuy.videolabs@gmail.com>, 2025
-# A. Regnander <anton_r_3@hotmail.com>, 2025
+# Thomas De Rocker, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2024-12-17 11:54+0000\n"
-"Last-Translator: A. Regnander <anton_r_3@hotmail.com>, 2025\n"
-"Language-Team: Swedish (https://app.transifex.com/yaron/teams/16553/sv/)\n"
+"Last-Translator: Thomas De Rocker, 2025\n"
+"Language-Team: Dutch (https://app.transifex.com/yaron/teams/16553/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
 msgid "Play all video formats"
-msgstr "Spela upp alla videoformat"
+msgstr "Alle videoformaten afspelen"
 
 msgid "Play all audio formats"
-msgstr "Spela upp alla ljudformat"
+msgstr "Alle audioformaten afspelen"
 
 msgid "Intuitive audio player"
-msgstr "Intuitiv ljudspelare"
+msgstr "Intuïtieve audiospeler"
 
 msgid "Audio equalizer for a sound to your taste"
-msgstr "Ljudequalizer för ett ljud efter din smak"
+msgstr "Audio-equalizer voor geluid naar jouw smaak"
 
 msgid "Easy to use file browser"
-msgstr "Filbläddrare som är enkel att använda."
+msgstr "Eenvoudige bestandsbrowser"
 
 msgid "Video player with gesture controls and other advanced options"
-msgstr "Videospelare med geststyrning och andra avancerade alternativ"
+msgstr "Videospeler met bediening met gebaren en andere geavanceerde opties"
 
 msgid "Keep watching with the popup player while using other apps"
-msgstr "Fortsätt titta med popup-spelaren medan du använder andra appar"
+msgstr ""
+"Blijven kijken met de popup-speler tijdens het gebruik van andere apps"
 
 msgid "Play everywhere on all of your Android devices"
-msgstr "Spela upp var som helst på alla dina Android-enheter"
+msgstr "Overal op al uw Android-apparaten afspelen"

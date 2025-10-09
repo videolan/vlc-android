@@ -688,6 +688,7 @@
     <string name="whats_new_title">Čo je nové vo VLC for Android %s</string>
     <string name="whats_new_37_equalizer_text">Ekvalizér bol od základu prepracovaný. Jeho používanie je teraz jednoduchšie, umožňuje deaktivovanie predvolených nastavení a umožňuje zálohovať, obnoviť a zdieľať vaše predvoľby.</string>
     <string name="whats_new_37_import_export">Vylepšili sme funkciu zálohovania a obnovy nastavení. Teraz dokáže zálohovať viac nastavení, vrátane prednastavení ekvalizéra.</string>
+    <string name="whats_new_37_android_auto">Kvôli novým obmedzeniam v obchode boli všetky nastavenia Android Auto presunuté do mobilnej aplikácie. Stáva sa tak novým miestom, kde môžete zmeniť svoj zážitok z jazdy autom.</string>
     <string name="show_in_settings">Zobraziť v nastaveniach</string>
 
 <!--    update-->

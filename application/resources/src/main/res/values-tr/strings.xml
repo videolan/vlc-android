@@ -666,6 +666,7 @@
     <string name="whats_new_title">Android için VLC %s yenilikleri</string>
     <string name="whats_new_37_equalizer_text">Dengeleyici sıfırdan yeniden hazırlandı. Kullanımı daha kolay. Varsayılan hazır ayarları kullanımdan kaldırmanın yanında hazır ayarlarınızı yedeklemenizi, geri yüklemenizi ve paylaşmanızı sağlar.</string>
     <string name="whats_new_37_import_export">Yedekleme ve geri yükleme ayarları özelliğini geliştirdik. Artık dengeleyici hazır ayarları ile birlikte daha fazla ayar yedeklenebiliyor.</string>
+    <string name="whats_new_37_android_auto">Bazı yeni mağaza kısıtlamaları nedeniyle, Android Auto ayarlarının tümü mobil uygulamaya taşındı. Mobil uygulama otomotiv deneyiminizi değiştirmek için yeni bir yer oldu.</string>
     <string name="show_in_settings">Ayarlarda görüntüle</string>
 
 <!--    update-->

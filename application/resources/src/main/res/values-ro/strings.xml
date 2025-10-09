@@ -677,6 +677,7 @@
     <string name="whats_new_title">Ce e nou în VLC pentru Android %s</string>
     <string name="whats_new_37_equalizer_text">Egalizatorul a fost refăcut de la zero. Este mai ușor de utilizat, îți permite să dezactivezi presetările implicite și îți permite să-ți faci backup (copie de rezervă), să îți restaurezi și să îți partajezi presetările.</string>
     <string name="whats_new_37_import_export">Am îmbunătățit funcția de backup (de copie de rezervă) și restaurare a setărilor. Acum îți permite să faci backup (copie de rezervă) la mai multe setări, inclusiv la presetările egalizatorului.</string>
+    <string name="whats_new_37_android_auto">Din cauza unor noi restricții ale Magazinului Play, setările Android Auto au fost mutate în aplicația mobilă. Aceasta devine noul loc unde îți poți schimba experiența auto.</string>
     <string name="show_in_settings">Afișează în setări</string>
 
 <!--    update-->

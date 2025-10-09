@@ -680,7 +680,11 @@
 
     <!--What's new-->
     <string name="whats_new_title">מה חדש ב־VLC ל־Android %s</string>
-    <!--    update-->
+    <string name="whats_new_37_equalizer_text">האקוולייזר שוכתב מאפס. הוא קל יותר לשימוש, מאפשר לך להשבית את ערכות ברירת המחדל ומאפשר לך לגבות,  לשחזר ולשתף את הערכות שלך.</string>
+    <string name="whats_new_37_import_export">שיפרנו את הגדרות הגיבוי והשחזור. מעתה ניתן לגבות יותר הגדרות לרבות ערכות האקוולייזר.</string>
+    <string name="show_in_settings">הצגה בהגדרות</string>
+
+<!--    update-->
     <string name="update_title">עדכון זמין</string>
     <string name="install_nightly_title">התקנת המהדורה שנבנתה בלילה</string>
     <string name="update_text">מהדורה לילית של VLC ל־Android זמינה!\n\nהסיבה שזה מופיע היא כי הגרסה שלך היא מהדורה לילית.</string>

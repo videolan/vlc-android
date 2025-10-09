@@ -666,6 +666,7 @@
     <string name="whats_new_title">Mida uut leidub VLC Androidi versioonis %s</string>
     <string name="whats_new_37_equalizer_text">Ekvalaiseri liides on nullist ümber ehitatud. Ta on nüüd mugavamalt kasutatav, vaikimisi eelseadistusi saad kasutuselt eemaldada ning võimaldab sinu eelseadistusi varundada, taastada ja jagada.</string>
     <string name="whats_new_37_import_export">Me oleme täiendanud varundamise ja taastamise seadistusi. Nüüd saad varundada enam seadistusi, sealhulgas ekvalaiseri eelseadistused.</string>
+    <string name="whats_new_37_android_auto">Mõnede rakendustepoe poolt lisatud piirangute tõttu on Android Auto seadistused viidud mobiilirakendusse. Edaspidi saad sealt hallata kasutust auto kontekstis.</string>
     <string name="show_in_settings">Näita seadistustes</string>
 
 <!--    update-->
