@@ -26,6 +26,7 @@ package org.videolan.television.ui.compose.composable.screens
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -113,6 +114,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
         pageCount = { tabs.size }
     )
 
+    val duration = 300
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -123,11 +125,11 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
             targetState = visible,
             transitionSpec = {
                 if (!targetState) {
-                    slideInVertically { height -> height } + fadeIn() togetherWith
-                            slideOutVertically { height -> -height } + fadeOut()
+                    slideInVertically(tween(duration)) { height -> height } + fadeIn(tween(duration)) togetherWith
+                            slideOutVertically(tween(duration)) { height -> -height } + fadeOut(tween(duration))
                 } else {
-                    slideInVertically { height -> -height } + fadeIn() togetherWith
-                            slideOutVertically { height -> height } + fadeOut()
+                    slideInVertically(tween(duration)) { height -> -height } + fadeIn(tween(duration)) togetherWith
+                            slideOutVertically(tween(duration)) { height -> 0 } + fadeOut(tween(duration))
                 }.using(
                     SizeTransform(clip = false)
                 )
