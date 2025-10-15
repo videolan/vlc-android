@@ -36,7 +36,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
@@ -82,8 +81,6 @@ import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
-import org.videolan.television.ui.compose.theme.Orange800
-import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
@@ -153,6 +150,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
             }, label = "tabs collapsing animation"
         ) { tabsVisible ->
             if (tabsVisible) {
+                val forceFocus = this.transition.isRunning && visible
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.focusGroup()
@@ -169,6 +167,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                                 }
                             },
                             modifier = Modifier,
+                            forceFocus = forceFocus,
                             indicator = { hasFocus ->
                                 Box(
                                     Modifier
