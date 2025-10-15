@@ -56,6 +56,7 @@ import org.videolan.television.viewmodel.MainActivityViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage: ImageVector, onClick: () -> Unit) {
+    var hasFocus by remember { mutableStateOf(false) }
     TooltipBox(
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below),
         tooltip = {
@@ -74,10 +75,13 @@ fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage:
         IconButton(
             onClick = onClick,
             modifier = modifier
+                .onFocusChanged{
+                    hasFocus = it.hasFocus
+                }
         ) {
             Icon(
                 imageVector = vectorImage,
-                tint = MaterialTheme.colorScheme.onSurface,
+                tint = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F),
                 contentDescription = label,
             )
         }

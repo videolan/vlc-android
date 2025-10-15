@@ -26,22 +26,28 @@ package org.videolan.television.ui.compose.composable.screens
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -50,8 +56,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -62,34 +66,36 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.MlProgress
-import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
+import org.videolan.television.ui.compose.composable.components.VLCTabRow
 import org.videolan.television.ui.compose.composable.lists.AudioListScreen
 import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
+import org.videolan.television.ui.compose.theme.Orange800
+import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.White
+import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
 
 @Composable
 fun MainScreen() {
     Box {
         MainContent()
-        MlProgress(modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp))
+        MlProgress(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        )
     }
 }
 
@@ -105,20 +111,21 @@ fun MainContent() {
 @Composable
 fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
     val tabs = viewModel.tabs
-    val focusRequesters = remember {
-        List(tabs.size) { FocusRequester() }
-    }
-    var hasFocus by remember { mutableStateOf(false) }
     var visible by remember { mutableStateOf(true) }
     val pagerState = rememberPagerState(
         pageCount = { tabs.size }
     )
+    val coroutineScope = rememberCoroutineScope()
 
     val duration = 300
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .padding(top = if (visible) 24.dp else 0.dp, start = 32.dp, end = 32.dp),
+            .padding(
+                top = if (visible) 24.dp else 0.dp,
+                start = 32.dp,
+                end = 32.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AnimatedContent(
@@ -135,74 +142,85 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                 )
             }, label = "tabs collapsing animation"
         ) { tabsVisible ->
-            if (tabsVisible)
-                PrimaryTabRow(
-                    selectedTabIndex = pagerState.currentPage,
-                    divider = {},
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.background,
-                    modifier = Modifier
-                        .focusProperties {
-                            onEnter = {
-                                focusRequesters[pagerState.currentPage].requestFocus()
-                                hasFocus = true
-                            }
-                            onExit = {
-                                hasFocus = false
-                            }
-                        }
-                        .padding(vertical = 4.dp, horizontal = 8.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .focusGroup(),
-                    indicator = { RoundedRectangleIndicator(hasFocus, Modifier.tabIndicatorOffset(pagerState.currentPage, matchContentSize = false)) }
+            if (tabsVisible) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.focusGroup()
                 ) {
-                    tabs.forEachIndexed { index, tab ->
-                        val selected = pagerState.currentPage == index
-                        val coroutineScope = rememberCoroutineScope()
-                        Tab(
-                            selected = selected,
-                            onClick = {
+                    Spacer(modifier = Modifier.width(48.dp))
+                    Spacer(modifier = Modifier.weight(1f))
+                    Box(modifier = Modifier) {
+                        VLCTabRow(
+                            selectedTabIndex = pagerState.currentPage,
+                            onSelected = { index ->
+                                if (index == pagerState.currentPage) return@VLCTabRow
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
                             },
-                            modifier = Modifier
-                                .height(36.dp)
-                                .clip(RoundedCornerShape(50))
-                                .zIndex(2f)
-                                .focusRequester(focusRequester = focusRequesters[index])
-                                .onFocusChanged {
-                                    if (it.isFocused) {
-                                        coroutineScope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
-                                    }
-                                },
-                            text = {
-                                Row {
+                            modifier = Modifier,
+                            indicator = { hasFocus ->
+                                Box(
+                                    Modifier
+                                        .fillMaxSize()
+//                                        .border(2.dp, if (hasFocus) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f), RoundedCornerShape(50))
+                                        .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
+                                )
+                            },
+                            tabNumber = tabs.size,
+                            key = "main",
+                            getTab = { index, focused ->
+                                val tab = tabs[index]
+                                val animatedColor by animateColorAsState(
+                                    targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                    label = "color"
+                                )
+                                if (tab.first == R.string.search) {
                                     Icon(
                                         painter = painterResource(tab.second),
-                                        tint = if (pagerState.currentPage == index) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                        tint = animatedColor,
                                         contentDescription = stringResource(id = R.string.reset),
                                         modifier = Modifier
                                             .width(24.dp)
                                             .height(24.dp)
                                     )
-                                    Text(
-                                        text = stringResource(tab.first),
-                                        color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                } else {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier
-                                            .padding(horizontal = 16.dp, vertical = 0.dp)
-                                            .align(Alignment.CenterVertically)
-                                    )
+                                            .height(24.dp)
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(tab.second),
+                                            tint = animatedColor,
+                                            contentDescription = stringResource(id = R.string.reset),
+                                            modifier = Modifier
+                                                .padding(start = 8.dp)
+                                                .width(24.dp)
+                                                .height(24.dp)
+                                        )
+                                        Text(
+                                            text = stringResource(tab.first),
+                                            style = MaterialTheme.typography.labelLarge,
+                                            color = animatedColor,
+                                            modifier = Modifier
+                                                .padding(horizontal = 8.dp)
+                                                .align(Alignment.CenterVertically)
+                                        )
+                                    }
                                 }
-                            },
-                            icon = null,
-                            enabled = true,
+                            }
                         )
+
                     }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Image(
+                        painter = painterResource(id = R.drawable.icon),
+                        contentDescription = stringResource(id = R.string.app_name),
+                        modifier = Modifier.size(48.dp)
+                    )
                 }
-            else
+            } else {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -219,7 +237,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                             .alpha(0.5f)
                     )
                 }
-
+            }
         }
         VLCContentPanel(pagerState) {
             visible = it
@@ -228,12 +246,12 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
 }
 
 @Composable
-private fun VLCContentPanel(pagerState: PagerState, onVisibleChange: (Boolean) -> Unit) {
+private fun VLCContentPanel(pagerState: PagerState, modifier: Modifier = Modifier, onVisibleChange: (Boolean) -> Unit) {
     HorizontalPager(
         pagerState,
         userScrollEnabled = false,
         verticalAlignment = Alignment.Top,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
     ) { page ->
         TabPanels(
