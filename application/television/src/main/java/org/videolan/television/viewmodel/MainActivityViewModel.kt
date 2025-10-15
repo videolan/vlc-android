@@ -39,6 +39,7 @@ import org.videolan.vlc.ScanProgress
 class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     val tabs = listOf(
+//        Pair(R.string.search, R.drawable.ic_search),
         Pair(R.string.video, R.drawable.ic_video),
         Pair(R.string.audio, R.drawable.ic_menu_audio),
         Pair(R.string.browse, R.drawable.ic_folder),
@@ -53,6 +54,9 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         R.string.genres,
         R.string.playlists,
     )
+
+    private val tabsX = mutableMapOf<String, Int>()
+
 
     val progress = MutableLiveData<ScanProgress?>(null)
     private var progressJob: Job = viewModelScope.launch {
@@ -75,5 +79,13 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         super.onCleared()
         progressJob.cancel()
         workingJob.cancel()
+    }
+
+    fun getOffsetForTab(key: String): Int {
+        return tabsX[key] ?: 0
+    }
+
+    fun setOffsetForTab(key: String, x: Int) {
+        tabsX[key] = x
     }
 }
