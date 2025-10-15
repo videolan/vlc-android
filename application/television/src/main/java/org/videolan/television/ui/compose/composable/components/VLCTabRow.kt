@@ -25,7 +25,6 @@
 package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.animation.core.animateIntOffsetAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
@@ -36,8 +35,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,8 +54,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.videolan.television.ui.compose.theme.White
-import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.px
 
@@ -68,6 +65,7 @@ private const val TAG = "VLC/VLCTabRow"
  *
  * @param selectedTabIndex The index of the currently selected tab
  * @param modifier Modifier to be applied to the layout
+ * @param forceFocus Force the focus on the currently selected tab
  * @param onSelected Callback called when a tab is selected
  * @param indicator The indicator composable to be used
  * @param tabNumber The number of tabs to display
@@ -78,6 +76,7 @@ private const val TAG = "VLC/VLCTabRow"
 fun VLCTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
+    forceFocus: Boolean = false,
     onSelected: (Int) -> Unit,
     indicator: @Composable (Boolean) -> Unit,
     tabNumber: Int,
@@ -98,6 +97,12 @@ fun VLCTabRow(
             IntOffset(pxToMove, 0),
         label = "offset"
     )
+
+    if (forceFocus) {
+        LaunchedEffect("") {
+            focusRequesters[selectedTabIndex].requestFocus()
+        }
+    }
     Box(
         modifier = modifier
             .onFocusChanged {
