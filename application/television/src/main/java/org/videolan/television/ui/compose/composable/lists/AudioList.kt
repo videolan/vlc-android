@@ -26,14 +26,15 @@ package org.videolan.television.ui.compose.composable.lists
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -42,30 +43,19 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecondaryScrollableTabRow
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -73,11 +63,13 @@ import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyColumn
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyGrid
-import org.videolan.television.ui.compose.composable.components.RoundedRectangleIndicator
+import org.videolan.television.ui.compose.composable.components.VLCTabRow
 import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.White
+import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
@@ -87,13 +79,9 @@ import org.videolan.vlc.BuildConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MediaListsViewModel = viewModel(), mainActivityViewModel: MainActivityViewModel = viewModel()) {
+fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityViewModel: MainActivityViewModel = viewModel()) {
     val context = LocalContext.current
     val settings = Settings.getInstance(context)
-    val focusRequesters = remember {
-        List(mainActivityViewModel.audioTabs.size) { FocusRequester() }
-    }
-    var hasFocus by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(
         pageCount = { mainActivityViewModel.audioTabs.size }
     )
@@ -102,23 +90,15 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
     Column(
         modifier = Modifier
     ) {
-        SecondaryScrollableTabRow(
+        VLCTabRow(
             selectedTabIndex = pagerState.currentPage,
-            divider = {},
-            containerColor = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.background,
-            edgePadding = 0.dp,
             modifier = Modifier
                 .padding(vertical = 4.dp, horizontal = 8.dp)
                 .focusProperties {
                     onEnter = {
-                        focusRequesters[pagerState.currentPage].requestFocus()
-                        hasFocus = true
                         onFocusEnter()
-
                     }
                     onExit = {
-                        hasFocus = false
                         if (requestedFocusDirection == FocusDirection.Up) {
                             if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
                             onFocusExit()
@@ -126,44 +106,34 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                     }
                 }
                 .focusGroup(),
-            indicator = { RoundedRectangleIndicator(hasFocus, Modifier.tabIndicatorOffset(pagerState.currentPage, matchContentSize = false)) }
-        ) {
-            mainActivityViewModel.audioTabs.forEachIndexed { index, tab ->
-                val selected = pagerState.currentPage == index
-                Tab(
-                    selected = selected,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
+
+            onSelected = { index ->
+                if (index == pagerState.currentPage) return@VLCTabRow
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(index)
+                }
+            },
+            tabNumber = mainActivityViewModel.audioTabs.size,
+            indicator = { hasFocus ->
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
+                )
+            },
+            key = "audio",
+            getTab = { index, focused ->
+                val tab = mainActivityViewModel.audioTabs[index]
+                Text(
+                    style = MaterialTheme.typography.labelLarge,
+                    text = stringResource(tab),
+                    color = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
                     modifier = Modifier
-                        .height(36.dp)
-                        .clip(RoundedCornerShape(50))
-                        .zIndex(2f)
-                        .focusRequester(focusRequester = focusRequesters[index])
-                        .onFocusChanged {
-                            if (it.isFocused) {
-                                settings.edit { putInt("audio_tab", index) }
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(index)
-                                }
-                            }
-                        },
-                    text = {
-                        Text(
-                            text = stringResource(tab),
-                            color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
-                            modifier = Modifier
-                                .padding(vertical = 0.dp)
-                                .align(Alignment.CenterHorizontally)
-                        )
-                    },
-                    icon = null,
-                    enabled = true,
+                        .padding(vertical = 0.dp, horizontal = 8.dp)
+                        .align(Alignment.CenterHorizontally)
                 )
             }
-        }
+        )
         HorizontalPager(
             pagerState,
             userScrollEnabled = false,
