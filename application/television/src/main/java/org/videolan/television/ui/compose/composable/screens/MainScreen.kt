@@ -27,6 +27,7 @@ package org.videolan.television.ui.compose.composable.screens
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -118,11 +119,20 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
     val coroutineScope = rememberCoroutineScope()
 
     val duration = 300
+    val animatedPadding by animateDpAsState(
+        if (visible) {
+            24.dp
+        } else {
+            0.dp
+        },
+        tween(duration),
+        label = "padding"
+    )
     Column(
         modifier = modifier
             .fillMaxHeight()
             .padding(
-                top = if (visible) 24.dp else 0.dp,
+                top = animatedPadding,
                 start = 32.dp,
                 end = 32.dp
             ),
