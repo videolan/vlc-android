@@ -87,7 +87,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun getOffsetForTab(key: String): Int {
-        return tabsX[key] ?: 0
+        return tabsX[key] ?: -1
     }
 
     fun setOffsetForTab(key: String, x: Int) {
