@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.util.Log
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -74,8 +75,9 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel
                         onFocusEnter()
                     }
                 }
-        ) {
-            VideoItem(it)
+                .focusGroup()
+        ) { video, modifier ->
+            VideoItem(video, modifier = modifier)
         }
     }
 }
