@@ -114,8 +114,12 @@ fun VLCTabRow(
                 .width((indicatorCoords?.size?.width?.px?.dp ?: 0.dp))
                 .height(indicatorCoords?.size?.height?.px?.dp ?: 0.dp)
                 .offset {
-                    mainActivityViewModel.setOffsetForTab(key, offset.x)
-                    offset
+                    if (mainActivityViewModel.getOffsetForTab(key) == -1)
+                        IntOffset(pxToMove, 0)
+                    else {
+                        mainActivityViewModel.setOffsetForTab(key, offset.x)
+                        offset
+                    }
                 }
         ) {
             indicator(hasFocus)
