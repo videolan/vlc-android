@@ -28,56 +28,102 @@ import android.util.Log
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
+import org.videolan.television.ui.compose.composable.components.PaginatedLazyColumn
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyGrid
 import org.videolan.television.ui.compose.composable.components.VlcLoader
 import org.videolan.television.ui.compose.composable.items.VideoItem
+import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
 import org.videolan.vlc.BuildConfig
 
 @Composable
 fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MediaListsViewModel = viewModel()) {
+    val context = LocalContext.current
     val videos by MediaListModelEntry.VIDEO.getMediaList(viewModel).observeAsState()
     val videoLoading by MediaListModelEntry.VIDEO.getLoadingState(viewModel).observeAsState()
-    val listState = rememberLazyGridState()
+    val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
+    val inCard = MediaListModelEntry.VIDEO.displayInCard(context)
     VlcLoader(videoLoading) {
-        PaginatedLazyGrid(
-            items = videos?.toPersistentList() ?: persistentListOf(),
-            loadMoreItems = { viewModel.loadMore(MediaListModelEntry.VIDEO) },
-            listState = listState,
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(top = 16.dp),
-            isLoading = videoLoading ?: false,
-            modifier = Modifier
-                .focusProperties {
-                    onExit = {
-                        when (requestedFocusDirection) {
-                            FocusDirection.Up -> {
-                                if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered")
-                                onFocusExit()
+
+        Row {
+            if (inCard) {
+                PaginatedLazyGrid(
+                    items = videos?.toPersistentList() ?: persistentListOf(),
+                    loadMoreItems = { viewModel.loadMore(MediaListModelEntry.VIDEO) },
+                    listState = gridState,
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(top = 16.dp),
+                    isLoading = videoLoading ?: false,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .focusProperties {
+                            onExit = {
+                                when (requestedFocusDirection) {
+                                    FocusDirection.Up -> {
+                                        if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered")
+                                        onFocusExit()
+                                    }
+                                }
+                                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "onExit")
+                            }
+                            onEnter = {
+                                onFocusEnter()
                             }
                         }
-                        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "onExit")
-                    }
-                    onEnter = {
-                        onFocusEnter()
-                    }
+                        .focusGroup()
+                ) { video, modifier ->
+                    VideoItem(video, modifier = modifier)
                 }
-                .focusGroup()
-        ) { video, modifier ->
-            VideoItem(video, modifier = modifier)
+            } else {
+                PaginatedLazyColumn(
+                    items = videos?.toPersistentList() ?: persistentListOf(),
+                    loadMoreItems = { viewModel.loadMore(MediaListModelEntry.VIDEO) },
+                    listState = listState,
+                    contentPadding = PaddingValues(top = 16.dp),
+                    isLoading = videoLoading ?: false,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .focusProperties {
+                            onExit = {
+                                when (requestedFocusDirection) {
+                                    FocusDirection.Up -> {
+                                        if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered")
+                                        onFocusExit()
+                                    }
+                                }
+                                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "onExit")
+                            }
+                            onEnter = {
+                                onFocusEnter()
+                            }
+                        }
+                        .focusGroup()
+                ) { video, modifier ->
+                    VideoItemList(video, modifier = modifier)
+                }
+            }
+            MediaListSidePanel(inCard, if (inCard) gridState else listState, MediaListModelEntry.VIDEO)
         }
     }
 }
