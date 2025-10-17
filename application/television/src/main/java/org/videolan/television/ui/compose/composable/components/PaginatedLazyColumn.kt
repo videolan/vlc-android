@@ -36,9 +36,17 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -64,7 +72,7 @@ fun PaginatedLazyColumn(
     loadMoreItems: () -> Unit,
     isLoading: Boolean,
     contentPadding: PaddingValues,
-    content: @Composable (item: MediaLibraryItem) -> Unit
+    content: @Composable (item: MediaLibraryItem, modifier: Modifier) -> Unit
 ) {
     val shouldLoadMore = remember {
         derivedStateOf {
@@ -73,6 +81,18 @@ fun PaginatedLazyColumn(
             lastVisibleItemIndex >= (itemsCount - 2) && !isLoading
         }
     }
+
+    val focusRequesters = remember {
+        HashMap<Long, FocusRequester>()
+    }
+    var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
+
+    focusRequesters.clear()
+    items.forEach {
+        focusRequesters[it.id] = FocusRequester()
+    }
+    if (items.isNotEmpty())
+        lastFocusedItem = items.first().id
 
     LaunchedEffect(listState) {
         snapshotFlow { shouldLoadMore.value }
@@ -83,13 +103,24 @@ fun PaginatedLazyColumn(
             }
     }
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier
+            .focusProperties {
+                onEnter = {
+                    focusRequesters[lastFocusedItem]?.requestFocus()
+                }
+            },
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = contentPadding,
         state = listState
     ) {
         itemsIndexed(items, key = { _, item -> item.id }) { index, item ->
-            content(item)
+            content(
+                item, Modifier
+                    .onFocusChanged {
+                        if (it.isFocused)
+                            lastFocusedItem = item.id
+                    }
+                    .focusRequester(focusRequester = focusRequesters[item.id] ?: FocusRequester.Default))
         }
     }
 }
@@ -117,7 +148,7 @@ fun PaginatedLazyGrid(
     verticalArrangement: Arrangement.HorizontalOrVertical,
     horizontalArrangement: Arrangement.HorizontalOrVertical,
     contentPadding: PaddingValues,
-    content: @Composable (item: MediaLibraryItem) -> Unit
+    content: @Composable (item: MediaLibraryItem, modifier: Modifier) -> Unit
 ) {
     val shouldLoadMore = remember {
         derivedStateOf {
@@ -126,6 +157,18 @@ fun PaginatedLazyGrid(
             lastVisibleItemIndex >= (itemsCount - 10) && !isLoading
         }
     }
+
+    val focusRequesters = remember {
+        HashMap<Long, FocusRequester>()
+    }
+    var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
+
+    focusRequesters.clear()
+    items.forEach {
+        focusRequesters[it.id] = FocusRequester()
+    }
+    if (items.isNotEmpty())
+        lastFocusedItem = items.first().id
 
     LaunchedEffect(listState) {
         snapshotFlow { shouldLoadMore.value }
@@ -137,14 +180,25 @@ fun PaginatedLazyGrid(
     }
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
-        modifier = modifier,
+        modifier = modifier
+            .focusProperties {
+                onEnter = {
+                    focusRequesters[lastFocusedItem]?.requestFocus()
+                }
+            },
         verticalArrangement = verticalArrangement,
         horizontalArrangement = horizontalArrangement,
         contentPadding = contentPadding,
         state = listState
     ) {
         itemsIndexed(items, key = { _, item -> item.id }) { index, item ->
-            content(item)
+            content(
+                item, Modifier
+                    .onFocusChanged {
+                        if (it.isFocused)
+                            lastFocusedItem = item.id
+                    }
+                    .focusRequester(focusRequester = focusRequesters[item.id] ?: FocusRequester.Default))
         }
     }
 }

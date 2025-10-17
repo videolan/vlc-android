@@ -87,7 +87,7 @@ fun AudioItem(audios: List<MediaLibraryItem>, index: Int, inCard: Boolean = true
 }
 
 @Composable
-fun AudioItemCard(item: MediaLibraryItem) {
+fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier) {
     val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -97,7 +97,7 @@ fun AudioItemCard(item: MediaLibraryItem) {
     Column {
         Card(
             border = vlcBorder(focused.value),
-            modifier = Modifier
+            modifier = modifier
                 .onFocusChanged {
                     focused.value = it.isFocused
                 }
@@ -198,7 +198,7 @@ fun AudioItemCard(item: MediaLibraryItem) {
 }
 
 @Composable
-fun AudioItemList(item: MediaLibraryItem) {
+fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier) {
     val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -206,7 +206,7 @@ fun AudioItemList(item: MediaLibraryItem) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
+            modifier = modifier
             .fillMaxWidth()
             .height(52.dp)
             .onFocusChanged {

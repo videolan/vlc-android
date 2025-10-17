@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
@@ -125,6 +126,11 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
         tween(duration),
         label = "padding"
     )
+
+    BackHandler(enabled = !visible) {
+        visible = true
+    }
+
     Column(
         modifier = modifier
             .fillMaxHeight()
