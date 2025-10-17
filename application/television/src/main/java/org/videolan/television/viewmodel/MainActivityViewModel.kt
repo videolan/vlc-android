@@ -55,6 +55,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         R.string.playlists,
     )
 
+    val videoTabs = listOf(
+        R.string.video,
+        R.string.playlists,
+    )
+
     private val tabsX = mutableMapOf<String, Int>()
 
 

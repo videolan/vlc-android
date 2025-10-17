@@ -68,9 +68,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
@@ -85,6 +87,8 @@ import org.videolan.television.ui.compose.composable.lists.VideoListScreen
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.tools.KEY_MAIN_TAB
+import org.videolan.tools.Settings
 
 @Composable
 fun MainScreen() {
@@ -109,12 +113,16 @@ fun MainContent() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val settings = Settings.getInstance(context)
+
     val tabs = viewModel.tabs
     var visible by remember { mutableStateOf(true) }
     val pagerState = rememberPagerState(
+        initialPage = settings.getInt(KEY_MAIN_TAB, 0),
         pageCount = { tabs.size }
     )
-    val coroutineScope = rememberCoroutineScope()
 
     val duration = 300
     val animatedPadding by animateDpAsState(
@@ -171,6 +179,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
+                                settings.edit { putInt(KEY_MAIN_TAB, index) }
                             },
                             modifier = Modifier,
                             forceFocus = forceFocus,
