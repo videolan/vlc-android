@@ -177,8 +177,8 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
                     verticalArrangement = Arrangement.spacedBy(24.dp),
                     horizontalArrangement = Arrangement.spacedBy(0.dp),
                     contentPadding = PaddingValues(top = 16.dp),
-                ) {
-                    AudioItemCard(it)
+                ) { audio, modifier ->
+                    AudioItemCard(audio, modifier)
                 }
             } else {
                 PaginatedLazyColumn(
@@ -190,8 +190,8 @@ fun MediaList(entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewM
                     listState = listState,
                     isLoading = audioLoading ?: false,
                     contentPadding = PaddingValues(top = 16.dp)
-                ) {
-                    AudioItemList(it)
+                ) { audio, modifier ->
+                    AudioItemList(audio, modifier)
                 }
             }
             MediaListSidePanel(inCard, if (inCard) gridState else listState, entry)
