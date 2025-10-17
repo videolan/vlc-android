@@ -56,6 +56,7 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -73,6 +74,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
+import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 
@@ -83,6 +85,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
     val context = LocalContext.current
     val settings = Settings.getInstance(context)
     val pagerState = rememberPagerState(
+        initialPage = settings.getInt(KEY_AUDIO_TAB, 0),
         pageCount = { mainActivityViewModel.audioTabs.size }
     )
     val coroutineScope = rememberCoroutineScope()
@@ -112,6 +115,8 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(index)
                 }
+                settings.edit { putInt(KEY_AUDIO_TAB, index) }
+
             },
             tabNumber = mainActivityViewModel.audioTabs.size,
             indicator = { hasFocus ->
@@ -148,10 +153,6 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
                 4 -> MediaList(MediaListModelEntry.AUDIO_PLAYLISTS)
             }
         }
-    }
-    LaunchedEffect(Unit) {
-        // Initial tab selection
-        pagerState.scrollToPage(settings.getInt("audio_tab", 0))
     }
 }
 
