@@ -66,7 +66,7 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHa
                     addAll(oldList)
                 }
                 addAll(newList)
-            }
+            }.distinctBy { it.id }
         }
         setLoading(entry.getLoadingState(this@MediaListsViewModel), false)
     }
@@ -99,6 +99,7 @@ enum class MediaListModelEntry(var currentPage:Int = -1, val inCardsKey: String,
     TRACKS(inCardsKey = "display_mode_audio_browser_track", defaultInCard = false),
     GENRES(inCardsKey = "display_mode_audio_browser_genres", defaultInCard = false),
     AUDIO_PLAYLISTS(inCardsKey = "display_mode_playlists_AudioOnly", defaultInCard = true),
+    VIDEO_PLAYLISTS(inCardsKey = "display_mode_playlists_Video", defaultInCard = true),
     ALL_PLAYLISTS(inCardsKey = "display_mode_playlists_All", defaultInCard = false);
 
     fun updateMediaList(viewModel: MediaListsViewModel, page: Int) = viewModel.load(this, page)
@@ -114,6 +115,7 @@ enum class MediaListModelEntry(var currentPage:Int = -1, val inCardsKey: String,
         TRACKS -> medialibrary.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
         GENRES -> medialibrary.getPagedGenres(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
         AUDIO_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.Audio, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        VIDEO_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.VideoOnly, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
         ALL_PLAYLISTS -> medialibrary.getPagedPlaylists(Playlist.Type.All, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
     }
 

@@ -169,6 +169,9 @@ const val KEY_PERSISTENT_INCOGNITO = "persistent_incognito"
 const val KEY_BROWSE_NETWORK = "browse_network"
 const val KEY_VIDEOS_CARDS = "video_display_in_cards"
 const val KEY_GROUP_VIDEOS = "video_min_group_length"
+const val KEY_MAIN_TAB = "main_tab"
+const val KEY_AUDIO_TAB = "audio_tab"
+const val KEY_VIDEO_TAB = "video_tab"
 
 
 // AudioPlayer
