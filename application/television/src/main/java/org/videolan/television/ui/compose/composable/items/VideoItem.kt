@@ -33,11 +33,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -70,6 +73,9 @@ import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.BlackTransparent50
+import org.videolan.television.ui.compose.theme.WhiteTransparent05
+import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
 
@@ -189,9 +195,125 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                 Icon(
                     painterResource(R.drawable.ic_favorite),
                     contentDescription = stringResource(R.string.favorite),
-                    modifier = Modifier.padding(8.dp).size(16.dp)
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .size(16.dp)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
+    val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
+    val coroutineScope = rememberCoroutineScope()
+    var focused by remember { mutableStateOf(false) }
+    val activity = LocalActivity.current
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp)
+            .onFocusChanged {
+                focused = it.isFocused
+            }
+            .combinedClickable(
+                onClick = {
+                    TvUtil.openMedia(activity as FragmentActivity, video)
+                },
+                onLongClick = {
+                    TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
+                },
+                indication = null,
+                interactionSource = null
+            )
+            .background(color = if (focused) WhiteTransparent10 else WhiteTransparent05, shape = MaterialTheme.shapes.medium)
+    ) {
+        Card {
+            Box(
+                modifier = Modifier
+                    .padding(0.dp)
+            ) {
+                if (mapBitmap.value != null) {
+                    Image(
+                        bitmap = mapBitmap.value!!.asImageBitmap(),
+                        contentDescription = "Map snapshot",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .aspectRatio(16f / 9)
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_video),
+                        contentDescription = "Map snapshot",
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .aspectRatio(16f / 9)
+                    )
+                    LaunchedEffect(key1 = "") {
+
+                        coroutineScope.launch {
+                            mapBitmap.value = ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt())
+                        }
+                    }
+                }
+                if ((video as MediaWrapper).seen > 0) {
+                    Box(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_check),
+                            contentDescription = stringResource(R.string.media_seen),
+                            modifier = Modifier
+                                .background(BlackTransparent50, RoundedCornerShape(4.dp))
+                                .padding(4.dp),
+                        )
+                    }
+                }
+            }
+        }
+        Column(modifier = Modifier
+            .wrapContentHeight()
+            .weight(1f)
+            .align(Alignment.CenterVertically)
+        ) {
+            Text(
+                video.title ?: "",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            )
+
+            val resolution = if (video is MediaWrapper) generateResolutionClass(video.width, video.height) else null
+            val description = if (resolution == null) video.description else TextUtils.separatedString(video.description, resolution)
+
+            Text(
+                description ?: "",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            )
+        }
+        if (video.isFavorite || (video as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
+            Icon(
+                painterResource(R.drawable.ic_favorite),
+                contentDescription = stringResource(R.string.favorite),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(16.dp)
+            )
         }
     }
 }
