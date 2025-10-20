@@ -62,7 +62,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
         val vh = holder as MediaViewHolder
         vh.job = launch {
-            var storage = getItem(position)
+            var storage = getItemByPosition(position)
             val title = storage.title
             if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
             val uri = (storage as Storage).uri
@@ -94,7 +94,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNotEmpty() && payloads[0] is CharSequence) {
-            if (!MedialibraryUtils.isBanned((getItem(position) as Storage).uri, bannedFolders)) {
+            if (!MedialibraryUtils.isBanned((getItemByPosition(position) as Storage).uri, bannedFolders)) {
                 (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
                 holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
             }
@@ -113,7 +113,7 @@ class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>
         if (!AndroidDevices.isTv) return
         if (browserContainer.isRootDirectory) return
         if (position < 0 || position > itemCount - 1) return
-        val uri = (getItem(position) as Storage).uri.toString()
+        val uri = (getItemByPosition(position) as Storage).uri.toString()
         val banned = MedialibraryUtils.isBanned(uri, bannedFolders)
         val context = bindingContainer.container.context
         val bannedParent = banned && !MedialibraryUtils.isStrictlyBanned(uri, bannedFolders)

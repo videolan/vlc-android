@@ -83,7 +83,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
                 eventsChannel.trySend(ImageClick(layoutPosition))
         }
 
-        override fun isSelected() = getItem(layoutPosition).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
+        override fun isSelected() = getItemByPosition(layoutPosition).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
         fun recycle() {
             when (binding) {
                 is HistoryItemBinding -> (binding as HistoryItemBinding).title.isSelected = false
@@ -109,7 +109,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val media = getItem(position)
+        val media = getItemByPosition(position)
         when (holder.binding) {
             is HistoryItemBinding -> {
                 (holder.binding as HistoryItemBinding).media = media
@@ -140,6 +140,8 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
             holder.selectView(multiSelectHelper.isSelected(position))
     }
 
+    override fun getItemByPosition(position: Int) = dataset[position]
+
     override fun getItemId(arg0: Int): Long {
         return 0
     }
@@ -160,7 +162,7 @@ class HistoryAdapter(private val inCards: Boolean = false, private val listEvent
     override fun onItemMove(fromPosition: Int, toPosition: Int) {    }
 
     override fun onItemDismiss(position: Int) {
-        val item = getItem(position)
+        val item = getItemByPosition(position)
         listEventsHandler?.onRemove(position, item)
     }
 

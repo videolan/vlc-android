@@ -613,7 +613,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onCtxAction(position: Int, option: ContextOption) {
         if (position >= videoListAdapter.itemCount) return
         val activity = activity ?: return
-        when (val media = videoListAdapter.getItem(position)) {
+        when (val media = videoListAdapter.getItemByPosition(position)) {
             is MediaWrapper -> when (option) {
                 CTX_PLAY_FROM_START -> viewModel.playVideo(activity, media, position, fromStart = true)
                 CTX_PLAY_AS_AUDIO -> viewModel.playAudio(activity, media)
@@ -692,7 +692,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private val thumbObs = Observer<MediaWrapper> { media ->
         if (!::videoListAdapter.isInitialized || viewModel.provider !is VideosProvider) return@Observer
         val position = viewModel.provider.pagedList.value?.indexOf(media) ?: return@Observer
-        val item = videoListAdapter.getItem(position) as? MediaWrapper
+        val item = videoListAdapter.getItemByPosition(position) as? MediaWrapper
         item?.run {
             artworkURL = media.artworkURL
             videoListAdapter.notifyItemChanged(position)

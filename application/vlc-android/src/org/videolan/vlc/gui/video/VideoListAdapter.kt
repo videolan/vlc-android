@@ -121,7 +121,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean, private va
         holder.binding.setVariable(BR.cover, UiTools.getDefaultVideoDrawable(holder.itemView.context))
     }
 
-    override fun getItem(position: Int) = if (isPositionValid(position)) super.getItem(position) else null
+    override fun getItemByPosition(position: Int) = if (isPositionValid(position)) super.getItem(position) else null
 
     private fun isPositionValid(position: Int) =  position in 0 until itemCount
 

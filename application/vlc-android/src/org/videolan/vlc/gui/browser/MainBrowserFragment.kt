@@ -464,7 +464,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
     override fun onCtxAction(position: Int, option: ContextOption) {
         val adapter = currentCtx?.requireAdapter() ?: return
-        val mw = adapter.getItem(position) as? MediaWrapper
+        val mw = adapter.getItemByPosition(position) as? MediaWrapper
                 ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.openMedia(activity, mw)

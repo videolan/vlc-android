@@ -44,7 +44,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.preference.PreferenceGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -848,7 +847,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onCtxAction(position: Int, option: ContextOption) {
-        val mw = adapter.getItem(position) as? MediaWrapper
+        val mw = adapter.getItemByPosition(position) as? MediaWrapper
                 ?: return
         when (option) {
             CTX_PLAY -> lifecycleScope.launch { MediaUtils.openMedia(activity, getMediaWithMeta(mw)) }

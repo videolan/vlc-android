@@ -12,7 +12,7 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
 
     fun getSelection(): List<T> {
         val list = ArrayList<T>(selectionMap.size)
-        for (i in 0 until selectionMap.size) adapter.getItem(selectionMap[i])?.let { list.add(it) }
+        for (i in 0 until selectionMap.size) adapter.getItemByPosition(selectionMap[i])?.let { list.add(it) }
         return list
     }
 
@@ -69,7 +69,7 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
 }
 
 interface MultiSelectAdapter<T> {
-    fun getItem(position: Int): T?
+    fun getItemByPosition(position: Int): T?
     fun notifyItemChanged(start: Int, payload: Any?)
     fun notifyItemRangeChanged(start: Int, count: Int, payload: Any?)
 }

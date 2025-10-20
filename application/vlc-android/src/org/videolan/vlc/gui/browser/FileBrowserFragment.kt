@@ -114,7 +114,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onCtxAction(position: Int, option: ContextOption) {
-        val mw = this.adapter.getItem(position) as MediaWrapper?
+        val mw = this.adapter.getItemByPosition(position) as MediaWrapper?
         when (option) {
             CTX_FAV_ADD -> lifecycleScope.launch { browserFavRepository.addLocalFavItem(mw!!.uri, mw.title, mw.artworkURL) }
             CTX_BAN_FOLDER -> {

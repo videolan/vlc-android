@@ -51,7 +51,7 @@ class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val bookmark = getItem(position)
+        val bookmark = getItemByPosition(position)
         holder.binding.bookmark = bookmark
 
         holder.binding.executePendingBindings()
@@ -78,7 +78,7 @@ class BookmarkAdapter(val bookmarkManager: IBookmarkManager) :
     override fun getItemCount() = dataset.size
 
     @MainThread
-    override fun getItem(position: Int) = dataset[position]
+    override fun getItemByPosition(position: Int) = dataset[position]
 
     inner class ViewHolder @TargetApi(Build.VERSION_CODES.M)
     constructor(v: View) : RecyclerView.ViewHolder(v), MarqueeViewHolder {
