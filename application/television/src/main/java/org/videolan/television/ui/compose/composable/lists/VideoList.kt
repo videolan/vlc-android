@@ -61,6 +61,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
+import org.videolan.resources.GROUP_VIDEOS_FOLDER
+import org.videolan.resources.GROUP_VIDEOS_NAME
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyColumn
 import org.videolan.television.ui.compose.composable.components.PaginatedLazyGrid
@@ -155,18 +157,24 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
 @Composable
 fun VideoList(viewModel: MediaListsViewModel = viewModel()) {
     val context = LocalContext.current
-    val videos by MediaListModelEntry.VIDEO.getMediaList(viewModel).observeAsState()
-    val videoLoading by MediaListModelEntry.VIDEO.getLoadingState(viewModel).observeAsState()
+    val videoGrouping = viewModel.videoGrouping.observeAsState()
+    val videoEntry =  when (videoGrouping.value) {
+        GROUP_VIDEOS_NAME -> MediaListModelEntry.VIDEO_GROUP
+        GROUP_VIDEOS_FOLDER -> MediaListModelEntry.VIDEO_FOLDER
+        else -> MediaListModelEntry.VIDEO
+    }
+    val videos by videoEntry.getMediaList(viewModel).observeAsState()
+    val videoLoading by videoEntry.getLoadingState(viewModel).observeAsState()
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
-    val inCard = MediaListModelEntry.VIDEO.displayInCard(context)
+    val inCard = videoEntry.displayInCard(context)
     VlcLoader(videoLoading) {
 
         Row {
             if (inCard) {
                 PaginatedLazyGrid(
                     items = videos?.toPersistentList() ?: persistentListOf(),
-                    loadMoreItems = { viewModel.loadMore(MediaListModelEntry.VIDEO) },
+                    loadMoreItems = { viewModel.loadMore(videoEntry) },
                     listState = gridState,
                     verticalArrangement = Arrangement.spacedBy(24.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -181,7 +189,7 @@ fun VideoList(viewModel: MediaListsViewModel = viewModel()) {
             } else {
                 PaginatedLazyColumn(
                     items = videos?.toPersistentList() ?: persistentListOf(),
-                    loadMoreItems = { viewModel.loadMore(MediaListModelEntry.VIDEO) },
+                    loadMoreItems = { viewModel.loadMore(videoEntry) },
                     listState = listState,
                     contentPadding = PaddingValues(top = 16.dp),
                     isLoading = videoLoading ?: false,
@@ -192,7 +200,7 @@ fun VideoList(viewModel: MediaListsViewModel = viewModel()) {
                     VideoItemList(video, modifier = modifier)
                 }
             }
-            MediaListSidePanel(inCard, if (inCard) gridState else listState, MediaListModelEntry.VIDEO)
+            MediaListSidePanel(inCard, if (inCard) gridState else listState, videoEntry, showGrouping = true)
         }
     }
 }

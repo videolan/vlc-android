@@ -34,17 +34,27 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.List
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.ArrowUpward
+import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.GridView
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.res.stringResource
@@ -52,12 +62,15 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import org.videolan.resources.GROUP_VIDEOS_FOLDER
+import org.videolan.resources.GROUP_VIDEOS_NAME
+import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.television.R
 import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
 
 @Composable
-fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: MediaListModelEntry, viewModel: MediaListsViewModel = viewModel()) {
+fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: MediaListModelEntry, showGrouping: Boolean = false, viewModel: MediaListsViewModel = viewModel()) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     Column(
@@ -97,6 +110,56 @@ fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: Media
         }
         LabeledIconButton(stringResource(if (inCard) R.string.display_in_list else R.string.display_in_grid), vectorImage = if (inCard) Icons.AutoMirrored.Outlined.List else Icons.Outlined.GridView) {
             viewModel.changeDisplayInCard(entry)
+        }
+        if (showGrouping) {
+            var expanded by remember { mutableStateOf(false) }
+
+            LabeledIconButton(
+                stringResource(R.string.videos_groups_title),
+                vectorImage = Icons.Outlined.Collections
+            ) {
+                expanded = !expanded
+            }
+            DropdownMenu(
+                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceDim),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+
+                DropdownMenuItem(
+                    leadingIcon = {
+                        if (viewModel.videoGrouping.value == GROUP_VIDEOS_NAME)
+                            Icon(Icons.Default.Check, contentDescription = null)
+                    },
+                    text = { Text(stringResource(R.string.video_min_group_length_name)) },
+                    onClick = {
+                        viewModel.setVideoGrouping(GROUP_VIDEOS_NAME)
+                        expanded = false
+                    }
+                )
+                DropdownMenuItem(
+                    leadingIcon = {
+                        if (viewModel.videoGrouping.value == GROUP_VIDEOS_FOLDER)
+                            Icon(Icons.Default.Check, contentDescription = null)
+                    },
+                    text = { Text(stringResource(R.string.video_min_group_length_folder)) },
+                    onClick = {
+                        viewModel.setVideoGrouping(GROUP_VIDEOS_FOLDER)
+                        expanded = false
+                    }
+                )
+                DropdownMenuItem(
+                    leadingIcon = {
+                        if (viewModel.videoGrouping.value == GROUP_VIDEOS_NONE)
+                            Icon(Icons.Default.Check, contentDescription = null)
+                    },
+                    text = { Text(stringResource(R.string.video_min_group_length_disable)) },
+                    onClick = {
+                        viewModel.setVideoGrouping(GROUP_VIDEOS_NONE)
+                        expanded = false
+                    }
+                )
+            }
         }
     }
 }
