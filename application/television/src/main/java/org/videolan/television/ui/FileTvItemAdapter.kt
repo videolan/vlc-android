@@ -74,7 +74,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
     override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
-        val item = getItem(position)
+        val item = getItemByPosition(position)
         holder.setItem(item)
         holder.binding.executePendingBindings()
         if (position == focusNext) {
@@ -130,7 +130,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
     ) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding)
     {
 
-        override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
+        override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItemByPosition(layoutPosition)
 
         override fun getView() = binding.container
 
@@ -220,7 +220,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             private val showProtocol: Boolean
     ) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemListBinding>(binding) {
 
-        override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
+        override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItemByPosition(layoutPosition)
 
         override fun getView() = binding.container
 
