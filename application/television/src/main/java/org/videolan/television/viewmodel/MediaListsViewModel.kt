@@ -31,11 +31,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.GROUP_VIDEOS_NAME
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.Settings
+import org.videolan.vlc.providers.medialibrary.sanitizeGroups
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.CallBackDelegate
 import org.videolan.vlc.viewmodels.ICallBackHandler
@@ -46,10 +51,13 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHa
 
     val lists = List(MediaListModelEntry.entries.size) { MutableLiveData<List<MediaLibraryItem>>()}
     val loadingStates = List(MediaListModelEntry.entries.size) { MutableLiveData(false)}
+    var videoGrouping = MutableLiveData(Settings.getInstance(getContext()).getString(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME))
+
 
     init {
         @Suppress("LeakingThis")
         viewModelScope.registerCallBacks { refresh() }
+
     }
 
     fun load(entry: MediaListModelEntry, page: Int) = viewModelScope.launch {
@@ -65,7 +73,7 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHa
                 entry.getMediaList(this@MediaListsViewModel).value?.let { oldList ->
                     addAll(oldList)
                 }
-                addAll(newList)
+                addAll(if (entry == MediaListModelEntry.VIDEO_GROUP) (newList as Array<VideoGroup>).sanitizeGroups() else newList)
             }.distinctBy { it.id }
         }
         setLoading(entry.getLoadingState(this@MediaListsViewModel), false)
@@ -90,10 +98,17 @@ class MediaListsViewModel(app: Application) : TvMediaViewModel(app), ICallBackHa
         load(entry, 0)
         entry.currentPage = 0
     }
+
+    fun setVideoGrouping(grouping: String) {
+        Settings.getInstance(getContext()).edit { putString(KEY_GROUP_VIDEOS, grouping) }
+        videoGrouping.postValue(grouping)
+    }
 }
 
 enum class MediaListModelEntry(var currentPage:Int = -1, val inCardsKey: String, val defaultInCard: Boolean) {
     VIDEO(inCardsKey = "video_display_in_cards", defaultInCard = true),
+    VIDEO_GROUP(inCardsKey = "video_display_in_cards", defaultInCard = true),
+    VIDEO_FOLDER(inCardsKey = "video_display_in_cards", defaultInCard = true),
     ARTISTS(inCardsKey = "display_mode_audio_browser_artists", defaultInCard = true),
     ALBUMS(inCardsKey = "display_mode_audio_browser_albums", defaultInCard = true),
     TRACKS(inCardsKey = "display_mode_audio_browser_track", defaultInCard = false),
@@ -110,6 +125,8 @@ enum class MediaListModelEntry(var currentPage:Int = -1, val inCardsKey: String,
 
     fun getQuery(medialibrary: Medialibrary, page: Int) = when (this) {
         VIDEO -> medialibrary.getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        VIDEO_GROUP -> medialibrary.getVideoGroups(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
+        VIDEO_FOLDER -> medialibrary.getFolders(Folder.TYPE_FOLDER_VIDEO,Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
         ARTISTS -> medialibrary.getPagedArtists(true, Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
         ALBUMS -> medialibrary.getPagedAlbums(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
         TRACKS -> medialibrary.getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, true, false, MEDIALIBRARY_PAGE_SIZE, page* MEDIALIBRARY_PAGE_SIZE)
