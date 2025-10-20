@@ -21,20 +21,30 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Config
 import androidx.paging.DataSource
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import androidx.paging.PositionalDataSource
+import androidx.paging.cachedIn
 import androidx.paging.toLiveData
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.HeaderProvider
+import org.videolan.resources.util.waitForML
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.media.MediaUtils
@@ -44,6 +54,7 @@ import org.videolan.vlc.util.SortModule
 import org.videolan.vlc.viewmodels.SortableModel
 import kotlin.math.min
 
+private const val TAG = "VLC/MedialibraryProvider"
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val model: SortableModel) : HeaderProvider(),
         SortModule
 {
@@ -62,6 +73,13 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
             loading.postValue((value || medialibrary.isWorking) && Permissions.canReadStorage(context))
             field = value
         }
+
+    lateinit var pagingSource:MedialibraryPagingSource
+    val pager = Pager(PagingConfig(pageSize = MEDIALIBRARY_PAGE_SIZE, initialLoadSize = MEDIALIBRARY_PAGE_SIZE)) {
+        pagingSource = MedialibraryPagingSource()
+        pagingSource
+    }.flow
+        .cachedIn(model.viewModelScope)
 
     open val isVideoPermDependant = false
     open val isAudioPermDependant = false
@@ -153,15 +171,18 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
             (isAudioPermDependant && !Permissions.canReadAudios(context))
 
     fun refresh(): Boolean {
-        if ((isRefreshing && medialibrary.isWorking) || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
+        if ((isRefreshing && medialibrary.isWorking) || !medialibrary.isStarted || (!this::dataSource.isInitialized && !this::pagingSource.isInitialized)) return false
         if (checkPermissions()) {
             loading.postValue(false)
             return false
         }
         privateHeaders.clear()
-        if (!dataSource.isInvalid) {
+        if (::dataSource.isInitialized && !dataSource.isInvalid) {
             isRefreshing = true
             dataSource.invalidate()
+        }
+        if (::pagingSource.isInitialized && !pagingSource.invalid) {
+            pagingSource.invalidate()
         }
         return true
     }
@@ -205,5 +226,56 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
 
     inner class MLDatasourceFactory : DataSource.Factory<Int, T>() {
         override fun create() = MLDataSource().also { dataSource = it }
+    }
+
+    inner class MedialibraryPagingSource() : PagingSource<Int, T>() {
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
+            try {
+                val nextPageNumber = params.key ?: 0
+                if (checkPermissions()) {
+                    loading.postValue(false)
+                    return LoadResult.Page(
+                        data = emptyList(),
+                        prevKey = null,
+                        nextKey = null
+                    )
+                }
+                waitForML()
+                val page = getPage(params.loadSize, params.loadSize * nextPageNumber)
+                try {
+                    var pagePosition = params.key ?: 0
+                    val nextKey = if (page.size < params.loadSize) null else nextPageNumber + 1
+                    return LoadResult.Page(
+                        itemsBefore = pagePosition * MEDIALIBRARY_PAGE_SIZE,
+                        data = page.toList(),
+                        prevKey = null,
+                        nextKey = nextKey
+                    )
+                } catch (e: IllegalArgumentException) {
+                }
+                isRefreshing = !medialibrary.isStarted
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+            }
+            return LoadResult.Page(
+                data = emptyList(),
+                prevKey = null,
+                nextKey = null
+            )
+        }
+
+        override fun getRefreshKey(state: PagingState<Int, T>): Int? {
+            // Try to find the page key of the closest page to anchorPosition from
+            // either the prevKey or the nextKey; you need to handle nullability
+            // here.
+            //  * prevKey == null -> anchorPage is the first page.
+            //  * nextKey == null -> anchorPage is the last page.
+            //  * both prevKey and nextKey are null -> anchorPage is the
+            //    initial page, so return null.
+            return state.anchorPosition?.let { anchorPosition ->
+                val anchorPage = state.closestPageToPosition(anchorPosition)
+                anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+            }
+        }
     }
 }
