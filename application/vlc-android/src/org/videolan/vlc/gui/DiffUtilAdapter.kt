@@ -42,7 +42,7 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
     @MainThread
     fun isEmpty() = dataset.isEmpty()
 
-    open fun getItem(position: Int) = dataset[position]
+    open fun getItemByPosition(position: Int) = dataset[position]
 
     override fun getItemCount() = dataset.size
 

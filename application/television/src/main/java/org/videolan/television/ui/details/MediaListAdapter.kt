@@ -39,7 +39,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
     }
 
     override fun onBindViewHolder(holder: MediaListViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = getItemByPosition(position)
         holder.binding.item = item
         holder.binding.holder = holder
         holder.binding.subtitle = if (item.getDiscNumberString() != null) "${item.artistName} · ${item.getDiscNumberString()}" else item.artistName
@@ -83,7 +83,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
                 val playAlpha = if (v == binding.itemSelector && hasFocus) 1f else 0f
                 binding.itemPlay.animate().alpha(playAlpha)
                 if (hasFocus) {
-                    listener.onFocusChanged(getItem(layoutPosition))
+                    listener.onFocusChanged(getItemByPosition(layoutPosition))
                     focusListener?.onFocusChanged(layoutPosition)
                 }
 

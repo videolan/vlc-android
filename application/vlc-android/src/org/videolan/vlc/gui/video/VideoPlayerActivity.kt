@@ -1911,7 +1911,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         override fun onCtxAction(position: Int, option: ContextOption) {
             if (position in 0 until overlayDelegate.playlistAdapter.itemCount) when (option) {
                 CTX_ADD_TO_PLAYLIST -> {
-                    val mw = overlayDelegate.playlistAdapter.getItem(position)
+                    val mw = overlayDelegate.playlistAdapter.getItemByPosition(position)
                     addToPlaylist(listOf(mw))
                 }
                 CTX_REMOVE_FROM_PLAYLIST -> service?.run {
@@ -1924,11 +1924,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 CTX_GO_TO_ALBUM -> {
                     val i = Intent(this@VideoPlayerActivity, HeaderMediaListActivity::class.java)
-                    i.putExtra(AudioBrowserFragment.TAG_ITEM, overlayDelegate.playlistAdapter.getItem(position).album)
+                    i.putExtra(AudioBrowserFragment.TAG_ITEM, overlayDelegate.playlistAdapter.getItemByPosition(position).album)
                     startActivity(i)
                 }
                 CTX_GO_TO_ARTIST -> lifecycleScope.launch(Dispatchers.IO) {
-                    val artist = overlayDelegate.playlistAdapter.getItem(position).artist
+                    val artist = overlayDelegate.playlistAdapter.getItemByPosition(position).artist
                     val i = Intent(this@VideoPlayerActivity, SecondaryActivity::class.java)
                     i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS)
                     i.putExtra(AudioBrowserFragment.TAG_ITEM, artist)
@@ -1937,10 +1937,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     startActivity(i)
                 }
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
-                    overlayDelegate.playlistAdapter.getItem(position).isFavorite = option == CTX_FAV_ADD
+                    overlayDelegate.playlistAdapter.getItemByPosition(position).isFavorite = option == CTX_FAV_ADD
                     overlayDelegate.playlistAdapter.notifyItemChanged(position)
                 }
-                CTX_SHARE -> lifecycleScope.launch { share(overlayDelegate.playlistAdapter.getItem(position)) }
+                CTX_SHARE -> lifecycleScope.launch { share(overlayDelegate.playlistAdapter.getItemByPosition(position)) }
                 else -> {}
             }
         }

@@ -572,7 +572,7 @@ open class HeaderMediaListActivity : AudioPlayerContainerActivity(), IEventsHand
 
     override fun onCtxAction(position: Int, option: ContextOption) {
         if (position >= audioBrowserAdapter.itemCount) return
-        val media = audioBrowserAdapter.getItem(position) as MediaWrapper? ?: return
+        val media = audioBrowserAdapter.getItemByPosition(position) as MediaWrapper? ?: return
         when (option) {
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> lifecycleScope.launch { removeItem(position, media) }

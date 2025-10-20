@@ -31,7 +31,7 @@ class FilePickerAdapter internal constructor(browserContainer: BrowserContainer<
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
         val h = holder as MediaViewHolder
-        val media = getItem(position) as MediaWrapper
+        val media = getItemByPosition(position) as MediaWrapper
         h.bindingContainer.setItem(media)
         h.bindingContainer.setHasContextMenu(false)
         h.bindingContainer.setProtocol(null)

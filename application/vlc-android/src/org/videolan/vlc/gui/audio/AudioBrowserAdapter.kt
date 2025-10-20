@@ -170,7 +170,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
-        val item = getItem(position)
+        val item = getItemByPosition(position)
         holder.setItem(item)
         if (item is Artist) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
         if (item is Genre) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.track_quantity, item.tracksCount, item.tracksCount)
@@ -220,7 +220,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
                     UPDATE_REORDER -> {
                        holder.binding.invalidateAll()
                     }
-                    UPDATE_FAVORITE_STATE -> getItem(position)?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
+                    UPDATE_FAVORITE_STATE -> getItemByPosition(position)?.let { holder.binding.setVariable(BR.isFavorite, it.isFavorite) }
                 }
             }
         }
@@ -238,16 +238,16 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
 
     override fun getItemId(position: Int): Long {
         if (!isPositionValid(position)) return -1
-        val item = getItem(position)
+        val item = getItemByPosition(position)
         return item?.id ?: -1
     }
 
-    override fun getItem(position: Int): MediaLibraryItem? {
+    override fun getItemByPosition(position: Int): MediaLibraryItem? {
         return if (position in 0 until itemCount) super.getItem(position) else null
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = getItem(position)
+        val item = getItemByPosition(position)
         return item?.itemType ?: MediaLibraryItem.TYPE_MEDIA
     }
 
@@ -274,7 +274,7 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     override fun onItemDismiss(position: Int) {
-        val item = getItem(position)
+        val item = getItemByPosition(position)
         listEventsHandler!!.onRemove(position, item!!)
     }
 
@@ -388,23 +388,23 @@ open class AudioBrowserAdapter @JvmOverloads constructor(
             get() = reorderable && !stopReorder
 
         fun onClick(v: View) {
-            getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
+            getItemByPosition(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
         }
 
         fun onMoreClick(v: View) {
-            getItem(layoutPosition)?.let { eventsHandler.onCtxClick(v, layoutPosition, it) }
+            getItemByPosition(layoutPosition)?.let { eventsHandler.onCtxClick(v, layoutPosition, it) }
         }
 
         fun onLongClick(v: View): Boolean {
-            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(v, layoutPosition, it) } == true
+            return getItemByPosition(layoutPosition)?.let { eventsHandler.onLongClick(v, layoutPosition, it) } == true
         }
 
         fun onImageClick(v: View) {
-            getItem(layoutPosition)?.let { eventsHandler.onImageClick(v, layoutPosition, it) }
+            getItemByPosition(layoutPosition)?.let { eventsHandler.onImageClick(v, layoutPosition, it) }
         }
 
         fun onMainActionClick(v: View) {
-            getItem(layoutPosition)?.let { eventsHandler.onMainActionClick(v, layoutPosition, it) }
+            getItemByPosition(layoutPosition)?.let { eventsHandler.onMainActionClick(v, layoutPosition, it) }
         }
 
 

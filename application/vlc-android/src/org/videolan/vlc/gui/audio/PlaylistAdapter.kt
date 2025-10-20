@@ -126,7 +126,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val media = getItem(position)
+        val media = getItemByPosition(position)
         holder.binding.media = media
         holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
         holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
@@ -182,7 +182,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     override fun getItemCount() = dataset.size
 
     @MainThread
-    override fun getItem(position: Int) = dataset[position]
+    override fun getItemByPosition(position: Int) = dataset[position]
 
     override fun onUpdateFinished() {
         model?.run { currentIndex = selection }
@@ -204,7 +204,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
     override fun onItemDismiss(position: Int) {
         model?.let {
-            val media = getItem(position)
+            val media = getItemByPosition(position)
             val message = String.format(AppContextProvider.appResources.getString(R.string.remove_playlist_item), media.title)
             val originalPosition = it.getOriginalPosition(position)
             if (player is Fragment) {
@@ -245,7 +245,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
         fun onMoreClick(v: View) {
             val position = layoutPosition
-            player.onPopupMenu(v, position, getItem(position))
+            player.onPopupMenu(v, position, getItemByPosition(position))
         }
 
         fun onDeleteClick(@Suppress("UNUSED_PARAMETER") v: View) {
