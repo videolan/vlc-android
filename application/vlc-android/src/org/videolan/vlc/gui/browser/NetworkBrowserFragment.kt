@@ -134,7 +134,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
     }
 
     override fun onCtxAction(position: Int, option: ContextOption) {
-        val mw = this.adapter.getItem(position) as MediaWrapper
+        val mw = this.adapter.getItemByPosition(position) as MediaWrapper
         when (option) {
             CTX_FAV_ADD -> lifecycleScope.launch { browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL) }
             else -> super.onCtxAction(position, option)

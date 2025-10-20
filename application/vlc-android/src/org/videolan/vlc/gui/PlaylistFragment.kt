@@ -274,7 +274,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         when (option) {
             CTX_PLAY_ALL -> MediaUtils.playAll(activity, viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
             CTX_RENAME -> {
-                val media = getCurrentAdapter()?.getItem(position) ?: return
+                val media = getCurrentAdapter()?.getItemByPosition(position) ?: return
                 val dialog = RenameDialog.newInstance(media)
                 dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
             }

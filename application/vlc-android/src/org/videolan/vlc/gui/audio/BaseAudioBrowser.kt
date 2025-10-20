@@ -511,7 +511,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onCtxAction(position: Int, option: ContextOption) {
         if (position >= getCurrentAdapter()?.itemCount ?: 0) return
-        val media = getCurrentAdapter()?.getItem(position) ?: return
+        val media = getCurrentAdapter()?.getItemByPosition(position) ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.playTracks(requireActivity(), media, 0)
             CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(requireActivity(), media, SecureRandom().nextInt(min(media.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)

@@ -170,7 +170,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         if (payloads.isEmpty())
             onBindViewHolder(holder, position)
         else if (payloads[0] == UPDATE_PROGRESS) {
-            val media = getItem(position) as MediaWrapper
+            val media = getItemByPosition(position) as MediaWrapper
             val max = (media.length / 1000).toInt()
             val progress = (media.displayTime / 1000).toInt()
             (holder as MediaViewHolder).bindingContainer.setProgress(holder.bindingContainer.container.context, progress, max)
@@ -178,7 +178,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         }  else if (payloads[0] is CharSequence) {
             (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
             holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
-            val item = getItem(position) as MediaWrapper
+            val item = getItemByPosition(position) as MediaWrapper
             holder.bindingContainer.container.contentDescription = TalkbackUtil.getDir(holder.binding.root.context, item, item.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE))
         } else if (payloads[0] is Int) {
             val value = payloads[0] as Int
@@ -188,7 +188,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     }
 
     private fun onBindMediaViewHolder(vh: MediaViewHolder, position: Int) {
-        val media = getItem(position) as MediaWrapper
+        val media = getItemByPosition(position) as MediaWrapper
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
         val max = (media.length / 1000).toInt()
         val progress = (media.displayTime / 1000).toInt()
@@ -283,9 +283,9 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         }
 
         override fun onCheckBoxClick(v: View) {
-            when (getItem(layoutPosition)) {
-                is Storage -> checkBoxAction(v, (getItem(layoutPosition) as Storage).uri.toString())
-                is MediaWrapper -> checkBoxAction(v, (getItem(layoutPosition) as MediaWrapper).uri.toString())
+            when (getItemByPosition(layoutPosition)) {
+                is Storage -> checkBoxAction(v, (getItemByPosition(layoutPosition) as Storage).uri.toString())
+                is MediaWrapper -> checkBoxAction(v, (getItemByPosition(layoutPosition) as MediaWrapper).uri.toString())
             }
         }
 
@@ -318,7 +318,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
 
         override fun onLongClick(v: View): Boolean {
             val position = layoutPosition
-            if (getItem(position).itemType == TYPE_STORAGE && Settings.showTvUi) {
+            if (getItemByPosition(position).itemType == TYPE_STORAGE && Settings.showTvUi) {
                 bindingContainer.browserCheckbox.toggle()
                 onCheckBoxClick(bindingContainer.browserCheckbox)
                 return true
@@ -348,12 +348,12 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         return dataset
     }
 
-    override fun getItem(position: Int): MediaLibraryItem {
+    override fun getItemByPosition(position: Int): MediaLibraryItem {
         return dataset[position]
     }
 
     override fun getItemViewType(position: Int): Int {
-        return getItem(position).itemType
+        return getItemByPosition(position).itemType
     }
 
 

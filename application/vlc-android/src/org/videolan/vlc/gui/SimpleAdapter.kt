@@ -43,9 +43,9 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
         val isSelected = multiSelectHelper.isSelected(position)
         holder.selectView(isSelected)
         holder.binding.position = position
-        holder.binding.item = getItem(position)
+        holder.binding.item = getItemByPosition(position)
         holder.binding.imageWidth = 48.dp
-        (getItem(position) as? DummyItem)?.let {
+        (getItemByPosition(position) as? DummyItem)?.let {
             holder.binding.cover =  getDummyItemIcon(holder.itemView.context, it)
         }
         if (defaultCover != null) {
@@ -67,7 +67,7 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
 
     fun isEmpty() = itemCount == 0
 
-    override fun getItem(position: Int): MediaLibraryItem? {
+    override fun getItemByPosition(position: Int): MediaLibraryItem? {
         return if (position in 0 until itemCount) super.getItem(position) else null
     }
 

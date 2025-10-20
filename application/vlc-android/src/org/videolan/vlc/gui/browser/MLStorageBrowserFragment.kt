@@ -252,7 +252,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
 
         override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
             if (isRootDirectory) {
-                val storage = storageBrowserAdapter.getItem(position) as Storage
+                val storage = storageBrowserAdapter.getItemByPosition(position) as Storage
                 val path = storage.uri.path ?: return
                 lifecycleScope.launchWhenStarted {
                     val isCustom = localViewModel.customDirectoryExists(path.stripTrailingSlash())
@@ -268,7 +268,7 @@ class MLStorageBrowserFragment : BaseFragment(), IStorageFragmentDelegate by Sto
         override fun onItemFocused(v: View, item: MediaLibraryItem) {}
     }
     override fun onCtxAction(position: Int, option: ContextOption) {
-        val storage = storageBrowserAdapter.getItem(position) as Storage
+        val storage = storageBrowserAdapter.getItemByPosition(position) as Storage
         val path = storage.uri.path ?: return
         localViewModel.deleteCustomDirectory(path)
         localViewModel.remove(storage)
