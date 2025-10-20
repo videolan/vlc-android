@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.compose.composable.items
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
@@ -66,7 +67,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
@@ -78,6 +82,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
 fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
@@ -135,7 +140,7 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                         }
                     }
                 }
-                if ((video as MediaWrapper).seen > 0) {
+                if (video is MediaWrapper && video.seen > 0) {
                     Box(
                         modifier = Modifier
                             .padding(8.dp)
@@ -150,7 +155,7 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                         )
                     }
                 }
-                generateResolutionClass(video.width, video.height)?.let {
+                if (video is MediaWrapper) generateResolutionClass(video.width, video.height)?.let {
                     Box(
                         modifier = Modifier
                             .padding(8.dp)
@@ -182,7 +187,7 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                         .fillMaxWidth()
                 )
                 Text(
-                    video.description ?: "",
+                    video.getVideoDescription(activity!!, false) ?: "",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodySmall,
@@ -203,6 +208,41 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
         }
     }
 }
+
+fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = when (this) {
+    is Folder -> {
+        val count = mediaCount(Folder.TYPE_FOLDER_VIDEO)
+        context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, count, count)
+    }
+
+    is VideoGroup -> {
+        val count = mediaCount()
+        if (count < 2)
+            this.description
+        else if (presentCount == mediaCount())
+            context.resources.getQuantityString(org.videolan.vlc.R.plurals.videos_quantity, count, count)
+        else if (presentCount == 0)
+            context.resources.getString(org.videolan.vlc.R.string.no_video)
+        else getPresenceDescription()
+    }
+
+    is MediaWrapper -> {
+        if (length > 0) {
+            val resolution = generateResolutionClass(width, height)
+//            val lastTime = displayTime
+//            if (lastTime > 0) {
+//                max = (length / 1000).toInt()
+//                progress = (lastTime / 1000).toInt()
+//            }
+            if (inList && resolution !== null) {
+                "${Tools.millisToString(length)}  •  $resolution"
+            } else Tools.millisToString(length)
+        } else null
+    }
+
+    else -> null
+}
+
 
 @Composable
 fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
@@ -261,7 +301,7 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                         }
                     }
                 }
-                if ((video as MediaWrapper).seen > 0) {
+                if (video is MediaWrapper && video.seen > 0) {
                     Box(
                         modifier = Modifier
                             .padding(4.dp)
@@ -278,10 +318,11 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                 }
             }
         }
-        Column(modifier = Modifier
-            .wrapContentHeight()
-            .weight(1f)
-            .align(Alignment.CenterVertically)
+        Column(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f)
+                .align(Alignment.CenterVertically)
         ) {
             Text(
                 video.title ?: "",
@@ -297,7 +338,7 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
             val description = if (resolution == null) video.description else TextUtils.separatedString(video.description, resolution)
 
             Text(
-                description ?: "",
+                video.getVideoDescription(activity!!, false) ?: "",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
