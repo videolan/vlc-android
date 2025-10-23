@@ -118,6 +118,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
     val settings = Settings.getInstance(context)
 
     val tabs = viewModel.tabs
+    var firstLaunch by remember { mutableStateOf(true) }
     var visible by remember { mutableStateOf(true) }
     val pagerState = rememberPagerState(
         initialPage = settings.getInt(KEY_MAIN_TAB, 0),
@@ -164,7 +165,8 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
             }, label = "tabs collapsing animation"
         ) { tabsVisible ->
             if (tabsVisible) {
-                val forceFocus = this.transition.isRunning && visible
+                val forceFocus = (this.transition.isRunning || firstLaunch) && visible
+                firstLaunch = false
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.focusGroup()
