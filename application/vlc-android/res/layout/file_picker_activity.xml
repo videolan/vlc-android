@@ -6,6 +6,7 @@
         android:layout_width="@dimen/file_picker_width"
         android:layout_height="@dimen/file_picker_height"
         android:minHeight="320dp"
+        android:background="?attr/background_default_darker"
         android:orientation="vertical"
         tools:layout_height="320dp">
 
