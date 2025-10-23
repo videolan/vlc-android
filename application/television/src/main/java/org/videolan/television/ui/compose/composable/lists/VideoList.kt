@@ -65,6 +65,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
+import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelListenerKey
 import org.videolan.television.ui.compose.composable.components.PaginatedGrid
@@ -153,15 +154,7 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
             modifier = Modifier.fillMaxSize()
         ) { page ->
             when (page) {
-                0 -> {
-                    var reloadKey by remember { mutableIntStateOf(0) }
-                    key(reloadKey) {
-                        VideoList {
-                            reloadKey++
-                        }
-                    }
-                }
-
+                0 -> VideoList()
                 1 -> MediaList(MediaListModelEntry.VIDEO_PLAYLISTS)
             }
         }
@@ -170,72 +163,74 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
 
 
 @Composable
-fun VideoList(invalidateListener: () -> Unit) {
-    val context = LocalContext.current
+fun VideoList() {
+    InvalidationComposable { invalidate ->
+        val context = LocalContext.current
 
-    val extras = MutableCreationExtras().apply {
-        set(VideosViewModel.PARENT_GROUP_KEY, null)
-        set(VideosViewModel.PARENT_FOLDER_KEY, null)
-        set(APPLICATION_KEY, context.applicationContext as Application)
-    }
-    val viewModel: VideosViewModel = viewModel(
-        factory = VideosViewModel.Factory,
-        extras = extras,
-    )
+        val extras = MutableCreationExtras().apply {
+            set(VideosViewModel.PARENT_GROUP_KEY, null)
+            set(VideosViewModel.PARENT_FOLDER_KEY, null)
+            set(APPLICATION_KEY, context.applicationContext as Application)
+        }
+        val viewModel: VideosViewModel = viewModel(
+            factory = VideosViewModel.Factory,
+            extras = extras,
+        )
 
 
-    val videos = viewModel.provider.pager.collectAsLazyPagingItems()
-    val videoEntry = when (viewModel.groupingType) {
-        VideoGroupingType.NAME -> MediaListModelEntry.VIDEO_GROUP
-        VideoGroupingType.FOLDER -> MediaListModelEntry.VIDEO_FOLDER
-        else -> MediaListModelEntry.VIDEO
-    }
-    val listState = rememberLazyListState()
-    val gridState = rememberLazyGridState()
-    var inCard by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_VIDEOS_CARDS, true)) }
+        val videos = viewModel.provider.pager.collectAsLazyPagingItems()
+        val videoEntry = when (viewModel.groupingType) {
+            VideoGroupingType.NAME -> MediaListModelEntry.VIDEO_GROUP
+            VideoGroupingType.FOLDER -> MediaListModelEntry.VIDEO_FOLDER
+            else -> MediaListModelEntry.VIDEO
+        }
+        val listState = rememberLazyListState()
+        val gridState = rememberLazyGridState()
+        var inCard by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_VIDEOS_CARDS, true)) }
 
-    VlcLoader(videos.loadState.refresh == LoadState.Loading) {
-        Row {
-            if (inCard) {
-                PaginatedGrid(
-                    items = videos,
-                    listState = gridState,
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(top = 16.dp),
-                    loaderAspectRatio = 16f / 9,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
-                ) { video, modifier ->
-                    VideoItem(video, modifier = modifier)
-                }
-            } else {
-                PaginatedList(
-                    items = videos,
-                    listState = listState,
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(top = 16.dp),
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
-                ) { video, modifier ->
-                    VideoItemList(video, modifier = modifier)
-                }
-            }
-            MediaListSidePanel(inCard, if (inCard) gridState else listState, videoEntry, grouping = viewModel.groupingType) { first, second ->
-                when (first) {
-                    MediaListSidePanelListenerKey.DISPLAY_MODE -> {
-                        inCard = second as Boolean
-                        Settings.getInstance(context).edit { putBoolean(KEY_VIDEOS_CARDS, inCard) }
-                        invalidateListener()
+        VlcLoader(videos.loadState.refresh == LoadState.Loading) {
+            Row {
+                if (inCard) {
+                    PaginatedGrid(
+                        items = videos,
+                        listState = gridState,
+                        verticalArrangement = Arrangement.spacedBy(24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(top = 16.dp),
+                        loaderAspectRatio = 16f / 9,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f)
+                    ) { video, modifier ->
+                        VideoItem(video, modifier = modifier)
                     }
+                } else {
+                    PaginatedList(
+                        items = videos,
+                        listState = listState,
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(top = 16.dp),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f)
+                    ) { video, modifier ->
+                        VideoItemList(video, modifier = modifier)
+                    }
+                }
+                MediaListSidePanel(inCard, if (inCard) gridState else listState, videoEntry, grouping = viewModel.groupingType) { first, second ->
+                    when (first) {
+                        MediaListSidePanelListenerKey.DISPLAY_MODE -> {
+                            inCard = second as Boolean
+                            Settings.getInstance(context).edit { putBoolean(KEY_VIDEOS_CARDS, inCard) }
+                            invalidate()
+                        }
 
-                    MediaListSidePanelListenerKey.GROUPING -> {
-                        val videoGroup = second as VideoGroupingType
-                        Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, videoGroup.settingsKey)
-                        viewModel.changeGroupingType(videoGroup)
-                        invalidateListener()
+                        MediaListSidePanelListenerKey.GROUPING -> {
+                            val videoGroup = second as VideoGroupingType
+                            Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, videoGroup.settingsKey)
+                            viewModel.changeGroupingType(videoGroup)
+                            invalidate()
+                        }
                     }
                 }
             }
