@@ -74,7 +74,7 @@ ext {
     viewPager2Version = "1.0.0"
     archVersion = '2.2.0'
     roomVersion = '2.6.1'
-    pagingVersion = '3.2.1'
+    pagingVersion = '3.3.6'
     junitVersion = '4.13.2'
     junitExtVersion = '1.1.5'
     mockito = '2.25.0'
