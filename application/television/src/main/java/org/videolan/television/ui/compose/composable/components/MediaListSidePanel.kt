@@ -67,7 +67,7 @@ import org.videolan.television.viewmodel.MediaListsViewModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 @Composable
-fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: MediaListModelEntry, grouping: VideoGroupingType? = null, viewModel: MediaListsViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
+fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, grouping: VideoGroupingType? = null, viewModel: MediaListsViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     Column(
