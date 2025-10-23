@@ -21,10 +21,15 @@
 package org.videolan.vlc.viewmodels.mobile
 
 import android.content.Context
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +37,13 @@ import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.GROUP_VIDEOS_FOLDER
+import org.videolan.resources.GROUP_VIDEOS_NAME
+import org.videolan.resources.GROUP_VIDEOS_NONE
+import org.videolan.tools.KEY_GROUP_VIDEOS
+import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoGridFragment
@@ -60,8 +71,9 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
 
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
-    internal fun changeGroupingType(type: VideoGroupingType) {
+    fun changeGroupingType(type: VideoGroupingType) {
         if (groupingType == type) return
+        if (BuildConfig.DEBUG) Log.d("Grouping", "Changed grouping type to $type")
         groupingType = type
         provider = loadProvider()
         providers[0] = provider
@@ -78,6 +90,36 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return VideosViewModel(context.applicationContext, groupingType, folder, group) as T
+        }
+    }
+    companion object {
+
+
+        // Define a custom key for your dependency
+        val PARENT_GROUP_KEY = object : CreationExtras.Key<VideoGroup?> {}
+        val PARENT_FOLDER_KEY = object : CreationExtras.Key<Folder?> {}
+
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val application = checkNotNull(this[APPLICATION_KEY])
+                val parentGroup = this[PARENT_GROUP_KEY]
+                val parentFolder = this[PARENT_FOLDER_KEY]
+
+                val grouping = if (parentGroup != null || parentFolder != null) VideoGroupingType.NONE else when (Settings.getInstance(application).getString(KEY_GROUP_VIDEOS, null) ?: GROUP_VIDEOS_NAME) {
+                    GROUP_VIDEOS_NONE -> VideoGroupingType.NONE
+                    GROUP_VIDEOS_FOLDER -> VideoGroupingType.FOLDER
+                    else -> VideoGroupingType.NAME
+                }
+
+                VideosViewModel(
+                    application,
+                    grouping,
+                    parentFolder,
+                    parentGroup
+//                    savedStateHandle
+                )
+            }
         }
     }
 
@@ -242,8 +284,8 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     }
 }
 
-enum class VideoGroupingType {
-    NONE, FOLDER, NAME
+enum class VideoGroupingType(val settingsKey: String) {
+    NONE(GROUP_VIDEOS_NONE), FOLDER(GROUP_VIDEOS_FOLDER), NAME(GROUP_VIDEOS_NAME)
 }
 
 internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: VideoGroup?) = ViewModelProvider(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group))[VideosViewModel::class.java]
