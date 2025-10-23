@@ -59,15 +59,12 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
-import org.videolan.television.viewmodel.MediaListModelEntry
-import org.videolan.television.viewmodel.MediaListsViewModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 @Composable
-fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, grouping: VideoGroupingType? = null, viewModel: MediaListsViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
+fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, grouping: VideoGroupingType? = null, listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     Column(
