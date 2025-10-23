@@ -25,23 +25,11 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import androidx.compose.foundation.focusGroup
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.videolan.television.ui.compose.composable.components.VlcLoader
-import org.videolan.television.ui.compose.composable.items.AudioItem
-import org.videolan.television.viewmodel.MediaListModelEntry
-import org.videolan.television.viewmodel.MediaListsViewModel
 
 @Composable
 fun PlaylistsList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {

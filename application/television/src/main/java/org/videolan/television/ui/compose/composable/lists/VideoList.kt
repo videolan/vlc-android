@@ -45,8 +45,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -77,7 +75,6 @@ import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.KEY_VIDEOS_CARDS
 import org.videolan.tools.KEY_VIDEO_TAB
