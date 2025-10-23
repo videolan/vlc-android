@@ -155,7 +155,7 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
         ) { page ->
             when (page) {
                 0 -> VideoList()
-                1 -> MediaList(MediaListModelEntry.VIDEO_PLAYLISTS)
+                1 -> MediaList(AudioListEntry.VIDEO_PLAYLISTS)
             }
         }
     }
@@ -179,11 +179,6 @@ fun VideoList() {
 
 
         val videos = viewModel.provider.pager.collectAsLazyPagingItems()
-        val videoEntry = when (viewModel.groupingType) {
-            VideoGroupingType.NAME -> MediaListModelEntry.VIDEO_GROUP
-            VideoGroupingType.FOLDER -> MediaListModelEntry.VIDEO_FOLDER
-            else -> MediaListModelEntry.VIDEO
-        }
         val listState = rememberLazyListState()
         val gridState = rememberLazyGridState()
         var inCard by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_VIDEOS_CARDS, true)) }
@@ -217,7 +212,7 @@ fun VideoList() {
                         VideoItemList(video, modifier = modifier)
                     }
                 }
-                MediaListSidePanel(inCard, if (inCard) gridState else listState, videoEntry, grouping = viewModel.groupingType) { first, second ->
+                MediaListSidePanel(inCard, if (inCard) gridState else listState, grouping = viewModel.groupingType) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
                             inCard = second as Boolean
