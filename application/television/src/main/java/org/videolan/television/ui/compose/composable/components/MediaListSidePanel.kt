@@ -54,7 +54,6 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.res.stringResource
@@ -62,15 +61,13 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
-import org.videolan.resources.GROUP_VIDEOS_FOLDER
-import org.videolan.resources.GROUP_VIDEOS_NAME
-import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.television.R
 import org.videolan.television.viewmodel.MediaListModelEntry
 import org.videolan.television.viewmodel.MediaListsViewModel
+import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 @Composable
-fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: MediaListModelEntry, showGrouping: Boolean = false, viewModel: MediaListsViewModel = viewModel()) {
+fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: MediaListModelEntry, grouping: VideoGroupingType? = null, viewModel: MediaListsViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     Column(
@@ -109,9 +106,9 @@ fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: Media
             }
         }
         LabeledIconButton(stringResource(if (inCard) R.string.display_in_list else R.string.display_in_grid), vectorImage = if (inCard) Icons.AutoMirrored.Outlined.List else Icons.Outlined.GridView) {
-            viewModel.changeDisplayInCard(entry)
+            listener(MediaListSidePanelListenerKey.DISPLAY_MODE, !inCard)
         }
-        if (showGrouping) {
+        if (grouping != null) {
             var expanded by remember { mutableStateOf(false) }
 
             LabeledIconButton(
@@ -128,38 +125,42 @@ fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, entry: Media
 
                 DropdownMenuItem(
                     leadingIcon = {
-                        if (viewModel.videoGrouping.value == GROUP_VIDEOS_NAME)
+                        if (grouping == VideoGroupingType.NAME)
                             Icon(Icons.Default.Check, contentDescription = null)
                     },
                     text = { Text(stringResource(R.string.video_min_group_length_name)) },
                     onClick = {
-                        viewModel.setVideoGrouping(GROUP_VIDEOS_NAME)
+                        listener(MediaListSidePanelListenerKey.GROUPING, VideoGroupingType.NAME)
                         expanded = false
                     }
                 )
                 DropdownMenuItem(
                     leadingIcon = {
-                        if (viewModel.videoGrouping.value == GROUP_VIDEOS_FOLDER)
+                        if (grouping == VideoGroupingType.FOLDER)
                             Icon(Icons.Default.Check, contentDescription = null)
                     },
                     text = { Text(stringResource(R.string.video_min_group_length_folder)) },
                     onClick = {
-                        viewModel.setVideoGrouping(GROUP_VIDEOS_FOLDER)
+                        listener(MediaListSidePanelListenerKey.GROUPING, VideoGroupingType.FOLDER)
                         expanded = false
                     }
                 )
                 DropdownMenuItem(
                     leadingIcon = {
-                        if (viewModel.videoGrouping.value == GROUP_VIDEOS_NONE)
+                        if (grouping == VideoGroupingType.NONE)
                             Icon(Icons.Default.Check, contentDescription = null)
                     },
                     text = { Text(stringResource(R.string.video_min_group_length_disable)) },
                     onClick = {
-                        viewModel.setVideoGrouping(GROUP_VIDEOS_NONE)
+                        listener(MediaListSidePanelListenerKey.GROUPING, VideoGroupingType.NONE)
                         expanded = false
                     }
                 )
             }
         }
     }
+}
+
+enum class MediaListSidePanelListenerKey {
+    DISPLAY_MODE, GROUPING
 }
