@@ -92,9 +92,9 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     private val pagingConfig = Config(
             pageSize = MEDIALIBRARY_PAGE_SIZE,
             prefetchDistance = MEDIALIBRARY_PAGE_SIZE / 5,
-            enablePlaceholders = true,
+            enablePlaceholders = false,
             initialLoadSizeHint = MEDIALIBRARY_PAGE_SIZE,
-            maxSize = MEDIALIBRARY_PAGE_SIZE *2
+            maxSize = MEDIALIBRARY_PAGE_SIZE * 2
     )
 
     val pagedList by lazy(LazyThreadSafetyMode.NONE) { MLDatasourceFactory().toLiveData(pagingConfig) }
@@ -240,7 +240,11 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                         nextKey = null
                     )
                 }
-                waitForML()
+                try {
+                    waitForML()
+                } catch (_: Exception) {
+
+                }
                 val page = getPage(params.loadSize, params.loadSize * nextPageNumber)
                 try {
                     var pagePosition = params.key ?: 0
