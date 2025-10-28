@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.compose.composable.lists
 
+import android.app.Application
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
@@ -33,17 +34,54 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.viewmodel.BrowserViewModel
+import org.videolan.vlc.viewmodels.browser.BrowserFavoritesModel
+import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.NetworkModel
+import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
 @Composable
-fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: BrowserViewModel = viewModel()) {
-    val favorites by viewModel.favoritesList.observeAsState()
-    val browsers by viewModel.browsers.observeAsState()
-    val favoritesLoading by viewModel.favoritesLoading.observeAsState()
-    val browsersLoading by viewModel.browsersLoading.observeAsState()
+fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {
+    val context = LocalContext.current
+    val extras = MutableCreationExtras().apply {
+        set(APPLICATION_KEY, context.applicationContext as Application)
+    }
+    val favoritesModel: BrowserFavoritesModel = viewModel(
+        factory = BrowserFavoritesModel.Factory,
+        extras = extras
+    )
+
+    val browserExtras = MutableCreationExtras().apply {
+        set(APPLICATION_KEY, context.applicationContext as Application)
+        set(BrowserModel.TYPE_KEY, TYPE_STORAGE)
+        set(BrowserModel.URL_KEY, null)
+        set(BrowserModel.SHOW_DUMMY_KEY, false)
+    }
+    val browserModel: BrowserModel = viewModel(
+        factory = BrowserModel.Factory,
+        extras = browserExtras
+    )
+
+    val networkExtras = MutableCreationExtras().apply {
+        set(APPLICATION_KEY, context.applicationContext as Application)
+        set(NetworkModel.URL_KEY, null)
+        set(NetworkModel.MOCKED_KEY, null)
+    }
+    val networkModel: NetworkModel = viewModel(
+        factory = NetworkModel.Factory,
+        extras = networkExtras
+    )
+
+    val favorites by favoritesModel.favorites.observeAsState()
+    val storages by browserModel.dataset.observeAsState()
+    val networks by networkModel.dataset.observeAsState()
     Column(
         modifier = Modifier
             .focusProperties {
@@ -58,7 +96,10 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Bro
             .focusGroup()
     ) {
         if (!favorites.isNullOrEmpty())
-            ContentLine(favorites, favoritesLoading, R.string.favorites, titleFocusable = false)
-        ContentLine(browsers, browsersLoading, R.string.browsing, titleFocusable = false)
+            ContentLine(favorites, false, R.string.favorites, titleFocusable = false, spannableDescription = true)
+        if (!storages.isNullOrEmpty())
+            ContentLine(storages, false, R.string.browser_storages, titleFocusable = false, spannableDescription = true)
+        if (!networks.isNullOrEmpty())
+            ContentLine(networks, false, R.string.network_browsing, titleFocusable = false, spannableDescription = true)
     }
 }

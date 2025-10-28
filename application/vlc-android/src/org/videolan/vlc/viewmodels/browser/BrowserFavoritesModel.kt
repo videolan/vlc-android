@@ -27,7 +27,11 @@ package org.videolan.vlc.viewmodels.browser
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -46,6 +50,17 @@ import org.videolan.vlc.util.convertFavorites
 class BrowserFavoritesModel(context: Context) : ViewModel() {
     val favorites = LiveDataset<MediaLibraryItem>()
     val provider = FavoritesProvider(context.applicationContext, favorites, viewModelScope)
+    companion object {
+
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val application = checkNotNull(this[APPLICATION_KEY])
+
+                BrowserFavoritesModel(application)
+            }
+        }
+    }
 }
 
 class FavoritesProvider(
