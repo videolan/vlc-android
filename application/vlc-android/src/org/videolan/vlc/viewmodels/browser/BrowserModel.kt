@@ -26,15 +26,25 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.GROUP_VIDEOS_FOLDER
+import org.videolan.resources.GROUP_VIDEOS_NAME
+import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -46,6 +56,10 @@ import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.providers.StorageProvider
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.viewmodels.BaseModel
+import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel.Companion.PARENT_FOLDER_KEY
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel.Companion.PARENT_GROUP_KEY
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
 const val TYPE_FILE = 0L
@@ -175,6 +189,30 @@ open class BrowserModel(
         Settings.getInstance(context).edit {
             putInt(sortKey, sort)
             putBoolean("${sortKey}_desc", desc)
+        }
+    }
+
+    companion object {
+        // Define a custom key for your dependency
+        val URL_KEY = object : CreationExtras.Key<String?> {}
+        val TYPE_KEY = object : CreationExtras.Key<Long> {}
+        val SHOW_DUMMY_KEY = object : CreationExtras.Key<Boolean> {}
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val application = checkNotNull(this[APPLICATION_KEY])
+                val url = this[URL_KEY]
+                val type = checkNotNull(this[TYPE_KEY])
+                val showDummy = checkNotNull(this[SHOW_DUMMY_KEY])
+
+
+                BrowserModel(
+                    application,
+                    url,
+                    type,
+                    showDummy
+                )
+            }
         }
     }
 }
