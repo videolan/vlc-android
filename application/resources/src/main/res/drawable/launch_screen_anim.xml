@@ -1,0 +1,111 @@
+<!--
+  ~ *************************************************************************
+  ~  launch_screen_anim.xml
+  ~ **************************************************************************
+  ~ Copyright © 2025 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<animated-vector
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+                android:name="vector"
+                android:width="288dp"
+                android:height="288dp"
+                android:viewportWidth="288"
+                android:viewportHeight="288">
+            <group
+                    android:name="wrapper_1"
+                    android:pivotX="144"
+                    android:pivotY="144">
+                <clip-path
+                        android:name="clippath4813_1"
+                        android:pathData="M 144 94 C 141.845 94 140.431 94.958 139.259 96.155 C 137.638 97.811 136.241 102.621 136.241 102.621 L 118.138 156.931 L 110.81 156.931 C 108.518 156.931 106.346 158.937 105.638 161.241 L 98.095 187.103 C 97.087 190.559 97.448 194 102.19 194 L 185.81 194 C 190.552 194 190.913 190.559 189.905 187.103 L 182.362 161.241 C 181.654 158.937 179.482 156.931 177.19 156.931 L 169.862 156.931 L 151.759 102.621 C 151.759 102.621 150.362 97.811 148.741 96.155 C 147.569 94.958 146.155 94 144 94 Z"/>
+                <group android:name="group_1">
+                    <path
+                            android:name="path_4"
+                            android:pathData="M 144 94 C 141.845 94 140.431 94.958 139.259 96.155 C 137.638 97.811 136.241 102.621 136.241 102.621 L 118.138 156.931 L 110.81 156.931 C 108.518 156.931 106.346 158.937 105.638 161.241 L 98.095 187.103 C 97.087 190.559 97.448 194 102.19 194 L 185.81 194 C 190.552 194 190.913 190.559 189.905 187.103 L 182.362 161.241 C 181.654 158.937 179.482 156.931 177.19 156.931 L 169.862 156.931 L 151.759 102.621 C 151.759 102.621 150.362 97.811 148.741 96.155 C 147.569 94.958 146.155 94 144 94 Z"
+                            android:fillColor="#ff8800"
+                            android:strokeWidth="0.215516999"/>
+                    <path
+                            android:name="path_5"
+                            android:pathData="M 169.862 156.931 C 169.862 156.931 171.012 160.379 171.586 162.103 C 172.419 164.606 172.819 165.864 171.574 167.298 C 164.69 174.172 153.717 176.761 144 176.759 C 134.276 176.756 123.358 174.071 116.414 167.276 L 141.414 192.276 L 98.209 192.276 C 98.853 193.326 100.092 194 102.19 194 L 185.81 194 C 190.552 194 190.913 190.559 189.905 187.103 L 182.362 161.241 C 181.654 158.937 179.482 156.931 177.19 156.931 Z"
+                            android:fillColor="#f46e00"
+                            android:strokeWidth="0.215516999"/>
+                    <path
+                            android:name="path_6"
+                            android:pathData="M 128.483 125.897 C 133.655 129.776 138.476 131.715 144 131.715 C 149.524 131.715 154.345 129.776 159.517 125.897 C 169.862 125.897 166.414 102.621 153.483 107.793 C 146.334 111.564 141.414 111.241 134.517 107.793 C 121.586 102.621 118.138 125.897 128.483 125.897 Z M 118.138 156.931 C 118.138 156.931 116.989 160.379 116.414 162.103 C 115.551 164.69 115.113 166.003 116.414 167.276 C 123.358 174.071 134.276 176.756 144 176.759 C 153.717 176.761 164.69 174.172 171.574 167.298 C 172.819 165.864 172.419 164.606 171.586 162.103 C 171.012 160.379 169.862 156.931 169.862 156.931 C 175.896 156.931 169.862 142.276 166.414 146.586 C 159.517 153.483 152.005 155.207 144 155.207 C 135.995 155.207 128.483 153.483 121.586 146.586 C 118.138 143.138 112.103 156.931 118.138 156.931 Z"
+                            android:fillColor="#fafafa"
+                            android:strokeWidth="0.215516999"/>
+                    <path
+                            android:name="path_7"
+                            android:pathData="M 121.586 156.069 C 117.995 167.186 133.003 168.428 134.439 160.353 L 144.862 101.759 C 145.825 96.344 141.561 94.243 139.69 100.034 Z"
+                            android:fillColor="#ffffff"
+                            android:fillAlpha="0.313725"
+                            android:strokeWidth="0.215516999"
+                            android:fillType="evenOdd"/>
+                </group>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="wrapper_1">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                        android:propertyName="scaleX"
+                        android:duration="600"
+                        android:valueFrom="1.5"
+                        android:valueTo="1"
+                        android:valueType="floatType"
+                        android:interpolator="@android:anim/overshoot_interpolator"/>
+                <objectAnimator
+                        android:propertyName="scaleY"
+                        android:duration="600"
+                        android:valueFrom="1.5"
+                        android:valueTo="1"
+                        android:valueType="floatType"
+                        android:interpolator="@android:anim/overshoot_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="path_7">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                    android:propertyName="fillAlpha"
+                    android:duration="600"
+                    android:valueFrom="0"
+                    android:valueTo="0.313725"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/accelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    <target android:name="path_5">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                    android:propertyName="fillAlpha"
+                    android:duration="600"
+                    android:valueFrom="0"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:interpolator="@android:anim/accelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+</animated-vector>
