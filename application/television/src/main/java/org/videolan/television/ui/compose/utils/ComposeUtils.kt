@@ -73,3 +73,14 @@ val inlineContentMap = mapOf(
         )
     }
 )
+
+
+inline fun Modifier.conditional(
+    condition: Boolean,
+    ifTrue: Modifier.() -> Modifier,
+    ifFalse: Modifier.() -> Modifier = { this },
+): Modifier = if (condition) {
+    then(ifTrue(this))
+} else {
+    then(ifFalse(this))
+}

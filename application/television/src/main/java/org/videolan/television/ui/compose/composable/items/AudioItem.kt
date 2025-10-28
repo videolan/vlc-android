@@ -28,6 +28,7 @@ import android.graphics.Bitmap
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -76,6 +77,7 @@ import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
 import org.videolan.vlc.gui.helpers.UiTools
@@ -178,6 +180,7 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                     modifier = Modifier
                         .padding(start = 4.dp, end = 4.dp, top = 4.dp)
                         .fillMaxWidth()
+                        .conditional(focused.value, { Modifier.basicMarquee(initialDelayMillis = 0) }, { Modifier })
                 )
                 if (spannableDescription)
                     Text(
