@@ -59,7 +59,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.vlc.R
 
 @Composable
-fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int, titleFocusable: Boolean = true) {
+fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int, titleFocusable: Boolean = true, spannableDescription: Boolean = false) {
     var focused by remember { mutableStateOf(false) }
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -80,7 +80,7 @@ fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: 
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .weight(1F)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = if (titleFocusable) 16.dp else 0.dp)
         )
         if (titleFocusable)
             Icon(
@@ -101,7 +101,7 @@ fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: 
         ) {
             items(items?.size ?: 0) { index ->
                 Box(modifier = Modifier.width(150.dp)) {
-                    AudioItem(items!!, index)
+                    AudioItem(items!!, index, spannableDescription = spannableDescription)
                 }
             }
         }

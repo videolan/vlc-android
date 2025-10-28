@@ -23,7 +23,11 @@ package org.videolan.vlc.viewmodels.browser
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -43,6 +47,26 @@ class NetworkModel(context: Context, url: String? = null, mocked: ArrayList<Medi
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return NetworkModel(context.applicationContext, url, mocked) as T
+        }
+    }
+    companion object {
+        // Define a custom key for your dependency
+        val URL_KEY = object : CreationExtras.Key<String?> {}
+        val MOCKED_KEY = object : CreationExtras.Key<ArrayList<MediaLibraryItem>?> {}
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val application = checkNotNull(this[APPLICATION_KEY])
+                val url = this[URL_KEY]
+                val mocked = this[MOCKED_KEY]
+
+
+                NetworkModel(
+                    application,
+                    url,
+                    mocked,
+                )
+            }
         }
     }
 }
