@@ -78,6 +78,7 @@ import kotlinx.coroutines.launch
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.MlProgress
+import org.videolan.television.ui.compose.composable.components.SplashScreen
 import org.videolan.television.ui.compose.composable.components.VLCTabRow
 import org.videolan.television.ui.compose.composable.lists.AudioListScreen
 import org.videolan.television.ui.compose.composable.lists.BrowseList
@@ -93,12 +94,14 @@ import org.videolan.tools.Settings
 @Composable
 fun MainScreen() {
     Box {
-        MainContent()
-        MlProgress(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        )
+        SplashScreen {
+            MainContent()
+            MlProgress(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            )
+        }
     }
 }
 
