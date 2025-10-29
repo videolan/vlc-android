@@ -47,6 +47,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,6 +63,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -82,6 +84,7 @@ import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -175,7 +178,18 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                     }
                 }
             }
-
+            val lastTime = (video as MediaWrapper).displayTime
+            if (lastTime > 0) {
+                val max = (video.length / 1000).toInt()
+                val progress = (lastTime / 1000).toInt()
+                LinearProgressIndicator(
+                    trackColor = WhiteTransparent50,
+                    gapSize = 0.dp,
+                    strokeCap = StrokeCap.Butt,
+                    progress = { progress.toFloat() / max },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(
@@ -275,6 +289,8 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .padding(0.dp)
+                    .fillMaxHeight()
+                    .aspectRatio(16f / 9)
             ) {
                 if (mapBitmap.value != null) {
                     Image(
@@ -316,6 +332,20 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                         )
                     }
                 }
+                val lastTime = (video as MediaWrapper).displayTime
+                if (lastTime > 0) {
+                    val max = (video.length / 1000).toInt()
+                    val progress = (lastTime / 1000).toInt()
+                    LinearProgressIndicator(
+                        trackColor = WhiteTransparent50,
+                        gapSize = 0.dp,
+                        strokeCap = StrokeCap.Butt,
+                        progress = { progress.toFloat() / max },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter)
+                    )
+                }
             }
         }
         Column(
@@ -338,7 +368,7 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
             val description = if (resolution == null) video.description else TextUtils.separatedString(video.description, resolution)
 
             Text(
-                video.getVideoDescription(activity!!, false) ?: "",
+                video.getVideoDescription(activity!!, true) ?: "",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
