@@ -40,7 +40,6 @@ import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.ContentLine
-import org.videolan.television.viewmodel.BrowserViewModel
 import org.videolan.vlc.viewmodels.browser.BrowserFavoritesModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.NetworkModel
