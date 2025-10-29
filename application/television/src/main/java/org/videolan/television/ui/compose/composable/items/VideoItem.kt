@@ -234,11 +234,6 @@ fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = wh
     is MediaWrapper -> {
         if (length > 0) {
             val resolution = generateResolutionClass(width, height)
-//            val lastTime = displayTime
-//            if (lastTime > 0) {
-//                max = (length / 1000).toInt()
-//                progress = (lastTime / 1000).toInt()
-//            }
             if (inList && resolution !== null) {
                 "${Tools.millisToString(length)}  •  $resolution"
             } else Tools.millisToString(length)

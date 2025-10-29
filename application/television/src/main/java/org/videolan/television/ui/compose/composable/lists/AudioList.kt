@@ -173,7 +173,6 @@ fun MediaList(entry: AudioListEntry) {
     InvalidationComposable { invalidate ->
         val context = LocalContext.current
 
-        val viewModel: MedialibraryViewModel
         val provider: MedialibraryProvider<out MediaLibraryItem>
 
         when(entry) {
@@ -190,8 +189,7 @@ fun MediaList(entry: AudioListEntry) {
                     factory = PlaylistsViewModel.Factory,
                     extras = extras,
                 )
-                provider = (playlistsViewModel as PlaylistsViewModel).provider
-                viewModel = playlistsViewModel
+                provider = playlistsViewModel.provider
             }
             else -> {
                 val extras = MutableCreationExtras().apply {
@@ -201,8 +199,7 @@ fun MediaList(entry: AudioListEntry) {
                     factory = AudioBrowserViewModel.Factory,
                     extras = extras,
                 )
-                provider = (audioBrowserViewModel as AudioBrowserViewModel).getProvider(entry)
-                viewModel = audioBrowserViewModel
+                provider = audioBrowserViewModel.getProvider(entry)
             }
         }
 

@@ -232,8 +232,6 @@ fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                 .onFocusChanged {
                     focused.value = it.isFocused
                 }
-//            .border(vlcBorder(focused.value))
-//            .padding(vertical = if (focused.value) 8.dp else 0.dp)
             .background(color = if (focused.value) WhiteTransparent10 else WhiteTransparent05, shape = MaterialTheme.shapes.medium)
                 .combinedClickable(
                     onClick = {

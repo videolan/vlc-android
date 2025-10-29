@@ -192,7 +192,6 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                                 Box(
                                     Modifier
                                         .fillMaxSize()
-//                                        .border(2.dp, if (hasFocus) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f), RoundedCornerShape(50))
                                         .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
                                 )
                             },
