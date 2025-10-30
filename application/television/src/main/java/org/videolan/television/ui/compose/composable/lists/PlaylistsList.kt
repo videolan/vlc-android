@@ -46,6 +46,6 @@ fun PlaylistsList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {
             }
         }
         .focusGroup(),) {
-        MediaList(AudioListEntry.ALL_PLAYLISTS)
+        MediaList(MediaListEntry.ALL_PLAYLISTS)
     }
 }
