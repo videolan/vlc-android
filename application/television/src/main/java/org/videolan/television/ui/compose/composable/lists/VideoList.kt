@@ -74,6 +74,7 @@ import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.utils.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.KEY_VIDEOS_CARDS
