@@ -26,6 +26,7 @@ package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -45,17 +46,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.television.R
 import org.videolan.television.viewmodel.MainActivityViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage: ImageVector, onClick: () -> Unit) {
+fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage: ImageVector? = null, painterResource: Painter? = null, onClick: () -> Unit) {
     var hasFocus by remember { mutableStateOf(false) }
     TooltipBox(
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below),
@@ -79,11 +82,19 @@ fun LabeledIconButton(label: String, modifier: Modifier = Modifier, vectorImage:
                     hasFocus = it.hasFocus
                 }
         ) {
+            if (vectorImage != null)
             Icon(
                 imageVector = vectorImage,
                 tint = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F),
                 contentDescription = label,
             )
+            else
+                Icon(
+                    painter = painterResource!!,
+                    modifier = Modifier.size(24.dp),
+                    tint = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                    contentDescription = label,
+                )
         }
 
     }
