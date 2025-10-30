@@ -152,7 +152,7 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
         ) { page ->
             when (page) {
                 0 -> VideoList()
-                1 -> MediaList(AudioListEntry.VIDEO_PLAYLISTS)
+                1 -> MediaList(MediaListEntry.VIDEO_PLAYLISTS)
             }
         }
     }
