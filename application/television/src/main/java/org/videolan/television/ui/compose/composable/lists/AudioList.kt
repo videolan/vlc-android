@@ -67,8 +67,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.PLAYLIST_TYPE_AUDIO
+import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
+import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelListenerKey
 import org.videolan.television.ui.compose.composable.components.PaginatedGrid
 import org.videolan.television.ui.compose.composable.components.PaginatedList
@@ -84,6 +87,7 @@ import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
@@ -234,12 +238,22 @@ fun MediaList(entry: MediaListEntry) {
                         AudioItemList(audio, modifier)
                     }
                 }
-                MediaListSidePanel(inCard, if (inCard) gridState else listState) { first, second ->
+                MediaListSidePanel(MediaListSidePanelContent(
+                    showScrollToTop = true,
+                    showResumePlayback = entry != MediaListEntry.ALL_PLAYLISTS,
+                    if (inCard) gridState else listState
+                )) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
                             inCard = second as Boolean
                             Settings.getInstance(context).edit { putBoolean(entry.inCardsKey, inCard) }
                             invalidate()
+                        }
+                        MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {
+                            if (entry == MediaListEntry.VIDEO_PLAYLISTS)
+                                MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_VIDEO)
+                            else
+                                MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_AUDIO)
                         }
                         else -> {}
                     }
