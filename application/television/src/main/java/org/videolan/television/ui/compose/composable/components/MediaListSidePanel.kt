@@ -33,22 +33,11 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.List
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.ArrowUpward
-import androidx.compose.material.icons.outlined.Collections
-import androidx.compose.material.icons.outlined.GridView
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
@@ -56,15 +45,17 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
-import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
+import org.videolan.television.viewmodel.MainActivityViewModel
 
 @Composable
-fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, grouping: VideoGroupingType? = null, listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
+fun MediaListSidePanel(content: MediaListSidePanelContent, viewModel: MainActivityViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     Column(
@@ -96,68 +87,25 @@ fun MediaListSidePanel(inCard: Boolean, listState: ScrollableState, grouping: Vi
             vectorImage = Icons.Outlined.ArrowUpward
         ) {
             coroutineScope.launch {
-                when (listState) {
-                    is LazyListState -> listState.animateScrollToItem(0)
-                    is LazyGridState -> listState.animateScrollToItem(0)
+                when (content.listState) {
+                    is LazyListState -> content.listState.animateScrollToItem(0)
+                    is LazyGridState -> content.listState.animateScrollToItem(0)
                 }
             }
         }
-        LabeledIconButton(stringResource(if (inCard) R.string.display_in_list else R.string.display_in_grid), vectorImage = if (inCard) Icons.AutoMirrored.Outlined.List else Icons.Outlined.GridView) {
-            listener(MediaListSidePanelListenerKey.DISPLAY_MODE, !inCard)
-        }
-        if (grouping != null) {
-            var expanded by remember { mutableStateOf(false) }
-
-            LabeledIconButton(
-                stringResource(R.string.videos_groups_title),
-                vectorImage = Icons.Outlined.Collections
-            ) {
-                expanded = !expanded
+        if (content.showResumePlayback)
+            LabeledIconButton(stringResource(R.string.resume_playback_short_title), painterResource = painterResource(R.drawable.ic_resume_playback)) {
+                listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
             }
-            DropdownMenu(
-                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceDim),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-
-                DropdownMenuItem(
-                    leadingIcon = {
-                        if (grouping == VideoGroupingType.NAME)
-                            Icon(Icons.Default.Check, contentDescription = null)
-                    },
-                    text = { Text(stringResource(R.string.video_min_group_length_name)) },
-                    onClick = {
-                        listener(MediaListSidePanelListenerKey.GROUPING, VideoGroupingType.NAME)
-                        expanded = false
-                    }
-                )
-                DropdownMenuItem(
-                    leadingIcon = {
-                        if (grouping == VideoGroupingType.FOLDER)
-                            Icon(Icons.Default.Check, contentDescription = null)
-                    },
-                    text = { Text(stringResource(R.string.video_min_group_length_folder)) },
-                    onClick = {
-                        listener(MediaListSidePanelListenerKey.GROUPING, VideoGroupingType.FOLDER)
-                        expanded = false
-                    }
-                )
-                DropdownMenuItem(
-                    leadingIcon = {
-                        if (grouping == VideoGroupingType.NONE)
-                            Icon(Icons.Default.Check, contentDescription = null)
-                    },
-                    text = { Text(stringResource(R.string.video_min_group_length_disable)) },
-                    onClick = {
-                        listener(MediaListSidePanelListenerKey.GROUPING, VideoGroupingType.NONE)
-                        expanded = false
-                    }
-                )
-            }
-        }
     }
 }
 
 enum class MediaListSidePanelListenerKey {
-    DISPLAY_MODE, GROUPING
+    DISPLAY_MODE, GROUPING, RESUME_PLAYBACK
 }
+
+data class MediaListSidePanelContent(
+    val showScrollToTop: Boolean = true,
+    val showResumePlayback: Boolean = true,
+    val listState: ScrollableState
+)
