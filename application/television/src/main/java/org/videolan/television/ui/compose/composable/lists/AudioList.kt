@@ -25,7 +25,6 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -80,11 +79,10 @@ import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.utils.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_AUDIO_TAB
-import org.videolan.tools.KEY_VIDEOS_CARDS
 import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
@@ -253,60 +251,6 @@ fun MediaList(entry: MediaListEntry) {
 
 @Composable
 fun vlcBorder(focus: Boolean) = if (focus) BorderStroke(3.dp, MaterialTheme.colorScheme.onSurface) else BorderStroke(0.dp, Transparent)
-
-enum class MediaListEntry(val inCardsKey: String, val defaultInCard: Boolean, val onlyFavsKey: String) {
-    ARTISTS(inCardsKey = "display_mode_audio_browser_artists", defaultInCard = true, onlyFavsKey = "ArtistsProvider_only_favs"),
-    ALBUMS(inCardsKey = "display_mode_audio_browser_albums", defaultInCard = true, onlyFavsKey = "AlbumsProvider_only_favs"),
-    TRACKS(inCardsKey = "display_mode_audio_browser_track", defaultInCard = false, onlyFavsKey = "TracksProvider_only_favs"),
-    GENRES(inCardsKey = "display_mode_audio_browser_genres", defaultInCard = false, onlyFavsKey = "GenresProvider_only_favs"),
-    AUDIO_PLAYLISTS(inCardsKey = "display_mode_playlists_AudioOnly", defaultInCard = true, onlyFavsKey = "PlaylistsProvider_only_favs"),
-    VIDEO_PLAYLISTS(inCardsKey = "display_mode_playlists_Video", defaultInCard = true, onlyFavsKey = "PlaylistsProvider_only_favs"),
-    ALL_PLAYLISTS(inCardsKey = "display_mode_playlists_All", defaultInCard = false, onlyFavsKey = "PlaylistsProvider_only_favs"),
-    VIDEO(inCardsKey = KEY_VIDEOS_CARDS, defaultInCard = true, onlyFavsKey = "VideosProvider_only_favs"),
-    VIDEO_GROUPS(inCardsKey = KEY_VIDEOS_CARDS, defaultInCard = true, onlyFavsKey = "VideoGroupsProvider_only_favs"),
-    VIDEO_FOLDER(inCardsKey = KEY_VIDEOS_CARDS, defaultInCard = true, onlyFavsKey = "FoldersProvider_only_favs"),
-    BROWSER(inCardsKey = KEY_VIDEOS_CARDS, defaultInCard = true, onlyFavsKey = "");
-
-    /**
-     * Display this entry in cards
-     *
-     * @param context Context used to retrieve the SharedPreferences
-     * @return True if this entry should be displayed in cards, false otherwise
-     */
-    fun displayInCard(context: Context): Boolean {
-        return Settings.getInstance(context).getBoolean(inCardsKey, defaultInCard)
-    }
-
-    /**
-     * Save if this entry should be displayed in card
-     *
-     * @param context Context used to retrieve the SharedPreferences
-     * @param value True if this entry should be displayed in cards, false otherwise
-     */
-    fun saveDisplayInCard(context: Context, value: Boolean) {
-        Settings.getInstance(context).putSingle(inCardsKey, value)
-    }
-
-    /**
-     * Display only favorites
-     *
-     * @param context Context used to retrieve the SharedPreferences
-     * @return True if only favorites should be displayed, false otherwise
-     */
-    fun onlyFavs(context: Context): Boolean {
-        return Settings.getInstance(context).getBoolean(onlyFavsKey, false)
-    }
-
-    /**
-     * Save if only favorites should be displayed
-     *
-     * @param context Context used to retrieve the SharedPreferences
-     * @param value True if only favorites should be displayed, false otherwise
-     */
-    fun saveOnlyFavs(context: Context, value: Boolean) {
-        Settings.getInstance(context).putSingle(onlyFavsKey, value)
-    }
-}
 
 fun AudioBrowserViewModel.getProvider(entry: MediaListEntry): MedialibraryProvider<out MediaLibraryItem> {
     return when (entry) {
