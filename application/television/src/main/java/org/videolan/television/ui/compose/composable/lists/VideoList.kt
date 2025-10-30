@@ -63,8 +63,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
+import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
+import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelListenerKey
 import org.videolan.television.ui.compose.composable.components.PaginatedGrid
 import org.videolan.television.ui.compose.composable.components.PaginatedList
@@ -82,6 +84,7 @@ import org.videolan.tools.KEY_VIDEO_TAB
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
@@ -210,7 +213,11 @@ fun VideoList() {
                         VideoItemList(video, modifier = modifier)
                     }
                 }
-                MediaListSidePanel(inCard, if (inCard) gridState else listState, grouping = viewModel.groupingType) { first, second ->
+                MediaListSidePanel(MediaListSidePanelContent(
+                    showScrollToTop = true,
+                    showResumePlayback = true,
+                    if (inCard) gridState else listState,
+                )) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
                             inCard = second as Boolean
@@ -223,6 +230,9 @@ fun VideoList() {
                             Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, videoGroup.settingsKey)
                             viewModel.changeGroupingType(videoGroup)
                             invalidate()
+                        }
+                        MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {
+                            MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_VIDEO)
                         }
                     }
                 }
