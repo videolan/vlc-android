@@ -82,7 +82,7 @@ import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
-import org.videolan.television.ui.utils.MediaListEntry
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.Settings

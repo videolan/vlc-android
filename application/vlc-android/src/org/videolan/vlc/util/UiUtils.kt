@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.television.ui.utils
+package org.videolan.vlc.util
 
 import android.content.Context
 import org.videolan.tools.KEY_VIDEOS_CARDS

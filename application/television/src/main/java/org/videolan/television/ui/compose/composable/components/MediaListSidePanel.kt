@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
 
 @Composable

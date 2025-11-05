@@ -14,11 +14,12 @@ import java.util.ArrayList
 
 
 abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
-        ICallBackHandler by CallBackDelegate()  {
+        ICallBackHandler by CallBackDelegate(), IDisplaySettingsCallBackHandler by DisplaySettingsCallBackDelegate()  {
 
     init {
         @Suppress("LeakingThis")
         viewModelScope.registerCallBacks { refresh() }
+        viewModelScope.registerDisplaySettingsCallBacks({ refresh() }) { providers }
     }
 
     abstract val providers : Array<MedialibraryProvider<out MediaLibraryItem>>
@@ -44,6 +45,7 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
 
     override fun onCleared() {
         releaseCallbacks()
+        releaseDisplaySettingsCallbacks()
         super.onCleared()
     }
 
