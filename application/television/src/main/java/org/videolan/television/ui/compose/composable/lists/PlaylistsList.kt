@@ -30,7 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
-import org.videolan.television.ui.utils.MediaListEntry
+import org.videolan.vlc.util.MediaListEntry
 
 @Composable
 fun PlaylistsList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {

@@ -54,6 +54,7 @@ import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Folder?, val group: VideoGroup?) : MedialibraryViewModel(context) {
@@ -84,6 +85,9 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         watchMedia()
         watchMediaGroups()
         watchFolders()
+        watchFor(MediaListEntry.VIDEO)
+        watchFor(MediaListEntry.VIDEO_FOLDER)
+        watchFor(MediaListEntry.VIDEO_GROUPS)
     }
 
     class Factory(val context: Context, private val groupingType: VideoGroupingType, val folder: Folder? = null, val group: VideoGroup? = null) : ViewModelProvider.NewInstanceFactory() {
