@@ -33,6 +33,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.ScanProgress
 
