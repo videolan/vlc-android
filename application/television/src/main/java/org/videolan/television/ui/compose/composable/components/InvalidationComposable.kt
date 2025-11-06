@@ -38,9 +38,9 @@ import androidx.compose.runtime.setValue
  * @receiver the invalidate function
  */
 @Composable
-fun InvalidationComposable(content: @Composable (invalidate: () -> Unit) -> Unit) {
+fun InvalidationComposable(key: Any? = null, content: @Composable (invalidate: () -> Unit) -> Unit) {
     var reloadKey by remember { mutableStateOf(true) }
-    key(reloadKey) {
+    key(reloadKey to key) {
         content {
             reloadKey = !reloadKey
         }
