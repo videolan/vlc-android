@@ -160,18 +160,18 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
             modifier = Modifier.fillMaxSize()
         ) { page ->
             when (page) {
-                0 -> MediaList(MediaListEntry.ARTISTS)
-                1 -> MediaList(MediaListEntry.ALBUMS)
-                2 -> MediaList(MediaListEntry.TRACKS)
-                3 -> MediaList(MediaListEntry.GENRES)
-                4 -> MediaList(MediaListEntry.AUDIO_PLAYLISTS)
+                0 -> MediaList(MediaListEntry.ARTISTS, pagerState.currentPage)
+                1 -> MediaList(MediaListEntry.ALBUMS, pagerState.currentPage)
+                2 -> MediaList(MediaListEntry.TRACKS, pagerState.currentPage)
+                3 -> MediaList(MediaListEntry.GENRES, pagerState.currentPage)
+                4 -> MediaList(MediaListEntry.AUDIO_PLAYLISTS, pagerState.currentPage)
             }
         }
     }
 }
 
 @Composable
-fun MediaList(entry: MediaListEntry) {
+fun MediaList(entry: MediaListEntry, index: Int) {
     InvalidationComposable { invalidate ->
         val context = LocalContext.current
 
@@ -201,6 +201,7 @@ fun MediaList(entry: MediaListEntry) {
                     factory = AudioBrowserViewModel.Factory,
                     extras = extras,
                 )
+                audioBrowserViewModel.currentTab = index
                 provider = audioBrowserViewModel.getProvider(entry)
             }
         }
