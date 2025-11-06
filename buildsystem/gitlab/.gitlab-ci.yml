@@ -231,6 +231,7 @@ build-ml-x86_64-v4:
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:
     extends: .build-all-base
+    retry: 1
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     needs:
@@ -244,6 +245,7 @@ nightly-arm64:
 
 nightly-armv7:
     extends: .build-all-base
+    retry: 1
     image:
         name: $VLC_ANDROID_IMAGE_30
     rules:
@@ -259,6 +261,7 @@ nightly-armv7:
 
 nightly-x86:
     extends: .build-all-base
+    retry: 1
     image:
         name: $VLC_ANDROID_IMAGE_30
     rules:
@@ -274,6 +277,7 @@ nightly-x86:
 
 nightly-x86_64:
     extends: .build-all-base
+    retry: 1
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 != "true"'
     needs:
@@ -288,6 +292,7 @@ nightly-x86_64:
 # Weekly builds: build native & app code, and ship the APK as artifact for vlc4
 nightly-arm64-v4:
     extends: .build-all-base
+    retry: 1
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     needs:
@@ -302,6 +307,7 @@ nightly-arm64-v4:
 
 nightly-armv7-v4:
     extends: .build-all-base
+    retry: 1
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     needs:
@@ -316,6 +322,7 @@ nightly-armv7-v4:
 
 nightly-x86-v4:
     extends: .build-all-base
+    retry: 1
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     needs:
@@ -330,6 +337,7 @@ nightly-x86-v4:
 
 nightly-x86_64-v4:
     extends: .build-all-base
+    retry: 1
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule" && $VLC4 == "true"'
     needs:
