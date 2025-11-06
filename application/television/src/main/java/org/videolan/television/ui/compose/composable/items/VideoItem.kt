@@ -178,9 +178,9 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                     }
                 }
             }
-            val lastTime = (video as MediaWrapper).displayTime
+            val lastTime = (video as? MediaWrapper)?.displayTime ?: -1
             if (lastTime > 0) {
-                val max = (video.length / 1000).toInt()
+                val max = ((video as MediaWrapper).length / 1000).toInt()
                 val progress = (lastTime / 1000).toInt()
                 LinearProgressIndicator(
                     trackColor = WhiteTransparent50,
@@ -332,9 +332,9 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                         )
                     }
                 }
-                val lastTime = (video as MediaWrapper).displayTime
+                val lastTime = (video as? MediaWrapper)?.displayTime ?: -1
                 if (lastTime > 0) {
-                    val max = (video.length / 1000).toInt()
+                    val max = ((video as MediaWrapper).length / 1000).toInt()
                     val progress = (lastTime / 1000).toInt()
                     LinearProgressIndicator(
                         trackColor = WhiteTransparent50,
