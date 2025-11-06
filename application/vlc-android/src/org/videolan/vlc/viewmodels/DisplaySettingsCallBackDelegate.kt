@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.conflatedActor
+import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -95,6 +96,12 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
                                 it.onlyFavorites = displaySettingsEvent.onlyFavorites
                         }
                     }
+                    if (displaySettingsEvent is DisplaySettingsEvent.ShowAllArtistsChanged) {
+                        getAllProviders().forEach {
+                            if (it is ArtistsProvider)
+                                it.showAll = displaySettingsEvent.showAllArtists
+                        }
+                    }
                     if (displaySettingsEvent is DisplaySettingsEvent.GroupingChanged) {
                         changeGrouping.invoke(
                             when (displaySettingsEvent.entry) {
@@ -126,6 +133,7 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
 
 sealed class DisplaySettingsEvent(val currentEntry: MediaListEntry, time: Long) {
     data class OnlyFavsChanged(val entry: MediaListEntry, val onlyFavorites: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
+    data class ShowAllArtistsChanged(val entry: MediaListEntry, val showAllArtists: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
     data class GroupingChanged(val entry: MediaListEntry): DisplaySettingsEvent(entry, System.currentTimeMillis())
 }
 
@@ -136,6 +144,10 @@ object DisplaySettingsEventManager {
 
     suspend fun onOnlyFavsChanged(entry: MediaListEntry, onlyFavorites: Boolean) {
         _currentDisplaySettingsChange.emit(DisplaySettingsEvent.OnlyFavsChanged(entry, onlyFavorites))
+    }
+
+    suspend fun onShowAllArtistsChanged(entry: MediaListEntry, showAllArtists: Boolean) {
+        _currentDisplaySettingsChange.emit(DisplaySettingsEvent.ShowAllArtistsChanged(entry, showAllArtists))
     }
 
     suspend fun onGroupingChanged(entry: MediaListEntry) {
