@@ -28,81 +28,101 @@ import android.content.Context
 import org.videolan.tools.KEY_VIDEOS_CARDS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
+import org.videolan.vlc.FileProvider
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
+import org.videolan.vlc.providers.medialibrary.AlbumsProvider
+import org.videolan.vlc.providers.medialibrary.ArtistsProvider
+import org.videolan.vlc.providers.medialibrary.FoldersProvider
+import org.videolan.vlc.providers.medialibrary.GenresProvider
+import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
+import org.videolan.vlc.providers.medialibrary.TracksProvider
+import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
+import org.videolan.vlc.providers.medialibrary.VideosProvider
 
 enum class MediaListEntry(
     val inCardsKey: String,
     val defaultInCard: Boolean,
     val onlyFavsKey: String,
-    val defaultPlaybackActionMediaType: DefaultPlaybackActionMediaType
+    val defaultPlaybackActionMediaType: DefaultPlaybackActionMediaType,
+    val providerClass: Class<*>
 ) {
     ARTISTS(
         inCardsKey = "display_mode_audio_browser_artists",
         defaultInCard = true,
         onlyFavsKey = "ArtistsProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.ARTIST
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.ARTIST,
+        providerClass = ArtistsProvider::class.java
     ),
     ALBUMS(
         inCardsKey = "display_mode_audio_browser_albums",
         defaultInCard = true,
         onlyFavsKey = "AlbumsProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.ALBUM
-
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.ALBUM,
+        providerClass = AlbumsProvider::class.java
     ),
     TRACKS(
         inCardsKey = "display_mode_audio_browser_track",
         defaultInCard = false,
-        onlyFavsKey = "TracksProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.TRACK
+        onlyFavsKey = "TracksProvider_null_only_favs",
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.TRACK,
+        providerClass = TracksProvider::class.java
     ),
     GENRES(
         inCardsKey = "display_mode_audio_browser_genres",
         defaultInCard = false,
         onlyFavsKey = "GenresProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.GENRE
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.GENRE,
+        providerClass = GenresProvider::class.java
     ),
     AUDIO_PLAYLISTS(
         inCardsKey = "display_mode_playlists_AudioOnly",
         defaultInCard = true,
         onlyFavsKey = "PlaylistsProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.PLAYLIST
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.PLAYLIST,
+        providerClass = PlaylistsProvider::class.java
     ),
     VIDEO_PLAYLISTS(
         inCardsKey = "display_mode_playlists_Video",
         defaultInCard = true,
         onlyFavsKey = "PlaylistsProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.PLAYLIST
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.PLAYLIST,
+        providerClass = PlaylistsProvider::class.java
     ),
     ALL_PLAYLISTS(
         inCardsKey = "display_mode_playlists_All",
         defaultInCard = false,
         onlyFavsKey = "PlaylistsProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.PLAYLIST
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.PLAYLIST,
+        providerClass = PlaylistsProvider::class.java
     ),
     VIDEO(
         inCardsKey = KEY_VIDEOS_CARDS,
         defaultInCard = true,
         onlyFavsKey = "VideosProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.VIDEO
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.VIDEO,
+        providerClass = VideosProvider::class.java
     ),
     VIDEO_GROUPS(
         inCardsKey = KEY_VIDEOS_CARDS,
         defaultInCard = true,
         onlyFavsKey = "VideoGroupsProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.VIDEO
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.VIDEO,
+        providerClass = VideoGroupsProvider::class.java
     ),
     VIDEO_FOLDER(
         inCardsKey = KEY_VIDEOS_CARDS,
         defaultInCard = true,
         onlyFavsKey = "FoldersProvider_only_favs",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.VIDEO
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.VIDEO,
+        providerClass = FoldersProvider::class.java
     ),
     BROWSER(
         inCardsKey = KEY_VIDEOS_CARDS,
         defaultInCard = true,
         onlyFavsKey = "",
-        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.FILE
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.FILE,
+        providerClass = FileProvider::class.java
     );
 
     /**

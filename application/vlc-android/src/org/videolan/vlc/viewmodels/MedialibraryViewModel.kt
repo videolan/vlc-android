@@ -5,12 +5,11 @@ import android.view.Menu
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import java.util.ArrayList
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
 
 abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
@@ -19,7 +18,16 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
     init {
         @Suppress("LeakingThis")
         viewModelScope.registerCallBacks { refresh() }
-        viewModelScope.registerDisplaySettingsCallBacks({ refresh() }) { providers }
+        viewModelScope.registerDisplaySettingsCallBacks(
+            refresh = {
+                refresh()
+            },
+            changeGrouping = {
+                if (this is VideosViewModel) changeGroupingType(it)
+            },
+            getAllProviders = {
+                providers
+            })
     }
 
     abstract val providers : Array<MedialibraryProvider<out MediaLibraryItem>>

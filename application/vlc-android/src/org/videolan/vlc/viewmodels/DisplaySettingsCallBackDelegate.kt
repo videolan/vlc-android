@@ -22,30 +22,22 @@
 package org.videolan.vlc.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
-import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppContextProvider
 import org.videolan.tools.conflatedActor
-import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.MediaListEntry
-import java.io.File
+import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 interface IDisplaySettingsCallBackHandler {
 
-    fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<MedialibraryProvider<out MediaLibraryItem>>)
+    fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<MedialibraryProvider<out MediaLibraryItem>>, changeGrouping: (VideoGroupingType) -> Unit)
     fun releaseDisplaySettingsCallbacks()
     fun watchFor(entry:MediaListEntry)
     fun onPause()
@@ -89,17 +81,29 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)
-    override fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<MedialibraryProvider<out MediaLibraryItem>>) {
+    override fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<MedialibraryProvider<out MediaLibraryItem>>, changeGrouping: (VideoGroupingType) -> Unit) {
         refreshActor = conflatedActor {
            if (paused) isInvalid = true else refresh()
         }
         collectionJob = launch {
             DisplaySettingsEventManager.currentDisplaySettingsChange.collect { displaySettingsEvent ->
-                if (displaySettingsEvent?.currentEntry in watchedEntries) {
+                val currentEntry = displaySettingsEvent?.currentEntry
+                if (currentEntry in watchedEntries) {
                     if (displaySettingsEvent is DisplaySettingsEvent.OnlyFavsChanged) {
                         getAllProviders().forEach {
-                            it.onlyFavorites = displaySettingsEvent.onlyFavorites
+                            if (it::class.java == displaySettingsEvent.currentEntry.providerClass)
+                                it.onlyFavorites = displaySettingsEvent.onlyFavorites
                         }
+                    }
+                    if (displaySettingsEvent is DisplaySettingsEvent.GroupingChanged) {
+                        changeGrouping.invoke(
+                            when (displaySettingsEvent.entry) {
+                                MediaListEntry.VIDEO -> VideoGroupingType.NONE
+                                MediaListEntry.VIDEO_FOLDER -> VideoGroupingType.FOLDER
+                                MediaListEntry.VIDEO_GROUPS -> VideoGroupingType.NAME
+                                else -> throw IllegalStateException("Change group called on the bad viewmodel")
+                            }
+                        )
                     }
                     refreshActor.trySend(Unit)
                 }
@@ -122,6 +126,7 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
 
 sealed class DisplaySettingsEvent(val currentEntry: MediaListEntry, time: Long) {
     data class OnlyFavsChanged(val entry: MediaListEntry, val onlyFavorites: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
+    data class GroupingChanged(val entry: MediaListEntry): DisplaySettingsEvent(entry, System.currentTimeMillis())
 }
 
 
@@ -131,5 +136,9 @@ object DisplaySettingsEventManager {
 
     suspend fun onOnlyFavsChanged(entry: MediaListEntry, onlyFavorites: Boolean) {
         _currentDisplaySettingsChange.emit(DisplaySettingsEvent.OnlyFavsChanged(entry, onlyFavorites))
+    }
+
+    suspend fun onGroupingChanged(entry: MediaListEntry) {
+        _currentDisplaySettingsChange.emit(DisplaySettingsEvent.GroupingChanged(entry))
     }
 }
