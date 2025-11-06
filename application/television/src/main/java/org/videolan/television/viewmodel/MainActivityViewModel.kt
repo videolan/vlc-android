@@ -30,6 +30,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
@@ -60,6 +63,17 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         R.string.video,
         R.string.playlists,
     )
+
+
+    private val _currentMediaListEntry: MutableStateFlow<MediaListEntry?> = MutableStateFlow(null)
+    val currentMediaListEntry: StateFlow<MediaListEntry?> = _currentMediaListEntry.asStateFlow()
+
+    private val _currentDisplaySettingsChange: MutableStateFlow<DisplaySettingsChange?> = MutableStateFlow(null)
+    val currentDisplaySettingsChange: StateFlow<DisplaySettingsChange?> = _currentDisplaySettingsChange.asStateFlow()
+
+    fun changeCurrentMediaListEntry(entry: MediaListEntry?) = viewModelScope.launch {
+        _currentMediaListEntry.emit(entry)
+    }
 
     private val tabsX = mutableMapOf<String, Int>()
 
@@ -94,4 +108,29 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     fun setOffsetForTab(key: String, x: Int) {
         tabsX[key] = x
     }
+
+    /**
+     * Open the display settings UI for the given media list entry
+     *
+     * @param mediaListEntry The media list entry to open the settings for
+     */
+    fun openDisplaySettings(mediaListEntry: MediaListEntry) = viewModelScope.launch {
+        _currentMediaListEntry.emit(mediaListEntry)
+    }
+
+    /**
+     * Change display settings. Used for display settings not affecting the viewmodel
+     *
+     * @param current The current media list entry
+     */
+    fun changeDisplaySettings(current: MediaListEntry) = viewModelScope.launch {
+        val newIndex = if (_currentDisplaySettingsChange.value?.entry == current) _currentDisplaySettingsChange.value!!.value + 1 else 0
+        _currentDisplaySettingsChange.emit(DisplaySettingsChange(current, newIndex))
+    }
+
+    fun hideDisplaySettings() = viewModelScope.launch {
+        _currentMediaListEntry.emit(null)
+    }
 }
+
+data class DisplaySettingsChange(val entry: MediaListEntry, val value: Int)

@@ -46,6 +46,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -82,13 +83,15 @@ import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
-import org.videolan.vlc.util.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.tools.KEY_AUDIO_CURRENT_TAB
 import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 
@@ -159,6 +162,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
             verticalAlignment = Alignment.Top,
             modifier = Modifier.fillMaxSize()
         ) { page ->
+            Settings.getInstance(context).putSingle(KEY_AUDIO_CURRENT_TAB, pagerState.currentPage)
             when (page) {
                 0 -> MediaList(MediaListEntry.ARTISTS, pagerState.currentPage)
                 1 -> MediaList(MediaListEntry.ALBUMS, pagerState.currentPage)
@@ -171,23 +175,26 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
 }
 
 @Composable
-fun MediaList(entry: MediaListEntry, index: Int) {
-    InvalidationComposable { invalidate ->
+fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActivityViewModel = viewModel()) {
+    val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
+    InvalidationComposable(displaySettingsChange) { invalidate ->
         val context = LocalContext.current
 
         val provider: MedialibraryProvider<out MediaLibraryItem>
 
-        when(entry) {
+        when (entry) {
             in arrayOf(MediaListEntry.ALL_PLAYLISTS, MediaListEntry.VIDEO_PLAYLISTS, MediaListEntry.AUDIO_PLAYLISTS) -> {
                 val extras = MutableCreationExtras().apply {
                     set(APPLICATION_KEY, context.applicationContext as Application)
-                    set(PlaylistsViewModel.PLAYLIST_TYPE, when(entry) {
-                        MediaListEntry.VIDEO_PLAYLISTS -> Playlist.Type.Video
-                        MediaListEntry.AUDIO_PLAYLISTS -> Playlist.Type.Audio
-                        else -> Playlist.Type.All
-                    })
+                    set(
+                        PlaylistsViewModel.PLAYLIST_TYPE, when (entry) {
+                            MediaListEntry.VIDEO_PLAYLISTS -> Playlist.Type.Video
+                            MediaListEntry.AUDIO_PLAYLISTS -> Playlist.Type.Audio
+                            else -> Playlist.Type.All
+                        }
+                    )
                 }
-                val playlistsViewModel:PlaylistsViewModel = viewModel(
+                val playlistsViewModel: PlaylistsViewModel = viewModel(
                     factory = PlaylistsViewModel.Factory,
                     extras = extras,
                 )
@@ -239,11 +246,14 @@ fun MediaList(entry: MediaListEntry, index: Int) {
                         AudioItemList(audio, modifier)
                     }
                 }
-                MediaListSidePanel(MediaListSidePanelContent(
-                    showScrollToTop = true,
-                    showResumePlayback = entry != MediaListEntry.ALL_PLAYLISTS,
-                    if (inCard) gridState else listState
-                )) { first, second ->
+                MediaListSidePanel(
+                    MediaListSidePanelContent(
+                        showScrollToTop = true,
+                        showResumePlayback = entry != MediaListEntry.ALL_PLAYLISTS,
+                        if (inCard) gridState else listState,
+                        entry
+                    )
+                ) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
                             inCard = second as Boolean
@@ -256,7 +266,6 @@ fun MediaList(entry: MediaListEntry, index: Int) {
                             else
                                 MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_AUDIO)
                         }
-                        else -> {}
                     }
                 }
             }
