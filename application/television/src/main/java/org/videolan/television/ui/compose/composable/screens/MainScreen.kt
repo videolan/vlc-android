@@ -77,6 +77,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.AudioPlayer
+import org.videolan.television.ui.compose.composable.components.DisplaySettings
 import org.videolan.television.ui.compose.composable.components.MlProgress
 import org.videolan.television.ui.compose.composable.components.SplashScreen
 import org.videolan.television.ui.compose.composable.components.VLCTabRow
@@ -101,6 +102,7 @@ fun MainScreen() {
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
             )
+            DisplaySettings()
         }
     }
 }

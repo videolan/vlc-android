@@ -44,6 +44,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,6 +77,7 @@ import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.KEY_VIDEOS_CARDS
@@ -84,7 +86,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
@@ -164,8 +165,11 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
 
 
 @Composable
-fun VideoList() {
-    InvalidationComposable { invalidate ->
+fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
+    val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
+    val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
+    InvalidationComposable(displaySettingsChange) { invalidate ->
         val context = LocalContext.current
 
         val extras = MutableCreationExtras().apply {
@@ -178,11 +182,14 @@ fun VideoList() {
             extras = extras,
         )
 
-
         val videos = viewModel.provider.pager.collectAsLazyPagingItems()
-        val listState = rememberLazyListState()
-        val gridState = rememberLazyGridState()
         var inCard by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_VIDEOS_CARDS, true)) }
+
+        val entry = when (Settings.getInstance(context).getString(KEY_GROUP_VIDEOS, VideoGroupingType.NAME.settingsKey)) {
+            VideoGroupingType.NAME.settingsKey -> MediaListEntry.VIDEO_GROUPS
+            VideoGroupingType.FOLDER.settingsKey -> MediaListEntry.VIDEO_FOLDER
+            else -> MediaListEntry.VIDEO
+        }
 
         VlcLoader(videos.loadState.refresh == LoadState.Loading) {
             Row {
@@ -213,22 +220,18 @@ fun VideoList() {
                         VideoItemList(video, modifier = modifier)
                     }
                 }
-                MediaListSidePanel(MediaListSidePanelContent(
-                    showScrollToTop = true,
-                    showResumePlayback = true,
-                    if (inCard) gridState else listState,
-                )) { first, second ->
+                MediaListSidePanel(
+                    MediaListSidePanelContent(
+                        showScrollToTop = true,
+                        showResumePlayback = true,
+                        if (inCard) gridState else listState,
+                        entry
+                    )
+                ) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
                             inCard = second as Boolean
                             Settings.getInstance(context).edit { putBoolean(KEY_VIDEOS_CARDS, inCard) }
-                            invalidate()
-                        }
-
-                        MediaListSidePanelListenerKey.GROUPING -> {
-                            val videoGroup = second as VideoGroupingType
-                            Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, videoGroup.settingsKey)
-                            viewModel.changeGroupingType(videoGroup)
                             invalidate()
                         }
                         MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {
@@ -239,5 +242,4 @@ fun VideoList() {
             }
         }
     }
-
 }

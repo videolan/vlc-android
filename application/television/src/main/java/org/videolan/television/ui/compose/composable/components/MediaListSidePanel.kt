@@ -98,15 +98,20 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, viewModel: MainActivi
             LabeledIconButton(stringResource(R.string.resume_playback_short_title), painterResource = painterResource(R.drawable.ic_resume_playback)) {
                 listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
             }
+        if (content.entry != null)
+            LabeledIconButton(stringResource(R.string.display_settings), painterResource = painterResource(R.drawable.ic_display_settings)) {
+                viewModel.openDisplaySettings(content.entry)
+            }
     }
 }
 
 enum class MediaListSidePanelListenerKey {
-    DISPLAY_MODE, GROUPING, RESUME_PLAYBACK
+    DISPLAY_MODE, RESUME_PLAYBACK
 }
 
 data class MediaListSidePanelContent(
     val showScrollToTop: Boolean = true,
     val showResumePlayback: Boolean = true,
-    val listState: ScrollableState
+    val listState: ScrollableState,
+    val entry: MediaListEntry?
 )
