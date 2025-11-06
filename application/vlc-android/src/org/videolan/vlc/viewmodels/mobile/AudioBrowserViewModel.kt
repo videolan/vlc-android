@@ -46,6 +46,7 @@ import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.GenresProvider
 import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
@@ -70,6 +71,11 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
         watchGenres()
         watchMedia()
         watchPlaylists()
+        watchFor(MediaListEntry.ARTISTS)
+        watchFor(MediaListEntry.ALBUMS)
+        watchFor(MediaListEntry.TRACKS)
+        watchFor(MediaListEntry.GENRES)
+        watchFor(MediaListEntry.AUDIO_PLAYLISTS)
         //Initial state coming from preferences and falling back to [providersInCard] hardcoded values
         for (i in displayModeKeys.indices) {
             providersInCard[i] = settings.getBoolean(displayModeKeys[i], providersInCard[i])
