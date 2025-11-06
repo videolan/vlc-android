@@ -41,6 +41,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 class PlaylistsViewModel(context: Context, type: Playlist.Type) : MedialibraryViewModel(context) {
@@ -51,6 +52,9 @@ class PlaylistsViewModel(context: Context, type: Playlist.Type) : MedialibraryVi
 
     init {
         watchPlaylists()
+        watchFor(MediaListEntry.AUDIO_PLAYLISTS)
+        watchFor(MediaListEntry.ALL_PLAYLISTS)
+        watchFor(MediaListEntry.VIDEO_PLAYLISTS)
         providerInCard = settings.getBoolean(displayModeKey, providerInCard)
     }
 
