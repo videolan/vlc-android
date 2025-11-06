@@ -64,6 +64,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -113,6 +114,26 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
                     inCard = !inCard
                     Settings.getInstance(context).putSingle(current!!.inCardsKey, inCard)
                     viewModel.changeDisplaySettings(current!!)
+                }
+
+                //Show all artists
+                if (current!! == MediaListEntry.ARTISTS) {
+                    var showAllArtists by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)) }
+                    val onShowAllClicked = {
+                        showAllArtists = !showAllArtists
+                        Settings.getInstance(context).putSingle(KEY_ARTISTS_SHOW_ALL, showAllArtists)
+                        viewModel.changeDisplaySettings(current!!)
+                        coroutineScope.launch {
+                            DisplaySettingsEventManager.onShowAllArtistsChanged(current!!, showAllArtists)
+                        }
+                    }
+                    DisplaySettingsLine(
+                        painterResource(R.drawable.ic_sort_artist),
+                        stringResource(R.string.artists_show_all_title),
+                        endView = {
+                            Checkbox(checked = showAllArtists, onCheckedChange = { onShowAllClicked() })
+                        }
+                    ) { onShowAllClicked() }
                 }
 
                 //Only favs
