@@ -27,6 +27,7 @@ package org.videolan.vlc.gui.helpers
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import org.videolan.resources.AppContextProvider
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction.entries
 
@@ -97,4 +98,6 @@ enum class DefaultPlaybackActionMediaType(@StringRes val title: Int, val default
      * @param prefs the shared preferences to use
      */
     fun getCurrentPlaybackAction(prefs: SharedPreferences) = DefaultPlaybackAction.valueOf(prefs.getString(defaultActionKey, DefaultPlaybackAction.PLAY.name) ?: DefaultPlaybackAction.PLAY.name)
+
+    fun saveCurrentPlaybackAction(prefs: SharedPreferences, value: DefaultPlaybackAction) = prefs.putSingle(defaultActionKey, value.name)
 }
