@@ -150,8 +150,8 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
             .fillMaxHeight()
             .padding(
                 top = animatedPadding,
-                start = 32.dp,
-                end = 32.dp
+                start = 24.dp,
+                end = 24.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -247,7 +247,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                     Image(
                         painter = painterResource(id = R.drawable.icon),
                         contentDescription = stringResource(id = R.string.app_name),
-                        modifier = Modifier.size(48.dp)
+                        modifier = Modifier.padding(end = 16.dp).size(48.dp)
                     )
                 }
             } else {
