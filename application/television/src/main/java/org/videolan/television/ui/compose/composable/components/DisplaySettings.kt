@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.compose.composable.components
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -62,6 +63,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
@@ -150,152 +152,157 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
                     Checkbox(checked = onlyFavs, onCheckedChange = { onFavClicked() })
                 }, onClick = { onFavClicked() })
 
-                //Video grouping
-                var expanded by remember { mutableStateOf(false) }
-                if (current!! in arrayOf(MediaListEntry.VIDEO, MediaListEntry.VIDEO_GROUPS, MediaListEntry.VIDEO_FOLDER)) {
-                    DisplaySettingsLine(painterResource(R.drawable.ic_group_display), stringResource(R.string.video_min_group_length_title), endView = {
-                        Box(
-                            modifier = Modifier
-                        ) {
-                            Row(
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier
-                                    .padding(end = 16.dp)
-                            ) {
-                                Text(
-                                    text = stringResource(
-                                        when (current) {
-                                            MediaListEntry.VIDEO_GROUPS -> R.string.video_min_group_length_name
-                                            MediaListEntry.VIDEO_FOLDER -> R.string.video_min_group_length_folder
-                                            else -> R.string.video_min_group_length_disable
-                                        }
-
-                                    )
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.ArrowDropDown,
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                    contentDescription = "DropDown Icon"
-                                )
-                            }
-                            DropdownMenu(
-                                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceDim),
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        if (current!! == MediaListEntry.VIDEO_GROUPS)
-                                            Icon(Icons.Default.Check, contentDescription = null)
-                                    },
-                                    text = { Text(stringResource(org.videolan.television.R.string.video_min_group_length_name)) },
-                                    onClick = {
-                                        val newEntry = MediaListEntry.VIDEO_GROUPS
-                                        coroutineScope.launch {
-                                            DisplaySettingsEventManager.onGroupingChanged(newEntry)
-                                        }
-                                        Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, VideoGroupingType.NAME.settingsKey)
-                                        viewModel.changeDisplaySettings(newEntry)
-                                        viewModel.changeCurrentMediaListEntry(newEntry)
-                                        expanded = false
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        if (current!! == MediaListEntry.VIDEO_FOLDER)
-                                            Icon(Icons.Default.Check, contentDescription = null)
-                                    },
-                                    text = { Text(stringResource(org.videolan.television.R.string.video_min_group_length_folder)) },
-                                    onClick = {
-                                        val newEntry = MediaListEntry.VIDEO_FOLDER
-                                        coroutineScope.launch {
-                                            DisplaySettingsEventManager.onGroupingChanged(newEntry)
-                                        }
-                                        Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, VideoGroupingType.FOLDER.settingsKey)
-                                        viewModel.changeDisplaySettings(newEntry)
-                                        viewModel.changeCurrentMediaListEntry(newEntry)
-                                        expanded = false
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        if (current!! == MediaListEntry.VIDEO)
-                                            Icon(Icons.Default.Check, contentDescription = null)
-                                    },
-                                    text = { Text(stringResource(org.videolan.television.R.string.video_min_group_length_disable)) },
-                                    onClick = {
-                                        val newEntry = MediaListEntry.VIDEO
-                                        coroutineScope.launch {
-                                            DisplaySettingsEventManager.onGroupingChanged(newEntry)
-                                        }
-                                        Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, VideoGroupingType.NONE.settingsKey)
-                                        viewModel.changeDisplaySettings(newEntry)
-                                        viewModel.changeCurrentMediaListEntry(newEntry)
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
-                    }, onClick = { expanded = !expanded })
+                VideoGroupingItem(current!!) { newEntry, videoGroupingType ->
+                    coroutineScope.launch {
+                        DisplaySettingsEventManager.onGroupingChanged(newEntry)
+                    }
+                    Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, videoGroupingType.settingsKey)
+                    viewModel.changeDisplaySettings(newEntry)
+                    viewModel.changeCurrentMediaListEntry(newEntry)
                 }
-                //Playback actions
-                var playbackActionsExpanded by remember { mutableStateOf(false) }
-                var currentPlaybackAction = current!!.defaultPlaybackActionMediaType.getCurrentPlaybackAction(Settings.getInstance(context))
-                DisplaySettingsLine(
-                    painterResource(R.drawable.ic_play),
-                    stringResource(R.string.default_playback_action),
-                    subtitle = stringResource(current!!.defaultPlaybackActionMediaType.title),
-                    endView = {
-                        Box(
-                            modifier = Modifier
-                        ) {
-                            Row(
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier
-                                    .padding(end = 16.dp)
-                            ) {
-                                Text(
-                                    text = stringResource(currentPlaybackAction.title)
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.ArrowDropDown,
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                    contentDescription = "DropDown Icon"
-                                )
-                            }
-                            DropdownMenu(
-                                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceDim),
-                                expanded = playbackActionsExpanded,
-                                onDismissRequest = { playbackActionsExpanded = false }
-                            ) {
 
-                                val entries = if (current!!.defaultPlaybackActionMediaType.allowPlayAll) DefaultPlaybackAction.getEntriesWithSelection(currentPlaybackAction) else DefaultPlaybackAction.getEntriesWithoutPlayAll(currentPlaybackAction)
-
-                                entries.forEach { playbackAction ->
-                                    DropdownMenuItem(
-                                        leadingIcon = {
-                                            if (playbackAction.selected)
-                                                Icon(Icons.Default.Check, contentDescription = null)
-                                        },
-                                        text = { Text(stringResource(playbackAction.title)) },
-                                        onClick = {
-                                            current!!.defaultPlaybackActionMediaType.saveCurrentPlaybackAction(Settings.getInstance(context), playbackAction)
-                                            currentPlaybackAction = playbackAction
-                                            playbackActionsExpanded = false
-                                        }
-                                    )
-                                }
-
-                            }
-                        }
-                    },
-                    onClick = { playbackActionsExpanded = !playbackActionsExpanded }
-                )
+                PlaybackActionsItem(current!!, context)
             }
         }
+    }
+}
+
+@Composable
+private fun PlaybackActionsItem(current: MediaListEntry, context: Context) {
+    //Playback actions
+    var playbackActionsExpanded by remember { mutableStateOf(false) }
+    var currentPlaybackAction = current.defaultPlaybackActionMediaType.getCurrentPlaybackAction(Settings.getInstance(context))
+    DisplaySettingsLine(
+        painterResource(R.drawable.ic_play),
+        stringResource(R.string.default_playback_action),
+        subtitle = stringResource(current.defaultPlaybackActionMediaType.title),
+        endView = {
+            Box(
+                modifier = Modifier
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(currentPlaybackAction.title)
+                    )
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        contentDescription = "DropDown Icon"
+                    )
+                }
+                DropdownMenu(
+                    modifier = Modifier.background(MaterialTheme.colorScheme.surfaceDim),
+                    expanded = playbackActionsExpanded,
+                    onDismissRequest = { playbackActionsExpanded = false }
+                ) {
+
+                    val entries =
+                        if (current.defaultPlaybackActionMediaType.allowPlayAll) DefaultPlaybackAction.getEntriesWithSelection(currentPlaybackAction) else DefaultPlaybackAction.getEntriesWithoutPlayAll(
+                            currentPlaybackAction
+                        )
+
+                    entries.forEach { playbackAction ->
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                if (playbackAction.selected)
+                                    Icon(Icons.Default.Check, contentDescription = null)
+                            },
+                            text = { Text(stringResource(playbackAction.title)) },
+                            onClick = {
+                                current.defaultPlaybackActionMediaType.saveCurrentPlaybackAction(Settings.getInstance(context), playbackAction)
+                                currentPlaybackAction = playbackAction
+                                playbackActionsExpanded = false
+                            }
+                        )
+                    }
+
+                }
+            }
+        },
+        onClick = { playbackActionsExpanded = !playbackActionsExpanded }
+    )
+}
+
+@Composable
+private fun VideoGroupingItem(
+    current: MediaListEntry,
+    onClick: (MediaListEntry, VideoGroupingType)-> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    if (current in arrayOf(MediaListEntry.VIDEO, MediaListEntry.VIDEO_GROUPS, MediaListEntry.VIDEO_FOLDER)) {
+        DisplaySettingsLine(painterResource(R.drawable.ic_group_display), stringResource(R.string.video_min_group_length_title), endView = {
+            Box(
+                modifier = Modifier
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(
+                            when (current) {
+                                MediaListEntry.VIDEO_GROUPS -> R.string.video_min_group_length_name
+                                MediaListEntry.VIDEO_FOLDER -> R.string.video_min_group_length_folder
+                                else -> R.string.video_min_group_length_disable
+                            }
+
+                        )
+                    )
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        contentDescription = "DropDown Icon"
+                    )
+                }
+                DropdownMenu(
+                    modifier = Modifier.background(MaterialTheme.colorScheme.surfaceDim),
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            if (current == MediaListEntry.VIDEO_GROUPS)
+                                Icon(Icons.Default.Check, contentDescription = null)
+                        },
+                        text = { Text(stringResource(org.videolan.television.R.string.video_min_group_length_name)) },
+                        onClick = {
+                            onClick(MediaListEntry.VIDEO_GROUPS, VideoGroupingType.NAME)
+                            expanded = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            if (current == MediaListEntry.VIDEO_FOLDER)
+                                Icon(Icons.Default.Check, contentDescription = null)
+                        },
+                        text = { Text(stringResource(org.videolan.television.R.string.video_min_group_length_folder)) },
+                        onClick = {
+                            onClick(MediaListEntry.VIDEO_FOLDER, VideoGroupingType.FOLDER)
+                            expanded = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            if (current == MediaListEntry.VIDEO)
+                                Icon(Icons.Default.Check, contentDescription = null)
+                        },
+                        text = { Text(stringResource(org.videolan.television.R.string.video_min_group_length_disable)) },
+                        onClick = {
+                            onClick(MediaListEntry.VIDEO, VideoGroupingType.NONE)
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }, onClick = { expanded = !expanded })
     }
 }
 
