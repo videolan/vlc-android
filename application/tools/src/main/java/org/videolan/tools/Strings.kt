@@ -120,21 +120,29 @@ fun Long.readableNumber(): String {
 
 fun Int.forbiddenChars() = FORBIDDEN_CHARS.substrlng(this)
 
-fun String.markBidi(): String {
+fun String.markBidi(markLtr: Boolean = false): String {
+    //left-to-right isolate
+    val lri = "\u2066"
     //right-to-left isolate
     val rli = "\u2067"
     //pop directional isolate
     val pdi = "\u2069"
-    for (ch in this) {
+    return when {
+        markLtr -> lri + this + pdi
+        this.hasRtl() -> rli + this + pdi
+        else -> this
+    }
+}
+
+fun String.hasRtl(): Boolean {
+    return this.toCharArray().any { ch ->
         when (Character.getDirectionality(ch)) {
             Character.DIRECTIONALITY_RIGHT_TO_LEFT,
             Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC,
             Character.DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING,
-            Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE -> return rli + this + pdi
-            Character.DIRECTIONALITY_LEFT_TO_RIGHT,
-            Character.DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING,
-            Character.DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE -> return this
+            Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE,
+            Character.DIRECTIONALITY_RIGHT_TO_LEFT_ISOLATE -> return true
+            else -> false
         }
     }
-    return this
 }

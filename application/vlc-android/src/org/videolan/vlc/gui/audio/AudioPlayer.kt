@@ -87,7 +87,9 @@ import org.videolan.tools.Settings
 import org.videolan.tools.copy
 import org.videolan.tools.dp
 import org.videolan.tools.formatRateString
+import org.videolan.tools.hasRtl
 import org.videolan.tools.isStarted
+import org.videolan.tools.markBidi
 import org.videolan.tools.putSingle
 import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
@@ -647,8 +649,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 val progressTimeDescription =  TalkbackUtil.millisToString(requireActivity(), if (showRemainingTime && totalTime > 0) totalTime - progressTime else progressTime)
                 val currentProgressText = if (progressTimeText.isNullOrEmpty()) "0:00" else progressTimeText
 
+                val isRtlLocale = LocaleUtil.isRtl()
                 val size = if (playlistModel.service?.playlistManager?.stopAfter != -1 ) (playlistModel.service?.playlistManager?.stopAfter ?: 0) + 1 else medias.size
-                val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / $size")
+                val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / $size".let {
+                    if (isRtlLocale) it.markBidi(true) else it
+                })
                 val textTrackDescription = getString(R.string.talkback_track_index, "${playlistModel.currentMediaPosition + 1}", "$size")
 
                 val textProgress = if (audioPlayProgressMode) {
@@ -656,7 +661,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     if ((lastEndsAt - endsAt).absoluteValue > 1) lastEndsAt = endsAt
                     getString(
                             R.string.audio_queue_progress_finished,
-                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
+                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt).let {
+                                if (isRtlLocale) it.markBidi(true) else it
+                            }
                     )
                 } else
                     if (showRemainingTime && totalTime > 0) getString(
@@ -665,14 +672,18 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     )
                     else getString(
                             R.string.audio_queue_progress,
-                            if (totalTimeText.isNullOrEmpty()) currentProgressText else "$currentProgressText / $totalTimeText"
+                            if (totalTimeText.isNullOrEmpty()) currentProgressText else "$currentProgressText / $totalTimeText".let {
+                                if (isRtlLocale) it.markBidi(true) else it
+                            }
                     )
                 val textDescription = if (audioPlayProgressMode) {
                     val endsAt = System.currentTimeMillis() + totalTime - progressTime
                     if ((lastEndsAt - endsAt).absoluteValue > 1) lastEndsAt = endsAt
                     getString(
                             R.string.audio_queue_progress_finished,
-                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt)
+                            getTimeInstance(java.text.DateFormat.MEDIUM).format(lastEndsAt).let {
+                                if (isRtlLocale) it.markBidi(true) else it
+                            }
                     )
                 } else
                     if (showRemainingTime && totalTime > 0) getString(
@@ -683,7 +694,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                             R.string.audio_queue_progress,
                             if (totalTimeText.isNullOrEmpty()) progressTimeDescription else getString(R.string.talkback_out_of, progressTimeDescription, totalTimeDescription)
                     )
-                Pair("$textTrack  ${TextUtils.SEPARATOR}  $textProgress", "$textTrackDescription. $textDescription")
+
+                val finalTextTrack = if (isRtlLocale && !textTrack.hasRtl()) textTrack.markBidi(true) else textTrack
+                val finalTextProgress = if (isRtlLocale && !textProgress.hasRtl()) textProgress.markBidi(true) else textProgress
+                Pair("$finalTextTrack  ${TextUtils.SEPARATOR}  $finalTextProgress", "$textTrackDescription. $textDescription")
             }
             binding.audioPlayProgress.text = text.first
             binding.audioPlayProgress.contentDescription = text.second
