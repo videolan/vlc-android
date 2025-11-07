@@ -70,6 +70,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.DisplaySettingsEventManager
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -239,13 +240,67 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
                         }
                     }, onClick = { expanded = !expanded })
                 }
+                //Playback actions
+                var playbackActionsExpanded by remember { mutableStateOf(false) }
+                var currentPlaybackAction = current!!.defaultPlaybackActionMediaType.getCurrentPlaybackAction(Settings.getInstance(context))
+                DisplaySettingsLine(
+                    painterResource(R.drawable.ic_play),
+                    stringResource(R.string.default_playback_action),
+                    subtitle = stringResource(current!!.defaultPlaybackActionMediaType.title),
+                    endView = {
+                        Box(
+                            modifier = Modifier
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(currentPlaybackAction.title)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.ArrowDropDown,
+                                    tint = MaterialTheme.colorScheme.onSurface,
+                                    contentDescription = "DropDown Icon"
+                                )
+                            }
+                            DropdownMenu(
+                                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceDim),
+                                expanded = playbackActionsExpanded,
+                                onDismissRequest = { playbackActionsExpanded = false }
+                            ) {
+
+                                val entries = if (current!!.defaultPlaybackActionMediaType.allowPlayAll) DefaultPlaybackAction.getEntriesWithSelection(currentPlaybackAction) else DefaultPlaybackAction.getEntriesWithoutPlayAll(currentPlaybackAction)
+
+                                entries.forEach { playbackAction ->
+                                    DropdownMenuItem(
+                                        leadingIcon = {
+                                            if (playbackAction.selected)
+                                                Icon(Icons.Default.Check, contentDescription = null)
+                                        },
+                                        text = { Text(stringResource(playbackAction.title)) },
+                                        onClick = {
+                                            current!!.defaultPlaybackActionMediaType.saveCurrentPlaybackAction(Settings.getInstance(context), playbackAction)
+                                            currentPlaybackAction = playbackAction
+                                            playbackActionsExpanded = false
+                                        }
+                                    )
+                                }
+
+                            }
+                        }
+                    },
+                    onClick = { playbackActionsExpanded = !playbackActionsExpanded }
+                )
             }
         }
     }
 }
 
 @Composable
-fun DisplaySettingsLine(painter: Painter, text: String, endView: @Composable (() -> Unit)? = null, onClick: () -> Unit) {
+fun DisplaySettingsLine(painter: Painter, text: String, subtitle: String? = null, endView: @Composable (() -> Unit)? = null, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -260,7 +315,12 @@ fun DisplaySettingsLine(painter: Painter, text: String, endView: @Composable (()
                 .padding(start = 16.dp, end = 16.dp)
                 .size(24.dp)
         )
-        Text(text, modifier = Modifier.weight(1f))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text)
+            if (subtitle != null) {
+                Text(subtitle, style = MaterialTheme.typography.bodySmall)
+            }
+        }
         endView?.invoke()
     }
 }
