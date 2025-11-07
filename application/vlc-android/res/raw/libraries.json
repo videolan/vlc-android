@@ -236,6 +236,11 @@
       "license"  : "bsd3"
     },
     {
+      "title"    : "SQLite",
+      "copyright": "Richard Hipp et al.",
+      "license"  : "publicdomain"
+    },
+    {
       "title"    : "Taglib",
       "copyright": "Copyright © 2002-2008 Scott Wheeler et al.",
       "license"  : "lgpl2.1"
