@@ -45,11 +45,7 @@ import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.util.AutoUpdate
 
 
-class MainActivity : AppCompatActivity() {
-
-    private val horizontalThrottler = EventThrottler(75L)
-    private val verticalThrottler = EventThrottler(100L)
-    private val selectThrottler = EventThrottler(500L)
+class MainActivity : DefaultTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,27 +70,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.action != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event)
-
-        val isThrottled = when (event.keyCode) {
-            KeyEvent.KEYCODE_DPAD_LEFT,
-            KeyEvent.KEYCODE_DPAD_RIGHT -> {
-                horizontalThrottler.throttleEvent()
-            }
-
-            KeyEvent.KEYCODE_DPAD_UP,
-            KeyEvent.KEYCODE_DPAD_DOWN -> {
-                verticalThrottler.throttleEvent()
-            }
-
-            KeyEvent.KEYCODE_DPAD_CENTER -> {
-                selectThrottler.throttleEvent()
-            }
-
-            else -> false
-        }
-
-        return isThrottled || super.dispatchKeyEvent(event)
-    }
 }
