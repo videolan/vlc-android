@@ -104,9 +104,11 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
                     }
                     if (displaySettingsEvent is DisplaySettingsEvent.SortChanged) {
                         getAllProviders().forEach {
-                            if (it::class.java == displaySettingsEvent.currentEntry.providerClass)
+                            if (it::class.java == displaySettingsEvent.currentEntry.providerClass) {
                                 it.sort = displaySettingsEvent.sort
                                 it.desc = displaySettingsEvent.desc
+                                it.saveSort()
+                            }
                         }
                     }
                     if (displaySettingsEvent is DisplaySettingsEvent.GroupingChanged) {
