@@ -25,6 +25,7 @@
 package org.videolan.vlc.util
 
 import android.content.Context
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.KEY_VIDEOS_CARDS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -124,6 +125,10 @@ enum class MediaListEntry(
         defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.FILE,
         providerClass = FileProvider::class.java
     );
+
+    lateinit var sorts: List<Int>
+    var  currentSort: Int = Medialibrary.SORT_DEFAULT
+    var  currentSortDesc: Boolean = false
 
     /**
      * Display this entry in cards

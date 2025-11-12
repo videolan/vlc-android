@@ -33,9 +33,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
@@ -46,6 +51,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -57,14 +63,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.KEY_GROUP_VIDEOS
@@ -72,7 +81,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
-import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.DisplaySettingsEventManager
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -101,11 +109,14 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
             },
             dragHandle = null
         ) {
-            Column(modifier = Modifier) {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            ) {
                 Text(
                     stringResource(R.string.display_settings),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
+                    fontSize = 20.sp,
                     modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp, bottom = 24.dp)
                 )
 
@@ -163,6 +174,104 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
                 }
 
                 PlaybackActionsItem(current!!, context)
+
+                Text(
+                    stringResource(R.string.sortby),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp, bottom = 16.dp)
+                )
+                var currentSort by remember { mutableStateOf(current!!.currentSort) }
+                var currentSortDesc by remember { mutableStateOf(current!!.currentSortDesc) }
+
+                val onSortClick = { sort: Int, desc: Boolean ->
+                    current!!.currentSortDesc = desc
+                    current!!.currentSort = sort
+                    currentSort = sort
+                    currentSortDesc = desc
+                    coroutineScope.launch {
+                        DisplaySettingsEventManager.onSortChanged(current!!, currentSort, currentSortDesc)
+                    }
+                    viewModel.changeCurrentMediaListEntry(current)
+                }
+
+                current!!.sorts.forEach {
+                    val isCurrentSort = (it == currentSort || currentSort == Medialibrary.SORT_DEFAULT && it == Medialibrary.SORT_ALPHA)
+                    val sortItem = it.getSortItemDescriptor(isCurrentSort)
+
+                    Row(modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)) {
+                        Icon(
+                            painterResource(sortItem.icon),
+                            contentDescription = stringResource(sortItem.title),
+                            modifier = Modifier
+                                .padding(vertical = 8.dp, horizontal = 16.dp)
+                                .size(24.dp)
+                        )
+                        Text(
+                            stringResource(sortItem.title), modifier = Modifier
+                                .weight(1f)
+                                .height(40.dp)
+                                .wrapContentHeight(align = Alignment.CenterVertically)
+                        )
+                        Column(modifier = Modifier.weight(1f)) {
+                            Row(
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .clip(RoundedCornerShape(50))
+                                    .combinedClickable(
+                                        onClick = { onSortClick(sortItem.sort, false) }
+                                    )
+                            ) {
+                                Text(
+                                    stringResource(sortItem.ascending),
+                                    color = if (isCurrentSort && !currentSortDesc) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(40.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically)
+                                        .padding(horizontal = 16.dp)
+                                )
+                                if (isCurrentSort && !currentSortDesc)
+                                    Icon(
+                                        Icons.Default.Check,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier
+                                            .padding(vertical = 8.dp, horizontal = 16.dp)
+                                            .size(24.dp)
+                                    )
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .clip(RoundedCornerShape(50))
+                                    .combinedClickable(
+                                        onClick = { onSortClick(sortItem.sort, true) }
+                                    )
+                            ) {
+                                Text(
+                                    stringResource(sortItem.descending),
+                                    color = if (isCurrentSort && currentSortDesc) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(40.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically)
+                                        .padding(horizontal = 16.dp)
+                                )
+                                if (isCurrentSort && currentSortDesc)
+                                    Icon(
+                                        Icons.Default.Check,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier
+                                            .padding(vertical = 8.dp, horizontal = 16.dp)
+                                            .size(24.dp)
+                                    )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -232,7 +341,7 @@ private fun PlaybackActionsItem(current: MediaListEntry, context: Context) {
 @Composable
 private fun VideoGroupingItem(
     current: MediaListEntry,
-    onClick: (MediaListEntry, VideoGroupingType)-> Unit
+    onClick: (MediaListEntry, VideoGroupingType) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     if (current in arrayOf(MediaListEntry.VIDEO, MediaListEntry.VIDEO_GROUPS, MediaListEntry.VIDEO_FOLDER)) {
@@ -313,6 +422,8 @@ fun DisplaySettingsLine(painter: Painter, text: String, subtitle: String? = null
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 48.dp)
+            .padding(horizontal = 8.dp)
+            .clip(RoundedCornerShape(50))
             .combinedClickable(
                 onClick = { onClick() }
             ),
@@ -329,18 +440,96 @@ fun DisplaySettingsLine(painter: Painter, text: String, subtitle: String? = null
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
             }
         }
-        endView?.invoke()
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(horizontal = 8.dp)) {
+            endView?.invoke()
+        }
     }
 }
 
-data class DisplaySettingsDescription(
-    val incard: Boolean,
-    val onlyFavs: Boolean,
-    val grouping: VideoGroupingType? = null,
-    val currentSort: Int = -1,
-    val currentSortDesc: Boolean = false,
-    val showOnlyMultimediaFiles: Boolean? = null,
-    val defaultPlaybackActions: List<DefaultPlaybackAction>? = null,
-    val defaultActionType: String? = null,
-    val currentDefaultAction: DefaultPlaybackAction? = null
-)
+fun Int.getSortItemDescriptor(isCurrentSort: Boolean) = when (this) {
+    Medialibrary.TrackId -> SortItemDescriptor(this, R.string.sortby_track, R.string.ascending, R.string.descending, R.drawable.ic_sort_track, isCurrentSort)
+    Medialibrary.SORT_ALPHA -> SortItemDescriptor(
+        this,
+        R.string.sortby_name,
+        R.string.sort_alpha_asc,
+        R.string.sort_alpha_desc,
+        R.drawable.ic_sort_alpha,
+        isCurrentSort
+    )
+
+    Medialibrary.SORT_FILENAME -> SortItemDescriptor(
+        this,
+        R.string.sortby_filename,
+        R.string.sort_alpha_asc,
+        R.string.sort_alpha_desc,
+        R.drawable.ic_sort_filename,
+        isCurrentSort
+    )
+
+    Medialibrary.SORT_ARTIST -> SortItemDescriptor(
+        this,
+        R.string.sortby_artist_name,
+        R.string.sort_alpha_asc,
+        R.string.sort_alpha_desc,
+        R.drawable.ic_sort_artist,
+        isCurrentSort
+    )
+
+    Medialibrary.SORT_DURATION -> SortItemDescriptor(
+        this,
+        R.string.sortby_length,
+        R.string.sortby_length_asc,
+        R.string.sortby_length_desc,
+        R.drawable.ic_sort_length,
+        isCurrentSort
+    )
+
+    Medialibrary.SORT_INSERTIONDATE -> SortItemDescriptor(
+        this,
+        R.string.sortby_date_insertion,
+        R.string.sort_date_asc,
+        R.string.sort_date_desc,
+        R.drawable.ic_medialibrary_date,
+        isCurrentSort
+    )
+
+    Medialibrary.SORT_LASTMODIFICATIONDATE -> SortItemDescriptor(
+        this,
+        R.string.sortby_date_last_modified,
+        R.string.sort_date_asc,
+        R.string.sort_date_desc,
+        R.drawable.ic_medialibrary_scan,
+        isCurrentSort
+    )
+
+    Medialibrary.SORT_ALBUM -> SortItemDescriptor(
+        this,
+        R.string.sortby_album_name,
+        R.string.sort_alpha_asc,
+        R.string.sort_alpha_desc,
+        R.drawable.ic_sort_album,
+        isCurrentSort
+    )
+
+    Medialibrary.SORT_RELEASEDATE -> SortItemDescriptor(
+        this,
+        R.string.sortby_date_release,
+        R.string.sort_date_asc,
+        R.string.sort_date_desc,
+        R.drawable.ic_sort_date,
+        isCurrentSort
+    )
+
+    Medialibrary.NbMedia -> SortItemDescriptor(
+        this,
+        R.string.sortby_number,
+        R.string.sortby_number_asc,
+        R.string.sortby_number_desc,
+        R.drawable.ic_sort_number,
+        isCurrentSort
+    )
+    else -> throw IllegalStateException("Unsupported sort: $this")
+}
+
+
+data class SortItemDescriptor(val sort: Int, val title: Int, val ascending: Int, val descending: Int, val icon: Int, val isCurrentSort: Boolean)
