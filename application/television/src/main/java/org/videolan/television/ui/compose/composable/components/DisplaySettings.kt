@@ -92,13 +92,14 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
         ModalBottomSheet(
             modifier = Modifier,
             sheetState = sheetState,
+            sheetGesturesEnabled = false,
             onDismissRequest = {
                 coroutineScope.launch {
                     sheetState.hide()
                 }
                 viewModel.hideDisplaySettings()
             },
-            dragHandle = {}
+            dragHandle = null
         ) {
             Column(modifier = Modifier) {
                 Text(
