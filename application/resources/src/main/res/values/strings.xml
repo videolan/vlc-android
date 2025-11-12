@@ -1436,4 +1436,6 @@
     <string name="forum_url" translatable="false">https://forum.videolan.org/viewforum.php?f=35</string>
     <string name="doc_url" translatable="false">https://docs.videolan.me/vlc-user/android/</string>
     <string name="scroll_to_top">Scroll to top</string>
+    <string name="old_ui">Switch to old interface</string>
+    <string name="new_ui">New interface</string>
 </resources>

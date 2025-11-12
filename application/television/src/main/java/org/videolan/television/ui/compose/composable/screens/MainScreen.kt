@@ -24,7 +24,9 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import android.content.Intent
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
@@ -54,6 +56,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -76,8 +81,11 @@ import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
+import org.videolan.television.ui.MainTvActivity
+import org.videolan.television.ui.SearchActivity
 import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.DisplaySettings
+import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MlProgress
 import org.videolan.television.ui.compose.composable.components.SplashScreen
 import org.videolan.television.ui.compose.composable.components.VLCTabRow
@@ -120,6 +128,7 @@ fun MainContent() {
 fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+    val activity = LocalActivity.current
     val settings = Settings.getInstance(context)
 
     val tabs = viewModel.tabs
@@ -176,7 +185,13 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.focusGroup()
                 ) {
-                    Spacer(modifier = Modifier.width(48.dp))
+                    LabeledIconButton(stringResource(R.string.old_ui), vectorImage = Icons.Default.Palette) {
+                        activity?.startActivity(Intent(activity.applicationContext, MainTvActivity::class.java))
+                        activity?.finish()
+                    }
+                    LabeledIconButton(stringResource(R.string.search), vectorImage = Icons.Default.Search) {
+                        activity?.startActivity(Intent(context, SearchActivity::class.java))
+                    }
                     Spacer(modifier = Modifier.weight(1f))
                     Box(modifier = Modifier) {
                         VLCTabRow(
@@ -244,6 +259,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
 
                     }
                     Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(48.dp))
                     Image(
                         painter = painterResource(id = R.drawable.icon),
                         contentDescription = stringResource(id = R.string.app_name),

@@ -67,6 +67,7 @@ import org.videolan.resources.HEADER_RECENTLY_ADDED
 import org.videolan.resources.HEADER_RECENTLY_PLAYED
 import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.ID_ABOUT_TV
+import org.videolan.resources.ID_NEW_UI
 import org.videolan.resources.ID_PIN_LOCK
 import org.videolan.resources.ID_REFRESH
 import org.videolan.resources.ID_REMOTE_ACCESS
@@ -229,6 +230,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         if (PinCodeDelegate.pinUnlocked.value == true) otherAdapter.add(lockItem)
         otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_settings_big, R.color.tv_card_content_dark))
         val remoteAccessCard = GenericCardItem(ID_REMOTE_ACCESS, getString(R.string.remote_access), "", R.drawable.ic_remote_access_big, R.color.tv_card_content_dark)
+        otherAdapter.add(GenericCardItem(ID_NEW_UI, getString(R.string.new_ui), "", R.drawable.ic_new_ui, R.color.tv_card_content_dark))
         Settings.remoteAccessEnabled.observe(requireActivity()) {
             if (it)
                 otherAdapter.add(otherAdapter.size() - 2, remoteAccessCard)
@@ -419,6 +421,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                     ID_SPONSOR -> activity.showDonations()
                     ID_PIN_LOCK -> PinCodeDelegate.pinUnlocked.postValue(false)
                     ID_REMOTE_ACCESS -> requireActivity().startActivity(Intent(activity, StartActivity::class.java).apply { action = "vlc.remoteaccess.share" })
+                    ID_NEW_UI -> {
+                        requireActivity().startActivity(Intent(activity, MainActivity::class.java))
+                        requireActivity().finish()
+                    }
 
                 }
             }
