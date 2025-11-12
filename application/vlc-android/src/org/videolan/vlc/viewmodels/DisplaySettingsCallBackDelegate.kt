@@ -102,6 +102,13 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
                                 it.showAll = displaySettingsEvent.showAllArtists
                         }
                     }
+                    if (displaySettingsEvent is DisplaySettingsEvent.SortChanged) {
+                        getAllProviders().forEach {
+                            if (it::class.java == displaySettingsEvent.currentEntry.providerClass)
+                                it.sort = displaySettingsEvent.sort
+                                it.desc = displaySettingsEvent.desc
+                        }
+                    }
                     if (displaySettingsEvent is DisplaySettingsEvent.GroupingChanged) {
                         changeGrouping.invoke(
                             when (displaySettingsEvent.entry) {
@@ -133,6 +140,7 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
 
 sealed class DisplaySettingsEvent(val currentEntry: MediaListEntry, time: Long) {
     data class OnlyFavsChanged(val entry: MediaListEntry, val onlyFavorites: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
+    data class SortChanged(val entry: MediaListEntry, val sort: Int, val desc: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
     data class ShowAllArtistsChanged(val entry: MediaListEntry, val showAllArtists: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
     data class GroupingChanged(val entry: MediaListEntry): DisplaySettingsEvent(entry, System.currentTimeMillis())
 }
@@ -144,6 +152,10 @@ object DisplaySettingsEventManager {
 
     suspend fun onOnlyFavsChanged(entry: MediaListEntry, onlyFavorites: Boolean) {
         _currentDisplaySettingsChange.emit(DisplaySettingsEvent.OnlyFavsChanged(entry, onlyFavorites))
+    }
+
+    suspend fun onSortChanged(entry: MediaListEntry, sort: Int, desc: Boolean) {
+        _currentDisplaySettingsChange.emit(DisplaySettingsEvent.SortChanged(entry, sort, desc))
     }
 
     suspend fun onShowAllArtistsChanged(entry: MediaListEntry, showAllArtists: Boolean) {

@@ -64,6 +64,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
@@ -190,6 +191,12 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
             VideoGroupingType.FOLDER.settingsKey -> MediaListEntry.VIDEO_FOLDER
             else -> MediaListEntry.VIDEO
         }
+
+        entry.sorts  = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia, Medialibrary.SORT_INSERTIONDATE).filter {
+            viewModel.provider.canSortBy(it)
+        }
+        entry.currentSort = viewModel.provider.sort
+        entry.currentSortDesc = viewModel.provider.desc
 
         VlcLoader(videos.loadState.refresh == LoadState.Loading) {
             Row {
