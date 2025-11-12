@@ -42,6 +42,7 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.television.R
+import org.videolan.television.ui.AboutActivity
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.VLCButton
@@ -81,7 +82,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
             }
             VLCButton(R.drawable.ic_more_about, R.string.about) {
-                activity?.startActivity(Intent(activity.applicationContext, MainTvActivity::class.java))
+                activity?.startActivity(Intent(activity, AboutActivity::class.java))
             }
 
         }
