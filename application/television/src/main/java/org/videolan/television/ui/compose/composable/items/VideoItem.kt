@@ -26,6 +26,7 @@ package org.videolan.television.ui.compose.composable.items
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.MarqueeAnimationMode
@@ -86,6 +87,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.conditional
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
@@ -93,10 +95,11 @@ import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
 fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
-    val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
+    val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
+    if (video != mapBitmap.value?.first) mapBitmap.value = null
 
     Column(modifier = modifier.width(280.dp)) {
         Card(
@@ -121,9 +124,9 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                     .fillMaxSize()
                     .padding(0.dp)
             ) {
-                if (mapBitmap.value != null) {
+                if (mapBitmap.value?.second != null) {
                     Image(
-                        bitmap = mapBitmap.value!!.asImageBitmap(),
+                        bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
                         contentDescription = "Map snapshot",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -141,9 +144,8 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                             .scale(if (focused) 1.1f else 1f)
                     )
                     LaunchedEffect(key1 = "") {
-
                         coroutineScope.launch {
-                            mapBitmap.value = ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt())
+                            mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
                         }
                     }
                 }
@@ -260,10 +262,11 @@ fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = wh
 
 @Composable
 fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
-    val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
+    val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
+    if (video != mapBitmap.value?.first) mapBitmap.value = null
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -292,9 +295,9 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                     .fillMaxHeight()
                     .aspectRatio(16f / 9)
             ) {
-                if (mapBitmap.value != null) {
+                if (mapBitmap.value?.second != null) {
                     Image(
-                        bitmap = mapBitmap.value!!.asImageBitmap(),
+                        bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
                         contentDescription = "Map snapshot",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -311,9 +314,8 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                             .aspectRatio(16f / 9)
                     )
                     LaunchedEffect(key1 = "") {
-
                         coroutineScope.launch {
-                            mapBitmap.value = ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt())
+                            mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
                         }
                     }
                 }

@@ -30,7 +30,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -74,17 +73,14 @@ import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
-import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.util.ThumbnailsProvider
-import org.videolan.vlc.util.getDescriptionSpan
 
 @Composable
 fun AudioItem(audios: List<MediaLibraryItem>, index: Int, inCard: Boolean = true, spannableDescription: Boolean = false) {
@@ -93,10 +89,11 @@ fun AudioItem(audios: List<MediaLibraryItem>, index: Int, inCard: Boolean = true
 
 @Composable
 fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannableDescription: Boolean = false) {
-    val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
+    val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
     val focused = remember { mutableStateOf(false) }
+    if (item != mapBitmap.value?.first) mapBitmap.value = null
 
 
     Column {
@@ -129,10 +126,9 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                 )
         ) {
             Box {
-                if (mapBitmap.value != null) {
-
+                if (mapBitmap.value?.second != null) {
                     Image(
-                        bitmap = mapBitmap.value!!.asImageBitmap(),
+                        bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
                         contentDescription = "Map snapshot",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -157,11 +153,10 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                             .background(MaterialTheme.colorScheme.surfaceVariant)
                     )
                     LaunchedEffect(key1 = "") {
-
                         coroutineScope.launch {
                             item.let {
                                 if (item !is DummyItem)
-                                    mapBitmap.value = ThumbnailsProvider.obtainBitmap(it, 150.dp.value.toInt())
+                                    mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
                             }
                         }
                     }
@@ -219,113 +214,114 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
 
 @Composable
 fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannableDescription: Boolean = false) {
-    val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
+    val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
     val focused = remember { mutableStateOf(false) }
+    if (item != mapBitmap.value?.first) mapBitmap.value = null
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .height(52.dp)
-                .onFocusChanged {
-                    focused.value = it.isFocused
-                }
-            .background(color = if (focused.value) WhiteTransparent10 else WhiteTransparent05, shape = MaterialTheme.shapes.medium)
-                .combinedClickable(
-                    onClick = {
-                        when (item) {
-                            is Artist -> TvUtil.openAudioCategory(activity!!, item)
-                            is Album -> TvUtil.openAudioCategory(activity!!, item)
-                            is Genre -> TvUtil.openAudioCategory(activity!!, item)
-                            is Playlist -> TvUtil.openAudioCategory(activity!!, item)
-                            else -> TvUtil.openMedia(activity as FragmentActivity, item)
-                        }
-                    },
-                    onLongClick = {
-                        if (item is MediaWrapper)
-                            TvUtil.showMediaDetail(activity!!, item, false)
-                        else
-                            (activity as? FragmentActivity)?.askStoragePermission(false, null)
-                    },
-                    indication = null,
-                    interactionSource = null
-                )
-        ) {
-            Card(
-                modifier = Modifier
-            ) {
-                if (mapBitmap.value != null) {
-
-                    Image(
-                        bitmap = mapBitmap.value!!.asImageBitmap(),
-                        contentDescription = "Map snapshot",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .aspectRatio(1F)
-                    )
-                } else {
-                    val defaultIconId = when (item) {
-                        is Artist -> R.drawable.ic_artist_big
-                        is Album -> R.drawable.ic_album_big
-                        is Genre -> R.drawable.ic_genre_big
-                        is Playlist -> R.drawable.ic_playlist_big
-                        else -> R.drawable.ic_folder
-                    }
-                    Image(
-                        painter = painterResource(id = defaultIconId),
-                        contentDescription = "Map snapshot",
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .aspectRatio(1F)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                    )
-                    LaunchedEffect(key1 = "") {
-
-                        coroutineScope.launch {
-                            item.let {
-                                mapBitmap.value = ThumbnailsProvider.obtainBitmap(it, 150.dp.value.toInt())
-                            }
-                        }
-                    }
-                }
-
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp)
+            .onFocusChanged {
+                focused.value = it.isFocused
             }
+            .background(color = if (focused.value) WhiteTransparent10 else WhiteTransparent05, shape = MaterialTheme.shapes.medium)
+            .combinedClickable(
+                onClick = {
+                    when (item) {
+                        is Artist -> TvUtil.openAudioCategory(activity!!, item)
+                        is Album -> TvUtil.openAudioCategory(activity!!, item)
+                        is Genre -> TvUtil.openAudioCategory(activity!!, item)
+                        is Playlist -> TvUtil.openAudioCategory(activity!!, item)
+                        else -> TvUtil.openMedia(activity as FragmentActivity, item)
+                    }
+                },
+                onLongClick = {
+                    if (item is MediaWrapper)
+                        TvUtil.showMediaDetail(activity!!, item, false)
+                    else
+                        (activity as? FragmentActivity)?.askStoragePermission(false, null)
+                },
+                indication = null,
+                interactionSource = null
+            )
+    ) {
+        Card(
+            modifier = Modifier
+        ) {
+            if (mapBitmap.value?.second != null) {
 
-            Column(modifier = Modifier
+                Image(
+                    bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
+                    contentDescription = "Map snapshot",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1F)
+                )
+            } else {
+                val defaultIconId = when (item) {
+                    is Artist -> R.drawable.ic_artist_big
+                    is Album -> R.drawable.ic_album_big
+                    is Genre -> R.drawable.ic_genre_big
+                    is Playlist -> R.drawable.ic_playlist_big
+                    else -> R.drawable.ic_folder
+                }
+                Image(
+                    painter = painterResource(id = defaultIconId),
+                    contentDescription = "Map snapshot",
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1F)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                )
+                LaunchedEffect(key1 = "") {
+                    coroutineScope.launch {
+                        item.let {
+                            if (item !is DummyItem)
+                                mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                        }
+                    }
+                }
+            }
+        }
+
+        Column(
+            modifier = Modifier
                 .wrapContentHeight()
                 .weight(1f)
                 .align(Alignment.CenterVertically)
-            ) {
-                Text(
-                    item.title ?: "",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.labelLarge,
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .fillMaxWidth()
-                )
-                Text(
-                    item.description ?: "",
-                    maxLines = 1,
-                    style = MaterialTheme.typography.bodySmall,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .fillMaxWidth()
-                )
-            }
-            if (item.isFavorite || (item as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
-                Icon(
-                    painterResource(R.drawable.ic_favorite),
-                    contentDescription = stringResource(R.string.favorite),
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(16.dp)
-                )
-            }
+        ) {
+            Text(
+                item.title ?: "",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            )
+            Text(
+                item.description ?: "",
+                maxLines = 1,
+                style = MaterialTheme.typography.bodySmall,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            )
+        }
+        if (item.isFavorite || (item as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
+            Icon(
+                painterResource(R.drawable.ic_favorite),
+                contentDescription = stringResource(R.string.favorite),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(16.dp)
+            )
+        }
     }
 }
