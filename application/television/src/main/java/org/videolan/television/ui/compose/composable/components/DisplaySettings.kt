@@ -170,7 +170,8 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
                     }
                     Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, videoGroupingType.settingsKey)
                     viewModel.changeDisplaySettings(newEntry)
-                    viewModel.changeCurrentMediaListEntry(newEntry)
+                    //hide the display settings as different grouping have different sorts / providers
+                    viewModel.changeCurrentMediaListEntry(null)
                 }
 
                 PlaybackActionsItem(current!!, context)
