@@ -66,6 +66,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
@@ -212,6 +213,12 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                 provider = audioBrowserViewModel.getProvider(entry)
             }
         }
+
+        entry.sorts  = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia, Medialibrary.SORT_INSERTIONDATE).filter {
+            provider.canSortBy(it)
+        }
+        entry.currentSort = provider.sort
+        entry.currentSortDesc = provider.desc
 
         val audios = provider.pager.collectAsLazyPagingItems()
         var inCard by remember { mutableStateOf(entry.displayInCard(context)) }
