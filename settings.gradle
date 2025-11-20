@@ -6,7 +6,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.android.settings") version '8.13.0'
+    id("com.android.settings") version '8.13.1'
 }
 
 def vlcMajorVersion = hasProperty('forceVlc4') && getProperty('forceVlc4') ? 4 : 3
