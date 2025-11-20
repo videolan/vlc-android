@@ -72,6 +72,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -95,6 +96,7 @@ import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
 import org.videolan.television.ui.compose.theme.White
+import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_MAIN_TAB
@@ -203,7 +205,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                                 }
                                 settings.edit { putInt(KEY_MAIN_TAB, index) }
                             },
-                            modifier = Modifier,
+                            modifier = Modifier.clip(RoundedCornerShape(50)).background(WhiteTransparent10).padding(4.dp),
                             forceFocus = forceFocus,
                             indicator = { hasFocus ->
                                 Box(
@@ -217,7 +219,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                             getTab = { index, focused ->
                                 val tab = tabs[index]
                                 val animatedColor by animateColorAsState(
-                                    targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                    targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.6F),
                                     label = "color"
                                 )
                                 if (tab.first == R.string.search) {
