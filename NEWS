@@ -1,3 +1,9 @@
+Changes between 3.7.0 Beta 2 and 3.7.0 Beta 3:
+------------------
+ * Improve the RTL layouts
+ * Fix the lock video feature
+ * Fix some theme issues
+
 Changes between 3.7.0 Beta 1 and 3.7.0 Beta 2:
 ------------------
  * Improve subtitles search
