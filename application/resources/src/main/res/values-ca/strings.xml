@@ -72,7 +72,7 @@
     <string name="equalizer_name">Nom de l\'equalitzador</string>
     <string name="equalizer_deleted">L\'equalitzador s\'ha eliminat</string>
     <string name="equalizer_leave_warning">Sortiràs del reproductor de vídeo</string>
-    <string name="invalid_equalizer_file">Fitxer d\'equalitzador no vàlid</string>
+    <string name="invalid_equalizer_file">El fitxer d\'equalitzador no és vàlid</string>
     <string name="confirm_delete_eq">Esteu segur que voleu suprimir aquesta configuració predefinida?</string>
     <string name="confirm_delete_vlc_eq">Esteu segur que voleu amagar aquesta configuració predefinida?\nLa podeu restaurar a la configuració de l\'equalitzador.</string>
     <string name="confirm_replace_playlist">Esteu segur que voleu substituir la llista de reproducció \'%1$s\'?</string>
@@ -688,7 +688,7 @@
     <!-- Accessibility -->
     <string name="more_actions">Més accions</string>
     <string name="back_quit_lock">Prem enrere una altra vegada per sortir del vídeo</string>
-    <string name="stream_deleted">Stream esborrat</string>
+    <string name="stream_deleted">Estríming esborrat</string>
     <string name="no_subs_found">No hi ha subtítol en aquesta carpeta</string>
     <string name="music_now_playing">Reproduint</string>
 
@@ -1019,7 +1019,7 @@
     <string name="browse">Navega</string>
     <string name="more">Més</string>
     <string name="favorites">Preferits</string>
-    <string name="new_stream">Stream nou</string>
+    <string name="new_stream">Nou estríming</string>
     <string name="add_to_group">Afegir a un grup de vídeo</string>
     <string name="remove_from_group">Suprimir d\'un grup de vídeo</string>
     <string name="rename_group">Canvia el nom d\'un grup de vídeo</string>

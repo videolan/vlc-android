@@ -664,7 +664,12 @@
 
     <!--What's new-->
     <string name="whats_new_title">What\'s new in VLC for Android %s</string>
-    <!--    update-->
+    <string name="whats_new_37_equalizer_text">The equaliser has been reworked from scratch. It\'s easier to use, lets you disable the default presets and allows you to backup, restore and share your presets.</string>
+    <string name="whats_new_37_import_export">We improved the backup and restore settings feature. It now lets you backup more settings, including the equaliser presets.</string>
+    <string name="whats_new_37_android_auto">Due to some new store constraints, the Android Auto settings have all been moved to the mobile application. It becomes the new place to change your automotive experience.</string>
+    <string name="show_in_settings">Show in settings</string>
+
+<!--    update-->
     <string name="update_title">Update available</string>
     <string name="install_nightly_title">Install the nightly version</string>
     <string name="update_text">A new nightly release of VLC for Android is available!\n\nYou\'re seeing this because you are using a nightly build.</string>

@@ -158,6 +158,7 @@
     <string name="surface_fit_screen">Tilpass skjermen</string>
     <string name="surface_fill">Fyll ut</string>
     <string name="surface_original">Midtstilt</string>
+    <string name="resize_tip">Hold inn for flere innstillinger</string>
     <string name="unseekable_stream">Strøm som ikke kan spoles</string>
     <string name="refresh">Oppdater</string>
     <string name="track_audio">Lydspor</string>
@@ -230,7 +231,7 @@
     <string name="play_button">Avspillingsknapp</string>
 
     <!-- Tips -->
-    <string name="tips_title">Vis spiller tips</string>
+    <string name="tips_title">Vis avspillertips</string>
     <string name="seek">Spol</string>
     <string name="subtitles">Undertekst</string>
     <string name="tips_player_controls">Spiller kontroller</string>
@@ -294,7 +295,7 @@
     <string name="hardware_acceleration">Maskinvareakselerasjon</string>
     <string name="hardware_acceleration_summary">Deaktivert: bedre stabilitet\nDekoding: kan forbedre ytelsen\nFullstendig: kan forbedre ytelsen ytterligere</string>
     <string name="hardware_acceleration_disabled">Avslått</string>
-    <string name="hardware_acceleration_decoding">Dekoder aksellerasjon</string>
+    <string name="hardware_acceleration_decoding">Dekodingsakselerasjon</string>
     <string name="hardware_acceleration_full">Full akselerasjon</string>
     <string name="dev_hardware_decoder">Avansert maskinvarebasert dekoder</string>
     <string name="dev_hardware_decoder_summary">Påtving maskinvarebasert dekoding, kun for avanserte brukere</string>
@@ -407,7 +408,7 @@
     <string name="list_title_ellipsize_middle">Midten</string>
     <string name="list_title_ellipsize_marquee">Rulletekst</string>
     <string name="audio_boost_title">Lyd-forøkning (boost)</string>
-    <string name="audio_boost_summary">Tillat lydstryke opptil 200%</string>
+    <string name="audio_boost_summary">Tillat lydstyrker opptil 200%</string>
     <string name="headset_prefs_category">Hodetelefoner</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
     <string name="enable_headset_detection_summary">Oppdag når hodetelefoner kobles til eller fra</string>
@@ -467,7 +468,7 @@
     <string name="dump_media_db">Dump mediedatabasen</string>
     <string name="dump_media_db_summary">Kopier databasen til den internet lagringens rotmappe</string>
     <string name="clear_media_db">Tøm mediedatabase</string>
-    <string name="clear_media_database_summary">Tømmer databasen for å starte på nytt</string>
+    <string name="clear_media_database_summary">Tømmer databasen for å starte fra grunnen av</string>
     <string name="clear_history">Tøm historikk</string>
     <string name="set_locale">Velg språkområde</string>
     <string name="network_caching">Nettverksbufferverdi</string>
@@ -930,6 +931,7 @@
     <string name="permission_all_title">Tilgang til alle filer</string>
     <string name="customize">Tilpass</string>
     <string name="selection_count">%d valgte</string>
+    <string name="control_setting">Kontrollinnstillinger</string>
     <string name="controls_setting">Kontrollinnstillinger</string> <!-- Unused -->
     <string name="gestures">Gester</string>
     <string name="banned_tv">Utestengt mappe</string>

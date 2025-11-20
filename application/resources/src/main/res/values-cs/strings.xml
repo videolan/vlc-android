@@ -40,6 +40,7 @@
     </plurals>
 
     <string name="play">Přehrát</string>
+    <string name="quick_play">Rychlé přehrávání</string>
     <string name="playback">Přehrávání</string>
     <string name="playback_controls">Ovládání přehrávání</string>
     <string name="medialibrary_scan">Prohledávání Knihovny médií…</string>
@@ -58,6 +59,8 @@
     <string name="append_all">Připojit vše</string>
     <string name="resume_playback_short_title">Pokračovat v přehrávání</string>
     <string name="resume_playback_long_title">Pokračovat v přehrávání posledního seznamu skladeb.</string>
+    <string name="resume_audio_playback_short_title">Pokračovat v přehrávání zvuku</string>
+    <string name="resume_audio_playback_long_title">Pokračovat v přehrávání posledního seznamu zvukových skladeb.</string>
     <string name="resume_playback_error">Nic k obnovení </string>
     <string name="delete">Smazat</string>
     <string name="remove">Odstranit</string>
@@ -65,7 +68,17 @@
     <string name="set_song_question">Chcete nastavit \'%1$s\' jako vyzváněcí melodii?</string>
     <string name="info">Informace</string>
     <string name="confirm_delete">Chcete smazat soubor \'%1$s\'?</string>
+    <string name="equalizer_overwrite_warning">Tento ekvalizér již existuje</string>
     <string name="overwrite">Přepsat</string>
+    <string name="eq_cannot_overwrite">Nelze přepsat výchozí ekvalizér</string>
+    <string name="equalizer_name">Název ekvalizéru</string>
+    <string name="equalizer_deleted">Ekvalizér byl smazán</string>
+    <string name="equalizer_leave_warning">Tímto opustíte prostředí přehrávače videa</string>
+    <string name="invalid_equalizer_file">Neplatný soubor s ekvalizérem</string>
+    <string name="confirm_delete_eq">Opravdu chcete smazat tuto předvolbu?</string>
+    <string name="confirm_delete_vlc_eq">Opravdu chcete skrýt tuto předvolbu?\nMůžete ji obnovit v nastavení ekvalizéru.</string>
+    <string name="confirm_replace_playlist">Opravdu chcete nahradit seznam skladeb \'%1$s\'?</string>
+    <string name="invalid_settings_file">Neplatný soubor s nastaveními</string>
     <string name="confirm_delete_message">Tento krok je trvalý a nelze jej vrátit zpět. </string>
     <string name="confirm_delete_album">Chcete smazat album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Chcete smazat tento počet médií: %1$d?</string>
@@ -86,6 +99,13 @@
     <string name="artists">Umělci</string>
     <string name="albums">Alba</string>
     <string name="tracks">Skladby</string>
+
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 uložená záložka</item>
+        <item quantity="few">%d uložené záložky</item>
+        <item quantity="many">%d uložených záložek</item>
+        <item quantity="other">%d uložených záložek</item>
+    </plurals>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -141,7 +161,14 @@
     <string name="video">VIDEO</string>
     <string name="bookmarks">Záložky</string>
     <string name="equalizer">Ekvalizér</string>
+    <string name="import_equalizer">Importovat ekvalizér</string>
+    <string name="equalizer_exported">Ekvalizér byl exportován do %s</string>
+    <string name="equalizer_copy_template">(kopie%s)</string>
+    <string name="new_equalizer_copy_template">Nový ekvalizér%s</string>
     <string name="show_all">Zobrazit vše</string>
+    <string name="hide_all">Skrýt vše</string>
+    <string name="export_all">Exportovat vše</string>
+    <string name="import_all">Importovat vše</string>
     <string name="all_albums">Všechna alba</string>
     <string name="genres">Žánry</string>
     <string name="playlists">Seznamy skladeb</string>
@@ -188,6 +215,7 @@
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Jazyk: %1$s\n</string>
     <string name="volume">Hlasitost</string>
+    <string name="system_volume_disabled">%s\nŽádný přístup k systémové jednotce</string>
     <string name="sound_on">Zapnout zvuk</string>
     <string name="sound_off">Vypnout zvuk</string>
     <string name="brightness">Jas</string>
@@ -207,7 +235,16 @@
 
     <string name="playback_speed">Rychlost přehrávání</string>
     <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
+    <string name="playback_speed_this_video">Toto video</string>
+    <string name="playback_speed_this_track">Tato stopa</string>
     <string name="playback_speed_all_videos">Všechna videa</string>
+    <string name="playback_speed_all_tracks">Všechny stopy</string>
+    <string name="playback_speed_explanation_all_videos">Rychlost bude použita na všechna videa.\nRychlost přehrávání jednotlivých videí bude ignorována.</string>
+    <string name="playback_speed_explanation_all_tracks">Rychlost bude použita na všechny stopy.\nRychlost přehrávání jednotlivých stop bude ignorována.</string>
+    <string name="playback_speed_explanation_all_incognito">Jste v anonymním režimu. Rychlost se vrátí k normálu, jakmile anonymní režim opustíte.</string>
+    <string name="playback_speed_explanation_one_video">Rychlost se použije jen pro toto video</string>
+    <string name="playback_speed_explanation_one_track">Rychlost se použije jen pro tuto stopu</string>
+    <string name="audio_playback_speed_global">Použít globální rychlost přehrávání</string>
     <string name="sleep_title">Časovač</string>
     <string name="sleep_in">Vypnout za…</string>
     <string name="jump_to_time">Přejít na pozici</string>

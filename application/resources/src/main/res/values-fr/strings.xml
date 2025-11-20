@@ -677,6 +677,7 @@
     <string name="whats_new_title">Nouveautés de VLC pour Android %s</string>
     <string name="whats_new_37_equalizer_text">L’égaliseur a été entièrement repensé. Il est plus facile à utiliser, vous permet de désactiver les préréglages par défaut et vous permet de sauvegarder, restaurer et partager vos préréglages.</string>
     <string name="whats_new_37_import_export">Nous avons amélioré la fonctionnalité de sauvegarde et de restauration des paramètres. Elle vous permet désormais de sauvegarder davantage de paramètres, y compris les préréglages de l’égaliseur.</string>
+    <string name="whats_new_37_android_auto">En raison de certaines nouvelles contraintes imposées par le store, les paramètres Android Auto ont tous été déplacés vers l’application mobile. Celle-ci devient désormais le nouvel endroit où modifier votre expérience automobile.</string>
     <string name="show_in_settings">Afficher dans les paramètres</string>
 
 <!--    update-->

@@ -682,6 +682,7 @@
     <string name="whats_new_title">מה חדש ב־VLC ל־Android %s</string>
     <string name="whats_new_37_equalizer_text">האקוולייזר שוכתב מאפס. הוא קל יותר לשימוש, מאפשר לך להשבית את ערכות ברירת המחדל ומאפשר לך לגבות,  לשחזר ולשתף את הערכות שלך.</string>
     <string name="whats_new_37_import_export">שיפרנו את הגדרות הגיבוי והשחזור. מעתה ניתן לגבות יותר הגדרות לרבות ערכות האקוולייזר.</string>
+    <string name="whats_new_37_android_auto">עקב מגבלות חדשות בחנות, הגדרות Android Auto הועברו ליישומון לניידים. זה הפך להיות המקום החדש לשינוי חוויית הנסיעה שלך.</string>
     <string name="show_in_settings">הצגה בהגדרות</string>
 
 <!--    update-->
