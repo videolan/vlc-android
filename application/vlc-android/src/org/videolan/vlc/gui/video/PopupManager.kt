@@ -57,6 +57,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MISC_CHANNEL_ID
 import org.videolan.vlc.gui.view.PopupLayout
+import org.videolan.vlc.isVLC4
 import org.videolan.vlc.util.getPendingIntent
 import kotlin.math.absoluteValue
 import kotlin.math.floor
@@ -169,6 +170,18 @@ class PopupManager(private val service: PlaybackService) : PlaybackService.Callb
         val displayW = view.width
         val displayH = view.height
 
+        if (isVLC4())
+        {
+            if (width == 0 || height == 0) {
+                view.setViewSize(displayW, displayH)
+                vlcVout?.setWindowSize(displayW, displayH)
+                return
+            }
+
+            view.setViewSize(visibleWidth, visibleHeight)
+        }
+        else
+        {
         // sanity check
         if (displayW * displayH == 0) {
             Log.e(TAG, "Invalid surface size")
@@ -200,6 +213,7 @@ class PopupManager(private val service: PlaybackService) : PlaybackService.Callb
             dw = dh * ar
 
         view.setViewSize(floor(dw).toInt(), floor(dh).toInt())
+        }
     }
 
     override fun update() {}
