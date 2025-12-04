@@ -223,7 +223,6 @@ object VLCOptions {
                 //Ambisonic
                 val hstfDir = context.getDir("vlc", Context.MODE_PRIVATE)
                 val hstfPath = "${hstfDir.absolutePath}/.share/hrtfs/dodeca_and_7channel_3DSL_HRTF.sofa"
-                options.add("--spatialaudio-headphones")
                 options.add("--hrtf-file")
                 options.add(hstfPath)
             }
