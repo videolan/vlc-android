@@ -125,6 +125,8 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
             popupWidth = (popupHeight.toFloat() * ratio).toInt()
         }
 
+        vlcVout?.setWindowSize(popupWidth, popupHeight)
+
         val params = WindowManager.LayoutParams(
                 popupWidth,
                 popupHeight,
@@ -186,6 +188,7 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
         scaleFactor = scaleFactor.coerceIn(0.1, 5.0)
         popupWidth = (width * scaleFactor).toInt()
         popupHeight = (height * scaleFactor).toInt()
+        vlcVout?.setWindowSize(popupWidth, popupHeight)
         return true
     }
 
