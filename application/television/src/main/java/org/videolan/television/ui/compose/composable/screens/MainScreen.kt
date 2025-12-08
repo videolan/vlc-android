@@ -104,8 +104,8 @@ import org.videolan.tools.Settings
 
 @Composable
 fun MainScreen() {
-    Box {
-        SplashScreen {
+    SplashScreen {
+        Box {
             MainContent()
             MlProgress(
                 modifier = Modifier
@@ -205,7 +205,10 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                                 }
                                 settings.edit { putInt(KEY_MAIN_TAB, index) }
                             },
-                            modifier = Modifier.clip(RoundedCornerShape(50)).background(WhiteTransparent10).padding(4.dp),
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50))
+                                .background(WhiteTransparent10)
+                                .padding(4.dp),
                             forceFocus = forceFocus,
                             indicator = { hasFocus ->
                                 Box(
@@ -265,7 +268,9 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                     Image(
                         painter = painterResource(id = R.drawable.icon),
                         contentDescription = stringResource(id = R.string.app_name),
-                        modifier = Modifier.padding(end = 16.dp).size(48.dp)
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .size(48.dp)
                     )
                 }
             } else {
