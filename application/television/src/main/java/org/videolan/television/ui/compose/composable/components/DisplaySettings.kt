@@ -65,6 +65,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -431,7 +432,10 @@ fun DisplaySettingsLine(painter: Painter, text: String, subtitle: String? = null
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter, contentDescription = stringResource(R.string.display_in_list), modifier = Modifier
+            painter,
+            contentDescription = stringResource(R.string.display_in_list),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+            modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp)
                 .size(24.dp)
         )
