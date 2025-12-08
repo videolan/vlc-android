@@ -99,7 +99,6 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
         pageCount = { mainActivityViewModel.videoTabs.size }
     )
     val coroutineScope = rememberCoroutineScope()
-    var firstLaunch by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
@@ -110,8 +109,7 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
                 .padding(vertical = 4.dp, horizontal = 8.dp)
                 .focusProperties {
                     onEnter = {
-                        if (!firstLaunch)
-                            onFocusEnter()
+                        onFocusEnter()
                     }
                     onExit = {
                         if (requestedFocusDirection == FocusDirection.Up) {
