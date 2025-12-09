@@ -305,6 +305,7 @@ private fun VLCContentPanel(pagerState: PagerState, modifier: Modifier = Modifie
         userScrollEnabled = false,
         verticalAlignment = Alignment.Top,
         modifier = modifier
+            .padding(top = 16.dp)
             .fillMaxSize()
     ) { page ->
         TabPanels(
