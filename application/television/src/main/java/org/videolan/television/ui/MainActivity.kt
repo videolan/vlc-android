@@ -27,11 +27,13 @@ package org.videolan.television.ui
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.composable.screens.MainScreen
@@ -49,6 +51,10 @@ class MainActivity : DefaultTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+        }
         setContent {
             VlcTVTheme {
                 // A surface container using the 'background' color from the theme
