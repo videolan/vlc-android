@@ -62,6 +62,9 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -105,21 +108,23 @@ import org.videolan.tools.Settings
 @Composable
 fun MainScreen() {
     SplashScreen {
-        Box {
-            MainContent()
-            MlProgress(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-            )
-            DisplaySettings()
+        Scaffold { contentPadding ->
+            Box {
+                MainContent(Modifier.padding(contentPadding))
+                MlProgress(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+                )
+                DisplaySettings()
+            }
         }
     }
 }
 
 @Composable
-fun MainContent() {
-    Row {
+fun MainContent(modifier: Modifier) {
+    Row(modifier) {
         AudioPlayer()
         Tabs(modifier = Modifier.weight(1f))
     }
