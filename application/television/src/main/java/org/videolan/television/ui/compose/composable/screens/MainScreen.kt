@@ -67,6 +67,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,9 +108,24 @@ import org.videolan.tools.KEY_MAIN_TAB
 import org.videolan.tools.Settings
 
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainActivityViewModel = viewModel()) {
     SplashScreen {
-        Scaffold { contentPadding ->
+        val scope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
+        val snackbarContent by viewModel.snackBarFlow.collectAsState()
+        LaunchedEffect(snackbarContent) {
+            snackbarContent?.let { snackbarContent ->
+                scope.launch {
+                    snackbarHostState.showSnackbar(snackbarContent.message, duration = snackbarContent.duration)
+                    viewModel.showSnackbar(null)
+                }
+            }
+        }
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
+        ) { contentPadding ->
             Box {
                 MainContent(Modifier.padding(contentPadding))
                 MlProgress(
