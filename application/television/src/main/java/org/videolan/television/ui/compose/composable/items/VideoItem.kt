@@ -72,6 +72,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Folder
@@ -87,6 +88,8 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.conditional
+import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -94,7 +97,7 @@ import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
-fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
+fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -110,10 +113,16 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier) {
                 }
                 .combinedClickable(
                     onClick = {
+                        if (video is Folder || video is VideoGroup) {
+                        viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                    } else
                         TvUtil.openMedia(activity as FragmentActivity, video)
                     },
                     onLongClick = {
-                        TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
+                        if (video is Folder || video is VideoGroup) {
+                            viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                        } else
+                            TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
                     },
                     indication = null,
                     interactionSource = null
@@ -261,7 +270,7 @@ fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = wh
 
 
 @Composable
-fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
+fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -278,10 +287,16 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier) {
             }
             .combinedClickable(
                 onClick = {
-                    TvUtil.openMedia(activity as FragmentActivity, video)
+                    if (video is Folder || video is VideoGroup) {
+                        viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                    } else
+                        TvUtil.openMedia(activity as FragmentActivity, video)
                 },
                 onLongClick = {
-                    TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
+                    if (video is Folder || video is VideoGroup) {
+                        viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                    } else
+                        TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
                 },
                 indication = null,
                 interactionSource = null
