@@ -25,6 +25,7 @@
 package org.videolan.television.viewmodel
 
 import android.app.Application
+import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
@@ -67,6 +68,9 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _currentMediaListEntry: MutableStateFlow<MediaListEntry?> = MutableStateFlow(null)
     val currentMediaListEntry: StateFlow<MediaListEntry?> = _currentMediaListEntry.asStateFlow()
+
+    private val _snackBarFlow: MutableStateFlow<SnackbarContent?> = MutableStateFlow(null)
+    val snackBarFlow: StateFlow<SnackbarContent?> = _snackBarFlow.asStateFlow()
 
     private val _currentDisplaySettingsChange: MutableStateFlow<DisplaySettingsChange?> = MutableStateFlow(null)
     val currentDisplaySettingsChange: StateFlow<DisplaySettingsChange?> = _currentDisplaySettingsChange.asStateFlow()
@@ -131,6 +135,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     fun hideDisplaySettings() = viewModelScope.launch {
         _currentMediaListEntry.emit(null)
     }
+
+    fun showSnackbar(content: SnackbarContent?) = viewModelScope.launch {
+        _snackBarFlow.emit(content)
+    }
 }
 
 data class DisplaySettingsChange(val entry: MediaListEntry, val value: Int)
+
+data class SnackbarContent(val message:String, val duration:SnackbarDuration = SnackbarDuration.Short)
