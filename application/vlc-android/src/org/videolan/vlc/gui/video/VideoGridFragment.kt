@@ -284,7 +284,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     sorts = sorts,
                     currentSort = viewModel.provider.sort,
                     currentSortDesc = viewModel.provider.desc,
-                    videoGroup = settings.getString(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME),
+                    videoGroup = if (viewModel.group == null && viewModel.folder == null) settings.getString(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME) else null,
                     defaultPlaybackActions = DefaultPlaybackActionMediaType.VIDEO.getDefaultPlaybackActions(settings),
                     defaultActionType = getString(DefaultPlaybackActionMediaType.VIDEO.title)
                 )
