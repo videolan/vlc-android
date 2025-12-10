@@ -128,7 +128,7 @@ So you must create an account, fork vlc-android project, and propose your merge 
 
 ### Translations
 
-You can help improving translations too by joining the [transifex vlc project](https://www.transifex.com/yaron/vlc-trans/dashboard/)
+You can help improving translations too by joining the [transifex vlc project](https://app.transifex.com/yaron/vlc-trans/dashboard/)
 
 Translations merge requests are then generated from transifex work.
 
