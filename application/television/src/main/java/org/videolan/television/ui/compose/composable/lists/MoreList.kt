@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
@@ -41,16 +42,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.HEADER_STREAM
 import org.videolan.television.R
 import org.videolan.television.ui.AboutActivity
 import org.videolan.television.ui.MainTvActivity
+import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.VLCButton
 import org.videolan.television.ui.preferences.PreferencesActivity
+import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.MoreViewModel
+import org.videolan.television.viewmodel.SnackbarContent
 
 @Composable
-fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = viewModel()) {
+fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = viewModel(), mainViewmodel: MainActivityViewModel = viewModel()) {
     viewModel.updateHistory()
     viewModel.updateStreams()
     val history by viewModel.history.observeAsState()
@@ -87,7 +92,13 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
 
         }
         if (!history.isNullOrEmpty())
-            ContentLine(history, historyLoading, R.string.history)
-        ContentLine(streams, streamsLoading, R.string.streams)
+            ContentLine(history, historyLoading, R.string.history) {
+                mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+            }
+        ContentLine(streams, streamsLoading, R.string.streams) {
+            val intent = Intent(activity, TVActivity::class.java)
+            intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+            activity?.startActivity(intent)
+        }
     }
 }

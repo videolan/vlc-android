@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
@@ -59,7 +60,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.vlc.R
 
 @Composable
-fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int, titleFocusable: Boolean = true, spannableDescription: Boolean = false) {
+fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int, titleFocusable: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit = {}) {
     var focused by remember { mutableStateOf(false) }
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -73,6 +74,9 @@ fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: 
             .padding(top = 24.dp)
             .clip(RoundedCornerShape(50))
             .background(if (focused) WhiteTransparent10 else Transparent)
+            .combinedClickable(titleFocusable) {
+                onClick()
+            }
             .focusable(titleFocusable)
     ) {
         Text(
