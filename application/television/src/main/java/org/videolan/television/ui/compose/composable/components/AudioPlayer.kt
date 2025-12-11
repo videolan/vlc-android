@@ -35,7 +35,6 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,25 +42,17 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.OpenInFull
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Label
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltip
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipAnchorPosition
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -96,6 +87,7 @@ import org.videolan.television.R
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.viewmodels.PlaylistModel
 
@@ -139,7 +131,6 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     shape = RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp)
 
                 )
-                .padding(16.dp)
                 .focusProperties {
                     onEnter = {
                         focusRequester.requestFocus()
@@ -149,13 +140,24 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
             horizontalAlignment = Alignment.End
         ) {
 
-            LabeledIconButton(
-                label = stringResource(R.string.open_audio_player),
-                vectorImage = Icons.Outlined.OpenInFull,
-                modifier =  Modifier
-                    .focusRequester(focusRequester = focusRequester),
-            ) {
-                activity?.startActivity(Intent(activity, AudioPlayerActivity::class.java))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                LabeledIconButton(
+                    label = stringResource(R.string.stop),
+                    vectorImage = Icons.Outlined.Close,
+                    modifier = Modifier
+                        .focusRequester(focusRequester = focusRequester),
+                ) {
+                    MediaUtils.stop(activity!!)
+                }
+                Spacer(modifier = Modifier.weight(1F))
+                LabeledIconButton(
+                    label = stringResource(R.string.open_audio_player),
+                    vectorImage = Icons.Outlined.OpenInFull,
+                    modifier = Modifier
+                        .focusRequester(focusRequester = focusRequester),
+                ) {
+                    activity?.startActivity(Intent(activity, AudioPlayerActivity::class.java))
+                }
             }
 
             Spacer(modifier = Modifier.weight(1F))
@@ -171,6 +173,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     contentDescription = "Map snapshot",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
+                        .padding(horizontal = 8.dp)
                         .fillMaxWidth()
                         .aspectRatio(1F)
                 )
@@ -180,6 +183,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     painter = painterResource(id = defaultIconId),
                     contentDescription = "Map snapshot",
                     modifier = Modifier
+                        .padding(horizontal = 8.dp)
                         .fillMaxWidth()
                         .aspectRatio(1F)
                 )
@@ -196,19 +200,27 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
 
             Text(
                 playlistModel.service?.title ?: "",
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth(),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center
             )
             Text(
                 playlistModel.service?.artist ?: "",
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth(),
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center
             )
 
             Spacer(modifier = Modifier.weight(1F))
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            ) {
                 Spacer(modifier = Modifier.weight(1F))
                 IconButton(
                     onClick = {
@@ -236,7 +248,11 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            ) {
 
                 Text(
                     Tools.millisToString(progress.value?.time ?: 0),
@@ -249,11 +265,17 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                 )
             }
             LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth(),
                 progress = { sliderPosition },
                 drawStopIndicator = {}
             )
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                    .fillMaxWidth()
+            ) {
                 Spacer(modifier = Modifier.weight(1F))
                 IconButton(
                     onClick = {
