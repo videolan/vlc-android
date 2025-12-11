@@ -33,7 +33,6 @@ import org.videolan.television.util.EventThrottler
 open class DefaultTvActivity : AppCompatActivity() {
     private val horizontalThrottler = EventThrottler(75L)
     private val verticalThrottler = EventThrottler(100L)
-    private val selectThrottler = EventThrottler(500L)
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (event.action != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event)
@@ -47,10 +46,6 @@ open class DefaultTvActivity : AppCompatActivity() {
             KeyEvent.KEYCODE_DPAD_UP,
             KeyEvent.KEYCODE_DPAD_DOWN -> {
                 verticalThrottler.throttleEvent()
-            }
-
-            KeyEvent.KEYCODE_DPAD_CENTER -> {
-                selectThrottler.throttleEvent()
             }
 
             else -> false
