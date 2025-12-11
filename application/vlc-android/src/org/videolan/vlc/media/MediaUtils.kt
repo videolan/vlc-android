@@ -524,6 +524,12 @@ object MediaUtils {
             FileUtils.copyFile(File(uri.path), VLCOptions.getSoundFontFile(context))
         }
     }
+
+    fun stop(context: Context) {
+        SuspendDialogCallback(context) { service ->
+            service.stop()
+        }
+    }
 }
 
 fun Folder.isOTG(): Boolean {
