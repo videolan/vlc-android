@@ -79,7 +79,7 @@ fun PaginatedGrid(
     contentPadding: PaddingValues,
     loaderAspectRatio: Float = 1f,
     items: LazyPagingItems<out MediaLibraryItem>,
-    content: @Composable (item: MediaLibraryItem, modifier: Modifier) -> Unit
+    content: @Composable (item: MediaLibraryItem, index: Int,  modifier: Modifier) -> Unit
 ) {
     val focusRequesters = remember {
         HashMap<Long, FocusRequester>()
@@ -109,7 +109,7 @@ fun PaginatedGrid(
         items(count = items.itemCount) { index ->
             items[index]?.let { video ->
                 content(
-                    video, Modifier
+                    video, index, Modifier
                         .onFocusChanged {
                             if (it.isFocused)
                                 lastFocusedItem = video.id
@@ -156,7 +156,7 @@ fun PaginatedList(
     verticalArrangement: Arrangement.HorizontalOrVertical,
     contentPadding: PaddingValues,
     items: LazyPagingItems<out MediaLibraryItem>,
-    content: @Composable (item: MediaLibraryItem, modifier: Modifier) -> Unit
+    content: @Composable (item: MediaLibraryItem, index: Int, modifier: Modifier) -> Unit
 ) {
     val focusRequesters = remember {
         HashMap<Long, FocusRequester>()
@@ -184,7 +184,7 @@ fun PaginatedList(
         items(count = items.itemCount) { index ->
             items[index]?.let { video ->
                 content(
-                    video, Modifier
+                    video, index, Modifier
                         .onFocusChanged {
                             if (it.isFocused)
                                 lastFocusedItem = video.id
