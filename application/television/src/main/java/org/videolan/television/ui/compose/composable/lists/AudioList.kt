@@ -26,6 +26,7 @@ package org.videolan.television.ui.compose.composable.lists
 
 import android.app.Application
 import android.util.Log
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
@@ -60,6 +61,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -67,10 +69,17 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
+import org.videolan.television.R
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
@@ -85,11 +94,15 @@ import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_AUDIO_CURRENT_TAB
 import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.MediaListEntry
@@ -225,6 +238,37 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
 
         val listState = rememberLazyListState()
         val gridState = rememberLazyGridState()
+        val activity = LocalActivity.current
+        val settings = Settings.getInstance(activity!!)
+        val onClick:(MediaLibraryItem, Int) -> Unit = { item, position ->
+            when (item) {
+                is Artist -> TvUtil.openAudioCategory(activity, item)
+                is Album -> TvUtil.openAudioCategory(activity, item)
+                is Genre -> TvUtil.openAudioCategory(activity, item)
+                is Playlist -> TvUtil.openAudioCategory(activity, item)
+                else -> {
+                    when(DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(settings)) {
+                        DefaultPlaybackAction.PLAY -> TvUtil.openMedia(activity as FragmentActivity, item)
+                        DefaultPlaybackAction.PLAY_ALL -> MediaUtils.playAll(activity, provider as MedialibraryProvider<MediaWrapper>, position, false)
+                        DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, listOf(*item.tracks), showSnackbar = {
+                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                        })
+                        DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, listOf(*item.tracks).toTypedArray(), showSnackbar = {
+                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                        })
+                    }
+
+                }
+            }
+        }
+        val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
+            when (item) {
+                is MediaWrapper -> TvUtil.showMediaDetail(activity, item, false)
+                is DummyItem -> (activity as? FragmentActivity)?.askStoragePermission(false, null)
+                else -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+            }
+        }
+
         VlcLoader(audios.loadState.refresh == LoadState.Loading) {
             Row {
                 if (inCard) {
@@ -237,8 +281,8 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f)
-                    ) { audio, modifier ->
-                        AudioItemCard(audio, modifier)
+                    ) { audio, index, modifier ->
+                        AudioItemCard(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
                     }
                 } else {
                     PaginatedList(
@@ -249,8 +293,8 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f)
-                    ) { audio, modifier ->
-                        AudioItemList(audio, modifier)
+                    ) { audio, index, modifier ->
+                        AudioItemList(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
                     }
                 }
                 MediaListSidePanel(
