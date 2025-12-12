@@ -144,41 +144,45 @@ object MediaUtils {
         SuspendDialogCallback(context) { service -> service.loadLastPlaylist(type) }
     }
 
-    fun appendMedia(context: Context?, media: List<MediaWrapper>?) {
+    fun appendMedia(context: Context?, media: List<MediaWrapper>?, showSnackbar:((String)-> Unit)? = null) {
         if (media == null || media.isEmpty() || context == null) return
         SuspendDialogCallback(context) { service ->
             service.append(media)
             context.let {
-                if (it is Activity) {
-                    val text = context.resources.getQuantityString(R.plurals.tracks_appended, media.size, media.size)
+                val text = context.resources.getQuantityString(R.plurals.tracks_appended, media.size, media.size)
+                if (showSnackbar != null) {
+                    showSnackbar.invoke(text)
+                } else if (it is Activity) {
                     Snackbar.make(if (it is AudioPlayerContainerActivity) it.appBarLayout else it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    fun appendMedia(context: Context?, media: MediaWrapper?) {
-        if (media != null) appendMedia(context, arrayListOf(media))
+    fun appendMedia(context: Context?, media: MediaWrapper?, showSnackbar:((String)-> Unit)? = null) {
+        if (media != null) appendMedia(context, arrayListOf(media), showSnackbar)
     }
 
-    fun appendMedia(context: Context, array: Array<MediaWrapper>) = appendMedia(context, array.asList())
+    fun appendMedia(context: Context, array: Array<MediaWrapper>, showSnackbar:((String)-> Unit)? = null) = appendMedia(context, array.asList(), showSnackbar)
 
-    fun insertNext(context: Context?, media: Array<MediaWrapper>?) {
+    fun insertNext(context: Context?, media: Array<MediaWrapper>?, showSnackbar:((String)-> Unit)? = null) {
         if (media == null || context == null) return
         SuspendDialogCallback(context) { service ->
             service.insertNext(media)
             context.let {
-                if (it is Activity) {
-                    val text = context.resources.getQuantityString(R.plurals.tracks_inserted, media.size, media.size)
+                val text = context.resources.getQuantityString(R.plurals.tracks_inserted, media.size, media.size)
+                if (showSnackbar != null) {
+                    showSnackbar.invoke(text)
+                } else if (it is Activity) {
                     Snackbar.make(if (it is AudioPlayerContainerActivity) it.appBarLayout else it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    fun insertNext(context: Context?, media: MediaWrapper?) {
+    fun insertNext(context: Context?, media: MediaWrapper?, showSnackbar:((String)-> Unit)? = null) {
         if (media == null || context == null) return
-        insertNext(context, arrayOf(media))
+        insertNext(context, arrayOf(media), showSnackbar)
     }
 
     fun openMedia(context: Context?, media: MediaWrapper?) {
