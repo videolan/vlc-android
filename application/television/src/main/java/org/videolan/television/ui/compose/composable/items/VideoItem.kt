@@ -26,10 +26,8 @@ package org.videolan.television.ui.compose.composable.items
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
@@ -62,7 +60,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -71,7 +68,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
@@ -81,7 +77,6 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
-import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
@@ -89,15 +84,13 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.television.viewmodel.SnackbarContent
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
-fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
+fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -113,16 +106,10 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel:
                 }
                 .combinedClickable(
                     onClick = {
-                        if (video is Folder || video is VideoGroup) {
-                        viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-                    } else
-                        TvUtil.openMedia(activity as FragmentActivity, video)
+                        onClick()
                     },
                     onLongClick = {
-                        if (video is Folder || video is VideoGroup) {
-                            viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-                        } else
-                            TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
+                        onLongClick()
                     },
                     indication = null,
                     interactionSource = null
@@ -270,7 +257,7 @@ fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = wh
 
 
 @Composable
-fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
+fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -287,16 +274,10 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier, viewMo
             }
             .combinedClickable(
                 onClick = {
-                    if (video is Folder || video is VideoGroup) {
-                        viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-                    } else
-                        TvUtil.openMedia(activity as FragmentActivity, video)
+                    onClick()
                 },
                 onLongClick = {
-                    if (video is Folder || video is VideoGroup) {
-                        viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-                    } else
-                        TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
+                    onLongClick()
                 },
                 indication = null,
                 interactionSource = null

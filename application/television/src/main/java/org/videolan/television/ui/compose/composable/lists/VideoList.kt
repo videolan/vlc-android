@@ -26,6 +26,8 @@ package org.videolan.television.ui.compose.composable.lists
 
 import android.app.Application
 import android.util.Log
+import androidx.activity.compose.LocalActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
@@ -65,7 +67,13 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
+import org.videolan.television.R
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
@@ -78,15 +86,20 @@ import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
-import org.videolan.vlc.util.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.SnackbarContent
+import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
 import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.KEY_VIDEOS_CARDS
 import org.videolan.tools.KEY_VIDEO_TAB
 import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
@@ -197,6 +210,38 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
         entry.currentSortDesc = viewModel.provider.desc
 
         VlcLoader(videos.loadState.refresh == LoadState.Loading) {
+            val activity = LocalActivity.current
+            val onClick:(MediaLibraryItem, Int) -> Unit = { video, position ->
+                if (video is Folder || video is VideoGroup) {
+                    mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                } else {
+                    if (video !is MediaWrapper) throw IllegalStateException("Wrong video type")
+                    if (activity !is AppCompatActivity) throw IllegalStateException("Wrong activity type")
+                    val settings = Settings.getInstance(activity)
+                    val castAsAudio = PlaybackService.renderer.value != null && settings.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
+                    if (castAsAudio) {
+                        video.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                        PlaylistManager.playingAsAudio = true
+                    }
+                    when(DefaultPlaybackActionMediaType.VIDEO.getCurrentPlaybackAction(settings)) {
+                        DefaultPlaybackAction.PLAY -> viewModel.playVideo(activity, video, position, forceAudio = castAsAudio)
+                        DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, video, showSnackbar = {
+                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                        })
+                        DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, video, showSnackbar = {
+                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                        })
+                        else  -> viewModel.playVideo(activity, video, position, forceAll = true, forceAudio = castAsAudio)
+                    }
+
+                }
+            }
+            val onLongClick:(MediaLibraryItem, Int) -> Unit = { video, position ->
+                if (video is Folder || video is VideoGroup) {
+                    mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                } else
+                    TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
+            }
             Row {
                 if (inCard) {
                     PaginatedGrid(
@@ -209,8 +254,8 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f)
-                    ) { video, modifier ->
-                        VideoItem(video, modifier = modifier)
+                    ) { video, position, modifier ->
+                        VideoItem(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
                     }
                 } else {
                     PaginatedList(
@@ -221,8 +266,8 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f)
-                    ) { video, modifier ->
-                        VideoItemList(video, modifier = modifier)
+                    ) { video, position, modifier ->
+                        VideoItemList(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
                     }
                 }
                 MediaListSidePanel(

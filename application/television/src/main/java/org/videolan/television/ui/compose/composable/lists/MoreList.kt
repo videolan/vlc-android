@@ -25,7 +25,6 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.content.Intent
-import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
@@ -40,12 +39,15 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.HEADER_STREAM
 import org.videolan.television.R
 import org.videolan.television.ui.AboutActivity
 import org.videolan.television.ui.MainTvActivity
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.VLCButton
@@ -91,11 +93,19 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
             }
 
         }
+
+                val activity = LocalActivity.current
+        val onClick:(MediaLibraryItem, Int) -> Unit = { item, position ->
+            TvUtil.openMedia(activity as FragmentActivity, item)
+        }
+        val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
+            mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+        }
         if (!history.isNullOrEmpty())
-            ContentLine(history, historyLoading, R.string.history) {
+            ContentLine(history, historyLoading, R.string.history, onItemClick = { onClick(history!![it], it) }, onItemLongClick = { onLongClick(history!![it], it) }) {
                 mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
             }
-        ContentLine(streams, streamsLoading, R.string.streams) {
+        ContentLine(streams, streamsLoading, R.string.streams, onItemClick = { onClick(streams!![it], it) }, onItemLongClick = { onLongClick(streams!![it], it) }) {
             val intent = Intent(activity, TVActivity::class.java)
             intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
             activity?.startActivity(intent)

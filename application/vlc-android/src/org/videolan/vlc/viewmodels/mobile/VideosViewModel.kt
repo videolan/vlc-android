@@ -172,7 +172,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         MediaUtils.appendMedia(context, list)
     }
 
-    internal fun playVideo(context: FragmentActivity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false, forceAll:Boolean = false, forceAudio: Boolean = false) {
+     fun playVideo(context: FragmentActivity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false, forceAll:Boolean = false, forceAudio: Boolean = false) {
         if (context === null) return
         if (!mw.isPresent) {
             UiTools.snackerMissing(context)

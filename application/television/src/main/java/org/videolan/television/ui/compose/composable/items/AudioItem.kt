@@ -60,7 +60,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Album
@@ -72,7 +71,6 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
-import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
@@ -80,18 +78,16 @@ import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
 import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.vlc.gui.helpers.getTvIconRes
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.util.ThumbnailsProvider
 
 @Composable
-fun AudioItem(audios: List<MediaLibraryItem>, index: Int, inCard: Boolean = true, spannableDescription: Boolean = false) {
-    if (inCard) AudioItemCard(audios[index], spannableDescription = spannableDescription) else AudioItemList(audios[index], spannableDescription = spannableDescription)
+fun AudioItem(audios: List<MediaLibraryItem>, index: Int, inCard: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit, onLongClick: () -> Unit) {
+    if (inCard) AudioItemCard(audios[index], spannableDescription = spannableDescription, onClick = onClick, onLongClick = onLongClick) else AudioItemList(audios[index], spannableDescription = spannableDescription, onClick = onClick, onLongClick = onLongClick)
 }
 
 @Composable
-fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannableDescription: Boolean = false, viewModel: MainActivityViewModel = viewModel()) {
+fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannableDescription: Boolean = false, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -107,22 +103,8 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                     focused.value = it.isFocused
                 }
                 .combinedClickable(
-                    onClick = {
-                        when (item) {
-                            is Artist -> TvUtil.openAudioCategory(activity!!, item)
-                            is Album -> TvUtil.openAudioCategory(activity!!, item)
-                            is Genre -> TvUtil.openAudioCategory(activity!!, item)
-                            is Playlist -> TvUtil.openAudioCategory(activity!!, item)
-                            else -> TvUtil.openMedia(activity as FragmentActivity, item)
-                        }
-                    },
-                    onLongClick = {
-                        when (item) {
-                            is MediaWrapper -> TvUtil.showMediaDetail(activity!!, item, false)
-                            is DummyItem -> (activity as? FragmentActivity)?.askStoragePermission(false, null)
-                            else -> viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-                        }
-                    },
+                    onClick = onClick,
+                    onLongClick = onLongClick,
                     indication = null,
                     interactionSource = null
                 )
@@ -215,7 +197,7 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
 }
 
 @Composable
-fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannableDescription: Boolean = false, viewModel: MainActivityViewModel = viewModel()) {
+fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannableDescription: Boolean = false, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current
@@ -232,22 +214,8 @@ fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
             }
             .background(color = if (focused.value) WhiteTransparent10 else WhiteTransparent05, shape = MaterialTheme.shapes.medium)
             .combinedClickable(
-                onClick = {
-                    when (item) {
-                        is Artist -> TvUtil.openAudioCategory(activity!!, item)
-                        is Album -> TvUtil.openAudioCategory(activity!!, item)
-                        is Genre -> TvUtil.openAudioCategory(activity!!, item)
-                        is Playlist -> TvUtil.openAudioCategory(activity!!, item)
-                        else -> TvUtil.openMedia(activity as FragmentActivity, item)
-                    }
-                },
-                onLongClick = {
-                    when (item) {
-                        is MediaWrapper -> TvUtil.showMediaDetail(activity!!, item, false)
-                        is DummyItem -> (activity as? FragmentActivity)?.askStoragePermission(false, null)
-                        else -> viewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-                    }
-                },
+                onClick = onClick,
+                onLongClick = onLongClick,
                 indication = null,
                 interactionSource = null
             )
