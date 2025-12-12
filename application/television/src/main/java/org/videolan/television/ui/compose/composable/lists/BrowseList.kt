@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.app.Application
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
@@ -35,19 +36,23 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalContext
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.ContentLine
+import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.vlc.viewmodels.browser.BrowserFavoritesModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.NetworkModel
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
-import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
 @Composable
-fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {
+fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityViewModel: MainActivityViewModel = viewModel()) {
     val context = LocalContext.current
     val extras = MutableCreationExtras().apply {
         set(APPLICATION_KEY, context.applicationContext as Application)
@@ -94,11 +99,19 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {
             .verticalScroll(rememberScrollState())
             .focusGroup()
     ) {
+        val activity = LocalActivity.current
+        val onClick:(MediaLibraryItem, Int) -> Unit = { item, position ->
+            TvUtil.openMedia(activity as FragmentActivity, item)
+        }
+        val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
+            mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+        }
+
         if (!favorites.isNullOrEmpty())
-            ContentLine(favorites, false, R.string.favorites, titleFocusable = false, spannableDescription = true)
+            ContentLine(favorites, false, R.string.favorites, titleFocusable = false, spannableDescription = true, onItemClick = { onClick(favorites!![it], it) }, onItemLongClick = { onLongClick(favorites!![it], it) })
         if (!storages.isNullOrEmpty())
-            ContentLine(storages, false, R.string.browser_storages, titleFocusable = false, spannableDescription = true)
+            ContentLine(storages, false, R.string.browser_storages, titleFocusable = false, spannableDescription = true, onItemClick = { onClick(storages!![it], it) }, onItemLongClick = { onLongClick(storages!![it], it) })
         if (!networks.isNullOrEmpty())
-            ContentLine(networks, false, R.string.network_browsing, titleFocusable = false, spannableDescription = true)
+            ContentLine(networks, false, R.string.network_browsing, titleFocusable = false, spannableDescription = true, onItemClick = { index -> onClick(networks!![index], index) }, onItemLongClick = { index -> onLongClick(networks!![index], index)})
     }
 }
