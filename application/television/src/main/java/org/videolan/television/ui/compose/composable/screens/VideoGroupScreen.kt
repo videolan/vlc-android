@@ -101,7 +101,7 @@ fun VideoGroupScreenContent(modifier: Modifier, folder: Folder? = null, group : 
             ) {
                 activity?.finish()
             }
-            Text(text = if (folder != null) folder.title else group!!.title)
+            Text(text = if (folder != null) stringResource(R.string.talkback_folder, folder.title) else stringResource(R.string.talkback_video_group, group!!.title))
         }
         Row(modifier) {
             if (folder != null)
