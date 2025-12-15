@@ -86,6 +86,7 @@ import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.openVideoGroupFolder
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
@@ -177,7 +178,7 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
 
 
 @Composable
-fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
+fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: VideoGroup? = null, mainActivityViewModel: MainActivityViewModel = viewModel()) {
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
     val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
@@ -185,8 +186,8 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
         val context = LocalContext.current
 
         val extras = MutableCreationExtras().apply {
-            set(VideosViewModel.PARENT_GROUP_KEY, null)
-            set(VideosViewModel.PARENT_FOLDER_KEY, null)
+            set(VideosViewModel.PARENT_GROUP_KEY, group)
+            set(VideosViewModel.PARENT_FOLDER_KEY, folder)
             set(APPLICATION_KEY, context.applicationContext as Application)
         }
         val viewModel: VideosViewModel = viewModel(
@@ -213,7 +214,7 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
             val activity = LocalActivity.current
             val onClick:(MediaLibraryItem, Int) -> Unit = { video, position ->
                 if (video is Folder || video is VideoGroup) {
-                    mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                    activity!!.openVideoGroupFolder(video)
                 } else {
                     if (video !is MediaWrapper) throw IllegalStateException("Wrong video type")
                     if (activity !is AppCompatActivity) throw IllegalStateException("Wrong activity type")
@@ -242,7 +243,7 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
                 } else
                     TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
             }
-            Row {
+            Row(modifier = modifier) {
                 if (inCard) {
                     PaginatedGrid(
                         items = videos,
@@ -276,7 +277,7 @@ fun VideoList(mainActivityViewModel: MainActivityViewModel = viewModel()) {
                         showResumePlayback = true,
                         if (inCard) gridState else listState,
                         entry
-                    )
+                    ), group != null || folder!= null
                 ) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {

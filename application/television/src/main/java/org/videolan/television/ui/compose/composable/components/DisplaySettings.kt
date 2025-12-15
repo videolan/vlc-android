@@ -51,7 +51,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -64,7 +63,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
@@ -88,7 +86,7 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
+fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: Boolean = false) {
     val context = LocalContext.current
 
     val coroutineScope = rememberCoroutineScope()
@@ -165,7 +163,7 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel()) {
                     Checkbox(checked = onlyFavs, onCheckedChange = { onFavClicked() })
                 }, onClick = { onFavClicked() })
 
-                VideoGroupingItem(current!!) { newEntry, videoGroupingType ->
+                VideoGroupingItem(current!!, inGrouping) { newEntry, videoGroupingType ->
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onGroupingChanged(newEntry)
                     }
@@ -343,10 +341,11 @@ private fun PlaybackActionsItem(current: MediaListEntry, context: Context) {
 @Composable
 private fun VideoGroupingItem(
     current: MediaListEntry,
+    inGrouping: Boolean,
     onClick: (MediaListEntry, VideoGroupingType) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    if (current in arrayOf(MediaListEntry.VIDEO, MediaListEntry.VIDEO_GROUPS, MediaListEntry.VIDEO_FOLDER)) {
+    if (current in arrayOf(MediaListEntry.VIDEO, MediaListEntry.VIDEO_GROUPS, MediaListEntry.VIDEO_FOLDER) && !inGrouping) {
         DisplaySettingsLine(painterResource(R.drawable.ic_group_display), stringResource(R.string.video_min_group_length_title), endView = {
             Box(
                 modifier = Modifier
