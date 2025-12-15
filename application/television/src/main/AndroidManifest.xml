@@ -9,6 +9,11 @@
                 android:label="@string/app_name"
                 android:theme="@style/Theme.VLC" />
         <activity
+                android:name=".ui.VideoGroupFolderActivity"
+                android:exported="false"
+                android:label="@string/app_name"
+                android:theme="@style/Theme.VLC" />
+        <activity
                 android:name=".ui.MainTvActivity"
                 android:label="@string/app_name"
                 android:launchMode="singleTask"

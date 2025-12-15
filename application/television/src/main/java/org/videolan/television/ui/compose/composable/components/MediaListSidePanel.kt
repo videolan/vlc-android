@@ -52,11 +52,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
-import org.videolan.vlc.util.MediaListEntry
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.vlc.util.MediaListEntry
 
 @Composable
-fun MediaListSidePanel(content: MediaListSidePanelContent, viewModel: MainActivityViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
+fun MediaListSidePanel(content: MediaListSidePanelContent, inGrouping: Boolean, viewModel: MainActivityViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     Column(
