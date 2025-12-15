@@ -303,7 +303,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                         showResumePlayback = entry != MediaListEntry.ALL_PLAYLISTS,
                         if (inCard) gridState else listState,
                         entry
-                    )
+                    ), inGrouping = false
                 ) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
