@@ -223,7 +223,10 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                             onSelected = { index ->
                                 if (index == pagerState.currentPage) return@VLCTabRow
                                 coroutineScope.launch {
-                                    pagerState.animateScrollToPage(index)
+                                        try {
+                                            pagerState.animateScrollToPage(index)
+                                        } catch (e: Exception) {
+                                        }
                                 }
                                 settings.edit { putInt(KEY_MAIN_TAB, index) }
                             },
