@@ -53,7 +53,10 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
         }
     }
 
-    override fun getAll(): Array<MediaWrapper> = this.pagedList.value?.toTypedArray() ?: medialibrary.getAudio(sort, desc, Settings.includeMissing, onlyFavorites)
+    override fun getAll(): Array<MediaWrapper> = if (!this.pagedList.value.isNullOrEmpty())
+        this.pagedList.value!!.toTypedArray()
+    else
+        medialibrary.getAudio(sort, desc, Settings.includeMissing, onlyFavorites)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> {
         val list = if (model.filterQuery == null) when(parent) {
