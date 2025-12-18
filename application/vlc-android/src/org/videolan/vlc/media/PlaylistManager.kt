@@ -622,7 +622,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun setVideoTrackEnabled(enabled: Boolean) {
-        if (!hasMedia() || !player.isPlaying()) return
+        if (!hasMedia()) return
         if (enabled) getCurrentMedia()?.addFlags(MediaWrapper.MEDIA_VIDEO)
         else getCurrentMedia()?.removeFlags(MediaWrapper.MEDIA_VIDEO)
         player.setVideoTrackEnabled(enabled)
