@@ -58,6 +58,7 @@ import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.view.EmptyLoadingState
 
 @Composable
 fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int, onItemClick: (Int) -> Unit, onItemLongClick: (Int) -> Unit, titleFocusable: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit = {}) {
@@ -97,7 +98,7 @@ fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: 
                     .padding(end = 16.dp)
             )
     }
-    VlcLoader(historyLoading) {
+    VlcEmptyViewLoader(if (historyLoading == true) EmptyLoadingState.LOADING else if (items.isNullOrEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE) {
         LazyRow(
             contentPadding = PaddingValues(top = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
