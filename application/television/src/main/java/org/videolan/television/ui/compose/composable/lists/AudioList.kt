@@ -87,7 +87,7 @@ import org.videolan.television.ui.compose.composable.components.MediaListSidePan
 import org.videolan.television.ui.compose.composable.components.PaginatedGrid
 import org.videolan.television.ui.compose.composable.components.PaginatedList
 import org.videolan.television.ui.compose.composable.components.VLCTabRow
-import org.videolan.television.ui.compose.composable.components.VlcLoader
+import org.videolan.television.ui.compose.composable.components.VlcEmptyViewLoader
 import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.ui.compose.theme.Transparent
@@ -103,9 +103,11 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.MediaListEntry
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 
@@ -269,7 +271,20 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
             }
         }
 
-        VlcLoader(audios.loadState.refresh == LoadState.Loading) {
+        val emptyState = if (audios.loadState.refresh == LoadState.Loading)
+            EmptyLoadingState.LOADING
+        else if (audios.itemCount == 0 && !Permissions.canReadStorage(context))
+            EmptyLoadingState.MISSING_PERMISSION
+        else if (audios.itemCount == 0 && !Permissions.canReadAudios(context))
+            EmptyLoadingState.MISSING_VIDEO_PERMISSION
+        else if (audios.itemCount == 0 && provider.onlyFavorites)
+            EmptyLoadingState.EMPTY_FAVORITES
+        else if (audios.itemCount == 0)
+            EmptyLoadingState.EMPTY
+        else
+            EmptyLoadingState.NONE
+
+        VlcEmptyViewLoader(emptyState) {
             Row {
                 if (inCard) {
                     PaginatedGrid(
