@@ -81,7 +81,7 @@ import org.videolan.television.ui.compose.composable.components.MediaListSidePan
 import org.videolan.television.ui.compose.composable.components.PaginatedGrid
 import org.videolan.television.ui.compose.composable.components.PaginatedList
 import org.videolan.television.ui.compose.composable.components.VLCTabRow
-import org.videolan.television.ui.compose.composable.components.VlcLoader
+import org.videolan.television.ui.compose.composable.components.VlcEmptyViewLoader
 import org.videolan.television.ui.compose.composable.items.VideoItem
 import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.ui.compose.theme.White
@@ -98,9 +98,11 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.MediaListEntry
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
@@ -210,7 +212,17 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
         entry.currentSort = viewModel.provider.sort
         entry.currentSortDesc = viewModel.provider.desc
 
-        VlcLoader(videos.loadState.refresh == LoadState.Loading) {
+        val emptyState = if (videos.loadState.refresh == LoadState.Loading)
+            EmptyLoadingState.LOADING
+        else if (videos.itemCount == 0 && !Permissions.canReadStorage(context))
+            EmptyLoadingState.MISSING_PERMISSION
+        else if (videos.itemCount == 0 && !Permissions.canReadVideos(context))
+            EmptyLoadingState.MISSING_VIDEO_PERMISSION
+        else if (videos.itemCount == 0)
+            EmptyLoadingState.EMPTY
+        else
+            EmptyLoadingState.NONE
+        VlcEmptyViewLoader(emptyState) {
             val activity = LocalActivity.current
             val onClick:(MediaLibraryItem, Int) -> Unit = { video, position ->
                 if (video is Folder || video is VideoGroup) {

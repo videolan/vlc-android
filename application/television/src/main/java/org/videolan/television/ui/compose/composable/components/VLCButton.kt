@@ -48,12 +48,12 @@ import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.ui.compose.theme.White
 
 @Composable
-fun VLCButton(icon: Int, text:Int, onClick: ()->Unit) {
+fun VLCButton(icon: Int, text:Int, modifier: Modifier = Modifier, onClick: ()->Unit) {
     var focused by remember { mutableStateOf(false) }
     Button(
         colors = ButtonDefaults.buttonColors(containerColor = if (focused) White else BackgroundColorDark.copy(0.4F)),
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .onFocusChanged {
                 focused = it.isFocused
