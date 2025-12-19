@@ -153,8 +153,6 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                 LabeledIconButton(
                     label = stringResource(R.string.open_audio_player),
                     vectorImage = Icons.Outlined.OpenInFull,
-                    modifier = Modifier
-                        .focusRequester(focusRequester = focusRequester),
                 ) {
                     activity?.startActivity(Intent(activity, AudioPlayerActivity::class.java))
                 }
@@ -292,6 +290,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     onClick = {
                         playlistModel.togglePlayPause()
                     },
+                    modifier = Modifier.focusRequester(focusRequester = focusRequester)
                 ) {
                     if (playerState.value?.playing == true)
                         Icon(
@@ -320,6 +319,9 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                 Spacer(modifier = Modifier.weight(1F))
             }
 
+        }
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
         }
     }
 }
