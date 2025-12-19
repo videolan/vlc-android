@@ -37,13 +37,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -122,56 +126,81 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
         pageCount = { mainActivityViewModel.audioTabs.size }
     )
     val coroutineScope = rememberCoroutineScope()
+    val medialistEntries = arrayOf(
+        MediaListEntry.ARTISTS,
+        MediaListEntry.ALBUMS,
+        MediaListEntry.TRACKS,
+        MediaListEntry.GENRES,
+        MediaListEntry.AUDIO_PLAYLISTS
+    )
 
     Column(
         modifier = Modifier
     ) {
-        VLCTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            modifier = Modifier
-                .padding(vertical = 4.dp, horizontal = 8.dp)
-                .focusProperties {
-                    onEnter = {
-                        onFocusEnter()
-                    }
-                    onExit = {
-                        if (requestedFocusDirection == FocusDirection.Up) {
-                            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
-                            onFocusExit()
+        val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
+        InvalidationComposable(displaySettingsChange) {
+            VLCTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .focusProperties {
+                        onEnter = {
+                            onFocusEnter()
+                        }
+                        onExit = {
+                            if (requestedFocusDirection == FocusDirection.Up) {
+                                if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
+                                onFocusExit()
+                            }
                         }
                     }
-                }
-                .focusGroup(),
+                    .focusGroup(),
 
-            onSelected = { index ->
-                if (index == pagerState.currentPage) return@VLCTabRow
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(index)
-                }
-                settings.edit { putInt(KEY_AUDIO_TAB, index) }
+                onSelected = { index ->
+                    if (index == pagerState.currentPage) return@VLCTabRow
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                    settings.edit { putInt(KEY_AUDIO_TAB, index) }
 
-            },
-            tabNumber = mainActivityViewModel.audioTabs.size,
-            indicator = { hasFocus ->
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
-                )
-            },
-            key = "audio",
-            getTab = { index, focused ->
-                val tab = mainActivityViewModel.audioTabs[index]
-                Text(
-                    style = MaterialTheme.typography.labelLarge,
-                    text = stringResource(tab),
-                    color = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
-                    modifier = Modifier
-                        .padding(vertical = 0.dp, horizontal = 8.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-            }
-        )
+                },
+                tabNumber = mainActivityViewModel.audioTabs.size,
+                indicator = { hasFocus ->
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
+                    )
+                },
+                key = "audio",
+                getTab = { index, focused ->
+                    val inFav = settings.getBoolean(medialistEntries[index].onlyFavsKey, false)
+                    val tab = mainActivityViewModel.audioTabs[index]
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 0.dp, horizontal = 8.dp)
+                            .align(Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (inFav)
+                            Icon(
+                                imageVector = Icons.Default.Favorite,
+                                stringResource(R.string.show_only_favs),
+                                tint = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .height(16.dp)
+                            )
+                        Text(
+                            style = MaterialTheme.typography.labelLarge,
+                            text = stringResource(tab),
+                            color = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+
+                            )
+                    }
+                }
+            )
+        }
         HorizontalPager(
             pagerState,
             userScrollEnabled = false,
@@ -242,14 +271,14 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
         val gridState = rememberLazyGridState()
         val activity = LocalActivity.current
         val settings = Settings.getInstance(activity!!)
-        val onClick:(MediaLibraryItem, Int) -> Unit = { item, position ->
+        val onClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
             when (item) {
                 is Artist -> TvUtil.openAudioCategory(activity, item)
                 is Album -> TvUtil.openAudioCategory(activity, item)
                 is Genre -> TvUtil.openAudioCategory(activity, item)
                 is Playlist -> TvUtil.openAudioCategory(activity, item)
                 else -> {
-                    when(DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(settings)) {
+                    when (DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(settings)) {
                         DefaultPlaybackAction.PLAY -> TvUtil.openMedia(activity as FragmentActivity, item)
                         DefaultPlaybackAction.PLAY_ALL -> MediaUtils.playAll(activity, provider as MedialibraryProvider<MediaWrapper>, position, false)
                         DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, listOf(*item.tracks), showSnackbar = {
@@ -276,7 +305,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
         else if (audios.itemCount == 0 && !Permissions.canReadStorage(context))
             EmptyLoadingState.MISSING_PERMISSION
         else if (audios.itemCount == 0 && !Permissions.canReadAudios(context))
-            EmptyLoadingState.MISSING_VIDEO_PERMISSION
+            EmptyLoadingState.MISSING_AUDIO_PERMISSION
         else if (audios.itemCount == 0 && provider.onlyFavorites)
             EmptyLoadingState.EMPTY_FAVORITES
         else if (audios.itemCount == 0)
@@ -285,33 +314,34 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
             EmptyLoadingState.NONE
 
         VlcEmptyViewLoader(emptyState) {
-            Row {
-                if (inCard) {
-                    PaginatedGrid(
-                        items = audios,
-                        listState = gridState,
-                        verticalArrangement = Arrangement.spacedBy(24.dp),
-                        horizontalArrangement = Arrangement.spacedBy(0.dp),
-                        contentPadding = PaddingValues(top = 16.dp),
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                    ) { audio, index, modifier ->
-                        AudioItemCard(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
+            Row(modifier = Modifier.fillMaxHeight()) {
+                if (emptyState != EmptyLoadingState.EMPTY_FAVORITES)
+                    if (inCard) {
+                        PaginatedGrid(
+                            items = audios,
+                            listState = gridState,
+                            verticalArrangement = Arrangement.spacedBy(24.dp),
+                            horizontalArrangement = Arrangement.spacedBy(0.dp),
+                            contentPadding = PaddingValues(top = 16.dp),
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f)
+                        ) { audio, index, modifier ->
+                            AudioItemCard(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
+                        }
+                    } else {
+                        PaginatedList(
+                            items = audios,
+                            listState = listState,
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(top = 16.dp),
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f)
+                        ) { audio, index, modifier ->
+                            AudioItemList(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
+                        }
                     }
-                } else {
-                    PaginatedList(
-                        items = audios,
-                        listState = listState,
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(top = 16.dp),
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                    ) { audio, index, modifier ->
-                        AudioItemList(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
-                    }
-                }
                 MediaListSidePanel(
                     MediaListSidePanelContent(
                         showScrollToTop = true,

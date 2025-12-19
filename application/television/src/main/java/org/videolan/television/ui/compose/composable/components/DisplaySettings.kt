@@ -155,6 +155,7 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
                 val onFavClicked = {
                     onlyFavs = !onlyFavs
                     Settings.getInstance(context).putSingle(current!!.onlyFavsKey, onlyFavs)
+                    viewModel.changeDisplaySettings(current!!)
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onOnlyFavsChanged(current!!, onlyFavs)
                     }

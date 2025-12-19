@@ -37,12 +37,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -119,51 +123,75 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
     Column(
         modifier = Modifier
     ) {
-        VLCTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            modifier = Modifier
-                .padding(vertical = 4.dp, horizontal = 8.dp)
-                .focusProperties {
-                    onEnter = {
-                        onFocusEnter()
-                    }
-                    onExit = {
-                        if (requestedFocusDirection == FocusDirection.Up) {
-                            if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
-                            onFocusExit()
+        val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
+        InvalidationComposable(displaySettingsChange) {
+            VLCTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .focusProperties {
+                        onEnter = {
+                            onFocusEnter()
+                        }
+                        onExit = {
+                            if (requestedFocusDirection == FocusDirection.Up) {
+                                if (BuildConfig.DEBUG) Log.d("MainScreenLogs", "onFocusExit triggered for Column")
+                                onFocusExit()
+                            }
                         }
                     }
-                }
-                .focusGroup(),
+                    .focusGroup(),
 
-            onSelected = { index ->
-                if (index == pagerState.currentPage) return@VLCTabRow
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(index)
+                onSelected = { index ->
+                    if (index == pagerState.currentPage) return@VLCTabRow
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                    settings.edit { putInt(KEY_VIDEO_TAB, index) }
+                },
+                tabNumber = mainActivityViewModel.videoTabs.size,
+                indicator = { hasFocus ->
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
+                    )
+                },
+                key = "video",
+                getTab = { index, focused ->
+                    val tab = mainActivityViewModel.videoTabs[index]
+                    val entry = if (index == 1) MediaListEntry.VIDEO_PLAYLISTS else {
+                        when (Settings.getInstance(context).getString(KEY_GROUP_VIDEOS, VideoGroupingType.NAME.settingsKey)) {
+                            VideoGroupingType.NAME.settingsKey -> MediaListEntry.VIDEO_GROUPS
+                            VideoGroupingType.FOLDER.settingsKey -> MediaListEntry.VIDEO_FOLDER
+                            else -> MediaListEntry.VIDEO
+                        }
+                    }
+                    val inFav = settings.getBoolean(entry.onlyFavsKey, false)
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 0.dp, horizontal = 8.dp)
+                            .align(Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (inFav)
+                            Icon(
+                                imageVector = Icons.Default.Favorite,
+                                stringResource(R.string.show_only_favs),
+                                tint = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .height(16.dp)
+                            )
+                        Text(
+                            style = MaterialTheme.typography.labelLarge,
+                            text = stringResource(tab),
+                            color = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+                        )
+                    }
                 }
-                settings.edit { putInt(KEY_VIDEO_TAB, index) }
-            },
-            tabNumber = mainActivityViewModel.videoTabs.size,
-            indicator = { hasFocus ->
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
-                )
-            },
-            key = "video",
-            getTab = { index, focused ->
-                val tab = mainActivityViewModel.videoTabs[index]
-                Text(
-                    style = MaterialTheme.typography.labelLarge,
-                    text = stringResource(tab),
-                    color = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.4F),
-                    modifier = Modifier
-                        .padding(vertical = 0.dp, horizontal = 8.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-            }
-        )
+            )
+        }
         HorizontalPager(
             pagerState,
             userScrollEnabled = false,
@@ -218,6 +246,8 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
             EmptyLoadingState.MISSING_PERMISSION
         else if (videos.itemCount == 0 && !Permissions.canReadVideos(context))
             EmptyLoadingState.MISSING_VIDEO_PERMISSION
+        else if (videos.itemCount == 0 && viewModel.provider.onlyFavorites)
+            EmptyLoadingState.EMPTY_FAVORITES
         else if (videos.itemCount == 0)
             EmptyLoadingState.EMPTY
         else
@@ -255,34 +285,35 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                 } else
                     TvUtil.showMediaDetail(activity!!, video as MediaWrapper, false)
             }
-            Row(modifier = modifier) {
-                if (inCard) {
-                    PaginatedGrid(
-                        items = videos,
-                        listState = gridState,
-                        verticalArrangement = Arrangement.spacedBy(24.dp),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(top = 16.dp),
-                        loaderAspectRatio = 16f / 9,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                    ) { video, position, modifier ->
-                        VideoItem(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+            Row(modifier = modifier.fillMaxHeight()) {
+                if (emptyState != EmptyLoadingState.EMPTY_FAVORITES)
+                    if (inCard) {
+                        PaginatedGrid(
+                            items = videos,
+                            listState = gridState,
+                            verticalArrangement = Arrangement.spacedBy(24.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            contentPadding = PaddingValues(top = 16.dp),
+                            loaderAspectRatio = 16f / 9,
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f)
+                        ) { video, position, modifier ->
+                            VideoItem(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                        }
+                    } else {
+                        PaginatedList(
+                            items = videos,
+                            listState = listState,
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(top = 16.dp),
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f)
+                        ) { video, position, modifier ->
+                            VideoItemList(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                        }
                     }
-                } else {
-                    PaginatedList(
-                        items = videos,
-                        listState = listState,
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(top = 16.dp),
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                    ) { video, position, modifier ->
-                        VideoItemList(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
-                    }
-                }
                 MediaListSidePanel(
                     MediaListSidePanelContent(
                         showScrollToTop = true,
