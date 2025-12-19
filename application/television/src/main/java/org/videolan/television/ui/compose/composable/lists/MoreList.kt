@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.HEADER_STREAM
@@ -55,6 +56,8 @@ import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.MoreViewModel
 import org.videolan.television.viewmodel.SnackbarContent
+import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.Permissions
 
 @Composable
 fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = viewModel(), mainViewmodel: MainActivityViewModel = viewModel()) {
@@ -88,8 +91,14 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
             VLCButton(R.drawable.ic_settings, R.string.preferences) {
                 activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
             }
+            if (Permissions.canReadStorage(activity!!))
+                VLCButton(R.drawable.ic_medialibrary_scan, R.string.refresh) {
+                    if (!Medialibrary.getInstance().isWorking) {
+                        activity.reloadLibrary()
+                    }
+                }
             VLCButton(R.drawable.ic_more_about, R.string.about) {
-                activity?.startActivity(Intent(activity, AboutActivity::class.java))
+                activity.startActivity(Intent(activity, AboutActivity::class.java))
             }
 
         }
