@@ -300,6 +300,7 @@
     <string name="show_playlist">顯示播放清單</string>
     <string name="hide_playlist">隱藏播放清單</string>
     <string name="hold_to_stop">按住以停止</string>
+    <string name="reset_sleep_timer_message">計時時間已到</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android</string>

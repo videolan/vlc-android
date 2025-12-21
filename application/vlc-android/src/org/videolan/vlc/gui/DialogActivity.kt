@@ -33,6 +33,7 @@ import org.videolan.resources.util.parcelableList
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.DeviceDialog
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
+import org.videolan.vlc.gui.dialogs.ResetSleepTimerDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.showVlcDialog
 
@@ -52,6 +53,7 @@ class DialogActivity : BaseActivity() {
             KEY_SERVER -> setupServerDialog()
             KEY_SUBS_DL -> setupSubsDialog()
             KEY_DEVICE -> setupDeviceDialog()
+            KEY_SLEEP_TIMEUP -> setupResetSleepTimerDialog()
             KEY_DIALOG -> {
                 dialog?.run {
                     showVlcDialog(this)
@@ -61,6 +63,12 @@ class DialogActivity : BaseActivity() {
             }
             else -> finish()
         }
+    }
+
+    private fun setupResetSleepTimerDialog() {
+        setTheme(R.style.Theme_VLC)
+        val dialog = ResetSleepTimerDialog.newInstance()
+        dialog.show(supportFragmentManager, ResetSleepTimerDialog::class.java.simpleName)
     }
 
     private fun setupDeviceDialog() {
@@ -109,6 +117,7 @@ class DialogActivity : BaseActivity() {
         const val KEY_SUBS_DL = "subsdlDialog"
         const val KEY_DEVICE = "deviceDialog"
         const val KEY_DIALOG = "vlcDialog"
+        const val KEY_SLEEP_TIMEUP = "sleepTimeUp"
 
         const val EXTRA_MEDIA = "extra_media"
         const val EXTRA_PATH = "extra_path"

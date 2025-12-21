@@ -164,6 +164,7 @@ import org.videolan.tools.getResourceUri
 import org.videolan.tools.markBidi
 import org.videolan.tools.readableSize
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.dialogs.adapters.VlcTrack
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -1989,7 +1990,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     val timerExpired = System.currentTimeMillis() > it.timeInMillis
                     val shouldStop = if (waitForMediaEnd) timerExpired && mediaEndReached else timerExpired
                     if (shouldStop) {
-                        withContext(Dispatchers.Main) { if (isPlaying) stop() else setSleepTimer(null) }
+                        withContext(Dispatchers.Main) { if (isPlaying) {
+                            pause()
+                            startResetTimerDialog()
+                        } else setSleepTimer(null) }
                     }
                 }
                 if (mediaEndReached) mediaEndReached = false
@@ -1997,6 +2001,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             }
         }
     }
+
+    private fun startResetTimerDialog() {
+        val intent = Intent(DialogActivity.KEY_SLEEP_TIMEUP,null,this, DialogActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
+
 
     private fun stopSleepTimerJob() {
         if (BuildConfig.DEBUG) Log.d("SleepTimer", "stopSleepTimerJob")

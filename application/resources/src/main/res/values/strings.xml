@@ -318,6 +318,7 @@
     <string name="show_playlist">Show playlist</string>
     <string name="hide_playlist">Hide playlist</string>
     <string name="hold_to_stop">Hold to stop</string>
+    <string name="reset_sleep_timer_message">Time\'s up</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android</string>
