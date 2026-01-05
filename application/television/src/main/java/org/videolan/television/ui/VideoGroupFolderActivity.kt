@@ -65,8 +65,6 @@ class VideoGroupFolderActivity : DefaultTvActivity() {
         val folder = intent?.parcelable<Folder>(KEY_FOLDER)
         val parentGroup = intent?.parcelable<VideoGroup>(KEY_GROUP)
         if (folder == null && parentGroup == null) throw IllegalStateException("No folder or group provided")
-
-
         setContent {
             VlcTVTheme {
                 // A surface container using the 'background' color from the theme
@@ -79,16 +77,6 @@ class VideoGroupFolderActivity : DefaultTvActivity() {
             }
         }
 
-        lifecycleScope.launch {
-            AutoUpdate.clean(this@VideoGroupFolderActivity.application)
-            if (!Settings.getInstance(this@VideoGroupFolderActivity).getBoolean(KEY_SHOW_UPDATE, true)) return@launch
-            AutoUpdate.checkUpdate(this@VideoGroupFolderActivity.application) { url, date ->
-                val updateDialog = UpdateDialog().apply {
-                    arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
-                }
-                updateDialog.show(supportFragmentManager, "fragment_update")
-            }
-        }
     }
 
 }
