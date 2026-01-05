@@ -28,6 +28,8 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
+import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.util.startMedialibrary
 import org.videolan.television.util.EventThrottler
 
 open class DefaultTvActivity : AppCompatActivity() {
@@ -52,5 +54,10 @@ open class DefaultTvActivity : AppCompatActivity() {
         }
 
         return isThrottled || super.dispatchKeyEvent(event)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (!Medialibrary.getInstance().isStarted) startMedialibrary(firstRun = false, upgrade = false, parse = true)
     }
 }
