@@ -85,12 +85,7 @@ fun VideoGroupScreen(folder: Folder? = null, group : VideoGroup? = null, viewMod
 @Composable
 fun VideoGroupScreenContent(modifier: Modifier, folder: Folder? = null, group : VideoGroup? = null) {
     Column(modifier
-        .fillMaxHeight()
-        .padding(
-            top = 16.dp,
-            start = 24.dp,
-            end = 24.dp
-        )) {
+        .fillMaxHeight()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             val activity = LocalActivity.current
             LabeledIconButton(
@@ -104,11 +99,21 @@ fun VideoGroupScreenContent(modifier: Modifier, folder: Folder? = null, group : 
             Text(text = if (folder != null) stringResource(R.string.talkback_folder, folder.title) else stringResource(R.string.talkback_video_group, group!!.title))
         }
         Row(modifier) {
-            if (folder != null)
-                VideoList(modifier, folder= folder)
-            else
-                VideoList(modifier, group = group)
             AudioPlayer()
+            if (folder != null)
+                VideoList(modifier
+                    .padding(
+                        top = 16.dp,
+                        start = 24.dp,
+                        end = 24.dp
+                    ), folder= folder)
+            else
+                VideoList(modifier
+                    .padding(
+                        top = 16.dp,
+                        start = 24.dp,
+                        end = 24.dp
+                    ), group = group)
             Tabs(modifier = Modifier.weight(1f))
         }
     }
