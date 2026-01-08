@@ -275,15 +275,28 @@ fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth()
             )
-            Text(
-                item.description ?: "",
-                maxLines = 1,
-                style = MaterialTheme.typography.bodySmall,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .fillMaxWidth()
-            )
+            if (spannableDescription)
+                Text(
+                    text = item.description.getDescriptionAnnotated(),
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodySmall,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .fillMaxWidth(),
+                    inlineContent = inlineContentMap
+                )
+            else
+                Text(
+                    item.description ?: "",
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodySmall,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .fillMaxWidth()
+                )
+
         }
         if (item.isFavorite || (item as? MediaWrapper)?.hasFlag(FAVORITE_FLAG) == true) {
             Icon(
