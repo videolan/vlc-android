@@ -182,37 +182,37 @@ class PopupManager(private val service: PlaybackService) : PlaybackService.Callb
         }
         else
         {
-        // sanity check
-        if (displayW * displayH == 0) {
-            Log.e(TAG, "Invalid surface size")
-            return
-        }
+            // sanity check
+            if (displayW * displayH == 0) {
+                Log.e(TAG, "Invalid surface size")
+                return
+            }
 
-        if (width == 0 || height == 0) {
-            view.setViewSize(displayW, displayH)
-            return
-        }
+            if (width == 0 || height == 0) {
+                view.setViewSize(displayW, displayH)
+                return
+            }
 
-        // compute the aspect ratio
-        var dw = displayW.toDouble()
-        var dh = displayH.toDouble()
-        val ar = if (sarDen == sarNum) {
-            /* No indication about the density, assuming 1:1 */
-            visibleWidth.toDouble() / visibleHeight.toDouble()
-        } else {
-            /* Use the specified aspect ratio */
-            val vw = visibleWidth * sarNum.toDouble() / sarDen
-            vw / visibleHeight
-        }
+            // compute the aspect ratio
+            var dw = displayW.toDouble()
+            var dh = displayH.toDouble()
+            val ar = if (sarDen == sarNum) {
+                /* No indication about the density, assuming 1:1 */
+                visibleWidth.toDouble() / visibleHeight.toDouble()
+            } else {
+                /* Use the specified aspect ratio */
+                val vw = visibleWidth * sarNum.toDouble() / sarDen
+                vw / visibleHeight
+            }
 
-        // compute the display aspect ratio
-        val dar = dw / dh
-        if (dar < ar)
-            dh = dw / ar
-        else
-            dw = dh * ar
+            // compute the display aspect ratio
+            val dar = dw / dh
+            if (dar < ar)
+                dh = dw / ar
+            else
+                dw = dh * ar
 
-        view.setViewSize(floor(dw).toInt(), floor(dh).toInt())
+            view.setViewSize(floor(dw).toInt(), floor(dh).toInt())
         }
     }
 
