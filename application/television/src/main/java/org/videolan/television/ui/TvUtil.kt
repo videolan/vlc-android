@@ -149,9 +149,10 @@ object TvUtil {
         when (item) {
             is MediaWrapper -> when (item.type) {
                 MediaWrapper.TYPE_DIR -> {
-                    val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
-                    intent.data = item.uri
+                    val intent = Intent(activity, BrowserActivity::class.java)
+                    intent.putExtra(EXTRA_ITEM, item)
+                    intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                     activity.startActivity(intent)
                 }
                 else -> {
@@ -289,7 +290,7 @@ object TvUtil {
                 playAudioList(context, list, 0)
             }
             else -> {
-                val intent = Intent(context, VerticalGridActivity::class.java)
+                val intent = Intent(context, BrowserActivity::class.java)
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
