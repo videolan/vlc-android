@@ -24,37 +24,101 @@
 
 package org.videolan.television.ui
 
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.Storage
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.compose.composable.screens.BrowserScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.viewmodel.FileBrowserViewModel
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.browser.PathAdapterListener
+import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
+import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
 
-class BrowserActivity : DefaultTvActivity() {
+class BrowserActivity : DefaultTvActivity(), PathAdapterListener, IPathOperationDelegate by PathOperationDelegate() {
+    lateinit var otgDevice:String
+    lateinit var browserTitle:String
+    private val networkSharesResult = ArrayList<MediaLibraryItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        otgDevice = getString(R.string.otg_device_title)
+        browserTitle = getString(R.string.browser)
+        PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, makePathSafe(getString(R.string.internal_memory)))
         enableEdgeToEdge()
         WindowCompat.getInsetsController(window, window.decorView).apply {
             isAppearanceLightStatusBars = false
         }
         val storage = intent?.parcelable<MediaLibraryItem>(EXTRA_ITEM) ?: throw IllegalStateException("No storage provided")
+
         setContent {
+            val viewModel: FileBrowserViewModel by viewModels()
+            viewModel.setCurrentPathEntry(storage)
+            viewModel.addPrepareSegmentsListener { item, list ->
+                val uri = when {
+                    item is MediaWrapper -> item.uri
+                    item is Storage -> item.uri
+                    else -> throw IllegalStateException("No uri provided")
+                }
+                list.addAll(prepareSegments(uri))
+            }
             VlcTVTheme {
+                BackHandler {
+                    if (!viewModel.popBackStack()) {
+                        finish()
+                    }
+                }
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    BrowserScreen(item = storage)
+                    BrowserScreen()
                 }
             }
         }
 
     }
 
+    private fun prepareSegments(uri: Uri): MutableList<String> {
+        val path = Uri.decode(uri.path)
+        val isOtg = path.startsWith("/tree/")
+        val string = when {
+            isOtg -> if (path.endsWith(':')) "" else path.substringAfterLast(':')
+            else -> replaceStoragePath(path)
+        }
+        val list: MutableList<String> = mutableListOf()
+        if (isOtg) list.add(otgDevice)
+
+        //list of all the path chunks
+        val pathParts = string.split('/').filter { it.isNotEmpty() }
+        for (index in pathParts.indices) {
+            //start creating the Uri
+            val currentPathUri = Uri.Builder().scheme(uri.scheme).encodedAuthority(uri.authority)
+            //append all the previous paths and the current one
+            for (i in 0..index) appendPathToUri(pathParts[i], currentPathUri)
+            list.add(currentPathUri.toString())
+        }
+        if (showRoot()) list.add(0, browserTitle)
+        return list
+    }
+
+    override fun backTo(tag: String) { }
+
+    override fun currentContext(): Context = this
+
+    override fun showRoot() = true
+
+    override fun getPathOperationDelegate(): IPathOperationDelegate = this
 }
