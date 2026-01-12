@@ -25,8 +25,9 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
             changeGrouping = {
                 if (this is VideosViewModel) changeGroupingType(it)
             },
+            getBrowserModel = { null },
             getAllProviders = {
-                providers
+                arrayOf(providers)
             })
     }
 
