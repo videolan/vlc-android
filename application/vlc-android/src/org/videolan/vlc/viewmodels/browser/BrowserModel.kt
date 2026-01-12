@@ -36,15 +36,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.GROUP_VIDEOS_FOLDER
-import org.videolan.resources.GROUP_VIDEOS_NAME
-import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.tools.CoroutineContextProvider
-import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -55,11 +49,10 @@ import org.videolan.vlc.providers.NetworkProvider
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.providers.StorageProvider
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.BaseModel
-import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
-import org.videolan.vlc.viewmodels.mobile.VideosViewModel
-import org.videolan.vlc.viewmodels.mobile.VideosViewModel.Companion.PARENT_FOLDER_KEY
-import org.videolan.vlc.viewmodels.mobile.VideosViewModel.Companion.PARENT_GROUP_KEY
+import org.videolan.vlc.viewmodels.DisplaySettingsCallBackDelegate
+import org.videolan.vlc.viewmodels.IDisplaySettingsCallBackHandler
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
 const val TYPE_FILE = 0L
@@ -78,9 +71,23 @@ open class BrowserModel(
 ) : BaseModel<MediaLibraryItem>(
         context, coroutineContextProvider),
         TvBrowserModel<MediaLibraryItem>,
+        IDisplaySettingsCallBackHandler by DisplaySettingsCallBackDelegate(),
         IPathOperationDelegate by PathOperationDelegate() {
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
+
+    init {
+        viewModelScope.registerDisplaySettingsCallBacks(
+            refresh = {
+                refresh()
+            },
+            changeGrouping = { },
+            getBrowserModel = { this },
+            getAllProviders = {
+                arrayOf(provider)
+            })
+        watchFor(MediaListEntry.BROWSER)
+    }
 
     override val provider: BrowserProvider = when (type) {
         TYPE_PICKER -> FilePickerProvider(context, dataset, url, pickerType = pickerType)
@@ -139,6 +146,16 @@ open class BrowserModel(
             settings.putSingle("${sortKey}_desc", desc)
         }
     }
+
+    fun sortBy(sort:Int, desc: Boolean) {
+        this.sort = sort
+        this.desc = desc
+        provider.sort = sort
+        provider.desc = desc
+        settings.putSingle(sortKey, sort)
+        settings.putSingle("${sortKey}_desc", desc)
+    }
+
 
     fun saveList(media: MediaWrapper) = provider.saveList(media)
 

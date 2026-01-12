@@ -29,16 +29,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.conflatedActor
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.MediaListEntry
+import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 interface IDisplaySettingsCallBackHandler {
 
-    fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<MedialibraryProvider<out MediaLibraryItem>>, changeGrouping: (VideoGroupingType) -> Unit)
+    fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<Any>, getBrowserModel: () -> BrowserModel?, changeGrouping: (VideoGroupingType) -> Unit)
     fun releaseDisplaySettingsCallbacks()
     fun watchFor(entry:MediaListEntry)
     fun onPause()
@@ -82,7 +82,7 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)
-    override fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<MedialibraryProvider<out MediaLibraryItem>>, changeGrouping: (VideoGroupingType) -> Unit) {
+    override fun CoroutineScope.registerDisplaySettingsCallBacks(refresh: () -> Unit, getAllProviders: () -> Array<Any>, getBrowserModel: () -> BrowserModel?, changeGrouping: (VideoGroupingType) -> Unit) {
         refreshActor = conflatedActor {
            if (paused) isInvalid = true else refresh()
         }
@@ -93,7 +93,7 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
                     if (displaySettingsEvent is DisplaySettingsEvent.OnlyFavsChanged) {
                         getAllProviders().forEach {
                             if (it::class.java == displaySettingsEvent.currentEntry.providerClass)
-                                it.onlyFavorites = displaySettingsEvent.onlyFavorites
+                                (it as MedialibraryProvider<*>).onlyFavorites = displaySettingsEvent.onlyFavorites
                         }
                     }
                     if (displaySettingsEvent is DisplaySettingsEvent.ShowAllArtistsChanged) {
@@ -104,10 +104,14 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
                     }
                     if (displaySettingsEvent is DisplaySettingsEvent.SortChanged) {
                         getAllProviders().forEach {
-                            if (it::class.java == displaySettingsEvent.currentEntry.providerClass) {
-                                it.sort = displaySettingsEvent.sort
-                                it.desc = displaySettingsEvent.desc
-                                it.saveSort()
+                            if (getBrowserModel() != null) {
+                                getBrowserModel()?.sortBy(displaySettingsEvent.sort, displaySettingsEvent.desc)
+                            } else if (it::class.java == displaySettingsEvent.currentEntry.providerClass) {
+                                if (it is MedialibraryProvider<*>) {
+                                    it.sort = displaySettingsEvent.sort
+                                    it.desc = displaySettingsEvent.desc
+                                    it.saveSort()
+                                }
                             }
                         }
                     }

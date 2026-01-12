@@ -29,9 +29,9 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.KEY_VIDEOS_CARDS
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import org.videolan.vlc.FileProvider
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
+import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
@@ -46,7 +46,7 @@ enum class MediaListEntry(
     val defaultInCard: Boolean,
     val onlyFavsKey: String,
     val defaultPlaybackActionMediaType: DefaultPlaybackActionMediaType,
-    val providerClass: Class<*>
+    var providerClass: Class<*>
 ) {
     ARTISTS(
         inCardsKey = "display_mode_audio_browser_artists",
@@ -123,7 +123,7 @@ enum class MediaListEntry(
         defaultInCard = true,
         onlyFavsKey = "",
         defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.FILE,
-        providerClass = FileProvider::class.java
+        providerClass = BrowserProvider::class.java
     );
 
     lateinit var sorts: List<Int>
