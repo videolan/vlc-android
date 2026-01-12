@@ -44,6 +44,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.ContentLine
+import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.vlc.viewmodels.browser.BrowserFavoritesModel
@@ -100,18 +101,47 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
             .focusGroup()
     ) {
         val activity = LocalActivity.current
-        val onClick:(MediaLibraryItem, Int) -> Unit = { item, position ->
+        val onClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
             TvUtil.openMedia(activity as FragmentActivity, item)
         }
         val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
             mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
         }
 
+        val favoritesModelDescriptionUpdates = favoritesModel.provider.descriptionUpdate.observeAsState()
         if (!favorites.isNullOrEmpty())
-            ContentLine(favorites, false, R.string.favorites, titleFocusable = false, spannableDescription = true, onItemClick = { onClick(favorites!![it], it) }, onItemLongClick = { onLongClick(favorites!![it], it) })
+            InvalidationComposable(favoritesModelDescriptionUpdates.value) {
+                ContentLine(
+                    favorites,
+                    false,
+                    R.string.favorites,
+                    titleFocusable = false,
+                    spannableDescription = true,
+                    onItemClick = { onClick(favorites!![it], it) },
+                    onItemLongClick = { onLongClick(favorites!![it], it) })
+            }
+
+        val storagesModelDescriptionUpdates = browserModel.provider.descriptionUpdate.observeAsState()
+
         if (!storages.isNullOrEmpty())
-            ContentLine(storages, false, R.string.browser_storages, titleFocusable = false, spannableDescription = true, onItemClick = { onClick(storages!![it], it) }, onItemLongClick = { onLongClick(storages!![it], it) })
+            InvalidationComposable(storagesModelDescriptionUpdates.value) {
+                ContentLine(
+                    storages,
+                    false,
+                    R.string.browser_storages,
+                    titleFocusable = false,
+                    spannableDescription = true,
+                    onItemClick = { onClick(storages!![it], it) },
+                    onItemLongClick = { onLongClick(storages!![it], it) })
+            }
         if (!networks.isNullOrEmpty())
-            ContentLine(networks, false, R.string.network_browsing, titleFocusable = false, spannableDescription = true, onItemClick = { index -> onClick(networks!![index], index) }, onItemLongClick = { index -> onLongClick(networks!![index], index)})
+            ContentLine(
+                networks,
+                false,
+                R.string.network_browsing,
+                titleFocusable = false,
+                spannableDescription = true,
+                onItemClick = { index -> onClick(networks!![index], index) },
+                onItemLongClick = { index -> onLongClick(networks!![index], index) })
     }
 }
