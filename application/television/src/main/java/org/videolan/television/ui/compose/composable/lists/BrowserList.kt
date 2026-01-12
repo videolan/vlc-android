@@ -99,6 +99,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
             extras = browserExtras,
             key = path
         )
+        entry.providerClass = browserModel.provider::class.java
         val items by browserModel.dataset.observeAsState()
         val descriptionUpdates = browserModel.provider.descriptionUpdate.observeAsState()
 
