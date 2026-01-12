@@ -26,23 +26,15 @@ package org.videolan.television.ui.compose.composable.lists
 
 import android.app.Application
 import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -52,7 +44,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
@@ -109,6 +100,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
             key = path
         )
         val items by browserModel.dataset.observeAsState()
+        val descriptionUpdates = browserModel.provider.descriptionUpdate.observeAsState()
 
         val emptyState =
             if (items?.isEmpty() == true && !Permissions.canReadStorage(context))
@@ -161,28 +153,16 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                             ) {
                                 items(count = items?.size ?: 0) { index ->
                                     items!![index].let { item ->
-                                        AudioItemCard(
-                                            item, Modifier
-                                                .onFocusChanged {
-                                                    if (it.isFocused)
-                                                        lastFocusedItem = item.id
-                                                }, spannableDescription = true, onClick = { onClick(item, index) }, onLongClick = { onLongClick(item, index) })
-                                    }
-
-                                }
-
-                                if (browserModel.loading.value == true) {
-                                    item {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .aspectRatio(1f)
-                                                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp)),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            CircularProgressIndicator()
+                                        InvalidationComposable(descriptionUpdates.value?.first == index) {
+                                            AudioItemCard(
+                                                item, Modifier
+                                                    .onFocusChanged {
+                                                        if (it.isFocused)
+                                                            lastFocusedItem = item.id
+                                                    }, spannableDescription = true, onClick = { onClick(item, index) }, onLongClick = { onLongClick(item, index) })
                                         }
                                     }
+
                                 }
                             }
                         } else {
@@ -201,30 +181,16 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                             ) {
                                 items(count = items?.size ?: 0) { index ->
                                     items!![index].let { item ->
-                                        AudioItemList(
-                                            item, Modifier
-                                                .onFocusChanged {
-                                                    if (it.isFocused)
-                                                        lastFocusedItem = item.id
-                                                }, spannableDescription = true, onClick = { onClick(item, index) }, onLongClick = { onLongClick(item, index) })
-
-                                    }
-
-                                }
-
-                                if (browserModel.loading.value == true) {
-                                    item {
-                                        Box(
-                                            modifier = Modifier
-                                                .padding(bottom = 16.dp)
-                                                .fillMaxWidth()
-                                                .background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.medium)
-                                                .padding(vertical = 8.dp),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            CircularProgressIndicator()
+                                        InvalidationComposable(descriptionUpdates.value?.first == index) {
+                                            AudioItemList(
+                                                item, Modifier
+                                                    .onFocusChanged {
+                                                        if (it.isFocused)
+                                                            lastFocusedItem = item.id
+                                                    }, spannableDescription = true, onClick = { onClick(item, index) }, onLongClick = { onLongClick(item, index) })
                                         }
                                     }
+
                                 }
                             }
                         }
