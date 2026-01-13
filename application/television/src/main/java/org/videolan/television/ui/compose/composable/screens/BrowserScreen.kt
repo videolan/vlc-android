@@ -41,6 +41,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -120,7 +121,7 @@ fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel = v
                 val activity = LocalActivity.current as BrowserActivity
                 LabeledIconButton(
                     label = stringResource(R.string.close),
-                    vectorImage = Icons.AutoMirrored.Outlined.ArrowBack,
+                    vectorImage = Icons.Default.Close,
                     modifier = Modifier
                 ) {
                     activity.finish()
