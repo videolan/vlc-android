@@ -140,6 +140,7 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
                 false,
                 R.string.network_browsing,
                 titleFocusable = false,
+                browserRoot = true,
                 spannableDescription = true,
                 onItemClick = { index -> onClick(networks!![index], index) },
                 onItemLongClick = { index -> onLongClick(networks!![index], index) })
