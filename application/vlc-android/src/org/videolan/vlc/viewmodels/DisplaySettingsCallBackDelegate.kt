@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.videolan.tools.Settings
 import org.videolan.tools.conflatedActor
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -96,6 +97,13 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
                                 (it as MedialibraryProvider<*>).onlyFavorites = displaySettingsEvent.onlyFavorites
                         }
                     }
+                    if (displaySettingsEvent is DisplaySettingsEvent.OnlyMultimediaChanged) {
+                        getBrowserModel()?.updateShowAllFiles(displaySettingsEvent.onlyMultimedia)
+                    }
+                    if (displaySettingsEvent is DisplaySettingsEvent.ShowHiddenFilesChanged) {
+                        Settings.showHiddenFiles = displaySettingsEvent.showHiddenFiles
+                        getBrowserModel()?.refresh()
+                    }
                     if (displaySettingsEvent is DisplaySettingsEvent.ShowAllArtistsChanged) {
                         getAllProviders().forEach {
                             if (it is ArtistsProvider)
@@ -146,6 +154,8 @@ open class DisplaySettingsCallBackDelegate : IDisplaySettingsCallBackHandler
 
 sealed class DisplaySettingsEvent(val currentEntry: MediaListEntry, time: Long) {
     data class OnlyFavsChanged(val entry: MediaListEntry, val onlyFavorites: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
+    data class OnlyMultimediaChanged(val entry: MediaListEntry, val onlyMultimedia: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
+    data class ShowHiddenFilesChanged(val entry: MediaListEntry, val showHiddenFiles: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
     data class SortChanged(val entry: MediaListEntry, val sort: Int, val desc: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
     data class ShowAllArtistsChanged(val entry: MediaListEntry, val showAllArtists: Boolean): DisplaySettingsEvent(entry, System.currentTimeMillis())
     data class GroupingChanged(val entry: MediaListEntry): DisplaySettingsEvent(entry, System.currentTimeMillis())
@@ -158,6 +168,14 @@ object DisplaySettingsEventManager {
 
     suspend fun onOnlyFavsChanged(entry: MediaListEntry, onlyFavorites: Boolean) {
         _currentDisplaySettingsChange.emit(DisplaySettingsEvent.OnlyFavsChanged(entry, onlyFavorites))
+    }
+
+    suspend fun onOnlyMultimediaChanged(entry: MediaListEntry, onlyMultimedia: Boolean) {
+        _currentDisplaySettingsChange.emit(DisplaySettingsEvent.OnlyMultimediaChanged(entry, onlyMultimedia))
+    }
+
+    suspend fun onShowHiddenFilesChanged(entry: MediaListEntry, showHiddenFiles: Boolean) {
+        _currentDisplaySettingsChange.emit(DisplaySettingsEvent.ShowHiddenFilesChanged(entry, showHiddenFiles))
     }
 
     suspend fun onSortChanged(entry: MediaListEntry, sort: Int, desc: Boolean) {
