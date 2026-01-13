@@ -61,7 +61,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 
 @Composable
-fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int, onItemClick: (Int) -> Unit, onItemLongClick: (Int) -> Unit, titleFocusable: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit = {}) {
+fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: Int, browserRoot: Boolean = false, onItemClick: (Int) -> Unit, onItemLongClick: (Int) -> Unit, titleFocusable: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit = {}) {
     var focused by remember { mutableStateOf(false) }
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -106,7 +106,7 @@ fun ContentLine(items: List<MediaLibraryItem>?, historyLoading: Boolean?, text: 
         ) {
             items(items?.size ?: 0) { index ->
                 Box(modifier = Modifier.width(150.dp)) {
-                    AudioItem(items!!, index, spannableDescription = spannableDescription, onClick = { onItemClick(index) }, onLongClick = { onItemLongClick(index) })
+                    AudioItem(items!!, index, spannableDescription = spannableDescription, browserRoot = browserRoot, onClick = { onItemClick(index) }, onLongClick = { onItemLongClick(index) })
                 }
             }
         }
