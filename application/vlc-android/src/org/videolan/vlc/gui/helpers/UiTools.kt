@@ -1105,6 +1105,7 @@ fun BaseActivity.applyTheme() {
 }
 
 fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.itemType) {
+    MediaLibraryItem.TYPE_STORAGE -> R.drawable.ic_folder_big
     MediaLibraryItem.TYPE_ALBUM -> R.drawable.ic_album_big
     MediaLibraryItem.TYPE_ARTIST -> R.drawable.ic_artist_big
     MediaLibraryItem.TYPE_GENRE -> R.drawable.ic_genre_big
