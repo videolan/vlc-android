@@ -120,16 +120,8 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                             .aspectRatio(1F)
                     )
                 } else {
-                    val defaultIconId = when (item) {
-                        is Artist -> R.drawable.ic_artist_big
-                        is Album -> R.drawable.ic_album_big
-                        is Genre -> R.drawable.ic_genre_big
-                        is Playlist -> R.drawable.ic_playlist_big
-                        is DummyItem -> getTvIconRes(item)
-                        else -> R.drawable.ic_folder
-                    }
                     Image(
-                        painter = painterResource(id = defaultIconId),
+                        painter = painterResource(id = getTvIconRes(item)),
                         contentDescription = "Map snapshot",
                         modifier = Modifier
                             .width(150.dp)
@@ -234,15 +226,8 @@ fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                         .aspectRatio(1F)
                 )
             } else {
-                val defaultIconId = when (item) {
-                    is Artist -> R.drawable.ic_artist_big
-                    is Album -> R.drawable.ic_album_big
-                    is Genre -> R.drawable.ic_genre_big
-                    is Playlist -> R.drawable.ic_playlist_big
-                    else -> R.drawable.ic_folder
-                }
                 Image(
-                    painter = painterResource(id = defaultIconId),
+                    painter = painterResource(id = getTvIconRes(item)),
                     contentDescription = "Map snapshot",
                     modifier = Modifier
                         .fillMaxHeight()
