@@ -74,6 +74,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.KEY_GROUP_VIDEOS
 import org.videolan.tools.Settings
@@ -151,19 +153,51 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
                 }
 
                 //Only favs
-                var onlyFavs by remember { mutableStateOf(Settings.getInstance(context).getBoolean(current!!.onlyFavsKey, false)) }
-                val onFavClicked = {
-                    onlyFavs = !onlyFavs
-                    Settings.getInstance(context).putSingle(current!!.onlyFavsKey, onlyFavs)
-                    viewModel.changeDisplaySettings(current!!)
-                    coroutineScope.launch {
-                        DisplaySettingsEventManager.onOnlyFavsChanged(current!!, onlyFavs)
+                if (current!! != MediaListEntry.BROWSER) {
+                    var onlyFavs by remember { mutableStateOf(Settings.getInstance(context).getBoolean(current!!.onlyFavsKey, false)) }
+                    val onFavClicked = {
+                        onlyFavs = !onlyFavs
+                        Settings.getInstance(context).putSingle(current!!.onlyFavsKey, onlyFavs)
+                        viewModel.changeDisplaySettings(current!!)
+                        coroutineScope.launch {
+                            DisplaySettingsEventManager.onOnlyFavsChanged(current!!, onlyFavs)
+                        }
                     }
+                    DisplaySettingsLine(painterResource(R.drawable.ic_fav_remove), stringResource(R.string.show_only_favs), endView = {
+                        Checkbox(checked = onlyFavs, onCheckedChange = { onFavClicked() })
+                    }, onClick = { onFavClicked() })
                 }
-                DisplaySettingsLine(painterResource(R.drawable.ic_fav_remove), stringResource(R.string.show_only_favs), endView = {
-                    Checkbox(checked = onlyFavs, onCheckedChange = { onFavClicked() })
-                }, onClick = { onFavClicked() })
 
+                //Only multimedia
+                if (current!! == MediaListEntry.BROWSER) {
+                    var onlyMultimedia by remember { mutableStateOf(Settings.getInstance(context).getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false)) }
+                    val onMultimediaClicked = {
+                        onlyMultimedia = !onlyMultimedia
+                        Settings.getInstance(context).putSingle(BROWSER_SHOW_ONLY_MULTIMEDIA, onlyMultimedia)
+                        viewModel.changeDisplaySettings(current!!)
+                        coroutineScope.launch {
+                            DisplaySettingsEventManager.onOnlyMultimediaChanged(current!!, onlyMultimedia)
+                        }
+                    }
+                    DisplaySettingsLine(painterResource(R.drawable.ic_multimedia), stringResource(R.string.browser_show_all_title), endView = {
+                        Checkbox(checked = onlyMultimedia, onCheckedChange = { onMultimediaClicked() })
+                    }, onClick = { onMultimediaClicked() })
+                }
+                //Show hidden
+                if (current!! == MediaListEntry.BROWSER) {
+                    var showHiddenFiles by remember { mutableStateOf(Settings.getInstance(context).getBoolean(BROWSER_SHOW_HIDDEN_FILES, !Settings.tvUI)) }
+                    val onShowHiddenFilesClicked = {
+                        showHiddenFiles = !showHiddenFiles
+                        Settings.getInstance(context).putSingle(BROWSER_SHOW_HIDDEN_FILES, showHiddenFiles)
+                        viewModel.changeDisplaySettings(current!!)
+                        coroutineScope.launch {
+                            DisplaySettingsEventManager.onShowHiddenFilesChanged(current!!, showHiddenFiles)
+                        }
+                    }
+                    DisplaySettingsLine(painterResource(R.drawable.ic_hidden), stringResource(R.string.browser_show_hidden_files_title), endView = {
+                        Checkbox(checked = showHiddenFiles, onCheckedChange = { onShowHiddenFilesClicked() })
+                    }, onClick = { onShowHiddenFilesClicked() })
+                }
                 VideoGroupingItem(current!!, inGrouping) { newEntry, videoGroupingType ->
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onGroupingChanged(newEntry)
