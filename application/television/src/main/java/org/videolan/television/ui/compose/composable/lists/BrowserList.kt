@@ -36,12 +36,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -54,6 +56,7 @@ import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -71,6 +74,7 @@ import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.view.EmptyLoadingState
+import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -81,6 +85,14 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
 
     val context = LocalContext.current
     val root = fileBrowserViewModel.currentPathEntry.collectAsState()
+    var isFavorite by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+
+    val browserFavRepository = BrowserFavRepository.getInstance(context)
+    LaunchedEffect(Unit) {
+        isFavorite = (root.value as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } == true
+    }
+
     InvalidationComposable(root.value) {
         val entry = MediaListEntry.BROWSER
         val path = when (root.value) {
@@ -195,23 +207,38 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                 }
                             }
                         }
-                        MediaListSidePanel(
-                            MediaListSidePanelContent(
-                                showScrollToTop = true,
-                                showResumePlayback = false,
-                                if (inCard) gridState else listState,
-                                entry
-                            )
-                        ) { first, second ->
-                            when (first) {
-                                MediaListSidePanelListenerKey.DISPLAY_MODE -> {
-                                    inCard = second as Boolean
-                                    Settings.getInstance(context).edit { putBoolean(entry.inCardsKey, inCard) }
-                                    invalidate()
-                                }
+                        InvalidationComposable(isFavorite) {
+                            MediaListSidePanel(
+                                MediaListSidePanelContent(
+                                    showScrollToTop = true,
+                                    showResumePlayback = false,
+                                    isFavorite = isFavorite,
+                                    if (inCard) gridState else listState,
+                                    entry
+                                )
+                            ) { first, second ->
+                                when (first) {
+                                    MediaListSidePanelListenerKey.DISPLAY_MODE -> {
+                                        inCard = second as Boolean
+                                        Settings.getInstance(context).edit { putBoolean(entry.inCardsKey, inCard) }
+                                        invalidate()
+                                    }
 
-                                MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {
-                                    throw IllegalStateException("Cannot resume playback for file browser")
+                                    MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {
+                                        throw IllegalStateException("Cannot resume playback for file browser")
+                                    }
+
+                                    MediaListSidePanelListenerKey.CHANGE_FAVORITE -> {
+                                        (root.value as? MediaWrapper)?.let {
+                                            coroutineScope.launch {
+                                                if (second as Boolean)
+                                                    browserFavRepository.addLocalFavItem(it.uri, it.title, it.artworkURL)
+                                                else
+                                                    browserFavRepository.deleteBrowserFav(it.uri)
+                                                isFavorite = second
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
