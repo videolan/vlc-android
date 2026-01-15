@@ -201,7 +201,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                 showResumePlayback = false,
                                 if (inCard) gridState else listState,
                                 entry
-                            ), inGrouping = false
+                            )
                         ) { first, second ->
                             when (first) {
                                 MediaListSidePanelListenerKey.DISPLAY_MODE -> {
