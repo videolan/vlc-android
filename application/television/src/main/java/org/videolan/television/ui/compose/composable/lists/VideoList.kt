@@ -320,7 +320,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                         showResumePlayback = true,
                         if (inCard) gridState else listState,
                         entry
-                    ), group != null || folder!= null
+                    )
                 ) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
