@@ -98,6 +98,14 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, viewModel: MainActivi
             LabeledIconButton(stringResource(R.string.resume_playback_short_title), painterResource = painterResource(R.drawable.ic_resume_playback)) {
                 listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
             }
+        if (content.isFavorite == true)
+            LabeledIconButton(stringResource(R.string.favorites_remove), painterResource = painterResource(R.drawable.ic_fav_remove)) {
+                listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, false)
+            }
+        else if (content.isFavorite == false)
+            LabeledIconButton(stringResource(R.string.favorites_add), painterResource = painterResource(R.drawable.ic_fav_add)) {
+                listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, true)
+            }
         if (content.entry != null)
             LabeledIconButton(stringResource(R.string.display_settings), painterResource = painterResource(R.drawable.ic_display_settings)) {
                 viewModel.openDisplaySettings(content.entry)
@@ -106,12 +114,13 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, viewModel: MainActivi
 }
 
 enum class MediaListSidePanelListenerKey {
-    DISPLAY_MODE, RESUME_PLAYBACK
+    DISPLAY_MODE, RESUME_PLAYBACK, CHANGE_FAVORITE
 }
 
 data class MediaListSidePanelContent(
     val showScrollToTop: Boolean = true,
     val showResumePlayback: Boolean = true,
+    val isFavorite: Boolean? = null,
     val listState: ScrollableState,
     val entry: MediaListEntry?
 )

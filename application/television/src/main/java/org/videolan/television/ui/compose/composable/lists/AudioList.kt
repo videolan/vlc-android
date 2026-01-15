@@ -346,8 +346,8 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                     MediaListSidePanelContent(
                         showScrollToTop = true,
                         showResumePlayback = entry != MediaListEntry.ALL_PLAYLISTS,
-                        if (inCard) gridState else listState,
-                        entry
+                        listState = if (inCard) gridState else listState,
+                        entry = entry
                     )
                 ) { first, second ->
                     when (first) {
@@ -362,6 +362,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                             else
                                 MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_AUDIO)
                         }
+                        else -> throw IllegalStateException("Invalid event")
                     }
                 }
             }

@@ -318,8 +318,8 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                     MediaListSidePanelContent(
                         showScrollToTop = true,
                         showResumePlayback = true,
-                        if (inCard) gridState else listState,
-                        entry
+                        listState = if (inCard) gridState else listState,
+                        entry = entry
                     )
                 ) { first, second ->
                     when (first) {
@@ -331,6 +331,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                         MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {
                             MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_VIDEO)
                         }
+                        else -> throw IllegalStateException("Invalid event")
                     }
                 }
             }
