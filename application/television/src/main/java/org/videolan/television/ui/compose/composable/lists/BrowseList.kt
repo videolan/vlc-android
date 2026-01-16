@@ -25,12 +25,14 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.app.Application
+import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -40,6 +42,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
@@ -47,6 +50,7 @@ import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.viewmodels.browser.BrowserFavoritesModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.NetworkModel
@@ -86,7 +90,11 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
 
     val favorites by favoritesModel.favorites.observeAsState()
     val storages by browserModel.dataset.observeAsState()
-    val networks by networkModel.dataset.observeAsState()
+    networkModel.dataset.convertToFlow()
+    val networks = networkModel.dataset.datasetFlow.collectAsState()
+    networks.value.forEach {
+        if (BuildConfig.DEBUG) Log.d("NetworkDebug", "Network found: ${it.title} ${(it as MediaWrapper).uri}")
+    }
     Column(
         modifier = Modifier
             .focusProperties {
@@ -134,15 +142,17 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
                     onItemClick = { onClick(storages!![it], it) },
                     onItemLongClick = { onLongClick(storages!![it], it) })
             }
-        if (!networks.isNullOrEmpty())
-            ContentLine(
-                networks,
-                false,
-                R.string.network_browsing,
-                titleFocusable = false,
-                browserRoot = true,
-                spannableDescription = true,
-                onItemClick = { index -> onClick(networks!![index], index) },
-                onItemLongClick = { index -> onLongClick(networks!![index], index) })
+        InvalidationComposable(networks.value) {
+            if (!networks.value.isEmpty())
+                ContentLine(
+                    networks.value,
+                    false,
+                    R.string.network_browsing,
+                    titleFocusable = false,
+                    browserRoot = true,
+                    spannableDescription = true,
+                    onItemClick = { index -> onClick(networks.value[index], index) },
+                    onItemLongClick = { index -> onLongClick(networks.value[index], index) })
+        }
     }
 }
