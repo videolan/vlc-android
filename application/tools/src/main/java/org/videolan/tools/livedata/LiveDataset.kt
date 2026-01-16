@@ -25,6 +25,9 @@
 package org.videolan.tools.livedata
 
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 
 class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
@@ -35,9 +38,36 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
 
     fun isEmpty() = internalList.isEmpty()
 
+    private var useFlow = false
+        set(value) {
+            field = value
+            if (value) {
+                _datasetFlow.value = internalList.toMutableList()
+                super.setValue(emptyList)
+            } else {
+                super.setValue(internalList)
+                _datasetFlow.value = emptyList
+            }
+        }
+
+    private val _datasetFlow: MutableStateFlow<MutableList<T>> = MutableStateFlow(emptyList)
+    val datasetFlow: StateFlow<MutableList<T>> = _datasetFlow.asStateFlow()
+
+    /**
+     * Convert this dataset to a flow
+     * Empties the current LiveData value and use the flow instead
+     *
+     */
+    fun convertToFlow() {
+        useFlow = true
+    }
+
     override fun setValue(value: MutableList<T>?) {
         internalList = value ?: emptyList
-        super.setValue(value)
+        if (useFlow)
+            _datasetFlow.value = internalList.toMutableList()
+        else
+            super.setValue(value)
     }
 
     override fun getValue() = internalList
