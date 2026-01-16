@@ -24,17 +24,23 @@
 
 package org.videolan.television.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.television.util.EventThrottler
+import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.IDialogManager
 
-open class DefaultTvActivity : AppCompatActivity() {
+open class DefaultTvActivity : AppCompatActivity(), IDialogManager {
     private val horizontalThrottler = EventThrottler(75L)
     private val verticalThrottler = EventThrottler(100L)
+    private val dialogsDelegate = DialogDelegate()
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (event.action != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event)
@@ -59,5 +65,13 @@ open class DefaultTvActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!Medialibrary.getInstance().isStarted) startMedialibrary(firstRun = false, upgrade = false, parse = true)
+        dialogsDelegate.observeDialogs(this, this)
     }
+
+    override fun fireDialog(dialog: Dialog) {
+        DialogActivity.dialog = dialog
+        startActivity(Intent(DialogActivity.KEY_DIALOG, null, this, DialogActivity::class.java))
+    }
+
+    override fun dialogCanceled(dialog: Dialog?) { }
 }
