@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -89,7 +90,6 @@ fun AudioItem(audios: List<MediaLibraryItem>, index: Int, inCard: Boolean = true
 fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
-    val activity = LocalActivity.current
     val focused = remember { mutableStateOf(false) }
     if (item != mapBitmap.value?.first) mapBitmap.value = null
 
@@ -108,7 +108,13 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                     interactionSource = null
                 )
         ) {
-            Box(contentAlignment = Alignment.BottomEnd) {
+            Box(
+                contentAlignment = Alignment.BottomEnd,
+                modifier = Modifier
+                    .width(150.dp)
+                    .aspectRatio(1F)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+            ) {
                 if (mapBitmap.value?.second != null) {
                     Image(
                         bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
@@ -123,9 +129,8 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                         painter = painterResource(id = getTvIconRes(item)),
                         contentDescription = "Map snapshot",
                         modifier = Modifier
-                            .width(150.dp)
-                            .aspectRatio(1F)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(24.dp)
+                            .fillMaxSize()
                     )
                     LaunchedEffect(key1 = "") {
                         coroutineScope.launch {
@@ -141,7 +146,6 @@ fun AudioItemCard(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                         Text(
                             it, modifier = Modifier
                                 .padding(8.dp)
-                                .clip(RoundedCornerShape(8.dp))
                                 .background(BlackTransparent70)
                                 .padding(4.dp)
                         )
@@ -242,6 +246,7 @@ fun AudioItemList(item: MediaLibraryItem, modifier: Modifier = Modifier, spannab
                         .fillMaxHeight()
                         .aspectRatio(1F)
                         .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(8.dp)
                 )
                 LaunchedEffect(key1 = "") {
                     coroutineScope.launch {
