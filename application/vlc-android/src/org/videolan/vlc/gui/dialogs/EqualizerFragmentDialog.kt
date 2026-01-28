@@ -117,10 +117,11 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 fillPreamp()
             }
 
-            if (viewModel.needForceRefresh || oldCurrentEqualizer == null || oldCurrentEqualizer?.equalizerEntry?.id != viewModel.getCurrentEqualizer().equalizerEntry.id) {
+            if (binding.equalizerBands.isEmpty() || viewModel.needForceRefresh || oldCurrentEqualizer == null || oldCurrentEqualizer?.equalizerEntry?.id != viewModel.getCurrentEqualizer().equalizerEntry.id) {
                 fillBands()
                 viewModel.needForceRefresh = false
                 binding.name = viewModel.getCurrentEqualizer().equalizerEntry.name
+                updateEnabledState()
             }
             binding.undo.isEnabled = viewModel.history.isNotEmpty()
             if (oldCurrentEqualizer == null) fillViews()
