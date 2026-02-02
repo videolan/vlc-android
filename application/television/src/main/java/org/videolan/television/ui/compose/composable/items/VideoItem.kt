@@ -192,6 +192,10 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                 )
             }
         }
+        if (expanded)
+            ItemOptions(video, position, entry, onDismiss = {
+                expanded = false
+            })
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -227,10 +231,6 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
             }
         }
     }
-    if (expanded)
-        ItemOptions(video, position, entry, onDismiss = {
-            expanded = false
-        })
 }
 
 fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = when (this) {
