@@ -51,6 +51,7 @@ import org.videolan.television.ui.compose.composable.components.InvalidationComp
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.viewmodels.browser.BrowserFavoritesModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.NetworkModel
@@ -121,6 +122,7 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
             InvalidationComposable(favoritesModelDescriptionUpdates.value) {
                 ContentLine(
                     favorites,
+                    MediaListEntry.BROWSER.apply { isRoot = true },
                     false,
                     R.string.favorites,
                     titleFocusable = false,
@@ -135,6 +137,7 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
             InvalidationComposable(storagesModelDescriptionUpdates.value) {
                 ContentLine(
                     storages,
+                    MediaListEntry.BROWSER.apply { isRoot = true },
                     false,
                     R.string.browser_storages,
                     titleFocusable = false,
@@ -146,6 +149,7 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
             if (!networks.value.isEmpty())
                 ContentLine(
                     networks.value,
+                    MediaListEntry.BROWSER.apply { isRoot = true },
                     false,
                     R.string.network_browsing,
                     titleFocusable = false,

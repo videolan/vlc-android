@@ -124,11 +124,27 @@ enum class MediaListEntry(
         onlyFavsKey = "",
         defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.FILE,
         providerClass = BrowserProvider::class.java
+    ),
+    HISTORY(
+        inCardsKey = KEY_VIDEOS_CARDS,
+        defaultInCard = true,
+        onlyFavsKey = "",
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.FILE,
+        providerClass = BrowserProvider::class.java
+    ),
+    STREAMS(
+        inCardsKey = KEY_VIDEOS_CARDS,
+        defaultInCard = true,
+        onlyFavsKey = "",
+        defaultPlaybackActionMediaType = DefaultPlaybackActionMediaType.FILE,
+        providerClass = BrowserProvider::class.java
     );
 
     lateinit var sorts: List<Int>
     var  currentSort: Int = Medialibrary.SORT_DEFAULT
     var  currentSortDesc: Boolean = false
+    var isRoot = false
+    var isGroup = false
 
     /**
      * Display this entry in cards

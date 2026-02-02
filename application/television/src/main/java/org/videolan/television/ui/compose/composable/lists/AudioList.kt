@@ -78,7 +78,6 @@ import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
-import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
@@ -106,7 +105,6 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -292,12 +290,8 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                 }
             }
         }
-        val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
-            when (item) {
-                is MediaWrapper -> TvUtil.showMediaDetail(activity, item, false)
-                is DummyItem -> (activity as? FragmentActivity)?.askStoragePermission(false, null)
-                else -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
-            }
+        mainActivityViewModel.addCtxClickListener(entry) { item, ctxMenuItem ->
+            if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
         }
 
         val emptyState = if (audios.loadState.refresh == LoadState.Loading)
@@ -327,7 +321,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { audio, index, modifier ->
-                            AudioItemCard(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
+                            AudioItemCard(audio, entry, modifier, onClick = { onClick(audio, index) })
                         }
                     } else {
                         PaginatedList(
@@ -339,7 +333,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { audio, index, modifier ->
-                            AudioItemList(audio, modifier, onClick = { onClick(audio, index) }, onLongClick = { onLongClick(audio, index) })
+                            AudioItemList(audio, entry, modifier, onClick = { onClick(audio, index) })
                         }
                     }
                 MediaListSidePanel(
