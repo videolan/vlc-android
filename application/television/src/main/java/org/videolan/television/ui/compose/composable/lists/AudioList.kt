@@ -290,7 +290,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                 }
             }
         }
-        mainActivityViewModel.addCtxClickListener(entry) { item, ctxMenuItem ->
+        mainActivityViewModel.addCtxClickListener(entry) { item, position, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
         }
 
@@ -321,7 +321,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { audio, index, modifier ->
-                            AudioItemCard(audio, entry, modifier, onClick = { onClick(audio, index) })
+                            AudioItemCard(audio, index, entry, modifier, onClick = { onClick(audio, index) })
                         }
                     } else {
                         PaginatedList(
@@ -333,7 +333,7 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { audio, index, modifier ->
-                            AudioItemList(audio, entry, modifier, onClick = { onClick(audio, index) })
+                            AudioItemList(audio, index, entry, modifier, onClick = { onClick(audio, index) })
                         }
                     }
                 MediaListSidePanel(

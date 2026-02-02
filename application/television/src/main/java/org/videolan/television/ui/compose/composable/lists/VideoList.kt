@@ -64,6 +64,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -105,6 +106,7 @@ import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.ContextOption
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -209,9 +211,12 @@ fun VideoListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
 
 @Composable
 fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: VideoGroup? = null, mainActivityViewModel: MainActivityViewModel = viewModel()) {
+    val activity = LocalActivity.current
+    val settings = Settings.getInstance(activity!!)
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
     val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
+    val castAsAudio = PlaybackService.renderer.value != null && settings.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
     InvalidationComposable(displaySettingsChange) { invalidate ->
         val context = LocalContext.current
 
@@ -226,9 +231,9 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
         )
 
         val videos = viewModel.provider.pager.collectAsLazyPagingItems()
-        var inCard by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_VIDEOS_CARDS, true)) }
+        var inCard by remember { mutableStateOf(settings.getBoolean(KEY_VIDEOS_CARDS, true)) }
 
-        val entry = when (Settings.getInstance(context).getString(KEY_GROUP_VIDEOS, VideoGroupingType.NAME.settingsKey)) {
+        val entry = when (settings.getString(KEY_GROUP_VIDEOS, VideoGroupingType.NAME.settingsKey)) {
             VideoGroupingType.NAME.settingsKey -> MediaListEntry.VIDEO_GROUPS
             VideoGroupingType.FOLDER.settingsKey -> MediaListEntry.VIDEO_FOLDER
             else -> MediaListEntry.VIDEO
@@ -241,7 +246,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
         entry.currentSortDesc = viewModel.provider.desc
         entry.isGroup = group != null
 
-        mainActivityViewModel.addCtxClickListener(entry) { item, ctxMenuItem ->
+        mainActivityViewModel.addCtxClickListener(entry) { item, position, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
         }
 
@@ -258,15 +263,12 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
         else
             EmptyLoadingState.NONE
         VlcEmptyViewLoader(emptyState) {
-            val activity = LocalActivity.current
             val onClick:(MediaLibraryItem, Int) -> Unit = { video, position ->
                 if (video is Folder || video is VideoGroup) {
-                    activity!!.openVideoGroupFolder(video)
+                    activity.openVideoGroupFolder(video)
                 } else {
                     if (video !is MediaWrapper) throw IllegalStateException("Wrong video type")
                     if (activity !is AppCompatActivity) throw IllegalStateException("Wrong activity type")
-                    val settings = Settings.getInstance(activity)
-                    val castAsAudio = PlaybackService.renderer.value != null && settings.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
                     if (castAsAudio) {
                         video.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                         PlaylistManager.playingAsAudio = true
@@ -304,7 +306,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { video, position, modifier ->
-                            VideoItem(video, entry, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                            VideoItem(video, entry, position, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
                         }
                     } else {
                         PaginatedList(
@@ -316,7 +318,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { video, position, modifier ->
-                            VideoItemList(video, entry, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                            VideoItemList(video,  position, entry, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
                         }
                     }
                 MediaListSidePanel(
@@ -330,7 +332,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
                             inCard = second as Boolean
-                            Settings.getInstance(context).edit { putBoolean(KEY_VIDEOS_CARDS, inCard) }
+                            settings.edit { putBoolean(KEY_VIDEOS_CARDS, inCard) }
                             invalidate()
                         }
                         MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {

@@ -113,10 +113,10 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
         val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
             mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
         }
-        mainViewmodel.addCtxClickListener(MediaListEntry.HISTORY) { item, ctxMenuItem ->
+        mainViewmodel.addCtxClickListener(MediaListEntry.HISTORY) { item, position, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list ${MediaListEntry.HISTORY}")
         }
-        mainViewmodel.addCtxClickListener(MediaListEntry.STREAMS) { item, ctxMenuItem ->
+        mainViewmodel.addCtxClickListener(MediaListEntry.STREAMS) { item, position, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list ${MediaListEntry.STREAMS}")
         }
         if (!history.isNullOrEmpty())
