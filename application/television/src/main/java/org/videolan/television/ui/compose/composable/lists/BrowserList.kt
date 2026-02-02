@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.app.Application
+import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -61,7 +62,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.components.BrowserItemCtxFlags
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
@@ -71,8 +72,8 @@ import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
 import org.videolan.television.viewmodel.FileBrowserViewModel
 import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.Settings
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.MediaListEntry
@@ -128,9 +129,6 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
         val onClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
             fileBrowserViewModel.setCurrentPathEntry(item)
         }
-        val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
-            mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-        }
         val listState = rememberLazyListState()
         val gridState = rememberLazyGridState()
         var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
@@ -141,7 +139,10 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
         entry.sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME)
         entry.currentSort = browserModel.provider.sort
         entry.currentSortDesc = browserModel.provider.desc
-
+        entry.isRoot = (root.value as? MediaWrapper)?.uri.toString().isEmpty()
+        mainActivityViewModel.addCtxClickListener(entry) { item, ctxMenuItem ->
+            if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
+        }
         val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
         InvalidationComposable(displaySettingsChange) { invalidate ->
             var inCard by remember { mutableStateOf(entry.displayInCard(context)) }
@@ -167,12 +168,18 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                 items(count = items?.size ?: 0) { index ->
                                     items!![index].let { item ->
                                         InvalidationComposable(descriptionUpdates.value?.first == index) {
+                                            //add metadata to be used by ctx actions
+                                            if (item is MediaWrapper) {
+                                                if (browserModel.isFolderEmpty(item)) item.addFlags(BrowserItemCtxFlags.isFolderEmpty)
+                                                if (browserModel.provider.hasMedias(item)) item.addFlags(BrowserItemCtxFlags.hasMedias)
+                                                if (browserModel.provider.hasSubfolders(item)) item.addFlags(BrowserItemCtxFlags.hasSubfolders)
+                                            }
                                             AudioItemCard(
-                                                item, Modifier
+                                                item, entry, Modifier
                                                     .onFocusChanged {
                                                         if (it.isFocused)
                                                             lastFocusedItem = item.id
-                                                    }, spannableDescription = true, onClick = { onClick(item, index) }, onLongClick = { onLongClick(item, index) })
+                                                    }, spannableDescription = true, onClick = { onClick(item, index) })
                                         }
                                     }
 
@@ -196,11 +203,11 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                     items!![index].let { item ->
                                         InvalidationComposable(descriptionUpdates.value?.first == index) {
                                             AudioItemList(
-                                                item, Modifier
+                                                item, entry, Modifier
                                                     .onFocusChanged {
                                                         if (it.isFocused)
                                                             lastFocusedItem = item.id
-                                                    }, spannableDescription = true, onClick = { onClick(item, index) }, onLongClick = { onLongClick(item, index) })
+                                                    }, spannableDescription = true, onClick = { onClick(item, index) })
                                         }
                                     }
 

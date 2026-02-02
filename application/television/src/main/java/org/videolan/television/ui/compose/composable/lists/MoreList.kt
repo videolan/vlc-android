@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.lists
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
@@ -56,7 +57,9 @@ import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.MoreViewModel
 import org.videolan.television.viewmodel.SnackbarContent
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 
 @Composable
@@ -110,11 +113,17 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
         val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
             mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
         }
+        mainViewmodel.addCtxClickListener(MediaListEntry.HISTORY) { item, ctxMenuItem ->
+            if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list ${MediaListEntry.HISTORY}")
+        }
+        mainViewmodel.addCtxClickListener(MediaListEntry.STREAMS) { item, ctxMenuItem ->
+            if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list ${MediaListEntry.STREAMS}")
+        }
         if (!history.isNullOrEmpty())
-            ContentLine(history, historyLoading, R.string.history, onItemClick = { onClick(history!![it], it) }, onItemLongClick = { onLongClick(history!![it], it) }) {
+            ContentLine(history, MediaListEntry.HISTORY, historyLoading, R.string.history, onItemClick = { onClick(history!![it], it) }, onItemLongClick = { onLongClick(history!![it], it) }) {
                 mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
             }
-        ContentLine(streams, streamsLoading, R.string.streams, onItemClick = { onClick(streams!![it], it) }, onItemLongClick = { onLongClick(streams!![it], it) }) {
+        ContentLine(streams, MediaListEntry.STREAMS, streamsLoading, R.string.streams, onItemClick = { onClick(streams!![it], it) }, onItemLongClick = { onLongClick(streams!![it], it) }) {
             val intent = Intent(activity, TVActivity::class.java)
             intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
             activity?.startActivity(intent)

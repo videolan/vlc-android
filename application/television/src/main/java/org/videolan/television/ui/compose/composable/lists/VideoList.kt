@@ -239,6 +239,11 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
         }
         entry.currentSort = viewModel.provider.sort
         entry.currentSortDesc = viewModel.provider.desc
+        entry.isGroup = group != null
+
+        mainActivityViewModel.addCtxClickListener(entry) { item, ctxMenuItem ->
+            if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
+        }
 
         val emptyState = if (videos.loadState.refresh == LoadState.Loading)
             EmptyLoadingState.LOADING
@@ -299,7 +304,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { video, position, modifier ->
-                            VideoItem(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                            VideoItem(video, entry, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
                         }
                     } else {
                         PaginatedList(
@@ -311,7 +316,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { video, position, modifier ->
-                            VideoItemList(video, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                            VideoItemList(video, entry, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
                         }
                     }
                 MediaListSidePanel(

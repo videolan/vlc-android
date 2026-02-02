@@ -77,6 +77,7 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
+import org.videolan.television.ui.compose.composable.components.ItemOptions
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
@@ -84,18 +85,20 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
-fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
+fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
     if (video != mapBitmap.value?.first) mapBitmap.value = null
+    var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = modifier.width(280.dp)) {
         Card(
@@ -109,7 +112,7 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel:
                         onClick()
                     },
                     onLongClick = {
-                        onLongClick()
+                        expanded = true
                     },
                     indication = null,
                     interactionSource = null
@@ -224,6 +227,10 @@ fun VideoItem(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel:
             }
         }
     }
+    if (expanded)
+        ItemOptions(video, entry, onDismiss = {
+            expanded = false
+        })
 }
 
 fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = when (this) {
@@ -257,12 +264,13 @@ fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = wh
 
 
 @Composable
-fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
+fun VideoItemList(video: MediaLibraryItem, entry: MediaListEntry, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
     if (video != mapBitmap.value?.first) mapBitmap.value = null
+    var expanded by remember { mutableStateOf(false) }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -277,7 +285,7 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier, viewMo
                     onClick()
                 },
                 onLongClick = {
-                    onLongClick()
+                    expanded = true
                 },
                 indication = null,
                 interactionSource = null
@@ -345,6 +353,10 @@ fun VideoItemList(video: MediaLibraryItem, modifier: Modifier = Modifier, viewMo
                     )
                 }
             }
+            if (expanded)
+                ItemOptions(video, entry, onDismiss = {
+                    expanded = false
+                })
         }
         Column(
             modifier = Modifier

@@ -103,5 +103,9 @@ enum class ContextOption : Flag {
             remove(CTX_ADD_SHORTCUT)
             addAll(CTX_BAN_FOLDER, CTX_MARK_ALL_AS_PLAYED, CTX_MARK_ALL_AS_UNPLAYED, CTX_PLAY_ALL)
         }
+
+        fun createCtxHistoryFlags() = createBaseFlags().apply {
+            addAll(CTX_PLAY, CTX_INFORMATION, CTX_GO_TO_FOLDER)
+        }
     }
 }

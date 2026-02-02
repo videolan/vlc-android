@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.dialogs
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -147,53 +148,10 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         val flags = FlagSet(ContextOption::class.java).apply {
             setCapabilities(arguments?.getLong(CTX_FLAGS_KEY) ?: 0)
         }
-        menuItems = populateMenuItems(flags)
+        menuItems = populateMenuItems(requireActivity(), flags)
     }
 
-    private fun populateMenuItems(flags: FlagSet<ContextOption>) = mutableListOf<CtxMenuItem>().apply {
-
-        if (flags.contains(CTX_PLAY)) add(Simple(CTX_PLAY, getString(R.string.play), R.drawable.ic_play))
-        if (flags.contains(CTX_QUICK_PLAY)) add(Simple(CTX_QUICK_PLAY, getString(R.string.quick_play), R.drawable.ic_play))
-        if (flags.contains(CTX_PLAY_SHUFFLE)) add(Simple(CTX_PLAY_SHUFFLE, getString(R.string.shuffle_play), R.drawable.ic_shuffle))
-        if (flags.contains(CTX_PLAY_FROM_START)) add(Simple(CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_play_from_start))
-        if (flags.contains(CTX_PLAY_ALL)) add(Simple(CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_play_all))
-        if (flags.contains(CTX_PLAY_AS_AUDIO)) add(Simple(CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_play_as_audio))
-        if (flags.contains(CTX_APPEND)) add(Simple(CTX_APPEND, getString(R.string.append), R.drawable.ic_play_append))
-        if (flags.contains(CTX_PLAY_NEXT)) add(Simple(CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_play_next))
-        if (flags.contains(CTX_DOWNLOAD_SUBTITLES) && VlcMigrationHelper.isLolliPopOrLater) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_download_subtitles))
-        if (flags.contains(CTX_INFORMATION)) add(Simple(CTX_INFORMATION, getString(R.string.info), R.drawable.ic_information))
-        if (flags.contains(CTX_GO_TO_ALBUM)) add(Simple(CTX_GO_TO_ALBUM, getString(R.string.go_to_album), R.drawable.ic_album))
-        if (flags.contains(CTX_GO_TO_ARTIST)) add(Simple(CTX_GO_TO_ARTIST, getString(R.string.go_to_artist), R.drawable.ic_no_artist))
-        if (flags.contains(CTX_GO_TO_ALBUM_ARTIST)) add(Simple(CTX_GO_TO_ALBUM_ARTIST, getString(R.string.go_to_album_artist), R.drawable.ic_no_artist))
-        if (flags.contains(CTX_ADD_TO_PLAYLIST)) add(Simple(CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_add_to_playlist))
-        if (flags.contains(CTX_SET_RINGTONE) && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_set_ringtone))
-        if (flags.contains(CTX_FAV_ADD)) add(Simple(CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_fav_add))
-        if (flags.contains(CTX_ADD_SCANNED)) add(Simple(CTX_ADD_SCANNED, getString(R.string.add_to_scanned), R.drawable.ic_add_to_scan))
-        if (flags.contains(CTX_FAV_EDIT)) add(Simple(CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_edit))
-        if (flags.contains(CTX_FAV_REMOVE)) add(Simple(CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_fav_remove))
-        if (flags.contains(CTX_REMOVE_FROM_PLAYLIST)) add(Simple(CTX_REMOVE_FROM_PLAYLIST, getString(R.string.remove), R.drawable.ic_remove_from_playlist))
-        if (flags.contains(CTX_STOP_AFTER_THIS)) add(Simple(CTX_STOP_AFTER_THIS, getString(R.string.stop_after_this), R.drawable.ic_stop_after_this))
-        if (flags.contains(CTX_RENAME)) add(Simple(CTX_RENAME, getString(R.string.rename), R.drawable.ic_edit))
-        if (flags.contains(CTX_COPY)) add(Simple(CTX_COPY, getString(R.string.copy_to_clipboard), R.drawable.ic_link))
-        if (flags.contains(CTX_DELETE)) add(Simple(CTX_DELETE, getString(R.string.delete), R.drawable.ic_delete))
-        if (flags.contains(CTX_SHARE)) add(Simple(CTX_SHARE, getString(R.string.share), R.drawable.ic_share))
-        if (flags.contains(CTX_ADD_SHORTCUT) && ShortcutManagerCompat.isRequestPinShortcutSupported(requireActivity())) add(Simple(CTX_ADD_SHORTCUT, getString(R.string.create_shortcut), R.drawable.ic_app_shortcut))
-        if (flags.contains(CTX_FIND_METADATA)) add(Simple(CTX_FIND_METADATA, getString(R.string.find_metadata), R.drawable.ic_delete))
-        if (flags.contains(CTX_ADD_FOLDER_PLAYLIST)) add(Simple(CTX_ADD_FOLDER_PLAYLIST, getString(R.string.this_folder), R.drawable.ic_add_to_playlist))
-        if (flags.contains(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)) add(Simple(CTX_ADD_FOLDER_AND_SUB_PLAYLIST, getString(R.string.all_subfolders), R.drawable.ic_add_to_playlist))
-        if (flags.contains(CTX_ADD_GROUP)) add(Simple(CTX_ADD_GROUP, getString(R.string.add_to_group), R.drawable.ic_add_to_group))
-        if (flags.contains(CTX_REMOVE_GROUP)) add(Simple(CTX_REMOVE_GROUP, getString(R.string.remove_from_group), R.drawable.ic_remove_from_group))
-        if (flags.contains(CTX_RENAME_GROUP)) add(Simple(CTX_RENAME_GROUP, getString(R.string.rename_group), R.drawable.ic_edit))
-        if (flags.contains(CTX_UNGROUP)) add(Simple(CTX_UNGROUP, getString(R.string.ungroup), R.drawable.ic_delete))
-        if (flags.contains(CTX_GROUP_SIMILAR)) add(Simple(CTX_GROUP_SIMILAR, getString(R.string.group_similar), R.drawable.ic_group_auto))
-        if (flags.contains(CTX_MARK_AS_PLAYED)) add(Simple(CTX_MARK_AS_PLAYED, getString(R.string.mark_as_played), R.drawable.ic_mark_as_played))
-        if (flags.contains(CTX_MARK_AS_UNPLAYED)) add(Simple(CTX_MARK_AS_UNPLAYED, getString(R.string.mark_as_not_played), R.drawable.ic_mark_as_not_played))
-        if (flags.contains(CTX_MARK_ALL_AS_PLAYED)) add(Simple(CTX_MARK_ALL_AS_PLAYED, getString(R.string.mark_all_as_played), R.drawable.ic_mark_all_as_played))
-        if (flags.contains(CTX_MARK_ALL_AS_UNPLAYED)) add(Simple(CTX_MARK_ALL_AS_UNPLAYED, getString(R.string.mark_all_as_not_played), R.drawable.ic_mark_all_as_not_played))
-        if (flags.contains(CTX_GO_TO_FOLDER)) add(Simple(CTX_GO_TO_FOLDER, getString(R.string.go_to_folder), R.drawable.ic_browse_parent))
-        if (flags.contains(CTX_CUSTOM_REMOVE)) add(Simple(CTX_CUSTOM_REMOVE, getString(R.string.remove_custom_path), R.drawable.ic_delete))
-        if (flags.contains(CTX_BAN_FOLDER)) add(Simple(CTX_BAN_FOLDER, getString(R.string.group_ban_folder), R.drawable.ic_hide_source))
-    }
+    
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {
 
@@ -219,6 +177,53 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.binding.menuItem = menuItems[position]
             holder.binding.contextOptionIcon.setImageResource(menuItems[position].icon)
+        }
+    }
+    
+    companion object {
+        fun populateMenuItems(context: Activity, flags: FlagSet<ContextOption>) = mutableListOf<CtxMenuItem>().apply {
+
+            if (flags.contains(CTX_PLAY)) add(Simple(CTX_PLAY, context.getString(R.string.play), R.drawable.ic_play))
+            if (flags.contains(CTX_QUICK_PLAY)) add(Simple(CTX_QUICK_PLAY, context.getString(R.string.quick_play), R.drawable.ic_play))
+            if (flags.contains(CTX_PLAY_SHUFFLE)) add(Simple(CTX_PLAY_SHUFFLE, context.getString(R.string.shuffle_play), R.drawable.ic_shuffle))
+            if (flags.contains(CTX_PLAY_FROM_START)) add(Simple(CTX_PLAY_FROM_START, context.getString(R.string.play_from_start), R.drawable.ic_play_from_start))
+            if (flags.contains(CTX_PLAY_ALL)) add(Simple(CTX_PLAY_ALL, context.getString(R.string.play_all), R.drawable.ic_play_all))
+            if (flags.contains(CTX_PLAY_AS_AUDIO)) add(Simple(CTX_PLAY_AS_AUDIO, context.getString(R.string.play_as_audio), R.drawable.ic_play_as_audio))
+            if (flags.contains(CTX_APPEND)) add(Simple(CTX_APPEND, context.getString(R.string.append), R.drawable.ic_play_append))
+            if (flags.contains(CTX_PLAY_NEXT)) add(Simple(CTX_PLAY_NEXT, context.getString(R.string.insert_next), R.drawable.ic_play_next))
+            if (flags.contains(CTX_DOWNLOAD_SUBTITLES) && VlcMigrationHelper.isLolliPopOrLater) add(Simple(CTX_DOWNLOAD_SUBTITLES, context.getString(R.string.download_subtitles), R.drawable.ic_download_subtitles))
+            if (flags.contains(CTX_INFORMATION)) add(Simple(CTX_INFORMATION, context.getString(R.string.info), R.drawable.ic_information))
+            if (flags.contains(CTX_GO_TO_ALBUM)) add(Simple(CTX_GO_TO_ALBUM, context.getString(R.string.go_to_album), R.drawable.ic_album))
+            if (flags.contains(CTX_GO_TO_ARTIST)) add(Simple(CTX_GO_TO_ARTIST, context.getString(R.string.go_to_artist), R.drawable.ic_no_artist))
+            if (flags.contains(CTX_GO_TO_ALBUM_ARTIST)) add(Simple(CTX_GO_TO_ALBUM_ARTIST, context.getString(R.string.go_to_album_artist), R.drawable.ic_no_artist))
+            if (flags.contains(CTX_ADD_TO_PLAYLIST)) add(Simple(CTX_ADD_TO_PLAYLIST, context.getString(R.string.add_to_playlist), R.drawable.ic_add_to_playlist))
+            if (flags.contains(CTX_SET_RINGTONE) && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, context.getString(R.string.set_song), R.drawable.ic_set_ringtone))
+            if (flags.contains(CTX_FAV_ADD)) add(Simple(CTX_FAV_ADD, context.getString(R.string.favorites_add), R.drawable.ic_fav_add))
+            if (flags.contains(CTX_ADD_SCANNED)) add(Simple(CTX_ADD_SCANNED, context.getString(R.string.add_to_scanned), R.drawable.ic_add_to_scan))
+            if (flags.contains(CTX_FAV_EDIT)) add(Simple(CTX_FAV_EDIT, context.getString(R.string.favorites_edit), R.drawable.ic_edit))
+            if (flags.contains(CTX_FAV_REMOVE)) add(Simple(CTX_FAV_REMOVE, context.getString(R.string.favorites_remove), R.drawable.ic_fav_remove))
+            if (flags.contains(CTX_REMOVE_FROM_PLAYLIST)) add(Simple(CTX_REMOVE_FROM_PLAYLIST, context.getString(R.string.remove), R.drawable.ic_remove_from_playlist))
+            if (flags.contains(CTX_STOP_AFTER_THIS)) add(Simple(CTX_STOP_AFTER_THIS, context.getString(R.string.stop_after_this), R.drawable.ic_stop_after_this))
+            if (flags.contains(CTX_RENAME)) add(Simple(CTX_RENAME, context.getString(R.string.rename), R.drawable.ic_edit))
+            if (flags.contains(CTX_COPY)) add(Simple(CTX_COPY, context.getString(R.string.copy_to_clipboard), R.drawable.ic_link))
+            if (flags.contains(CTX_DELETE)) add(Simple(CTX_DELETE, context.getString(R.string.delete), R.drawable.ic_delete))
+            if (flags.contains(CTX_SHARE)) add(Simple(CTX_SHARE, context.getString(R.string.share), R.drawable.ic_share))
+            if (flags.contains(CTX_ADD_SHORTCUT) && ShortcutManagerCompat.isRequestPinShortcutSupported(context)) add(Simple(CTX_ADD_SHORTCUT, context.getString(R.string.create_shortcut), R.drawable.ic_app_shortcut))
+            if (flags.contains(CTX_FIND_METADATA)) add(Simple(CTX_FIND_METADATA, context.getString(R.string.find_metadata), R.drawable.ic_delete))
+            if (flags.contains(CTX_ADD_FOLDER_PLAYLIST)) add(Simple(CTX_ADD_FOLDER_PLAYLIST, context.getString(R.string.this_folder), R.drawable.ic_add_to_playlist))
+            if (flags.contains(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)) add(Simple(CTX_ADD_FOLDER_AND_SUB_PLAYLIST, context.getString(R.string.all_subfolders), R.drawable.ic_add_to_playlist))
+            if (flags.contains(CTX_ADD_GROUP)) add(Simple(CTX_ADD_GROUP, context.getString(R.string.add_to_group), R.drawable.ic_add_to_group))
+            if (flags.contains(CTX_REMOVE_GROUP)) add(Simple(CTX_REMOVE_GROUP, context.getString(R.string.remove_from_group), R.drawable.ic_remove_from_group))
+            if (flags.contains(CTX_RENAME_GROUP)) add(Simple(CTX_RENAME_GROUP, context.getString(R.string.rename_group), R.drawable.ic_edit))
+            if (flags.contains(CTX_UNGROUP)) add(Simple(CTX_UNGROUP, context.getString(R.string.ungroup), R.drawable.ic_delete))
+            if (flags.contains(CTX_GROUP_SIMILAR)) add(Simple(CTX_GROUP_SIMILAR, context.getString(R.string.group_similar), R.drawable.ic_group_auto))
+            if (flags.contains(CTX_MARK_AS_PLAYED)) add(Simple(CTX_MARK_AS_PLAYED, context.getString(R.string.mark_as_played), R.drawable.ic_mark_as_played))
+            if (flags.contains(CTX_MARK_AS_UNPLAYED)) add(Simple(CTX_MARK_AS_UNPLAYED, context.getString(R.string.mark_as_not_played), R.drawable.ic_mark_as_not_played))
+            if (flags.contains(CTX_MARK_ALL_AS_PLAYED)) add(Simple(CTX_MARK_ALL_AS_PLAYED, context.getString(R.string.mark_all_as_played), R.drawable.ic_mark_all_as_played))
+            if (flags.contains(CTX_MARK_ALL_AS_UNPLAYED)) add(Simple(CTX_MARK_ALL_AS_UNPLAYED, context.getString(R.string.mark_all_as_not_played), R.drawable.ic_mark_all_as_not_played))
+            if (flags.contains(CTX_GO_TO_FOLDER)) add(Simple(CTX_GO_TO_FOLDER, context.getString(R.string.go_to_folder), R.drawable.ic_browse_parent))
+            if (flags.contains(CTX_CUSTOM_REMOVE)) add(Simple(CTX_CUSTOM_REMOVE, context.getString(R.string.remove_custom_path), R.drawable.ic_delete))
+            if (flags.contains(CTX_BAN_FOLDER)) add(Simple(CTX_BAN_FOLDER, context.getString(R.string.group_ban_folder), R.drawable.ic_hide_source))
         }
     }
 }
