@@ -140,7 +140,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
         entry.currentSort = browserModel.provider.sort
         entry.currentSortDesc = browserModel.provider.desc
         entry.isRoot = (root.value as? MediaWrapper)?.uri.toString().isEmpty()
-        mainActivityViewModel.addCtxClickListener(entry) { item, ctxMenuItem ->
+        mainActivityViewModel.addCtxClickListener(entry) { item, position, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
         }
         val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
@@ -175,7 +175,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                                 if (browserModel.provider.hasSubfolders(item)) item.addFlags(BrowserItemCtxFlags.hasSubfolders)
                                             }
                                             AudioItemCard(
-                                                item, entry, Modifier
+                                                item, index, entry, Modifier
                                                     .onFocusChanged {
                                                         if (it.isFocused)
                                                             lastFocusedItem = item.id
@@ -203,7 +203,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                     items!![index].let { item ->
                                         InvalidationComposable(descriptionUpdates.value?.first == index) {
                                             AudioItemList(
-                                                item, entry, Modifier
+                                                item, index, entry, Modifier
                                                     .onFocusChanged {
                                                         if (it.isFocused)
                                                             lastFocusedItem = item.id
