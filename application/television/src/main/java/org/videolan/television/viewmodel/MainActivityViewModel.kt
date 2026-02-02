@@ -115,9 +115,9 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private val _currentDisplaySettingsChange: MutableStateFlow<DisplaySettingsChange?> = MutableStateFlow(null)
     val currentDisplaySettingsChange: StateFlow<DisplaySettingsChange?> = _currentDisplaySettingsChange.asStateFlow()
 
-    private val ctxClickListeners = mutableMapOf<MediaListEntry, (MediaLibraryItem, CtxMenuItem) -> Unit>()
+    private val ctxClickListeners = mutableMapOf<MediaListEntry, (MediaLibraryItem, Int, CtxMenuItem) -> Unit>()
 
-    fun addCtxClickListener(mediaListEntry: MediaListEntry, listener: (MediaLibraryItem, CtxMenuItem) -> Unit) {
+    fun addCtxClickListener(mediaListEntry: MediaListEntry, listener: (MediaLibraryItem, Int, CtxMenuItem) -> Unit) {
         ctxClickListeners[mediaListEntry] = listener
     }
 
@@ -186,8 +186,8 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         _snackBarFlow.emit(content)
     }
 
-    fun onCtxClick(entry: MediaListEntry, item: MediaLibraryItem, it: CtxMenuItem) {
-        ctxClickListeners[entry]?.invoke(item, it)
+    fun onCtxClick(entry: MediaListEntry, item: MediaLibraryItem, position: Int, it: CtxMenuItem) {
+        ctxClickListeners[entry]?.invoke(item, position, it)
     }
 
     fun getFlags(activity: Activity, entry: MediaListEntry, item: MediaLibraryItem): List<CtxMenuItem>? {
