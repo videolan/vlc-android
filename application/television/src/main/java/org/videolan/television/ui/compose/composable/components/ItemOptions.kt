@@ -46,7 +46,7 @@ import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.util.MediaListEntry
 
 @Composable
-fun ItemOptions(item: MediaLibraryItem, entry: MediaListEntry, onDismiss: () -> Unit, mainActivityViewModel: MainActivityViewModel = viewModel()) {
+fun ItemOptions(item: MediaLibraryItem, position: Int, entry: MediaListEntry, onDismiss: () -> Unit, mainActivityViewModel: MainActivityViewModel = viewModel()) {
     val activity = LocalActivity.current
     val items = mainActivityViewModel.getFlags(activity!!, entry, item) ?: return
     DropdownMenu(
@@ -66,7 +66,7 @@ fun ItemOptions(item: MediaLibraryItem, entry: MediaListEntry, onDismiss: () -> 
 
         items.forEach {
             ItemOptionsLine(it.title, it.icon) {
-                mainActivityViewModel.onCtxClick(entry, item, it)
+                mainActivityViewModel.onCtxClick(entry, item, position, it)
                 onDismiss()
             }
         }
