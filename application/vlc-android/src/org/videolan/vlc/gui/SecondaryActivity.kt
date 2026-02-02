@@ -83,7 +83,7 @@ class SecondaryActivity : ContentActivity(), IDialogManager {
 
 
     override fun forcedTheme() =
-        if (intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING) R.style.Theme_VLC_Black
+        if (intent.getStringExtra(KEY_FRAGMENT) == STORAGE_BROWSER_ONBOARDING) R.style.Theme_VLC_Onboarding
         else null
 
     override fun onCreate(savedInstanceState: Bundle?) {
