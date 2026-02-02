@@ -92,7 +92,7 @@ import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
-fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
+fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -228,7 +228,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, modifier: Modifier
         }
     }
     if (expanded)
-        ItemOptions(video, entry, onDismiss = {
+        ItemOptions(video, position, entry, onDismiss = {
             expanded = false
         })
 }
@@ -264,7 +264,7 @@ fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = wh
 
 
 @Composable
-fun VideoItemList(video: MediaLibraryItem, entry: MediaListEntry, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
+fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -354,7 +354,7 @@ fun VideoItemList(video: MediaLibraryItem, entry: MediaListEntry, modifier: Modi
                 }
             }
             if (expanded)
-                ItemOptions(video, entry, onDismiss = {
+                ItemOptions(video, position, entry, onDismiss = {
                     expanded = false
                 })
         }

@@ -86,11 +86,14 @@ import org.videolan.vlc.util.ThumbnailsProvider
 
 @Composable
 fun AudioItem(audios: List<MediaLibraryItem>, entry: MediaListEntry, index: Int, inCard: Boolean = true, spannableDescription: Boolean = false, browserRoot: Boolean = false, onClick: () -> Unit) {
-    if (inCard) AudioItemCard(audios[index], entry, spannableDescription = spannableDescription, browserRoot = browserRoot, onClick = onClick) else AudioItemList(audios[index], entry, spannableDescription = spannableDescription, onClick = onClick)
+    if (inCard)
+        AudioItemCard(audios[index], index, entry, spannableDescription = spannableDescription, browserRoot = browserRoot, onClick = onClick)
+    else
+        AudioItemList(audios[index], index, entry, spannableDescription = spannableDescription, onClick = onClick)
 }
 
 @Composable
-fun AudioItemCard(item: MediaLibraryItem, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, onClick: () -> Unit) {
+fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val focused = remember { mutableStateOf(false) }
@@ -159,7 +162,7 @@ fun AudioItemCard(item: MediaLibraryItem, entry: MediaListEntry, modifier: Modif
                     }
             }
             if (expanded)
-                ItemOptions(item,entry, onDismiss =  {
+                ItemOptions(item, position, entry, onDismiss =  {
                     expanded = false
                 })
         }
@@ -213,7 +216,7 @@ fun AudioItemCard(item: MediaLibraryItem, entry: MediaListEntry, modifier: Modif
 }
 
 @Composable
-fun AudioItemList(item: MediaLibraryItem, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit) {
+fun AudioItemList(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     val focused = remember { mutableStateOf(false) }
@@ -321,7 +324,7 @@ fun AudioItemList(item: MediaLibraryItem, entry: MediaListEntry, modifier: Modif
         }
     }
     if (expanded)
-        ItemOptions(item,entry, onDismiss =  {
+        ItemOptions(item, position, entry, onDismiss =  {
             expanded = false
         })
 }
