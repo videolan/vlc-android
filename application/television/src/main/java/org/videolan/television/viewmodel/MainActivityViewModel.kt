@@ -24,6 +24,7 @@
 
 package org.videolan.television.viewmodel
 
+import android.app.Activity
 import android.app.Application
 import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.AndroidViewModel
@@ -36,10 +37,49 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.medialibrary.interfaces.media.Genre
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.VideoGroup
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
-import org.videolan.vlc.util.MediaListEntry
+import org.videolan.television.ui.compose.composable.components.BrowserItemCtxFlags
+import org.videolan.tools.retrieveParent
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.ScanProgress
+import org.videolan.vlc.gui.dialogs.ContextSheet
+import org.videolan.vlc.gui.dialogs.CtxMenuItem
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
+import org.videolan.vlc.providers.NetworkProvider
+import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_ADD_GROUP
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SCANNED
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_GROUP_SIMILAR
+import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_PLAYED
+import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_UNPLAYED
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_FROM_START
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_SHUFFLE
+import org.videolan.vlc.util.ContextOption.CTX_REMOVE_GROUP
+import org.videolan.vlc.util.ContextOption.Companion.createCtxAudioFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxFolderFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxHistoryFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistAlbumFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxTrackFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoFlags
+import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoGroupFlags
+import org.videolan.vlc.util.FlagSet
+import org.videolan.vlc.util.MediaListEntry
 
 class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -74,6 +114,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _currentDisplaySettingsChange: MutableStateFlow<DisplaySettingsChange?> = MutableStateFlow(null)
     val currentDisplaySettingsChange: StateFlow<DisplaySettingsChange?> = _currentDisplaySettingsChange.asStateFlow()
+
+    private val ctxClickListeners = mutableMapOf<MediaListEntry, (MediaLibraryItem, CtxMenuItem) -> Unit>()
+
+    fun addCtxClickListener(mediaListEntry: MediaListEntry, listener: (MediaLibraryItem, CtxMenuItem) -> Unit) {
+        ctxClickListeners[mediaListEntry] = listener
+    }
 
     fun changeCurrentMediaListEntry(entry: MediaListEntry?) = viewModelScope.launch {
         _currentMediaListEntry.emit(entry)
@@ -138,6 +184,108 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun showSnackbar(content: SnackbarContent?) = viewModelScope.launch {
         _snackBarFlow.emit(content)
+    }
+
+    fun onCtxClick(entry: MediaListEntry, item: MediaLibraryItem, it: CtxMenuItem) {
+        ctxClickListeners[entry]?.invoke(item, it)
+    }
+
+    fun getFlags(activity: Activity, entry: MediaListEntry, item: MediaLibraryItem): List<CtxMenuItem>? {
+        val flags: FlagSet<ContextOption> = if (entry == MediaListEntry.HISTORY) {
+            createCtxHistoryFlags()
+        } else when (item.itemType) {
+            MediaLibraryItem.TYPE_MEDIA -> {
+                when (item) {
+                    is MediaWrapper if item.type == MediaWrapper.TYPE_DIR -> {
+                        FlagSet(ContextOption::class.java).apply {
+                            if (item.hasFlag(BrowserItemCtxFlags.isFolderEmpty)) add(CTX_PLAY)
+                            val isFileBrowser = entry.providerClass != NetworkProvider::class.java && item.uri.scheme == "file"
+                            if (!entry.isRoot && isFileBrowser) add(ContextOption.CTX_BAN_FOLDER)
+                            val isNetworkBrowser = entry.providerClass == NetworkProvider::class.java
+                            if (isFileBrowser || isNetworkBrowser) {
+                                if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                            }
+                            if (isFileBrowser && !entry.isRoot && !MedialibraryUtils.isScanned(item.uri.toString())) {
+                                add(CTX_ADD_SCANNED)
+                            }
+                            if (isFileBrowser) {
+                                add(CTX_APPEND)
+                                if (item.hasFlag(BrowserItemCtxFlags.hasMedias)) add(CTX_ADD_FOLDER_PLAYLIST)
+                                if (item.hasFlag(BrowserItemCtxFlags.hasSubfolders)) add(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)
+                            }
+                        }
+                    }
+
+                    is Folder -> {
+                        createCtxFolderFlags().apply {
+                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                        }
+                    }
+
+                    is VideoGroup -> {
+                        if (item.presentCount == 0) {
+                            showSnackbar(SnackbarContent(activity.resources.getString(R.string.missing_media_snack)))
+                            return null
+                        } else {
+                            createCtxVideoGroupFlags().apply {
+                                if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                            }
+                        }
+                    }
+
+                    is MediaWrapper if item.type == MediaWrapper.TYPE_VIDEO -> {
+                        createCtxVideoFlags().apply {
+                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                            if (item.seen > 0) add(CTX_MARK_AS_UNPLAYED) else add(CTX_MARK_AS_PLAYED)
+                            if (item.time != 0L) add(CTX_PLAY_FROM_START)
+                            if (entry == MediaListEntry.VIDEO_GROUPS || entry.isGroup) {
+                                if (entry.isGroup) add(CTX_REMOVE_GROUP) else addAll(CTX_ADD_GROUP, CTX_GROUP_SIMILAR)
+                            }
+                            //go to folder
+                            if (item.uri.retrieveParent() != null) add(CTX_GO_TO_FOLDER)
+                        }
+                    }
+
+                    else
+                        -> createCtxTrackFlags().apply {
+                        if ((item as? MediaWrapper)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                        if ((item as? MediaWrapper)?.artistId != (item as? MediaWrapper)?.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
+                    }
+                }
+            }
+
+            MediaLibraryItem.TYPE_ARTIST -> {
+                createCtxAudioFlags().apply {
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if ((item as? Artist)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
+            }
+
+            MediaLibraryItem.TYPE_ALBUM -> {
+                createCtxPlaylistAlbumFlags().apply {
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if ((item as? Album)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
+            }
+
+            MediaLibraryItem.TYPE_GENRE -> {
+                createCtxAudioFlags().apply {
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if ((item as? Genre)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
+            }
+
+            MediaLibraryItem.TYPE_PLAYLIST -> {
+                createCtxPlaylistAlbumFlags().apply {
+                    add(CTX_PLAY_AS_AUDIO)
+                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
+                    if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
+                }
+            }
+
+            else -> createCtxAudioFlags()
+        }
+        return ContextSheet.populateMenuItems(activity!!, flags)
     }
 }
 
