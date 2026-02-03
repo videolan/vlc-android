@@ -58,6 +58,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.isSecondaryPressed
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -117,6 +120,25 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     indication = null,
                     interactionSource = null
                 )
+                .pointerInput(Unit) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            if (event.type == PointerEventType.Enter) {
+                                focused.value = true
+                            }
+                            if (event.type == PointerEventType.Exit) {
+                                focused.value = false
+                            }
+                            if (event.type == PointerEventType.Press &&
+                                event.buttons.isSecondaryPressed
+                            ) {
+                                event.changes.forEach { e -> e.consume() }
+                                expanded = true
+                            }
+                        }
+                    }
+                }
         ) {
             Box(
                 contentAlignment = Alignment.BottomEnd,
@@ -240,6 +262,25 @@ fun AudioItemList(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                 indication = null,
                 interactionSource = null
             )
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        if (event.type == PointerEventType.Enter) {
+                            focused.value = true
+                        }
+                        if (event.type == PointerEventType.Exit) {
+                            focused.value = false
+                        }
+                        if (event.type == PointerEventType.Press &&
+                            event.buttons.isSecondaryPressed
+                        ) {
+                            event.changes.forEach { e -> e.consume() }
+                            expanded = true
+                        }
+                    }
+                }
+            }
     ) {
         Card(
             modifier = Modifier
