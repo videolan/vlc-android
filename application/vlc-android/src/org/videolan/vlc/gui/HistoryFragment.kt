@@ -229,7 +229,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
                 R.id.action_history_play -> MediaUtils.openList(activity, selection, 0)
                 R.id.action_history_append -> MediaUtils.appendMedia(activity, selection)
                 R.id.action_history_info -> showInfoDialog(selection.first())
-                R.id.action_go_to_folder -> showParentFolder(selection.first())
+                R.id.action_go_to_folder -> requireActivity().showParentFolder(selection.first())
                 else -> {
                     stopActionMode()
                     return false
