@@ -436,7 +436,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     playlistAdapter.stopAfter = pos
                 }
                 CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItemByPosition(position))
-                CTX_GO_TO_FOLDER -> showParentFolder(playlistAdapter.getItemByPosition(position))
+                CTX_GO_TO_FOLDER -> requireActivity().showParentFolder(playlistAdapter.getItemByPosition(position))
                 CTX_GO_TO_ALBUM -> {
                     val i = Intent(requireActivity(), HeaderMediaListActivity::class.java)
                     i.putExtra(AudioBrowserFragment.TAG_ITEM, playlistAdapter.getItemByPosition(position).album)

@@ -514,11 +514,11 @@ fun List<MediaLibraryItem>.determineMaxNbOfDigits(): Int {
     return numberOfPrepending
 }
 
-fun Fragment.showParentFolder(media: MediaWrapper) {
+fun FragmentActivity.showParentFolder(media: MediaWrapper) {
     val parent = MLServiceLocator.getAbstractMediaWrapper(media.uri.retrieveParent()).apply {
         type = MediaWrapper.TYPE_DIR
     }
-    val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
+    val intent = Intent(applicationContext, SecondaryActivity::class.java)
     intent.putExtra(KEY_MEDIA, parent)
     intent.putExtra(KEY_JUMP_TO, media)
     intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)

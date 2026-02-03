@@ -402,7 +402,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 R.id.action_mode_audio_share -> requireActivity().share(list as List<MediaWrapper>)
                 R.id.action_mode_audio_set_song -> activity?.setRingtone(list.first() as MediaWrapper)
                 R.id.action_mode_audio_delete -> removeItems(list)
-                R.id.action_mode_go_to_folder -> (list.first() as? MediaWrapper)?.let { showParentFolder(it) }
+                R.id.action_mode_go_to_folder -> (list.first() as? MediaWrapper)?.let { requireActivity().showParentFolder(it) }
                 R.id.action_mode_favorite_add -> lifecycleScope.launch { viewModel.changeFavorite(list, true) }
                 R.id.action_mode_favorite_remove -> lifecycleScope.launch { viewModel.changeFavorite(list, false) }
             }
@@ -556,7 +556,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> activity?.setRingtone(media as MediaWrapper)
             CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
-            CTX_GO_TO_FOLDER -> showParentFolder(media as MediaWrapper)
+            CTX_GO_TO_FOLDER -> requireActivity().showParentFolder(media as MediaWrapper)
             CTX_ADD_SHORTCUT -> lifecycleScope.launch {requireActivity().createShortcut(media)}
             CTX_FAV_ADD, CTX_FAV_REMOVE -> lifecycleScope.launch {
                 withContext(Dispatchers.IO) { media.isFavorite = option == CTX_FAV_ADD }
