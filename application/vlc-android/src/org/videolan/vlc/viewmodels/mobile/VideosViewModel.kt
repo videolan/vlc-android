@@ -141,11 +141,15 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     }
 
     internal fun append(position: Int) = viewModelScope.launch {
-        val item = provider.pagedList.value?.get(position) ?: return@launch
+        append(provider.pagedList.value?.get(position) ?: return@launch)
+    }
+
+    fun append (item: MediaLibraryItem) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             when (item) {
                 is Folder -> item.getAll()
                 is VideoGroup -> item.getAll()
+                is MediaWrapper -> listOf(item)
                 else -> null
             }
         }?.let { MediaUtils.appendMedia(context, it) }
