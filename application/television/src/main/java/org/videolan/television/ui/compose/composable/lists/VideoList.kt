@@ -93,6 +93,7 @@ import org.videolan.television.ui.compose.composable.items.VideoItemList
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.openVideoGroupFolder
+import org.videolan.television.util.showParent
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
@@ -291,7 +292,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                 CTX_ADD_GROUP -> (activity as FragmentActivity).addToGroup(listOf((item as MediaWrapper)), true)
                 CTX_GROUP_SIMILAR -> coroutineScope.launch { if (!(activity as FragmentActivity).showPinIfNeeded()) viewModel.groupSimilar((item as MediaWrapper)) }
                 CTX_MARK_AS_PLAYED -> coroutineScope.launch { viewModel.markAsPlayed(item as MediaWrapper) }
-                CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParentFolder((item as MediaWrapper))
+                CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParent((item as MediaWrapper))
                 else -> {
                     throw IllegalStateException("Ctx action not implemented")
                 }
