@@ -63,6 +63,9 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.isSecondaryPressed
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -117,6 +120,25 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                     indication = null,
                     interactionSource = null
                 )
+                .pointerInput(Unit) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            if (event.type == PointerEventType.Enter) {
+                                focused = true
+                            }
+                            if (event.type == PointerEventType.Exit) {
+                                focused = false
+                            }
+                            if (event.type == PointerEventType.Press &&
+                                event.buttons.isSecondaryPressed
+                            ) {
+                                event.changes.forEach { e -> e.consume() }
+                                expanded = true
+                            }
+                        }
+                    }
+                }
         ) {
             Box(
                 modifier = Modifier
@@ -290,6 +312,25 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
                 indication = null,
                 interactionSource = null
             )
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        if (event.type == PointerEventType.Enter) {
+                            focused = true
+                        }
+                        if (event.type == PointerEventType.Exit) {
+                            focused = false
+                        }
+                        if (event.type == PointerEventType.Press &&
+                            event.buttons.isSecondaryPressed
+                        ) {
+                            event.changes.forEach { e -> e.consume() }
+                            expanded = true
+                        }
+                    }
+                }
+            }
             .background(color = if (focused) WhiteTransparent10 else WhiteTransparent05, shape = MaterialTheme.shapes.medium)
     ) {
         Card {
