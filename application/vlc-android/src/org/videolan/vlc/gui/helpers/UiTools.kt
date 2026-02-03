@@ -61,6 +61,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.view.ActionMode
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -1069,6 +1070,15 @@ fun trackNumber(v: View, media: MediaWrapper) {
 fun BaseActivity.applyTheme() {
     forcedTheme()?.let {
         setTheme(it)
+        if (it == R.style.Theme_VLC_Onboarding) {
+            window.setBackgroundDrawable(ContextCompat.getColor(this, R.color.onboarding_grey).toDrawable())
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.navigationBarColor = ContextCompat.getColor(this, R.color.onboarding_grey)
+            }
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+        }
         return
     }
     if (Settings.showTvUi) {

@@ -341,6 +341,7 @@
     <style name="Theme.VLC.Onboarding.7" parent="Theme.VLC.Black">
         <item name="background_default">@color/onboarding_grey</item>
         <item name="colorControlNormal">@color/white</item>
+        <item name="background_actionbar">@color/onboarding_grey</item>
     </style>
 
     <style name="Theme.VLC.TV" parent="Theme.Leanback">
