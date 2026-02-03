@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.LoadState
@@ -101,14 +102,37 @@ import org.videolan.tools.KEY_VIDEO_TAB
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
+import org.videolan.vlc.gui.helpers.UiTools.addToGroup
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.showPinIfNeeded
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.util.ContextOption
+import org.videolan.vlc.util.ContextOption.CTX_ADD_GROUP
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_DOWNLOAD_SUBTITLES
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_GROUP_SIMILAR
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_PLAYED
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_FROM_START
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.share
+import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
@@ -217,6 +241,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
     val gridState = rememberLazyGridState()
     val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
     val castAsAudio = PlaybackService.renderer.value != null && settings.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
+    val coroutineScope = rememberCoroutineScope()
     InvalidationComposable(displaySettingsChange) { invalidate ->
         val context = LocalContext.current
 
@@ -248,6 +273,29 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
 
         mainActivityViewModel.addCtxClickListener(entry) { item, position, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
+            when (ctxMenuItem.id) {
+                CTX_PLAY -> viewModel.playVideo(activity as FragmentActivity?, item as MediaWrapper, position, forceAudio = castAsAudio)
+                CTX_PLAY_FROM_START -> viewModel.playVideo(activity as FragmentActivity?, item as MediaWrapper, position, fromStart = true, forceAudio = castAsAudio)
+                CTX_PLAY_ALL -> viewModel.playVideo(activity as FragmentActivity?, item as MediaWrapper, position, forceAll = true, forceAudio = castAsAudio)
+                CTX_PLAY_AS_AUDIO -> viewModel.playVideo(activity as FragmentActivity?, item as MediaWrapper, position, forceAudio = true)
+                CTX_APPEND -> viewModel.append(item)
+                CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item as MediaWrapper) {
+                    mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                }
+                CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs((activity as FragmentActivity), (item as MediaWrapper))
+                CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(arrayOf(item as MediaWrapper), SavePlaylistDialog.KEY_NEW_TRACKS)
+                CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD }
+                CTX_DELETE -> { ConfirmDeleteDialog.newInstance(arrayListOf(item)).show((activity as FragmentActivity).supportFragmentManager, ConfirmDeleteDialog::class.simpleName) }
+                CTX_SHARE -> coroutineScope.launch { (activity as AppCompatActivity).share((item as MediaWrapper)) }
+                CTX_ADD_GROUP -> (activity as FragmentActivity).addToGroup(listOf((item as MediaWrapper)), true)
+                CTX_GROUP_SIMILAR -> coroutineScope.launch { if (!(activity as FragmentActivity).showPinIfNeeded()) viewModel.groupSimilar((item as MediaWrapper)) }
+                CTX_MARK_AS_PLAYED -> coroutineScope.launch { viewModel.markAsPlayed(item as MediaWrapper) }
+                CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParentFolder((item as MediaWrapper))
+                else -> {
+                    throw IllegalStateException("Ctx action not implemented")
+                }
+            }
         }
 
         val emptyState = if (videos.loadState.refresh == LoadState.Loading)
