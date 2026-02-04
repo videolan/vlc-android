@@ -238,6 +238,7 @@ fun AudioListScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActiv
 @Composable
 fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActivityViewModel = viewModel()) {
     val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
+    val invalidateEntry by mainActivityViewModel.invalidateMediaListEntry.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     InvalidationComposable(displaySettingsChange) { invalidate ->
         val context = LocalContext.current
@@ -273,6 +274,13 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                 audioBrowserViewModel.currentTab = index
                 provider = audioBrowserViewModel.getProvider(entry)
             }
+        }
+
+        //invalidate if needed
+        if (invalidateEntry == entry) {
+            provider.pagingSource.invalidate()
+            mainActivityViewModel.invalidationDone()
+            invalidate()
         }
 
         entry.sorts  = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME, Medialibrary.SORT_ARTIST, Medialibrary.SORT_ALBUM, Medialibrary.SORT_DURATION, Medialibrary.SORT_RELEASEDATE, Medialibrary.SORT_LASTMODIFICATIONDATE, Medialibrary.SORT_FILESIZE, Medialibrary.NbMedia, Medialibrary.SORT_INSERTIONDATE).filter {
