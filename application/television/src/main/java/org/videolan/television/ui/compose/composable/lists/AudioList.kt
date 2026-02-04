@@ -109,10 +109,8 @@ import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.gui.HeaderMediaListActivity.Companion.ARTIST_FROM_ALBUM
-import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
 import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
@@ -125,7 +123,6 @@ import org.videolan.vlc.util.ContextOption.*
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.share
-import org.videolan.vlc.util.showParentFolder
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import java.security.SecureRandom
@@ -359,6 +356,32 @@ fun MediaList(entry: MediaListEntry, index: Int, mainActivityViewModel: MainActi
                         CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                         CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
                         else -> {}
+                    }
+                }
+                is Playlist -> {
+                    when(ctxMenuItem.id) {
+                        CTX_PLAY -> MediaUtils.playTracks(activity, item, 0)
+                        CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
+                        CTX_APPEND -> MediaUtils.appendMedia(activity, item.tracks, showSnackbar)
+                        CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
+                        CTX_PLAY_AS_AUDIO -> coroutineScope.launch(Dispatchers.IO) {
+                            item.tracks?.let { trackArray ->
+                                MediaUtils.openList(activity, trackArray.map {
+                                    it.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                                    it
+                                }.toList(), 0)
+                            }
+                        }
+                        CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                        CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
+                        CTX_RENAME -> {
+                            RenameDialog.newInstance(item).show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+                        }
+                        CTX_DELETE -> {
+                            ConfirmDeleteDialog.newInstance(arrayListOf(item)).show((activity as FragmentActivity).supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
+                        }
+                        else -> { mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))}
                     }
                 }
                 else -> {
