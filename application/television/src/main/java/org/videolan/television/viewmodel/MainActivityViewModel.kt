@@ -115,6 +115,9 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private val _currentDisplaySettingsChange: MutableStateFlow<DisplaySettingsChange?> = MutableStateFlow(null)
     val currentDisplaySettingsChange: StateFlow<DisplaySettingsChange?> = _currentDisplaySettingsChange.asStateFlow()
 
+    private val _invalidateMediaListEntry: MutableStateFlow<MediaListEntry?> = MutableStateFlow(null)
+    val invalidateMediaListEntry: StateFlow<MediaListEntry?> = _invalidateMediaListEntry.asStateFlow()
+
     private val ctxClickListeners = mutableMapOf<MediaListEntry, (MediaLibraryItem, Int, CtxMenuItem) -> Unit>()
 
     fun addCtxClickListener(mediaListEntry: MediaListEntry, listener: (MediaLibraryItem, Int, CtxMenuItem) -> Unit) {
@@ -286,6 +289,14 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
             else -> createCtxAudioFlags()
         }
         return ContextSheet.populateMenuItems(activity!!, flags)
+    }
+
+    fun invalidateList(entry: MediaListEntry) = viewModelScope.launch {
+        _invalidateMediaListEntry.emit(entry)
+    }
+
+    fun invalidationDone() = viewModelScope.launch {
+        _invalidateMediaListEntry.emit(null)
     }
 }
 
