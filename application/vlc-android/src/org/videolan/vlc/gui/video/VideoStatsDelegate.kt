@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.video
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -179,7 +180,7 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
 
     private fun setupLayout() {
         if (!::constraintSetLarge.isInitialized) return
-        if (player.isTablet()) {
+        if (player.isTablet() || player.getResources().configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             constraintSetLarge.applyTo(binding.statsScrollviewContent)
         } else {
             constraintSet.applyTo(binding.statsScrollviewContent)
