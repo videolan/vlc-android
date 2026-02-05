@@ -72,6 +72,7 @@
     <string name="equalizer_name">Όνομα ισοσταθμιστή</string>
     <string name="equalizer_deleted">Ο ισοσταθμιστής έχει διαγραφεί</string>
     <string name="invalid_equalizer_file">Μη έγκυρο αρχείο ισοσταθμιστή</string>
+    <string name="confirm_delete_eq">Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την προρύθμιση;</string>
     <string name="confirm_replace_playlist">Είστε σίγουροι ότι θέλετε να αντικαταστήσετε την λίστα αναπαραγωγής %1$s;</string>
     <string name="invalid_settings_file">Μη έγκυρο αρχείο ρυθμίσεων</string>
     <string name="confirm_delete_message">Αυτό είναι μόνιμο και δεν μπορεί να αναιρεθεί.</string>

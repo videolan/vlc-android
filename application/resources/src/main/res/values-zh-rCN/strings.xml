@@ -65,7 +65,17 @@
     <string name="set_song_question">是否将「%1$s」设为铃声?</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
-    <string name="confirm_replace_playlist">您是否确定要替换播放列表 ｢%1$s｣?</string>
+    <string name="equalizer_overwrite_warning">此均衡器已存在</string>
+    <string name="overwrite">覆盖</string>
+    <string name="eq_cannot_overwrite">无法覆盖默认均衡器</string>
+    <string name="equalizer_name">均衡器名称</string>
+    <string name="equalizer_deleted">均衡器已被删除</string>
+    <string name="equalizer_leave_warning">您将离开视频播放器</string>
+    <string name="invalid_equalizer_file">无效的均衡器文件</string>
+    <string name="confirm_delete_eq">是否确定要删除此预设？</string>
+    <string name="confirm_delete_vlc_eq">是否确定要隐藏此预设？\n您可以在均衡器设置中恢复它。</string>
+    <string name="confirm_replace_playlist">是否确定要替换播放列表 ｢%1$s｣?</string>
+    <string name="invalid_settings_file">无效的设置文件</string>
     <string name="confirm_delete_message">这是持久性操作，无法撤消。</string>
     <string name="confirm_delete_album">是否删除专辑「%1$s」?</string>
     <string name="confirm_delete_several_media">删除这些 %1$d 媒体?</string>
@@ -121,6 +131,14 @@
     <string name="video">视频</string>
     <string name="bookmarks">书签</string>
     <string name="equalizer">均衡器</string>
+    <string name="import_equalizer">导入均衡器</string>
+    <string name="equalizer_exported">均衡器已导出到 %s</string>
+    <string name="equalizer_copy_template">(副本%s)</string>
+    <string name="new_equalizer_copy_template">新均衡器 %s</string>
+    <string name="show_all">全部显示</string>
+    <string name="hide_all">全部隐藏</string>
+    <string name="export_all">全部导出</string>
+    <string name="import_all">全部导入</string>
     <string name="all_albums">所有专辑</string>
     <string name="genres">流派</string>
     <string name="playlists">播放列表</string>
@@ -237,6 +255,7 @@
     <string name="video_resume_playback_summary">允许储存视频播放队列内容，以便稍后继续播放</string>
     <string name="audio_resume_playback_title">音频播放队列历史</string>
     <string name="audio_resume_playback_warning">禁用音频播放队列历史可能会引发异常行为。\n禁用以后，您将无法在以下位置执行继续播放操作:\n\n\t- 蓝牙设备\n\t- 小工具\n\t- 媒体通知界面</string>
+    <string name="playback_history_warning">禁用播放历史将隐藏历史记录、媒体进度和已看标记。应用将继续保存您的活动，并在历史记录重新启用时恢复这些记录。\n如果您想完全停止保存活动，请改用无痕模式。\n您还可以在历史记录界面或高级设置中清除历史记录。</string>
     <string name="audio_resume_playback_summary">允许储存音频播放队列内容，以便稍后继续播放</string>
 
     <string name="play_button">播放按钮</string>
@@ -307,6 +326,8 @@
     <string name="remove_custom_path">移除自定义路径</string>
     <string name="group_ban_folder">从媒体库屏蔽该文件夹</string>
     <string name="ban_folder">屏蔽文件夹</string>
+    <string name="ban_folder_explanation">屏蔽此文件夹意味着您将不会在应用的视频或音频专区看到其中的媒体文件，但仍然可以通过浏览器访问它们。\n要取消屏蔽，请前往设置，%s 并长按此文件夹。</string>
+
     <string name="hardware_acceleration">硬件加速</string>
     <string name="hardware_acceleration_summary">禁用: 稳定性更高\n解码: 可能提升性能\n完全: 可能进一步提升性能</string>
     <string name="hardware_acceleration_disabled">禁用</string>
@@ -579,10 +600,14 @@
     <string name="custom_libvlc_options_invalid">无效的 libVLC 选项!</string>
     <string name="dav1d_thread_number">Dav1d 线程数</string>
     <string name="dav1d_thread_number_invalid">无效的线程数! (>=1)</string>
-    <string name="browser_quick_play">浏览快速播放按钮</string>
+    <string name="browser_quick_play">浏览器快速播放按钮</string>
+    <string name="browser_quick_play_summary">在浏览器项目菜单中添加快速播放操作。媒体可以加载得更快，但可能缺失某些元数据</string>
     <string name="browser_quick_play_default">快速播放作为默认动作</string>
+    <string name="browser_quick_play_default_summary">若启用，在浏览器中点击文件时使用快速播放</string>
+
     <string name="serious_crash">真不走运，发生了很严重的错误，VLC 不得不关闭鸟。</string>
     <string name="help_us_send_log">您可以将下述崩溃日志发送给我们，协助改进 VLC:</string>
+    <string name="ml_crash_send">媒体库刚刚崩溃了。请发送日志协助我们改进。</string>
     <string name="restart_vlc">重新启动 VLC</string>
     <string name="send_log">发送日志</string>
     <string name="sending_log">正在发送日志…</string>
@@ -628,7 +653,12 @@
 
     <!--What's new-->
     <string name="whats_new_title">VLC for Android %s 版本的新功能</string>
-    <!--    update-->
+    <string name="whats_new_37_equalizer_text">均衡器已从零开始重新设计。现在更易使用，可以禁用默认预设，并支持备份、恢复和分享您的预设。</string>
+    <string name="whats_new_37_import_export">我们改进了设置参数的备份和恢复功能。现在可以备份更多的设置参数，包括均衡器预设。</string>
+    <string name="whats_new_37_android_auto">由于应用商店的新限制，Android Auto 设置已全部转移到该移动应用中。您现在可以在这里更改车载体验设置。</string>
+    <string name="show_in_settings">在设置中显示</string>
+
+<!--    update-->
     <string name="update_title">有更新可用</string>
     <string name="install_nightly_title">安装每日构建版</string>
     <string name="update_text">VLC for Android 的每日构建版已发布新版本!\n\n您看到本消息，是因为您正在使用的是每日构建版。</string>
@@ -880,8 +910,8 @@
     <string name="validation_delete_playlist">是否确定要删除该播放列表?</string>
     <string name="validation_delete_playlist_text">此操作不可撤消。</string>
     <string name="display_settings">显示设置</string>
-    <string name="incognito_mode">隐身模式</string>
-    <string name="persistent_incognito_mode">持久化的无痕模式</string>
+    <string name="incognito_mode">无痕模式</string>
+    <string name="persistent_incognito_mode">无痕模式持续开启</string>
     <string name="persistent_incognito_mode_summary">保持无痕模式长期开启，即使应用重启也保持开启</string>
     <string name="display_in_list">以列表形式显示</string>
     <string name="display_in_grid">以网格形式显示</string>
@@ -896,6 +926,7 @@
     <string name="welcome_beta_title">VLC beta</string>
     <string name="welcome_beta_description">欢迎使用 VLC beta 版。\n请注意此版本可能一定量的 bug。</string>
     <string name="welcome_beta_description_bugs">如果您发现了 bug，请在我们的论坛或 bug 跟踪平台报告它们。</string>
+    <string name="welcome_beta_description_crashes">如果您遇到 bug 或崩溃，请打开「关于」菜单，依次点击「反馈」>「通过电子邮件联系支持团队」按钮。</string>
     <string name="send">发送</string>
     <string name="send_crash_action_title">您打算做什么?</string>
     <string name="report_a_bug">报告 bug</string>
@@ -1100,6 +1131,12 @@
     <string name="move_down">下移</string>
     <string name="remove_from_playlist">从播放列表删除</string>
     <string name="play_media">播放 %s</string>
+    <string name="edit_eq_preset">编辑均衡器预设</string>
+    <string name="edit_eq_name_not_allowed">该名称不允许使用</string>
+    <string name="export_equalizer">导出均衡器</string>
+    <string name="hide_equalizer">隐藏均衡器</string>
+    <string name="show_equalizer">显示均衡器</string>
+
     <!-- Duplication Warning Dialog -->
     <string name="message_primary_default">添加重复项？</string>
     <string name="add_button">添加</string>
@@ -1322,6 +1359,7 @@
     <string name="export_settings">导出设置</string>
     <string name="restore_settings_summary">使用之前导出的文件恢复您的设置参数</string>
     <string name="restore_settings">恢复设置</string>
+    <string name="obsolete_restore_settings">您导出的设置已过期。请重新导出。</string>
     <string name="export_settings_success">设置参数已成功导出到内部存储根目录</string>
     <string name="export_settings_failure">导出设置参数时出现错误</string>
 
@@ -1357,6 +1395,7 @@
     <string name="remote_access_feedback_file_explanation">您已下载所需的文件。请记得将它作为电子邮件的附件发出。</string>
     <string name="generic_copied_to_clipboard">已复制到剪贴板</string>
     <string name="feedback_email_warning">未安装电子邮件客户端</string>
+    <string name="feedback_email_warning_explanation">分享反馈的最简单方式是使用 %1$s 功能。为此，请在设置中启用远程访问，按照说明操作，然后在菜单中选择 %2$s 选项。</string>
     <string name="feedback_email_warning_remote_action">打开设置</string>
     <string name="feedback_email_warning_try_anyway">仍然尝试</string>
     </resources>

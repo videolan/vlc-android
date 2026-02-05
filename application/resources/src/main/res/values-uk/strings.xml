@@ -447,7 +447,7 @@
     <string name="subtitle_decoration_shadow">Тінь</string>
     <string name="subtitle_decoration_outline">Обведення</string>
     <string name="subtitles_bold_title">Жирні субтитри</string>
-    <string name="subtitles_autoload_title">Автоматично звантажити субтитри</string>
+    <string name="subtitles_autoload_title">Автоматично завантажити субтитри</string>
     <string name="previous_color">Попередній колір</string>
     <string name="new_color">Новий колір</string>
     <string name="subtitles_preset_default">Усталено</string>
@@ -734,7 +734,7 @@
     <string name="popup_playback_title">Відтворювати відео у спливному вікні</string>
     <string name="popup_playback">Відтворюється у спливному вікні</string>
     <string name="popup_expand">Розкрити відео</string>
-    <string name="download_subtitles">Звантажити субтитри</string>
+    <string name="download_subtitles">Завантажити субтитри</string>
     <string name="powered_opensubtitles">За підтримки OpenSubtitles</string>
     <string name="open_subtitles_not_logged_in">Ви не увійшли в OpenSubtitles\nУвійшовши в систему, ви отримаєте доступ до більшої кількості завантажень</string>
     <string name="open_subtitles_logged_in">Увійшли як %1$s</string>

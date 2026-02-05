@@ -71,7 +71,7 @@
     <string name="eq_cannot_overwrite">ვერ ჩანაცვლდება ნაგულისხმევი მათანაბრებელი</string>
     <string name="equalizer_name">მათანაბრებლის სახელი</string>
     <string name="equalizer_deleted">მათანაბრებელი წაშლილია</string>
-    <string name="equalizer_leave_warning">თქვენ ტოვებთ ვიდეოგამშვებს</string>
+    <string name="equalizer_leave_warning">თქვენ ტოვებთ ვიდეოდამკვრელს</string>
     <string name="invalid_equalizer_file">მათანაბრებლის უმართებულო ფაილი</string>
     <string name="confirm_delete_eq">ნამდვილად გსურთ ამ მზა გამართვის წაშლა?</string>
     <string name="confirm_delete_vlc_eq">ნამდვილად გსურთ, დაიმალოს ეს მზა გამართვა?\nაღდგენას შეძლებთ მათანაბრებლის პარამეტრებიდან.</string>
@@ -397,10 +397,10 @@
     <string name="enable_volume_gesture_summary">ხმის დონის ჟესტით მართვა, გაშვებულ ვიდეოზე</string>
     <string name="enable_seek_buttons">გადახვევის ღილაკები</string>
     <string name="enable_seek_buttons_summary">წინ და უკან გადახვევის ღილაკების გამოჩენა ვიდეოს გარსზე</string>
-    <string name="enable_android_auto_speed_buttons">Android-ზე თვითგაშვების სიჩქარე</string>
-    <string name="enable_android_auto_speed_buttons_summary">სიჩქარის მართვა ჩამოსაშლელი მენიუდან</string>
-    <string name="enable_android_auto_seek_buttons">Android-ზე თვითგადახვევის ღილაკები</string>
-    <string name="enable_android_auto_seek_buttons_summary">წინ და უკან გადახვევის ღილაკების გამოჩენა ჩამოსაშლელ მენიუში.</string>
+    <string name="enable_android_auto_speed_buttons">Android Auto – დაკვრის სიჩქარე</string>
+    <string name="enable_android_auto_speed_buttons_summary">სიჩქარის სამართავს გამოაჩენს გასაშლელ მენიუში</string>
+    <string name="enable_android_auto_seek_buttons">Android Auto – გადახვევის ღილაკები</string>
+    <string name="enable_android_auto_seek_buttons_summary">წინ და უკან გადახვევის სამართავს გამოაჩენს გასაშლელ მენიუში. ამოქმედებამდე ეცადეთ ხანგრძლივად დააჭიროთ საჭის წინა და მომდევნო ღილაკებს.</string>
     <string name="artist">შემსრულებელი</string>
     <string name="album">ალბომი</string>
     <string name="track">ჩანაწერი</string>
@@ -664,7 +664,12 @@
 
     <!--What's new-->
     <string name="whats_new_title">რა სიახლეებითაა VLC Android %s</string>
-    <!--    update-->
+    <string name="whats_new_37_equalizer_text">მათანაბრებელი შემუშავდა სრულიად ახლიდან. მეტად იოლად გამოსაყენებელია, ეთიშება ნაგულისხმევი მზა გამართვები და საშუალებას გაძლევთ, დაამარქაფოთ, აღადგინოთ ანდაც გააზიაროთ საკუთარი გამართვები.</string>
+    <string name="whats_new_37_import_export">განახლდა დამარქაფებისა და აღდგენის შესაძლებლობა. ახლა უკვე მეტი პარამეტრის შენახვაა შესაძლებელი, მათ შორის მათანაბრებლის მზა გამართვებისა.</string>
+    <string name="whats_new_37_android_auto">პროგრამების მაღაზიაში ახალი შეზღუდვების გამო Android Auto პარამეტრებიანად გადატანილია მობილურ აპლიკაციაში. ახლა უკვე იქიდან შეგიძლიათ მოირგოთ მანქანაში მოხერხებულად გამოყენებისთვის.</string>
+    <string name="show_in_settings">ჩვენება პარამეტრებში</string>
+
+<!--    update-->
     <string name="update_title">განახლება ხელმისაწვდომია</string>
     <string name="install_nightly_title">საცდელი Nightly-ანაწყობის დაყენება</string>
     <string name="update_text">ხელმისაწვდომია ახალი საცდელი Nightly-ვერსიის VLC Android!\n\nამას ხედავთ იმიტომ, რომ იყენებთ Nightly-ანაწყობს.</string>

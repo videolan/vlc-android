@@ -64,6 +64,7 @@
     <string name="set_song_question">Definir \'%1$s\' como toque?</string>
     <string name="info">Informações</string>
     <string name="confirm_delete">Excluir o arquivo \'%1$s\'?</string>
+    <string name="overwrite">Sobrescrever</string>
     <string name="confirm_delete_message">Esta ação é permanente e não pode ser desfeita.</string>
     <string name="confirm_delete_album">Excluir o álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Deseja excluir essas %1$d mídias?</string>
