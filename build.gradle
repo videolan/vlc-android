@@ -49,7 +49,6 @@ ext {
     remoteAccessVersion = '0.10.0'
     libvlcVersion = vlcMajorVersion == 3 ? '3.6.5' :'4.0.0-eap23'
     medialibraryVersion = '0.13.16' + (vlcMajorVersion == 3 ? '' : '-vlc4') + '-rc20'
-    minSdkVersion = vlcMajorVersion == 3 ? 17 : 21
     buildToolsVersion = vlcMajorVersion == 3 ? '35.0.0' : '35.0.0'
     targetSdkVersion = 36
     compileSdkVersion = 36 // Dockers: 3.0=36 / 4.0=36
