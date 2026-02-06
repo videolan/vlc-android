@@ -12,7 +12,7 @@ plugins {
 def vlcMajorVersion = hasProperty('forceVlc4') && getProperty('forceVlc4') ? 4 : 3
 
 android {
-    minSdk = vlcMajorVersion == 3 ? 17 : 21
+    minSdk = vlcMajorVersion == 3 ? 17 : 23
     targetSdk = 36
     compileSdk = 36 // Dockers: 3.0=36 / 4.0=36
     buildToolsVersion = '36.0.0'
