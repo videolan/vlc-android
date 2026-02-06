@@ -24,6 +24,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.Menu
@@ -37,16 +39,22 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.Settings
 import org.videolan.tools.isValidUrl
 import org.videolan.tools.setVisible
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.BaseFragment
@@ -68,6 +76,7 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
     private lateinit var binding: MrlPanelBinding
     private lateinit var adapter: MRLAdapter
     private lateinit var viewModel: StreamsModel
+    private  var goToEnd = false
     override fun getTitle() = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +90,18 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
         binding.viewmodel = viewModel
         binding.mrlEdit.editText?.setOnKeyListener(this)
         binding.mrlEdit.editText?.setOnEditorActionListener(this)
+        binding.mrlEdit.editText?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (goToEnd) binding.mrlEdit.editText?.setSelection(binding.mrlEdit.editText!!.length())
+                goToEnd = false
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+
+        })
         binding.mrlEdit.editText?.requestFocus()
 
         binding.play.setOnClickListener(this)
@@ -123,6 +144,14 @@ class MRLPanelFragment : BaseFragment(), View.OnKeyListener, TextView.OnEditorAc
             val media = bundle.parcelable<MediaWrapper>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
             val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
             renameStream(media, name)
+        }
+
+        PlaybackService.lastError.observe(requireActivity()) {
+            if (it != null) {
+                goToEnd = true
+                viewModel.observableSearchText.set(it)
+                PlaybackService.lastError.value = null
+            }
         }
     }
 

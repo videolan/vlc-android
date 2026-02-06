@@ -1236,6 +1236,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
                     service.showToast(if (location != null && location.toUri().scheme == "missing") service.getString(R.string.missing_location) else service.getString(R.string.invalid_location, location
                             ?: ""), Toast.LENGTH_SHORT, true)
+                    if (location != null) PlaybackService.lastError.postValue(location)
                     if (currentIndex != nextIndex) next() else stop()
                 }
                 MediaPlayer.Event.TimeChanged -> {
