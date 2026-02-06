@@ -37,10 +37,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.tools.dp
 import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 
 class TitleListView : ConstraintLayout {
 
+    var isLoading: Boolean = false
+        set(value) {
+            field = value
+            if (value) loading.state = EmptyLoadingState.LOADING else loading.state = EmptyLoadingState.NONE
+            if (value) list.setGone() else list.setVisible()
+        }
     private var actionClickListener: ((View) -> Unit)? = null
     var displayInCards: Boolean = true
         set(value) {

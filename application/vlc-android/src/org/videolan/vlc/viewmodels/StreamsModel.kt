@@ -21,11 +21,13 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -35,6 +37,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.util.DummyMediaWrapperProvider
 import org.videolan.vlc.util.EmptyPBSCallback
@@ -53,6 +56,7 @@ class StreamsModel(context: Context, private val showDummy: Boolean = false, cor
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
                 .onCompletion { onServiceChanged(null) }
                 .launchIn(viewModelScope)
+        loading.postValue(true)
     }
 
     override suspend fun updateList() {
@@ -61,6 +65,7 @@ class StreamsModel(context: Context, private val showDummy: Boolean = false, cor
                     .also {
                         deletingMedia?.let { remove(it) }
                         if (showDummy) it.add(0, DummyMediaWrapperProvider.getDummyMediaWrapper(-1))
+                        loading.postValue(!medialibrary.isStarted)
                     }
         }
 

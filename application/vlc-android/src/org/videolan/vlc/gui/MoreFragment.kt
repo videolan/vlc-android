@@ -143,14 +143,15 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         }
         streamsViewModel.dataset.observe(viewLifecycleOwner) {
             streamsAdapter.update(it)
-            streamsEntry.loading.state = EmptyLoadingState.NONE
+            if (streamsViewModel.loading.value == false)
+                streamsEntry.isLoading = false
 
         }
         streamsViewModel.loading.observe(viewLifecycleOwner) {
             lifecycleScope.launchWhenStarted {
                 if (it) delay(300L)
                 (activity as? MainActivity)?.refreshing = it
-                if (it) streamsEntry.loading.state = EmptyLoadingState.LOADING
+                streamsEntry.isLoading = it
             }
         }
         streamsEntry.actionButton.setVisible()
