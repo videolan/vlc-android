@@ -191,7 +191,7 @@ dependencies {
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     api "androidx.window:window:$rootProject.ext.windowVersion"
     api "androidx.media:media:$rootProject.ext.mediaVersion"
-    api 'androidx.gridlayout:gridlayout:1.0.0'
+    api 'androidx.gridlayout:gridlayout:1.1.0'
     api "androidx.car.app:app:$rootProject.ext.carVersion"
 
     ksp ("org.xerial:sqlite-jdbc:jdbcVersion")
@@ -203,15 +203,15 @@ dependencies {
     //TV
     api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
     api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
-    api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxTvProvider"
 
     // Kotlin
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
-    implementation 'nl.dionsegijn:konfetti-xml:2.0.4'
-    implementation 'com.google.zxing:core:3.4.0'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.5'
+    implementation 'com.google.zxing:core:3.5.4'
     implementation "androidx.palette:palette-ktx:1.0.0"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
 
@@ -235,7 +235,7 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$rootProject.ext.robolectric"
     androidTestImplementation "androidx.test:rules:$rootProject.ext.testCore"
     androidTestImplementation 'com.jraska:falcon:2.2.0'
-    androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
+    androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
 
     if (project.hasProperty('leakCanaryEnabled') && project.getProperty('leakCanaryEnabled')) {
         debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
