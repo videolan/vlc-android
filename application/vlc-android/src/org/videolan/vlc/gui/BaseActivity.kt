@@ -148,12 +148,8 @@ abstract class BaseActivity : AppCompatActivity() {
         Permissions.emptyCache()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String?>, grantResults: IntArray, deviceId: Int) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
         if (requestCode == Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE) {
             if (System.currentTimeMillis() -  Permissions.timeAsked < 300) {
                 //Answered really quick (not human) -> forwarding to app settings

@@ -292,8 +292,8 @@ fun updateImageViewTv(@DrawableRes res: Int, target: View) {
             target.visibility = View.VISIBLE
         }
         is ImageCardView -> {
-            target.mainImageView.scaleType = ImageView.ScaleType.CENTER_CROP
-            target.mainImageView.setImageResource(res)
+            target.mainImageView?.scaleType = ImageView.ScaleType.CENTER_CROP
+            target.mainImageView?.setImageResource(res)
         }
     }
 }
@@ -317,7 +317,7 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, update
             target.text = null
         }
         is ImageCardView -> {
-            target.mainImageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            target.mainImageView?.scaleType = ImageView.ScaleType.CENTER_CROP
             target.mainImage = BitmapDrawable(target.resources, bitmap)
         }
     }
