@@ -11,8 +11,8 @@
 
     <ImageView
             android:id="@+id/cover"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/audio_media_sw_item_cover_size"
+            android:layout_height="@dimen/audio_media_sw_item_cover_size"
             android:background="#00000000"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +34,7 @@
             android:singleLine="true"
             android:text="@string/title"
             android:textColor="?attr/font_default"
-            android:textSize="16sp"
+            android:textSize="@dimen/audio_media_sw_item_title_text_size"
             app:layout_constraintBottom_toTopOf="@+id/artist"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cover"

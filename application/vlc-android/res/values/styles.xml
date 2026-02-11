@@ -12,6 +12,16 @@
 
     </style>
 
+    <!-- VLC ULTIUM
+        Added customized text size for navigation menu items -->
+    <style name="UltiumNavRailText" parent="@style/TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="UltiumNavRailText.Active" parent="@style/UltiumNavRailText">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents</item>
         <item name="actionMenuTextColor">@color/white</item>
@@ -341,7 +351,6 @@
     <style name="Theme.VLC.Onboarding.7" parent="Theme.VLC.Black">
         <item name="background_default">@color/onboarding_grey</item>
         <item name="colorControlNormal">@color/white</item>
-        <item name="background_actionbar">@color/onboarding_grey</item>
     </style>
 
     <style name="Theme.VLC.TV" parent="Theme.Leanback">
@@ -603,7 +612,7 @@
     </style>
 
     <style name="VLC.TextViewDescription" parent="VLC.TextView">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/audio_item_description_size</item>
         <item name="android:textColor">?attr/list_subtitle</item>
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
@@ -622,9 +631,14 @@
     </style>
 
     <style name="VLC.Onboarding.Title" parent="TextAppearance.AppCompat.Headline">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">@dimen/onboarding_title_text_size</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="VLC.Onboarding.Title.Nocolor" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textSize">@dimen/onboarding_title_text_size</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="KeyboardButton">
@@ -637,7 +651,7 @@
     </style>
 
     <style name="VLC.Onboarding.Text" parent="TextAppearance.AppCompat.Headline">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/onboarding_text_size</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/white_transparent_80</item>
     </style>

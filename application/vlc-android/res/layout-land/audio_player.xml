@@ -104,10 +104,14 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
 
+        <!-- VLC Ultium
+                This constraintlayout contains media controls that initially show when
+                a user selects a track. The user can slide this one upward to hide it
+                and reveal the other in this -->
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header"
                 android:layout_width="0dp"
-                android:layout_height="68dp"
+                android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:fitsSystemWindows="true"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -116,8 +120,8 @@
 
             <ImageView
                     android:id="@+id/header_shuffle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/media_button_width"
+                    android:layout_height="@dimen/media_button_height"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="4dp"
                     android:background="?attr/actionBarItemBackground"
@@ -137,8 +141,8 @@
 
             <ImageView
                     android:id="@+id/header_previous"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/media_button_width"
+                    android:layout_height="@dimen/media_button_height"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
                     android:background="?attr/actionBarItemBackground"
@@ -157,8 +161,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/header_large_play_pause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/media_button_width"
+                    android:layout_height="@dimen/media_button_height"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
                     android:contentDescription="@string/play"
@@ -175,8 +179,8 @@
 
             <ImageView
                     android:id="@+id/header_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/media_button_width"
+                    android:layout_height="@dimen/media_button_height"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
                     android:background="?attr/actionBarItemBackground"
@@ -196,8 +200,8 @@
 
             <ImageView
                     android:id="@+id/header_repeat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/media_button_width"
+                    android:layout_height="@dimen/media_button_height"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="16dp"
                     android:background="?attr/actionBarItemBackground"
@@ -666,7 +670,7 @@
                 android:paddingBottom="8dp"
                 android:singleLine="true"
                 android:textColor="?attr/audio_chip_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/audio_player_progress_text_size"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toTopOf="@+id/time"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
@@ -742,8 +746,8 @@
 
         <ImageView
                 android:id="@+id/shuffle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/media_button_width"
+                android:layout_height="@dimen/media_button_height"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="?attr/actionBarItemBackground"
@@ -762,8 +766,8 @@
 
         <ImageView
                 android:id="@+id/previous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/media_button_width"
+                android:layout_height="@dimen/media_button_height"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="?attr/actionBarItemBackground"
@@ -780,8 +784,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/play_pause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/media_button_width"
+                android:layout_height="@dimen/media_button_height"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/play"
@@ -795,8 +799,8 @@
 
         <ImageView
                 android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/media_button_width"
+                android:layout_height="@dimen/media_button_height"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="?attr/actionBarItemBackground"
@@ -814,8 +818,8 @@
 
         <ImageView
                 android:id="@+id/repeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/media_button_width"
+                android:layout_height="@dimen/media_button_height"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="?attr/actionBarItemBackground"

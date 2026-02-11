@@ -80,7 +80,7 @@
         <ImageView
                 android:id="@+id/coverImage"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/playlist_item_image_height"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
@@ -98,8 +98,8 @@
 
         <org.videolan.vlc.gui.view.MiniVisualizer
                 android:id="@+id/playing"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/visualizer_playlist_item_size"
+                android:layout_height="@dimen/visualizer_playlist_item_size"
                 app:bar_color="?attr/mini_visualizer_color"
                 app:layout_constraintBottom_toBottomOf="@+id/coverImage"
                 app:layout_constraintEnd_toEndOf="@+id/coverImage"
@@ -115,7 +115,7 @@
                 android:minWidth="20dp"
                 android:gravity="end"
                 android:textColor="?attr/font_default"
-                android:textSize="14sp"
+                android:textSize="@dimen/playlist_item_track_number_text_size"
                 android:visibility="@{!showTrackNumbers  ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toStartOf="@+id/audio_item_title"
                 app:layout_constraintStart_toEndOf="@+id/coverImage"
@@ -138,7 +138,7 @@
                 android:singleLine="true"
                 android:text="@{media.title}"
                 android:textColor="?attr/font_default"
-                android:textSize="16sp"
+                android:textSize="@dimen/audio_item_name_text_size"
                 app:ellipsizeMode="@{true}"
                 app:layout_constraintBottom_toTopOf="@+id/audio_item_subtitle"
                 app:layout_constraintEnd_toEndOf="@+id/selector"
@@ -163,7 +163,7 @@
                 android:singleLine="true"
                 android:text="@{subTitle}"
                 android:textColor="?attr/font_audio_light"
-                android:textSize="12sp"
+                android:textSize="@dimen/audio_item_subtitle_text_size"
                 android:visibility="@{TextUtils.isEmpty(subTitle) &amp;&amp; !stopAfterThis  ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/stop_after"
@@ -251,8 +251,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/stop_after"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/playlist_item_stop_after_size"
+                android:layout_height="@dimen/playlist_item_stop_after_size"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/audio_item_subtitle"
                 app:layout_constraintEnd_toEndOf="@+id/audio_item_title"
