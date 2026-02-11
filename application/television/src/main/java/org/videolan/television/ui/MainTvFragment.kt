@@ -22,8 +22,6 @@
 
 package org.videolan.television.ui
 
-//import org.videolan.vlc.donations.BillingStatus
-//import org.videolan.vlc.donations.VLCBilling
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -58,6 +56,7 @@ import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP
 import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP_PAUSED
 import org.videolan.resources.HEADER_CATEGORIES
 import org.videolan.resources.HEADER_HISTORY
+import org.videolan.resources.HEADER_IPTV
 import org.videolan.resources.HEADER_MISC
 import org.videolan.resources.HEADER_NETWORK
 import org.videolan.resources.HEADER_NOW_PLAYING
@@ -104,6 +103,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var recentlyPlayedAdapter: ArrayObjectAdapter
     private lateinit var recentlyAddedAdapter: ArrayObjectAdapter
     private lateinit var videoAdapter: ArrayObjectAdapter
+    private lateinit var ipTvAdapter: ArrayObjectAdapter
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
     private lateinit var playlistAdapter: ArrayObjectAdapter
@@ -115,6 +115,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var recentlyPlayedRow: ListRow
     private lateinit var recentlyAdddedRow: ListRow
     private lateinit var videoRow: ListRow
+    private lateinit var ipTvRow: ListRow
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
     private lateinit var playlistRow: ListRow
@@ -141,15 +142,15 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         super.onCreate(savedInstanceState)
         // Set display parameters for the BrowseFragment
         headersState = HEADERS_ENABLED
-        title = getString(R.string.app_name)
-        badgeDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.icon)
+        title = null
+//        badgeDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.icon)
 
         //Enable search feature only if we detect Google Play Services.
-        if (AndroidDevices.hasPlayServices) {
-            setOnSearchClickedListener(this)
-            // set search icon color
-            searchAffordanceColor = ContextCompat.getColor(requireContext(), R.color.orange600)
-        }
+//        if (AndroidDevices.hasPlayServices) {
+//            setOnSearchClickedListener(this)
+//            // set search icon color
+//            searchAffordanceColor = ContextCompat.getColor(requireContext(), R.color.orange600)
+//        }
         brandColor = ContextCompat.getColor(requireContext(), R.color.orange900)
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         model = getMainTvModel()
@@ -196,9 +197,15 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter.add(recentlyAdddedRow)
         // Video
         videoAdapter = ArrayObjectAdapter(CardPresenter(ctx))
-        val videoHeader = HeaderItem(0, getString(R.string.video))
+        val videoHeader = HeaderItem(HEADER_VIDEO, getString(R.string.video))
         videoRow = ListRow(videoHeader, videoAdapter)
         rowsAdapter.add(videoRow)
+
+        ipTvAdapter = ArrayObjectAdapter(CardPresenter(ctx))
+        val ipTvHeader = HeaderItem(HEADER_IPTV, "IPTV")
+        ipTvRow = ListRow(ipTvHeader, ipTvAdapter)
+        rowsAdapter.add(videoRow)
+
         // Audio
         categoriesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val musicHeader = HeaderItem(HEADER_CATEGORIES, getString(R.string.audio))
@@ -267,11 +274,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         onItemViewSelectedListener = this
         // ViewModel setup
         registerDatasets()
+
     }
 
     override fun onResume() {
         super.onResume()
-        badgeDrawable = ContextCompat.getDrawable(requireContext(), if (Settings.incognitoMode) R.drawable.ic_incognito else R.drawable.icon)
+        //badgeDrawable = ContextCompat.getDrawable(requireContext(), if (Settings.incognitoMode) R.drawable.ic_incognito else R.drawable.icon)
     }
 
     private fun manageDonationVisibility(donateCard: GenericCardItem) {
@@ -298,6 +306,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             videoAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_VIDEO)
         }
+
+        model.ipTvList.observe(requireActivity()) {
+            ipTvAdapter.setItems(it, diffCallback)
+            addAndCheckLoadedLines(HEADER_IPTV)
+        }
+
         model.nowPlaying.observe(requireActivity()) {
             displayNowPlaying = it.isNotEmpty()
             nowPlayingAdapter.setItems(it, diffCallback)
@@ -329,7 +343,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             playlistAdapter.setItems(it, diffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_PLAYLISTS)
-
         }
     }
 
@@ -346,7 +359,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun resetLines() {
-        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow, audioRow, playlistRow, historyRow, favoritesRow, browsersRow, miscRow).filter {
+        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow,
+            ipTvRow, audioRow, playlistRow, historyRow, favoritesRow, browsersRow, miscRow).filter {
             when {
                 !displayRecentlyPlayed && it == recentlyPlayedRow -> false
                 !displayRecentlyAdded && it == recentlyAdddedRow -> false
@@ -359,14 +373,18 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
         }
         var needToRefresh = false
-        if (adapters.size != rowsAdapter.size()) needToRefresh = true else
+        if (adapters.size != rowsAdapter.size())
+            needToRefresh = true
+        else
             adapters.withIndex().forEach {
                 if ((rowsAdapter.get(it.index) as ListRow).headerItem != it.value.headerItem) {
                     needToRefresh = true
                     return@forEach
                 }
             }
-        if (needToRefresh) rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
+
+        if (needToRefresh)
+            rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
     }
 
     override fun onStart() {

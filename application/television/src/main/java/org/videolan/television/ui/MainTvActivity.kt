@@ -108,7 +108,8 @@ class MainTvActivity : BaseTvActivity(), StoragePermissionsDelegate.CustomAction
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y) {
             browseFragment.showDetails()
-        } else super.onKeyDown(keyCode, event)
+        } else
+           super.onKeyDown(keyCode, event)
     }
 
     override fun onParsingServiceStarted() {

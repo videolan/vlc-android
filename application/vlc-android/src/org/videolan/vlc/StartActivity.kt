@@ -75,6 +75,7 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.BetaWelcomeActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
+import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.gui.onboarding.startOnboarding
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
@@ -185,15 +186,18 @@ class StartActivity : FragmentActivity() {
         val settings = Settings.getInstance(this)
         val currentVersionNumber = BuildConfig.VLC_VERSION_CODE
         val savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1)
-        /* Check if it's the first run */
+
         val firstRun = savedVersionNumber == -1
+
         Settings.firstRun = firstRun
         if (firstRun && AndroidDevices.hasToForceTV()) {
             settings.putSingle(PREF_TV_UI, true)
         }
         val upgrade = firstRun || savedVersionNumber != currentVersionNumber
-        val tv = showTvUi()
-        if (upgrade && (tv || !firstRun)) settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
+        val tv = showTvUi() // 显示tvUI
+        if (upgrade && (tv || !firstRun)) { // tvUi下没走完引导也保存值
+            settings.putSingle(PREF_FIRST_RUN, currentVersionNumber)
+        }
         val removeOldDevices = savedVersionNumber in 3028201..3028399
         settings.putSingle(PREF_SHOW_VIDEO_SETTINGS_DISCLAIMER, savedVersionNumber < 3060330 && !firstRun)
         // Route search query
@@ -279,6 +283,7 @@ class StartActivity : FragmentActivity() {
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
         if (!onboarding || !firstRun) {
+//        if (false) {
             Thread {
                 AppScope.launch {
                     // workaround for a Android 9 bug
@@ -290,15 +295,27 @@ class StartActivity : FragmentActivity() {
                     if (onboarding) settings.putSingle(ONBOARDING_DONE_KEY, true)
                 }
             }.start()
+//            val mainIntent = Intent(Intent.ACTION_VIEW)
+//                    .setClassName(applicationContext, if (tv) TV_MAIN_ACTIVITY else MOBILE_MAIN_ACTIVITY)
+//                    .putExtra(EXTRA_FIRST_RUN, firstRun)
+//                    .putExtra(EXTRA_UPGRADE, upgrade)
+//            if (tv && intent.hasExtra(EXTRA_PATH)) mainIntent.putExtra(EXTRA_PATH, intent.getStringExtra(EXTRA_PATH))
+//            if (target != 0) mainIntent.putExtra(EXTRA_TARGET, target)
+
             val mainIntent = Intent(Intent.ACTION_VIEW)
-                    .setClassName(applicationContext, if (tv) TV_MAIN_ACTIVITY else MOBILE_MAIN_ACTIVITY)
-                    .putExtra(EXTRA_FIRST_RUN, firstRun)
-                    .putExtra(EXTRA_UPGRADE, upgrade)
-            if (tv && intent.hasExtra(EXTRA_PATH)) mainIntent.putExtra(EXTRA_PATH, intent.getStringExtra(EXTRA_PATH))
+                .setClassName(applicationContext, TV_MAIN_ACTIVITY)
+                .putExtra(EXTRA_FIRST_RUN, firstRun)
+                .putExtra(EXTRA_UPGRADE, upgrade)
+            mainIntent.putExtra(EXTRA_PATH, intent.getStringExtra(EXTRA_PATH))
             if (target != 0) mainIntent.putExtra(EXTRA_TARGET, target)
             startActivity(mainIntent)
         } else {
-            if (!tv) startOnboarding() else startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(applicationContext, TV_ONBOARDING_ACTIVITY) })
+            if (!tv) {
+                startOnboarding()
+            } else
+            {
+                startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(applicationContext, TV_ONBOARDING_ACTIVITY) })
+            }
         }
     }
 

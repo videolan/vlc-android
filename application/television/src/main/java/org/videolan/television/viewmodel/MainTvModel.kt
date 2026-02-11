@@ -24,6 +24,9 @@ package org.videolan.television.viewmodel
 
 import android.app.Application
 import android.content.Intent
+import android.util.ArrayMap
+import android.util.Log
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
@@ -45,6 +48,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
@@ -73,9 +77,12 @@ import org.videolan.resources.HEADER_STREAM
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.util.getFromMl
+import org.videolan.television.ui.DetailsActivity
 import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.MainTvActivity
+import org.videolan.television.ui.MediaItemDetails
 import org.videolan.television.ui.NowPlayingDelegate
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
@@ -96,6 +103,11 @@ import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.convertFavorites
 import org.videolan.vlc.util.scanAllowed
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import kotlin.math.log
+import kotlin.text.Charsets.UTF_8
+
 
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "MainTvModel"
@@ -122,6 +134,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val history: LiveData<List<MediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val ipTvList: LiveData<List<MediaWrapper>> = MutableLiveData()
     val recentlyPlayed: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
     val recentlyAdded: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
 
@@ -166,19 +179,26 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         historyActor.trySend(Unit)
         updateActor.trySend(Unit)
         updatePlaylists()
+        if (ipTvList.value?.isEmpty() ?: true ) {
+            updateIpTvList()
+        }
     }
 
     private suspend fun setHistory() {
         if (!medialibrary.isStarted) return
         val historyEnabled = settings.getBoolean(PLAYBACK_HISTORY, true)
         showHistory = historyEnabled
-        if (!historyEnabled) (history as MutableLiveData).value = emptyList()
-        else updateHistory()
+        if (!historyEnabled)
+                (history as MutableLiveData).value = emptyList()
+        else
+            updateHistory()
     }
 
     suspend fun updateHistory() {
         if (!showHistory) return
-        (history as MutableLiveData).value = context.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL).toMutableList() }
+        (history as MutableLiveData).value = context.getFromMl {
+            history(Medialibrary.HISTORY_TYPE_LOCAL).toMutableList()
+        }
     }
 
     private fun updateVideos() = viewModelScope.launch {
@@ -190,6 +210,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         val allMovies = withContext(Dispatchers.IO) { mediaMetadataRepository.getMovieCount() }
         val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
         val videoNb = context.getFromMl { videoCount }
+
         context.getFromMl {
             getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, NUM_ITEMS_PREVIEW, 0)
         }.let {
@@ -204,6 +225,62 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                 addAll(it)
             }
         }
+        // 解析:: 上述代码实际调用过程 如果媒体库没有运行则在协程中处理（省略）
+//        val ml = Medialibrary.getInstance()
+//        if (ml.isStarted) {
+//            ml.getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, NUM_ITEMS_PREVIEW, 0).let {
+//                (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
+//                    add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, videoNb, videoNb)))
+//                    if (allMovies > 0) {
+//                        add(DummyItem(HEADER_MOVIES, context.getString(R.string.header_movies), context.resources.getQuantityString(R.plurals.movies_quantity, allMovies, allMovies)))
+//                    }
+//                    if (allTvshows > 0) {
+//                        add(DummyItem(HEADER_TV_SHOW, context.getString(R.string.header_tvshows), context.resources.getQuantityString(R.plurals.tvshow_quantity, allTvshows, allTvshows)))
+//                    }
+//                    addAll(it)
+//                }
+//            }
+//        }
+
+    }
+
+    private data class IpTvObj(val name:String, val urls: MutableList<String>)
+
+    private fun updateIpTvList() = viewModelScope.launch (Dispatchers.IO) { // 在io线程中读取iptv文件
+        val assetManager = context.assets
+        val list = assetManager.list("m3us")
+        val iptvMap : MutableMap<String, IpTvObj> = ArrayMap()
+        list?.forEach {
+            val inputStream = assetManager.open("m3us/$it")
+            val reader = BufferedReader(InputStreamReader(inputStream, UTF_8))
+            reader.forEachLine { line ->
+                if (!line.startsWith("#EXTINF:-1")) {
+                    return@forEachLine
+                }
+                val nextLine = reader.readLine()
+                if (!nextLine.startsWith("http")) {
+                    return@forEachLine
+                }
+                val name = line.substring("#EXTINF:-1 ,".length)
+                val obj: IpTvObj = iptvMap.getOrElse(name) {
+                    IpTvObj(name, ArrayList())
+                }
+                obj.urls.add(nextLine)
+                iptvMap[name] = obj
+            }
+        }
+
+        val mediaList : MutableList<MediaWrapper> = ArrayList()
+        iptvMap.forEach { (k, v) ->
+            var i = 1
+            v.urls.forEach {
+                val mm = MLServiceLocator.getAbstractMediaWrapper(it.toUri())
+                mm.rename("$k${i++}")
+                mediaList.add(mm)
+            }
+        }
+
+        (ipTvList as MutableLiveData).postValue(mediaList)
     }
 
     private fun updateRecentlyPlayed() = viewModelScope.launch {
@@ -278,7 +355,10 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         val list = mutableListOf<MediaLibraryItem>()
         val directories = DirectoryRepository.getInstance(context).getMediaDirectoriesList(context).toMutableList()
         if (!showInternalStorage && directories.isNotEmpty()) directories.removeAt(0)
-        directories.forEach { if (it.location.scanAllowed()) list.add(it) }
+        directories.forEach {
+            if (it.location.scanAllowed())
+                list.add(it)
+        }
 
         if (networkMonitor.isLan) {
             list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
@@ -322,6 +402,9 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                     activity.startActivity(intent)
                 }
                 else -> {
+//                    val  mm = MLServiceLocator.getAbstractMediaWrapper("http://play1-qk.nmtv.cn/live/1735545967595013.m3u8".toUri())
+//                    MediaUtils.openMedia(activity, mm)
+//                    activity.startActivity(Intent(activity, VideoPlayerActivity::class.java))
                     MediaUtils.openMedia(activity, item)
                     if (item.type == MediaWrapper.TYPE_AUDIO) {
                         activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
@@ -349,16 +432,18 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                         context.getFromMl {
                             getMedia(it)
                         }.let {
-                            val intent = Intent(activity, org.videolan.television.ui.DetailsActivity::class.java)
+                            val intent = Intent(activity, DetailsActivity::class.java)
                             // pass the item information
                             intent.putExtra("media", it)
-                            intent.putExtra("item", org.videolan.television.ui.MediaItemDetails(it.title, it.artistName, it.albumName, it.location, it.artworkURL))
+                            intent.putExtra("item",
+                                MediaItemDetails(it.title, it.artistName, it.albumName, it.location, it.artworkURL)
+                            )
                             activity.startActivity(intent)
                         }
                     }
                 }
             }
-            is MediaLibraryItem -> org.videolan.television.ui.TvUtil.openAudioCategory(activity, item)
+            is MediaLibraryItem -> TvUtil.openAudioCategory(activity, item)
         }
     }
 
