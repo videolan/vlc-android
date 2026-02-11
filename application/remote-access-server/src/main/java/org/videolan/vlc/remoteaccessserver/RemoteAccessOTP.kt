@@ -30,6 +30,7 @@ import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.REMOTE_ACCESS_CODE_ID
 import org.videolan.vlc.remoteaccessserver.ssl.SecretGenerator
 import org.videolan.vlc.remoteaccessserver.utils.CypherUtils
+import org.videolan.vlc.util.RemoteAccessUtils
 import java.security.SecureRandom
 
 
@@ -116,6 +117,14 @@ object RemoteAccessOTP {
         with(NotificationManagerCompat.from(appContext)) {
             cancel(REMOTE_ACCESS_CODE_ID)
         }
+    }
+
+    suspend fun removeAllCodes(appContext: Context) {
+        codes.clear()
+        with(NotificationManagerCompat.from(appContext)) {
+            cancel(REMOTE_ACCESS_CODE_ID)
+        }
+        RemoteAccessUtils.otpFlow.emit(null)
     }
 }
 
