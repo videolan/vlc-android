@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5"/>
+            app:layout_constraintGuide_percent="0.4"/>
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/text_barrier"
@@ -58,9 +58,9 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:maxWidth="600dp"
+            android:maxWidth="@dimen/empty_text_view_max_width"
             android:textColor="?attr/font_light"
-            android:textSize="16sp"
+            android:textSize="@dimen/empty_text_view_text_size"
             app:layout_constraintBottom_toBottomOf="@id/guideline12"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -77,8 +77,7 @@
             android:gravity="center"
             android:maxWidth="600dp"
             android:text="@string/permission_not_granted"
-            android:textColor="?attr/empty_title"
-            android:textSize="22sp"
+            android:textAppearance="@style/VLC.Onboarding.Title.Nocolor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emptyImageView"
@@ -95,7 +94,7 @@
             android:maxWidth="600dp"
             android:text="@string/permission_media"
             android:textColor="?attr/font_light"
-            android:textSize="16sp"
+            android:textSize="@dimen/permission_text_view_text_size"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/permissionTitle"
@@ -103,8 +102,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/emptyImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/empty_vlc_image_size"
+            android:layout_height="@dimen/empty_vlc_image_size"
             app:layout_constraintBottom_toTopOf="@id/emptyTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,8 +113,9 @@
     <Button
             android:id="@+id/noMediaButton"
             style="?attr/empty_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/media_preferences_button_width"
+            android:layout_height="@dimen/media_preferences_button_height"
+            android:textSize="@dimen/media_preferences_button_text_size"
             android:layout_marginTop="24dp"
             android:text="@string/button_medialibrary_preferences"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -126,8 +126,9 @@
     <Button
             android:id="@+id/grantPermissionButton"
             style="?attr/empty_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/grant_permission_button_width"
+            android:layout_height="@dimen/grant_permission_button_height"
+            android:textSize="@dimen/grant_permission_button_text_size"
             android:layout_marginTop="24dp"
             android:text="@string/permission_ask_again"
             app:layout_constraintEnd_toEndOf="@+id/noMediaButton"
@@ -139,8 +140,9 @@
     <Button
             android:id="@+id/pickFile"
             style="?attr/empty_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/pick_a_file_button_width"
+            android:layout_height="@dimen/pick_a_file_button_height"
+            android:textSize="@dimen/pick_a_file_button_text_size"
             android:layout_marginTop="16dp"
             android:text="@string/pick_file"
             app:layout_constraintEnd_toEndOf="@+id/noMediaButton"
@@ -155,7 +157,7 @@
             android:layout_weight="1"
             android:gravity="start"
             android:text="@string/loading"
-            android:textSize="20sp"
+            android:textSize="@dimen/onboarding_loading_text_size"
             app:layout_constraintBottom_toTopOf="@+id/guideline12"
             app:layout_constraintEnd_toStartOf="@+id/loadingFlipper"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -177,28 +179,28 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="@string/empty"
-                android:textSize="20sp" />
+                android:textSize="@dimen/onboarding_loading_text_size" />
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="@string/load_1_period"
-                android:textSize="20sp" />
+                android:textSize="@dimen/onboarding_loading_text_size" />
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="@string/load_2_period"
-                android:textSize="20sp" />
+                android:textSize="@dimen/onboarding_loading_text_size" />
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="@string/load_3_period"
-                android:textSize="20sp" />
+                android:textSize="@dimen/onboarding_loading_text_size" />
     </ViewFlipper>
 
 

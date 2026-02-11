@@ -12,7 +12,7 @@
     <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="@dimen/toolbar_height"
             android:keyboardNavigationCluster="true"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationContentDescription="@string/abc_action_bar_up_description"
@@ -25,8 +25,8 @@
 
         <ImageView
                 android:id="@+id/toolbar_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/toolbar_icon_width"
+                android:layout_height="@dimen/toolbar_icon_height"
                 app:srcCompat="@drawable/ic_incognito" />
 
         <TextView

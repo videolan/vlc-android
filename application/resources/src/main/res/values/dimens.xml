@@ -1,5 +1,37 @@
 <resources>
 
+    <!-- Special Value Keys
+     -1 -> match_parent
+     -2 -> wrap_content
+     -->
+    <!-- Toolbar -->
+    <dimen name="toolbar_height">-2</dimen>
+    <dimen name="toolbar_icon_height">32</dimen>
+    <dimen name="toolbar_icon_width">34</dimen>
+
+    <!-- Rail Items -->
+    <dimen name="navigation_rail_menu_width">-2</dimen>
+
+    <!-- Media Buttons -->
+    <dimen name="media_button_width">-2</dimen>
+    <dimen name="media_button_height">-2</dimen>
+
+    <!-- General Layout -->
+    <dimen name="layout_starting_margin">0dp</dimen>
+
+    <!-- Category Tab Labels -->
+    <dimen name="tab_text_size">12sp</dimen>
+
+    <!-- Playlist Item Dimensions -->
+    <dimen name="playlist_item_image_height">48dp</dimen>
+    <dimen name="visualizer_playlist_item_size">32dp</dimen>
+    <dimen name="playlist_item_track_number_text_size">14sp</dimen>
+    <dimen name="audio_item_name_text_size">16sp</dimen>
+    <dimen name="audio_item_subtitle_text_size">12sp</dimen>
+    <dimen name="playlist_item_stop_after_size">24sp</dimen>
+    <dimen name="audio_player_progress_text_size">12sp</dimen>
+    <dimen name="playlist_control_item_icon_size">0dp</dimen>
+
     <dimen name="custom_match_parent">-1px</dimen>
 
     <dimen name="shadow_width">6px</dimen>
@@ -73,7 +105,7 @@
     <dimen name="info_default_margin">16dp</dimen>
 
     <dimen name="info_dialog_peek_height">120dip</dimen>
-    <dimen name="player_peek_height">72dp</dimen>
+    <dimen name="player_peek_height">100dp</dimen>
 
     <!-- fast scroller -->
     <dimen name="fastscroller_handle_corner">25dp</dimen>
@@ -105,6 +137,7 @@
     <dimen name="audio_item_header_padding">4dp</dimen>
     <dimen name="audio_item_padding_botom">4dp</dimen>
     <dimen name="audio_item_title_size">14sp</dimen>
+    <dimen name="audio_item_description_size">12sp</dimen>
     <dimen name="wizard_dialog_width">288dp</dimen>
     <dimen name="recycler_section_header_height">36dp</dimen>
     <dimen name="recycler_section_header_tv_height">56dp</dimen>
@@ -116,4 +149,41 @@
     <dimen name="audio_cover">48dp</dimen>
     <dimen name="video_cover">100dp</dimen>
 
+    <!-- Audio Media Switcher Item -->
+    <dimen name="audio_media_sw_item_cover_size">48dp</dimen>
+    <dimen name="audio_media_sw_item_title_text_size">16sp</dimen>
+    <dimen name="audio_media_sw_item_artist_text_size">14sp</dimen>
+
+    <!-- Video Grid -->
+    <dimen name="video_grid_card_title_text_size">16sp</dimen>
+    <dimen name="video_grid_card_description_text_size">12sp</dimen>
+
+    <!-- Header Media List -->
+    <dimen name="header_media_list_title_text_size">@dimen/lb_browse_header_text_size</dimen>
+    <dimen name="header_media_list_artist_text_size">14sp</dimen>
+    <dimen name="header_media_list_release_text_size">14sp</dimen>
+    <dimen name="header_media_list_duration_text_size">14sp</dimen>
+    <dimen name="header_media_list_play_button_text_size">14sp</dimen>
+
+    <!-- Onboarding -->
+    <dimen name="onboarding_text_size">16sp</dimen>
+    <dimen name="onboarding_title_text_size">22sp</dimen>
+    <dimen name="empty_vlc_image_size">-2</dimen>
+    <dimen name="permission_text_view_text_size">16sp</dimen>
+    <dimen name="grant_permission_button_height">-2</dimen>
+    <dimen name="grant_permission_button_width">-2</dimen>
+    <dimen name="grant_permission_button_text_size">12sp</dimen>
+    <dimen name="pick_a_file_button_height">-2</dimen>
+    <dimen name="pick_a_file_button_width">-2</dimen>
+    <dimen name="pick_a_file_button_text_size">12sp</dimen>
+    <dimen name="media_preferences_button_height">-2</dimen>
+    <dimen name="media_preferences_button_width">-2</dimen>
+    <dimen name="media_preferences_button_text_size">12</dimen>
+    <dimen name="onboarding_loading_text_size">20sp</dimen>
+    <dimen name="no_media_found_text_size">12sp</dimen>
+    <dimen name="empty_text_view_text_size">16sp</dimen>
+    <dimen name="empty_text_view_max_width">600dp</dimen>
+    <dimen name="onboarding_control_button_height">-2</dimen>
+    <dimen name="onboarding_control_button_width">-2</dimen>
+    <dimen name="onboarding_control_button_text_size">12sp</dimen>
 </resources>

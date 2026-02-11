@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Toolbar -->
+    <dimen name="toolbar_height">80dp</dimen>
+    <dimen name="toolbar_icon_height">64dp</dimen>
+    <dimen name="toolbar_icon_width">64dp</dimen>
+
+    <!-- Rail Items -->
+    <dimen name="navigation_rail_menu_width">120dp</dimen>
+
+    <!-- Media Buttons -->
+    <dimen name="media_button_width">130dp</dimen>
+    <dimen name="media_button_height">130dp</dimen>
+
+    <!-- General Layout -->
+    <dimen name="layout_starting_margin">80dp</dimen>
+
+    <!-- Category Tab Labels -->
+    <dimen name="tab_text_size">36sp</dimen>
+
+    <!-- Playlist Item Dimensions -->
+    <dimen name="playlist_item_image_height">48dp</dimen>
+    <dimen name="visualizer_playlist_item_size">64dp</dimen>
+    <dimen name="playlist_item_track_number_text_size">28sp</dimen>
+    <dimen name="audio_item_name_text_size">32sp</dimen>
+    <dimen name="audio_item_subtitle_text_size">24sp</dimen>
+    <dimen name="playlist_item_stop_after_size">48sp</dimen>
+    <dimen name="audio_player_progress_text_size">24sp</dimen>
+
+    <dimen name="player_peek_height">130dp</dimen>
+
+    <!-- Audio Items-->
+    <dimen name="audio_browser_item_size">80dp</dimen>
+    <dimen name="audio_item_title_size">34sp</dimen>
+    <dimen name="audio_item_description_size">28sp</dimen>
+    <dimen name="audio_cover">96dp</dimen>
+
+    <!-- Audio Media Switch Items -->
+    <dimen name="audio_media_sw_item_cover_size">96dp</dimen>
+    <dimen name="audio_media_sw_item_title_text_size">32sp</dimen>
+    <dimen name="audio_media_sw_item_artist_text_size">28sp</dimen>
+
+    <!-- Video Grid -->
+    <dimen name="video_grid_card_title_text_size">32sp</dimen>
+    <dimen name="video_grid_card_description_text_size">24sp</dimen>
+
+    <!-- Header Media List -->
+    <dimen name="header_media_list_title_text_size">40sp</dimen>
+    <dimen name="header_media_list_artist_text_size">32sp</dimen>
+    <dimen name="header_media_list_release_text_size">32sp</dimen>
+    <dimen name="header_media_list_duration_text_size">28sp</dimen>
+    <dimen name="header_media_list_play_button_text_size">28sp</dimen>
+
+    <!-- Onboarding -->
+    <dimen name="onboarding_title_text_size">48sp</dimen>
+    <dimen name="onboarding_text_size">32sp</dimen>
+    <dimen name="empty_vlc_image_size">80dp</dimen>
+    <dimen name="permission_text_view_text_size">34sp</dimen>
+    <dimen name="grant_permission_button_height">80dp</dimen>
+    <dimen name="grant_permission_button_width">400dp</dimen>
+    <dimen name="grant_permission_button_text_size">32sp</dimen>
+    <dimen name="pick_a_file_button_height">80dp</dimen>
+    <dimen name="pick_a_file_button_width">400dp</dimen>
+    <dimen name="pick_a_file_button_text_size">32sp</dimen>
+    <dimen name="media_preferences_button_height">80dp</dimen>
+    <dimen name="media_preferences_button_width">650dp</dimen>
+    <dimen name="media_preferences_button_text_size">24sp</dimen>
+    <dimen name="onboarding_loading_text_size">34sp</dimen>
+    <dimen name="no_media_found_text_size">28sp</dimen>
+    <dimen name="empty_text_view_text_size">38sp</dimen>
+    <dimen name="empty_text_view_max_width">800dp</dimen>
+    <dimen name="onboarding_control_button_height">100dp</dimen>
+    <dimen name="onboarding_control_button_width">180dp</dimen>
+    <dimen name="onboarding_control_button_text_size">32sp</dimen>
+</resources>

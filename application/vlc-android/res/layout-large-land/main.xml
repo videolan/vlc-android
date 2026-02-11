@@ -15,7 +15,10 @@
             app:elevation="4dp"
             app:headerLayout="@layout/navigation_rail_fab"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:menu="@menu/bottom_navigation" />
+            app:menu="@menu/bottom_navigation"
+            app:itemIconSize="60dp"
+            app:itemTextAppearanceInactive="@style/UltiumNavRailText"
+            app:itemTextAppearanceActive="@style/UltiumNavRailText.Active"/>
 
     <include
             layout="@layout/toolbar"
