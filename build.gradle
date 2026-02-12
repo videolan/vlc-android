@@ -49,7 +49,6 @@ ext {
     remoteAccessVersion = '0.11.0'
     libvlcVersion = vlcMajorVersion == 3 ? '3.6.5' :'4.0.0-eap23'
     medialibraryVersion = '0.13.16' + (vlcMajorVersion == 3 ? '' : '-vlc4') + '-rc20'
-    buildToolsVersion = vlcMajorVersion == 3 ? '35.0.0' : '35.0.0'
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     // default ndkVersion in  android_plugin_version in 8.9.1: 27.0.12077973
