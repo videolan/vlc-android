@@ -73,4 +73,17 @@
     <dimen name="onboarding_control_button_height">100dp</dimen>
     <dimen name="onboarding_control_button_width">180dp</dimen>
     <dimen name="onboarding_control_button_text_size">32sp</dimen>
+
+    <!-- Card Browser Item -->
+    <dimen name="three_states_checkbox_size">28dp</dimen>
+    <dimen name="card_browser_item_icon_height">128dp</dimen>
+    <dimen name="card_browser_item_icon_width">190dp</dimen>
+    <dimen name="card_browser_item_visualizer_size">64dp</dimen>
+    <dimen name="card_browser_item_title_text_size">28sp</dimen>
+    <dimen name="card_browser_item_desc_text_size">24sp</dimen>
+    <dimen name="card_browser_more_icon_size">38dp</dimen>
+
+    <!-- Title List -->
+    <dimen name="title_list_title_text_size">32sp</dimen>
+
 </resources>

@@ -108,8 +108,8 @@
 
             <org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
                     android:id="@+id/browser_checkbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/three_states_checkbox_size"
+                    android:layout_height="@dimen/three_states_checkbox_size"
                     android:enabled="@{checkEnabled}"
                     android:focusable="false"
                     android:onClick="@{holder::onCheckBoxClick}"
@@ -133,8 +133,8 @@
             <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
             <ImageView
                     android:id="@+id/item_icon"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="@dimen/card_browser_item_icon_width"
+                    android:layout_height="@dimen/card_browser_item_icon_height"
                     android:layout_marginTop="8dp"
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
@@ -146,8 +146,8 @@
 
             <org.videolan.vlc.gui.view.MiniVisualizer
                     android:id="@+id/playing"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="@dimen/card_browser_item_visualizer_size"
+                    android:layout_height="@dimen/card_browser_item_visualizer_size"
                     app:bar_color="?attr/mini_visualizer_color"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/item_icon"
@@ -157,8 +157,8 @@
 
             <ImageView
                     android:id="@+id/ml_item_seen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/three_states_checkbox_size"
+                    android:layout_height="@dimen/three_states_checkbox_size"
                     android:background="@drawable/rounded_corners_black_bottom_right"
                     android:padding="3dp"
                     android:visibility="@{played ? View.VISIBLE : View.GONE, default=gone}"
@@ -203,7 +203,7 @@
                     android:singleLine="true"
                     app:asyncText="@{filename ?? item.title}"
                     android:textColor="?attr/list_title"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/card_browser_item_title_text_size"
                     app:ellipsizeMode="@{true}"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintBottom_toTopOf="@+id/text"
@@ -222,7 +222,7 @@
                     android:maxLines="1"
                     app:browserDescription="@{item.description}"
                     android:textColor="?attr/list_subtitle"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/card_browser_item_desc_text_size"
                     android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/item_more"
@@ -232,8 +232,8 @@
 
             <ImageView
                     android:id="@+id/item_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/card_browser_more_icon_size"
+                    android:layout_height="@dimen/card_browser_more_icon_size"
                     android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="@{hasContextMenu}"

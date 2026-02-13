@@ -808,7 +808,7 @@
     <style name="Theme.VLC.HorizontalListTitle">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">?attr/colorAccent</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/title_list_title_text_size</item>
     </style>
 
     <style name="ToolbarTitleText" parent="@style/TextAppearance.MaterialComponents.Headline6">
