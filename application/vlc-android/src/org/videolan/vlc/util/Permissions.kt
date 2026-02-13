@@ -264,10 +264,18 @@ object Permissions {
             activity.requestStoragePermission(true, callback)
     }
 
-    fun checkDrawOverlaysPermission(activity: FragmentActivity) {
+    /**
+     * Check draw overlays permission
+     *
+     * @param activity the activity to check with
+     * @return true if the permission dialog has been opened
+     */
+    fun checkDrawOverlaysPermission(activity: FragmentActivity): Boolean {
         if (AndroidUtil.isMarshMallowOrLater && !canDrawOverlays(activity)) {
             showSettingsPermissionDialog(activity, PERMISSION_SYSTEM_DRAW_OVRLAYS)
+            return true
         }
+        return false
     }
 
     fun checkPiPPermission(activity: FragmentActivity) {

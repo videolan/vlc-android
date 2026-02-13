@@ -78,6 +78,7 @@ import org.videolan.tools.KEY_OPENGL
 import org.videolan.tools.KEY_PREFER_SMBV1
 import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
+import org.videolan.tools.POPUP_FORCE_LEGACY
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -103,6 +104,7 @@ import org.videolan.vlc.isVLC4
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.share
 import java.io.File
 import java.io.IOException
@@ -113,6 +115,7 @@ private const val RESULT_VALUE_CLEAR_MEDIA_DATABASE = 2
 private const val RESULT_VALUE_CLEAR_APP_DATA = 3
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private var needToRestartOnResume = false
     override fun getXml() =  R.xml.preferences_adv
 
     override fun getTitleId(): Int {
@@ -207,6 +210,17 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onStop() {
         super.onStop()
         preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onResume() {
+        if (needToRestartOnResume) {
+            lifecycleScope.launch {
+                VLCInstance.restart()
+                UiTools.restartDialog(requireActivity())
+            }
+            needToRestartOnResume = false
+        }
+        super.onResume()
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -378,8 +392,13 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                             requireActivity(),
                                 data.getStringExtra(EXTRA_MRL)!!.toUri()
                         )
-                        VLCInstance.restart()
-                        UiTools.restartDialog(requireActivity())
+                        var continueRestart = true
+                        if (Settings.getInstance(requireActivity()).getBoolean(POPUP_FORCE_LEGACY, false) && !Permissions.canDrawOverlays(requireActivity()))
+                            continueRestart = !Permissions.checkDrawOverlaysPermission(requireActivity())
+                        if (continueRestart) {
+                            VLCInstance.restart()
+                            UiTools.restartDialog(requireActivity())
+                        } else needToRestartOnResume = true
                     } catch (e: Exception) {
                         Log.e("EqualizerSettings", "onActivityResult: ${e.message}", e)
                         UiTools.snacker(requireActivity(), getString(R.string.invalid_settings_file))
