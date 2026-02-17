@@ -274,6 +274,38 @@ if [ "$FORCE_VLC_4" = 1 ]; then
     gradle_prop="-PforceVlc4=true"
 fi
 
+####################
+# Fetch libVLCjni source #
+####################
+
+
+if [ "$FORCE_VLC_4" = 1 ]; then
+    LIBVLCJNI_TESTED_HASH=ce3b7bec0738ae4d2a9721388b789bd23a733c2a
+    LIBVLCJNI_BRANCH="master"
+else
+    LIBVLCJNI_TESTED_HASH=7dea540bd34e56bb6510fb06ea4abdbebd2f1a0a
+    LIBVLCJNI_BRANCH="libvlcjni-3.x"
+fi
+LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
+
+: ${VLC_LIBJNI_PATH:="$(pwd -P)/libvlcjni"}
+
+if [ ! -d "$VLC_LIBJNI_PATH" ] || [ ! -d "$VLC_LIBJNI_PATH/.git" ]; then
+    diagnostic "libvlcjni sources: not found, cloning"
+    if [ ! -d "$VLC_LIBJNI_PATH" ]; then
+        git clone --single-branch --branch ${LIBVLCJNI_BRANCH} "${LIBVLCJNI_REPOSITORY}"
+        cd libvlcjni
+    else # folder exist with only the artifacts
+        cd libvlcjni
+        git init
+        git remote add origin "${LIBVLCJNI_REPOSITORY}"
+        git pull origin ${LIBVLCJNI_BRANCH}
+    fi
+    git reset --hard ${LIBVLCJNI_TESTED_HASH} || fail "libvlcjni sources: LIBVLCJNI_TESTED_HASH ${LIBVLCJNI_TESTED_HASH} not found"
+    init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
+    cd ..
+fi
+
 ##########
 # GRADLE #
 ##########
@@ -313,34 +345,6 @@ fi
 ####################
 # Fetch VLC source #
 ####################
-
-
-if [ "$FORCE_VLC_4" = 1 ]; then
-    LIBVLCJNI_TESTED_HASH=ce3b7bec0738ae4d2a9721388b789bd23a733c2a
-    LIBVLCJNI_BRANCH="master"
-else
-    LIBVLCJNI_TESTED_HASH=7dea540bd34e56bb6510fb06ea4abdbebd2f1a0a
-    LIBVLCJNI_BRANCH="libvlcjni-3.x"
-fi
-LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
-
-: ${VLC_LIBJNI_PATH:="$(pwd -P)/libvlcjni"}
-
-if [ ! -d "$VLC_LIBJNI_PATH" ] || [ ! -d "$VLC_LIBJNI_PATH/.git" ]; then
-    diagnostic "libvlcjni sources: not found, cloning"
-    if [ ! -d "$VLC_LIBJNI_PATH" ]; then
-        git clone --single-branch --branch ${LIBVLCJNI_BRANCH} "${LIBVLCJNI_REPOSITORY}"
-        cd libvlcjni
-    else # folder exist with only the artifacts
-        cd libvlcjni
-        git init
-        git remote add origin "${LIBVLCJNI_REPOSITORY}"
-        git pull origin ${LIBVLCJNI_BRANCH}
-    fi
-    git reset --hard ${LIBVLCJNI_TESTED_HASH} || fail "libvlcjni sources: LIBVLCJNI_TESTED_HASH ${LIBVLCJNI_TESTED_HASH} not found"
-    init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
-    cd ..
-fi
 
 # If you want to use an existing vlc dir add its path to an VLC_SRC_DIR env var
 if [ -z "$VLC_SRC_DIR" ]; then
