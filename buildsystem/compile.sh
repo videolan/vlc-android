@@ -278,14 +278,21 @@ fi
 # GRADLE #
 ##########
 
+GRADLE_VERSION=8.13
+# the SHA256 is found in https://gradle.org/release-checksums/
+GRADLE_SHA256=20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78
+GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+GRADLE_DOWNLOADED_ZIP=gradle-${GRADLE_VERSION}-bin.zip
+
+if [ -e "./gradlew" ] && [ -x "./gradlew" ]; then
+    GRADLE_CACHED_VERSION=$(./gradlew -q 2>/dev/null | grep gradle_version= | cut -b 16-)
+    if [ "$GRADLE_PATH_VERSION" != "$GRADLE_VERSION" ]; then
+        diagnostic "gradlew version $GRADLE_PATH_VERSION not matching $GRADLE_VERSION"
+        rm -rf "./gradlew"
+    fi
+fi
 if [ ! -e "./gradlew" ] || [ ! -x "./gradlew" ]; then
     diagnostic "gradlew not found"
-    # the SHA256 is found in https://gradle.org/release-checksums/
-    GRADLE_VERSION=8.13
-    GRADLE_SHA256=20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78
-    GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
-    GRADLE_DOWNLOADED_ZIP=gradle-${GRADLE_VERSION}-bin.zip
-
     export PATH="$(pwd -P)/gradle-${GRADLE_VERSION}/bin:$PATH"
     GRADLE_PATH_VERSION=$(cd buildsystem/gradle_version; gradle -q 2>/dev/null | grep gradle_version= | cut -b 16-)
     if [ "$GRADLE_PATH_VERSION" != "$GRADLE_VERSION" ]; then
