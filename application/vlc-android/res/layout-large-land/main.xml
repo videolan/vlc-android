@@ -13,10 +13,12 @@
             android:layout_height="match_parent"
             app:labelVisibilityMode="labeled"
             app:elevation="4dp"
-            app:headerLayout="@layout/navigation_rail_fab"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:menu="@menu/bottom_navigation"
-            app:itemIconSize="60dp"
+            app:menuGravity="top"
+            app:itemIconSize="100dp"
+            app:itemIconGravity="start"
+            app:itemMinHeight="120dp"
             app:itemTextAppearanceInactive="@style/UltiumNavRailText"
             app:itemTextAppearanceActive="@style/UltiumNavRailText.Active"/>
 

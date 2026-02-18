@@ -15,11 +15,12 @@
     <!-- VLC ULTIUM
         Added customized text size for navigation menu items -->
     <style name="UltiumNavRailText" parent="@style/TextAppearance.MaterialComponents.Caption">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/navigation_rail_text_size</item>
     </style>
 
     <style name="UltiumNavRailText.Active" parent="@style/UltiumNavRailText">
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/navigation_rail_text_size</item>
     </style>
 
     <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">

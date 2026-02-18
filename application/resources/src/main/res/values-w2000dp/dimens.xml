@@ -7,14 +7,16 @@
     <dimen name="toolbar_icon_width">64dp</dimen>
 
     <!-- Rail Items -->
-    <dimen name="navigation_rail_menu_width">120dp</dimen>
+    <dimen name="navigation_rail_menu_width">250dp</dimen>
+    <dimen name="navigation_rail_text_size">32sp</dimen>
 
     <!-- Media Buttons -->
     <dimen name="media_button_width">130dp</dimen>
     <dimen name="media_button_height">130dp</dimen>
 
     <!-- General Layout -->
-    <dimen name="layout_starting_margin">80dp</dimen>
+    <dimen name="layout_starting_margin">250dp</dimen>
+    <dimen name="toolbar_margin">180dp</dimen>
 
     <!-- Category Tab Labels -->
     <dimen name="tab_text_size">36sp</dimen>
