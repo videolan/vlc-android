@@ -22,6 +22,11 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    compileOptions {
+        sourceCompatibility "$rootProject.ext.targetJVM"
+        targetCompatibility "$rootProject.ext.targetJVM"
+    }
+    
     buildTypes {
         release {
             minifyEnabled false

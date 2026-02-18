@@ -18,6 +18,11 @@ android {
         buildConfigField 'String', 'VLC_OPEN_SUBTITLES_API_KEY', "\"${getOSApiKey(project)}\""
         vectorDrawables.useSupportLibrary = true
     }
+    
+    compileOptions {
+        sourceCompatibility "$rootProject.ext.targetJVM"
+        targetCompatibility "$rootProject.ext.targetJVM"
+    }
 
     buildTypes {
         release {

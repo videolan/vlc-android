@@ -35,6 +35,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility "$rootProject.ext.targetJVM"
+        targetCompatibility "$rootProject.ext.targetJVM"
+    }
 
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

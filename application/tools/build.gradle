@@ -9,6 +9,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
+    compileOptions {
+        sourceCompatibility "$rootProject.ext.targetJVM"
+        targetCompatibility "$rootProject.ext.targetJVM"
+    }
 
     buildTypes {
         release {

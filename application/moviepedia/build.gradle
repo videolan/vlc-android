@@ -26,6 +26,11 @@ android {
         multiDexEnabled = true
     }
 
+    compileOptions {
+        sourceCompatibility "$rootProject.ext.targetJVM"
+        targetCompatibility "$rootProject.ext.targetJVM"
+    }
+    
     buildTypes {
         release {
             minifyEnabled false

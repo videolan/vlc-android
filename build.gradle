@@ -34,8 +34,12 @@ allprojects {
         options.addStringOption('encoding', 'UTF-8')
     }
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlin {
+            compilerOptions {
+                jvmTarget.set("$rootProject.ext.targetJVMKotlin")
+            }
+        }
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
             freeCompilerArgs += ['-opt-in=kotlin.RequiresOptIn']
         }
     }
@@ -49,6 +53,10 @@ ext {
     remoteAccessVersion = '0.17.0'
     libvlcVersion = vlcMajorVersion == 3 ? '3.7.1' :'4.0.0-eap25'
     medialibraryVersion = '0.13.19' + (vlcMajorVersion == 3 ? '' : '-vlc4')
+
+    targetJVM = JavaVersion.VERSION_1_8
+    targetJVMKotlin = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     // default ndkVersion in  android_plugin_version in 8.9.1: 27.0.12077973
