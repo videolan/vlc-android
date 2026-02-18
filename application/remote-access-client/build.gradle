@@ -32,9 +32,10 @@ ext {
     library_version = "$rootProject.ext.remoteAccessVersion"
 }
 
-File remoteAccessPackage = file("remoteaccess/package.json")
+def remoteclientSourceDir = "$projectDir/remoteaccess"
+File remoteAccessPackage = file("$remoteclientSourceDir/package.json")
 def remoteAccessRevision = remoteAccessPackage.exists() ? providers.exec {
-    workingDir('remoteaccess')
+    workingDir(remoteclientSourceDir)
     commandLine('git', 'rev-parse', '--short', 'HEAD')
 }.standardOutput.asText.get().trim() : 'unknown'
 
