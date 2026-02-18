@@ -1,7 +1,7 @@
 cache:
     paths:
         - .gradle/
-        - gradle-8.13/
+        - gradle-9.2.1/
         - gradle/
         - gradlew
 

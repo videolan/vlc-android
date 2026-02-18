@@ -310,9 +310,9 @@ fi
 # GRADLE #
 ##########
 
-GRADLE_VERSION=8.13
+GRADLE_VERSION=9.2.1
 # the SHA256 is found in https://gradle.org/release-checksums/
-GRADLE_SHA256=20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78
+GRADLE_SHA256=72f44c9f8ebcb1af43838f45ee5c4aa9c5444898b3468ab3f4af7b6076c5bc3f
 GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 GRADLE_DOWNLOADED_ZIP=gradle-${GRADLE_VERSION}-bin.zip
 
