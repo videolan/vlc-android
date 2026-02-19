@@ -437,7 +437,7 @@ else
 fi
 
 if [ ! -d "./application/remote-access-client/remoteaccess/dist" ] ; then
-    echo "\033[1;32mWARNING: This was built without the remote access at ./remoteaccess/dist ..."
+    echo "\033[1;32mWARNING: This was built without the remote access at ./remoteaccess/dist ...\033[0m"
 fi
 
 #######
