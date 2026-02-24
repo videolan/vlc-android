@@ -425,21 +425,58 @@
                                     android:layout_marginEnd="16dp"
                                     android:text="@string/include_medialib"
                                     android:visibility="@{showIncludes ? View.VISIBLE : View.GONE}"
+                                    app:layout_goneMarginTop="0dp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/message_text_input_layout" />
+                                    app:layout_constraintTop_toBottomOf="@+id/logs_warning" />
+
+                            <TextView
+                                    android:id="@+id/ml_warning"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:background="@drawable/rounded_corners_orange_warning"
+                                    android:drawablePadding="16dp"
+                                    android:padding="8dp"
+                                    android:text="@string/ml_database_warning"
+                                    android:visibility="gone"
+                                    app:drawableStartCompat="@drawable/ic_information"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/include_medialibrary"
+                                    tools:visibility="visible" />
 
                             <CheckBox
                                     android:id="@+id/include_logs"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="12dp"
+                                    android:layout_marginTop="8dp"
                                     android:layout_marginEnd="16dp"
                                     android:text="@string/include_logs"
                                     android:visibility="@{showIncludes ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/include_medialibrary" />
+                                    app:layout_constraintTop_toBottomOf="@+id/message_text_input_layout"
+                                    app:layout_goneMarginTop="0dp" />
+
+                            <TextView
+                                    android:id="@+id/logs_warning"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:background="@drawable/rounded_corners_orange_warning"
+                                    android:drawablePadding="16dp"
+                                    android:padding="8dp"
+                                    android:text="@string/logs_warning"
+                                    android:visibility="gone"
+                                    app:drawableStartCompat="@drawable/ic_information"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/include_logs"
+                                    tools:visibility="visible" />
 
                             <Button
                                     android:id="@+id/email_support_send"
@@ -450,7 +487,7 @@
                                     android:layout_marginEnd="16dp"
                                     android:text="@string/send"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/include_logs" />
+                                    app:layout_constraintTop_toBottomOf="@+id/ml_warning" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>

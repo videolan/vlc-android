@@ -28,6 +28,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -245,6 +246,13 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
             binding.messageTextInputLayout.setHint(R.string.describe_crash)
             if (isCrashFromML) UiTools.snackerMessageInfinite(this, getString(R.string.ml_crash_send))?.show()
         }
+
+        binding.includeMedialibrary.setOnCheckedChangeListener { _, checked ->
+            binding.mlWarning.visibility = if (binding.emailSupportForm.isVisible() && checked) View.VISIBLE else View.GONE
+        }
+        binding.includeLogs.setOnCheckedChangeListener { _, checked ->
+            binding.logsWarning.visibility = if (binding.emailSupportForm.isVisible() && checked) View.VISIBLE else View.GONE
+        }
     }
 
     private fun switchFormVisibility(forceHide: Boolean = false) {
@@ -258,6 +266,8 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
             binding.emailSupportCard.nextFocusDownId = R.id.feedback_type_entry
             binding.emailSupportCard.nextFocusRightId = R.id.feedback_type_entry
         }
+        binding.mlWarning.visibility = if (binding.emailSupportForm.isVisible() && binding.includeMedialibrary.isChecked) View.VISIBLE else View.GONE
+        binding.logsWarning.visibility = if (binding.emailSupportForm.isVisible() && binding.includeLogs.isChecked) View.VISIBLE else View.GONE
     }
 
     private fun switchNoEmailVisibility() {
@@ -326,11 +336,11 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
         }
         val position = feedbackTypeEntries.indexOf(binding.feedbackTypeEntry.text.toString())
         when (position) {
-            0, 1 -> binding.showIncludes = false
+            1 -> binding.showIncludes = false
             else -> binding.showIncludes = true
         }
         when (position) {
-            3 -> {
+            2, 3 -> {
                 binding.includeMedialibrary.isChecked = true
                 binding.includeLogs.isChecked = true
             }
