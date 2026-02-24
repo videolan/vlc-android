@@ -468,6 +468,10 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.openMedia(activity, mw)
+            CTX_FAV_ADD -> lifecycleScope.launch {
+                if (mw.uri.scheme == "file") browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+                else browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+            }
             CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
             CTX_ADD_FOLDER_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), false, mw.title)
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> requireActivity().addToPlaylistAsync(mw.uri.toString(), true, mw.title)
