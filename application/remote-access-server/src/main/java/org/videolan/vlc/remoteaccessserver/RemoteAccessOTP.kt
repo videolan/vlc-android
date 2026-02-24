@@ -50,7 +50,7 @@ object RemoteAccessOTP {
         return otpCode
     }
 
-    fun generateCode(): String = (SecureRandom().nextInt(8999) + 1000).toString()
+    fun generateCode(): String = (SecureRandom().nextInt(899999) + 100000).toString()
 
     /**
      * Verify if the code is valid by using the challenge

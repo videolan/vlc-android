@@ -52,7 +52,7 @@
                 android:textColor="?attr/colorPrimary"
                 android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/code3"
+                app:layout_constraintEnd_toStartOf="@+id/code2"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -94,9 +94,37 @@
                 android:gravity="center"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="34sp"
+                app:layout_constraintEnd_toStartOf="@+id/code5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/code3"
+                app:layout_constraintTop_toTopOf="@+id/code1"
+                tools:text="8" />
+
+        <TextView
+                android:id="@+id/code5"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="?attr/otp_code_background"
+                android:gravity="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="34sp"
+                app:layout_constraintEnd_toStartOf="@+id/code6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/code4"
+                app:layout_constraintTop_toTopOf="@+id/code1"
+                tools:text="8" />
+
+        <TextView
+                android:id="@+id/code6"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="?attr/otp_code_background"
+                android:gravity="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="34sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/code2"
+                app:layout_constraintStart_toEndOf="@+id/code5"
                 app:layout_constraintTop_toTopOf="@+id/code1"
                 tools:text="8" />
 
