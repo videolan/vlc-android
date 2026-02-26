@@ -192,7 +192,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         }
 
         multiSelectHelper = historyAdapter.multiSelectHelper
-        historyEntry.list.requestFocus()
         registerForContextMenu(historyEntry.list)
         requireActivity().supportFragmentManager.setFragmentResultListener(CONFIRM_RENAME_DIALOG_RESULT, viewLifecycleOwner) { requestKey, bundle ->
             val media = bundle.parcelable<MediaWrapper>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
