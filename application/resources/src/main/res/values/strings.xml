@@ -450,6 +450,9 @@
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
     <string name="subtitles_presets_title">Subtitles presets</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">Smallest</string>
     <string name="subtitles_size_small">Small</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Big</string>

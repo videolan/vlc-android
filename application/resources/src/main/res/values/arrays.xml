@@ -302,6 +302,9 @@
     </string-array>
 
     <string-array name="subtitles_size_entries">
+        <item>@string/subtitles_size_nano</item>
+        <item>@string/subtitles_size_micro</item>
+        <item>@string/subtitles_size_smallest</item>
         <item>@string/subtitles_size_small</item>
         <item>@string/subtitles_size_normal</item>
         <item>@string/subtitles_size_big</item>
@@ -309,6 +312,9 @@
     </string-array>
 
     <string-array name="subtitles_size_values">
+        <item>40</item>
+        <item>32</item>
+        <item>25</item>
         <item>19</item>
         <item>16</item>
         <item>13</item>
