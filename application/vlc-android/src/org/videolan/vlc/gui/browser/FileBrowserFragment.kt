@@ -166,6 +166,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+        if (!super.onPrepareActionMode(mode, menu)) return false
         val count = adapter.multiSelectHelper.getSelectionCount()
         if (count == 0) {
             stopActionMode()
