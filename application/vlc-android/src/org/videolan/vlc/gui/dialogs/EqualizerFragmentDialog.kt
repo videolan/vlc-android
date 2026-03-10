@@ -405,8 +405,8 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 return
             viewModel.saveInHistory(index)
 
-            newBandList = ArrayList<EqualizerBand>()
-            newBandList.add(viewModel.getCurrentEqualizer().bands.first { it.index ==  index}.copy(bandValue = value))
+            newBandList = ArrayList()
+            newBandList.add(viewModel.getCurrentEqualizer().bands.firstOrNull { it.index ==  index}?.copy(bandValue = value) ?: EqualizerBand(index, value))
             if (!binding.equalizerButton.isChecked)
                 binding.equalizerButton.isChecked = true
 
