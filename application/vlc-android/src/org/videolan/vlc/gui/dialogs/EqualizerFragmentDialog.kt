@@ -117,6 +117,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 fillPreamp()
             }
 
+            if (oldCurrentEqualizer == null) fillViews()
             if (binding.equalizerBands.isEmpty() || viewModel.needForceRefresh || oldCurrentEqualizer == null || oldCurrentEqualizer?.equalizerEntry?.id != viewModel.getCurrentEqualizer().equalizerEntry.id) {
                 fillBands()
                 viewModel.needForceRefresh = false
@@ -124,7 +125,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 updateEnabledState()
             }
             binding.undo.isEnabled = viewModel.history.isNotEmpty()
-            if (oldCurrentEqualizer == null) fillViews()
             oldEqualiserSets = newEqualizerSets
             oldCurrentEqualizer = viewModel.getCurrentEqualizer()
             updateEqualizer(true)
