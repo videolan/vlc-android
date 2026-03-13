@@ -68,6 +68,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     val connected : Boolean
         get() = service !== null
     var lastQuery: CharSequence? = null
+    var lastActionWasEdit = false
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { PlaylistFilterDelegate(dataset) }
 
@@ -148,9 +149,15 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         originalDataset!!.indexOf(dataset.get(position))
     } else position
 
-    fun remove(position: Int) = service?.remove(getOriginalPosition(position))
+    fun remove(position: Int) {
+        lastActionWasEdit = true
+        service?.remove(getOriginalPosition(position))
+    }
 
-    fun move(from: Int, to: Int) = service?.moveItem(from, to)
+    fun move(from: Int, to: Int) {
+        lastActionWasEdit = true
+        service?.moveItem(from, to)
+    }
 
     @MainThread
     fun filter(query: CharSequence?) {
