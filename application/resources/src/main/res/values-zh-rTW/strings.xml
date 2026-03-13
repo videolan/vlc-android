@@ -42,6 +42,8 @@
     <string name="playback_controls">播放控制</string>
     <string name="medialibrary_scan">掃描媒體櫃</string>
     <string name="Medialibrary_progress">媒體櫃掃描進度的更新</string>
+    <string name="ml_database_warning">您的資料庫包含所有媒體清單。該清單將與 VLC 開發者分享。</string>
+    <string name="logs_warning">可能包含您播放媒體的相關資訊。這些資訊將與 VLC 的開發者分享。</string>
     <string name="play_from_start">從開頭播放</string>
     <string name="play_as_audio">作為音訊播放</string>
     <string name="play_as_video">作為視訊播放</string>

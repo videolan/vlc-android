@@ -43,6 +43,8 @@
     <string name="playback_controls">Wiedergabesteuerungen</string>
     <string name="medialibrary_scan">Medienbibliothek durchsuchen</string>
     <string name="Medialibrary_progress">Fortschrittsanzeige beim Durchsuchen der Medienbibliothek</string>
+    <string name="ml_database_warning">Ihre Datenbank enthält die Liste all Ihrer Mediendateien. Sie wird mit den Entwicklern von VLC geteilt.</string>
+    <string name="logs_warning">Kann Informationen über Ihre abgespielten Medien enthalten. Diese werden an die Entwickler von VLC weitergegeben.</string>
     <string name="play_from_start">Vom Anfang wiedergeben</string>
     <string name="play_as_audio">Als Audio wiedergeben</string>
     <string name="play_as_video">Als Video wiedergeben</string>

@@ -43,6 +43,8 @@
     <string name="playback_controls">Controls de la reproducció</string>
     <string name="medialibrary_scan">Escaneig de la biblioteca multimèdia</string>
     <string name="Medialibrary_progress">Actualitzacions de l\'escaneig de la biblioteca de medis</string>
+    <string name="ml_database_warning">La vostra base de dades conté la llista de tots els vostres continguts multimèdia. Es compartirà amb els desenvolupadors del VLC.</string>
+    <string name="logs_warning">Pot contenir informació sobre els fitxers multimèdia que heu reproduït. Es compartirà amb els desenvolupadors del VLC.</string>
     <string name="play_from_start">Reprodueix des de l\'inici</string>
     <string name="play_as_audio">Reprodueix com a àudio</string>
     <string name="play_as_video">Reprodueix com a vídeo</string>

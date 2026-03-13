@@ -43,6 +43,8 @@
     <string name="playback_controls">Lejátszásvezérlők</string>
     <string name="medialibrary_scan">Médiatár átvizsgálása</string>
     <string name="Medialibrary_progress">Médiatár átvizsgálása folyamatban</string>
+    <string name="ml_database_warning">Az adatbázisa tartalmazza az összes médiafájlja listáját. Meg lesz osztva a VLC fejlesztőivel.</string>
+    <string name="logs_warning">Információkat tartalmazhat a lejátszott médiafájljairól. Meg lesz osztva a VLC fejlesztőivel.</string>
     <string name="play_from_start">Lejátszás indításkor</string>
     <string name="play_as_audio">Lejátszás hangként</string>
     <string name="play_as_video">Lejátszás videóként</string>

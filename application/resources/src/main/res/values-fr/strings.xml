@@ -44,6 +44,8 @@
     <string name="playback_controls">Contrôles de la lecture</string>
     <string name="medialibrary_scan">Analyse de la médiathèque</string>
     <string name="Medialibrary_progress">Mises à jour de progression d’analyse de la médiathèque</string>
+    <string name="ml_database_warning">Votre base de données contient la liste de tous vos médias. Elle sera partagée avec les développeurs de VLC.</string>
+    <string name="logs_warning">Peut inclure des informations sur les médias que vous avez lus. Elles seront partagées avec les développeurs de VLC.</string>
     <string name="play_from_start">Lire du début</string>
     <string name="play_as_audio">Lire comme audio</string>
     <string name="play_as_video">Lire comme vidéo</string>

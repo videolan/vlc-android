@@ -68,11 +68,13 @@
     <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\';</string>
     <string name="equalizer_overwrite_warning">Αυτός ο ισοσταθμιστής υπάρχει ήδη</string>
     <string name="overwrite">Αντικατάσταση</string>
-    <string name="eq_cannot_overwrite">Δεν είναι δυνατή η αντικατάσταση ενός προεπιλεγμένου ισοσταθμιστή</string>
+    <string name="eq_cannot_overwrite">Αδυναμία αντικατάστασης ενός προεπιλεγμένου ισοσταθμιστή</string>
     <string name="equalizer_name">Όνομα ισοσταθμιστή</string>
     <string name="equalizer_deleted">Ο ισοσταθμιστής έχει διαγραφεί</string>
+    <string name="equalizer_leave_warning">Πρόκειτε να αποχωρήσετε από την αναπαραγωγή βίντεο</string>
     <string name="invalid_equalizer_file">Μη έγκυρο αρχείο ισοσταθμιστή</string>
     <string name="confirm_delete_eq">Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την προρύθμιση;</string>
+    <string name="confirm_delete_vlc_eq">Εϊστε σίουροι ότι θέλετε αποκρύψετε αυτή την προρύθμιση;\nΜπορείτε να την επαναφέρετε από της ρυθμίσεις ισοσταθμιστή.</string>
     <string name="confirm_replace_playlist">Είστε σίγουροι ότι θέλετε να αντικαταστήσετε την λίστα αναπαραγωγής %1$s;</string>
     <string name="invalid_settings_file">Μη έγκυρο αρχείο ρυθμίσεων</string>
     <string name="confirm_delete_message">Αυτό είναι μόνιμο και δεν μπορεί να αναιρεθεί.</string>
@@ -140,6 +142,8 @@
     <string name="bookmarks">Σελιδοδείκτες</string>
     <string name="equalizer">Ισοσταθμιστής</string>
     <string name="import_equalizer">Εισαγωγή ισοσταθμιστή</string>
+    <string name="equalizer_exported">Έγινε εξαγωγή ισοσταθμιστή(ών) στο %s</string>
+    <string name="equalizer_copy_template">(αντιγραφή%s)</string>
     <string name="new_equalizer_copy_template">Νέος ισοσταθμιστής%s</string>
     <string name="show_all">Προβολή όλων</string>
     <string name="hide_all">Απόκρυψη όλων</string>
@@ -333,6 +337,9 @@
     <string name="remove_custom_path">Αφαίρεση εξατομικευμένης διαδρομής</string>
     <string name="group_ban_folder">Αποκλεισμός φακέλου από την βιβλιοθήκη πολυμέσων</string>
     <string name="ban_folder">Αποκλεισμός φακέλου</string>
+    <string name="ban_folder_explanation">Η απαγόρευση αυτού του φακέλου σημαίνει ότι δεν θα βλέπετε τα περιεχόμενά του στην ενότητα βίντεο ή ήχου της εφαρμογής, αν και θα παραμένουν προσβάσιμα από το πρόγραμμα περιγήσης ιστού.
+Για να την ακυρώσετε, πηγαίνετε στις ρυθμίσεις και πατήστε παρατεταμένα σε αυτόν τον φάκελο %s.</string>
+
     <string name="hardware_acceleration">Επιτάχυνση υλικού</string>
     <string name="hardware_acceleration_summary">Απενεργοποιημένο: μεγαλύτερη σταθερότητα \nΑποκωδικοποίηση: ενδέχεται να βελτιώσει την απόδοση\nΠλήρης: ενδέχεται να βελτιώσει περαιτέρω την απόδοση</string>
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
@@ -636,6 +643,8 @@
     <string name="network_shares_discovery">Αναζήτηση κοινόχρηστων δικτυακών πόρων</string>
     <string name="network_empty">Ο κατάλογος είναι άδειος</string>
     <string name="network_connection_needed">Καμία σύνδεση στο τοπικό δίκτυο</string>
+    <string name="network_disabled">Απενεργοποιημένη περιήγηση δικτύου</string>
+    <string name="browse_network">Περιήγη δικτύου</string>
     <string name="search_hint">Αναζήτηση μέσων</string>
     <string name="search_in_list_hint">Αναζήτηση στην τρέχουσα λίστα</string>
     <string name="search_global">Εύρεση σε όλη την βιβλιοθήκη πολυμέσων</string>
@@ -656,6 +665,9 @@
 
     <!--What's new-->
     <string name="whats_new_title">Τι νέο υπάρχει σχετικά με το VLC για το Android %s</string>
+    <string name="whats_new_37_equalizer_text">Ο ισοσταθμιστής έχει ανασχεδιαστεί από το μηδέν. Έχουμε απλοποιήσει την χρήση του, μπορείτε να απενεργοποιήσετε τις προεπιλεγμένες προρυθμίσεις και έχετε την επιλογή να αντιγράψετε, να επαναφέρετε και να διαμοιραστείτε τις προρυθμίσεις σας.</string>
+    <string name="whats_new_37_import_export">Έχουμε βελτιώσει τις ρυθμίσεις αντιγράφων και επαναφοράς. Τώρα μπορείτε να δημιουργήσετε αντίγραφα περισσότερων ρυθμίσεων, συμπεριλαμβάνοντας προρυθμίσεις ισοστάθμισης.</string>
+    <string name="whats_new_37_android_auto">Λόγω ορισμένων νέων περιορισμών του καταστήματος, οι ρυθμίσεις του Android Auto έχουν όλες μεταφερθεί στην εφαρμογή του κινητού. Γίνεται το νέο μέρος για να αλλάξετε την αυτοκινητιστική σας εμπειρία.</string>
     <string name="show_in_settings">Προβολή στις ρυθμίσεις</string>
 
 <!--    update-->
@@ -875,7 +887,7 @@
     <string name="onboarding_scan_title">Αυτόματη-ανίχνευση των πολυμέσων σας</string>
     <string name="onboarding_all_set">Το VLC είναι έτοιμο!</string>
     <string name="onboarding_permission_given">Τώρα μπορείτε να ανακαλύψετε αυτόματα τα αρχεία πολυμέσων σας, να χρησιμοποιήσετε εξωτερικούς υπότιτλους, καθώς και να αναπαράγετε μεταδόσεις ή αρχεία πολυμέσων μέσω δικτύου</string>
-    <string name="daynight_system_explanation">Το VLC θα μεταβεί αυτόματα σε σκοτεινή λειτουργία σύμφωνα με τις ρυθμίσεις του συστήματος</string>
+    <string name="daynight_system_explanation">Το VLC θα μεταβεί αυτόματα σε σκουρόχρωμη λειτουργία σύμφωνα με τις ρυθμίσεις του συστήματος</string>
     <string name="daynight_legacy_explanation">Το VLC θα μεταβεί αυτόματα σε νυχτερινή λειτουργία την κατάλληλη χρονική στιγμή</string>
     <string name="onboarding_scanning_enable">Επίτρεψε στο VLC να σαρώνει τη συσκευή μου για περιεχόμενο πολυμέσων</string>
     <string name="onboarding_scan_customize">Επίτρεψέ μου να επιλέξω ποιους φακέλους θα σαρώνει το VLC</string>
@@ -1080,7 +1092,7 @@
     <string name="browser_show_missing_media_summary">Εμφάνιση απομακρυσμένων πολυμέσων, ακόμα κι αν δεν είναι παρόντα</string>
     <string name="parental_control">Γονικός έλεγχος</string>
     <string name="safe_mode">Ασφαλής λειτουργία</string>
-    <string name="safe_mode_summary">Όταν είναι ενεργό, τα αρχεία δεν μπορούν να διαγραφούν ούτε η λίστα αναπαραγωγής να αλλάξει χωρίς την εισαγωγή PIN</string>
+    <string name="safe_mode_summary">Όταν είναι ενεργό, τα αρχεία δεν μπορούν να διαγραφούν ούτε η λίστα αναπαραγωγής να τροποποιηθεί χωρίς την εισαγωγή PIN</string>
     <string name="safe_mode_pin">Εισαγωγή PIN</string>
     <string name="pin_unlock_success">Ξεκλειδώθηκε. Για να ενεργοποιήσετε ξανά την ασφαλή λειτουργία, παρακαλούμε πατήστε αυτό το εικονίδιο στην εφαρμογή:</string>
     <string name="safe_mode_new_pin">Εισαγωγή νέου PIN</string>
@@ -1132,6 +1144,7 @@
     <string name="move_down">Μετακίνηση κάτω</string>
     <string name="remove_from_playlist">Κατάργηση από τη λίστα αναπαραγωγής</string>
     <string name="play_media">Αναπαραγωγή %s</string>
+    <string name="edit_eq_preset">Επεξεργασία προρύθμισης ισοστάθμισης</string>
     <string name="edit_eq_name_not_allowed">Αυτό το όνομα δεν είναι επιτρεπτό</string>
     <string name="export_equalizer">Εξαγωγή ισοσταθμιστή</string>
     <string name="hide_equalizer">Απόκρυψη ισοσταθμιστή</string>
@@ -1361,6 +1374,7 @@
     <string name="export_settings">Εξαγωγή ρυθμίσεων</string>
     <string name="restore_settings_summary">Επαναφέρετε τις ρυθμίσεις από ένα προϋπάρχον αρχείο</string>
     <string name="restore_settings">Επαναφορά ρυθμίσεων</string>
+    <string name="obsolete_restore_settings">Το αρχείο εξαγωγής των ρυθμίσεών σας είναι ξεπερασμένο. Παρακαλούμε εξάγετέ τες ξανά.</string>
     <string name="export_settings_success">Οι ρυθμίσεις αντιγράφηκαν επιτυχώς στον ριζικό φάκελο του εσωτερικού αποθηκευτικού χώρου</string>
     <string name="export_settings_failure">Παρουσιάστηκε σφάλμα κατά την εξαγωγή των ρυθμίσεων</string>
 
@@ -1392,8 +1406,12 @@
     <string name="files">Αρχεία</string>
     <string name="remote_access_feedback_generate">Δημιουργία αναφοράς</string>
     <string name="remote_access_feedback_generated">Η αναφορά σχολίων σας έχει δημιουργηθεί</string>
+    <string name="remote_access_feedback_generated_explanation">Πατήστε το κουμπί παρακάτω για να το αποστείλετε χρησιμοποιώντας το προεπιλεγμένο πρόγραμμα email σας. Αν αντιμετωπίσετε προβλήματα, μπορείτε να αντιγράψετε και να επικολλήσετε τα πεδία παρακάτω και να στείλετε το email μόνοι σας</string>
     <string name="remote_access_feedback_file_explanation">Έχετε πραγματοποιήσει λήψη του απαιτούμενου αρχείου. Παρακαλούμε, θυμηθείτε να το επισυνάψετε στο μήνυμά σας.</string>
     <string name="generic_copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
     <string name="feedback_email_warning">Δεν έχει εγκατασταθεί πρόγραμμα ηλεκτρονικής αλληλογραφίας</string>
+    <string name="feedback_email_warning_explanation">Ο ευκολότερος τρόπος να μοιραστείτε τα σχόλιά σας είναι να χρησιμοποιήσετε τη λειτουργία %1$s.
+Για να το κάνετε, ενεργοποιήστε την απομακρυσμένη πρόσβαση στις ρυθμίσεις, ακολουθήστε τις οδηγίες και επιλέξτε την εγγραφή %2$sστο μενού.</string>
     <string name="feedback_email_warning_remote_action">Άνοιγμα ρυθμίσεων</string>
+    <string name="feedback_email_warning_try_anyway">Δοκιμή έτσι κι αλλιώς</string>
     </resources>

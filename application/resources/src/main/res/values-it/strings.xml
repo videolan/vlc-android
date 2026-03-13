@@ -44,6 +44,8 @@
     <string name="playback_controls">Controlli di riproduzione</string>
     <string name="medialibrary_scan">Scansione raccolta multimediale</string>
     <string name="Medialibrary_progress">Aggiornamenti avanzamento scansione della libreria multimediale</string>
+    <string name="ml_database_warning">Il tuo database contiene l\'elenco di tutti i tuoi media. Sarà condiviso con gli sviluppatori di VLC.</string>
+    <string name="logs_warning">Potrebbe contenere informazioni sui media riprodotti. Saranno condivise con gli sviluppatori di VLC.</string>
     <string name="play_from_start">Riproduci all\'avvio</string>
     <string name="play_as_audio">Riproduci come audio</string>
     <string name="play_as_video">Riproduci come video</string>

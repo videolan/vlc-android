@@ -42,6 +42,8 @@
     <string name="playback_controls">再生コントロール</string>
     <string name="medialibrary_scan">メディアライブラリ検索</string>
     <string name="Medialibrary_progress">メディアライブラリ検索状況の更新</string>
+    <string name="ml_database_warning">あなたのメディアはすべてデータベースに含まれており、VLCの開発者に共有されます。</string>
+    <string name="logs_warning">あなたが再生したメディアの情報が含まれている可能性があり、それらもVLCの開発者に共有されます。</string>
     <string name="play_from_start">最初から再生</string>
     <string name="play_as_audio">オーディオとして再生</string>
     <string name="play_as_video">ビデオとして再生</string>
