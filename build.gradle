@@ -43,9 +43,9 @@ allprojects {
 
 ext {
     appId = "org.videolan.vlc"
-    versionCode = 3070000
+    versionCode = 3070010
     vlcMajorVersion = project.hasProperty('forceVlc4') && project.getProperty('forceVlc4') ? 4 : 3
-    versionName = vlcMajorVersion == 3 ? '3.7.0' : '4.0.0-preview - ' + versionCode
+    versionName = vlcMajorVersion == 3 ? '3.7.1 Beta 1' : '4.0.0-preview - ' + versionCode
     remoteAccessVersion = '0.12.0'
     libvlcVersion = vlcMajorVersion == 3 ? '3.7.0' :'4.0.0-eap24'
     medialibraryVersion = '0.13.17' + (vlcMajorVersion == 3 ? '' : '-vlc4')
