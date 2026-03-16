@@ -189,7 +189,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     protected abstract fun createFragment(): Fragment
     protected abstract fun browseRoot()
-    private var needToRefreshMeta = false
     private var enqueuingSnackbar: Snackbar? = null
     private lateinit var startedScope: CoroutineScope
 
@@ -600,7 +599,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val files = if (viewModel.url?.startsWith("file") == true) viewModel.provider.browseUrl(viewModel.url!!) else viewModel.dataset.getList()
                 for (file in files.filterIsInstance(MediaWrapper::class.java))
                     if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
-                        mediaLocations.add(getMediaWithMeta(file))
+                        mediaLocations.add(viewModel.getMediaWithMeta(requireActivity(),file))
                         if (mw != null && file.equals(mw))
                             positionInPlaylist = mediaLocations.size - 1
                     }
@@ -641,8 +640,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 ?: return false
         if (list.isNotEmpty()) {
             when (item.itemId) {
-                R.id.action_mode_file_play -> lifecycleScope.launch { MediaUtils.openList(activity, list.map { getMediaWithMeta(it) }, 0) }
-                R.id.action_mode_file_append -> lifecycleScope.launch { MediaUtils.appendMedia(activity, list.map { getMediaWithMeta(it) }) }
+                R.id.action_mode_file_play -> lifecycleScope.launch { MediaUtils.openList(activity, list.map { viewModel.getMediaWithMeta(requireActivity(), it) }, 0) }
+                R.id.action_mode_file_append -> lifecycleScope.launch { MediaUtils.appendMedia(activity, list.map { viewModel.getMediaWithMeta(requireActivity(), it) }) }
                 R.id.action_mode_file_add_playlist -> requireActivity().addToPlaylist(list)
                 R.id.action_mode_file_info -> requireActivity().showMediaInfo(list[0])
                 R.id.action_mode_file_delete -> removeItems(list)
@@ -751,18 +750,18 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
             else {
                 lifecycleScope.launch {
-                    val media = getMediaWithMeta(item).apply {
+                    val media = viewModel.getMediaWithMeta(requireActivity(), item).apply {
                         if (Settings.getInstance(requireActivity()).getBoolean(KEY_QUICK_PLAY_DEFAULT, false))
                             addFlags(MediaWrapper.MEDIA_NO_PARSE)
                     }
                     when (DefaultPlaybackActionMediaType.FILE.getCurrentPlaybackAction(Settings.getInstance(requireActivity()))) {
-                        DefaultPlaybackAction.PLAY -> MediaUtils.openMedia(requireContext(), getMediaWithMeta(media))
+                        DefaultPlaybackAction.PLAY -> MediaUtils.openMedia(requireContext(), viewModel.getMediaWithMeta(requireActivity(), media))
                         DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, media)
                         DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, media)
                         else -> {
                             val media = viewModel.dataset.getList().filter { it.itemType != MediaWrapper.TYPE_DIR }
                                 .map {
-                                    getMediaWithMeta(it as MediaWrapper).apply {
+                                    viewModel.getMediaWithMeta(requireActivity(), it as MediaWrapper).apply {
                                         if (Settings.getInstance(requireActivity()).getBoolean(KEY_QUICK_PLAY_DEFAULT, false))
                                             addFlags(MediaWrapper.MEDIA_NO_PARSE)
                                     }
@@ -831,28 +830,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    /**
-     * Get the media metadata from ML if needed
-     * This is useful in case a playback has already been running since this fragment has been started
-     * As the ML events are not listened to refresh the browser content, it will reload the ML metadata
-     * for this media to ensure the progress (and other metadata) are up to date
-     *
-     * @param mw the [MediaWrapper] to look into
-     * @return a [MediaWrapper] with up to date ML metadata
-     */
-    private suspend fun getMediaWithMeta(mw: MediaWrapper): MediaWrapper {
-        return if (!needToRefreshMeta) mw else requireActivity().getFromMl {
-            getMedia(mw.uri) ?: mw
-        }
-    }
-
     override fun onCtxAction(position: Int, option: ContextOption) {
         val mw = adapter.getItemByPosition(position) as? MediaWrapper
                 ?: return
         when (option) {
-            CTX_PLAY -> lifecycleScope.launch { MediaUtils.openMedia(activity, getMediaWithMeta(mw)) }
+            CTX_PLAY -> lifecycleScope.launch { MediaUtils.openMedia(activity, viewModel.getMediaWithMeta(requireActivity(), mw)) }
             CTX_QUICK_PLAY -> lifecycleScope.launch {
-                val mediaWithMeta = getMediaWithMeta(mw)
+                val mediaWithMeta = viewModel.getMediaWithMeta(requireActivity(), mw)
                 mediaWithMeta.addFlags(0x40)
                 MediaUtils.openMedia(activity, mediaWithMeta)
             }
@@ -862,11 +846,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
 
             CTX_APPEND -> lifecycleScope.launch {
-                MediaUtils.appendMedia(activity, getMediaWithMeta(mw))
+                MediaUtils.appendMedia(activity, viewModel.getMediaWithMeta(requireActivity(), mw))
             }
 
             CTX_PLAY_NEXT -> lifecycleScope.launch {
-                MediaUtils.insertNext(activity, getMediaWithMeta(mw))
+                MediaUtils.insertNext(activity, viewModel.getMediaWithMeta(requireActivity(), mw))
             }
 
             CTX_DELETE -> removeItem(mw)
@@ -878,7 +862,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             CTX_INFORMATION -> requireActivity().showMediaInfo(mw)
             CTX_PLAY_AS_AUDIO -> lifecycleScope.launch {
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                MediaUtils.openMedia(activity, getMediaWithMeta(mw))
+                MediaUtils.openMedia(activity, viewModel.getMediaWithMeta(requireActivity(), mw))
             }
 
             CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
@@ -976,7 +960,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
             adapter.notifyItemChanged(index, UPDATE_PROGRESS)
         }
-        needToRefreshMeta = true
+        viewModel.needToRefreshMeta = true
     }
 
     companion object {
