@@ -38,6 +38,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
@@ -75,6 +76,7 @@ open class BrowserModel(
         IPathOperationDelegate by PathOperationDelegate() {
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
+    var needToRefreshMeta = false
 
     init {
         viewModelScope.registerDisplaySettingsCallBacks(
@@ -216,6 +218,21 @@ open class BrowserModel(
         Settings.getInstance(context).edit {
             putInt(sortKey, sort)
             putBoolean("${sortKey}_desc", desc)
+        }
+    }
+
+    /**
+     * Get the media metadata from ML if needed
+     * This is useful in case a playback has already been running since this fragment has been started
+     * As the ML events are not listened to refresh the browser content, it will reload the ML metadata
+     * for this media to ensure the progress (and other metadata) are up to date
+     *
+     * @param mw the [MediaWrapper] to look into
+     * @return a [MediaWrapper] with up to date ML metadata
+     */
+    suspend fun getMediaWithMeta(context: Context, mw: MediaWrapper): MediaWrapper {
+        return if (!needToRefreshMeta) mw else context.getFromMl {
+            getMedia(mw.uri) ?: mw
         }
     }
 
