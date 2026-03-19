@@ -58,7 +58,11 @@ import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
 import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_PLAYLIST
 import org.videolan.vlc.util.ContextOption.CTX_ADD_GROUP
 import org.videolan.vlc.util.ContextOption.CTX_ADD_SCANNED
+import org.videolan.vlc.util.ContextOption.CTX_ADD_SHORTCUT
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
 import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_COPY
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
 import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
 import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
 import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM_ARTIST
@@ -71,6 +75,7 @@ import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_FROM_START
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_SHUFFLE
 import org.videolan.vlc.util.ContextOption.CTX_REMOVE_GROUP
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
 import org.videolan.vlc.util.ContextOption.Companion.createCtxAudioFlags
 import org.videolan.vlc.util.ContextOption.Companion.createCtxFolderFlags
 import org.videolan.vlc.util.ContextOption.Companion.createCtxHistoryFlags
@@ -80,6 +85,7 @@ import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoFlags
 import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoGroupFlags
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.MediaListEntry
+import org.videolan.vlc.util.isSchemeHttpOrHttps
 
 class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -204,10 +210,6 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             if (item.hasFlag(BrowserItemCtxFlags.isFolderEmpty)) add(CTX_PLAY)
                             val isFileBrowser = entry.providerClass != NetworkProvider::class.java && item.uri.scheme == "file"
                             if (!entry.isRoot && isFileBrowser) add(ContextOption.CTX_BAN_FOLDER)
-                            val isNetworkBrowser = entry.providerClass == NetworkProvider::class.java
-                            if (isFileBrowser || isNetworkBrowser) {
-                                if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                            }
                             if (isFileBrowser && !entry.isRoot && !MedialibraryUtils.isScanned(item.uri.toString())) {
                                 add(CTX_ADD_SCANNED)
                             }
@@ -246,11 +248,19 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                             }
                             //go to folder
                             if (item.uri.retrieveParent() != null) add(CTX_GO_TO_FOLDER)
+                            // no sharing on TV
+                            remove(ContextOption.CTX_SHARE)
+                            if (entry == MediaListEntry.BROWSER) remove(CTX_GO_TO_FOLDER)
                         }
                     }
 
-                    else
-                        -> createCtxTrackFlags().apply {
+                    is MediaWrapper if isSchemeHttpOrHttps(item.uri.scheme) -> {
+                        FlagSet(ContextOption::class.java).apply {
+                            addAll(CTX_ADD_SHORTCUT, CTX_ADD_TO_PLAYLIST, CTX_APPEND, CTX_COPY, CTX_DELETE, CTX_RENAME)
+                        }
+                    }
+
+                    else -> createCtxTrackFlags().apply {
                         if ((item as? MediaWrapper)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
                         if ((item as? MediaWrapper)?.artistId != (item as? MediaWrapper)?.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
                     }
@@ -286,9 +296,9 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
 
-            else -> createCtxAudioFlags()
+            else -> FlagSet(ContextOption::class.java)
         }
-        return ContextSheet.populateMenuItems(activity!!, flags)
+        return if (flags.isNotEmpty()) ContextSheet.populateMenuItems(activity, flags) else null
     }
 
     fun invalidateList(entry: MediaListEntry) = viewModelScope.launch {

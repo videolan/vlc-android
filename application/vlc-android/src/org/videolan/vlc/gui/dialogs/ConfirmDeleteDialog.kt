@@ -116,7 +116,7 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
         title = view.findViewById(R.id.title)
         description = view.findViewById(R.id.message)
         deleteButton = view.findViewById(R.id.delete_button)
-        view.findViewById<Button>(R.id.delete_button).setOnClickListener {
+        deleteButton.setOnClickListener {
             if (::listener.isInitialized) listener.invoke()
             setFragmentResult(CONFIRM_DELETE_DIALOG_RESULT, bundleOf(CONFIRM_DELETE_DIALOG_MEDIALIST to mediaList, CONFIRM_DELETE_DIALOG_RESULT_TYPE to resultType))
             dismiss()
