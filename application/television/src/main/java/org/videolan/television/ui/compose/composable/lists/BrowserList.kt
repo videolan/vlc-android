@@ -68,6 +68,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.television.R
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.BrowserItemCtxFlags
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
@@ -85,10 +86,13 @@ import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.helpers.DefaultPlaybackAction
+import org.videolan.vlc.gui.helpers.DefaultPlaybackActionMediaType
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.ContextOption
 import org.videolan.vlc.util.ContextOption.*
@@ -148,8 +152,21 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
             else
                 EmptyLoadingState.NONE
         val activity = LocalActivity.current
+        val settings = Settings.getInstance(activity!!)
         val onClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
-            fileBrowserViewModel.setCurrentPathEntry(item)
+            if (item is MediaWrapper && item.type != MediaWrapper.TYPE_DIR) {
+                when (DefaultPlaybackActionMediaType.FILE.getCurrentPlaybackAction(settings)) {
+                    DefaultPlaybackAction.PLAY -> TvUtil.openMedia(activity as FragmentActivity, item)
+                    DefaultPlaybackAction.PLAY_ALL -> MediaUtils.openList(activity, browserModel.dataset.value.mapNotNull { it as? MediaWrapper }, position, false)
+                    DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, listOf(*item.tracks), showSnackbar = {
+                        mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                    })
+                    DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, listOf(*item.tracks).toTypedArray(), showSnackbar = {
+                        mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                    })
+                }
+            } else
+                fileBrowserViewModel.setCurrentPathEntry(item)
         }
         val listState = rememberLazyListState()
         val gridState = rememberLazyGridState()
