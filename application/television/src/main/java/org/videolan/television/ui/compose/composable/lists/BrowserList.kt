@@ -27,7 +27,6 @@ package org.videolan.television.ui.compose.composable.lists
 import android.app.Application
 import android.util.Log
 import androidx.activity.compose.LocalActivity
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -92,9 +91,7 @@ import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.ContextOption
 import org.videolan.vlc.util.ContextOption.*
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
@@ -102,7 +99,6 @@ import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import java.security.SecureRandom
 import java.util.LinkedList
-import kotlin.getValue
 import kotlin.math.min
 
 @Composable
@@ -143,11 +139,11 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
         val descriptionUpdates = browserModel.provider.descriptionUpdate.observeAsState()
 
         val emptyState =
-            if (items?.isEmpty() == true && !Permissions.canReadStorage(context))
+            if (items.isEmpty() && !Permissions.canReadStorage(context))
                 EmptyLoadingState.MISSING_PERMISSION
-            else if (items?.isEmpty() == true && !Permissions.canReadAudios(context))
+            else if (items.isEmpty() && !Permissions.canReadAudios(context))
                 EmptyLoadingState.MISSING_AUDIO_PERMISSION
-            else if (items?.isEmpty() == true)
+            else if (items.isEmpty())
                 EmptyLoadingState.EMPTY
             else
                 EmptyLoadingState.NONE
@@ -179,7 +175,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
         entry.currentSort = browserModel.provider.sort
         entry.currentSortDesc = browserModel.provider.desc
         entry.isRoot = (root.value as? MediaWrapper)?.uri.toString().isEmpty()
-        mainActivityViewModel.addCtxClickListener(entry) { item, position, ctxMenuItem ->
+        mainActivityViewModel.addCtxClickListener(entry) { item, _, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
             val showSnackbar: (String) -> Unit = {
                 mainActivityViewModel.showSnackbar(SnackbarContent(it))
@@ -188,7 +184,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                 CTX_PLAY -> MediaUtils.openMedia(activity, (item as MediaWrapper))
                 CTX_PLAY_FROM_START -> {
                     (item as MediaWrapper).addFlags(MediaWrapper.MEDIA_FROM_START)
-                    MediaUtils.openMedia(activity, (item as MediaWrapper))
+                    MediaUtils.openMedia(activity, item)
                 }
                 CTX_PLAY_ALL -> coroutineScope.launch {
                     var positionInPlaylist = 0
@@ -196,17 +192,17 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
 //                    scheduler.scheduleAction(MSG_SHOW_ENQUEUING, 1000L)
                     withContext(Dispatchers.IO) {
                         val files = if (browserModel.url?.startsWith("file") == true) browserModel.provider.browseUrl(browserModel.url!!) else browserModel.dataset.getList()
-                        for (file in files.filterIsInstance(MediaWrapper::class.java))
+                        for (file in files.filterIsInstance<MediaWrapper>())
                             if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
-                                mediaLocations.add(browserModel.getMediaWithMeta(activity!!, file))
+                                mediaLocations.add(browserModel.getMediaWithMeta(activity, file))
                                 if (file.equals(item))
                                     positionInPlaylist = mediaLocations.size - 1
                             }
                     }
 //                    scheduler.startAction(MSG_HIDE_ENQUEUING)
-                    activity?.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist, shuffle = PlaylistManager.shuffling.value) }
+                    activity.let { MediaUtils.openList(it, mediaLocations, positionInPlaylist, shuffle = PlaylistManager.shuffling.value) }
                 }
-                CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity!!, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
+                CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
                 CTX_PLAY_AS_AUDIO -> coroutineScope.launch(Dispatchers.IO) {
                     item.tracks?.let { trackArray ->
                         MediaUtils.openList(activity, trackArray.map {
@@ -216,7 +212,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                     }
                 }
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs((activity as FragmentActivity), (item as MediaWrapper))
-                CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
+                CTX_APPEND -> MediaUtils.appendMedia(activity, item.tracks, showSnackbar)
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
                 CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                 CTX_DELETE -> {
@@ -235,7 +231,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                 CTX_BAN_FOLDER -> {
                     val dialog = ConfirmDeleteDialog.newInstance(
                         medias = arrayListOf(item),
-                        title = activity!!.resources.getString(R.string.group_ban_folder),
+                        title = activity.resources.getString(R.string.group_ban_folder),
                         description = activity.resources.getString(R.string.ban_folder_explanation, activity.resources.getString(R.string.medialibrary_directories)),
                         buttonText = activity.resources.getString(R.string.ban_folder),
                         resultType = CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER
@@ -256,34 +252,30 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                         browserModel.refresh()
                     }
                 }
-                else -> mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                else -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
 
             }
         }
         val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
         InvalidationComposable(displaySettingsChange) { invalidate ->
             var inCard by remember { mutableStateOf(entry.displayInCard(context)) }
-            if (!items.isNullOrEmpty())
+            if (items.isNotEmpty())
                 VlcEmptyViewLoader(emptyState) {
                     Row(modifier = modifier.fillMaxHeight()) {
                         if (inCard) {
                             LazyVerticalGrid(
-                                columns = GridCells.Adaptive(150.dp),
-                                modifier = Modifier
+                                GridCells.Adaptive(150.dp), Modifier
                                     .fillMaxHeight()
                                     .weight(1f)
                                     .focusProperties {
                                         onEnter = {
                                             focusRequesters[lastFocusedItem]?.requestFocus()
                                         }
-                                    },
-                                verticalArrangement = Arrangement.spacedBy(24.dp),
-                                horizontalArrangement = Arrangement.spacedBy(0.dp),
-                                contentPadding = PaddingValues(top = 16.dp),
-                                state = gridState
+                                    }, gridState, PaddingValues(top = 16.dp), verticalArrangement = Arrangement.spacedBy(24.dp),
+                                horizontalArrangement = Arrangement.spacedBy(0.dp)
                             ) {
-                                items(count = items?.size ?: 0) { index ->
-                                    items!![index].let { item ->
+                                items(count = items.size) { index ->
+                                    items[index].let { item ->
                                         InvalidationComposable(descriptionUpdates.value?.first == index) {
                                             //add metadata to be used by ctx actions
                                             if (item is MediaWrapper) {
@@ -316,8 +308,8 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                 contentPadding = PaddingValues(top = 16.dp),
                                 state = listState
                             ) {
-                                items(count = items?.size ?: 0) { index ->
-                                    items!![index].let { item ->
+                                items(count = items.size) { index ->
+                                    items[index].let { item ->
                                         InvalidationComposable(descriptionUpdates.value?.first == index) {
                                             AudioItemList(
                                                 item, index, entry, Modifier
