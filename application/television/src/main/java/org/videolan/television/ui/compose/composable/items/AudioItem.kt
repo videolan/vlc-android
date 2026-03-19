@@ -42,6 +42,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -76,6 +77,7 @@ import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.compose.composable.components.ItemOptions
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
+import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
@@ -182,6 +184,21 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                                 .padding(4.dp)
                         )
                     }
+                if (item is MediaWrapper && item.type == MediaWrapper.TYPE_VIDEO && item.seen > 0) {
+                    Box(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_check),
+                            contentDescription = stringResource(R.string.media_seen),
+                            modifier = Modifier
+                                .background(BlackTransparent50, RoundedCornerShape(4.dp))
+                                .padding(4.dp),
+                        )
+                    }
+                }
             }
             if (expanded)
                 ItemOptions(item, position, entry, onDismiss =  {
@@ -285,32 +302,54 @@ fun AudioItemList(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
         Card(
             modifier = Modifier
         ) {
-            if (mapBitmap.value?.second != null) {
+            Box(
+                modifier = Modifier
+                    .padding(0.dp)
+                    .fillMaxHeight()
+                    .aspectRatio(1F)
+            ) {
+                if (mapBitmap.value?.second != null) {
 
-                Image(
-                    bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                    contentDescription = "Map snapshot",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .aspectRatio(1F)
-                )
-            } else {
-                Image(
-                    painter = painterResource(id = getTvIconRes(item)),
-                    contentDescription = "Map snapshot",
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .aspectRatio(1F)
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
-                        .padding(8.dp)
-                )
-                LaunchedEffect(key1 = "") {
-                    coroutineScope.launch {
-                        item.let {
-                            if (item !is DummyItem)
-                                mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                    Image(
+                        bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
+                        contentDescription = "Map snapshot",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .aspectRatio(1F)
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = getTvIconRes(item)),
+                        contentDescription = "Map snapshot",
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .aspectRatio(1F)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(8.dp)
+                    )
+                    LaunchedEffect(key1 = "") {
+                        coroutineScope.launch {
+                            item.let {
+                                if (item !is DummyItem)
+                                    mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                            }
                         }
+                    }
+                }
+                if (item is MediaWrapper && item.type == MediaWrapper.TYPE_VIDEO && item.seen > 0) {
+                    Box(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_check),
+                            contentDescription = stringResource(R.string.media_seen),
+                            modifier = Modifier
+                                .background(BlackTransparent50, RoundedCornerShape(4.dp))
+                                .padding(4.dp),
+                        )
                     }
                 }
             }
