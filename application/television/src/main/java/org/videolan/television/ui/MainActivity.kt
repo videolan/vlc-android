@@ -36,7 +36,9 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -49,15 +51,18 @@ import org.videolan.resources.util.parcelableList
 import org.videolan.television.ui.compose.composable.screens.MainScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.browser.FileBrowserFragment
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_DEFAULT_VALUE
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_TYPE
 import org.videolan.vlc.gui.dialogs.CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT
+import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.UPDATE_DATE
@@ -69,8 +74,8 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.isSchemeStreaming
 
-private const val TAG = "VLC/MainActivity"
 
 class MainActivity : DefaultTvActivity() {
 
@@ -97,59 +102,6 @@ class MainActivity : DefaultTvActivity() {
                     arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
                 }
                 updateDialog.show(supportFragmentManager, "fragment_update")
-            }
-        }
-
-        supportFragmentManager.setFragmentResultListener(CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT, this) { requestKey, bundle ->
-            val media = bundle.parcelable<MediaLibraryItem>(RENAME_DIALOG_MEDIA) as? Playlist ?: return@setFragmentResultListener
-            val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    media.setName(name)
-                    val mainActivityViewModel: MainActivityViewModel by viewModels()
-                    mainActivityViewModel.invalidateList(MediaListEntry.AUDIO_PLAYLISTS)
-                }
-            }
-        }
-        supportFragmentManager.setFragmentResultListener(CONFIRM_DELETE_DIALOG_RESULT, this) { requestKey, bundle ->
-            val items: List<MediaLibraryItem> = bundle.parcelableList(CONFIRM_DELETE_DIALOG_MEDIALIST) ?: listOf()
-            val type = bundle.getInt(CONFIRM_DELETE_DIALOG_RESULT_TYPE)
-            if (type == CONFIRM_DELETE_DIALOG_RESULT_DEFAULT_VALUE) {
-                for (item in items) {
-                    items.forEach { mw ->
-                        if (mw is MediaWrapper) {
-                            val deleteAction = Runnable {
-                                lifecycleScope.launch {
-                                    MediaUtils.deleteItem(this@MainActivity, mw) { UiTools.snacker(this@MainActivity, getString(R.string.msg_delete_failed, mw.title)) }
-                                }
-                            }
-                            if (Permissions.checkWritePermission(this, (item as MediaWrapper), deleteAction)) deleteAction.run()
-                        } else MediaUtils.deleteItem(this, item) {
-//                            onDeleteFailed(it) 
-                        }
-                    }
-                }
-            } else if (type == CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER) {
-                items.forEach {
-                    val path = if (it is Folder) it.mMrl.toUri().path else if (it is MediaWrapper) it.uri.path else null
-                    path?.let { path ->
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            val roots: Array<String> = Medialibrary.getInstance().foldersList
-                            val strippedPath = path.removePrefix("file://")
-                            for (root in roots) {
-                                if (root.removePrefix("file://") == strippedPath) {
-                                    Log.w(TAG, "banFolder: trying to ban root: $root")
-                                    lifecycleScope.launch(Dispatchers.Main) {
-                                        UiTools.snacker(this@MainActivity, getString(R.string.cant_ban_root))
-                                    }
-                                    return@launch
-                                }
-                            }
-                            MedialibraryUtils.banDir(strippedPath)
-                        }
-
-                    } ?: Log.e(TAG, "banFolder: path is null")
-                }
             }
         }
     }
