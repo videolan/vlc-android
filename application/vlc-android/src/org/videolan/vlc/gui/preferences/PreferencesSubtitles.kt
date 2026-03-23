@@ -79,6 +79,8 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
     private lateinit var subtitlesOutlineColor: ColorPreferenceCompat
     private lateinit var subtitlesOutlineOpacity: SeekBarPreference
 
+    private var valueChanged = false
+
     override fun getXml(): Int {
         return R.xml.preferences_subtitles
     }
@@ -182,6 +184,12 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
 
     override fun onStop() {
         super.onStop()
+        if (valueChanged) {
+            lifecycleScope.launch {
+                VLCInstance.restart()
+                restartMediaPlayer()
+            }
+        }
         preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
     }
 
@@ -192,10 +200,7 @@ class PreferencesSubtitles : BasePreferenceFragment(), SharedPreferences.OnShare
             KEY_SUBTITLES_BACKGROUND_COLOR, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY, KEY_SUBTITLES_BACKGROUND,
             KEY_SUBTITLES_OUTLINE, KEY_SUBTITLES_OUTLINE_SIZE, KEY_SUBTITLES_OUTLINE_COLOR, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
             KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_SHADOW_COLOR, KEY_SUBTITLES_SHADOW_COLOR_OPACITY -> {
-                lifecycleScope.launch {
-                    VLCInstance.restart()
-                    restartMediaPlayer()
-                }
+                valueChanged = true
                 managePreferenceVisibilities()
             }
             KEY_SUBTITLE_PREFERRED_LANGUAGE -> updatePreferredSubtitleTrack()
