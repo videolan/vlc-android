@@ -28,39 +28,52 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.BuildConfig
 import org.videolan.resources.HEADER_ADD_STREAM
-import org.videolan.resources.HEADER_STREAM
 import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.R
+import org.videolan.vlc.media.getAll
 import org.videolan.vlc.util.Permissions
+import kotlin.collections.forEach
+import kotlin.collections.isNullOrEmpty
 
 private const val TAG = "VLC/MoreViewModel"
+
 class MoreViewModel(app: Application) : TvMediaViewModel(app) {
 
 
     val history: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
     val streams: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()
 
+    private val _streamsFlow: MutableStateFlow<List<MediaLibraryItem>?> = MutableStateFlow(null)
+    val streamsFlow: StateFlow<List<MediaLibraryItem>?> = _streamsFlow.asStateFlow()
+
     val historyLoading = MutableLiveData(false)
     val streamsLoading = MutableLiveData(false)
 
     var historyLoaded = false
     var streamsLoaded = false
+    var deletingMedia: MediaWrapper? = null
 
-    fun updateHistory() = viewModelScope.launch {
-        if (historyLoaded) return@launch
+    suspend fun updateHistory() {
+        if (historyLoaded) return
         historyLoaded = true
         if (BuildConfig.DEBUG) Log.d(TAG, "updateHistory")
         setLoading(historyLoading, true)
         if (!Permissions.canReadStorage(getContext())) {
             showPermissionItem(history)
-            return@launch
+            return
         }
         getContext().getFromMl {
             history(Medialibrary.HISTORY_TYPE_LOCAL)
@@ -72,25 +85,56 @@ class MoreViewModel(app: Application) : TvMediaViewModel(app) {
         setLoading(historyLoading, false)
     }
 
-    fun updateStreams() = viewModelScope.launch {
-        if (streamsLoaded) return@launch
+    suspend fun updateStreams() {
+        if (streamsLoaded) return
         streamsLoaded = true
         if (BuildConfig.DEBUG) Log.d(TAG, "updateStreams")
         setLoading(streamsLoading, true)
         if (!Permissions.canReadStorage(getContext())) {
             showPermissionItem(streams)
-            return@launch
+            return
         }
         getContext().getFromMl {
             history(Medialibrary.HISTORY_TYPE_NETWORK)
         }.let {
-            streams.value = mutableListOf<MediaLibraryItem>().apply {
-                if (it.isNotEmpty())
-                addAll(it)
-                else
-                    add(DummyItem(HEADER_ADD_STREAM, getContext().getString(R.string.new_stream), ""))
+            it?.forEach {
+                if (org.videolan.vlc.BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "VM Stream found: ${it.title}")
             }
+            streams.value = mutableListOf<MediaLibraryItem>().apply {
+                add(DummyItem(HEADER_ADD_STREAM, getContext().getString(R.string.new_stream), ""))
+                addAll(it)
+            }
+            _streamsFlow.emit(streams.value)
         }
         setLoading(streamsLoading, false)
+    }
+
+    fun delete() {
+        deletingMedia?.let { media ->
+            viewModelScope.launch {
+                getContext().getFromMl { removeExternalMedia(media.id) }
+                streamsLoaded = false
+                updateStreams()
+            }
+        }
+    }
+
+    fun rename(media: MediaWrapper, name: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) { media.rename(name) }
+            updateStreams()
+        }
+    }
+
+    fun invalidate(invalidateListener: () -> Unit) {
+        viewModelScope.launch {
+            streamsLoaded = false
+            historyLoaded = false
+            _streamsFlow.emit(null)
+            updateStreams()
+            updateHistory()
+            delay(500)
+            invalidateListener()
+        }
     }
 }
