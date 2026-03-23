@@ -62,17 +62,17 @@ dependencies {
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
-    androidTestImplementation platform('androidx.compose:compose-bom:2026.01.01')
+    androidTestImplementation platform('androidx.compose:compose-bom:2026.03.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    def composeBom = platform('androidx.compose:compose-bom:2026.01.01')
+    def composeBom = platform('androidx.compose:compose-bom:2026.03.00')
     implementation composeBom
-    implementation("androidx.paging:paging-compose:3.4.0")
-    implementation("androidx.compose.animation:animation-graphics:1.10.2")
+    implementation("androidx.paging:paging-compose:3.4.2")
+    implementation("androidx.compose.animation:animation-graphics:1.10.5")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
 
     // General compose dependencies
-    implementation 'androidx.activity:activity-compose:1.12.3'
-    implementation("androidx.compose.ui:ui:1.10.2")
+    implementation 'androidx.activity:activity-compose:1.13.0'
+    implementation("androidx.compose.ui:ui:1.10.5")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     implementation 'androidx.compose.ui:ui-tooling-preview'
@@ -84,9 +84,9 @@ dependencies {
     implementation "androidx.compose.material3:material3:$rootProject.ext.composeMaterial"
 //    implementation "androidx.tv:tv-material:$rootProject.ext.tvCompose"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$rootProject.ext.lifecycleVersion"
-    implementation "androidx.compose.runtime:runtime-livedata:1.10.2"
-    implementation "androidx.navigation3:navigation3-runtime:1.0.0"
-    implementation "androidx.navigation3:navigation3-ui:1.0.0"
+    implementation "androidx.compose.runtime:runtime-livedata:1.10.5"
+    implementation "androidx.navigation3:navigation3-runtime:1.0.1"
+    implementation "androidx.navigation3:navigation3-ui:1.0.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-navigation3:2.10.0"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.10.0"
 
