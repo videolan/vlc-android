@@ -59,8 +59,9 @@ object RemoteAccessSession {
         }
         if (!loggedIn) {
             call.respond(HttpStatusCode.Unauthorized)
+            throw IllegalStateException("Not logged in")
         } else {
-            call.sessions.set("user_session", UserSession(id = userSession!!.id, userSession.maxAge))
+            call.sessions.set("user_session", UserSession(id = userSession.id, userSession.maxAge))
         }
     }
 
