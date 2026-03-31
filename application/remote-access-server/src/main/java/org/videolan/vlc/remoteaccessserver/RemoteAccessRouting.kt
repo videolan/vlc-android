@@ -235,8 +235,13 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
                 is PartData.FileItem -> {
                     File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads").mkdirs()
                     fileName = part.originalFileName as String
-                    var fileBytes = part.streamProvider().readBytes()
-                    File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads/$fileName").writeBytes(fileBytes)
+                    val fileBytes = part.streamProvider().readBytes()
+                    val file = File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads/$fileName")
+                    if (file.canonicalFile.parent?.startsWith(File("${AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path}/uploads").absolutePath) != true) {
+                        call.respond(HttpStatusCode.Unauthorized)
+                        throw (IllegalStateException("${file.canonicalFile.parent} is not a valid path"))
+                    }
+                    file.writeBytes(fileBytes)
                 }
                 else -> {}
             }
