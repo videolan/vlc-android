@@ -34,7 +34,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -57,7 +63,11 @@ import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableList
 import org.videolan.television.R
 import org.videolan.television.databinding.TvAudioPlayerBinding
+import org.videolan.television.ui.DefaultTvActivity
 import org.videolan.television.ui.browser.BaseTvActivity
+import org.videolan.television.ui.compose.composable.screens.MainScreen
+import org.videolan.television.ui.compose.composable.screens.TVAudioPlayer
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
@@ -90,10 +100,10 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 import kotlin.math.absoluteValue
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Callback, PlayerOptionsDelegateCallback  {
+class AudioPlayerActivity : DefaultTvActivity(),KeycodeListener, PlaybackService.Callback, PlayerOptionsDelegateCallback  {
 
-    private lateinit var binding: TvAudioPlayerBinding
-    private lateinit var adapter: PlaylistAdapter
+//    private lateinit var binding: TvAudioPlayerBinding
+//    private lateinit var adapter: PlaylistAdapter
     private var lastMove: Long = 0
     private var shuffling = false
     private var currentCoverArt: String? = null
@@ -110,27 +120,42 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player)
+//        binding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player)
+
+        enableEdgeToEdge()
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+        }
+        setContent {
+            VlcTVTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    TVAudioPlayer()
+                }
+            }
+        }
+
+
         settings = Settings.getInstance(this)
 
         model = ViewModelProvider(this)[PlaylistModel::class.java]
-        binding.playlist.layoutManager = LinearLayoutManager(this)
-        adapter = PlaylistAdapter(this, model)
-        binding.playlist.adapter = adapter
-        binding.lifecycleOwner = this
-        binding.progress = model.progress
-        model.dataset.observe(this) { mediaWrappers ->
-            if (mediaWrappers != null) {
-                adapter.setSelection(-1)
-                adapter.update(mediaWrappers)
-            }
-            updateRepeatMode()
-        }
+//        binding.playlist.layoutManager = LinearLayoutManager(this)
+//        adapter = PlaylistAdapter(this, model)
+//        binding.playlist.adapter = adapter
+//        binding.lifecycleOwner = this
+//        binding.progress = model.progress
+//        model.dataset.observe(this) { mediaWrappers ->
+//            if (mediaWrappers != null) {
+//                adapter.setSelection(-1)
+//                adapter.update(mediaWrappers)
+//            }
+//            updateRepeatMode()
+//        }
         model.speed.observe(this) { showChips() }
         PlaybackService.playerSleepTime.observe(this) {
             showChips()
         }
-        binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
+//        binding.mediaProgress.setOnSeekBarChangeListener(timelineListener)
         model.playerState.observe(this) { playerState -> update(playerState) }
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (intent.hasExtra(MEDIA_PLAYLIST))
@@ -139,24 +164,24 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
             intent.parcelableList<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
-        binding.playbackSpeedQuickAction.setOnClickListener {
-            val newFragment = PlaybackSpeedDialog.newInstance()
-            newFragment.show(supportFragmentManager, "playback_speed")
-        }
-        binding.playbackSpeedQuickAction.setOnLongClickListener {
-            model.service?.setRate(1F, true)
-            showChips()
-            true
-        }
-        binding.sleepQuickAction.setOnClickListener {
-            val newFragment = SleepTimerDialog.newInstance()
-            newFragment.show(supportFragmentManager, "time")
-        }
-        binding.sleepQuickAction.setOnLongClickListener {
-            model.service?.setSleepTimer(null)
-            showChips()
-            true
-        }
+//        binding.playbackSpeedQuickAction.setOnClickListener {
+//            val newFragment = PlaybackSpeedDialog.newInstance()
+//            newFragment.show(supportFragmentManager, "playback_speed")
+//        }
+//        binding.playbackSpeedQuickAction.setOnLongClickListener {
+//            model.service?.setRate(1F, true)
+//            showChips()
+//            true
+//        }
+//        binding.sleepQuickAction.setOnClickListener {
+//            val newFragment = SleepTimerDialog.newInstance()
+//            newFragment.show(supportFragmentManager, "time")
+//        }
+//        binding.sleepQuickAction.setOnLongClickListener {
+//            model.service?.setSleepTimer(null)
+//            showChips()
+//            true
+//        }
         bookmarkModel = BookmarkModel.get(this)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -207,69 +232,67 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
     }
 
     private fun showChips() {
-        if (settings?.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false) == true) {
-            binding.playbackSpeedQuickActionImage.setImageDrawable(ContextCompat.getDrawable(this, org.videolan.vlc.R.drawable.ic_speed_all))
-        } else {
-            binding.playbackSpeedQuickActionImage.setImageDrawable(ContextCompat.getDrawable(this, org.videolan.vlc.R.drawable.ic_speed))
-        }
-        binding.playbackSpeedQuickAction.setGone()
-        binding.sleepQuickAction.setGone()
-        model.speed.value?.let {
-            if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
-            binding.playbackSpeedQuickActionText.text = it.formatRateString()
-        }
-        PlaybackService.playerSleepTime.value?.let {
-            binding.sleepQuickAction.setVisible()
-            binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
-        }
+//        if (settings?.getBoolean(KEY_PLAYBACK_SPEED_AUDIO_GLOBAL, false) == true) {
+//            binding.playbackSpeedQuickActionImage.setImageDrawable(ContextCompat.getDrawable(this, org.videolan.vlc.R.drawable.ic_speed_all))
+//        } else {
+//            binding.playbackSpeedQuickActionImage.setImageDrawable(ContextCompat.getDrawable(this, org.videolan.vlc.R.drawable.ic_speed))
+//        }
+//        binding.playbackSpeedQuickAction.setGone()
+//        binding.sleepQuickAction.setGone()
+//        model.speed.value?.let {
+//            if (it != 1.0F) binding.playbackSpeedQuickAction.setVisible()
+//            binding.playbackSpeedQuickActionText.text = it.formatRateString()
+//        }
+//        PlaybackService.playerSleepTime.value?.let {
+//            binding.sleepQuickAction.setVisible()
+//            binding.sleepQuickActionText.text = DateFormat.getTimeFormat(this).format(it.time)
+//        }
     }
-
-    override fun refresh() {}
 
     private var wasPlaying = false
     fun update(state: PlayerState?) {
         if (state == null) return
 
         val drawable = if (state.playing) playToPause else pauseToPlay
-        binding.buttonPlay.setImageDrawable(drawable)
-        if (state.playing != wasPlaying) {
-            binding.buttonPlay.post { drawable.start() }
-        }
-
-        wasPlaying = state.playing
-        binding.buttonPlay.contentDescription = getString(if (state.playing) org.videolan.vlc.R.string.pause else org.videolan.vlc.R.string.play)
-
-        val mw = model.currentMediaWrapper
-        lifecycleScope.launch {
-            if (model.switchToVideo()) {
-                finish()
-                return@launch
-            }
-            binding.mediaTitle.text = state.title
-            binding.mediaArtist.text = state.artist
-            binding.buttonShuffle.setImageResource(if (shuffling)
-                R.drawable.ic_shuffle_on
-            else
-                R.drawable.ic_shuffle_audio)
-            binding.buttonShuffle.contentDescription = getString(if (shuffling) org.videolan.vlc.R.string.shuffle_on else org.videolan.vlc.R.string.shuffle)
-            if (mw == null || currentCoverArt == mw.artworkMrl) return@launch
-            currentCoverArt = mw.artworkMrl
-            updateBackground()
-        }
+//        binding.buttonPlay.setImageDrawable(drawable)
+//        if (state.playing != wasPlaying) {
+//            binding.buttonPlay.post { drawable.start() }
+//        }
+//
+//        wasPlaying = state.playing
+//        binding.buttonPlay.contentDescription = getString(if (state.playing) org.videolan.vlc.R.string.pause else org.videolan.vlc.R.string.play)
+//
+//        val mw = model.currentMediaWrapper
+//        lifecycleScope.launch {
+//            if (model.switchToVideo()) {
+//                finish()
+//                return@launch
+//            }
+//            binding.mediaTitle.text = state.title
+//            binding.mediaArtist.text = state.artist
+//            binding.buttonShuffle.setImageResource(if (shuffling)
+//                R.drawable.ic_shuffle_on
+//            else
+//                R.drawable.ic_shuffle_audio)
+//            binding.buttonShuffle.contentDescription = getString(if (shuffling) org.videolan.vlc.R.string.shuffle_on else org.videolan.vlc.R.string.shuffle)
+//            if (mw == null || currentCoverArt == mw.artworkMrl) return@launch
+//            currentCoverArt = mw.artworkMrl
+//            updateBackground()
+//        }
     }
 
-    private fun updateBackground() = lifecycleScope.launchWhenStarted {
-        val width = if (binding.albumCover.width > 0) binding.albumCover.width else this@AudioPlayerActivity.getScreenWidth()
-        val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width) }
-        if (cover == null) {
-            binding.albumCover.setImageResource(R.drawable.ic_song_big)
-            binding.background.clearColorFilter()
-            binding.background.setImageResource(0)
-        } else {
-            UiTools.blurView(binding.background, cover, 15F, UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
-            binding.albumCover.setImageBitmap(cover)
-        }
-    }
+//    private fun updateBackground() = lifecycleScope.launchWhenStarted {
+//        val width = if (binding.albumCover.width > 0) binding.albumCover.width else this@AudioPlayerActivity.getScreenWidth()
+//        val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width) }
+//        if (cover == null) {
+//            binding.albumCover.setImageResource(R.drawable.ic_song_big)
+//            binding.background.clearColorFilter()
+//            binding.background.setImageResource(0)
+//        } else {
+//            UiTools.blurView(binding.background, cover, 15F, UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
+//            binding.albumCover.setImageBitmap(cover)
+//        }
+//    }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (playerKeyListenerDelegate.onKeyDown(keyCode, event)) return true
@@ -331,7 +354,7 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
     }
 
     fun playSelection() {
-        model.play(adapter.selectedItem)
+//        model.play(adapter.selectedItem)
     }
 
     override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
@@ -386,15 +409,15 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
                 bookmarkListDelegate = BookmarkListDelegate(this, it, bookmarkModel, false)
                 bookmarkListDelegate.visibilityListener = {
                     if (bookmarkListDelegate.visible) bookmarkListDelegate.rootView.requestFocus()
-                    binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
-                    binding.playlist.isFocusable = !bookmarkListDelegate.visible
-                    binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
-                    binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
+//                    binding.playlist.descendantFocusability = if (bookmarkListDelegate.visible) ViewGroup.FOCUS_BLOCK_DESCENDANTS else ViewGroup.FOCUS_AFTER_DESCENDANTS
+//                    binding.playlist.isFocusable = !bookmarkListDelegate.visible
+//                    binding.sleepQuickAction.isFocusable = !bookmarkListDelegate.visible
+//                    binding.playbackSpeedQuickAction.isFocusable = !bookmarkListDelegate.visible
                 }
                 bookmarkListDelegate.seekListener = { forward, long ->
                     model.jump(forward, long, this)
                 }
-                bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
+//                bookmarkListDelegate.markerContainer = binding.bookmarkMarkerContainer
             }
             bookmarkListDelegate.show()
         }
@@ -410,53 +433,53 @@ class AudioPlayerActivity : BaseTvActivity(),KeycodeListener, PlaybackService.Ca
         model.load(medias, 0)
     }
 
-    private fun updateRepeatMode() {
-        when (model.repeatType) {
-            PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
-            }
-            PlaybackStateCompat.REPEAT_MODE_ONE -> {
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
-            }
-            PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat_none)
-            }
-        }
-    }
+//    private fun updateRepeatMode() {
+//        when (model.repeatType) {
+//            PlaybackStateCompat.REPEAT_MODE_ALL -> {
+//                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
+//                binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
+//            }
+//            PlaybackStateCompat.REPEAT_MODE_ONE -> {
+//                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
+//                binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
+//            }
+//            PlaybackStateCompat.REPEAT_MODE_NONE -> {
+//                model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+//                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
+//                binding.buttonRepeat.contentDescription = getString(R.string.repeat_none)
+//            }
+//        }
+//    }
 
     private fun switchRepeatMode() {
-        when (model.repeatType) {
-            PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
-            }
-            PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                model.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
-            }
-            PlaybackStateCompat.REPEAT_MODE_ONE -> {
-                model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
-                binding.buttonRepeat.contentDescription = getString(R.string.repeat_none)
-            }
-        }
+//        when (model.repeatType) {
+//            PlaybackStateCompat.REPEAT_MODE_NONE -> {
+//                model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
+//                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all_audio)
+//                binding.buttonRepeat.contentDescription = getString(R.string.repeat_all)
+//            }
+//            PlaybackStateCompat.REPEAT_MODE_ALL -> {
+//                model.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+//                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_audio)
+//                binding.buttonRepeat.contentDescription = getString(R.string.repeat_single)
+//            }
+//            PlaybackStateCompat.REPEAT_MODE_ONE -> {
+//                model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
+//                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_audio)
+//                binding.buttonRepeat.contentDescription = getString(R.string.repeat_none)
+//            }
+//        }
     }
 
     fun onUpdateFinished() {
-        binding.root.post {
-            val position = model.currentMediaPosition
-            if (position < 0) return@post
-            adapter.setSelection(position)
-            val first = (binding.playlist.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-            val last = (binding.playlist.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-            if (position < first || position > last) binding.playlist.smoothScrollToPosition(position)
-        }
+//        binding.root.post {
+//            val position = model.currentMediaPosition
+//            if (position < 0) return@post
+//            adapter.setSelection(position)
+//            val first = (binding.playlist.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+//            val last = (binding.playlist.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+//            if (position < first || position > last) binding.playlist.smoothScrollToPosition(position)
+//        }
     }
 
     companion object {
