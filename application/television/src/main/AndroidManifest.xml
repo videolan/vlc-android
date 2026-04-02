@@ -84,7 +84,7 @@
                 android:exported="true"
                 android:launchMode="singleTask"
                 android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV.Audio"
+                android:theme="@style/Theme.VLC"
                 tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ui.preferences.PreferencesActivity"
