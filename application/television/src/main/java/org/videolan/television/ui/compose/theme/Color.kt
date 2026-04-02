@@ -44,8 +44,11 @@ val Orange700 = Color(0XFFFF7200)
 val Orange800 = Color(0XFFFF610A)
 val Orange900 = Color(0XFFFF5014)
 
+val Orange800Transparent50 = Color(0X80FF610A)
+
 val White = Color(0XFFFFFFFF)
-val WhiteTransparent50 = Color(0X88FFFFFF)
+val WhiteTransparent50 = Color(0X80FFFFFF)
+val WhiteTransparent25 = Color(0X40FFFFFF)
 val WhiteTransparent10 = Color(0X19FFFFFF)
 val WhiteTransparent05 = Color(0X09FFFFFF)
 val Black = Color(0XFF000000)
