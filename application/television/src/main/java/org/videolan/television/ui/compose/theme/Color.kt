@@ -55,3 +55,5 @@ val Black = Color(0XFF000000)
 val BlackTransparent50 = Color(0X88000000)
 val BlackTransparent70 = Color(0XB3000000)
 val Transparent = Color(0X00FFFFFF)
+
+val Grey900Transparent = Color(0x80212121)
