@@ -55,7 +55,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Label
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Slider
@@ -78,6 +77,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -100,6 +101,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
+import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Orange500
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
@@ -108,6 +110,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
@@ -117,42 +120,62 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun TVAudioPlayer() {
-    Column(Modifier.fillMaxWidth()) {
-        Row(
-            Modifier
-                .weight(1F)
-                .fillMaxWidth()
-        ) {
-            Box(Modifier.weight(0.65f)) {
-                AudioCover()
-            }
-            Box(
-                Modifier
-                    .weight(0.35f)
-                    .fillMaxHeight()
-                    .background(WhiteTransparent25)
-            ) {
-                AudioPlayQueue()
-            }
+    Box(Modifier.fillMaxSize()) {
+        var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
+
+        blurredCover?.let {
+            Image(modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds,
+                bitmap = it.asImageBitmap(),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(Grey900Transparent, BlendMode.SrcAtop)
+                )
         }
-        Column(Modifier.padding(horizontal = 32.dp)) {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                AudioPlayerControls()
+        Column{
+            Row(
+                Modifier
+                    .weight(1F)
+                    .fillMaxWidth()
+            ) {
+                Box(Modifier.weight(0.65f)) {
+                    AudioCover( {
+                        blurredCover = it
+                    })
+                }
+                Box(
+                    Modifier
+                        .weight(0.35f)
+                        .fillMaxHeight()
+                        .background(WhiteTransparent25)
+                ) {
+                    AudioPlayQueue()
+                }
+            }
+            Column(Modifier.padding(horizontal = 32.dp)) {
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    AudioPlayerControls()
+                }
             }
         }
     }
 }
 
 @Composable
-fun AudioCover(viewModel: PlaylistModel = viewModel()) {
+fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewModel()) {
     val playerState = viewModel.playerState.observeAsState()
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AudioUtil.readCoverBitmap(Uri.decode(viewModel.currentMediaWrapper?.artworkURL), 300)?.asImageBitmap()?.let {
-            Image(bitmap = it, contentDescription = null)
+        AudioUtil.readCoverBitmap(Uri.decode(viewModel.currentMediaWrapper?.artworkURL), 300)?.let { bitmap ->
+            Image(bitmap = bitmap.asImageBitmap(), contentDescription = null)
+            LaunchedEffect(viewModel.currentMediaWrapper?.artworkURL) {
+                val bitmap = UiTools.blurBitmap(bitmap,  15F)
+                coverListener(bitmap)
+            }
+        } ?: run {
+            Image(painterResource(R.drawable.ic_song_big), contentDescription = "")
         }
         Text(playerState.value?.title ?: "")
         Text(playerState.value?.artist ?: "")
@@ -474,7 +497,7 @@ fun AudioProgressBar(viewModel: PlaylistModel = viewModel()) {
                 modifier = Modifier.height(6.dp),
                 colors = SliderDefaults.colors(
                     activeTrackColor = MaterialTheme.colorScheme.primary,
-                    inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    inactiveTrackColor = WhiteTransparent25,
                 ),
                 drawStopIndicator = null,
             )
