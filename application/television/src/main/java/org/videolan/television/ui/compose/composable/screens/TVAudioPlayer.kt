@@ -86,11 +86,15 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -101,6 +105,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
+import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Orange500
 import org.videolan.television.ui.compose.theme.Transparent
@@ -120,6 +125,10 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun TVAudioPlayer() {
+    var queueBackground by remember { mutableFloatStateOf(0F) }
+    val density : Density = LocalDensity.current
+    val dpValue = with(density){ queueBackground.toInt().toDp() }
+
     Box(Modifier.fillMaxSize()) {
         var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
 
@@ -131,6 +140,17 @@ fun TVAudioPlayer() {
                 colorFilter = ColorFilter.tint(Grey900Transparent, BlendMode.SrcAtop)
                 )
         }
+
+        Box(
+            modifier = Modifier
+                .height(dpValue)
+                .fillMaxWidth(0.35F)
+                .background(BlackTransparent50)
+                .align(Alignment.TopEnd),
+        ) {
+            AudioPlayQueue()
+        }
+
         Column{
             Row(
                 Modifier
@@ -145,15 +165,13 @@ fun TVAudioPlayer() {
                 Box(
                     Modifier
                         .weight(0.35f)
-                        .fillMaxHeight()
-                        .background(WhiteTransparent25)
-                ) {
-                    AudioPlayQueue()
-                }
+                )
             }
             Column(Modifier.padding(horizontal = 32.dp)) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                    AudioPlayerControls()
+                    AudioPlayerControls({
+                       queueBackground = it
+                    })
                 }
             }
         }
@@ -297,13 +315,13 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
 }
 
 @Composable
-fun AudioPlayerControls(viewModel: PlaylistModel = viewModel()) {
+fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: PlaylistModel = viewModel()) {
     val playerState = viewModel.playerState.observeAsState()
     val repeatType = PlaylistManager.repeating.collectAsState()
     val shuffling = PlaylistManager.shuffling.collectAsState()
 
 
-    AudioProgressBar()
+    AudioProgressBar({ progressCoordinates(it) })
 
     Row(
         Modifier
@@ -389,7 +407,7 @@ fun AudioPlayerControls(viewModel: PlaylistModel = viewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AudioProgressBar(viewModel: PlaylistModel = viewModel()) {
+fun AudioProgressBar(progressCoordinates: (Float) -> Unit, viewModel: PlaylistModel = viewModel()) {
     val progress by viewModel.progress.observeAsState()
     var isDragging by remember { mutableStateOf(false) }
     var isDraggingForward by remember { mutableStateOf(false) }
@@ -433,6 +451,9 @@ fun AudioProgressBar(viewModel: PlaylistModel = viewModel()) {
             .fillMaxWidth()
             .heightIn(max = 18.dp)
             .onFocusChanged { isFocused = it.isFocused }
+            .onGloballyPositioned {
+                progressCoordinates(it.positionInRoot().y + (it.size.height / 2) - 3.dp.value)
+            }
             .onPreviewKeyEvent {
                 if (it.type == KeyEventType.KeyDown) {
                     when (it.key) {
@@ -440,18 +461,22 @@ fun AudioProgressBar(viewModel: PlaylistModel = viewModel()) {
                             focusManager.moveFocus(FocusDirection.Up)
                             true
                         }
+
                         Key.DirectionDown -> {
                             focusManager.moveFocus(FocusDirection.Down)
                             true
                         }
+
                         Key.DirectionLeft -> {
                             isDraggingForward = false
                             false
                         }
+
                         Key.DirectionRight -> {
                             isDraggingForward = true
                             false
                         }
+
                         else -> false
                     }
                 } else false
