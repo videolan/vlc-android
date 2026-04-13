@@ -74,14 +74,14 @@ fun ItemOptions(item: MediaLibraryItem, position: Int, entry: MediaListEntry, on
 }
 
 @Composable
-fun ItemOptionsLine(title: String, icon: Int, onClick: () -> Unit) {
+fun ItemOptionsLine(title: String, icon: Int, enabled: Boolean? = false, onClick: () -> Unit) {
     DropdownMenuItem(
         text = { Text(title) },
         leadingIcon = {
             Image(
                 painter = painterResource(id = icon),
                 contentDescription = title,
-                colorFilter = ColorFilter.tint(White),
+                colorFilter = ColorFilter.tint(if (enabled == true) MaterialTheme.colorScheme.secondary else White),
                 modifier = Modifier
                     .size(24.dp)
             )
