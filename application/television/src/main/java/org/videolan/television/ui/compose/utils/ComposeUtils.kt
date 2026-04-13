@@ -29,7 +29,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
@@ -84,4 +89,18 @@ inline fun Modifier.conditional(
     then(ifTrue(this))
 } else {
     then(ifFalse(this))
+}
+
+
+fun ContentDrawScope.drawFadedEdge(edgeWidthPx: Float, leftEdge: Boolean) {
+    drawRect(
+        topLeft = Offset(if (leftEdge) 0f else size.width - edgeWidthPx, 0f),
+        size = Size(edgeWidthPx, size.height),
+        brush = Brush.horizontalGradient(
+            colors = listOf(Color.Transparent, Color.Black),
+            startX = if (leftEdge) 0f else size.width,
+            endX = if (leftEdge) edgeWidthPx else size.width - edgeWidthPx
+        ),
+        blendMode = BlendMode.DstIn
+    )
 }
