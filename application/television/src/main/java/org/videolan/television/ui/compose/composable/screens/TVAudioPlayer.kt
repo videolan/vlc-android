@@ -117,6 +117,7 @@ import org.videolan.television.ui.compose.theme.Black
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Orange500
+import org.videolan.television.ui.compose.theme.Orange800
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
@@ -335,7 +336,7 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                         .padding(4.dp)
                         .background(BackgroundColorDarkTransparent50, RoundedCornerShape(4.dp)), contentAlignment = Alignment.BottomCenter
                 ) {
-                    MiniVisualizer(Orange500)
+                    MiniVisualizer(MaterialTheme.colorScheme.secondary)
                 }
         }
         Column(
@@ -390,7 +391,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
             Icon(
                 modifier = Modifier.padding(4.dp),
                 painter = painterResource(R.drawable.ic_shuffle_audio),
-                tint = if (shuffling.value) MaterialTheme.colorScheme.primary else White,
+                tint = if (shuffling.value) MaterialTheme.colorScheme.secondary else White,
                 contentDescription = stringResource(if (shuffling.value) R.string.shuffle_on else R.string.shuffle)
             )
         }
@@ -447,7 +448,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
                     PlaybackStateCompat.REPEAT_MODE_ONE -> painterResource(R.drawable.ic_repeat_one_audio)
                     else -> painterResource(R.drawable.ic_repeat_all_audio)
                 },
-                tint = if (repeatType.value == PlaybackStateCompat.REPEAT_MODE_ALL) MaterialTheme.colorScheme.primary else White,
+                tint = if (repeatType.value == PlaybackStateCompat.REPEAT_MODE_ALL) MaterialTheme.colorScheme.secondary else White,
                 contentDescription = when (repeatType.value) {
                     PlaybackStateCompat.REPEAT_MODE_NONE -> stringResource(R.string.repeat_none)
                     PlaybackStateCompat.REPEAT_MODE_ONE -> stringResource(R.string.repeat_single)
@@ -534,11 +535,6 @@ fun AudioProgressBar(progressCoordinates: (Float) -> Unit, viewModel: PlaylistMo
                     }
                 } else false
             },
-        colors = SliderDefaults.colors(
-            thumbColor = MaterialTheme.colorScheme.primary,
-            activeTrackColor = MaterialTheme.colorScheme.primary,
-            inactiveTrackColor = WhiteTransparent25
-        ),
         thumb = {
             Label(
                 label = {
@@ -561,7 +557,7 @@ fun AudioProgressBar(progressCoordinates: (Float) -> Unit, viewModel: PlaylistMo
                         .size(16.dp)
                         .scale(if (isFocused || isDragging) 1F else 0.8F)
                         .background(
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.secondary,
                             shape = RoundedCornerShape(20.dp)
 
                         )
@@ -574,7 +570,7 @@ fun AudioProgressBar(progressCoordinates: (Float) -> Unit, viewModel: PlaylistMo
                 thumbTrackGapSize = 2.dp,
                 modifier = Modifier.height(6.dp),
                 colors = SliderDefaults.colors(
-                    activeTrackColor = MaterialTheme.colorScheme.primary,
+                    activeTrackColor = MaterialTheme.colorScheme.secondary,
                     inactiveTrackColor = WhiteTransparent25,
                 ),
                 drawStopIndicator = null,
