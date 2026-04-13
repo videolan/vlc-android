@@ -30,6 +30,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -74,12 +75,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -93,6 +100,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
@@ -105,6 +113,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
+import org.videolan.television.ui.compose.theme.Black
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Orange500
@@ -112,6 +121,7 @@ import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
+import org.videolan.television.ui.compose.utils.drawFadedEdge
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -119,9 +129,11 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.viewmodels.PlaylistModel
 import kotlin.math.absoluteValue
+
 
 @Composable
 fun TVAudioPlayer() {
@@ -134,7 +146,8 @@ fun TVAudioPlayer() {
 
         blurredCover?.let {
             Image(modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.Center,
                 bitmap = it.asImageBitmap(),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(Grey900Transparent, BlendMode.SrcAtop)
@@ -195,8 +208,48 @@ fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewM
         } ?: run {
             Image(painterResource(R.drawable.ic_song_big), contentDescription = "")
         }
-        Text(playerState.value?.title ?: "")
-        Text(playerState.value?.artist ?: "")
+            val edgeWidth = 16.dp
+
+            Text(
+                playerState.value?.title ?: "",
+                modifier = Modifier
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                    .drawWithContent {
+                        drawContent()
+                        drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
+                        drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
+                    }
+                    .basicMarquee()
+                    .padding(horizontal = 16.dp),
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    shadow = Shadow(
+                        color = Black, offset = Offset(0.0f, 0.0f), blurRadius = 3f
+                    )
+                )
+            )
+            Text(
+                TextUtils.separatedString(viewModel.artist, viewModel.album),
+                modifier = Modifier
+                    .padding(top = 4.dp, start = 16.dp, end = 16.dp)
+                    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                    .drawWithContent {
+                        drawContent()
+                        drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
+                        drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
+                    }
+                    .basicMarquee()
+                    .padding(horizontal = 16.dp),
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    shadow = Shadow(
+                        color = Black, offset = Offset(0.0f, 0.0f), blurRadius = 3f
+                    )
+                )
+            )
     }
 }
 
