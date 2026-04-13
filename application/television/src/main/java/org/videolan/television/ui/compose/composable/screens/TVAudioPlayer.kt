@@ -27,10 +27,14 @@ package org.videolan.television.ui.compose.composable.screens
 import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
+import android.text.format.DateFormat
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -48,13 +52,14 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Label
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
@@ -81,7 +86,6 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Shadow
@@ -95,6 +99,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -105,30 +110,44 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.VLCOptions
+import org.videolan.television.ui.compose.composable.components.ItemOptionsLine
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.composable.components.PlayPause
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
 import org.videolan.television.ui.compose.theme.Black
 import org.videolan.television.ui.compose.theme.BlackTransparent50
+import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.Grey900Transparent
-import org.videolan.television.ui.compose.theme.Orange500
-import org.videolan.television.ui.compose.theme.Orange800
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
+import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.compose.theme.WhiteTransparent70
+import org.videolan.television.ui.compose.theme.WhiteTransparent90
 import org.videolan.television.ui.compose.utils.drawFadedEdge
+import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.Settings
+import org.videolan.tools.formatRateString
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
+import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
@@ -191,6 +210,65 @@ fun TVAudioPlayer() {
                 }
             }
         }
+
+        AudioPlayerChips()
+    }
+}
+
+@Composable
+fun AudioPlayerChips(viewModel: PlaylistModel = viewModel()) {
+    Row(Modifier.padding(top = 32.dp, start = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        val context = LocalContext.current
+
+        val playbackSpeed = viewModel.speed.observeAsState()
+        playbackSpeed.value?.let { speed ->
+            if (speed != 1.0f) {
+                AudioPlayerChip(speed.formatRateString(), R.drawable.ic_speed, {
+                    PlaybackSpeedDialog.newInstance().show((context as FragmentActivity).supportFragmentManager, "playback_speed")
+                })
+            }
+        }
+
+        val sleepTimerValue = PlaybackService.playerSleepTime.observeAsState()
+        if (sleepTimerValue.value != null) {
+            AudioPlayerChip(DateFormat.getTimeFormat(context).format(sleepTimerValue.value!!.time), R.drawable.ic_sleep, {
+                SleepTimerDialog.newInstance().show((context as FragmentActivity).supportFragmentManager, "sleep")
+            })
+        }
+    }
+}
+
+@Composable
+fun AudioPlayerChip(text: String, icon: Int, onClick: () -> Unit) {
+    var isFocused by remember { mutableStateOf(false) }
+    Row(
+        Modifier
+            .onFocusChanged {
+                isFocused = it.isFocused
+            }
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                onClick()
+
+            }
+            .background(if (isFocused) WhiteTransparent90 else BlackTransparent70, RoundedCornerShape(50))
+            .focusable()
+            .clickable { onClick() }
+            .padding(4.dp)
+    ) {
+        Icon(
+            painterResource(icon),
+            contentDescription = stringResource(R.string.sleep_title),
+            modifier = Modifier.size(24.dp),
+            tint = if (isFocused) Black else White
+        )
+        Text(
+            text,
+            modifier = Modifier.padding(horizontal = 8.dp),
+            color = if (isFocused) Black else White
+        )
     }
 }
 
@@ -385,6 +463,8 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
             .padding(vertical = 16.dp),
         horizontalArrangement = Arrangement.Center
     ) {
+        Spacer(Modifier.width(56.dp))
+        Spacer(Modifier.weight(1.0f))
 
         LabeledIconButton(
             stringResource(R.string.shuffle_title),
@@ -413,7 +493,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
                 )
             },
             tint = White,
-            modifier = Modifier.padding(horizontal = 4.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             viewModel.togglePlayPause()
         }
@@ -450,6 +530,77 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
                 }
             }
         }
+        Spacer(Modifier.weight(1.0f))
+        AudioAdvancedOptions()
+    }
+}
+
+@Composable
+fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel()) {
+    var expanded by remember { mutableStateOf(false) }
+    val activity = LocalActivity.current
+    val context = LocalContext.current
+    val settings = Settings.getInstance(context)
+    Box{
+        LabeledIconButton(
+            stringResource(R.string.advanced_options),
+            painterResource = painterResource(R.drawable.ic_more),
+            tint = White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            expanded = true
+        }
+
+        if (expanded)
+            DropdownMenu(
+                expanded = true,
+                onDismissRequest = { expanded = false }
+            ) {
+
+                ItemOptionsLine(stringResource(R.string.sleep_title), R.drawable.ic_sleep) {
+                    SleepTimerDialog.newInstance().show((activity as FragmentActivity).supportFragmentManager, "sleep")
+                    expanded = false
+                }
+                ItemOptionsLine(stringResource(R.string.playback_speed), R.drawable.ic_speed) {
+                    PlaybackSpeedDialog.newInstance().show((activity as FragmentActivity).supportFragmentManager, "playback_speed")
+                    expanded = false
+                }
+                ItemOptionsLine(stringResource(R.string.jump_to_time), R.drawable.ic_jumpto) {
+                    JumpToTimeDialog.newInstance().show((activity as FragmentActivity).supportFragmentManager, "time")
+                    expanded = false
+                }
+                ItemOptionsLine(stringResource(R.string.equalizer), R.drawable.ic_equalizer) {
+                    EqualizerFragmentDialog.newInstance().show((activity as FragmentActivity).supportFragmentManager, "equalizer")
+                    expanded = false
+                }
+                ItemOptionsLine(stringResource(R.string.bookmarks), R.drawable.ic_bookmark) {
+                    expanded = false
+                }
+                ItemOptionsLine(stringResource(R.string.playlist_save), R.drawable.ic_addtoplaylist) {
+                    viewModel.service?.let {
+                        (activity as FragmentActivity).addToPlaylist(it.media)
+                    }
+                    expanded = false
+                }
+                if (viewModel.service?.playlistManager?.player?.canDoPassthrough() == true && settings.getString(KEY_AOUT, "0") != "2") {
+                    val enabled = VLCOptions.isAudioDigitalOutputEnabled(settings)
+                    ItemOptionsLine(
+                        stringResource(R.string.audio_digital_title),
+                        if (enabled) R.drawable.ic_passthrough_on else R.drawable.ic_passthrough,
+                        enabled = enabled
+                    ) {
+                        val enabled = !VLCOptions.isAudioDigitalOutputEnabled(settings)
+                        val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
+                        if (viewModel.service?.setAudioDigitalOutputEnabled(enabled) == true) {
+                            VLCOptions.setAudioDigitalOutputEnabled(settings, enabled)
+                            toast.setText(if (enabled) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
+                        } else
+                            toast.setText(R.string.audio_digital_failed)
+                        toast.show()
+                        expanded = false
+                    }
+                }
+            }
     }
 }
 
