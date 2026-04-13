@@ -111,7 +111,9 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
+import org.videolan.television.ui.compose.composable.components.PlayPause
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
 import org.videolan.television.ui.compose.theme.Black
 import org.videolan.television.ui.compose.theme.BlackTransparent50
@@ -383,78 +385,70 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
             .padding(vertical = 16.dp),
         horizontalArrangement = Arrangement.Center
     ) {
-        IconButton(
-            onClick = {
-                viewModel.shuffle()
-            }
-        ) {
-            Icon(
-                modifier = Modifier.padding(4.dp),
-                painter = painterResource(R.drawable.ic_shuffle_audio),
-                tint = if (shuffling.value) MaterialTheme.colorScheme.secondary else White,
-                contentDescription = stringResource(if (shuffling.value) R.string.shuffle_on else R.string.shuffle)
-            )
-        }
-        IconButton(
-            onClick = {
-                viewModel.previous()
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_previous),
-                contentDescription = stringResource(R.string.previous)
-            )
-        }
-        IconButton(
-            onClick = {
-                viewModel.togglePlayPause()
-            }
-        ) {
-            Icon(
-                painter = painterResource(if (playerState.value?.playing == true) R.drawable.ic_pause_player else R.drawable.ic_play_player),
-                contentDescription = stringResource(if (viewModel.playing) R.string.pause else R.string.play)
-            )
-        }
-        IconButton(
-            onClick = {
-                viewModel.next()
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_next),
-                contentDescription = stringResource(R.string.next)
-            )
-        }
-        IconButton(
-            onClick = {
-                when (viewModel.repeatType) {
-                    PlaybackStateCompat.REPEAT_MODE_NONE -> {
-                        viewModel.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
-                    }
 
-                    PlaybackStateCompat.REPEAT_MODE_ALL -> {
-                        viewModel.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
-                    }
+        LabeledIconButton(
+            stringResource(R.string.shuffle_title),
+            painterResource = painterResource(R.drawable.ic_shuffle_audio),
+            tint = if (shuffling.value) MaterialTheme.colorScheme.secondary else White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            viewModel.shuffle()
+        }
 
-                    PlaybackStateCompat.REPEAT_MODE_ONE -> {
-                        viewModel.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
-                    }
+        LabeledIconButton(
+            stringResource(R.string.previous),
+            painterResource = painterResource(R.drawable.ic_previous),
+            tint = White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            viewModel.previous()
+        }
+
+        LabeledIconButton(
+            stringResource(R.string.air_action_play_pause),
+            customImage = {
+                PlayPause(
+                    atEnd = playerState.value?.playing == true,
+                    click = { viewModel.togglePlayPause() },
+                )
+            },
+            tint = White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            viewModel.togglePlayPause()
+        }
+
+        LabeledIconButton(
+            stringResource(R.string.next),
+            painterResource = painterResource(R.drawable.ic_next),
+            tint = White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            viewModel.next()
+        }
+        LabeledIconButton(
+            stringResource(R.string.repeat_title),
+            painterResource = when (repeatType.value) {
+                PlaybackStateCompat.REPEAT_MODE_NONE -> painterResource(R.drawable.ic_repeat_audio)
+                PlaybackStateCompat.REPEAT_MODE_ONE -> painterResource(R.drawable.ic_repeat_one_audio)
+                else -> painterResource(R.drawable.ic_repeat_all_audio)
+            },
+            tint = if (repeatType.value == PlaybackStateCompat.REPEAT_MODE_ALL) MaterialTheme.colorScheme.secondary else White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            when (viewModel.repeatType) {
+                PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                    viewModel.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
+                }
+
+                PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                    viewModel.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
+                }
+
+                PlaybackStateCompat.REPEAT_MODE_ONE -> {
+                    viewModel.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 }
             }
-        ) {
-            Icon(
-                painter = when (repeatType.value) {
-                    PlaybackStateCompat.REPEAT_MODE_NONE -> painterResource(R.drawable.ic_repeat_audio)
-                    PlaybackStateCompat.REPEAT_MODE_ONE -> painterResource(R.drawable.ic_repeat_one_audio)
-                    else -> painterResource(R.drawable.ic_repeat_all_audio)
-                },
-                tint = if (repeatType.value == PlaybackStateCompat.REPEAT_MODE_ALL) MaterialTheme.colorScheme.secondary else White,
-                contentDescription = when (repeatType.value) {
-                    PlaybackStateCompat.REPEAT_MODE_NONE -> stringResource(R.string.repeat_none)
-                    PlaybackStateCompat.REPEAT_MODE_ONE -> stringResource(R.string.repeat_single)
-                    else -> stringResource(R.string.repeat_all)
-                }
-            )
         }
     }
 }
