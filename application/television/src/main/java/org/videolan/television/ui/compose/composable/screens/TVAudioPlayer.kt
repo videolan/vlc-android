@@ -517,6 +517,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
     val playerState = viewModel.playerState.observeAsState()
     val repeatType = PlaylistManager.repeating.collectAsState()
     val shuffling = PlaylistManager.shuffling.collectAsState()
+    val activity = LocalActivity.current
 
 
     AudioProgressBar({ progressCoordinates(it) })
@@ -547,6 +548,15 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
         ) {
             viewModel.previous()
         }
+0
+        LabeledIconButton(
+            stringResource(R.string.talkback_action_rewind, Settings.audioJumpDelay),
+            painterResource = painterResource(R.drawable.ic_player_rewind_10),
+            tint = White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            viewModel.jump(forward = false, long = false, activity!!)
+        }
 
         LabeledIconButton(
             stringResource(R.string.air_action_play_pause),
@@ -560,6 +570,15 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
             modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             viewModel.togglePlayPause()
+        }
+
+        LabeledIconButton(
+            stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
+            painterResource = painterResource(R.drawable.ic_player_forward_10),
+            tint = White,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            viewModel.jump(forward = true, long = false, activity!!)
         }
 
         LabeledIconButton(
