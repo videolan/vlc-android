@@ -199,7 +199,8 @@ class AudioPlayerActivity : DefaultTvActivity(),KeycodeListener, PlaybackService
         supportFragmentManager.setFragmentResultListener(CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT, this) { requestKey, bundle ->
             val media = bundle.parcelable<MediaLibraryItem>(RENAME_DIALOG_MEDIA) ?: return@setFragmentResultListener
             val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
-            bookmarkListDelegate.renameBookmark(media as Bookmark, name)
+            bookmarkModel.rename(media as Bookmark, name)
+            bookmarkModel.refresh()
         }
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(MainScope())
         PlaylistManager.showAudioPlayer.observe(this) { showPlayer ->
