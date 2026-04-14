@@ -112,7 +112,7 @@ class ArtworkProvider : ContentProvider() {
 
     override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor? {
         val callingUid = Binder.getCallingUid()
-        AccessControl.logCaller(callingUid)
+        if (!AccessControl.isAuthorized(callingUid)) return null
         val uriSegments = uri.pathSegments
         if (uriSegments.isEmpty()) throw FileNotFoundException("Path is empty")
         return try {

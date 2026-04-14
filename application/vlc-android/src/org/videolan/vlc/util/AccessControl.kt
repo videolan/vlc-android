@@ -98,6 +98,11 @@ object AccessControl {
         Log.i(TAG, "Access history: $callingUidChecked")
     }
 
+    fun isAuthorized(callingUid: Int): Boolean {
+        logCaller(callingUid)
+        return callingUidChecked[callingUid]?.approved ?: false
+    }
+
     fun getCallingPackage(ctx: Context, callingUid: Int, clientPackageName: String? = null): String? {
         val packages = ctx.packageManager.getPackagesForUid(callingUid) ?: return null
         val packageName = packages.firstOrNull()
