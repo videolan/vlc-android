@@ -34,8 +34,8 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -105,6 +105,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
@@ -114,6 +115,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -122,17 +124,17 @@ import org.videolan.television.ui.compose.composable.components.ItemOptionsLine
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.composable.components.PlayPause
+import org.videolan.television.ui.compose.composable.items.BookmarkItem
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
 import org.videolan.television.ui.compose.theme.Black
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent70
+import org.videolan.television.ui.compose.theme.BlackTransparent90
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
-import org.videolan.television.ui.compose.theme.WhiteTransparent50
-import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.television.ui.compose.theme.WhiteTransparent90
 import org.videolan.television.ui.compose.utils.drawFadedEdge
 import org.videolan.tools.KEY_AOUT
@@ -144,6 +146,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -153,6 +156,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
 import kotlin.math.absoluteValue
 
@@ -212,6 +216,67 @@ fun TVAudioPlayer() {
         }
 
         AudioPlayerChips()
+
+        Box(
+            modifier = Modifier
+                .height(dpValue)
+                .fillMaxWidth()
+                .align(Alignment.TopEnd),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            Bookmarks()
+        }
+    }
+}
+
+@Composable
+fun Bookmarks(bookmarkModel: BookmarkModel = viewModel(), viewModel: PlaylistModel = viewModel()) {
+    val context = LocalContext.current
+    val showBookmarks = viewModel.showBookmarks.observeAsState()
+    if (showBookmarks.value == true) {
+        Column(
+            modifier = Modifier
+                .padding(top = 32.dp)
+                .fillMaxHeight()
+                .fillMaxWidth(0.6F)
+                .focusGroup()
+                .background(BlackTransparent90)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
+                    .background(Black),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                LabeledIconButton(
+                    stringResource(R.string.close),
+                    painterResource = painterResource(R.drawable.ic_close_up),
+                    onClick = {
+                        viewModel.showBookmarks.value = false
+                    },
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                )
+                Text(stringResource(R.string.bookmarks), modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+                LabeledIconButton(
+                    stringResource(R.string.add_bookmark),
+                    painterResource = painterResource(R.drawable.ic_add),
+                    onClick = {
+                        bookmarkModel.addBookmark(context)
+                    },
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                )
+            }
+
+
+            bookmarkModel.dataset.observeAsState().value?.let { bookmarks ->
+                LazyColumn {
+                    items(count = bookmarks.size) { index ->
+                        BookmarkItem(bookmarks[index])
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -255,7 +320,6 @@ fun AudioPlayerChip(text: String, icon: Int, onClick: () -> Unit) {
             }
             .background(if (isFocused) WhiteTransparent90 else BlackTransparent70, RoundedCornerShape(50))
             .focusable()
-            .clickable { onClick() }
             .padding(4.dp)
     ) {
         Icon(
@@ -574,6 +638,7 @@ fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel()) {
                     expanded = false
                 }
                 ItemOptionsLine(stringResource(R.string.bookmarks), R.drawable.ic_bookmark) {
+                    viewModel.showBookmarks.value = true
                     expanded = false
                 }
                 ItemOptionsLine(stringResource(R.string.playlist_save), R.drawable.ic_addtoplaylist) {
