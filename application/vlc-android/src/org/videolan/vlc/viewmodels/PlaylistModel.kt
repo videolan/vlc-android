@@ -62,6 +62,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
             filteringState.value = value
         }
     val filteringState = MutableLiveData<Boolean>()
+    val showBookmarks = MutableLiveData<Boolean>()
     val progress = MediatorLiveData<PlaybackProgress>()
     val speed = MediatorLiveData<Float>()
     val playerState = MutableLiveData<PlayerState>()
