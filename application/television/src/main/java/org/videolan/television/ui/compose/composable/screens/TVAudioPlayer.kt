@@ -76,6 +76,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -89,7 +90,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color.Companion.Red
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Shadow
@@ -115,8 +115,12 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
@@ -129,7 +133,6 @@ import org.videolan.television.ui.compose.composable.components.PlayPause
 import org.videolan.television.ui.compose.composable.items.BookmarkItem
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
 import org.videolan.television.ui.compose.theme.Black
-import org.videolan.television.ui.compose.theme.BlackTransparent25
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.BlackTransparent90
@@ -143,13 +146,14 @@ import org.videolan.television.ui.compose.utils.drawFadedEdge
 import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
-import org.videolan.tools.px
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
+import org.videolan.vlc.gui.dialogs.SelectChapterDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -161,6 +165,7 @@ import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlaylistModel
+import kotlin.collections.get
 import kotlin.math.absoluteValue
 
 
@@ -351,7 +356,6 @@ fun Bookmarks(bookmarkModel: BookmarkModel = viewModel(), viewModel: PlaylistMod
                     val containerWidth = boxWithConstraintsScope.maxWidth.value - 16
                     viewModel.service?.currentMediaWrapper?.length?.let { mediaLength ->
                         bookmarkList.value?.forEach { bookmark ->
-                            if (BuildConfig.DEBUG) Log.d("BookmarkTest", "Bookmark at ${bookmark.time} offset: ${bookmark.time.toFloat() * containerWidth / mediaLength.toFloat()}")
                             Icon(
                                 painterResource(R.drawable.ic_bookmark_marker),
                                 contentDescription = "",
@@ -432,7 +436,11 @@ fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewM
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AudioUtil.readCoverBitmap(Uri.decode(viewModel.currentMediaWrapper?.artworkURL), 300)?.let { bitmap ->
-            Image(bitmap = bitmap.asImageBitmap(), contentDescription = null)
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = viewModel.currentMediaWrapper?.title ?: "",
+                modifier = Modifier.size(200.dp)
+            )
             LaunchedEffect(viewModel.currentMediaWrapper?.artworkURL) {
                 val bitmap = UiTools.blurBitmap(bitmap,  15F)
                 coverListener(bitmap)
@@ -440,49 +448,111 @@ fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewM
         } ?: run {
             Image(painterResource(R.drawable.ic_song_big), contentDescription = "")
         }
-            val edgeWidth = 16.dp
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                playerState.value?.title ?: "",
-                modifier = Modifier
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-                    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-                    .drawWithContent {
-                        drawContent()
-                        drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
-                        drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
-                    }
-                    .basicMarquee()
-                    .padding(horizontal = 16.dp),
-                maxLines = 1,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    shadow = Shadow(
-                        color = Black, offset = Offset(0.0f, 0.0f), blurRadius = 3f
-                    )
+        ChapterSwitcher()
+
+        val edgeWidth = 16.dp
+        Text(
+            playerState.value?.title ?: "",
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp)
+                .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                .drawWithContent {
+                    drawContent()
+                    drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
+                    drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
+                }
+                .basicMarquee()
+                .padding(horizontal = 16.dp),
+            maxLines = 1,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall.copy(
+                shadow = Shadow(
+                    color = Black, offset = Offset(0.0f, 0.0f), blurRadius = 3f
                 )
             )
-            Text(
-                TextUtils.separatedString(viewModel.artist, viewModel.album),
-                modifier = Modifier
-                    .padding(top = 4.dp, start = 16.dp, end = 16.dp)
-                    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-                    .drawWithContent {
-                        drawContent()
-                        drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
-                        drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
-                    }
-                    .basicMarquee()
-                    .padding(horizontal = 16.dp),
-                maxLines = 1,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    shadow = Shadow(
-                        color = Black, offset = Offset(0.0f, 0.0f), blurRadius = 3f
-                    )
+        )
+        Text(
+            TextUtils.separatedString(viewModel.artist, viewModel.album),
+            modifier = Modifier
+                .padding(top = 4.dp, start = 16.dp, end = 16.dp)
+                .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                .drawWithContent {
+                    drawContent()
+                    drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
+                    drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
+                }
+                .basicMarquee()
+                .padding(horizontal = 16.dp),
+            maxLines = 1,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyLarge.copy(
+                shadow = Shadow(
+                    color = Black, offset = Offset(0.0f, 0.0f), blurRadius = 3f
                 )
             )
+        )
     }
+}
+
+@Composable
+fun ChapterSwitcher(viewModel: PlaylistModel = viewModel()) {
+    viewModel.service?.let { service ->
+        var currentChapters: Pair<MediaWrapper,  List<MediaPlayer.Chapter>?>? = null
+        viewModel.currentMediaWrapper?.let { media ->
+            if (currentChapters?.first?.uri != media.uri) {
+                service.getChapters(-1)?.let {
+                    currentChapters = Pair(media, it.toList())
+                }
+            }
+        }
+
+        var chapterId by remember { mutableIntStateOf(-1) }
+        LaunchedEffect(Unit) {
+            viewModel.dataset.asFlow().collect { _ ->
+                chapterId = service.chapterIdx
+            }
+        }
+
+
+        if (chapterId != -1)
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 32.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                LabeledIconButton(
+                    stringResource(R.string.previous_chapter),
+                    painterResource = painterResource(R.drawable.ic_previous_chapter),
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                ) {
+                    currentChapters?.second?.let { chapters ->
+                            val chapterIdx = service.chapterIdx
+                                val chapter = chapters[service.chapterIdx]
+                                if (chapter.timeOffset + 5000 > service.getTime())
+                                    service.chapterIdx = chapterIdx.plus(-1).coerceAtLeast(0)
+                                else
+                                    service.chapterIdx = chapterIdx
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                currentChapters?.second?.get(chapterId)?.name?.let { Text(it) }
+                Spacer(modifier = Modifier.weight(1f))
+                LabeledIconButton(
+                    stringResource(R.string.next_chapter),
+                    painterResource = painterResource(R.drawable.ic_next_chapter),
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                ) {
+                    currentChapters?.second?.let { chapters ->
+                        val chapterIdx = service.chapterIdx
+                        service.chapterIdx = chapterIdx.plus(1).coerceAtMost(chapters.size - 1)
+                    }
+                }
+            }
+    }
+
 }
 
 @Composable
@@ -514,7 +584,6 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
             ) {
-                if (BuildConfig.DEBUG) Log.d("FocusTest", "Clicked on index: $index")
                 viewModel.play(index)
 
             }
@@ -751,6 +820,12 @@ fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel()) {
                     }
                     expanded = false
                 }
+                val chaptersCount = viewModel.service?.getChapters(-1)?.size ?: 0
+                if (chaptersCount > 1)
+                    ItemOptionsLine(stringResource(R.string.go_to_chapter), R.drawable.ic_chapter) {
+                        SelectChapterDialog.newInstance().show((activity as FragmentActivity).supportFragmentManager, "select_chapter")
+                        expanded = false
+                    }
                 if (viewModel.service?.playlistManager?.player?.canDoPassthrough() == true && settings.getString(KEY_AOUT, "0") != "2") {
                     val enabled = VLCOptions.isAudioDigitalOutputEnabled(settings)
                     ItemOptionsLine(
