@@ -40,6 +40,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -49,6 +50,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -86,6 +88,8 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Shadow
@@ -105,7 +109,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
@@ -115,7 +118,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.Bookmark
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -127,6 +129,7 @@ import org.videolan.television.ui.compose.composable.components.PlayPause
 import org.videolan.television.ui.compose.composable.items.BookmarkItem
 import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
 import org.videolan.television.ui.compose.theme.Black
+import org.videolan.television.ui.compose.theme.BlackTransparent25
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.BlackTransparent90
@@ -140,13 +143,13 @@ import org.videolan.television.ui.compose.utils.drawFadedEdge
 import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
+import org.videolan.tools.px
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
 import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
-import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -232,47 +235,131 @@ fun TVAudioPlayer() {
 @Composable
 fun Bookmarks(bookmarkModel: BookmarkModel = viewModel(), viewModel: PlaylistModel = viewModel()) {
     val context = LocalContext.current
+    val activity = LocalActivity.current
     val showBookmarks = viewModel.showBookmarks.observeAsState()
+    val bookmarkList = bookmarkModel.dataset.observeAsState()
+
     if (showBookmarks.value == true) {
-        Column(
-            modifier = Modifier
-                .padding(top = 32.dp)
-                .fillMaxHeight()
-                .fillMaxWidth(0.6F)
-                .focusGroup()
-                .background(BlackTransparent90)
-        ) {
-            Row(
+        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier
+                    .padding(top = 32.dp)
+                    .fillMaxWidth(0.6F)
+                    .weight(1f)
+                    .focusGroup()
+                    .background(BlackTransparent90)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp)
+                        .background(Black),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    LabeledIconButton(
+                        stringResource(R.string.close),
+                        painterResource = painterResource(R.drawable.ic_close_up),
+                        onClick = {
+                            viewModel.showBookmarks.value = false
+                        },
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                    )
+                    Text(stringResource(R.string.bookmarks), modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+                    LabeledIconButton(
+                        stringResource(R.string.add_bookmark),
+                        painterResource = painterResource(R.drawable.ic_add),
+                        onClick = {
+                            bookmarkModel.addBookmark(context)
+                        },
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    )
+                }
+
+                bookmarkList.value?.let { bookmarks ->
+                    LazyColumn(modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)) {
+                        items(count = bookmarks.size) { index ->
+                            BookmarkItem(bookmarks[index])
+                        }
+                    }
+                }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    LabeledIconButton(
+                        stringResource(R.string.previous_bookmark),
+                        painterResource = painterResource(R.drawable.ic_player_bookmark_previous),
+                        onClick = {
+                            bookmarkModel.findPrevious()?.let {
+                                bookmarkModel.service?.setTime(it.time)
+                            }
+                        },
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                        tint = White
+                    )
+                    LabeledIconButton(
+                        stringResource(R.string.talkback_action_rewind, Settings.audioJumpDelay),
+                        painterResource = painterResource(R.drawable.ic_player_rewind_10),
+                        tint = White,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        viewModel.jump(forward = false, long = false, activity!!)
+                    }
+
+                    LabeledIconButton(
+                        stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
+                        painterResource = painterResource(R.drawable.ic_player_forward_10),
+                        tint = White,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        viewModel.jump(forward = true, long = false, activity!!)
+                    }
+
+                    LabeledIconButton(
+                        stringResource(R.string.next_bookmark),
+                        painterResource = painterResource(R.drawable.ic_player_bookmark_next),
+                        onClick = {
+                            bookmarkModel.findNext()?.let {
+                                bookmarkModel.service?.setTime(it.time)
+                            }
+                        },
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                        tint = White
+                    )
+                }
+            }
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(4.dp)
-                    .background(Black),
-                verticalAlignment = Alignment.CenterVertically
+                    .height(16.dp),
+                contentAlignment = Alignment.Center
             ) {
-                LabeledIconButton(
-                    stringResource(R.string.close),
-                    painterResource = painterResource(R.drawable.ic_close_up),
-                    onClick = {
-                        viewModel.showBookmarks.value = false
-                    },
-                    modifier = Modifier.padding(horizontal = 4.dp),
-                )
-                Text(stringResource(R.string.bookmarks), modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
-                LabeledIconButton(
-                    stringResource(R.string.add_bookmark),
-                    painterResource = painterResource(R.drawable.ic_add),
-                    onClick = {
-                        bookmarkModel.addBookmark(context)
-                    },
-                    modifier = Modifier.padding(horizontal = 4.dp)
-                )
-            }
 
-
-            bookmarkModel.dataset.observeAsState().value?.let { bookmarks ->
-                LazyColumn {
-                    items(count = bookmarks.size) { index ->
-                        BookmarkItem(bookmarks[index])
+                //background
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.6F)
+                        .fillMaxHeight()
+                        .background(BlackTransparent90)
+                )
+                BoxWithConstraints (
+                    modifier = Modifier
+                        .padding(horizontal = 32.dp)
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    val boxWithConstraintsScope = this
+                    val containerWidth = boxWithConstraintsScope.maxWidth.value - 16
+                    viewModel.service?.currentMediaWrapper?.length?.let { mediaLength ->
+                        bookmarkList.value?.forEach { bookmark ->
+                            if (BuildConfig.DEBUG) Log.d("BookmarkTest", "Bookmark at ${bookmark.time} offset: ${bookmark.time.toFloat() * containerWidth / mediaLength.toFloat()}")
+                            Icon(
+                                painterResource(R.drawable.ic_bookmark_marker),
+                                contentDescription = "",
+                                tint = White,
+                                modifier = Modifier
+                                    .offset(x = (bookmark.time.toFloat() * containerWidth / mediaLength.toFloat()).dp)
+                            )
+                        }
                     }
                 }
             }
@@ -405,8 +492,6 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel()) {
         LazyColumn {
             items(count = queue.size) { index ->
                 AudioPlayerQueueItem(queue, index)
-
-
             }
         }
     }
@@ -796,7 +881,7 @@ fun AudioProgressBar(progressCoordinates: (Float) -> Unit, viewModel: PlaylistMo
         track = { sliderState ->
             SliderDefaults.Track(
                 sliderState = sliderState,
-                thumbTrackGapSize = 2.dp,
+                thumbTrackGapSize = 0.dp,
                 modifier = Modifier.height(6.dp),
                 colors = SliderDefaults.colors(
                     activeTrackColor = MaterialTheme.colorScheme.secondary,
