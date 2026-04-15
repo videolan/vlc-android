@@ -676,6 +676,8 @@
     <string name="notset">Not set</string>
     <string name="go_to_chapter">Go to chapter…</string>
     <string name="current_chapter">Chapter: %s</string>
+    <string name="next_chapter">Next chapter</string>
+    <string name="previous_chapter">Previous chapter</string>
     <string name="confirm_resume">Resume from last position?</string>
     <string name="apply_playqueue">Apply for all the play queue</string>
     <string name="confirm_resume_title">Resume played videos</string>
