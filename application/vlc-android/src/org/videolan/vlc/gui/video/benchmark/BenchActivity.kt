@@ -91,6 +91,9 @@ class BenchActivity : ShallowVideoPlayer() {
     private var hasVLCFailed = false
     /* set to true when video is in hardware decoding */
     private var isHardware = false
+    /* set to true while waiting for VLCInstance + player restart in hardware mode,
+     * prevents the initial START_PLAYBACK from loading media before forcing opengl es */
+    private var isWaitingForHardwareRestart = false
     /* set to true when Vout event is received
      * used to check if hardware decoder works */
     private var hasVout = false
@@ -135,6 +138,7 @@ class BenchActivity : ShallowVideoPlayer() {
     private var timeLimit: Long = 0L
 
     override fun onServiceChanged(service: PlaybackService?) {
+        if (isHardware && service != null) isWaitingForHardwareRestart = true
         super.onServiceChanged(service)
         if (isSpeed && this.service != null) {
             oldRate = service!!.rate
@@ -156,12 +160,23 @@ class BenchActivity : ShallowVideoPlayer() {
             }
             lifecycleScope.launch {
                 VLCInstance.restart()
-                restartMediaPlayer()
+                isSetup = false
+                isWaitingForHardwareRestart = false
+                service?.let { s ->
+                    s.playlistManager.player.restart()
+                    videoLayout?.let {
+                        s.mediaplayer.attachViews(it, displayManager, true, false)
+                        s.mediaplayer.videoScale = MediaPlayer.ScaleType.SURFACE_FILL
+                    }
+                }
+
+                loadMedia(fromStart = false, forceUsingNew = true)
             }
         }
     }
 
     override fun loadMedia(fromStart: Boolean, forceUsingNew: Boolean) {
+        if (isWaitingForHardwareRestart) return
         service?.setBenchmark()
         if (isHardware) service?.setHardware()
         super.loadMedia(fromStart, true)
