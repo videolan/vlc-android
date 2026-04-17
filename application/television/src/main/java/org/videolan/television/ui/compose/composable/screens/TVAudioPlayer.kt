@@ -86,6 +86,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
@@ -509,14 +512,17 @@ fun ChapterSwitcher(viewModel: PlaylistModel = viewModel()) {
         }
 
         var chapterId by remember { mutableIntStateOf(-1) }
+        var curChapter by remember { mutableStateOf<Array<MediaPlayer.Chapter>?>(null) }
         LaunchedEffect(Unit) {
             viewModel.dataset.asFlow().collect { _ ->
                 chapterId = service.chapterIdx
+                 curChapter = service.playlistManager.player.getChapters(-1) as Array<MediaPlayer.Chapter>
+                if (BuildConfig.DEBUG) Log.d("ChapterTest", "New chapter id is $chapterId // $curChapter")
             }
         }
 
 
-        if (chapterId != -1)
+        if (curChapter != null && curChapter!!.isNotEmpty())
             Row(
                 modifier = Modifier
                     .padding(horizontal = 32.dp)
