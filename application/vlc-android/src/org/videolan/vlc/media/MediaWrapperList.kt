@@ -110,13 +110,8 @@ class MediaWrapperList {
         if (!(isValid(startPosition)
                         && endPosition >= 0 && endPosition <= internalList.size))
             throw IndexOutOfBoundsException("Indexes out of range")
-
-        val toMove = internalList[startPosition]
-        internalList.removeAt(startPosition)
-        if (startPosition >= endPosition)
-            internalList.add(endPosition, toMove)
-        else
-            internalList.add(endPosition - 1, toMove)
+        val toMove = internalList.removeAt(startPosition)
+        internalList.add(endPosition, toMove)
         signalEventListeners(EVENT_MOVED, startPosition, endPosition, toMove.location)
     }
 
