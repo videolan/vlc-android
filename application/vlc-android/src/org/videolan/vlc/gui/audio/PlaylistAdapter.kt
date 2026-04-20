@@ -278,7 +278,6 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             }
             ACTION_MOVED -> {
                 val model = model ?: return
-                if (to > from) ++to
                 model.move(from, to)
                 to = -1
                 from = to
