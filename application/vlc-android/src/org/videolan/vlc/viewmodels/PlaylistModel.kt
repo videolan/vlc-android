@@ -33,9 +33,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -66,6 +70,8 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     val progress = MediatorLiveData<PlaybackProgress>()
     val speed = MediatorLiveData<Float>()
     val playerState = MutableLiveData<PlayerState>()
+    private val _itemInvalidation: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val itemInvalidation: StateFlow<Int?> = _itemInvalidation.asStateFlow()
     val connected : Boolean
         get() = service !== null
     var lastQuery: CharSequence? = null
@@ -200,7 +206,17 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     }
 
     fun stopAfter(position: Int) {
+        viewModelScope.launch {
+            _itemInvalidation.emit(position)
+        }
         service?.playlistManager?.stopAfter = position
+    }
+
+    fun invalidateItem(position: Int) {
+        viewModelScope.launch {
+            if (_itemInvalidation.value == position) _itemInvalidation.emit(null)
+            _itemInvalidation.emit(position)
+        }
     }
 
     fun play(position: Int) = service?.playIndex(position)
