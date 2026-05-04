@@ -351,6 +351,9 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
      */
     private fun updateBars() {
         if (!isStarted()) return
+        //not ready yet
+        if (binding.equalizerBands.isEmpty()) return
+        if (binding.equalizerBands.childCount != viewModel.bandCount) throw IllegalStateException("Invalid number of bars")
 
         binding.equalizerPreamp.value = viewModel.getCurrentEqualizer().equalizerEntry.preamp.roundToInt().toFloat()
         for (i in 0 until viewModel.bandCount) {
