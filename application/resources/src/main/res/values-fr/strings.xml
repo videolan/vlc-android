@@ -447,6 +447,9 @@
     <string name="subtitles_prefs_category">Sous-titres</string>
     <string name="subtitles_size_title">Taille des sous-titres</string>
     <string name="subtitles_presets_title">Préréglages des sous-titres</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">Le plus petit</string>
     <string name="subtitles_size_small">Petit</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Grand</string>
@@ -644,6 +647,7 @@
     <string name="no_internet_connection">Vérifiez votre connexion Internet</string>
     <string name="retry">Réessayer</string>
     <string name="open_subs_download_error">OpenSubtitles est actuellement indisponible. Veuillez réessayer plus tard</string>
+    <string name="open_subs_download_link_error">Un problème est survenu avec OpenSubtitles. Veuillez réessayer plus tard.</string>
 
     <string name="network_browsing">Réseau local</string>
     <string name="browsing">Navigation</string>
@@ -1344,6 +1348,11 @@
     <string name="ra_otp_title">Tentative de connexion à l’accès à distance</string>
     <string name="ra_otp_subtitle">Si c’est vous, saisissez ce code sur l’autre appareil</string>
     <string name="ra_otp_not_me">Ce n’est pas moi</string>
+    <string name="ra_output">Sortie audio</string>
+    <string name="ra_play_on_browser">Lire dans le navigateur</string>
+    <string name="ra_play_on_device">Lire sur l’appareil</string>
+    <string name="ra_browser_audio_not_found">Média introuvable ou impossible à lire dans le navigateur</string>
+    <string name="ra_browser_audio_unsupported_format">Ce format audio n’est pas pris en charge par votre navigateur</string>
 
     <string name="ra_onboarding_welcome_desc">Bienvenue dans l’accès à distance de VLC pour Android.\nEn l’activant, vous pourrez contrôler la lecture de cet appareil et plus encore.</string>
     <string name="ra_onboarding_how_title">Contrôler votre appareil</string>

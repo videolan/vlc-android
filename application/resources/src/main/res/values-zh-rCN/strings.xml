@@ -42,6 +42,8 @@
     <string name="playback_controls">播放控制按钮</string>
     <string name="medialibrary_scan">媒体库扫描</string>
     <string name="Medialibrary_progress">媒体库扫描进度更新</string>
+    <string name="ml_database_warning">您的数据库包括您所有媒体的目录。它将发送给 VLC 开发者用于排查问题</string>
+    <string name="logs_warning">会包括关于您已播放媒体的信息。它将发送给 VLC 开发者用于排查问题</string>
     <string name="play_from_start">从头播放</string>
     <string name="play_as_audio">作为音频播放</string>
     <string name="play_as_video">作为视频播放</string>
@@ -423,6 +425,9 @@
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
     <string name="subtitles_presets_title">字幕预设</string>
+    <string name="subtitles_size_nano">极小</string>
+    <string name="subtitles_size_micro">微小</string>
+    <string name="subtitles_size_smallest">最小</string>
     <string name="subtitles_size_small">小</string>
     <string name="subtitles_size_normal">普通</string>
     <string name="subtitles_size_big">大</string>
@@ -620,7 +625,6 @@
     <string name="no_internet_connection">请检查网络连接</string>
     <string name="retry">重试</string>
     <string name="open_subs_download_error">OpenSubtitles 暂不可用。请稍后再试</string>
-
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 
@@ -655,7 +659,7 @@
     <string name="whats_new_title">VLC for Android %s 版本的新功能</string>
     <string name="whats_new_37_equalizer_text">均衡器已从零开始重新设计。现在更易使用，可以禁用默认预设，并支持备份、恢复和分享您的预设。</string>
     <string name="whats_new_37_import_export">我们改进了设置参数的备份和恢复功能。现在可以备份更多的设置参数，包括均衡器预设。</string>
-    <string name="whats_new_37_android_auto">由于应用商店的新限制，Android Auto 设置已全部转移到该移动应用中。您现在可以在这里更改车载体验设置。</string>
+    <string name="whats_new_37_android_auto">由于应用商店的新限制，Android Auto 设置已全部转移至本移动应用程序。您可以在此调整车载体验。</string>
     <string name="show_in_settings">在设置中显示</string>
 
 <!--    update-->
@@ -1015,7 +1019,7 @@
     <string name="no_group_found">未找到视频分组</string>
     <string name="no_favorite">没有收藏内容</string>
     <string name="empty_directory">空</string>
-    <string name="no_track">没有乐曲</string>
+    <string name="no_track">没有轨道</string>
 
     <string name="swipe_unlock">滑动解锁</string>
     <string name="swipe_unlock_no_touch">长按解锁</string>
@@ -1313,7 +1317,9 @@
     <string name="ra_otp_title">远程访问登录尝试</string>
     <string name="ra_otp_subtitle">如果确定是您本人，请在另一台设备上输入此验证码</string>
     <string name="ra_otp_not_me">不是我本人</string>
-
+    <string name="ra_output">音频输出</string>
+    <string name="ra_play_on_browser">在浏览器上播放</string>
+    <string name="ra_play_on_device">在设备上播放</string>
     <string name="ra_onboarding_welcome_desc">欢迎使用 ｢VLC for Android｣ 的远程访问功能！\n启用此功能，即可从其他设备控制此设备的播放，还能做到很多其他事情</string>
     <string name="ra_onboarding_how_title">控制您的设备</string>
     <string name="ra_onboarding_how_desc">控制您设备的播放、发送或下载文件，以及其他功能</string>

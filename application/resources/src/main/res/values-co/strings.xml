@@ -43,6 +43,8 @@
     <string name="playback_controls">Cuntrolli di ripruduzzione</string>
     <string name="medialibrary_scan">Analisa di a mediateca</string>
     <string name="Medialibrary_progress">Prugressione di l’analisa di a mediateca</string>
+    <string name="ml_database_warning">A vostra basa di dati cuntene a lista di tutti i vostri medià. Serà sparta cù i sviluppatori di VLC.</string>
+    <string name="logs_warning">Pò cuntene infurmazioni nant’à i vostri medià letti. Seranu sparte cù i sviluppatori di VLC.</string>
     <string name="play_from_start">Sunà da u principiu</string>
     <string name="play_as_audio">Sunà cum’è audio</string>
     <string name="play_as_video">Sunà cum’è video</string>
@@ -434,6 +436,9 @@
     <string name="subtitles_prefs_category">Sottutituli</string>
     <string name="subtitles_size_title">Dimensione di i sottutituli</string>
     <string name="subtitles_presets_title">Prerigature di i sottutituli</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">A più chjuca</string>
     <string name="subtitles_size_small">Chjuca</string>
     <string name="subtitles_size_normal">Nurmale</string>
     <string name="subtitles_size_big">Maiò</string>
@@ -631,7 +636,6 @@
     <string name="no_internet_connection">Verificate a vostra cunnessione internet</string>
     <string name="retry">Pruvà torna</string>
     <string name="open_subs_download_error">Ora OpenSubtitles ùn hè dispunibule. Provate torna in una stonda</string>
-
     <string name="network_browsing">Reta lucale</string>
     <string name="browsing">Navigazione</string>
 
@@ -1327,7 +1331,6 @@
     <string name="ra_otp_title">Tentativu di cunnessione à l’accessu à distanza</string>
     <string name="ra_otp_subtitle">S’ella hè voi, stampittate stu codice nant’à l°altru apparechju</string>
     <string name="ra_otp_not_me">Ùn hè micca eiu</string>
-
     <string name="ra_onboarding_welcome_desc">Benvenuta nant’à l’accessu à distanza di VLC per Android\nAttivendulu serete capace di cuntrollà a ripruduzzione di st’apparechju à ancu di più</string>
     <string name="ra_onboarding_how_title">Cuntrollà u vostru apparechju</string>
     <string name="ra_onboarding_how_desc">Cuntrollà a ripruduzzione di u vostru apparechju, mandà o riacquistà schedarii è ancu di più</string>

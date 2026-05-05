@@ -425,6 +425,9 @@
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕サイズ</string>
     <string name="subtitles_presets_title">字幕プリセット</string>
+    <string name="subtitles_size_nano">ナノ</string>
+    <string name="subtitles_size_micro">マイクロ</string>
+    <string name="subtitles_size_smallest">最小</string>
     <string name="subtitles_size_small">小</string>
     <string name="subtitles_size_normal">通常</string>
     <string name="subtitles_size_big">大</string>
@@ -622,6 +625,7 @@
     <string name="no_internet_connection">インターネット接続を確認してください</string>
     <string name="retry">再試行</string>
     <string name="open_subs_download_error">OpenSubtitles は現在利用できません。あとで再試行してください。</string>
+    <string name="open_subs_download_link_error">OpenSubtitlesで何らかの問題が発生しました。後で再試行してください。</string>
 
     <string name="network_browsing">ローカルネットワーク</string>
     <string name="browsing">ブラウジング</string>
@@ -1314,6 +1318,11 @@
     <string name="ra_otp_title">リモートアクセスのログインが試行されました</string>
     <string name="ra_otp_subtitle">あなたによるアクセスの場合、このコードを他のデバイスに入力してください。</string>
     <string name="ra_otp_not_me">私ではありません</string>
+    <string name="ra_output">オーディオ出力</string>
+    <string name="ra_play_on_browser">ブラウザ上で再生</string>
+    <string name="ra_play_on_device">デバイス上で再生</string>
+    <string name="ra_browser_audio_not_found">メディアが見つからないかブラウザで再生できません</string>
+    <string name="ra_browser_audio_unsupported_format">このオーディオフォーマットはあなたのブラウザでサポートされていません</string>
 
     <string name="ra_onboarding_welcome_desc">Android版VLCのリモートアクセスにようこそ\nこれを有効化すると、このデバイスの再生などを制御できるようになります</string>
     <string name="ra_onboarding_how_title">デバイスの制御</string>

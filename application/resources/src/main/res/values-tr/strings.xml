@@ -43,6 +43,8 @@
     <string name="playback_controls">Oynatma denetimleri</string>
     <string name="medialibrary_scan">Ortam kitaplığı taraması</string>
     <string name="Medialibrary_progress">Ortam kitaplığı tarama işlemi güncellemeleri</string>
+    <string name="ml_database_warning">Veri tabanınızda, tüm ortam dosyalarınızın listesi bulunur. Bu liste VLC geliştiricileriyle paylaşılacak.</string>
+    <string name="logs_warning">Oynattığınız ortam dosyaları ile ilgili bilgiler içerebilir. Bu bilgiler VLC geliştiricileriyle paylaşılacak.</string>
     <string name="play_from_start">Baştan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
@@ -434,6 +436,9 @@
     <string name="subtitles_prefs_category">Alt yazılar</string>
     <string name="subtitles_size_title">Alt yazı boyutu</string>
     <string name="subtitles_presets_title">Alt yazı hazır ayarları</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Mikro</string>
+    <string name="subtitles_size_smallest">En küçük</string>
     <string name="subtitles_size_small">Küçük</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Büyük</string>
@@ -631,7 +636,6 @@
     <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
     <string name="retry">Yeniden dene</string>
     <string name="open_subs_download_error">OpenSubtitles şu anda kullanılamıyor. Lütfen bir süre sonra yeniden deneyin</string>
-
     <string name="network_browsing">Yerel ağ</string>
     <string name="browsing">Göz at</string>
 
@@ -1328,7 +1332,6 @@
     <string name="ra_otp_title">Uzaktan erişim oturum açma girişimi</string>
     <string name="ra_otp_subtitle">Bu girişimi siz yaptıysanız bu kodu diğer aygıta yazın</string>
     <string name="ra_otp_not_me">Ben değilim</string>
-
     <string name="ra_onboarding_welcome_desc">Android için VLC uygulamasının uzaktan erişim özelliğine hoş geldiniz\Bu özelliği etkinleştirerek bu aygıtın oynatma ve diğer işlemlerini denetleyebileceksiniz</string>
     <string name="ra_onboarding_how_title">Aygıtınızı denetleyin</string>
     <string name="ra_onboarding_how_desc">Aygıtınızdaki oynatmayı denetleyin, dosya gönderin ya da alın ve diğer işlemleri yapın</string>

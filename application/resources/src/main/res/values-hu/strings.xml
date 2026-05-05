@@ -436,6 +436,9 @@
     <string name="subtitles_prefs_category">Feliratok</string>
     <string name="subtitles_size_title">Feliratok mérete</string>
     <string name="subtitles_presets_title">Felirat-előbeállítások</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Mikro</string>
+    <string name="subtitles_size_smallest">Legkisebb</string>
     <string name="subtitles_size_small">Kicsi</string>
     <string name="subtitles_size_normal">Normál</string>
     <string name="subtitles_size_big">Nagy</string>
@@ -633,6 +636,7 @@
     <string name="no_internet_connection">Ellenőrizze az internetkapcsolatát</string>
     <string name="retry">Újra</string>
     <string name="open_subs_download_error">Az OpenSubtitles jelenleg nem érhető el. Próbálja újra később.</string>
+    <string name="open_subs_download_link_error">Probléma van az OpenSubtitles szolgáltatással. Próbálja újra később.</string>
 
     <string name="network_browsing">Helyi hálózat</string>
     <string name="browsing">Tallózás</string>
@@ -1329,6 +1333,11 @@
     <string name="ra_otp_title">Távoli elérés bejelentkezési kérése</string>
     <string name="ra_otp_subtitle">Ha Ön az, adja meg ezt a kódot a másik eszközön</string>
     <string name="ra_otp_not_me">Nem én vagyok</string>
+    <string name="ra_output">Hangkimenet</string>
+    <string name="ra_play_on_browser">Lejátszás böngészőben</string>
+    <string name="ra_play_on_device">Lejátszás eszközön</string>
+    <string name="ra_browser_audio_not_found">A média nem található, vagy nem játszható le böngészőben</string>
+    <string name="ra_browser_audio_unsupported_format">A böngészője nem támogatja ezt a hangformátumot</string>
 
     <string name="ra_onboarding_welcome_desc">Üdvözli a VLC for Android távoli elérése\nAz engedélyezésével távolról is fogja tudni vezérelni az eszköz lejátszását, és még több mindent.</string>
     <string name="ra_onboarding_how_title">Vezérelje az eszközét</string>

@@ -447,6 +447,9 @@
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
     <string name="subtitles_presets_title">Preimpostazioni sottotitoli</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">Più piccolo</string>
     <string name="subtitles_size_small">Piccolo</string>
     <string name="subtitles_size_normal">Normale</string>
     <string name="subtitles_size_big">Grande</string>
@@ -644,6 +647,7 @@
     <string name="no_internet_connection">Controlla la tua connessione a Internet</string>
     <string name="retry">Riprova</string>
     <string name="open_subs_download_error">OpenSubtitles non è al momento disponibile. Riprova più tardi</string>
+    <string name="open_subs_download_link_error">Si è verificato un problema con OpenSubtitles. Riprova più tardi</string>
 
     <string name="network_browsing">Rete locale</string>
     <string name="browsing">Navigazione</string>
@@ -1344,6 +1348,11 @@
     <string name="ra_otp_title">Tentativo di accesso remoto</string>
     <string name="ra_otp_subtitle">Se sei tu, digita questo codice sull\'altro dispositivo</string>
     <string name="ra_otp_not_me">Non sono io</string>
+    <string name="ra_output">Uscita audio</string>
+    <string name="ra_play_on_browser">Riproduci nel browser</string>
+    <string name="ra_play_on_device">Riproduci sul dispositivo</string>
+    <string name="ra_browser_audio_not_found">File multimediale non trovato o non riproducibile nel browser</string>
+    <string name="ra_browser_audio_unsupported_format">Questo formato audio non è supportato dal tuo browser</string>
 
     <string name="ra_onboarding_welcome_desc">Benvenuto nell\'accesso remoto di VLC per Android.\nAbilitandolo, sarai in grado di controllare la riproduzione di questo dispositivo e altro ancora.</string>
     <string name="ra_onboarding_how_title">Controlla il tuo dispositivo</string>

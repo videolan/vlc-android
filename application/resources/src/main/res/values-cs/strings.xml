@@ -45,6 +45,8 @@
     <string name="playback_controls">Ovládání přehrávání</string>
     <string name="medialibrary_scan">Prohledávání Knihovny médií…</string>
     <string name="Medialibrary_progress">Probíhá aktualizace Knihovny médií…</string>
+    <string name="ml_database_warning">Vaše databáze obsahuje seznam všech vašich médií. Bude sdílena s vývojáři VLC</string>
+    <string name="logs_warning">Může obsahovat informace o přehrávaných médiích. Budou sdíleny s vývojáři VLC</string>
     <string name="play_from_start">Přehrát od začátku</string>
     <string name="play_as_audio">Přehrát jako zvuk</string>
     <string name="play_as_video">Přehrát jako video</string>
@@ -456,6 +458,9 @@
     <string name="subtitles_prefs_category">Titulky</string>
     <string name="subtitles_size_title">Velikost titulků</string>
     <string name="subtitles_presets_title">Předvolby titulků</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Mikro</string>
+    <string name="subtitles_size_smallest">Nejmenší</string>
     <string name="subtitles_size_small">Malé</string>
     <string name="subtitles_size_normal">Normální</string>
     <string name="subtitles_size_big">Velké</string>
@@ -653,6 +658,7 @@
     <string name="no_internet_connection">Zkontrolujte internetové připojení.</string>
     <string name="retry">Opakovat</string>
     <string name="open_subs_download_error">Portál OpenSubtitles je momentálně nedostupný. Zkuste to prosím později.</string>
+    <string name="open_subs_download_link_error">Je problém s portálem OpenSubtitles. Zkuste to prosím později.</string>
 
     <string name="network_browsing">Místní síť</string>
     <string name="browsing">Procházet…</string>
@@ -1358,6 +1364,11 @@
     <string name="ra_otp_title">Pokus o přihlášení ke vzdálenému přístupu</string>
     <string name="ra_otp_subtitle">Pokud jste to vy, zadejte na jiném zařízení tento kód</string>
     <string name="ra_otp_not_me">Nejsem to já</string>
+    <string name="ra_output">Zvukový výstup</string>
+    <string name="ra_play_on_browser">Přehrát v prohlížeči</string>
+    <string name="ra_play_on_device">Přehrát v zařízení</string>
+    <string name="ra_browser_audio_not_found">Média nenalezena nebo nelze přehrávat v prohlížeči</string>
+    <string name="ra_browser_audio_unsupported_format">Zvukový formát není podporován ve vašem prohlížeči</string>
 
     <string name="ra_onboarding_welcome_desc">Vítejte ve vzdáleném přístupu VLC pro Android\nPovolením budete moci ovládat přehrávání tohoto zařízení a mnoho dalšího</string>
     <string name="ra_onboarding_how_title">Ovládání vašeho zařízení</string>

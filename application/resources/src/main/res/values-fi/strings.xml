@@ -43,6 +43,8 @@
     <string name="playback_controls">Toiston säätimet</string>
     <string name="medialibrary_scan">Mediakirjaston skannaus</string>
     <string name="Medialibrary_progress">Mediakirjasto tarkistaa päivityksiä</string>
+    <string name="ml_database_warning">Tietokanta sisältää luettelon kaikista mediatiedostoistasi. Se jaetaan VLC:n kehittäjien kanssa.</string>
+    <string name="logs_warning">Saattaa sisältää tietoja toistetusta mediasta. Tiedot jaetaan VLC:n kehittäjien kanssa.</string>
     <string name="play_from_start">Toista alusta</string>
     <string name="play_as_audio">Toista audiona</string>
     <string name="play_as_video">Toista videona</string>
@@ -441,6 +443,9 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="subtitles_prefs_category">Tekstitykset</string>
     <string name="subtitles_size_title">Tekstityksen koko</string>
     <string name="subtitles_presets_title">Tekstityksen esiasetukset</string>
+    <string name="subtitles_size_nano">Hyvin pieni</string>
+    <string name="subtitles_size_micro">Mini</string>
+    <string name="subtitles_size_smallest">Pienin</string>
     <string name="subtitles_size_small">Pieni</string>
     <string name="subtitles_size_normal">Normaali</string>
     <string name="subtitles_size_big">Iso</string>
@@ -641,6 +646,7 @@ Käynnistätkö uudelleen?</string>
     <string name="no_internet_connection">Tarkista internetyhteys</string>
     <string name="retry">Yritä uudelleen</string>
     <string name="open_subs_download_error">OpenSubtitles ei ole tällä hetkellä käytettävissä. Yritä myöhemmin</string>
+    <string name="open_subs_download_link_error">OpenSubtitles ongelma. Yritä myöhemmin uudelleen</string>
 
     <string name="network_browsing">Lähiverkko</string>
     <string name="browsing">Selaa</string>
@@ -1351,6 +1357,11 @@ Anna ilmoituksissa näkyvä koodi</string>
     <string name="ra_otp_title">Etäkäytön kirjautumisyritys</string>
     <string name="ra_otp_subtitle">Jos se olet sinä, kirjoita tämä koodi toiseen laitteeseen</string>
     <string name="ra_otp_not_me">Se en ollut minä</string>
+    <string name="ra_output">Audio ulostulo</string>
+    <string name="ra_play_on_browser">Toista selaimella</string>
+    <string name="ra_play_on_device">Toista laitteella</string>
+    <string name="ra_browser_audio_not_found">Mediaa ei löydy tai sitä ei voi toistaa selaimella</string>
+    <string name="ra_browser_audio_unsupported_format">Selaimesi ei tue tätä audio formaattia</string>
 
     <string name="ra_onboarding_welcome_desc">Tervetuloa VLC Android etäkäyttöön
 Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>

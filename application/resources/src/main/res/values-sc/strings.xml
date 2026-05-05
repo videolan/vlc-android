@@ -43,6 +43,8 @@
     <string name="playback_controls">Controllos de riprodutzione</string>
     <string name="medialibrary_scan">Iscansidura biblioteca multimediale</string>
     <string name="Medialibrary_progress">Agiornamentos de su progressu de s\'iscansidura de sa biblioteca multimediale</string>
+    <string name="ml_database_warning">Sa base de datos tua cuntenet sa lista de totu sos elementos multimediales tuos. At a èssere cumpartzida cun sos isvilupadores de VLC.</string>
+    <string name="logs_warning">Diat pòdere cuntènnere informatziones subra de sos elementos multimediales riproduidos. Ant a èssere cumpartzidas cun sos isvilupadores de VLC.</string>
     <string name="play_from_start">Riprodui a s\'allughìngiu</string>
     <string name="play_as_audio">Riprodui comente àudio</string>
     <string name="play_as_video">Riprodui comente vìdeu</string>
@@ -434,6 +436,9 @@
     <string name="subtitles_prefs_category">Sutatìtulos</string>
     <string name="subtitles_size_title">Mannària de sos sutatìtulos</string>
     <string name="subtitles_presets_title">Pre-impostatziones de sos sutatìtulos</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">Minore meda</string>
     <string name="subtitles_size_small">Minores</string>
     <string name="subtitles_size_normal">Normales</string>
     <string name="subtitles_size_big">Mannos</string>
@@ -631,6 +636,7 @@
     <string name="no_internet_connection">Verìfica sa connessione a ìnternet tua</string>
     <string name="retry">Torra a proare</string>
     <string name="open_subs_download_error">OpenSubtitles como no est a disponimentu. Torra a proare prus a tardu</string>
+    <string name="open_subs_download_link_error">B\'at unu problema cun OpenSubtitles. Torra a proare prus a tardu</string>
 
     <string name="network_browsing">Retza locale</string>
     <string name="browsing">Navigatzione</string>
@@ -1327,6 +1333,11 @@
     <string name="ra_otp_title">Proa de atzessu remotu</string>
     <string name="ra_otp_subtitle">Si ses tue, inserta custu còdighe in s\'àteru dispositivu</string>
     <string name="ra_otp_not_me">Non so deo</string>
+    <string name="ra_output">Essida àudio</string>
+    <string name="ra_play_on_browser">Reprodue in su navigadore</string>
+    <string name="ra_play_on_device">Reprodue in su dispositivu</string>
+    <string name="ra_browser_audio_not_found">Elementu multimediale no atzapadu o non faghet a lu riproduire in su navigadore</string>
+    <string name="ra_browser_audio_unsupported_format">Custu formadu àudio no est suportadu dae su navigadore tuo</string>
 
     <string name="ra_onboarding_welcome_desc">Bene bènnidu in s\'atzessu remotu de VLC pro Android.\nAbilitende·lu, as a pòdere controllare sa riprodutzione de custu dispositivu e àteru galu</string>
     <string name="ra_onboarding_how_title">Controlla su dispositivu tuo</string>

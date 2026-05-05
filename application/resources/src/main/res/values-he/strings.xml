@@ -45,6 +45,8 @@
     <string name="playback_controls">פקדי נגינה</string>
     <string name="medialibrary_scan">סריקת ספריית מדיה</string>
     <string name="Medialibrary_progress">עדכוני תהליך סריקת ספריית מדיה</string>
+    <string name="ml_database_warning">מסד הנתונים מכיל את רשימת כל המדיה שלך. הוא ישותף עם המפתחים של VLC</string>
+    <string name="logs_warning">עלול להכיל מידע על המדיה שניגנת. הוא ישותף עם המפתחים של VLC</string>
     <string name="play_from_start">לנגן מההתחלה</string>
     <string name="play_as_audio">להשמיע</string>
     <string name="play_as_video">לנגן כווידאו</string>
@@ -450,6 +452,9 @@
     <string name="subtitles_prefs_category">כתוביות</string>
     <string name="subtitles_size_title">גודל הכתוביות</string>
     <string name="subtitles_presets_title">ערכות הגדרות לכתוביות</string>
+    <string name="subtitles_size_nano">ננו</string>
+    <string name="subtitles_size_micro">מיקרו</string>
+    <string name="subtitles_size_smallest">הקטן ביותר</string>
     <string name="subtitles_size_small">קטן</string>
     <string name="subtitles_size_normal">בינוני</string>
     <string name="subtitles_size_big">גדול</string>
@@ -647,6 +652,7 @@
     <string name="no_internet_connection">נא לבדוק את החיבור שלך לאינטרנט</string>
     <string name="retry">לנסות שוב</string>
     <string name="open_subs_download_error">OpenSubtitles לא זמין כרגע. נא לנסות שוב מאוחר יותר</string>
+    <string name="open_subs_download_link_error">יש בעיה עם OpenSubtitles. נא לנסות שוב</string>
 
     <string name="network_browsing">רשת מקומית</string>
     <string name="browsing">עיון</string>
@@ -1349,6 +1355,11 @@
     <string name="ra_otp_title">ניסיון כניסה לגישה מרחוק</string>
     <string name="ra_otp_subtitle">אם זה ניסיון שלך, נא למלא את הקוד הזה במכשיר השני</string>
     <string name="ra_otp_not_me">זה לא אני</string>
+    <string name="ra_output">פלט שמע</string>
+    <string name="ra_play_on_browser">לנגן בדפדפן</string>
+    <string name="ra_play_on_device">לנגן במכשיר</string>
+    <string name="ra_browser_audio_not_found">המדיה לא נמצאה או שלא ניתן לנגן אותה בדפדפן</string>
+    <string name="ra_browser_audio_unsupported_format">תסדיר השמע הזה לא נתמך על ידי הדפדפן שלך</string>
 
     <string name="ra_onboarding_welcome_desc">ברוך בואך לגישה המרוחקת ל־VLC ל־Android\nהפעלת היכולת תאפשר לך לשלוט בנגינה במכשיר הזה אך לא רק</string>
     <string name="ra_onboarding_how_title">שליטה במכשיר שלך</string>

@@ -43,6 +43,8 @@
     <string name="playback_controls">Uppspelningskontroller</string>
     <string name="medialibrary_scan">Skanning av mediabibliotek</string>
     <string name="Medialibrary_progress">Förlopp för skanning av mediabibliotek</string>
+    <string name="ml_database_warning">Din databas innehåller en lista över alla dina mediafiler som kommer att delas med VLC:s utvecklare</string>
+    <string name="logs_warning">Kan innehålla information om mediafiler du har spelat upp, som kommer att delas med VLC:s utvecklare</string>
     <string name="play_from_start">Spela upp från början</string>
     <string name="play_as_audio">Spela upp som ljud</string>
     <string name="play_as_video">Spela upp som video</string>
@@ -414,8 +416,8 @@
     <string name="enable_swipe_seek_summary">Svep ditt finger över skärmen för att söka</string>
     <string name="enable_scale_gesture_title">Zooma med två fingrar</string>
     <string name="enable_scale_gesture_summary">Zooma in och ut med två fingrar</string>
-    <string name="popup_keepscreen_title">Låt skärmen vara igång i popupp-läge</string>
-    <string name="popup_keepscreen_summary">Låt skärmen alltid vara igång när popupp visas, även om videon är pausad.</string>
+    <string name="popup_keepscreen_title">Låt skärmen vara igång i popup-läge</string>
+    <string name="popup_keepscreen_summary">Låt skärmen alltid vara igång när popup visas, även om videon är pausad.</string>
     <string name="browser_show_hidden_files_title">Visa dolda filer</string>
     <string name="albums_show_track_numbers">Visa spårnummer</string>
     <string name="enable_video_screenshot">Ta en skärmdump</string>
@@ -434,6 +436,9 @@
     <string name="subtitles_prefs_category">Undertexter</string>
     <string name="subtitles_size_title">Undertextstorlek</string>
     <string name="subtitles_presets_title">Förinställningar för undertexter</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Mikro</string>
+    <string name="subtitles_size_smallest">Minsta</string>
     <string name="subtitles_size_small">Liten</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Stor</string>
@@ -631,6 +636,7 @@
     <string name="no_internet_connection">Kontrollera din Internetanslutning</string>
     <string name="retry">Försök igen</string>
     <string name="open_subs_download_error">OpenSubtitles är inte tillgänglig för tillfället. Försök igen senare</string>
+    <string name="open_subs_download_link_error">Ett fel har uppstått med OpenSubtitles. Försök igen senare</string>
 
     <string name="network_browsing">Lokalt nätverk</string>
     <string name="browsing">Bläddring</string>
@@ -664,7 +670,7 @@
 
     <!--What's new-->
     <string name="whats_new_title">Vad är nytt i VLC for Android %s</string>
-    <string name="whats_new_37_equalizer_text">Equalizern har omarbetats från grunden. Den är enklare att använda, låter dig inaktiverat standardinställningarna och gör det möjligt att säkerhetskopiera, återställa och dela dina inställningar.</string>
+    <string name="whats_new_37_equalizer_text">Equalizern har omarbetats från grunden. Den är enklare att använda, låter dig inaktivera standardförinställningarna och låter dig säkerhetskopiera, återställa och dela dina förinställningar.</string>
     <string name="whats_new_37_import_export">Vi har förbättrat funktionen för säkerhetskopiering och återställning av inställningar. Nu kan du säkerhetskopiera fler inställningar, inklusive förinställningarna för equalizern.</string>
     <string name="whats_new_37_android_auto">På grund av vissa nya begränsningar i appbutiken har alla Android Auto-inställningar flyttats till mobilappen. Detta blir den nya platsen för att förändra din bilupplevelse.</string>
     <string name="show_in_settings">Visa i inställningar</string>
@@ -712,8 +718,8 @@
     <string name="allow_settings_access_brightness_title">Tillåt VLC att ändra ljusstyrkeläge</string>
     <string name="allow_settings_access_brightness_description">Du måste bevilja denna behörighet för att VLC ska kunna ändra ditt ljusstyrkeläge.</string>
     <string name="allow_draw_overlays_title">Tillåt VLC att visa spelaren ovanpå andra appar</string>
-    <string name="allow_sdraw_overlays_description">Du måste bevilja denna behörighet för att VLC ska kunna visa din video i ett popupp över andra applikationer.</string>
-    <string name="allow_pip">Tillåt VLC player att starta bild-i-bild</string>
+    <string name="allow_sdraw_overlays_description">Du måste bevilja denna behörighet för att VLC ska kunna visa din video i ett popup över andra applikationer.</string>
+    <string name="allow_pip">Tillåt VLC att starta bild-i-bild</string>
     <string name="allow_pip_description">Du måste bevilja denna behörighet för att VLC ska kunna visa din video i bild-i-bild-läget.</string>
     <string name="permission_ask_again">Bevilja behörighet </string>
     <string name="pick_file">Välj en fil</string>
@@ -722,13 +728,13 @@
     <string name="permission_expanation_allow">Du kommer endast kunna spela upp strömmar eller nätverksmedia</string>
     <string name="permission_onboarding_no_perm">Du kommer inte kunna upptäcka din media automatiskt.\nDu kommer endast kunna spela upp media via strömmar eller nätverk</string>
     <string name="permission_onboarding_perm_media">Du kommer endast kunna upptäcka standardmediafiler automatiskt</string>
-    <string name="permission_onboarding_perm_all">Du kommer upptäcka alla dina filer automatiskt för att kunna spela upp alla typer av mediafiler, även de konstiga, eller komprimerade filer</string>
+    <string name="permission_onboarding_perm_all">Du kommer att upptäcka alla dina filer automatiskt för att kunna spela upp alla typer av mediefiler, även de konstiga, eller komprimerade filer</string>
     <string name="exit_app">Avsluta VLC</string>
     <string name="exit_app_msg">Är du säker på att du vill avsluta VLC?</string>
     <string name="widget_explanation_title">VLC:s widgetar</string>
     <string name="widget_explanation_size">Widgetar kommer i olika storlekar och varianter</string>
     <string name="widget_explanation_resize">För att ändra widgettyp håller du ned på den och använder reglagen för att ändra storleken till vad du önskar</string>
-    <string name="widget_explanation_end">Widgetar är mycket anpassningsbara. Släpp loss din kreativitet och få de att passa dina preferenser!</string>
+    <string name="widget_explanation_end">Widgetar är mycket anpassningsbara. Släpp loss din kreativitet och få dem att passa dina preferenser!</string>
 
     <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller-spår</string>
@@ -749,8 +755,8 @@
     <string name="encryption_warning">Varning, kryptering är inte tillgänglig i denna Android-version, lösenordet kommer att lagras på en privat utrymme men inte krypteras</string>
     <string name="store_password">Kom ihåg lösenord</string>
     <string name="add_to_playlist">Lägg till i spellista</string>
-    <string name="popup_playback_title">Spela video i ett popupp-fönster</string>
-    <string name="popup_playback">Spelas upp i ett popupp-fönster</string>
+    <string name="popup_playback_title">Spela video i ett popup-fönster</string>
+    <string name="popup_playback">Spelas upp i ett popup-fönster</string>
     <string name="popup_expand">Utvidga video</string>
     <string name="download_subtitles">Ladda ned undertexter</string>
     <string name="powered_opensubtitles">Drivs av OpenSubtitles</string>
@@ -898,8 +904,8 @@
     <string name="create">Skapa</string>
     <string name="resume_card_message">Återuppta uppspelning av %1$s?</string>
     <string name="misc">Övrigt</string>
-    <string name="popup_force_legacy_title">Använd anpassad popupp för bild-i-bild</string>
-    <string name="popup_force_legacy_summary">Använd anpassad popupp för bild-i-bild som kan storleksändras</string>
+    <string name="popup_force_legacy_title">Använd anpassad popup för bild-i-bild</string>
+    <string name="popup_force_legacy_summary">Använd anpassad popup för bild-i-bild som kan storleksändras</string>
     <string name="restore_background_video_title">Återställ video från bakgrunden</string>
     <string name="restore_background_video_summary">Återställ video från bakgrunden när VLC for Android öppnas</string>
     <string name="device_default">Enhetsstandard</string>
@@ -937,7 +943,7 @@
     <string name="include_logs">Inkludera dina loggar</string>
     <string name="vlc_reporter">VLC-rapportering</string>
     <string name="welcome_beta_title">VLC-beta</string>
-    <string name="welcome_beta_description">Välkommen till VLC:s betaprogarm.\nNotera att denna version kan ha vissa fel.</string>
+    <string name="welcome_beta_description">Välkommen till VLC:s betaprogram.\nNotera att denna version kan ha vissa fel.</string>
     <string name="welcome_beta_description_bugs">Om du upptäcker ett fel, rapportera det i vårt forum eller felhanteringssystem.</string>
     <string name="welcome_beta_description_crashes">Öppna Om > Återkoppling och använd knappen Kontakta supportteamet om en bugg eller krasch inträffar.</string>
     <string name="send">Skicka</string>
@@ -1327,6 +1333,11 @@
     <string name="ra_otp_title">Inloggningsförsök för fjärråtkomst</string>
     <string name="ra_otp_subtitle">Ange denna kod på den andra enheten om detta är du</string>
     <string name="ra_otp_not_me">Det är inte jag</string>
+    <string name="ra_output">Ljudutmatning</string>
+    <string name="ra_play_on_browser">Spela upp i webbläsare</string>
+    <string name="ra_play_on_device">Spela upp på enhet</string>
+    <string name="ra_browser_audio_not_found">Mediafil hittades inte eller kan inte spelas upp i webbläsare</string>
+    <string name="ra_browser_audio_unsupported_format">Detta ljudformat stöds inte av din webbläsare</string>
 
     <string name="ra_onboarding_welcome_desc">Välkommen till fjärråtkomst i VLC for Android\nGenom att aktivera detta kommer du kunna styra uppspelningen på denna enhet och mer</string>
     <string name="ra_onboarding_how_title">Styr denna enhet</string>

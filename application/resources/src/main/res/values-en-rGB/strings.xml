@@ -43,6 +43,8 @@
     <string name="playback_controls">Playback controls</string>
     <string name="medialibrary_scan">Media library scan</string>
     <string name="Medialibrary_progress">Media library scanning progress updates</string>
+    <string name="ml_database_warning">Your database contains the list of all of your media. It will be shared with VLC\'s developers</string>
+    <string name="logs_warning">May contain info about your played media. It will be shared with VLC\'s developers</string>
     <string name="play_from_start">Play from start</string>
     <string name="play_as_audio">Play as audio</string>
     <string name="play_as_video">Play as video</string>
@@ -434,6 +436,9 @@
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
     <string name="subtitles_presets_title">Subtitles presets</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">Smallest</string>
     <string name="subtitles_size_small">Small</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Big</string>
@@ -631,6 +636,7 @@
     <string name="no_internet_connection">Check your Internet connection</string>
     <string name="retry">Retry</string>
     <string name="open_subs_download_error">OpenSubtitles is currently unavailable. Please try again later</string>
+    <string name="open_subs_download_link_error">There is an issue with OpenSubtitles. Please try again later</string>
 
     <string name="network_browsing">Local Network</string>
     <string name="browsing">Browsing</string>
@@ -1327,6 +1333,11 @@
     <string name="ra_otp_title">Remote access login attempt</string>
     <string name="ra_otp_subtitle">If it\'s you, enter this code on the other device</string>
     <string name="ra_otp_not_me">It\'s not me</string>
+    <string name="ra_output">Audio output</string>
+    <string name="ra_play_on_browser">Play on browser</string>
+    <string name="ra_play_on_device">Play on device</string>
+    <string name="ra_browser_audio_not_found">Media not found or cannot be played in browser</string>
+    <string name="ra_browser_audio_unsupported_format">This audio format is not supported by your browser</string>
 
     <string name="ra_onboarding_welcome_desc">Welcome in VLC for Android\'s remote access\nBy enabling it you will be able to control this device\'s playback and more</string>
     <string name="ra_onboarding_how_title">Control your device</string>

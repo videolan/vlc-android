@@ -44,6 +44,8 @@
     <string name="playback_controls">Controale redare</string>
     <string name="medialibrary_scan">Scanare bibliotecă media</string>
     <string name="Medialibrary_progress">Progresul scanării actualizărilor bibliotecii media</string>
+    <string name="ml_database_warning">Baza ta de date conține lista tuturor fișierelor tale media. Aceasta va fi partajată cu dezvoltatorii VLC.</string>
+    <string name="logs_warning">Poate conține informații despre fișierele tale media redate. Acestea vor fi partajate cu dezvoltatorii VLC.</string>
     <string name="play_from_start">Redare de la început</string>
     <string name="play_as_audio">Redare ca audio</string>
     <string name="play_as_video">Redare ca video</string>
@@ -445,6 +447,9 @@
     <string name="subtitles_prefs_category">Subtitrari</string>
     <string name="subtitles_size_title">Marime subtitrari</string>
     <string name="subtitles_presets_title">Presetări de subtitrare</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Micro</string>
+    <string name="subtitles_size_smallest">Cea mai mică</string>
     <string name="subtitles_size_small">Mic</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Mare</string>
@@ -642,6 +647,7 @@
     <string name="no_internet_connection">Verificați conexiunea la internet</string>
     <string name="retry">Reîncercare</string>
     <string name="open_subs_download_error">OpenSubtitles este deocamdată indisponibil. Te rugăm să încerci mai târziu.</string>
+    <string name="open_subs_download_link_error">Este o problemă cu OpenSubtitles. Te rugăm să încerci mai târziu.</string>
 
     <string name="network_browsing">Rețea locală</string>
     <string name="browsing">Răsfoire</string>
@@ -1342,6 +1348,11 @@
     <string name="ra_otp_title">Încercare de logare pentru accesul la distanță</string>
     <string name="ra_otp_subtitle">Dacă ești tu, introdu codul pe alt dispozitiv</string>
     <string name="ra_otp_not_me">Nu sunt eu</string>
+    <string name="ra_output">Ieșire audio</string>
+    <string name="ra_play_on_browser">Redă în browser</string>
+    <string name="ra_play_on_device">Redă pe dispozitiv</string>
+    <string name="ra_browser_audio_not_found">Conținut media nu a fost găsit sau nu poate fi redat în browser</string>
+    <string name="ra_browser_audio_unsupported_format">Acest format audio nu este acceptat de browserul tău.</string>
 
     <string name="ra_onboarding_welcome_desc">Bun venit la accesul la distanță al lui VLC pentru Android\nPrin activarea acestuia, veți putea controla redarea acestui dispozitiv și multe altele</string>
     <string name="ra_onboarding_how_title">Controlează-ți dispozitivul</string>

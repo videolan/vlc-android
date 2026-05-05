@@ -436,6 +436,9 @@
     <string name="subtitles_prefs_category">Untertitel</string>
     <string name="subtitles_size_title">Untertitelgröße</string>
     <string name="subtitles_presets_title">Untertitel-Voreinstellungen</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Mikro</string>
+    <string name="subtitles_size_smallest">Kleinste</string>
     <string name="subtitles_size_small">Klein</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Groß</string>
@@ -633,6 +636,7 @@
     <string name="no_internet_connection">Überprüfen Sie Ihre Internetverbindung</string>
     <string name="retry">Erneut versuchen</string>
     <string name="open_subs_download_error">OpenSubtitles ist derzeit nicht verfügbar. Bitte später erneut versuchen</string>
+    <string name="open_subs_download_link_error">Es gibt ein Problem mit OpenSubtitles. Bitte später erneut versuchen</string>
 
     <string name="network_browsing">Lokales Netzwerk</string>
     <string name="browsing">Durchsuchen</string>
@@ -1329,6 +1333,11 @@
     <string name="ra_otp_title">Anmeldeversuch per Fernzugriff</string>
     <string name="ra_otp_subtitle">Wenn Sie es sind, geben Sie diesen Code auf dem anderen Gerät ein</string>
     <string name="ra_otp_not_me">Das bin ich nicht</string>
+    <string name="ra_output">Audioausgabe</string>
+    <string name="ra_play_on_browser">Im Browser wiedergeben</string>
+    <string name="ra_play_on_device">Auf dem Gerät wiedergeben</string>
+    <string name="ra_browser_audio_not_found">Medien nicht gefunden oder können im Browser nicht abgespielt werden</string>
+    <string name="ra_browser_audio_unsupported_format">Dieses Audioformat wird von Ihrem Browser nicht unterstützt</string>
 
     <string name="ra_onboarding_welcome_desc">Willkommen bei der Fernbedienung von VLC für Android. Durch Aktivierung können Sie die Wiedergabe dieses Geräts steuern und mehr</string>
     <string name="ra_onboarding_how_title">Steuern Sie Ihr Gerät</string>

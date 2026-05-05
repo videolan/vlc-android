@@ -425,6 +425,9 @@
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
     <string name="subtitles_presets_title">字幕預設</string>
+    <string name="subtitles_size_nano">極微小</string>
+    <string name="subtitles_size_micro">微小</string>
+    <string name="subtitles_size_smallest">最小</string>
     <string name="subtitles_size_small">小</string>
     <string name="subtitles_size_normal">正常</string>
     <string name="subtitles_size_big">大</string>
@@ -622,7 +625,6 @@
     <string name="no_internet_connection">檢查您的網路連線</string>
     <string name="retry">重試</string>
     <string name="open_subs_download_error">OpenSubtitles 目前無法使用。請稍後再試</string>
-
     <string name="network_browsing">區域網路</string>
     <string name="browsing">瀏覽中</string>
 
@@ -1314,7 +1316,6 @@
     <string name="ra_otp_title">遠端存取登入嘗試</string>
     <string name="ra_otp_subtitle">如果是您本人，請在其他裝置上輸入此代碼</string>
     <string name="ra_otp_not_me">這不是我</string>
-
     <string name="ra_onboarding_welcome_desc">歡迎使用 Android 版 VLC 的遠端存取\n啟用此功能，您將可以控制此裝置的播放等功能</string>
     <string name="ra_onboarding_how_title">控制您的裝置</string>
     <string name="ra_onboarding_how_desc">控制您的裝置播放，傳送或擷取檔案等</string>

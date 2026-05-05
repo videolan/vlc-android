@@ -43,6 +43,8 @@
     <string name="playback_controls">Esitamise juhtimine</string>
     <string name="medialibrary_scan">Meediakogu töötlemine</string>
     <string name="Medialibrary_progress">Teave meediakogu töötlemise edenemisest</string>
+    <string name="ml_database_warning">Sinu andmebaasis leidub sinu multimeedia terviklik loend. Seda jagatakse VLC arendajatega</string>
+    <string name="logs_warning">Võib sisaldada teavet esitatud multimeedia kohta. Seda jagatakse VLC arendajatega</string>
     <string name="play_from_start">Esita algusest</string>
     <string name="play_as_audio">Esita vaid heliriba</string>
     <string name="play_as_video">Esita kui video</string>
@@ -434,6 +436,9 @@
     <string name="subtitles_prefs_category">Subtiitrid</string>
     <string name="subtitles_size_title">Subtiitrite suurus</string>
     <string name="subtitles_presets_title">Subtiitrite eelseadistused</string>
+    <string name="subtitles_size_nano">Nano</string>
+    <string name="subtitles_size_micro">Mikro</string>
+    <string name="subtitles_size_smallest">Väikseim</string>
     <string name="subtitles_size_small">Väike</string>
     <string name="subtitles_size_normal">Tavaline</string>
     <string name="subtitles_size_big">Suur</string>
@@ -631,6 +636,7 @@
     <string name="no_internet_connection">Kontrolli oma internetiühendust</string>
     <string name="retry">Proovi uuesti</string>
     <string name="open_subs_download_error">OpenSubtitlesi teenus pole hetkel saadaval. Palun proovi hiljem uuesti</string>
+    <string name="open_subs_download_link_error">OpenSubtitles\'i teenuse töös on viga. Palun proovi hiljem uuesti</string>
 
     <string name="network_browsing">Kohalik võrk</string>
     <string name="browsing">Sirvimine</string>
@@ -1330,6 +1336,11 @@
     <string name="ra_otp_title">Kaugligipääsu sisselogimiskate</string>
     <string name="ra_otp_subtitle">Kui see oled sina, siis sisesta see kood teises seadmes</string>
     <string name="ra_otp_not_me">See pole mina</string>
+    <string name="ra_output">Heliväljund</string>
+    <string name="ra_play_on_browser">Esita veebibrauseris</string>
+    <string name="ra_play_on_device">Esita seadmes</string>
+    <string name="ra_browser_audio_not_found">Meediumi kas ei leidu või pole veebibrauseris esitatav</string>
+    <string name="ra_browser_audio_unsupported_format">See helivorming pole sinu veebibrauseris toetatud</string>
 
     <string name="ra_onboarding_welcome_desc">Tere tulemast kasutama VLC Androidiversiooni kaughaldust ja kaugligipääsu\nSelle sisselülitamisel sa võid hallata taasesitust selles seadmes ning teha muud põnevat</string>
     <string name="ra_onboarding_how_title">Juhi oma nutiseadet</string>
