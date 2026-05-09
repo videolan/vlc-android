@@ -37,6 +37,8 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
     private var hasPrevious: Boolean = false
     private var previousPosition: Int = 0
 
+    protected open val coverBitmapWidth: Int = 512
+
     override val viewSwitchListener = object : ViewSwitchListener {
         override fun onSwitching(progress: Float) {
             audioMediaSwitcherListener.onMediaSwitching()
@@ -86,11 +88,12 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         val artMrl = service.coverArt
         val prevArtMrl = service.prevCoverArt
         val nextArtMrl = service.nextCoverArt
+        val targetWidth = coverBitmapWidth
         val (coverCurrent, coverPrev, coverNext) = withContext(Dispatchers.IO) {
             Triple(
-                    artMrl.let { AudioUtil.readCoverBitmap(Uri.decode(artMrl), 512) },
-                    prevArtMrl.let { AudioUtil.readCoverBitmap(Uri.decode(prevArtMrl), 512) },
-                    nextArtMrl?.let { AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), 512) }
+                    artMrl.let { AudioUtil.readCoverBitmap(Uri.decode(artMrl), targetWidth) },
+                    prevArtMrl.let { AudioUtil.readCoverBitmap(Uri.decode(prevArtMrl), targetWidth) },
+                    nextArtMrl?.let { AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), targetWidth) }
             )
         }
         val trackInfo = service.trackInfo()

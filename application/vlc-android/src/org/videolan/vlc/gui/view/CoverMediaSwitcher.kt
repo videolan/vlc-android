@@ -38,6 +38,9 @@ import org.videolan.vlc.util.TextUtils
 
 class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
 
+    override val coverBitmapWidth: Int
+        get() = if (width > 0) width else context.resources.displayMetrics.widthPixels
+
     override fun addMediaView(
         inflater: LayoutInflater,
         title: String?,
