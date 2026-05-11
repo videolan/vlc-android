@@ -52,6 +52,8 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.PlaylistFilterDelegate
+import java.util.UUID
+import kotlin.collections.toMutableList
 
 class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback {
 
@@ -122,13 +124,18 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     override fun update() {
         service?.run {
+            media.toMutableList().forEach {
+                if (it.tag == null)
+                    it.tag = UUID.randomUUID().toString()
+            }
             if (filtering) {
                 originalDataset = media.toMutableList()
                 filter.sourceSet = originalDataset
                 dataset.value = filter.dataset.value?.toMutableList() ?: media.toMutableList()
                 filterActor.trySend(lastQuery)
-            } else
+            } else {
                 dataset.value = media.toMutableList()
+            }
             playerState.value = PlayerState(isPlaying, title, artist)
         }
     }

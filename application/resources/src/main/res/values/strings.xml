@@ -1452,4 +1452,5 @@
     <string name="old_ui">Switch to old interface</string>
     <string name="new_ui">New interface</string>
     <string name="not_implemented">Not implemented yet</string>
+    <string name="edit_play_queue">Edit play queue</string>
 </resources>
