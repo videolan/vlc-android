@@ -31,6 +31,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -91,6 +92,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
@@ -182,6 +185,11 @@ fun TVAudioPlayer(viewModel: MainActivityViewModel = viewModel()) {
     var queueBackground by remember { mutableFloatStateOf(0F) }
     val density : Density = LocalDensity.current
     val dpValue = with(density){ queueBackground.toInt().toDp() }
+    val editAudioQueue by viewModel.editAudioQueue.collectAsState()
+    val playQueueSize by animateFloatAsState(
+        targetValue = if (editAudioQueue) 0.65f else 0.35f,
+        label = "play_queue_size"
+    )
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -214,15 +222,14 @@ fun TVAudioPlayer(viewModel: MainActivityViewModel = viewModel()) {
                     colorFilter = ColorFilter.tint(Grey900Transparent, BlendMode.SrcAtop)
                 )
             }
-
             Box(
                 modifier = Modifier
                     .height(dpValue)
-                    .fillMaxWidth(0.35F)
+                    .fillMaxWidth(playQueueSize)
                     .background(BlackTransparent50)
                     .align(Alignment.TopEnd),
             ) {
-                AudioPlayQueue()
+            AudioPlayQueue()
             }
 
             Column {
@@ -231,14 +238,14 @@ fun TVAudioPlayer(viewModel: MainActivityViewModel = viewModel()) {
                         .weight(1F)
                         .fillMaxWidth()
                 ) {
-                    Box(Modifier.weight(0.65f)) {
+                Box(Modifier.weight(1f - playQueueSize)) {
                         AudioCover({
                             blurredCover = it
                         })
                     }
                     Box(
                         Modifier
-                            .weight(0.35f)
+                        .weight(playQueueSize)
                     )
                 }
                 Column(Modifier.padding(horizontal = 32.dp)) {
@@ -590,16 +597,22 @@ fun ChapterSwitcher(viewModel: PlaylistModel = viewModel()) {
 fun AudioPlayQueue(viewModel: PlaylistModel = viewModel()) {
     val queue = viewModel.dataset.observeAsState()
     queue.value?.let { queue ->
-        LazyColumn {
-            items(count = queue.size) { index ->
-                AudioPlayerQueueItem(queue, index)
+        LazyColumn(
+            modifier = Modifier
+                .focusGroup()
+        ) {
+            items(count = queue.size, key = { index -> "${queue[index].tag}" }) { index ->
+//                items(count = queue.size, key = { index -> "$index-${queue[index].uri}" }) { index ->
+                Box(modifier = Modifier.animateItem()) {
+                    AudioPlayerQueueItem(queue, index)
+                }
             }
         }
     }
 }
 
 @Composable
-fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel()) {
+fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel = viewModel()) {
     var isFocused by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
@@ -607,24 +620,35 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
     val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
     var expanded by remember { mutableStateOf(false) }
     val invalidationIndex by viewModel.itemInvalidation.collectAsState()
+    val showControls by mainViewModel.editAudioQueue.collectAsState()
     InvalidationComposable(invalidationIndex == index) {
+        val focusRequester = remember { FocusRequester() }
         Row(
             Modifier
                 .onFocusChanged {
-                    isFocused = it.isFocused
+                    isFocused = it.hasFocus
+                }
+                .focusProperties {
+                    //canFocus = !showControls
+                    onExit = {
+                        if (requestedFocusDirection == FocusDirection.Right) {
+                            focusRequester.requestFocus()
+                        }
+                    }
                 }
                 .height(64.dp)
                 .combinedClickable(
+                    enabled = !showControls,
                     onClick = { viewModel.play(index) },
                     onLongClick = {
                         expanded = true
                     },
                     indication = null,
-                    interactionSource = null
+                    interactionSource = remember { MutableInteractionSource() },
                 )
-                .focusable()
+                //.focusable(showControls)
                 .background(
-                    color = if (isFocused) WhiteTransparent10 else Transparent,
+                    color = if (isFocused && !showControls) WhiteTransparent10 else Transparent,
                     shape = RoundedCornerShape(topEnd = 16.dp, bottomEnd = 16.dp)
                 ),
             verticalAlignment = Alignment.CenterVertically
@@ -634,45 +658,47 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                     .padding(8.dp)
                     .size(48.dp), contentAlignment = Alignment.Center
             ) {
-                if (currentMedia.value != item)
-                    if (mapBitmap.value?.second != null) {
+                InvalidationComposable(currentMedia.value?.tag) {
+                    if (viewModel.currentMediaPosition != index)
+                        if (mapBitmap.value?.second != null) {
 
-                        Image(
-                            bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
-                            contentDescription = "Map snapshot",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .aspectRatio(1F)
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource(id = getTvIconRes(item)),
-                            contentDescription = "Map snapshot",
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .aspectRatio(1F)
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .padding(8.dp)
-                        )
-                        LaunchedEffect(key1 = "") {
-                            coroutineScope.launch {
-                                item.let {
-                                    if (item !is DummyItem)
-                                        mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                            Image(
+                                bitmap = mapBitmap.value!!.second!!.asImageBitmap(),
+                                contentDescription = "Map snapshot",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .aspectRatio(1F)
+                            )
+                        } else {
+                            Image(
+                                painter = painterResource(id = getTvIconRes(item)),
+                                contentDescription = "Map snapshot",
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .aspectRatio(1F)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                                    .padding(8.dp)
+                            )
+                            LaunchedEffect(key1 = "") {
+                                coroutineScope.launch {
+                                    item.let {
+                                        if (item !is DummyItem)
+                                            mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                                    }
                                 }
                             }
                         }
-                    }
-                else
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .padding(4.dp)
-                            .background(BackgroundColorDarkTransparent50, RoundedCornerShape(4.dp)), contentAlignment = Alignment.BottomCenter
-                    ) {
-                        MiniVisualizer(MaterialTheme.colorScheme.secondary)
-                    }
+                    else
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(4.dp)
+                                .background(BackgroundColorDarkTransparent50, RoundedCornerShape(4.dp)), contentAlignment = Alignment.BottomCenter
+                        ) {
+                            MiniVisualizer(MaterialTheme.colorScheme.secondary)
+                        }
+                }
             }
             Column(
                 modifier = Modifier
@@ -700,24 +726,51 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                 )
 
             }
-            Row {
-                if (viewModel.service?.playlistManager?.stopAfter == index) {
-                    Icon(
-                        painterResource(R.drawable.ic_stop_after_this),
-                        contentDescription = stringResource(R.string.stop_after_this),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(16.dp),
-                    )
+            if (showControls) {
+                LabeledIconButton(
+                    stringResource(R.string.move_down),
+                    painterResource = painterResource(R.drawable.ic_playlist_movedown),
+                    tint = White
+                ) {
+                    if (index < queue.size - 1)
+                        viewModel.move(index, index + 1)
                 }
-                if (item.isFavorite) {
-                    Icon(
-                        painterResource(R.drawable.ic_favorite),
-                        contentDescription = stringResource(R.string.favorite),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(16.dp),
-                    )
+                LabeledIconButton(
+                    stringResource(R.string.move_up),
+                    painterResource = painterResource(R.drawable.ic_playlist_moveup),
+                    tint = White
+                ) {
+                    if (index > 0)
+                        viewModel.move(index, index - 1)
+                }
+                LabeledIconButton(
+                    stringResource(R.string.remove),
+                    painterResource = painterResource(R.drawable.ic_delete),
+                    tint = White
+                ) {
+                    viewModel.remove(index)
+                }
+            }
+            if (!showControls) {
+                Row {
+                    if (viewModel.service?.playlistManager?.stopAfter == index) {
+                        Icon(
+                            painterResource(R.drawable.ic_stop_after_this),
+                            contentDescription = stringResource(R.string.stop_after_this),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .size(16.dp),
+                        )
+                    }
+                    if (item.isFavorite) {
+                        Icon(
+                            painterResource(R.drawable.ic_favorite),
+                            contentDescription = stringResource(R.string.favorite),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .size(16.dp),
+                        )
+                    }
                 }
             }
 
@@ -906,7 +959,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
 }
 
 @Composable
-fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel()) {
+fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel = viewModel()) {
     var expanded by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
     val context = LocalContext.current
@@ -927,6 +980,10 @@ fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel()) {
                 onDismissRequest = { expanded = false }
             ) {
 
+                ItemOptionsLine(stringResource(R.string.edit_play_queue), R.drawable.ic_tv_browser_jumptoheader) {
+                    mainViewModel.toggleEditAudioQueue()
+                    expanded = false
+                }
                 ItemOptionsLine(stringResource(R.string.sleep_title), R.drawable.ic_sleep) {
                     SleepTimerDialog.newInstance().show((activity as FragmentActivity).supportFragmentManager, "sleep")
                     expanded = false

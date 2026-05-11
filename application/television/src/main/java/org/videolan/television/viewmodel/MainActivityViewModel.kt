@@ -137,6 +137,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private val tabsX = mutableMapOf<String, Int>()
 
 
+    val editAudioQueue = MutableStateFlow(false)
+    fun toggleEditAudioQueue() {
+        editAudioQueue.value = !editAudioQueue.value
+    }
+
     val progress = MutableLiveData<ScanProgress?>(null)
     private var progressJob: Job = viewModelScope.launch {
         MediaParsingService.progress.asFlow().collect {
