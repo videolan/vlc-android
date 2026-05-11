@@ -117,6 +117,12 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     protected final Uri mUri;
     protected String mFilename;
+    /**
+     * Allow setting an arbitrary tag for the media.
+     * Useful when the consumer needs to de-duplicate
+     * multiple occurrences of a media in a list.
+     */
+    protected String mTag;
     protected long mTime = -1;
     protected float mPosition = -1;
     protected long mDisplayTime = 0;
@@ -176,7 +182,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mIsPresent = isPresent;
         init(time, position, length, type, null, title, artistId, albumArtistId, artist, genre, albumId, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
-                trackNumber, discNumber, lastModified, seen, isPresent, null, isFavorite, insertionDate);
+                trackNumber, discNumber, lastModified, seen, isPresent, null, isFavorite, insertionDate, null);
         final StringBuilder sb = new StringBuilder();
         if (type == TYPE_AUDIO) {
             boolean hasArtistMeta = !TextUtils.isEmpty(artist);
@@ -249,7 +255,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     public boolean equals(MediaWrapper obj) {
         long otherId = obj.getId();
-        if (otherId != 0L && getId() != 0L && otherId == getId()) return true;
+        if (otherId != 0L && getId() != 0L && otherId == getId() &&  (mTag == null || obj.getTag().equals(mTag))) return true;
         final Uri otherUri = obj.getUri();
         return !(mUri == null || otherUri == null) && (mUri == otherUri || mUri.equals(otherUri));
     }
@@ -323,7 +329,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     private void init(long time, float position, long length, int type,
                       Bitmap picture, String title, long artistId, long albumArtistId, String artist, String genre, long albumId, String album, String albumArtist,
                       int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
-                      long seen, boolean isPresent, IMedia.Slave[] slaves, boolean isFavorite, long insertionDate) {
+                      long seen, boolean isPresent, IMedia.Slave[] slaves, boolean isFavorite, long insertionDate, String tag) {
         mFilename = null;
         mTime = time;
         mPosition = position;
@@ -353,6 +359,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mSlaves = slaves;
         mIsPresent = isPresent;
         mFavorite = isFavorite;
+        mTag = tag;
     }
 
     public MediaWrapper(Uri uri, long time, float position, long length, int type,
@@ -361,7 +368,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                         int discNumber, long lastModified, long seen, boolean isFavorite, long insertionDate) {
         mUri = uri;
         init(time, position, length, type, picture, title, artistId, albumArtistId, artist, genre, albumId, album, albumArtist,
-                width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, true, null, isFavorite, insertionDate);
+                width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, true, null, isFavorite, insertionDate, null);
     }
 
     @Override
@@ -752,6 +759,14 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         return mIsPresent;
     }
 
+    public void setTag(String tag) {
+        mTag = tag;
+    }
+
+    public String getTag() {
+        return mTag;
+    }
+
     @Nullable
     public IMedia.Slave[] getSlaves() {
         return mSlaves;
@@ -790,7 +805,8 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                 in.readInt() == 1,
                 in.createTypedArray(PSlave.CREATOR),
                 in.readInt() == 1,
-                in.readLong());
+                in.readLong(),
+                in.readString());
     }
 
     @Override
@@ -831,6 +847,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
             dest.writeTypedArray(null, flags);
         dest.writeInt(mFavorite ? 1 : 0);
         dest.writeLong(mInsertionDate);
+        dest.writeString(mTag);
     }
 
     public static final Parcelable.Creator<MediaWrapper> CREATOR = new Parcelable.Creator<MediaWrapper>() {
