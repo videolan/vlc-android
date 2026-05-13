@@ -134,7 +134,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         _currentMediaListEntry.emit(entry)
     }
 
-    private val tabsX = mutableMapOf<String, Int>()
+    private val tabsInfo = mutableMapOf<String, TabInfo>()
 
 
     val editAudioQueue = MutableStateFlow(false)
@@ -165,12 +165,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         workingJob.cancel()
     }
 
-    fun getOffsetForTab(key: String): Int {
-        return tabsX[key] ?: -1
+    fun getTabInfo(key: String): TabInfo? {
+        return tabsInfo[key]
     }
 
-    fun setOffsetForTab(key: String, x: Int) {
-        tabsX[key] = x
+    fun setTabInfo(key: String, info: TabInfo) {
+        tabsInfo[key] = info
     }
 
     /**
@@ -318,3 +318,5 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 data class DisplaySettingsChange(val entry: MediaListEntry, val value: Int)
 
 data class SnackbarContent(val message:String, val duration:SnackbarDuration = SnackbarDuration.Short)
+
+data class TabInfo(val x: Int, val width: Int, val height: Int)
