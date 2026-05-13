@@ -3,6 +3,7 @@ buildscript {
     ext.android_plugin_version = '8.13.2'
     ext.kotlin_version = '2.1.20'
     ext.kotlinx_version = '1.10.2'
+    ext.kotlin_serialization_version = '1.11.0'
     repositories {
         flatDir dirs: "gradle/plugins"
         google()
@@ -20,6 +21,7 @@ buildscript {
 plugins {
     id 'com.google.devtools.ksp' version '2.2.10-2.0.2' apply false
     id 'org.jetbrains.kotlin.plugin.compose' version '2.2.10' apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.20' apply false
 }
 
 allprojects {

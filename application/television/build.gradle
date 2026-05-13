@@ -4,6 +4,7 @@ plugins {
     id 'com.google.devtools.ksp'
     id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.plugin.compose'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -83,6 +84,7 @@ dependencies {
     implementation "androidx.navigation3:navigation3-runtime:1.1.1"
     implementation "androidx.navigation3:navigation3-ui:1.1.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-navigation3:2.10.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$rootProject.ext.kotlin_serialization_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$rootProject.ext.kotlin_serialization_version"
 
 }
