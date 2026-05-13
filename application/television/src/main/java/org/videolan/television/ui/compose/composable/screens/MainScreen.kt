@@ -370,7 +370,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, viewModel: MainActivityView
             VLCTabRow(
                 selectedTabIndex = VideoDestination.entries.indexOf(currentKey.subDestination),
                 modifier = Modifier
-                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .padding(top = 16.dp, start = 8.dp, end = 8.dp)
                     .clip(RoundedCornerShape(50))
                     .background(WhiteTransparent10)
                     .padding(4.dp),
@@ -413,7 +413,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, viewModel: MainActivityView
             VLCTabRow(
                 selectedTabIndex = AudioDestination.entries.indexOf(currentKey.subDestination),
                 modifier = Modifier
-                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .padding(top = 16.dp, start = 8.dp, end = 8.dp)
                     .clip(RoundedCornerShape(50))
                     .background(WhiteTransparent10)
                     .padding(4.dp),
