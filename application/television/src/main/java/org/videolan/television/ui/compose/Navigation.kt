@@ -30,12 +30,12 @@ import kotlinx.serialization.Serializable
 import org.videolan.television.R
 
 @Serializable
-sealed interface MainDestination : NavKey {
-    @Serializable data class Video(val subDestination: VideoDestination = VideoDestination.Videos) : MainDestination
-    @Serializable data class Audio(val subDestination: AudioDestination = AudioDestination.Artists) : MainDestination
-    @Serializable data object Browse : MainDestination
-    @Serializable data object Playlists : MainDestination
-    @Serializable data object More : MainDestination
+sealed class MainDestination(@StringRes val titleRes: Int) : NavKey {
+    @Serializable data class Video(val subDestination: VideoDestination = VideoDestination.Videos) : MainDestination(R.string.video)
+    @Serializable data class Audio(val subDestination: AudioDestination = AudioDestination.Artists) : MainDestination(R.string.audio)
+    @Serializable data object Browse : MainDestination(R.string.browse)
+    @Serializable data object Playlists : MainDestination(R.string.playlists)
+    @Serializable data object More : MainDestination(R.string.more)
 }
 
 @Serializable
