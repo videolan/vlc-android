@@ -224,7 +224,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                     Spacer(modifier = Modifier.weight(1f))
                     Box(modifier = Modifier) {
                         VLCTabRow(
-                            selectedTabIndex = tabs.indexOfFirst { it.first == (backStack.last() as MainDestination).getTitleRes() },
+                            selectedTabIndex = tabs.indexOfFirst { it.first == (backStack.last() as MainDestination).titleRes },
                             onSelected = { index ->
                                 val destination = when (index) {
                                     0 -> MainDestination.Video()
@@ -459,10 +459,3 @@ private fun TabPanels(destination: MainDestination, onFocusExit: () -> Unit, onF
     }
 }
 
-private fun MainDestination.getTitleRes(): Int = when (this) {
-    is MainDestination.Video -> R.string.video
-    is MainDestination.Audio -> R.string.audio
-    MainDestination.Browse -> R.string.browse
-    MainDestination.Playlists -> R.string.playlists
-    MainDestination.More -> R.string.more
-}
