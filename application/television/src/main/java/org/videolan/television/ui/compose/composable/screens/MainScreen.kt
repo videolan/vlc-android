@@ -52,9 +52,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Palette
@@ -85,10 +83,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.launch
 import org.videolan.television.R
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.SearchActivity
+import org.videolan.television.ui.compose.AudioDestination
+import org.videolan.television.ui.compose.MainDestination
+import org.videolan.television.ui.compose.VideoDestination
 import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.DisplaySettings
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
@@ -104,7 +110,9 @@ import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.KEY_MAIN_TAB
+import org.videolan.tools.KEY_VIDEO_TAB
 import org.videolan.tools.Settings
 
 @Composable
@@ -150,7 +158,6 @@ fun MainContent(modifier: Modifier) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val activity = LocalActivity.current
     val settings = Settings.getInstance(context)
@@ -158,10 +165,8 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
     val tabs = viewModel.tabs
     var firstLaunch by remember { mutableStateOf(true) }
     var visible by remember { mutableStateOf(true) }
-    val pagerState = rememberPagerState(
-        initialPage = settings.getInt(KEY_MAIN_TAB, 0),
-        pageCount = { tabs.size }
-    )
+
+    val backStack = rememberNavBackStack(MainDestination.Video())
 
     val duration = 300
     val animatedPadding by animateDpAsState(
@@ -219,15 +224,17 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                     Spacer(modifier = Modifier.weight(1f))
                     Box(modifier = Modifier) {
                         VLCTabRow(
-                            selectedTabIndex = pagerState.currentPage,
+                            selectedTabIndex = tabs.indexOfFirst { it.first == (backStack.last() as MainDestination).getTitleRes() },
                             onSelected = { index ->
-                                if (index == pagerState.currentPage) return@VLCTabRow
-                                coroutineScope.launch {
-                                        try {
-                                            pagerState.animateScrollToPage(index)
-                                        } catch (e: Exception) {
-                                        }
+                                val destination = when (index) {
+                                    0 -> MainDestination.Video()
+                                    1 -> MainDestination.Audio()
+                                    2 -> MainDestination.Browse
+                                    3 -> MainDestination.Playlists
+                                    else -> MainDestination.More
                                 }
+                                backStack.clear()
+                                backStack.add(destination)
                                 settings.edit { putInt(KEY_MAIN_TAB, index) }
                             },
                             modifier = Modifier
@@ -317,36 +324,145 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                 }
             }
         }
-        VLCContentPanel(pagerState) {
+        if (visible) {
+            SubTabs(backStack)
+        }
+        VLCContentPanel(backStack) {
             visible = it
         }
     }
 }
 
 @Composable
-private fun VLCContentPanel(pagerState: PagerState, modifier: Modifier = Modifier, onVisibleChange: (Boolean) -> Unit) {
-    HorizontalPager(
-        pagerState,
-        userScrollEnabled = false,
-        verticalAlignment = Alignment.Top,
-        modifier = modifier
-            .padding(top = 16.dp)
-            .fillMaxSize()
-    ) { page ->
-        TabPanels(
-            page,
-            onFocusExit = { onVisibleChange(true) },
-            onFocusEnter = { onVisibleChange(false) })
+private fun SubTabs(backStack: NavBackStack<NavKey>, viewModel: MainActivityViewModel = viewModel()) {
+    val currentKey = backStack.lastOrNull() as? MainDestination ?: return
+    val context = LocalContext.current
+    val settings = Settings.getInstance(context)
+
+    when (currentKey) {
+        is MainDestination.Video -> {
+            val videoTabs = viewModel.videoTabs
+            VLCTabRow(
+                selectedTabIndex = VideoDestination.entries.indexOf(currentKey.subDestination),
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .clip(RoundedCornerShape(50))
+                    .background(WhiteTransparent10)
+                    .padding(4.dp),
+                onSelected = { index ->
+                    val newDest = MainDestination.Video(VideoDestination.entries[index])
+                    backStack.clear()
+                    backStack.add(newDest)
+                    settings.edit { putInt(KEY_VIDEO_TAB, index) }
+                },
+                tabNumber = videoTabs.size,
+                indicator = { hasFocus ->
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
+                    )
+                },
+                key = "video_sub",
+                getTab = { index, focused ->
+                    val tab = videoTabs[index]
+                    val animatedColor by animateColorAsState(
+                        targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.6F),
+                        label = "color"
+                    )
+                    Text(
+                        text = stringResource(tab),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = animatedColor,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .height(24.dp)
+                            .wrapContentHeight(Alignment.CenterVertically)
+                    )
+                }
+            )
+        }
+
+        is MainDestination.Audio -> {
+            val audioTabs = viewModel.audioTabs
+            VLCTabRow(
+                selectedTabIndex = AudioDestination.entries.indexOf(currentKey.subDestination),
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .clip(RoundedCornerShape(50))
+                    .background(WhiteTransparent10)
+                    .padding(4.dp),
+                onSelected = { index ->
+                    val newDest = MainDestination.Audio(AudioDestination.entries[index])
+                    backStack.clear()
+                    backStack.add(newDest)
+                    settings.edit { putInt(KEY_AUDIO_TAB, index) }
+                },
+                tabNumber = audioTabs.size,
+                indicator = { hasFocus ->
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
+                    )
+                },
+                key = "audio_sub",
+                getTab = { index, focused ->
+                    val tab = audioTabs[index]
+                    val animatedColor by animateColorAsState(
+                        targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.6F),
+                        label = "color"
+                    )
+                    Text(
+                        text = stringResource(tab),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = animatedColor,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .height(24.dp)
+                            .wrapContentHeight(Alignment.CenterVertically)
+                    )
+                }
+            )
+        }
+
+        else -> {}
     }
 }
 
 @Composable
-private fun TabPanels(pagerState: Int, onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MainActivityViewModel = viewModel()) {
-    when (viewModel.tabs[pagerState].first) {
-        R.string.video -> VideoListScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
-        R.string.audio -> AudioListScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
-        R.string.browse -> BrowseList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
-        R.string.playlists -> PlaylistsList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
+private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier = Modifier, onVisibleChange: (Boolean) -> Unit) {
+    NavDisplay(
+        backStack = backStack,
+        modifier = modifier
+            .padding(top = 16.dp)
+            .fillMaxSize()
+    ) { destination ->
+        NavEntry(destination) { destinationKey ->
+            TabPanels(
+                destinationKey as MainDestination,
+                onFocusExit = { onVisibleChange(true) },
+                onFocusEnter = { onVisibleChange(false) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun TabPanels(destination: MainDestination, onFocusExit: () -> Unit, onFocusEnter: () -> Unit) {
+    when (destination) {
+        is MainDestination.Video -> VideoListScreen(subDestination = destination.subDestination, onFocusExit = onFocusExit, onFocusEnter = onFocusEnter)
+        is MainDestination.Audio -> AudioListScreen(subDestination = destination.subDestination, onFocusExit = onFocusExit, onFocusEnter = onFocusEnter)
+        MainDestination.Browse -> BrowseList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
+        MainDestination.Playlists -> PlaylistsList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         else -> MoreScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
     }
+}
+
+private fun MainDestination.getTitleRes(): Int = when (this) {
+    is MainDestination.Video -> R.string.video
+    is MainDestination.Audio -> R.string.audio
+    MainDestination.Browse -> R.string.browse
+    MainDestination.Playlists -> R.string.playlists
+    MainDestination.More -> R.string.more
 }
