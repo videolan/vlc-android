@@ -106,14 +106,14 @@ fun VideoGroupScreenContent(modifier: Modifier, folder: Folder? = null, group : 
                         top = 16.dp,
                         start = 24.dp,
                         end = 24.dp
-                    ), folder= folder)
+                    ), folder= folder, onFocusExit = {}, onFocusEnter = {})
             else
                 VideoList(modifier
                     .padding(
                         top = 16.dp,
                         start = 24.dp,
                         end = 24.dp
-                    ), group = group)
+                    ), group = group, onFocusExit = {}, onFocusEnter = {})
             Tabs(modifier = Modifier.weight(1f))
         }
     }
