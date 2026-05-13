@@ -77,6 +77,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -166,7 +167,24 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
     var firstLaunch by remember { mutableStateOf(true) }
     var visible by remember { mutableStateOf(true) }
 
-    val backStack = rememberNavBackStack(MainDestination.Video())
+    val savedTab = settings.getInt(KEY_MAIN_TAB, 0)
+    val initialDestination = remember {
+        when (savedTab) {
+            1 -> {
+                val audioTabIndex = settings.getInt(KEY_AUDIO_TAB, 0)
+                MainDestination.Audio(AudioDestination.entries.getOrElse(audioTabIndex) { AudioDestination.Artists })
+            }
+            2 -> MainDestination.Browse
+            3 -> MainDestination.Playlists
+            4 -> MainDestination.More
+            else -> {
+                val videoTabIndex = settings.getInt(KEY_VIDEO_TAB, 0)
+                MainDestination.Video(VideoDestination.entries.getOrElse(videoTabIndex) { VideoDestination.Videos })
+            }
+        }
+    }
+
+    val backStack = rememberNavBackStack(initialDestination)
 
     val duration = 300
     val animatedPadding by animateDpAsState(
@@ -224,11 +242,17 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                     Spacer(modifier = Modifier.weight(1f))
                     Box(modifier = Modifier) {
                         VLCTabRow(
-                            selectedTabIndex = tabs.indexOfFirst { it.first == (backStack.last() as MainDestination).titleRes },
+                            selectedTabIndex = tabs.indexOfFirst { it.first == (backStack.lastOrNull() as? MainDestination)?.titleRes },
                             onSelected = { index ->
                                 val destination = when (index) {
-                                    0 -> MainDestination.Video()
-                                    1 -> MainDestination.Audio()
+                                    0 -> {
+                                        val videoTabIndex = settings.getInt(KEY_VIDEO_TAB, 0)
+                                        MainDestination.Video(VideoDestination.entries.getOrElse(videoTabIndex) { VideoDestination.Videos })
+                                    }
+                                    1 -> {
+                                        val audioTabIndex = settings.getInt(KEY_AUDIO_TAB, 0)
+                                        MainDestination.Audio(AudioDestination.entries.getOrElse(audioTabIndex) { AudioDestination.Artists })
+                                    }
                                     2 -> MainDestination.Browse
                                     3 -> MainDestination.Playlists
                                     else -> MainDestination.More
@@ -309,6 +333,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .onFocusChanged { if (it.isFocused) visible = true }
                         .focusable(true)
                 ) {
                     Icon(
