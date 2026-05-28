@@ -226,7 +226,7 @@ init_local_props() {
     total_sdk_count=`grep -c "${sdk_line_start}" "$1"`
     good_sdk_count=`grep -c "${sdk_line_start}${android_sdk_regex}\$" "$1"`
     # check for lines setting the NDK directory
-    ndk_line_start="^ndk\.dir="
+    ndk_line_start="^android\.ndkPath="
     total_ndk_count=`grep -c "${ndk_line_start}" "$1"`
     good_ndk_count=`grep -c "${ndk_line_start}${android_ndk_regex}\$" "$1"`
     # if one of each is found and both match the environment vars, no action needed
