@@ -21,11 +21,14 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.os.Vibrator
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
@@ -95,6 +98,7 @@ import org.videolan.tools.setGone
 import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.HeaderMediaListActivity
@@ -178,6 +182,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private var isDragging = false
     private var currentChapters: Pair<MediaWrapper,  List<MediaPlayer.Chapter>?>? = null
     private lateinit var callback: SwipeDragItemTouchHelperCallback
+
+    private val isInteractive: Boolean
+        @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+        get() {
+            val pm = requireContext().getSystemService<PowerManager>()!!
+            return if (VlcMigrationHelper.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -400,7 +411,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 if ( !forceRestoreVideo && restoreVideoTipCount < 4) {
                     UiTools.snacker(requireActivity(), R.string.return_to_video)
                     settings.putSingle(PREF_RESTORE_VIDEO_TIPS_SHOWN, restoreVideoTipCount + 1)
-                } else if (forceRestoreVideo && !PlaylistManager.playingAsAudio) {
+                } else if (forceRestoreVideo && !PlaylistManager.playingAsAudio && isInteractive) {
                     onResumeToVideoClick()
                 }
         }
