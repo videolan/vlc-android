@@ -255,7 +255,11 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
 
     public boolean equals(MediaWrapper obj) {
         long otherId = obj.getId();
-        if (otherId != 0L && getId() != 0L && otherId == getId() &&  (mTag == null || obj.getTag().equals(mTag))) return true;
+        if (
+                otherId != 0L && getId() != 0L
+                        && otherId == getId()
+                        && ((mTag == null && obj.getTag() == null) || (obj.getTag() != null && obj.getTag().equals(mTag)))
+        ) return true;
         final Uri otherUri = obj.getUri();
         return !(mUri == null || otherUri == null) && (mUri == otherUri || mUri.equals(otherUri));
     }
