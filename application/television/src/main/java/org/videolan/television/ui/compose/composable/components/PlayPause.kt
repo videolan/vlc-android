@@ -30,11 +30,9 @@ import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import org.videolan.vlc.R
 
@@ -47,6 +45,7 @@ fun PlayPause(click: ()-> Unit, atEnd: Boolean = false) {
         modifier = Modifier.clickable {
             click()
         },
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.Crop,
+        colorFilter = ColorFilter.tint(Color.White)
     )
 }
