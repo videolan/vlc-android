@@ -145,6 +145,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                     )
                 }
                 val playlistsViewModel: PlaylistsViewModel = viewModel(
+                    key = "PlaylistsViewModel_${entry.name}",
                     factory = PlaylistsViewModel.Factory,
                     extras = extras,
                 )
