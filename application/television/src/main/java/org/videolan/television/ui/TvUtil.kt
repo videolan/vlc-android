@@ -29,6 +29,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore.Video.VideoColumns.CATEGORY
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -46,6 +47,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_GENRES
 import org.videolan.resources.HEADER_ADD_STREAM
 import org.videolan.resources.HEADER_CATEGORIES
 import org.videolan.resources.HEADER_DIRECTORIES
@@ -295,6 +297,9 @@ object TvUtil {
                 intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                 context.startActivity(intent)
+            }
+            MediaLibraryItem.TYPE_GENRE -> {
+                Toast.makeText(context, context.getString(R.string.not_implemented), Toast.LENGTH_SHORT).show()
             }
             else -> {
                 val intent = Intent(context, BrowserActivity::class.java)
