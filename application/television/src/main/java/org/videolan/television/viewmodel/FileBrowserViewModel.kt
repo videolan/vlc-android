@@ -54,7 +54,7 @@ class FileBrowserViewModel(app: Application) : AndroidViewModel(app) {
     fun popBackStack(): Boolean {
         var popped = false
         if (backStack.isNotEmpty()) {
-            val entry = backStack.removeLast()
+            val entry = backStack.removeLastOrNull()
             popped = true
             viewModelScope.launch {
                 _currentPathEntry.emit(entry)
