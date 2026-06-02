@@ -35,6 +35,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AndroidDevices
@@ -68,6 +71,12 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     var presetToDelete:EqualizerWithBands? = null
     private var oldEqualizer: EqualizerWithBands? = null
 
+    private val preampFlow = MutableSharedFlow<Float>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+
     val equalizerUnfilteredEntries = equalizerRepository.equalizerEntriesUnfiltered.asLiveData()
     val equalizerEntries = MediatorLiveData<List<EqualizerWithBands>>().apply {
         addSource(equalizerUnfilteredEntries) {
@@ -92,6 +101,19 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
     init {
         viewModelScope.launch(Dispatchers.IO) {
             currentEqualizerId = equalizerRepository.getCurrentEqualizer(context).equalizerEntry.id
+        }
+        // Collect the preamp values and limit the update to once every 100ms to prevent visual lag and too much room calls
+        viewModelScope.launch(Dispatchers.IO) {
+            preampFlow.collect { f ->
+                val currentEqualizer = equalizerEntries.value?.firstOrNull { it.equalizerEntry.id == currentEqualizerId }
+                if (currentEqualizer != null && currentEqualizer.equalizerEntry.preamp != f) {
+                    equalizerRepository.addOrUpdateEqualizerWithBands(
+                        context,
+                        currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(preamp = f).apply { id = currentEqualizer.equalizerEntry.id })
+                    )
+                }
+                delay(100)
+            }
         }
     }
 
@@ -139,12 +161,8 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
         return equalizerEntries.value!!.first { it.equalizerEntry.id == currentEqualizerId }
     }
 
-    fun updateCurrentPreamp(context: Context, f: Float) = viewModelScope.launch(Dispatchers.IO) {
-        val currentEqualizer = getCurrentEqualizer()
-        equalizerRepository.addOrUpdateEqualizerWithBands(
-            context,
-            currentEqualizer.copy(equalizerEntry = currentEqualizer.equalizerEntry.copy(preamp = f).apply { id = currentEqualizer.equalizerEntry.id })
-        )
+    fun updateCurrentPreamp(f: Float) {
+        preampFlow.tryEmit(f)
     }
 
     fun updateEqualizerBands(context: Context, bands: List<EqualizerBand>) = viewModelScope.launch(Dispatchers.IO) {

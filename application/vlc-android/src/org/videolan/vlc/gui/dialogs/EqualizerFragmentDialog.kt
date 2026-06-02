@@ -376,7 +376,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
     override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
         if (!fromUser) return
         viewModel.saveInHistory(-1)
-        viewModel.updateCurrentPreamp(requireActivity(), binding.equalizerPreamp.value)
+        viewModel.updateCurrentPreamp(binding.equalizerPreamp.value)
     }
 
 
