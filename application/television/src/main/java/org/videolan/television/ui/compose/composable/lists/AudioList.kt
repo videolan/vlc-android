@@ -187,7 +187,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
             when (item) {
                 is Artist -> TvUtil.openAudioCategory(activity, item)
                 is Album -> TvUtil.openAudioCategory(activity, item)
-                is Genre -> TvUtil.openAudioCategory(activity, item)
+                is Genre -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
                 is Playlist -> TvUtil.openAudioCategory(activity, item)
                 else -> {
                     when (DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(settings)) {
