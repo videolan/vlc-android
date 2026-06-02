@@ -25,20 +25,28 @@
 package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme.Companion.defaultRippleAlpha
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.RippleConfiguration
+import androidx.compose.material3.RippleDefaults
+import androidx.compose.material3.RippleDefaults.RippleAlpha
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,7 +77,7 @@ fun LabeledIconButton(
     modifier: Modifier = Modifier,
     vectorImage: ImageVector? = null,
     painterResource: Painter? = null,
-    customImage: (@Composable () -> Unit)? = null,
+    customImage: (@Composable (tint: Color) -> Unit)? = null,
     tint: Color? = null,
     onClick: () -> Unit
 ) {
@@ -89,28 +97,44 @@ fun LabeledIconButton(
         },
         state = rememberTooltipState()
     ) {
-        IconButton(
-            onClick = onClick,
-            modifier = modifier
-                .onFocusChanged{
-                    hasFocus = it.hasFocus
-                }
+        val defaultRippleAlpha = RippleAlpha
+        CompositionLocalProvider(
+            LocalRippleConfiguration provides RippleConfiguration(
+                rippleAlpha = RippleAlpha(
+                    pressedAlpha = defaultRippleAlpha.pressedAlpha,
+                    draggedAlpha = defaultRippleAlpha.draggedAlpha,
+                    focusedAlpha = 0f,
+                    hoveredAlpha = defaultRippleAlpha.hoveredAlpha,
+                )
+            ),
         ) {
-            if (customImage != null) {
-                customImage()
-            } else if (vectorImage != null)
-                Icon(
-                    imageVector = vectorImage,
-                    tint = tint ?: if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F),
-                    contentDescription = label,
-                )
-            else
-                Icon(
-                    painter = painterResource!!,
-                    modifier = Modifier.size(24.dp),
-                    tint = tint ?: if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F),
-                    contentDescription = label,
-                )
+            IconButton(
+                onClick = onClick,
+                modifier = modifier
+                    .background(color = if (hasFocus) MaterialTheme.colorScheme.primary.copy(0.4F) else Color.Transparent, shape = CircleShape)
+                    .onFocusChanged {
+                        hasFocus = it.hasFocus
+                    },
+                colors = IconButtonDefaults.iconButtonVibrantColors()
+            ) {
+                val color = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F)
+
+                if (customImage != null) {
+                    customImage(color)
+                } else if (vectorImage != null)
+                    Icon(
+                        imageVector = vectorImage,
+                        tint = tint ?: color,
+                        contentDescription = label,
+                    )
+                else
+                    Icon(
+                        painter = painterResource!!,
+                        modifier = Modifier.size(24.dp),
+                        tint = tint ?: color,
+                        contentDescription = label,
+                    )
+            }
         }
 
     }

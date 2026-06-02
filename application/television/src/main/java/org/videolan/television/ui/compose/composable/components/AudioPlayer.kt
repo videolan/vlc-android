@@ -35,6 +35,7 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -220,29 +221,29 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     .fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.weight(1F))
-                IconButton(
-                    onClick = {
-                        playlistModel.jump(forward = false, long = false, activity!!)
-                    },
-                ) {
-                    Icon(
-                        painterResource(R.drawable.ic_player_rewind_10),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        contentDescription = stringResource(R.string.previous),
-                    )
-                    Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp)
-                }
-                IconButton(
-                    onClick = {
-                        playlistModel.jump(forward = true, long = false, activity!!)
+                LabeledIconButton(stringResource(R.string.talkback_action_rewind, Settings.audioJumpDelay), painterResource = painterResource(R.drawable.ic_player_rewind_10), customImage = {  tint ->
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            painterResource(R.drawable.ic_player_rewind_10),
+                            contentDescription = stringResource(R.string.talkback_action_rewind, Settings.audioJumpDelay),
+                            tint = tint
+                        )
+                        Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp, color = tint)
                     }
-                ) {
-                    Icon(
-                        painterResource(R.drawable.ic_player_forward_10),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        contentDescription = stringResource(R.string.pause),
-                    )
-                    Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp)
+                }) {
+                    playlistModel.jump(forward = false, long = false, activity!!)
+                }
+                LabeledIconButton(stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay), painterResource = painterResource(R.drawable.ic_player_forward_10), customImage = {  tint ->
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            painterResource(R.drawable.ic_player_forward_10),
+                            contentDescription = stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay),
+                            tint = tint
+                        )
+                        Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp, color = tint)
+                    }
+                }) {
+                    playlistModel.jump(forward = true, long = false, activity!!)
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
@@ -275,46 +276,47 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     .fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.weight(1F))
-                IconButton(
-                    onClick = {
-                        playlistModel.previous()
-                    },
+                LabeledIconButton(
+                    label = stringResource(R.string.previous),
+                    painterResource = painterResource(R.drawable.ic_previous),
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .focusRequester(focusRequester = focusRequester),
                 ) {
-                    Icon(
-                        painterResource(R.drawable.ic_previous),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        contentDescription = stringResource(R.string.previous),
-                    )
+                    playlistModel.previous()
                 }
-                IconButton(
-                    onClick = {
-                        playlistModel.togglePlayPause()
-                    },
-                    modifier = Modifier.focusRequester(focusRequester = focusRequester)
-                ) {
-                    if (playerState.value?.playing == true)
-                        Icon(
-                            painterResource(R.drawable.ic_pause_player),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            contentDescription = stringResource(R.string.pause),
-                        )
-                    else
-                        Icon(
-                            painterResource(R.drawable.ic_play_player),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            contentDescription = stringResource(R.string.play),
-                        )
+
+                val playPauseString = if (playerState.value?.playing == true) stringResource(R.string.pause) else stringResource(R.string.play)
+                LabeledIconButton(
+                    playPauseString,
+                    painterResource = painterResource(R.drawable.ic_player_forward_10),
+                    modifier = Modifier.focusRequester(focusRequester = focusRequester).padding(vertical = 4.dp),
+                    customImage = { tint ->
+                        Box(contentAlignment = Alignment.Center) {
+                            if (playerState.value?.playing == true)
+                                Icon(
+                                    painterResource(R.drawable.ic_pause_player),
+                                    tint = tint,
+                                    contentDescription = stringResource(R.string.pause),
+                                )
+                            else
+                                Icon(
+                                    painterResource(R.drawable.ic_play_player),
+                                    tint = tint,
+                                    contentDescription = stringResource(R.string.play),
+                                )
+                        }
+                    }) {
+                    playlistModel.togglePlayPause()
                 }
-                IconButton(
-                    onClick = {
-                        playlistModel.next()
-                    },
+                LabeledIconButton(
+                    label = stringResource(R.string.next),
+                    painterResource = painterResource(R.drawable.ic_next),
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .focusRequester(focusRequester = focusRequester),
                 ) {
-                    Icon(
-                        painterResource(R.drawable.ic_next),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        contentDescription = stringResource(R.string.next),
-                    )
+                    playlistModel.next()
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
