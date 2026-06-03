@@ -34,8 +34,11 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.view.children
+import androidx.core.view.isEmpty
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -53,7 +56,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.dp
 import org.videolan.tools.isStarted
 import org.videolan.tools.setGone
-import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogEqualizerBinding
 import org.videolan.vlc.gui.EqualizerSettingsActivity
@@ -65,12 +67,10 @@ import org.videolan.vlc.mediadb.models.EqualizerBand
 import org.videolan.vlc.mediadb.models.EqualizerWithBands
 import org.videolan.vlc.repository.EqualizerRepository
 import org.videolan.vlc.viewmodels.EqualizerViewModel
+import org.videolan.vlc.viewmodels.EqualizerViewModel.Companion.currentEqualizerIdLive
 import org.videolan.vlc.viewmodels.EqualizerViewModelFactory
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
-import androidx.core.view.isEmpty
-import androidx.core.view.isNotEmpty
-import org.videolan.vlc.viewmodels.EqualizerViewModel.Companion.currentEqualizerIdLive
 
 
 /**
@@ -165,7 +165,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
         binding.equalizerSettings.setOnClickListener {
             if (requireActivity() is VideoPlayerActivity)
-                UiTools.snackerConfirm(requireActivity(), getString(R.string.equalizer_leave_warning), forcedView = binding.contextMenuItemSnackbarHost) {
+                showSnackOrDialog(getString(R.string.equalizer_leave_warning)) {
                     startActivity(Intent(requireActivity(), EqualizerSettingsActivity::class.java))
                 }
             else
@@ -189,7 +189,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             } else {
                 getString(R.string.confirm_delete_vlc_eq)
             }
-            UiTools.snackerConfirm(requireActivity(), message, forcedView = binding.contextMenuItemSnackbarHost) {
+            showSnackOrDialog(message) {
                 viewModel.deleteEqualizer(requireActivity())
             }
         }
@@ -213,6 +213,24 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         })
         updateEnabledState()
 
+    }
+
+    private fun showSnackOrDialog(message: String, listener: () -> Unit) {
+        if (!Settings.showTvUi)
+            UiTools.snackerConfirm(requireActivity(), message, forcedView = binding.contextMenuItemSnackbarHost, action = listener)
+        else {
+            AlertDialog.Builder(requireActivity())
+                .setTitle(R.string.equalizer)
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    listener()
+                }
+                .setNegativeButton(R.string.cancel) { _, _ ->
+
+                }
+                .show()
+        }
     }
 
     private fun fillPreamp() {
