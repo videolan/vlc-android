@@ -34,7 +34,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.ComponentDialog
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.edit
 import androidx.core.view.children
 import androidx.core.view.isEmpty
@@ -104,8 +105,26 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         return binding.root
     }
 
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (handleBack()) return
+            dismiss()
+        }
+    }
+
+    private fun handleBack(): Boolean {
+        if (eqBandsViews.any { it.hasFocus() }) {
+            binding.equalizerPresets.children.forEach {
+                if ((it as Chip).isChecked) it.requestFocus()
+            }
+            return true
+        }
+        return false
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (dialog as? ComponentDialog)?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
         if (requireActivity() is EqualizerSettingsActivity) {
             binding.equalizerSettings.setGone()
         }
