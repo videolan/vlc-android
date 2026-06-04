@@ -165,7 +165,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
         binding.equalizerSettings.setOnClickListener {
             if (requireActivity() is VideoPlayerActivity)
-                showSnackOrDialog(getString(R.string.equalizer_leave_warning)) {
+                UiTools.showSnackOrDialog(requireActivity(), R.string.equalizer,getString(R.string.equalizer_leave_warning), binding.contextMenuItemSnackbarHost) {
                     startActivity(Intent(requireActivity(), EqualizerSettingsActivity::class.java))
                 }
             else
@@ -189,7 +189,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             } else {
                 getString(R.string.confirm_delete_vlc_eq)
             }
-            showSnackOrDialog(message) {
+            UiTools.showSnackOrDialog(requireActivity(),R.string.equalizer, message, binding.contextMenuItemSnackbarHost) {
                 viewModel.deleteEqualizer(requireActivity())
             }
         }
@@ -213,24 +213,6 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
         })
         updateEnabledState()
 
-    }
-
-    private fun showSnackOrDialog(message: String, listener: () -> Unit) {
-        if (!Settings.showTvUi)
-            UiTools.snackerConfirm(requireActivity(), message, forcedView = binding.contextMenuItemSnackbarHost, action = listener)
-        else {
-            AlertDialog.Builder(requireActivity())
-                .setTitle(R.string.equalizer)
-                .setMessage(message)
-                .setCancelable(true)
-                .setPositiveButton(R.string.ok) { _, _ ->
-                    listener()
-                }
-                .setNegativeButton(R.string.cancel) { _, _ ->
-
-                }
-                .show()
-        }
     }
 
     private fun fillPreamp() {

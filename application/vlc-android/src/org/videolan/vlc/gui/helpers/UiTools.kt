@@ -426,6 +426,24 @@ object UiTools {
         snack.show()
     }
 
+    fun showSnackOrDialog(activity: Activity, @StringRes title: Int, message: String, forcedView: View?, listener: () -> Unit) {
+        if (!Settings.showTvUi)
+            snackerConfirm(activity, message, forcedView = forcedView, action = listener)
+        else {
+            AlertDialog.Builder(activity)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    listener()
+                }
+                .setNegativeButton(R.string.cancel) { _, _ ->
+
+                }
+                .show()
+        }
+    }
+
     /**
      * Get a resource id from an attribute id.
      *
