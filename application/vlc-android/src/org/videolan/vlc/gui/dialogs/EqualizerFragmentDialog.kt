@@ -241,7 +241,8 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
             chip.text = item.equalizerEntry.name
             chip.tag = item.equalizerEntry.id
             chip.isCheckable = true
-            chip.nextFocusDownId = if (item.equalizerEntry.presetIndex == -1) R.id.edit else R.id.preset_title_edit
+            val isCurrentCustom = viewModel.isCurrentEqCustom()
+            chip.nextFocusDownId = if (!isCurrentCustom) R.id.edit else R.id.preset_title_edit
             if (item.equalizerEntry.presetIndex == -1) chip.setChipBackgroundColorResource(R.color.orange_800_transparent_10)
             if (item.equalizerEntry.id == viewModel.currentEqualizerId) {
                 selectedChip = chip
@@ -256,6 +257,10 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
                 fillBands()
                 selectPreset()
                 oldCurrentEqualizer = viewModel.getCurrentEqualizer()
+                val isCurrentCustom = viewModel.isCurrentEqCustom()
+                binding.equalizerPresets.children.forEach {
+                    it.nextFocusDownId = if (!isCurrentCustom) R.id.edit else R.id.preset_title_edit
+                }
             }
             binding.equalizerPresets.addView(chip)
         }

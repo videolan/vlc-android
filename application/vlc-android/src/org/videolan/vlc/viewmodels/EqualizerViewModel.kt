@@ -91,6 +91,9 @@ class EqualizerViewModel(context: Context, private val equalizerRepository: Equa
             currentEqualizerIdLive.postValue(value)
         }
 
+    fun isCurrentEqCustom() =
+        equalizerEntries.value?.firstOrNull { it.equalizerEntry.id == currentEqualizerId }?.equalizerEntry?.presetIndex == -1
+
     fun updateEqualizer() {
         if (!settings.getBoolean(KEY_EQUALIZER_ENABLED, false))
             PlaybackService.equalizer.value = MediaPlayer.Equalizer.create()
