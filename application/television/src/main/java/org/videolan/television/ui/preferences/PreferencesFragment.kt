@@ -51,6 +51,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.VIDEO_RESUME_PLAYBACK
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.EqualizerSettingsActivity
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.SecondaryActivity
@@ -116,6 +117,10 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                     startActivityForResult(intent, 0)
                     true
                 } else super.onPreferenceTreeClick(preference)
+            }
+            "equalizer" -> {
+                startActivity(Intent(context.applicationContext, EqualizerSettingsActivity::class.java))
+                true
             }
             AUDIO_RESUME_PLAYBACK -> {
 
