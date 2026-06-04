@@ -94,7 +94,7 @@ class EqualizerFragmentDialog : VLCBottomSheetDialogFragment(), Slider.OnChangeL
 
     override fun needToManageOrientation() = true
 
-    override fun initialFocusedView(): View = binding.equalizerContainer
+    override fun initialFocusedView(): View = binding.equalizerButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
