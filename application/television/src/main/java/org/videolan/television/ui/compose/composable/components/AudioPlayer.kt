@@ -105,7 +105,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
     val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
     var sliderPosition by remember { mutableFloatStateOf(0f) }
     sliderPosition = ((progress.value?.time ?: 0).toFloat() / (progress.value?.length ?: 1)).coerceIn(0F, 1F)
-    val focusRequester = remember { FocusRequester() }
+    val playPauseFocusRequester = remember { FocusRequester() }
 
     AnimatedVisibility(
         visible.value == true,
@@ -134,7 +134,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                 )
                 .focusProperties {
                     onEnter = {
-                        focusRequester.requestFocus()
+                        playPauseFocusRequester.requestFocus()
                     }
                 }
                 .focusGroup(),
@@ -145,8 +145,6 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                 LabeledIconButton(
                     label = stringResource(R.string.stop),
                     vectorImage = Icons.Outlined.Close,
-                    modifier = Modifier
-                        .focusRequester(focusRequester = focusRequester),
                 ) {
                     MediaUtils.stop(activity!!)
                 }
@@ -280,8 +278,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     label = stringResource(R.string.previous),
                     painterResource = painterResource(R.drawable.ic_previous),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
-                        .focusRequester(focusRequester = focusRequester),
+                        .padding(vertical = 4.dp),
                 ) {
                     playlistModel.previous()
                 }
@@ -290,7 +287,9 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                 LabeledIconButton(
                     playPauseString,
                     painterResource = painterResource(R.drawable.ic_player_forward_10),
-                    modifier = Modifier.focusRequester(focusRequester = focusRequester).padding(vertical = 4.dp),
+                    modifier = Modifier
+                        .focusRequester(focusRequester = playPauseFocusRequester)
+                        .padding(vertical = 4.dp),
                     customImage = { tint ->
                         Box(contentAlignment = Alignment.Center) {
                             if (playerState.value?.playing == true)
@@ -313,8 +312,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
                     label = stringResource(R.string.next),
                     painterResource = painterResource(R.drawable.ic_next),
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
-                        .focusRequester(focusRequester = focusRequester),
+                        .padding(vertical = 4.dp),
                 ) {
                     playlistModel.next()
                 }
@@ -322,8 +320,8 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
             }
 
         }
-        LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
+        LaunchedEffect(visible.value) {
+            if (visible.value == true) playPauseFocusRequester.requestFocus()
         }
     }
 }
