@@ -601,11 +601,12 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel()) {
     val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
     val listState = rememberLazyListState()
     val currentItemFocusRequester = remember { FocusRequester() }
+    var columnHeight by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(currentMedia.value) {
         val position = viewModel.currentMediaPosition
         if (position != -1) {
-            listState.animateScrollToItem(position)
+            listState.animateScrollToItem(position, -columnHeight / 2 + 32)
         }
     }
 
@@ -616,6 +617,9 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel()) {
                 .focusGroup()
                 .focusProperties {
                     onEnter = { currentItemFocusRequester.requestFocus() }
+                }
+                .onGloballyPositioned {
+                    columnHeight = it.size.height
                 }
         ) {
             items(count = queue.size, key = { index -> "${queue[index].tag}" }) { index ->
