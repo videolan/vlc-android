@@ -61,6 +61,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -94,6 +95,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
@@ -596,15 +598,29 @@ fun ChapterSwitcher(viewModel: PlaylistModel = viewModel()) {
 @Composable
 fun AudioPlayQueue(viewModel: PlaylistModel = viewModel()) {
     val queue = viewModel.dataset.observeAsState()
+    val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
+    val listState = rememberLazyListState()
+    val currentItemFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(currentMedia.value) {
+        val position = viewModel.currentMediaPosition
+        if (position != -1) {
+            listState.animateScrollToItem(position)
+        }
+    }
+
     queue.value?.let { queue ->
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .focusGroup()
+                .focusProperties {
+                    onEnter = { currentItemFocusRequester.requestFocus() }
+                }
         ) {
             items(count = queue.size, key = { index -> "${queue[index].tag}" }) { index ->
-//                items(count = queue.size, key = { index -> "$index-${queue[index].uri}" }) { index ->
                 Box(modifier = Modifier.animateItem()) {
-                    AudioPlayerQueueItem(queue, index)
+                    AudioPlayerQueueItem(queue, index, focusRequester = if (index == viewModel.currentMediaPosition) currentItemFocusRequester else null)
                 }
             }
         }
@@ -612,7 +628,7 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel()) {
 }
 
 @Composable
-fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel = viewModel()) {
+fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel = viewModel(), focusRequester: FocusRequester? = null) {
     var isFocused by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
@@ -622,9 +638,11 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
     val invalidationIndex by viewModel.itemInvalidation.collectAsState()
     val showControls by mainViewModel.editAudioQueue.collectAsState()
     InvalidationComposable(invalidationIndex == index) {
-        val focusRequester = remember { FocusRequester() }
+        val localFocusRequester = remember { FocusRequester() }
+        val itemFocusRequester = focusRequester ?: localFocusRequester
         Row(
             Modifier
+                .focusRequester(itemFocusRequester)
                 .onFocusChanged {
                     isFocused = it.hasFocus
                 }
@@ -632,7 +650,7 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                     //canFocus = !showControls
                     onExit = {
                         if (requestedFocusDirection == FocusDirection.Right) {
-                            focusRequester.requestFocus()
+                            itemFocusRequester.requestFocus()
                         }
                     }
                 }
