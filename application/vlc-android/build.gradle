@@ -130,6 +130,7 @@ android {
         renderScript = true
         aidl = true
         buildConfig = true
+        resValues = true
     }
 }
 

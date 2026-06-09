@@ -85,6 +85,10 @@ android {
             }
         }
     }
+
+    buildFeatures {
+        resValues = true
+    }
 }
 
 preBuild.dependsOn(webCopy)
