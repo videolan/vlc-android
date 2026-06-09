@@ -59,6 +59,7 @@ import org.videolan.resources.TV_ONBOARDING_ACTIVITY
 import org.videolan.resources.TV_SEARCH_ACTIVITY
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.launchForeground
+import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.AppScope
 import org.videolan.tools.BETA_WELCOME
@@ -157,20 +158,41 @@ class StartActivity : FragmentActivity() {
         } else if (Intent.ACTION_SEND == action) {
             val cd = intent.clipData
             val item = if (cd != null && cd.itemCount > 0) cd.getItemAt(0) else null
-            if (item != null) {
-                var uri: Uri? = FileUtils.getUri(item.uri)
-                if (uri == null && item.text != null) uri = item.text.toString().toUri()
-                if (uri != null) {
+            val rawUri: Uri? = item?.uri ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
+            if (rawUri != null) {
+                // try to get a mime type, amaze doesn't seem to share a video with it
+                val mimeType: String? = intent.type
+                    ?.takeIf { it.startsWith("video") || it.startsWith("audio") }
+                    ?: runCatching { contentResolver.getType(rawUri) }.getOrNull()
+                // If we have a video mime, we can force the video player
+                if (mimeType?.startsWith("video") == true) {
+                    startPlaybackFromApp(Intent(Intent.ACTION_VIEW, rawUri).apply {
+                        setDataAndType(rawUri, mimeType)
+                    })
+                } else {
                     lifecycleScope.launch {
+                        val uri = withContext(Dispatchers.IO) { FileUtils.getUri(rawUri) } ?: rawUri
                         var media = getFromMl { getMedia(uri) }
                         if (media == null)
                             media = MLServiceLocator.getAbstractMediaWrapper(uri)
                         MediaUtils.openMediaNoUi(this@StartActivity, media)
                         finish()
                     }
-                    return
                 }
+                return
+            } else if (item?.text != null) {
+                val textUri = item.text.toString().toUri()
+                lifecycleScope.launch {
+                    var media = getFromMl { getMedia(textUri) }
+                    if (media == null)
+                        media = MLServiceLocator.getAbstractMediaWrapper(textUri)
+                    MediaUtils.openMediaNoUi(this@StartActivity, media)
+                    finish()
+                }
+                return
             }
+            finish()
+            return
         }
 
         // Setting test mode with stubbed media library if required
