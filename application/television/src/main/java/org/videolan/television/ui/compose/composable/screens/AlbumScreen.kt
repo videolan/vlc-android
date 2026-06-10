@@ -64,12 +64,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
@@ -84,6 +86,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.palette.graphics.Palette
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -93,7 +96,6 @@ import org.videolan.television.ui.compose.composable.components.InvalidationComp
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BackgroundColorDark
-import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Transparent
@@ -116,12 +118,16 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
     val context = LocalContext.current
     var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
     val activity = LocalActivity.current
+    var darkMutedColor by remember { mutableStateOf<Color?>(null) }
 
     LaunchedEffect(album.artworkMrl) {
         album.artworkMrl?.let { mrl ->
             val bitmap = AudioUtil.readCoverBitmap(Uri.decode(mrl), 500)
             bitmap?.let {
                 blurredCover = UiTools.blurBitmap(it, 15f)
+                Palette.from(it).generate().let { palette ->
+                    darkMutedColor = palette.darkMutedSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f)
+                }
             }
         }
     }
@@ -129,7 +135,7 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
     Box(modifier = Modifier
         .fillMaxSize()
         .background(BackgroundColorDark)) {
-
+        
         blurredCover?.let {
             Image(
                 modifier = Modifier.fillMaxSize(),
@@ -144,12 +150,12 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(top = 32.dp, start = 48.dp, end = 48.dp)) {
-
+            
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
                 AlbumHeaderArt(album, modifier = Modifier.size(160.dp))
-
+                
                 Spacer(modifier = Modifier.width(32.dp))
-
+                
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = album.title ?: "",
@@ -169,7 +175,7 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
                         color = WhiteTransparent50
                     )
                 }
-
+                
                 Row(modifier = Modifier.focusGroup()) {
                     LabeledIconButton(
                         label = stringResource(R.string.play),
@@ -201,19 +207,32 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
                     }
                 }
             }
-
+            
             Spacer(modifier = Modifier.height(48.dp))
-
+            
             tracks?.let { trackList ->
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .weight(1f)
                         .focusGroup(),
                     contentPadding = PaddingValues(bottom = 96.dp)
                 ) {
                     itemsIndexed(trackList) { index, track ->
                         if (track is MediaWrapper) {
-                            AlbumTrackItem(track)
+                            val shape = when {
+                                trackList.size == 1 -> RoundedCornerShape(16.dp)
+                                index == 0 -> RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                                index == trackList.size - 1 -> RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+                                else -> RoundedCornerShape(0.dp)
+                            }
+                            AlbumTrackItem(
+                                track = track,
+                                modifier = Modifier
+                                    .background(darkMutedColor ?: MaterialTheme.colorScheme.surface, shape)
+                                    .clip(shape),
+                                showDivider = index > 0
+                            )
                         }
                     }
                 }
@@ -253,7 +272,7 @@ fun AlbumHeaderArt(album: Album, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun AlbumTrackItem(track: MediaWrapper) {
+fun AlbumTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, showDivider: Boolean = true) {
     var isFocused by remember { mutableStateOf(false) }
     var itemHasFocus by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -264,7 +283,7 @@ fun AlbumTrackItem(track: MediaWrapper) {
     val itemFocusRequester = remember { FocusRequester() }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .onGloballyPositioned {
@@ -282,7 +301,15 @@ fun AlbumTrackItem(track: MediaWrapper) {
             .focusGroup()
 
     ) {
+        if (showDivider) {
+            HorizontalDivider(
+                modifier = Modifier.align(Alignment.TopCenter),
+                color = WhiteTransparent25,
+                thickness = 1.dp
+            )
+        }
         Box (Modifier
+            .padding(top = if (showDivider) 1.dp else 0.dp)
             .focusRequester(itemFocusRequester)
             .width(width = boxWidth)
             .fillMaxHeight()
@@ -323,6 +350,17 @@ fun AlbumTrackItem(track: MediaWrapper) {
                             contentDescription = null,
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
+                        )
+                    } ?: run {
+                        Image(
+                            painter = painterResource(R.drawable.ic_song_big),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .alpha(if (itemHasFocus) 0F else 1F)
+                                .fillMaxSize(),
+                            contentScale = ContentScale.Fit,
+                            colorFilter = ColorFilter.tint(White)
                         )
                     }
 
@@ -414,6 +452,5 @@ fun AlbumTrackItem(track: MediaWrapper) {
                 (activity as FragmentActivity).addToPlaylist(arrayOf(track), SavePlaylistDialog.KEY_NEW_TRACKS)
             }
         }
-        HorizontalDivider(modifier = Modifier.padding(horizontal = 0.dp), color = WhiteTransparent25, thickness = 1.dp)
     }
 }
