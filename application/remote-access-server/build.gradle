@@ -47,9 +47,6 @@ android {
         sourceCompatibility "$rootProject.ext.targetJVM"
         targetCompatibility "$rootProject.ext.targetJVM"
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
     buildFeatures {
         buildConfig = true
     }
