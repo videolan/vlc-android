@@ -37,10 +37,8 @@ allprojects {
         kotlin {
             compilerOptions {
                 jvmTarget.set("$rootProject.ext.targetJVMKotlin")
+                optIn.add("kotlin.RequiresOptIn")
             }
-        }
-        kotlinOptions {
-            freeCompilerArgs += ['-opt-in=kotlin.RequiresOptIn']
         }
     }
 }
