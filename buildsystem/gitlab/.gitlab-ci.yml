@@ -1,13 +1,13 @@
 cache:
     paths:
         - .gradle/
-        - gradle-9.2.1/
+        - gradle-9.3.1/
         - gradle/
         - gradlew
 
 variables:
-  VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20250806120145
-  VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20250806120145
+  VLC_ANDROID_IMAGE_30: registry.videolan.org/vlc-debian-android-3.0:20260610055743
+  VLC_ANDROID_IMAGE_40: registry.videolan.org/vlc-debian-android:20260610055743
   VLC_WEB_BUILD_IMAGE: registry.videolan.org/videolan-alpine-node:20230523124511
   WEBSERVER_DIR: "./application/remote-access-client/remoteaccess"
 
