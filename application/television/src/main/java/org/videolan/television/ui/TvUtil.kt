@@ -283,7 +283,7 @@ object TvUtil {
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
         when (mediaLibraryItem.itemType) {
             MediaLibraryItem.TYPE_ALBUM, MediaLibraryItem.TYPE_PLAYLIST -> {
-                val intent = Intent(context, MediaListActivity::class.java)
+                val intent = Intent(context, AlbumActivity::class.java)
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 context.startActivity(intent)
             }
