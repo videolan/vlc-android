@@ -86,5 +86,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-navigation3:2.10.0"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$rootProject.ext.kotlin_serialization_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$rootProject.ext.kotlin_serialization_version"
-
+    implementation "androidx.palette:palette-ktx:1.0.0"
 }
