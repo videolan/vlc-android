@@ -47,7 +47,6 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.resources.CATEGORY_ALBUMS
-import org.videolan.resources.CATEGORY_GENRES
 import org.videolan.resources.HEADER_ADD_STREAM
 import org.videolan.resources.HEADER_CATEGORIES
 import org.videolan.resources.HEADER_DIRECTORIES
@@ -61,7 +60,6 @@ import org.videolan.resources.UPDATE_TIME
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
-import org.videolan.television.ui.details.MediaListActivity
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.Settings
@@ -283,7 +281,7 @@ object TvUtil {
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
         when (mediaLibraryItem.itemType) {
             MediaLibraryItem.TYPE_ALBUM, MediaLibraryItem.TYPE_PLAYLIST -> {
-                val intent = Intent(context, AlbumActivity::class.java)
+                val intent = Intent(context, AlbumPlaylistActivity::class.java)
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 context.startActivity(intent)
             }
