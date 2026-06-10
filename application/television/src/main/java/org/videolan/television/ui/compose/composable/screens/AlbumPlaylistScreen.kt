@@ -83,13 +83,17 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.palette.graphics.Palette
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
@@ -99,6 +103,7 @@ import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
@@ -110,24 +115,31 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 
 @Composable
-fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewModel(factory = AlbumSongsViewModel.Factory(LocalContext.current, album))) {
+fun AlbumPlaylistScreen(item: MediaLibraryItem, albumSongsViewModel: AlbumSongsViewModel = viewModel(factory = AlbumSongsViewModel.Factory(LocalContext.current, item))) {
     val tracks by albumSongsViewModel.tracksProvider.pagedList.observeAsState()
     val context = LocalContext.current
     var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
+    var coverBitmap by remember { mutableStateOf<Bitmap?>(null) }
     val activity = LocalActivity.current
     var darkMutedColor by remember { mutableStateOf<Color?>(null) }
 
-    LaunchedEffect(album.artworkMrl) {
-        album.artworkMrl?.let { mrl ->
-            val bitmap = AudioUtil.readCoverBitmap(Uri.decode(mrl), 500)
-            bitmap?.let {
-                blurredCover = UiTools.blurBitmap(it, 15f)
-                Palette.from(it).generate().let { palette ->
-                    darkMutedColor = palette.darkMutedSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f)
-                }
+    LaunchedEffect(item) {
+        val bitmap = if (item is Playlist) {
+            ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${item.id}_500", item.tracks.toList(), 500)
+        } else {
+            item.artworkMrl?.let { mrl ->
+                AudioUtil.readCoverBitmap(Uri.decode(mrl), 500)
+            }
+        }
+        coverBitmap = bitmap
+        bitmap?.let {
+            blurredCover = UiTools.blurBitmap(it, 15f)
+            Palette.from(it).generate().let { palette ->
+                darkMutedColor = palette.darkMutedSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f)
             }
         }
     }
@@ -152,25 +164,36 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
             .padding(top = 32.dp, start = 48.dp, end = 48.dp)) {
             
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-                AlbumHeaderArt(album, modifier = Modifier.size(160.dp))
+                AlbumPlaylistHeaderArt(item, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
                 
                 Spacer(modifier = Modifier.width(32.dp))
                 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = album.title ?: "",
+                        text = item.title ?: "",
                         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                         color = White,
                         maxLines = 1
                     )
+                    val subtitle = when (item) {
+                        is Album -> item.albumArtist ?: stringResource(R.string.unknown_artist)
+                        else -> stringResource(R.string.track_number, item.tracks.size)
+                    }
+                    if (subtitle.isNotEmpty()) {
+                        Text(
+                            text = subtitle,
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = WhiteTransparent70,
+                            maxLines = 1
+                        )
+                    }
+                    val duration = when (item) {
+                        is Album -> item.duration
+                        is Playlist -> item.tracks.sumOf { it.length }
+                        else -> 0L
+                    }
                     Text(
-                        text = album.albumArtist ?: stringResource(R.string.unknown_artist),
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = WhiteTransparent70,
-                        maxLines = 1
-                    )
-                    Text(
-                        text = Tools.millisToString(album.duration),
+                        text = Tools.millisToString(duration),
                         style = MaterialTheme.typography.bodyLarge,
                         color = WhiteTransparent50
                     )
@@ -182,28 +205,28 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
                         painterResource = painterResource(R.drawable.ic_play_tv),
                         tint = White
                     ) {
-                        MediaUtils.playTracks(context, album, 0, false)
+                        MediaUtils.playTracks(context, item, 0, false)
                     }
                     LabeledIconButton(
                         label = stringResource(R.string.insert_next),
                         painterResource = painterResource(R.drawable.ic_tv_list_playnext),
                         tint = White
                     ) {
-                        MediaUtils.appendMedia(context, album.tracks.toList())
+                        MediaUtils.appendMedia(context, item.tracks.toList())
                     }
                     LabeledIconButton(
                         label = stringResource(R.string.append),
                         painterResource = painterResource(R.drawable.ic_tv_list_append),
                         tint = White
                     ) {
-                        MediaUtils.insertNext(context, album.tracks)
+                        MediaUtils.insertNext(context, item.tracks)
                     }
                     LabeledIconButton(
                         label = stringResource(R.string.add_to_playlist),
                         painterResource = painterResource(R.drawable.ic_addtoplaylist),
                         tint = White
                     ) {
-                        (activity as FragmentActivity).addToPlaylist(album.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                        (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                     }
                 }
             }
@@ -226,7 +249,7 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
                                 index == trackList.size - 1 -> RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
                                 else -> RoundedCornerShape(0.dp)
                             }
-                            AlbumTrackItem(
+                            AlbumPlaylistTrackItem(
                                 track = track,
                                 modifier = Modifier
                                     .background(darkMutedColor ?: MaterialTheme.colorScheme.surface, shape)
@@ -242,11 +265,17 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
 }
 
 @Composable
-fun AlbumHeaderArt(album: Album, modifier: Modifier = Modifier) {
+fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier, bitmap: Bitmap? = null) {
     val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
-    LaunchedEffect(album.artworkMrl) {
-        album.artworkMrl?.let { mrl ->
-            mapBitmap.value = AudioUtil.readCoverBitmap(Uri.decode(mrl), 300)
+    LaunchedEffect(item, bitmap) {
+        if (bitmap != null) {
+            mapBitmap.value = bitmap
+        } else if (item is Playlist) {
+            mapBitmap.value = ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${item.id}_300", item.tracks.toList(), 300)
+        } else {
+            item.artworkMrl?.let { mrl ->
+                mapBitmap.value = AudioUtil.readCoverBitmap(Uri.decode(mrl), 300)
+            }
         }
     }
 
@@ -272,7 +301,7 @@ fun AlbumHeaderArt(album: Album, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun AlbumTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, showDivider: Boolean = true) {
+fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, showDivider: Boolean = true) {
     var isFocused by remember { mutableStateOf(false) }
     var itemHasFocus by remember { mutableStateOf(false) }
     val context = LocalContext.current

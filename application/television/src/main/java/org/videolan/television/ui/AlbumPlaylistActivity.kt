@@ -31,13 +31,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
-import org.videolan.television.ui.compose.composable.screens.AlbumScreen
+import org.videolan.television.ui.compose.composable.screens.AlbumPlaylistScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 
 
-class AlbumActivity : DefaultTvActivity() {
+class AlbumPlaylistActivity : DefaultTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +45,12 @@ class AlbumActivity : DefaultTvActivity() {
         WindowCompat.getInsetsController(window, window.decorView).apply {
             isAppearanceLightStatusBars = false
         }
-        val album = intent?.parcelable<Album>(EXTRA_ITEM)!!
+        val album = intent?.parcelable<MediaLibraryItem>(EXTRA_ITEM)!!
         setContent {
             VlcTVTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    AlbumScreen(album)
+                    AlbumPlaylistScreen(album)
                 }
             }
         }
