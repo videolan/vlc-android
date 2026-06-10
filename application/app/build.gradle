@@ -75,7 +75,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
+            kotlin {
+                compilerOptions {
+                    freeCompilerArgs.addAll(['-Xno-param-assertions'])
+                }
+            }
         }
         signedRelease {
             initWith release
