@@ -35,6 +35,7 @@ import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -46,6 +47,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -87,12 +89,17 @@ import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
+import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
+import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BackgroundColorDark
+import org.videolan.television.ui.compose.theme.BackgroundColorDarkTransparent50
+import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
@@ -100,6 +107,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 
 @Composable
@@ -200,7 +208,8 @@ fun AlbumScreen(album: Album, albumSongsViewModel: AlbumSongsViewModel = viewMod
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .focusGroup()
+                        .focusGroup(),
+                    contentPadding = PaddingValues(bottom = 96.dp)
                 ) {
                     itemsIndexed(trackList) { index, track ->
                         if (track is MediaWrapper) {
@@ -223,8 +232,7 @@ fun AlbumHeaderArt(album: Album, modifier: Modifier = Modifier) {
     }
 
     Box(modifier = modifier
-        .clip(RoundedCornerShape(8.dp))
-        .background(WhiteTransparent10)) {
+        .clip(RoundedCornerShape(8.dp))) {
         mapBitmap.value?.let {
             Image(
                 bitmap = it.asImageBitmap(),
@@ -288,7 +296,7 @@ fun AlbumTrackItem(track: MediaWrapper) {
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             )
-            .background(if (isFocused) WhiteTransparent10 else Transparent, shape = RoundedCornerShape(16.dp))
+            .background(if (isFocused) WhiteTransparent25 else Transparent, shape = RoundedCornerShape(topStart = CornerSize(0), bottomStart = CornerSize(0), topEnd = CornerSize(50), bottomEnd = CornerSize(50)))
         ) {
             Row(
                 modifier = Modifier
@@ -316,6 +324,20 @@ fun AlbumTrackItem(track: MediaWrapper) {
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
                         )
+                    }
+
+                    val currentMedia by PlaylistManager.currentPlayedMedia.observeAsState()
+                    InvalidationComposable(currentMedia?.tag) {
+                        if (currentMedia?.equals(track) == true) {
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .background(BlackTransparent50, RoundedCornerShape(4.dp)),
+                                contentAlignment = Alignment.BottomCenter
+                            ) {
+                                MiniVisualizer(MaterialTheme.colorScheme.onSurface)
+                            }
+                        }
                     }
 
                     if (isFocused) {
@@ -392,6 +414,6 @@ fun AlbumTrackItem(track: MediaWrapper) {
                 (activity as FragmentActivity).addToPlaylist(arrayOf(track), SavePlaylistDialog.KEY_NEW_TRACKS)
             }
         }
-        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = WhiteTransparent10, thickness = 1.dp)
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 0.dp), color = WhiteTransparent25, thickness = 1.dp)
     }
 }
