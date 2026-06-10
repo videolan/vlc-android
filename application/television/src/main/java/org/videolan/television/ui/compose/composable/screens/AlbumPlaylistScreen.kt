@@ -61,6 +61,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,12 +84,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.palette.graphics.Palette
-import org.videolan.medialibrary.MLServiceLocator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -103,7 +104,6 @@ import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Transparent
-import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
@@ -119,19 +119,20 @@ import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 
 @Composable
-fun AlbumPlaylistScreen(item: MediaLibraryItem, albumSongsViewModel: AlbumSongsViewModel = viewModel(factory = AlbumSongsViewModel.Factory(LocalContext.current, item))) {
+fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: AlbumSongsViewModel = viewModel(factory = AlbumSongsViewModel.Factory(LocalContext.current, parentItem))) {
     val tracks by albumSongsViewModel.tracksProvider.pagedList.observeAsState()
     val context = LocalContext.current
     var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
     var coverBitmap by remember { mutableStateOf<Bitmap?>(null) }
     val activity = LocalActivity.current
     var darkMutedColor by remember { mutableStateOf<Color?>(null) }
+    val scope = rememberCoroutineScope()
 
-    LaunchedEffect(item) {
-        val bitmap = if (item is Playlist) {
-            ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${item.id}_500", item.tracks.toList(), 500)
+    LaunchedEffect(parentItem) {
+        val bitmap = if (parentItem is Playlist) {
+            ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${parentItem.id}_500", parentItem.tracks.toList(), 500)
         } else {
-            item.artworkMrl?.let { mrl ->
+            parentItem.artworkMrl?.let { mrl ->
                 AudioUtil.readCoverBitmap(Uri.decode(mrl), 500)
             }
         }
@@ -164,20 +165,20 @@ fun AlbumPlaylistScreen(item: MediaLibraryItem, albumSongsViewModel: AlbumSongsV
             .padding(top = 32.dp, start = 48.dp, end = 48.dp)) {
             
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-                AlbumPlaylistHeaderArt(item, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
+                AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
                 
                 Spacer(modifier = Modifier.width(32.dp))
                 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = item.title ?: "",
+                        text = parentItem.title ?: "",
                         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                         color = White,
                         maxLines = 1
                     )
-                    val subtitle = when (item) {
-                        is Album -> item.albumArtist ?: stringResource(R.string.unknown_artist)
-                        else -> stringResource(R.string.track_number, item.tracks.size)
+                    val subtitle = when (parentItem) {
+                        is Album -> parentItem.albumArtist ?: stringResource(R.string.unknown_artist)
+                        else -> stringResource(R.string.track_number, parentItem.tracks.size)
                     }
                     if (subtitle.isNotEmpty()) {
                         Text(
@@ -187,9 +188,9 @@ fun AlbumPlaylistScreen(item: MediaLibraryItem, albumSongsViewModel: AlbumSongsV
                             maxLines = 1
                         )
                     }
-                    val duration = when (item) {
-                        is Album -> item.duration
-                        is Playlist -> item.tracks.sumOf { it.length }
+                    val duration = when (parentItem) {
+                        is Album -> parentItem.duration
+                        is Playlist -> parentItem.tracks.sumOf { it.length }
                         else -> 0L
                     }
                     Text(
@@ -205,28 +206,39 @@ fun AlbumPlaylistScreen(item: MediaLibraryItem, albumSongsViewModel: AlbumSongsV
                         painterResource = painterResource(R.drawable.ic_play_tv),
                         tint = White
                     ) {
-                        MediaUtils.playTracks(context, item, 0, false)
+                        MediaUtils.playTracks(context, parentItem, 0, false)
+                    }
+                    if (parentItem is Playlist) {
+                        LabeledIconButton(
+                            label = stringResource(R.string.delete),
+                            painterResource = painterResource(R.drawable.ic_tv_list_delete),
+                            tint = White
+                        ) {
+                            MediaUtils.deleteItem(activity as FragmentActivity, parentItem) {
+                                activity.finish()
+                            }
+                        }
                     }
                     LabeledIconButton(
                         label = stringResource(R.string.insert_next),
                         painterResource = painterResource(R.drawable.ic_tv_list_playnext),
                         tint = White
                     ) {
-                        MediaUtils.appendMedia(context, item.tracks.toList())
+                        MediaUtils.appendMedia(context, parentItem.tracks.toList())
                     }
                     LabeledIconButton(
                         label = stringResource(R.string.append),
                         painterResource = painterResource(R.drawable.ic_tv_list_append),
                         tint = White
                     ) {
-                        MediaUtils.insertNext(context, item.tracks)
+                        MediaUtils.insertNext(context, parentItem.tracks)
                     }
                     LabeledIconButton(
                         label = stringResource(R.string.add_to_playlist),
                         painterResource = painterResource(R.drawable.ic_addtoplaylist),
                         tint = White
                     ) {
-                        (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                        (activity as FragmentActivity).addToPlaylist(parentItem.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                     }
                 }
             }
@@ -254,7 +266,31 @@ fun AlbumPlaylistScreen(item: MediaLibraryItem, albumSongsViewModel: AlbumSongsV
                                 modifier = Modifier
                                     .background(darkMutedColor ?: MaterialTheme.colorScheme.surface, shape)
                                     .clip(shape),
-                                showDivider = index > 0
+                                showDivider = index > 0,
+                                onMoveUp = if (parentItem is Playlist && index > 0) {
+                                    {
+                                        scope.launch(Dispatchers.IO) {
+                                            parentItem.move(index, index - 1)
+                                            albumSongsViewModel.refresh()
+                                        }
+                                    }
+                                } else null,
+                                onMoveDown = if (parentItem is Playlist && index < trackList.size - 1) {
+                                    {
+                                        scope.launch(Dispatchers.IO) {
+                                            parentItem.move(index, index + 1)
+                                            albumSongsViewModel.refresh()
+                                        }
+                                    }
+                                } else null,
+                                onRemove = if (parentItem is Playlist) {
+                                    {
+                                        scope.launch(Dispatchers.IO) {
+                                            parentItem.remove(index)
+                                            albumSongsViewModel.refresh()
+                                        }
+                                    }
+                                } else null
                             )
                         }
                     }
@@ -301,7 +337,7 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
 }
 
 @Composable
-fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, showDivider: Boolean = true) {
+fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, showDivider: Boolean = true, onMoveUp: (() -> Unit)? = null, onMoveDown: (() -> Unit)? = null, onRemove: (() -> Unit)? = null) {
     var isFocused by remember { mutableStateOf(false) }
     var itemHasFocus by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -459,6 +495,37 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, s
                 .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            if (onMoveUp != null) {
+                LabeledIconButton(
+                    label = stringResource(R.string.move_up),
+                    painterResource = painterResource(R.drawable.ic_playlist_moveup),
+                    tint = White
+                ) {
+                    onMoveUp()
+                }
+            } else if (onMoveDown != null) {
+                Spacer(modifier = Modifier.width(48.dp))
+            }
+            if (onMoveDown != null) {
+                LabeledIconButton(
+                    label = stringResource(R.string.move_down),
+                    painterResource = painterResource(R.drawable.ic_playlist_movedown),
+                    tint = White
+                ) {
+                    onMoveDown()
+                }
+            } else if (onMoveUp != null) {
+                Spacer(modifier = Modifier.width(48.dp))
+            }
+            if (onRemove != null) {
+                LabeledIconButton(
+                    label = stringResource(R.string.remove),
+                    painterResource = painterResource(R.drawable.ic_remove_from_playlist),
+                    tint = White
+                ) {
+                    onRemove()
+                }
+            }
             LabeledIconButton(
                 label = stringResource(R.string.append),
                 painterResource = painterResource(R.drawable.ic_tv_list_append),
