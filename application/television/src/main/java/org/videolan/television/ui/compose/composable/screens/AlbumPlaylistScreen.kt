@@ -32,6 +32,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -51,7 +52,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -60,13 +60,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -78,6 +77,7 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
@@ -85,7 +85,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -115,7 +114,6 @@ import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
-import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -213,6 +211,18 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(Grey900Transparent, BlendMode.SrcAtop)
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Transparent,
+                                BackgroundColorDark.copy(alpha = 0.9f)
+                            )
+                        )
+                    )
+            )
         }
 
         Column(modifier = Modifier
@@ -224,14 +234,15 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                 .padding(horizontal = 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
                 
-                Spacer(modifier = Modifier.width(32.dp))
+                Spacer(modifier = Modifier.width(24.dp))
                 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = parentItem.title ?: "",
                         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                         color = White,
-                        maxLines = 1
+                        maxLines = 1,
+                        modifier = Modifier.basicMarquee()
                     )
                     val subtitle = when (parentItem) {
                         is Album -> parentItem.albumArtist ?: stringResource(R.string.unknown_artist)
@@ -242,7 +253,8 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                             text = subtitle,
                             style = MaterialTheme.typography.headlineSmall,
                             color = WhiteTransparent70,
-                            maxLines = 1
+                            maxLines = 1,
+                            modifier = Modifier.basicMarquee()
                         )
                     }
                     val duration = when (parentItem) {
@@ -252,10 +264,12 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     }
                     Text(
                         text = Tools.millisToString(duration),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = WhiteTransparent50
+                        style = MaterialTheme.typography.titleMedium,
+                        color = WhiteTransparent70
                     )
                 }
+                
+                Spacer(modifier = Modifier.width(24.dp))
                 
                 Row(modifier = Modifier.focusGroup()) {
                     LabeledIconButton(
@@ -392,12 +406,16 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
     }
 
     Box(modifier = modifier
-        .clip(RoundedCornerShape(8.dp))) {
+        .clip(RoundedCornerShape(8.dp))
+        .border(4.dp, WhiteTransparent10, RoundedCornerShape(8.dp))) {
         mapBitmap.value?.let {
             Image(
                 bitmap = it.asImageBitmap(),
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(4.dp)
+                    .clip(RoundedCornerShape(4.dp)),
                 contentScale = ContentScale.Crop
             )
         } ?: run {
@@ -405,7 +423,7 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
                 painter = painterResource(R.drawable.ic_album_big),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(24.dp)
+                    .padding(28.dp)
                     .fillMaxSize()
             )
         }
@@ -561,7 +579,7 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, d
 
                     Text(
                         text = Tools.millisToString(track.length),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.labelLarge,
                         color = WhiteTransparent70,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
