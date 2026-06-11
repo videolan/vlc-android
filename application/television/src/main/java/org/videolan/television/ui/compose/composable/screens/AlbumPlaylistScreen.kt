@@ -31,7 +31,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.focusGroup
@@ -115,6 +114,7 @@ import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
+import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -130,6 +130,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
     val tracks by albumSongsViewModel.tracksProvider.pagedList.observeAsState()
     val trackList = remember { mutableStateListOf<MediaWrapper>() }
     val context = LocalContext.current
+    val density = LocalDensity.current
     var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
     var coverBitmap by remember { mutableStateOf<Bitmap?>(null) }
     val activity = LocalActivity.current
@@ -228,13 +229,13 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(top = 32.dp)) {
-            
+
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
                 
-                Spacer(modifier = Modifier.width(24.dp))
+                Spacer(modifier = Modifier.width(8.dp))
                 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
@@ -242,7 +243,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                         color = White,
                         maxLines = 1,
-                        modifier = Modifier.basicMarquee()
+                        modifier = Modifier.fadingMarquee()
                     )
                     val subtitle = when (parentItem) {
                         is Album -> parentItem.albumArtist ?: stringResource(R.string.unknown_artist)
@@ -254,7 +255,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                             style = MaterialTheme.typography.headlineSmall,
                             color = WhiteTransparent70,
                             maxLines = 1,
-                            modifier = Modifier.basicMarquee()
+                            modifier = Modifier.fadingMarquee()
                         )
                     }
                     val duration = when (parentItem) {
@@ -265,7 +266,8 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     Text(
                         text = Tools.millisToString(duration),
                         style = MaterialTheme.typography.titleMedium,
-                        color = WhiteTransparent70
+                        color = WhiteTransparent70,
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
                 
@@ -559,15 +561,18 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, d
                         }
                     }
 
-                    Spacer(modifier = Modifier.width(16.dp))
+                    val edgeWidth = 16.dp
 
-                    Column(modifier = Modifier.weight(1f)) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fadingMarquee(isFocused = isFocused)
+                    ) {
                         Text(
                             text = track.title ?: "",
                             style = MaterialTheme.typography.titleMedium,
                             color = White,
-                            maxLines = 1,
-                            modifier = if (isFocused) Modifier.basicMarquee() else Modifier
+                            maxLines = 1
                         )
                         Text(
                             text = track.artistName ?: "",
