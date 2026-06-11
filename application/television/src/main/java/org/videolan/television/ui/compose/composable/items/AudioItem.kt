@@ -82,6 +82,7 @@ import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.utils.conditional
+import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
 import org.videolan.television.viewmodel.MainActivityViewModel
@@ -215,9 +216,9 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier
-                        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+                        .padding(top = 4.dp)
                         .fillMaxWidth()
-                        .conditional(focused.value, { Modifier.basicMarquee(initialDelayMillis = 0) }, { Modifier })
+                        .fadingMarquee(edgeWidth = 4.dp, marqueeOnlyOnFocus = true, isFocused = focused.value)
                 )
                 if (spannableDescription)
                     Text(
@@ -367,8 +368,8 @@ fun AudioItemList(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .fillMaxWidth()
+                    .fadingMarquee(edgeWidth = 8.dp, marqueeOnlyOnFocus = true, isFocused = focused.value)
             )
             if (spannableDescription)
                 Text(

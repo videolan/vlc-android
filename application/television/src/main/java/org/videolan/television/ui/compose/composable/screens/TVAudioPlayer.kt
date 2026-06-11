@@ -153,7 +153,7 @@ import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent90
-import org.videolan.television.ui.compose.utils.drawFadedEdge
+import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.util.showParent
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
@@ -489,19 +489,10 @@ fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewM
 
         ChapterSwitcher()
 
-        val edgeWidth = 16.dp
         Text(
             playerState.value?.title ?: "",
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp)
-                .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-                .drawWithContent {
-                    drawContent()
-                    drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
-                    drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
-                }
-                .basicMarquee()
-                .padding(horizontal = 16.dp),
+                .fadingMarquee(),
             maxLines = 1,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineSmall.copy(
@@ -513,15 +504,8 @@ fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewM
         Text(
             TextUtils.separatedString(viewModel.artist, viewModel.album),
             modifier = Modifier
-                .padding(top = 4.dp, start = 16.dp, end = 16.dp)
-                .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-                .drawWithContent {
-                    drawContent()
-                    drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
-                    drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
-                }
-                .basicMarquee()
-                .padding(horizontal = 16.dp),
+                .padding(top = 4.dp)
+                .fadingMarquee(),
             maxLines = 1,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge.copy(
@@ -734,8 +718,8 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
                         .fillMaxWidth()
+                        .fadingMarquee(edgeWidth = 8.dp, marqueeOnlyOnFocus = true, isFocused = isFocused)
                 )
                 Text(
                     MediaUtils.getMediaSubtitle(item),
