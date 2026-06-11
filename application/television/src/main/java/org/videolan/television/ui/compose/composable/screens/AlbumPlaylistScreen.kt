@@ -60,13 +60,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
@@ -117,16 +120,63 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
+import java.util.UUID
 
 @Composable
 fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: AlbumSongsViewModel = viewModel(factory = AlbumSongsViewModel.Factory(LocalContext.current, parentItem))) {
     val tracks by albumSongsViewModel.tracksProvider.pagedList.observeAsState()
+    val trackList = remember { mutableStateListOf<MediaWrapper>() }
     val context = LocalContext.current
     var blurredCover by remember { mutableStateOf<Bitmap?>(null) }
     var coverBitmap by remember { mutableStateOf<Bitmap?>(null) }
     val activity = LocalActivity.current
     var darkMutedColor by remember { mutableStateOf<Color?>(null) }
     val scope = rememberCoroutineScope()
+    val removeFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
+    val moveUpFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
+    val moveDownFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
+
+
+    /**
+     * As the playlists can contain duplicated media and the LazyColumn needs stable IDs
+     * we have to use a copy of the list as SSOT and manage the tags ourselves
+     */
+    // Synchronous initial population: ensure tags exist before the first render
+    tracks?.let { pagedList ->
+        val snapshot = pagedList.snapshot()
+        if (trackList.isEmpty() && snapshot.isNotEmpty()) {
+            snapshot.forEach { if (it.tag == null) it.tag = UUID.randomUUID().toString() }
+            trackList.addAll(snapshot)
+        }
+    }
+
+    LaunchedEffect(tracks) {
+        // When the tracks are refreshed, update the tags
+        val snapshot = tracks?.snapshot() ?: emptyList()
+        if (snapshot.isEmpty()) {
+            trackList.clear()
+            return@LaunchedEffect
+        }
+
+        val tagMap = trackList.filter { it.tag != null }.groupBy { it.id }.mapValues { entry -> entry.value.map { it.tag!! }.toMutableList() }
+        snapshot.forEach { newTrack ->
+            val tags = tagMap[newTrack.id]
+            if (!tags.isNullOrEmpty()) {
+                newTrack.tag = tags.removeAt(0)
+            } else {
+                newTrack.tag = UUID.randomUUID().toString()
+            }
+        }
+
+        val isDifferent = trackList.size != snapshot.size || trackList.indices.any { i ->
+            trackList[i].id != snapshot[i].id || trackList[i].tag != snapshot[i].tag
+        }
+
+        if (isDifferent) {
+            trackList.clear()
+            trackList.addAll(snapshot)
+        }
+    }
 
     LaunchedEffect(parentItem) {
         val bitmap = if (parentItem is Playlist) {
@@ -245,55 +295,78 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             
             Spacer(modifier = Modifier.height(48.dp))
             
-            tracks?.let { trackList ->
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .focusGroup(),
-                    contentPadding = PaddingValues(bottom = 96.dp)
-                ) {
-                    itemsIndexed(trackList) { index, track ->
-                        if (track is MediaWrapper) {
-                            val shape = when {
-                                trackList.size == 1 -> RoundedCornerShape(16.dp)
-                                index == 0 -> RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-                                index == trackList.size - 1 -> RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-                                else -> RoundedCornerShape(0.dp)
-                            }
-                            AlbumPlaylistTrackItem(
-                                track = track,
-                                modifier = Modifier
-                                    .background(darkMutedColor ?: MaterialTheme.colorScheme.surface, shape)
-                                    .clip(shape),
-                                showDivider = index > 0,
-                                onMoveUp = if (parentItem is Playlist && index > 0) {
-                                    {
-                                        scope.launch(Dispatchers.IO) {
-                                            parentItem.move(index, index - 1)
-                                            albumSongsViewModel.refresh()
-                                        }
-                                    }
-                                } else null,
-                                onMoveDown = if (parentItem is Playlist && index < trackList.size - 1) {
-                                    {
-                                        scope.launch(Dispatchers.IO) {
-                                            parentItem.move(index, index + 1)
-                                            albumSongsViewModel.refresh()
-                                        }
-                                    }
-                                } else null,
-                                onRemove = if (parentItem is Playlist) {
-                                    {
-                                        scope.launch(Dispatchers.IO) {
-                                            parentItem.remove(index)
-                                            albumSongsViewModel.refresh()
-                                        }
-                                    }
-                                } else null
-                            )
-                        }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .focusGroup(),
+                contentPadding = PaddingValues(bottom = 96.dp)
+            ) {
+                itemsIndexed(trackList, key = { _, track -> track.tag ?: track.hashCode().toString() }) { index, track ->
+                    val shape = when {
+                        trackList.size == 1 -> RoundedCornerShape(16.dp)
+                        index == 0 -> RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                        index == trackList.size - 1 -> RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+                        else -> RoundedCornerShape(0.dp)
                     }
+                    val tag = track.tag ?: track.hashCode().toString()
+                    val removeFocusRequester = removeFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { removeFocusRequesters[tag] = it } }
+                    val moveUpFocusRequester = moveUpFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { moveUpFocusRequesters[tag] = it } }
+                    val moveDownFocusRequester = moveDownFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { moveDownFocusRequesters[tag] = it } }
+                    AlbumPlaylistTrackItem(
+                        track = track,
+                        modifier = Modifier
+                            .animateItem()
+                            .background(darkMutedColor ?: MaterialTheme.colorScheme.surface, shape)
+                            .clip(shape),
+                        showDivider = index > 0,
+                        onMoveUp = if (parentItem is Playlist && index > 0) {
+                            {
+                                Snapshot.withMutableSnapshot {
+                                    val item = trackList.removeAt(index)
+                                    trackList.add(index - 1, item)
+                                }
+                                moveUpFocusRequesters[tag]?.requestFocus()
+                                scope.launch(Dispatchers.IO) {
+                                    parentItem.move(index, index - 1)
+                                    albumSongsViewModel.refresh()
+                                }
+                            }
+                        } else null,
+                        onMoveDown = if (parentItem is Playlist && index < trackList.size - 1) {
+                            {
+                                Snapshot.withMutableSnapshot {
+                                    val item = trackList.removeAt(index)
+                                    trackList.add(index + 1, item)
+                                }
+                                moveDownFocusRequesters[tag]?.requestFocus()
+                                scope.launch(Dispatchers.IO) {
+                                    parentItem.move(index, index + 1)
+                                    albumSongsViewModel.refresh()
+                                }
+                            }
+                        } else null,
+                        onRemove = if (parentItem is Playlist) {
+                            {
+                                // Move focus to another "remove" button before deleting
+                                val nextFocusIndex = if (index + 1 < trackList.size) index + 1 else if (index > 0) index - 1 else -1
+                                if (nextFocusIndex != -1) {
+                                    val nextTrack = trackList[nextFocusIndex]
+                                    val nextTag = nextTrack.tag
+                                    if (nextTag != null) removeFocusRequesters[nextTag]?.requestFocus()
+                                }
+
+                                trackList.removeAt(index)
+                                scope.launch(Dispatchers.IO) {
+                                    parentItem.remove(index)
+                                    albumSongsViewModel.refresh()
+                                }
+                            }
+                        } else null,
+                        removeFocusRequester = removeFocusRequester,
+                        moveUpFocusRequester = moveUpFocusRequester,
+                        moveDownFocusRequester = moveDownFocusRequester
+                    )
                 }
             }
         }
@@ -337,7 +410,7 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
 }
 
 @Composable
-fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, showDivider: Boolean = true, onMoveUp: (() -> Unit)? = null, onMoveDown: (() -> Unit)? = null, onRemove: (() -> Unit)? = null) {
+fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, showDivider: Boolean = true, onMoveUp: (() -> Unit)? = null, onMoveDown: (() -> Unit)? = null, onRemove: (() -> Unit)? = null, removeFocusRequester: FocusRequester = remember { FocusRequester() }, moveUpFocusRequester: FocusRequester = remember { FocusRequester() }, moveDownFocusRequester: FocusRequester = remember { FocusRequester() }) {
     var isFocused by remember { mutableStateOf(false) }
     var itemHasFocus by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -356,12 +429,13 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, s
             }
             .focusProperties {
                 onEnter = {
-                    itemFocusRequester.requestFocus()
-                    itemHasFocus = true
+                    if (requestedFocusDirection == FocusDirection.Up || requestedFocusDirection == FocusDirection.Down) {
+                        itemFocusRequester.requestFocus()
+                    }
                 }
-                onExit = {
-                    itemHasFocus = false
-                }
+            }
+            .onFocusChanged {
+                itemHasFocus = it.hasFocus
             }
             .focusGroup()
 
@@ -499,6 +573,7 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, s
                 LabeledIconButton(
                     label = stringResource(R.string.move_up),
                     painterResource = painterResource(R.drawable.ic_playlist_moveup),
+                    modifier = Modifier.focusRequester(moveUpFocusRequester),
                     tint = White
                 ) {
                     onMoveUp()
@@ -510,6 +585,7 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, s
                 LabeledIconButton(
                     label = stringResource(R.string.move_down),
                     painterResource = painterResource(R.drawable.ic_playlist_movedown),
+                    modifier = Modifier.focusRequester(moveDownFocusRequester),
                     tint = White
                 ) {
                     onMoveDown()
@@ -521,6 +597,7 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, s
                 LabeledIconButton(
                     label = stringResource(R.string.remove),
                     painterResource = painterResource(R.drawable.ic_remove_from_playlist),
+                    modifier = Modifier.focusRequester(removeFocusRequester),
                     tint = White
                 ) {
                     onRemove()
