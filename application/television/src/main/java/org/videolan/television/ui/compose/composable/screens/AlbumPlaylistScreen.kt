@@ -79,8 +79,10 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
@@ -114,6 +116,7 @@ import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
+import org.videolan.television.ui.compose.theme.WhiteTransparent90
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -218,6 +221,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     .background(
                         Brush.verticalGradient(
                             listOf(
+                                BackgroundColorDark.copy(alpha = 0.8f),
                                 Transparent,
                                 BackgroundColorDark.copy(alpha = 0.9f)
                             )
@@ -238,9 +242,17 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                 Spacer(modifier = Modifier.width(8.dp))
                 
                 Column(modifier = Modifier.weight(1f)) {
+                    val textShadow = Shadow(
+                        color = Color.Black.copy(alpha = 0.5f),
+                        offset = Offset(2f, 2f),
+                        blurRadius = 4f
+                    )
                     Text(
                         text = parentItem.title ?: "",
-                        style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.headlineLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            shadow = textShadow
+                        ),
                         color = White,
                         maxLines = 1,
                         modifier = Modifier.fadingMarquee()
@@ -252,8 +264,8 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     if (subtitle.isNotEmpty()) {
                         Text(
                             text = subtitle,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = WhiteTransparent70,
+                            style = MaterialTheme.typography.headlineSmall.copy(shadow = textShadow),
+                            color = WhiteTransparent90,
                             maxLines = 1,
                             modifier = Modifier.fadingMarquee()
                         )
@@ -265,8 +277,8 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     }
                     Text(
                         text = Tools.millisToString(duration),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = WhiteTransparent70,
+                        style = MaterialTheme.typography.titleMedium.copy(shadow = textShadow),
+                        color = WhiteTransparent90,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
