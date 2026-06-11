@@ -124,6 +124,7 @@ import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.viewmodels.PlaylistModel
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import java.util.UUID
 
@@ -544,20 +545,23 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, d
                         }
 
                         val currentMedia by PlaylistManager.currentPlayedMedia.observeAsState()
+                        val playlistModel: PlaylistModel = viewModel()
+                        val isCurrent = currentMedia?.equals(track) == true
+
                         InvalidationComposable(currentMedia?.tag) {
-                            if (currentMedia?.equals(track) == true) {
+                            if (isCurrent) {
                                 Box(
                                     Modifier
                                         .fillMaxSize()
                                         .background(BlackTransparent50, RoundedCornerShape(4.dp)),
                                     contentAlignment = Alignment.BottomCenter
                                 ) {
-                                    MiniVisualizer(MaterialTheme.colorScheme.onSurface)
+                                    MiniVisualizer(MaterialTheme.colorScheme.onSurface, playlistModel)
                                 }
                             }
                         }
 
-                        if (isFocused) {
+                        if (isFocused && !isCurrent) {
                             Box(modifier = Modifier
                                 .fillMaxSize()
                                 .background(Grey900Transparent),
