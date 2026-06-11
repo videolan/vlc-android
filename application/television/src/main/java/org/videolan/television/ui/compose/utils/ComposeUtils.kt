@@ -25,21 +25,28 @@
 package org.videolan.television.ui.compose.utils
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.videolan.vlc.R
 import org.videolan.vlc.util.fileReplacementMarker
@@ -104,3 +111,19 @@ fun ContentDrawScope.drawFadedEdge(edgeWidthPx: Float, leftEdge: Boolean) {
         blendMode = BlendMode.DstIn
     )
 }
+
+fun Modifier.fadingMarquee(
+    edgeWidth: Dp = 16.dp,
+    leftEdge: Boolean = true,
+    rightEdge: Boolean = true,
+    marqueeOnlyOnFocus: Boolean = false,
+    isFocused: Boolean = true
+): Modifier = this
+    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+    .drawWithContent {
+        drawContent()
+        if (leftEdge) drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
+        if (rightEdge) drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
+    }
+    .basicMarquee(iterations = if (marqueeOnlyOnFocus && !isFocused) 0 else Int.MAX_VALUE)
+    .padding(horizontal = edgeWidth)
