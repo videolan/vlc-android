@@ -214,7 +214,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             .fillMaxSize()
             .padding(top = 32.dp, start = 48.dp, end = 48.dp)) {
             
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
                 
                 Spacer(modifier = Modifier.width(32.dp))
