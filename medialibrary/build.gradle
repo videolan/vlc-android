@@ -20,12 +20,19 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *  ***************************************************************************
  */
-apply plugin: 'com.android.library'
-apply plugin: "com.vanniktech.maven.publish"
+plugins {
+    id 'com.android.library'
+    id 'base'
+    id 'com.vanniktech.maven.publish'
+}
 
 def abi = project.hasProperty('vlcLibVariant') ? project.getProperty('vlcLibVariant') : 'all'
 ext {
     library_version = "$rootProject.ext.medialibraryVersion"
+}
+base {
+    //Custom APK name
+    archivesName = "medialibrary-${abi}-${library_version}"
 }
 android {
     namespace = 'org.videolan.medialibrary'
@@ -77,16 +84,6 @@ android {
     buildFeatures {
         renderScript = true
         aidl = true
-    }
-
-    // Make per-variant version code
-    libraryVariants.all { variant ->
-        //Custom APK name
-        variant.outputs.each { output ->
-            if (output.outputFileName != null && output.outputFileName.endsWith('.aar')) {
-                output.outputFileName = "medialibrary-${abi}-${library_version}.aar"
-            }
-        }
     }
 }
 
