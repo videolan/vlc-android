@@ -79,6 +79,8 @@ fun LabeledIconButton(
     painterResource: Painter? = null,
     customImage: (@Composable (tint: Color) -> Unit)? = null,
     tint: Color? = null,
+    backgroundColor: Color = Color.Transparent,
+    focusedBackgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.4F),
     onClick: () -> Unit
 ) {
     var hasFocus by remember { mutableStateOf(false) }
@@ -111,7 +113,7 @@ fun LabeledIconButton(
             IconButton(
                 onClick = onClick,
                 modifier = modifier
-                    .background(color = if (hasFocus) MaterialTheme.colorScheme.primary.copy(0.4F) else Color.Transparent, shape = CircleShape)
+                    .background(color = if (hasFocus) focusedBackgroundColor else backgroundColor, shape = CircleShape)
                     .onFocusChanged {
                         hasFocus = it.hasFocus
                     },
