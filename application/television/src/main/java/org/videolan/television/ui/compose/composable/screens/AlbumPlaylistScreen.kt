@@ -202,7 +202,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
         bitmap?.let {
             blurredCover = UiTools.blurBitmap(it, 15f)
             Palette.from(it).generate().let { palette ->
-                darkMutedColor = palette.darkMutedSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f)
+                darkMutedColor = palette.darkMutedSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f) ?: palette.darkVibrantSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f)
             }
         }
     }
@@ -300,12 +300,18 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                 Spacer(modifier = Modifier.width(24.dp))
 
                 Row(
-                    modifier = Modifier.focusGroup(),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(darkMutedColor ?: WhiteTransparent10)
+                        .padding(horizontal = 4.dp, vertical = 4.dp)
+                        .focusGroup(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     LabeledIconButton(
                         label = stringResource(R.string.play),
                         painterResource = painterResource(R.drawable.ic_play_tv),
+                        focusedBackgroundColor = WhiteTransparent25,
                         tint = White
                     ) {
                         MediaUtils.playTracks(context, parentItem, 0, false)
@@ -314,6 +320,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                         LabeledIconButton(
                             label = stringResource(R.string.delete),
                             painterResource = painterResource(R.drawable.ic_tv_list_delete),
+                            focusedBackgroundColor = WhiteTransparent25,
                             tint = White
                         ) {
                             MediaUtils.deleteItem(activity as FragmentActivity, parentItem) {
@@ -324,6 +331,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     LabeledIconButton(
                         label = stringResource(R.string.insert_next),
                         painterResource = painterResource(R.drawable.ic_tv_list_playnext),
+                        focusedBackgroundColor = WhiteTransparent25,
                         tint = White
                     ) {
                         MediaUtils.appendMedia(context, parentItem.tracks.toList())
@@ -331,6 +339,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     LabeledIconButton(
                         label = stringResource(R.string.append),
                         painterResource = painterResource(R.drawable.ic_tv_list_append),
+                        focusedBackgroundColor = WhiteTransparent25,
                         tint = White
                     ) {
                         MediaUtils.insertNext(context, parentItem.tracks)
@@ -338,6 +347,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     LabeledIconButton(
                         label = stringResource(R.string.add_to_playlist),
                         painterResource = painterResource(R.drawable.ic_addtoplaylist),
+                        focusedBackgroundColor = WhiteTransparent25,
                         tint = White
                     ) {
                         (activity as FragmentActivity).addToPlaylist(parentItem.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
