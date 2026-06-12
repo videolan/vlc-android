@@ -96,7 +96,7 @@ private const val TAG = "VLC/AudioPlayer"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
+fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolean = true) {
     val activity = LocalActivity.current
     val visible = PlaylistManager.showAudioPlayer.observeAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -321,7 +321,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel()) {
 
         }
         LaunchedEffect(visible.value) {
-            if (visible.value == true) playPauseFocusRequester.requestFocus()
+            if (visible.value == true && requestFocus) playPauseFocusRequester.requestFocus()
         }
     }
 }
