@@ -47,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
@@ -98,7 +99,22 @@ import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ARTIST
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_SHUFFLE
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
+import org.videolan.vlc.util.ContextOption.CTX_SHARE
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.share
@@ -332,6 +348,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .weight(1f)
+                                .graphicsLayer(clip = false)
                         ) { audio, index, modifier ->
                             AudioItemCard(audio, index, entry, modifier, onClick = { onClick(audio, index) })
                         }
@@ -339,13 +356,22 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         PaginatedList(
                             items = audios,
                             listState = listState,
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                            contentPadding = PaddingValues(top = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(0.dp),
+                            contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp),
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .weight(1f)
+                                .graphicsLayer(clip = false)
                         ) { audio, index, modifier ->
-                            AudioItemList(audio, index, entry, modifier, onClick = { onClick(audio, index) })
+                            AudioItemList(
+                                item = audio,
+                                position = index,
+                                entry = entry,
+                                modifier = modifier,
+                                isFirst = index == 0,
+                                isLast = index == audios.itemCount - 1,
+                                onClick = { onClick(audio, index) }
+                            )
                         }
                     }
                 MediaListSidePanel(
