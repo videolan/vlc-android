@@ -545,6 +545,7 @@ fun AlbumPlaylistTrackItem(
                     scaleY = scale
                 }
                 .shadow(if (itemHasFocus) 12.dp else 0.dp, shape)
+                .border(if (itemHasFocus) 1.dp else 0.dp, WhiteTransparent10, shape)
                 .background(itemBackgroundColor, shape)
                 .clip(shape)
         ) {
