@@ -51,6 +51,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
@@ -92,7 +93,21 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_BAN_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_DOWNLOAD_SUBTITLES
+import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
+import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
+import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_PLAYED
+import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_UNPLAYED
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_FROM_START
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_SHUFFLE
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -261,12 +276,14 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
             var inCard by remember { mutableStateOf(entry.displayInCard(context)) }
             if (items.isNotEmpty())
                 VlcEmptyViewLoader(emptyState) {
-                    Row(modifier = modifier.fillMaxHeight()) {
+                    Row(modifier = modifier
+                        .fillMaxHeight()) {
                         if (inCard) {
                             LazyVerticalGrid(
                                 GridCells.Adaptive(150.dp), Modifier
                                     .fillMaxHeight()
                                     .weight(1f)
+                                    .graphicsLayer(clip = false)
                                     .focusProperties {
                                         onEnter = {
                                             focusRequesters[lastFocusedItem]?.requestFocus()
@@ -299,24 +316,32 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                                 modifier = Modifier
                                     .fillMaxHeight()
                                     .weight(1f)
+                                    .graphicsLayer(clip = false)
                                     .focusProperties {
                                         onEnter = {
                                             focusRequesters[lastFocusedItem]?.requestFocus()
                                         }
                                     },
-                                verticalArrangement = Arrangement.spacedBy(8.dp),
-                                contentPadding = PaddingValues(top = 16.dp),
+                                contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp),
+                                verticalArrangement = Arrangement.spacedBy(0.dp),
                                 state = listState
                             ) {
                                 items(count = items.size) { index ->
                                     items[index].let { item ->
                                         InvalidationComposable(descriptionUpdates.value?.first == index) {
                                             AudioItemList(
-                                                item, index, entry, Modifier
+                                                item = item,
+                                                position = index,
+                                                entry = entry,
+                                                modifier = Modifier
                                                     .onFocusChanged {
                                                         if (it.isFocused)
                                                             lastFocusedItem = item.id
-                                                    }, spannableDescription = true, onClick = { onClick(item, index) })
+                                                    },
+                                                isFirst = index == 0,
+                                                isLast = index == items.size - 1,
+                                                spannableDescription = true,
+                                                onClick = { onClick(item, index) })
                                         }
                                     }
 
