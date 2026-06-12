@@ -107,7 +107,16 @@ fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLo
         ) {
             items(items?.size ?: 0) { index ->
                 Box(modifier = Modifier.width(150.dp)) {
-                    AudioItem(items!!, entry, index, spannableDescription = spannableDescription, browserRoot = browserRoot, onClick = { onItemClick(index) })
+                    AudioItem(
+                        audios = items!!,
+                        entry = entry,
+                        index = index,
+                        isFirst = index == 0,
+                        isLast = index == (items.size - 1),
+                        spannableDescription = spannableDescription,
+                        browserRoot = browserRoot,
+                        onClick = { onItemClick(index) }
+                    )
                 }
             }
         }
