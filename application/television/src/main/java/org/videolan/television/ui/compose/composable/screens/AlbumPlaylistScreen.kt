@@ -35,6 +35,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -47,6 +48,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -83,8 +85,6 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -202,10 +202,12 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
         }
     }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(BackgroundColorDark)) {
-        
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundColorDark)
+    ) {
+
         blurredCover?.let {
             Image(
                 modifier = Modifier.fillMaxSize(),
@@ -230,18 +232,25 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             )
         }
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 32.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 32.dp)
+        ) {
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 48.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 48.dp), verticalAlignment = Alignment.CenterVertically
+            ) {
                 AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
-                
+
                 Spacer(modifier = Modifier.width(8.dp))
-                
-                Column(modifier = Modifier.weight(1f)) {
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
                     val textShadow = Shadow(
                         color = Color.Black.copy(alpha = 0.5f),
                         offset = Offset(2f, 2f),
@@ -282,10 +291,13 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.width(24.dp))
-                
-                Row(modifier = Modifier.focusGroup()) {
+
+                Row(
+                    modifier = Modifier.focusGroup(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     LabeledIconButton(
                         label = stringResource(R.string.play),
                         painterResource = painterResource(R.drawable.ic_play_tv),
@@ -327,9 +339,9 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     }
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(48.dp))
-            
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -419,9 +431,11 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
         }
     }
 
-    Box(modifier = modifier
-        .clip(RoundedCornerShape(8.dp))
-        .border(4.dp, WhiteTransparent10, RoundedCornerShape(8.dp))) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .border(4.dp, WhiteTransparent10, RoundedCornerShape(8.dp))
+    ) {
         mapBitmap.value?.let {
             Image(
                 bitmap = it.asImageBitmap(),
@@ -445,7 +459,19 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
 }
 
 @Composable
-fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, darkMutedColor: Color = MaterialTheme.colorScheme.surface, isFirst: Boolean = false, isLast: Boolean = false, onMoveUp: (() -> Unit)? = null, onMoveDown: (() -> Unit)? = null, onRemove: (() -> Unit)? = null, removeFocusRequester: FocusRequester = remember { FocusRequester() }, moveUpFocusRequester: FocusRequester = remember { FocusRequester() }, moveDownFocusRequester: FocusRequester = remember { FocusRequester() }) {
+fun AlbumPlaylistTrackItem(
+    track: MediaWrapper,
+    modifier: Modifier = Modifier,
+    darkMutedColor: Color = MaterialTheme.colorScheme.surface,
+    isFirst: Boolean = false,
+    isLast: Boolean = false,
+    onMoveUp: (() -> Unit)? = null,
+    onMoveDown: (() -> Unit)? = null,
+    onRemove: (() -> Unit)? = null,
+    removeFocusRequester: FocusRequester = remember { FocusRequester() },
+    moveUpFocusRequester: FocusRequester = remember { FocusRequester() },
+    moveDownFocusRequester: FocusRequester = remember { FocusRequester() }
+) {
     var isFocused by remember { mutableStateOf(false) }
     var itemHasFocus by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(if (itemHasFocus) 1.05f else 1f, label = "scale")
@@ -453,8 +479,6 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, d
     val topCornerRadius by animateDpAsState(if (itemHasFocus || isFirst) baseCornerRadius else 0.dp, label = "topCornerRadius")
     val bottomCornerRadius by animateDpAsState(if (itemHasFocus || isLast) baseCornerRadius else 0.dp, label = "bottomCornerRadius")
     val context = LocalContext.current
-    var boxWidth by remember { mutableStateOf(300.dp) }
-    val density = LocalDensity.current
     val activity = LocalActivity.current
     val itemFocusRequester = remember { FocusRequester() }
     val shape = RoundedCornerShape(topStart = topCornerRadius, topEnd = topCornerRadius, bottomStart = bottomCornerRadius, bottomEnd = bottomCornerRadius)
@@ -489,187 +513,196 @@ fun AlbumPlaylistTrackItem(track: MediaWrapper, modifier: Modifier = Modifier, d
                 .background(itemBackgroundColor, shape)
                 .clip(shape)
         ) {
-            Box (Modifier
-                .focusRequester(itemFocusRequester)
-                .width(width = boxWidth)
-                .fillMaxHeight()
-                .onFocusChanged {
-                    isFocused = it.isFocused
-                }
-                .combinedClickable(
-                    onClick = {
-                        TvUtil.openMedia(activity as FragmentActivity, track)
-                    },
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                )
-                .background(if (isFocused) WhiteTransparent25 else Transparent, shape = RoundedCornerShape(baseCornerRadius))
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                Box(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .focusRequester(itemFocusRequester)
+                        .onFocusChanged {
+                            isFocused = it.isFocused
+                        }
+                        .combinedClickable(
+                            onClick = {
+                                TvUtil.openMedia(activity as FragmentActivity, track)
+                            },
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        )
+                        .background(if (isFocused) WhiteTransparent25 else Transparent, shape = RoundedCornerShape(baseCornerRadius))
                 ) {
-                    Box(modifier = Modifier
-                        .size(56.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(WhiteTransparent10)) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(56.dp)
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(WhiteTransparent10)
+                        ) {
 
-                        // Track thumbnail (usually same as album art)
-                        val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
-                        LaunchedEffect(track.artworkMrl) {
-                            track.artworkMrl?.let { mrl ->
-                                mapBitmap.value = AudioUtil.readCoverBitmap(Uri.decode(mrl), 120)
+                            // Track thumbnail (usually same as album art)
+                            val mapBitmap: MutableState<Bitmap?> = remember { mutableStateOf(null) }
+                            LaunchedEffect(track.artworkMrl) {
+                                track.artworkMrl?.let { mrl ->
+                                    mapBitmap.value = AudioUtil.readCoverBitmap(Uri.decode(mrl), 120)
+                                }
                             }
-                        }
 
-                        mapBitmap.value?.let {
-                            Image(
-                                bitmap = it.asImageBitmap(),
-                                contentDescription = null,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
-                        } ?: run {
-                            Image(
-                                painter = painterResource(R.drawable.ic_song_big),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .alpha(if (itemHasFocus) 0F else 1F)
-                                    .fillMaxSize(),
-                                contentScale = ContentScale.Fit,
-                                colorFilter = ColorFilter.tint(White)
-                            )
-                        }
+                            mapBitmap.value?.let {
+                                Image(
+                                    bitmap = it.asImageBitmap(),
+                                    contentDescription = null,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Crop
+                                )
+                            } ?: run {
+                                Image(
+                                    painter = painterResource(R.drawable.ic_song_big),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .alpha(if (itemHasFocus) 0F else 1F)
+                                        .fillMaxSize(),
+                                    contentScale = ContentScale.Fit,
+                                    colorFilter = ColorFilter.tint(White)
+                                )
+                            }
 
-                        val currentMedia by PlaylistManager.currentPlayedMedia.observeAsState()
-                        val playlistModel: PlaylistModel = viewModel()
-                        val isCurrent = currentMedia?.equals(track) == true
+                            val currentMedia by PlaylistManager.currentPlayedMedia.observeAsState()
+                            val playlistModel: PlaylistModel = viewModel()
+                            val isCurrent = currentMedia?.equals(track) == true
 
-                        InvalidationComposable(currentMedia?.tag) {
-                            if (isCurrent) {
+                            InvalidationComposable(currentMedia?.tag) {
+                                if (isCurrent) {
+                                    Box(
+                                        Modifier
+                                            .fillMaxSize()
+                                            .background(BlackTransparent50, RoundedCornerShape(4.dp)),
+                                        contentAlignment = Alignment.BottomCenter
+                                    ) {
+                                        MiniVisualizer(MaterialTheme.colorScheme.onSurface, playlistModel)
+                                    }
+                                }
+                            }
+
+                            if (isFocused && !isCurrent) {
                                 Box(
-                                    Modifier
+                                    modifier = Modifier
                                         .fillMaxSize()
-                                        .background(BlackTransparent50, RoundedCornerShape(4.dp)),
-                                    contentAlignment = Alignment.BottomCenter
+                                        .background(Grey900Transparent),
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    MiniVisualizer(MaterialTheme.colorScheme.onSurface, playlistModel)
+                                    Icon(
+                                        painter = painterResource(R.drawable.ic_play_tv),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(24.dp),
+                                        tint = White
+                                    )
                                 }
                             }
                         }
 
-                        if (isFocused && !isCurrent) {
-                            Box(modifier = Modifier
-                                .fillMaxSize()
-                                .background(Grey900Transparent),
-                                contentAlignment = Alignment.Center) {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_play_tv),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(24.dp),
-                                    tint = White
-                                )
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fadingMarquee(isFocused = isFocused)
+                        ) {
+                            Text(
+                                text = track.title ?: "",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = White,
+                                maxLines = 1
+                            )
+                            Text(
+                                text = track.artistName ?: "",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = WhiteTransparent70,
+                                maxLines = 1
+                            )
+                        }
+
+                        Text(
+                            text = Tools.millisToString(track.length),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = WhiteTransparent70,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .graphicsLayer { alpha = if (itemHasFocus) 1f else 0f }
+                        .padding(horizontal = 8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (onMoveUp != null) {
+                            LabeledIconButton(
+                                label = stringResource(R.string.move_up),
+                                painterResource = painterResource(R.drawable.ic_playlist_moveup),
+                                modifier = Modifier.focusRequester(moveUpFocusRequester),
+                                tint = White
+                            ) {
+                                onMoveUp()
+                            }
+                        } else if (onMoveDown != null) {
+                            Spacer(modifier = Modifier.width(48.dp))
+                        }
+                        if (onMoveDown != null) {
+                            LabeledIconButton(
+                                label = stringResource(R.string.move_down),
+                                painterResource = painterResource(R.drawable.ic_playlist_movedown),
+                                modifier = Modifier.focusRequester(moveDownFocusRequester),
+                                tint = White
+                            ) {
+                                onMoveDown()
+                            }
+                        } else if (onMoveUp != null) {
+                            Spacer(modifier = Modifier.width(48.dp))
+                        }
+                        if (onRemove != null) {
+                            LabeledIconButton(
+                                label = stringResource(R.string.remove),
+                                painterResource = painterResource(R.drawable.ic_remove_from_playlist),
+                                modifier = Modifier.focusRequester(removeFocusRequester),
+                                tint = White
+                            ) {
+                                onRemove()
                             }
                         }
+                        LabeledIconButton(
+                            label = stringResource(R.string.append),
+                            painterResource = painterResource(R.drawable.ic_tv_list_append),
+                            tint = White
+                        ) {
+                            MediaUtils.appendMedia(context, track)
+                        }
+                        LabeledIconButton(
+                            label = stringResource(R.string.insert_next),
+                            painterResource = painterResource(R.drawable.ic_tv_list_playnext),
+                            tint = White
+                        ) {
+                            MediaUtils.insertNext(context, track)
+                        }
+                        LabeledIconButton(
+                            label = stringResource(R.string.add_to_playlist),
+                            painterResource = painterResource(R.drawable.ic_addtoplaylist),
+                            tint = White
+                        ) {
+                            (activity as FragmentActivity).addToPlaylist(arrayOf(track), SavePlaylistDialog.KEY_NEW_TRACKS)
+                        }
                     }
-
-                    val edgeWidth = 16.dp
-
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fadingMarquee(isFocused = isFocused)
-                    ) {
-                        Text(
-                            text = track.title ?: "",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = White,
-                            maxLines = 1
-                        )
-                        Text(
-                            text = track.artistName ?: "",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = WhiteTransparent70,
-                            maxLines = 1
-                        )
-                    }
-
-                    Text(
-                        text = Tools.millisToString(track.length),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = WhiteTransparent70,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .onGloballyPositioned {
-                        boxWidth = with(density) { it.positionInParent().x.toDp() }
-                    }
-                    .graphicsLayer { alpha = if (itemHasFocus) 1f else 0f }
-                    .padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (onMoveUp != null) {
-                    LabeledIconButton(
-                        label = stringResource(R.string.move_up),
-                        painterResource = painterResource(R.drawable.ic_playlist_moveup),
-                        modifier = Modifier.focusRequester(moveUpFocusRequester),
-                        tint = White
-                    ) {
-                        onMoveUp()
-                    }
-                } else if (onMoveDown != null) {
-                    Spacer(modifier = Modifier.width(48.dp))
-                }
-                if (onMoveDown != null) {
-                    LabeledIconButton(
-                        label = stringResource(R.string.move_down),
-                        painterResource = painterResource(R.drawable.ic_playlist_movedown),
-                        modifier = Modifier.focusRequester(moveDownFocusRequester),
-                        tint = White
-                    ) {
-                        onMoveDown()
-                    }
-                } else if (onMoveUp != null) {
-                    Spacer(modifier = Modifier.width(48.dp))
-                }
-                if (onRemove != null) {
-                    LabeledIconButton(
-                        label = stringResource(R.string.remove),
-                        painterResource = painterResource(R.drawable.ic_remove_from_playlist),
-                        modifier = Modifier.focusRequester(removeFocusRequester),
-                        tint = White
-                    ) {
-                        onRemove()
-                    }
-                }
-                LabeledIconButton(
-                    label = stringResource(R.string.append),
-                    painterResource = painterResource(R.drawable.ic_tv_list_append),
-                    tint = White
-                ) {
-                    MediaUtils.appendMedia(context, track)
-                }
-                LabeledIconButton(
-                    label = stringResource(R.string.insert_next),
-                    painterResource = painterResource(R.drawable.ic_tv_list_playnext),
-                    tint = White
-                ) {
-                    MediaUtils.insertNext(context, track)
-                }
-                LabeledIconButton(
-                    label = stringResource(R.string.add_to_playlist),
-                    painterResource = painterResource(R.drawable.ic_addtoplaylist),
-                    tint = White
-                ) {
-                    (activity as FragmentActivity).addToPlaylist(arrayOf(track), SavePlaylistDialog.KEY_NEW_TRACKS)
                 }
             }
         }
