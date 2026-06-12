@@ -51,6 +51,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -60,6 +61,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -85,6 +87,7 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -142,6 +145,8 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
     val removeFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val moveUpFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val moveDownFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
+    val listState = rememberLazyListState()
+    var listHeight by remember { mutableIntStateOf(0) }
 
 
     /**
@@ -343,10 +348,14 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             Spacer(modifier = Modifier.height(48.dp))
 
             LazyColumn(
+                state = listState,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
                     .graphicsLayer(clip = false)
+                    .onGloballyPositioned {
+                        listHeight = it.size.height
+                    }
                     .focusGroup(),
                 contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp)
             ) {
@@ -370,6 +379,9 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                                     trackList.add(index - 1, item)
                                 }
                                 moveUpFocusRequesters[tag]?.requestFocus()
+                                scope.launch {
+                                    listState.requestScrollToItem(index - 1, -listHeight / 2 + with(density) { 36.dp.toPx().toInt() })
+                                }
                                 scope.launch(Dispatchers.IO) {
                                     parentItem.move(index, index - 1)
                                     albumSongsViewModel.refresh()
@@ -383,6 +395,9 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                                     trackList.add(index + 1, item)
                                 }
                                 moveDownFocusRequesters[tag]?.requestFocus()
+                                scope.launch {
+                                    listState.requestScrollToItem(index + 1, -listHeight / 2 + with(density) { 36.dp.toPx().toInt() })
+                                }
                                 scope.launch(Dispatchers.IO) {
                                     parentItem.move(index, index + 1)
                                     albumSongsViewModel.refresh()
