@@ -378,7 +378,11 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                                     val item = trackList.removeAt(index)
                                     trackList.add(index - 1, item)
                                 }
-                                moveUpFocusRequesters[tag]?.requestFocus()
+                                if (index - 1 == 0) {
+                                    moveDownFocusRequesters[tag]?.requestFocus()
+                                } else {
+                                    moveUpFocusRequesters[tag]?.requestFocus()
+                                }
                                 scope.launch {
                                     listState.requestScrollToItem(index - 1, -listHeight / 2 + with(density) { 36.dp.toPx().toInt() })
                                 }
@@ -394,7 +398,11 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                                     val item = trackList.removeAt(index)
                                     trackList.add(index + 1, item)
                                 }
-                                moveDownFocusRequesters[tag]?.requestFocus()
+                                if (index + 1 == trackList.size - 1) {
+                                    moveUpFocusRequesters[tag]?.requestFocus()
+                                } else {
+                                    moveDownFocusRequesters[tag]?.requestFocus()
+                                }
                                 scope.launch {
                                     listState.requestScrollToItem(index + 1, -listHeight / 2 + with(density) { 36.dp.toPx().toInt() })
                                 }
