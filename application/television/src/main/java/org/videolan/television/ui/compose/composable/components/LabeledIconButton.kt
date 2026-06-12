@@ -25,20 +25,19 @@
 package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme.Companion.defaultRippleAlpha
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.RippleConfiguration
-import androidx.compose.material3.RippleDefaults
 import androidx.compose.material3.RippleDefaults.RippleAlpha
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipAnchorPosition
@@ -51,11 +50,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -67,6 +68,9 @@ import androidx.compose.ui.unit.dp
  * @param painterResource the painter resource to be displayed or null
  * @param customImage the custom image to be displayed or null
  * @param tint the tint to be applied to the icon
+ * @param backgroundColor the background color to be applied to the button
+ * @param focusedBackgroundColor the background color to be applied to the button when focused
+ * @param focusHeight the height of the button when focused
  * @param onClick the click listener
  * @receiver
  */
@@ -81,6 +85,7 @@ fun LabeledIconButton(
     tint: Color? = null,
     backgroundColor: Color = Color.Transparent,
     focusedBackgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.4F),
+    focusHeight: Dp = 48.dp,
     onClick: () -> Unit
 ) {
     var hasFocus by remember { mutableStateOf(false) }
@@ -99,45 +104,52 @@ fun LabeledIconButton(
         },
         state = rememberTooltipState()
     ) {
+//        val interactionSource = remember { MutableInteractionSource() }
         val defaultRippleAlpha = RippleAlpha
         CompositionLocalProvider(
             LocalRippleConfiguration provides RippleConfiguration(
                 rippleAlpha = RippleAlpha(
-                    pressedAlpha = defaultRippleAlpha.pressedAlpha,
+                    pressedAlpha = 0f,
                     draggedAlpha = defaultRippleAlpha.draggedAlpha,
                     focusedAlpha = 0f,
                     hoveredAlpha = defaultRippleAlpha.hoveredAlpha,
                 )
             ),
         ) {
-            IconButton(
-                onClick = onClick,
+            Box(
                 modifier = modifier
-                    .background(color = if (hasFocus) focusedBackgroundColor else backgroundColor, shape = CircleShape)
-                    .onFocusChanged {
-                        hasFocus = it.hasFocus
-                    },
-                colors = IconButtonDefaults.iconButtonVibrantColors()
+                    .height(focusHeight)
+                    .onFocusChanged { hasFocus = it.hasFocus }
+                    .clickable(
+                        onClick = onClick
+                    ),
+                contentAlignment = Alignment.Center
             ) {
-                val color = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F)
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(color = if (hasFocus) focusedBackgroundColor else backgroundColor, shape = CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    val color = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F)
 
-                if (customImage != null) {
-                    customImage(color)
-                } else if (vectorImage != null)
-                    Icon(
-                        imageVector = vectorImage,
-                        tint = tint ?: color,
-                        contentDescription = label,
-                    )
-                else
-                    Icon(
-                        painter = painterResource!!,
-                        modifier = Modifier.size(24.dp),
-                        tint = tint ?: color,
-                        contentDescription = label,
-                    )
+                    if (customImage != null) {
+                        customImage(color)
+                    } else if (vectorImage != null)
+                        Icon(
+                            imageVector = vectorImage,
+                            tint = tint ?: color,
+                            contentDescription = label,
+                        )
+                    else
+                        Icon(
+                            painter = painterResource!!,
+                            modifier = Modifier.size(24.dp),
+                            tint = tint ?: color,
+                            contentDescription = label,
+                        )
+                }
             }
         }
-
     }
 }
