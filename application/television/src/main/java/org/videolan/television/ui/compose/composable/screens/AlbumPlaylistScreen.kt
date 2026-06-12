@@ -107,6 +107,7 @@ import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
+import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
@@ -145,6 +146,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
     val removeFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val moveUpFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val moveDownFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
+    val playFocusRequester = remember { FocusRequester() }
     val listState = rememberLazyListState()
     var listHeight by remember { mutableIntStateOf(0) }
 
@@ -160,6 +162,10 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             snapshot.forEach { if (it.tag == null) it.tag = UUID.randomUUID().toString() }
             trackList.addAll(snapshot)
         }
+    }
+
+    LaunchedEffect(Unit) {
+        playFocusRequester.requestFocus()
     }
 
     LaunchedEffect(tracks) {
@@ -237,11 +243,13 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             )
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 32.dp)
-        ) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            AudioPlayer(requestFocus = false)
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 32.dp)
+            ) {
 
             Row(
                 modifier = Modifier
@@ -311,6 +319,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     LabeledIconButton(
                         label = stringResource(R.string.play),
                         painterResource = painterResource(R.drawable.ic_play_tv),
+                        modifier = Modifier.focusRequester(playFocusRequester),
                         focusedBackgroundColor = WhiteTransparent25,
                         tint = White
                     ) {
@@ -447,6 +456,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             }
         }
     }
+}
 }
 
 @Composable
