@@ -320,8 +320,10 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
             }
 
         }
-        LaunchedEffect(visible.value) {
-            if (visible.value == true && requestFocus) playPauseFocusRequester.requestFocus()
-        }
+    }
+    var initialLaunch by remember { mutableStateOf(true) }
+    LaunchedEffect(visible.value) {
+        if (visible.value == true && (requestFocus || !initialLaunch)) playPauseFocusRequester.requestFocus()
+        initialLaunch = false
     }
 }
