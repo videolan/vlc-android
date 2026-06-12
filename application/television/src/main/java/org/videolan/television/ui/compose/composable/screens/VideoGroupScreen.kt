@@ -99,7 +99,7 @@ fun VideoGroupScreenContent(modifier: Modifier, folder: Folder? = null, group : 
             Text(text = if (folder != null) stringResource(R.string.talkback_folder, folder.title) else stringResource(R.string.talkback_video_group, group!!.title))
         }
         Row(modifier) {
-            AudioPlayer()
+            AudioPlayer(requestFocus = false)
             if (folder != null)
                 VideoList(modifier
                     .padding(
