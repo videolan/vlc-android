@@ -111,15 +111,7 @@ import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
-import org.videolan.television.ui.compose.theme.BackgroundColorDark
-import org.videolan.television.ui.compose.theme.BlackTransparent50
-import org.videolan.television.ui.compose.theme.Grey900Transparent
-import org.videolan.television.ui.compose.theme.Transparent
-import org.videolan.television.ui.compose.theme.White
-import org.videolan.television.ui.compose.theme.WhiteTransparent10
-import org.videolan.television.ui.compose.theme.WhiteTransparent25
-import org.videolan.television.ui.compose.theme.WhiteTransparent70
-import org.videolan.television.ui.compose.theme.WhiteTransparent90
+import org.videolan.television.ui.compose.theme.*
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -176,18 +168,22 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
             return@LaunchedEffect
         }
 
-        val tagMap = trackList.filter { it.tag != null }.groupBy { it.id }.mapValues { entry -> entry.value.map { it.tag!! }.toMutableList() }
+        val tagMap = trackList.asSequence()
+            .filter { it.tag != null }
+            .groupBy { it.id }
+            .mapValues { entry -> entry.value.asSequence().map { it.tag!! }.toMutableList() }
+
         snapshot.forEach { newTrack ->
             val tags = tagMap[newTrack.id]
-            if (!tags.isNullOrEmpty()) {
-                newTrack.tag = tags.removeAt(0)
+            newTrack.tag = if (!tags.isNullOrEmpty()) {
+                tags.removeAt(0)
             } else {
-                newTrack.tag = UUID.randomUUID().toString()
+                UUID.randomUUID().toString()
             }
         }
 
-        val isDifferent = trackList.size != snapshot.size || trackList.indices.any { i ->
-            trackList[i].id != snapshot[i].id || trackList[i].tag != snapshot[i].tag
+        val isDifferent = (trackList.size != snapshot.size) || trackList.indices.any { i ->
+            (trackList[i].id != snapshot[i].id) || (trackList[i].tag != snapshot[i].tag)
         }
 
         if (isDifferent) {
@@ -216,7 +212,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundColorDark)
+            .background(BackgroundColorDark),
     ) {
 
         blurredCover?.let {
@@ -323,7 +319,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                         focusedBackgroundColor = WhiteTransparent25,
                         tint = White
                     ) {
-                        MediaUtils.playTracks(context, parentItem, 0, false)
+                        MediaUtils.playTracks(context, parentItem, 0, shuffle = false)
                     }
                     if (parentItem is Playlist) {
                         LabeledIconButton(
@@ -411,7 +407,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                                 }
                             }
                         } else null,
-                        onMoveDown = if (parentItem is Playlist && index < trackList.size - 1) {
+                        onMoveDown = if (parentItem is Playlist && (index < trackList.size - 1)) {
                             {
                                 Snapshot.withMutableSnapshot {
                                     val item = trackList.removeAt(index)
@@ -434,7 +430,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                         onRemove = if (parentItem is Playlist) {
                             {
                                 // Move focus to another "remove" button before deleting
-                                val nextFocusIndex = if (index + 1 < trackList.size) index + 1 else if (index > 0) index - 1 else -1
+                                val nextFocusIndex = if ((index + 1) < trackList.size) index + 1 else if (index > 0) index - 1 else -1
                                 if (nextFocusIndex != -1) {
                                     val nextTrack = trackList[nextFocusIndex]
                                     val nextTag = nextTrack.tag
@@ -478,7 +474,7 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .border(4.dp, WhiteTransparent10, RoundedCornerShape(8.dp))
+            .border(4.dp, WhiteTransparent10, RoundedCornerShape(8.dp)),
     ) {
         mapBitmap.value?.let {
             Image(
@@ -517,8 +513,8 @@ fun AlbumPlaylistTrackItem(
     moveUpFocusRequester: FocusRequester = remember { FocusRequester() },
     moveDownFocusRequester: FocusRequester = remember { FocusRequester() }
 ) {
-    var isFocused by remember { mutableStateOf(false) }
-    var itemHasFocus by remember { mutableStateOf(false) }
+    var isFocused by remember { mutableStateOf(value = false) }
+    var itemHasFocus by remember { mutableStateOf(value = false) }
     val scale by animateFloatAsState(if (itemHasFocus) 1.05f else 1f, label = "scale")
     val baseCornerRadius = 12.dp
     val topCornerRadius by animateDpAsState(if (itemHasFocus || isFirst) baseCornerRadius else 0.dp, label = "topCornerRadius")
@@ -535,7 +531,7 @@ fun AlbumPlaylistTrackItem(
             .height(72.dp)
             .focusProperties {
                 onEnter = {
-                    if (requestedFocusDirection == FocusDirection.Up || requestedFocusDirection == FocusDirection.Down) {
+                    if (requestedFocusDirection == FocusDirection.Up || (requestedFocusDirection == FocusDirection.Down)) {
                         itemFocusRequester.requestFocus()
                     }
                 }
@@ -708,9 +704,11 @@ fun AlbumPlaylistTrackItem(
                                 onMoveUp()
                             }
                         } else if (onMoveDown != null) {
-                            Spacer(modifier = Modifier
-                                .width(48.dp)
-                                .height(72.dp))
+                            Spacer(
+                                modifier = Modifier
+                                    .width(48.dp)
+                                    .height(72.dp)
+                            )
                         }
                         if (onMoveDown != null) {
                             LabeledIconButton(
@@ -723,9 +721,11 @@ fun AlbumPlaylistTrackItem(
                                 onMoveDown()
                             }
                         } else if (onMoveUp != null) {
-                            Spacer(modifier = Modifier
-                                .width(48.dp)
-                                .height(72.dp))
+                            Spacer(
+                                modifier = Modifier
+                                    .width(48.dp)
+                                    .height(72.dp)
+                            )
                         }
                         if (onRemove != null) {
                             LabeledIconButton(
