@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.screens
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.core.animateDpAsState
@@ -111,6 +112,11 @@ import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
+import androidx.compose.ui.tooling.preview.Preview
+import org.videolan.medialibrary.stubs.StubAlbum
+import org.videolan.medialibrary.stubs.StubMediaWrapper
+import org.videolan.medialibrary.stubs.StubPlaylist
+import org.videolan.resources.R as ResourcesR
 import org.videolan.television.ui.compose.theme.*
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
@@ -818,5 +824,97 @@ fun AlbumPlaylistTrackItem(
                 }
             }
         }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AlbumPlaylistScreenPreview() {
+    val context = LocalContext.current
+    org.videolan.medialibrary.MLContextTools.getInstance().setContext(context)
+    val album = StubAlbum(
+        1L, "Sample Album", 2024, "", "Sample Artist", 1L, 10, 10, 3600000L, false
+    )
+    val tracks = (1..10).map {
+        StubMediaWrapper(
+            it.toLong(), "file:///track$it.mp3", 0L, 0f, 300000L,
+            MediaWrapper.TYPE_AUDIO,
+            "Track $it", "track$it.mp3", 1L, 1L, "Sample Artist", "Genre",
+            1L, "Sample Album", "Sample Artist", 0, 0, "", 0, 0, it, 1,
+            0L, 0L, false, false, 2024, true, 0L
+        ).apply { tag = "tag_$it" }
+    }
+
+    // Load a real image for the preview. We use applicationContext.resources to avoid the LocalContextResources lint warning.
+    val mockBitmap = remember { BitmapFactory.decodeResource(context.applicationContext.resources, ResourcesR.drawable.vlc_fake_cover) }
+
+    VlcTVTheme {
+        AlbumPlaylistScreenContent(
+            parentItem = album,
+            trackList = tracks,
+            darkMutedColor = Color(0xFF221137),
+            coverBitmap = mockBitmap,
+            blurredCover = mockBitmap,
+            listState = rememberLazyListState(),
+            onListHeightChanged = {},
+            playFocusRequester = remember { FocusRequester() },
+            removeFocusRequesters = remember { mutableMapOf() },
+            moveUpFocusRequesters = remember { mutableMapOf() },
+            moveDownFocusRequesters = remember { mutableMapOf() },
+            onPlay = {},
+            onDelete = {},
+            onInsertNext = {},
+            onAppend = {},
+            onAddToPlaylist = {},
+            onMoveUp = { _, _ -> },
+            onMoveDown = { _, _ -> },
+            onRemove = { _, _ -> }
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun PlaylistScreenPreview() {
+    val context = LocalContext.current
+    org.videolan.medialibrary.MLContextTools.getInstance().setContext(context)
+    val playlist = StubPlaylist(
+        1L, "Sample Playlist", 5, 1800000L, 0, 5, 0, 0, false
+    )
+    val tracks = (1..5).map {
+        StubMediaWrapper(
+            it.toLong(), "file:///track$it.mp3", 0L, 0f, 300000L,
+            MediaWrapper.TYPE_AUDIO,
+            "Playlist Track $it", "track$it.mp3", 1L, 1L, "Various Artists", "Genre",
+            1L, "Various Albums", "Various Artists", 0, 0, "", 0, 0, it, 1,
+            0L, 0L, false, false, 2024, true, 0L
+        ).apply { tag = "tag_$it" }
+    }
+
+    // Load a real image for the preview. We use applicationContext.resources to avoid the LocalContextResources lint warning.
+    val mockBitmap = remember { BitmapFactory.decodeResource(context.applicationContext.resources, ResourcesR.drawable.vlc_fake_cover) }
+
+    VlcTVTheme {
+        AlbumPlaylistScreenContent(
+            parentItem = playlist,
+            trackList = tracks,
+            darkMutedColor = Color(0xFF221137),
+            coverBitmap = mockBitmap,
+            blurredCover = mockBitmap,
+            listState = rememberLazyListState(),
+            onListHeightChanged = {},
+            playFocusRequester = remember { FocusRequester() },
+            removeFocusRequesters = remember { mutableMapOf() },
+            moveUpFocusRequesters = remember { mutableMapOf() },
+            moveDownFocusRequesters = remember { mutableMapOf() },
+            onPlay = {},
+            onDelete = {},
+            onInsertNext = {},
+            onAppend = {},
+            onAddToPlaylist = {},
+            onMoveUp = { _, _ -> },
+            onMoveDown = { _, _ -> },
+            onRemove = { _, _ -> }
+        )
     }
 }
