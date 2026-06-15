@@ -530,18 +530,16 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
 
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .border(4.dp, WhiteTransparent10, RoundedCornerShape(8.dp)),
+            .border(4.dp, WhiteTransparent10, RoundedCornerShape(8.dp))
+            .padding(4.dp)
+            .clip(RoundedCornerShape(4.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant),
     ) {
         mapBitmap.value?.let {
             Image(
                 bitmap = it.asImageBitmap(),
                 contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(4.dp)
-                    .clip(RoundedCornerShape(4.dp)),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
         } ?: run {
@@ -549,7 +547,7 @@ fun AlbumPlaylistHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
                 painter = painterResource(if (item is Playlist) R.drawable.ic_playlist_big else R.drawable.ic_album_big),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(28.dp)
+                    .padding(24.dp)
                     .fillMaxSize(),
                 colorFilter = ColorFilter.tint(White)
             )
