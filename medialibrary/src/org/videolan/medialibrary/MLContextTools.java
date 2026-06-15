@@ -31,7 +31,12 @@ public final class MLContextTools {
     private Context mContext;
 
     public void setContext(Context context) {
-        this.mContext = context.getApplicationContext();
+        if (context == null) {
+            this.mContext = null;
+            return;
+        }
+        Context appContext = context.getApplicationContext();
+        this.mContext = appContext != null ? appContext : context;
     }
 
     public static MLContextTools getInstance() {

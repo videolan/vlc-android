@@ -10,7 +10,6 @@ import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_INSERTIONDA
 import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_LASTMODIFICATIONDATE;
 import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_RELEASEDATE;
 
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -55,7 +54,7 @@ public class StubDataSource {
     ArrayList<Folder> mFolders = new ArrayList<>();
     ArrayList<String> mDevices = new ArrayList<>();
 
-    private static String baseMrl = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+    private static String baseMrl = "/sdcard/";
 
     public static AtomicLong uuid = new AtomicLong(2);
 

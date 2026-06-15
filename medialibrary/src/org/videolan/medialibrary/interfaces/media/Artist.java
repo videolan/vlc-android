@@ -20,8 +20,19 @@ abstract public class Artist extends MediaLibraryItem {
     private int presentTracksCount;
 
     public static class SpecialRes {
-        public static String UNKNOWN_ARTIST = MLContextTools.getInstance().getContext().getString(R.string.unknown_artist);
-        public static String VARIOUS_ARTISTS = MLContextTools.getInstance().getContext().getString(R.string.various_artists);
+        public static String UNKNOWN_ARTIST;
+        public static String VARIOUS_ARTISTS;
+
+        static {
+            android.content.Context context = MLContextTools.getInstance().getContext();
+            if (context != null) {
+                UNKNOWN_ARTIST = context.getString(R.string.unknown_artist);
+                VARIOUS_ARTISTS = context.getString(R.string.various_artists);
+            } else {
+                UNKNOWN_ARTIST = "Unknown Artist";
+                VARIOUS_ARTISTS = "Various Artists";
+            }
+        }
     }
 
     public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount, boolean isFavorite) {

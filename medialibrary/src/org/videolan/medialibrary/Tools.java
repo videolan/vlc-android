@@ -35,7 +35,13 @@ public class Tools {
         if (!TextUtils.equals(uri.getScheme(), "file") || !uri.getPath().startsWith("/sdcard"))
             return uri;
         String path = uri.toString();
-        return Uri.parse(path.replace("/sdcard", Environment.getExternalStorageDirectory().getPath()));
+        String externalPath;
+        try {
+            externalPath = Environment.getExternalStorageDirectory().getPath();
+        } catch (Exception e) {
+            externalPath = "/sdcard";
+        }
+        return Uri.parse(path.replace("/sdcard", externalPath));
     }
 
     public static boolean isArrayEmpty(@Nullable Object[] array) {

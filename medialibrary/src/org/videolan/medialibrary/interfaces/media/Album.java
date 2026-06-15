@@ -15,7 +15,16 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class Album extends MediaLibraryItem {
     public static class SpecialRes {
-        public static String UNKNOWN_ALBUM = MLContextTools.getInstance().getContext().getString(R.string.unknown_album);
+        public static String UNKNOWN_ALBUM;
+
+        static {
+            android.content.Context context = MLContextTools.getInstance().getContext();
+            if (context != null) {
+                UNKNOWN_ALBUM = context.getString(R.string.unknown_album);
+            } else {
+                UNKNOWN_ALBUM = "Unknown Album";
+            }
+        }
     }
 
     protected int releaseYear;
