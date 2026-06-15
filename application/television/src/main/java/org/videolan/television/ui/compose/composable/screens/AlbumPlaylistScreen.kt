@@ -209,6 +209,108 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
         }
     }
 
+    AlbumPlaylistScreenContent(
+        parentItem = parentItem,
+        trackList = trackList,
+        darkMutedColor = darkMutedColor,
+        coverBitmap = coverBitmap,
+        blurredCover = blurredCover,
+        listState = listState,
+        onListHeightChanged = { listHeight = it },
+        playFocusRequester = playFocusRequester,
+        removeFocusRequesters = removeFocusRequesters,
+        moveUpFocusRequesters = moveUpFocusRequesters,
+        moveDownFocusRequesters = moveDownFocusRequesters,
+        onPlay = { MediaUtils.playTracks(context, parentItem, 0, shuffle = false) },
+        onDelete = {
+            if (parentItem is Playlist) {
+                MediaUtils.deleteItem(activity as FragmentActivity, parentItem) {
+                    activity.finish()
+                }
+            }
+        },
+        onInsertNext = { MediaUtils.appendMedia(context, parentItem.tracks.toList()) },
+        onAppend = { MediaUtils.insertNext(context, parentItem.tracks) },
+        onAddToPlaylist = { (activity as FragmentActivity).addToPlaylist(parentItem.tracks, SavePlaylistDialog.KEY_NEW_TRACKS) },
+        onMoveUp = { index, track ->
+            val tag = track.tag!!
+            Snapshot.withMutableSnapshot {
+                val item = trackList.removeAt(index)
+                trackList.add(index - 1, item)
+            }
+            if (index - 1 == 0) {
+                moveDownFocusRequesters[tag]?.requestFocus()
+            } else {
+                moveUpFocusRequesters[tag]?.requestFocus()
+            }
+            scope.launch {
+                listState.requestScrollToItem(index - 1, listHeight / 2 - with(density) { 36.dp.toPx().toInt() })
+            }
+            scope.launch(Dispatchers.IO) {
+                (parentItem as Playlist).move(index, index - 1)
+                albumSongsViewModel.refresh()
+            }
+        },
+        onMoveDown = { index, track ->
+            val tag = track.tag!!
+            Snapshot.withMutableSnapshot {
+                val item = trackList.removeAt(index)
+                trackList.add(index + 1, item)
+            }
+            if (index + 1 == trackList.size - 1) {
+                moveUpFocusRequesters[tag]?.requestFocus()
+            } else {
+                moveDownFocusRequesters[tag]?.requestFocus()
+            }
+            scope.launch {
+                listState.requestScrollToItem(index + 1, listHeight / 2 - with(density) { 36.dp.toPx().toInt() })
+            }
+            scope.launch(Dispatchers.IO) {
+                (parentItem as Playlist).move(index, index + 1)
+                albumSongsViewModel.refresh()
+            }
+        },
+            onRemove = { index, _ ->
+                // Move focus to another "remove" button before deleting
+                val nextFocusIndex = if ((index + 1) < trackList.size) index + 1 else if (index > 0) index - 1 else -1
+                if (nextFocusIndex != -1) {
+                    val nextTrack = trackList[nextFocusIndex]
+                    val nextTag = nextTrack.tag
+                    if (nextTag != null) removeFocusRequesters[nextTag]?.requestFocus()
+                }
+
+                trackList.removeAt(index)
+                scope.launch(Dispatchers.IO) {
+                    (parentItem as Playlist).remove(index)
+                    albumSongsViewModel.refresh()
+                }
+            }
+    )
+}
+
+@Composable
+fun AlbumPlaylistScreenContent(
+    parentItem: MediaLibraryItem,
+    trackList: List<MediaWrapper>,
+    darkMutedColor: Color?,
+    coverBitmap: Bitmap?,
+    blurredCover: Bitmap?,
+    listState: androidx.compose.foundation.lazy.LazyListState,
+    onListHeightChanged: (Int) -> Unit,
+    playFocusRequester: FocusRequester,
+    removeFocusRequesters: Map<String, FocusRequester>,
+    moveUpFocusRequesters: Map<String, FocusRequester>,
+    moveDownFocusRequesters: Map<String, FocusRequester>,
+    onPlay: () -> Unit,
+    onDelete: () -> Unit,
+    onInsertNext: () -> Unit,
+    onAppend: () -> Unit,
+    onAddToPlaylist: () -> Unit,
+    onMoveUp: (Int, MediaWrapper) -> Unit,
+    onMoveDown: (Int, MediaWrapper) -> Unit,
+    onRemove: (Int, MediaWrapper) -> Unit
+) {
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -247,212 +349,162 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                     .padding(top = 32.dp)
             ) {
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 48.dp), verticalAlignment = Alignment.CenterVertically
-            ) {
-                AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.Center
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 48.dp), verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val textShadow = Shadow(
-                        color = Color.Black.copy(alpha = 0.5f),
-                        offset = Offset(2f, 2f),
-                        blurRadius = 4f
-                    )
-                    Text(
-                        text = parentItem.title ?: "",
-                        style = MaterialTheme.typography.headlineLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            shadow = textShadow
-                        ),
-                        color = White,
-                        maxLines = 1,
-                        modifier = Modifier.fadingMarquee()
-                    )
-                    val subtitle = when (parentItem) {
-                        is Album -> parentItem.albumArtist ?: stringResource(R.string.unknown_artist)
-                        else -> stringResource(R.string.track_number, parentItem.tracks.size)
-                    }
-                    if (subtitle.isNotEmpty()) {
+                    AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        val textShadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.5f),
+                            offset = Offset(2f, 2f),
+                            blurRadius = 4f
+                        )
                         Text(
-                            text = subtitle,
-                            style = MaterialTheme.typography.headlineSmall.copy(shadow = textShadow),
-                            color = WhiteTransparent90,
+                            text = parentItem.title ?: "",
+                            style = MaterialTheme.typography.headlineLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                shadow = textShadow
+                            ),
+                            color = White,
                             maxLines = 1,
                             modifier = Modifier.fadingMarquee()
                         )
+                        val subtitle = when (parentItem) {
+                            is Album -> parentItem.albumArtist ?: stringResource(R.string.unknown_artist)
+                            else -> stringResource(R.string.track_number, parentItem.tracks.size)
+                        }
+                        if (subtitle.isNotEmpty()) {
+                            Text(
+                                text = subtitle,
+                                style = MaterialTheme.typography.headlineSmall.copy(shadow = textShadow),
+                                color = WhiteTransparent90,
+                                maxLines = 1,
+                                modifier = Modifier.fadingMarquee()
+                            )
+                        }
+                        val duration = when (parentItem) {
+                            is Album -> parentItem.duration
+                            is Playlist -> parentItem.tracks.sumOf { it.length }
+                            else -> 0L
+                        }
+                        Text(
+                            text = Tools.millisToString(duration),
+                            style = MaterialTheme.typography.titleMedium.copy(shadow = textShadow),
+                            color = WhiteTransparent90,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
                     }
-                    val duration = when (parentItem) {
-                        is Album -> parentItem.duration
-                        is Playlist -> parentItem.tracks.sumOf { it.length }
-                        else -> 0L
-                    }
-                    Text(
-                        text = Tools.millisToString(duration),
-                        style = MaterialTheme.typography.titleMedium.copy(shadow = textShadow),
-                        color = WhiteTransparent90,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
 
-                Spacer(modifier = Modifier.width(24.dp))
+                    Spacer(modifier = Modifier.width(24.dp))
 
-                Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(50))
-                        .background(darkMutedColor ?: WhiteTransparent10)
-                        .padding(horizontal = 4.dp, vertical = 4.dp)
-                        .focusGroup(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    LabeledIconButton(
-                        label = stringResource(R.string.play),
-                        painterResource = painterResource(R.drawable.ic_play_tv),
-                        modifier = Modifier.focusRequester(playFocusRequester),
-                        focusedBackgroundColor = WhiteTransparent25,
-                        tint = White
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(50))
+                            .background(darkMutedColor ?: WhiteTransparent10)
+                            .padding(horizontal = 4.dp, vertical = 4.dp)
+                            .focusGroup(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        MediaUtils.playTracks(context, parentItem, 0, shuffle = false)
-                    }
-                    if (parentItem is Playlist) {
                         LabeledIconButton(
-                            label = stringResource(R.string.delete),
-                            painterResource = painterResource(R.drawable.ic_tv_list_delete),
+                            label = stringResource(R.string.play),
+                            painterResource = painterResource(R.drawable.ic_play_tv),
+                            modifier = Modifier.focusRequester(playFocusRequester),
                             focusedBackgroundColor = WhiteTransparent25,
                             tint = White
                         ) {
-                            MediaUtils.deleteItem(activity as FragmentActivity, parentItem) {
-                                activity.finish()
+                            onPlay()
+                        }
+                        if (parentItem is Playlist) {
+                            LabeledIconButton(
+                                label = stringResource(R.string.delete),
+                                painterResource = painterResource(R.drawable.ic_tv_list_delete),
+                                focusedBackgroundColor = WhiteTransparent25,
+                                tint = White
+                            ) {
+                                onDelete()
                             }
                         }
-                    }
-                    LabeledIconButton(
-                        label = stringResource(R.string.insert_next),
-                        painterResource = painterResource(R.drawable.ic_tv_list_playnext),
-                        focusedBackgroundColor = WhiteTransparent25,
-                        tint = White
-                    ) {
-                        MediaUtils.appendMedia(context, parentItem.tracks.toList())
-                    }
-                    LabeledIconButton(
-                        label = stringResource(R.string.append),
-                        painterResource = painterResource(R.drawable.ic_tv_list_append),
-                        focusedBackgroundColor = WhiteTransparent25,
-                        tint = White
-                    ) {
-                        MediaUtils.insertNext(context, parentItem.tracks)
-                    }
-                    LabeledIconButton(
-                        label = stringResource(R.string.add_to_playlist),
-                        painterResource = painterResource(R.drawable.ic_addtoplaylist),
-                        focusedBackgroundColor = WhiteTransparent25,
-                        tint = White
-                    ) {
-                        (activity as FragmentActivity).addToPlaylist(parentItem.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                        LabeledIconButton(
+                            label = stringResource(R.string.insert_next),
+                            painterResource = painterResource(R.drawable.ic_tv_list_playnext),
+                            focusedBackgroundColor = WhiteTransparent25,
+                            tint = White
+                        ) {
+                            onInsertNext()
+                        }
+                        LabeledIconButton(
+                            label = stringResource(R.string.append),
+                            painterResource = painterResource(R.drawable.ic_tv_list_append),
+                            focusedBackgroundColor = WhiteTransparent25,
+                            tint = White
+                        ) {
+                            onAppend()
+                        }
+                        LabeledIconButton(
+                            label = stringResource(R.string.add_to_playlist),
+                            painterResource = painterResource(R.drawable.ic_addtoplaylist),
+                            focusedBackgroundColor = WhiteTransparent25,
+                            tint = White
+                        ) {
+                            onAddToPlaylist()
+                        }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(48.dp))
+                Spacer(modifier = Modifier.height(48.dp))
 
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .graphicsLayer(clip = false)
-                    .onGloballyPositioned {
-                        listHeight = it.size.height
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .graphicsLayer(clip = false)
+                        .onGloballyPositioned {
+                            onListHeightChanged(it.size.height)
+                        }
+                        .focusGroup(),
+                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp)
+                ) {
+                    itemsIndexed(trackList, key = { _, track -> track.tag ?: track.hashCode().toString() }) { index, track ->
+                        val tag = track.tag ?: track.hashCode().toString()
+                        val removeFocusRequester = removeFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (removeFocusRequesters as MutableMap)[tag] = it } }
+                        val moveUpFocusRequester = moveUpFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (moveUpFocusRequesters as MutableMap)[tag] = it } }
+                        val moveDownFocusRequester = moveDownFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (moveDownFocusRequesters as MutableMap)[tag] = it } }
+                        AlbumPlaylistTrackItem(
+                            track = track,
+                            modifier = Modifier
+                                .animateItem()
+                                .fillMaxWidth(),
+                            darkMutedColor = darkMutedColor ?: MaterialTheme.colorScheme.surface,
+                            isFirst = index == 0,
+                            isLast = index == trackList.size - 1,
+                            onMoveUp = if (parentItem is Playlist && index > 0) {
+                                { onMoveUp(index, track) }
+                            } else null,
+                            onMoveDown = if (parentItem is Playlist && (index < trackList.size - 1)) {
+                                { onMoveDown(index, track) }
+                            } else null,
+                            onRemove = if (parentItem is Playlist) {
+                                { onRemove(index, track) }
+                            } else null,
+                            removeFocusRequester = removeFocusRequester,
+                            moveUpFocusRequester = moveUpFocusRequester,
+                            moveDownFocusRequester = moveDownFocusRequester
+                        )
                     }
-                    .focusGroup(),
-                contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp)
-            ) {
-                itemsIndexed(trackList, key = { _, track -> track.tag ?: track.hashCode().toString() }) { index, track ->
-                    val tag = track.tag ?: track.hashCode().toString()
-                    val removeFocusRequester = removeFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { removeFocusRequesters[tag] = it } }
-                    val moveUpFocusRequester = moveUpFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { moveUpFocusRequesters[tag] = it } }
-                    val moveDownFocusRequester = moveDownFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { moveDownFocusRequesters[tag] = it } }
-                    AlbumPlaylistTrackItem(
-                        track = track,
-                        modifier = Modifier
-                            .animateItem()
-                            .fillMaxWidth(),
-                        darkMutedColor = darkMutedColor ?: MaterialTheme.colorScheme.surface,
-                        isFirst = index == 0,
-                        isLast = index == trackList.size - 1,
-                        onMoveUp = if (parentItem is Playlist && index > 0) {
-                            {
-                                Snapshot.withMutableSnapshot {
-                                    val item = trackList.removeAt(index)
-                                    trackList.add(index - 1, item)
-                                }
-                                if (index - 1 == 0) {
-                                    moveDownFocusRequesters[tag]?.requestFocus()
-                                } else {
-                                    moveUpFocusRequesters[tag]?.requestFocus()
-                                }
-                                scope.launch {
-                                    listState.requestScrollToItem(index - 1, -listHeight / 2 + with(density) { 36.dp.toPx().toInt() })
-                                }
-                                scope.launch(Dispatchers.IO) {
-                                    parentItem.move(index, index - 1)
-                                    albumSongsViewModel.refresh()
-                                }
-                            }
-                        } else null,
-                        onMoveDown = if (parentItem is Playlist && (index < trackList.size - 1)) {
-                            {
-                                Snapshot.withMutableSnapshot {
-                                    val item = trackList.removeAt(index)
-                                    trackList.add(index + 1, item)
-                                }
-                                if (index + 1 == trackList.size - 1) {
-                                    moveUpFocusRequesters[tag]?.requestFocus()
-                                } else {
-                                    moveDownFocusRequesters[tag]?.requestFocus()
-                                }
-                                scope.launch {
-                                    listState.requestScrollToItem(index + 1, -listHeight / 2 + with(density) { 36.dp.toPx().toInt() })
-                                }
-                                scope.launch(Dispatchers.IO) {
-                                    parentItem.move(index, index + 1)
-                                    albumSongsViewModel.refresh()
-                                }
-                            }
-                        } else null,
-                        onRemove = if (parentItem is Playlist) {
-                            {
-                                // Move focus to another "remove" button before deleting
-                                val nextFocusIndex = if ((index + 1) < trackList.size) index + 1 else if (index > 0) index - 1 else -1
-                                if (nextFocusIndex != -1) {
-                                    val nextTrack = trackList[nextFocusIndex]
-                                    val nextTag = nextTrack.tag
-                                    if (nextTag != null) removeFocusRequesters[nextTag]?.requestFocus()
-                                }
-
-                                trackList.removeAt(index)
-                                scope.launch(Dispatchers.IO) {
-                                    parentItem.remove(index)
-                                    albumSongsViewModel.refresh()
-                                }
-                            }
-                        } else null,
-                        removeFocusRequester = removeFocusRequester,
-                        moveUpFocusRequester = moveUpFocusRequester,
-                        moveDownFocusRequester = moveDownFocusRequester
-                    )
                 }
             }
         }
     }
-}
 }
 
 @Composable
@@ -513,8 +565,8 @@ fun AlbumPlaylistTrackItem(
     moveUpFocusRequester: FocusRequester = remember { FocusRequester() },
     moveDownFocusRequester: FocusRequester = remember { FocusRequester() }
 ) {
-    var isFocused by remember { mutableStateOf(value = false) }
-    var itemHasFocus by remember { mutableStateOf(value = false) }
+    var isFocused by remember { mutableStateOf(false) }
+    var itemHasFocus by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(if (itemHasFocus) 1.05f else 1f, label = "scale")
     val baseCornerRadius = 12.dp
     val topCornerRadius by animateDpAsState(if (itemHasFocus || isFirst) baseCornerRadius else 0.dp, label = "topCornerRadius")
