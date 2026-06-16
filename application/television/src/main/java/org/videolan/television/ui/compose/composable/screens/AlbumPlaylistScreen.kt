@@ -24,10 +24,13 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -119,6 +122,9 @@ import org.videolan.medialibrary.stubs.StubPlaylist
 import org.videolan.resources.R as ResourcesR
 import org.videolan.television.ui.compose.theme.*
 import org.videolan.television.ui.compose.utils.fadingMarquee
+import org.videolan.television.ui.dialogs.ConfirmationTvActivity
+import org.videolan.television.ui.dialogs.ConfirmationTvActivity.Companion.CONFIRMATION_DIALOG_TEXT
+import org.videolan.television.ui.dialogs.ConfirmationTvActivity.Companion.CONFIRMATION_DIALOG_TITLE
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -146,6 +152,12 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
     val moveDownFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val playFocusRequester = remember { FocusRequester() }
     val listState = rememberLazyListState()
+    val deleteLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == ConfirmationTvActivity.ACTION_ID_POSITIVE) {
+            MediaUtils.deletePlaylist(parentItem as Playlist)
+            activity?.finish()
+        }
+    }
     var listHeight by remember { mutableIntStateOf(0) }
 
 
@@ -230,9 +242,11 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
         onPlay = { MediaUtils.playTracks(context, parentItem, 0, shuffle = false) },
         onDelete = {
             if (parentItem is Playlist) {
-                MediaUtils.deleteItem(activity as FragmentActivity, parentItem) {
-                    activity.finish()
+                val intent = Intent(context, ConfirmationTvActivity::class.java).apply {
+                    putExtra(CONFIRMATION_DIALOG_TITLE, activity?.getString(ResourcesR.string.validation_delete_playlist))
+                    putExtra(CONFIRMATION_DIALOG_TEXT, activity?.getString(ResourcesR.string.validation_delete_playlist_text))
                 }
+                deleteLauncher.launch(intent)
             }
         },
         onInsertNext = { MediaUtils.appendMedia(context, parentItem.tracks.toList()) },
