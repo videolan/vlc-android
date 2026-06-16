@@ -166,6 +166,11 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
     val tabs = viewModel.tabs
     var firstLaunch by remember { mutableStateOf(true) }
     var visible by remember { mutableStateOf(true) }
+    var wasVisible by remember { mutableStateOf(visible) }
+    val visibleChangedToTrue = visible && !wasVisible
+    LaunchedEffect(visible) {
+        wasVisible = visible
+    }
 
     val savedTab = settings.getInt(KEY_MAIN_TAB, 0)
     val initialDestination = remember {
@@ -185,6 +190,8 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
     }
 
     val backStack = rememberNavBackStack(initialDestination)
+    val currentDestination = backStack.lastOrNull() as? MainDestination
+    val hasSubtabs = currentDestination is MainDestination.Audio || currentDestination is MainDestination.Video
 
     val duration = 300
     val animatedPadding by animateDpAsState(
@@ -226,7 +233,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
             }, label = "tabs collapsing animation"
         ) { tabsVisible ->
             if (tabsVisible) {
-                val forceFocus = (this.transition.isRunning || firstLaunch) && visible
+                val forceFocus = (this.transition.isRunning || firstLaunch) && visible && (!hasSubtabs || firstLaunch)
                 firstLaunch = false
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -350,7 +357,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
             }
         }
         if (visible) {
-            SubTabs(backStack)
+            SubTabs(backStack, forceFocus = (visibleChangedToTrue && !firstLaunch) && hasSubtabs)
         }
         VLCContentPanel(backStack) {
             visible = it
@@ -359,7 +366,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
 }
 
 @Composable
-private fun SubTabs(backStack: NavBackStack<NavKey>, viewModel: MainActivityViewModel = viewModel()) {
+private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false, viewModel: MainActivityViewModel = viewModel()) {
     val currentKey = backStack.lastOrNull() as? MainDestination ?: return
     val context = LocalContext.current
     val settings = Settings.getInstance(context)
@@ -381,6 +388,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, viewModel: MainActivityView
                     settings.edit { putInt(KEY_VIDEO_TAB, index) }
                 },
                 tabNumber = videoTabs.size,
+                forceFocus = forceFocus,
                 indicator = { hasFocus ->
                     Box(
                         Modifier
@@ -424,6 +432,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, viewModel: MainActivityView
                     settings.edit { putInt(KEY_AUDIO_TAB, index) }
                 },
                 tabNumber = audioTabs.size,
+                forceFocus = forceFocus,
                 indicator = { hasFocus ->
                     Box(
                         Modifier
