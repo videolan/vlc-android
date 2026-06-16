@@ -63,10 +63,6 @@ android {
             matchingFallbacks = ['release']
         }
     }
-    compileOptions {
-        sourceCompatibility "$rootProject.ext.targetJVM"
-        targetCompatibility "$rootProject.ext.targetJVM"
-    }
     namespace = 'org.videolan.vlc.donations'
     buildFeatures {
         aidl = true

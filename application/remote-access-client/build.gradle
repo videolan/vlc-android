@@ -60,10 +60,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility "$rootProject.ext.targetJVM"
-        targetCompatibility "$rootProject.ext.targetJVM"
-    }
 
     task webCopy(type: Copy) {
         from 'remoteaccess/dist'

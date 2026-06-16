@@ -6,8 +6,6 @@ plugins {
 android {
     compileOptions {
         coreLibraryDesugaringEnabled = true
-        sourceCompatibility "$rootProject.ext.targetJVM"
-        targetCompatibility "$rootProject.ext.targetJVM"
     }
 
     packagingOptions {
@@ -161,7 +159,6 @@ android {
             output.outputFileName = outputName
         }
     }
-
 }
 
 dependencies {

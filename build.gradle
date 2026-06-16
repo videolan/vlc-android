@@ -36,8 +36,24 @@ allprojects {
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlin {
             compilerOptions {
-                jvmTarget.set("$rootProject.ext.targetJVMKotlin")
+                jvmTarget.set(rootProject.ext.targetJVMKotlin)
                 optIn.add("kotlin.RequiresOptIn")
+            }
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        sourceCompatibility = rootProject.ext.targetJVM.toString()
+        targetCompatibility = rootProject.ext.targetJVM.toString()
+    }
+
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                compileOptions {
+                    sourceCompatibility rootProject.ext.targetJVM
+                    targetCompatibility rootProject.ext.targetJVM
+                }
             }
         }
     }

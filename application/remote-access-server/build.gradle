@@ -44,8 +44,6 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled = true
-        sourceCompatibility "$rootProject.ext.targetJVM"
-        targetCompatibility "$rootProject.ext.targetJVM"
     }
     buildFeatures {
         buildConfig = true
