@@ -755,6 +755,7 @@ fun AlbumPlaylistTrackItem(
                                 painterResource = painterResource(R.drawable.ic_playlist_moveup),
                                 modifier = Modifier.focusRequester(moveUpFocusRequester),
                                 tint = White,
+                                focusedBackgroundColor = WhiteTransparent25,
                                 focusHeight = 72.dp
                             ) {
                                 onMoveUp()
@@ -772,6 +773,7 @@ fun AlbumPlaylistTrackItem(
                                 painterResource = painterResource(R.drawable.ic_playlist_movedown),
                                 modifier = Modifier.focusRequester(moveDownFocusRequester),
                                 tint = White,
+                                focusedBackgroundColor = WhiteTransparent25,
                                 focusHeight = 72.dp
                             ) {
                                 onMoveDown()
@@ -789,6 +791,7 @@ fun AlbumPlaylistTrackItem(
                                 painterResource = painterResource(R.drawable.ic_remove_from_playlist),
                                 modifier = Modifier.focusRequester(removeFocusRequester),
                                 tint = White,
+                                focusedBackgroundColor = WhiteTransparent25,
                                 focusHeight = 72.dp
                             ) {
                                 onRemove()
@@ -798,6 +801,7 @@ fun AlbumPlaylistTrackItem(
                             label = stringResource(R.string.append),
                             painterResource = painterResource(R.drawable.ic_tv_list_append),
                             tint = White,
+                            focusedBackgroundColor = WhiteTransparent25,
                             focusHeight = 72.dp
                         ) {
                             MediaUtils.appendMedia(context, track)
@@ -806,6 +810,7 @@ fun AlbumPlaylistTrackItem(
                             label = stringResource(R.string.insert_next),
                             painterResource = painterResource(R.drawable.ic_tv_list_playnext),
                             tint = White,
+                            focusedBackgroundColor = WhiteTransparent25,
                             focusHeight = 72.dp
                         ) {
                             MediaUtils.insertNext(context, track)
@@ -814,6 +819,7 @@ fun AlbumPlaylistTrackItem(
                             label = stringResource(R.string.add_to_playlist),
                             painterResource = painterResource(R.drawable.ic_addtoplaylist),
                             tint = White,
+                            focusedBackgroundColor = WhiteTransparent25,
                             focusHeight = 72.dp
                         ) {
                             (activity as FragmentActivity).addToPlaylist(arrayOf(track), SavePlaylistDialog.KEY_NEW_TRACKS)
