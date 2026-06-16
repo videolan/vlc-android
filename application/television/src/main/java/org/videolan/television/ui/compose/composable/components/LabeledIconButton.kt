@@ -24,6 +24,8 @@
 
 package org.videolan.television.ui.compose.composable.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -56,6 +58,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
@@ -88,11 +91,20 @@ fun LabeledIconButton(
     customImage: (@Composable (tint: Color) -> Unit)? = null,
     tint: Color? = null,
     backgroundColor: Color = Color.Transparent,
-    focusedBackgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.4F),
+    focusedBackgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.8F),
     focusHeight: Dp = 48.dp,
     onClick: () -> Unit
 ) {
     var hasFocus by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(targetValue = if (hasFocus) 1.3f else 1.0f, label = "scale")
+    val animatedBackgroundColor by animateColorAsState(
+        targetValue = if (hasFocus) focusedBackgroundColor else backgroundColor,
+        label = "background"
+    )
+    val animatedIconColor by animateColorAsState(
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F),
+        label = "iconColor"
+    )
     TooltipBox(
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below),
         tooltip = {
@@ -132,24 +144,35 @@ fun LabeledIconButton(
                 Box(
                     modifier = Modifier
                         .size(48.dp)
-                        .background(color = if (hasFocus) focusedBackgroundColor else backgroundColor, shape = CircleShape),
+                        .background(color = animatedBackgroundColor, shape = CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    val color = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F)
-
                     if (customImage != null) {
-                        customImage(color)
+                        Box(contentAlignment = Alignment.Center,
+                            modifier = Modifier.graphicsLayer {
+                                scaleX = scale
+                                scaleY = scale
+                            }) {
+                            customImage(animatedIconColor)
+                        }
                     } else if (vectorImage != null)
                         Icon(
                             imageVector = vectorImage,
-                            tint = tint ?: color,
+                            tint = tint ?: animatedIconColor,
                             contentDescription = label,
+                            modifier = Modifier.graphicsLayer {
+                                scaleX = scale
+                                scaleY = scale
+                            }
                         )
                     else
                         Icon(
                             painter = painterResource!!,
-                            modifier = Modifier.size(24.dp),
-                            tint = tint ?: color,
+                            modifier = Modifier.size(24.dp).graphicsLayer {
+                                scaleX = scale
+                                scaleY = scale
+                            },
+                            tint = tint ?: animatedIconColor,
                             contentDescription = label,
                         )
                 }
