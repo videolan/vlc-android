@@ -9,26 +9,31 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/start_log"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:minHeight="60dp"
                     android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
                     android:nextFocusRight="@id/clear_log"
                     android:nextFocusDown="@id/copy_to_clipboard"
                     android:text="@string/start_logging" />
 
-            <Button
+            <Space
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/clear_log"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:minHeight="60dp"
                     android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
                     android:nextFocusLeft="@id/start_log"
                     android:nextFocusDown="@id/save_to_file"
                     android:text="@string/clear_log" />
@@ -37,26 +42,31 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/copy_to_clipboard"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:minHeight="60dp"
                     android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
                     android:nextFocusRight="@id/save_to_file"
                     android:nextFocusUp="@id/start_log"
                     android:text="@string/copy_to_clipboard" />
 
-            <Button
+            <Space
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/save_to_file"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:minHeight="60dp"
                     android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
                     android:nextFocusLeft="@id/copy_to_clipboard"
                     android:nextFocusUp="@id/clear_log"
                     android:text="@string/dump_logcat" />
