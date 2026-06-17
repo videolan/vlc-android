@@ -55,7 +55,7 @@ import org.videolan.vlc.util.PlaylistFilterDelegate
 import java.util.UUID
 import kotlin.collections.toMutableList
 
-class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback {
+open class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback {
 
     var service: PlaybackService? = null
     val dataset = LiveDataset<MediaWrapper>()
@@ -184,13 +184,13 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         filterActor.trySend(query)
     }
 
-    val title
+    open val title
         get() = service?.title
 
-    val artist
+    open val artist
         get() = service?.artist
 
-    val album
+    open val album
         get() = service?.album
 
     public override fun onCleared() {
@@ -266,7 +266,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
             service?.repeatType = value
         }
 
-    val currentMediaWrapper : MediaWrapper?
+    open val currentMediaWrapper : MediaWrapper?
         get() = service?.currentMediaWrapper
 
     val currentMediaPosition : Int
