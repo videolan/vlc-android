@@ -49,14 +49,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.R
-import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.util.MediaListEntry
 
 @Composable
-fun MediaListSidePanel(content: MediaListSidePanelContent, viewModel: MainActivityViewModel = viewModel(), listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
+fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     Column(
@@ -108,13 +106,13 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, viewModel: MainActivi
             }
         if (content.entry != null)
             LabeledIconButton(stringResource(R.string.display_settings), painterResource = painterResource(R.drawable.ic_display_settings)) {
-                viewModel.openDisplaySettings(content.entry)
+                listener(MediaListSidePanelListenerKey.DISPLAY_SETTINGS, content.entry)
             }
     }
 }
 
 enum class MediaListSidePanelListenerKey {
-    DISPLAY_MODE, RESUME_PLAYBACK, CHANGE_FAVORITE
+    DISPLAY_MODE, RESUME_PLAYBACK, CHANGE_FAVORITE, DISPLAY_SETTINGS
 }
 
 data class MediaListSidePanelContent(
