@@ -287,6 +287,9 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                         MediaListSidePanelListenerKey.RESUME_PLAYBACK -> {
                             MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_VIDEO)
                         }
+                        MediaListSidePanelListenerKey.DISPLAY_SETTINGS -> {
+                            mainActivityViewModel.openDisplaySettings(second as MediaListEntry)
+                        }
                         else -> throw IllegalStateException("Invalid event")
                     }
                 }
