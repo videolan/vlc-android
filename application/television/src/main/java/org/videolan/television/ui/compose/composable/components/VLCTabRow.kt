@@ -52,6 +52,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -85,9 +86,9 @@ fun VLCTabRow(
     tabNumber: Int,
     getTab: @Composable (Int, Boolean) -> Unit,
     key: String,
-    mainActivityViewModel: MainActivityViewModel = viewModel()
+    mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel()
 ) {
-    val tabInfo = mainActivityViewModel.getTabInfo(key)
+    val tabInfo = mainActivityViewModel?.getTabInfo(key)
     var hasFocus by remember { mutableStateOf(false) }
 
     var targetX by remember { mutableIntStateOf(tabInfo?.x ?: 0) }
@@ -154,7 +155,7 @@ fun VLCTabRow(
                         targetX = coords.positionInParent().x.toInt()
                         targetWidth = coords.size.width
                         targetHeight = coords.size.height
-                        mainActivityViewModel.setTabInfo(key, TabInfo(targetX, targetWidth, targetHeight))
+                        mainActivityViewModel?.setTabInfo(key, TabInfo(targetX, targetWidth, targetHeight))
                     },
                 ) {
                     getTab(index, selectedTabIndex == index)
