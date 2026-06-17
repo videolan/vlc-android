@@ -21,6 +21,7 @@
 package org.videolan.vlc
 
 import android.annotation.TargetApi
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.PendingIntent
 import android.app.Service
 import android.content.ComponentName
@@ -35,6 +36,7 @@ import android.os.Looper
 import android.os.RemoteCallbackList
 import android.os.RemoteException
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
@@ -64,6 +66,11 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
     private var saveThread: Thread? = null
     private val callbacks = RemoteCallbackList<IDebugLogServiceCallback>()
     private val binder = DebugLogServiceStub(this)
+
+    override fun onCreate() {
+        super.onCreate()
+        if (AndroidUtil.isOOrLater) forceForeground()
+    }
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
@@ -148,7 +155,18 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         builder.setSmallIcon(R.drawable.ic_stat_vlc)
         builder.setContentIntent(pi)
         val notification = builder.build()
-        startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        try {
+            val type = when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+                else -> 0
+            }
+            startForegroundCompat(46, notification, type)
+        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                Log.w("DebugLogService", "ForegroundServiceStartNotAllowedException caught! ${e.message}", e)
+            }
+        }
     }
 
     @Synchronized
