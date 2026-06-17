@@ -236,3 +236,7 @@ const val REMOTE_ACCESS_ONBOARDING = "org.videolan.vlc.remoteaccessserver.gui.re
 const val ROOM_DATABASE = "/vlc_database.zip"
 const val EXPORT_SETTINGS_FILE = "/vlc_exported_settings.json"
 const val EXPORT_EQUALIZERS_FILE = "/vlc_exported_equalizers.json"
+
+enum class NotificationIds(val id: Int) {
+    MEDIA_PARSING(43), PLAYBACK(3), DEBUG_LOGS(46), REMOTE_ACCESS(44), REMOTE_ACCESS_OTP(45), RECOMMENDATIONS(47)
+}

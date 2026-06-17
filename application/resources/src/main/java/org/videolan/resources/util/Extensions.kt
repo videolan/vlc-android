@@ -201,15 +201,15 @@ fun Service.stopForegroundCompat(removeNotification:Boolean = true) = when {
 /**
  * Use new startForeground API when needed
  *
- * @param id the notification id
+ * @param serviceNotificationId the notification id to be used. Depends on the service type
  * @param notification the notification to display
  * @param foregroundServiceType the foreground service type, needed for API >= 33
  */
-fun Service.startForegroundCompat(id:Int, notification:Notification, foregroundServiceType: Int) {
+fun Service.startForegroundCompat(serviceNotificationId:NotificationIds, notification:Notification, foregroundServiceType: Int) {
     if (SDK_INT >= Build.VERSION_CODES.Q)
-        startForeground(id, notification, foregroundServiceType)
+        startForeground(serviceNotificationId.id, notification, foregroundServiceType)
     else
-        startForeground(id, notification)
+        startForeground(serviceNotificationId.id, notification)
 }
 
 /**

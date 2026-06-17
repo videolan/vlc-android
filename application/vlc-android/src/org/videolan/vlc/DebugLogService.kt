@@ -41,6 +41,7 @@ import androidx.core.app.NotificationCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.NotificationIds
 import org.videolan.resources.util.launchForeground
 import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
@@ -159,7 +160,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
                 else -> 0
             }
-            startForegroundCompat(46, notification, type)
+            startForegroundCompat(NotificationIds.DEBUG_LOGS, notification, type)
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
                 Log.w("DebugLogService", "ForegroundServiceStartNotAllowedException caught! ${e.message}", e)

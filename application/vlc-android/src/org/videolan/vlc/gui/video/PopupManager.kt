@@ -46,6 +46,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
 import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
+import org.videolan.resources.NotificationIds
 import org.videolan.resources.util.startForegroundCompat
 import org.videolan.resources.util.stopForegroundCompat
 import org.videolan.tools.POPUP_KEEPSCREEN
@@ -298,7 +299,7 @@ class PopupManager(private val service: PlaybackService) : PlaybackService.Callb
         else
             builder.addAction(R.drawable.ic_popup_play, service.getString(R.string.play), piPlay)
         builder.addAction(R.drawable.ic_popup_fullscreen, service.getString(R.string.popup_expand), piExpand)
-        service.startForegroundCompat(42, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        service.startForegroundCompat(NotificationIds.PLAYBACK, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
     }
 
     private fun hideNotification() {

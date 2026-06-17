@@ -40,6 +40,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.NotificationIds
 import org.videolan.resources.PLAY_EXTRA_FROM_START
 import org.videolan.resources.PLAY_EXTRA_ITEM_LOCATION
 import org.videolan.resources.PLAY_EXTRA_ITEM_TITLE
@@ -92,7 +93,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
                         .setContentIntent(buildPendingIntent(mw, id))
         ).build()
         // post the recommendation to the NotificationManager
-        mNotificationManager.notify(id, notification)
+        mNotificationManager.notify(NotificationIds.RECOMMENDATIONS.id + id, notification)
     }
 
     private fun buildPendingIntent(mw: MediaWrapper, id: Int): PendingIntent {

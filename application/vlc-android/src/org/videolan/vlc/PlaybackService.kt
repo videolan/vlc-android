@@ -127,6 +127,7 @@ import org.videolan.resources.PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV
 import org.videolan.resources.PLAYLIST_TYPE_ALL
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.QUICK_SEARCH_BOX_APP_PKG
+import org.videolan.resources.NotificationIds
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
 import org.videolan.resources.WEARABLE_RESERVE_SLOT_SKIP_TO_NEXT
@@ -915,7 +916,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
         PlaylistManager.playingState.value = false
         super.onDestroy()
         browserCallback.removeCallbacks()
-        if (!settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) (getSystemService(NOTIFICATION_SERVICE)as NotificationManager).cancel(3)
+        if (!settings.getBoolean(AUDIO_RESUME_PLAYBACK, true)) (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(NotificationIds.PLAYBACK.id)
         if (this::mediaSession.isInitialized) mediaSession.release()
         //Call it once mediaSession is null, to not publish playback state
         stop(systemExit = true)
@@ -950,7 +951,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     ctx.resources.getString(R.string.loading), "", "", null, false, true,
                     true, speed, isPodcastMode, false, enabledActions, null, pi)
         }
-        startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        startForegroundCompat(NotificationIds.PLAYBACK, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
         isForeground = true
         if (stopped) lifecycleScope.launch { hideNotification(true) }
     }
@@ -1060,17 +1061,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
                     if (!VlcMigrationHelper.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {
                             ctx.launchForeground(Intent(ctx, PlaybackService::class.java)) {
-                                startForegroundCompat(3, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+                                startForegroundCompat(NotificationIds.PLAYBACK, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
                                 isForeground = true
                             }
                         } else
-                            NotificationManagerCompat.from(ctx).notify(3, notification)
+                            NotificationManagerCompat.from(ctx).notify(NotificationIds.PLAYBACK.id, notification)
                     } else {
                         if (isForeground) {
                             ServiceCompat.stopForeground(ctx, ServiceCompat.STOP_FOREGROUND_DETACH)
                             isForeground = false
                         }
-                        NotificationManagerCompat.from(ctx).notify(3, notification)
+                        NotificationManagerCompat.from(ctx).notify(NotificationIds.PLAYBACK.id, notification)
                     }
                 } catch (e: IllegalArgumentException) {
                     // On somme crappy firmwares, shit can happen
@@ -1104,7 +1105,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner, CoroutineSc
             ServiceCompat.stopForeground(this@PlaybackService, if (remove) ServiceCompat.STOP_FOREGROUND_REMOVE else ServiceCompat.STOP_FOREGROUND_DETACH)
             isForeground = false
         }
-        NotificationManagerCompat.from(this@PlaybackService).cancel(3)
+        NotificationManagerCompat.from(this@PlaybackService).cancel(NotificationIds.PLAYBACK.id)
     }
 
     fun onNewPlayback() = mediaSession.setSessionActivity(sessionPendingIntent)
