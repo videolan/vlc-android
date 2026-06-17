@@ -93,7 +93,6 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent20
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
-import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.MediaListEntry
@@ -129,7 +128,6 @@ fun AudioItem(
             isFirst = isFirst,
             isLast = isLast,
             spannableDescription = spannableDescription,
-            browserRoot = browserRoot,
             onClick = onClick
         )
 }
@@ -300,8 +298,6 @@ fun AudioItemList(
     isFirst: Boolean = false,
     isLast: Boolean = false,
     spannableDescription: Boolean = false,
-    browserRoot: Boolean = false,
-    viewModel: MainActivityViewModel = viewModel(),
     onClick: () -> Unit
 ) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }

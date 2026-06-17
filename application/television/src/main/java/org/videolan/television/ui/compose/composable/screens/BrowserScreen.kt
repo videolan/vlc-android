@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.MaterialTheme
@@ -62,11 +61,13 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.television.R
 import org.videolan.television.ui.BrowserActivity
@@ -76,10 +77,14 @@ import org.videolan.television.ui.compose.composable.components.InvalidationComp
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.lists.BrowserList
 import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.viewmodel.FileBrowserViewModel
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.gui.view.EmptyLoadingState
+import org.videolan.vlc.util.MediaListEntry
+import org.videolan.television.ui.compose.composable.lists.BrowserListContent
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
 @Composable
@@ -102,7 +107,7 @@ fun BrowserScreen(viewModel: MainActivityViewModel = viewModel()) {
         },
     ) { contentPadding ->
         Box {
-            BrowserScreenContent(Modifier.padding(contentPadding))
+            BrowserScreenContent(Modifier.padding(contentPadding), mainActivityViewModel = viewModel)
             DisplaySettings()
         }
     }
@@ -110,23 +115,69 @@ fun BrowserScreen(viewModel: MainActivityViewModel = viewModel()) {
 }
 
 @Composable
-fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel = viewModel()) {
-    val currentItem = viewModel.currentPathEntry.collectAsState()
-    InvalidationComposable(currentItem.value) {
+fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel = viewModel(), mainActivityViewModel: MainActivityViewModel = viewModel()) {
+    val currentItem by viewModel.currentPathEntry.collectAsState()
+    val segments = viewModel.prepareSegments()
+    val activity = LocalActivity.current as? BrowserActivity
+    BrowserScreenContent(
+        modifier = modifier,
+        currentItem = currentItem,
+        segments = segments,
+        onClose = { activity?.finish() },
+        onSegmentClick = { segment ->
+            if (BuildConfig.DEBUG) Log.d("BrowserScreen", "Segment is $segment")
+            viewModel.setCurrentPathEntry(MediaWrapperImpl(segment.toUri()).apply { type = MediaWrapper.TYPE_DIR })
+        },
+        retrieveSafePath = { key ->
+            activity?.let {
+                if (PathOperationDelegate.storages.containsKey(key)) {
+                    it.retrieveSafePath(
+                        PathOperationDelegate.storages.valueAt(
+                            PathOperationDelegate.storages.indexOfKey(
+                                key
+                            )
+                        )
+                    )
+                } else key
+            } ?: key
+        },
+        browserList = {
+            BrowserList(
+                modifier = Modifier.padding(
+                    top = 16.dp,
+                    start = 24.dp,
+                    end = 24.dp
+                ),
+                mainActivityViewModel = mainActivityViewModel,
+                fileBrowserViewModel = viewModel
+            )
+        }
+    )
+}
+
+@Composable
+private fun BrowserScreenContent(
+    modifier: Modifier = Modifier,
+    currentItem: MediaLibraryItem?,
+    segments: List<String>,
+    onClose: () -> Unit,
+    onSegmentClick: (String) -> Unit,
+    retrieveSafePath: (String) -> String,
+    browserList: @Composable () -> Unit
+) {
+    InvalidationComposable(currentItem) {
         Column(
             modifier
                 .fillMaxHeight()
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                val activity = LocalActivity.current as BrowserActivity
                 LabeledIconButton(
                     label = stringResource(R.string.close),
                     vectorImage = Icons.Default.Close,
                     modifier = Modifier
                 ) {
-                    activity.finish()
+                    onClose()
                 }
-                val segments = viewModel.prepareSegments()
                 LazyRow {
                     items(segments.size) { index ->
                         Row(
@@ -139,34 +190,26 @@ fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel = v
                             val key = segments[index].toUri().path!!
                             val text: String? = when {
                                 //substitute a storage path to its name. See [replaceStoragePath]
-                                PathOperationDelegate.storages.containsKey(key) -> activity.retrieveSafePath(
-                                    PathOperationDelegate.storages.valueAt(
-                                        PathOperationDelegate.storages.indexOfKey(
-                                            key
-                                        )
-                                    )
-                                )
+                                PathOperationDelegate.storages.containsKey(key) -> retrieveSafePath(key)
 
                                 else -> segments[index].toUri().lastPathSegment
                             }
                             var focused by remember { mutableStateOf(false) }
                             Box(
                                 modifier = Modifier
-                                .onFocusChanged {
-                                    focused = it.isFocused
-                                }
-                                .padding(vertical = 8.dp)
-                                .fillMaxHeight()
-                                .align(Alignment.CenterVertically)
-                                .clip(RoundedCornerShape(50))
-                                .background(if (focused) WhiteTransparent10 else Transparent)
-                                .padding(horizontal = 8.dp)
-                                .focusable(true)
-                                .clickable(onClick = {
-                                    val segment = segments[index]
-                                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Segment is $segment")
-                                    viewModel.setCurrentPathEntry(MediaWrapperImpl(segment.toUri()).apply { type = MediaWrapper.TYPE_DIR })
-                                }),
+                                    .onFocusChanged {
+                                        focused = it.isFocused
+                                    }
+                                    .padding(vertical = 8.dp)
+                                    .fillMaxHeight()
+                                    .align(Alignment.CenterVertically)
+                                    .clip(RoundedCornerShape(50))
+                                    .background(if (focused) WhiteTransparent10 else Transparent)
+                                    .padding(horizontal = 8.dp)
+                                    .focusable(true)
+                                    .clickable(onClick = {
+                                        onSegmentClick(segments[index])
+                                    }),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -181,14 +224,49 @@ fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel = v
             }
             Row(modifier) {
                 AudioPlayer()
-                BrowserList(
+                browserList()
+            }
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun BrowserScreenPreview() {
+    VlcTVTheme {
+        BrowserScreenContent(
+            currentItem = null,
+            segments = listOf("file:///storage/emulated/0", "file:///storage/emulated/0/Movies"),
+            onClose = {},
+            onSegmentClick = {},
+            retrieveSafePath = { it },
+            browserList = {
+                BrowserListContent(
                     modifier = Modifier.padding(
                         top = 16.dp,
                         start = 24.dp,
                         end = 24.dp
-                    )
+                    ),
+                    items = listOf(
+                        MediaWrapperImpl("file:///sdcard/Download/video.mp4".toUri()).apply {
+                            type = MediaWrapper.TYPE_VIDEO
+                            title = "Video"
+                        },
+                        MediaWrapperImpl("file:///sdcard/Download/music.mp3".toUri()).apply {
+                            type = MediaWrapper.TYPE_AUDIO
+                            title = "Music"
+                        }
+                    ),
+                    emptyState = EmptyLoadingState.NONE,
+                    inCard = true,
+                    isFavorite = false,
+                    entry = MediaListEntry.BROWSER,
+                    descriptionUpdates = null,
+                    onItemRendered = {},
+                    onClick = { _, _ -> },
+                    onSidePanelAction = { _, _ -> }
                 )
             }
-        }
+        )
     }
 }

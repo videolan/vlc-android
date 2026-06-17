@@ -394,6 +394,9 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             else
                                 MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_AUDIO)
                         }
+                        MediaListSidePanelListenerKey.DISPLAY_SETTINGS -> {
+                            mainActivityViewModel.openDisplaySettings(second as MediaListEntry)
+                        }
                         else -> throw IllegalStateException("Invalid event")
                     }
                 }
