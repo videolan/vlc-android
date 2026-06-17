@@ -447,7 +447,6 @@ fun AudioPlayerChip(text: String, icon: Int, onClick: () -> Unit) {
 
             }
             .background(if (isFocused) WhiteTransparent90 else BlackTransparent70, RoundedCornerShape(50))
-            .focusable()
             .padding(4.dp)
     ) {
         Icon(
