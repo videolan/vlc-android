@@ -29,7 +29,6 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -206,7 +205,6 @@ private fun BrowserScreenContent(
                                     .clip(RoundedCornerShape(50))
                                     .background(if (focused) WhiteTransparent10 else Transparent)
                                     .padding(horizontal = 8.dp)
-                                    .focusable(true)
                                     .clickable(onClick = {
                                         onSegmentClick(segments[index])
                                     }),
