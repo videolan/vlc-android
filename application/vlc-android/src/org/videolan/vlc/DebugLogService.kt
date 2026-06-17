@@ -56,8 +56,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStreamWriter
 import java.util.LinkedList
-import org.videolan.vlc.gui.preferences.search.PreferenceParser
-import org.videolan.vlc.util.Permissions
 
 class DebugLogService : Service(), Logcat.Callback, Runnable {
 
@@ -263,47 +261,47 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
     }
 
     class Client @Throws(IllegalArgumentException::class)
-    constructor(private val mContext: Context, private val mCallback: Callback) {
+    constructor(private val context: Context, private val callback: Callback) {
 
-        private var mBound = false
-        private var mIDebugLogService: IDebugLogService? = null
-        private val mHandler = Handler(Looper.getMainLooper())
+        private var bound = false
+        private var iDebugLogService: IDebugLogService? = null
+        private val handler = Handler(Looper.getMainLooper())
         private var isStarted = false
 
-        private val mICallback = object : IDebugLogServiceCallback.Stub() {
+        private val iDebugLogServiceCallbackStub = object : IDebugLogServiceCallback.Stub() {
             @Throws(RemoteException::class)
             override fun onStopped() {
-                mHandler.post { mCallback.onStopped() }
+                handler.post { callback.onStopped() }
                 isStarted = false
             }
 
             @Throws(RemoteException::class)
             override fun onStarted(logList: List<String>) {
-                mHandler.post { mCallback.onStarted(logList) }
+                handler.post { callback.onStarted(logList) }
                 isStarted = true
             }
 
             @Throws(RemoteException::class)
             override fun onLog(msg: String) {
-                mHandler.post { mCallback.onLog(msg) }
+                handler.post { callback.onLog(msg) }
             }
 
             @Throws(RemoteException::class)
             override fun onSaved(success: Boolean, path: String) {
-                mHandler.post { mCallback.onSaved(success, path) }
+                handler.post { callback.onSaved(success, path) }
             }
         }
 
-        private val mServiceConnection = object : ServiceConnection {
+        private val serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName, service: IBinder) {
                 synchronized(this@Client) {
-                    mIDebugLogService = IDebugLogService.Stub.asInterface(service)
+                    iDebugLogService = IDebugLogService.Stub.asInterface(service)
                     try {
-                        mIDebugLogService!!.registerCallback(mICallback)
+                        iDebugLogService!!.registerCallback(iDebugLogServiceCallbackStub)
                     } catch (e: RemoteException) {
                         release()
-                        mContext.stopService(Intent(mContext, DebugLogService::class.java))
-                        mCallback.onStopped()
+                        context.stopService(Intent(context, DebugLogService::class.java))
+                        callback.onStopped()
                     }
 
                 }
@@ -311,8 +309,8 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
 
             override fun onServiceDisconnected(name: ComponentName) {
                 release()
-                mContext.stopService(Intent(mContext, DebugLogService::class.java))
-                mCallback.onStopped()
+                context.stopService(Intent(context, DebugLogService::class.java))
+                callback.onStopped()
             }
         }
 
@@ -324,14 +322,14 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         }
 
         init {
-            mBound = mContext.bindService(Intent(mContext, DebugLogService::class.java), mServiceConnection, BIND_AUTO_CREATE)
+            bound = context.bindService(Intent(context, DebugLogService::class.java), serviceConnection, BIND_AUTO_CREATE)
         }
 
         fun start(): Boolean {
             synchronized(this) {
-                if (mIDebugLogService != null) {
+                if (iDebugLogService != null) {
                     try {
-                        mIDebugLogService!!.start()
+                        iDebugLogService!!.start()
                         return true
                     } catch (e: RemoteException) {
                     }
@@ -343,9 +341,9 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
 
         fun stop(): Boolean {
             synchronized(this) {
-                if (mIDebugLogService != null) {
+                if (iDebugLogService != null) {
                     try {
-                        mIDebugLogService!!.stop()
+                        iDebugLogService!!.stop()
                         return true
                     } catch (e: RemoteException) {
                     }
@@ -357,9 +355,9 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
 
         fun clear(): Boolean {
             synchronized(this) {
-                if (mIDebugLogService != null) {
+                if (iDebugLogService != null) {
                     try {
-                        mIDebugLogService!!.clear()
+                        iDebugLogService!!.clear()
                         return true
                     } catch (e: RemoteException) {
                     }
@@ -371,9 +369,9 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
 
         fun save(): Boolean {
             synchronized(this) {
-                if (mIDebugLogService != null) {
+                if (iDebugLogService != null) {
                     try {
-                        mIDebugLogService!!.save()
+                        iDebugLogService!!.save()
                         return true
                     } catch (e: RemoteException) {
                     }
@@ -384,21 +382,21 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         }
 
         fun release() {
-            if (mBound) {
+            if (bound) {
                 synchronized(this) {
-                    if (mIDebugLogService != null) {
+                    if (iDebugLogService != null) {
                         try {
-                            mIDebugLogService!!.unregisterCallback(mICallback)
+                            iDebugLogService!!.unregisterCallback(iDebugLogServiceCallbackStub)
                         } catch (e: RemoteException) {
                         }
 
-                        mIDebugLogService = null
+                        iDebugLogService = null
                     }
                 }
-                mBound = false
-                mContext.unbindService(mServiceConnection)
+                bound = false
+                context.unbindService(serviceConnection)
             }
-            mHandler.removeCallbacksAndMessages(null)
+            handler.removeCallbacksAndMessages(null)
         }
 
         fun isStarted() = isStarted
