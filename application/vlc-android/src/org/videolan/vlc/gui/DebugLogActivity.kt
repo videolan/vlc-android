@@ -27,7 +27,12 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
@@ -41,7 +46,7 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.share
 import java.io.File
 
-class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
+class DebugLogActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     private lateinit var client: DebugLogService.Client
     private var logList: MutableList<String> = ArrayList()
     private lateinit var logAdapter: ArrayAdapter<String>
@@ -74,7 +79,21 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById<View>(android.R.id.content)) { v, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.updatePadding(
+                left = bars.left,
+                top = bars.top,
+                right = bars.right,
+                bottom = bars.bottom,
+            )
+            WindowInsetsCompat.CONSUMED
+        }
         binding = DataBindingUtil.setContentView(this, R.layout.debug_log)
 
         client = DebugLogService.Client(this, this)
