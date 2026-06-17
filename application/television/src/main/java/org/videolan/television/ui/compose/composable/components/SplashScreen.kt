@@ -49,13 +49,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.delay
 import org.videolan.vlc.R
 
 @Composable
 fun SplashScreen(content: @Composable () -> Unit) {
-    var showSplashScreen by remember { mutableStateOf(true) }
+    val isPreview = LocalInspectionMode.current
+    var showSplashScreen by remember { mutableStateOf(!isPreview) }
     var startingTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
     LaunchedEffect("splash_screen") {
         while (System.currentTimeMillis() < startingTime + 1000) {

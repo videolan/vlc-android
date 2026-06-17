@@ -79,10 +79,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
@@ -107,10 +109,12 @@ import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.KEY_MAIN_TAB
 import org.videolan.tools.KEY_VIDEO_TAB
@@ -118,15 +122,34 @@ import org.videolan.tools.Settings
 
 @Composable
 fun MainScreen(viewModel: MainActivityViewModel = viewModel()) {
+    val snackbarContent by viewModel.snackBarFlow.collectAsState()
+    MainScreenContent(
+        tabs = viewModel.tabs,
+        videoTabs = viewModel.videoTabs,
+        audioTabs = viewModel.audioTabs,
+        snackbarContent = snackbarContent,
+        onSnackbarDismissed = { viewModel.showSnackbar(null) },
+        viewModel = viewModel
+    )
+}
+
+@Composable
+fun MainScreenContent(
+    tabs: List<Pair<Int, Int>>,
+    videoTabs: List<Int>,
+    audioTabs: List<Int>,
+    snackbarContent: SnackbarContent? = null,
+    onSnackbarDismissed: () -> Unit = {},
+    viewModel: MainActivityViewModel? = null
+) {
     SplashScreen {
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
-        val snackbarContent by viewModel.snackBarFlow.collectAsState()
         LaunchedEffect(snackbarContent) {
             snackbarContent?.let { snackbarContent ->
                 scope.launch {
                     snackbarHostState.showSnackbar(snackbarContent.message, duration = snackbarContent.duration)
-                    viewModel.showSnackbar(null)
+                    onSnackbarDismissed()
                 }
             }
         }
@@ -136,34 +159,93 @@ fun MainScreen(viewModel: MainActivityViewModel = viewModel()) {
             },
         ) { contentPadding ->
             Box {
-                MainContent(Modifier.padding(contentPadding))
-                MlProgress(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp)
-                )
-                DisplaySettings()
+                MainContent(Modifier.padding(contentPadding), tabs, videoTabs, audioTabs, viewModel)
+                if (viewModel != null) {
+                    MlProgress(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(16.dp),
+                        mainActivityViewModel = viewModel
+                    )
+                    DisplaySettings(viewModel = viewModel)
+                }
             }
         }
     }
 }
 
+@Preview(device = "id:tv_1080p")
 @Composable
-fun MainContent(modifier: Modifier) {
-    Row(modifier) {
-        AudioPlayer()
-        Tabs(modifier = Modifier.weight(1f))
+fun MainScreenPreview() {
+    VlcTVTheme {
+        MainScreenContent(
+            tabs = listOf(
+                Pair(R.string.video, R.drawable.ic_video),
+                Pair(R.string.audio, R.drawable.ic_menu_audio),
+                Pair(R.string.browse, R.drawable.ic_folder),
+                Pair(R.string.playlists, R.drawable.ic_playlist),
+                Pair(R.string.more, R.drawable.ic_nav_more),
+            ),
+            videoTabs = listOf(
+                R.string.video,
+                R.string.playlists,
+            ),
+            audioTabs = listOf(
+                R.string.artists,
+                R.string.albums,
+                R.string.tracks,
+                R.string.genres,
+                R.string.playlists,
+            )
+        )
     }
+}
+
+@Composable
+fun MainContent(
+    modifier: Modifier,
+    tabs: List<Pair<Int, Int>>,
+    videoTabs: List<Int>,
+    audioTabs: List<Int>,
+    viewModel: MainActivityViewModel? = null
+) {
+    Row(modifier) {
+        if (viewModel != null) AudioPlayer()
+        Tabs(
+            modifier = Modifier.weight(1f),
+            tabs = tabs,
+            videoTabs = videoTabs,
+            audioTabs = audioTabs,
+            viewModel = viewModel
+        )
+    }
+}
+
+@Composable
+fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
+    Tabs(
+        modifier = modifier,
+        tabs = viewModel.tabs,
+        videoTabs = viewModel.videoTabs,
+        audioTabs = viewModel.audioTabs,
+        viewModel = viewModel
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
+fun Tabs(
+    modifier: Modifier = Modifier,
+    tabs: List<Pair<Int, Int>>,
+    videoTabs: List<Int>,
+    audioTabs: List<Int>,
+    viewModel: MainActivityViewModel? = null
+) {
     val context = LocalContext.current
     val activity = LocalActivity.current
-    val settings = Settings.getInstance(context)
+    val isPreview = LocalInspectionMode.current
+    val settings = if (isPreview) null else Settings.getInstance(context)
 
-    val tabs = viewModel.tabs
     var firstLaunch by remember { mutableStateOf(true) }
     var visible by remember { mutableStateOf(true) }
     var wasVisible by remember { mutableStateOf(visible) }
@@ -172,18 +254,18 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
         wasVisible = visible
     }
 
-    val savedTab = settings.getInt(KEY_MAIN_TAB, 0)
+    val savedTab = settings?.getInt(KEY_MAIN_TAB, 0) ?: 0
     val initialDestination = remember {
         when (savedTab) {
             1 -> {
-                val audioTabIndex = settings.getInt(KEY_AUDIO_TAB, 0)
+                val audioTabIndex = settings?.getInt(KEY_AUDIO_TAB, 0) ?: 0
                 MainDestination.Audio(AudioDestination.entries.getOrElse(audioTabIndex) { AudioDestination.Artists })
             }
             2 -> MainDestination.Browse
             3 -> MainDestination.Playlists
             4 -> MainDestination.More
             else -> {
-                val videoTabIndex = settings.getInt(KEY_VIDEO_TAB, 0)
+                val videoTabIndex = settings?.getInt(KEY_VIDEO_TAB, 0) ?: 0
                 MainDestination.Video(VideoDestination.entries.getOrElse(videoTabIndex) { VideoDestination.Videos })
             }
         }
@@ -253,11 +335,11 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                             onSelected = { index ->
                                 val destination = when (index) {
                                     0 -> {
-                                        val videoTabIndex = settings.getInt(KEY_VIDEO_TAB, 0)
+                                        val videoTabIndex = settings?.getInt(KEY_VIDEO_TAB, 0) ?: 0
                                         MainDestination.Video(VideoDestination.entries.getOrElse(videoTabIndex) { VideoDestination.Videos })
                                     }
                                     1 -> {
-                                        val audioTabIndex = settings.getInt(KEY_AUDIO_TAB, 0)
+                                        val audioTabIndex = settings?.getInt(KEY_AUDIO_TAB, 0) ?: 0
                                         MainDestination.Audio(AudioDestination.entries.getOrElse(audioTabIndex) { AudioDestination.Artists })
                                     }
                                     2 -> MainDestination.Browse
@@ -266,7 +348,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                                 }
                                 backStack.clear()
                                 backStack.add(destination)
-                                settings.edit { putInt(KEY_MAIN_TAB, index) }
+                                settings?.edit { putInt(KEY_MAIN_TAB, index) }
                             },
                             modifier = Modifier
                                 .clip(RoundedCornerShape(50))
@@ -282,6 +364,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
                             },
                             tabNumber = tabs.size,
                             key = "main",
+                            mainActivityViewModel = viewModel,
                             getTab = { index, focused ->
                                 val tab = tabs[index]
                                 val animatedColor by animateColorAsState(
@@ -357,7 +440,7 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
             }
         }
         if (visible) {
-            SubTabs(backStack, forceFocus = (visibleChangedToTrue && !firstLaunch) && hasSubtabs)
+            SubTabs(backStack, videoTabs, audioTabs, forceFocus = (visibleChangedToTrue && !firstLaunch) && hasSubtabs, viewModel = viewModel)
         }
         VLCContentPanel(backStack) {
             visible = it
@@ -366,14 +449,20 @@ fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewM
 }
 
 @Composable
-private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false, viewModel: MainActivityViewModel = viewModel()) {
+private fun SubTabs(
+    backStack: NavBackStack<NavKey>,
+    videoTabs: List<Int>,
+    audioTabs: List<Int>,
+    forceFocus: Boolean = false,
+    viewModel: MainActivityViewModel? = null
+) {
     val currentKey = backStack.lastOrNull() as? MainDestination ?: return
     val context = LocalContext.current
-    val settings = Settings.getInstance(context)
+    val isPreview = LocalInspectionMode.current
+    val settings = if (isPreview) null else Settings.getInstance(context)
 
     when (currentKey) {
         is MainDestination.Video -> {
-            val videoTabs = viewModel.videoTabs
             VLCTabRow(
                 selectedTabIndex = VideoDestination.entries.indexOf(currentKey.subDestination),
                 modifier = Modifier
@@ -385,7 +474,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false
                     val newDest = MainDestination.Video(VideoDestination.entries[index])
                     backStack.clear()
                     backStack.add(newDest)
-                    settings.edit { putInt(KEY_VIDEO_TAB, index) }
+                    settings?.edit { putInt(KEY_VIDEO_TAB, index) }
                 },
                 tabNumber = videoTabs.size,
                 forceFocus = forceFocus,
@@ -397,6 +486,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false
                     )
                 },
                 key = "video_sub",
+                mainActivityViewModel = viewModel,
                 getTab = { index, focused ->
                     val tab = videoTabs[index]
                     val animatedColor by animateColorAsState(
@@ -417,7 +507,6 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false
         }
 
         is MainDestination.Audio -> {
-            val audioTabs = viewModel.audioTabs
             VLCTabRow(
                 selectedTabIndex = AudioDestination.entries.indexOf(currentKey.subDestination),
                 modifier = Modifier
@@ -429,7 +518,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false
                     val newDest = MainDestination.Audio(AudioDestination.entries[index])
                     backStack.clear()
                     backStack.add(newDest)
-                    settings.edit { putInt(KEY_AUDIO_TAB, index) }
+                    settings?.edit { putInt(KEY_AUDIO_TAB, index) }
                 },
                 tabNumber = audioTabs.size,
                 forceFocus = forceFocus,
@@ -441,6 +530,7 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false
                     )
                 },
                 key = "audio_sub",
+                mainActivityViewModel = viewModel,
                 getTab = { index, focused ->
                     val tab = audioTabs[index]
                     val animatedColor by animateColorAsState(
@@ -466,6 +556,18 @@ private fun SubTabs(backStack: NavBackStack<NavKey>, forceFocus: Boolean = false
 
 @Composable
 private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier = Modifier, onVisibleChange: (Boolean) -> Unit) {
+    if (LocalInspectionMode.current) {
+        Box(
+            modifier = modifier
+                .padding(top = 16.dp)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Content Panel Placeholder", style = MaterialTheme.typography.headlineMedium)
+        }
+        return
+    }
     NavDisplay(
         backStack = backStack,
         modifier = modifier
