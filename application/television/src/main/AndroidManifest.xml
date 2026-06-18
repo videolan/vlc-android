@@ -31,6 +31,11 @@
                 android:theme="@style/Theme.VLC"
                 tools:ignore="LockedOrientationActivity" />
         <activity
+                android:name=".ui.ArtistActivity"
+                android:label="@string/app_name"
+                android:theme="@style/Theme.VLC"
+                tools:ignore="LockedOrientationActivity" />
+        <activity
                 android:name=".ui.OnboardingActivity"
                 android:label="@string/app_name"
                 android:screenOrientation="landscape"
