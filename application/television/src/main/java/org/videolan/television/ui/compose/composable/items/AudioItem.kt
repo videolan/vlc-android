@@ -71,6 +71,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -79,6 +80,7 @@ import org.videolan.liveplotgraph.BuildConfig
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.CATEGORY_SONGS
 import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
@@ -90,6 +92,7 @@ import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent20
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
@@ -476,4 +479,72 @@ fun AudioItemList(
         ItemOptions(item, position, entry, onDismiss =  {
             expanded = false
         })
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AudioItemCardPreview() {
+    VlcPreview {
+        AudioItemCard(
+            item = DummyItem(1, "Song Title", "Artist Name - Album Name"),
+            position = 0,
+            entry = MediaListEntry.ALBUMS,
+            onClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AudioItemCardLongTitlePreview() {
+    VlcPreview {
+        AudioItemCard(
+            item = DummyItem(1, "Very long song title that should probably marquee when focused", "Very long artist name that should also probably marquee or ellipsis"),
+            position = 0,
+            entry = MediaListEntry.ALBUMS,
+            onClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AudioItemPreview() {
+    VlcPreview {
+        AudioItem(
+            audios = listOf(DummyItem(1, "Song Title", "Artist Name - Album Name")),
+            entry = MediaListEntry.ALBUMS,
+            index = 0,
+            onClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AudioItemListPreview() {
+    VlcPreview {
+        Column(modifier = Modifier.padding(16.dp)) {
+            AudioItemList(
+                item = DummyItem(CATEGORY_SONGS, "Song Title 1", "Artist Name - Album Name"),
+                position = 0,
+                entry = MediaListEntry.TRACKS,
+                isFirst = true,
+                onClick = {}
+            )
+            AudioItemList(
+                item = DummyItem(CATEGORY_SONGS, "Song Title 2", "Artist Name - Album Name"),
+                position = 1,
+                entry = MediaListEntry.TRACKS,
+                onClick = {}
+            )
+            AudioItemList(
+                item = DummyItem(CATEGORY_SONGS, "Song Title 3", "Artist Name - Album Name"),
+                position = 2,
+                entry = MediaListEntry.TRACKS,
+                isLast = true,
+                onClick = {}
+            )
+        }
+    }
 }
