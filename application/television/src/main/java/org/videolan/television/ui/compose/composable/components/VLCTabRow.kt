@@ -26,16 +26,21 @@ package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,10 +58,14 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.videolan.television.ui.compose.theme.White
+import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.TabInfo
 import org.videolan.tools.px
@@ -194,5 +203,50 @@ fun VLCTab(
             .focusable(enabled)
     ) {
         content()
+    }
+}
+
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun VLCTabPreview() {
+    var selected by remember { mutableStateOf(false) }
+    VlcPreview {
+        VLCTab(
+            selected = selected,
+            onBoundChanged = {},
+            onFocused = { selected = true }
+        ) {
+            Text(text = "Tab Item", color = White, modifier = Modifier.padding(8.dp))
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun VLCTabRowPreview() {
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val tabs = listOf("Video", "Audio", "Browse", "Playlists")
+    VlcPreview {
+        VLCTabRow(
+            selectedTabIndex = selectedTabIndex,
+            onSelected = { selectedTabIndex = it },
+            indicator = { hasFocus ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
+
+                )
+            },
+            tabNumber = tabs.size,
+            getTab = { index, isSelected ->
+                Text(
+                    text = tabs[index],
+                    color = if (isSelected) MaterialTheme.colorScheme.background else White,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+            },
+            key = "preview_tabs"
+        )
     }
 }

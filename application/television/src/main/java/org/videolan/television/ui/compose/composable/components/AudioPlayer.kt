@@ -50,7 +50,6 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.OpenInFull
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -77,6 +76,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -84,31 +84,71 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.liveplotgraph.BuildConfig
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.viewmodels.PlaybackProgress
+import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 private const val TAG = "VLC/AudioPlayer"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolean = true) {
     val activity = LocalActivity.current
     val visible = PlaylistManager.showAudioPlayer.observeAsState()
-    val coroutineScope = rememberCoroutineScope()
     val progress = playlistModel.progress.observeAsState()
     val playerState = playlistModel.playerState.observeAsState()
     val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
+
+    AudioPlayer(
+        visible = visible.value == true,
+        progress = progress.value,
+        playerState = playerState.value,
+        currentMedia = currentMedia.value,
+        serviceCoverArt = playlistModel.service?.coverArt,
+        serviceTitle = playlistModel.service?.title,
+        serviceArtist = playlistModel.service?.artist,
+        onStop = { MediaUtils.stop(activity!!) },
+        onOpenFull = { activity?.startActivity(Intent(activity, AudioPlayerActivity::class.java)) },
+        onJump = { forward -> playlistModel.jump(forward = forward, long = false, activity!!) },
+        onPrevious = { playlistModel.previous() },
+        onNext = { playlistModel.next() },
+        onTogglePlayPause = { playlistModel.togglePlayPause() },
+        requestFocus = requestFocus
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AudioPlayer(
+    visible: Boolean,
+    progress: PlaybackProgress?,
+    playerState: PlayerState?,
+    currentMedia: MediaWrapper?,
+    serviceCoverArt: String?,
+    serviceTitle: String?,
+    serviceArtist: String?,
+    onStop: () -> Unit,
+    onOpenFull: () -> Unit,
+    onJump: (forward: Boolean) -> Unit,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit,
+    onTogglePlayPause: () -> Unit,
+    requestFocus: Boolean = true
+) {
+    val coroutineScope = rememberCoroutineScope()
     var sliderPosition by remember { mutableFloatStateOf(0f) }
-    sliderPosition = ((progress.value?.time ?: 0).toFloat() / (progress.value?.length ?: 1)).coerceIn(0F, 1F)
+    sliderPosition = ((progress?.time ?: 0).toFloat() / (progress?.length ?: 1)).coerceIn(0F, 1F)
     val playPauseFocusRequester = remember { FocusRequester() }
 
     AnimatedVisibility(
-        visible.value == true,
+        visible,
         enter = expandHorizontally(expandFrom = Alignment.Start),
         exit = shrinkHorizontally(shrinkTowards = Alignment.Start)
     ) {
@@ -146,22 +186,22 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                     label = stringResource(R.string.stop),
                     vectorImage = Icons.Outlined.Close,
                 ) {
-                    MediaUtils.stop(activity!!)
+                    onStop()
                 }
                 Spacer(modifier = Modifier.weight(1F))
                 LabeledIconButton(
                     label = stringResource(R.string.open_audio_player),
                     vectorImage = Icons.Outlined.OpenInFull,
                 ) {
-                    activity?.startActivity(Intent(activity, AudioPlayerActivity::class.java))
+                    onOpenFull()
                 }
             }
 
             Spacer(modifier = Modifier.weight(1F))
 
             val mapBitmap: MutableState<Pair<String?, Bitmap?>> = remember { mutableStateOf(Pair(null, null)) }
-            if (mapBitmap.value.first != currentMedia.value?.artworkMrl) {
-                mapBitmap.value = Pair(currentMedia.value?.artworkMrl, null)
+            if (mapBitmap.value.first != currentMedia?.artworkMrl) {
+                mapBitmap.value = Pair(currentMedia?.artworkMrl, null)
             }
             if (mapBitmap.value.second != null) {
 
@@ -184,30 +224,32 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                         .fillMaxWidth()
                         .aspectRatio(1F)
                 )
-                if (BuildConfig.DEBUG) Log.d(TAG, "LaunchedEffect with key ${currentMedia.value?.artworkMrl}")
-                LaunchedEffect(key1 = currentMedia.value?.artworkMrl) {
+                if (BuildConfig.DEBUG) Log.d(TAG, "LaunchedEffect with key ${currentMedia?.artworkMrl}")
+                LaunchedEffect(key1 = currentMedia?.artworkMrl) {
 
                     coroutineScope.launch {
-                        playlistModel.service?.coverArt?.let {
-                            mapBitmap.value = Pair(playlistModel.service?.coverArt, AudioUtil.readCoverBitmap(Uri.decode(it), 512))
+                        serviceCoverArt?.let {
+                            mapBitmap.value = Pair(it, AudioUtil.readCoverBitmap(Uri.decode(it), 512))
                         }
                     }
                 }
             }
 
             Text(
-                playlistModel.service?.title ?: "",
+                serviceTitle ?: "",
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center
             )
             Text(
-                playlistModel.service?.artist ?: "",
+                serviceArtist ?: "",
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center
             )
@@ -229,7 +271,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                         Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp, color = tint)
                     }
                 }) {
-                    playlistModel.jump(forward = false, long = false, activity!!)
+                    onJump(false)
                 }
                 LabeledIconButton(stringResource(R.string.talkback_action_forward, Settings.audioJumpDelay), painterResource = painterResource(R.drawable.ic_player_forward_10), customImage = {  tint ->
                     Box(contentAlignment = Alignment.Center) {
@@ -241,7 +283,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                         Text(Settings.audioJumpDelay.toString(), fontSize = 7.sp, color = tint)
                     }
                 }) {
-                    playlistModel.jump(forward = true, long = false, activity!!)
+                    onJump(true)
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
@@ -252,12 +294,14 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
             ) {
 
                 Text(
-                    Tools.millisToString(progress.value?.time ?: 0),
+                    Tools.millisToString(progress?.time ?: 0),
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.labelMedium
                 )
                 Spacer(modifier = Modifier.weight(1F))
                 Text(
-                    Tools.millisToString(progress.value?.length ?: 0),
+                    Tools.millisToString(progress?.length ?: 0),
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.labelMedium
                 )
             }
@@ -280,10 +324,10 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                     modifier = Modifier
                         .padding(vertical = 4.dp),
                 ) {
-                    playlistModel.previous()
+                    onPrevious()
                 }
 
-                val playPauseString = if (playerState.value?.playing == true) stringResource(R.string.pause) else stringResource(R.string.play)
+                val playPauseString = if (playerState?.playing == true) stringResource(R.string.pause) else stringResource(R.string.play)
                 LabeledIconButton(
                     playPauseString,
                     painterResource = painterResource(R.drawable.ic_player_forward_10),
@@ -292,7 +336,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                         .padding(vertical = 4.dp),
                     customImage = { tint ->
                         Box(contentAlignment = Alignment.Center) {
-                            if (playerState.value?.playing == true)
+                            if (playerState?.playing == true)
                                 Icon(
                                     painterResource(R.drawable.ic_pause_player),
                                     tint = tint,
@@ -306,7 +350,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                                 )
                         }
                     }) {
-                    playlistModel.togglePlayPause()
+                    onTogglePlayPause()
                 }
                 LabeledIconButton(
                     label = stringResource(R.string.next),
@@ -314,7 +358,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
                     modifier = Modifier
                         .padding(vertical = 4.dp),
                 ) {
-                    playlistModel.next()
+                    onNext()
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
@@ -322,8 +366,30 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
         }
     }
     var initialLaunch by remember { mutableStateOf(true) }
-    LaunchedEffect(visible.value) {
-        if (visible.value == true && (requestFocus || !initialLaunch)) playPauseFocusRequester.requestFocus()
+    LaunchedEffect(visible) {
+        if (visible && (requestFocus || !initialLaunch)) playPauseFocusRequester.requestFocus()
         initialLaunch = false
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AudioPlayerPreview() {
+    VlcPreview {
+        AudioPlayer(
+            visible = true,
+            progress = PlaybackProgress(time = 10000, length = 30000),
+            playerState = PlayerState(playing = true, title = "Title", artist = "Artist"),
+            currentMedia = null,
+            serviceCoverArt = null,
+            serviceTitle = "Title",
+            serviceArtist = "Artist",
+            onStop = {},
+            onOpenFull = {},
+            onJump = {},
+            onPrevious = {},
+            onNext = {},
+            onTogglePlayPause = {}
+        )
     }
 }

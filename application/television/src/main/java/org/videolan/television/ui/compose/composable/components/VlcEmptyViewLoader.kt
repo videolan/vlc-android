@@ -44,10 +44,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
@@ -57,6 +59,43 @@ import org.videolan.vlc.util.Permissions
 @Composable
 fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Unit) {
     val context = LocalContext.current
+    VlcEmptyViewLoader(
+        state = state,
+        onScanClick = {
+            val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
+            intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
+            (context as Activity).startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
+        },
+        onPermissionClick = { loadingState ->
+            when (loadingState) {
+                EmptyLoadingState.MISSING_AUDIO_PERMISSION -> ActivityCompat.requestPermissions(
+                    context as Activity, arrayOf(
+                        Manifest.permission.READ_MEDIA_AUDIO
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+                )
+
+                EmptyLoadingState.MISSING_VIDEO_PERMISSION -> ActivityCompat.requestPermissions(
+                    context as Activity, arrayOf(
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
+                )
+
+                else -> (context as? FragmentActivity)?.askStoragePermission(false, null)
+
+            }
+        },
+        content = content
+    )
+}
+
+@Composable
+private fun VlcEmptyViewLoader(
+    state: EmptyLoadingState?,
+    onScanClick: () -> Unit,
+    onPermissionClick: (EmptyLoadingState) -> Unit,
+    content: @Composable () -> Unit
+) {
     state?.let {
         when (state) {
             EmptyLoadingState.LOADING -> {
@@ -77,12 +116,11 @@ fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Uni
                             modifier = Modifier.padding(top = 16.dp),
                             text = stringResource(R.string.nomedia),
                             style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
                             textAlign = TextAlign.Center
                         )
                         VLCButton(R.drawable.ic_medialibrary_scan, R.string.button_medialibrary_preferences, modifier = Modifier.padding(top = 16.dp)) {
-                            val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
-                            intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
-                            (context as Activity).startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
+                            onScanClick()
                         }
                     }
                 }
@@ -98,16 +136,20 @@ fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Uni
                         Text(
                             modifier = Modifier.padding(top = 16.dp),
                             text = stringResource(R.string.permission_not_granted),
+                            color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.headlineSmall,
                             textAlign = TextAlign.Center
                         )
                         Text(
                             modifier = Modifier.padding(top = 8.dp),
                             text = text,
+                            color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Center
                         )
-                        PermissionButton(state, modifier = Modifier.padding(top = 16.dp))
+                        PermissionButton(modifier = Modifier.padding(top = 16.dp)) {
+                            onPermissionClick(state)
+                        }
                     }
                 }
             }
@@ -129,7 +171,9 @@ fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Uni
                             style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Center
                         )
-                        PermissionButton(state, modifier = Modifier.padding(top = 16.dp))
+                        PermissionButton(modifier = Modifier.padding(top = 16.dp)) {
+                            onPermissionClick(state)
+                        }
                     }
                 }
             }
@@ -142,6 +186,7 @@ fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Uni
                             Text(
                                 modifier = Modifier.padding(top = 16.dp),
                                 text = stringResource(R.string.nofav),
+                                color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.bodyLarge,
                                 textAlign = TextAlign.Center
                             )
@@ -157,25 +202,75 @@ fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Uni
 }
 
 @Composable
-fun PermissionButton(state: EmptyLoadingState, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
+private fun PermissionButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     VLCButton(R.drawable.ic_permission_big, R.string.permission_ask_again, modifier) {
-        when (state) {
-            EmptyLoadingState.MISSING_AUDIO_PERMISSION -> ActivityCompat.requestPermissions(
-                context as Activity, arrayOf(
-                    Manifest.permission.READ_MEDIA_AUDIO
-                ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
-            )
+        onClick()
+    }
+}
 
-            EmptyLoadingState.MISSING_VIDEO_PERMISSION -> ActivityCompat.requestPermissions(
-                context as Activity, arrayOf(
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.READ_MEDIA_IMAGES
-                ), Permissions.FINE_STORAGE_PERMISSION_REQUEST_CODE
-            )
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun VlcEmptyViewLoaderLoadingPreview() {
+    VlcPreview {
+        VlcEmptyViewLoader(
+            state = EmptyLoadingState.LOADING,
+            onScanClick = {},
+            onPermissionClick = {},
+            content = {}
+        )
+    }
+}
 
-            else -> (context as? FragmentActivity)?.askStoragePermission(false, null)
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun VlcEmptyViewLoaderEmptyPreview() {
+    VlcPreview {
+        VlcEmptyViewLoader(
+            state = EmptyLoadingState.EMPTY,
+            onScanClick = {},
+            onPermissionClick = {},
+            content = {}
+        )
+    }
+}
 
-        }
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun VlcEmptyViewLoaderPermissionPreview() {
+    VlcPreview {
+        VlcEmptyViewLoader(
+            state = EmptyLoadingState.MISSING_PERMISSION,
+            onScanClick = {},
+            onPermissionClick = {},
+            content = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun VlcEmptyViewLoaderFavoritesPreview() {
+    VlcPreview {
+        VlcEmptyViewLoader(
+            state = EmptyLoadingState.EMPTY_FAVORITES,
+            onScanClick = {},
+            onPermissionClick = {},
+            content = {
+                Text("Content behind the empty view", color = MaterialTheme.colorScheme.onSurface)
+            }
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun PermissionButtonPreview() {
+    VlcPreview {
+        PermissionButton(
+            onClick = {}
+        )
     }
 }

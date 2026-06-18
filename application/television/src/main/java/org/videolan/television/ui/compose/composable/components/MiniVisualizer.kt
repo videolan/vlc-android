@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -44,14 +45,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 @Composable
 fun MiniVisualizer(color: Color = WhiteTransparent50, viewModel: PlaylistModel = viewModel()) {
+    val playerState = viewModel.playerState.observeAsState()
+    MiniVisualizer(color, playerState.value?.playing == true)
+}
+
+@Composable
+fun MiniVisualizer(color: Color = WhiteTransparent50, isPlaying: Boolean) {
     val firstBarValues = arrayOf(0.7f, 0.3f, 0.9f, 0.7f, 0.7f, 0.7f, 0.4f, 0.6f, 0.8f, 0.6f, 0.3f, 0.2f, 0.1f, 0.9f, 0.1f, 0.5f, 0.2f, 0.3f, 0.1f, 0.7f, 0.6f, 0.5f, 0.8f, 0.3f, 0.8f, 0.1f)
     val secondBarValues = arrayOf(0.2f, 0.8f, 0.7f, 0.8f, 0.8f, 0.3f, 0.5f, 0.4f, 0.8f, 0.3f, 0.7f, 0.9f, 0.5f, 0.8f, 0.1f, 0.3f, 0.2f, 0.5f, 0.2f, 0.7f, 0.3f, 0.4f, 0.1f, 0.5f, 0.7f, 0.2f)
     val thirdBarValues = arrayOf(0.3f, 0.1f, 0.3f, 0.3f, 0.3f, 0.7f, 0.7f, 0.9f, 0.3f, 0.7f, 0.0f, 0.9f, 0.3f, 0.2f, 0.4f, 0.8f, 0.5f, 1.0f, 0.2f, 0.4f, 1.0f, 0.3f, 0.2f, 0.5f, 0.7f, 0.5f)
@@ -60,10 +69,8 @@ fun MiniVisualizer(color: Color = WhiteTransparent50, viewModel: PlaylistModel =
     val secondBarAnimatable = remember { Animatable(secondBarValues[0]) }
     val thirdBarAnimatable = remember { Animatable(thirdBarValues[0]) }
 
-    val playerState = viewModel.playerState.observeAsState()
-
-    LaunchedEffect(playerState.value?.playing) {
-        if (playerState.value?.playing == true) {
+    LaunchedEffect(isPlaying) {
+        if (isPlaying) {
             launch {
                 var index = 0
                 while (true) {
@@ -120,5 +127,21 @@ fun MiniVisualizer(color: Color = WhiteTransparent50, viewModel: PlaylistModel =
                 .graphicsLayer(scaleY = thirdBarAnimatable.value, transformOrigin = TransformOrigin(0.5F, 1F))
                 .background(color, RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MiniVisualizerPlayingPreview() {
+    VlcPreview {
+        MiniVisualizer(color = MaterialTheme.colorScheme.primary, isPlaying = true)
+    }
+}
+
+@Preview
+@Composable
+private fun MiniVisualizerPausedPreview() {
+    VlcPreview {
+        MiniVisualizer(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f), isPlaying = false)
     }
 }
