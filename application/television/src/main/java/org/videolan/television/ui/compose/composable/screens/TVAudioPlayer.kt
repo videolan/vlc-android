@@ -156,6 +156,7 @@ import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent90
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.util.showParent
 import org.videolan.television.viewmodel.MainActivityViewModel
@@ -1175,34 +1176,34 @@ fun AudioProgressBar(progressCoordinates: (Float) -> Unit, viewModel: PlaylistMo
 @Preview(device = "id:tv_1080p")
 @Composable
 fun TVAudioPlayerPreview() {
-    val context = LocalContext.current
-    org.videolan.medialibrary.MLContextTools.getInstance().setContext(context)
-    val playlist = StubPlaylist(
-        1L, "Sample Playlist", 5, 1800000L, 0, 5, 0, 0, false
-    )
-    val tracks = (1..5).map {
-        StubMediaWrapper(
-            it.toLong(), "file:///track$it.mp3", 0L, 0f, 300000L,
-            MediaWrapper.TYPE_AUDIO,
-            "Track $it", "track$it.mp3", 1L, 1L, "Sample Artist", "Genre",
-            1L, "Sample Album", "Sample Artist", 0, 0, "", 0, 0, it, 1,
-            0L, 0L, false, false, 2024, true, 0L
-        ).apply { tag = "tag_$it" }
-    }
-
-    val mockPlaylistModel = remember {
-        object : PlaylistModel() {
-            override val artist: String = "Sample Artist"
-            override val album: String = "Sample Album"
-            override val currentMediaWrapper: MediaWrapper = tracks[0]
-        }.apply {
-            dataset.value = tracks.toMutableList()
-            progress.value = PlaybackProgress(30000L, 300000L, "00:30", "05:00")
-            speed.value = 1.0f
-            playerState.value = PlayerState(true, "Track 1", "Sample Artist")
+    VlcPreview { context ->
+        org.videolan.medialibrary.MLContextTools.getInstance().setContext(context)
+        val playlist = StubPlaylist(
+            1L, "Sample Playlist", 5, 1800000L, 0, 5, 0, 0, false
+        )
+        val tracks = (1..5).map {
+            StubMediaWrapper(
+                it.toLong(), "file:///track$it.mp3", 0L, 0f, 300000L,
+                MediaWrapper.TYPE_AUDIO,
+                "Track $it", "track$it.mp3", 1L, 1L, "Sample Artist", "Genre",
+                1L, "Sample Album", "Sample Artist", 0, 0, "", 0, 0, it, 1,
+                0L, 0L, false, false, 2024, true, 0L
+            ).apply { tag = "tag_$it" }
         }
-    }
-    VlcTVTheme {
+
+        val mockPlaylistModel = remember {
+            object : PlaylistModel() {
+                override val artist: String = "Sample Artist"
+                override val album: String = "Sample Album"
+                override val currentMediaWrapper: MediaWrapper = tracks[0]
+            }.apply {
+                dataset.value = tracks.toMutableList()
+                progress.value = PlaybackProgress(30000L, 300000L, "00:30", "05:00")
+                speed.value = 1.0f
+                playerState.value = PlayerState(true, "Track 1", "Sample Artist")
+            }
+        }
+
         TVAudioPlayer(playlistModel = mockPlaylistModel)
     }
 }
