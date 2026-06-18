@@ -26,7 +26,6 @@ package org.videolan.television.ui.compose.composable.items
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -67,16 +66,18 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isSecondaryPressed
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
@@ -86,20 +87,19 @@ import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.conditional
-import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.util.MediaListEntry
-import org.videolan.vlc.util.TextUtils
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
 import org.videolan.vlc.util.getPresenceDescription
 
 @Composable
-fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
+fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
-    val activity = LocalActivity.current
+    val context = LocalContext.current
     if (video != mapBitmap.value?.first) mapBitmap.value = null
     var expanded by remember { mutableStateOf(false) }
 
@@ -142,7 +142,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .wrapContentHeight()
                     .padding(0.dp)
             ) {
                 if (mapBitmap.value?.second != null) {
@@ -164,9 +164,10 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                             .aspectRatio(16f / 9)
                             .scale(if (focused) 1.1f else 1f)
                     )
-                    LaunchedEffect(key1 = "") {
+                    LaunchedEffect(key1 = video) {
                         coroutineScope.launch {
-                            mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
+                            if (video !is DummyItem)
+                                mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
                         }
                     }
                 }
@@ -227,16 +228,18 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .padding(start = 4.dp, end = 4.dp, top = 4.dp)
                         .fillMaxWidth()
                         .conditional(focused, { Modifier.basicMarquee(initialDelayMillis = 0) }, { Modifier })
                 )
                 Text(
-                    video.getVideoDescription(activity!!, false) ?: "",
+                    video.getVideoDescription(context, false) ?: "",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                     modifier = Modifier
                         .padding(start = 4.dp, end = 4.dp)
                         .fillMaxWidth()
@@ -286,11 +289,11 @@ fun MediaLibraryItem.getVideoDescription(context: Context, inList: Boolean) = wh
 
 
 @Composable
-fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel(), onClick: () -> Unit, onLongClick: () -> Unit) {
+fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
-    val activity = LocalActivity.current
+    val context = LocalContext.current
     if (video != mapBitmap.value?.first) mapBitmap.value = null
     var expanded by remember { mutableStateOf(false) }
 
@@ -358,9 +361,10 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
                             .background(MaterialTheme.colorScheme.surfaceVariant)
                             .aspectRatio(16f / 9)
                     )
-                    LaunchedEffect(key1 = "") {
+                    LaunchedEffect(key1 = video) {
                         coroutineScope.launch {
-                            mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
+                            if (video !is DummyItem)
+                                mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
                         }
                     }
                 }
@@ -410,19 +414,18 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth()
             )
 
-            val resolution = if (video is MediaWrapper) generateResolutionClass(video.width, video.height) else null
-            val description = if (resolution == null) video.description else TextUtils.separatedString(video.description, resolution)
-
             Text(
-                video.getVideoDescription(activity!!, true) ?: "",
+                video.getVideoDescription(context, true) ?: "",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth()
@@ -437,5 +440,31 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
                     .size(16.dp)
             )
         }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun VideoItemPreview() {
+    VlcPreview {
+        VideoItem(
+            video = DummyItem(1, "Video Title", "1:20:30"),
+            entry = MediaListEntry.VIDEO,
+            position = 0,
+            onClick = {},
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun VideoItemListPreview() {
+    VlcPreview {
+        VideoItemList(
+            video = DummyItem(1, "Video Title", "1:20:30"),
+            entry = MediaListEntry.VIDEO,
+            position = 0,
+            onClick = {}
+        )
     }
 }
