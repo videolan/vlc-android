@@ -179,10 +179,13 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         sendMessage(MSG_STARTED, null)
     }
 
-    @Synchronized
     fun stop() {
-        logcat!!.stop()
-        logcat = null
+        val stoppedLogcat = synchronized(this) {
+            val localLogcat = logcat ?: return
+            logcat = null
+            localLogcat
+        }
+        stoppedLogcat.stop()
         sendMessage(MSG_STOPPED, null)
         stopForegroundCompat()
         stopSelf()
