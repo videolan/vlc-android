@@ -249,6 +249,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .padding(top = 4.dp)
                         .fillMaxWidth()
@@ -263,6 +264,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                         modifier = Modifier
                             .padding(start = 4.dp, end = 4.dp)
                             .fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onSurface,
                         inlineContent = inlineContentMap
                     )
                 else
@@ -271,6 +273,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                         maxLines = 1,
                         style = MaterialTheme.typography.bodySmall,
                         overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier
                             .padding(start = 4.dp, end = 4.dp)
                             .fillMaxWidth(),

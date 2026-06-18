@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowUpward
@@ -47,10 +48,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.videolan.television.R
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.util.MediaListEntry
 
 @Composable
@@ -122,3 +125,19 @@ data class MediaListSidePanelContent(
     val listState: ScrollableState,
     val entry: MediaListEntry?
 )
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun MediaListSidePanelPreview() {
+    VlcPreview {
+        MediaListSidePanel(
+            content = MediaListSidePanelContent(
+                showScrollToTop = true,
+                showResumePlayback = true,
+                isFavorite = true,
+                listState = rememberLazyListState(),
+                entry = MediaListEntry.ALBUMS
+            )
+        )
+    }
+}
