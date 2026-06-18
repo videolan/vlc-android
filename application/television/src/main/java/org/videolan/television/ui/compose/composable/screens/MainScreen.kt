@@ -113,6 +113,7 @@ import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_AUDIO_TAB
@@ -171,33 +172,6 @@ fun MainScreenContent(
                 }
             }
         }
-    }
-}
-
-@Preview(device = "id:tv_1080p")
-@Composable
-fun MainScreenPreview() {
-    VlcTVTheme {
-        MainScreenContent(
-            tabs = listOf(
-                Pair(R.string.video, R.drawable.ic_video),
-                Pair(R.string.audio, R.drawable.ic_menu_audio),
-                Pair(R.string.browse, R.drawable.ic_folder),
-                Pair(R.string.playlists, R.drawable.ic_playlist),
-                Pair(R.string.more, R.drawable.ic_nav_more),
-            ),
-            videoTabs = listOf(
-                R.string.video,
-                R.string.playlists,
-            ),
-            audioTabs = listOf(
-                R.string.artists,
-                R.string.albums,
-                R.string.tracks,
-                R.string.genres,
-                R.string.playlists,
-            )
-        )
     }
 }
 
@@ -595,3 +569,29 @@ private fun TabPanels(destination: MainDestination, onFocusExit: () -> Unit, onF
     }
 }
 
+@Preview(device = "id:tv_1080p")
+@Composable
+fun MainScreenPreview() {
+    VlcPreview {
+        MainScreenContent(
+            tabs = listOf(
+                Pair(R.string.video, R.drawable.ic_video),
+                Pair(R.string.audio, R.drawable.ic_menu_audio),
+                Pair(R.string.browse, R.drawable.ic_folder),
+                Pair(R.string.playlists, R.drawable.ic_playlist),
+                Pair(R.string.more, R.drawable.ic_nav_more),
+            ),
+            videoTabs = listOf(
+                R.string.video,
+                R.string.playlists,
+            ),
+            audioTabs = listOf(
+                R.string.artists,
+                R.string.albums,
+                R.string.tracks,
+                R.string.genres,
+                R.string.playlists,
+            )
+        )
+    }
+}

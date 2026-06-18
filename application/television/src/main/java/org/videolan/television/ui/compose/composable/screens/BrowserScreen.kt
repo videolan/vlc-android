@@ -84,6 +84,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.television.ui.compose.composable.lists.BrowserListContent
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
 @Composable
@@ -213,7 +214,7 @@ private fun BrowserScreenContent(
                                 Text(
                                     text ?: "root",
                                     textAlign = TextAlign.Center,
-
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     )
                             }
                         }
@@ -231,7 +232,7 @@ private fun BrowserScreenContent(
 @Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
 @Composable
 private fun BrowserScreenPreview() {
-    VlcTVTheme {
+    VlcPreview {
         BrowserScreenContent(
             currentItem = null,
             segments = listOf("file:///storage/emulated/0", "file:///storage/emulated/0/Movies"),
