@@ -29,15 +29,17 @@ import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.R
 
 @Composable
-fun PlayPause(click: ()-> Unit, atEnd: Boolean = false) {
+fun PlayPause(click: () -> Unit, atEnd: Boolean = false) {
     val image = AnimatedImageVector.animatedVectorResource(R.drawable.anim_play_pause_video)
     Image(
         painter = rememberAnimatedVectorPainter(image, atEnd),
@@ -46,6 +48,22 @@ fun PlayPause(click: ()-> Unit, atEnd: Boolean = false) {
             click()
         },
         contentScale = ContentScale.Crop,
-        colorFilter = ColorFilter.tint(Color.White)
+        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
     )
+}
+
+@Preview
+@Composable
+private fun PlayPausePlayPreview() {
+    VlcPreview {
+        PlayPause(click = {}, atEnd = false)
+    }
+}
+
+@Preview
+@Composable
+private fun PlayPausePausePreview() {
+    VlcPreview {
+        PlayPause(click = {}, atEnd = true)
+    }
 }

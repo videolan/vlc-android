@@ -40,33 +40,50 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.television.ui.compose.theme.BackgroundColorDark
+import org.videolan.television.R
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.vlc.ScanProgress
 
 @Composable
 fun MlProgress(modifier: Modifier, mainActivityViewModel: MainActivityViewModel = viewModel()) {
     val mlProgress = mainActivityViewModel.progress.observeAsState()
-    if (mlProgress.value != null && Medialibrary.getInstance().isWorking) {
+    MlProgressContent(
+        modifier = modifier,
+        progress = mlProgress.value,
+        isWorking = Medialibrary.getInstance().isWorking
+    )
+}
+
+@Composable
+fun MlProgressContent(
+    modifier: Modifier,
+    progress: ScanProgress?,
+    isWorking: Boolean
+) {
+    if (progress != null && isWorking) {
         Row(
             modifier = modifier
                 .clip(RoundedCornerShape(50))
-                .background(BackgroundColorDark)
+                .background(MaterialTheme.colorScheme.surfaceDim)
                 .padding(8.dp)
                 .widthIn(0.dp, 400.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = mlProgress.value?.progressText ?: "",
+                text = progress.progressText,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .weight(1F),
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.MiddleEllipsis
             )
-            if (mlProgress.value?.inDiscovery == true)
+            if (progress.inDiscovery)
                 CircularProgressIndicator(
                     modifier = Modifier
                         .width(24.dp)
@@ -82,9 +99,33 @@ fun MlProgress(modifier: Modifier, mainActivityViewModel: MainActivityViewModel 
                     color = MaterialTheme.colorScheme.secondary,
                     trackColor = MaterialTheme.colorScheme.surfaceVariant,
                     progress = {
-                        (mlProgress.value?.parsing ?: 0F) / 100F
+                        progress.parsing / 100F
                     }
                 )
         }
+    }
+}
+
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun MlProgressPreview() {
+    VlcPreview {
+        MlProgressContent(
+            modifier = Modifier,
+            progress = ScanProgress(50f, "Scanning...", false),
+            isWorking = true
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p", showBackground = true, backgroundColor = 0xFF34434e)
+@Composable
+private fun MlProgressDiscoveryPreview() {
+    VlcPreview {
+        MlProgressContent(
+            modifier = Modifier,
+            progress = ScanProgress(0f, "Discovering...", true),
+            isWorking = true
+        )
     }
 }

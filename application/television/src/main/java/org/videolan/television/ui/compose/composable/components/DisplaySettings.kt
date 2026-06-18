@@ -68,11 +68,13 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.BROWSER_SHOW_ONLY_MULTIMEDIA
@@ -110,95 +112,42 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
             },
             dragHandle = null
         ) {
-            Column(
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            ) {
-                Text(
-                    stringResource(R.string.display_settings),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp, bottom = 24.dp)
-                )
-
-                //Display in cards
-                var inCard by remember { mutableStateOf(Settings.getInstance(context).getBoolean(current!!.inCardsKey, current!!.defaultInCard)) }
-                DisplaySettingsLine(
-                    painterResource(if (inCard) R.drawable.ic_view_list else R.drawable.ic_view_grid),
-                    stringResource(if (inCard) R.string.display_in_list else R.string.display_in_grid)
-                ) {
-                    inCard = !inCard
+            DisplaySettingsContent(
+                current = current!!,
+                inGrouping = inGrouping,
+                onInCardChange = { inCard ->
                     Settings.getInstance(context).putSingle(current!!.inCardsKey, inCard)
                     viewModel.changeDisplaySettings(current!!)
-                }
-
-                //Show all artists
-                if (current!! == MediaListEntry.ARTISTS) {
-                    var showAllArtists by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)) }
-                    val onShowAllClicked = {
-                        showAllArtists = !showAllArtists
-                        Settings.getInstance(context).putSingle(KEY_ARTISTS_SHOW_ALL, showAllArtists)
-                        viewModel.changeDisplaySettings(current!!)
-                        coroutineScope.launch {
-                            DisplaySettingsEventManager.onShowAllArtistsChanged(current!!, showAllArtists)
-                        }
+                },
+                onShowAllArtistsChange = { showAllArtists ->
+                    Settings.getInstance(context).putSingle(KEY_ARTISTS_SHOW_ALL, showAllArtists)
+                    viewModel.changeDisplaySettings(current!!)
+                    coroutineScope.launch {
+                        DisplaySettingsEventManager.onShowAllArtistsChanged(current!!, showAllArtists)
                     }
-                    DisplaySettingsLine(
-                        painterResource(R.drawable.ic_sort_artist),
-                        stringResource(R.string.artists_show_all_title),
-                        endView = {
-                            Checkbox(checked = showAllArtists, onCheckedChange = { onShowAllClicked() })
-                        }
-                    ) { onShowAllClicked() }
-                }
-
-                //Only favs
-                if (current!! != MediaListEntry.BROWSER) {
-                    var onlyFavs by remember { mutableStateOf(Settings.getInstance(context).getBoolean(current!!.onlyFavsKey, false)) }
-                    val onFavClicked = {
-                        onlyFavs = !onlyFavs
-                        Settings.getInstance(context).putSingle(current!!.onlyFavsKey, onlyFavs)
-                        viewModel.changeDisplaySettings(current!!)
-                        coroutineScope.launch {
-                            DisplaySettingsEventManager.onOnlyFavsChanged(current!!, onlyFavs)
-                        }
+                },
+                onOnlyFavsChange = { onlyFavs ->
+                    Settings.getInstance(context).putSingle(current!!.onlyFavsKey, onlyFavs)
+                    viewModel.changeDisplaySettings(current!!)
+                    coroutineScope.launch {
+                        DisplaySettingsEventManager.onOnlyFavsChanged(current!!, onlyFavs)
                     }
-                    DisplaySettingsLine(painterResource(R.drawable.ic_fav_remove), stringResource(R.string.show_only_favs), endView = {
-                        Checkbox(checked = onlyFavs, onCheckedChange = { onFavClicked() })
-                    }, onClick = { onFavClicked() })
-                }
-
-                //Only multimedia
-                if (current!! == MediaListEntry.BROWSER) {
-                    var onlyMultimedia by remember { mutableStateOf(Settings.getInstance(context).getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false)) }
-                    val onMultimediaClicked = {
-                        onlyMultimedia = !onlyMultimedia
-                        Settings.getInstance(context).putSingle(BROWSER_SHOW_ONLY_MULTIMEDIA, onlyMultimedia)
-                        viewModel.changeDisplaySettings(current!!)
-                        coroutineScope.launch {
-                            DisplaySettingsEventManager.onOnlyMultimediaChanged(current!!, onlyMultimedia)
-                        }
+                },
+                onOnlyMultimediaChange = { onlyMultimedia ->
+                    Settings.getInstance(context).putSingle(BROWSER_SHOW_ONLY_MULTIMEDIA, onlyMultimedia)
+                    viewModel.changeDisplaySettings(current!!)
+                    coroutineScope.launch {
+                        DisplaySettingsEventManager.onOnlyMultimediaChanged(current!!, onlyMultimedia)
                     }
-                    DisplaySettingsLine(painterResource(R.drawable.ic_multimedia), stringResource(R.string.browser_show_all_title), endView = {
-                        Checkbox(checked = onlyMultimedia, onCheckedChange = { onMultimediaClicked() })
-                    }, onClick = { onMultimediaClicked() })
-                }
-                //Show hidden
-                if (current!! == MediaListEntry.BROWSER) {
-                    var showHiddenFiles by remember { mutableStateOf(Settings.getInstance(context).getBoolean(BROWSER_SHOW_HIDDEN_FILES, !Settings.tvUI)) }
-                    val onShowHiddenFilesClicked = {
-                        showHiddenFiles = !showHiddenFiles
-                        Settings.getInstance(context).putSingle(BROWSER_SHOW_HIDDEN_FILES, showHiddenFiles)
-                        viewModel.changeDisplaySettings(current!!)
-                        coroutineScope.launch {
-                            DisplaySettingsEventManager.onShowHiddenFilesChanged(current!!, showHiddenFiles)
-                        }
+                },
+                onShowHiddenFilesChange = { showHiddenFiles ->
+                    Settings.getInstance(context).putSingle(BROWSER_SHOW_HIDDEN_FILES, showHiddenFiles)
+                    viewModel.changeDisplaySettings(current!!)
+                    coroutineScope.launch {
+                        DisplaySettingsEventManager.onShowHiddenFilesChanged(current!!, showHiddenFiles)
                     }
-                    DisplaySettingsLine(painterResource(R.drawable.ic_hidden), stringResource(R.string.browser_show_hidden_files_title), endView = {
-                        Checkbox(checked = showHiddenFiles, onCheckedChange = { onShowHiddenFilesClicked() })
-                    }, onClick = { onShowHiddenFilesClicked() })
-                }
-                VideoGroupingItem(current!!, inGrouping) { newEntry, videoGroupingType ->
+                },
+                onGroupingChange = { newEntry, videoGroupingType ->
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onGroupingChanged(newEntry)
                     }
@@ -206,105 +155,201 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
                     viewModel.changeDisplaySettings(newEntry)
                     //hide the display settings as different grouping have different sorts / providers
                     viewModel.changeCurrentMediaListEntry(null)
-                }
-
-                PlaybackActionsItem(current!!, context)
-
-                Text(
-                    stringResource(R.string.sortby),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp, bottom = 16.dp)
-                )
-                var currentSort by remember { mutableStateOf(current!!.currentSort) }
-                var currentSortDesc by remember { mutableStateOf(current!!.currentSortDesc) }
-
-                val onSortClick = { sort: Int, desc: Boolean ->
+                },
+                onSortChange = { sort, desc ->
                     current!!.currentSortDesc = desc
                     current!!.currentSort = sort
-                    currentSort = sort
-                    currentSortDesc = desc
                     coroutineScope.launch {
-                        DisplaySettingsEventManager.onSortChanged(current!!, currentSort, currentSortDesc)
+                        DisplaySettingsEventManager.onSortChanged(current!!, sort, desc)
                     }
                     viewModel.changeCurrentMediaListEntry(current)
                 }
+            )
+        }
+    }
+}
 
-                current!!.sorts.forEach {
-                    val isCurrentSort = (it == currentSort || currentSort == Medialibrary.SORT_DEFAULT && it == Medialibrary.SORT_ALPHA)
-                    val sortItem = it.getSortItemDescriptor(isCurrentSort)
+@Composable
+fun DisplaySettingsContent(
+    current: MediaListEntry,
+    inGrouping: Boolean,
+    onInCardChange: (Boolean) -> Unit,
+    onShowAllArtistsChange: (Boolean) -> Unit,
+    onOnlyFavsChange: (Boolean) -> Unit,
+    onOnlyMultimediaChange: (Boolean) -> Unit,
+    onShowHiddenFilesChange: (Boolean) -> Unit,
+    onGroupingChange: (MediaListEntry, VideoGroupingType) -> Unit,
+    onSortChange: (Int, Boolean) -> Unit
+) {
+    val context = LocalContext.current
 
-                    Row(modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)) {
-                        Icon(
-                            painterResource(sortItem.icon),
-                            contentDescription = stringResource(sortItem.title),
-                            modifier = Modifier
-                                .padding(vertical = 8.dp, horizontal = 16.dp)
-                                .size(24.dp)
-                        )
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
+        Text(
+            stringResource(R.string.display_settings),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp, bottom = 24.dp)
+        )
+
+        //Display in cards
+        var inCard by remember { mutableStateOf(Settings.getInstance(context).getBoolean(current.inCardsKey, current.defaultInCard)) }
+        DisplaySettingsLine(
+            painterResource(if (inCard) R.drawable.ic_view_list else R.drawable.ic_view_grid),
+            stringResource(if (inCard) R.string.display_in_list else R.string.display_in_grid)
+        ) {
+            inCard = !inCard
+            onInCardChange(inCard)
+        }
+
+        //Show all artists
+        if (current == MediaListEntry.ARTISTS) {
+            var showAllArtists by remember { mutableStateOf(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)) }
+            val onShowAllClicked = {
+                showAllArtists = !showAllArtists
+                onShowAllArtistsChange(showAllArtists)
+            }
+            DisplaySettingsLine(
+                painterResource(R.drawable.ic_sort_artist),
+                stringResource(R.string.artists_show_all_title),
+                endView = {
+                    Checkbox(checked = showAllArtists, onCheckedChange = { onShowAllClicked() })
+                }
+            ) { onShowAllClicked() }
+        }
+
+        //Only favs
+        if (current != MediaListEntry.BROWSER) {
+            var onlyFavs by remember { mutableStateOf(Settings.getInstance(context).getBoolean(current.onlyFavsKey, false)) }
+            val onFavClicked = {
+                onlyFavs = !onlyFavs
+                onOnlyFavsChange(onlyFavs)
+            }
+            DisplaySettingsLine(painterResource(R.drawable.ic_fav_remove), stringResource(R.string.show_only_favs), endView = {
+                Checkbox(checked = onlyFavs, onCheckedChange = { onFavClicked() })
+            }, onClick = { onFavClicked() })
+        }
+
+        //Only multimedia
+        if (current == MediaListEntry.BROWSER) {
+            var onlyMultimedia by remember { mutableStateOf(Settings.getInstance(context).getBoolean(BROWSER_SHOW_ONLY_MULTIMEDIA, false)) }
+            val onMultimediaClicked = {
+                onlyMultimedia = !onlyMultimedia
+                onOnlyMultimediaChange(onlyMultimedia)
+            }
+            DisplaySettingsLine(painterResource(R.drawable.ic_multimedia), stringResource(R.string.browser_show_all_title), endView = {
+                Checkbox(checked = onlyMultimedia, onCheckedChange = { onMultimediaClicked() })
+            }, onClick = { onMultimediaClicked() })
+        }
+        //Show hidden
+        if (current == MediaListEntry.BROWSER) {
+            var showHiddenFiles by remember { mutableStateOf(Settings.getInstance(context).getBoolean(BROWSER_SHOW_HIDDEN_FILES, !Settings.tvUI)) }
+            val onShowHiddenFilesClicked = {
+                showHiddenFiles = !showHiddenFiles
+                onShowHiddenFilesChange(showHiddenFiles)
+            }
+            DisplaySettingsLine(painterResource(R.drawable.ic_hidden), stringResource(R.string.browser_show_hidden_files_title), endView = {
+                Checkbox(checked = showHiddenFiles, onCheckedChange = { onShowHiddenFilesClicked() })
+            }, onClick = { onShowHiddenFilesClicked() })
+        }
+        VideoGroupingItem(current, inGrouping) { newEntry, videoGroupingType ->
+            onGroupingChange(newEntry, videoGroupingType)
+        }
+
+        PlaybackActionsItem(current, context)
+
+        Text(
+            stringResource(R.string.sortby),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(start = 16.dp, top = 24.dp, end = 16.dp, bottom = 16.dp)
+        )
+        var currentSort by remember { mutableStateOf(current.currentSort) }
+        var currentSortDesc by remember { mutableStateOf(current.currentSortDesc) }
+
+        val onSortClick = { sort: Int, desc: Boolean ->
+            currentSort = sort
+            currentSortDesc = desc
+            onSortChange(sort, desc)
+        }
+
+        runCatching { current.sorts }.getOrNull()?.forEach {
+            val isCurrentSort = (it == currentSort || currentSort == Medialibrary.SORT_DEFAULT && it == Medialibrary.SORT_ALPHA)
+            val sortItem = it.getSortItemDescriptor(isCurrentSort)
+
+            Row(modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)) {
+                Icon(
+                    painterResource(sortItem.icon),
+                    contentDescription = stringResource(sortItem.title),
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                        .size(24.dp)
+                )
+                Text(
+                    stringResource(sortItem.title), modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Row(
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .clip(RoundedCornerShape(50))
+                            .combinedClickable(
+                                onClick = { onSortClick(sortItem.sort, false) }
+                            )
+                    ) {
                         Text(
-                            stringResource(sortItem.title), modifier = Modifier
+                            stringResource(sortItem.ascending),
+                            color = if (isCurrentSort && !currentSortDesc) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
                                 .weight(1f)
                                 .height(40.dp)
                                 .wrapContentHeight(align = Alignment.CenterVertically)
+                                .padding(horizontal = 16.dp)
                         )
-                        Column(modifier = Modifier.weight(1f)) {
-                            Row(
+                        if (isCurrentSort && !currentSortDesc)
+                            Icon(
+                                Icons.Default.Check,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier
-                                    .padding(end = 8.dp)
-                                    .clip(RoundedCornerShape(50))
-                                    .combinedClickable(
-                                        onClick = { onSortClick(sortItem.sort, false) }
-                                    )
-                            ) {
-                                Text(
-                                    stringResource(sortItem.ascending),
-                                    color = if (isCurrentSort && !currentSortDesc) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .height(40.dp)
-                                        .wrapContentHeight(align = Alignment.CenterVertically)
-                                        .padding(horizontal = 16.dp)
-                                )
-                                if (isCurrentSort && !currentSortDesc)
-                                    Icon(
-                                        Icons.Default.Check,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier
-                                            .padding(vertical = 8.dp, horizontal = 16.dp)
-                                            .size(24.dp)
-                                    )
-                            }
-                            Row(
+                                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                                    .size(24.dp)
+                            )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .clip(RoundedCornerShape(50))
+                            .combinedClickable(
+                                onClick = { onSortClick(sortItem.sort, true) }
+                            )
+                    ) {
+                        Text(
+                            stringResource(sortItem.descending),
+                            color = if (isCurrentSort && currentSortDesc) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(40.dp)
+                                .wrapContentHeight(align = Alignment.CenterVertically)
+                                .padding(horizontal = 16.dp)
+                        )
+                        if (isCurrentSort && currentSortDesc)
+                            Icon(
+                                Icons.Default.Check,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier
-                                    .padding(end = 8.dp)
-                                    .clip(RoundedCornerShape(50))
-                                    .combinedClickable(
-                                        onClick = { onSortClick(sortItem.sort, true) }
-                                    )
-                            ) {
-                                Text(
-                                    stringResource(sortItem.descending),
-                                    color = if (isCurrentSort && currentSortDesc) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .height(40.dp)
-                                        .wrapContentHeight(align = Alignment.CenterVertically)
-                                        .padding(horizontal = 16.dp)
-                                )
-                                if (isCurrentSort && currentSortDesc)
-                                    Icon(
-                                        Icons.Default.Check,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier
-                                            .padding(vertical = 8.dp, horizontal = 16.dp)
-                                            .size(24.dp)
-                                    )
-                            }
-                        }
+                                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                                    .size(24.dp)
+                            )
                     }
                 }
             }
@@ -332,7 +377,8 @@ private fun PlaybackActionsItem(current: MediaListEntry, context: Context) {
                         .padding(end = 16.dp)
                 ) {
                     Text(
-                        text = stringResource(currentPlaybackAction.title)
+                        text = stringResource(currentPlaybackAction.title),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
@@ -399,7 +445,8 @@ private fun VideoGroupingItem(
                                 else -> R.string.video_min_group_length_disable
                             }
 
-                        )
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
@@ -474,9 +521,15 @@ fun DisplaySettingsLine(painter: Painter, text: String, subtitle: String? = null
                 .size(24.dp)
         )
         Column(modifier = Modifier.weight(1f)) {
-            Text(text)
+            Text(
+                text,
+                color = MaterialTheme.colorScheme.onSurface
+            )
             if (subtitle != null) {
-                Text(subtitle, style = MaterialTheme.typography.bodySmall)
+                Text(
+                    subtitle, style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
         }
         Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(horizontal = 8.dp)) {
@@ -572,3 +625,78 @@ fun Int.getSortItemDescriptor(isCurrentSort: Boolean) = when (this) {
 
 
 data class SortItemDescriptor(val sort: Int, val title: Int, val ascending: Int, val descending: Int, val icon: Int, val isCurrentSort: Boolean)
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun DisplaySettingsLinePreview() {
+    VlcPreview {
+        Column {
+            DisplaySettingsLine(
+                painter = painterResource(R.drawable.ic_view_list),
+                text = "Display in list",
+                onClick = {}
+            )
+            DisplaySettingsLine(
+                painter = painterResource(R.drawable.ic_view_grid),
+                text = "Display in grid",
+                subtitle = "Currently showing grid",
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun DisplaySettingsContentPreview() {
+    MediaListEntry.ALBUMS.sorts = listOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME)
+    VlcPreview {
+        DisplaySettingsContent(
+            current = MediaListEntry.ALBUMS,
+            inGrouping = false,
+            onInCardChange = {},
+            onShowAllArtistsChange = {},
+            onOnlyFavsChange = {},
+            onOnlyMultimediaChange = {},
+            onShowHiddenFilesChange = {},
+            onGroupingChange = { _, _ -> },
+            onSortChange = { _, _ -> }
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun DisplaySettingsContentVideoPreview() {
+    VlcPreview {
+        DisplaySettingsContent(
+            current = MediaListEntry.VIDEO,
+            inGrouping = false,
+            onInCardChange = {},
+            onShowAllArtistsChange = {},
+            onOnlyFavsChange = {},
+            onOnlyMultimediaChange = {},
+            onShowHiddenFilesChange = {},
+            onGroupingChange = { _, _ -> },
+            onSortChange = { _, _ -> }
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun DisplaySettingsContentBrowserPreview() {
+    VlcPreview {
+        DisplaySettingsContent(
+            current = MediaListEntry.BROWSER,
+            inGrouping = false,
+            onInCardChange = {},
+            onShowAllArtistsChange = {},
+            onOnlyFavsChange = {},
+            onOnlyMultimediaChange = {},
+            onShowHiddenFilesChange = {},
+            onGroupingChange = { _, _ -> },
+            onSortChange = { _, _ -> }
+        )
+    }
+}

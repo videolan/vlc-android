@@ -52,11 +52,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.MediaListEntry
@@ -84,6 +87,7 @@ fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLo
         Text(
             text = stringResource(text),
             style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .weight(1F)
                 .padding(horizontal = if (titleFocusable) 16.dp else 0.dp)
@@ -120,5 +124,54 @@ fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLo
                 }
             }
         }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun ContentLinePreview() {
+    VlcPreview {
+        ContentLine(
+            items = listOf(
+                DummyItem(1, "Item 1", "Description 1"),
+                DummyItem(2, "Item 2", "Description 2"),
+                DummyItem(3, "Item 3", "Description 3")
+            ),
+            entry = MediaListEntry.ALBUMS,
+            historyLoading = false,
+            text = R.string.albums,
+            onItemClick = {},
+            onItemLongClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun ContentLineLoadingPreview() {
+    VlcPreview {
+        ContentLine(
+            items = null,
+            entry = MediaListEntry.ALBUMS,
+            historyLoading = true,
+            text = R.string.albums,
+            onItemClick = {},
+            onItemLongClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun ContentLineEmptyPreview() {
+    VlcPreview {
+        ContentLine(
+            items = emptyList(),
+            entry = MediaListEntry.ALBUMS,
+            historyLoading = false,
+            text = R.string.albums,
+            onItemClick = {},
+            onItemLongClick = {}
+        )
     }
 }
