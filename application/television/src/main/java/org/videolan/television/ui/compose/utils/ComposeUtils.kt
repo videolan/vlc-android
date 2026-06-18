@@ -24,12 +24,18 @@
 
 package org.videolan.television.ui.compose.utils
 
+import android.content.Context
+import android.view.ContextThemeWrapper
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -40,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
@@ -48,6 +55,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.vlc.R
 import org.videolan.vlc.util.fileReplacementMarker
 import org.videolan.vlc.util.folderReplacementMarker
@@ -127,3 +135,20 @@ fun Modifier.fadingMarquee(
     }
     .basicMarquee(iterations = if (marqueeOnlyOnFocus && !isFocused) 0 else Int.MAX_VALUE)
     .padding(horizontal = edgeWidth)
+
+/**
+ * Vlc preview: setup everything for the preview: the context, the compose theme and the Android theme.
+ *
+ * @param content The content to preview
+ * @receiver
+ */
+@Composable
+fun VlcPreview(content: @Composable (Context) -> Unit) {
+    val context = LocalContext.current
+    val themedContext = remember(context) { ContextThemeWrapper(context, org.videolan.television.R.style.Theme_VLC) }
+    CompositionLocalProvider(LocalContext provides themedContext) {
+        VlcTVTheme {
+            content(context)
+        }
+    }
+}
