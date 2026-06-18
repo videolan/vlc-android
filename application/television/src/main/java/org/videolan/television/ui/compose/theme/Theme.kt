@@ -24,16 +24,9 @@
 
 package org.videolan.television.ui.compose.theme
 
-import android.app.Activity
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = Orange500,
@@ -45,31 +38,12 @@ private val DarkColorScheme = darkColorScheme(
     surfaceDim = BackgroundColorDark
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Orange800,
-    secondary = Orange500,
-    background = BackgroundColor,
-    surfaceVariant = BackgroundColorMedium,
-    surface = BackgroundColor,
-    onSurface = Black,
-    surfaceDim = BackgroundColorDark
-
-)
-
 @Composable
 fun VlcTVTheme(
-    darkTheme: Boolean = true,
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = DarkColorScheme,
         typography = Typography,
         content = content
     )
