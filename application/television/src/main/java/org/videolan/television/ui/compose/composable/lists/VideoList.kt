@@ -226,12 +226,6 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
 
                 }
             }
-            val onLongClick:(MediaLibraryItem, Int) -> Unit = { video, _ ->
-                if (video is Folder || video is VideoGroup) {
-                    mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
-                } else
-                    TvUtil.showMediaDetail(activity, video as MediaWrapper, false)
-            }
             Row(modifier = modifier
                 .fillMaxSize()
                 .focusProperties {
@@ -255,7 +249,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { video, position, modifier ->
-                            VideoItem(video, entry, position, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                            VideoItem(video, entry, position, modifier = modifier, onClick = { onClick(video, position) })
                         }
                     } else {
                         PaginatedList(
@@ -267,7 +261,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                                 .fillMaxHeight()
                                 .weight(1f)
                         ) { video, position, modifier ->
-                            VideoItemList(video,  position, entry, modifier = modifier, onClick = { onClick(video, position) }, onLongClick = { onLongClick(video, position) })
+                            VideoItemList(video,  position, entry, modifier = modifier, onClick = { onClick(video, position) })
                         }
                     }
                 MediaListSidePanel(

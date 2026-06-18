@@ -49,24 +49,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Bookmark
+import org.videolan.medialibrary.stubs.StubBookmark
 import org.videolan.television.ui.compose.composable.components.ItemOptionsLine
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.viewmodels.BookmarkModel
 
 @Composable
 fun BookmarkItem(bookmark: Bookmark, bookmarkModel: BookmarkModel = viewModel()) {
+    val activity = LocalActivity.current
+    BookmarkItem(
+        bookmark = bookmark,
+        onBookmarkClick = { bookmarkModel.service?.setTime(bookmark.time) },
+        onRenameClick = { RenameDialog.newInstance(bookmark).show((activity as FragmentActivity).supportFragmentManager, "sleep") },
+        onDeleteClick = { bookmarkModel.delete(bookmark) }
+    )
+}
+
+@Composable
+fun BookmarkItem(
+    bookmark: Bookmark,
+    onBookmarkClick: () -> Unit,
+    onRenameClick: () -> Unit,
+    onDeleteClick: () -> Unit
+) {
     var isFocused by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
-    val activity = LocalActivity.current
     Row(modifier = Modifier.heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(
             modifier = Modifier
@@ -79,7 +97,7 @@ fun BookmarkItem(bookmark: Bookmark, bookmarkModel: BookmarkModel = viewModel())
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
                 ) {
-                    bookmarkModel.service?.setTime(bookmark.time)
+                    onBookmarkClick()
 
                 }
                 .background(if (isFocused) WhiteTransparent10 else Transparent, RoundedCornerShape(8.dp))
@@ -90,12 +108,14 @@ fun BookmarkItem(bookmark: Bookmark, bookmarkModel: BookmarkModel = viewModel())
                 bookmark.title ?: "",
                 maxLines = 1,
                 modifier = Modifier.padding(horizontal = 16.dp).basicMarquee(),
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 Tools.millisToString(bookmark.time),
                 modifier = Modifier.padding(horizontal = 16.dp),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
         }
         Box {
@@ -111,14 +131,27 @@ fun BookmarkItem(bookmark: Bookmark, bookmarkModel: BookmarkModel = viewModel())
                 ) {
 
                     ItemOptionsLine(stringResource(R.string.rename), R.drawable.ic_edit) {
-                        RenameDialog.newInstance(bookmark).show((activity as FragmentActivity).supportFragmentManager, "sleep")
+                        onRenameClick()
                         expanded = false
                     }
                     ItemOptionsLine(stringResource(R.string.delete), R.drawable.ic_delete) {
-                        bookmarkModel.delete(bookmark)
+                        onDeleteClick()
                         expanded = false
                     }
                 }
         }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun BookmarkItemPreview() {
+    VlcPreview {
+        BookmarkItem(
+            bookmark = StubBookmark(1, "My Bookmark", "Description", 1, 120000L),
+            onBookmarkClick = {},
+            onRenameClick = {},
+            onDeleteClick = {}
+        )
     }
 }
