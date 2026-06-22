@@ -24,16 +24,15 @@
 
 package org.videolan.television.ui.compose.composable.lists
 
-import android.app.Application
 import android.content.Intent
 import android.util.Log
-import android.view.View
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -45,20 +44,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.HEADER_STREAM
-import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.television.R
 import org.videolan.television.ui.AboutActivity
 import org.videolan.television.ui.MainTvActivity
@@ -74,21 +68,23 @@ import org.videolan.television.viewmodel.MoreViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.copy
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.*
+import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.ContextOption.CTX_APPEND
+import org.videolan.vlc.util.ContextOption.CTX_COPY
+import org.videolan.vlc.util.ContextOption.CTX_DELETE
+import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
+import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
+import org.videolan.vlc.util.ContextOption.CTX_PLAY
+import org.videolan.vlc.util.ContextOption.CTX_PLAY_NEXT
+import org.videolan.vlc.util.ContextOption.CTX_RENAME
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.viewmodels.StreamsModel
-import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
-import java.security.SecureRandom
-import kotlin.math.min
 
 @Composable
 fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = viewModel(), mainViewmodel: MainActivityViewModel = viewModel()) {
@@ -119,6 +115,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 }
             }
             .verticalScroll(rememberScrollState())
+            .padding(bottom = 96.dp)
             .focusGroup()
     ) {
         Row(

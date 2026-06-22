@@ -355,7 +355,7 @@ internal fun BrowserListContent(
         ) {
             if (currentInCard) {
                 LazyVerticalGrid(
-                    GridCells.Adaptive(150.dp), Modifier
+                    GridCells.Fixed(6), Modifier
                         .fillMaxHeight()
                         .weight(1f)
                         .graphicsLayer(clip = false)
@@ -363,8 +363,8 @@ internal fun BrowserListContent(
                             onEnter = {
                                 focusRequesters[lastFocusedItem]?.requestFocus()
                             }
-                        }, gridState, PaddingValues(top = 16.dp), verticalArrangement = Arrangement.spacedBy(24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(0.dp)
+                        }, gridState, PaddingValues(top = 16.dp, bottom = 96.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(count = items.size) { index ->
                         items[index].let { item ->
