@@ -94,6 +94,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -250,8 +251,8 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                 deleteLauncher.launch(intent)
             }
         },
-        onInsertNext = { MediaUtils.appendMedia(context, parentItem.tracks.toList()) },
-        onAppend = { MediaUtils.insertNext(context, parentItem.tracks) },
+        onInsertNext = { MediaUtils.insertNext(context, parentItem.tracks) },
+        onAppend = { MediaUtils.appendMedia(context, parentItem.tracks.toList()) },
         onAddToPlaylist = { (activity as FragmentActivity).addToPlaylist(parentItem.tracks, SavePlaylistDialog.KEY_NEW_TRACKS) },
         onMoveUp = { index, track ->
             val tag = track.tag!!
@@ -456,7 +457,7 @@ fun AlbumPlaylistScreenContent(
                         }
                         LabeledIconButton(
                             label = stringResource(R.string.insert_next),
-                            painterResource = painterResource(R.drawable.ic_tv_list_playnext),
+                            painterResource = painterResource(R.drawable.ic_tv_list_append),
                             focusedBackgroundColor = WhiteTransparent25,
                             tint = White
                         ) {
@@ -464,7 +465,7 @@ fun AlbumPlaylistScreenContent(
                         }
                         LabeledIconButton(
                             label = stringResource(R.string.append),
-                            painterResource = painterResource(R.drawable.ic_tv_list_append),
+                            painterResource = painterResource(R.drawable.ic_tv_list_playnext),
                             focusedBackgroundColor = WhiteTransparent25,
                             tint = White
                         ) {
@@ -752,11 +753,12 @@ fun AlbumPlaylistTrackItem(
                     }
                 }
 
+                val inPreview = LocalInspectionMode.current
                 Box(
                     modifier = Modifier
                         .wrapContentWidth()
                         .fillMaxHeight()
-                        .graphicsLayer { alpha = if (itemHasFocus) 1f else 0f }
+                        .graphicsLayer { alpha = if (itemHasFocus || inPreview) 1f else 0f }
                         .padding(horizontal = 8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -813,22 +815,22 @@ fun AlbumPlaylistTrackItem(
                             }
                         }
                         LabeledIconButton(
-                            label = stringResource(R.string.append),
+                            label = stringResource(R.string.insert_next),
                             painterResource = painterResource(R.drawable.ic_tv_list_append),
                             tint = White,
                             focusedBackgroundColor = WhiteTransparent25,
                             focusHeight = 72.dp
                         ) {
-                            MediaUtils.appendMedia(context, track)
+                            MediaUtils.insertNext(context, track)
                         }
                         LabeledIconButton(
-                            label = stringResource(R.string.insert_next),
+                            label = stringResource(R.string.append),
                             painterResource = painterResource(R.drawable.ic_tv_list_playnext),
                             tint = White,
                             focusedBackgroundColor = WhiteTransparent25,
                             focusHeight = 72.dp
                         ) {
-                            MediaUtils.insertNext(context, track)
+                            MediaUtils.appendMedia(context, track)
                         }
                         LabeledIconButton(
                             label = stringResource(R.string.add_to_playlist),
