@@ -63,7 +63,6 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.television.R
-import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.VideoDestination
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
