@@ -29,7 +29,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -110,18 +109,17 @@ fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLo
             modifier = Modifier.focusGroup()
         ) {
             items(items?.size ?: 0) { index ->
-                Box(modifier = Modifier.width(150.dp)) {
-                    AudioItem(
-                        audios = items!!,
-                        entry = entry,
-                        index = index,
-                        isFirst = index == 0,
-                        isLast = index == (items.size - 1),
-                        spannableDescription = spannableDescription,
-                        browserRoot = browserRoot,
-                        onClick = { onItemClick(index) }
-                    )
-                }
+                AudioItem(
+                    audios = items!!,
+                    entry = entry,
+                    index = index,
+                    modifier = Modifier.width(148.dp),
+                    isFirst = index == 0,
+                    isLast = index == (items.size - 1),
+                    spannableDescription = spannableDescription,
+                    browserRoot = browserRoot,
+                    onClick = { onItemClick(index) }
+                )
             }
         }
     }

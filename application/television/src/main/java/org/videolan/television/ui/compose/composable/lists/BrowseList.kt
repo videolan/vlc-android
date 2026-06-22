@@ -29,6 +29,7 @@ import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -39,6 +40,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
@@ -145,6 +147,7 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
                 }
             }
             .verticalScroll(rememberScrollState())
+            .padding(bottom = 96.dp)
             .focusGroup()
     ) {
         val activity = LocalActivity.current

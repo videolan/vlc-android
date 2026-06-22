@@ -58,7 +58,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -72,6 +72,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Folder
@@ -103,13 +104,16 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
     if (video != mapBitmap.value?.first) mapBitmap.value = null
     var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.width(280.dp)) {
+    Column(modifier = modifier
+        .width(280.dp)
+        .zIndex(if (focused) 1f else 0f)) {
         Card(
             border = vlcBorder(focused),
             modifier = Modifier
                 .onFocusChanged {
                     focused = it.isFocused
                 }
+                .shadow(if (focused) 12.dp else 0.dp, MaterialTheme.shapes.medium)
                 .combinedClickable(
                     onClick = {
                         onClick()
@@ -153,7 +157,6 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(16f / 9)
-                            .scale(if (focused) 1.1f else 1f)
                     )
                 } else {
                     Image(
@@ -162,7 +165,6 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(16f / 9)
-                            .scale(if (focused) 1.1f else 1f)
                     )
                     LaunchedEffect(key1 = video) {
                         coroutineScope.launch {
@@ -221,7 +223,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
             })
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f).padding(top = 8.dp)
             ) {
                 Text(
                     video.title ?: "",

@@ -126,15 +126,20 @@ fun Modifier.fadingMarquee(
     rightEdge: Boolean = true,
     marqueeOnlyOnFocus: Boolean = false,
     isFocused: Boolean = true
-): Modifier = this
-    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-    .drawWithContent {
-        drawContent()
-        if (leftEdge) drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
-        if (rightEdge) drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
-    }
-    .basicMarquee(iterations = if (marqueeOnlyOnFocus && !isFocused) 0 else Int.MAX_VALUE)
-    .padding(horizontal = edgeWidth)
+): Modifier {
+    val isMarqueeActive = !marqueeOnlyOnFocus || isFocused
+    return this
+        .conditional(isMarqueeActive, {
+            graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                .drawWithContent {
+                    drawContent()
+                    if (leftEdge) drawFadedEdge(edgeWidth.toPx(), leftEdge = true)
+                    if (rightEdge) drawFadedEdge(edgeWidth.toPx(), leftEdge = false)
+                }
+                .basicMarquee()
+        })
+        .padding(horizontal = edgeWidth)
+}
 
 /**
  * Vlc preview: setup everything for the preview: the context, the compose theme and the Android theme.
