@@ -58,10 +58,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isSecondaryPressed
 import androidx.compose.ui.input.pointer.pointerInput
@@ -71,6 +73,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
@@ -85,6 +88,7 @@ import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.compose.composable.components.ItemOptions
 import org.videolan.television.ui.compose.composable.lists.vlcBorder
 import org.videolan.television.ui.compose.theme.BlackTransparent50
+import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
@@ -113,7 +117,15 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                 .onFocusChanged {
                     focused = it.isFocused
                 }
-                .shadow(if (focused) 12.dp else 0.dp, MaterialTheme.shapes.medium)
+                .dropShadow(
+                    shape = MaterialTheme.shapes.medium,
+                    shadow = Shadow(
+                        radius = 8.dp,
+                        spread = 0.dp,
+                        color = if (focused) MaterialTheme.colorScheme.primary else Transparent,
+                        offset = DpOffset(x = 0.dp, 0.dp)
+                    )
+                )
                 .combinedClickable(
                     onClick = {
                         onClick()
