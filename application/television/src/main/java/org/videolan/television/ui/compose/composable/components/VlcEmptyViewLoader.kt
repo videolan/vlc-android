@@ -109,7 +109,12 @@ private fun VlcEmptyViewLoader(
             }
 
             EmptyLoadingState.EMPTY -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 64.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Image(painterResource(R.drawable.ic_empty), contentDescription = null, modifier = Modifier.size(96.dp))
                         Text(
@@ -128,7 +133,12 @@ private fun VlcEmptyViewLoader(
 
             EmptyLoadingState.EMPTY_SEARCH -> TODO("Not implemented as the lists are not searchable yet")
             EmptyLoadingState.MISSING_PERMISSION -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 64.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
                     val text = stringResource(R.string.permission_expanation_no_allow) + "\n" + stringResource(R.string.permission_expanation_allow)
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -155,7 +165,12 @@ private fun VlcEmptyViewLoader(
             }
 
             EmptyLoadingState.MISSING_VIDEO_PERMISSION, EmptyLoadingState.MISSING_AUDIO_PERMISSION -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 64.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Image(painterResource(R.drawable.ic_empty_warning), contentDescription = null, modifier = Modifier.size(96.dp))
@@ -179,7 +194,12 @@ private fun VlcEmptyViewLoader(
             }
 
             EmptyLoadingState.EMPTY_FAVORITES -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 64.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
                             Image(painterResource(R.drawable.ic_fav_empty), contentDescription = null, modifier = Modifier.size(96.dp))
