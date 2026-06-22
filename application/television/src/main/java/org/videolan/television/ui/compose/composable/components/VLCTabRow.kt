@@ -24,8 +24,9 @@
 
 package org.videolan.television.ui.compose.composable.components
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusGroup
@@ -59,6 +60,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -100,24 +102,34 @@ fun VLCTabRow(
     val tabInfo = mainActivityViewModel?.getTabInfo(key)
     var hasFocus by remember { mutableStateOf(false) }
 
-    var targetX by remember { mutableIntStateOf(tabInfo?.x ?: 0) }
-    var targetWidth by remember { mutableIntStateOf(tabInfo?.width ?: 0) }
-    var targetHeight by remember { mutableIntStateOf(tabInfo?.height ?: 0) }
+    var targetX by remember(key) { mutableIntStateOf(tabInfo?.x ?: 0) }
+    var targetWidth by remember(key) { mutableIntStateOf(tabInfo?.width ?: 0) }
+    var targetHeight by remember(key) { mutableIntStateOf(tabInfo?.height ?: 0) }
+    var isInitialized by remember(key) { mutableStateOf(false) }
 
-    val focusRequesters = remember {
+    val focusRequesters = remember(key, tabNumber) {
         List(tabNumber) { FocusRequester() }
     }
 
-    val offset by animateIntOffsetAsState(
-        targetValue = IntOffset(targetX, 0),
-        label = "offset"
-    )
+    val offsetAnim = remember(key) { Animatable(IntOffset(targetX, 0), IntOffset.VectorConverter) }
+    val widthAnim = remember(key) { Animatable(targetWidth.px.dp, Dp.VectorConverter) }
+    val heightAnim = remember(key) { Animatable(targetHeight.px.dp, Dp.VectorConverter) }
 
-    val animatedWidth by animateDpAsState(targetValue = targetWidth.px.dp, label = "width")
-    val animatedHeight by animateDpAsState(targetValue = targetHeight.px.dp, label = "height")
+    LaunchedEffect(key, targetX, targetWidth, targetHeight) {
+        if (isInitialized) {
+            offsetAnim.animateTo(IntOffset(targetX, 0), tween())
+            widthAnim.animateTo(targetWidth.px.dp, tween())
+            heightAnim.animateTo(targetHeight.px.dp, tween())
+        } else {
+            offsetAnim.snapTo(IntOffset(targetX, 0))
+            widthAnim.snapTo(targetWidth.px.dp)
+            heightAnim.snapTo(targetHeight.px.dp)
+            if (targetWidth > 0) isInitialized = true
+        }
+    }
 
     if (forceFocus) {
-        LaunchedEffect("") {
+        LaunchedEffect(key) {
             if (selectedTabIndex < focusRequesters.size)
                 focusRequesters[selectedTabIndex].requestFocus()
         }
@@ -130,9 +142,9 @@ fun VLCTabRow(
     ) {
         Box(
             modifier = Modifier
-                .width(animatedWidth)
-                .height(animatedHeight)
-                .offset { offset }
+                .width(widthAnim.value)
+                .height(heightAnim.value)
+                .offset { offsetAnim.value }
         ) {
             indicator(hasFocus)
         }
@@ -161,10 +173,15 @@ fun VLCTabRow(
                         onSelected(index)
                     },
                     onBoundChanged = { coords ->
-                        targetX = coords.positionInParent().x.toInt()
-                        targetWidth = coords.size.width
-                        targetHeight = coords.size.height
-                        mainActivityViewModel?.setTabInfo(key, TabInfo(targetX, targetWidth, targetHeight))
+                        val newX = coords.positionInParent().x.toInt()
+                        val newW = coords.size.width
+                        val newH = coords.size.height
+                        if (newX != targetX || newW != targetWidth || newH != targetHeight) {
+                            targetX = newX
+                            targetWidth = newW
+                            targetHeight = newH
+                            mainActivityViewModel?.setTabInfo(key, TabInfo(targetX, targetWidth, targetHeight))
+                        }
                     },
                 ) {
                     getTab(index, selectedTabIndex == index)
