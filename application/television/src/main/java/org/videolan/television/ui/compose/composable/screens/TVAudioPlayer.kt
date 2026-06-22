@@ -951,7 +951,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
                 PlaybackStateCompat.REPEAT_MODE_ONE -> painterResource(R.drawable.ic_repeat_one_audio)
                 else -> painterResource(R.drawable.ic_repeat_all_audio)
             },
-            tint = if (repeatType.value == PlaybackStateCompat.REPEAT_MODE_ALL) MaterialTheme.colorScheme.secondary else White,
+            tint = if (repeatType.value != PlaybackStateCompat.REPEAT_MODE_NONE) MaterialTheme.colorScheme.secondary else White,
             modifier = Modifier.padding(horizontal = 4.dp)
         ) {
             when (viewModel.repeatType) {
