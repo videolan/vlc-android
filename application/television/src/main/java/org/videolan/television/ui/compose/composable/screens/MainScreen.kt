@@ -252,7 +252,7 @@ fun Tabs(
     val duration = 300
     val animatedPadding by animateDpAsState(
         if (visible) {
-            24.dp
+            28.dp
         } else {
             0.dp
         },
@@ -269,8 +269,8 @@ fun Tabs(
             .fillMaxHeight()
             .padding(
                 top = animatedPadding,
-                start = 24.dp,
-                end = 24.dp
+                start = 56.dp,
+                end = 56.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -533,7 +533,7 @@ private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier 
     if (LocalInspectionMode.current) {
         Box(
             modifier = modifier
-                .padding(top = 16.dp)
+                .padding(top = 8.dp)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.Center
@@ -545,7 +545,7 @@ private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier 
     NavDisplay(
         backStack = backStack,
         modifier = modifier
-            .padding(top = 16.dp)
+            .padding(top = 8.dp)
             .fillMaxSize()
     ) { destination ->
         NavEntry(destination) { destinationKey ->

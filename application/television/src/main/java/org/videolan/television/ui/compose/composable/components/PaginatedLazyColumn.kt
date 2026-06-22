@@ -77,6 +77,7 @@ fun PaginatedGrid(
     verticalArrangement: Arrangement.HorizontalOrVertical,
     horizontalArrangement: Arrangement.HorizontalOrVertical,
     contentPadding: PaddingValues,
+    columns: GridCells = GridCells.Adaptive(150.dp),
     loaderAspectRatio: Float = 1f,
     items: LazyPagingItems<out MediaLibraryItem>,
     content: @Composable (item: MediaLibraryItem, index: Int,  modifier: Modifier) -> Unit
@@ -94,7 +95,7 @@ fun PaginatedGrid(
     }
 
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
+        columns = columns,
         modifier = modifier
             .focusProperties {
                 onEnter = {

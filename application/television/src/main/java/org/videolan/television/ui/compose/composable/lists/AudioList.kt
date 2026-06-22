@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -342,9 +343,10 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         PaginatedGrid(
                             items = audios,
                             listState = gridState,
-                            verticalArrangement = Arrangement.spacedBy(24.dp),
-                            horizontalArrangement = Arrangement.spacedBy(0.dp),
-                            contentPadding = PaddingValues(top = 16.dp),
+                            columns = GridCells.Fixed(6),
+                            verticalArrangement = Arrangement.spacedBy(40.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp),
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .weight(1f)
