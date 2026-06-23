@@ -88,6 +88,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -595,11 +596,15 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel(), mainViewModel: MainAc
     val listState = rememberLazyListState()
     val currentItemFocusRequester = remember { FocusRequester() }
     var columnHeight by remember { mutableIntStateOf(0) }
+    val scope = rememberCoroutineScope()
+
+    val density = LocalDensity.current
+    val itemHeightPx = with(density) { 64.dp.toPx() }
 
     LaunchedEffect(currentMedia.value) {
         val position = viewModel.currentMediaPosition
-        if (position != -1) {
-            listState.animateScrollToItem(position, -columnHeight / 2 + 32)
+        if (position != -1 && columnHeight > 0) {
+            listState.animateScrollToItem(position, -((columnHeight / 2) - (itemHeightPx / 2)).toInt())
         }
     }
 
@@ -617,7 +622,13 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel(), mainViewModel: MainAc
         ) {
             items(count = queue.size, key = { index -> "${queue[index].tag}" }) { index ->
                 Box(modifier = Modifier.animateItem()) {
-                    AudioPlayerQueueItem(queue, index, viewModel, mainViewModel, focusRequester = if (index == viewModel.currentMediaPosition) currentItemFocusRequester else null)
+                    AudioPlayerQueueItem(queue, index, viewModel, mainViewModel, focusRequester = if (index == viewModel.currentMediaPosition) currentItemFocusRequester else null) { from, to ->
+                        if (columnHeight > 0) {
+                            scope.launch {
+                                listState.animateScrollToItem(to, -((columnHeight / 2) - (itemHeightPx / 2)).toInt())
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -625,7 +636,7 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel(), mainViewModel: MainAc
 }
 
 @Composable
-fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel(), focusRequester: FocusRequester? = null) {
+fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel(), focusRequester: FocusRequester? = null, onMove: (Int, Int) -> Unit = { _, _ -> }) {
     var isFocused by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
@@ -747,16 +758,20 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                     painterResource = painterResource(R.drawable.ic_playlist_movedown),
                     tint = White
                 ) {
-                    if (index < queue.size - 1)
+                    if (index < queue.size - 1) {
                         viewModel.move(index, index + 1)
+                        onMove(index, index + 1)
+                    }
                 }
                 LabeledIconButton(
                     stringResource(R.string.move_up),
                     painterResource = painterResource(R.drawable.ic_playlist_moveup),
                     tint = White
                 ) {
-                    if (index > 0)
+                    if (index > 0) {
                         viewModel.move(index, index - 1)
+                        onMove(index, index - 1)
+                    }
                 }
                 LabeledIconButton(
                     stringResource(R.string.remove),

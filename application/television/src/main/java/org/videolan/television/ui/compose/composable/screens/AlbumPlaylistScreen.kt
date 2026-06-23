@@ -266,7 +266,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                 moveUpFocusRequesters[tag]?.requestFocus()
             }
             scope.launch {
-                listState.requestScrollToItem(index - 1, listHeight / 2 - with(density) { 36.dp.toPx().toInt() })
+                listState.requestScrollToItem(index - 1, -(listHeight / 2 - with(density) { 36.dp.toPx() }.toInt()))
             }
             scope.launch(Dispatchers.IO) {
                 (parentItem as Playlist).move(index, index - 1)
@@ -285,7 +285,7 @@ fun AlbumPlaylistScreen(parentItem: MediaLibraryItem, albumSongsViewModel: Album
                 moveDownFocusRequesters[tag]?.requestFocus()
             }
             scope.launch {
-                listState.requestScrollToItem(index + 1, listHeight / 2 - with(density) { 36.dp.toPx().toInt() })
+                listState.requestScrollToItem(index + 1, -(listHeight / 2 - with(density) { 36.dp.toPx() }.toInt()))
             }
             scope.launch(Dispatchers.IO) {
                 (parentItem as Playlist).move(index, index + 1)
