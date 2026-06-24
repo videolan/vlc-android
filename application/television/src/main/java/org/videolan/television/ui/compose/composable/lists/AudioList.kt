@@ -44,6 +44,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -195,7 +196,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
         entry.currentSortDesc = provider.desc
 
         val audios = provider.pager.collectAsLazyPagingItems()
-        var inCard by remember { mutableStateOf(entry.displayInCard(context)) }
+        var inCard by rememberSaveable { mutableStateOf(entry.displayInCard(context)) }
 
         val listState = rememberLazyListState()
         val gridState = rememberLazyGridState()
