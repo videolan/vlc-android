@@ -174,7 +174,9 @@ private fun BrowserScreenContent(
                 LabeledIconButton(
                     label = stringResource(R.string.close),
                     vectorImage = Icons.Default.Close,
-                    modifier = Modifier
+                    modifier = Modifier.onFocusChanged { 
+                        if (it.isFocused) Log.d("BrowserFocus", "CLOSE button received focus")
+                    }
                 ) {
                     onClose()
                 }

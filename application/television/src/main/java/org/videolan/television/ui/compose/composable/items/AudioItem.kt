@@ -144,7 +144,7 @@ fun AudioItem(
 }
 
 @Composable
-fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, onClick: () -> Unit) {
+fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, description: String? = null, onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -292,10 +292,11 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     .fillMaxWidth()
                     .fadingMarquee(edgeWidth = 4.dp, marqueeOnlyOnFocus = true, isFocused = focused)
             )
-            val description = if (spannableDescription) item.description.getDescriptionAnnotated() else AnnotatedString(item.description ?: "")
-            if (description.isNotEmpty()) {
+            val finalDescription = description ?: item.description
+            val annotatedDescription = if (spannableDescription) finalDescription.getDescriptionAnnotated() else AnnotatedString(finalDescription ?: "")
+            if (annotatedDescription.isNotEmpty()) {
                 Text(
-                    text = description,
+                    text = annotatedDescription,
                     maxLines = 1,
                     style = MaterialTheme.typography.bodySmall,
                     overflow = TextOverflow.Ellipsis,
@@ -320,6 +321,7 @@ fun AudioItemList(
     isFirst: Boolean = false,
     isLast: Boolean = false,
     spannableDescription: Boolean = false,
+    description: String? = null,
     onClick: () -> Unit
 ) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
@@ -466,10 +468,11 @@ fun AudioItemList(
                             .fillMaxWidth()
                             .fadingMarquee(edgeWidth = 8.dp, marqueeOnlyOnFocus = true, isFocused = itemHasFocus)
                     )
-                    val description = if (spannableDescription) item.description.getDescriptionAnnotated() else AnnotatedString(item.description ?: "")
-                    if (description.isNotEmpty()) {
+                    val finalDescription = description ?: item.description
+                    val annotatedDescription = if (spannableDescription) finalDescription.getDescriptionAnnotated() else AnnotatedString(finalDescription ?: "")
+                    if (annotatedDescription.isNotEmpty()) {
                         Text(
-                            text = description,
+                            text = annotatedDescription,
                             maxLines = 1,
                             style = MaterialTheme.typography.bodySmall,
                             overflow = TextOverflow.Ellipsis,
