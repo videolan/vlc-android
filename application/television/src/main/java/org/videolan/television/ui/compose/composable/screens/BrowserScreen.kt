@@ -29,6 +29,7 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -199,18 +200,20 @@ private fun BrowserScreenContent(
                             var focused by remember { mutableStateOf(false) }
                             Box(
                                 modifier = Modifier
-                                    .onFocusChanged {
-                                        focused = it.isFocused
-                                    }
                                     .padding(vertical = 8.dp)
                                     .fillMaxHeight()
                                     .align(Alignment.CenterVertically)
+                                    .onFocusChanged {
+                                        focused = it.isFocused
+                                    }
                                     .clip(RoundedCornerShape(50))
                                     .background(if (focused) WhiteTransparent10 else Transparent)
-                                    .padding(horizontal = 8.dp)
-                                    .clickable(onClick = {
-                                        onSegmentClick(segments[index])
-                                    }),
+                                    .clickable(
+                                        onClick = { onSegmentClick(segments[index]) },
+                                        indication = null,
+                                        interactionSource = remember { MutableInteractionSource() }
+                                    )
+                                    .padding(horizontal = 8.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
