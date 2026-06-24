@@ -41,6 +41,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -50,10 +51,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
@@ -66,6 +69,8 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -342,11 +347,45 @@ internal fun BrowserListContent(
 ) {
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
-    var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
-    val focusRequesters = remember {
-        HashMap<Long, FocusRequester>()
+    // Key lastFocusedItem to the first item's ID so it resets when changing folders
+    var lastFocusedItem by rememberSaveable(items.firstOrNull()?.id) { mutableStateOf("") }
+    
+    // Stability fix: Maintain a persistent map of requesters.
+    val focusRequesters = remember { HashMap<String, FocusRequester>() }
+    
+    // Sync the map with current items
+    SideEffect {
+        items.forEach { 
+            val key = (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString()
+            if (!focusRequesters.containsKey(key)) {
+                focusRequesters[key] = FocusRequester()
+            }
+        }
     }
+
+    var initialFocusRequested by rememberSaveable(items.firstOrNull()?.id) { mutableStateOf(false) }
+
     var currentInCard by rememberSaveable { mutableStateOf(inCard) }
+
+    LaunchedEffect(items, currentInCard) {
+        if (items.isNotEmpty() && !initialFocusRequested) {
+            // Wait for the Lazy container to actually compose and attach at least one child
+            if (currentInCard) {
+                snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
+                    .filter { it.isNotEmpty() }
+                    .first()
+            } else {
+                snapshotFlow { listState.layoutInfo.visibleItemsInfo }
+                    .filter { it.isNotEmpty() }
+                    .first()
+            }
+            
+            val firstKey = (items[0] as? MediaWrapper)?.uri?.toString() ?: items[0].id.toString()
+            Log.d("BrowserFocus", "Content ready. Requesting initial focus for: $firstKey Focus requester is existing: ${focusRequesters[firstKey] != null}")
+            focusRequesters[firstKey]?.requestFocus()
+            initialFocusRequested = true
+        }
+    }
 
     VlcEmptyViewLoader(emptyState) {
         Row(
@@ -361,21 +400,39 @@ internal fun BrowserListContent(
                         .graphicsLayer(clip = false)
                         .focusProperties {
                             onEnter = {
-                                focusRequesters[lastFocusedItem]?.requestFocus()
+                                val firstKey = items.firstOrNull()?.let { (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString() } ?: ""
+                                val targetKey = if (lastFocusedItem.isNotEmpty()) lastFocusedItem else firstKey
+                                Log.d("BrowserFocus", "Grid onEnter. lastFocusedItem: $lastFocusedItem, targeting: $targetKey")
+                                focusRequesters[targetKey]?.requestFocus()
                             }
                         }, gridState, PaddingValues(top = 16.dp, bottom = 96.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(count = items.size) { index ->
+                    items(count = items.size, key = { index -> (items[index] as? MediaWrapper)?.uri?.toString() ?: items[index].id.toString() }) { index ->
                         items[index].let { item ->
-                            InvalidationComposable(descriptionUpdates?.first == index) {
+                            val itemKey = (item as? MediaWrapper)?.uri?.toString() ?: item.id.toString()
+                            // Access descriptionUpdates here to trigger recomposition without disposing the node
+                            val currentUpdate = if (descriptionUpdates?.first == index) descriptionUpdates.second else null
+                            
+                            androidx.compose.runtime.key(itemKey) {
                                 onItemRendered(item)
+                                val requester = focusRequesters[itemKey] ?: FocusRequester.Default
                                 AudioItemCard(
                                     item, index, entry, Modifier
+                                        .focusRequester(requester)
                                         .onFocusChanged {
-                                            if (it.isFocused)
-                                                lastFocusedItem = item.id
-                                        }, spannableDescription = true, onClick = { onClick(item, index) })
+                                            if (it.isFocused) {
+                                                Log.d("BrowserFocus", "Item focused: $itemKey")
+                                                lastFocusedItem = itemKey
+                                            } else if (lastFocusedItem == itemKey) {
+                                                Log.d("BrowserFocus", "Item focus LOST: $itemKey. hasFocus: ${it.hasFocus}, isFocused: ${it.isFocused}")
+                                            }
+                                        }, 
+                                    spannableDescription = true, 
+                                    // Use the update if available, otherwise fallback to item description
+                                    description = currentUpdate ?: item.description,
+                                    onClick = { onClick(item, index) }
+                                )
                             }
                         }
 
@@ -389,28 +446,43 @@ internal fun BrowserListContent(
                         .graphicsLayer(clip = false)
                         .focusProperties {
                             onEnter = {
-                                focusRequesters[lastFocusedItem]?.requestFocus()
+                                val firstKey = items.firstOrNull()?.let { (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString() } ?: ""
+                                val targetKey = if (lastFocusedItem.isNotEmpty()) lastFocusedItem else firstKey
+                                Log.d("BrowserFocus", "Column onEnter. lastFocusedItem: $lastFocusedItem, targeting: $targetKey")
+                                focusRequesters[targetKey]?.requestFocus()
                             }
                         },
                     contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp),
                     verticalArrangement = Arrangement.spacedBy(0.dp),
                     state = listState
                 ) {
-                    items(count = items.size) { index ->
+                    items(count = items.size, key = { index -> (items[index] as? MediaWrapper)?.uri?.toString() ?: items[index].id.toString() }) { index ->
                         items[index].let { item ->
-                            InvalidationComposable(descriptionUpdates?.first == index) {
+                            val itemKey = (item as? MediaWrapper)?.uri?.toString() ?: item.id.toString()
+                            // Access descriptionUpdates here to trigger recomposition without disposing the node
+                            val currentUpdate = if (descriptionUpdates?.first == index) descriptionUpdates.second else null
+
+                            androidx.compose.runtime.key(itemKey) {
+                                onItemRendered(item)
+                                val requester = focusRequesters[itemKey] ?: FocusRequester.Default
                                 AudioItemList(
                                     item = item,
                                     position = index,
                                     entry = entry,
                                     modifier = Modifier
+                                        .focusRequester(requester)
                                         .onFocusChanged {
-                                            if (it.isFocused)
-                                                lastFocusedItem = item.id
+                                            if (it.isFocused) {
+                                                Log.d("BrowserFocus", "Item focused: $itemKey")
+                                                lastFocusedItem = itemKey
+                                            } else if (lastFocusedItem == itemKey) {
+                                                Log.d("BrowserFocus", "Item focus LOST: $itemKey. hasFocus: ${it.hasFocus}, isFocused: ${it.isFocused}")
+                                            }
                                         },
                                     isFirst = index == 0,
                                     isLast = index == items.size - 1,
                                     spannableDescription = true,
+                                    description = currentUpdate ?: item.description,
                                     onClick = { onClick(item, index) })
                             }
                         }
