@@ -346,7 +346,7 @@ internal fun BrowserListContent(
     val focusRequesters = remember {
         HashMap<Long, FocusRequester>()
     }
-    var currentInCard by remember { mutableStateOf(inCard) }
+    var currentInCard by rememberSaveable { mutableStateOf(inCard) }
 
     VlcEmptyViewLoader(emptyState) {
         Row(

@@ -41,8 +41,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -64,6 +66,7 @@ import org.videolan.television.ui.compose.theme.Orange50
  * @param modifier Modifier for the lazy grid
  * @param listState [LazyGridState] for the lazy grid
  * @param items List of items to display
+ * @param refreshVersion Version counter to force recomposition
  * @param verticalArrangement Arrangement for the lazy grid
  * @param horizontalArrangement Arrangement for the lazy grid
  * @param contentPadding PaddingValues for the lazy grid
@@ -80,17 +83,18 @@ fun PaginatedGrid(
     columns: GridCells = GridCells.Adaptive(150.dp),
     loaderAspectRatio: Float = 1f,
     items: LazyPagingItems<out MediaLibraryItem>,
+    refreshVersion: Int = 0,
     content: @Composable (item: MediaLibraryItem, index: Int,  modifier: Modifier) -> Unit
 ) {
     val focusRequesters = remember {
         HashMap<Long, FocusRequester>()
     }
     var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
+    var focusRestored by rememberSaveable { mutableStateOf(false) }
 
-    focusRequesters.clear()
-    for (i in 0..<items.itemCount) {
-        items[i]?.let {
-            focusRequesters[it.id] = FocusRequester()
+    LaunchedEffect(items.loadState.refresh) {
+        if (items.loadState.refresh is LoadState.Loading) {
+            focusRestored = false
         }
     }
 
@@ -99,7 +103,8 @@ fun PaginatedGrid(
         modifier = modifier
             .focusProperties {
                 onEnter = {
-                    focusRequesters[lastFocusedItem]?.requestFocus()
+                    if (lastFocusedItem != 0L)
+                        focusRequesters[lastFocusedItem]?.requestFocus()
                 }
             },
         verticalArrangement = verticalArrangement,
@@ -108,14 +113,27 @@ fun PaginatedGrid(
         state = listState
     ) {
         items(count = items.itemCount) { index ->
+            // Accessing loadState and refreshVersion here triggers recomposition
+            val isRefreshing = items.loadState.refresh is LoadState.Loading
             items[index]?.let { video ->
+                val requester = focusRequesters.getOrPut(video.id) { FocusRequester() }
+
+                if (!focusRestored && video.id == lastFocusedItem && !isRefreshing) {
+                    LaunchedEffect(video.id) {
+                        requester.requestFocus()
+                        focusRestored = true
+                    }
+                }
+
                 content(
                     video, index, Modifier
                         .onFocusChanged {
-                            if (it.isFocused)
+                            if (it.isFocused) {
                                 lastFocusedItem = video.id
+                                focusRestored = true
+                            }
                         }
-                        .focusRequester(focusRequester = focusRequesters[video.id] ?: FocusRequester.Default))
+                        .focusRequester(requester))
             } ?: Box(modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
@@ -145,6 +163,7 @@ fun PaginatedGrid(
  * @param modifier Modifier for the lazy list
  * @param listState [LazyListState] for the lazy list
  * @param items List of items to display
+ * @param refreshVersion Version counter to force recomposition
  * @param verticalArrangement Arrangement for the lazy list
  * @param contentPadding PaddingValues for the lazy list
  * @param loaderAspectRatio Aspect ratio for the loader
@@ -157,17 +176,18 @@ fun PaginatedList(
     verticalArrangement: Arrangement.HorizontalOrVertical,
     contentPadding: PaddingValues,
     items: LazyPagingItems<out MediaLibraryItem>,
+    refreshVersion: Int = 0,
     content: @Composable (item: MediaLibraryItem, index: Int, modifier: Modifier) -> Unit
 ) {
     val focusRequesters = remember {
         HashMap<Long, FocusRequester>()
     }
     var lastFocusedItem by rememberSaveable { mutableLongStateOf(0L) }
+    var focusRestored by rememberSaveable { mutableStateOf(false) }
 
-    focusRequesters.clear()
-    for (i in 0..<items.itemCount) {
-        items[i]?.let {
-            focusRequesters[it.id] = FocusRequester()
+    LaunchedEffect(items.loadState.refresh) {
+        if (items.loadState.refresh is LoadState.Loading) {
+            focusRestored = false
         }
     }
 
@@ -175,7 +195,8 @@ fun PaginatedList(
         modifier = modifier
             .focusProperties {
                 onEnter = {
-                    focusRequesters[lastFocusedItem]?.requestFocus()
+                    if (lastFocusedItem != 0L)
+                        focusRequesters[lastFocusedItem]?.requestFocus()
                 }
             },
         verticalArrangement = verticalArrangement,
@@ -183,14 +204,27 @@ fun PaginatedList(
         state = listState
     ) {
         items(count = items.itemCount) { index ->
+            // Accessing loadState and refreshVersion here triggers recomposition
+            val isRefreshing = items.loadState.refresh is LoadState.Loading
             items[index]?.let { video ->
+                val requester = focusRequesters.getOrPut(video.id) { FocusRequester() }
+
+                if (!focusRestored && video.id == lastFocusedItem && !isRefreshing) {
+                    LaunchedEffect(video.id) {
+                        requester.requestFocus()
+                        focusRestored = true
+                    }
+                }
+
                 content(
                     video, index, Modifier
                         .onFocusChanged {
-                            if (it.isFocused)
+                            if (it.isFocused) {
                                 lastFocusedItem = video.id
+                                focusRestored = true
+                            }
                         }
-                        .focusRequester(focusRequester = focusRequesters[video.id] ?: FocusRequester.Default))
+                        .focusRequester(requester))
             } ?: Box(modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
