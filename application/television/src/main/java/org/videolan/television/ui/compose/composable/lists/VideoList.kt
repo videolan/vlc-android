@@ -242,7 +242,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                         PaginatedGrid(
                             items = videos,
                             listState = gridState,
-                            columns = GridCells.Fixed(5),
+                            columns = GridCells.Fixed(3),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, end = 56.dp),
