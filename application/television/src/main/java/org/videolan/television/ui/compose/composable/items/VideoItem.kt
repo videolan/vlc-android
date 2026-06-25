@@ -109,7 +109,6 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = modifier
-        .width(280.dp)
         .zIndex(if (focused) 1f else 0f)) {
         Card(
             border = vlcBorder(focused),
@@ -181,7 +180,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                     LaunchedEffect(key1 = video) {
                         coroutineScope.launch {
                             if (video !is DummyItem)
-                                mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
+                                mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 480))
                         }
                     }
                 }
@@ -378,7 +377,7 @@ fun VideoItemList(video: MediaLibraryItem, position: Int, entry: MediaListEntry,
                     LaunchedEffect(key1 = video) {
                         coroutineScope.launch {
                             if (video !is DummyItem)
-                                mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 280.dp.value.toInt()))
+                                mapBitmap.value = Pair(video, ThumbnailsProvider.obtainBitmap(video, 480))
                         }
                     }
                 }
