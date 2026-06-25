@@ -710,7 +710,7 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
                                 coroutineScope.launch {
                                     item.let {
                                         if (item !is DummyItem)
-                                            mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                                            mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 320))
                                     }
                                 }
                             }

@@ -344,7 +344,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         PaginatedGrid(
                             items = audios,
                             listState = gridState,
-                            columns = GridCells.Fixed(6),
+                            columns = GridCells.Fixed(4),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, end = 56.dp),
