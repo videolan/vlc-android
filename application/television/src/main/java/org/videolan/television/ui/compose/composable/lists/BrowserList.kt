@@ -415,7 +415,7 @@ internal fun BrowserListContent(
                                 Log.d("BrowserFocus", "Grid onEnter. lastFocusedItem: $lastFocusedItem, targeting: $targetKey")
                                 focusRequesters[targetKey]?.requestFocus()
                             }
-                        }, gridState, PaddingValues(top = 16.dp, bottom = 96.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
+                        }, gridState, PaddingValues(top = 16.dp, bottom = 96.dp, end = 56.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(count = items.size, key = { index -> (items[index] as? MediaWrapper)?.uri?.toString() ?: items[index].id.toString() }) { index ->
@@ -462,7 +462,7 @@ internal fun BrowserListContent(
                                 focusRequesters[targetKey]?.requestFocus()
                             }
                         },
-                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp),
+                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, end = 56.dp),
                     verticalArrangement = Arrangement.spacedBy(0.dp),
                     state = listState
                 ) {

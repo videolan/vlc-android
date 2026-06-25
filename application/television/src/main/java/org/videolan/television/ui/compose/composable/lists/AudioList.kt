@@ -347,7 +347,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             columns = GridCells.Fixed(6),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp),
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, end = 56.dp),
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .weight(1f)
@@ -360,7 +360,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             items = audios,
                             listState = listState,
                             verticalArrangement = Arrangement.spacedBy(0.dp),
-                            contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp),
+                            contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, end = 56.dp),
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .weight(1f)
