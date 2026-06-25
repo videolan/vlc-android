@@ -156,7 +156,6 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
     val shape = if (isArtist) CircleShape else MaterialTheme.shapes.medium
 
     Column(modifier = modifier
-        .width(148.dp)
         .zIndex(if (focused) 1f else 0f)) {
         Card(
             shape = shape,
@@ -228,7 +227,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     LaunchedEffect(key1 = item) {
                         coroutineScope.launch {
                             if (item !is DummyItem)
-                                mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                                mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 320))
                         }
                     }
                 }
@@ -412,7 +411,7 @@ fun AudioItemList(
                             LaunchedEffect(key1 = item) {
                                 coroutineScope.launch {
                                     if (item !is DummyItem)
-                                        mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 280.dp.value.toInt()))
+                                        mapBitmap.value = Pair(item, ThumbnailsProvider.obtainBitmap(item = item, 320))
                                 }
                             }
                         }
