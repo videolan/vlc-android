@@ -39,14 +39,19 @@ class FileBrowserViewModel(app: Application) : AndroidViewModel(app) {
 
     lateinit var prepareSegmentsListener : (MediaLibraryItem, ArrayList<String>) -> Unit
     private val backStack = ArrayList<MediaLibraryItem>()
+    private val focusBackStack = HashMap<MediaLibraryItem, String>()
+    val focusToRestore = MutableStateFlow("")
 
 
-
-    fun setCurrentPathEntry(item: MediaLibraryItem) {
+    fun setCurrentPathEntry(item: MediaLibraryItem, lastFocusedKey: String = "") {
         viewModelScope.launch {
             _currentPathEntry.value?.let {
                 backStack.add(it)
+                if (lastFocusedKey.isNotEmpty()) {
+                    focusBackStack[it] = lastFocusedKey
+                }
             }
+            focusToRestore.value = ""
             _currentPathEntry.emit(item)
         }
     }
@@ -55,11 +60,14 @@ class FileBrowserViewModel(app: Application) : AndroidViewModel(app) {
         var popped = false
         if (backStack.isNotEmpty()) {
             val entry = backStack.removeLastOrNull()
-            popped = true
-            viewModelScope.launch {
-                _currentPathEntry.emit(entry)
+            entry?.let {
+                val restoredKey = focusBackStack.remove(it) ?: ""
+                focusToRestore.value = restoredKey
+                popped = true
+                viewModelScope.launch {
+                    _currentPathEntry.emit(entry)
+                }
             }
-
         }
         return popped
     }
