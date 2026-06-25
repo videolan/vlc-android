@@ -266,8 +266,10 @@ private fun BrowserScreenPreview() {
                     isFavorite = false,
                     entry = MediaListEntry.BROWSER,
                     descriptionUpdates = null,
+                    fileBrowserViewModel = viewModel(),
+                    currentPath = "/",
                     onItemRendered = {},
-                    onClick = { _, _ -> },
+                    onClick = { _, _, _ -> },
                     onSidePanelAction = { _, _ -> }
                 )
             }
