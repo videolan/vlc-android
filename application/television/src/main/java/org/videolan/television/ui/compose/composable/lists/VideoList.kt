@@ -245,7 +245,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                             columns = GridCells.Fixed(5),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp),
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, end = 56.dp),
                             loaderAspectRatio = 16f / 9,
                             modifier = Modifier
                                 .fillMaxHeight()
@@ -258,7 +258,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                             items = videos,
                             listState = listState,
                             verticalArrangement = Arrangement.spacedBy(8.dp),
-                            contentPadding = PaddingValues(top = 16.dp),
+                            contentPadding = PaddingValues(top = 16.dp, end = 56.dp),
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .weight(1f)
