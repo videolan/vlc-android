@@ -41,7 +41,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -179,7 +178,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                 EmptyLoadingState.NONE
         val activity = LocalActivity.current
         val settings = Settings.getInstance(activity!!)
-        val onClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
+        val onClick: (MediaLibraryItem, Int, String) -> Unit = { item, position, lastFocusedKey ->
             if (item is MediaWrapper && item.type != MediaWrapper.TYPE_DIR) {
                 when (DefaultPlaybackActionMediaType.FILE.getCurrentPlaybackAction(settings)) {
                     DefaultPlaybackAction.PLAY -> TvUtil.openMedia(activity as FragmentActivity, item)
@@ -192,7 +191,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                     })
                 }
             } else
-                fileVM.setCurrentPathEntry(item)
+                fileVM.setCurrentPathEntry(item, lastFocusedKey)
         }
 
         entry.sorts = arrayListOf(Medialibrary.SORT_ALPHA, Medialibrary.SORT_FILENAME)
@@ -290,6 +289,8 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                 isFavorite = isFavorite,
                 entry = entry,
                 descriptionUpdates = descriptionUpdates,
+                fileBrowserViewModel = fileVM,
+                currentPath = path,
                 onItemRendered = { item ->
                     if (item is MediaWrapper) {
                         if (browserModel.isFolderEmpty(item)) item.addFlags(BrowserItemCtxFlags.isFolderEmpty)
@@ -341,49 +342,58 @@ internal fun BrowserListContent(
     isFavorite: Boolean,
     entry: MediaListEntry,
     descriptionUpdates: Pair<Int, String>?,
+    fileBrowserViewModel: FileBrowserViewModel,
+    currentPath: String,
     onItemRendered: (MediaLibraryItem) -> Unit,
-    onClick: (MediaLibraryItem, Int) -> Unit,
+    onClick: (MediaLibraryItem, Int, String) -> Unit,
     onSidePanelAction: (MediaListSidePanelListenerKey, Any) -> Unit
 ) {
+    val initialFocusedItem by fileBrowserViewModel.focusToRestore.collectAsState()
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
-    // Key lastFocusedItem to the first item's ID so it resets when changing folders
-    var lastFocusedItem by rememberSaveable(items.firstOrNull()?.id) { mutableStateOf("") }
+    
+    // Key lastFocusedItem to the directory path and INITIALIZE it with the restoration target
+    // This ensures that onEnter redirection knows the correct target immediately.
+    var lastFocusedItem by rememberSaveable(currentPath, initialFocusedItem) { 
+        mutableStateOf(initialFocusedItem) 
+    }
     
     // Stability fix: Maintain a persistent map of requesters.
     val focusRequesters = remember { HashMap<String, FocusRequester>() }
     
-    // Sync the map with current items
-    SideEffect {
+    // Sync the map with current items immediately during composition
+    // We wrap this in remember(items) to satisfy the @RememberInComposition requirement
+    // while preserving existing FocusRequesters to maintain focus during metadata updates.
+    remember(items) {
         items.forEach { 
             val key = (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString()
             if (!focusRequesters.containsKey(key)) {
                 focusRequesters[key] = FocusRequester()
             }
         }
+        true
     }
 
-    var initialFocusRequested by rememberSaveable(items.firstOrNull()?.id) { mutableStateOf(false) }
+    var initialFocusRequested by remember(items, currentPath) { mutableStateOf(false) }
 
     var currentInCard by rememberSaveable { mutableStateOf(inCard) }
 
-    LaunchedEffect(items, currentInCard) {
+    LaunchedEffect(items, currentInCard, initialFocusedItem, currentPath) {
         if (items.isNotEmpty() && !initialFocusRequested) {
             // Wait for the Lazy container to actually compose and attach at least one child
             if (currentInCard) {
-                snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
-                    .filter { it.isNotEmpty() }
-                    .first()
+                snapshotFlow { gridState.layoutInfo.visibleItemsInfo }.filter { it.isNotEmpty() }.first()
             } else {
-                snapshotFlow { listState.layoutInfo.visibleItemsInfo }
-                    .filter { it.isNotEmpty() }
-                    .first()
+                snapshotFlow { listState.layoutInfo.visibleItemsInfo }.filter { it.isNotEmpty() }.first()
             }
             
-            val firstKey = (items[0] as? MediaWrapper)?.uri?.toString() ?: items[0].id.toString()
-            Log.d("BrowserFocus", "Content ready. Requesting initial focus for: $firstKey Focus requester is existing: ${focusRequesters[firstKey] != null}")
-            focusRequesters[firstKey]?.requestFocus()
-            initialFocusRequested = true
+            val itemKeys = items.map { (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString() }
+            val targetKey = if (lastFocusedItem.isNotEmpty() && itemKeys.contains(lastFocusedItem)) lastFocusedItem else itemKeys.firstOrNull() ?: ""
+            
+            if (focusRequesters.containsKey(targetKey)) {
+                focusRequesters[targetKey]?.requestFocus()
+                initialFocusRequested = true
+            }
         }
     }
 
@@ -431,7 +441,7 @@ internal fun BrowserListContent(
                                     spannableDescription = true, 
                                     // Use the update if available, otherwise fallback to item description
                                     description = currentUpdate ?: item.description,
-                                    onClick = { onClick(item, index) }
+                                    onClick = { onClick(item, index, lastFocusedItem) }
                                 )
                             }
                         }
@@ -483,7 +493,7 @@ internal fun BrowserListContent(
                                     isLast = index == items.size - 1,
                                     spannableDescription = true,
                                     description = currentUpdate ?: item.description,
-                                    onClick = { onClick(item, index) })
+                                    onClick = { onClick(item, index, lastFocusedItem) })
                             }
                         }
 
@@ -531,8 +541,10 @@ private fun BrowserListPreview() {
             isFavorite = false,
             entry = MediaListEntry.BROWSER,
             descriptionUpdates = null,
+            fileBrowserViewModel = viewModel(),
+            currentPath = "/",
             onItemRendered = {},
-            onClick = { _, _ -> },
+            onClick = { _, _, _ -> },
             onSidePanelAction = { _, _ -> }
         )
     }
@@ -559,8 +571,10 @@ private fun BrowserListCardPreview() {
             isFavorite = false,
             entry = MediaListEntry.BROWSER,
             descriptionUpdates = null,
+            fileBrowserViewModel = viewModel(),
+            currentPath = "/",
             onItemRendered = {},
-            onClick = { _, _ -> },
+            onClick = { _, _, _ -> },
             onSidePanelAction = { _, _ -> }
         )
     }
