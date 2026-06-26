@@ -24,33 +24,49 @@
 
 package org.videolan.television.ui.compose.composable.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowUpward
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import org.videolan.television.R
 import org.videolan.television.ui.compose.utils.VlcPreview
@@ -60,57 +76,96 @@ import org.videolan.vlc.util.MediaListEntry
 fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
-    Column(
+    var hasFocus by remember { mutableStateOf(false) }
+
+    // Dimensions: Animate from a circle-like small box to a full-height column
+    val width by animateDpAsState(if (hasFocus) 64.dp else 40.dp, label = "width")
+    
+    // Background Color Animation
+    val backgroundColor by animateColorAsState(
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent,
+        label = "backgroundColor"
+    )
+    
+    // Alpha for content vs chevron
+    val contentAlpha by animateFloatAsState(if (hasFocus) 1f else 0f, label = "alpha")
+    val chevronAlpha by animateFloatAsState(if (hasFocus) 0f else 0.8f, label = "chevronAlpha")
+    
+    // Rotation: 90 to -90 as per top tabs consistency
+    val chevronRotation by animateFloatAsState(if (hasFocus) 90f else -90f, label = "chevronRotation")
+
+    Box(
         modifier = Modifier
-            .padding(bottom = 32.dp, top = 16.dp, start = 16.dp, end = 8.dp)
-            .dropShadow(
-                shape = RoundedCornerShape(20.dp),
-                shadow = Shadow(
-                    radius = 8.dp,
-                    spread = 3.dp,
-                    color = Color(0x40000000),
-                    offset = DpOffset(x = 0.dp, 0.dp)
-                )
-            )
+            .padding(bottom = 32.dp, top = 16.dp, end = 16.dp)
+            .zIndex(1f)
+            .onFocusChanged { hasFocus = it.hasFocus }
+            .width(width)
+            // Animate ratio from 1 (collapsed) to wrap content (expanded)
+            .heightIn(max = if (hasFocus) 1000.dp else width)
+            .animateContentSize()
             .background(
-                color = MaterialTheme.colorScheme.surfaceVariant,
+                color = backgroundColor,
                 shape = RoundedCornerShape(20.dp)
             )
-            .padding(8.dp)
+            .clip(RoundedCornerShape(20.dp))
             .focusProperties {
                 onEnter = {
                     focusRequester.requestFocus()
                 }
             }
-            .focusGroup()) {
-        LabeledIconButton(
-            stringResource(R.string.scroll_to_top),
-            modifier = Modifier.focusRequester(focusRequester = focusRequester),
-            vectorImage = Icons.Outlined.ArrowUpward
+            .focusGroup(),
+        contentAlignment = Alignment.Center
+    ) {
+        // The Chevron Hint (Visible only when collapsed)
+        // We use alpha instead of conditional logic to keep the node measured
+        Icon(
+            painter = painterResource(R.drawable.ic_collapse_arrow),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(vertical = 8.dp) // Ensure it fits the 40dp collapsed height
+                .graphicsLayer { rotationZ = chevronRotation }
+                .alpha(chevronAlpha)
+                .size(24.dp),
+            tint = MaterialTheme.colorScheme.onSurface
+        )
+
+        // The Utility Icons (Expanded)
+        Column(
+            modifier = Modifier
+                .width(IntrinsicSize.Max)
+                .alpha(contentAlpha)
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            coroutineScope.launch {
-                when (content.listState) {
-                    is LazyListState -> content.listState.animateScrollToItem(0)
-                    is LazyGridState -> content.listState.animateScrollToItem(0)
+            LabeledIconButton(
+                stringResource(R.string.scroll_to_top),
+                modifier = Modifier.focusRequester(focusRequester = focusRequester),
+                vectorImage = Icons.Outlined.ArrowUpward
+            ) {
+                coroutineScope.launch {
+                    when (content.listState) {
+                        is LazyListState -> content.listState.animateScrollToItem(0)
+                        is LazyGridState -> content.listState.animateScrollToItem(0)
+                    }
                 }
             }
+            if (content.showResumePlayback)
+                LabeledIconButton(stringResource(R.string.resume_playback_short_title), painterResource = painterResource(R.drawable.ic_resume_playback)) {
+                    listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
+                }
+            if (content.isFavorite == true)
+                LabeledIconButton(stringResource(R.string.favorites_remove), painterResource = painterResource(R.drawable.ic_fav_remove)) {
+                    listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, false)
+                }
+            else if (content.isFavorite == false)
+                LabeledIconButton(stringResource(R.string.favorites_add), painterResource = painterResource(R.drawable.ic_fav_add)) {
+                    listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, true)
+                }
+            if (content.entry != null)
+                LabeledIconButton(stringResource(R.string.display_settings), painterResource = painterResource(R.drawable.ic_display_settings)) {
+                    listener(MediaListSidePanelListenerKey.DISPLAY_SETTINGS, content.entry)
+                }
         }
-        if (content.showResumePlayback)
-            LabeledIconButton(stringResource(R.string.resume_playback_short_title), painterResource = painterResource(R.drawable.ic_resume_playback)) {
-                listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
-            }
-        if (content.isFavorite == true)
-            LabeledIconButton(stringResource(R.string.favorites_remove), painterResource = painterResource(R.drawable.ic_fav_remove)) {
-                listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, false)
-            }
-        else if (content.isFavorite == false)
-            LabeledIconButton(stringResource(R.string.favorites_add), painterResource = painterResource(R.drawable.ic_fav_add)) {
-                listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, true)
-            }
-        if (content.entry != null)
-            LabeledIconButton(stringResource(R.string.display_settings), painterResource = painterResource(R.drawable.ic_display_settings)) {
-                listener(MediaListSidePanelListenerKey.DISPLAY_SETTINGS, content.entry)
-            }
     }
 }
 
