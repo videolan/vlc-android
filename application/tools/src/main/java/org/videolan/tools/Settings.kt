@@ -172,6 +172,7 @@ const val KEY_GROUP_VIDEOS = "video_min_group_length"
 const val KEY_MAIN_TAB = "main_tab"
 const val KEY_AUDIO_TAB = "audio_tab"
 const val KEY_VIDEO_TAB = "video_tab"
+const val KEY_SIDE_PANEL_DISCOVERED = "side_panel_discovered"
 
 
 // AudioPlayer
