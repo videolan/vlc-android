@@ -26,8 +26,14 @@ package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.gestures.ScrollableState
@@ -47,6 +53,7 @@ import androidx.compose.material.icons.outlined.ArrowUpward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,21 +69,28 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.core.content.edit
 import kotlinx.coroutines.launch
 import org.videolan.television.R
 import org.videolan.television.ui.compose.utils.VlcPreview
+import org.videolan.tools.KEY_SIDE_PANEL_DISCOVERED
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.MediaListEntry
 
 @Composable
 fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
+    val context = LocalContext.current
+    val settings = remember { Settings.getInstance(context) }
     var hasFocus by remember { mutableStateOf(false) }
+    var isDiscovered by remember { mutableStateOf(settings.getBoolean(KEY_SIDE_PANEL_DISCOVERED, false)) }
 
     // Dimensions: Animate from a circle-like small box to a full-height column
     val width by animateDpAsState(if (hasFocus) 64.dp else 40.dp, label = "width")
@@ -89,10 +103,38 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListS
     
     // Alpha for content vs chevron
     val contentAlpha by animateFloatAsState(if (hasFocus) 1f else 0f, label = "alpha")
-    val chevronAlpha by animateFloatAsState(if (hasFocus) 0f else 0.8f, label = "chevronAlpha")
+    val chevronAlphaBase by animateFloatAsState(if (hasFocus) 0f else 1f, label = "chevronAlpha")
     
     // Rotation: 90 to -90 as per top tabs consistency
     val chevronRotation by animateFloatAsState(if (hasFocus) 90f else -90f, label = "chevronRotation")
+
+    // Discovery Pulse Animation
+    val infiniteTransition = rememberInfiniteTransition(label = "discoveryPulse")
+    val pulseScale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (!isDiscovered && !hasFocus) 1.5f else 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1300, delayMillis = 800, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulseScale"
+    )
+    val pulseAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.5f,
+        targetValue = if (!isDiscovered && !hasFocus) 1f else 0.5f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1300, delayMillis = 800, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulseAlpha"
+    )
+
+    LaunchedEffect(hasFocus) {
+        if (hasFocus && !isDiscovered) {
+            isDiscovered = true
+            settings.edit { putBoolean(KEY_SIDE_PANEL_DISCOVERED, true) }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -123,10 +165,13 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListS
             contentDescription = null,
             modifier = Modifier
                 .padding(vertical = 8.dp) // Ensure it fits the 40dp collapsed height
-                .graphicsLayer { rotationZ = chevronRotation }
-                .alpha(chevronAlpha)
-                .size(24.dp),
-            tint = MaterialTheme.colorScheme.onSurface
+                .graphicsLayer { 
+                    rotationZ = chevronRotation
+                    scaleX = pulseScale
+                    scaleY = pulseScale
+                    alpha = chevronAlphaBase * pulseAlpha
+                }
+                .size(24.dp)
         )
 
         // The Utility Icons (Expanded)
