@@ -267,6 +267,7 @@ private fun BrowserScreenPreview() {
                     entry = MediaListEntry.BROWSER,
                     descriptionUpdates = null,
                     fileBrowserViewModel = viewModel(),
+                    mainActivityViewModel = viewModel(),
                     currentPath = "/",
                     onItemRendered = {},
                     onClick = { _, _, _ -> },
