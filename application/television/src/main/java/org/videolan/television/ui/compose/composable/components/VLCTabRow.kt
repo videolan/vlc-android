@@ -51,10 +51,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
@@ -97,6 +99,7 @@ fun VLCTabRow(
     tabNumber: Int,
     getTab: @Composable (Int, Boolean) -> Unit,
     key: String,
+    containerColor: Color = Color.Transparent,
     mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel()
 ) {
     val tabInfo = mainActivityViewModel?.getTabInfo(key)
@@ -139,6 +142,12 @@ fun VLCTabRow(
             .onFocusChanged {
                 hasFocus = it.hasFocus
             }
+            .then(if (containerColor != Color.Transparent) {
+                Modifier
+                    .clip(RoundedCornerShape(50))
+                    .background(containerColor)
+                    .padding(4.dp)
+            } else Modifier)
     ) {
         Box(
             modifier = Modifier
