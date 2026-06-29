@@ -228,6 +228,7 @@ fun Tabs(
     val visibleChangedToTrue = visible && !wasVisible
     LaunchedEffect(visible) {
         wasVisible = visible
+        viewModel?.setShowTabs(visible)
     }
 
     val savedTab = settings?.getInt(KEY_MAIN_TAB, 0) ?: 0

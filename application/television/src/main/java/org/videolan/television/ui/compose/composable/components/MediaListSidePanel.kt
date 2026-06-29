@@ -40,6 +40,7 @@ import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -63,16 +64,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.edit
@@ -84,7 +93,8 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.util.MediaListEntry
 
 @Composable
-fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
+fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePanelContent, onFocusExit: () -> Unit = {}, listener: (MediaListSidePanelListenerKey, Any) -> Unit = { _, _ -> }) {
+    if (!content.show) return
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
     val context = LocalContext.current
@@ -99,6 +109,13 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListS
     val backgroundColor by animateColorAsState(
         targetValue = if (hasFocus) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent,
         label = "backgroundColor"
+    )
+
+    // Shadow Animation
+    val shadowRadius by animateDpAsState(if (hasFocus) 8.dp else 0.dp, label = "shadowRadius")
+    val shadowColor by animateColorAsState(
+        targetValue = if (hasFocus) Color(0x40000000) else Color.Transparent,
+        label = "shadowColor"
     )
     
     // Alpha for content vs chevron
@@ -137,79 +154,140 @@ fun MediaListSidePanel(content: MediaListSidePanelContent, listener: (MediaListS
     }
 
     Box(
-        modifier = Modifier
-            .padding(bottom = 32.dp, top = 16.dp, end = 16.dp)
-            .zIndex(1f)
-            .onFocusChanged { hasFocus = it.hasFocus }
-            .width(width)
-            // Animate ratio from 1 (collapsed) to wrap content (expanded)
-            .heightIn(max = if (hasFocus) 1000.dp else width)
-            .animateContentSize()
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(20.dp)
-            )
-            .clip(RoundedCornerShape(20.dp))
-            .focusProperties {
-                onEnter = {
-                    focusRequester.requestFocus()
+        modifier = modifier
+            .fillMaxSize()
+            .onKeyEvent {
+                if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionLeft) {
+                    onFocusExit()
+                    return@onKeyEvent true
                 }
+                false
             }
-            .focusGroup(),
-        contentAlignment = Alignment.Center
     ) {
-        // The Chevron Hint (Visible only when collapsed)
-        // We use alpha instead of conditional logic to keep the node measured
-        Icon(
-            painter = painterResource(R.drawable.ic_collapse_arrow),
-            contentDescription = null,
+        Box(
             modifier = Modifier
-                .padding(vertical = 8.dp) // Ensure it fits the 40dp collapsed height
-                .graphicsLayer { 
-                    rotationZ = chevronRotation
-                    scaleX = pulseScale
-                    scaleY = pulseScale
-                    alpha = chevronAlphaBase * pulseAlpha
-                }
-                .size(24.dp)
-        )
-
-        // The Utility Icons (Expanded)
-        Column(
-            modifier = Modifier
-                .width(IntrinsicSize.Max)
-                .alpha(contentAlpha)
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            LabeledIconButton(
-                stringResource(R.string.scroll_to_top),
-                modifier = Modifier.focusRequester(focusRequester = focusRequester),
-                vectorImage = Icons.Outlined.ArrowUpward
-            ) {
-                coroutineScope.launch {
-                    when (content.listState) {
-                        is LazyListState -> content.listState.animateScrollToItem(0)
-                        is LazyGridState -> content.listState.animateScrollToItem(0)
+                .align(Alignment.CenterEnd)
+                .padding(bottom = 32.dp, top = 16.dp, end = 16.dp)
+                .zIndex(1f)
+                .dropShadow(
+                    shape = RoundedCornerShape(20.dp),
+                    shadow = Shadow(
+                        radius = shadowRadius,
+                        spread = 2.dp,
+                        color = shadowColor,
+                        offset = DpOffset(x = 0.dp, 0.dp)
+                    )
+                )
+                .onFocusChanged { hasFocus = it.hasFocus }
+                .width(width)
+                // Animate ratio from 1 (collapsed) to wrap content (expanded)
+                .heightIn(max = if (hasFocus) 1000.dp else width)
+                .animateContentSize()
+                .background(
+                    color = backgroundColor,
+                    shape = RoundedCornerShape(20.dp)
+                )
+                .clip(RoundedCornerShape(20.dp))
+                .focusProperties {
+                    onEnter = {
+                        focusRequester.requestFocus()
                     }
                 }
+                .focusGroup(),
+            contentAlignment = Alignment.Center
+        ) {
+            // The Chevron Hint (Visible only when collapsed)
+            // We use alpha instead of conditional logic to keep the node measured
+            Icon(
+                painter = painterResource(R.drawable.ic_collapse_arrow),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(vertical = 8.dp) // Ensure it fits the 40dp collapsed height
+                    .graphicsLayer {
+                        rotationZ = chevronRotation
+                        scaleX = pulseScale
+                        scaleY = pulseScale
+                        alpha = chevronAlphaBase * pulseAlpha
+                    }
+                    .size(24.dp)
+            )
+
+            // The Utility Icons (Expanded)
+            Column(
+                modifier = Modifier
+                    .width(IntrinsicSize.Max)
+                    .alpha(contentAlpha)
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                val itemCount = 1 + (if (content.showResumePlayback) 1 else 0) + (if (content.isFavorite != null) 1 else 0) + (if (content.entry != null) 1 else 0)
+                var currentIndex = 0
+                
+                LabeledIconButton(
+                    stringResource(R.string.scroll_to_top),
+                    modifier = Modifier
+                        .focusRequester(focusRequester = focusRequester)
+                        .focusProperties { 
+                            up = FocusRequester.Cancel
+                            if (itemCount == 1) down = FocusRequester.Cancel
+                        },
+                    vectorImage = Icons.Outlined.ArrowUpward
+                ) {
+                    coroutineScope.launch {
+                        when (content.listState) {
+                            is LazyListState -> content.listState.animateScrollToItem(0)
+                            is LazyGridState -> content.listState.animateScrollToItem(0)
+                        }
+                    }
+                }
+                currentIndex++
+
+                if (content.showResumePlayback) {
+                    val isLast = currentIndex == itemCount - 1
+                    LabeledIconButton(
+                        stringResource(R.string.resume_playback_short_title), 
+                        modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
+                        painterResource = painterResource(R.drawable.ic_resume_playback)
+                    ) {
+                        listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
+                    }
+                    currentIndex++
+                }
+
+                if (content.isFavorite == true) {
+                    val isLast = currentIndex == itemCount - 1
+                    LabeledIconButton(
+                        stringResource(R.string.favorites_remove), 
+                        modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
+                        painterResource = painterResource(R.drawable.ic_fav_remove)
+                    ) {
+                        listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, false)
+                    }
+                    currentIndex++
+                } else if (content.isFavorite == false) {
+                    val isLast = currentIndex == itemCount - 1
+                    LabeledIconButton(
+                        stringResource(R.string.favorites_add), 
+                        modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
+                        painterResource = painterResource(R.drawable.ic_fav_add)
+                    ) {
+                        listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, true)
+                    }
+                    currentIndex++
+                }
+
+                if (content.entry != null) {
+                    val isLast = currentIndex == itemCount - 1
+                    LabeledIconButton(
+                        stringResource(R.string.display_settings), 
+                        modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
+                        painterResource = painterResource(R.drawable.ic_display_settings)
+                    ) {
+                        listener(MediaListSidePanelListenerKey.DISPLAY_SETTINGS, content.entry)
+                    }
+                    currentIndex++
+                }
             }
-            if (content.showResumePlayback)
-                LabeledIconButton(stringResource(R.string.resume_playback_short_title), painterResource = painterResource(R.drawable.ic_resume_playback)) {
-                    listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
-                }
-            if (content.isFavorite == true)
-                LabeledIconButton(stringResource(R.string.favorites_remove), painterResource = painterResource(R.drawable.ic_fav_remove)) {
-                    listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, false)
-                }
-            else if (content.isFavorite == false)
-                LabeledIconButton(stringResource(R.string.favorites_add), painterResource = painterResource(R.drawable.ic_fav_add)) {
-                    listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, true)
-                }
-            if (content.entry != null)
-                LabeledIconButton(stringResource(R.string.display_settings), painterResource = painterResource(R.drawable.ic_display_settings)) {
-                    listener(MediaListSidePanelListenerKey.DISPLAY_SETTINGS, content.entry)
-                }
         }
     }
 }
@@ -219,6 +297,7 @@ enum class MediaListSidePanelListenerKey {
 }
 
 data class MediaListSidePanelContent(
+    val show: Boolean = true,
     val showScrollToTop: Boolean = true,
     val showResumePlayback: Boolean = true,
     val isFavorite: Boolean? = null,
@@ -232,6 +311,7 @@ private fun MediaListSidePanelPreview() {
     VlcPreview {
         MediaListSidePanel(
             content = MediaListSidePanelContent(
+                show = true,
                 showScrollToTop = true,
                 showResumePlayback = true,
                 isFavorite = true,

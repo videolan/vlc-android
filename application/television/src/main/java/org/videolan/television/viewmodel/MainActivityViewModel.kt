@@ -124,6 +124,13 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private val _invalidateMediaListEntry: MutableStateFlow<MediaListEntry?> = MutableStateFlow(null)
     val invalidateMediaListEntry: StateFlow<MediaListEntry?> = _invalidateMediaListEntry.asStateFlow()
 
+    private val _showTabs: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val showTabs: StateFlow<Boolean> = _showTabs.asStateFlow()
+
+    fun setShowTabs(show: Boolean) = viewModelScope.launch {
+        _showTabs.emit(show)
+    }
+
     private val ctxClickListeners = mutableMapOf<MediaListEntry, (MediaLibraryItem, Int, CtxMenuItem) -> Unit>()
 
     fun addCtxClickListener(mediaListEntry: MediaListEntry, listener: (MediaLibraryItem, Int, CtxMenuItem) -> Unit) {

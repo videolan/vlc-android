@@ -30,28 +30,23 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
@@ -59,8 +54,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
@@ -76,6 +70,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
+import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
@@ -87,11 +82,9 @@ import org.videolan.television.ui.compose.composable.components.MediaListSidePan
 import org.videolan.television.ui.compose.composable.components.VlcEmptyViewLoader
 import org.videolan.television.ui.compose.composable.items.AudioItemCard
 import org.videolan.television.ui.compose.composable.items.AudioItemList
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.viewmodel.FileBrowserViewModel
 import org.videolan.television.viewmodel.MainActivityViewModel
-import androidx.compose.ui.tooling.preview.Preview
-import org.videolan.medialibrary.stubs.StubMediaWrapper
-import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
@@ -290,6 +283,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                 entry = entry,
                 descriptionUpdates = descriptionUpdates,
                 fileBrowserViewModel = fileVM,
+                mainActivityViewModel = mainVM,
                 currentPath = path,
                 onItemRendered = { item ->
                     if (item is MediaWrapper) {
@@ -342,13 +336,14 @@ internal fun BrowserListContent(
     isFavorite: Boolean,
     entry: MediaListEntry,
     descriptionUpdates: Pair<Int, String>?,
-    fileBrowserViewModel: FileBrowserViewModel,
+    fileBrowserViewModel: FileBrowserViewModel? = null,
+    mainActivityViewModel: MainActivityViewModel? = null,
     currentPath: String,
     onItemRendered: (MediaLibraryItem) -> Unit,
     onClick: (MediaLibraryItem, Int, String) -> Unit,
     onSidePanelAction: (MediaListSidePanelListenerKey, Any) -> Unit
 ) {
-    val initialFocusedItem by fileBrowserViewModel.focusToRestore.collectAsState()
+    val initialFocusedItem by fileBrowserViewModel?.focusToRestore?.collectAsState() ?: remember { mutableStateOf("") }
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
     
@@ -398,15 +393,15 @@ internal fun BrowserListContent(
     }
 
     VlcEmptyViewLoader(emptyState) {
-        Row(
+        Box(
             modifier = modifier
-                .fillMaxHeight()
+                .fillMaxSize()
         ) {
+            val gridFocusRequester = remember { FocusRequester() }
             if (currentInCard) {
                 LazyVerticalGrid(
                     GridCells.Fixed(6), Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
+                        .fillMaxSize()
                         .graphicsLayer(clip = false)
                         .focusProperties {
                             onEnter = {
@@ -415,7 +410,9 @@ internal fun BrowserListContent(
                                 Log.d("BrowserFocus", "Grid onEnter. lastFocusedItem: $lastFocusedItem, targeting: $targetKey")
                                 focusRequesters[targetKey]?.requestFocus()
                             }
-                        }, gridState, PaddingValues(top = 16.dp, bottom = 96.dp, end = 56.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
+                        }
+                        .focusRequester(gridFocusRequester), 
+                    gridState, PaddingValues(top = 16.dp, bottom = 96.dp, start = 56.dp, end = 56.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(count = items.size, key = { index -> (items[index] as? MediaWrapper)?.uri?.toString() ?: items[index].id.toString() }) { index ->
@@ -432,7 +429,6 @@ internal fun BrowserListContent(
                                         .focusRequester(requester)
                                         .onFocusChanged {
                                             if (it.isFocused) {
-                                                Log.d("BrowserFocus", "Item focused: $itemKey")
                                                 lastFocusedItem = itemKey
                                             } else if (lastFocusedItem == itemKey) {
                                                 Log.d("BrowserFocus", "Item focus LOST: $itemKey. hasFocus: ${it.hasFocus}, isFocused: ${it.isFocused}")
@@ -451,18 +447,17 @@ internal fun BrowserListContent(
             } else {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
+                        .fillMaxSize()
                         .graphicsLayer(clip = false)
                         .focusProperties {
                             onEnter = {
                                 val firstKey = items.firstOrNull()?.let { (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString() } ?: ""
                                 val targetKey = if (lastFocusedItem.isNotEmpty()) lastFocusedItem else firstKey
-                                Log.d("BrowserFocus", "Column onEnter. lastFocusedItem: $lastFocusedItem, targeting: $targetKey")
                                 focusRequesters[targetKey]?.requestFocus()
                             }
-                        },
-                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, end = 56.dp),
+                        }
+                        .focusRequester(gridFocusRequester),
+                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = 56.dp, end = 56.dp),
                     verticalArrangement = Arrangement.spacedBy(0.dp),
                     state = listState
                 ) {
@@ -483,7 +478,6 @@ internal fun BrowserListContent(
                                         .focusRequester(requester)
                                         .onFocusChanged {
                                             if (it.isFocused) {
-                                                Log.d("BrowserFocus", "Item focused: $itemKey")
                                                 lastFocusedItem = itemKey
                                             } else if (lastFocusedItem == itemKey) {
                                                 Log.d("BrowserFocus", "Item focus LOST: $itemKey. hasFocus: ${it.hasFocus}, isFocused: ${it.isFocused}")
@@ -501,14 +495,17 @@ internal fun BrowserListContent(
                 }
             }
             InvalidationComposable(isFavorite) {
+                val showTabs by mainActivityViewModel?.showTabs?.collectAsState() ?: remember { mutableStateOf(false) }
                 MediaListSidePanel(
-                    MediaListSidePanelContent(
+                    content = MediaListSidePanelContent(
+                        show = !showTabs,
                         showScrollToTop = true,
                         showResumePlayback = false,
                         isFavorite = isFavorite,
-                        if (currentInCard) gridState else listState,
-                        entry
-                    )
+                        listState = if (currentInCard) gridState else listState,
+                        entry = entry
+                    ),
+                    onFocusExit = { gridFocusRequester.requestFocus() }
                 ) { first, second ->
                     if (first == MediaListSidePanelListenerKey.DISPLAY_MODE) {
                         currentInCard = second as Boolean
@@ -541,7 +538,8 @@ private fun BrowserListPreview() {
             isFavorite = false,
             entry = MediaListEntry.BROWSER,
             descriptionUpdates = null,
-            fileBrowserViewModel = viewModel(),
+            fileBrowserViewModel = null,
+            mainActivityViewModel = null,
             currentPath = "/",
             onItemRendered = {},
             onClick = { _, _, _ -> },
@@ -571,7 +569,8 @@ private fun BrowserListCardPreview() {
             isFavorite = false,
             entry = MediaListEntry.BROWSER,
             descriptionUpdates = null,
-            fileBrowserViewModel = viewModel(),
+            fileBrowserViewModel = null,
+            mainActivityViewModel = null,
             currentPath = "/",
             onItemRendered = {},
             onClick = { _, _, _ -> },

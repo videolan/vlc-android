@@ -30,11 +30,13 @@ import androidx.activity.compose.LocalActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -46,9 +48,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -329,7 +334,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
             EmptyLoadingState.NONE
 
         VlcEmptyViewLoader(emptyState) {
-            Row(modifier = Modifier
+            Box(modifier = Modifier
                 .fillMaxSize()
                 .focusProperties {
                     onExit = {
@@ -339,6 +344,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         onFocusEnter()
                     }
                 }) {
+                val gridFocusRequester = remember { FocusRequester() }
                 if (emptyState != EmptyLoadingState.EMPTY_FAVORITES)
                     if (inCard) {
                         PaginatedGrid(
@@ -347,11 +353,11 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             columns = GridCells.Fixed(4),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, end = 56.dp),
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, start = 56.dp, end = 56.dp),
                             modifier = Modifier
-                                .fillMaxHeight()
-                                .weight(1f)
+                                .fillMaxSize()
                                 .graphicsLayer(clip = false)
+                                .focusRequester(gridFocusRequester)
                         ) { audio, index, modifier ->
                             AudioItemCard(audio, index, entry, modifier, onClick = { onClick(audio, index) })
                         }
@@ -360,11 +366,11 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             items = audios,
                             listState = listState,
                             verticalArrangement = Arrangement.spacedBy(0.dp),
-                            contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, end = 56.dp),
+                            contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = 56.dp, end = 56.dp),
                             modifier = Modifier
-                                .fillMaxHeight()
-                                .weight(1f)
+                                .fillMaxSize()
                                 .graphicsLayer(clip = false)
+                                .focusRequester(gridFocusRequester)
                         ) { audio, index, modifier ->
                             AudioItemList(
                                 item = audio,
@@ -377,13 +383,16 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             )
                         }
                     }
+                val showTabs by mainActivityViewModel.showTabs.collectAsState()
                 MediaListSidePanel(
-                    MediaListSidePanelContent(
+                    content = MediaListSidePanelContent(
+                        show = !showTabs,
                         showScrollToTop = true,
                         showResumePlayback = entry != MediaListEntry.ALL_PLAYLISTS,
                         listState = if (inCard) gridState else listState,
                         entry = entry
-                    )
+                    ),
+                    onFocusExit = { gridFocusRequester.requestFocus() }
                 ) { first, second ->
                     when (first) {
                         MediaListSidePanelListenerKey.DISPLAY_MODE -> {
