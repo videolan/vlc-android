@@ -375,7 +375,7 @@ fun ArtistScreenContent(
                     modifier = Modifier.weight(1f),
                 ) { destination ->
                     NavEntry(destination) { destinationKey ->
-                        ArtistContent(destinationKey as ArtistDestination, albums, songs, onAlbumClick, onSongClick)
+                        ArtistContent(destinationKey as ArtistDestination, albums, songs, darkMutedColor, onAlbumClick, onSongClick)
                     }
                 }
             }
@@ -433,12 +433,13 @@ private fun ArtistContent(
     destination: ArtistDestination,
     albums: LazyPagingItems<Album>,
     songs: LazyPagingItems<MediaWrapper>,
+    contentColor: Color? = null,
     onAlbumClick: (Album) -> Unit,
     onSongClick: (Int) -> Unit
 ) {
     when (destination) {
         ArtistDestination.Albums -> ArtistAlbums(albums, onAlbumClick)
-        ArtistDestination.Songs -> ArtistSongs(songs, onSongClick)
+        ArtistDestination.Songs -> ArtistSongs(songs, contentColor, onSongClick)
     }
 }
 
@@ -483,7 +484,7 @@ private fun ArtistAlbums(albums: LazyPagingItems<Album>, onAlbumClick: (Album) -
 }
 
 @Composable
-private fun ArtistSongs(songs: LazyPagingItems<MediaWrapper>, onSongClick: (Int) -> Unit) {
+private fun ArtistSongs(songs: LazyPagingItems<MediaWrapper>, contentColor: Color? = null, onSongClick: (Int) -> Unit) {
     val listState = rememberLazyListState()
     val context = LocalContext.current
 
@@ -519,6 +520,7 @@ private fun ArtistSongs(songs: LazyPagingItems<MediaWrapper>, onSongClick: (Int)
                 modifier = focusModifier,
                 isFirst = isNewAlbum,
                 isLast = isLastOfAlbum,
+                containerColor = contentColor ?: MaterialTheme.colorScheme.surface,
                 actionContent = {
                     LabeledIconButton(
                         label = stringResource(R.string.insert_next),
