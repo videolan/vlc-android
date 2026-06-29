@@ -485,6 +485,7 @@ private fun ArtistAlbums(albums: LazyPagingItems<Album>, onAlbumClick: (Album) -
 @Composable
 private fun ArtistSongs(songs: LazyPagingItems<MediaWrapper>, onSongClick: (Int) -> Unit) {
     val listState = rememberLazyListState()
+    val context = LocalContext.current
 
     PaginatedList(
         items = songs,
@@ -517,7 +518,36 @@ private fun ArtistSongs(songs: LazyPagingItems<MediaWrapper>, onSongClick: (Int)
                 entry = MediaListEntry.TRACKS,
                 modifier = focusModifier,
                 isFirst = isNewAlbum,
-                isLast = isLastOfAlbum
+                isLast = isLastOfAlbum,
+                actionContent = {
+                    LabeledIconButton(
+                        label = stringResource(R.string.insert_next),
+                        painterResource = painterResource(R.drawable.ic_tv_list_append),
+                        tint = White,
+                        focusedBackgroundColor = WhiteTransparent25,
+                        focusHeight = 72.dp
+                    ) {
+                        MediaUtils.insertNext(context, song)
+                    }
+                    LabeledIconButton(
+                        label = stringResource(R.string.append),
+                        painterResource = painterResource(R.drawable.ic_tv_list_playnext),
+                        tint = White,
+                        focusedBackgroundColor = WhiteTransparent25,
+                        focusHeight = 72.dp
+                    ) {
+                        MediaUtils.appendMedia(context, song)
+                    }
+                    LabeledIconButton(
+                        label = stringResource(R.string.add_to_playlist),
+                        painterResource = painterResource(R.drawable.ic_addtoplaylist),
+                        tint = White,
+                        focusedBackgroundColor = WhiteTransparent25,
+                        focusHeight = 72.dp
+                    ) {
+                        (context as FragmentActivity).addToPlaylist(arrayOf(song), org.videolan.vlc.gui.dialogs.SavePlaylistDialog.KEY_NEW_TRACKS)
+                    }
+                }
             ) {
                 onSongClick(index)
             }
