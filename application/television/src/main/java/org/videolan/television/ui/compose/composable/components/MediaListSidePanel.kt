@@ -48,6 +48,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowUpward
@@ -87,6 +88,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.content.edit
 import kotlinx.coroutines.launch
 import org.videolan.television.R
+import org.videolan.television.ui.compose.theme.Orange500
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.tools.KEY_SIDE_PANEL_DISCOVERED
 import org.videolan.tools.Settings
@@ -125,23 +127,23 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
     // Rotation: 90 to -90 as per top tabs consistency
     val chevronRotation by animateFloatAsState(if (hasFocus) 90f else -90f, label = "chevronRotation")
 
-    // Discovery Pulse Animation
-    val infiniteTransition = rememberInfiniteTransition(label = "discoveryPulse")
+    // Sonar Pulse Animation
+    val infiniteTransition = rememberInfiniteTransition(label = "sonarPulse")
     val pulseScale by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = if (!isDiscovered && !hasFocus) 1.5f else 1f,
+        targetValue = if (!isDiscovered && !hasFocus) 2.5f else 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1300, delayMillis = 800, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Restart
         ),
         label = "pulseScale"
     )
     val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.5f,
-        targetValue = if (!isDiscovered && !hasFocus) 1f else 0.5f,
+        initialValue = 0.6f,
+        targetValue = if (!isDiscovered && !hasFocus) 0f else 0f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1300, delayMillis = 800, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Restart
         ),
         label = "pulseAlpha"
     )
@@ -196,6 +198,19 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                 .focusGroup(),
             contentAlignment = Alignment.Center
         ) {
+            // The Sonar Pulse (Visible only when collapsed and undiscovered)
+            if (!isDiscovered)
+                Box(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .graphicsLayer {
+                            scaleX = pulseScale
+                            scaleY = pulseScale
+                            alpha = pulseAlpha * chevronAlphaBase
+                        }
+                        .background(Orange500, CircleShape)
+                )
+
             // The Chevron Hint (Visible only when collapsed)
             // We use alpha instead of conditional logic to keep the node measured
             Icon(
@@ -205,9 +220,9 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                     .padding(vertical = 8.dp) // Ensure it fits the 40dp collapsed height
                     .graphicsLayer {
                         rotationZ = chevronRotation
-                        scaleX = pulseScale
-                        scaleY = pulseScale
-                        alpha = chevronAlphaBase * pulseAlpha
+                        scaleX = 1f
+                        scaleY = 1f
+                        alpha = chevronAlphaBase
                     }
                     .size(24.dp)
             )
@@ -227,7 +242,7 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                     stringResource(R.string.scroll_to_top),
                     modifier = Modifier
                         .focusRequester(focusRequester = focusRequester)
-                        .focusProperties { 
+                        .focusProperties {
                             up = FocusRequester.Cancel
                             if (itemCount == 1) down = FocusRequester.Cancel
                         },
