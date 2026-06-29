@@ -194,6 +194,14 @@ else
 fi
 printf 'cpu = '"'"'%s'"'"'\n' "${MESON_CPU}" >&3
 
+# This isn't set for meson builds if there already is a build dir which makes
+# following builds fail
+printf '\n[properties]\n' >&3
+printf "pkg_config_libdir = ['%s', '%s', '%s']\n" \
+    "$LIBVLCJNI_SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
+    "${MEDIALIBRARY_PREFIX}/lib/pkgconfig" \
+    "$LIBVLCJNI_SRC_DIR/vlc/contrib/$TARGET_TUPLE/lib/pkgconfig" >&3
+
 if [ ! -d "build-android-$ANDROID_ABI/" ] || [ ! -f "build-android-$ANDROID_ABI/build.ninja" ]; then
     export PATH="$LIBVLCJNI_SRC_DIR/vlc/extras/tools/build/bin:$PATH"
 
