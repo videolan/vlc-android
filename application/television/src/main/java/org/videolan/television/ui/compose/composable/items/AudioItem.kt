@@ -32,6 +32,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -144,7 +145,7 @@ fun AudioItem(
 }
 
 @Composable
-fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, description: String? = null, onClick: () -> Unit) {
+fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, modifier: Modifier = Modifier, spannableDescription: Boolean = false, browserRoot: Boolean = false, description: String? = null, topStartContent: @Composable (BoxScope.() -> Unit)? = null, onClick: () -> Unit) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     var focused by remember { mutableStateOf(false) }
@@ -267,6 +268,11 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                             .size(16.dp),
                         tint = MaterialTheme.colorScheme.onSurface
                     )
+                }
+                if (topStartContent != null) {
+                    Box(modifier = Modifier.align(Alignment.TopStart)) {
+                        topStartContent()
+                    }
                 }
             }
             if (expanded)
