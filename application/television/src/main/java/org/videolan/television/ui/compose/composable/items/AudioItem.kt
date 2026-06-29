@@ -35,13 +35,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -62,7 +62,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.shadow.Shadow
@@ -327,6 +329,9 @@ fun AudioItemList(
     isLast: Boolean = false,
     spannableDescription: Boolean = false,
     description: String? = null,
+    containerColor: Color? = null,
+    infoPartFocusRequester: FocusRequester? = null,
+    actionContent: @Composable (RowScope.() -> Unit)? = null,
     onClick: () -> Unit
 ) {
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
@@ -359,8 +364,7 @@ fun AudioItemList(
                 }
                 .shadow(if (itemHasFocus) 12.dp else 0.dp, shape)
                 .border(if (itemHasFocus) 1.dp else 0.dp, WhiteTransparent10, shape)
-//                .background(if (itemHasFocus) WhiteTransparent20 else WhiteTransparent05, shape)
-                .background(MaterialTheme.colorScheme.surfaceVariant, shape)
+                .background(containerColor ?: MaterialTheme.colorScheme.surfaceVariant, shape)
                 .clip(shape)
                 .combinedClickable(
                     onClick = onClick,
