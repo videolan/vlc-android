@@ -35,6 +35,7 @@ private val DarkColorScheme = darkColorScheme(
     surface = BackgroundColor,
     surfaceVariant = BackgroundColorMedium,
     onSurface = White,
+    onPrimary = White,
     surfaceDim = BackgroundColorDark
 )
 
