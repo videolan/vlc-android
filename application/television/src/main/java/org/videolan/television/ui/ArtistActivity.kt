@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.resources.util.parcelable
+import org.videolan.television.ui.compose.composable.screens.ArtistScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 
 class ArtistActivity : DefaultTvActivity() {
@@ -48,6 +49,7 @@ class ArtistActivity : DefaultTvActivity() {
             VlcTVTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize()) {
+                    ArtistScreen(artist)
                 }
             }
         }

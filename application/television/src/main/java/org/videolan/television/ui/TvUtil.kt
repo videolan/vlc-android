@@ -290,7 +290,7 @@ object TvUtil {
                 playAudioList(context, list, 0)
             }
             MediaLibraryItem.TYPE_ARTIST -> {
-                val intent = Intent(context, VerticalGridActivity::class.java)
+                val intent = Intent(context, ArtistActivity::class.java)
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
@@ -302,8 +302,6 @@ object TvUtil {
             else -> {
                 val intent = Intent(context, BrowserActivity::class.java)
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
-                intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                 context.startActivity(intent)
             }
         }
