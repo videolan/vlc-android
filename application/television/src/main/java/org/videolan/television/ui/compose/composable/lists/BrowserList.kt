@@ -396,6 +396,14 @@ internal fun BrowserListContent(
         Box(
             modifier = modifier
                 .fillMaxSize()
+                .focusProperties {
+                    onEnter = {
+                        val firstKey = items.firstOrNull()?.let { (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString() } ?: ""
+                        val targetKey = if (lastFocusedItem.isNotEmpty()) lastFocusedItem else firstKey
+                        Log.d("BrowserFocus", "Grid onEnter. lastFocusedItem: $lastFocusedItem, targeting: $targetKey")
+                        focusRequesters[targetKey]?.requestFocus()
+                    }
+                }
         ) {
             val gridFocusRequester = remember { FocusRequester() }
             if (currentInCard) {
@@ -403,14 +411,6 @@ internal fun BrowserListContent(
                     GridCells.Fixed(6), Modifier
                         .fillMaxSize()
                         .graphicsLayer(clip = false)
-                        .focusProperties {
-                            onEnter = {
-                                val firstKey = items.firstOrNull()?.let { (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString() } ?: ""
-                                val targetKey = if (lastFocusedItem.isNotEmpty()) lastFocusedItem else firstKey
-                                Log.d("BrowserFocus", "Grid onEnter. lastFocusedItem: $lastFocusedItem, targeting: $targetKey")
-                                focusRequesters[targetKey]?.requestFocus()
-                            }
-                        }
                         .focusRequester(gridFocusRequester), 
                     gridState, PaddingValues(top = 16.dp, bottom = 96.dp, start = 56.dp, end = 56.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -449,13 +449,6 @@ internal fun BrowserListContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .graphicsLayer(clip = false)
-                        .focusProperties {
-                            onEnter = {
-                                val firstKey = items.firstOrNull()?.let { (it as? MediaWrapper)?.uri?.toString() ?: it.id.toString() } ?: ""
-                                val targetKey = if (lastFocusedItem.isNotEmpty()) lastFocusedItem else firstKey
-                                focusRequesters[targetKey]?.requestFocus()
-                            }
-                        }
                         .focusRequester(gridFocusRequester),
                     contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = 56.dp, end = 56.dp),
                     verticalArrangement = Arrangement.spacedBy(0.dp),
