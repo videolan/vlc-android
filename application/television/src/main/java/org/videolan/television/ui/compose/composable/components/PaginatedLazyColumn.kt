@@ -25,6 +25,7 @@
 package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -101,6 +102,7 @@ fun PaginatedGrid(
     LazyVerticalGrid(
         columns = columns,
         modifier = modifier
+            .focusGroup()
             .focusProperties {
                 onEnter = {
                     if (lastFocusedItem != 0L)
@@ -193,6 +195,7 @@ fun PaginatedList(
 
     LazyColumn(
         modifier = modifier
+            .focusGroup()
             .focusProperties {
                 onEnter = {
                     if (lastFocusedItem != 0L)
