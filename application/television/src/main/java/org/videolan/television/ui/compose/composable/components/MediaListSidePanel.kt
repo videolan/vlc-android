@@ -246,7 +246,8 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                             up = FocusRequester.Cancel
                             if (itemCount == 1) down = FocusRequester.Cancel
                         },
-                    vectorImage = Icons.Outlined.ArrowUpward
+                    vectorImage = Icons.Outlined.ArrowUpward,
+                    horizontalTooltip = true
                 ) {
                     coroutineScope.launch {
                         when (content.listState) {
@@ -262,7 +263,8 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                     LabeledIconButton(
                         stringResource(R.string.resume_playback_short_title), 
                         modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
-                        painterResource = painterResource(R.drawable.ic_resume_playback)
+                        painterResource = painterResource(R.drawable.ic_resume_playback),
+                        horizontalTooltip = true
                     ) {
                         listener(MediaListSidePanelListenerKey.RESUME_PLAYBACK, 0)
                     }
@@ -274,7 +276,8 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                     LabeledIconButton(
                         stringResource(R.string.favorites_remove), 
                         modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
-                        painterResource = painterResource(R.drawable.ic_fav_remove)
+                        painterResource = painterResource(R.drawable.ic_fav_remove),
+                        horizontalTooltip = true
                     ) {
                         listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, false)
                     }
@@ -284,7 +287,8 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                     LabeledIconButton(
                         stringResource(R.string.favorites_add), 
                         modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
-                        painterResource = painterResource(R.drawable.ic_fav_add)
+                        painterResource = painterResource(R.drawable.ic_fav_add),
+                        horizontalTooltip = true
                     ) {
                         listener(MediaListSidePanelListenerKey.CHANGE_FAVORITE, true)
                     }
@@ -296,7 +300,8 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
                     LabeledIconButton(
                         stringResource(R.string.display_settings), 
                         modifier = Modifier.focusProperties { if (isLast) down = FocusRequester.Cancel },
-                        painterResource = painterResource(R.drawable.ic_display_settings)
+                        painterResource = painterResource(R.drawable.ic_display_settings),
+                        horizontalTooltip = true
                     ) {
                         listener(MediaListSidePanelListenerKey.DISPLAY_SETTINGS, content.entry)
                     }

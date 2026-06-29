@@ -64,6 +64,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.PopupPositionProvider
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 
 /**
@@ -93,6 +94,7 @@ fun LabeledIconButton(
     backgroundColor: Color = Color.Transparent,
     focusedBackgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.8F),
     focusHeight: Dp = 48.dp,
+    horizontalTooltip: Boolean = false,
     onClick: () -> Unit
 ) {
     var hasFocus by remember { mutableStateOf(false) }
@@ -105,8 +107,9 @@ fun LabeledIconButton(
         targetValue = if (hasFocus) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(0.4F),
         label = "iconColor"
     )
+    val tooltipPosition = if (horizontalTooltip) TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Start) else TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below)
     TooltipBox(
-        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below),
+        positionProvider = tooltipPosition,
         tooltip = {
             PlainTooltip(
                 shape = RoundedCornerShape(50),
