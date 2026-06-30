@@ -31,15 +31,20 @@ import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.VLCInstance
+import org.videolan.tools.KEY_PREFERRED_RESOLUTION
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
+import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
 /**
  * ViewModel for managing TV settings state and logic.
@@ -83,29 +88,8 @@ class SettingsViewModel(context: Context) : ViewModel() {
     val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
 
     init {
-        // Initial setup - Categories will be populated here
-        val generalItems = listOf(
-            SettingItem.Action(
-                key = "directories",
-                title = org.videolan.vlc.R.string.medialibrary_directories,
-                summary = org.videolan.vlc.R.string.directories_summary
-            ),
-            SettingItem.Toggle(
-                key = "auto_rescan",
-                title = org.videolan.vlc.R.string.auto_rescan,
-                summary = org.videolan.vlc.R.string.auto_rescan_summary,
-                defaultValue = true
-            )
-        )
-
-        val initialCategories = listOf(
-            SettingCategory(
-                title = org.videolan.vlc.R.string.medialibrary,
-                items = generalItems
-            )
-        )
-
-        setCategories(initialCategories)
+        // Load settings from factory
+        setCategories(SettingsFactory.createSettings())
     }
 
     /**
@@ -123,8 +107,11 @@ class SettingsViewModel(context: Context) : ViewModel() {
         }.filter { it.items.isNotEmpty() }
         
         _categories.value = filtered
-        if (_selectedCategory.value == null || !filtered.contains(_selectedCategory.value)) {
+        if (_selectedCategory.value == null || !filtered.any { it.title == _selectedCategory.value?.title }) {
             _selectedCategory.value = filtered.firstOrNull()
+        } else {
+            // Update the selected category if items within it changed
+            _selectedCategory.value = filtered.first { it.title == _selectedCategory.value?.title }
         }
     }
 
@@ -145,6 +132,64 @@ class SettingsViewModel(context: Context) : ViewModel() {
      */
     fun selectCategory(category: SettingCategory) {
         _selectedCategory.value = category
+    }
+
+    /**
+     * Updates a boolean setting in [android.content.SharedPreferences].
+     *
+     * Triggers [refreshCategories] after the update, as some settings changes
+     * may affect the visibility of other settings.
+     *
+     * @param key The preference key.
+     * @param value The new boolean value.
+     */
+    fun updateBooleanSetting(key: String, value: Boolean) {
+        settings.edit { putBoolean(key, value) }
+        refreshCategories()
+    }
+
+    /**
+     * Updates a string setting in [android.content.SharedPreferences].
+     *
+     * @param key The preference key.
+     * @param value The new string value.
+     */
+    fun updateStringSetting(key: String, value: String) {
+        settings.edit { putString(key, value) }
+        
+        // Handle side effects
+        when (key) {
+            KEY_PREFERRED_RESOLUTION -> {
+                viewModelScope.launch {
+                    VLCInstance.restart()
+                    restartMediaPlayer()
+                }
+            }
+        }
+        
+        refreshCategories()
+    }
+
+    /**
+     * Retrieves the current boolean value for a specific key.
+     *
+     * @param key The preference key.
+     * @param defaultValue The value to return if the key is not present.
+     * @return The current boolean value.
+     */
+    fun getBooleanValue(key: String, defaultValue: Boolean): Boolean {
+        return settings.getBoolean(key, defaultValue)
+    }
+
+    /**
+     * Retrieves the current string value for a specific key.
+     *
+     * @param key The preference key.
+     * @param defaultValue The value to return if the key is not present.
+     * @return The current string value, or null if not found and defaultValue is null.
+     */
+    fun getStringValue(key: String, defaultValue: String?): String? {
+        return settings.getString(key, defaultValue)
     }
 
     /**
@@ -170,54 +215,6 @@ class SettingsViewModel(context: Context) : ViewModel() {
                 }
             }
         }
-    }
-
-    /**
-     * Updates a boolean setting in [android.content.SharedPreferences].
-     *
-     * Triggers [refreshCategories] after the update, as some settings changes
-     * may affect the visibility of other settings.
-     *
-     * @param key The preference key.
-     * @param value The new boolean value.
-     */
-    fun updateBooleanSetting(key: String, value: Boolean) {
-        settings.edit { putBoolean(key, value) }
-        // Some settings might affect visibility of others
-        refreshCategories()
-    }
-
-    /**
-     * Updates a string setting in [android.content.SharedPreferences].
-     *
-     * @param key The preference key.
-     * @param value The new string value.
-     */
-    fun updateStringSetting(key: String, value: String) {
-        settings.edit { putString(key, value) }
-        refreshCategories()
-    }
-
-    /**
-     * Retrieves the current boolean value for a specific key.
-     *
-     * @param key The preference key.
-     * @param defaultValue The value to return if the key is not present.
-     * @return The current boolean value.
-     */
-    fun getBooleanValue(key: String, defaultValue: Boolean): Boolean {
-        return settings.getBoolean(key, defaultValue)
-    }
-
-    /**
-     * Retrieves the current string value for a specific key.
-     *
-     * @param key The preference key.
-     * @param defaultValue The value to return if the key is not present.
-     * @return The current string value, or null if not found and defaultValue is null.
-     */
-    fun getStringValue(key: String, defaultValue: String?): String? {
-        return settings.getString(key, defaultValue)
     }
 
     /**
