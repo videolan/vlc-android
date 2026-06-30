@@ -24,7 +24,6 @@
 
 package org.videolan.television.ui.preferences
 
-import androidx.annotation.ArrayRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
@@ -96,8 +95,8 @@ sealed class SettingItem(
      * @param title The string resource ID for the setting title.
      * @param summary The optional string resource ID for the setting summary.
      * @param icon The optional drawable resource ID for the setting icon.
-     * @property entries The array resource ID for the human-readable option titles.
-     * @property entryValues The array resource ID for the machine-readable option values.
+     * @property entries The list of human-readable option titles.
+     * @property entryValues The list of machine-readable option values.
      * @property defaultValue The default string value if none is stored.
      */
     class Options(
@@ -105,8 +104,8 @@ sealed class SettingItem(
         @StringRes title: Int,
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
-        @param:ArrayRes val entries: Int,
-        @param:ArrayRes val entryValues: Int,
+        val entries: List<String> = emptyList(),
+        val entryValues: List<String> = emptyList(),
         val defaultValue: String? = null
     ) : SettingItem(key, title, summary, icon)
 

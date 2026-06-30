@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.preferences
 
+import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -60,7 +61,7 @@ import org.videolan.television.ui.compose.theme.VlcTVTheme
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = viewModel(
-        factory = SettingsViewModel.Factory(LocalContext.current.applicationContext)
+        factory = SettingsViewModel.Factory(LocalContext.current.applicationContext as Application)
     )
 ) {
     val categories by viewModel.categories.collectAsState()
@@ -150,6 +151,7 @@ fun SettingsDetail(
                             ToggleSettingItem(
                                 item = item,
                                 checked = viewModel.getBooleanValue(item.key, item.defaultValue),
+                                summary = viewModel.getSummary(item),
                                 onCheckedChange = { viewModel.updateBooleanSetting(item.key, it) }
                             )
                         }
@@ -157,6 +159,7 @@ fun SettingsDetail(
                             val context = LocalContext.current
                             ActionSettingItem(
                                 item = item,
+                                summary = viewModel.getSummary(item),
                                 onClick = { viewModel.executeAction(context, item) }
                             )
                         }
@@ -164,6 +167,7 @@ fun SettingsDetail(
                             OptionsSettingItem(
                                 item = item,
                                 currentValue = viewModel.getStringValue(item.key, item.defaultValue),
+                                summary = viewModel.getSummary(item),
                                 onClick = { /* TODO: Show selection dialog */ }
                             )
                         }
@@ -187,7 +191,7 @@ fun SettingsDetail(
 private fun SettingsScreenPreview() {
     val context = LocalContext.current
     val viewModel = remember {
-        SettingsViewModel(context).apply {
+        SettingsViewModel(context.applicationContext as Application).apply {
             setCategories(listOf(
                 SettingCategory(
                     title = R.string.video_prefs_category,
@@ -198,8 +202,8 @@ private fun SettingsScreenPreview() {
                         SettingItem.Options(
                             "hardware_acceleration",
                             R.string.hardware_acceleration,
-                            entries = R.array.hardware_acceleration_list,
-                            entryValues = R.array.hardware_acceleration_values,
+                            entries = listOf("Automatic", "Disabled", "Decoding only"),
+                            entryValues = listOf("-1", "0", "1"),
                             defaultValue = "-1"
                         )
                     )
