@@ -24,9 +24,10 @@
 
 package org.videolan.television.ui.preferences
 
-import android.app.Application
+import android.content.Context
 import androidx.core.content.edit
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,14 +41,14 @@ import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
  * and items, handling their visibility based on device capabilities and TV-specific rules,
  * and persisting changes to [android.content.SharedPreferences].
  *
- * @param application The application context.
+ * @param context The context used to access SharedPreferences.
  */
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+class SettingsViewModel(context: Context) : ViewModel() {
 
     /**
      * The [android.content.SharedPreferences] instance used for storing and retrieving settings.
      */
-    private val settings = Settings.getInstance(application)
+    private val settings = Settings.getInstance(context)
 
     /**
      * Internal flow containing all possible categories and their items.
@@ -164,5 +165,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun getStringValue(key: String, defaultValue: String?): String? {
         return settings.getString(key, defaultValue)
+    }
+
+    /**
+     * Factory for creating [SettingsViewModel] with a [Context].
+     */
+    class Factory(private val context: Context) : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return SettingsViewModel(context) as T
+        }
     }
 }
