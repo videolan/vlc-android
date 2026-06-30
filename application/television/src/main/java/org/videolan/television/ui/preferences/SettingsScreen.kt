@@ -159,8 +159,15 @@ fun SettingsDetail(
                                 onClick = { /* TODO: Handle action */ }
                             )
                         }
+                        is SettingItem.Options -> {
+                            OptionsSettingItem(
+                                item = item,
+                                currentValue = viewModel.getStringValue(item.key, item.defaultValue),
+                                onClick = { /* TODO: Show selection dialog */ }
+                            )
+                        }
                         else -> {
-                            // TODO: Implement other item types (Options, Input)
+                            // TODO: Implement other item types (Input)
                             SettingItemRow(
                                 title = stringResource(id = item.title),
                                 summary = "Not yet implemented"
@@ -186,7 +193,14 @@ private fun SettingsScreenPreview() {
                     icon = R.drawable.ic_pref_video,
                     items = listOf(
                         SettingItem.Toggle("video_toggle", R.string.auto_rescan, R.string.auto_rescan_summary),
-                        SettingItem.Action("video_action", R.string.directories, R.string.directories_summary)
+                        SettingItem.Action("video_action", R.string.directories, R.string.directories_summary),
+                        SettingItem.Options(
+                            "hardware_acceleration",
+                            R.string.hardware_acceleration,
+                            entries = R.array.hardware_acceleration_list,
+                            entryValues = R.array.hardware_acceleration_values,
+                            defaultValue = "-1"
+                        )
                     )
                 ),
                 SettingCategory(
