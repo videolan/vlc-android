@@ -28,26 +28,16 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -57,9 +47,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.vlc.R
 
@@ -303,8 +295,151 @@ fun OptionsSettingItem(
         title = stringResource(id = item.title),
         summary = summary ?: currentTitle,
         icon = item.icon,
-        onClick = onClick
+        onClick = onClick,
+        content = {
+             Icon(
+                painter = painterResource(id = R.drawable.ic_chevron_right),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+            )
+        }
     )
+}
+
+/**
+ * A TV-optimized selection dialog for [SettingItem.Options].
+ *
+ * @param item The options setting item.
+ * @param currentValue The currently selected value key.
+ * @param onDismiss Callback to dismiss the dialog.
+ * @param onValueSelected Callback when a new value is selected.
+ */
+@Composable
+fun SelectionDialog(
+    item: SettingItem.Options,
+    currentValue: String?,
+    onDismiss: () -> Unit,
+    onValueSelected: (String) -> Unit
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            modifier = Modifier
+                .width(480.dp)
+                .heightIn(max = 600.dp)
+                .clip(RoundedCornerShape(24.dp)),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 6.dp
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp)
+            ) {
+                Text(
+                    text = stringResource(id = item.title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                
+                val listState = rememberLazyListState()
+                
+                // Auto-scroll to selected item
+                LaunchedEffect(Unit) {
+                    val index = item.entryValues.indexOf(currentValue)
+                    if (index != -1) {
+                        listState.scrollToItem(index)
+                    }
+                }
+
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    itemsIndexed(item.entries) { index, entry ->
+                        val value = item.entryValues[index]
+                        val isSelected = value == currentValue
+                        
+                        SelectionDialogItem(
+                            title = entry,
+                            isSelected = isSelected,
+                            onClick = {
+                                onValueSelected(value)
+                                onDismiss()
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Text(
+                    text = stringResource(id = R.string.cancel),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(CircleShape)
+                        .clickable { onDismiss() }
+                        .padding(vertical = 12.dp),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+    }
+}
+
+/**
+ * An item row within the [SelectionDialog].
+ */
+@Composable
+private fun SelectionDialogItem(
+    title: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    var hasFocus by remember { mutableStateOf(false) }
+    
+    val backgroundColor by animateColorAsState(
+        targetValue = when {
+            hasFocus -> MaterialTheme.colorScheme.primary
+            isSelected -> MaterialTheme.colorScheme.surfaceVariant
+            else -> Color.Transparent
+        },
+        label = "backgroundColor"
+    )
+    
+    val contentColor by animateColorAsState(
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+        label = "contentColor"
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(CircleShape)
+            .background(backgroundColor)
+            .onFocusChanged { hasFocus = it.hasFocus }
+            .clickable { onClick() }
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodyLarge,
+            color = contentColor,
+            modifier = Modifier.weight(1f)
+        )
+        if (isSelected) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = null,
+                tint = if (hasFocus) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
 }
 
 /**
@@ -341,6 +476,26 @@ private fun SettingComponentsPreview() {
                 ),
                 currentValue = "-1",
                 onClick = {}
+            )
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun SelectionDialogPreview() {
+    VlcTVTheme {
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+            SelectionDialog(
+                item = SettingItem.Options(
+                    "key",
+                    R.string.hardware_acceleration,
+                    entries = listOf("Automatic", "Disabled", "Decoding only", "Full acceleration"),
+                    entryValues = listOf("-1", "0", "1", "2")
+                ),
+                currentValue = "-1",
+                onDismiss = {},
+                onValueSelected = {}
             )
         }
     }

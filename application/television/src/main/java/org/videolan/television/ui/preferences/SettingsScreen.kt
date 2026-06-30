@@ -41,7 +41,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -164,12 +166,22 @@ fun SettingsDetail(
                             )
                         }
                         is SettingItem.Options -> {
+                            var showDialog by remember { mutableStateOf(false) }
+                            val currentValue = viewModel.getStringValue(item.key, item.defaultValue)
                             OptionsSettingItem(
                                 item = item,
-                                currentValue = viewModel.getStringValue(item.key, item.defaultValue),
+                                currentValue = currentValue,
                                 summary = viewModel.getSummary(item),
-                                onClick = { /* TODO: Show selection dialog */ }
+                                onClick = { showDialog = true }
                             )
+                            if (showDialog) {
+                                SelectionDialog(
+                                    item = item,
+                                    currentValue = currentValue,
+                                    onDismiss = { showDialog = false },
+                                    onValueSelected = { viewModel.updateStringSetting(item.key, it) }
+                                )
+                            }
                         }
                         else -> {
                             // TODO: Implement other item types (Input)
