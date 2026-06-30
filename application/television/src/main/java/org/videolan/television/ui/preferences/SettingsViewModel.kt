@@ -24,14 +24,21 @@
 
 package org.videolan.television.ui.preferences
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 
 /**
@@ -76,8 +83,29 @@ class SettingsViewModel(context: Context) : ViewModel() {
     val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
 
     init {
-        // Initial setup - Categories will be populated in subsequent steps
-        refreshCategories()
+        // Initial setup - Categories will be populated here
+        val generalItems = listOf(
+            SettingItem.Action(
+                key = "directories",
+                title = org.videolan.vlc.R.string.medialibrary_directories,
+                summary = org.videolan.vlc.R.string.directories_summary
+            ),
+            SettingItem.Toggle(
+                key = "auto_rescan",
+                title = org.videolan.vlc.R.string.auto_rescan,
+                summary = org.videolan.vlc.R.string.auto_rescan_summary,
+                defaultValue = true
+            )
+        )
+
+        val initialCategories = listOf(
+            SettingCategory(
+                title = org.videolan.vlc.R.string.medialibrary,
+                items = generalItems
+            )
+        )
+
+        setCategories(initialCategories)
     }
 
     /**
@@ -117,6 +145,31 @@ class SettingsViewModel(context: Context) : ViewModel() {
      */
     fun selectCategory(category: SettingCategory) {
         _selectedCategory.value = category
+    }
+
+    /**
+     * Executes the action associated with a [SettingItem.Action].
+     *
+     * @param context The context used to start activities or show toasts.
+     * @param item The action item to execute.
+     */
+    fun executeAction(context: Context, item: SettingItem.Action) {
+        when (item.key) {
+            "directories" -> {
+                if (Medialibrary.getInstance().isWorking) {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.settings_ml_block_scan),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
+                    intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
+                    context.startActivity(intent)
+                    (context as? Activity)?.setResult(RESULT_RESTART)
+                }
+            }
+        }
     }
 
     /**

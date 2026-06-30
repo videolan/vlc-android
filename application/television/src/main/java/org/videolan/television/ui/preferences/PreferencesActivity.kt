@@ -28,7 +28,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import org.videolan.television.R
+import androidx.activity.compose.setContent
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.tools.KEY_RESTRICT_SETTINGS
 import org.videolan.tools.RESULT_RESTART
@@ -46,7 +47,11 @@ class PreferencesActivity : BaseTvActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.tv_preferences_activity)
+        setContent {
+            VlcTVTheme {
+                SettingsScreen()
+            }
+        }
         if (Settings.getInstance(this).getBoolean(KEY_RESTRICT_SETTINGS, false)) {
             val intent = PinCodeActivity.getIntent(this, PinCodeReason.CHECK)
             startActivityForResult(intent, 0)
