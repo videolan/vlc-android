@@ -308,6 +308,35 @@ fun OptionsSettingItem(
 }
 
 /**
+ * A setting item for color selection, displaying a color preview.
+ *
+ * @param item The [SettingItem.Color] definition.
+ * @param currentValue The current color value as an ARGB integer.
+ * @param onClick Callback triggered to open the color picker.
+ */
+@Composable
+fun ColorSettingItem(
+    item: SettingItem.Color,
+    currentValue: Int,
+    onClick: () -> Unit
+) {
+    SettingItemRow(
+        title = stringResource(id = item.title),
+        summary = item.summary?.let { stringResource(id = it) },
+        icon = item.icon,
+        onClick = onClick,
+        content = {
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(Color(currentValue))
+            )
+        }
+    )
+}
+
+/**
  * A TV-optimized selection dialog for [SettingItem.Options].
  *
  * @param item The options setting item.
