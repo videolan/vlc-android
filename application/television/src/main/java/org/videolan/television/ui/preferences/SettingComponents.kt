@@ -25,14 +25,18 @@
 package org.videolan.television.ui.preferences
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -49,8 +53,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,17 +65,17 @@ import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.vlc.R
 
 /**
- * A base focusable row for a setting item in the TV settings.
+ * A TV-optimized focusable row for a setting item.
  *
- * This component handles the common TV UI patterns like focus state background,
- * layout of icon, title, and summary, and provides a slot for trailing content.
+ * It uses a pill shape and scales slightly when focused to provide clear visual feedback
+ * on TV screens, while remaining fully clickable for mouse and touch users.
  *
  * @param title The title string to display.
  * @param modifier The [Modifier] to be applied to the row.
  * @param summary An optional summary/description string to display below the title.
  * @param icon An optional drawable resource ID to display as an icon on the left.
- * @param onClick The callback to trigger when the row is clicked or selected via D-pad.
- * @param content An optional `@Composable` block for trailing content (e.g., a Toggle).
+ * @param onClick The callback to trigger when the row is clicked or selected.
+ * @param content An optional `@Composable` block for trailing content.
  */
 @Composable
 fun SettingItemRow(
@@ -80,20 +87,40 @@ fun SettingItemRow(
     content: @Composable (() -> Unit)? = null
 ) {
     var hasFocus by remember { mutableStateOf(false) }
+    
+    val scale by animateFloatAsState(
+        targetValue = if (hasFocus) 1.05f else 1f,
+        label = "scale"
+    )
+    
     val backgroundColor by animateColorAsState(
-        targetValue = if (hasFocus) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f) else Color.Transparent,
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.onSurface else Color.Transparent,
         label = "backgroundColor"
+    )
+    
+    val contentColor by animateColorAsState(
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.inverseOnSurface else MaterialTheme.colorScheme.onSurface,
+        label = "contentColor"
+    )
+
+    val summaryColor by animateColorAsState(
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurfaceVariant,
+        label = "summaryColor"
     )
 
     Row(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 64.dp)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .onFocusChanged { hasFocus = it.hasFocus }
-            .clip(RoundedCornerShape(8.dp))
+            .clip(CircleShape) // Pill shape
             .background(backgroundColor)
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (icon != null) {
@@ -101,10 +128,10 @@ fun SettingItemRow(
                 painter = painterResource(id = icon),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(24.dp)
-                    .padding(end = 16.dp),
-                tint = MaterialTheme.colorScheme.onSurface
+                    .size(24.dp),
+                tint = contentColor
             )
+            Spacer(modifier = Modifier.width(16.dp))
         }
         Column(
             modifier = Modifier.weight(1f)
@@ -112,7 +139,8 @@ fun SettingItemRow(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold,
+                color = contentColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -120,7 +148,7 @@ fun SettingItemRow(
                 Text(
                     text = summary,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = summaryColor,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -133,11 +161,73 @@ fun SettingItemRow(
 }
 
 /**
+ * A TV-optimized setting category item for the sidebar.
+ *
+ * @param category The [SettingCategory] definition.
+ * @param isSelected Whether this category is currently selected.
+ * @param onSelected Callback triggered when the category is selected or focused.
+ */
+@Composable
+fun CategoryItem(
+    category: SettingCategory,
+    isSelected: Boolean,
+    onSelected: () -> Unit
+) {
+    var hasFocus by remember { mutableStateOf(false) }
+    
+    val backgroundColor by animateColorAsState(
+        targetValue = when {
+            hasFocus -> MaterialTheme.colorScheme.primary
+            isSelected -> MaterialTheme.colorScheme.surfaceVariant
+            else -> Color.Transparent
+        },
+        label = "backgroundColor"
+    )
+    
+    val contentColor by animateColorAsState(
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+        label = "contentColor"
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp)
+            .onFocusChanged { 
+                hasFocus = it.hasFocus 
+                if (it.hasFocus) onSelected()
+            }
+            .clip(RoundedCornerShape(topStart = 28.dp, bottomStart = 28.dp))
+            .background(backgroundColor)
+            .clickable(onClick = onSelected)
+            .padding(horizontal = 24.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (category.icon != null) {
+            Icon(
+                painter = painterResource(id = category.icon),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+                tint = contentColor
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+        }
+        Text(
+            text = stringResource(id = category.title),
+            style = MaterialTheme.typography.titleMedium,
+            color = contentColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+/**
  * A setting item component that displays a toggle switch.
  *
  * @param item The [SettingItem.Toggle] definition.
- * @param checked The current checked state of the toggle.
- * @param onCheckedChange Callback triggered when the toggle state is changed.
+ * @param checked The current checked state.
+ * @param onCheckedChange Callback triggered when the state is changed.
  */
 @Composable
 fun ToggleSettingItem(
@@ -153,7 +243,7 @@ fun ToggleSettingItem(
         content = {
             Switch(
                 checked = checked,
-                onCheckedChange = null, // Interaction is handled by the parent row
+                onCheckedChange = null,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = MaterialTheme.colorScheme.primary,
                     checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
@@ -185,20 +275,70 @@ fun ActionSettingItem(
 }
 
 /**
+ * A setting item component for multiple options selection.
+ *
+ * Displays the current value in the summary or as trailing content.
+ *
+ * @param item The [SettingItem.Options] definition.
+ * @param currentValue The current value key.
+ * @param onClick Callback triggered to open the selection UI.
+ */
+@Composable
+fun OptionsSettingItem(
+    item: SettingItem.Options,
+    currentValue: String?,
+    onClick: () -> Unit
+) {
+    val context = LocalContext.current
+    val entries = remember(item.entries) { context.resources.getStringArray(item.entries) }
+    val entryValues = remember(item.entryValues) { context.resources.getStringArray(item.entryValues) }
+    
+    val currentTitle = remember(currentValue, entryValues, entries) {
+        val index = entryValues.indexOf(currentValue)
+        if (index != -1) entries[index] else currentValue ?: ""
+    }
+
+    SettingItemRow(
+        title = stringResource(id = item.title),
+        summary = currentTitle,
+        icon = item.icon,
+        onClick = onClick
+    )
+}
+
+/**
  * Preview for the setting components.
  */
 @Preview(device = "id:tv_1080p")
 @Composable
 private fun SettingComponentsPreview() {
     VlcTVTheme {
-        Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+        Column(modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(48.dp)) {
+            CategoryItem(
+                category = SettingCategory(R.string.video_prefs_category, emptyList(), R.drawable.ic_pref_video),
+                isSelected = true,
+                onSelected = {}
+            )
+            Spacer(modifier = Modifier.size(16.dp))
             ToggleSettingItem(
                 item = SettingItem.Toggle("key", R.string.auto_rescan, R.string.auto_rescan_summary),
                 checked = true,
                 onCheckedChange = {}
             )
+            Spacer(modifier = Modifier.size(16.dp))
             ActionSettingItem(
                 item = SettingItem.Action("key", R.string.directories, R.string.directories_summary),
+                onClick = {}
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            OptionsSettingItem(
+                item = SettingItem.Options(
+                    "key", 
+                    R.string.hardware_acceleration, 
+                    entries = R.array.hardware_acceleration_list, 
+                    entryValues = R.array.hardware_acceleration_values
+                ),
+                currentValue = "-1",
                 onClick = {}
             )
         }
