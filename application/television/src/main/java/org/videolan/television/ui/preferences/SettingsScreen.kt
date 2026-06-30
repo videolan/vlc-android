@@ -154,9 +154,10 @@ fun SettingsDetail(
                             )
                         }
                         is SettingItem.Action -> {
+                            val context = LocalContext.current
                             ActionSettingItem(
                                 item = item,
-                                onClick = { /* TODO: Handle action */ }
+                                onClick = { viewModel.executeAction(context, item) }
                             )
                         }
                         is SettingItem.Options -> {
