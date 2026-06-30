@@ -125,4 +125,21 @@ sealed class SettingItem(
         @DrawableRes icon: Int? = null,
         val defaultValue: String? = ""
     ) : SettingItem(key, title, summary, icon)
+
+    /**
+     * A color selection setting.
+     *
+     * @param key The unique identifier for this setting.
+     * @param title The string resource ID for the setting title.
+     * @param summary The optional string resource ID for the setting summary.
+     * @param icon The optional drawable resource ID for the setting icon.
+     * @property defaultColor The default color value as an ARGB integer.
+     */
+    class Color(
+        key: String,
+        @StringRes title: Int,
+        @StringRes summary: Int? = null,
+        @DrawableRes icon: Int? = null,
+        val defaultColor: Int = android.graphics.Color.WHITE
+    ) : SettingItem(key, title, summary, icon)
 }
