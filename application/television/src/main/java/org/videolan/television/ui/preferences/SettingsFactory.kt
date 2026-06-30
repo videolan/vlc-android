@@ -25,9 +25,7 @@
 package org.videolan.television.ui.preferences
 
 import android.content.Context
-import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
-import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
-import org.videolan.tools.KEY_PREFERRED_RESOLUTION
+import org.videolan.tools.*
 import org.videolan.vlc.R
 
 /**
@@ -49,7 +47,9 @@ object SettingsFactory {
         return listOf(
             createMedialibraryCategory(),
             createVideoCategory(context),
-            createAudioCategory(context)
+            createAudioCategory(context),
+            createSubtitlesCategory(context),
+            createUiCategory(context)
         )
     }
 
@@ -141,6 +141,109 @@ object SettingsFactory {
                 key = "soundfont",
                 title = R.string.soundfont,
                 summary = R.string.soundfont_summary
+            )
+        )
+    )
+
+    /**
+     * Defines the Subtitles settings category.
+     */
+    private fun createSubtitlesCategory(context: Context) = SettingCategory(
+        title = R.string.subtitles_prefs_category,
+        icon = R.drawable.ic_pref_subtitles,
+        items = listOf(
+            SettingItem.Options(
+                key = KEY_SUBTITLE_PREFERRED_LANGUAGE,
+                title = R.string.subtitle_preferred_language,
+                entries = emptyList(), // Will be populated dynamically in ViewModel
+                entryValues = emptyList(),
+                defaultValue = ""
+            ),
+            SettingItem.Options(
+                key = KEY_SUBTITLE_TEXT_ENCODING,
+                title = R.string.subtitle_text_encoding,
+                entries = context.resources.getStringArray(R.array.subtitles_encoding_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.subtitles_encoding_values).toList(),
+                defaultValue = ""
+            ),
+            SettingItem.Options(
+                key = "subtitles_presets",
+                title = R.string.subtitles_presets_title,
+                entries = context.resources.getStringArray(R.array.subtitles_presets_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.subtitles_presets_values).toList(),
+                defaultValue = "-1"
+            ),
+            SettingItem.Options(
+                key = KEY_SUBTITLES_SIZE,
+                title = R.string.subtitles_size_title,
+                entries = context.resources.getStringArray(R.array.subtitles_size_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.subtitles_size_values).toList(),
+                defaultValue = "16"
+            ),
+            SettingItem.Toggle(
+                key = KEY_SUBTITLES_BOLD,
+                title = R.string.subtitles_bold_title,
+                defaultValue = false
+            ),
+            SettingItem.Color(
+                key = KEY_SUBTITLES_COLOR,
+                title = R.string.subtitles_color_title,
+                defaultColor = android.graphics.Color.WHITE
+            ),
+            SettingItem.Toggle(
+                key = KEY_SUBTITLES_BACKGROUND,
+                title = R.string.subtitles_background_title,
+                defaultValue = false
+            ),
+            SettingItem.Color(
+                key = KEY_SUBTITLES_BACKGROUND_COLOR,
+                title = R.string.subtitles_background_color_title,
+                defaultColor = android.graphics.Color.BLACK
+            )
+        )
+    )
+
+    /**
+     * Defines the UI settings category.
+     */
+    private fun createUiCategory(context: Context) = SettingCategory(
+        title = R.string.interface_prefs_screen,
+        icon = R.drawable.ic_ui,
+        items = listOf(
+            SettingItem.Options(
+                key = KEY_APP_THEME,
+                title = R.string.daynight_title,
+                entries = context.resources.getStringArray(R.array.daynight_mode_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.daynight_mode_values).toList(),
+                defaultValue = "2"
+            ),
+            SettingItem.Toggle(
+                key = PREF_TV_UI,
+                title = R.string.tv_ui_title,
+                summary = R.string.tv_ui_summary,
+                defaultValue = true
+            ),
+            SettingItem.Options(
+                key = KEY_SET_LOCALE,
+                title = R.string.language,
+                entries = emptyList(), // Will be populated dynamically in ViewModel
+                entryValues = emptyList(),
+                defaultValue = ""
+            ),
+            SettingItem.Toggle(
+                key = TV_FOLDERS_FIRST,
+                title = R.string.tv_folders_first,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = SHOW_VIDEO_THUMBNAILS,
+                title = R.string.show_video_thumbnails,
+                defaultValue = true
+            ),
+            SettingItem.Action(
+                key = "default_sleep_timer",
+                title = R.string.sleep_title,
+                summary = R.string.default_sleep_timer_summary
             )
         )
     )

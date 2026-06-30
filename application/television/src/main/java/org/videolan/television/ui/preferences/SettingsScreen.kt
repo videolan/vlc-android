@@ -63,7 +63,7 @@ import org.videolan.television.ui.compose.theme.VlcTVTheme
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = viewModel(
-        factory = SettingsViewModel.Factory(LocalContext.current.applicationContext as Application)
+        factory = SettingsViewModel.Factory(LocalContext.current)
     )
 ) {
     val categories by viewModel.categories.collectAsState()
@@ -148,17 +148,17 @@ fun SettingsDetail(
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn {
                 items(category.items) { item ->
+                    val context = LocalContext.current
                     when (item) {
                         is SettingItem.Toggle -> {
                             ToggleSettingItem(
                                 item = item,
                                 checked = viewModel.getBooleanValue(item.key, item.defaultValue),
                                 summary = viewModel.getSummary(item),
-                                onCheckedChange = { viewModel.updateBooleanSetting(item.key, it) }
+                                onCheckedChange = { viewModel.updateBooleanSetting(context, item.key, it) }
                             )
                         }
                         is SettingItem.Action -> {
-                            val context = LocalContext.current
                             ActionSettingItem(
                                 item = item,
                                 summary = viewModel.getSummary(item),
@@ -179,9 +179,16 @@ fun SettingsDetail(
                                     item = item,
                                     currentValue = currentValue,
                                     onDismiss = { showDialog = false },
-                                    onValueSelected = { viewModel.updateStringSetting(item.key, it) }
+                                    onValueSelected = { viewModel.updateStringSetting(context, item.key, it) }
                                 )
                             }
+                        }
+                        is SettingItem.Color -> {
+                            ColorSettingItem(
+                                item = item,
+                                currentValue = viewModel.getColorValue(item.key, item.defaultColor),
+                                onClick = { viewModel.pickColor(context, item) }
+                            )
                         }
                         else -> {
                             // TODO: Implement other item types (Input)
@@ -203,7 +210,7 @@ fun SettingsDetail(
 private fun SettingsScreenPreview() {
     val context = LocalContext.current
     val viewModel = remember {
-        SettingsViewModel(context.applicationContext as Application).apply {
+        SettingsViewModel(context).apply {
             setCategories(listOf(
                 SettingCategory(
                     title = R.string.video_prefs_category,
@@ -221,10 +228,20 @@ private fun SettingsScreenPreview() {
                     )
                 ),
                 SettingCategory(
-                    title = R.string.audio_prefs_category,
-                    icon = R.drawable.ic_pref_audio,
+                    title = R.string.subtitles_prefs_category,
+                    icon = R.drawable.ic_pref_subtitles,
                     items = listOf(
-                        SettingItem.Toggle("audio_toggle", R.string.audio_prefs_category)
+                        SettingItem.Options(
+                            "subtitle_lang",
+                            R.string.subtitle_preferred_language,
+                            entries = listOf("English", "French"),
+                            entryValues = listOf("en", "fr")
+                        ),
+                        SettingItem.Color(
+                            "subtitle_color",
+                            R.string.subtitles_color_title,
+                            defaultColor = android.graphics.Color.YELLOW
+                        )
                     )
                 )
             ))

@@ -28,9 +28,19 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.activity.viewModels
 import androidx.activity.compose.setContent
+import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import org.videolan.resources.VLCInstance
+import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.browser.BaseTvActivity
+import org.videolan.tools.*
+import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.tools.KEY_RESTRICT_SETTINGS
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
@@ -43,13 +53,16 @@ import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesActivity : BaseTvActivity() {
     var extraEndPoint: String? = null
+    private val viewModel: SettingsViewModel by viewModels {
+        SettingsViewModel.Factory(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             VlcTVTheme {
-                SettingsScreen()
+                SettingsScreen(viewModel)
             }
         }
         if (Settings.getInstance(this).getBoolean(KEY_RESTRICT_SETTINGS, false)) {
@@ -65,7 +78,25 @@ class PreferencesActivity : BaseTvActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != RESULT_OK) {
-            finish()
+            if (requestCode == 0) finish() // Pin code check failed
+            super.onActivityResult(requestCode, resultCode, data)
+            return
+        }
+        
+        when (requestCode) {
+            1 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            2 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_BACKGROUND_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            3 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_SHADOW_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            4 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_OUTLINE_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            10000 -> { // Soundfont picker
+                data?.getStringExtra(EXTRA_MRL)?.let { mrl ->
+                    lifecycleScope.launch {
+                        MediaUtils.useAsSoundFont(this@PreferencesActivity, mrl.toUri())
+                        VLCInstance.restart()
+                        org.videolan.vlc.gui.helpers.UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
+                    }
+                }
+            }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
