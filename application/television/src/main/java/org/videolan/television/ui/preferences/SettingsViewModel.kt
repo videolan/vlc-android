@@ -26,40 +26,63 @@ package org.videolan.television.ui.preferences
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.REMOTE_ACCESS_ONBOARDING
 import org.videolan.resources.VLCInstance
+import org.videolan.resources.util.startRemoteAccess
+import org.videolan.resources.util.stopRemoteAccess
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
 import org.videolan.tools.*
 import org.videolan.tools.LocaleUtils.getLocales
+import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
+import org.videolan.vlc.StartActivity
+import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.PickerType
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.LocaleUtil
+import org.videolan.vlc.util.deleteAllWatchNext
+import java.io.File
+import java.io.IOException
 
 /**
  * ViewModel for managing TV settings state and logic.
@@ -68,15 +91,15 @@ import org.videolan.vlc.util.LocaleUtil
  * and items, handling their visibility based on device capabilities and TV-specific rules,
  * and persisting changes to [android.content.SharedPreferences].
  *
- * @param context The context used to access SharedPreferences and resources.
+ * @param application The application context.
  */
 @SuppressLint("StaticFieldLeak")
-class SettingsViewModel(context: Context) : ViewModel() {
+class SettingsViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * The application context to avoid leaking Activity context.
      */
-    private val appContext = context.applicationContext ?: context
+    private val appContext = application
 
     /**
      * The [android.content.SharedPreferences] instance used for storing and retrieving settings.
@@ -125,15 +148,17 @@ class SettingsViewModel(context: Context) : ViewModel() {
      * @return A new list of categories with populated dynamic content.
      */
     private fun populateDynamicSettings(categories: List<SettingCategory>): List<SettingCategory> {
+        val application = getApplication<Application>()
+        
         val audioLocalePair = LocaleUtils.getLocalesUsedInProject(
             BuildConfig.TRANSLATION_ARRAY,
-            appContext.getString(R.string.no_track_preference),
-            appContext.getLocales()
+            application.getString(R.string.no_track_preference),
+            application.getLocales()
         )
 
         val uiLocalePair = LocaleUtils.getLocalesUsedInProject(
             BuildConfig.TRANSLATION_ARRAY,
-            appContext.getString(R.string.device_default)
+            application.getString(R.string.device_default)
         )
 
         return categories.map { category ->
@@ -249,6 +274,13 @@ class SettingsViewModel(context: Context) : ViewModel() {
             KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE -> {
                 viewModelScope.launch { restartLibVLC() }
             }
+            KEY_ENABLE_REMOTE_ACCESS -> {
+                Settings.remoteAccessEnabled.postValue(value)
+                if (value) context.startRemoteAccess() else context.stopRemoteAccess()
+            }
+            KEY_SAFE_MODE -> {
+                Settings.safeMode = value && context.isPinCodeSet()
+            }
         }
         
         refreshCategories()
@@ -268,7 +300,7 @@ class SettingsViewModel(context: Context) : ViewModel() {
         when (key) {
             KEY_PREFERRED_RESOLUTION, KEY_AUDIO_PREFERRED_LANGUAGE,
             KEY_SUBTITLE_PREFERRED_LANGUAGE, KEY_SUBTITLE_TEXT_ENCODING,
-            KEY_SUBTITLES_SIZE -> {
+            KEY_SUBTITLES_SIZE, KEY_AOUT, KEY_OPENGL, KEY_DEBLOCKING -> {
                 viewModelScope.launch { restartLibVLC() }
             }
             "subtitles_presets" -> applySubtitlePreset(value)
@@ -291,19 +323,20 @@ class SettingsViewModel(context: Context) : ViewModel() {
      * Applies a subtitle preset.
      */
     private fun applySubtitlePreset(preset: String) {
+        val application = getApplication<Application>()
         settings.edit {
             // Reset to defaults first
             putString(KEY_SUBTITLES_SIZE, "16")
             putBoolean(KEY_SUBTITLES_BOLD, false)
-            putInt(KEY_SUBTITLES_COLOR, ContextCompat.getColor(appContext, R.color.white))
+            putInt(KEY_SUBTITLES_COLOR, ContextCompat.getColor(application, R.color.white))
             putInt(KEY_SUBTITLES_COLOR_OPACITY, 255)
             putBoolean(KEY_SUBTITLES_BACKGROUND, false)
-            putInt(KEY_SUBTITLES_BACKGROUND_COLOR, ContextCompat.getColor(appContext, R.color.black))
+            putInt(KEY_SUBTITLES_BACKGROUND_COLOR, ContextCompat.getColor(application, R.color.black))
             putInt(KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY, 255)
             putBoolean(KEY_SUBTITLES_SHADOW, true)
-            putInt(KEY_SUBTITLES_SHADOW_COLOR, ContextCompat.getColor(appContext, R.color.black))
+            putInt(KEY_SUBTITLES_SHADOW_COLOR, ContextCompat.getColor(application, R.color.black))
             putBoolean(KEY_SUBTITLES_OUTLINE, true)
-            putInt(KEY_SUBTITLES_OUTLINE_COLOR, ContextCompat.getColor(appContext, R.color.black))
+            putInt(KEY_SUBTITLES_OUTLINE_COLOR, ContextCompat.getColor(application, R.color.black))
 
             when (preset) {
                 "1" -> putString(KEY_SUBTITLES_SIZE, "13")
@@ -375,31 +408,32 @@ class SettingsViewModel(context: Context) : ViewModel() {
      * @return The summary string, or null if none.
      */
     fun getSummary(item: SettingItem): String? {
+        val application = getApplication<Application>()
         return when (item.key) {
             KEY_AUDIO_DIGITAL_OUTPUT -> {
                 val pt = getBooleanValue(KEY_AUDIO_DIGITAL_OUTPUT, false)
-                appContext.getString(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
+                application.getString(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
             }
             KEY_AUDIO_PREFERRED_LANGUAGE -> {
                 val value = getStringValue(KEY_AUDIO_PREFERRED_LANGUAGE)
-                if (value.isNullOrEmpty()) appContext.getString(R.string.no_track_preference)
-                else appContext.getString(R.string.track_preference, LocaleUtil.getLocaleName(value))
+                if (value.isNullOrEmpty()) application.getString(R.string.no_track_preference)
+                else application.getString(R.string.track_preference, LocaleUtil.getLocaleName(value))
             }
             KEY_SUBTITLE_PREFERRED_LANGUAGE -> {
                 val value = getStringValue(KEY_SUBTITLE_PREFERRED_LANGUAGE)
-                if (value.isNullOrEmpty()) appContext.getString(R.string.no_track_preference)
-                else appContext.getString(R.string.track_preference, value)
+                if (value.isNullOrEmpty()) application.getString(R.string.no_track_preference)
+                else application.getString(R.string.track_preference, value)
             }
             "default_sleep_timer" -> {
                 val interval = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
-                if (interval == -1L) appContext.getString(R.string.disabled)
+                if (interval == -1L) application.getString(R.string.disabled)
                 else {
                     val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
                     val reset = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
-                    appContext.getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), wait, reset)
+                    application.getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), wait.toString(), reset.toString())
                 }
             }
-            else -> item.summary?.let { appContext.getString(it) }
+            else -> item.summary?.let { application.getString(it) }
         }
     }
 
@@ -437,6 +471,101 @@ class SettingsViewModel(context: Context) : ViewModel() {
                     dialog.show(it.supportFragmentManager, "time")
                 }
             }
+            "debug_logs" -> {
+                context.startActivity(Intent(context, DebugLogActivity::class.java))
+            }
+            "clear_history" -> {
+                (context as? FragmentActivity)?.let { activity ->
+                    val dialog = ConfirmDeleteDialog.newInstance(
+                        title = context.getString(R.string.clear_playback_history),
+                        description = context.getString(R.string.clear_history_message),
+                        buttonText = context.getString(R.string.clear_history)
+                    )
+                    dialog.show(activity.supportFragmentManager, RenameDialog::class.simpleName)
+                    dialog.setListener {
+                        Medialibrary.getInstance().clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
+                        settings.edit {
+                            remove(KEY_AUDIO_LAST_PLAYLIST)
+                            remove(KEY_MEDIA_LAST_PLAYLIST)
+                            remove(KEY_MEDIA_LAST_PLAYLIST_RESUME)
+                            remove(KEY_CURRENT_AUDIO)
+                            remove(KEY_CURRENT_MEDIA)
+                            remove(KEY_CURRENT_MEDIA_RESUME)
+                            remove(KEY_CURRENT_AUDIO_RESUME_TITLE)
+                            remove(KEY_CURRENT_AUDIO_RESUME_ARTIST)
+                            remove(KEY_CURRENT_AUDIO_RESUME_THUMB)
+                        }
+                    }
+                }
+            }
+            "clear_media_db" -> {
+                (context as? FragmentActivity)?.let { activity ->
+                    val medialibrary = Medialibrary.getInstance()
+                    if (medialibrary.isWorking) {
+                        Toast.makeText(context, R.string.settings_ml_block_scan, Toast.LENGTH_LONG).show()
+                    } else {
+                        val roots = medialibrary.foldersList
+                        val dialog = ConfirmDeleteDialog.newInstance(
+                            title = context.getString(R.string.clear_media_db),
+                            description = context.getString(R.string.clear_media_db_message),
+                            buttonText = context.getString(R.string.clear)
+                        )
+                        dialog.show(activity.supportFragmentManager, RenameDialog::class.simpleName)
+                        dialog.setListener {
+                            viewModelScope.launch {
+                                context.stopService(Intent(context, MediaParsingService::class.java))
+                                withContext(Dispatchers.IO) {
+                                    medialibrary.clearDatabase(false)
+                                    deleteAllWatchNext(context)
+                                    try {
+                                        context.getExternalFilesDir(null)?.let { dir ->
+                                            File(dir.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME).listFiles()
+                                                ?.forEach { file -> if (file.isFile) FileUtils.deleteFile(file) }
+                                        }
+                                        BitmapCache.clear()
+                                    } catch (e: IOException) {
+                                        Log.e("SettingsViewModel", e.message, e)
+                                    }
+                                }
+                                for (root in roots) {
+                                    MedialibraryUtils.addDir(root.removePrefix("file://"), context)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            "dump_media_db" -> {
+                (context as? FragmentActivity)?.let { activity ->
+                    if (Medialibrary.getInstance().isWorking) {
+                        Toast.makeText(context, R.string.settings_ml_block_scan, Toast.LENGTH_LONG).show()
+                    } else {
+                        val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)
+                        viewModelScope.launch {
+                            if (activity.getWritePermission(Uri.fromFile(dst))) {
+                                val copied = withContext(Dispatchers.IO) {
+                                    val db = File(context.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
+                                    FileUtils.copyFile(db, dst)
+                                }
+                                Toast.makeText(context, context.getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                }
+            }
+            "quit_app" -> {
+                android.os.Process.killProcess(android.os.Process.myPid())
+            }
+            "modify_pin_code" -> {
+                val intent = org.videolan.vlc.gui.PinCodeActivity.getIntent(context, org.videolan.vlc.gui.PinCodeReason.MODIFY)
+                (context as? Activity)?.startActivityForResult(intent, 0)
+            }
+            "remote_access_status" -> {
+                context.startActivity(Intent(context, StartActivity::class.java).apply { action = "vlc.remoteaccess.share" })
+            }
+            "remote_access_info" -> {
+                context.startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(context, REMOTE_ACCESS_ONBOARDING) })
+            }
         }
     }
 
@@ -460,12 +589,12 @@ class SettingsViewModel(context: Context) : ViewModel() {
     }
 
     /**
-     * Factory for creating [SettingsViewModel] with a [Context].
+     * Factory for creating [SettingsViewModel] with an [Application].
      */
-    class Factory(private val context: Context) : ViewModelProvider.Factory {
+    class Factory(private val application: Application) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SettingsViewModel(context) as T
+            return SettingsViewModel(application) as T
         }
     }
 }

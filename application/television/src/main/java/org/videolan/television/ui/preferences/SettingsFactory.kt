@@ -49,7 +49,10 @@ object SettingsFactory {
             createVideoCategory(context),
             createAudioCategory(context),
             createSubtitlesCategory(context),
-            createUiCategory(context)
+            createUiCategory(context),
+            createParentalControlCategory(),
+            createRemoteAccessCategory(context),
+            createAdvancedCategory(context)
         )
     }
 
@@ -244,6 +247,112 @@ object SettingsFactory {
                 key = "default_sleep_timer",
                 title = R.string.sleep_title,
                 summary = R.string.default_sleep_timer_summary
+            )
+        )
+    )
+
+    /**
+     * Defines the Parental Control settings category.
+     */
+    private fun createParentalControlCategory() = SettingCategory(
+        title = R.string.parental_control,
+        icon = R.drawable.ic_pref_parental_control,
+        items = listOf(
+            SettingItem.Toggle(
+                key = KEY_SAFE_MODE,
+                title = R.string.safe_mode,
+                summary = R.string.safe_mode_summary,
+                defaultValue = false
+            ),
+            SettingItem.Action(
+                key = "modify_pin_code",
+                title = R.string.pin_code_reason_modify
+            )
+        )
+    )
+
+    /**
+     * Defines the Remote Access settings category.
+     */
+    private fun createRemoteAccessCategory(context: Context) = SettingCategory(
+        title = R.string.remote_access,
+        icon = R.drawable.ic_pref_remote_access,
+        items = listOf(
+            SettingItem.Toggle(
+                key = KEY_ENABLE_REMOTE_ACCESS,
+                title = R.string.enable_remote_access,
+                summary = R.string.remote_access_notification_not_init,
+                defaultValue = false
+            ),
+            SettingItem.Action(
+                key = "remote_access_status",
+                title = R.string.remote_access_status
+            ),
+            SettingItem.Action(
+                key = "remote_access_info",
+                title = R.string.remote_access_info
+            ),
+            SettingItem.Options(
+                key = KEY_REMOTE_ACCESS_ML_CONTENT,
+                title = R.string.remote_access_medialibrary_content,
+                entries = context.resources.getStringArray(R.array.remote_access_content_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.remote_access_content_values).toList(),
+                defaultValue = ""
+            )
+        )
+    )
+
+    /**
+     * Defines the Advanced settings category.
+     */
+    private fun createAdvancedCategory(context: Context) = SettingCategory(
+        title = R.string.advanced_prefs_category,
+        icon = R.drawable.ic_pref_advanced_settings,
+        items = listOf(
+            SettingItem.Options(
+                key = KEY_AOUT,
+                title = R.string.aout,
+                summary = R.string.aout_summary,
+                entries = context.resources.getStringArray(R.array.aouts).toList(),
+                entryValues = context.resources.getStringArray(R.array.aouts_values).toList(),
+                defaultValue = "0"
+            ),
+            SettingItem.Toggle(
+                key = KEY_ENABLE_TIME_STRETCHING_AUDIO,
+                title = R.string.enable_time_stretching_audio,
+                summary = R.string.enable_time_stretching_audio_summary,
+                defaultValue = true
+            ),
+            SettingItem.Options(
+                key = KEY_DEBLOCKING,
+                title = R.string.deblocking,
+                summary = R.string.deblocking_summary,
+                entries = context.resources.getStringArray(R.array.deblocking_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.deblocking_values).toList(),
+                defaultValue = "-1"
+            ),
+            SettingItem.Action(
+                key = "debug_logs",
+                title = R.string.debug_logs
+            ),
+            SettingItem.Action(
+                key = "clear_history",
+                title = R.string.clear_playback_history,
+                summary = R.string.clear_history_message
+            ),
+            SettingItem.Action(
+                key = "clear_media_db",
+                title = R.string.clear_media_db,
+                summary = R.string.clear_media_db_message
+            ),
+            SettingItem.Action(
+                key = "dump_media_db",
+                title = R.string.dump_media_db,
+                summary = R.string.dump_db_succes
+            ),
+            SettingItem.Action(
+                key = "quit_app",
+                title = R.string.quit
             )
         )
     )

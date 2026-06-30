@@ -63,7 +63,7 @@ import org.videolan.television.ui.compose.theme.VlcTVTheme
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = viewModel(
-        factory = SettingsViewModel.Factory(LocalContext.current)
+        factory = SettingsViewModel.Factory(LocalContext.current.applicationContext as Application)
     )
 ) {
     val categories by viewModel.categories.collectAsState()
@@ -208,46 +208,62 @@ fun SettingsDetail(
 @Preview(device = "id:tv_1080p")
 @Composable
 private fun SettingsScreenPreview() {
-    val context = LocalContext.current
-    val viewModel = remember {
-        SettingsViewModel(context).apply {
-            setCategories(listOf(
-                SettingCategory(
-                    title = R.string.video_prefs_category,
-                    icon = R.drawable.ic_pref_video,
-                    items = listOf(
-                        SettingItem.Toggle("video_toggle", R.string.auto_rescan, R.string.auto_rescan_summary),
-                        SettingItem.Action("video_action", R.string.directories, R.string.directories_summary),
-                        SettingItem.Options(
-                            "hardware_acceleration",
-                            R.string.hardware_acceleration,
-                            entries = listOf("Automatic", "Disabled", "Decoding only"),
-                            entryValues = listOf("-1", "0", "1"),
-                            defaultValue = "-1"
-                        )
-                    )
-                ),
-                SettingCategory(
-                    title = R.string.subtitles_prefs_category,
-                    icon = R.drawable.ic_pref_subtitles,
-                    items = listOf(
-                        SettingItem.Options(
-                            "subtitle_lang",
-                            R.string.subtitle_preferred_language,
-                            entries = listOf("English", "French"),
-                            entryValues = listOf("en", "fr")
-                        ),
-                        SettingItem.Color(
-                            "subtitle_color",
-                            R.string.subtitles_color_title,
-                            defaultColor = android.graphics.Color.YELLOW
-                        )
-                    )
-                )
-            ))
-        }
-    }
     VlcTVTheme {
-        SettingsScreen(viewModel)
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            Column(
+                modifier = Modifier
+                    .width(320.dp)
+                    .fillMaxHeight()
+                    .padding(top = 48.dp)
+            ) {
+                Text(
+                    text = "Preferences",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 24.dp, bottom = 24.dp)
+                )
+                CategoryItem(
+                    category = SettingCategory(R.string.video_prefs_category, emptyList(), R.drawable.ic_pref_video),
+                    isSelected = true,
+                    onSelected = {}
+                )
+                CategoryItem(
+                    category = SettingCategory(R.string.audio_prefs_category, emptyList(), R.drawable.ic_pref_audio),
+                    isSelected = false,
+                    onSelected = {}
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .padding(horizontal = 48.dp, vertical = 48.dp)
+            ) {
+                Text(
+                    text = "Video",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 32.sp
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                ToggleSettingItem(
+                    item = SettingItem.Toggle("video_toggle", R.string.auto_rescan, R.string.auto_rescan_summary),
+                    checked = true,
+                    onCheckedChange = {}
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                ActionSettingItem(
+                    item = SettingItem.Action("video_action", R.string.medialibrary_directories, R.string.directories_summary),
+                    onClick = {}
+                )
+            }
+        }
     }
 }

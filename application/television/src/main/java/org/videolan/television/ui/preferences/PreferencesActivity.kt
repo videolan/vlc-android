@@ -28,33 +28,28 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.activity.viewModels
-import androidx.activity.viewModels
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
-import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.browser.BaseTvActivity
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.tools.*
-import org.videolan.vlc.gui.browser.EXTRA_MRL
-import org.videolan.vlc.media.MediaUtils
-import org.videolan.tools.KEY_RESTRICT_SETTINGS
-import org.videolan.tools.RESULT_RESTART
-import org.videolan.tools.RESULT_RESTART_APP
-import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
+import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
+import org.videolan.vlc.media.MediaUtils
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesActivity : BaseTvActivity() {
     var extraEndPoint: String? = null
     private val viewModel: SettingsViewModel by viewModels {
-        SettingsViewModel.Factory(this)
+        SettingsViewModel.Factory(application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,7 +100,7 @@ class PreferencesActivity : BaseTvActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            if (!fragmentManager.popBackStackImmediate()) finish()
+            onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
