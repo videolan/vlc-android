@@ -34,6 +34,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
@@ -47,6 +48,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -75,6 +77,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isSecondaryPressed
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -88,10 +91,12 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Artist
+import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.stubs.StubArtist
+import org.videolan.medialibrary.stubs.StubGenre
 import org.videolan.resources.CATEGORY_SONGS
 import org.videolan.television.R
 import org.videolan.television.ui.FAVORITE_FLAG
@@ -159,15 +164,19 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
     var expanded by remember { mutableStateOf(false) }
 
 
-    val isArtist = item is Artist
-    val shape = if (isArtist) CircleShape else MaterialTheme.shapes.medium
+    val isRound = item is Artist || item is Genre
+    val shape = if (isRound) CircleShape else MaterialTheme.shapes.medium
+    val cardPadding = if (isRound) PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 4.dp) else PaddingValues(0.dp)
 
     Column(modifier = modifier
         .zIndex(if (focused) 1f else 0f)) {
         Card(
             shape = shape,
             border = vlcBorder(focused),
+            colors = CardDefaults.cardColors(containerColor = if (isRound) Transparent else MaterialTheme.colorScheme.surfaceVariant),
             modifier = Modifier
+                .padding(cardPadding)
+                .align(Alignment.CenterHorizontally)
                 .onFocusChanged {
                     focused = it.isFocused
                 }
@@ -222,6 +231,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxSize()
+                            .clip(shape)
                     )
                 } else {
                     Image(
@@ -287,7 +297,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                 })
         }
         Column(
-            modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+            modifier = Modifier.fillMaxWidth().padding(top = if (isRound) 0.dp else 4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -303,7 +313,14 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     .fillMaxWidth()
                     .fadingMarquee(edgeWidth = 4.dp, marqueeOnlyOnFocus = true, isFocused = focused)
             )
-            val finalDescription = description ?: item.description
+            val context = LocalContext.current
+            val finalDescription = if (isRound) {
+                when (item) {
+                    is Artist -> context.resources.getQuantityString(org.videolan.vlc.R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
+                    is Genre -> context.resources.getQuantityString(org.videolan.vlc.R.plurals.track_quantity, item.tracksCount, item.tracksCount)
+                    else -> description ?: item.description
+                }
+            } else description ?: item.description
             val annotatedDescription = if (spannableDescription) finalDescription.getDescriptionAnnotated() else AnnotatedString(finalDescription ?: "")
             if (annotatedDescription.isNotEmpty()) {
                 Text(
@@ -599,6 +616,19 @@ private fun AudioItemPreview() {
             audios = listOf(DummyItem(1, "Song Title", "Artist Name - Album Name")),
             entry = MediaListEntry.ALBUMS,
             index = 0,
+            onClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun AudioItemGenreCardPreview() {
+    VlcPreview {
+        AudioItemCard(
+            item = StubGenre(1, "Rock", 125, 125, false),
+            position = 0,
+            entry = MediaListEntry.GENRES,
             onClick = {}
         )
     }
