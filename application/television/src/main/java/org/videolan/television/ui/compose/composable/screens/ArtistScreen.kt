@@ -229,13 +229,13 @@ fun ArtistScreenContent(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = 32.dp),
+                    .padding(top = 32.dp)
+                    .padding(horizontal = 56.dp),
             ) {
                 // Title bar
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 48.dp),
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     ArtistHeaderArt(artist, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
@@ -338,7 +338,6 @@ fun ArtistScreenContent(
                         backStack.add(tabs[index])
                     },
                     modifier = Modifier
-                        .padding(horizontal = 48.dp)
                         .focusRequester(tabsFocusRequester),
                     tabNumber = tabs.size,
                     indicator = { hasFocus ->
@@ -451,7 +450,7 @@ private fun ArtistAlbums(albums: LazyPagingItems<Album>, onAlbumClick: (Album) -
         columns = androidx.compose.foundation.lazy.grid.GridCells.Adaptive(150.dp),
         modifier = Modifier.fillMaxSize(),
         state = gridState,
-        contentPadding = PaddingValues(start = 48.dp, end = 48.dp, top = 16.dp, bottom = 96.dp),
+        contentPadding = PaddingValues(start = 56.dp, end = 56.dp, top = 16.dp, bottom = 96.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp),
     ) {
@@ -491,7 +490,7 @@ private fun ArtistSongs(songs: LazyPagingItems<MediaWrapper>, contentColor: Colo
     PaginatedList(
         items = songs,
         listState = listState,
-        contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp),
+        contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, start = 56.dp, end = 56.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
         modifier = Modifier.fillMaxSize()
     ) { song, index, focusModifier ->
