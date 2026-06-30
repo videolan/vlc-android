@@ -361,12 +361,12 @@ fun AlbumPlaylistScreenContent(
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 32.dp)
+                    .padding(horizontal = 56.dp)
             ) {
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 48.dp), verticalAlignment = Alignment.CenterVertically
+                        .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
                 ) {
                     AlbumPlaylistHeaderArt(parentItem, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
 
@@ -486,7 +486,7 @@ fun AlbumPlaylistScreenContent(
                             onListHeightChanged(it.size.height)
                         }
                         .focusGroup(),
-                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp)
+                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = 56.dp, end = 56.dp)
                 ) {
                     itemsIndexed(trackList, key = { _, track -> track.tag ?: track.hashCode().toString() }) { index, track ->
                         val tag = track.tag ?: track.hashCode().toString()
