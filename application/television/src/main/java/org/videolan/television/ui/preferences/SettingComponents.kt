@@ -54,7 +54,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -227,17 +226,19 @@ fun CategoryItem(
  *
  * @param item The [SettingItem.Toggle] definition.
  * @param checked The current checked state.
+ * @param summary An optional summary string (overrides the one in [item]).
  * @param onCheckedChange Callback triggered when the state is changed.
  */
 @Composable
 fun ToggleSettingItem(
     item: SettingItem.Toggle,
     checked: Boolean,
+    summary: String? = null,
     onCheckedChange: (Boolean) -> Unit
 ) {
     SettingItemRow(
         title = stringResource(id = item.title),
-        summary = item.summary?.let { stringResource(id = it) },
+        summary = summary ?: item.summary?.let { stringResource(id = it) },
         icon = item.icon,
         onClick = { onCheckedChange(!checked) },
         content = {
@@ -259,16 +260,18 @@ fun ToggleSettingItem(
  * A setting item component for simple clickable actions.
  *
  * @param item The [SettingItem.Action] definition.
+ * @param summary An optional summary string (overrides the one in [item]).
  * @param onClick Callback triggered when the action is clicked.
  */
 @Composable
 fun ActionSettingItem(
     item: SettingItem.Action,
+    summary: String? = null,
     onClick: () -> Unit
 ) {
     SettingItemRow(
         title = stringResource(id = item.title),
-        summary = item.summary?.let { stringResource(id = it) },
+        summary = summary ?: item.summary?.let { stringResource(id = it) },
         icon = item.icon,
         onClick = onClick
     )
@@ -281,26 +284,24 @@ fun ActionSettingItem(
  *
  * @param item The [SettingItem.Options] definition.
  * @param currentValue The current value key.
+ * @param summary An optional summary string (overrides the one in [item]).
  * @param onClick Callback triggered to open the selection UI.
  */
 @Composable
 fun OptionsSettingItem(
     item: SettingItem.Options,
     currentValue: String?,
+    summary: String? = null,
     onClick: () -> Unit
 ) {
-    val context = LocalContext.current
-    val entries = remember(item.entries) { context.resources.getStringArray(item.entries) }
-    val entryValues = remember(item.entryValues) { context.resources.getStringArray(item.entryValues) }
-    
-    val currentTitle = remember(currentValue, entryValues, entries) {
-        val index = entryValues.indexOf(currentValue)
-        if (index != -1) entries[index] else currentValue ?: ""
+    val currentTitle = remember(currentValue, item.entryValues, item.entries) {
+        val index = item.entryValues.indexOf(currentValue)
+        if (index != -1) item.entries[index] else currentValue ?: ""
     }
 
     SettingItemRow(
         title = stringResource(id = item.title),
-        summary = currentTitle,
+        summary = summary ?: currentTitle,
         icon = item.icon,
         onClick = onClick
     )
@@ -335,8 +336,8 @@ private fun SettingComponentsPreview() {
                 item = SettingItem.Options(
                     "key", 
                     R.string.hardware_acceleration, 
-                    entries = R.array.hardware_acceleration_list, 
-                    entryValues = R.array.hardware_acceleration_values
+                    entries = listOf("Automatic", "Disabled"), 
+                    entryValues = listOf("-1", "0")
                 ),
                 currentValue = "-1",
                 onClick = {}

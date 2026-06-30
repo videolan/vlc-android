@@ -24,6 +24,9 @@
 
 package org.videolan.television.ui.preferences
 
+import android.content.Context
+import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
+import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
 import org.videolan.tools.KEY_PREFERRED_RESOLUTION
 import org.videolan.vlc.R
 
@@ -39,12 +42,14 @@ object SettingsFactory {
      *
      * Note: Items will be filtered by visibility in the ViewModel.
      *
+     * @param context The context used to load resource arrays.
      * @return A list of [SettingCategory].
      */
-    fun createSettings(): List<SettingCategory> {
+    fun createSettings(context: Context): List<SettingCategory> {
         return listOf(
             createMedialibraryCategory(),
-            createVideoCategory()
+            createVideoCategory(context),
+            createAudioCategory(context)
         )
     }
 
@@ -72,7 +77,7 @@ object SettingsFactory {
     /**
      * Defines the Video settings category.
      */
-    private fun createVideoCategory() = SettingCategory(
+    private fun createVideoCategory(context: Context) = SettingCategory(
         title = R.string.video_prefs_category,
         icon = R.drawable.ic_pref_video,
         items = listOf(
@@ -80,16 +85,16 @@ object SettingsFactory {
                 key = "hardware_acceleration",
                 title = R.string.hardware_acceleration,
                 summary = R.string.hardware_acceleration_summary,
-                entries = R.array.hardware_acceleration_list,
-                entryValues = R.array.hardware_acceleration_values,
+                entries = context.resources.getStringArray(R.array.hardware_acceleration_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.hardware_acceleration_values).toList(),
                 defaultValue = "-1"
             ),
             SettingItem.Options(
                 key = KEY_PREFERRED_RESOLUTION,
                 title = R.string.preferred_resolution,
                 summary = R.string.preferred_resolution_summary,
-                entries = R.array.preferred_resolution,
-                entryValues = R.array.preferred_resolution_values,
+                entries = context.resources.getStringArray(R.array.preferred_resolution).toList(),
+                entryValues = context.resources.getStringArray(R.array.preferred_resolution_values).toList(),
                 defaultValue = "-1"
             ),
             SettingItem.Toggle(
@@ -97,6 +102,45 @@ object SettingsFactory {
                 title = R.string.confirm_resume_title,
                 summary = R.string.confirm_resume,
                 defaultValue = false
+            )
+        )
+    )
+
+    /**
+     * Defines the Audio settings category.
+     */
+    private fun createAudioCategory(context: Context) = SettingCategory(
+        title = R.string.audio_prefs_category,
+        icon = R.drawable.ic_pref_audio,
+        items = listOf(
+            SettingItem.Toggle(
+                key = KEY_AUDIO_DIGITAL_OUTPUT,
+                title = R.string.audio_digital_title
+            ),
+            SettingItem.Options(
+                key = KEY_AUDIO_PREFERRED_LANGUAGE,
+                title = R.string.audio_preferred_language,
+                entries = emptyList(), // Will be populated dynamically in ViewModel
+                entryValues = emptyList(),
+                defaultValue = ""
+            ),
+            SettingItem.Options(
+                key = "audio_confirm_resume",
+                title = R.string.confirm_resume_audio_title,
+                entries = context.resources.getStringArray(R.array.ask_confirmation_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.ask_confirmation_values).toList(),
+                defaultValue = "0"
+            ),
+            SettingItem.Toggle(
+                key = "audio_ducking",
+                title = R.string.audio_ducking_title,
+                summary = R.string.audio_ducking_summary,
+                defaultValue = true
+            ),
+            SettingItem.Action(
+                key = "soundfont",
+                title = R.string.soundfont,
+                summary = R.string.soundfont_summary
             )
         )
     )
