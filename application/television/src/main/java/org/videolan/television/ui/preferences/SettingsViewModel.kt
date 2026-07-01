@@ -26,16 +26,15 @@ package org.videolan.television.ui.preferences
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
@@ -59,9 +58,52 @@ import org.videolan.resources.util.stopRemoteAccess
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
-import org.videolan.tools.*
+import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
+import org.videolan.tools.BitmapCache
+import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
+import org.videolan.tools.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_CURRENT_AUDIO
+import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_ARTIST
+import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_THUMB
+import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_TITLE
+import org.videolan.tools.KEY_CURRENT_MEDIA
+import org.videolan.tools.KEY_CURRENT_MEDIA_RESUME
+import org.videolan.tools.KEY_DEBLOCKING
+import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_INCOGNITO
+import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
+import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST_RESUME
+import org.videolan.tools.KEY_OPENGL
+import org.videolan.tools.KEY_PREFERRED_RESOLUTION
+import org.videolan.tools.KEY_SAFE_MODE
+import org.videolan.tools.KEY_SET_LOCALE
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_BOLD
+import org.videolan.tools.KEY_SUBTITLES_COLOR
+import org.videolan.tools.KEY_SUBTITLES_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SHADOW
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SIZE
+import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
+import org.videolan.tools.LocaleUtils
 import org.videolan.tools.LocaleUtils.getLocales
+import org.videolan.tools.PREF_TV_UI
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
+import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
+import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
+import org.videolan.tools.TV_FOLDERS_FIRST
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -73,11 +115,10 @@ import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
-import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
-import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.LocaleUtil
@@ -123,6 +164,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * Public flow of filtered categories that should be displayed in the UI.
      */
     val categories: StateFlow<List<SettingCategory>> = _categories.asStateFlow()
+
+    /**
+     * Internal state map to track settings values and trigger Compose recomposition.
+     */
+    private val _settingsValues = mutableStateMapOf<String, Any?>()
 
     /**
      * Internal flow of the currently selected category.
@@ -260,6 +306,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun updateBooleanSetting(context: Context, key: String, value: Boolean) {
         settings.edit { putBoolean(key, value) }
+        _settingsValues[key] = value
         
         // Side effects for boolean settings
         when (key) {
@@ -298,6 +345,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun updateStringSetting(context: Context, key: String, value: String) {
         settings.edit { putString(key, value) }
+        _settingsValues[key] = value
         
         // Handle side effects
         when (key) {
@@ -318,6 +366,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun updateColorSetting(key: String, value: Int) {
         settings.edit { putInt(key, value) }
+        _settingsValues[key] = value
         viewModelScope.launch { restartLibVLC() }
         refreshCategories()
     }
@@ -383,7 +432,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * @return The current boolean value.
      */
     fun getBooleanValue(key: String, defaultValue: Boolean = false): Boolean {
-        return settings.getBoolean(key, defaultValue)
+        // Access _settingsValues[key] to trigger Compose read tracking
+        return (_settingsValues[key] as? Boolean) ?: settings.getBoolean(key, defaultValue)
     }
 
     /**
@@ -394,14 +444,14 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * @return The current string value, or null if not found and defaultValue is null.
      */
     fun getStringValue(key: String, defaultValue: String? = null): String? {
-        return settings.getString(key, defaultValue)
+        return (_settingsValues[key] as? String) ?: settings.getString(key, defaultValue)
     }
 
     /**
      * Retrieves the current color value.
      */
     fun getColorValue(key: String, defaultColor: Int): Int {
-        return settings.getInt(key, defaultColor)
+        return (_settingsValues[key] as? Int) ?: settings.getInt(key, defaultColor)
     }
 
     /**
