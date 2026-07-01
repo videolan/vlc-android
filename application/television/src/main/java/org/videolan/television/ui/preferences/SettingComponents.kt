@@ -54,7 +54,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
 
 /**
@@ -185,12 +185,13 @@ fun CategoryItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(end = 16.dp) // Space between item and detail pane edge
             .heightIn(min = 56.dp)
             .onFocusChanged { 
                 hasFocus = it.hasFocus 
                 if (it.hasFocus) onSelected()
             }
-            .clip(RoundedCornerShape(topStart = 28.dp, bottomStart = 28.dp))
+            .clip(CircleShape) // Standard pill shape
             .background(backgroundColor)
             .clickable(onClick = onSelected)
             .padding(horizontal = 24.dp, vertical = 12.dp),
@@ -239,12 +240,6 @@ fun ToggleSettingItem(
             Switch(
                 checked = checked,
                 onCheckedChange = null,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
-                    uncheckedThumbColor = MaterialTheme.colorScheme.outline,
-                    uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
-                )
             )
         }
     )
@@ -390,7 +385,7 @@ fun SelectionDialog(
                 .width(480.dp)
                 .heightIn(max = 600.dp)
                 .clip(RoundedCornerShape(24.dp)),
-            color = MaterialTheme.colorScheme.surface,
+            color = MaterialTheme.colorScheme.surfaceVariant,
             tonalElevation = 6.dp
         ) {
             Column(
@@ -526,7 +521,7 @@ fun InputDialog(
             modifier = Modifier
                 .width(480.dp)
                 .clip(RoundedCornerShape(24.dp)),
-            color = MaterialTheme.colorScheme.surface,
+            color = MaterialTheme.colorScheme.surfaceVariant,
             tonalElevation = 6.dp
         ) {
             Column(
@@ -580,7 +575,7 @@ fun InputDialog(
 @Preview(device = "id:tv_1080p")
 @Composable
 private fun SettingComponentsPreview() {
-    VlcTVTheme {
+    VlcTVSettingsTheme {
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(48.dp)) {
             CategoryItem(
                 category = SettingCategory(R.string.video_prefs_category, emptyList(), R.drawable.ic_pref_video),
@@ -622,7 +617,7 @@ private fun SettingComponentsPreview() {
 @Preview(device = "id:tv_1080p")
 @Composable
 private fun SelectionDialogPreview() {
-    VlcTVTheme {
+    VlcTVSettingsTheme {
         Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
             SelectionDialog(
                 item = SettingItem.Options(

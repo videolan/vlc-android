@@ -46,6 +46,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,7 +54,64 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.videolan.television.R
-import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
+
+@Composable
+fun SettingsScreen(
+    categories: List<SettingCategory>,
+    selectedCategory: SettingCategory?,
+    onCategorySelected: (SettingCategory) -> Unit,
+    getBooleanValue: (String, Boolean) -> Boolean = { _, d -> d },
+    getStringValue: (String, String?) -> String? = { _, d -> d },
+    getColorValue: (String, Int) -> Int = { _, d -> d },
+    getSummary: (SettingItem) -> String? = { null },
+    onBooleanChanged: (String, Boolean) -> Unit = { _, _ -> },
+    onActionClicked: (SettingItem.Action) -> Unit = {},
+    onStringChanged: (String, String) -> Unit = { _, _ -> },
+    onColorClicked: (SettingItem.Color) -> Unit = {}
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        // Sidebar (Left Pane)
+        SettingsSidebar(
+            categories = categories,
+            selectedCategory = selectedCategory,
+            onCategorySelected = onCategorySelected,
+            modifier = Modifier
+                .width(320.dp)
+                .fillMaxHeight()
+                .padding(
+                    start = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_horizontal),
+                    bottom = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical)
+                )
+        )
+
+        // Detail (Right Pane)
+        SettingsDetail(
+            category = selectedCategory,
+            getBooleanValue = getBooleanValue,
+            getStringValue = getStringValue,
+            getColorValue = getColorValue,
+            getSummary = getSummary,
+            onBooleanChanged = onBooleanChanged,
+            onActionClicked = onActionClicked,
+            onStringChanged = onStringChanged,
+            onColorClicked = onColorClicked,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(
+                    end = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_horizontal),
+                    bottom = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical),
+                    start = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_horizontal)
+                )
+        )
+    }
+}
 
 /**
  * Main screen for TV settings, implementing a two-pane layout (Sidebar + Detail).
@@ -66,35 +124,23 @@ fun SettingsScreen(
         factory = SettingsViewModel.Factory(LocalContext.current.applicationContext as Application)
     )
 ) {
+    val context = LocalContext.current
     val categories by viewModel.categories.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
 
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        // Sidebar (Left Pane)
-        SettingsSidebar(
-            categories = categories,
-            selectedCategory = selectedCategory,
-            onCategorySelected = { viewModel.selectCategory(it) },
-            modifier = Modifier
-                .width(320.dp)
-                .fillMaxHeight()
-                .padding(top = 48.dp)
-        )
-
-        // Detail (Right Pane)
-        SettingsDetail(
-            category = selectedCategory,
-            viewModel = viewModel,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .padding(horizontal = 48.dp, vertical = 48.dp)
-        )
-    }
+    SettingsScreen(
+        categories = categories,
+        selectedCategory = selectedCategory,
+        onCategorySelected = { viewModel.selectCategory(it) },
+        getBooleanValue = { k, d -> viewModel.getBooleanValue(k, d) },
+        getStringValue = { k, d -> viewModel.getStringValue(k, d) },
+        getColorValue = { k, d -> viewModel.getColorValue(k, d) },
+        getSummary = { viewModel.getSummary(it) },
+        onBooleanChanged = { k, v -> viewModel.updateBooleanSetting(context, k, v) },
+        onActionClicked = { viewModel.executeAction(context, it) },
+        onStringChanged = { k, v -> viewModel.updateStringSetting(context, k, v) },
+        onColorClicked = { viewModel.pickColor(context, it) }
+    )
 }
 
 /**
@@ -113,7 +159,7 @@ fun SettingsSidebar(
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 24.dp, bottom = 24.dp)
+            modifier = Modifier.padding(start = 24.dp, bottom = 24.dp, top = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical))
         )
         LazyColumn {
             items(categories) { category ->
@@ -133,7 +179,14 @@ fun SettingsSidebar(
 @Composable
 fun SettingsDetail(
     category: SettingCategory?,
-    viewModel: SettingsViewModel,
+    getBooleanValue: (String, Boolean) -> Boolean,
+    getStringValue: (String, String?) -> String?,
+    getColorValue: (String, Int) -> Int,
+    getSummary: (SettingItem) -> String?,
+    onBooleanChanged: (String, Boolean) -> Unit,
+    onActionClicked: (SettingItem.Action) -> Unit,
+    onStringChanged: (String, String) -> Unit,
+    onColorClicked: (SettingItem.Color) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -141,37 +194,37 @@ fun SettingsDetail(
             Text(
                 text = stringResource(id = category.title),
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
-                fontSize = 32.sp
+                fontSize = 32.sp,
+                modifier = Modifier.padding(top = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical))
             )
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn {
                 items(category.items) { item ->
-                    val context = LocalContext.current
                     when (item) {
                         is SettingItem.Toggle -> {
                             ToggleSettingItem(
                                 item = item,
-                                checked = viewModel.getBooleanValue(item.key, item.defaultValue),
-                                summary = viewModel.getSummary(item),
-                                onCheckedChange = { viewModel.updateBooleanSetting(context, item.key, it) }
+                                checked = getBooleanValue(item.key, item.defaultValue),
+                                summary = getSummary(item),
+                                onCheckedChange = { onBooleanChanged(item.key, it) }
                             )
                         }
                         is SettingItem.Action -> {
                             ActionSettingItem(
                                 item = item,
-                                summary = viewModel.getSummary(item),
-                                onClick = { viewModel.executeAction(context, item) }
+                                summary = getSummary(item),
+                                onClick = { onActionClicked(item) }
                             )
                         }
                         is SettingItem.Options -> {
                             var showDialog by remember { mutableStateOf(false) }
-                            val currentValue = viewModel.getStringValue(item.key, item.defaultValue)
+                            val currentValue = getStringValue(item.key, item.defaultValue)
                             OptionsSettingItem(
                                 item = item,
                                 currentValue = currentValue,
-                                summary = viewModel.getSummary(item),
+                                summary = getSummary(item),
                                 onClick = { showDialog = true }
                             )
                             if (showDialog) {
@@ -179,24 +232,24 @@ fun SettingsDetail(
                                     item = item,
                                     currentValue = currentValue,
                                     onDismiss = { showDialog = false },
-                                    onValueSelected = { viewModel.updateStringSetting(context, item.key, it) }
+                                    onValueSelected = { onStringChanged(item.key, it) }
                                 )
                             }
                         }
                         is SettingItem.Color -> {
                             ColorSettingItem(
                                 item = item,
-                                currentValue = viewModel.getColorValue(item.key, item.defaultColor),
-                                onClick = { viewModel.pickColor(context, item) }
+                                currentValue = getColorValue(item.key, item.defaultColor),
+                                onClick = { onColorClicked(item) }
                             )
                         }
                         is SettingItem.Input -> {
                             var showDialog by remember { mutableStateOf(false) }
-                            val currentValue = viewModel.getStringValue(item.key, item.defaultValue)
+                            val currentValue = getStringValue(item.key, item.defaultValue)
                             InputSettingItem(
                                 item = item,
                                 currentValue = currentValue,
-                                summary = viewModel.getSummary(item),
+                                summary = getSummary(item),
                                 onClick = { showDialog = true }
                             )
                             if (showDialog) {
@@ -204,7 +257,7 @@ fun SettingsDetail(
                                     item = item,
                                     currentValue = currentValue,
                                     onDismiss = { showDialog = false },
-                                    onValueConfirmed = { viewModel.updateStringSetting(context, item.key, it) }
+                                    onValueConfirmed = { onStringChanged(item.key, it) }
                                 )
                             }
                         }
@@ -219,62 +272,24 @@ fun SettingsDetail(
 @Preview(device = "id:tv_1080p")
 @Composable
 private fun SettingsScreenPreview() {
-    VlcTVTheme {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-        ) {
-            Column(
-                modifier = Modifier
-                    .width(320.dp)
-                    .fillMaxHeight()
-                    .padding(top = 48.dp)
-            ) {
-                Text(
-                    text = "Preferences",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 24.dp, bottom = 24.dp)
-                )
-                CategoryItem(
-                    category = SettingCategory(R.string.video_prefs_category, emptyList(), R.drawable.ic_pref_video),
-                    isSelected = true,
-                    onSelected = {}
-                )
-                CategoryItem(
-                    category = SettingCategory(R.string.audio_prefs_category, emptyList(), R.drawable.ic_pref_audio),
-                    isSelected = false,
-                    onSelected = {}
-                )
+    val categories = remember {
+        listOf(
+            SettingCategory(R.string.video_prefs_category, listOf(
+                SettingItem.Toggle("video_toggle", R.string.auto_rescan, R.string.auto_rescan_summary),
+                SettingItem.Action("video_action", R.string.medialibrary_directories, R.string.directories_summary)
+            ), R.drawable.ic_pref_video),
+            SettingCategory(R.string.audio_prefs_category, emptyList(), R.drawable.ic_pref_audio)
+        )
+    }
+    VlcTVSettingsTheme {
+        SettingsScreen(
+            categories = categories,
+            selectedCategory = categories[0],
+            onCategorySelected = {},
+            getSummary = { item ->
+                // Simple mock summary logic for preview
+                item.summary?.let { "Summary for setting" }
             }
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .padding(horizontal = 48.dp, vertical = 48.dp)
-            ) {
-                Text(
-                    text = "Video",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                ToggleSettingItem(
-                    item = SettingItem.Toggle("video_toggle", R.string.auto_rescan, R.string.auto_rescan_summary),
-                    checked = true,
-                    onCheckedChange = {}
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ActionSettingItem(
-                    item = SettingItem.Action("video_action", R.string.medialibrary_directories, R.string.directories_summary),
-                    onClick = {}
-                )
-            }
-        }
+        )
     }
 }
