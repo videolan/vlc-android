@@ -35,11 +35,14 @@ import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
 import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
 import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
 import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
+import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
 import org.videolan.tools.KEY_DEBLOCKING
 import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.KEY_ENABLE_TIME_STRETCHING_AUDIO
+import org.videolan.tools.KEY_OPENGL
 import org.videolan.tools.KEY_PREFERRED_RESOLUTION
+import org.videolan.tools.KEY_PREFER_SMBV1
 import org.videolan.tools.KEY_REMOTE_ACCESS_ML_CONTENT
 import org.videolan.tools.KEY_SAFE_MODE
 import org.videolan.tools.KEY_SET_LOCALE
@@ -426,6 +429,31 @@ object SettingsFactory {
                 entries = context.resources.getStringArray(R.array.deblocking_list).toList(),
                 entryValues = context.resources.getStringArray(R.array.deblocking_values).toList(),
                 defaultValue = "-1"
+            ),
+            SettingItem.Options(
+                key = KEY_OPENGL,
+                title = R.string.opengl_title,
+                summary = R.string.opengl_summary,
+                entries = context.resources.getStringArray(R.array.opengl_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.opengl_values).toList(),
+                defaultValue = "-1"
+            ),
+            SettingItem.Toggle(
+                key = KEY_PREFER_SMBV1,
+                title = R.string.prefersmbv1,
+                summary = R.string.prefersmbv1_summary,
+                defaultValue = true
+            ),
+            SettingItem.Input(
+                key = "network_caching",
+                title = R.string.network_caching,
+                summary = R.string.network_caching_summary,
+                defaultValue = "0"
+            ),
+            SettingItem.Input(
+                key = KEY_CUSTOM_LIBVLC_OPTIONS,
+                title = R.string.custom_libvlc_options,
+                defaultValue = ""
             ),
             SettingItem.Action(
                 key = "debug_logs",
