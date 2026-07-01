@@ -29,29 +29,54 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -385,17 +410,22 @@ fun SelectionDialog(
     onDismiss: () -> Unit,
     onValueSelected: (String) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val maxHeight = (configuration.screenHeightDp.dp * 0.9f)
+
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             modifier = Modifier
                 .width(480.dp)
-                .heightIn(max = 600.dp)
+                .heightIn(max = maxHeight)
                 .clip(RoundedCornerShape(24.dp)),
             color = MaterialTheme.colorScheme.surfaceVariant,
             tonalElevation = 6.dp
         ) {
             Column(
-                modifier = Modifier.padding(24.dp)
+                modifier = Modifier
+                    .padding(24.dp)
+                    .wrapContentHeight()
             ) {
                 Text(
                     text = stringResource(id = item.title),
@@ -406,18 +436,26 @@ fun SelectionDialog(
                 )
                 
                 val listState = rememberLazyListState()
-                
-                // Auto-scroll to selected item
+                val focusRequesters = remember(item.entryValues) {
+                    List(item.entryValues.size) { FocusRequester() }
+                }
+                val selectedIndex = remember(currentValue, item.entryValues) {
+                    item.entryValues.indexOf(currentValue).coerceAtLeast(0)
+                }
+
+                // Auto-scroll and focus selected item
                 LaunchedEffect(Unit) {
-                    val index = item.entryValues.indexOf(currentValue)
-                    if (index != -1) {
-                        listState.scrollToItem(index)
+                    if (selectedIndex != -1) {
+                        listState.scrollToItem(selectedIndex)
+                        if (selectedIndex < focusRequesters.size) {
+                            focusRequesters[selectedIndex].requestFocus()
+                        }
                     }
                 }
 
                 LazyColumn(
                     state = listState,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f, fill = false)
                 ) {
                     itemsIndexed(item.entries) { index, entry ->
                         val value = item.entryValues[index]
@@ -426,6 +464,7 @@ fun SelectionDialog(
                         SelectionDialogItem(
                             title = entry,
                             isSelected = isSelected,
+                            focusRequester = focusRequesters[index],
                             onClick = {
                                 onValueSelected(value)
                                 onDismiss()
@@ -442,6 +481,9 @@ fun SelectionDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(CircleShape)
+                        .focusProperties { 
+                            focusRequesters.getOrNull(selectedIndex)?.let { up = it }
+                        }
                         .clickable { onDismiss() }
                         .padding(vertical = 12.dp),
                     textAlign = TextAlign.Center,
@@ -460,7 +502,8 @@ fun SelectionDialog(
 private fun SelectionDialogItem(
     title: String,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
     var hasFocus by remember { mutableStateOf(false) }
     
@@ -483,6 +526,7 @@ private fun SelectionDialogItem(
             .fillMaxWidth()
             .clip(CircleShape)
             .background(backgroundColor)
+            .focusRequester(focusRequester)
             .onFocusChanged { hasFocus = it.hasFocus }
             .clickable { onClick() }
             .padding(horizontal = 20.dp, vertical = 12.dp),
