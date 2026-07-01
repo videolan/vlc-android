@@ -26,17 +26,20 @@ package org.videolan.television.ui.preferences
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.content.getSystemService
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -52,68 +55,16 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.REMOTE_ACCESS_ONBOARDING
+import org.videolan.resources.ROOM_DATABASE
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.startRemoteAccess
 import org.videolan.resources.util.stopRemoteAccess
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
-import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
-import org.videolan.tools.BitmapCache
-import org.videolan.tools.KEY_AOUT
-import org.videolan.tools.KEY_APP_THEME
-import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
-import org.videolan.tools.KEY_AUDIO_LAST_PLAYLIST
-import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_DEFAULT
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
-import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
-import org.videolan.tools.KEY_CURRENT_AUDIO
-import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_ARTIST
-import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_THUMB
-import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_TITLE
-import org.videolan.tools.KEY_CURRENT_MEDIA
-import org.videolan.tools.KEY_CURRENT_MEDIA_RESUME
-import org.videolan.tools.KEY_DEBLOCKING
-import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
-import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
-import org.videolan.tools.KEY_INCOGNITO
-import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
-import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST_RESUME
-import org.videolan.tools.KEY_NETWORK_CACHING_VALUE
-import org.videolan.tools.KEY_OPENGL
-import org.videolan.tools.KEY_PREFERRED_RESOLUTION
-import org.videolan.tools.KEY_PREFER_SMBV1
-import org.videolan.tools.KEY_SAFE_MODE
-import org.videolan.tools.KEY_SET_LOCALE
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY
-import org.videolan.tools.KEY_SUBTITLES_BOLD
-import org.videolan.tools.KEY_SUBTITLES_COLOR
-import org.videolan.tools.KEY_SUBTITLES_COLOR_OPACITY
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
-import org.videolan.tools.KEY_SUBTITLES_SHADOW
-import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
-import org.videolan.tools.KEY_SUBTITLES_SIZE
-import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
-import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
-import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
-import org.videolan.tools.LocaleUtils
+import org.videolan.tools.*
 import org.videolan.tools.LocaleUtils.getLocales
-import org.videolan.tools.PREF_TV_UI
-import org.videolan.tools.RESULT_RESTART
-import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
-import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
-import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
-import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
-import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
-import org.videolan.tools.TV_FOLDERS_FIRST
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -632,6 +583,34 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                                 Toast.makeText(context, context.getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
                             }
                         }
+                    }
+                }
+            }
+            "dump_app_db" -> {
+                (context as? FragmentActivity)?.let { activity ->
+                    val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + ROOM_DATABASE)
+                    viewModelScope.launch {
+                        if (activity.getWritePermission(Uri.fromFile(dst))) {
+                            val copied = withContext(Dispatchers.IO) {
+                                val db = File(context.getDir("db", Context.MODE_PRIVATE).parent!! + "/databases")
+                                val files = db.listFiles()?.map { it.path }?.toTypedArray()
+                                if (files == null) false else FileUtils.zip(files, dst.path)
+                            }
+                            Toast.makeText(context, context.getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+            "clear_app_data" -> {
+                (context as? FragmentActivity)?.let { activity ->
+                    val dialog = ConfirmDeleteDialog.newInstance(
+                        title = context.getString(R.string.clear_app_data),
+                        description = context.getString(R.string.clear_app_data_message),
+                        buttonText = context.getString(R.string.clear)
+                    )
+                    dialog.show(activity.supportFragmentManager, RenameDialog::class.simpleName)
+                    dialog.setListener {
+                        (context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager)?.clearApplicationUserData()
                     }
                 }
             }
