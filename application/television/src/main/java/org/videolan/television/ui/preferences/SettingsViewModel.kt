@@ -72,6 +72,7 @@ import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_TITLE
 import org.videolan.tools.KEY_CURRENT_MEDIA
 import org.videolan.tools.KEY_CURRENT_MEDIA_RESUME
 import org.videolan.tools.KEY_DEBLOCKING
+import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
@@ -321,7 +322,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 Settings.showVideoThumbs = value
                 (context as? PreferencesActivity)?.setRestart()
             }
-            KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE -> {
+            KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE, KEY_ENABLE_FRAME_SKIP -> {
                 viewModelScope.launch { restartLibVLC() }
             }
             KEY_ENABLE_REMOTE_ACCESS -> {
