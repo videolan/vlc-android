@@ -25,7 +25,10 @@
 package org.videolan.television.ui.preferences
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,15 +39,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -143,9 +151,6 @@ fun SettingsScreen(
     )
 }
 
-/**
- * Sidebar displaying settings categories.
- */
 @Composable
 fun SettingsSidebar(
     categories: List<SettingCategory>,
@@ -153,7 +158,18 @@ fun SettingsSidebar(
     onCategorySelected: (SettingCategory) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    val sidebarFocusRequester = remember { FocusRequester() }
+    var isSidebarFocused by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = modifier
+            .focusRequester(sidebarFocusRequester)
+            .onFocusChanged { state ->
+                isSidebarFocused = state.hasFocus || state.isFocused
+                Log.d("VLC/Settings", "Sidebar focus changed: isSidebarFocused=$isSidebarFocused")
+            }
+            .focusable()
+    ) {
         Text(
             text = stringResource(id = R.string.preferences),
             style = MaterialTheme.typography.headlineMedium,
@@ -163,19 +179,29 @@ fun SettingsSidebar(
         )
         LazyColumn {
             items(categories) { category ->
+                val isSelected = category == selectedCategory
+                val itemFocusRequester = remember { FocusRequester() }
+                
                 CategoryItem(
                     category = category,
-                    isSelected = category == selectedCategory,
-                    onSelected = { onCategorySelected(category) }
+                    isSelected = isSelected,
+                    onSelected = { onCategorySelected(category) },
+                    focusRequester = itemFocusRequester
                 )
+
+                // When the sidebar itself receives focus (e.g. via DPAD LEFT),
+                // redirect that focus to the currently selected item.
+                LaunchedEffect(isSidebarFocused, isSelected) {
+                    if (isSidebarFocused && isSelected) {
+                        Log.d("VLC/Settings", "Sidebar: Redirecting focus to selected category: ${category.title}")
+                        itemFocusRequester.requestFocus()
+                    }
+                }
             }
         }
     }
 }
 
-/**
- * Detail view displaying items for the selected category.
- */
 @Composable
 fun SettingsDetail(
     category: SettingCategory?,
@@ -189,8 +215,24 @@ fun SettingsDetail(
     onColorClicked: (SettingItem.Color) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    val detailFocusRequester = remember { FocusRequester() }
+    var isDetailFocused by remember { mutableStateOf(false) }
+
+    // Track the last focused item key for each category
+    val lastFocusedItemPerCategory = remember { mutableMapOf<Int, String?>() }
+
+    Column(
+        modifier = modifier
+            .focusRequester(detailFocusRequester)
+            .onFocusChanged { state ->
+                isDetailFocused = state.hasFocus || state.isFocused
+                Log.d("VLC/Settings", "Detail focus changed: isDetailFocused=$isDetailFocused")
+            }
+            .focusable()
+    ) {
         if (category != null) {
+            val categoryId = category.title
+
             Text(
                 text = stringResource(id = category.title),
                 style = MaterialTheme.typography.titleLarge,
@@ -201,67 +243,92 @@ fun SettingsDetail(
             )
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn {
-                items(category.items) { item ->
-                    when (item) {
-                        is SettingItem.Toggle -> {
-                            ToggleSettingItem(
-                                item = item,
-                                checked = getBooleanValue(item.key, item.defaultValue),
-                                summary = getSummary(item),
-                                onCheckedChange = { onBooleanChanged(item.key, it) }
-                            )
-                        }
-                        is SettingItem.Action -> {
-                            ActionSettingItem(
-                                item = item,
-                                summary = getSummary(item),
-                                onClick = { onActionClicked(item) }
-                            )
-                        }
-                        is SettingItem.Options -> {
-                            var showDialog by remember { mutableStateOf(false) }
-                            val currentValue = getStringValue(item.key, item.defaultValue)
-                            OptionsSettingItem(
-                                item = item,
-                                currentValue = currentValue,
-                                summary = getSummary(item),
-                                onClick = { showDialog = true }
-                            )
-                            if (showDialog) {
-                                SelectionDialog(
-                                    item = item,
-                                    currentValue = currentValue,
-                                    onDismiss = { showDialog = false },
-                                    onValueSelected = { onStringChanged(item.key, it) }
-                                )
+                itemsIndexed(category.items) { index, item ->
+                    val itemFocusRequester = remember { FocusRequester() }
+                    
+                    Box(modifier = Modifier
+                        .focusRequester(itemFocusRequester)
+                        .onFocusChanged { state ->
+                            if (state.isFocused) {
+                                lastFocusedItemPerCategory[categoryId] = item.key
+                                Log.d("VLC/Settings", "Detail: Item focused: ${item.key} in category $categoryId")
                             }
                         }
-                        is SettingItem.Color -> {
-                            ColorSettingItem(
-                                item = item,
-                                currentValue = getColorValue(item.key, item.defaultColor),
-                                onClick = { onColorClicked(item) }
-                            )
-                        }
-                        is SettingItem.Input -> {
-                            var showDialog by remember { mutableStateOf(false) }
-                            val currentValue = getStringValue(item.key, item.defaultValue)
-                            InputSettingItem(
-                                item = item,
-                                currentValue = currentValue,
-                                summary = getSummary(item),
-                                onClick = { showDialog = true }
-                            )
-                            if (showDialog) {
-                                InputDialog(
+                    ) {
+                        when (item) {
+                            is SettingItem.Toggle -> {
+                                ToggleSettingItem(
+                                    item = item,
+                                    checked = getBooleanValue(item.key, item.defaultValue),
+                                    summary = getSummary(item),
+                                    onCheckedChange = { onBooleanChanged(item.key, it) }
+                                )
+                            }
+                            is SettingItem.Action -> {
+                                ActionSettingItem(
+                                    item = item,
+                                    summary = getSummary(item),
+                                    onClick = { onActionClicked(item) }
+                                )
+                            }
+                            is SettingItem.Options -> {
+                                var showDialog by remember { mutableStateOf(false) }
+                                val currentValue = getStringValue(item.key, item.defaultValue)
+                                OptionsSettingItem(
                                     item = item,
                                     currentValue = currentValue,
-                                    onDismiss = { showDialog = false },
-                                    onValueConfirmed = { onStringChanged(item.key, it) }
+                                    summary = getSummary(item),
+                                    onClick = { showDialog = true }
                                 )
+                                if (showDialog) {
+                                    SelectionDialog(
+                                        item = item,
+                                        currentValue = currentValue,
+                                        onDismiss = { showDialog = false },
+                                        onValueSelected = { onStringChanged(item.key, it) }
+                                    )
+                                }
+                            }
+                            is SettingItem.Color -> {
+                                ColorSettingItem(
+                                    item = item,
+                                    currentValue = getColorValue(item.key, item.defaultColor),
+                                    onClick = { onColorClicked(item) }
+                                )
+                            }
+                            is SettingItem.Input -> {
+                                var showDialog by remember { mutableStateOf(false) }
+                                val currentValue = getStringValue(item.key, item.defaultValue)
+                                InputSettingItem(
+                                    item = item,
+                                    currentValue = currentValue,
+                                    summary = getSummary(item),
+                                    onClick = { showDialog = true }
+                                )
+                                if (showDialog) {
+                                    InputDialog(
+                                        item = item,
+                                        currentValue = currentValue,
+                                        onDismiss = { showDialog = false },
+                                        onValueConfirmed = { onStringChanged(item.key, it) }
+                                    )
+                                }
                             }
                         }
                     }
+
+                    // When the detail pane receives focus (e.g. via DPAD RIGHT from sidebar),
+                    // redirect it to the last focused item in this category.
+                    LaunchedEffect(isDetailFocused, category) {
+                        if (isDetailFocused) {
+                            val lastKey = lastFocusedItemPerCategory[categoryId]
+                            if (lastKey == item.key || (lastKey == null && index == 0)) {
+                                Log.d("VLC/Settings", "Detail: Redirecting focus to item: ${item.key} in category: ${category.title}")
+                                itemFocusRequester.requestFocus()
+                            }
+                        }
+                    }
+
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }

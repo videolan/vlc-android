@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.preferences
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -42,6 +43,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -164,7 +167,8 @@ fun SettingItemRow(
 fun CategoryItem(
     category: SettingCategory,
     isSelected: Boolean,
-    onSelected: () -> Unit
+    onSelected: () -> Unit,
+    focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
     var hasFocus by remember { mutableStateOf(false) }
     
@@ -187,8 +191,10 @@ fun CategoryItem(
             .fillMaxWidth()
             .padding(end = 16.dp) // Space between item and detail pane edge
             .heightIn(min = 56.dp)
+            .focusRequester(focusRequester)
             .onFocusChanged { 
                 hasFocus = it.hasFocus 
+                Log.d("VLC/Settings", "CategoryItem: ${category.title} hasFocus=$hasFocus")
                 if (it.hasFocus) onSelected()
             }
             .clip(CircleShape) // Standard pill shape
