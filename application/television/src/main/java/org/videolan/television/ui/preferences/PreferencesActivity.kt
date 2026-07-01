@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.browser.BaseTvActivity
-import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.PinCodeActivity
@@ -53,7 +53,7 @@ class PreferencesActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            VlcTVTheme {
+            VlcTVSettingsTheme {
                 SettingsScreen(viewModel)
             }
         }

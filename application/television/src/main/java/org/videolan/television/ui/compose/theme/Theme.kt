@@ -39,12 +39,39 @@ private val DarkColorScheme = darkColorScheme(
     surfaceDim = BackgroundColorDark
 )
 
+private val SettingsColorScheme = darkColorScheme(
+    primary = Orange800,
+    onPrimary = White,
+    secondary = Gray400,
+    onSecondary = Black,
+    background = BackgroundColorDark,
+    onBackground = Gray200,
+    surface = Gray900,
+    surfaceVariant = BackgroundColorMedium,
+    onSurface = Gray200,
+    onSurfaceVariant = White,
+    outline = Gray600,
+    inverseOnSurface = Black,
+    inverseSurface = White
+)
+
 @Composable
 fun VlcTVTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
         colorScheme = DarkColorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+
+@Composable
+fun VlcTVSettingsTheme(
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colorScheme = SettingsColorScheme,
         typography = Typography,
         content = content
     )
