@@ -23,9 +23,7 @@
 
 package org.videolan.television.ui.preferences
 
-import android.annotation.TargetApi
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.compose.setContent
@@ -45,7 +43,6 @@ import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.media.MediaUtils
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesActivity : BaseTvActivity() {
     var extraEndPoint: String? = null
     private val viewModel: SettingsViewModel by viewModels {
@@ -71,6 +68,7 @@ class PreferencesActivity : BaseTvActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != RESULT_OK) {
             if (requestCode == 0) finish() // Pin code check failed
