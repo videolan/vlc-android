@@ -30,6 +30,11 @@ import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
 import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_DEFAULT
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
 import org.videolan.tools.KEY_DEBLOCKING
 import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
@@ -160,6 +165,38 @@ object SettingsFactory {
             SettingItem.Toggle(
                 key = KEY_AUDIO_DIGITAL_OUTPUT,
                 title = R.string.audio_digital_title
+            ),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_REPLAY_GAIN_ENABLE,
+                title = R.string.replaygain_enable,
+                summary = R.string.replaygain_enable_summary,
+                defaultValue = false
+            ),
+            SettingItem.Options(
+                key = KEY_AUDIO_REPLAY_GAIN_MODE,
+                title = R.string.replaygain_mode,
+                summary = R.string.replaygain_mode_summary,
+                entries = context.resources.getStringArray(R.array.replaygain).toList(),
+                entryValues = context.resources.getStringArray(R.array.replaygain_values).toList(),
+                defaultValue = "track"
+            ),
+            SettingItem.Input(
+                key = KEY_AUDIO_REPLAY_GAIN_PREAMP,
+                title = R.string.replaygain_preamp,
+                summary = R.string.replaygain_preamp_summary,
+                defaultValue = "0.0"
+            ),
+            SettingItem.Input(
+                key = KEY_AUDIO_REPLAY_GAIN_DEFAULT,
+                title = R.string.replaygain_default,
+                summary = R.string.replaygain_default_summary,
+                defaultValue = "-7.0"
+            ),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION,
+                title = R.string.replaygain_peak_protection,
+                summary = R.string.replaygain_peak_protection_summary,
+                defaultValue = true
             ),
             SettingItem.Options(
                 key = KEY_AUDIO_PREFERRED_LANGUAGE,

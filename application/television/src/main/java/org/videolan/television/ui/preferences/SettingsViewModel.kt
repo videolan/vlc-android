@@ -65,6 +65,11 @@ import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
 import org.videolan.tools.KEY_AUDIO_LAST_PLAYLIST
 import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_DEFAULT
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
+import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
 import org.videolan.tools.KEY_CURRENT_AUDIO
 import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_ARTIST
 import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_THUMB
@@ -322,7 +327,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 Settings.showVideoThumbs = value
                 (context as? PreferencesActivity)?.setRestart()
             }
-            KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE, KEY_ENABLE_FRAME_SKIP -> {
+            KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE, KEY_ENABLE_FRAME_SKIP,
+            KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION -> {
                 viewModelScope.launch { restartLibVLC() }
             }
             KEY_ENABLE_REMOTE_ACCESS -> {
@@ -352,7 +358,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         when (key) {
             KEY_PREFERRED_RESOLUTION, KEY_AUDIO_PREFERRED_LANGUAGE,
             KEY_SUBTITLE_PREFERRED_LANGUAGE, KEY_SUBTITLE_TEXT_ENCODING,
-            KEY_SUBTITLES_SIZE, KEY_AOUT, KEY_OPENGL, KEY_DEBLOCKING -> {
+            KEY_SUBTITLES_SIZE, KEY_AOUT, KEY_OPENGL, KEY_DEBLOCKING,
+            KEY_AUDIO_REPLAY_GAIN_MODE, KEY_AUDIO_REPLAY_GAIN_PREAMP, KEY_AUDIO_REPLAY_GAIN_DEFAULT -> {
                 viewModelScope.launch { restartLibVLC() }
             }
             "subtitles_presets" -> applySubtitlePreset(value)
