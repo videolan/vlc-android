@@ -40,10 +40,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -89,6 +92,7 @@ import org.videolan.vlc.util.Permissions
 @Composable
 fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = viewModel(), mainViewmodel: MainActivityViewModel = viewModel()) {
     val coroutineScope = rememberCoroutineScope()
+    val firstItemFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             viewModel.updateHistory()
@@ -110,9 +114,6 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 onExit = {
                     onFocusExit()
                 }
-                onEnter = {
-                    onFocusEnter()
-                }
             }
             .verticalScroll(rememberScrollState())
             .padding(bottom = 96.dp)
@@ -123,9 +124,14 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
+                .focusProperties {
+                    onEnter = {
+                        firstItemFocusRequester.requestFocus()
+                    }
+                }
                 .focusGroup()
         ) {
-            VLCButton(R.drawable.ic_settings, R.string.preferences) {
+            VLCButton(R.drawable.ic_settings, R.string.preferences, modifier = Modifier.focusRequester(firstItemFocusRequester)) {
                 activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
             }
             if (Permissions.canReadStorage(activity!!))
