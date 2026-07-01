@@ -25,7 +25,30 @@
 package org.videolan.television.ui.preferences
 
 import android.content.Context
-import org.videolan.tools.*
+import org.videolan.tools.KEY_ALWAYS_FAST_SEEK
+import org.videolan.tools.KEY_AOUT
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
+import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_DEBLOCKING
+import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
+import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_ENABLE_TIME_STRETCHING_AUDIO
+import org.videolan.tools.KEY_PREFERRED_RESOLUTION
+import org.videolan.tools.KEY_REMOTE_ACCESS_ML_CONTENT
+import org.videolan.tools.KEY_SAFE_MODE
+import org.videolan.tools.KEY_SET_LOCALE
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
+import org.videolan.tools.KEY_SUBTITLES_BOLD
+import org.videolan.tools.KEY_SUBTITLES_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SIZE
+import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
+import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
+import org.videolan.tools.KEY_VIDEO_MATCH_FRAME_RATE
+import org.videolan.tools.PREF_TV_UI
+import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
+import org.videolan.tools.TV_FOLDERS_FIRST
 import org.videolan.vlc.R
 
 /**
@@ -99,6 +122,24 @@ object SettingsFactory {
                 entries = context.resources.getStringArray(R.array.preferred_resolution).toList(),
                 entryValues = context.resources.getStringArray(R.array.preferred_resolution_values).toList(),
                 defaultValue = "-1"
+            ),
+            SettingItem.Toggle(
+                key = KEY_VIDEO_MATCH_FRAME_RATE,
+                title = R.string.video_match_frame_rate_title,
+                summary = R.string.video_match_frame_rate_summary,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = KEY_ALWAYS_FAST_SEEK,
+                title = R.string.always_fast_seek,
+                summary = R.string.always_fast_seek_summary,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = KEY_ENABLE_FRAME_SKIP,
+                title = R.string.enable_frame_skip,
+                summary = R.string.enable_frame_skip_summary,
+                defaultValue = false
             ),
             SettingItem.Toggle(
                 key = "video_confirm_resume",
