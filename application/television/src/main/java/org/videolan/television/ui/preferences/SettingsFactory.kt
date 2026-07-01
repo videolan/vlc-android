@@ -25,41 +25,7 @@
 package org.videolan.television.ui.preferences
 
 import android.content.Context
-import org.videolan.tools.KEY_ALWAYS_FAST_SEEK
-import org.videolan.tools.KEY_AOUT
-import org.videolan.tools.KEY_APP_THEME
-import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
-import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_DEFAULT
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
-import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
-import org.videolan.tools.KEY_DEBLOCKING
-import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
-import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
-import org.videolan.tools.KEY_ENABLE_TIME_STRETCHING_AUDIO
-import org.videolan.tools.KEY_OPENGL
-import org.videolan.tools.KEY_PREFERRED_RESOLUTION
-import org.videolan.tools.KEY_PREFER_SMBV1
-import org.videolan.tools.KEY_REMOTE_ACCESS_ML_CONTENT
-import org.videolan.tools.KEY_SAFE_MODE
-import org.videolan.tools.KEY_SET_LOCALE
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
-import org.videolan.tools.KEY_SUBTITLES_BOLD
-import org.videolan.tools.KEY_SUBTITLES_COLOR
-import org.videolan.tools.KEY_SUBTITLES_SIZE
-import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
-import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
-import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
-import org.videolan.tools.KEY_SUBTITLES_SHADOW
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE
-import org.videolan.tools.KEY_VIDEO_MATCH_FRAME_RATE
-import org.videolan.tools.PREF_TV_UI
-import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
-import org.videolan.tools.TV_FOLDERS_FIRST
+import org.videolan.tools.*
 import org.videolan.vlc.R
 
 /**
@@ -79,7 +45,7 @@ object SettingsFactory {
      */
     fun createSettings(context: Context): List<SettingCategory> {
         return listOf(
-            createMedialibraryCategory(),
+            createGeneralCategory(context),
             createVideoCategory(context),
             createAudioCategory(context),
             createSubtitlesCategory(context),
@@ -91,11 +57,11 @@ object SettingsFactory {
     }
 
     /**
-     * Defines the Medialibrary settings category.
+     * Defines the General settings category.
      */
-    private fun createMedialibraryCategory() = SettingCategory(
-        title = R.string.medialibrary,
-        icon = R.drawable.ic_folder,
+    private fun createGeneralCategory(context: Context) = SettingCategory(
+        title = R.string.general,
+        icon = R.drawable.ic_settings,
         items = listOf(
             SettingItem.Action(
                 key = "directories",
@@ -106,6 +72,52 @@ object SettingsFactory {
                 key = "auto_rescan",
                 title = R.string.auto_rescan,
                 summary = R.string.auto_rescan_summary,
+                defaultValue = true
+            ),
+            SettingItem.Options(
+                key = KEY_VIDEO_APP_SWITCH,
+                title = R.string.video_app_switch_title,
+                summary = R.string.video_app_switch_summary,
+                entries = context.resources.getStringArray(R.array.video_app_switch_action_titles).toList(),
+                entryValues = context.resources.getStringArray(R.array.video_app_switch_action_values).toList(),
+                defaultValue = "0"
+            ),
+            SettingItem.Options(
+                key = KEY_HARDWARE_ACCELERATION,
+                title = R.string.hardware_acceleration,
+                summary = R.string.hardware_acceleration_summary,
+                entries = context.resources.getStringArray(R.array.hardware_acceleration_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.hardware_acceleration_values).toList(),
+                defaultValue = "-1"
+            ),
+            SettingItem.Options(
+                key = KEY_METERED_CONNECTION,
+                title = R.string.metered_connection,
+                entries = context.resources.getStringArray(R.array.metered_connection_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.metered_connection_values).toList(),
+                defaultValue = "0"
+            ),
+            SettingItem.Action(
+                key = "permissions",
+                title = R.string.permissions,
+                summary = R.string.permissions_summary
+            ),
+            SettingItem.Toggle(
+                key = PLAYBACK_HISTORY,
+                title = R.string.playback_history_title,
+                summary = R.string.playback_history_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = VIDEO_RESUME_PLAYBACK,
+                title = R.string.video_resume_playback_title,
+                summary = R.string.video_resume_playback_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = AUDIO_RESUME_PLAYBACK,
+                title = R.string.audio_resume_playback_title,
+                summary = R.string.audio_resume_playback_summary,
                 defaultValue = true
             )
         )
@@ -118,14 +130,6 @@ object SettingsFactory {
         title = R.string.video_prefs_category,
         icon = R.drawable.ic_pref_video,
         items = listOf(
-            SettingItem.Options(
-                key = "hardware_acceleration",
-                title = R.string.hardware_acceleration,
-                summary = R.string.hardware_acceleration_summary,
-                entries = context.resources.getStringArray(R.array.hardware_acceleration_list).toList(),
-                entryValues = context.resources.getStringArray(R.array.hardware_acceleration_values).toList(),
-                defaultValue = "-1"
-            ),
             SettingItem.Options(
                 key = KEY_PREFERRED_RESOLUTION,
                 title = R.string.preferred_resolution,
