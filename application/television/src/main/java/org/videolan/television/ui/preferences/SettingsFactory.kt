@@ -50,6 +50,9 @@ import org.videolan.tools.KEY_SUBTITLES_COLOR
 import org.videolan.tools.KEY_SUBTITLES_SIZE
 import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
 import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
+import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
+import org.videolan.tools.KEY_SUBTITLES_SHADOW
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE
 import org.videolan.tools.KEY_VIDEO_MATCH_FRAME_RATE
 import org.videolan.tools.PREF_TV_UI
 import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
@@ -234,6 +237,18 @@ object SettingsFactory {
         icon = R.drawable.ic_pref_subtitles,
         items = listOf(
             SettingItem.Options(
+                key = "subtitles_presets",
+                title = R.string.subtitles_presets_title,
+                entries = context.resources.getStringArray(R.array.subtitles_presets_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.subtitles_presets_values).toList(),
+                defaultValue = "-1"
+            ),
+            SettingItem.Toggle(
+                key = KEY_SUBTITLES_AUTOLOAD,
+                title = R.string.subtitles_autoload_title,
+                defaultValue = true
+            ),
+            SettingItem.Options(
                 key = KEY_SUBTITLE_PREFERRED_LANGUAGE,
                 title = R.string.subtitle_preferred_language,
                 entries = emptyList(), // Will be populated dynamically in ViewModel
@@ -246,13 +261,6 @@ object SettingsFactory {
                 entries = context.resources.getStringArray(R.array.subtitles_encoding_list).toList(),
                 entryValues = context.resources.getStringArray(R.array.subtitles_encoding_values).toList(),
                 defaultValue = ""
-            ),
-            SettingItem.Options(
-                key = "subtitles_presets",
-                title = R.string.subtitles_presets_title,
-                entries = context.resources.getStringArray(R.array.subtitles_presets_entries).toList(),
-                entryValues = context.resources.getStringArray(R.array.subtitles_presets_values).toList(),
-                defaultValue = "-1"
             ),
             SettingItem.Options(
                 key = KEY_SUBTITLES_SIZE,
@@ -280,6 +288,16 @@ object SettingsFactory {
                 key = KEY_SUBTITLES_BACKGROUND_COLOR,
                 title = R.string.subtitles_background_color_title,
                 defaultColor = android.graphics.Color.BLACK
+            ),
+            SettingItem.Toggle(
+                key = KEY_SUBTITLES_SHADOW,
+                title = R.string.subtitles_shadow_title,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = KEY_SUBTITLES_OUTLINE,
+                title = R.string.subtitles_outline_title,
+                defaultValue = true
             )
         )
     )
