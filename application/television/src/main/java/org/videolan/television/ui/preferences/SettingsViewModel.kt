@@ -99,6 +99,7 @@ import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
 import org.videolan.tools.KEY_SUBTITLES_SIZE
 import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
 import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
+import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
 import org.videolan.tools.LocaleUtils
 import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.PREF_TV_UI
@@ -328,7 +329,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 (context as? PreferencesActivity)?.setRestart()
             }
             KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE, KEY_ENABLE_FRAME_SKIP,
-            KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION -> {
+            KEY_SUBTITLES_AUTOLOAD, KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION -> {
                 viewModelScope.launch { restartLibVLC() }
             }
             KEY_ENABLE_REMOTE_ACCESS -> {
