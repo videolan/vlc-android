@@ -26,6 +26,7 @@ package org.videolan.television.ui.preferences
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
@@ -83,6 +84,8 @@ import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.deleteAllWatchNext
 import java.io.File
 import java.io.IOException
+
+const val RESTART_CODE = 10001
 
 /**
  * ViewModel for managing TV settings state and logic.
