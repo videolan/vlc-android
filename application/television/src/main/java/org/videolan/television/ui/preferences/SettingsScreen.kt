@@ -190,12 +190,23 @@ fun SettingsDetail(
                                 onClick = { viewModel.pickColor(context, item) }
                             )
                         }
-                        else -> {
-                            // TODO: Implement other item types (Input)
-                            SettingItemRow(
-                                title = stringResource(id = item.title),
-                                summary = "Not yet implemented"
+                        is SettingItem.Input -> {
+                            var showDialog by remember { mutableStateOf(false) }
+                            val currentValue = viewModel.getStringValue(item.key, item.defaultValue)
+                            InputSettingItem(
+                                item = item,
+                                currentValue = currentValue,
+                                summary = viewModel.getSummary(item),
+                                onClick = { showDialog = true }
                             )
+                            if (showDialog) {
+                                InputDialog(
+                                    item = item,
+                                    currentValue = currentValue,
+                                    onDismiss = { showDialog = false },
+                                    onValueConfirmed = { viewModel.updateStringSetting(context, item.key, it) }
+                                )
+                            }
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))

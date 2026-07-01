@@ -34,6 +34,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
@@ -47,6 +48,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -337,6 +339,37 @@ fun ColorSettingItem(
 }
 
 /**
+ * A setting item for text/number input.
+ *
+ * @param item The [SettingItem.Input] definition.
+ * @param currentValue The current input value.
+ * @param summary An optional summary string.
+ * @param onClick Callback to open the input dialog.
+ */
+@Composable
+fun InputSettingItem(
+    item: SettingItem.Input,
+    currentValue: String?,
+    summary: String? = null,
+    onClick: () -> Unit
+) {
+    SettingItemRow(
+        title = stringResource(id = item.title),
+        summary = summary ?: currentValue,
+        icon = item.icon,
+        onClick = onClick,
+        content = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_edit),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+            )
+        }
+    )
+}
+
+/**
  * A TV-optimized selection dialog for [SettingItem.Options].
  *
  * @param item The options setting item.
@@ -472,6 +505,76 @@ private fun SelectionDialogItem(
 }
 
 /**
+ * A TV-optimized input dialog for [SettingItem.Input].
+ *
+ * @param item The input setting item.
+ * @param currentValue The currently stored value.
+ * @param onDismiss Callback to dismiss the dialog.
+ * @param onValueConfirmed Callback when a new value is confirmed.
+ */
+@Composable
+fun InputDialog(
+    item: SettingItem.Input,
+    currentValue: String?,
+    onDismiss: () -> Unit,
+    onValueConfirmed: (String) -> Unit
+) {
+    var text by remember { mutableStateOf(currentValue ?: "") }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            modifier = Modifier
+                .width(480.dp)
+                .clip(RoundedCornerShape(24.dp)),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 6.dp
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp)
+            ) {
+                Text(
+                    text = stringResource(id = item.title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text(stringResource(id = R.string.not_set)) },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(onClick = onDismiss) {
+                        Text(stringResource(id = R.string.cancel))
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(onClick = { 
+                        onValueConfirmed(text)
+                        onDismiss()
+                    }) {
+                        Text(stringResource(id = R.string.ok))
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
  * Preview for the setting components.
  */
 @Preview(device = "id:tv_1080p")
@@ -504,6 +607,12 @@ private fun SettingComponentsPreview() {
                     entryValues = listOf("-1", "0")
                 ),
                 currentValue = "-1",
+                onClick = {}
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            InputSettingItem(
+                item = SettingItem.Input("key", R.string.custom_libvlc_options),
+                currentValue = "",
                 onClick = {}
             )
         }
