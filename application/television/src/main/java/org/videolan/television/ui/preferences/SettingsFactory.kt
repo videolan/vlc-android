@@ -472,7 +472,17 @@ object SettingsFactory {
             SettingItem.Action(
                 key = "dump_media_db",
                 title = R.string.dump_media_db,
-                summary = R.string.dump_db_succes
+                summary = R.string.dump_media_db_summary
+            ),
+            SettingItem.Action(
+                key = "dump_app_db",
+                title = R.string.dump_app_db,
+                summary = R.string.dump_media_db_summary
+            ),
+            SettingItem.Action(
+                key = "clear_app_data",
+                title = R.string.clear_app_data,
+                summary = R.string.clear_app_data_summary
             ),
             SettingItem.Action(
                 key = "quit_app",
