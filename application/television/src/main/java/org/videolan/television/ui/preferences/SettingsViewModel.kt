@@ -70,6 +70,7 @@ import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
 import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
 import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
 import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
+import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
 import org.videolan.tools.KEY_CURRENT_AUDIO
 import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_ARTIST
 import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_THUMB
@@ -82,8 +83,10 @@ import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST_RESUME
+import org.videolan.tools.KEY_NETWORK_CACHING_VALUE
 import org.videolan.tools.KEY_OPENGL
 import org.videolan.tools.KEY_PREFERRED_RESOLUTION
+import org.videolan.tools.KEY_PREFER_SMBV1
 import org.videolan.tools.KEY_SAFE_MODE
 import org.videolan.tools.KEY_SET_LOCALE
 import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
@@ -332,6 +335,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             KEY_SUBTITLES_AUTOLOAD, KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION -> {
                 viewModelScope.launch { restartLibVLC() }
             }
+            KEY_PREFER_SMBV1 -> {
+                viewModelScope.launch { VLCInstance.restart() }
+            }
             KEY_ENABLE_REMOTE_ACCESS -> {
                 Settings.remoteAccessEnabled.postValue(value)
                 if (value) context.startRemoteAccess() else context.stopRemoteAccess()
@@ -365,6 +371,20 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             }
             "subtitles_presets" -> applySubtitlePreset(value)
             KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
+            "network_caching" -> {
+                val intValue = value.toIntOrNull()?.coerceIn(0, 60000) ?: 0
+                settings.edit { putInt(KEY_NETWORK_CACHING_VALUE, intValue) }
+                viewModelScope.launch { restartLibVLC() }
+            }
+            KEY_CUSTOM_LIBVLC_OPTIONS -> {
+                viewModelScope.launch {
+                    try {
+                        restartLibVLC()
+                    } catch (e: IllegalStateException) {
+                        Log.e("SettingsViewModel", "Invalid custom options", e)
+                    }
+                }
+            }
         }
         
         refreshCategories()
