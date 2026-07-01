@@ -57,6 +57,15 @@ sealed class SettingItem(
     @param:DrawableRes val icon: Int? = null,
 ) {
     /**
+     * A visual header to group related settings.
+     *
+     * @param title The string resource ID for the header title.
+     */
+    class Header(
+        @StringRes title: Int
+    ) : SettingItem("header_$title", title)
+
+    /**
      * A simple clickable action that doesn't store a value directly (e.g., "Clear history").
      *
      * @param key The unique identifier for this action.

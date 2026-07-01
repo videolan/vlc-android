@@ -63,6 +63,7 @@ object SettingsFactory {
         title = R.string.general,
         icon = R.drawable.ic_settings,
         items = listOf(
+            SettingItem.Header(R.string.medialibrary),
             SettingItem.Action(
                 key = "directories",
                 title = R.string.medialibrary_directories,
@@ -74,6 +75,7 @@ object SettingsFactory {
                 summary = R.string.auto_rescan_summary,
                 defaultValue = true
             ),
+            SettingItem.Header(R.string.video_prefs_category),
             SettingItem.Options(
                 key = KEY_VIDEO_APP_SWITCH,
                 title = R.string.video_app_switch_title,
@@ -91,17 +93,27 @@ object SettingsFactory {
                 defaultValue = "-1"
             ),
             SettingItem.Options(
+                key = SCREEN_ORIENTATION,
+                title = R.string.screen_orientation,
+                entries = context.resources.getStringArray(R.array.screen_orientation_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.screen_orientation_values).toList(),
+                defaultValue = "99"
+            ),
+            SettingItem.Header(R.string.network),
+            SettingItem.Options(
                 key = KEY_METERED_CONNECTION,
                 title = R.string.metered_connection,
                 entries = context.resources.getStringArray(R.array.metered_connection_list).toList(),
                 entryValues = context.resources.getStringArray(R.array.metered_connection_values).toList(),
                 defaultValue = "0"
             ),
+            SettingItem.Header(R.string.permissions),
             SettingItem.Action(
                 key = "permissions",
                 title = R.string.permissions,
                 summary = R.string.permissions_summary
             ),
+            SettingItem.Header(R.string.history),
             SettingItem.Toggle(
                 key = PLAYBACK_HISTORY,
                 title = R.string.playback_history_title,
@@ -161,6 +173,13 @@ object SettingsFactory {
                 title = R.string.confirm_resume_title,
                 summary = R.string.confirm_resume,
                 defaultValue = false
+            ),
+            SettingItem.Header(R.string.interface_secondary_display_category_title),
+            SettingItem.Toggle(
+                key = KEY_ENABLE_CLONE_MODE,
+                title = R.string.enable_clone_mode,
+                summary = R.string.enable_clone_mode_summary,
+                defaultValue = false
             )
         )
     )
@@ -176,6 +195,21 @@ object SettingsFactory {
                 key = KEY_AUDIO_DIGITAL_OUTPUT,
                 title = R.string.audio_digital_title
             ),
+            SettingItem.Options(
+                key = KEY_AUDIO_PREFERRED_LANGUAGE,
+                title = R.string.audio_preferred_language,
+                entries = emptyList(), // Will be populated dynamically in ViewModel
+                entryValues = emptyList(),
+                defaultValue = ""
+            ),
+            SettingItem.Options(
+                key = "audio_confirm_resume",
+                title = R.string.confirm_resume_audio_title,
+                entries = context.resources.getStringArray(R.array.ask_confirmation_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.ask_confirmation_values).toList(),
+                defaultValue = "0"
+            ),
+            SettingItem.Header(R.string.replaygain_prefs_category),
             SettingItem.Toggle(
                 key = KEY_AUDIO_REPLAY_GAIN_ENABLE,
                 title = R.string.replaygain_enable,
@@ -208,20 +242,7 @@ object SettingsFactory {
                 summary = R.string.replaygain_peak_protection_summary,
                 defaultValue = true
             ),
-            SettingItem.Options(
-                key = KEY_AUDIO_PREFERRED_LANGUAGE,
-                title = R.string.audio_preferred_language,
-                entries = emptyList(), // Will be populated dynamically in ViewModel
-                entryValues = emptyList(),
-                defaultValue = ""
-            ),
-            SettingItem.Options(
-                key = "audio_confirm_resume",
-                title = R.string.confirm_resume_audio_title,
-                entries = context.resources.getStringArray(R.array.ask_confirmation_entries).toList(),
-                entryValues = context.resources.getStringArray(R.array.ask_confirmation_values).toList(),
-                defaultValue = "0"
-            ),
+            SettingItem.Header(R.string.advanced_prefs_category),
             SettingItem.Toggle(
                 key = "audio_ducking",
                 title = R.string.audio_ducking_title,
@@ -269,6 +290,7 @@ object SettingsFactory {
                 entryValues = context.resources.getStringArray(R.array.subtitles_encoding_values).toList(),
                 defaultValue = ""
             ),
+            SettingItem.Header(R.string.subtitles_font_style),
             SettingItem.Options(
                 key = KEY_SUBTITLES_SIZE,
                 title = R.string.subtitles_size_title,
@@ -286,6 +308,7 @@ object SettingsFactory {
                 title = R.string.subtitles_color_title,
                 defaultColor = android.graphics.Color.WHITE
             ),
+            SettingItem.Header(R.string.subtitles_background_title),
             SettingItem.Toggle(
                 key = KEY_SUBTITLES_BACKGROUND,
                 title = R.string.subtitles_background_title,
@@ -296,11 +319,13 @@ object SettingsFactory {
                 title = R.string.subtitles_background_color_title,
                 defaultColor = android.graphics.Color.BLACK
             ),
+            SettingItem.Header(R.string.subtitles_shadow_title),
             SettingItem.Toggle(
                 key = KEY_SUBTITLES_SHADOW,
                 title = R.string.subtitles_shadow_title,
                 defaultValue = true
             ),
+            SettingItem.Header(R.string.subtitles_outline_title),
             SettingItem.Toggle(
                 key = KEY_SUBTITLES_OUTLINE,
                 title = R.string.subtitles_outline_title,
@@ -350,6 +375,44 @@ object SettingsFactory {
                 key = "default_sleep_timer",
                 title = R.string.sleep_title,
                 summary = R.string.default_sleep_timer_summary
+            ),
+            SettingItem.Header(R.string.video),
+            SettingItem.Toggle(
+                key = KEY_MEDIA_SEEN,
+                title = R.string.media_seen,
+                summary = R.string.media_seen_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = PLAYLIST_MODE_VIDEO,
+                title = R.string.force_play_all_title,
+                summary = R.string.force_play_all_summary,
+                defaultValue = false
+            ),
+            SettingItem.Header(R.string.audio),
+            SettingItem.Toggle(
+                key = KEY_AUDIO_RESUME_CARD,
+                title = R.string.audio_resume_card_title,
+                summary = R.string.audio_resume_card_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = PLAYLIST_MODE_AUDIO,
+                title = R.string.force_play_all_audio_title,
+                summary = R.string.force_play_all_audio_summary,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = LOCKSCREEN_COVER,
+                title = R.string.lockscreen_cover_title,
+                summary = R.string.lockscreen_cover_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
+                key = SHOW_SEEK_IN_COMPACT_NOTIFICATION,
+                title = R.string.show_seek_in_compact_notif_title,
+                summary = R.string.show_seek_in_compact_notif_summary,
+                defaultValue = false
             )
         )
     )
@@ -395,6 +458,7 @@ object SettingsFactory {
                 key = "remote_access_info",
                 title = R.string.remote_access_info
             ),
+            SettingItem.Header(R.string.remote_access_content),
             SettingItem.Options(
                 key = KEY_REMOTE_ACCESS_ML_CONTENT,
                 title = R.string.remote_access_medialibrary_content,
@@ -412,6 +476,7 @@ object SettingsFactory {
         title = R.string.advanced_prefs_category,
         icon = R.drawable.ic_pref_advanced_settings,
         items = listOf(
+            SettingItem.Header(R.string.performance_prefs_category),
             SettingItem.Options(
                 key = KEY_AOUT,
                 title = R.string.aout,
@@ -442,6 +507,7 @@ object SettingsFactory {
                 entryValues = context.resources.getStringArray(R.array.opengl_values).toList(),
                 defaultValue = "-1"
             ),
+            SettingItem.Header(R.string.advanced_prefs_category),
             SettingItem.Toggle(
                 key = KEY_PREFER_SMBV1,
                 title = R.string.prefersmbv1,
@@ -459,10 +525,7 @@ object SettingsFactory {
                 title = R.string.custom_libvlc_options,
                 defaultValue = ""
             ),
-            SettingItem.Action(
-                key = "debug_logs",
-                title = R.string.debug_logs
-            ),
+            SettingItem.Header(R.string.prefs_app_data),
             SettingItem.Action(
                 key = "clear_history",
                 title = R.string.clear_playback_history,
@@ -487,6 +550,11 @@ object SettingsFactory {
                 key = "clear_app_data",
                 title = R.string.clear_app_data,
                 summary = R.string.clear_app_data_summary
+            ),
+            SettingItem.Header(R.string.developer_prefs_category),
+            SettingItem.Action(
+                key = "debug_logs",
+                title = R.string.debug_logs
             ),
             SettingItem.Action(
                 key = "quit_app",

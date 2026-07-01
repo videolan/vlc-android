@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -216,7 +215,7 @@ fun SettingsDetail(
     modifier: Modifier = Modifier
 ) {
     val detailFocusRequester = remember { FocusRequester() }
-    var isDetailFocused by remember { mutableStateOf(false) }
+    var detailPaneHasFocus by remember { mutableStateOf(false) }
 
     // Track the last focused item key for each category
     val lastFocusedItemPerCategory = remember { mutableMapOf<Int, String?>() }
@@ -225,10 +224,10 @@ fun SettingsDetail(
         modifier = modifier
             .focusRequester(detailFocusRequester)
             .onFocusChanged { state ->
-                isDetailFocused = state.hasFocus || state.isFocused
-                Log.d("VLC/Settings", "Detail focus changed: isDetailFocused=$isDetailFocused")
+                val gainingFocus = state.hasFocus && !detailPaneHasFocus
+                detailPaneHasFocus = state.hasFocus
+                Log.d("VLC/Settings", "Detail focus changed: hasFocus=${state.hasFocus}, gainingFocus=$gainingFocus")
             }
-            .focusable()
     ) {
         if (category != null) {
             val categoryId = category.title
@@ -243,7 +242,8 @@ fun SettingsDetail(
             )
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn {
-                itemsIndexed(category.items) { index, item ->
+                items(category.items) { item ->
+                    val isHeader = item is SettingItem.Header
                     val itemFocusRequester = remember { FocusRequester() }
                     
                     Box(modifier = Modifier
@@ -256,6 +256,9 @@ fun SettingsDetail(
                         }
                     ) {
                         when (item) {
+                            is SettingItem.Header -> {
+                                SettingHeader(title = stringResource(id = item.title))
+                            }
                             is SettingItem.Toggle -> {
                                 ToggleSettingItem(
                                     item = item,
@@ -319,17 +322,18 @@ fun SettingsDetail(
 
                     // When the detail pane receives focus (e.g. via DPAD RIGHT from sidebar),
                     // redirect it to the last focused item in this category.
-                    LaunchedEffect(isDetailFocused, category) {
-                        if (isDetailFocused) {
+                    LaunchedEffect(detailPaneHasFocus, category) {
+                        if (detailPaneHasFocus && !isHeader) {
                             val lastKey = lastFocusedItemPerCategory[categoryId]
-                            if (lastKey == item.key || (lastKey == null && index == 0)) {
+                            val firstFocusableKey = category.items.firstOrNull { it !is SettingItem.Header }?.key
+                            if (lastKey == item.key || (lastKey == null && item.key == firstFocusableKey)) {
                                 Log.d("VLC/Settings", "Detail: Redirecting focus to item: ${item.key} in category: ${category.title}")
                                 itemFocusRequester.requestFocus()
                             }
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    if (!isHeader) Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
