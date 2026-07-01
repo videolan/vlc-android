@@ -248,6 +248,22 @@ fun CategoryItem(
 }
 
 /**
+ * A simple non-focusable header for settings sections.
+ */
+@Composable
+fun SettingHeader(title: String) {
+    Text(
+        text = title.uppercase(),
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.primary,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, bottom = 8.dp, start = 8.dp)
+    )
+}
+
+/**
  * A setting item component that displays a toggle switch.
  *
  * @param item The [SettingItem.Toggle] definition.
@@ -638,6 +654,7 @@ private fun SettingComponentsPreview() {
                 checked = true,
                 onCheckedChange = {}
             )
+            SettingHeader(title = "Advanced")
             Spacer(modifier = Modifier.size(16.dp))
             ActionSettingItem(
                 item = SettingItem.Action("key", R.string.directories, R.string.directories_summary),
