@@ -309,11 +309,11 @@ object SettingsFactory {
                 title = R.string.subtitles_color_title,
                 defaultColor = android.graphics.Color.WHITE
             ),
-            SettingItem.Input(
+            SettingItem.Slider(
                 key = KEY_SUBTITLES_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
-                type = SettingType.INT,
-                defaultValue = "255"
+                valueDisplay = SliderValueDisplay.PERCENT,
+                defaultValue = 255
             ),
             SettingItem.Header(R.string.subtitles_background_title),
             SettingItem.Toggle(
@@ -327,11 +327,11 @@ object SettingsFactory {
                 defaultColor = android.graphics.Color.BLACK,
                 dependencyKey = KEY_SUBTITLES_BACKGROUND
             ),
-            SettingItem.Input(
+            SettingItem.Slider(
                 key = KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
-                type = SettingType.INT,
-                defaultValue = "255",
+                valueDisplay = SliderValueDisplay.PERCENT,
+                defaultValue = 255,
                 dependencyKey = KEY_SUBTITLES_BACKGROUND
             ),
             SettingItem.Header(R.string.subtitles_shadow_title),
@@ -346,11 +346,11 @@ object SettingsFactory {
                 defaultColor = android.graphics.Color.BLACK,
                 dependencyKey = KEY_SUBTITLES_SHADOW
             ),
-            SettingItem.Input(
+            SettingItem.Slider(
                 key = KEY_SUBTITLES_SHADOW_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
-                type = SettingType.INT,
-                defaultValue = "128",
+                valueDisplay = SliderValueDisplay.PERCENT,
+                defaultValue = 128,
                 dependencyKey = KEY_SUBTITLES_SHADOW
             ),
             SettingItem.Header(R.string.subtitles_outline_title),
@@ -373,11 +373,11 @@ object SettingsFactory {
                 defaultColor = android.graphics.Color.BLACK,
                 dependencyKey = KEY_SUBTITLES_OUTLINE
             ),
-            SettingItem.Input(
+            SettingItem.Slider(
                 key = KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
-                type = SettingType.INT,
-                defaultValue = "255",
+                valueDisplay = SliderValueDisplay.PERCENT,
+                defaultValue = 255,
                 dependencyKey = KEY_SUBTITLES_OUTLINE
             )
         )
