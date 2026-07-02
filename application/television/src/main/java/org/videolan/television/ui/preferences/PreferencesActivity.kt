@@ -37,10 +37,12 @@ import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 
 class PreferencesActivity : BaseTvActivity() {
@@ -81,6 +83,19 @@ class PreferencesActivity : BaseTvActivity() {
             2 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_BACKGROUND_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
             3 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_SHADOW_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
             4 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_OUTLINE_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            10002 -> { // Settings restore
+                data?.getStringExtra(EXTRA_MRL)?.let { mrl ->
+                    lifecycleScope.launch {
+                        try {
+                            PreferenceParser.restoreSettings(this@PreferencesActivity, mrl.toUri())
+                            VLCInstance.restart()
+                            org.videolan.vlc.gui.helpers.UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
+                        } catch (e: Exception) {
+                            org.videolan.vlc.gui.helpers.UiTools.snacker(this@PreferencesActivity, getString(R.string.invalid_settings_file))
+                        }
+                    }
+                }
+            }
             10000 -> { // Soundfont picker
                 data?.getStringExtra(EXTRA_MRL)?.let { mrl ->
                     lifecycleScope.launch {
