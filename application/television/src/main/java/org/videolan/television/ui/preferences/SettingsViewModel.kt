@@ -574,6 +574,17 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Retrieves the current integer value for a specific slider item.
+     *
+     * @param item The slider setting item.
+     * @return The current integer value.
+     */
+    fun getIntValue(item: SettingItem.Slider): Int {
+        val key = item.getEffectiveKey()
+        return (_settingsValues[key] as? Int) ?: settings.getInt(key, item.defaultValue)
+    }
+
+    /**
      * Retrieves the current boolean value for a specific toggle item.
      *
      * @param item The toggle setting item.
@@ -654,7 +665,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     application.getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), wait.toString(), reset.toString())
                 }
             }
-            else -> item.summary?.let { application.getString(it) }
+            else -> if (item is SettingItem.Slider) {
+                val value = getIntValue(item)
+                if (item.valueDisplay == SliderValueDisplay.PERCENT) {
+                    "${(value * 100 / item.max)}%"
+                } else {
+                    value.toString()
+                }
+            } else {
+                item.summary?.let { application.getString(it) }
+            }
         }
     }
 
