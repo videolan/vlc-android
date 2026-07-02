@@ -58,6 +58,8 @@ data class SettingCategory(
  * @property icon The optional drawable resource ID for the item icon.
  * @property type The storage data type for this setting.
  * @property storageKey The actual key used in SharedPreferences if it differs from [key].
+ * @property dependencyKey The key of the preference this item depends on.
+ * @property disableIfDependencyIsSet Whether to disable if dependency is true.
  */
 sealed class SettingItem(
     val key: String,
@@ -65,7 +67,9 @@ sealed class SettingItem(
     @param:StringRes val summary: Int? = null,
     @param:DrawableRes val icon: Int? = null,
     val type: SettingType = SettingType.STRING,
-    val storageKey: String? = null
+    val storageKey: String? = null,
+    val dependencyKey: String? = null,
+    val disableIfDependencyIsSet: Boolean = false
 ) {
     /**
      * Gets the effective key to use for SharedPreferences storage.
@@ -88,13 +92,17 @@ sealed class SettingItem(
      * @param title The string resource ID for the action title.
      * @param summary The optional string resource ID for the action summary.
      * @param icon The optional drawable resource ID for the action icon.
+     * @param dependencyKey The key of the preference this item depends on.
+     * @param disableIfDependencyIsSet Whether to disable if dependency is true.
      */
     class Action(
         key: String,
         @StringRes title: Int,
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
-    ) : SettingItem(key, title, summary, icon)
+        dependencyKey: String? = null,
+        disableIfDependencyIsSet: Boolean = false
+    ) : SettingItem(key, title, summary, icon, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
 
     /**
      * A boolean toggle setting (e.g., "Auto-rescan").
@@ -103,6 +111,8 @@ sealed class SettingItem(
      * @param title The string resource ID for the toggle title.
      * @param summary The optional string resource ID for the toggle summary.
      * @param icon The optional drawable resource ID for the toggle icon.
+     * @param dependencyKey The key of the preference this item depends on.
+     * @param disableIfDependencyIsSet Whether to disable if dependency is true.
      * @property defaultValue The default boolean value if none is stored.
      */
     class Toggle(
@@ -110,8 +120,10 @@ sealed class SettingItem(
         @StringRes title: Int,
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
-        val defaultValue: Boolean = true
-    ) : SettingItem(key, title, summary, icon, type = SettingType.BOOLEAN)
+        val defaultValue: Boolean = true,
+        dependencyKey: String? = null,
+        disableIfDependencyIsSet: Boolean = false
+    ) : SettingItem(key, title, summary, icon, type = SettingType.BOOLEAN, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
 
     /**
      * A setting with multiple options, similar to [androidx.preference.ListPreference].
@@ -122,6 +134,8 @@ sealed class SettingItem(
      * @param icon The optional drawable resource ID for the setting icon.
      * @param type The storage data type for this setting.
      * @param storageKey The actual key used in SharedPreferences if it differs from [key].
+     * @param dependencyKey The key of the preference this item depends on.
+     * @param disableIfDependencyIsSet Whether to disable if dependency is true.
      * @property entries The list of human-readable option titles.
      * @property entryValues The list of machine-readable option values.
      * @property defaultValue The default string value if none is stored.
@@ -133,10 +147,12 @@ sealed class SettingItem(
         @DrawableRes icon: Int? = null,
         type: SettingType = SettingType.STRING,
         storageKey: String? = null,
+        dependencyKey: String? = null,
+        disableIfDependencyIsSet: Boolean = false,
         val entries: List<String> = emptyList(),
         val entryValues: List<String> = emptyList(),
         val defaultValue: String? = null
-    ) : SettingItem(key, title, summary, icon, type, storageKey)
+    ) : SettingItem(key, title, summary, icon, type, storageKey, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
 
     /**
      * A text input setting, similar to [androidx.preference.EditTextPreference].
@@ -147,6 +163,8 @@ sealed class SettingItem(
      * @param icon The optional drawable resource ID for the setting icon.
      * @param type The storage data type for this setting.
      * @param storageKey The actual key used in SharedPreferences if it differs from [key].
+     * @param dependencyKey The key of the preference this item depends on.
+     * @param disableIfDependencyIsSet Whether to disable if dependency is true.
      * @property defaultValue The default string value if none is stored.
      */
     class Input(
@@ -156,8 +174,10 @@ sealed class SettingItem(
         @DrawableRes icon: Int? = null,
         type: SettingType = SettingType.STRING,
         storageKey: String? = null,
+        dependencyKey: String? = null,
+        disableIfDependencyIsSet: Boolean = false,
         val defaultValue: String? = ""
-    ) : SettingItem(key, title, summary, icon, type, storageKey)
+    ) : SettingItem(key, title, summary, icon, type, storageKey, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
 
     /**
      * A color selection setting.
@@ -166,6 +186,8 @@ sealed class SettingItem(
      * @param title The string resource ID for the setting title.
      * @param summary The optional string resource ID for the setting summary.
      * @param icon The optional drawable resource ID for the setting icon.
+     * @param dependencyKey The key of the preference this item depends on.
+     * @param disableIfDependencyIsSet Whether to disable if dependency is true.
      * @property defaultColor The default color value as an ARGB integer.
      */
     class Color(
@@ -173,6 +195,8 @@ sealed class SettingItem(
         @StringRes title: Int,
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
-        val defaultColor: Int = android.graphics.Color.WHITE
-    ) : SettingItem(key, title, summary, icon, type = SettingType.COLOR)
+        val defaultColor: Int = android.graphics.Color.WHITE,
+        dependencyKey: String? = null,
+        disableIfDependencyIsSet: Boolean = false
+    ) : SettingItem(key, title, summary, icon, type = SettingType.COLOR, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
 }
