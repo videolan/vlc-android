@@ -538,6 +538,28 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Retrieves the current boolean value for a specific key.
+     *
+     * @param key The preference key.
+     * @return The current boolean value.
+     */
+    fun getBooleanValue(key: String): Boolean {
+        return (_settingsValues[key] as? Boolean) ?: settings.getBoolean(key, false)
+    }
+
+    /**
+     * Checks if a setting item is enabled based on its dependency.
+     *
+     * @param item The setting item to check.
+     * @return True if the item is enabled.
+     */
+    fun isEnabled(item: SettingItem): Boolean {
+        val depKey = item.dependencyKey ?: return true
+        val depValue = getBooleanValue(depKey)
+        return if (item.disableIfDependencyIsSet) !depValue else depValue
+    }
+
+    /**
      * Retrieves the current boolean value for a specific toggle item.
      *
      * @param item The toggle setting item.
