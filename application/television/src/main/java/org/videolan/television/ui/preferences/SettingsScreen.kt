@@ -336,6 +336,9 @@ fun SettingsDetail(
                                     )
                                 }
                             }
+                            is SettingItem.Slider -> {
+                                // Placeholder for next step
+                            }
                         }
                     }
 

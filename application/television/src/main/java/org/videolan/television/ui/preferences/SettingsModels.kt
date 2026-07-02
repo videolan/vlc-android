@@ -28,6 +28,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
 /**
+ * Represents the way a slider value is displayed to the user.
+ */
+enum class SliderValueDisplay {
+    RAW, PERCENT
+}
+
+/**
  * Represents the data type of a setting value in storage.
  */
 enum class SettingType {
@@ -199,4 +206,27 @@ sealed class SettingItem(
         dependencyKey: String? = null,
         disableIfDependencyIsSet: Boolean = false
     ) : SettingItem(key, title, summary, icon, type = SettingType.COLOR, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
+
+    /**
+     * A slider setting for range-based values.
+     *
+     * @param key The unique identifier for this setting.
+     * @param title The string resource ID for the setting title.
+     * @param min The minimum value.
+     * @param max The maximum value.
+     * @param defaultValue The default value.
+     * @param valueDisplay The way the value should be displayed to the user.
+     * @param dependencyKey The key of the preference this item depends on.
+     * @param disableIfDependencyIsSet Whether to disable if dependency is true.
+     */
+    class Slider(
+        key: String,
+        @StringRes title: Int,
+        val min: Int = 0,
+        val max: Int = 255,
+        val defaultValue: Int = 255,
+        val valueDisplay: SliderValueDisplay = SliderValueDisplay.RAW,
+        dependencyKey: String? = null,
+        disableIfDependencyIsSet: Boolean = false
+    ) : SettingItem(key, title, type = SettingType.INT, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
 }
