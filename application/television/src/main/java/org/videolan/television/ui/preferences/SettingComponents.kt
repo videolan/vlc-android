@@ -67,6 +67,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
@@ -105,28 +106,37 @@ fun SettingItemRow(
     modifier: Modifier = Modifier,
     summary: String? = null,
     icon: Int? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit = {},
     content: @Composable (() -> Unit)? = null
 ) {
     var hasFocus by remember { mutableStateOf(false) }
     
     val scale by animateFloatAsState(
-        targetValue = if (hasFocus) 1.05f else 1f,
+        targetValue = if (hasFocus && enabled) 1.05f else 1f,
         label = "scale"
     )
     
     val backgroundColor by animateColorAsState(
-        targetValue = if (hasFocus) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+        targetValue = if (hasFocus && enabled) MaterialTheme.colorScheme.onSurface else Color.Transparent,
         label = "backgroundColor"
     )
     
     val contentColor by animateColorAsState(
-        targetValue = if (hasFocus) MaterialTheme.colorScheme.inverseOnSurface else MaterialTheme.colorScheme.onSurface,
+        targetValue = when {
+            !enabled -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+            hasFocus -> MaterialTheme.colorScheme.inverseOnSurface
+            else -> MaterialTheme.colorScheme.onSurface
+        },
         label = "contentColor"
     )
 
     val summaryColor by animateColorAsState(
-        targetValue = if (hasFocus) MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = when {
+            !enabled -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+            hasFocus -> MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.7f)
+            else -> MaterialTheme.colorScheme.onSurfaceVariant
+        },
         label = "summaryColor"
     )
 
@@ -141,8 +151,9 @@ fun SettingItemRow(
             .onFocusChanged { hasFocus = it.hasFocus }
             .clip(CircleShape) // Pill shape
             .background(backgroundColor)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 24.dp, vertical = 12.dp),
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 12.dp)
+            .alpha(if (enabled) 1f else 0.5f),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (icon != null) {
