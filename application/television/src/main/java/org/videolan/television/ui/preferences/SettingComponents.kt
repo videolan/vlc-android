@@ -97,6 +97,7 @@ import org.videolan.vlc.R
  * @param modifier The [Modifier] to be applied to the row.
  * @param summary An optional summary/description string to display below the title.
  * @param icon An optional drawable resource ID to display as an icon on the left.
+ * @param enabled Whether the row is enabled.
  * @param onClick The callback to trigger when the row is clicked or selected.
  * @param content An optional `@Composable` block for trailing content.
  */
@@ -280,7 +281,9 @@ fun SettingHeader(title: String) {
  *
  * @param item The [SettingItem.Toggle] definition.
  * @param checked The current checked state.
+ * @param modifier The [Modifier] to be applied.
  * @param summary An optional summary string (overrides the one in [item]).
+ * @param enabled Whether the item is enabled.
  * @param onCheckedChange Callback triggered when the state is changed.
  */
 @Composable
@@ -289,18 +292,21 @@ fun ToggleSettingItem(
     checked: Boolean,
     modifier: Modifier = Modifier,
     summary: String? = null,
+    enabled: Boolean = true,
     onCheckedChange: (Boolean) -> Unit
 ) {
     SettingItemRow(
         title = stringResource(id = item.title),
         summary = summary ?: item.summary?.let { stringResource(id = it) },
         icon = item.icon,
+        enabled = enabled,
         onClick = { onCheckedChange(!checked) },
         modifier = modifier,
         content = {
             Switch(
                 checked = checked,
                 onCheckedChange = null,
+                enabled = enabled
             )
         }
     )
@@ -312,6 +318,7 @@ fun ToggleSettingItem(
  * @param item The [SettingItem.Action] definition.
  * @param modifier The [Modifier] to be applied.
  * @param summary An optional summary string (overrides the one in [item]).
+ * @param enabled Whether the item is enabled.
  * @param onClick Callback triggered when the action is clicked.
  */
 @Composable
@@ -319,12 +326,14 @@ fun ActionSettingItem(
     item: SettingItem.Action,
     modifier: Modifier = Modifier,
     summary: String? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     SettingItemRow(
         title = stringResource(id = item.title),
         summary = summary ?: item.summary?.let { stringResource(id = it) },
         icon = item.icon,
+        enabled = enabled,
         modifier = modifier,
         onClick = onClick
     )
@@ -339,6 +348,7 @@ fun ActionSettingItem(
  * @param currentValue The current value key.
  * @param modifier The [Modifier] to be applied.
  * @param summary An optional summary string (overrides the one in [item]).
+ * @param enabled Whether the item is enabled.
  * @param onClick Callback triggered to open the selection UI.
  */
 @Composable
@@ -347,6 +357,7 @@ fun OptionsSettingItem(
     currentValue: String?,
     modifier: Modifier = Modifier,
     summary: String? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     val currentTitle = remember(currentValue, item.entryValues, item.entries) {
@@ -358,6 +369,7 @@ fun OptionsSettingItem(
         title = stringResource(id = item.title),
         summary = summary ?: currentTitle,
         icon = item.icon,
+        enabled = enabled,
         modifier = modifier,
         onClick = onClick,
         content = {
@@ -365,7 +377,7 @@ fun OptionsSettingItem(
                 painter = painterResource(id = R.drawable.ic_chevron_right),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 0.5f else 0.38f)
             )
         }
     )
@@ -377,6 +389,7 @@ fun OptionsSettingItem(
  * @param item The [SettingItem.Color] definition.
  * @param currentValue The current color value as an ARGB integer.
  * @param modifier The [Modifier] to be applied.
+ * @param enabled Whether the item is enabled.
  * @param onClick Callback triggered to open the color picker.
  */
 @Composable
@@ -384,12 +397,14 @@ fun ColorSettingItem(
     item: SettingItem.Color,
     currentValue: Int,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     SettingItemRow(
         title = stringResource(id = item.title),
         summary = item.summary?.let { stringResource(id = it) },
         icon = item.icon,
+        enabled = enabled,
         modifier = modifier,
         onClick = onClick,
         content = {
@@ -397,8 +412,8 @@ fun ColorSettingItem(
                 modifier = Modifier
                     .size(24.dp)
                     .clip(CircleShape)
-                    .background(Color(currentValue))
-                    .border(1.dp, MaterialTheme.colorScheme.onSurfaceVariant, CircleShape)
+                    .background(if (enabled) Color(currentValue) else Color(currentValue).copy(alpha = 0.38f))
+                    .border(1.dp, MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 1f else 0.38f), CircleShape)
             )
         }
     )
@@ -411,6 +426,7 @@ fun ColorSettingItem(
  * @param currentValue The current input value.
  * @param modifier The [Modifier] to be applied.
  * @param summary An optional summary string.
+ * @param enabled Whether the item is enabled.
  * @param onClick Callback to open the input dialog.
  */
 @Composable
@@ -419,12 +435,14 @@ fun InputSettingItem(
     currentValue: String?,
     modifier: Modifier = Modifier,
     summary: String? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     SettingItemRow(
         title = stringResource(id = item.title),
         summary = summary ?: currentValue,
         icon = item.icon,
+        enabled = enabled,
         modifier = modifier,
         onClick = onClick,
         content = {
@@ -432,7 +450,7 @@ fun InputSettingItem(
                 painter = painterResource(id = R.drawable.ic_edit),
                 contentDescription = null,
                 modifier = Modifier.size(20.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 0.5f else 0.38f)
             )
         }
     )
