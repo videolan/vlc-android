@@ -69,12 +69,14 @@ fun SettingsScreen(
     selectedCategory: SettingCategory?,
     onCategorySelected: (SettingCategory) -> Unit,
     getBooleanValue: (SettingItem.Toggle) -> Boolean = { it.defaultValue },
+    getIntValue: (SettingItem.Slider) -> Int = { it.defaultValue },
     getStringValue: (SettingItem) -> String? = { null },
     getColorValue: (SettingItem.Color) -> Int = { it.defaultColor },
     getSummary: (SettingItem) -> String? = { null },
     onBooleanChanged: (SettingItem.Toggle, Boolean) -> Unit = { _, _ -> },
     onActionClicked: (SettingItem.Action) -> Unit = {},
     onStringChanged: (SettingItem, String) -> Unit = { _, _ -> },
+    onIntChanged: (SettingItem.Slider, Int) -> Unit = { _, _ -> },
     onColorClicked: (SettingItem.Color) -> Unit = {},
     isEnabled: (SettingItem) -> Boolean = { true }
 ) {
@@ -101,12 +103,14 @@ fun SettingsScreen(
         SettingsDetail(
             category = selectedCategory,
             getBooleanValue = getBooleanValue,
+            getIntValue = getIntValue,
             getStringValue = getStringValue,
             getColorValue = getColorValue,
             getSummary = getSummary,
             onBooleanChanged = onBooleanChanged,
             onActionClicked = onActionClicked,
             onStringChanged = onStringChanged,
+            onIntChanged = onIntChanged,
             onColorClicked = onColorClicked,
             isEnabled = isEnabled,
             modifier = Modifier
@@ -142,12 +146,14 @@ fun SettingsScreen(
         selectedCategory = selectedCategory,
         onCategorySelected = { viewModel.selectCategory(it) },
         getBooleanValue = { viewModel.getBooleanValue(it) },
+        getIntValue = { viewModel.getIntValue(it) },
         getStringValue = { viewModel.getStringValue(it) },
         getColorValue = { viewModel.getColorValue(it) },
         getSummary = { viewModel.getSummary(it) },
         onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
         onActionClicked = { viewModel.executeAction(context, it) },
         onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
+        onIntChanged = { item, v -> viewModel.updateIntSetting(context, item, v) },
         onColorClicked = { viewModel.pickColor(context, it) },
         isEnabled = { viewModel.isEnabled(it) }
     )
@@ -206,12 +212,14 @@ fun SettingsSidebar(
 fun SettingsDetail(
     category: SettingCategory?,
     getBooleanValue: (SettingItem.Toggle) -> Boolean,
+    getIntValue: (SettingItem.Slider) -> Int,
     getStringValue: (SettingItem) -> String?,
     getColorValue: (SettingItem.Color) -> Int,
     getSummary: (SettingItem) -> String?,
     onBooleanChanged: (SettingItem.Toggle, Boolean) -> Unit,
     onActionClicked: (SettingItem.Action) -> Unit,
     onStringChanged: (SettingItem, String) -> Unit,
+    onIntChanged: (SettingItem.Slider, Int) -> Unit,
     onColorClicked: (SettingItem.Color) -> Unit,
     isEnabled: (SettingItem) -> Boolean,
     modifier: Modifier = Modifier
@@ -337,7 +345,24 @@ fun SettingsDetail(
                                 }
                             }
                             is SettingItem.Slider -> {
-                                // Placeholder for next step
+                                var showDialog by remember { mutableStateOf(false) }
+                                val currentValue = getIntValue(item)
+                                SliderSettingItem(
+                                    item = item,
+                                    currentValue = currentValue,
+                                    summary = getSummary(item),
+                                    onClick = { showDialog = true },
+                                    enabled = isEnabled,
+                                    modifier = Modifier.focusRequester(itemFocusRequester)
+                                )
+                                if (showDialog) {
+                                    SliderDialog(
+                                        item = item,
+                                        currentValue = currentValue,
+                                        onDismiss = { showDialog = false },
+                                        onValueConfirmed = { onIntChanged(item, it) }
+                                    )
+                                }
                             }
                         }
                     }
