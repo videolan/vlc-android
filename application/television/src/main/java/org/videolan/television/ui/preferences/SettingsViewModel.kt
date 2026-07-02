@@ -280,10 +280,35 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun refreshCategories() {
         val filtered = _allCategories.value.map { category ->
-            category.copy(items = category.items.filter { item ->
-                PreferenceVisibilityManager.isPreferenceVisible(item.key, settings, true)
-            })
-        }.filter { it.items.isNotEmpty() }
+            val visibleItems = category.items.filter { item ->
+                // Headers don't have visibility rules themselves, they depend on items under them
+                if (item is SettingItem.Header) true
+                else PreferenceVisibilityManager.isPreferenceVisible(item.key, settings, true)
+            }
+            
+            // Further filter to remove headers that have no visible items following them 
+            // until the next header or the end of the list.
+            val cleanedItems = mutableListOf<SettingItem>()
+            var lastHeader: SettingItem.Header? = null
+            
+            for (item in visibleItems) {
+                if (item is SettingItem.Header) {
+                    lastHeader = item
+                } else {
+                    // We found a non-header item, so if we had a pending header, add it now
+                    lastHeader?.let {
+                        cleanedItems.add(it)
+                        lastHeader = null
+                    }
+                    cleanedItems.add(item)
+                }
+            }
+            
+            category.copy(items = cleanedItems)
+        }.filter { category ->
+            // Category is visible only if it has at least one actual setting (non-header)
+            category.items.any { it !is SettingItem.Header }
+        }
         
         _categories.value = filtered
         if (_selectedCategory.value == null || !filtered.any { it.title == _selectedCategory.value?.title }) {
