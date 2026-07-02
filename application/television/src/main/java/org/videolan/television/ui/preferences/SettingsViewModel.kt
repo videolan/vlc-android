@@ -483,44 +483,52 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Retrieves the current boolean value for a specific key.
+     * Retrieves the current boolean value for a specific toggle item.
      *
-     * @param key The preference key.
-     * @param defaultValue The value to return if the key is not present.
+     * @param item The toggle setting item.
      * @return The current boolean value.
      */
-    fun getBooleanValue(key: String, defaultValue: Boolean = false): Boolean {
-        // Access _settingsValues[key] to trigger Compose read tracking
-        return (_settingsValues[key] as? Boolean) ?: settings.getBoolean(key, defaultValue)
+    fun getBooleanValue(item: SettingItem.Toggle): Boolean {
+        val key = item.getEffectiveKey()
+        return (_settingsValues[key] as? Boolean) ?: settings.getBoolean(key, item.defaultValue)
     }
 
     /**
-     * Retrieves the current string value for a specific key.
+     * Retrieves the current string value for a specific setting item.
      *
-     * @param key The preference key.
-     * @param defaultValue The value to return if the key is not present.
-     * @return The current string value, or null if not found and defaultValue is null.
+     * Handles type-safe conversion from stored primitives (Int, Long) if required by [item.type].
+     *
+     * @param item The setting item.
+     * @return The current string representation of the value.
      */
-    fun getStringValue(key: String, defaultValue: String? = null): String? {
+    fun getStringValue(item: SettingItem): String? {
+        val key = item.getEffectiveKey()
         val reactiveValue = _settingsValues[key]
         if (reactiveValue != null) return reactiveValue.toString()
 
-        return when (key) {
-            "network_caching" -> settings.getInt(KEY_NETWORK_CACHING_VALUE, 0).toString()
-            else -> try {
-                settings.getString(key, defaultValue)
-            } catch (e: ClassCastException) {
-                // Fallback for settings stored as Int/Long (like opacities)
-                settings.all[key]?.toString() ?: defaultValue
-            }
+        val defaultValue = when (item) {
+            is SettingItem.Options -> item.defaultValue
+            is SettingItem.Input -> item.defaultValue
+            else -> null
+        }
+
+        return when (item.type) {
+            SettingType.INT -> settings.getInt(key, defaultValue?.toIntOrNull() ?: 0).toString()
+            SettingType.LONG -> settings.getLong(key, defaultValue?.toLongOrNull() ?: 0L).toString()
+            SettingType.BOOLEAN -> settings.getBoolean(key, defaultValue?.toBoolean() ?: false).toString()
+            else -> settings.getString(key, defaultValue)
         }
     }
 
     /**
-     * Retrieves the current color value.
+     * Retrieves the current color value for a specific color item.
+     *
+     * @param item The color setting item.
+     * @return The current color value as an ARGB integer.
      */
-    fun getColorValue(key: String, defaultColor: Int): Int {
-        return (_settingsValues[key] as? Int) ?: settings.getInt(key, defaultColor)
+    fun getColorValue(item: SettingItem.Color): Int {
+        val key = item.getEffectiveKey()
+        return (_settingsValues[key] as? Int) ?: settings.getInt(key, item.defaultColor)
     }
 
     /**
@@ -533,16 +541,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         val application = getApplication<Application>()
         return when (item.key) {
             KEY_AUDIO_DIGITAL_OUTPUT -> {
-                val pt = getBooleanValue(KEY_AUDIO_DIGITAL_OUTPUT, false)
+                val pt = if (item is SettingItem.Toggle) getBooleanValue(item) else false
                 application.getString(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
             }
             KEY_AUDIO_PREFERRED_LANGUAGE -> {
-                val value = getStringValue(KEY_AUDIO_PREFERRED_LANGUAGE)
+                val value = getStringValue(item)
                 if (value.isNullOrEmpty()) application.getString(R.string.no_track_preference)
                 else application.getString(R.string.track_preference, LocaleUtil.getLocaleName(value))
             }
             KEY_SUBTITLE_PREFERRED_LANGUAGE -> {
-                val value = getStringValue(KEY_SUBTITLE_PREFERRED_LANGUAGE)
+                val value = getStringValue(item)
                 if (value.isNullOrEmpty()) application.getString(R.string.no_track_preference)
                 else application.getString(R.string.track_preference, value)
             }
@@ -728,7 +736,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * Handles color picking.
      */
     fun pickColor(context: Context, item: SettingItem.Color) {
-        val currentColor = getColorValue(item.key, item.defaultColor)
+        val currentColor = getColorValue(item)
         val intent = Intent(context, ColorPickerActivity::class.java).apply {
             putExtra(COLOR_PICKER_SELECTED_COLOR, currentColor)
             putExtra(COLOR_PICKER_TITLE, context.getString(item.title))
