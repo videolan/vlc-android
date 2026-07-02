@@ -68,9 +68,9 @@ fun SettingsScreen(
     categories: List<SettingCategory>,
     selectedCategory: SettingCategory?,
     onCategorySelected: (SettingCategory) -> Unit,
-    getBooleanValue: (String, Boolean) -> Boolean = { _, d -> d },
-    getStringValue: (String, String?) -> String? = { _, d -> d },
-    getColorValue: (String, Int) -> Int = { _, d -> d },
+    getBooleanValue: (SettingItem.Toggle) -> Boolean = { it.defaultValue },
+    getStringValue: (SettingItem) -> String? = { null },
+    getColorValue: (SettingItem.Color) -> Int = { it.defaultColor },
     getSummary: (SettingItem) -> String? = { null },
     onBooleanChanged: (String, Boolean) -> Unit = { _, _ -> },
     onActionClicked: (SettingItem.Action) -> Unit = {},
@@ -139,9 +139,9 @@ fun SettingsScreen(
         categories = categories,
         selectedCategory = selectedCategory,
         onCategorySelected = { viewModel.selectCategory(it) },
-        getBooleanValue = { k, d -> viewModel.getBooleanValue(k, d) },
-        getStringValue = { k, d -> viewModel.getStringValue(k, d) },
-        getColorValue = { k, d -> viewModel.getColorValue(k, d) },
+        getBooleanValue = { viewModel.getBooleanValue(it) },
+        getStringValue = { viewModel.getStringValue(it) },
+        getColorValue = { viewModel.getColorValue(it) },
         getSummary = { viewModel.getSummary(it) },
         onBooleanChanged = { k, v -> viewModel.updateBooleanSetting(context, k, v) },
         onActionClicked = { viewModel.executeAction(context, it) },
@@ -202,9 +202,9 @@ fun SettingsSidebar(
 @Composable
 fun SettingsDetail(
     category: SettingCategory?,
-    getBooleanValue: (String, Boolean) -> Boolean,
-    getStringValue: (String, String?) -> String?,
-    getColorValue: (String, Int) -> Int,
+    getBooleanValue: (SettingItem.Toggle) -> Boolean,
+    getStringValue: (SettingItem) -> String?,
+    getColorValue: (SettingItem.Color) -> Int,
     getSummary: (SettingItem) -> String?,
     onBooleanChanged: (String, Boolean) -> Unit,
     onActionClicked: (SettingItem.Action) -> Unit,
@@ -270,7 +270,7 @@ fun SettingsDetail(
                             is SettingItem.Toggle -> {
                                 ToggleSettingItem(
                                     item = item,
-                                    checked = getBooleanValue(item.key, item.defaultValue),
+                                    checked = getBooleanValue(item),
                                     summary = getSummary(item),
                                     onCheckedChange = { onBooleanChanged(item.key, it) },
                                     modifier = Modifier.focusRequester(itemFocusRequester)
@@ -286,7 +286,7 @@ fun SettingsDetail(
                             }
                             is SettingItem.Options -> {
                                 var showDialog by remember { mutableStateOf(false) }
-                                val currentValue = getStringValue(item.key, item.defaultValue)
+                                val currentValue = getStringValue(item)
                                 OptionsSettingItem(
                                     item = item,
                                     currentValue = currentValue,
@@ -306,14 +306,14 @@ fun SettingsDetail(
                             is SettingItem.Color -> {
                                 ColorSettingItem(
                                     item = item,
-                                    currentValue = getColorValue(item.key, item.defaultColor),
+                                    currentValue = getColorValue(item),
                                     onClick = { onColorClicked(item) },
                                     modifier = Modifier.focusRequester(itemFocusRequester)
                                 )
                             }
                             is SettingItem.Input -> {
                                 var showDialog by remember { mutableStateOf(false) }
-                                val currentValue = getStringValue(item.key, item.defaultValue)
+                                val currentValue = getStringValue(item)
                                 InputSettingItem(
                                     item = item,
                                     currentValue = currentValue,
@@ -369,6 +369,9 @@ private fun SettingsScreenPreview() {
             categories = categories,
             selectedCategory = categories[0],
             onCategorySelected = {},
+            getBooleanValue = { it.defaultValue },
+            getStringValue = { (it as? SettingItem.Options)?.defaultValue ?: (it as? SettingItem.Input)?.defaultValue },
+            getColorValue = { it.defaultColor },
             getSummary = { item ->
                 // Simple mock summary logic for preview
                 item.summary?.let { "Summary for setting" }
