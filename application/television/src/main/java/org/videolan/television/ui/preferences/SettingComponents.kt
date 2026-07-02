@@ -716,3 +716,21 @@ private fun SelectionDialogPreview() {
         }
     }
 }
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun InputDialogPreview() {
+    VlcTVSettingsTheme {
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+            InputDialog(
+                item = SettingItem.Input(
+                    "key",
+                    R.string.hardware_acceleration,
+                ),
+                currentValue = "-1",
+                onDismiss = {},
+                onValueConfirmed = {}
+            )
+        }
+    }
+}
