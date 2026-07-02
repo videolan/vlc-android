@@ -101,8 +101,11 @@ import org.videolan.tools.KEY_SUBTITLES_COLOR
 import org.videolan.tools.KEY_SUBTITLES_COLOR_OPACITY
 import org.videolan.tools.KEY_SUBTITLES_OUTLINE
 import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_SIZE
 import org.videolan.tools.KEY_SUBTITLES_SHADOW
 import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR_OPACITY
 import org.videolan.tools.KEY_SUBTITLES_SIZE
 import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
 import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
@@ -111,6 +114,7 @@ import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.PREF_TV_UI
 import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.SCREEN_ORIENTATION
 import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
 import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
 import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
@@ -366,31 +370,45 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * @param value The new string value.
      */
     fun updateStringSetting(context: Context, key: String, value: String) {
-        settings.edit { putString(key, value) }
-        _settingsValues[key] = value
-        
-        // Handle side effects
+        // Handle side effects and specialized storage types
         when (key) {
-            KEY_PREFERRED_RESOLUTION, KEY_AUDIO_PREFERRED_LANGUAGE,
-            KEY_SUBTITLE_PREFERRED_LANGUAGE, KEY_SUBTITLE_TEXT_ENCODING,
-            KEY_SUBTITLES_SIZE, KEY_AOUT, KEY_OPENGL, KEY_DEBLOCKING,
-            KEY_AUDIO_REPLAY_GAIN_MODE, KEY_AUDIO_REPLAY_GAIN_PREAMP, KEY_AUDIO_REPLAY_GAIN_DEFAULT,
-            KEY_HARDWARE_ACCELERATION -> {
+            KEY_SUBTITLES_COLOR_OPACITY, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
+            KEY_SUBTITLES_SHADOW_COLOR_OPACITY, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY -> {
+                val intValue = value.toIntOrNull()?.coerceIn(0, 255) ?: 255
+                settings.edit { putInt(key, intValue) }
+                _settingsValues[key] = intValue
                 viewModelScope.launch { restartLibVLC() }
             }
-            "subtitles_presets" -> applySubtitlePreset(value)
-            KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
             "network_caching" -> {
                 val intValue = value.toIntOrNull()?.coerceIn(0, 60000) ?: 0
                 settings.edit { putInt(KEY_NETWORK_CACHING_VALUE, intValue) }
+                _settingsValues[key] = intValue
                 viewModelScope.launch { restartLibVLC() }
             }
-            KEY_CUSTOM_LIBVLC_OPTIONS -> {
-                viewModelScope.launch {
-                    try {
-                        restartLibVLC()
-                    } catch (e: IllegalStateException) {
-                        Log.e("SettingsViewModel", "Invalid custom options", e)
+            else -> {
+                settings.edit { putString(key, value) }
+                _settingsValues[key] = value
+
+                // Handle side effects for standard string settings
+                when (key) {
+                    KEY_PREFERRED_RESOLUTION, KEY_AUDIO_PREFERRED_LANGUAGE,
+                    KEY_SUBTITLE_PREFERRED_LANGUAGE, KEY_SUBTITLE_TEXT_ENCODING,
+                    KEY_SUBTITLES_SIZE, KEY_AOUT, KEY_OPENGL, KEY_DEBLOCKING,
+                    KEY_AUDIO_REPLAY_GAIN_MODE, KEY_AUDIO_REPLAY_GAIN_PREAMP, KEY_AUDIO_REPLAY_GAIN_DEFAULT,
+                    KEY_HARDWARE_ACCELERATION, KEY_SUBTITLES_OUTLINE_SIZE -> {
+                        viewModelScope.launch { restartLibVLC() }
+                    }
+                    "subtitles_presets" -> applySubtitlePreset(value)
+                    KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
+                    SCREEN_ORIENTATION -> (context as? Activity)?.requestedOrientation = value.toInt()
+                    KEY_CUSTOM_LIBVLC_OPTIONS -> {
+                        viewModelScope.launch {
+                            try {
+                                restartLibVLC()
+                            } catch (e: IllegalStateException) {
+                                Log.e("SettingsViewModel", "Invalid custom options", e)
+                            }
+                        }
                     }
                 }
             }
@@ -425,8 +443,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             putInt(KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY, 255)
             putBoolean(KEY_SUBTITLES_SHADOW, true)
             putInt(KEY_SUBTITLES_SHADOW_COLOR, ContextCompat.getColor(application, R.color.black))
+            putInt(KEY_SUBTITLES_SHADOW_COLOR_OPACITY, 128)
             putBoolean(KEY_SUBTITLES_OUTLINE, true)
             putInt(KEY_SUBTITLES_OUTLINE_COLOR, ContextCompat.getColor(application, R.color.black))
+            putInt(KEY_SUBTITLES_OUTLINE_COLOR_OPACITY, 255)
 
             when (preset) {
                 "1" -> putString(KEY_SUBTITLES_SIZE, "13")
@@ -482,7 +502,18 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * @return The current string value, or null if not found and defaultValue is null.
      */
     fun getStringValue(key: String, defaultValue: String? = null): String? {
-        return (_settingsValues[key] as? String) ?: settings.getString(key, defaultValue)
+        val reactiveValue = _settingsValues[key]
+        if (reactiveValue != null) return reactiveValue.toString()
+
+        return when (key) {
+            "network_caching" -> settings.getInt(KEY_NETWORK_CACHING_VALUE, 0).toString()
+            else -> try {
+                settings.getString(key, defaultValue)
+            } catch (e: ClassCastException) {
+                // Fallback for settings stored as Int/Long (like opacities)
+                settings.all[key]?.toString() ?: defaultValue
+            }
+        }
     }
 
     /**
