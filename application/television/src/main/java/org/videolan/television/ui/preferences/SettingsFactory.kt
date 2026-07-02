@@ -124,13 +124,17 @@ object SettingsFactory {
                 key = VIDEO_RESUME_PLAYBACK,
                 title = R.string.video_resume_playback_title,
                 summary = R.string.video_resume_playback_summary,
-                defaultValue = true
+                defaultValue = true,
+                dependencyKey = PLAYBACK_HISTORY,
+                disableIfDependencyIsSet = true
             ),
             SettingItem.Toggle(
                 key = AUDIO_RESUME_PLAYBACK,
                 title = R.string.audio_resume_playback_title,
                 summary = R.string.audio_resume_playback_summary,
-                defaultValue = true
+                defaultValue = true,
+                dependencyKey = PLAYBACK_HISTORY,
+                disableIfDependencyIsSet = true
             )
         )
     )
@@ -222,25 +226,29 @@ object SettingsFactory {
                 summary = R.string.replaygain_mode_summary,
                 entries = context.resources.getStringArray(R.array.replaygain).toList(),
                 entryValues = context.resources.getStringArray(R.array.replaygain_values).toList(),
-                defaultValue = "track"
+                defaultValue = "track",
+                dependencyKey = KEY_AUDIO_REPLAY_GAIN_ENABLE
             ),
             SettingItem.Input(
                 key = KEY_AUDIO_REPLAY_GAIN_PREAMP,
                 title = R.string.replaygain_preamp,
                 summary = R.string.replaygain_preamp_summary,
-                defaultValue = "0.0"
+                defaultValue = "0.0",
+                dependencyKey = KEY_AUDIO_REPLAY_GAIN_ENABLE
             ),
             SettingItem.Input(
                 key = KEY_AUDIO_REPLAY_GAIN_DEFAULT,
                 title = R.string.replaygain_default,
                 summary = R.string.replaygain_default_summary,
-                defaultValue = "-7.0"
+                defaultValue = "-7.0",
+                dependencyKey = KEY_AUDIO_REPLAY_GAIN_ENABLE
             ),
             SettingItem.Toggle(
                 key = KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION,
                 title = R.string.replaygain_peak_protection,
                 summary = R.string.replaygain_peak_protection_summary,
-                defaultValue = true
+                defaultValue = true,
+                dependencyKey = KEY_AUDIO_REPLAY_GAIN_ENABLE
             ),
             SettingItem.Header(R.string.advanced_prefs_category),
             SettingItem.Toggle(
@@ -323,13 +331,15 @@ object SettingsFactory {
             SettingItem.Color(
                 key = KEY_SUBTITLES_BACKGROUND_COLOR,
                 title = R.string.subtitles_background_color_title,
-                defaultColor = android.graphics.Color.BLACK
+                defaultColor = android.graphics.Color.BLACK,
+                dependencyKey = KEY_SUBTITLES_BACKGROUND
             ),
             SettingItem.Input(
                 key = KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
                 type = SettingType.INT,
-                defaultValue = "255"
+                defaultValue = "255",
+                dependencyKey = KEY_SUBTITLES_BACKGROUND
             ),
             SettingItem.Header(R.string.subtitles_shadow_title),
             SettingItem.Toggle(
@@ -340,13 +350,15 @@ object SettingsFactory {
             SettingItem.Color(
                 key = KEY_SUBTITLES_SHADOW_COLOR,
                 title = R.string.subtitles_color,
-                defaultColor = android.graphics.Color.BLACK
+                defaultColor = android.graphics.Color.BLACK,
+                dependencyKey = KEY_SUBTITLES_SHADOW
             ),
             SettingItem.Input(
                 key = KEY_SUBTITLES_SHADOW_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
                 type = SettingType.INT,
-                defaultValue = "128"
+                defaultValue = "128",
+                dependencyKey = KEY_SUBTITLES_SHADOW
             ),
             SettingItem.Header(R.string.subtitles_outline_title),
             SettingItem.Toggle(
@@ -359,18 +371,21 @@ object SettingsFactory {
                 title = R.string.subtitles_size,
                 entries = context.resources.getStringArray(R.array.subtitles_outline_size_entries).toList(),
                 entryValues = context.resources.getStringArray(R.array.subtitles_outline_size_values).toList(),
-                defaultValue = "4"
+                defaultValue = "4",
+                dependencyKey = KEY_SUBTITLES_OUTLINE
             ),
             SettingItem.Color(
                 key = KEY_SUBTITLES_OUTLINE_COLOR,
                 title = R.string.subtitles_color,
-                defaultColor = android.graphics.Color.BLACK
+                defaultColor = android.graphics.Color.BLACK,
+                dependencyKey = KEY_SUBTITLES_OUTLINE
             ),
             SettingItem.Input(
                 key = KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
                 type = SettingType.INT,
-                defaultValue = "255"
+                defaultValue = "255",
+                dependencyKey = KEY_SUBTITLES_OUTLINE
             )
         )
     )
@@ -493,7 +508,8 @@ object SettingsFactory {
             ),
             SettingItem.Action(
                 key = "remote_access_status",
-                title = R.string.remote_access_status
+                title = R.string.remote_access_status,
+                dependencyKey = KEY_ENABLE_REMOTE_ACCESS
             ),
             SettingItem.Action(
                 key = "remote_access_info",
@@ -505,7 +521,8 @@ object SettingsFactory {
                 title = R.string.remote_access_medialibrary_content,
                 entries = context.resources.getStringArray(R.array.remote_access_content_entries).toList(),
                 entryValues = context.resources.getStringArray(R.array.remote_access_content_values).toList(),
-                defaultValue = ""
+                defaultValue = "",
+                dependencyKey = KEY_ENABLE_REMOTE_ACCESS
             )
         )
     )
