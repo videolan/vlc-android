@@ -75,7 +75,8 @@ fun SettingsScreen(
     onBooleanChanged: (SettingItem.Toggle, Boolean) -> Unit = { _, _ -> },
     onActionClicked: (SettingItem.Action) -> Unit = {},
     onStringChanged: (SettingItem, String) -> Unit = { _, _ -> },
-    onColorClicked: (SettingItem.Color) -> Unit = {}
+    onColorClicked: (SettingItem.Color) -> Unit = {},
+    isEnabled: (SettingItem) -> Boolean = { true }
 ) {
     Row(
         modifier = Modifier
@@ -107,6 +108,7 @@ fun SettingsScreen(
             onActionClicked = onActionClicked,
             onStringChanged = onStringChanged,
             onColorClicked = onColorClicked,
+            isEnabled = isEnabled,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
@@ -146,7 +148,8 @@ fun SettingsScreen(
         onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
         onActionClicked = { viewModel.executeAction(context, it) },
         onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
-        onColorClicked = { viewModel.pickColor(context, it) }
+        onColorClicked = { viewModel.pickColor(context, it) },
+        isEnabled = { viewModel.isEnabled(it) }
     )
 }
 
@@ -169,7 +172,7 @@ fun SettingsSidebar(
             .focusable()
     ) {
         Text(
-            text = stringResource(id = R.string.preferences),
+            text = stringResource(id = org.videolan.television.R.string.preferences),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
@@ -210,6 +213,7 @@ fun SettingsDetail(
     onActionClicked: (SettingItem.Action) -> Unit,
     onStringChanged: (SettingItem, String) -> Unit,
     onColorClicked: (SettingItem.Color) -> Unit,
+    isEnabled: (SettingItem) -> Boolean,
     modifier: Modifier = Modifier
 ) {
     val detailFocusRequester = remember { FocusRequester() }
@@ -249,6 +253,7 @@ fun SettingsDetail(
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn(state = listState) {
                 items(category.items, key = { it.key }) { item ->
+                    val isEnabled = isEnabled(item)
                     val isHeader = item is SettingItem.Header
                     val itemFocusRequester = remember { FocusRequester() }
                     
@@ -269,6 +274,7 @@ fun SettingsDetail(
                                     checked = getBooleanValue(item),
                                     summary = getSummary(item),
                                     onCheckedChange = { onBooleanChanged(item, it) },
+                                    enabled = isEnabled,
                                     modifier = Modifier.focusRequester(itemFocusRequester)
                                 )
                             }
@@ -277,6 +283,7 @@ fun SettingsDetail(
                                     item = item,
                                     summary = getSummary(item),
                                     onClick = { onActionClicked(item) },
+                                    enabled = isEnabled,
                                     modifier = Modifier.focusRequester(itemFocusRequester)
                                 )
                             }
@@ -288,6 +295,7 @@ fun SettingsDetail(
                                     currentValue = currentValue,
                                     summary = getSummary(item),
                                     onClick = { showDialog = true },
+                                    enabled = isEnabled,
                                     modifier = Modifier.focusRequester(itemFocusRequester)
                                 )
                                 if (showDialog) {
@@ -304,6 +312,7 @@ fun SettingsDetail(
                                     item = item,
                                     currentValue = getColorValue(item),
                                     onClick = { onColorClicked(item) },
+                                    enabled = isEnabled,
                                     modifier = Modifier.focusRequester(itemFocusRequester)
                                 )
                             }
@@ -315,6 +324,7 @@ fun SettingsDetail(
                                     currentValue = currentValue,
                                     summary = getSummary(item),
                                     onClick = { showDialog = true },
+                                    enabled = isEnabled,
                                     modifier = Modifier.focusRequester(itemFocusRequester)
                                 )
                                 if (showDialog) {
@@ -332,9 +342,8 @@ fun SettingsDetail(
                     // When the detail pane receives focus (e.g. via DPAD RIGHT from sidebar),
                     // redirect it to the last focused item in this category.
                     LaunchedEffect(detailPaneHasFocus, category) {
-                        if (detailPaneHasFocus && !isHeader) {
+                        if (detailPaneHasFocus && !isHeader && isEnabled) {
                             val lastKey = lastFocusedItemPerCategory[categoryId]
-                            val firstFocusableKey = category.items.firstOrNull { it !is SettingItem.Header }?.key
                             if (lastKey == item.key || (lastKey == null && item.key == firstFocusableKey)) {
                                 itemFocusRequester.requestFocus()
                             }
@@ -353,11 +362,11 @@ fun SettingsDetail(
 private fun SettingsScreenPreview() {
     val categories = remember {
         listOf(
-            SettingCategory(R.string.video_prefs_category, listOf(
-                SettingItem.Toggle("video_toggle", R.string.auto_rescan, R.string.auto_rescan_summary),
-                SettingItem.Action("video_action", R.string.medialibrary_directories, R.string.directories_summary)
-            ), R.drawable.ic_pref_video),
-            SettingCategory(R.string.audio_prefs_category, emptyList(), R.drawable.ic_pref_audio)
+            SettingCategory(org.videolan.vlc.R.string.video_prefs_category, listOf(
+                SettingItem.Toggle("video_toggle", org.videolan.vlc.R.string.auto_rescan, org.videolan.vlc.R.string.auto_rescan_summary),
+                SettingItem.Action("video_action", org.videolan.vlc.R.string.medialibrary_directories, org.videolan.vlc.R.string.directories_summary)
+            ), org.videolan.vlc.R.drawable.ic_pref_video),
+            SettingCategory(org.videolan.vlc.R.string.audio_prefs_category, emptyList(), org.videolan.vlc.R.drawable.ic_pref_audio)
         )
     }
     VlcTVSettingsTheme {
