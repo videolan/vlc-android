@@ -466,6 +466,63 @@ fun InputSettingItem(
 }
 
 /**
+ * A TV-optimized button for dialogs with clear focus feedback.
+ */
+@Composable
+fun DialogButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isPrimary: Boolean = false,
+    focusRequester: FocusRequester? = null
+) {
+    var hasFocus by remember { mutableStateOf(false) }
+
+    val scale by animateFloatAsState(
+        targetValue = if (hasFocus) 1.1f else 1f,
+        label = "scale"
+    )
+
+    val backgroundColor by animateColorAsState(
+        targetValue = when {
+            hasFocus -> if (isPrimary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+            else -> if (isPrimary) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f) else Color.Transparent
+        },
+        label = "backgroundColor"
+    )
+
+    val contentColor by animateColorAsState(
+        targetValue = when {
+            hasFocus -> if (isPrimary) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.inverseOnSurface
+            else -> if (isPrimary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+        },
+        label = "contentColor"
+    )
+
+    Box(
+        modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
+            .onFocusChanged { hasFocus = it.hasFocus }
+            .clip(CircleShape)
+            .background(backgroundColor)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 12.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold,
+            color = contentColor
+        )
+    }
+}
+
+/**
  * A setting item for range-based values using a slider.
  */
 @Composable
@@ -572,21 +629,23 @@ fun SliderDialog(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextButton(onClick = onDismiss) {
-                        Text(stringResource(id = R.string.cancel))
-                    }
+                    DialogButton(
+                        text = stringResource(id = R.string.cancel),
+                        onClick = onDismiss
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Button(
+                    DialogButton(
+                        text = stringResource(id = R.string.ok),
                         onClick = { 
                             onValueConfirmed(value.toInt())
                             onDismiss()
                         },
-                        modifier = Modifier.focusRequester(okButtonFocusRequester)
-                    ) {
-                        Text(stringResource(id = R.string.ok))
-                    }
+                        isPrimary = true,
+                        focusRequester = okButtonFocusRequester
+                    )
                 }
             }
         }
@@ -799,18 +858,22 @@ fun InputDialog(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextButton(onClick = onDismiss) {
-                        Text(stringResource(id = R.string.cancel))
-                    }
+                    DialogButton(
+                        text = stringResource(id = R.string.cancel),
+                        onClick = onDismiss
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = { 
-                        onValueConfirmed(text)
-                        onDismiss()
-                    }) {
-                        Text(stringResource(id = R.string.ok))
-                    }
+                    DialogButton(
+                        text = stringResource(id = R.string.ok),
+                        onClick = { 
+                            onValueConfirmed(text)
+                            onDismiss()
+                        },
+                        isPrimary = true
+                    )
                 }
             }
         }
@@ -908,6 +971,31 @@ private fun SliderDialogPreview() {
                 onDismiss = {},
                 onValueConfirmed = {}
             )
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun DialogButtonsPreview() {
+    VlcTVSettingsTheme {
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(48.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                DialogButton(text = "Cancel", onClick = {})
+                DialogButton(text = "OK", onClick = {}, isPrimary = true)
+            }
+            Text("Focused state (simulated):", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                // We can't easily force focus in preview without FocusRequester hacks,
+                // but the colors are defined in the component.
+                DialogButton(text = "Secondary", onClick = {})
+                DialogButton(text = "Primary", onClick = {}, isPrimary = true)
+            }
         }
     }
 }
