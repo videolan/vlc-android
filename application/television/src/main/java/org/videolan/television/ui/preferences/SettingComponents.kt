@@ -77,6 +77,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import android.view.KeyEvent
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.nativeKeyCode
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -534,16 +541,31 @@ fun SliderDialog(
                     modifier = Modifier.padding(vertical = 24.dp)
                 )
 
+                val okButtonFocusRequester = remember { FocusRequester() }
+
                 Slider(
                     value = value,
                     onValueChange = { value = it },
                     valueRange = item.min.toFloat()..item.max.toFloat(),
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .onPreviewKeyEvent {
+                            if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown) {
+                                okButtonFocusRequester.requestFocus()
+                                true
+                            } else {
+                                false
+                            }
+                        }
+                        .focusProperties {
+                            down = okButtonFocusRequester
+                        },
                     colors = SliderDefaults.colors(
                         thumbColor = MaterialTheme.colorScheme.primary,
                         activeTrackColor = MaterialTheme.colorScheme.primary,
                         inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant
-                    )
+                    ),
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -556,10 +578,13 @@ fun SliderDialog(
                         Text(stringResource(id = R.string.cancel))
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = { 
-                        onValueConfirmed(value.toInt())
-                        onDismiss()
-                    }) {
+                    Button(
+                        onClick = { 
+                            onValueConfirmed(value.toInt())
+                            onDismiss()
+                        },
+                        modifier = Modifier.focusRequester(okButtonFocusRequester)
+                    ) {
                         Text(stringResource(id = R.string.ok))
                     }
                 }
