@@ -275,6 +275,7 @@ fun SettingHeader(title: String) {
 fun ToggleSettingItem(
     item: SettingItem.Toggle,
     checked: Boolean,
+    modifier: Modifier = Modifier,
     summary: String? = null,
     onCheckedChange: (Boolean) -> Unit
 ) {
@@ -283,6 +284,7 @@ fun ToggleSettingItem(
         summary = summary ?: item.summary?.let { stringResource(id = it) },
         icon = item.icon,
         onClick = { onCheckedChange(!checked) },
+        modifier = modifier,
         content = {
             Switch(
                 checked = checked,
@@ -296,12 +298,14 @@ fun ToggleSettingItem(
  * A setting item component for simple clickable actions.
  *
  * @param item The [SettingItem.Action] definition.
+ * @param modifier The [Modifier] to be applied.
  * @param summary An optional summary string (overrides the one in [item]).
  * @param onClick Callback triggered when the action is clicked.
  */
 @Composable
 fun ActionSettingItem(
     item: SettingItem.Action,
+    modifier: Modifier = Modifier,
     summary: String? = null,
     onClick: () -> Unit
 ) {
@@ -309,6 +313,7 @@ fun ActionSettingItem(
         title = stringResource(id = item.title),
         summary = summary ?: item.summary?.let { stringResource(id = it) },
         icon = item.icon,
+        modifier = modifier,
         onClick = onClick
     )
 }
@@ -320,6 +325,7 @@ fun ActionSettingItem(
  *
  * @param item The [SettingItem.Options] definition.
  * @param currentValue The current value key.
+ * @param modifier The [Modifier] to be applied.
  * @param summary An optional summary string (overrides the one in [item]).
  * @param onClick Callback triggered to open the selection UI.
  */
@@ -327,6 +333,7 @@ fun ActionSettingItem(
 fun OptionsSettingItem(
     item: SettingItem.Options,
     currentValue: String?,
+    modifier: Modifier = Modifier,
     summary: String? = null,
     onClick: () -> Unit
 ) {
@@ -339,6 +346,7 @@ fun OptionsSettingItem(
         title = stringResource(id = item.title),
         summary = summary ?: currentTitle,
         icon = item.icon,
+        modifier = modifier,
         onClick = onClick,
         content = {
              Icon(
@@ -356,18 +364,21 @@ fun OptionsSettingItem(
  *
  * @param item The [SettingItem.Color] definition.
  * @param currentValue The current color value as an ARGB integer.
+ * @param modifier The [Modifier] to be applied.
  * @param onClick Callback triggered to open the color picker.
  */
 @Composable
 fun ColorSettingItem(
     item: SettingItem.Color,
     currentValue: Int,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     SettingItemRow(
         title = stringResource(id = item.title),
         summary = item.summary?.let { stringResource(id = it) },
         icon = item.icon,
+        modifier = modifier,
         onClick = onClick,
         content = {
             Box(
@@ -385,6 +396,7 @@ fun ColorSettingItem(
  *
  * @param item The [SettingItem.Input] definition.
  * @param currentValue The current input value.
+ * @param modifier The [Modifier] to be applied.
  * @param summary An optional summary string.
  * @param onClick Callback to open the input dialog.
  */
@@ -392,6 +404,7 @@ fun ColorSettingItem(
 fun InputSettingItem(
     item: SettingItem.Input,
     currentValue: String?,
+    modifier: Modifier = Modifier,
     summary: String? = null,
     onClick: () -> Unit
 ) {
@@ -399,6 +412,7 @@ fun InputSettingItem(
         title = stringResource(id = item.title),
         summary = summary ?: currentValue,
         icon = item.icon,
+        modifier = modifier,
         onClick = onClick,
         content = {
             Icon(
