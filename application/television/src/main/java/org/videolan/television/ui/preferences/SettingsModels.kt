@@ -28,6 +28,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
 /**
+ * Represents the data type of a setting value in storage.
+ */
+enum class SettingType {
+    STRING, INT, BOOLEAN, LONG, COLOR
+}
+
+/**
  * Represents a setting category in the TV settings.
  *
  * @property title The string resource ID for the category title.
@@ -43,19 +50,28 @@ data class SettingCategory(
 /**
  * Sealed class representing different types of settings items.
  *
- * Each item is associated with a [key] used for [android.content.SharedPreferences] storage.
+ * Each item is associated with a [key] used for UI identification and potentially storage.
  *
- * @property key The unique identifier for this setting, used as a key in SharedPreferences.
+ * @property key The unique identifier for this setting in the UI.
  * @property title The string resource ID for the item title.
  * @property summary The optional string resource ID for the item summary/description.
  * @property icon The optional drawable resource ID for the item icon.
+ * @property type The storage data type for this setting.
+ * @property storageKey The actual key used in SharedPreferences if it differs from [key].
  */
 sealed class SettingItem(
     val key: String,
     @param:StringRes val title: Int,
     @param:StringRes val summary: Int? = null,
     @param:DrawableRes val icon: Int? = null,
+    val type: SettingType = SettingType.STRING,
+    val storageKey: String? = null
 ) {
+    /**
+     * Gets the effective key to use for SharedPreferences storage.
+     */
+    fun getEffectiveKey(): String = storageKey ?: key
+
     /**
      * A visual header to group related settings.
      *
@@ -95,7 +111,7 @@ sealed class SettingItem(
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
         val defaultValue: Boolean = true
-    ) : SettingItem(key, title, summary, icon)
+    ) : SettingItem(key, title, summary, icon, type = SettingType.BOOLEAN)
 
     /**
      * A setting with multiple options, similar to [androidx.preference.ListPreference].
@@ -104,6 +120,8 @@ sealed class SettingItem(
      * @param title The string resource ID for the setting title.
      * @param summary The optional string resource ID for the setting summary.
      * @param icon The optional drawable resource ID for the setting icon.
+     * @param type The storage data type for this setting.
+     * @param storageKey The actual key used in SharedPreferences if it differs from [key].
      * @property entries The list of human-readable option titles.
      * @property entryValues The list of machine-readable option values.
      * @property defaultValue The default string value if none is stored.
@@ -113,10 +131,12 @@ sealed class SettingItem(
         @StringRes title: Int,
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
+        type: SettingType = SettingType.STRING,
+        storageKey: String? = null,
         val entries: List<String> = emptyList(),
         val entryValues: List<String> = emptyList(),
         val defaultValue: String? = null
-    ) : SettingItem(key, title, summary, icon)
+    ) : SettingItem(key, title, summary, icon, type, storageKey)
 
     /**
      * A text input setting, similar to [androidx.preference.EditTextPreference].
@@ -125,6 +145,8 @@ sealed class SettingItem(
      * @param title The string resource ID for the setting title.
      * @param summary The optional string resource ID for the setting summary.
      * @param icon The optional drawable resource ID for the setting icon.
+     * @param type The storage data type for this setting.
+     * @param storageKey The actual key used in SharedPreferences if it differs from [key].
      * @property defaultValue The default string value if none is stored.
      */
     class Input(
@@ -132,8 +154,10 @@ sealed class SettingItem(
         @StringRes title: Int,
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
+        type: SettingType = SettingType.STRING,
+        storageKey: String? = null,
         val defaultValue: String? = ""
-    ) : SettingItem(key, title, summary, icon)
+    ) : SettingItem(key, title, summary, icon, type, storageKey)
 
     /**
      * A color selection setting.
@@ -150,5 +174,5 @@ sealed class SettingItem(
         @StringRes summary: Int? = null,
         @DrawableRes icon: Int? = null,
         val defaultColor: Int = android.graphics.Color.WHITE
-    ) : SettingItem(key, title, summary, icon)
+    ) : SettingItem(key, title, summary, icon, type = SettingType.COLOR)
 }
