@@ -176,7 +176,7 @@ fun SettingsSidebar(
             modifier = Modifier.padding(start = 24.dp, bottom = 24.dp, top = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical))
         )
         LazyColumn {
-            items(categories) { category ->
+            items(categories, key = { it.title }) { category ->
                 val isSelected = category == selectedCategory
                 val itemFocusRequester = remember { FocusRequester() }
                 
@@ -219,8 +219,8 @@ fun SettingsDetail(
     val lastFocusedItemPerCategory = remember { mutableMapOf<Int, String?>() }
     val listState = rememberLazyListState()
 
-    // Reset scroll when category changes
-    LaunchedEffect(category) {
+    // Reset scroll ONLY when switching to a DIFFERENT category
+    LaunchedEffect(category?.title) {
         listState.scrollToItem(0)
     }
 
@@ -228,10 +228,6 @@ fun SettingsDetail(
         modifier = modifier
             .focusRequester(detailFocusRequester)
             .onFocusChanged { state ->
-                val wasFocused = detailPaneHasFocus
-                detailPaneHasFocus = state.hasFocus || state.isFocused
-                
-                // Detection of focus entering the detail pane from the sidebar
                 detailPaneHasFocus = state.hasFocus || state.isFocused
             }
             .focusable()
@@ -252,7 +248,7 @@ fun SettingsDetail(
             )
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn(state = listState) {
-                items(category.items) { item ->
+                items(category.items, key = { it.key }) { item ->
                     val isHeader = item is SettingItem.Header
                     val itemFocusRequester = remember { FocusRequester() }
                     

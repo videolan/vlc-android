@@ -46,6 +46,16 @@ import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
 import org.videolan.tools.KEY_REMOTE_ACCESS_INFO
 import org.videolan.tools.KEY_SHOW_UPDATE
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR_OPACITY
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_SIZE
+import org.videolan.tools.KEY_SUBTITLES_SHADOW
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR_OPACITY
 import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.LIST_TITLE_ELLIPSIZE
 import org.videolan.tools.LOCKSCREEN_COVER
@@ -76,7 +86,7 @@ object PreferenceVisibilityManager {
         KEY_QUICK_PLAY_DEFAULT, KEY_QUICK_PLAY, "secondary_display_category", "secondary_display_category_summary", KEY_ENABLE_CLONE_MODE, SAVE_BRIGHTNESS,
         KEY_APP_THEME, LIST_TITLE_ELLIPSIZE, KEY_ENABLE_HEADSET_DETECTION, KEY_ENABLE_PLAY_ON_HEADSET_INSERTION, KEY_IGNORE_HEADSET_MEDIA_BUTTON_PRESSES,
         "headset_prefs_category", KEY_AUDIO_RESUME_CARD, LOCKSCREEN_COVER, SHOW_SEEK_IN_COMPACT_NOTIFICATION,
-        KEY_AUDIO_TASK_REMOVED, "casting_category", "android_auto_category", SCREEN_ORIENTATION, -> !forTv
+        KEY_AUDIO_TASK_REMOVED, "casting_category", "android_auto_category", -> !forTv
         //only on TV
         TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO, KEY_REMOTE_ACCESS_INFO -> forTv
         KEY_SHOW_UPDATE -> !forTv && BuildConfig.DEBUG
@@ -86,9 +96,13 @@ object PreferenceVisibilityManager {
         RESUME_PLAYBACK -> AndroidDevices.isPhone && !forTv
         KEY_AOUT -> VlcMigrationHelper.getAudioOutputFromDevice() == VlcMigrationHelper.AudioOutput.ALL
         KEY_AUDIO_DIGITAL_OUTPUT -> sharedPreferences.getString(KEY_AOUT, "0") != "2"
+        KEY_SUBTITLES_BACKGROUND_COLOR, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY -> sharedPreferences.getBoolean(KEY_SUBTITLES_BACKGROUND, false)
+        KEY_SUBTITLES_SHADOW_COLOR, KEY_SUBTITLES_SHADOW_COLOR_OPACITY -> sharedPreferences.getBoolean(KEY_SUBTITLES_SHADOW, true)
+        KEY_SUBTITLES_OUTLINE_SIZE -> false
+        KEY_SUBTITLES_OUTLINE_COLOR, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY -> sharedPreferences.getBoolean(KEY_SUBTITLES_OUTLINE, true)
         "optional_features" -> FeatureFlag.entries.isNotEmpty()
         "remote_access_category" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
-        "permissions_title" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+        "permissions_title", "permissions" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         else -> true
     }
 
