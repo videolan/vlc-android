@@ -320,15 +320,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * may affect the visibility of other settings.
      *
      * @param context The context used for activity side effects.
-     * @param key The preference key.
+     * @param item The toggle setting item.
      * @param value The new boolean value.
      */
-    fun updateBooleanSetting(context: Context, key: String, value: Boolean) {
+    fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {
+        val key = item.getEffectiveKey()
         settings.edit { putBoolean(key, value) }
         _settingsValues[key] = value
         
         // Side effects for boolean settings
-        when (key) {
+        when (item.key) {
             PREF_TV_UI -> {
                 Settings.tvUI = value
                 (context as? PreferencesActivity)?.setRestartApp()
@@ -366,49 +367,56 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * Updates a string setting in [android.content.SharedPreferences].
      *
      * @param context The context used for activity side effects.
-     * @param key The preference key.
+     * @param item The setting item.
      * @param value The new string value.
      */
-    fun updateStringSetting(context: Context, key: String, value: String) {
-        // Handle side effects and specialized storage types
-        when (key) {
-            KEY_SUBTITLES_COLOR_OPACITY, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
-            KEY_SUBTITLES_SHADOW_COLOR_OPACITY, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY -> {
-                val intValue = value.toIntOrNull()?.coerceIn(0, 255) ?: 255
+    fun updateStringSetting(context: Context, item: SettingItem, value: String) {
+        val key = item.getEffectiveKey()
+        
+        // Handle specialized storage types based on SettingType
+        when (item.type) {
+            SettingType.INT -> {
+                val intValue = value.toIntOrNull() ?: 0
                 settings.edit { putInt(key, intValue) }
                 _settingsValues[key] = intValue
-                viewModelScope.launch { restartLibVLC() }
             }
-            "network_caching" -> {
-                val intValue = value.toIntOrNull()?.coerceIn(0, 60000) ?: 0
-                settings.edit { putInt(KEY_NETWORK_CACHING_VALUE, intValue) }
-                _settingsValues[key] = intValue
-                viewModelScope.launch { restartLibVLC() }
+            SettingType.LONG -> {
+                val longValue = value.toLongOrNull() ?: 0L
+                settings.edit { putLong(key, longValue) }
+                _settingsValues[key] = longValue
+            }
+            SettingType.BOOLEAN -> {
+                val boolValue = value.toBoolean()
+                settings.edit { putBoolean(key, boolValue) }
+                _settingsValues[key] = boolValue
             }
             else -> {
                 settings.edit { putString(key, value) }
                 _settingsValues[key] = value
+            }
+        }
 
-                // Handle side effects for standard string settings
-                when (key) {
-                    KEY_PREFERRED_RESOLUTION, KEY_AUDIO_PREFERRED_LANGUAGE,
-                    KEY_SUBTITLE_PREFERRED_LANGUAGE, KEY_SUBTITLE_TEXT_ENCODING,
-                    KEY_SUBTITLES_SIZE, KEY_AOUT, KEY_OPENGL, KEY_DEBLOCKING,
-                    KEY_AUDIO_REPLAY_GAIN_MODE, KEY_AUDIO_REPLAY_GAIN_PREAMP, KEY_AUDIO_REPLAY_GAIN_DEFAULT,
-                    KEY_HARDWARE_ACCELERATION, KEY_SUBTITLES_OUTLINE_SIZE -> {
-                        viewModelScope.launch { restartLibVLC() }
-                    }
-                    "subtitles_presets" -> applySubtitlePreset(value)
-                    KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
-                    SCREEN_ORIENTATION -> (context as? Activity)?.requestedOrientation = value.toInt()
-                    KEY_CUSTOM_LIBVLC_OPTIONS -> {
-                        viewModelScope.launch {
-                            try {
-                                restartLibVLC()
-                            } catch (e: IllegalStateException) {
-                                Log.e("SettingsViewModel", "Invalid custom options", e)
-                            }
-                        }
+        // Handle side effects based on UI key
+        when (item.key) {
+            KEY_PREFERRED_RESOLUTION, KEY_AUDIO_PREFERRED_LANGUAGE,
+            KEY_SUBTITLE_PREFERRED_LANGUAGE, KEY_SUBTITLE_TEXT_ENCODING,
+            KEY_SUBTITLES_SIZE, KEY_AOUT, KEY_OPENGL, KEY_DEBLOCKING,
+            KEY_AUDIO_REPLAY_GAIN_MODE, KEY_AUDIO_REPLAY_GAIN_PREAMP, KEY_AUDIO_REPLAY_GAIN_DEFAULT,
+            KEY_HARDWARE_ACCELERATION, KEY_SUBTITLES_OUTLINE_SIZE,
+            KEY_SUBTITLES_COLOR_OPACITY, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
+            KEY_SUBTITLES_SHADOW_COLOR_OPACITY, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
+            "network_caching" -> {
+                viewModelScope.launch { restartLibVLC() }
+            }
+            "subtitles_presets" -> applySubtitlePreset(value)
+            KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
+            SCREEN_ORIENTATION -> (context as? Activity)?.requestedOrientation = value.toInt()
+            KEY_CUSTOM_LIBVLC_OPTIONS -> {
+                viewModelScope.launch {
+                    try {
+                        restartLibVLC()
+                    } catch (e: IllegalStateException) {
+                        Log.e("SettingsViewModel", "Invalid custom options", e)
                     }
                 }
             }
@@ -418,9 +426,31 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Updates a color setting.
+     * Updates a color setting by its key.
+     *
+     * Used mainly for [onActivityResult] where only the key/request code is known.
      */
     fun updateColorSetting(key: String, value: Int) {
+        val item = _allCategories.value.flatMap { it.items }.filterIsInstance<SettingItem.Color>().firstOrNull { it.key == key }
+        if (item != null) {
+            updateColorSetting(item, value)
+        } else {
+            // Fallback if item not found in categories
+            settings.edit { putInt(key, value) }
+            _settingsValues[key] = value
+            viewModelScope.launch { restartLibVLC() }
+            refreshCategories()
+        }
+    }
+
+    /**
+     * Updates a color setting.
+     *
+     * @param item The color setting item.
+     * @param value The new color value as an ARGB integer.
+     */
+    fun updateColorSetting(item: SettingItem.Color, value: Int) {
+        val key = item.getEffectiveKey()
         settings.edit { putInt(key, value) }
         _settingsValues[key] = value
         viewModelScope.launch { restartLibVLC() }

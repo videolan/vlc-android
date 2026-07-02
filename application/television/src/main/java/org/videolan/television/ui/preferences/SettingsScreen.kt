@@ -72,9 +72,9 @@ fun SettingsScreen(
     getStringValue: (SettingItem) -> String? = { null },
     getColorValue: (SettingItem.Color) -> Int = { it.defaultColor },
     getSummary: (SettingItem) -> String? = { null },
-    onBooleanChanged: (String, Boolean) -> Unit = { _, _ -> },
+    onBooleanChanged: (SettingItem.Toggle, Boolean) -> Unit = { _, _ -> },
     onActionClicked: (SettingItem.Action) -> Unit = {},
-    onStringChanged: (String, String) -> Unit = { _, _ -> },
+    onStringChanged: (SettingItem, String) -> Unit = { _, _ -> },
     onColorClicked: (SettingItem.Color) -> Unit = {}
 ) {
     Row(
@@ -143,9 +143,9 @@ fun SettingsScreen(
         getStringValue = { viewModel.getStringValue(it) },
         getColorValue = { viewModel.getColorValue(it) },
         getSummary = { viewModel.getSummary(it) },
-        onBooleanChanged = { k, v -> viewModel.updateBooleanSetting(context, k, v) },
+        onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
         onActionClicked = { viewModel.executeAction(context, it) },
-        onStringChanged = { k, v -> viewModel.updateStringSetting(context, k, v) },
+        onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
         onColorClicked = { viewModel.pickColor(context, it) }
     )
 }
@@ -206,9 +206,9 @@ fun SettingsDetail(
     getStringValue: (SettingItem) -> String?,
     getColorValue: (SettingItem.Color) -> Int,
     getSummary: (SettingItem) -> String?,
-    onBooleanChanged: (String, Boolean) -> Unit,
+    onBooleanChanged: (SettingItem.Toggle, Boolean) -> Unit,
     onActionClicked: (SettingItem.Action) -> Unit,
-    onStringChanged: (String, String) -> Unit,
+    onStringChanged: (SettingItem, String) -> Unit,
     onColorClicked: (SettingItem.Color) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -272,7 +272,7 @@ fun SettingsDetail(
                                     item = item,
                                     checked = getBooleanValue(item),
                                     summary = getSummary(item),
-                                    onCheckedChange = { onBooleanChanged(item.key, it) },
+                                    onCheckedChange = { onBooleanChanged(item, it) },
                                     modifier = Modifier.focusRequester(itemFocusRequester)
                                 )
                             }
@@ -299,7 +299,7 @@ fun SettingsDetail(
                                         item = item,
                                         currentValue = currentValue,
                                         onDismiss = { showDialog = false },
-                                        onValueSelected = { onStringChanged(item.key, it) }
+                                        onValueSelected = { onStringChanged(item, it) }
                                     )
                                 }
                             }
@@ -326,7 +326,7 @@ fun SettingsDetail(
                                         item = item,
                                         currentValue = currentValue,
                                         onDismiss = { showDialog = false },
-                                        onValueConfirmed = { onStringChanged(item.key, it) }
+                                        onValueConfirmed = { onStringChanged(item, it) }
                                     )
                                 }
                             }
