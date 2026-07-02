@@ -311,6 +311,7 @@ object SettingsFactory {
             SettingItem.Input(
                 key = KEY_SUBTITLES_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
+                type = SettingType.INT,
                 defaultValue = "255"
             ),
             SettingItem.Header(R.string.subtitles_background_title),
@@ -327,6 +328,7 @@ object SettingsFactory {
             SettingItem.Input(
                 key = KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
+                type = SettingType.INT,
                 defaultValue = "255"
             ),
             SettingItem.Header(R.string.subtitles_shadow_title),
@@ -343,6 +345,7 @@ object SettingsFactory {
             SettingItem.Input(
                 key = KEY_SUBTITLES_SHADOW_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
+                type = SettingType.INT,
                 defaultValue = "128"
             ),
             SettingItem.Header(R.string.subtitles_outline_title),
@@ -366,6 +369,7 @@ object SettingsFactory {
             SettingItem.Input(
                 key = KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
                 title = R.string.subtitles_opacity,
+                type = SettingType.INT,
                 defaultValue = "255"
             )
         )
@@ -555,6 +559,8 @@ object SettingsFactory {
                 key = "network_caching",
                 title = R.string.network_caching,
                 summary = R.string.network_caching_summary,
+                type = SettingType.INT,
+                storageKey = KEY_NETWORK_CACHING_VALUE,
                 defaultValue = "0"
             ),
             SettingItem.Input(
