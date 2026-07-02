@@ -403,6 +403,25 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Updates an integer setting (like sliders) in [android.content.SharedPreferences].
+     */
+    fun updateIntSetting(context: Context, item: SettingItem.Slider, value: Int) {
+        val key = item.getEffectiveKey()
+        settings.edit { putInt(key, value) }
+        _settingsValues[key] = value
+
+        // Handle side effects
+        when (item.key) {
+            KEY_SUBTITLES_COLOR_OPACITY, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
+            KEY_SUBTITLES_SHADOW_COLOR_OPACITY, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY -> {
+                viewModelScope.launch { restartLibVLC() }
+            }
+        }
+
+        refreshCategories()
+    }
+
+    /**
      * Updates a string setting in [android.content.SharedPreferences].
      *
      * @param context The context used for activity side effects.

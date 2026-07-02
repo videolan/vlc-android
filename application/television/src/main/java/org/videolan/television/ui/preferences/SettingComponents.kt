@@ -55,6 +55,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -457,6 +459,116 @@ fun InputSettingItem(
 }
 
 /**
+ * A setting item for range-based values using a slider.
+ */
+@Composable
+fun SliderSettingItem(
+    item: SettingItem.Slider,
+    currentValue: Int,
+    modifier: Modifier = Modifier,
+    summary: String? = null,
+    enabled: Boolean = true,
+    onClick: () -> Unit
+) {
+    SettingItemRow(
+        title = stringResource(id = item.title),
+        summary = summary,
+        icon = item.icon,
+        enabled = enabled,
+        modifier = modifier,
+        onClick = onClick,
+        content = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_edit),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 0.5f else 0.38f)
+            )
+        }
+    )
+}
+
+/**
+ * A TV-optimized slider dialog for [SettingItem.Slider].
+ */
+@Composable
+fun SliderDialog(
+    item: SettingItem.Slider,
+    currentValue: Int,
+    onDismiss: () -> Unit,
+    onValueConfirmed: (Int) -> Unit
+) {
+    var value by remember { mutableStateOf(currentValue.toFloat()) }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            modifier = Modifier
+                .width(480.dp)
+                .clip(RoundedCornerShape(24.dp)),
+            color = MaterialTheme.colorScheme.surfaceVariant,
+            tonalElevation = 6.dp
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(id = item.title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                )
+
+                val displayValue = if (item.valueDisplay == SliderValueDisplay.PERCENT) {
+                    "${(value.toInt() * 100 / item.max)}%"
+                } else {
+                    value.toInt().toString()
+                }
+
+                Text(
+                    text = displayValue,
+                    style = MaterialTheme.typography.displayMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 24.dp)
+                )
+
+                Slider(
+                    value = value,
+                    onValueChange = { value = it },
+                    valueRange = item.min.toFloat()..item.max.toFloat(),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    colors = SliderDefaults.colors(
+                        thumbColor = MaterialTheme.colorScheme.primary,
+                        activeTrackColor = MaterialTheme.colorScheme.primary,
+                        inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(onClick = onDismiss) {
+                        Text(stringResource(id = R.string.cancel))
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(onClick = { 
+                        onValueConfirmed(value.toInt())
+                        onDismiss()
+                    }) {
+                        Text(stringResource(id = R.string.ok))
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
  * A TV-optimized selection dialog for [SettingItem.Options].
  *
  * @param item The options setting item.
@@ -722,6 +834,16 @@ private fun SettingComponentsPreview() {
                 currentValue = "",
                 onClick = {}
             )
+            Spacer(modifier = Modifier.size(16.dp))
+            SliderSettingItem(
+                item = SettingItem.Slider(
+                    "key",
+                    R.string.subtitles_opacity,
+                    valueDisplay = SliderValueDisplay.PERCENT
+                ),
+                currentValue = 128,
+                onClick = {}
+            )
         }
     }
 }
@@ -741,6 +863,25 @@ private fun SelectionDialogPreview() {
                 currentValue = "-1",
                 onDismiss = {},
                 onValueSelected = {}
+            )
+        }
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun SliderDialogPreview() {
+    VlcTVSettingsTheme {
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+            SliderDialog(
+                item = SettingItem.Slider(
+                    "key",
+                    R.string.subtitles_opacity,
+                    valueDisplay = SliderValueDisplay.PERCENT
+                ),
+                currentValue = 128,
+                onDismiss = {},
+                onValueConfirmed = {}
             )
         }
     }
