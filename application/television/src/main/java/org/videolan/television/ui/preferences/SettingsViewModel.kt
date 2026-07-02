@@ -62,6 +62,8 @@ import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
 import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
 import org.videolan.tools.BitmapCache
+import org.videolan.tools.DAV1D_THREAD_NUMBER
+import org.videolan.tools.HTTP_USER_AGENT
 import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
@@ -82,14 +84,16 @@ import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
 import org.videolan.tools.KEY_DEBLOCKING
 import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
 import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
+import org.videolan.tools.KEY_ENABLE_VERBOSE_MODE
 import org.videolan.tools.KEY_HARDWARE_ACCELERATION
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST_RESUME
-import org.videolan.tools.KEY_NETWORK_CACHING_VALUE
 import org.videolan.tools.KEY_OPENGL
 import org.videolan.tools.KEY_PREFERRED_RESOLUTION
 import org.videolan.tools.KEY_PREFER_SMBV1
+import org.videolan.tools.KEY_QUICK_PLAY
+import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
 import org.videolan.tools.KEY_SAFE_MODE
 import org.videolan.tools.KEY_SET_LOCALE
 import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
@@ -137,8 +141,11 @@ import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
+import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.providers.PickerType
+import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.deleteAllWatchNext
@@ -367,8 +374,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 (context as? PreferencesActivity)?.setRestart()
             }
             KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE, KEY_ENABLE_FRAME_SKIP,
-            KEY_SUBTITLES_AUTOLOAD, KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION -> {
+            KEY_SUBTITLES_AUTOLOAD, KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION,
+            KEY_ENABLE_VERBOSE_MODE -> {
                 viewModelScope.launch { restartLibVLC() }
+            }
+            KEY_QUICK_PLAY -> {
+                if (!value) {
+                    settings.edit { putBoolean(KEY_QUICK_PLAY_DEFAULT, false) }
+                    _settingsValues[KEY_QUICK_PLAY_DEFAULT] = false
+                }
             }
             KEY_PREFER_SMBV1 -> {
                 viewModelScope.launch { VLCInstance.restart() }
@@ -430,7 +444,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             KEY_HARDWARE_ACCELERATION, KEY_SUBTITLES_OUTLINE_SIZE,
             KEY_SUBTITLES_COLOR_OPACITY, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
             KEY_SUBTITLES_SHADOW_COLOR_OPACITY, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
-            "network_caching" -> {
+            "network_caching", DAV1D_THREAD_NUMBER, HTTP_USER_AGENT -> {
                 viewModelScope.launch { restartLibVLC() }
             }
             "subtitles_presets" -> applySubtitlePreset(value)
@@ -652,6 +666,51 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun executeAction(context: Context, item: SettingItem.Action) {
         when (item.key) {
+            "optional_features" -> {
+                val intent = Intent(context, PreferencesActivity::class.java)
+                intent.putExtra(EXTRA_PREF_END_POINT, R.xml.preferences_optional)
+                context.startActivity(intent)
+            }
+            "export_settings" -> {
+                (context as? FragmentActivity)?.let { activity ->
+                    val dst = File(org.videolan.resources.AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + org.videolan.resources.EXPORT_SETTINGS_FILE)
+                    viewModelScope.launch {
+                        if (activity.getWritePermission(Uri.fromFile(dst))) {
+                            val success = withContext(Dispatchers.IO) {
+                                try {
+                                    PreferenceParser.exportPreferences(activity, dst)
+                                    true
+                                } catch (e: Exception) {
+                                    false
+                                }
+                            }
+                            Toast.makeText(context, context.getString(if (success) R.string.export_settings_success else R.string.export_settings_failure), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+            "restore_settings" -> {
+                val filePickerIntent = Intent(context, FilePickerActivity::class.java)
+                filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SETTINGS.ordinal)
+                (context as? Activity)?.startActivityForResult(filePickerIntent, 10002)
+            }
+            "nightly_install" -> {
+                android.app.AlertDialog.Builder(context)
+                    .setTitle(context.getString(R.string.install_nightly))
+                    .setMessage(context.getString(R.string.install_nightly_alert))
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        viewModelScope.launch {
+                            AutoUpdate.checkUpdate((context as Activity).application, true) { url, date ->
+                                // On TV we might just want to trigger the download or show a specific dialog
+                                // Replicating mobile logic for now
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                context.startActivity(intent)
+                            }
+                        }
+                    }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+            }
             "directories" -> {
                 if (Medialibrary.getInstance().isWorking) {
                     Toast.makeText(

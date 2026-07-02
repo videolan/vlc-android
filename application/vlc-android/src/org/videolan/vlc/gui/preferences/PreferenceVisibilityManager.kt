@@ -98,8 +98,7 @@ object PreferenceVisibilityManager {
         KEY_AUDIO_DIGITAL_OUTPUT -> sharedPreferences.getString(KEY_AOUT, "0") != "2"
         KEY_SUBTITLES_BACKGROUND_COLOR, KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY -> sharedPreferences.getBoolean(KEY_SUBTITLES_BACKGROUND, false)
         KEY_SUBTITLES_SHADOW_COLOR, KEY_SUBTITLES_SHADOW_COLOR_OPACITY -> sharedPreferences.getBoolean(KEY_SUBTITLES_SHADOW, true)
-        KEY_SUBTITLES_OUTLINE_SIZE -> false
-        KEY_SUBTITLES_OUTLINE_COLOR, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY -> sharedPreferences.getBoolean(KEY_SUBTITLES_OUTLINE, true)
+        KEY_SUBTITLES_OUTLINE_SIZE, KEY_SUBTITLES_OUTLINE_COLOR, KEY_SUBTITLES_OUTLINE_COLOR_OPACITY -> sharedPreferences.getBoolean(KEY_SUBTITLES_OUTLINE, true)
         "optional_features" -> FeatureFlag.entries.isNotEmpty()
         "remote_access_category" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         "permissions_title", "permissions" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
