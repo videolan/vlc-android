@@ -308,6 +308,11 @@ object SettingsFactory {
                 title = R.string.subtitles_color_title,
                 defaultColor = android.graphics.Color.WHITE
             ),
+            SettingItem.Input(
+                key = KEY_SUBTITLES_COLOR_OPACITY,
+                title = R.string.subtitles_opacity,
+                defaultValue = "255"
+            ),
             SettingItem.Header(R.string.subtitles_background_title),
             SettingItem.Toggle(
                 key = KEY_SUBTITLES_BACKGROUND,
@@ -319,17 +324,49 @@ object SettingsFactory {
                 title = R.string.subtitles_background_color_title,
                 defaultColor = android.graphics.Color.BLACK
             ),
+            SettingItem.Input(
+                key = KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY,
+                title = R.string.subtitles_opacity,
+                defaultValue = "255"
+            ),
             SettingItem.Header(R.string.subtitles_shadow_title),
             SettingItem.Toggle(
                 key = KEY_SUBTITLES_SHADOW,
                 title = R.string.subtitles_shadow_title,
                 defaultValue = true
             ),
+            SettingItem.Color(
+                key = KEY_SUBTITLES_SHADOW_COLOR,
+                title = R.string.subtitles_color,
+                defaultColor = android.graphics.Color.BLACK
+            ),
+            SettingItem.Input(
+                key = KEY_SUBTITLES_SHADOW_COLOR_OPACITY,
+                title = R.string.subtitles_opacity,
+                defaultValue = "128"
+            ),
             SettingItem.Header(R.string.subtitles_outline_title),
             SettingItem.Toggle(
                 key = KEY_SUBTITLES_OUTLINE,
                 title = R.string.subtitles_outline_title,
                 defaultValue = true
+            ),
+            SettingItem.Options(
+                key = KEY_SUBTITLES_OUTLINE_SIZE,
+                title = R.string.subtitles_size,
+                entries = context.resources.getStringArray(R.array.subtitles_outline_size_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.subtitles_outline_size_values).toList(),
+                defaultValue = "4"
+            ),
+            SettingItem.Color(
+                key = KEY_SUBTITLES_OUTLINE_COLOR,
+                title = R.string.subtitles_color,
+                defaultColor = android.graphics.Color.BLACK
+            ),
+            SettingItem.Input(
+                key = KEY_SUBTITLES_OUTLINE_COLOR_OPACITY,
+                title = R.string.subtitles_opacity,
+                defaultValue = "255"
             )
         )
     )
