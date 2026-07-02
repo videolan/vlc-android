@@ -46,10 +46,10 @@ object SettingsFactory {
     fun createSettings(context: Context): List<SettingCategory> {
         return listOf(
             createGeneralCategory(context),
-            createVideoCategory(context),
-            createAudioCategory(context),
-            createSubtitlesCategory(context),
             createUiCategory(context),
+            createVideoCategory(context),
+            createSubtitlesCategory(context),
+            createAudioCategory(context),
             createParentalControlCategory(),
             createRemoteAccessCategory(context),
             createAdvancedCategory(context)
@@ -91,13 +91,6 @@ object SettingsFactory {
                 entries = context.resources.getStringArray(R.array.hardware_acceleration_list).toList(),
                 entryValues = context.resources.getStringArray(R.array.hardware_acceleration_values).toList(),
                 defaultValue = "-1"
-            ),
-            SettingItem.Options(
-                key = SCREEN_ORIENTATION,
-                title = R.string.screen_orientation,
-                entries = context.resources.getStringArray(R.array.screen_orientation_list).toList(),
-                entryValues = context.resources.getStringArray(R.array.screen_orientation_values).toList(),
-                defaultValue = "99"
             ),
             SettingItem.Header(R.string.network),
             SettingItem.Options(
@@ -146,13 +139,17 @@ object SettingsFactory {
         title = R.string.video_prefs_category,
         icon = R.drawable.ic_pref_video,
         items = listOf(
-            SettingItem.Options(
-                key = KEY_PREFERRED_RESOLUTION,
-                title = R.string.preferred_resolution,
-                summary = R.string.preferred_resolution_summary,
-                entries = context.resources.getStringArray(R.array.preferred_resolution).toList(),
-                entryValues = context.resources.getStringArray(R.array.preferred_resolution_values).toList(),
-                defaultValue = "-1"
+            SettingItem.Toggle(
+                key = KEY_ALWAYS_FAST_SEEK,
+                title = R.string.always_fast_seek,
+                summary = R.string.always_fast_seek_summary,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = RESTORE_BACKGROUND_VIDEO,
+                title = R.string.restore_background_video_title,
+                summary = R.string.restore_background_video_summary,
+                defaultValue = false
             ),
             SettingItem.Toggle(
                 key = KEY_VIDEO_MATCH_FRAME_RATE,
@@ -161,22 +158,18 @@ object SettingsFactory {
                 defaultValue = false
             ),
             SettingItem.Toggle(
-                key = KEY_ALWAYS_FAST_SEEK,
-                title = R.string.always_fast_seek,
-                summary = R.string.always_fast_seek_summary,
-                defaultValue = false
-            ),
-            SettingItem.Toggle(
-                key = KEY_ENABLE_FRAME_SKIP,
-                title = R.string.enable_frame_skip,
-                summary = R.string.enable_frame_skip_summary,
-                defaultValue = false
-            ),
-            SettingItem.Toggle(
                 key = "video_confirm_resume",
                 title = R.string.confirm_resume_title,
                 summary = R.string.confirm_resume,
                 defaultValue = false
+            ),
+            SettingItem.Options(
+                key = KEY_PREFERRED_RESOLUTION,
+                title = R.string.preferred_resolution,
+                summary = R.string.preferred_resolution_summary,
+                entries = context.resources.getStringArray(R.array.preferred_resolution).toList(),
+                entryValues = context.resources.getStringArray(R.array.preferred_resolution_values).toList(),
+                defaultValue = "-1"
             ),
             SettingItem.Header(R.string.interface_secondary_display_category_title),
             SettingItem.Toggle(
@@ -285,17 +278,17 @@ object SettingsFactory {
                 defaultValue = true
             ),
             SettingItem.Options(
-                key = KEY_SUBTITLE_PREFERRED_LANGUAGE,
-                title = R.string.subtitle_preferred_language,
-                entries = emptyList(), // Will be populated dynamically in ViewModel
-                entryValues = emptyList(),
-                defaultValue = ""
-            ),
-            SettingItem.Options(
                 key = KEY_SUBTITLE_TEXT_ENCODING,
                 title = R.string.subtitle_text_encoding,
                 entries = context.resources.getStringArray(R.array.subtitles_encoding_list).toList(),
                 entryValues = context.resources.getStringArray(R.array.subtitles_encoding_values).toList(),
+                defaultValue = ""
+            ),
+            SettingItem.Options(
+                key = KEY_SUBTITLE_PREFERRED_LANGUAGE,
+                title = R.string.subtitle_preferred_language,
+                entries = emptyList(), // Will be populated dynamically in ViewModel
+                entryValues = emptyList(),
                 defaultValue = ""
             ),
             SettingItem.Header(R.string.subtitles_font_style),
@@ -397,13 +390,6 @@ object SettingsFactory {
         title = R.string.interface_prefs_screen,
         icon = R.drawable.ic_ui,
         items = listOf(
-            SettingItem.Options(
-                key = KEY_APP_THEME,
-                title = R.string.daynight_title,
-                entries = context.resources.getStringArray(R.array.daynight_mode_entries).toList(),
-                entryValues = context.resources.getStringArray(R.array.daynight_mode_values).toList(),
-                defaultValue = "2"
-            ),
             SettingItem.Toggle(
                 key = PREF_TV_UI,
                 title = R.string.tv_ui_title,
@@ -423,14 +409,33 @@ object SettingsFactory {
                 defaultValue = true
             ),
             SettingItem.Toggle(
-                key = SHOW_VIDEO_THUMBNAILS,
-                title = R.string.show_video_thumbnails,
+                key = BROWSER_SHOW_HIDDEN_FILES,
+                title = R.string.tv_show_hidden_files,
+                summary = R.string.tv_show_hidden_files_summary,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = KEY_INCLUDE_MISSING,
+                title = R.string.browser_show_missing_media,
+                summary = R.string.browser_show_missing_media_summary,
                 defaultValue = true
             ),
             SettingItem.Action(
                 key = "default_sleep_timer",
                 title = R.string.sleep_title,
                 summary = R.string.default_sleep_timer_summary
+            ),
+            SettingItem.Toggle(
+                key = KEY_INCOGNITO,
+                title = R.string.incognito_mode,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = KEY_PERSISTENT_INCOGNITO,
+                title = R.string.persistent_incognito_mode,
+                summary = R.string.persistent_incognito_mode_summary,
+                defaultValue = true,
+                dependencyKey = KEY_INCOGNITO
             ),
             SettingItem.Header(R.string.video),
             SettingItem.Toggle(
@@ -444,6 +449,12 @@ object SettingsFactory {
                 title = R.string.force_play_all_title,
                 summary = R.string.force_play_all_summary,
                 defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = SHOW_VIDEO_THUMBNAILS,
+                title = R.string.show_video_thumbnails,
+                summary = R.string.show_video_thumbnails_summary,
+                defaultValue = true
             ),
             SettingItem.Header(R.string.audio),
             SettingItem.Toggle(
@@ -480,16 +491,22 @@ object SettingsFactory {
         title = R.string.parental_control,
         icon = R.drawable.ic_pref_parental_control,
         items = listOf(
+            SettingItem.Action(
+                key = "modify_pin_code",
+                title = R.string.pin_code_reason_modify
+            ),
+            SettingItem.Toggle(
+                key = KEY_RESTRICT_SETTINGS,
+                title = R.string.restrict_settings,
+                defaultValue = false
+            ),
             SettingItem.Toggle(
                 key = KEY_SAFE_MODE,
                 title = R.string.safe_mode,
                 summary = R.string.safe_mode_summary,
                 defaultValue = false
             ),
-            SettingItem.Action(
-                key = "modify_pin_code",
-                title = R.string.pin_code_reason_modify
-            )
+
         )
     )
 
@@ -523,6 +540,36 @@ object SettingsFactory {
                 entryValues = context.resources.getStringArray(R.array.remote_access_content_values).toList(),
                 defaultValue = "",
                 dependencyKey = KEY_ENABLE_REMOTE_ACCESS
+            ),
+            SettingItem.Toggle(
+                key = REMOTE_ACCESS_FILE_BROWSER_CONTENT,
+                title = R.string.remote_access_file_browser_content,
+                defaultValue = false,
+                dependencyKey = KEY_ENABLE_REMOTE_ACCESS
+            ),
+            SettingItem.Toggle(
+                key = REMOTE_ACCESS_NETWORK_BROWSER_CONTENT,
+                title = R.string.remote_access_network_browser_content,
+                defaultValue = false,
+                dependencyKey = KEY_ENABLE_REMOTE_ACCESS
+            ),
+            SettingItem.Toggle(
+                key = REMOTE_ACCESS_HISTORY_CONTENT,
+                title = R.string.history,
+                defaultValue = false,
+                dependencyKey = KEY_ENABLE_REMOTE_ACCESS
+            ),
+            SettingItem.Toggle(
+                key = REMOTE_ACCESS_PLAYBACK_CONTROL,
+                title = R.string.remote_access_playback_control,
+                defaultValue = true,
+                dependencyKey = KEY_ENABLE_REMOTE_ACCESS
+            ),
+            SettingItem.Toggle(
+                key = REMOTE_ACCESS_LOGS,
+                title = R.string.remote_access_logs,
+                defaultValue = false,
+                dependencyKey = KEY_ENABLE_REMOTE_ACCESS
             )
         )
     )
@@ -534,43 +581,10 @@ object SettingsFactory {
         title = R.string.advanced_prefs_category,
         icon = R.drawable.ic_pref_advanced_settings,
         items = listOf(
-            SettingItem.Header(R.string.performance_prefs_category),
-            SettingItem.Options(
-                key = KEY_AOUT,
-                title = R.string.aout,
-                summary = R.string.aout_summary,
-                entries = context.resources.getStringArray(R.array.aouts).toList(),
-                entryValues = context.resources.getStringArray(R.array.aouts_values).toList(),
-                defaultValue = "0"
-            ),
-            SettingItem.Toggle(
-                key = KEY_ENABLE_TIME_STRETCHING_AUDIO,
-                title = R.string.enable_time_stretching_audio,
-                summary = R.string.enable_time_stretching_audio_summary,
-                defaultValue = true
-            ),
-            SettingItem.Options(
-                key = KEY_DEBLOCKING,
-                title = R.string.deblocking,
-                summary = R.string.deblocking_summary,
-                entries = context.resources.getStringArray(R.array.deblocking_list).toList(),
-                entryValues = context.resources.getStringArray(R.array.deblocking_values).toList(),
-                defaultValue = "-1"
-            ),
-            SettingItem.Options(
-                key = KEY_OPENGL,
-                title = R.string.opengl_title,
-                summary = R.string.opengl_summary,
-                entries = context.resources.getStringArray(R.array.opengl_list).toList(),
-                entryValues = context.resources.getStringArray(R.array.opengl_values).toList(),
-                defaultValue = "-1"
-            ),
-            SettingItem.Header(R.string.advanced_prefs_category),
-            SettingItem.Toggle(
-                key = KEY_PREFER_SMBV1,
-                title = R.string.prefersmbv1,
-                summary = R.string.prefersmbv1_summary,
-                defaultValue = true
+            SettingItem.Action(
+                key = "optional_features",
+                title = R.string.optional_features,
+                summary = R.string.optional_features_summary
             ),
             SettingItem.Input(
                 key = "network_caching",
@@ -580,22 +594,22 @@ object SettingsFactory {
                 storageKey = KEY_NETWORK_CACHING_VALUE,
                 defaultValue = "0"
             ),
+            SettingItem.Toggle(
+                key = KEY_PREFER_SMBV1,
+                title = R.string.prefersmbv1,
+                summary = R.string.prefersmbv1_summary,
+                defaultValue = true
+            ),
             SettingItem.Input(
-                key = KEY_CUSTOM_LIBVLC_OPTIONS,
-                title = R.string.custom_libvlc_options,
+                key = HTTP_USER_AGENT,
+                title = R.string.http_user_agent,
                 defaultValue = ""
             ),
+            SettingItem.Action(
+                key = "quit_app",
+                title = R.string.quit
+            ),
             SettingItem.Header(R.string.prefs_app_data),
-            SettingItem.Action(
-                key = "clear_history",
-                title = R.string.clear_playback_history,
-                summary = R.string.clear_history_message
-            ),
-            SettingItem.Action(
-                key = "clear_media_db",
-                title = R.string.clear_media_db,
-                summary = R.string.clear_media_db_message
-            ),
             SettingItem.Action(
                 key = "dump_media_db",
                 title = R.string.dump_media_db,
@@ -607,18 +621,110 @@ object SettingsFactory {
                 summary = R.string.dump_media_db_summary
             ),
             SettingItem.Action(
+                key = "clear_media_db",
+                title = R.string.clear_media_db,
+                summary = R.string.clear_media_db_message
+            ),
+            SettingItem.Action(
                 key = "clear_app_data",
                 title = R.string.clear_app_data,
                 summary = R.string.clear_app_data_summary
             ),
+            SettingItem.Action(
+                key = "clear_history",
+                title = R.string.clear_playback_history,
+                summary = R.string.clear_history_message
+            ),
+            SettingItem.Action(
+                key = "export_settings",
+                title = R.string.export_settings,
+                summary = R.string.export_settings_summary
+            ),
+            SettingItem.Action(
+                key = "restore_settings",
+                title = R.string.restore_settings,
+                summary = R.string.restore_settings_summary
+            ),
+            SettingItem.Header(R.string.performance_prefs_category),
+            SettingItem.Toggle(
+                key = KEY_ENABLE_TIME_STRETCHING_AUDIO,
+                title = R.string.enable_time_stretching_audio,
+                summary = R.string.enable_time_stretching_audio_summary,
+                defaultValue = true
+            ),
+            SettingItem.Options(
+                key = KEY_OPENGL,
+                title = R.string.opengl_title,
+                summary = R.string.opengl_summary,
+                entries = context.resources.getStringArray(R.array.opengl_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.opengl_values).toList(),
+                defaultValue = "-1"
+            ),
+            SettingItem.Options(
+                key = KEY_AOUT,
+                title = R.string.aout,
+                summary = R.string.aout_summary,
+                entries = context.resources.getStringArray(R.array.aouts).toList(),
+                entryValues = context.resources.getStringArray(R.array.aouts_values).toList(),
+                defaultValue = "0"
+            ),
+            SettingItem.Options(
+                key = KEY_DEBLOCKING,
+                title = R.string.deblocking,
+                summary = R.string.deblocking_summary,
+                entries = context.resources.getStringArray(R.array.deblocking_list).toList(),
+                entryValues = context.resources.getStringArray(R.array.deblocking_values).toList(),
+                defaultValue = "-1"
+            ),
+            SettingItem.Toggle(
+                key = KEY_ENABLE_FRAME_SKIP,
+                title = R.string.enable_frame_skip,
+                summary = R.string.enable_frame_skip_summary,
+                defaultValue = false
+            ),
+            SettingItem.Input(
+                key = DAV1D_THREAD_NUMBER,
+                title = R.string.dav1d_thread_number,
+                defaultValue = ""
+            ),
+            SettingItem.Toggle(
+                key = KEY_QUICK_PLAY,
+                title = R.string.browser_quick_play,
+                summary = R.string.browser_quick_play_summary,
+                defaultValue = false
+            ),
+            SettingItem.Toggle(
+                key = KEY_QUICK_PLAY_DEFAULT,
+                title = R.string.browser_quick_play_default,
+                summary = R.string.browser_quick_play_default_summary,
+                defaultValue = false,
+                dependencyKey = KEY_QUICK_PLAY
+            ),
             SettingItem.Header(R.string.developer_prefs_category),
+            SettingItem.Toggle(
+                key = KEY_ENABLE_VERBOSE_MODE,
+                title = R.string.enable_verbose_mode,
+                summary = R.string.enable_verbose_mode_summary,
+                defaultValue = true
+            ),
             SettingItem.Action(
                 key = "debug_logs",
                 title = R.string.debug_logs
             ),
             SettingItem.Action(
-                key = "quit_app",
-                title = R.string.quit
+                key = "nightly_install",
+                title = R.string.install_nightly
+            ),
+            SettingItem.Toggle(
+                key = KEY_SHOW_UPDATE,
+                title = R.string.update_nightly,
+                summary = R.string.update_nightly_summary,
+                defaultValue = false
+            ),
+            SettingItem.Input(
+                key = KEY_CUSTOM_LIBVLC_OPTIONS,
+                title = R.string.custom_libvlc_options,
+                defaultValue = ""
             )
         )
     )
