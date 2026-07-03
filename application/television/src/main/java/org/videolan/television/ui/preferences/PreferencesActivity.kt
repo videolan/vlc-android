@@ -35,12 +35,20 @@ import org.videolan.resources.VLCInstance
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
-import org.videolan.tools.*
+import org.videolan.tools.KEY_RESTRICT_SETTINGS
+import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
+import org.videolan.tools.KEY_SUBTITLES_COLOR
+import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
+import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.RESULT_RESTART_APP
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
@@ -72,6 +80,10 @@ class PreferencesActivity : BaseTvActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 10001) {
+            if (resultCode == 1) setRestartAppFinal()
+            return
+        }
         if (resultCode != RESULT_OK) {
             if (requestCode == 0) finish() // Pin code check failed
             super.onActivityResult(requestCode, resultCode, data)
@@ -124,7 +136,12 @@ class PreferencesActivity : BaseTvActivity() {
     }
 
     fun setRestartApp() {
+        UiTools.restartDialog(this, fromLeanback = true, leanbackResultCode = 10001, leanbackCaller = this)
+    }
+
+    fun setRestartAppFinal() {
         setResult(RESULT_RESTART_APP)
+        finish()
     }
 
     fun exitAndRescan() {
