@@ -467,7 +467,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 viewModelScope.launch { restartLibVLC() }
             }
             "subtitles_presets" -> applySubtitlePreset(value)
-            KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
+            KEY_APP_THEME, KEY_SET_LOCALE -> (context as? PreferencesActivity)?.setRestartApp()
             SCREEN_ORIENTATION -> (context as? Activity)?.requestedOrientation = value.toInt()
             KEY_CUSTOM_LIBVLC_OPTIONS -> {
                 viewModelScope.launch {
