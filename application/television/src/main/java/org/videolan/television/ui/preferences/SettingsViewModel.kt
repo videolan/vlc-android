@@ -405,7 +405,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     /**
      * Updates an integer setting (like sliders) in [android.content.SharedPreferences].
      */
-    fun updateIntSetting(context: Context, item: SettingItem.Slider, value: Int) {
+    fun updateIntSetting(item: SettingItem.Slider, value: Int) {
         val key = item.getEffectiveKey()
         settings.edit { putInt(key, value) }
         _settingsValues[key] = value

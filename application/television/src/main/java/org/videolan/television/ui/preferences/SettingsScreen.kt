@@ -164,7 +164,7 @@ fun SettingsScreen(
         onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
         onActionClicked = { viewModel.executeAction(context, it) },
         onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
-        onIntChanged = { item, v -> viewModel.updateIntSetting(context, item, v) },
+        onIntChanged = { item, v -> viewModel.updateIntSetting(item, v) },
         onColorClicked = { viewModel.pickColor(context, it) },
         isEnabled = { viewModel.isEnabled(it) }
     )
