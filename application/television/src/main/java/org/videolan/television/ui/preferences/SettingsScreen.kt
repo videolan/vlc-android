@@ -25,6 +25,7 @@
 package org.videolan.television.ui.preferences
 
 import android.app.Application
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
@@ -80,6 +81,14 @@ fun SettingsScreen(
     onColorClicked: (SettingItem.Color) -> Unit = {},
     isEnabled: (SettingItem) -> Boolean = { true }
 ) {
+    val sidebarFocusRequester = remember { FocusRequester() }
+    var isDetailFocused by remember { mutableStateOf(false) }
+
+    // Intercept Back button when focus is in the detail pane
+    BackHandler(enabled = isDetailFocused) {
+        sidebarFocusRequester.requestFocus()
+    }
+
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -90,6 +99,7 @@ fun SettingsScreen(
             categories = categories,
             selectedCategory = selectedCategory,
             onCategorySelected = onCategorySelected,
+            focusRequester = sidebarFocusRequester,
             modifier = Modifier
                 .width(320.dp)
                 .fillMaxHeight()
@@ -113,6 +123,7 @@ fun SettingsScreen(
             onIntChanged = onIntChanged,
             onColorClicked = onColorClicked,
             isEnabled = isEnabled,
+            onFocusChanged = { isDetailFocused = it },
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
@@ -164,14 +175,14 @@ fun SettingsSidebar(
     categories: List<SettingCategory>,
     selectedCategory: SettingCategory?,
     onCategorySelected: (SettingCategory) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
-    val sidebarFocusRequester = remember { FocusRequester() }
     var isSidebarFocused by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
-            .focusRequester(sidebarFocusRequester)
+            .focusRequester(focusRequester)
             .onFocusChanged { state ->
                 isSidebarFocused = state.hasFocus || state.isFocused
             }
@@ -222,7 +233,8 @@ fun SettingsDetail(
     onIntChanged: (SettingItem.Slider, Int) -> Unit,
     onColorClicked: (SettingItem.Color) -> Unit,
     isEnabled: (SettingItem) -> Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onFocusChanged: (Boolean) -> Unit = {}
 ) {
     val detailFocusRequester = remember { FocusRequester() }
     var detailPaneHasFocus by remember { mutableStateOf(false) }
@@ -241,6 +253,7 @@ fun SettingsDetail(
             .focusRequester(detailFocusRequester)
             .onFocusChanged { state ->
                 detailPaneHasFocus = state.hasFocus || state.isFocused
+                onFocusChanged(detailPaneHasFocus)
             }
             .focusable()
     ) {
