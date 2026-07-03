@@ -157,11 +157,13 @@ object SettingsFactory {
                 summary = R.string.video_match_frame_rate_summary,
                 defaultValue = false
             ),
-            SettingItem.Toggle(
-                key = "video_confirm_resume",
+            SettingItem.Options(
+                key = KEY_VIDEO_CONFIRM_RESUME,
                 title = R.string.confirm_resume_title,
                 summary = R.string.confirm_resume,
-                defaultValue = false
+                entries = context.resources.getStringArray(R.array.ask_confirmation_entries).toList(),
+                entryValues = context.resources.getStringArray(R.array.ask_confirmation_values).toList(),
+                defaultValue = "0"
             ),
             SettingItem.Options(
                 key = KEY_PREFERRED_RESOLUTION,
@@ -200,7 +202,7 @@ object SettingsFactory {
                 defaultValue = ""
             ),
             SettingItem.Options(
-                key = "audio_confirm_resume",
+                key = KEY_AUDIO_CONFIRM_RESUME,
                 title = R.string.confirm_resume_audio_title,
                 entries = context.resources.getStringArray(R.array.ask_confirmation_entries).toList(),
                 entryValues = context.resources.getStringArray(R.array.ask_confirmation_values).toList(),
