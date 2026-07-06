@@ -79,7 +79,8 @@ fun SettingsScreen(
     onStringChanged: (SettingItem, String) -> Unit = { _, _ -> },
     onIntChanged: (SettingItem.Slider, Int) -> Unit = { _, _ -> },
     onColorClicked: (SettingItem.Color) -> Unit = {},
-    isEnabled: (SettingItem) -> Boolean = { true }
+    isEnabled: (SettingItem) -> Boolean = { true },
+    onDetailFocused: () -> Unit = {}
 ) {
     val sidebarFocusRequester = remember { FocusRequester() }
     val detailFocusRequester = remember { FocusRequester() }
@@ -88,6 +89,13 @@ fun SettingsScreen(
     // Intercept Back button when focus is in the detail pane
     BackHandler(enabled = isDetailFocused) {
         sidebarFocusRequester.requestFocus()
+    }
+    
+    // Trigger onDetailFocused when focus shifts to the detail pane
+    LaunchedEffect(isDetailFocused) {
+        if (isDetailFocused) {
+            onDetailFocused()
+        }
     }
 
     Row(
@@ -169,7 +177,8 @@ fun SettingsScreen(
         onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
         onIntChanged = { item, v -> viewModel.updateIntSetting(item, v) },
         onColorClicked = { viewModel.pickColor(context, it) },
-        isEnabled = { viewModel.isEnabled(it) }
+        isEnabled = { viewModel.isEnabled(it) },
+        onDetailFocused = { viewModel.onDetailFocused(context) }
     )
 }
 

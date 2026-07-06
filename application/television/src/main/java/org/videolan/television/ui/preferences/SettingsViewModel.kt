@@ -322,11 +322,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
         
         _categories.value = filtered
-        if (_selectedCategory.value == null || !filtered.any { it.title == _selectedCategory.value?.title }) {
-            _selectedCategory.value = filtered.firstOrNull()
+        val currentSelection = _selectedCategory.value
+        if (currentSelection == null || !filtered.any { it.title == currentSelection.title }) {
+            filtered.firstOrNull()?.let { selectCategory(it) }
         } else {
             // Update the selected category if items within it changed
-            _selectedCategory.value = filtered.first { it.title == _selectedCategory.value?.title }
+            filtered.first { it.title == currentSelection.title }.let { selectCategory(it) }
         }
     }
 
@@ -347,6 +348,26 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun selectCategory(category: SettingCategory) {
         _selectedCategory.value = category
+    }
+
+    /**
+     * Called when the detail pane (second pane) receives focus.
+     * Triggers side effects like the remote access onboarding.
+     */
+    fun onDetailFocused(context: Context) {
+        val category = _selectedCategory.value ?: return
+        
+        // Show remote access onboarding if needed
+        if (category.title == R.string.remote_access) {
+            if (!settings.getBoolean(REMOTE_ACCESS_ONBOARDING, false)) {
+                settings.edit { putBoolean(REMOTE_ACCESS_ONBOARDING, true) }
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    setClassName(context, REMOTE_ACCESS_ONBOARDING)
+                    if (context !is Activity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                context.startActivity(intent)
+            }
+        }
     }
 
     /**
