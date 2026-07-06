@@ -86,7 +86,9 @@ fun SettingsScreen(
     onIntChanged: (SettingItem.Slider, Int) -> Unit = { _, _ -> },
     onColorClicked: (SettingItem.Color) -> Unit = {},
     isEnabled: (SettingItem) -> Boolean = { true },
-    onDetailFocused: () -> Unit = {}
+    onDetailFocused: () -> Unit = {},
+    targetSettingKey: String? = null,
+    onTargetSettingFocused: () -> Unit = {}
 ) {
     val sidebarFocusRequester = remember { FocusRequester() }
     val detailFocusRequester = remember { FocusRequester() }
@@ -98,9 +100,15 @@ fun SettingsScreen(
     }
     
     // Trigger onDetailFocused when focus shifts to the detail pane
-    LaunchedEffect(isDetailFocused) {
-        if (isDetailFocused) {
+    LaunchedEffect(isDetailFocused, targetSettingKey) {
+        if (isDetailFocused || targetSettingKey != null) {
             onDetailFocused()
+            // Only request focus on the detail pane itself if we don't have focus yet.
+            // This ensures that when we navigate via search (targetSettingKey != null),
+            // the detail pane receives focus so its children can then request focus.
+            if (!isDetailFocused) {
+                detailFocusRequester.requestFocus()
+            }
         }
     }
 
@@ -116,6 +124,7 @@ fun SettingsScreen(
             onCategorySelected = onCategorySelected,
             onCategoryAction = { detailFocusRequester.requestFocus() },
             focusRequester = sidebarFocusRequester,
+            targetSettingKey = targetSettingKey,
             modifier = Modifier
                 .width(320.dp)
                 .fillMaxHeight()
@@ -137,6 +146,8 @@ fun SettingsScreen(
             searchResults = searchResults,
             onSearchQueryChanged = onSearchQueryChanged,
             onSearchResultClicked = onSearchResultClicked,
+            targetSettingKey = targetSettingKey,
+            onTargetSettingFocused = onTargetSettingFocused,
             onBooleanChanged = onBooleanChanged,
             onActionClicked = onActionClicked,
             onStringChanged = onStringChanged,
@@ -185,14 +196,18 @@ fun SettingsScreen(
         searchQuery = viewModel.searchQuery.collectAsState().value,
         searchResults = viewModel.searchResults.collectAsState().value,
         onSearchQueryChanged = { viewModel.setSearchQuery(it) },
-        onSearchResultClicked = { viewModel.init(it) },
+        onSearchResultClicked = { 
+            viewModel.init(it)
+        },
         onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
         onActionClicked = { viewModel.executeAction(context, it) },
         onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
         onIntChanged = { item, v -> viewModel.updateIntSetting(item, v) },
         onColorClicked = { viewModel.pickColor(context, it) },
         isEnabled = { viewModel.isEnabled(it) },
-        onDetailFocused = { viewModel.onDetailFocused(context) }
+        onDetailFocused = { viewModel.onDetailFocused(context) },
+        targetSettingKey = viewModel.targetSettingKey.collectAsState().value,
+        onTargetSettingFocused = { viewModel.clearTargetSetting() }
     )
 }
 
@@ -203,17 +218,28 @@ fun SettingsSidebar(
     onCategorySelected: (SettingCategory) -> Unit,
     onCategoryAction: () -> Unit = {},
     modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = remember { FocusRequester() }
+    focusRequester: FocusRequester = remember { FocusRequester() },
+    targetSettingKey: String? = null
 ) {
-    var isSidebarFocused by remember { mutableStateOf(false) }
+    var sidebarPaneHasFocus by remember { mutableStateOf(false) }
+    val listState = rememberLazyListState()
+
+    // Sync scroll when the selected category changes externally (e.g., via search)
+    LaunchedEffect(selectedCategory) {
+        selectedCategory?.let { sel ->
+            val index = categories.indexOfFirst { it.title == sel.title }
+            if (index != -1) {
+                listState.scrollToItem(index)
+            }
+        }
+    }
 
     Column(
         modifier = modifier
             .focusRequester(focusRequester)
             .onFocusChanged { state ->
-                isSidebarFocused = state.hasFocus || state.isFocused
+                sidebarPaneHasFocus = state.hasFocus
             }
-            .focusable()
     ) {
         Text(
             text = stringResource(id = org.videolan.television.R.string.preferences),
@@ -222,9 +248,9 @@ fun SettingsSidebar(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 24.dp, bottom = 24.dp, top = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical))
         )
-        LazyColumn {
+        LazyColumn(state = listState) {
             items(categories, key = { it.title }) { category ->
-                val isSelected = category == selectedCategory
+                val isSelected = category.title == selectedCategory?.title
                 val itemFocusRequester = remember { FocusRequester() }
                 
                 CategoryItem(
@@ -235,10 +261,11 @@ fun SettingsSidebar(
                     focusRequester = itemFocusRequester
                 )
 
-                // When the sidebar itself receives focus (e.g. via DPAD LEFT),
+                // When the sidebar itself receives focus (e.g. via DPAD LEFT from detail pane),
                 // redirect that focus to the currently selected item.
-                LaunchedEffect(isSidebarFocused, isSelected) {
-                    if (isSidebarFocused && isSelected) {
+                // Or if we are navigating via search, force the sidebar focus to sync.
+                LaunchedEffect(sidebarPaneHasFocus, isSelected, targetSettingKey) {
+                    if ((sidebarPaneHasFocus && isSelected) || (targetSettingKey != null && isSelected)) {
                         itemFocusRequester.requestFocus()
                     }
                 }
@@ -263,11 +290,13 @@ fun SettingsDetail(
     isEnabled: (SettingItem) -> Boolean,
     modifier: Modifier = Modifier,
     onFocusChanged: (Boolean) -> Unit = {},
-    focusRequester: FocusRequester = remember { FocusRequester() },
+    focusRequester: FocusRequester,
     searchQuery: String = "",
     searchResults: List<PreferenceItem> = emptyList(),
     onSearchQueryChanged: (String) -> Unit = {},
-    onSearchResultClicked: (PreferenceItem) -> Unit = {}
+    onSearchResultClicked: (PreferenceItem) -> Unit = {},
+    targetSettingKey: String? = null,
+    onTargetSettingFocused: () -> Unit = {}
 ) {
     var detailPaneHasFocus by remember { mutableStateOf(false) }
 
@@ -276,7 +305,15 @@ fun SettingsDetail(
     val listState = rememberLazyListState()
 
     // Reset scroll ONLY when switching to a DIFFERENT category
-    LaunchedEffect(category?.title) {
+    LaunchedEffect(category?.title, targetSettingKey) {
+        val target = targetSettingKey
+        if (target != null && category != null) {
+            val index = category.items.indexOfFirst { it.key == target }
+            if (index != -1) {
+                listState.scrollToItem(index)
+                return@LaunchedEffect
+            }
+        }
         listState.scrollToItem(0)
     }
 
@@ -284,7 +321,7 @@ fun SettingsDetail(
         modifier = modifier
             .focusRequester(focusRequester)
             .onFocusChanged { state ->
-                detailPaneHasFocus = state.hasFocus || state.isFocused
+                detailPaneHasFocus = state.hasFocus
                 onFocusChanged(detailPaneHasFocus)
             }
             .focusable()
@@ -305,11 +342,13 @@ fun SettingsDetail(
             )
             Spacer(modifier = Modifier.height(24.dp))
             if (category.title == R.string.search) {
-                // TODO: Step 4: Add SearchPane component here
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    @Suppress("DEPRECATION")
-                    Text("Search UI Placeholder", color = MaterialTheme.colorScheme.onSurface)
-                }
+                SearchPane(
+                    query = searchQuery,
+                    results = searchResults,
+                    onQueryChanged = onSearchQueryChanged,
+                    onResultClick = onSearchResultClicked,
+                    focusRequester = focusRequester
+                )
             } else {
                 LazyColumn(state = listState) {
                     items(category.items, key = { it.key }) { item ->
@@ -321,6 +360,10 @@ fun SettingsDetail(
                             .onFocusChanged { state ->
                                 if (state.hasFocus) {
                                     lastFocusedItemPerCategory[categoryId] = item.key
+                                    // If this was our target, clear it now that we have focus
+                                    if (item.key == targetSettingKey) {
+                                        onTargetSettingFocused()
+                                    }
                                 }
                             }
                         ) {
@@ -421,10 +464,16 @@ fun SettingsDetail(
 
                         // When the detail pane receives focus (e.g. via DPAD RIGHT from sidebar),
                         // redirect it to the last focused item in this category.
-                        LaunchedEffect(detailPaneHasFocus, category) {
+                        LaunchedEffect(detailPaneHasFocus, category, targetSettingKey) {
                             if (detailPaneHasFocus && !isHeader && isEnabled) {
+                                val targetKey = targetSettingKey
                                 val lastKey = lastFocusedItemPerCategory[categoryId]
-                                if (lastKey == item.key || (lastKey == null && item.key == firstFocusableKey)) {
+                                
+                                if (targetKey != null) {
+                                    if (item.key == targetKey) {
+                                        itemFocusRequester.requestFocus()
+                                    }
+                                } else if (lastKey == item.key || (lastKey == null && item.key == firstFocusableKey)) {
                                     itemFocusRequester.requestFocus()
                                 }
                             }

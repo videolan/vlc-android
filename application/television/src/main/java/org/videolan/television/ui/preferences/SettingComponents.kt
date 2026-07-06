@@ -25,6 +25,7 @@
 package org.videolan.television.ui.preferences
 
 import android.util.Log
+import android.view.KeyEvent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -50,7 +51,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -60,7 +60,6 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -77,11 +76,9 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import android.view.KeyEvent
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.nativeKeyCode
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalConfiguration
@@ -95,6 +92,86 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.preferences.search.PreferenceItem
+
+/**
+ * A specialized pane for searching through settings.
+ */
+@Composable
+fun SearchPane(
+    query: String,
+    results: List<PreferenceItem>,
+    onQueryChanged: (String) -> Unit,
+    onResultClick: (PreferenceItem) -> Unit,
+    modifier: Modifier = Modifier,
+    focusRequester: FocusRequester = remember { FocusRequester() }
+) {
+    val listState = rememberLazyListState()
+
+    Column(
+        modifier = modifier.fillMaxSize()
+    ) {
+        OutlinedTextField(
+            value = query,
+            onValueChange = onQueryChanged,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 16.dp)
+                .focusRequester(focusRequester),
+            placeholder = { Text(stringResource(id = R.string.search)) },
+            singleLine = true,
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = org.videolan.resources.R.drawable.ic_search),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline
+            )
+        )
+
+        if (results.isEmpty() && query.length >= 2) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(
+                    text = stringResource(id = R.string.search_no_result),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        } else {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+            itemsIndexed(results, key = { _, item -> item.key }) { _, item ->
+                SearchResultItem(
+                    item = item,
+                    onClick = { onResultClick(item) }
+                )
+            }
+            }
+        }
+    }
+}
+
+/**
+ * An individual search result item displaying title, summary, and category.
+ */
+@Composable
+fun SearchResultItem(
+    item: PreferenceItem,
+    onClick: () -> Unit
+) {
+    SettingItemRow(
+        title = item.title,
+        summary = item.summary.ifEmpty { item.category },
+        onClick = onClick
+    )
+}
 
 /**
  * A TV-optimized focusable row for a setting item.
@@ -242,7 +319,6 @@ fun CategoryItem(
             .focusRequester(focusRequester)
             .onFocusChanged { 
                 hasFocus = it.hasFocus 
-                Log.d("VLC/Settings", "CategoryItem: ${category.title} hasFocus=$hasFocus")
                 if (it.hasFocus) onSelected()
             }
             .clip(CircleShape) // Standard pill shape
