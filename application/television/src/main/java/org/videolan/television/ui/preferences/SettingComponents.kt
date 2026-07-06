@@ -215,6 +215,7 @@ fun CategoryItem(
     category: SettingCategory,
     isSelected: Boolean,
     onSelected: () -> Unit,
+    onAction: () -> Unit = {},
     focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
     var hasFocus by remember { mutableStateOf(false) }
@@ -246,7 +247,7 @@ fun CategoryItem(
             }
             .clip(CircleShape) // Standard pill shape
             .background(backgroundColor)
-            .clickable(onClick = onSelected)
+            .clickable(onClick = onAction)
             .padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -891,7 +892,8 @@ private fun SettingComponentsPreview() {
             CategoryItem(
                 category = SettingCategory(R.string.video_prefs_category, emptyList(), R.drawable.ic_pref_video),
                 isSelected = true,
-                onSelected = {}
+                onSelected = {},
+                onAction = {}
             )
             Spacer(modifier = Modifier.size(16.dp))
             ToggleSettingItem(
