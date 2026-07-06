@@ -24,9 +24,9 @@
 
 package org.videolan.television.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.KeyEvent
 import androidx.activity.viewModels
@@ -34,7 +34,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Dialog
@@ -43,11 +42,13 @@ import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableList
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.television.util.EventThrottler
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
@@ -67,8 +68,6 @@ import org.videolan.vlc.util.IDialogManager
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeStreaming
-import kotlin.collections.forEach
-import kotlin.getValue
 
 private const val TAG = "VLC/DefaultTvActivity"
 
@@ -76,6 +75,10 @@ open class DefaultTvActivity : AppCompatActivity(), IDialogManager {
     private val horizontalThrottler = EventThrottler(75L)
     private val verticalThrottler = EventThrottler(100L)
     private val dialogsDelegate = DialogDelegate()
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
+    }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (event.action != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event)
