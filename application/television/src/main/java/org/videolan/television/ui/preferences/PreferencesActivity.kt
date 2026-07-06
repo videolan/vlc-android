@@ -32,6 +32,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
+import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
@@ -54,7 +55,6 @@ import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 
 class PreferencesActivity : BaseTvActivity() {
-    var extraEndPoint: String? = null
     private val viewModel: SettingsViewModel by viewModels {
         SettingsViewModel.Factory(application)
     }
@@ -72,9 +72,10 @@ class PreferencesActivity : BaseTvActivity() {
             startActivityForResult(intent, 0)
         }
         if (savedInstanceState == null) {
-            if (intent.hasExtra(EXTRA_PREF_END_POINT)) {
-                extraEndPoint = intent.getStringExtra(EXTRA_PREF_END_POINT)
-            }
+            val extraEndPoint = if (intent.hasExtra(EXTRA_PREF_END_POINT)) {
+                intent.parcelable<android.os.Parcelable>(EXTRA_PREF_END_POINT) ?: intent.extras?.get(EXTRA_PREF_END_POINT)
+            } else null
+            viewModel.init(extraEndPoint)
         }
     }
 
