@@ -346,13 +346,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             category.copy(items = cleanedItems)
         }.filter { category ->
             // Category is visible only if it has at least one actual setting (non-header)
-            category.items.any { it !is SettingItem.Header }
+            // Or if it is the Search category (which has no items in the list)
+            category.title == R.string.search || category.items.any { it !is SettingItem.Header }
         }
         
         _categories.value = filtered
         val currentSelection = _selectedCategory.value
         if (currentSelection == null || !filtered.any { it.title == currentSelection.title }) {
-            filtered.firstOrNull()?.let { selectCategory(it) }
+            // Default selection: General (not Search)
+            val defaultCategory = filtered.find { it.title == R.string.general } ?: filtered.firstOrNull()
+            defaultCategory?.let { selectCategory(it) }
         } else {
             // Update the selected category if items within it changed
             filtered.first { it.title == currentSelection.title }.let { selectCategory(it) }
