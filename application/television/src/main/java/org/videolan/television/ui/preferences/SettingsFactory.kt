@@ -406,6 +406,12 @@ object SettingsFactory {
                 defaultValue = ""
             ),
             SettingItem.Toggle(
+                key = KEY_SHOW_HEADERS,
+                title = R.string.show_headers,
+                summary = R.string.show_headers_summary,
+                defaultValue = true
+            ),
+            SettingItem.Toggle(
                 key = TV_FOLDERS_FIRST,
                 title = R.string.tv_folders_first,
                 defaultValue = true
