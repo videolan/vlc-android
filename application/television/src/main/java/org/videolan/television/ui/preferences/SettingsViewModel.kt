@@ -214,6 +214,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
 
+    private val _isNavigating = MutableStateFlow(false)
+    val isNavigating: StateFlow<Boolean> = _isNavigating.asStateFlow()
+
+    private val _targetSettingKey = MutableStateFlow<String?>(null)
+    val targetSettingKey: StateFlow<String?> = _targetSettingKey.asStateFlow()
+
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
@@ -245,29 +251,45 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun init(extraEndPoint: Any?) {
         if (extraEndPoint == null) return
-        val categories = _allCategories.value
+        val allCategories = _allCategories.value
         val category = when (extraEndPoint) {
             is Int -> {
                 when (extraEndPoint) {
-                    R.xml.preferences_remote_access -> categories.find { it.title == R.string.remote_access }
-                    R.xml.preferences_video -> categories.find { it.title == R.string.video_prefs_category }
-                    R.xml.preferences_audio -> categories.find { it.title == R.string.audio_prefs_category }
-                    R.xml.preferences_subtitles -> categories.find { it.title == R.string.subtitles_prefs_category }
-                    R.xml.preferences_ui -> categories.find { it.title == R.string.interface_prefs_screen }
+                    R.xml.preferences_remote_access -> allCategories.find { it.title == R.string.remote_access }
+                    R.xml.preferences_video -> allCategories.find { it.title == R.string.video_prefs_category }
+                    R.xml.preferences_audio -> allCategories.find { it.title == R.string.audio_prefs_category }
+                    R.xml.preferences_subtitles -> allCategories.find { it.title == R.string.subtitles_prefs_category }
+                    R.xml.preferences_ui -> allCategories.find { it.title == R.string.interface_prefs_screen }
                     else -> null
                 }
             }
             is String -> {
                 // If it's a string, it might be a preference key. 
                 // We find the category containing this key.
-                categories.find { cat -> cat.items.any { it.key == extraEndPoint } }
+                allCategories.find { cat -> cat.items.any { it.key == extraEndPoint } }
             }
             is PreferenceItem -> {
-                categories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
+                _isNavigating.value = true
+                _targetSettingKey.value = extraEndPoint.key
+                // First update categories to make sure the target category is available
+                refreshCategories()
+                val targetCategory = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
+                Log.d("VLC/Settings", "Search init: key=${extraEndPoint.key}, targetCategory=${targetCategory?.title}")
+                // Directly set the value to bypass the isNavigating check in selectCategory
+                targetCategory?.let { _selectedCategory.value = it }
+                viewModelScope.launch {
+                    kotlinx.coroutines.delay(200)
+                    _isNavigating.value = false
+                }
+                null
             }
             else -> null
         }
         category?.let { selectCategory(it) }
+    }
+
+    fun clearTargetSetting() {
+        _targetSettingKey.value = null
     }
 
     init {
@@ -390,7 +412,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             defaultCategory?.let { selectCategory(it) }
         } else {
             // Update the selected category if items within it changed
-            filtered.first { it.title == currentSelection.title }.let { selectCategory(it) }
+            val updatedSelection = filtered.first { it.title == currentSelection.title }
+            _selectedCategory.value = updatedSelection
         }
     }
 
@@ -410,6 +433,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * @param category The [SettingCategory] that has been selected.
      */
     fun selectCategory(category: SettingCategory) {
+        if (_isNavigating.value) {
+            Log.d("VLC/Settings", "Ignoring selectCategory during navigation: ${category.title}")
+            return
+        }
         _selectedCategory.value = category
     }
 
