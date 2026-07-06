@@ -82,6 +82,7 @@ fun SettingsScreen(
     isEnabled: (SettingItem) -> Boolean = { true }
 ) {
     val sidebarFocusRequester = remember { FocusRequester() }
+    val detailFocusRequester = remember { FocusRequester() }
     var isDetailFocused by remember { mutableStateOf(false) }
 
     // Intercept Back button when focus is in the detail pane
@@ -99,6 +100,7 @@ fun SettingsScreen(
             categories = categories,
             selectedCategory = selectedCategory,
             onCategorySelected = onCategorySelected,
+            onCategoryAction = { detailFocusRequester.requestFocus() },
             focusRequester = sidebarFocusRequester,
             modifier = Modifier
                 .width(320.dp)
@@ -124,6 +126,7 @@ fun SettingsScreen(
             onColorClicked = onColorClicked,
             isEnabled = isEnabled,
             onFocusChanged = { isDetailFocused = it },
+            focusRequester = detailFocusRequester,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
@@ -175,6 +178,7 @@ fun SettingsSidebar(
     categories: List<SettingCategory>,
     selectedCategory: SettingCategory?,
     onCategorySelected: (SettingCategory) -> Unit,
+    onCategoryAction: () -> Unit = {},
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
@@ -204,6 +208,7 @@ fun SettingsSidebar(
                     category = category,
                     isSelected = isSelected,
                     onSelected = { onCategorySelected(category) },
+                    onAction = onCategoryAction,
                     focusRequester = itemFocusRequester
                 )
 
@@ -234,9 +239,9 @@ fun SettingsDetail(
     onColorClicked: (SettingItem.Color) -> Unit,
     isEnabled: (SettingItem) -> Boolean,
     modifier: Modifier = Modifier,
-    onFocusChanged: (Boolean) -> Unit = {}
+    onFocusChanged: (Boolean) -> Unit = {},
+    focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
-    val detailFocusRequester = remember { FocusRequester() }
     var detailPaneHasFocus by remember { mutableStateOf(false) }
 
     // Track the last focused item key for each category
@@ -250,7 +255,7 @@ fun SettingsDetail(
 
     Column(
         modifier = modifier
-            .focusRequester(detailFocusRequester)
+            .focusRequester(focusRequester)
             .onFocusChanged { state ->
                 detailPaneHasFocus = state.hasFocus || state.isFocused
                 onFocusChanged(detailPaneHasFocus)
