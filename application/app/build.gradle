@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.dagger.hilt.android'
+    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -124,14 +126,13 @@ android {
                 // (assemblePaidRelease, assembleFreeRelease, etc.).
                 if (it.toLowerCase() ==~ /assemble.*Release/.toLowerCase()) {
                     isReleaseBuild = true
-                    return true // break
+                    return true
                 }
-                return false // continue
+                return false
             }
             enable = isReleaseBuild
             reset()
             include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
-//            universalApk !isReleaseBuild
         }
     }
 
@@ -192,4 +193,8 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$rootProject.ext.testCore"
     androidTestImplementation 'com.jraska:falcon:2.2.0'
     androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$rootProject.ext.hilt_version"
+    ksp "com.google.dagger:hilt-android-compiler:$rootProject.ext.hilt_version"
 }
