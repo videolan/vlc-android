@@ -147,6 +147,7 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getW
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
+import org.videolan.vlc.gui.preferences.search.PreferenceItem
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.util.AutoUpdate
@@ -209,6 +210,33 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * Public flow of the currently selected category for the UI to observe.
      */
     val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
+
+    fun init(extraEndPoint: Any?) {
+        if (extraEndPoint == null) return
+        val categories = _allCategories.value
+        val category = when (extraEndPoint) {
+            is Int -> {
+                when (extraEndPoint) {
+                    R.xml.preferences_remote_access -> categories.find { it.title == R.string.remote_access }
+                    R.xml.preferences_video -> categories.find { it.title == R.string.video_prefs_category }
+                    R.xml.preferences_audio -> categories.find { it.title == R.string.audio_prefs_category }
+                    R.xml.preferences_subtitles -> categories.find { it.title == R.string.subtitles_prefs_category }
+                    R.xml.preferences_ui -> categories.find { it.title == R.string.interface_prefs_screen }
+                    else -> null
+                }
+            }
+            is String -> {
+                // If it's a string, it might be a preference key. 
+                // We find the category containing this key.
+                categories.find { cat -> cat.items.any { it.key == extraEndPoint } }
+            }
+            is PreferenceItem -> {
+                categories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
+            }
+            else -> null
+        }
+        category?.let { selectCategory(it) }
+    }
 
     init {
         // Load settings from factory
