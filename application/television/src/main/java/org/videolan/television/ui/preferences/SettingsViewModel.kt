@@ -90,6 +90,7 @@ import org.videolan.tools.KEY_HARDWARE_ACCELERATION
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST_RESUME
+import org.videolan.tools.KEY_MEDIA_SEEN
 import org.videolan.tools.KEY_OPENGL
 import org.videolan.tools.KEY_PREFERRED_RESOLUTION
 import org.videolan.tools.KEY_PREFER_SMBV1
@@ -97,6 +98,7 @@ import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
 import org.videolan.tools.KEY_SAFE_MODE
 import org.videolan.tools.KEY_SET_LOCALE
+import org.videolan.tools.KEY_SHOW_HEADERS
 import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
 import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
 import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
@@ -136,6 +138,7 @@ import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
+import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
@@ -358,45 +361,99 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      */
     fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {
         val key = item.getEffectiveKey()
-        settings.edit { putBoolean(key, value) }
-        _settingsValues[key] = value
         
         // Side effects for boolean settings
         when (item.key) {
             PREF_TV_UI -> {
+                if (!value && Settings.device.isTv) {
+                    (context as? FragmentActivity)?.let { activity ->
+                        val dialog = FeatureTouchOnlyWarningDialog.newInstance {
+                            Settings.tvUI = false
+                            settings.edit { putBoolean(PREF_TV_UI, false) }
+                            _settingsValues[PREF_TV_UI] = false
+                            (context as? PreferencesActivity)?.setRestartApp()
+                            refreshCategories()
+                        }
+                        dialog.show(activity.supportFragmentManager, FeatureTouchOnlyWarningDialog::class.simpleName)
+                    }
+                    return
+                }
                 Settings.tvUI = value
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 (context as? PreferencesActivity)?.setRestartApp()
             }
-            KEY_INCOGNITO -> Settings.incognitoMode = value
-            TV_FOLDERS_FIRST -> Settings.tvFoldersFirst = value
-            BROWSER_SHOW_HIDDEN_FILES -> Settings.showHiddenFiles = value
+            KEY_INCOGNITO -> {
+                Settings.incognitoMode = value
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
+            }
+            TV_FOLDERS_FIRST -> {
+                Settings.tvFoldersFirst = value
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
+            }
+            BROWSER_SHOW_HIDDEN_FILES -> {
+                Settings.showHiddenFiles = value
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
+            }
             SHOW_VIDEO_THUMBNAILS -> {
                 Settings.showVideoThumbs = value
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
+                (context as? PreferencesActivity)?.setRestart()
+            }
+            KEY_SHOW_HEADERS -> {
+                Settings.showHeaders = value
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 (context as? PreferencesActivity)?.setRestart()
             }
             KEY_SUBTITLES_BACKGROUND, KEY_SUBTITLES_SHADOW, KEY_SUBTITLES_OUTLINE, KEY_ENABLE_FRAME_SKIP,
             KEY_SUBTITLES_AUTOLOAD, KEY_AUDIO_REPLAY_GAIN_ENABLE, KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION,
             KEY_ENABLE_VERBOSE_MODE -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 viewModelScope.launch { restartLibVLC() }
             }
             KEY_QUICK_PLAY -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 if (!value) {
                     settings.edit { putBoolean(KEY_QUICK_PLAY_DEFAULT, false) }
                     _settingsValues[KEY_QUICK_PLAY_DEFAULT] = false
                 }
             }
             KEY_PREFER_SMBV1 -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 viewModelScope.launch { VLCInstance.restart() }
             }
             KEY_ENABLE_REMOTE_ACCESS -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 Settings.remoteAccessEnabled.postValue(value)
                 if (value) context.startRemoteAccess() else context.stopRemoteAccess()
             }
             KEY_SAFE_MODE -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 Settings.safeMode = value && context.isPinCodeSet()
             }
+            KEY_MEDIA_SEEN -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
+                (context as? PreferencesActivity)?.setRestart()
+            }
             PLAYBACK_HISTORY -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
                 if (!value) Medialibrary.getInstance().clearHistory(Medialibrary.HISTORY_TYPE_GLOBAL)
+            }
+            else -> {
+                settings.edit { putBoolean(key, value) }
+                _settingsValues[key] = value
             }
         }
         
