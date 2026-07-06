@@ -45,6 +45,7 @@ object SettingsFactory {
      */
     fun createSettings(context: Context): List<SettingCategory> {
         return listOf(
+            createSearchCategory(),
             createGeneralCategory(context),
             createUiCategory(context),
             createVideoCategory(context),
@@ -55,6 +56,15 @@ object SettingsFactory {
             createAdvancedCategory(context)
         )
     }
+
+    /**
+     * Defines the Search settings category.
+     */
+    private fun createSearchCategory() = SettingCategory(
+        title = R.string.search,
+        icon = org.videolan.resources.R.drawable.ic_search,
+        items = emptyList() // Specialized UI handled in SettingsScreen
+    )
 
     /**
      * Defines the General settings category.
