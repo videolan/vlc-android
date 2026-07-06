@@ -99,7 +99,7 @@
         <activity
                 android:name=".ui.preferences.PreferencesActivity"
                 android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.Leanback.Preferences"
+                android:theme="@style/Theme.VLC"
                 tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ui.AboutActivity"
