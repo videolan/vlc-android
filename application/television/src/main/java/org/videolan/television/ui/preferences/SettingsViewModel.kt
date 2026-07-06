@@ -52,6 +52,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.REMOTE_ACCESS_ONBOARDING
 import org.videolan.resources.ROOM_DATABASE
 import org.videolan.resources.VLCInstance
@@ -467,7 +468,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 viewModelScope.launch { restartLibVLC() }
             }
             "subtitles_presets" -> applySubtitlePreset(value)
-            KEY_APP_THEME, KEY_SET_LOCALE -> (context as? PreferencesActivity)?.setRestartApp()
+            KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
+            KEY_SET_LOCALE -> {
+                AppContextProvider.setLocale(value)
+                (context as? PreferencesActivity)?.setRestartApp()
+            }
             SCREEN_ORIENTATION -> (context as? Activity)?.requestedOrientation = value.toInt()
             KEY_CUSTOM_LIBVLC_OPTIONS -> {
                 viewModelScope.launch {
