@@ -3,6 +3,7 @@ package org.videolan.tools
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.res.Configuration
 import android.os.Build
 import java.util.Locale
 import java.util.TreeMap
@@ -111,7 +112,7 @@ class LocalePair(val localeEntries: Array<String>, val localeEntryValues: Array<
 
 @Suppress("DEPRECATION")
 fun ContextWrapper.wrap(language: String): ContextWrapper {
-    val config = baseContext.resources.configuration
+    val config = Configuration(baseContext.resources.configuration)
     val sysLocale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         this.getSystemLocale()
     } else {
@@ -123,9 +124,9 @@ fun ContextWrapper.wrap(language: String): ContextWrapper {
         Locale.setDefault(locale)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            this.setSystemLocale(locale)
+            config.setLocale(locale)
         } else {
-            this.setSystemLocaleLegacy(locale)
+            config.locale = locale
         }
     }
 

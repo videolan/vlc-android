@@ -24,57 +24,30 @@
 
 package org.videolan.television.ui
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Folder
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.Playlist
-import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.util.parcelable
-import org.videolan.resources.util.parcelableList
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.television.ui.compose.composable.screens.MainScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
-import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_SHOW_UPDATE
+import org.videolan.tools.RESULT_RESCAN
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.Settings
-import org.videolan.vlc.R
-import org.videolan.vlc.gui.browser.FileBrowserFragment
-import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_MEDIALIST
-import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
-import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_BAN_FOLDER
-import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_DEFAULT_VALUE
-import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_TYPE
-import org.videolan.vlc.gui.dialogs.CONFIRM_PLAYLIST_RENAME_DIALOG_RESULT
-import org.videolan.vlc.gui.dialogs.CONFIRM_RENAME_DIALOG_RESULT
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.UPDATE_DATE
 import org.videolan.vlc.gui.dialogs.UPDATE_URL
 import org.videolan.vlc.gui.dialogs.UpdateDialog
-import org.videolan.vlc.gui.helpers.MedialibraryUtils
-import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.AutoUpdate
-import org.videolan.vlc.util.MediaListEntry
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.isSchemeStreaming
 
 
 class MainActivity : DefaultTvActivity() {
@@ -102,6 +75,24 @@ class MainActivity : DefaultTvActivity() {
                     arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
                 }
                 updateDialog.show(supportFragmentManager, "fragment_update")
+            }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
+            when (resultCode) {
+                RESULT_RESCAN -> this.reloadLibrary()
+                RESULT_RESTART, RESULT_RESTART_APP -> {
+                    val intent = Intent(this, if (resultCode == RESULT_RESTART_APP) org.videolan.vlc.StartActivity::class.java else MainActivity::class.java)
+                    if (resultCode == RESULT_RESTART_APP) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    }
+                    finish()
+                    startActivity(intent)
+                }
             }
         }
     }
