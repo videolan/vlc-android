@@ -45,8 +45,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
@@ -210,6 +213,35 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
      * Public flow of the currently selected category for the UI to observe.
      */
     val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    /**
+     * Cache for all searchable settings items.
+     */
+    private var allPreferenceItems: List<PreferenceItem> = emptyList()
+
+    /**
+     * Reactive search results based on the current query.
+     */
+    val searchResults: StateFlow<List<PreferenceItem>> = _searchQuery
+        .combine(_allCategories) { query, _ ->
+            if (query.length < 2) emptyList()
+            else {
+                if (allPreferenceItems.isEmpty()) {
+                    allPreferenceItems = PreferenceParser.parsePreferences(appContext)
+                }
+                allPreferenceItems.filter {
+                    it.title.contains(query, ignoreCase = true) || 
+                    it.summary.contains(query, ignoreCase = true)
+                }
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
 
     fun init(extraEndPoint: Any?) {
         if (extraEndPoint == null) return
