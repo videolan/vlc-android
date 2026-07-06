@@ -25,12 +25,15 @@ import android.os.Build
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
+import dagger.hilt.android.HiltAndroidApp
 import org.videolan.libvlc.Dialog
 import org.videolan.tools.BitmapCache
 import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.util.DialogDelegate
 
 private const val TAG = "VLC/VLCApplication"
+
+@HiltAndroidApp
 class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate, AppDelegate by AppSetupDelegate() {
 
     init {
