@@ -31,7 +31,6 @@ import org.videolan.vlc.ArtworkProvider
 import org.videolan.vlc.util.DialogDelegate
 
 private const val TAG = "VLC/VLCApplication"
-
 class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate, AppDelegate by AppSetupDelegate() {
 
     init {
