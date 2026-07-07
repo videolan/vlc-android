@@ -37,7 +37,12 @@ import org.videolan.vlc.gui.preferences.search.PreferenceItem
  * Events sent from the logic to the UI to trigger one-shot actions (like navigation).
  */
 sealed class SettingsEvent {
-    data class ScrollToAndFocus(val categoryTitle: Int, val itemKey: String) : SettingsEvent()
+    /**
+     * Navigates to a specific item in a category.
+     * @param categoryTitle The string resource ID of the category title.
+     * @param itemKey The preference key of the item to focus.
+     */
+    data class ScrollToAndFocus(val categoryTitle: Int, val itemKey: String?) : SettingsEvent()
 }
 
 /**
@@ -55,7 +60,6 @@ interface SettingsProvider {
     val selectedCategory: StateFlow<SettingCategory?>
     val searchQuery: StateFlow<String>
     val searchResults: StateFlow<List<PreferenceItem>>
-    val targetSettingKey: StateFlow<String?>
     val isNavigating: StateFlow<Boolean>
 
     // Value getters
@@ -98,7 +102,6 @@ class MockSettingsProvider(
 
     override val searchQuery = MutableStateFlow("")
     override val searchResults = MutableStateFlow(emptyList<PreferenceItem>())
-    override val targetSettingKey = MutableStateFlow<String?>(null)
     override val isNavigating = MutableStateFlow(false)
 
     override fun getBooleanValue(item: SettingItem.Toggle) = item.defaultValue
