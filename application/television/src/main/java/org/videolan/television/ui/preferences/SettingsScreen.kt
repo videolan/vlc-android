@@ -52,6 +52,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
@@ -156,6 +157,7 @@ private fun SettingsScreenContent(
         SettingsSidebar(
             onCategoryAction = { detailFocusRequester.requestFocus() },
             focusRequester = sidebarFocusRequester,
+            detailFocusRequester = detailFocusRequester,
             modifier = Modifier
                 .width(320.dp)
                 .fillMaxHeight()
@@ -188,7 +190,8 @@ private fun SettingsScreenContent(
 fun SettingsSidebar(
     onCategoryAction: () -> Unit = {},
     modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = remember { FocusRequester() }
+    focusRequester: FocusRequester = remember { FocusRequester() },
+    detailFocusRequester: FocusRequester? = null
 ) {
     val provider = LocalSettingsProvider.current
     val categories by provider.categories.collectAsState()
@@ -231,7 +234,10 @@ fun SettingsSidebar(
                     isSelected = isSelected,
                     onSelected = { provider.selectCategory(category) },
                     onAction = onCategoryAction,
-                    focusRequester = itemFocusRequester
+                    focusRequester = itemFocusRequester,
+                    modifier = Modifier.focusProperties { 
+                        detailFocusRequester?.let { right = it }
+                    }
                 )
 
                 // When the sidebar itself receives focus (e.g. via DPAD LEFT from detail pane),
