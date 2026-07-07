@@ -24,7 +24,6 @@
 
 package org.videolan.television.ui.preferences
 
-import android.app.Application
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -49,7 +48,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -61,7 +59,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
@@ -176,9 +174,7 @@ fun SettingsScreen(
  */
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = viewModel(
-        factory = SettingsViewModel.Factory(LocalContext.current.applicationContext as Application)
-    )
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val categories by viewModel.categories.collectAsState()
