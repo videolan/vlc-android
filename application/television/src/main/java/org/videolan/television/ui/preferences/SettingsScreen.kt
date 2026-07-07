@@ -42,12 +42,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -63,6 +65,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
+
+/**
+ * CompositionLocal to provide a [SettingsProvider] down the UI tree.
+ */
+val LocalSettingsProvider = staticCompositionLocalOf<SettingsProvider> {
+    error("No SettingsProvider provided")
+}
 
 @Composable
 fun SettingsScreen(
@@ -179,32 +188,35 @@ fun SettingsScreen(
     val context = LocalContext.current
     val categories by viewModel.categories.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
+    val searchResults by viewModel.searchResults.collectAsState()
+    val targetSettingKey by viewModel.targetSettingKey.collectAsState()
 
-    SettingsScreen(
-        categories = categories,
-        selectedCategory = selectedCategory,
-        onCategorySelected = { viewModel.selectCategory(it) },
-        getBooleanValue = { viewModel.getBooleanValue(it) },
-        getIntValue = { viewModel.getIntValue(it) },
-        getStringValue = { viewModel.getStringValue(it) },
-        getColorValue = { viewModel.getColorValue(it) },
-        getSummary = { viewModel.getSummary(it) },
-        searchQuery = viewModel.searchQuery.collectAsState().value,
-        searchResults = viewModel.searchResults.collectAsState().value,
-        onSearchQueryChanged = { viewModel.setSearchQuery(it) },
-        onSearchResultClicked = { 
-            viewModel.init(it)
-        },
-        onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
-        onActionClicked = { viewModel.executeAction(context, it) },
-        onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
-        onIntChanged = { item, v -> viewModel.updateIntSetting(item, v) },
-        onColorClicked = { viewModel.pickColor(context, it) },
-        isEnabled = { viewModel.isEnabled(it) },
-        onDetailFocused = { viewModel.onDetailFocused(context) },
-        targetSettingKey = viewModel.targetSettingKey.collectAsState().value,
-        onTargetSettingFocused = { viewModel.clearTargetSetting() }
-    )
+    CompositionLocalProvider(LocalSettingsProvider provides viewModel) {
+        SettingsScreen(
+            categories = categories,
+            selectedCategory = selectedCategory,
+            onCategorySelected = { viewModel.selectCategory(it) },
+            getBooleanValue = { viewModel.getBooleanValue(it) },
+            getIntValue = { viewModel.getIntValue(it) },
+            getStringValue = { viewModel.getStringValue(it) },
+            getColorValue = { viewModel.getColorValue(it) },
+            getSummary = { viewModel.getSummary(it) },
+            searchQuery = searchQuery,
+            searchResults = searchResults,
+            onSearchQueryChanged = { viewModel.setSearchQuery(it) },
+            onSearchResultClicked = { viewModel.init(it) },
+            onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
+            onActionClicked = { viewModel.executeAction(context, it) },
+            onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
+            onIntChanged = { item, v -> viewModel.updateIntSetting(item, v) },
+            onColorClicked = { viewModel.pickColor(context, it) },
+            isEnabled = { viewModel.isEnabled(it) },
+            onDetailFocused = { viewModel.onDetailFocused(context) },
+            targetSettingKey = targetSettingKey,
+            onTargetSettingFocused = { viewModel.clearTargetSetting() }
+        )
+    }
 }
 
 @Composable
