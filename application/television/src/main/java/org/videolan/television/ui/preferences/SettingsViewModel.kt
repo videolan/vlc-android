@@ -223,11 +223,11 @@ class SettingsViewModel @Inject constructor(
      */
     override val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
 
-    private val _isNavigating = MutableStateFlow(false)
-    override val isNavigating: StateFlow<Boolean> = _isNavigating.asStateFlow()
-
     private val _searchQuery = MutableStateFlow("")
     override val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    private val _pendingFocusKey = MutableStateFlow<String?>(null)
+    override val pendingFocusKey: StateFlow<String?> = _pendingFocusKey.asStateFlow()
 
     /**
      * Cache for all searchable settings items.
@@ -269,24 +269,26 @@ class SettingsViewModel @Inject constructor(
                         R.xml.preferences_ui -> allCategories.find { it.title == R.string.interface_prefs_screen }
                         else -> null
                     }
-                    category?.let { _navEvents.emit(SettingsEvent.ScrollToAndFocus(it.title, null)) }
+                    category?.let { 
+                        _pendingFocusKey.value = null
+                        _navEvents.emit(SettingsEvent.ScrollToAndFocus(it.title, null)) 
+                    }
                 }
                 is String -> {
                     // If it's a string, it might be a preference key. 
                     // We find the category containing this key.
                     val category = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint } }
-                    category?.let { _navEvents.emit(SettingsEvent.ScrollToAndFocus(it.title, extraEndPoint)) }
+                    category?.let { 
+                        _pendingFocusKey.value = extraEndPoint
+                        _navEvents.emit(SettingsEvent.ScrollToAndFocus(it.title, extraEndPoint)) 
+                    }
                 }
                 is PreferenceItem -> {
                     // Find the category containing this key.
                     val targetCategory = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
                     targetCategory?.let { category ->
-                        _isNavigating.value = true
+                        _pendingFocusKey.value = extraEndPoint.key
                         _navEvents.emit(SettingsEvent.ScrollToAndFocus(category.title, extraEndPoint.key))
-                        viewModelScope.launch {
-                            kotlinx.coroutines.delay(500)
-                            _isNavigating.value = false
-                        }
                     }
                 }
             }
@@ -294,7 +296,11 @@ class SettingsViewModel @Inject constructor(
     }
 
     override fun clearTargetSetting() {
-        // No longer needed as we use one-shot events
+        // Obsolete but kept for interface compatibility for now
+    }
+
+    override fun consumeFocusKey() {
+        _pendingFocusKey.value = null
     }
 
     init {

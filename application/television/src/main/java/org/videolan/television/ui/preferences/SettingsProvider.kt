@@ -60,7 +60,7 @@ interface SettingsProvider {
     val selectedCategory: StateFlow<SettingCategory?>
     val searchQuery: StateFlow<String>
     val searchResults: StateFlow<List<PreferenceItem>>
-    val isNavigating: StateFlow<Boolean>
+    val pendingFocusKey: StateFlow<String?>
 
     // Value getters
     fun getBooleanValue(item: SettingItem.Toggle): Boolean
@@ -83,6 +83,7 @@ interface SettingsProvider {
     fun updateColorSetting(key: String, value: Int)
     fun executeAction(context: Context, item: SettingItem.Action)
     fun pickColor(context: Context, item: SettingItem.Color)
+    fun consumeFocusKey()
 }
 
 /**
@@ -102,7 +103,9 @@ class MockSettingsProvider(
 
     override val searchQuery = MutableStateFlow("")
     override val searchResults = MutableStateFlow(emptyList<PreferenceItem>())
-    override val isNavigating = MutableStateFlow(false)
+    
+    private val _pendingFocusKey = MutableStateFlow<String?>(null)
+    override val pendingFocusKey: StateFlow<String?> = _pendingFocusKey.asStateFlow()
 
     override fun getBooleanValue(item: SettingItem.Toggle) = item.defaultValue
     override fun getIntValue(item: SettingItem.Slider) = item.defaultValue
@@ -123,4 +126,5 @@ class MockSettingsProvider(
     override fun updateColorSetting(key: String, value: Int) {}
     override fun executeAction(context: Context, item: SettingItem.Action) {}
     override fun pickColor(context: Context, item: SettingItem.Color) {}
+    override fun consumeFocusKey() { _pendingFocusKey.value = null }
 }
