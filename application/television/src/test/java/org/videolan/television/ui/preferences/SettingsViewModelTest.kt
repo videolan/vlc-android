@@ -141,6 +141,14 @@ class SettingsViewModelTest {
         // Set the query
         viewModel.setSearchQuery("Auto")
         
+        // Trigger the search by forcing categories to emit.
+        viewModel.setCategories(listOf(
+            SettingCategory(org.videolan.vlc.R.string.general, listOf(
+                SettingItem.Toggle("auto_rescan", org.videolan.vlc.R.string.auto_rescan)
+            ), 0)
+        ))
+        
+        // Use first { ... } to wait for the expected emission.
         val results = viewModel.searchResults.first { it.isNotEmpty() }
         
         assertEquals(1, results.size)
@@ -153,7 +161,13 @@ class SettingsViewModelTest {
      */
     @Test
     fun whenInitWithPreferenceKey_correctCategoryIsSelected() = runTest {
-        // audio_preferred_language belongs to audio_prefs_category in our setup mock
+        // Mock categories for init
+        viewModel.setCategories(listOf(
+            SettingCategory(org.videolan.vlc.R.string.audio_prefs_category, listOf(
+                SettingItem.Toggle("audio_preferred_language", org.videolan.vlc.R.string.audio_preferred_language)
+            ), 0)
+        ))
+
         viewModel.init("audio_preferred_language")
         
         val selected = viewModel.selectedCategory.value

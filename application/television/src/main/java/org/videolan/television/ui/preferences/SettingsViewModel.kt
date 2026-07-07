@@ -178,7 +178,7 @@ class SettingsViewModel @Inject constructor(
     application: Application,
     @LocalizedContext private val localizedContext: Context,
     private val settings: SharedPreferences
-) : AndroidViewModel(application) {
+) : AndroidViewModel(application), SettingsProvider {
 
     /**
      * Internal flow containing all possible categories and their items.
@@ -193,7 +193,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Public flow of filtered categories that should be displayed in the UI.
      */
-    val categories: StateFlow<List<SettingCategory>> = _categories.asStateFlow()
+    override val categories: StateFlow<List<SettingCategory>> = _categories.asStateFlow()
 
     /**
      * Internal state map to track settings values and trigger Compose recomposition.
@@ -208,16 +208,16 @@ class SettingsViewModel @Inject constructor(
     /**
      * Public flow of the currently selected category for the UI to observe.
      */
-    val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
+    override val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
 
     private val _isNavigating = MutableStateFlow(false)
-    val isNavigating: StateFlow<Boolean> = _isNavigating.asStateFlow()
+    override val isNavigating: StateFlow<Boolean> = _isNavigating.asStateFlow()
 
     private val _targetSettingKey = MutableStateFlow<String?>(null)
-    val targetSettingKey: StateFlow<String?> = _targetSettingKey.asStateFlow()
+    override val targetSettingKey: StateFlow<String?> = _targetSettingKey.asStateFlow()
 
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+    override val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     /**
      * Cache for all searchable settings items.
@@ -227,7 +227,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Reactive search results based on the current query.
      */
-    val searchResults: StateFlow<List<PreferenceItem>> = _searchQuery
+    override val searchResults: StateFlow<List<PreferenceItem>> = _searchQuery
         .combine(_allCategories) { query, _ ->
             if (query.length < 2) emptyList()
             else {
@@ -241,11 +241,11 @@ class SettingsViewModel @Inject constructor(
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    fun setSearchQuery(query: String) {
+    override fun setSearchQuery(query: String) {
         _searchQuery.value = query
     }
 
-    fun init(extraEndPoint: Any?) {
+    override fun init(extraEndPoint: Any?) {
         if (extraEndPoint == null) return
         val allCategories = _allCategories.value
         val category = when (extraEndPoint) {
@@ -283,7 +283,7 @@ class SettingsViewModel @Inject constructor(
         category?.let { selectCategory(it) }
     }
 
-    fun clearTargetSetting() {
+    override fun clearTargetSetting() {
         _targetSettingKey.value = null
     }
 
@@ -427,7 +427,7 @@ class SettingsViewModel @Inject constructor(
      *
      * @param category The [SettingCategory] that has been selected.
      */
-    fun selectCategory(category: SettingCategory) {
+    override fun selectCategory(category: SettingCategory) {
         if (_isNavigating.value) {
             return
         }
@@ -438,7 +438,7 @@ class SettingsViewModel @Inject constructor(
      * Called when the detail pane (second pane) receives focus.
      * Triggers side effects like the remote access onboarding.
      */
-    fun onDetailFocused(context: Context) {
+    override fun onDetailFocused(context: Context) {
         val category = _selectedCategory.value ?: return
         
         // Show remote access onboarding if needed
@@ -464,7 +464,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The toggle setting item.
      * @param value The new boolean value.
      */
-    fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {
+    override fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {
         val key = item.getEffectiveKey()
         
         // Side effects for boolean settings
@@ -568,7 +568,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Updates an integer setting (like sliders) in [android.content.SharedPreferences].
      */
-    fun updateIntSetting(item: SettingItem.Slider, value: Int) {
+    override fun updateIntSetting(item: SettingItem.Slider, value: Int) {
         val key = item.getEffectiveKey()
         settings.edit { putInt(key, value) }
         _settingsValues[key] = value
@@ -591,7 +591,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The setting item.
      * @param value The new string value.
      */
-    fun updateStringSetting(context: Context, item: SettingItem, value: String) {
+    override fun updateStringSetting(context: Context, item: SettingItem, value: String) {
         val key = item.getEffectiveKey()
         
         // Handle specialized storage types based on SettingType
@@ -655,7 +655,7 @@ class SettingsViewModel @Inject constructor(
      *
      * Used mainly for [onActivityResult] where only the key/request code is known.
      */
-    fun updateColorSetting(key: String, value: Int) {
+    override fun updateColorSetting(key: String, value: Int) {
         val item = _allCategories.value.flatMap { it.items }.filterIsInstance<SettingItem.Color>().firstOrNull { it.key == key }
         if (item != null) {
             updateColorSetting(item, value)
@@ -674,7 +674,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The color setting item.
      * @param value The new color value as an ARGB integer.
      */
-    fun updateColorSetting(item: SettingItem.Color, value: Int) {
+    override fun updateColorSetting(item: SettingItem.Color, value: Int) {
         val key = item.getEffectiveKey()
         settings.edit { putInt(key, value) }
         _settingsValues[key] = value
@@ -753,7 +753,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The setting item to check.
      * @return True if the item is enabled.
      */
-    fun isEnabled(item: SettingItem): Boolean {
+    override fun isEnabled(item: SettingItem): Boolean {
         val depKey = item.dependencyKey ?: return true
         val depValue = getBooleanValue(depKey)
         return if (item.disableIfDependencyIsSet) !depValue else depValue
@@ -765,7 +765,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The slider setting item.
      * @return The current integer value.
      */
-    fun getIntValue(item: SettingItem.Slider): Int {
+    override fun getIntValue(item: SettingItem.Slider): Int {
         val key = item.getEffectiveKey()
         return (_settingsValues[key] as? Int) ?: settings.getInt(key, item.defaultValue)
     }
@@ -776,7 +776,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The toggle setting item.
      * @return The current boolean value.
      */
-    fun getBooleanValue(item: SettingItem.Toggle): Boolean {
+    override fun getBooleanValue(item: SettingItem.Toggle): Boolean {
         val key = item.getEffectiveKey()
         return (_settingsValues[key] as? Boolean) ?: settings.getBoolean(key, item.defaultValue)
     }
@@ -789,7 +789,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The setting item.
      * @return The current string representation of the value.
      */
-    fun getStringValue(item: SettingItem): String? {
+    override fun getStringValue(item: SettingItem): String? {
         val key = item.getEffectiveKey()
         val reactiveValue = _settingsValues[key]
         if (reactiveValue != null) return reactiveValue.toString()
@@ -814,7 +814,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The color setting item.
      * @return The current color value as an ARGB integer.
      */
-    fun getColorValue(item: SettingItem.Color): Int {
+    override fun getColorValue(item: SettingItem.Color): Int {
         val key = item.getEffectiveKey()
         return (_settingsValues[key] as? Int) ?: settings.getInt(key, item.defaultColor)
     }
@@ -825,7 +825,7 @@ class SettingsViewModel @Inject constructor(
      * @param item The setting item.
      * @return The summary string, or null if none.
      */
-    fun getSummary(item: SettingItem): String? {
+    override fun getSummary(item: SettingItem): String? {
         return when (item.key) {
             KEY_AUDIO_DIGITAL_OUTPUT -> {
                 val pt = if (item is SettingItem.Toggle) getBooleanValue(item) else false
@@ -869,7 +869,7 @@ class SettingsViewModel @Inject constructor(
      * @param context The context used to start activities or show toasts.
      * @param item The action item to execute.
      */
-    fun executeAction(context: Context, item: SettingItem.Action) {
+    override fun executeAction(context: Context, item: SettingItem.Action) {
         when (item.key) {
             "optional_features" -> {
                 val intent = Intent(context, PreferencesActivity::class.java)
@@ -1076,7 +1076,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Handles color picking.
      */
-    fun pickColor(context: Context, item: SettingItem.Color) {
+    override fun pickColor(context: Context, item: SettingItem.Color) {
         val currentColor = getColorValue(item)
         val intent = Intent(context, ColorPickerActivity::class.java).apply {
             putExtra(COLOR_PICKER_SELECTED_COLOR, currentColor)
