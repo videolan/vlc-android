@@ -126,12 +126,8 @@ fun SettingsScreen(
     ) {
         // Sidebar (Left Pane)
         SettingsSidebar(
-            categories = categories,
-            selectedCategory = selectedCategory,
-            onCategorySelected = onCategorySelected,
             onCategoryAction = { detailFocusRequester.requestFocus() },
             focusRequester = sidebarFocusRequester,
-            targetSettingKey = targetSettingKey,
             modifier = Modifier
                 .width(320.dp)
                 .fillMaxHeight()
@@ -221,14 +217,15 @@ fun SettingsScreen(
 
 @Composable
 fun SettingsSidebar(
-    categories: List<SettingCategory>,
-    selectedCategory: SettingCategory?,
-    onCategorySelected: (SettingCategory) -> Unit,
     onCategoryAction: () -> Unit = {},
     modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = remember { FocusRequester() },
-    targetSettingKey: String? = null
+    focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
+    val provider = LocalSettingsProvider.current
+    val categories by provider.categories.collectAsState()
+    val selectedCategory by provider.selectedCategory.collectAsState()
+    val targetSettingKey by provider.targetSettingKey.collectAsState()
+    
     var sidebarPaneHasFocus by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
 
@@ -264,7 +261,7 @@ fun SettingsSidebar(
                 CategoryItem(
                     category = category,
                     isSelected = isSelected,
-                    onSelected = { onCategorySelected(category) },
+                    onSelected = { provider.selectCategory(category) },
                     onAction = onCategoryAction,
                     focusRequester = itemFocusRequester
                 )
