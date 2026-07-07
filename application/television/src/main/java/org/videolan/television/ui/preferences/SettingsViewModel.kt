@@ -24,13 +24,13 @@
 
 package org.videolan.television.ui.preferences
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
@@ -43,6 +43,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -159,6 +160,7 @@ import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.util.deleteAllWatchNext
 import java.io.File
 import java.io.IOException
+import javax.inject.Inject
 
 const val RESTART_CODE = 10001
 
@@ -171,18 +173,16 @@ const val RESTART_CODE = 10001
  *
  * @param application The application context.
  */
-@SuppressLint("StaticFieldLeak")
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    application: Application,
+    private val settings: SharedPreferences
+) : AndroidViewModel(application) {
 
     /**
      * The application context to avoid leaking Activity context.
      */
     private val appContext = application
-
-    /**
-     * The [android.content.SharedPreferences] instance used for storing and retrieving settings.
-     */
-    private val settings = Settings.getInstance(appContext)
 
     /**
      * Internal flow containing all possible categories and their items.
@@ -1105,7 +1105,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     class Factory(private val application: Application) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SettingsViewModel(application) as T
+            return SettingsViewModel(application, Settings.getInstance(application)) as T
         }
     }
 }
