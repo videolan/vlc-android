@@ -43,9 +43,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
@@ -181,6 +184,16 @@ class SettingsViewModel @Inject constructor(
 ) : AndroidViewModel(application), SettingsProvider {
 
     /**
+     * Internal flow for navigation events.
+     */
+    private val _navEvents = MutableSharedFlow<SettingsEvent>()
+
+    /**
+     * Public flow for the UI to observe one-shot navigation events.
+     */
+    override val navEvents: SharedFlow<SettingsEvent> = _navEvents.asSharedFlow()
+
+    /**
      * Internal flow containing all possible categories and their items.
      */
     private val _allCategories = MutableStateFlow<List<SettingCategory>>(emptyList())
@@ -265,16 +278,12 @@ class SettingsViewModel @Inject constructor(
                 allCategories.find { cat -> cat.items.any { it.key == extraEndPoint } }
             }
             is PreferenceItem -> {
-                _isNavigating.value = true
-                _targetSettingKey.value = extraEndPoint.key
-                // First update categories to make sure the target category is available
-                refreshCategories()
+                // Find the category containing this key.
                 val targetCategory = _allCategories.value.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
-                // Directly set the value
-                targetCategory?.let { _selectedCategory.value = it }
-                viewModelScope.launch {
-                    kotlinx.coroutines.delay(200)
-                    _isNavigating.value = false
+                targetCategory?.let { category ->
+                    viewModelScope.launch {
+                        _navEvents.emit(SettingsEvent.ScrollToAndFocus(category.title, extraEndPoint.key))
+                    }
                 }
                 null
             }
