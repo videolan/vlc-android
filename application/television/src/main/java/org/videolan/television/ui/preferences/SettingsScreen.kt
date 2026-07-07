@@ -126,6 +126,11 @@ private fun SettingsScreenContent(
     val detailFocusRequester = remember { FocusRequester() }
     var isDetailFocused by remember { mutableStateOf(false) }
 
+    // Request initial focus on the sidebar
+    LaunchedEffect(Unit) {
+        sidebarFocusRequester.requestFocus()
+    }
+
     // Intercept Back button when focus is in the detail pane
     BackHandler(enabled = isDetailFocused) {
         sidebarFocusRequester.requestFocus()
