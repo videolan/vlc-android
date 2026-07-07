@@ -30,6 +30,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.parcelable
@@ -54,10 +55,9 @@ import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 
+@AndroidEntryPoint
 class PreferencesActivity : BaseTvActivity() {
-    private val viewModel: SettingsViewModel by viewModels {
-        SettingsViewModel.Factory(application)
-    }
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -40,8 +40,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -271,8 +269,8 @@ class SettingsViewModel @Inject constructor(
                 _targetSettingKey.value = extraEndPoint.key
                 // First update categories to make sure the target category is available
                 refreshCategories()
-                val targetCategory = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
-                // Directly set the value to bypass the isNavigating check in selectCategory
+                val targetCategory = _allCategories.value.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
+                // Directly set the value
                 targetCategory?.let { _selectedCategory.value = it }
                 viewModelScope.launch {
                     kotlinx.coroutines.delay(200)
@@ -1092,18 +1090,5 @@ class SettingsViewModel @Inject constructor(
             else -> 0
         }
         (context as? Activity)?.startActivityForResult(intent, requestCode)
-    }
-
-    /**
-     * Factory for creating [SettingsViewModel] with an [Application].
-     */
-    class Factory(private val application: Application) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            val settings = Settings.getInstance(application)
-            val locale = settings.getString(org.videolan.tools.KEY_SET_LOCALE, "")
-            val localizedContext = application.getContextWithLocale(locale)
-            return SettingsViewModel(application, localizedContext, settings) as T
-        }
     }
 }
