@@ -299,8 +299,7 @@ fun CategoryItem(
     onSelected: () -> Unit,
     onAction: () -> Unit = {},
     focusRequester: FocusRequester = remember { FocusRequester() },
-    modifier: Modifier = Modifier,
-    isNavigating: Boolean = false
+    modifier: Modifier = Modifier
 ) {
     var hasFocus by remember { mutableStateOf(false) }
     
@@ -326,11 +325,8 @@ fun CategoryItem(
             .focusRequester(focusRequester)
             .onFocusChanged { 
                 hasFocus = it.hasFocus 
-                if (it.hasFocus && !isNavigating) {
-                    android.util.Log.d("SettingsFocus", "Category gained focus: ${category.title}")
+                if (it.hasFocus) {
                     onSelected()
-                } else if (it.hasFocus && isNavigating) {
-                    android.util.Log.d("SettingsFocus", "Category gained focus but navigation in progress: ${category.title}")
                 }
             }
             .clip(CircleShape) // Standard pill shape

@@ -24,7 +24,6 @@
 
 package org.videolan.television.ui.preferences
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -50,6 +49,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -64,6 +64,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
 
@@ -84,36 +86,23 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val provider = viewModel as SettingsProvider
-    val context = LocalContext.current
-
-    // Local state to track the focus target for the detail pane
-    var pendingFocusKey by remember { mutableStateOf<String?>(null) }
 
     // Collect one-shot navigation events
     LaunchedEffect(Unit) {
         provider.navEvents.collect { event ->
-            Log.d("SettingsFocus", "Received nav event: $event")
             when (event) {
                 is SettingsEvent.ScrollToAndFocus -> {
-                    // 1. Find and select the category
+                    // Find and select the category
                     val categories = provider.categories.value
                     val cat = categories.find { it.title == event.categoryTitle }
-                    Log.d("SettingsFocus", "Navigating to category: ${cat?.title} for key: ${event.itemKey}")
                     cat?.let { provider.selectCategory(it) }
-                    
-                    // 2. Schedule focus redirection for the detail pane
-                    pendingFocusKey = event.itemKey
                 }
             }
         }
     }
 
     CompositionLocalProvider(LocalSettingsProvider provides provider) {
-        SettingsScreenContent(
-            onDetailFocused = { provider.onDetailFocused(context) },
-            pendingFocusKey = pendingFocusKey,
-            onFocusConsumed = { pendingFocusKey = null }
-        )
+        SettingsScreenContent()
     }
 }
 
@@ -121,11 +110,11 @@ fun SettingsScreen(
  * Internal content for the settings screen.
  */
 @Composable
-private fun SettingsScreenContent(
-    onDetailFocused: () -> Unit = {},
-    pendingFocusKey: String? = null,
-    onFocusConsumed: () -> Unit = {}
-) {
+private fun SettingsScreenContent() {
+    val provider = LocalSettingsProvider.current
+    val context = LocalContext.current
+    val pendingFocusKey by provider.pendingFocusKey.collectAsState()
+
     val sidebarFocusRequester = remember { FocusRequester() }
     val detailFocusRequester = remember { FocusRequester() }
     var isDetailFocused by remember { mutableStateOf(false) }
@@ -140,14 +129,11 @@ private fun SettingsScreenContent(
         sidebarFocusRequester.requestFocus()
     }
     
-    // Trigger onDetailFocused when focus shifts to the detail pane
-    LaunchedEffect(isDetailFocused, pendingFocusKey) {
-        if (isDetailFocused || pendingFocusKey != null) {
-            onDetailFocused()
-            // If we have a pending focus target, ensure the detail pane itself gets focus first
-            if (!isDetailFocused) {
-                detailFocusRequester.requestFocus()
-            }
+    // Focus Trap: Forcefully keep focus in the detail pane during navigation
+    LaunchedEffect(pendingFocusKey) {
+        if (pendingFocusKey != null) {
+            detailFocusRequester.requestFocus()
+            provider.onDetailFocused(context)
         }
     }
 
@@ -174,8 +160,6 @@ private fun SettingsScreenContent(
         SettingsDetail(
             onFocusChanged = { isDetailFocused = it },
             focusRequester = detailFocusRequester,
-            pendingFocusKey = pendingFocusKey,
-            onFocusConsumed = onFocusConsumed,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
@@ -199,6 +183,7 @@ fun SettingsSidebar(
     val provider = LocalSettingsProvider.current
     val categories by provider.categories.collectAsState()
     val selectedCategory by provider.selectedCategory.collectAsState()
+    val pendingFocusKey by provider.pendingFocusKey.collectAsState()
     
     var sidebarPaneHasFocus by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
@@ -218,6 +203,11 @@ fun SettingsSidebar(
             .focusRequester(focusRequester)
             .onFocusChanged { state ->
                 sidebarPaneHasFocus = state.hasFocus
+                // If sidebar gains focus during a navigation event, 
+                // bounce it back to the detail pane.
+                if (state.hasFocus && pendingFocusKey != null) {
+                    onCategoryAction()
+                }
             }
     ) {
         Text(
@@ -235,13 +225,18 @@ fun SettingsSidebar(
                 CategoryItem(
                     category = category,
                     isSelected = isSelected,
-                    onSelected = { provider.selectCategory(category) },
+                    onSelected = { 
+                        // Only update selection if this sidebar item was intentionally focused
+                        // and we are NOT in the middle of a navigation event.
+                        if (pendingFocusKey == null) {
+                            provider.selectCategory(category)
+                        }
+                    },
                     onAction = onCategoryAction,
                     focusRequester = itemFocusRequester,
                     modifier = Modifier.focusProperties { 
                         detailFocusRequester?.let { right = it }
-                    },
-                    isNavigating = provider.isNavigating.collectAsState().value
+                    }
                 )
 
                 // When the sidebar itself receives focus (e.g. via DPAD LEFT from detail pane),
@@ -260,14 +255,13 @@ fun SettingsSidebar(
 fun SettingsDetail(
     modifier: Modifier = Modifier,
     onFocusChanged: (Boolean) -> Unit = {},
-    focusRequester: FocusRequester,
-    pendingFocusKey: String? = null,
-    onFocusConsumed: () -> Unit = {}
+    focusRequester: FocusRequester
 ) {
     val provider = LocalSettingsProvider.current
     val category by provider.selectedCategory.collectAsState()
     val searchQuery by provider.searchQuery.collectAsState()
     val searchResults by provider.searchResults.collectAsState()
+    val pendingFocusKey by provider.pendingFocusKey.collectAsState()
 
     var detailPaneHasFocus by remember { mutableStateOf(false) }
 
@@ -283,10 +277,20 @@ fun SettingsDetail(
                 val index = category!!.items.indexOfFirst { it.key == target }
                 if (index != -1) {
                     listState.scrollToItem(index)
+                    
+                    // Wait for scroll and layout to settle
+                    snapshotFlow { listState.isScrollInProgress }
+                        .filter { !it }
+                        .first()
+                    
                     return@LaunchedEffect
                 }
             }
-            listState.scrollToItem(0)
+            
+            // Only reset to top if we are NOT in navigation mode and NOT focused
+            if (pendingFocusKey == null && !detailPaneHasFocus) {
+                listState.scrollToItem(0)
+            }
         }
     }
 
@@ -337,19 +341,24 @@ fun SettingsDetail(
                         val isHeader = item is SettingItem.Header
                         val itemFocusRequester = remember { FocusRequester() }
                         
+                        var itemHasFocus by remember { mutableStateOf(false) }
+
+                        // Stability effect: Only consume the navigation key once focus is STABLE
+                        LaunchedEffect(itemHasFocus, pendingFocusKey) {
+                            if (itemHasFocus && item.key == pendingFocusKey) {
+                                provider.consumeFocusKey()
+                            }
+                        }
+
                         Box(modifier = Modifier
                             .onFocusChanged { state ->
+                                itemHasFocus = state.hasFocus
                                 if (state.hasFocus) {
-                                    Log.d("SettingsFocus", "Item gained focus: ${item.key}")
                                     lastFocusedItemPerCategory[categoryId] = item.key
-                                    // Consume the pending focus key once landed
-                                    if (item.key == pendingFocusKey) {
-                                        Log.d("SettingsFocus", "Consuming pendingFocusKey: ${item.key}")
-                                        onFocusConsumed()
-                                    }
                                 }
                             }
                         ) {
+
                             when (item) {
                                 is SettingItem.Header -> {
                                     SettingHeader(title = stringResource(id = item.title))
@@ -459,7 +468,6 @@ fun SettingsDetail(
                                 
                                 if (targetKey != null) {
                                     if (item.key == targetKey) {
-                                        Log.d("SettingsFocus", "Requesting focus for target item: ${item.key}")
                                         itemFocusRequester.requestFocus()
                                     }
                                 } else if (lastKey == item.key || (lastKey == null && item.key == firstFocusableKey)) {
