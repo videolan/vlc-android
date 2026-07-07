@@ -24,8 +24,6 @@
 
 package org.videolan.television.ui.preferences
 
-import android.util.Log
-import android.view.KeyEvent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -82,6 +80,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -107,6 +106,7 @@ fun SearchPane(
     focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
     val listState = rememberLazyListState()
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -117,7 +117,12 @@ fun SearchPane(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 16.dp)
-                .focusRequester(focusRequester),
+                .focusRequester(focusRequester)
+                .onFocusChanged { 
+                    if (it.isFocused) {
+                        keyboardController?.show()
+                    }
+                },
             placeholder = { Text(stringResource(id = R.string.search)) },
             singleLine = true,
             leadingIcon = {
