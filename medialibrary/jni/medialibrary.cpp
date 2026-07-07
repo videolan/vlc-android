@@ -2431,7 +2431,7 @@ getParent(JNIEnv* env, jobject thiz, jobject ml, jlong id)
     medialibrary::SubscriptionPtr subscriptionPtr = aml->subscription(id);
     if (subscriptionPtr == nullptr) return nullptr;
     medialibrary::SubscriptionPtr parent = subscriptionPtr->parent();
-    return convertSubscriptionObject(env, &ml_fields, parent).get();
+    return convertSubscriptionObject(env, &ml_fields, parent).release();
 }
 
 jboolean
