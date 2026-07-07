@@ -139,24 +139,6 @@ fun SettingsScreen(
 
         // Detail (Right Pane)
         SettingsDetail(
-            category = selectedCategory,
-            getBooleanValue = getBooleanValue,
-            getIntValue = getIntValue,
-            getStringValue = getStringValue,
-            getColorValue = getColorValue,
-            getSummary = getSummary,
-            searchQuery = searchQuery,
-            searchResults = searchResults,
-            onSearchQueryChanged = onSearchQueryChanged,
-            onSearchResultClicked = onSearchResultClicked,
-            targetSettingKey = targetSettingKey,
-            onTargetSettingFocused = onTargetSettingFocused,
-            onBooleanChanged = onBooleanChanged,
-            onActionClicked = onActionClicked,
-            onStringChanged = onStringChanged,
-            onIntChanged = onIntChanged,
-            onColorClicked = onColorClicked,
-            isEnabled = isEnabled,
             onFocusChanged = { isDetailFocused = it },
             focusRequester = detailFocusRequester,
             modifier = Modifier
@@ -281,28 +263,16 @@ fun SettingsSidebar(
 
 @Composable
 fun SettingsDetail(
-    category: SettingCategory?,
-    getBooleanValue: (SettingItem.Toggle) -> Boolean,
-    getIntValue: (SettingItem.Slider) -> Int,
-    getStringValue: (SettingItem) -> String?,
-    getColorValue: (SettingItem.Color) -> Int,
-    getSummary: (SettingItem) -> String?,
-    onBooleanChanged: (SettingItem.Toggle, Boolean) -> Unit,
-    onActionClicked: (SettingItem.Action) -> Unit,
-    onStringChanged: (SettingItem, String) -> Unit,
-    onIntChanged: (SettingItem.Slider, Int) -> Unit,
-    onColorClicked: (SettingItem.Color) -> Unit,
-    isEnabled: (SettingItem) -> Boolean,
     modifier: Modifier = Modifier,
     onFocusChanged: (Boolean) -> Unit = {},
-    focusRequester: FocusRequester,
-    searchQuery: String = "",
-    searchResults: List<PreferenceItem> = emptyList(),
-    onSearchQueryChanged: (String) -> Unit = {},
-    onSearchResultClicked: (PreferenceItem) -> Unit = {},
-    targetSettingKey: String? = null,
-    onTargetSettingFocused: () -> Unit = {}
+    focusRequester: FocusRequester
 ) {
+    val provider = LocalSettingsProvider.current
+    val category by provider.selectedCategory.collectAsState()
+    val searchQuery by provider.searchQuery.collectAsState()
+    val searchResults by provider.searchResults.collectAsState()
+    val targetSettingKey by provider.targetSettingKey.collectAsState()
+
     var detailPaneHasFocus by remember { mutableStateOf(false) }
 
     // Track the last focused item key for each category
@@ -313,7 +283,7 @@ fun SettingsDetail(
     LaunchedEffect(category?.title, targetSettingKey) {
         val target = targetSettingKey
         if (target != null && category != null) {
-            val index = category.items.indexOfFirst { it.key == target }
+            val index = category!!.items.indexOfFirst { it.key == target }
             if (index != -1) {
                 listState.scrollToItem(index)
                 return@LaunchedEffect
@@ -332,13 +302,13 @@ fun SettingsDetail(
             .focusable()
     ) {
         if (category != null) {
-            val categoryId = category.title
+            val categoryId = category!!.title
             val firstFocusableKey = remember(category) { 
-                category.items.firstOrNull { it !is SettingItem.Header }?.key 
+                category!!.items.firstOrNull { it !is SettingItem.Header }?.key 
             }
 
             Text(
-                text = stringResource(id = category.title),
+                text = stringResource(id = category!!.title),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
@@ -346,18 +316,18 @@ fun SettingsDetail(
                 modifier = Modifier.padding(top = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical))
             )
             Spacer(modifier = Modifier.height(24.dp))
-            if (category.title == R.string.search) {
+            if (category!!.title == R.string.search) {
                 SearchPane(
                     query = searchQuery,
                     results = searchResults,
-                    onQueryChanged = onSearchQueryChanged,
-                    onResultClick = onSearchResultClicked,
+                    onQueryChanged = { provider.setSearchQuery(it) },
+                    onResultClick = { provider.init(it) },
                     focusRequester = focusRequester
                 )
             } else {
                 LazyColumn(state = listState) {
-                    items(category.items, key = { it.key }) { item ->
-                        val isEnabled = isEnabled(item)
+                    items(category!!.items, key = { it.key }) { item ->
+                        val isEnabled = provider.isEnabled(item)
                         val isHeader = item is SettingItem.Header
                         val itemFocusRequester = remember { FocusRequester() }
                         
@@ -367,7 +337,7 @@ fun SettingsDetail(
                                     lastFocusedItemPerCategory[categoryId] = item.key
                                     // If this was our target, clear it now that we have focus
                                     if (item.key == targetSettingKey) {
-                                        onTargetSettingFocused()
+                                        provider.clearTargetSetting()
                                     }
                                 }
                             }
@@ -377,31 +347,34 @@ fun SettingsDetail(
                                     SettingHeader(title = stringResource(id = item.title))
                                 }
                                 is SettingItem.Toggle -> {
+                                    val context = LocalContext.current
                                     ToggleSettingItem(
                                         item = item,
-                                        checked = getBooleanValue(item),
-                                        summary = getSummary(item),
-                                        onCheckedChange = { onBooleanChanged(item, it) },
+                                        checked = provider.getBooleanValue(item),
+                                        summary = provider.getSummary(item),
+                                        onCheckedChange = { provider.updateBooleanSetting(context, item, it) },
                                         enabled = isEnabled,
                                         modifier = Modifier.focusRequester(itemFocusRequester)
                                     )
                                 }
                                 is SettingItem.Action -> {
+                                    val context = LocalContext.current
                                     ActionSettingItem(
                                         item = item,
-                                        summary = getSummary(item),
-                                        onClick = { onActionClicked(item) },
+                                        summary = provider.getSummary(item),
+                                        onClick = { provider.executeAction(context, item) },
                                         enabled = isEnabled,
                                         modifier = Modifier.focusRequester(itemFocusRequester)
                                     )
                                 }
                                 is SettingItem.Options -> {
+                                    val context = LocalContext.current
                                     var showDialog by remember { mutableStateOf(false) }
-                                    val currentValue = getStringValue(item)
+                                    val currentValue = provider.getStringValue(item)
                                     OptionsSettingItem(
                                         item = item,
                                         currentValue = currentValue,
-                                        summary = getSummary(item),
+                                        summary = provider.getSummary(item),
                                         onClick = { showDialog = true },
                                         enabled = isEnabled,
                                         modifier = Modifier.focusRequester(itemFocusRequester)
@@ -411,26 +384,28 @@ fun SettingsDetail(
                                             item = item,
                                             currentValue = currentValue,
                                             onDismiss = { showDialog = false },
-                                            onValueSelected = { onStringChanged(item, it) }
+                                            onValueSelected = { provider.updateStringSetting(context, item, it) }
                                         )
                                     }
                                 }
                                 is SettingItem.Color -> {
+                                    val context = LocalContext.current
                                     ColorSettingItem(
                                         item = item,
-                                        currentValue = getColorValue(item),
-                                        onClick = { onColorClicked(item) },
+                                        currentValue = provider.getColorValue(item),
+                                        onClick = { provider.pickColor(context, item) },
                                         enabled = isEnabled,
                                         modifier = Modifier.focusRequester(itemFocusRequester)
                                     )
                                 }
                                 is SettingItem.Input -> {
+                                    val context = LocalContext.current
                                     var showDialog by remember { mutableStateOf(false) }
-                                    val currentValue = getStringValue(item)
+                                    val currentValue = provider.getStringValue(item)
                                     InputSettingItem(
                                         item = item,
                                         currentValue = currentValue,
-                                        summary = getSummary(item),
+                                        summary = provider.getSummary(item),
                                         onClick = { showDialog = true },
                                         enabled = isEnabled,
                                         modifier = Modifier.focusRequester(itemFocusRequester)
@@ -440,17 +415,17 @@ fun SettingsDetail(
                                             item = item,
                                             currentValue = currentValue,
                                             onDismiss = { showDialog = false },
-                                            onValueConfirmed = { onStringChanged(item, it) }
+                                            onValueConfirmed = { provider.updateStringSetting(context, item, it) }
                                         )
                                     }
                                 }
                                 is SettingItem.Slider -> {
                                     var showDialog by remember { mutableStateOf(false) }
-                                    val currentValue = getIntValue(item)
+                                    val currentValue = provider.getIntValue(item)
                                     SliderSettingItem(
                                         item = item,
                                         currentValue = currentValue,
-                                        summary = getSummary(item),
+                                        summary = provider.getSummary(item),
                                         onClick = { showDialog = true },
                                         enabled = isEnabled,
                                         modifier = Modifier.focusRequester(itemFocusRequester)
@@ -460,7 +435,7 @@ fun SettingsDetail(
                                             item = item,
                                             currentValue = currentValue,
                                             onDismiss = { showDialog = false },
-                                            onValueConfirmed = { onIntChanged(item, it) }
+                                            onValueConfirmed = { provider.updateIntSetting(item, it) }
                                         )
                                     }
                                 }
