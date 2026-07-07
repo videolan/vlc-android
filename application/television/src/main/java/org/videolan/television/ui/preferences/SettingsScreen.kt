@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.preferences
 
+import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -62,6 +63,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
@@ -73,29 +77,35 @@ val LocalSettingsProvider = staticCompositionLocalOf<SettingsProvider> {
     error("No SettingsProvider provided")
 }
 
+/**
+ * Main screen for TV settings, implementing a two-pane layout (Sidebar + Detail).
+ *
+ * @param viewModel The [SettingsViewModel] managing the settings state.
+ */
 @Composable
 fun SettingsScreen(
-    categories: List<SettingCategory>,
-    selectedCategory: SettingCategory?,
-    onCategorySelected: (SettingCategory) -> Unit,
-    getBooleanValue: (SettingItem.Toggle) -> Boolean = { it.defaultValue },
-    getIntValue: (SettingItem.Slider) -> Int = { it.defaultValue },
-    getStringValue: (SettingItem) -> String? = { null },
-    getColorValue: (SettingItem.Color) -> Int = { it.defaultColor },
-    getSummary: (SettingItem) -> String? = { null },
-    searchQuery: String = "",
-    searchResults: List<PreferenceItem> = emptyList(),
-    onSearchQueryChanged: (String) -> Unit = {},
-    onSearchResultClicked: (PreferenceItem) -> Unit = {},
-    onBooleanChanged: (SettingItem.Toggle, Boolean) -> Unit = { _, _ -> },
-    onActionClicked: (SettingItem.Action) -> Unit = {},
-    onStringChanged: (SettingItem, String) -> Unit = { _, _ -> },
-    onIntChanged: (SettingItem.Slider, Int) -> Unit = { _, _ -> },
-    onColorClicked: (SettingItem.Color) -> Unit = {},
-    isEnabled: (SettingItem) -> Boolean = { true },
+    viewModel: SettingsViewModel = hiltViewModel()
+) {
+    val provider = viewModel as SettingsProvider
+    val targetSettingKey by provider.targetSettingKey.collectAsState()
+    val context = LocalContext.current
+
+    CompositionLocalProvider(LocalSettingsProvider provides provider) {
+        SettingsScreenContent(
+            onDetailFocused = { provider.onDetailFocused(context) },
+            targetSettingKey = targetSettingKey
+        )
+    }
+}
+
+/**
+ * Internal content for the settings screen.
+ * This is separated to allow for easier previews with a [MockSettingsProvider].
+ */
+@Composable
+private fun SettingsScreenContent(
     onDetailFocused: () -> Unit = {},
-    targetSettingKey: String? = null,
-    onTargetSettingFocused: () -> Unit = {}
+    targetSettingKey: String? = null
 ) {
     val sidebarFocusRequester = remember { FocusRequester() }
     val detailFocusRequester = remember { FocusRequester() }
@@ -150,49 +160,6 @@ fun SettingsScreen(
                     bottom = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical),
                     start = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_horizontal)
                 )
-        )
-    }
-}
-
-/**
- * Main screen for TV settings, implementing a two-pane layout (Sidebar + Detail).
- *
- * @param viewModel The [SettingsViewModel] managing the settings state.
- */
-@Composable
-fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel()
-) {
-    val context = LocalContext.current
-    val categories by viewModel.categories.collectAsState()
-    val selectedCategory by viewModel.selectedCategory.collectAsState()
-    val searchQuery by viewModel.searchQuery.collectAsState()
-    val searchResults by viewModel.searchResults.collectAsState()
-    val targetSettingKey by viewModel.targetSettingKey.collectAsState()
-
-    CompositionLocalProvider(LocalSettingsProvider provides viewModel) {
-        SettingsScreen(
-            categories = categories,
-            selectedCategory = selectedCategory,
-            onCategorySelected = { viewModel.selectCategory(it) },
-            getBooleanValue = { viewModel.getBooleanValue(it) },
-            getIntValue = { viewModel.getIntValue(it) },
-            getStringValue = { viewModel.getStringValue(it) },
-            getColorValue = { viewModel.getColorValue(it) },
-            getSummary = { viewModel.getSummary(it) },
-            searchQuery = searchQuery,
-            searchResults = searchResults,
-            onSearchQueryChanged = { viewModel.setSearchQuery(it) },
-            onSearchResultClicked = { viewModel.init(it) },
-            onBooleanChanged = { item, v -> viewModel.updateBooleanSetting(context, item, v) },
-            onActionClicked = { viewModel.executeAction(context, it) },
-            onStringChanged = { item, v -> viewModel.updateStringSetting(context, item, v) },
-            onIntChanged = { item, v -> viewModel.updateIntSetting(item, v) },
-            onColorClicked = { viewModel.pickColor(context, it) },
-            isEnabled = { viewModel.isEnabled(it) },
-            onDetailFocused = { viewModel.onDetailFocused(context) },
-            targetSettingKey = targetSettingKey,
-            onTargetSettingFocused = { viewModel.clearTargetSetting() }
         )
     }
 }
@@ -467,30 +434,58 @@ fun SettingsDetail(
     }
 }
 
+/**
+ * A mock implementation of [SettingsProvider] for Compose Previews.
+ */
+private class MockSettingsProvider(
+    categories: List<SettingCategory>
+) : SettingsProvider {
+    private val _categories = MutableStateFlow(categories)
+    override val categories: StateFlow<List<SettingCategory>> = _categories.asStateFlow()
+    
+    private val _selectedCategory = MutableStateFlow<SettingCategory?>(categories.firstOrNull())
+    override val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
+    
+    override val searchQuery = MutableStateFlow("")
+    override val searchResults = MutableStateFlow(emptyList<PreferenceItem>())
+    override val targetSettingKey = MutableStateFlow<String?>(null)
+    override val isNavigating = MutableStateFlow(false)
+
+    override fun getBooleanValue(item: SettingItem.Toggle) = item.defaultValue
+    override fun getIntValue(item: SettingItem.Slider) = item.defaultValue
+    override fun getStringValue(item: SettingItem) = (item as? SettingItem.Options)?.defaultValue ?: (item as? SettingItem.Input)?.defaultValue
+    override fun getColorValue(item: SettingItem.Color) = item.defaultColor
+    override fun getSummary(item: SettingItem) = "Mock Summary"
+    override fun isEnabled(item: SettingItem) = true
+
+    override fun selectCategory(category: SettingCategory) { _selectedCategory.value = category }
+    override fun setSearchQuery(query: String) {}
+    override fun init(extraEndPoint: Any?) {}
+    override fun clearTargetSetting() {}
+    override fun onDetailFocused(context: Context) {}
+    override fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {}
+    override fun updateIntSetting(item: SettingItem.Slider, value: Int) {}
+    override fun updateStringSetting(context: Context, item: SettingItem, value: String) {}
+    override fun updateColorSetting(item: SettingItem.Color, value: Int) {}
+    override fun updateColorSetting(key: String, value: Int) {}
+    override fun executeAction(context: Context, item: SettingItem.Action) {}
+    override fun pickColor(context: Context, item: SettingItem.Color) {}
+}
+
 @Preview(device = "id:tv_1080p")
 @Composable
 private fun SettingsScreenPreview() {
-    val categories = remember {
-        listOf(
-            SettingCategory(org.videolan.vlc.R.string.video_prefs_category, listOf(
-                SettingItem.Toggle("video_toggle", org.videolan.vlc.R.string.auto_rescan, org.videolan.vlc.R.string.auto_rescan_summary),
-                SettingItem.Action("video_action", org.videolan.vlc.R.string.medialibrary_directories, org.videolan.vlc.R.string.directories_summary)
-            ), org.videolan.vlc.R.drawable.ic_pref_video),
-            SettingCategory(org.videolan.vlc.R.string.audio_prefs_category, emptyList(), org.videolan.vlc.R.drawable.ic_pref_audio)
-        )
-    }
+    val categories = listOf(
+        SettingCategory(org.videolan.vlc.R.string.video_prefs_category, listOf(
+            SettingItem.Toggle("video_toggle", org.videolan.vlc.R.string.auto_rescan, org.videolan.vlc.R.string.auto_rescan_summary),
+            SettingItem.Action("video_action", org.videolan.vlc.R.string.medialibrary_directories, org.videolan.vlc.R.string.directories_summary)
+        ), org.videolan.vlc.R.drawable.ic_pref_video),
+        SettingCategory(org.videolan.vlc.R.string.audio_prefs_category, emptyList(), org.videolan.vlc.R.drawable.ic_pref_audio)
+    )
+    
     VlcTVSettingsTheme {
-        SettingsScreen(
-            categories = categories,
-            selectedCategory = categories[0],
-            onCategorySelected = {},
-            getBooleanValue = { it.defaultValue },
-            getStringValue = { (it as? SettingItem.Options)?.defaultValue ?: (it as? SettingItem.Input)?.defaultValue },
-            getColorValue = { it.defaultColor },
-            getSummary = { item ->
-                // Simple mock summary logic for preview
-                item.summary?.let { "Summary for setting" }
-            }
-        )
+        CompositionLocalProvider(LocalSettingsProvider provides MockSettingsProvider(categories)) {
+            SettingsScreenContent()
+        }
     }
 }
