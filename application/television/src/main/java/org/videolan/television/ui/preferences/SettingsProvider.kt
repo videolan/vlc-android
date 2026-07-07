@@ -25,10 +25,20 @@
 package org.videolan.television.ui.preferences
 
 import android.content.Context
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
+
+/**
+ * Events sent from the logic to the UI to trigger one-shot actions (like navigation).
+ */
+sealed class SettingsEvent {
+    data class ScrollToAndFocus(val categoryTitle: Int, val itemKey: String) : SettingsEvent()
+}
 
 /**
  * Interface defining the contract between the Settings UI and the underlying logic.
@@ -37,6 +47,9 @@ import org.videolan.vlc.gui.preferences.search.PreferenceItem
  * better performance in Compose (by reducing prop-drilling), and decoupled previews.
  */
 interface SettingsProvider {
+    // Events
+    val navEvents: SharedFlow<SettingsEvent>
+
     // State
     val categories: StateFlow<List<SettingCategory>>
     val selectedCategory: StateFlow<SettingCategory?>
@@ -74,6 +87,9 @@ interface SettingsProvider {
 class MockSettingsProvider(
     categories: List<SettingCategory> = emptyList()
 ) : SettingsProvider {
+    private val _navEvents = MutableSharedFlow<SettingsEvent>()
+    override val navEvents: SharedFlow<SettingsEvent> = _navEvents.asSharedFlow()
+
     private val _categories = MutableStateFlow(categories)
     override val categories: StateFlow<List<SettingCategory>> = _categories.asStateFlow()
 
