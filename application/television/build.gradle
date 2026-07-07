@@ -57,6 +57,9 @@ dependencies {
     api project(':application:moviepedia')
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.10.0'
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    testImplementation "io.mockk:mockk:$rootProject.ext.mockk"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     androidTestImplementation platform('androidx.compose:compose-bom:2026.05.01')
