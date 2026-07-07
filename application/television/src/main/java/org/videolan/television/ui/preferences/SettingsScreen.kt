@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.preferences
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -91,11 +92,13 @@ fun SettingsScreen(
     // Collect one-shot navigation events
     LaunchedEffect(Unit) {
         provider.navEvents.collect { event ->
+            Log.d("SettingsFocus", "Received nav event: $event")
             when (event) {
                 is SettingsEvent.ScrollToAndFocus -> {
                     // 1. Find and select the category
                     val categories = provider.categories.value
                     val cat = categories.find { it.title == event.categoryTitle }
+                    Log.d("SettingsFocus", "Navigating to category: ${cat?.title} for key: ${event.itemKey}")
                     cat?.let { provider.selectCategory(it) }
                     
                     // 2. Schedule focus redirection for the detail pane
@@ -237,7 +240,8 @@ fun SettingsSidebar(
                     focusRequester = itemFocusRequester,
                     modifier = Modifier.focusProperties { 
                         detailFocusRequester?.let { right = it }
-                    }
+                    },
+                    isNavigating = provider.isNavigating.collectAsState().value
                 )
 
                 // When the sidebar itself receives focus (e.g. via DPAD LEFT from detail pane),
@@ -336,9 +340,11 @@ fun SettingsDetail(
                         Box(modifier = Modifier
                             .onFocusChanged { state ->
                                 if (state.hasFocus) {
+                                    Log.d("SettingsFocus", "Item gained focus: ${item.key}")
                                     lastFocusedItemPerCategory[categoryId] = item.key
                                     // Consume the pending focus key once landed
                                     if (item.key == pendingFocusKey) {
+                                        Log.d("SettingsFocus", "Consuming pendingFocusKey: ${item.key}")
                                         onFocusConsumed()
                                     }
                                 }
@@ -453,6 +459,7 @@ fun SettingsDetail(
                                 
                                 if (targetKey != null) {
                                     if (item.key == targetKey) {
+                                        Log.d("SettingsFocus", "Requesting focus for target item: ${item.key}")
                                         itemFocusRequester.requestFocus()
                                     }
                                 } else if (lastKey == item.key || (lastKey == null && item.key == firstFocusableKey)) {

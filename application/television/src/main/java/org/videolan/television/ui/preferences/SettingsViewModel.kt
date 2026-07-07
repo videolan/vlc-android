@@ -281,7 +281,12 @@ class SettingsViewModel @Inject constructor(
                     // Find the category containing this key.
                     val targetCategory = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
                     targetCategory?.let { category ->
+                        _isNavigating.value = true
                         _navEvents.emit(SettingsEvent.ScrollToAndFocus(category.title, extraEndPoint.key))
+                        viewModelScope.launch {
+                            kotlinx.coroutines.delay(500)
+                            _isNavigating.value = false
+                        }
                     }
                 }
             }
