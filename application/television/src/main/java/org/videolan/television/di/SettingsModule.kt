@@ -31,8 +31,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import org.videolan.tools.KEY_SET_LOCALE
 import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LocalizedContext
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -42,5 +49,15 @@ object SettingsModule {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return Settings.getInstance(context)
+    }
+
+    @Provides
+    @LocalizedContext
+    fun provideLocalizedContext(
+        @ApplicationContext context: Context,
+        settings: SharedPreferences
+    ): Context {
+        val locale = settings.getString(KEY_SET_LOCALE, "")
+        return context.getContextWithLocale(locale)
     }
 }

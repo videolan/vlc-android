@@ -62,6 +62,7 @@ import org.videolan.resources.ROOM_DATABASE
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.startRemoteAccess
 import org.videolan.resources.util.stopRemoteAccess
+import org.videolan.television.di.LocalizedContext
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
@@ -133,6 +134,7 @@ import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
 import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.TV_FOLDERS_FIRST
+import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -176,13 +178,9 @@ const val RESTART_CODE = 10001
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     application: Application,
+    @LocalizedContext private val localizedContext: Context,
     private val settings: SharedPreferences
 ) : AndroidViewModel(application) {
-
-    /**
-     * The application context to avoid leaking Activity context.
-     */
-    private val appContext = application
 
     /**
      * Internal flow containing all possible categories and their items.
@@ -236,7 +234,7 @@ class SettingsViewModel @Inject constructor(
             if (query.length < 2) emptyList()
             else {
                 if (allPreferenceItems.isEmpty()) {
-                    allPreferenceItems = PreferenceParser.parsePreferences(appContext)
+                    allPreferenceItems = PreferenceParser.parsePreferences(localizedContext)
                 }
                 allPreferenceItems.filter {
                     it.title.contains(query, ignoreCase = true) || 
@@ -274,7 +272,6 @@ class SettingsViewModel @Inject constructor(
                 // First update categories to make sure the target category is available
                 refreshCategories()
                 val targetCategory = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
-                Log.d("VLC/Settings", "Search init: key=${extraEndPoint.key}, targetCategory=${targetCategory?.title}")
                 // Directly set the value to bypass the isNavigating check in selectCategory
                 targetCategory?.let { _selectedCategory.value = it }
                 viewModelScope.launch {
@@ -294,7 +291,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
         // Load settings from factory
-        val initialSettings = SettingsFactory.createSettings(appContext)
+        val initialSettings = SettingsFactory.createSettings(localizedContext)
         
         // Populate dynamic lists
         val populatedSettings = populateDynamicSettings(initialSettings)
@@ -313,13 +310,13 @@ class SettingsViewModel @Inject constructor(
         
         val audioLocalePair = LocaleUtils.getLocalesUsedInProject(
             BuildConfig.TRANSLATION_ARRAY,
-            application.getString(R.string.no_track_preference),
+            localizedContext.getString(R.string.no_track_preference),
             application.getLocales()
         )
 
         val uiLocalePair = LocaleUtils.getLocalesUsedInProject(
             BuildConfig.TRANSLATION_ARRAY,
-            application.getString(R.string.device_default)
+            localizedContext.getString(R.string.device_default)
         )
 
         return categories.map { category ->
@@ -434,7 +431,6 @@ class SettingsViewModel @Inject constructor(
      */
     fun selectCategory(category: SettingCategory) {
         if (_isNavigating.value) {
-            Log.d("VLC/Settings", "Ignoring selectCategory during navigation: ${category.title}")
             return
         }
         _selectedCategory.value = category
@@ -832,29 +828,28 @@ class SettingsViewModel @Inject constructor(
      * @return The summary string, or null if none.
      */
     fun getSummary(item: SettingItem): String? {
-        val application = getApplication<Application>()
         return when (item.key) {
             KEY_AUDIO_DIGITAL_OUTPUT -> {
                 val pt = if (item is SettingItem.Toggle) getBooleanValue(item) else false
-                application.getString(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
+                localizedContext.getString(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
             }
             KEY_AUDIO_PREFERRED_LANGUAGE -> {
                 val value = getStringValue(item)
-                if (value.isNullOrEmpty()) application.getString(R.string.no_track_preference)
-                else application.getString(R.string.track_preference, LocaleUtil.getLocaleName(value))
+                if (value.isNullOrEmpty()) localizedContext.getString(R.string.no_track_preference)
+                else localizedContext.getString(R.string.track_preference, LocaleUtil.getLocaleName(value))
             }
             KEY_SUBTITLE_PREFERRED_LANGUAGE -> {
                 val value = getStringValue(item)
-                if (value.isNullOrEmpty()) application.getString(R.string.no_track_preference)
-                else application.getString(R.string.track_preference, value)
+                if (value.isNullOrEmpty()) localizedContext.getString(R.string.no_track_preference)
+                else localizedContext.getString(R.string.track_preference, value)
             }
             "default_sleep_timer" -> {
                 val interval = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
-                if (interval == -1L) application.getString(R.string.disabled)
+                if (interval == -1L) localizedContext.getString(R.string.disabled)
                 else {
                     val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
                     val reset = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
-                    application.getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), wait.toString(), reset.toString())
+                    localizedContext.getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), wait.toString(), reset.toString())
                 }
             }
             else -> if (item is SettingItem.Slider) {
@@ -865,7 +860,7 @@ class SettingsViewModel @Inject constructor(
                     value.toString()
                 }
             } else {
-                item.summary?.let { application.getString(it) }
+                item.summary?.let { localizedContext.getString(it) }
             }
         }
     }
@@ -1105,7 +1100,10 @@ class SettingsViewModel @Inject constructor(
     class Factory(private val application: Application) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SettingsViewModel(application, Settings.getInstance(application)) as T
+            val settings = Settings.getInstance(application)
+            val locale = settings.getString(org.videolan.tools.KEY_SET_LOCALE, "")
+            val localizedContext = application.getContextWithLocale(locale)
+            return SettingsViewModel(application, localizedContext, settings) as T
         }
     }
 }
