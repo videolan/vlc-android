@@ -24,7 +24,6 @@
 
 package org.videolan.television.ui.preferences
 
-import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -432,44 +431,6 @@ fun SettingsDetail(
             }
         }
     }
-}
-
-/**
- * A mock implementation of [SettingsProvider] for Compose Previews.
- */
-private class MockSettingsProvider(
-    categories: List<SettingCategory>
-) : SettingsProvider {
-    private val _categories = MutableStateFlow(categories)
-    override val categories: StateFlow<List<SettingCategory>> = _categories.asStateFlow()
-    
-    private val _selectedCategory = MutableStateFlow<SettingCategory?>(categories.firstOrNull())
-    override val selectedCategory: StateFlow<SettingCategory?> = _selectedCategory.asStateFlow()
-    
-    override val searchQuery = MutableStateFlow("")
-    override val searchResults = MutableStateFlow(emptyList<PreferenceItem>())
-    override val targetSettingKey = MutableStateFlow<String?>(null)
-    override val isNavigating = MutableStateFlow(false)
-
-    override fun getBooleanValue(item: SettingItem.Toggle) = item.defaultValue
-    override fun getIntValue(item: SettingItem.Slider) = item.defaultValue
-    override fun getStringValue(item: SettingItem) = (item as? SettingItem.Options)?.defaultValue ?: (item as? SettingItem.Input)?.defaultValue
-    override fun getColorValue(item: SettingItem.Color) = item.defaultColor
-    override fun getSummary(item: SettingItem) = "Mock Summary"
-    override fun isEnabled(item: SettingItem) = true
-
-    override fun selectCategory(category: SettingCategory) { _selectedCategory.value = category }
-    override fun setSearchQuery(query: String) {}
-    override fun init(extraEndPoint: Any?) {}
-    override fun clearTargetSetting() {}
-    override fun onDetailFocused(context: Context) {}
-    override fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {}
-    override fun updateIntSetting(item: SettingItem.Slider, value: Int) {}
-    override fun updateStringSetting(context: Context, item: SettingItem, value: String) {}
-    override fun updateColorSetting(item: SettingItem.Color, value: Int) {}
-    override fun updateColorSetting(key: String, value: Int) {}
-    override fun executeAction(context: Context, item: SettingItem.Action) {}
-    override fun pickColor(context: Context, item: SettingItem.Color) {}
 }
 
 @Preview(device = "id:tv_1080p")
