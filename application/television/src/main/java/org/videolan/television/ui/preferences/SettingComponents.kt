@@ -293,7 +293,8 @@ fun CategoryItem(
     isSelected: Boolean,
     onSelected: () -> Unit,
     onAction: () -> Unit = {},
-    focusRequester: FocusRequester = remember { FocusRequester() }
+    focusRequester: FocusRequester = remember { FocusRequester() },
+    modifier: Modifier = Modifier
 ) {
     var hasFocus by remember { mutableStateOf(false) }
     
@@ -312,7 +313,7 @@ fun CategoryItem(
     )
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(end = 16.dp) // Space between item and detail pane edge
             .heightIn(min = 56.dp)
