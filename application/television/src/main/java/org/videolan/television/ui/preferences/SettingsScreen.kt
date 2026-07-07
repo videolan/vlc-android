@@ -311,13 +311,21 @@ fun SettingsDetail(
             )
             Spacer(modifier = Modifier.height(24.dp))
             if (category!!.title == R.string.search) {
+                val searchFocusRequester = remember { FocusRequester() }
                 SearchPane(
                     query = searchQuery,
                     results = searchResults,
                     onQueryChanged = { provider.setSearchQuery(it) },
                     onResultClick = { provider.init(it) },
-                    focusRequester = focusRequester
+                    focusRequester = searchFocusRequester
                 )
+
+                // Redirect focus to search input when detail pane gains focus
+                LaunchedEffect(detailPaneHasFocus) {
+                    if (detailPaneHasFocus) {
+                        searchFocusRequester.requestFocus()
+                    }
+                }
             } else {
                 LazyColumn(state = listState) {
                     items(category!!.items, key = { it.key }) { item ->
