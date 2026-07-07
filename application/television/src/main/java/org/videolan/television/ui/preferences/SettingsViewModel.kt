@@ -226,9 +226,6 @@ class SettingsViewModel @Inject constructor(
     private val _isNavigating = MutableStateFlow(false)
     override val isNavigating: StateFlow<Boolean> = _isNavigating.asStateFlow()
 
-    private val _targetSettingKey = MutableStateFlow<String?>(null)
-    override val targetSettingKey: StateFlow<String?> = _targetSettingKey.asStateFlow()
-
     private val _searchQuery = MutableStateFlow("")
     override val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
@@ -261,39 +258,38 @@ class SettingsViewModel @Inject constructor(
     override fun init(extraEndPoint: Any?) {
         if (extraEndPoint == null) return
         val allCategories = _allCategories.value
-        val category = when (extraEndPoint) {
-            is Int -> {
-                when (extraEndPoint) {
-                    R.xml.preferences_remote_access -> allCategories.find { it.title == R.string.remote_access }
-                    R.xml.preferences_video -> allCategories.find { it.title == R.string.video_prefs_category }
-                    R.xml.preferences_audio -> allCategories.find { it.title == R.string.audio_prefs_category }
-                    R.xml.preferences_subtitles -> allCategories.find { it.title == R.string.subtitles_prefs_category }
-                    R.xml.preferences_ui -> allCategories.find { it.title == R.string.interface_prefs_screen }
-                    else -> null
+        viewModelScope.launch {
+            when (extraEndPoint) {
+                is Int -> {
+                    val category = when (extraEndPoint) {
+                        R.xml.preferences_remote_access -> allCategories.find { it.title == R.string.remote_access }
+                        R.xml.preferences_video -> allCategories.find { it.title == R.string.video_prefs_category }
+                        R.xml.preferences_audio -> allCategories.find { it.title == R.string.audio_prefs_category }
+                        R.xml.preferences_subtitles -> allCategories.find { it.title == R.string.subtitles_prefs_category }
+                        R.xml.preferences_ui -> allCategories.find { it.title == R.string.interface_prefs_screen }
+                        else -> null
+                    }
+                    category?.let { _navEvents.emit(SettingsEvent.ScrollToAndFocus(it.title, null)) }
                 }
-            }
-            is String -> {
-                // If it's a string, it might be a preference key. 
-                // We find the category containing this key.
-                allCategories.find { cat -> cat.items.any { it.key == extraEndPoint } }
-            }
-            is PreferenceItem -> {
-                // Find the category containing this key.
-                val targetCategory = _allCategories.value.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
-                targetCategory?.let { category ->
-                    viewModelScope.launch {
+                is String -> {
+                    // If it's a string, it might be a preference key. 
+                    // We find the category containing this key.
+                    val category = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint } }
+                    category?.let { _navEvents.emit(SettingsEvent.ScrollToAndFocus(it.title, extraEndPoint)) }
+                }
+                is PreferenceItem -> {
+                    // Find the category containing this key.
+                    val targetCategory = allCategories.find { cat -> cat.items.any { it.key == extraEndPoint.key } }
+                    targetCategory?.let { category ->
                         _navEvents.emit(SettingsEvent.ScrollToAndFocus(category.title, extraEndPoint.key))
                     }
                 }
-                null
             }
-            else -> null
         }
-        category?.let { selectCategory(it) }
     }
 
     override fun clearTargetSetting() {
-        _targetSettingKey.value = null
+        // No longer needed as we use one-shot events
     }
 
     init {
@@ -437,9 +433,6 @@ class SettingsViewModel @Inject constructor(
      * @param category The [SettingCategory] that has been selected.
      */
     override fun selectCategory(category: SettingCategory) {
-        if (_isNavigating.value) {
-            return
-        }
         _selectedCategory.value = category
     }
 

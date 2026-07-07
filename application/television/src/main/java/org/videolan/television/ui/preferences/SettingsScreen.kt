@@ -62,12 +62,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.preferences.search.PreferenceItem
 
 /**
  * CompositionLocal to provide a [SettingsProvider] down the UI tree.
@@ -86,25 +82,45 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val provider = viewModel as SettingsProvider
-    val targetSettingKey by provider.targetSettingKey.collectAsState()
     val context = LocalContext.current
+
+    // Local state to track the focus target for the detail pane
+    var pendingFocusKey by remember { mutableStateOf<String?>(null) }
+
+    // Collect one-shot navigation events
+    LaunchedEffect(Unit) {
+        provider.navEvents.collect { event ->
+            when (event) {
+                is SettingsEvent.ScrollToAndFocus -> {
+                    // 1. Find and select the category
+                    val categories = provider.categories.value
+                    val cat = categories.find { it.title == event.categoryTitle }
+                    cat?.let { provider.selectCategory(it) }
+                    
+                    // 2. Schedule focus redirection for the detail pane
+                    pendingFocusKey = event.itemKey
+                }
+            }
+        }
+    }
 
     CompositionLocalProvider(LocalSettingsProvider provides provider) {
         SettingsScreenContent(
             onDetailFocused = { provider.onDetailFocused(context) },
-            targetSettingKey = targetSettingKey
+            pendingFocusKey = pendingFocusKey,
+            onFocusConsumed = { pendingFocusKey = null }
         )
     }
 }
 
 /**
  * Internal content for the settings screen.
- * This is separated to allow for easier previews with a [MockSettingsProvider].
  */
 @Composable
 private fun SettingsScreenContent(
     onDetailFocused: () -> Unit = {},
-    targetSettingKey: String? = null
+    pendingFocusKey: String? = null,
+    onFocusConsumed: () -> Unit = {}
 ) {
     val sidebarFocusRequester = remember { FocusRequester() }
     val detailFocusRequester = remember { FocusRequester() }
@@ -116,12 +132,10 @@ private fun SettingsScreenContent(
     }
     
     // Trigger onDetailFocused when focus shifts to the detail pane
-    LaunchedEffect(isDetailFocused, targetSettingKey) {
-        if (isDetailFocused || targetSettingKey != null) {
+    LaunchedEffect(isDetailFocused, pendingFocusKey) {
+        if (isDetailFocused || pendingFocusKey != null) {
             onDetailFocused()
-            // Only request focus on the detail pane itself if we don't have focus yet.
-            // This ensures that when we navigate via search (targetSettingKey != null),
-            // the detail pane receives focus so its children can then request focus.
+            // If we have a pending focus target, ensure the detail pane itself gets focus first
             if (!isDetailFocused) {
                 detailFocusRequester.requestFocus()
             }
@@ -150,6 +164,8 @@ private fun SettingsScreenContent(
         SettingsDetail(
             onFocusChanged = { isDetailFocused = it },
             focusRequester = detailFocusRequester,
+            pendingFocusKey = pendingFocusKey,
+            onFocusConsumed = onFocusConsumed,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
@@ -172,7 +188,6 @@ fun SettingsSidebar(
     val provider = LocalSettingsProvider.current
     val categories by provider.categories.collectAsState()
     val selectedCategory by provider.selectedCategory.collectAsState()
-    val targetSettingKey by provider.targetSettingKey.collectAsState()
     
     var sidebarPaneHasFocus by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
@@ -216,9 +231,8 @@ fun SettingsSidebar(
 
                 // When the sidebar itself receives focus (e.g. via DPAD LEFT from detail pane),
                 // redirect that focus to the currently selected item.
-                // Or if we are navigating via search, force the sidebar focus to sync.
-                LaunchedEffect(sidebarPaneHasFocus, isSelected, targetSettingKey) {
-                    if ((sidebarPaneHasFocus && isSelected) || (targetSettingKey != null && isSelected)) {
+                LaunchedEffect(sidebarPaneHasFocus, isSelected) {
+                    if (sidebarPaneHasFocus && isSelected) {
                         itemFocusRequester.requestFocus()
                     }
                 }
@@ -231,13 +245,14 @@ fun SettingsSidebar(
 fun SettingsDetail(
     modifier: Modifier = Modifier,
     onFocusChanged: (Boolean) -> Unit = {},
-    focusRequester: FocusRequester
+    focusRequester: FocusRequester,
+    pendingFocusKey: String? = null,
+    onFocusConsumed: () -> Unit = {}
 ) {
     val provider = LocalSettingsProvider.current
     val category by provider.selectedCategory.collectAsState()
     val searchQuery by provider.searchQuery.collectAsState()
     val searchResults by provider.searchResults.collectAsState()
-    val targetSettingKey by provider.targetSettingKey.collectAsState()
 
     var detailPaneHasFocus by remember { mutableStateOf(false) }
 
@@ -245,17 +260,19 @@ fun SettingsDetail(
     val lastFocusedItemPerCategory = remember { mutableMapOf<Int, String?>() }
     val listState = rememberLazyListState()
 
-    // Reset scroll ONLY when switching to a DIFFERENT category
-    LaunchedEffect(category?.title, targetSettingKey) {
-        val target = targetSettingKey
-        if (target != null && category != null) {
-            val index = category!!.items.indexOfFirst { it.key == target }
-            if (index != -1) {
-                listState.scrollToItem(index)
-                return@LaunchedEffect
+    // Handle scrolling to the target item when navigation happens
+    LaunchedEffect(category?.title, pendingFocusKey) {
+        if (category != null) {
+            val target = pendingFocusKey
+            if (target != null) {
+                val index = category!!.items.indexOfFirst { it.key == target }
+                if (index != -1) {
+                    listState.scrollToItem(index)
+                    return@LaunchedEffect
+                }
             }
+            listState.scrollToItem(0)
         }
-        listState.scrollToItem(0)
     }
 
     Column(
@@ -301,9 +318,9 @@ fun SettingsDetail(
                             .onFocusChanged { state ->
                                 if (state.hasFocus) {
                                     lastFocusedItemPerCategory[categoryId] = item.key
-                                    // If this was our target, clear it now that we have focus
-                                    if (item.key == targetSettingKey) {
-                                        provider.clearTargetSetting()
+                                    // Consume the pending focus key once landed
+                                    if (item.key == pendingFocusKey) {
+                                        onFocusConsumed()
                                     }
                                 }
                             }
@@ -410,9 +427,9 @@ fun SettingsDetail(
 
                         // When the detail pane receives focus (e.g. via DPAD RIGHT from sidebar),
                         // redirect it to the last focused item in this category.
-                        LaunchedEffect(detailPaneHasFocus, category, targetSettingKey) {
+                        LaunchedEffect(detailPaneHasFocus, category, pendingFocusKey) {
                             if (detailPaneHasFocus && !isHeader && isEnabled) {
-                                val targetKey = targetSettingKey
+                                val targetKey = pendingFocusKey
                                 val lastKey = lastFocusedItemPerCategory[categoryId]
                                 
                                 if (targetKey != null) {
