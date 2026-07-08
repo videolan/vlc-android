@@ -37,15 +37,7 @@ import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
-import org.videolan.tools.KEY_RESTRICT_SETTINGS
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
-import org.videolan.tools.KEY_SUBTITLES_COLOR
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
-import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
-import org.videolan.tools.RESULT_RESTART
-import org.videolan.tools.RESULT_RESTART_APP
-import org.videolan.tools.Settings
-import org.videolan.vlc.PlaybackService
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.PinCodeActivity
 import org.videolan.vlc.gui.PinCodeReason
@@ -81,7 +73,7 @@ class PreferencesActivity : BaseTvActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 10001) {
+        if (requestCode == REQUEST_CODE_RESTART_APP) {
             if (resultCode == 1) setRestartAppFinal()
             return
         }
@@ -92,11 +84,11 @@ class PreferencesActivity : BaseTvActivity() {
         }
         
         when (requestCode) {
-            1 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
-            2 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_BACKGROUND_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
-            3 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_SHADOW_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
-            4 -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_OUTLINE_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
-            10002 -> { // Settings restore
+            REQUEST_CODE_COLOR_SUBTITLES -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            REQUEST_CODE_COLOR_BACKGROUND -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_BACKGROUND_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            REQUEST_CODE_COLOR_SHADOW -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_SHADOW_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            REQUEST_CODE_COLOR_OUTLINE -> data?.let { viewModel.updateColorSetting(KEY_SUBTITLES_OUTLINE_COLOR, it.getIntExtra(COLOR_PICKER_SELECTED_COLOR, 0)) }
+            REQUEST_CODE_SETTINGS_RESTORE -> {
                 data?.getStringExtra(EXTRA_MRL)?.let { mrl ->
                     lifecycleScope.launch {
                         try {
@@ -109,7 +101,7 @@ class PreferencesActivity : BaseTvActivity() {
                     }
                 }
             }
-            10000 -> { // Soundfont picker
+            REQUEST_CODE_SOUNDFONT_PICKER -> {
                 data?.getStringExtra(EXTRA_MRL)?.let { mrl ->
                     lifecycleScope.launch {
                         MediaUtils.useAsSoundFont(this@PreferencesActivity, mrl.toUri())
@@ -137,23 +129,11 @@ class PreferencesActivity : BaseTvActivity() {
     }
 
     fun setRestartApp() {
-        UiTools.restartDialog(this, fromLeanback = true, leanbackResultCode = 10001, leanbackCaller = this)
+        UiTools.restartDialog(this, fromLeanback = true, leanbackResultCode = REQUEST_CODE_RESTART_APP, leanbackCaller = this)
     }
 
     fun setRestartAppFinal() {
         setResult(RESULT_RESTART_APP)
         finish()
-    }
-
-    fun exitAndRescan() {
-        setRestart()
-        val intent = intent
-        finish()
-        startActivity(intent)
-    }
-
-    fun detectHeadset(detect: Boolean) {
-        val le = PlaybackService.headSetDetection
-        if (le.hasObservers()) le.value = detect
     }
 }
