@@ -26,13 +26,13 @@ package org.videolan.television.ui.preferences
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -150,8 +150,8 @@ private fun SettingsScreenContent() {
             modifier = Modifier
                 .width(320.dp)
                 .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.surface) // Use surface for sidebar background
                 .padding(
-                    start = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_horizontal),
                     bottom = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical)
                 )
         )
@@ -164,7 +164,6 @@ private fun SettingsScreenContent() {
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
-                .background(MaterialTheme.colorScheme.surfaceVariant)
                 .padding(
                     end = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_horizontal),
                     bottom = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical),
@@ -186,7 +185,6 @@ fun SettingsSidebar(
     val selectedCategory by provider.selectedCategory.collectAsState()
     val pendingFocusKey by provider.pendingFocusKey.collectAsState()
     
-    var sidebarPaneHasFocus by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
 
     // Sync scroll when the selected category changes externally (e.g., via search)
@@ -199,15 +197,7 @@ fun SettingsSidebar(
         }
     }
 
-    Column(
-        modifier = modifier
-            .onFocusChanged { state ->
-                sidebarPaneHasFocus = state.hasFocus
-                if (state.hasFocus) {
-                    selectedCategoryFocusRequester.requestFocus()
-                }
-            }
-    ) {
+    Column(modifier = modifier) {
         Text(
             text = stringResource(id = org.videolan.television.R.string.preferences),
             style = MaterialTheme.typography.headlineMedium,
@@ -215,7 +205,11 @@ fun SettingsSidebar(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 24.dp, bottom = 24.dp, top = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical))
         )
-        LazyColumn(state = listState) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 24.dp)
+        ) {
             items(categories, key = { it.title }) { category ->
                 val isSelected = category.title == selectedCategory?.title
                 val itemFocusRequester = remember { FocusRequester() }
@@ -236,14 +230,6 @@ fun SettingsSidebar(
                         detailFocusRequester?.let { right = it }
                     }
                 )
-
-                // When the sidebar itself receives focus (e.g. via DPAD LEFT from detail pane),
-                // redirect that focus to the currently selected item.
-                LaunchedEffect(sidebarPaneHasFocus, isSelected) {
-                    if (sidebarPaneHasFocus && isSelected) {
-                        selectedCategoryFocusRequester.requestFocus()
-                    }
-                }
             }
         }
     }
@@ -299,14 +285,10 @@ fun SettingsDetail(
     Column(
         modifier = modifier
             .focusRequester(focusRequester)
-            .focusProperties {
-                sidebarRecallFocusRequester?.let { left = it }
-            }
             .onFocusChanged { state ->
                 detailPaneHasFocus = state.hasFocus
                 onFocusChanged(detailPaneHasFocus)
             }
-            .focusable()
     ) {
         val currentCategory = category
         if (currentCategory != null) {
@@ -344,7 +326,10 @@ fun SettingsDetail(
                     }
                 }
             } else {
-                LazyColumn(state = listState) {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     items(currentCategory.items, key = { it.key }) { item ->
                         val isEnabled = provider.isEnabled(item)
                         val isHeader = item is SettingItem.Header
@@ -359,7 +344,7 @@ fun SettingsDetail(
                             }
                         }
 
-                        Box(modifier = Modifier
+                        val itemModifier = Modifier
                             .onFocusChanged { state ->
                                 itemHasFocus = state.hasFocus
                                 if (state.hasFocus) {
@@ -369,111 +354,110 @@ fun SettingsDetail(
                             .focusProperties { 
                                 sidebarRecallFocusRequester?.let { left = it }
                             }
-                        ) {
+                            .focusRequester(itemFocusRequester)
 
-                            when (item) {
-                                is SettingItem.Header -> {
-                                    SettingHeader(title = stringResource(id = item.title))
-                                }
-                                is SettingItem.Toggle -> {
-                                    val context = LocalContext.current
-                                    ToggleSettingItem(
-                                        item = item,
-                                        checked = provider.getBooleanValue(item),
-                                        summary = provider.getSummary(item),
-                                        onCheckedChange = { provider.updateBooleanSetting(context, item, it) },
-                                        enabled = isEnabled,
-                                        modifier = Modifier.focusRequester(itemFocusRequester)
-                                    )
-                                }
-                                is SettingItem.Action -> {
-                                    val context = LocalContext.current
-                                    ActionSettingItem(
-                                        item = item,
-                                        summary = provider.getSummary(item),
-                                        onClick = { provider.executeAction(context, item) },
-                                        enabled = isEnabled,
-                                        modifier = Modifier.focusRequester(itemFocusRequester)
-                                    )
-                                }
-                                is SettingItem.Options -> {
-                                    val context = LocalContext.current
-                                    var showDialog by remember { mutableStateOf(false) }
-                                    val currentValue = provider.getStringValue(item)
-                                    OptionsSettingItem(
-                                        item = item,
-                                        currentValue = currentValue,
-                                        summary = provider.getSummary(item),
-                                        onClick = { showDialog = true },
-                                        enabled = isEnabled,
-                                        modifier = Modifier.focusRequester(itemFocusRequester)
-                                    )
-                                    if (showDialog) {
-                                        SelectionDialog(
-                                            item = item,
-                                            currentValue = currentValue,
-                                            onDismiss = { showDialog = false },
-                                            onValueSelected = { provider.updateStringSetting(context, item, it) }
-                                        )
-                                    }
-                                }
-                                is SettingItem.Color -> {
-                                    val context = LocalContext.current
-                                    ColorSettingItem(
-                                        item = item,
-                                        currentValue = provider.getColorValue(item),
-                                        onClick = { provider.pickColor(context, item) },
-                                        enabled = isEnabled,
-                                        modifier = Modifier.focusRequester(itemFocusRequester)
-                                    )
-                                }
-                                is SettingItem.Input -> {
-                                    val context = LocalContext.current
-                                    var showDialog by remember { mutableStateOf(false) }
-                                    val currentValue = provider.getStringValue(item)
-                                    InputSettingItem(
+                        when (item) {
+                            is SettingItem.Header -> {
+                                SettingHeader(title = stringResource(id = item.title))
+                            }
+                            is SettingItem.Toggle -> {
+                                val context = LocalContext.current
+                                ToggleSettingItem(
+                                    item = item,
+                                    checked = provider.getBooleanValue(item),
+                                    summary = provider.getSummary(item),
+                                    onCheckedChange = { provider.updateBooleanSetting(context, item, it) },
+                                    enabled = isEnabled,
+                                    modifier = itemModifier
+                                )
+                            }
+                            is SettingItem.Action -> {
+                                val context = LocalContext.current
+                                ActionSettingItem(
+                                    item = item,
+                                    summary = provider.getSummary(item),
+                                    onClick = { provider.executeAction(context, item) },
+                                    enabled = isEnabled,
+                                    modifier = itemModifier
+                                )
+                            }
+                            is SettingItem.Options -> {
+                                val context = LocalContext.current
+                                var showDialog by remember { mutableStateOf(false) }
+                                val currentValue = provider.getStringValue(item)
+                                OptionsSettingItem(
+                                    item = item,
+                                    currentValue = currentValue,
+                                    summary = provider.getSummary(item),
+                                    onClick = { showDialog = true },
+                                    enabled = isEnabled,
+                                    modifier = itemModifier
+                                )
+                                if (showDialog) {
+                                    SelectionDialog(
                                         item = item,
                                         currentValue = currentValue,
-                                        summary = provider.getSummary(item),
-                                        onClick = { showDialog = true },
-                                        enabled = isEnabled,
-                                        modifier = Modifier.focusRequester(itemFocusRequester)
+                                        onDismiss = { showDialog = false },
+                                        onValueSelected = { provider.updateStringSetting(context, item, it) }
                                     )
-                                    if (showDialog) {
-                                        InputDialog(
-                                            item = item,
-                                            currentValue = currentValue,
-                                            onDismiss = { showDialog = false },
-                                            onValueConfirmed = { provider.updateStringSetting(context, item, it) }
-                                        )
-                                    }
                                 }
-                                is SettingItem.Slider -> {
-                                    var showDialog by remember { mutableStateOf(false) }
-                                    val currentValue = provider.getIntValue(item)
-                                    SliderSettingItem(
+                            }
+                            is SettingItem.Color -> {
+                                val context = LocalContext.current
+                                ColorSettingItem(
+                                    item = item,
+                                    currentValue = provider.getColorValue(item),
+                                    onClick = { provider.pickColor(context, item) },
+                                    enabled = isEnabled,
+                                    modifier = itemModifier
+                                )
+                            }
+                            is SettingItem.Input -> {
+                                val context = LocalContext.current
+                                var showDialog by remember { mutableStateOf(false) }
+                                val currentValue = provider.getStringValue(item) ?: ""
+                                InputSettingItem(
+                                    item = item,
+                                    currentValue = currentValue,
+                                    summary = provider.getSummary(item),
+                                    onClick = { showDialog = true },
+                                    enabled = isEnabled,
+                                    modifier = itemModifier
+                                )
+                                if (showDialog) {
+                                    InputDialog(
                                         item = item,
                                         currentValue = currentValue,
-                                        summary = provider.getSummary(item),
-                                        onClick = { showDialog = true },
-                                        enabled = isEnabled,
-                                        modifier = Modifier.focusRequester(itemFocusRequester)
+                                        onDismiss = { showDialog = false },
+                                        onValueConfirmed = { provider.updateStringSetting(context, item, it) }
                                     )
-                                    if (showDialog) {
-                                        SliderDialog(
-                                            item = item,
-                                            currentValue = currentValue,
-                                            onDismiss = { showDialog = false },
-                                            onValueConfirmed = { provider.updateIntSetting(item, it) }
-                                        )
-                                    }
+                                }
+                            }
+                            is SettingItem.Slider -> {
+                                var showDialog by remember { mutableStateOf(false) }
+                                val currentValue = provider.getIntValue(item)
+                                SliderSettingItem(
+                                    item = item,
+                                    currentValue = currentValue,
+                                    summary = provider.getSummary(item),
+                                    onClick = { showDialog = true },
+                                    enabled = isEnabled,
+                                    modifier = itemModifier
+                                )
+                                if (showDialog) {
+                                    SliderDialog(
+                                        item = item,
+                                        currentValue = currentValue,
+                                        onDismiss = { showDialog = false },
+                                        onValueConfirmed = { provider.updateIntSetting(item, it) }
+                                    )
                                 }
                             }
                         }
 
                         // When the detail pane receives focus (e.g. via DPAD RIGHT from sidebar),
                         // redirect it to the last focused item in this category.
-                        LaunchedEffect(detailPaneHasFocus, category?.title, pendingFocusKey) {
+                        LaunchedEffect(detailPaneHasFocus, currentCategory.title, pendingFocusKey) {
                             if (detailPaneHasFocus && !isHeader && isEnabled) {
                                 val targetKey = pendingFocusKey
                                 val lastKey = lastFocusedItemPerCategory[categoryId]
@@ -500,11 +484,11 @@ fun SettingsDetail(
 @Composable
 private fun SettingsScreenPreview() {
     val categories = listOf(
-        SettingCategory(org.videolan.vlc.R.string.video_prefs_category, listOf(
-            SettingItem.Toggle("video_toggle", org.videolan.vlc.R.string.auto_rescan, org.videolan.vlc.R.string.auto_rescan_summary),
-            SettingItem.Action("video_action", org.videolan.vlc.R.string.medialibrary_directories, org.videolan.vlc.R.string.directories_summary)
-        ), org.videolan.vlc.R.drawable.ic_pref_video),
-        SettingCategory(org.videolan.vlc.R.string.audio_prefs_category, emptyList(), org.videolan.vlc.R.drawable.ic_pref_audio)
+        SettingCategory(R.string.video_prefs_category, listOf(
+            SettingItem.Toggle("video_toggle", R.string.auto_rescan, R.string.auto_rescan_summary),
+            SettingItem.Action("video_action", R.string.medialibrary_directories, R.string.directories_summary)
+        ), R.drawable.ic_pref_video),
+        SettingCategory(R.string.audio_prefs_category, emptyList(), R.drawable.ic_pref_audio)
     )
     
     VlcTVSettingsTheme {
