@@ -27,11 +27,12 @@ package org.videolan.television.ui.preferences
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,14 +42,19 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -71,7 +77,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
@@ -79,567 +84,547 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
 
-/**
- * A specialized pane for searching through settings.
- */
-@Composable
-fun SearchPane(
-    query: String,
-    results: List<PreferenceItem>,
-    onQueryChanged: (String) -> Unit,
-    onResultClick: (PreferenceItem) -> Unit,
-    modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = remember { FocusRequester() }
-) {
-    val listState = rememberLazyListState()
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    Column(
-        modifier = modifier.fillMaxSize()
-    ) {
-        OutlinedTextField(
-            value = query,
-            onValueChange = onQueryChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 16.dp)
-                .focusRequester(focusRequester)
-                .onFocusChanged { 
-                    if (it.isFocused) {
-                        keyboardController?.show()
-                    }
-                },
-            placeholder = { Text(stringResource(id = R.string.search)) },
-            singleLine = true,
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = org.videolan.resources.R.drawable.ic_search),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = MaterialTheme.colorScheme.outline
-            )
-        )
-
-        if (results.isEmpty() && query.length >= 2) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(
-                    text = stringResource(id = R.string.search_no_result),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        } else {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-            itemsIndexed(results, key = { _, item -> item.key }) { _, item ->
-                SearchResultItem(
-                    item = item,
-                    onClick = { onResultClick(item) }
-                )
-            }
-            }
-        }
-    }
-}
-
-/**
- * An individual search result item displaying title, summary, and category.
- */
-@Composable
-fun SearchResultItem(
-    item: PreferenceItem,
-    onClick: () -> Unit
-) {
-    SettingItemRow(
-        title = item.title,
-        summary = item.summary.ifEmpty { item.category },
-        onClick = onClick
-    )
-}
-
-/**
- * A TV-optimized focusable row for a setting item.
- *
- * It uses a pill shape and scales slightly when focused to provide clear visual feedback
- * on TV screens, while remaining fully clickable for mouse and touch users.
- *
- * @param title The title string to display.
- * @param modifier The [Modifier] to be applied to the row.
- * @param summary An optional summary/description string to display below the title.
- * @param icon An optional drawable resource ID to display as an icon on the left.
- * @param enabled Whether the row is enabled.
- * @param onClick The callback to trigger when the row is clicked or selected.
- * @param content An optional `@Composable` block for trailing content.
- */
-@Composable
-fun SettingItemRow(
-    title: String,
-    modifier: Modifier = Modifier,
-    summary: String? = null,
-    icon: Int? = null,
-    enabled: Boolean = true,
-    onClick: () -> Unit = {},
-    content: @Composable (() -> Unit)? = null
-) {
-    var hasFocus by remember { mutableStateOf(false) }
-    
-    val scale by animateFloatAsState(
-        targetValue = if (hasFocus && enabled) 1.05f else 1f,
-        label = "scale"
-    )
-    
-    val backgroundColor by animateColorAsState(
-        targetValue = if (hasFocus && enabled) MaterialTheme.colorScheme.onSurface else Color.Transparent,
-        label = "backgroundColor"
-    )
-    
-    val contentColor by animateColorAsState(
-        targetValue = when {
-            !enabled -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
-            hasFocus -> MaterialTheme.colorScheme.inverseOnSurface
-            else -> MaterialTheme.colorScheme.onSurface
-        },
-        label = "contentColor"
-    )
-
-    val summaryColor by animateColorAsState(
-        targetValue = when {
-            !enabled -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-            hasFocus -> MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.7f)
-            else -> MaterialTheme.colorScheme.onSurfaceVariant
-        },
-        label = "summaryColor"
-    )
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = 64.dp)
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .onFocusChanged { hasFocus = it.hasFocus }
-            .clip(CircleShape) // Pill shape
-            .background(backgroundColor)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(horizontal = 24.dp, vertical = 12.dp)
-            .alpha(if (enabled) 1f else 0.5f),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (icon != null) {
-            Icon(
-                painter = painterResource(id = icon),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp),
-                tint = contentColor
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-        }
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = contentColor,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            if (summary != null) {
-                Text(
-                    text = summary,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = summaryColor,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-        if (content != null) {
-            content()
-        }
-    }
-}
-
-/**
- * A TV-optimized setting category item for the sidebar.
- *
- * @param category The [SettingCategory] definition.
- * @param isSelected Whether this category is currently selected.
- * @param onSelected Callback triggered when the category is selected or focused.
- */
 @Composable
 fun CategoryItem(
     category: SettingCategory,
     isSelected: Boolean,
     onSelected: () -> Unit,
-    onAction: () -> Unit = {},
-    focusRequester: FocusRequester = remember { FocusRequester() },
-    modifier: Modifier = Modifier
-) {
-    var hasFocus by remember { mutableStateOf(false) }
-    
-    val backgroundColor by animateColorAsState(
-        targetValue = when {
-            hasFocus -> MaterialTheme.colorScheme.primary
-            isSelected -> MaterialTheme.colorScheme.surfaceVariant
-            else -> Color.Transparent
-        },
-        label = "backgroundColor"
-    )
-    
-    val contentColor by animateColorAsState(
-        targetValue = if (hasFocus) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-        label = "contentColor"
-    )
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(end = 16.dp) // Space between item and detail pane edge
-            .heightIn(min = 56.dp)
-            .focusRequester(focusRequester)
-            .onFocusChanged { 
-                hasFocus = it.hasFocus 
-                if (it.hasFocus && !isSelected) {
-                    onSelected()
-                }
-            }
-            .clip(CircleShape) // Standard pill shape
-            .background(backgroundColor)
-            .clickable(onClick = onAction)
-            .padding(horizontal = 24.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (category.icon != null) {
-            Icon(
-                painter = painterResource(id = category.icon),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = contentColor
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-        }
-        Text(
-            text = stringResource(id = category.title),
-            style = MaterialTheme.typography.titleMedium,
-            color = contentColor,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-
-/**
- * A simple non-focusable header for settings sections.
- */
-@Composable
-fun SettingHeader(title: String) {
-    Text(
-        text = title.uppercase(),
-        style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.primary,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 24.dp, bottom = 8.dp, start = 8.dp)
-    )
-}
-
-/**
- * A setting item component that displays a toggle switch.
- *
- * @param item The [SettingItem.Toggle] definition.
- * @param checked The current checked state.
- * @param modifier The [Modifier] to be applied.
- * @param summary An optional summary string (overrides the one in [item]).
- * @param enabled Whether the item is enabled.
- * @param onCheckedChange Callback triggered when the state is changed.
- */
-@Composable
-fun ToggleSettingItem(
-    item: SettingItem.Toggle,
-    checked: Boolean,
+    onAction: () -> Unit,
     modifier: Modifier = Modifier,
-    summary: String? = null,
-    enabled: Boolean = true,
-    onCheckedChange: (Boolean) -> Unit
+    focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
-    SettingItemRow(
-        title = stringResource(id = item.title),
-        summary = summary ?: item.summary?.let { stringResource(id = it) },
-        icon = item.icon,
-        enabled = enabled,
-        onClick = { onCheckedChange(!checked) },
-        modifier = modifier,
-        content = {
-            Switch(
-                checked = checked,
-                onCheckedChange = null,
-                enabled = enabled
-            )
-        }
-    )
-}
-
-/**
- * A setting item component for simple clickable actions.
- *
- * @param item The [SettingItem.Action] definition.
- * @param modifier The [Modifier] to be applied.
- * @param summary An optional summary string (overrides the one in [item]).
- * @param enabled Whether the item is enabled.
- * @param onClick Callback triggered when the action is clicked.
- */
-@Composable
-fun ActionSettingItem(
-    item: SettingItem.Action,
-    modifier: Modifier = Modifier,
-    summary: String? = null,
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) {
-    SettingItemRow(
-        title = stringResource(id = item.title),
-        summary = summary ?: item.summary?.let { stringResource(id = it) },
-        icon = item.icon,
-        enabled = enabled,
-        modifier = modifier,
-        onClick = onClick
-    )
-}
-
-/**
- * A setting item component for multiple options selection.
- *
- * Displays the current value in the summary or as trailing content.
- *
- * @param item The [SettingItem.Options] definition.
- * @param currentValue The current value key.
- * @param modifier The [Modifier] to be applied.
- * @param summary An optional summary string (overrides the one in [item]).
- * @param enabled Whether the item is enabled.
- * @param onClick Callback triggered to open the selection UI.
- */
-@Composable
-fun OptionsSettingItem(
-    item: SettingItem.Options,
-    currentValue: String?,
-    modifier: Modifier = Modifier,
-    summary: String? = null,
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) {
-    val currentTitle = remember(currentValue, item.entryValues, item.entries) {
-        val index = item.entryValues.indexOf(currentValue)
-        if (index != -1) item.entries[index] else currentValue ?: ""
-    }
-
-    SettingItemRow(
-        title = stringResource(id = item.title),
-        summary = summary ?: currentTitle,
-        icon = item.icon,
-        enabled = enabled,
-        modifier = modifier,
-        onClick = onClick,
-        content = {
-             Icon(
-                painter = painterResource(id = R.drawable.ic_chevron_right),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 0.5f else 0.38f)
-            )
-        }
-    )
-}
-
-/**
- * A setting item for color selection, displaying a color preview.
- *
- * @param item The [SettingItem.Color] definition.
- * @param currentValue The current color value as an ARGB integer.
- * @param modifier The [Modifier] to be applied.
- * @param enabled Whether the item is enabled.
- * @param onClick Callback triggered to open the color picker.
- */
-@Composable
-fun ColorSettingItem(
-    item: SettingItem.Color,
-    currentValue: Int,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) {
-    SettingItemRow(
-        title = stringResource(id = item.title),
-        summary = item.summary?.let { stringResource(id = it) },
-        icon = item.icon,
-        enabled = enabled,
-        modifier = modifier,
-        onClick = onClick,
-        content = {
-            Box(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .background(if (enabled) Color(currentValue) else Color(currentValue).copy(alpha = 0.38f))
-                    .border(1.dp, MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 1f else 0.38f), CircleShape)
-            )
-        }
-    )
-}
-
-/**
- * A setting item for text/number input.
- *
- * @param item The [SettingItem.Input] definition.
- * @param currentValue The current input value.
- * @param modifier The [Modifier] to be applied.
- * @param summary An optional summary string.
- * @param enabled Whether the item is enabled.
- * @param onClick Callback to open the input dialog.
- */
-@Composable
-fun InputSettingItem(
-    item: SettingItem.Input,
-    currentValue: String?,
-    modifier: Modifier = Modifier,
-    summary: String? = null,
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) {
-    SettingItemRow(
-        title = stringResource(id = item.title),
-        summary = summary ?: currentValue,
-        icon = item.icon,
-        enabled = enabled,
-        modifier = modifier,
-        onClick = onClick,
-        content = {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_edit),
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 0.5f else 0.38f)
-            )
-        }
-    )
-}
-
-/**
- * A TV-optimized button for dialogs with clear focus feedback.
- */
-@Composable
-fun DialogButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    isPrimary: Boolean = false,
-    focusRequester: FocusRequester? = null
-) {
-    var hasFocus by remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
 
     val scale by animateFloatAsState(
-        targetValue = if (hasFocus) 1.1f else 1f,
+        targetValue = if (isFocused) 1.05f else 1f,
         label = "scale"
     )
 
     val backgroundColor by animateColorAsState(
         targetValue = when {
-            hasFocus -> if (isPrimary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-            else -> if (isPrimary) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f) else Color.Transparent
+            isFocused -> MaterialTheme.colorScheme.primary
+            isSelected -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+            else -> Color.Transparent
+        },
+        label = "backgroundColor"
+    )
+
+    val contentColor by animateColorAsState(
+        targetValue = if (isFocused) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+        label = "contentColor"
+    )
+
+    LaunchedEffect(isFocused) {
+        if (isFocused && !isSelected) {
+            onSelected()
+        }
+    }
+
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .height(56.dp)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .focusRequester(focusRequester)
+            .selectable(
+                selected = isSelected,
+                onClick = onAction,
+                interactionSource = interactionSource,
+                indication = null
+            ),
+        color = backgroundColor,
+        shape = RoundedCornerShape(40.dp) // Capsule shape for TV
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            category.icon?.let { iconRes ->
+                Icon(
+                    painter = painterResource(id = iconRes),
+                    contentDescription = null,
+                    tint = contentColor,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+            Text(
+                text = stringResource(id = category.title),
+                style = MaterialTheme.typography.titleMedium,
+                color = contentColor,
+                fontWeight = if (isSelected || isFocused) FontWeight.Bold else FontWeight.Normal
+            )
+        }
+    }
+}
+
+@Composable
+fun SettingHeader(title: String) {
+    Text(
+        text = title.uppercase(),
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.primary,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+    )
+}
+
+@Composable
+fun ToggleSettingItem(
+    item: SettingItem.Toggle,
+    checked: Boolean,
+    summary: String?,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    BaseSettingItem(
+        title = stringResource(id = item.title),
+        summary = summary,
+        icon = item.icon,
+        enabled = enabled,
+        onClick = { onCheckedChange(!checked) },
+        modifier = modifier
+    ) {
+        Switch(
+            checked = checked,
+            onCheckedChange = null,
+            enabled = enabled
+        )
+    }
+}
+
+@Composable
+fun ActionSettingItem(
+    item: SettingItem.Action,
+    summary: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    BaseSettingItem(
+        title = stringResource(id = item.title),
+        summary = summary,
+        icon = item.icon,
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun OptionsSettingItem(
+    item: SettingItem.Options,
+    currentValue: String?,
+    summary: String? = null,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    val displayValue = remember(currentValue, item.entries, item.entryValues) {
+        val index = item.entryValues.indexOf(currentValue)
+        if (index != -1 && index < item.entries.size) item.entries[index] else currentValue
+    }
+
+    BaseSettingItem(
+        title = stringResource(id = item.title),
+        summary = summary ?: displayValue,
+        icon = item.icon,
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ColorSettingItem(
+    item: SettingItem.Color,
+    currentValue: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    BaseSettingItem(
+        title = stringResource(id = item.title),
+        summary = null,
+        icon = item.icon,
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(Color(currentValue))
+                .alpha(if (enabled) 1f else 0.5f)
+        )
+    }
+}
+
+@Composable
+fun InputSettingItem(
+    item: SettingItem.Input,
+    currentValue: String,
+    summary: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    BaseSettingItem(
+        title = stringResource(id = item.title),
+        summary = summary ?: currentValue,
+        icon = item.icon,
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun SliderSettingItem(
+    item: SettingItem.Slider,
+    currentValue: Int,
+    summary: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    BaseSettingItem(
+        title = stringResource(id = item.title),
+        summary = summary,
+        icon = item.icon,
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun BaseSettingItem(
+    title: String,
+    summary: String?,
+    icon: Int? = null,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit)? = null
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val scale by animateFloatAsState(
+        targetValue = if (isFocused && enabled) 1.05f else 1f,
+        label = "scale"
+    )
+
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isFocused) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f) else Color.Transparent,
+        label = "backgroundColor"
+    )
+
+    val contentColor by animateColorAsState(
+        targetValue = if (isFocused) MaterialTheme.colorScheme.inverseOnSurface else MaterialTheme.colorScheme.onSurface,
+        label = "contentColor"
+    )
+
+    val summaryColor by animateColorAsState(
+        targetValue = if (isFocused) MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurfaceVariant,
+        label = "summaryColor"
+    )
+
+    Surface(
+        onClick = onClick,
+        enabled = enabled,
+        shape = RoundedCornerShape(40.dp), // Capsule shape for TV
+        color = backgroundColor,
+        interactionSource = interactionSource,
+        modifier = modifier
+            .fillMaxWidth()
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .alpha(if (enabled) 1f else 0.5f)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            icon?.let {
+                Icon(
+                    painter = painterResource(id = it),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = if (isFocused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = contentColor,
+                    fontWeight = FontWeight.Medium
+                )
+                if (!summary.isNullOrEmpty()) {
+                    Text(
+                        text = summary,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = summaryColor
+                    )
+                }
+            }
+            if (content != null) {
+                Spacer(modifier = Modifier.width(16.dp))
+                content()
+            }
+        }
+    }
+}
+
+/**
+ * A TV-optimized button for dialogs with high-contrast focus states.
+ */
+@Composable
+fun VlcDialogButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isPrimary: Boolean = false,
+    focusRequester: FocusRequester = remember { FocusRequester() }
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val backgroundColor by animateColorAsState(
+        targetValue = when {
+            isFocused -> MaterialTheme.colorScheme.primary
+            isPrimary -> MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+            else -> Color.Transparent
         },
         label = "backgroundColor"
     )
 
     val contentColor by animateColorAsState(
         targetValue = when {
-            hasFocus -> if (isPrimary) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.inverseOnSurface
-            else -> if (isPrimary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+            isFocused -> MaterialTheme.colorScheme.onPrimary
+            isPrimary -> MaterialTheme.colorScheme.primary
+            else -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
         },
         label = "contentColor"
     )
 
-    Box(
+    Surface(
+        onClick = onClick,
         modifier = modifier
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
-            .onFocusChanged { hasFocus = it.hasFocus }
-            .clip(CircleShape)
-            .background(backgroundColor)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 24.dp, vertical = 12.dp),
-        contentAlignment = Alignment.Center
+            .focusRequester(focusRequester)
+            .height(48.dp)
+            .widthIn(min = 120.dp),
+        color = backgroundColor,
+        shape = RoundedCornerShape(24.dp),
+        interactionSource = interactionSource
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold,
-            color = contentColor
-        )
+        Box(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = text.uppercase(),
+                style = MaterialTheme.typography.labelLarge,
+                color = contentColor,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
-/**
- * A setting item for range-based values using a slider.
- */
 @Composable
-fun SliderSettingItem(
-    item: SettingItem.Slider,
-    currentValue: Int,
-    modifier: Modifier = Modifier,
-    summary: String? = null,
-    enabled: Boolean = true,
-    onClick: () -> Unit
+fun SelectionDialog(
+    item: SettingItem.Options,
+    currentValue: String?,
+    onDismiss: () -> Unit,
+    onValueSelected: (String) -> Unit
 ) {
-    SettingItemRow(
-        title = stringResource(id = item.title),
-        summary = summary,
-        icon = item.icon,
-        enabled = enabled,
-        modifier = modifier,
-        onClick = onClick,
-        content = {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_edit),
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (enabled) 0.5f else 0.38f)
-            )
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+            modifier = Modifier
+                .width(480.dp)
+                .wrapContentHeight()
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                Text(
+                    text = stringResource(id = item.title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                
+                val listState = rememberLazyListState()
+                val selectedIndex = item.entryValues.indexOf(currentValue)
+                val focusRequesters = remember(item.entryValues) { List(item.entries.size) { FocusRequester() } }
+                
+                LaunchedEffect(Unit) {
+                    if (selectedIndex != -1) {
+                        listState.scrollToItem(selectedIndex)
+                        focusRequesters[selectedIndex].requestFocus()
+                    }
+                }
+
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.heightIn(max = 400.dp)
+                ) {
+                    items(item.entries.size) { index ->
+                        val entry = item.entries[index]
+                        val value = item.entryValues[index]
+                        val isSelected = value == currentValue
+
+                        val interactionSource = remember { MutableInteractionSource() }
+                        val isFocused by interactionSource.collectIsFocusedAsState()
+
+                        Surface(
+                            onClick = {
+                                onValueSelected(value)
+                                onDismiss()
+                            },
+                            shape = RoundedCornerShape(40.dp),
+                            color = when {
+                                isFocused -> MaterialTheme.colorScheme.primary
+                                isSelected -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                                else -> Color.Transparent
+                            },
+                            interactionSource = interactionSource,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(focusRequesters[index])
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = entry,
+                                    modifier = Modifier.weight(1f),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = if (isFocused) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                )
+                                if (isSelected) {
+                                    Icon(
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = null,
+                                        tint = if (isFocused) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    VlcDialogButton(
+                        text = stringResource(id = R.string.cancel),
+                        onClick = onDismiss
+                    )
+                }
+            }
         }
-    )
+    }
 }
 
-/**
- * A TV-optimized slider dialog for [SettingItem.Slider].
- */
+@Composable
+fun InputDialog(
+    item: SettingItem.Input,
+    currentValue: String,
+    onDismiss: () -> Unit,
+    onValueConfirmed: (String) -> Unit
+) {
+    var text by remember { mutableStateOf(currentValue) }
+    val okButtonFocusRequester = remember { FocusRequester() }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+            modifier = Modifier
+                .width(480.dp)
+                .wrapContentHeight()
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                Text(
+                    text = stringResource(id = item.title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusProperties { down = okButtonFocusRequester },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    VlcDialogButton(
+                        text = stringResource(id = R.string.cancel),
+                        onClick = onDismiss
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    VlcDialogButton(
+                        text = stringResource(id = R.string.ok),
+                        onClick = {
+                            onValueConfirmed(text)
+                            onDismiss()
+                        },
+                        isPrimary = true,
+                        focusRequester = okButtonFocusRequester
+                    )
+                }
+            }
+        }
+    }
+}
+
 @Composable
 fun SliderDialog(
     item: SettingItem.Slider,
@@ -647,15 +632,17 @@ fun SliderDialog(
     onDismiss: () -> Unit,
     onValueConfirmed: (Int) -> Unit
 ) {
-    var value by remember { mutableStateOf(currentValue.toFloat()) }
+    var sliderValue by remember { mutableStateOf(currentValue.toFloat()) }
+    val okButtonFocusRequester = remember { FocusRequester() }
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
             modifier = Modifier
                 .width(480.dp)
-                .clip(RoundedCornerShape(24.dp)),
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            tonalElevation = 6.dp
+                .wrapContentHeight()
         ) {
             Column(
                 modifier = Modifier.padding(24.dp),
@@ -670,9 +657,9 @@ fun SliderDialog(
                 )
 
                 val displayValue = if (item.valueDisplay == SliderValueDisplay.PERCENT) {
-                    "${(value.toInt() * 100 / item.max)}%"
+                    "${(sliderValue.toInt() * 100 / item.max)}%"
                 } else {
-                    value.toInt().toString()
+                    sliderValue.toInt().toString()
                 }
 
                 Text(
@@ -683,11 +670,9 @@ fun SliderDialog(
                     modifier = Modifier.padding(vertical = 24.dp)
                 )
 
-                val okButtonFocusRequester = remember { FocusRequester() }
-
                 Slider(
-                    value = value,
-                    onValueChange = { value = it },
+                    value = sliderValue,
+                    onValueChange = { sliderValue = it },
                     valueRange = item.min.toFloat()..item.max.toFloat(),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -700,14 +685,12 @@ fun SliderDialog(
                                 false
                             }
                         }
-                        .focusProperties {
-                            down = okButtonFocusRequester
-                        },
+                        .focusProperties { down = okButtonFocusRequester },
                     colors = SliderDefaults.colors(
                         thumbColor = MaterialTheme.colorScheme.primary,
                         activeTrackColor = MaterialTheme.colorScheme.primary,
                         inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant
-                    ),
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -717,15 +700,15 @@ fun SliderDialog(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    DialogButton(
+                    VlcDialogButton(
                         text = stringResource(id = R.string.cancel),
                         onClick = onDismiss
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    DialogButton(
+                    VlcDialogButton(
                         text = stringResource(id = R.string.ok),
-                        onClick = { 
-                            onValueConfirmed(value.toInt())
+                        onClick = {
+                            onValueConfirmed(sliderValue.toInt())
                             onDismiss()
                         },
                         isPrimary = true,
@@ -737,369 +720,89 @@ fun SliderDialog(
     }
 }
 
-/**
- * A TV-optimized selection dialog for [SettingItem.Options].
- *
- * @param item The options setting item.
- * @param currentValue The currently selected value key.
- * @param onDismiss Callback to dismiss the dialog.
- * @param onValueSelected Callback when a new value is selected.
- */
 @Composable
-fun SelectionDialog(
-    item: SettingItem.Options,
-    currentValue: String?,
-    onDismiss: () -> Unit,
-    onValueSelected: (String) -> Unit
+fun SearchPane(
+    query: String,
+    results: List<PreferenceItem>,
+    onQueryChanged: (String) -> Unit,
+    onResultClick: (PreferenceItem) -> Unit,
+    focusRequester: FocusRequester,
+    modifier: Modifier = Modifier
 ) {
-    val configuration = LocalConfiguration.current
-    val maxHeight = (configuration.screenHeightDp.dp * 0.9f)
+    val keyboardController = LocalSoftwareKeyboardController.current
 
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
+    Column(modifier = modifier.fillMaxSize()) {
+        OutlinedTextField(
+            value = query,
+            onValueChange = onQueryChanged,
             modifier = Modifier
-                .width(480.dp)
-                .heightIn(max = maxHeight)
-                .clip(RoundedCornerShape(24.dp)),
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            tonalElevation = 6.dp
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .wrapContentHeight()
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
+            placeholder = { Text(stringResource(id = R.string.search)) },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() })
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (results.isEmpty() && query.length >= 2) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(
+                    text = stringResource(id = R.string.search_no_result),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    text = stringResource(id = item.title),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-                
-                val listState = rememberLazyListState()
-                val focusRequesters = remember(item.entryValues) {
-                    List(item.entryValues.size) { FocusRequester() }
+                items(results) { item ->
+                    SearchResultItem(item = item, onClick = { onResultClick(item) })
                 }
-                val selectedIndex = remember(currentValue, item.entryValues) {
-                    item.entryValues.indexOf(currentValue).coerceAtLeast(0)
-                }
-
-                // Auto-scroll and focus selected item
-                LaunchedEffect(Unit) {
-                    if (selectedIndex != -1) {
-                        listState.scrollToItem(selectedIndex)
-                        if (selectedIndex < focusRequesters.size) {
-                            focusRequesters[selectedIndex].requestFocus()
-                        }
-                    }
-                }
-
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.weight(1f, fill = false)
-                ) {
-                    itemsIndexed(item.entries) { index, entry ->
-                        val value = item.entryValues[index]
-                        val isSelected = value == currentValue
-                        
-                        SelectionDialogItem(
-                            title = entry,
-                            isSelected = isSelected,
-                            focusRequester = focusRequesters[index],
-                            onClick = {
-                                onValueSelected(value)
-                                onDismiss()
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                    }
-                }
-                
-                Spacer(modifier = Modifier.height(16.dp))
-                
-                Text(
-                    text = stringResource(id = R.string.cancel),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(CircleShape)
-                        .focusProperties { 
-                            focusRequesters.getOrNull(selectedIndex)?.let { up = it }
-                        }
-                        .clickable { onDismiss() }
-                        .padding(vertical = 12.dp),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
             }
         }
     }
 }
 
-/**
- * An item row within the [SelectionDialog].
- */
 @Composable
-private fun SelectionDialogItem(
-    title: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-    focusRequester: FocusRequester = remember { FocusRequester() }
+fun SearchResultItem(
+    item: PreferenceItem,
+    onClick: () -> Unit
 ) {
-    var hasFocus by remember { mutableStateOf(false) }
-    
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
     val backgroundColor by animateColorAsState(
-        targetValue = when {
-            hasFocus -> MaterialTheme.colorScheme.primary
-            isSelected -> MaterialTheme.colorScheme.surfaceVariant
-            else -> Color.Transparent
-        },
+        targetValue = if (isFocused) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f) else Color.Transparent,
         label = "backgroundColor"
     )
-    
-    val contentColor by animateColorAsState(
-        targetValue = if (hasFocus) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-        label = "contentColor"
-    )
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(CircleShape)
-            .background(backgroundColor)
-            .focusRequester(focusRequester)
-            .onFocusChanged { hasFocus = it.hasFocus }
-            .clickable { onClick() }
-            .padding(horizontal = 20.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(40.dp),
+        color = backgroundColor,
+        interactionSource = interactionSource,
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodyLarge,
-            color = contentColor,
-            modifier = Modifier.weight(1f)
-        )
-        if (isSelected) {
-            Icon(
-                imageVector = Icons.Default.Check,
-                contentDescription = null,
-                tint = if (hasFocus) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(20.dp)
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.bodyLarge,
+                color = if (isFocused) MaterialTheme.colorScheme.inverseOnSurface else MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold
             )
-        }
-    }
-}
-
-/**
- * A TV-optimized input dialog for [SettingItem.Input].
- *
- * @param item The input setting item.
- * @param currentValue The currently stored value.
- * @param onDismiss Callback to dismiss the dialog.
- * @param onValueConfirmed Callback when a new value is confirmed.
- */
-@Composable
-fun InputDialog(
-    item: SettingItem.Input,
-    currentValue: String?,
-    onDismiss: () -> Unit,
-    onValueConfirmed: (String) -> Unit
-) {
-    var text by remember { mutableStateOf(currentValue ?: "") }
-
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
-            modifier = Modifier
-                .width(480.dp)
-                .clip(RoundedCornerShape(24.dp)),
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            tonalElevation = 6.dp
-        ) {
-            Column(
-                modifier = Modifier.padding(24.dp)
-            ) {
+            if (item.category.isNotEmpty()) {
                 Text(
-                    text = stringResource(id = item.title),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    text = item.category,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (isFocused) MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurfaceVariant
                 )
-
-                OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text(stringResource(id = R.string.not_set)) },
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    DialogButton(
-                        text = stringResource(id = R.string.cancel),
-                        onClick = onDismiss
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    DialogButton(
-                        text = stringResource(id = R.string.ok),
-                        onClick = { 
-                            onValueConfirmed(text)
-                            onDismiss()
-                        },
-                        isPrimary = true
-                    )
-                }
             }
-        }
-    }
-}
-
-/**
- * Preview for the setting components.
- */
-@Preview(device = "id:tv_1080p")
-@Composable
-private fun SettingComponentsPreview() {
-    VlcTVSettingsTheme {
-        Column(modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(48.dp)) {
-            CategoryItem(
-                category = SettingCategory(R.string.video_prefs_category, emptyList(), R.drawable.ic_pref_video),
-                isSelected = true,
-                onSelected = {},
-                onAction = {}
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            ToggleSettingItem(
-                item = SettingItem.Toggle("key", R.string.auto_rescan, R.string.auto_rescan_summary),
-                checked = true,
-                onCheckedChange = {}
-            )
-            SettingHeader(title = "Advanced")
-            Spacer(modifier = Modifier.size(16.dp))
-            ActionSettingItem(
-                item = SettingItem.Action("key", R.string.directories, R.string.directories_summary),
-                onClick = {}
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            OptionsSettingItem(
-                item = SettingItem.Options(
-                    "key", 
-                    R.string.hardware_acceleration, 
-                    entries = listOf("Automatic", "Disabled"), 
-                    entryValues = listOf("-1", "0")
-                ),
-                currentValue = "-1",
-                onClick = {}
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            InputSettingItem(
-                item = SettingItem.Input("key", R.string.custom_libvlc_options),
-                currentValue = "",
-                onClick = {}
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            SliderSettingItem(
-                item = SettingItem.Slider(
-                    "key",
-                    R.string.subtitles_opacity,
-                    valueDisplay = SliderValueDisplay.PERCENT
-                ),
-                currentValue = 128,
-                onClick = {}
-            )
-        }
-    }
-}
-
-@Preview(device = "id:tv_1080p")
-@Composable
-private fun SelectionDialogPreview() {
-    VlcTVSettingsTheme {
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
-            SelectionDialog(
-                item = SettingItem.Options(
-                    "key",
-                    R.string.hardware_acceleration,
-                    entries = listOf("Automatic", "Disabled", "Decoding only", "Full acceleration"),
-                    entryValues = listOf("-1", "0", "1", "2")
-                ),
-                currentValue = "-1",
-                onDismiss = {},
-                onValueSelected = {}
-            )
-        }
-    }
-}
-
-@Preview(device = "id:tv_1080p")
-@Composable
-private fun SliderDialogPreview() {
-    VlcTVSettingsTheme {
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
-            SliderDialog(
-                item = SettingItem.Slider(
-                    "key",
-                    R.string.subtitles_opacity,
-                    valueDisplay = SliderValueDisplay.PERCENT
-                ),
-                currentValue = 128,
-                onDismiss = {},
-                onValueConfirmed = {}
-            )
-        }
-    }
-}
-
-@Preview(device = "id:tv_1080p")
-@Composable
-private fun DialogButtonsPreview() {
-    VlcTVSettingsTheme {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .padding(48.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                DialogButton(text = "Cancel", onClick = {})
-                DialogButton(text = "OK", onClick = {}, isPrimary = true)
-            }
-            Text("Focused state (simulated):", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                // We can't easily force focus in preview without FocusRequester hacks,
-                // but the colors are defined in the component.
-                DialogButton(text = "Secondary", onClick = {})
-                DialogButton(text = "Primary", onClick = {}, isPrimary = true)
-            }
-        }
-    }
-}
-
-@Preview(device = "id:tv_1080p")
-@Composable
-private fun InputDialogPreview() {
-    VlcTVSettingsTheme {
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
-            InputDialog(
-                item = SettingItem.Input(
-                    "key",
-                    R.string.hardware_acceleration,
-                ),
-                currentValue = "-1",
-                onDismiss = {},
-                onValueConfirmed = {}
-            )
         }
     }
 }

@@ -38,15 +38,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -77,9 +69,12 @@ import javax.inject.Inject
  *
  * This ViewModel serves as the central point for managing the list of available settings categories
  * and items, handling their visibility based on device capabilities and TV-specific rules,
- * and persisting changes to [android.content.SharedPreferences].
+ * and persisting changes to [SharedPreferences].
  *
  * @param application The application context.
+ * @param localizedContext Localized context for strings.
+ * @param settings SharedPreferences instance.
+ * @param actionHandler Handler for complex setting actions.
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -371,7 +366,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
-     * Updates a boolean setting in [android.content.SharedPreferences].
+     * Updates a boolean setting in [SharedPreferences].
      *
      * Triggers [refreshCategories] after the update, as some settings changes
      * may affect the visibility of other settings.
@@ -482,7 +477,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
-     * Updates an integer setting (like sliders) in [android.content.SharedPreferences].
+     * Updates an integer setting (like sliders) in [SharedPreferences].
      */
     override fun updateIntSetting(item: SettingItem.Slider, value: Int) {
         val key = item.getEffectiveKey()
@@ -501,7 +496,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
-     * Updates a string setting in [android.content.SharedPreferences].
+     * Updates a string setting in [SharedPreferences].
      *
      * @param context The context used for activity side effects.
      * @param item The setting item.
