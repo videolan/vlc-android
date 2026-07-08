@@ -552,12 +552,12 @@ object SettingsFactory {
                 title = R.string.remote_access_info
             ),
             SettingItem.Header(R.string.remote_access_content),
-            SettingItem.Options(
+            SettingItem.MultiOptions(
                 key = KEY_REMOTE_ACCESS_ML_CONTENT,
                 title = R.string.remote_access_medialibrary_content,
                 entries = context.resources.getStringArray(R.array.remote_access_content_entries).toList(),
                 entryValues = context.resources.getStringArray(R.array.remote_access_content_values).toList(),
-                defaultValue = "",
+                defaultValues = context.resources.getStringArray(R.array.remote_access_content_values).toSet(),
                 dependencyKey = KEY_ENABLE_REMOTE_ACCESS
             ),
             SettingItem.Toggle(

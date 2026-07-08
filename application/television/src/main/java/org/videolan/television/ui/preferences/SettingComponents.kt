@@ -55,6 +55,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -64,6 +66,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -232,7 +235,6 @@ fun ActionSettingItem(
 fun OptionsSettingItem(
     item: SettingItem.Options,
     currentValue: String?,
-    summary: String? = null,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true
@@ -244,7 +246,32 @@ fun OptionsSettingItem(
 
     BaseSettingItem(
         title = stringResource(id = item.title),
-        summary = summary ?: displayValue,
+        summary = displayValue,
+        icon = item.icon,
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun MultiOptionsSettingItem(
+    item: SettingItem.MultiOptions,
+    currentValues: Set<String>,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
+    val displayValue = remember(currentValues, item.entries, item.entryValues) {
+        val selectedEntries = item.entryValues.mapIndexedNotNull { index, value ->
+            if (currentValues.contains(value)) item.entries[index] else null
+        }
+        if (selectedEntries.isEmpty()) "-" else selectedEntries.joinToString(", ")
+    }
+
+    BaseSettingItem(
+        title = stringResource(id = item.title),
+        summary = displayValue,
         icon = item.icon,
         enabled = enabled,
         onClick = onClick,
@@ -485,7 +512,7 @@ fun SelectionDialog(
                 val listState = rememberLazyListState()
                 val selectedIndex = item.entryValues.indexOf(currentValue)
                 val focusRequesters = remember(item.entryValues) { List(item.entries.size) { FocusRequester() } }
-                
+
                 LaunchedEffect(Unit) {
                     if (selectedIndex != -1) {
                         listState.scrollToItem(selectedIndex)
@@ -552,6 +579,96 @@ fun SelectionDialog(
                         text = stringResource(id = R.string.cancel),
                         onClick = onDismiss
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MultiSelectionDialog(
+    item: SettingItem.MultiOptions,
+    currentValues: Set<String>,
+    onDismiss: () -> Unit,
+    onValuesSelected: (Set<String>) -> Unit
+) {
+    var selectedValues by remember { mutableStateOf(currentValues) }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+            modifier = Modifier
+                .width(400.dp)
+                .wrapContentHeight()
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                Text(
+                    text = stringResource(id = item.title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                val listState = rememberLazyListState()
+
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.heightIn(max = 400.dp)
+                ) {
+                    items(item.entries.size) { index ->
+                        val entry = item.entries[index]
+                        val value = item.entryValues[index]
+                        val isChecked = selectedValues.contains(value)
+
+                        Surface(
+                            onClick = {
+                                selectedValues = if (isChecked) {
+                                    selectedValues - value
+                                } else {
+                                    selectedValues + value
+                                }
+                            },
+                            shape = RoundedCornerShape(40.dp),
+                            color = Color.Transparent,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = entry,
+                                    modifier = Modifier.weight(1f),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Checkbox(
+                                    checked = isChecked,
+                                    onCheckedChange = null // Handled by Surface click
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(onClick = onDismiss) {
+                        Text(stringResource(id = R.string.cancel))
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(onClick = {
+                        onValuesSelected(selectedValues)
+                        onDismiss()
+                    }) {
+                        Text(stringResource(id = R.string.ok))
+                    }
                 }
             }
         }
