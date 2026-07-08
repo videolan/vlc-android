@@ -192,7 +192,7 @@ sealed class SettingItem(
      * @param key The unique identifier for this setting.
      * @param title The string resource ID for the setting title.
      * @param summary The optional string resource ID for the setting summary.
-     * @param icon The optional drawable resource ID for the setting icon.
+     * @param icon The optional drawable resource ID for the item icon.
      * @param dependencyKey The key of the preference this item depends on.
      * @param disableIfDependencyIsSet Whether to disable if dependency is true.
      * @property defaultColor The default color value as an ARGB integer.

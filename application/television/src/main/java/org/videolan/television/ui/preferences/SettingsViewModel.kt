@@ -67,74 +67,9 @@ import org.videolan.television.di.LocalizedContext
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
 import org.videolan.television.ui.COLOR_PICKER_TITLE
 import org.videolan.television.ui.ColorPickerActivity
-import org.videolan.tools.BROWSER_SHOW_HIDDEN_FILES
-import org.videolan.tools.BitmapCache
-import org.videolan.tools.DAV1D_THREAD_NUMBER
-import org.videolan.tools.HTTP_USER_AGENT
-import org.videolan.tools.KEY_AOUT
-import org.videolan.tools.KEY_APP_THEME
-import org.videolan.tools.KEY_AUDIO_DIGITAL_OUTPUT
-import org.videolan.tools.KEY_AUDIO_LAST_PLAYLIST
-import org.videolan.tools.KEY_AUDIO_PREFERRED_LANGUAGE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_DEFAULT
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_ENABLE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_MODE
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PEAK_PROTECTION
-import org.videolan.tools.KEY_AUDIO_REPLAY_GAIN_PREAMP
-import org.videolan.tools.KEY_CURRENT_AUDIO
-import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_ARTIST
-import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_THUMB
-import org.videolan.tools.KEY_CURRENT_AUDIO_RESUME_TITLE
-import org.videolan.tools.KEY_CURRENT_MEDIA
-import org.videolan.tools.KEY_CURRENT_MEDIA_RESUME
-import org.videolan.tools.KEY_CUSTOM_LIBVLC_OPTIONS
-import org.videolan.tools.KEY_DEBLOCKING
-import org.videolan.tools.KEY_ENABLE_FRAME_SKIP
-import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
-import org.videolan.tools.KEY_ENABLE_VERBOSE_MODE
-import org.videolan.tools.KEY_HARDWARE_ACCELERATION
-import org.videolan.tools.KEY_INCOGNITO
-import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
-import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST_RESUME
-import org.videolan.tools.KEY_MEDIA_SEEN
-import org.videolan.tools.KEY_OPENGL
-import org.videolan.tools.KEY_PREFERRED_RESOLUTION
-import org.videolan.tools.KEY_PREFER_SMBV1
-import org.videolan.tools.KEY_QUICK_PLAY
-import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
-import org.videolan.tools.KEY_SAFE_MODE
-import org.videolan.tools.KEY_SET_LOCALE
-import org.videolan.tools.KEY_SHOW_HEADERS
-import org.videolan.tools.KEY_SUBTITLES_AUTOLOAD
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR
-import org.videolan.tools.KEY_SUBTITLES_BACKGROUND_COLOR_OPACITY
-import org.videolan.tools.KEY_SUBTITLES_BOLD
-import org.videolan.tools.KEY_SUBTITLES_COLOR
-import org.videolan.tools.KEY_SUBTITLES_COLOR_OPACITY
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE_COLOR_OPACITY
-import org.videolan.tools.KEY_SUBTITLES_OUTLINE_SIZE
-import org.videolan.tools.KEY_SUBTITLES_SHADOW
-import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR
-import org.videolan.tools.KEY_SUBTITLES_SHADOW_COLOR_OPACITY
-import org.videolan.tools.KEY_SUBTITLES_SIZE
-import org.videolan.tools.KEY_SUBTITLE_PREFERRED_LANGUAGE
-import org.videolan.tools.KEY_SUBTITLE_TEXT_ENCODING
-import org.videolan.tools.LocaleUtils
+import org.videolan.tools.*
 import org.videolan.tools.LocaleUtils.getLocales
-import org.videolan.tools.PLAYBACK_HISTORY
-import org.videolan.tools.PREF_TV_UI
-import org.videolan.tools.RESULT_RESTART
-import org.videolan.tools.SCREEN_ORIENTATION
-import org.videolan.tools.SHOW_VIDEO_THUMBNAILS
-import org.videolan.tools.SLEEP_TIMER_DEFAULT_INTERVAL
-import org.videolan.tools.SLEEP_TIMER_DEFAULT_RESET_INTERACTION
-import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
-import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
-import org.videolan.tools.TV_FOLDERS_FIRST
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -642,7 +577,7 @@ class SettingsViewModel @Inject constructor(
             "network_caching", DAV1D_THREAD_NUMBER, HTTP_USER_AGENT -> {
                 viewModelScope.launch { restartLibVLC() }
             }
-            "subtitles_presets" -> applySubtitlePreset(value)
+            KEY_ACTION_SUBTITLES_PRESETS -> applySubtitlePreset(value)
             KEY_APP_THEME -> (context as? PreferencesActivity)?.setRestartApp()
             KEY_SET_LOCALE -> {
                 AppContextProvider.setLocale(value)
@@ -854,12 +789,12 @@ class SettingsViewModel @Inject constructor(
                 if (value.isNullOrEmpty()) localizedContext.getString(R.string.no_track_preference)
                 else localizedContext.getString(R.string.track_preference, value)
             }
-            "default_sleep_timer" -> {
+            KEY_ACTION_SLEEP_TIMER -> {
                 val interval = (_settingsValues[SLEEP_TIMER_DEFAULT_INTERVAL] as? Long) ?: settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
                 if (interval == -1L) localizedContext.getString(R.string.disabled)
                 else {
-                    val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
-                    val reset = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
+                    val wait = (_settingsValues[SLEEP_TIMER_DEFAULT_WAIT] as? Boolean) ?: settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
+                    val reset = (_settingsValues[SLEEP_TIMER_DEFAULT_RESET_INTERACTION] as? Boolean) ?: settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
                     localizedContext.getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), wait.toString(), reset.toString())
                 }
             }
@@ -884,14 +819,14 @@ class SettingsViewModel @Inject constructor(
      */
     override fun executeAction(context: Context, item: SettingItem.Action) {
         when (item.key) {
-            "optional_features" -> {
+            KEY_ACTION_OPTIONAL_FEATURES -> {
                 val intent = Intent(context, PreferencesActivity::class.java)
                 intent.putExtra(EXTRA_PREF_END_POINT, R.xml.preferences_optional)
                 context.startActivity(intent)
             }
-            "export_settings" -> {
+            KEY_ACTION_EXPORT_SETTINGS -> {
                 (context as? FragmentActivity)?.let { activity ->
-                    val dst = File(org.videolan.resources.AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + org.videolan.resources.EXPORT_SETTINGS_FILE)
+                    val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + org.videolan.resources.EXPORT_SETTINGS_FILE)
                     viewModelScope.launch {
                         if (activity.getWritePermission(Uri.fromFile(dst))) {
                             val success = withContext(Dispatchers.IO) {
@@ -907,12 +842,12 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
-            "restore_settings" -> {
+            KEY_ACTION_RESTORE_SETTINGS -> {
                 val filePickerIntent = Intent(context, FilePickerActivity::class.java)
                 filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SETTINGS.ordinal)
                 (context as? Activity)?.startActivityForResult(filePickerIntent, 10002)
             }
-            "nightly_install" -> {
+            KEY_ACTION_NIGHTLY_INSTALL -> {
                 android.app.AlertDialog.Builder(context)
                     .setTitle(context.getString(R.string.install_nightly))
                     .setMessage(context.getString(R.string.install_nightly_alert))
@@ -929,7 +864,7 @@ class SettingsViewModel @Inject constructor(
                     .setNegativeButton(R.string.cancel, null)
                     .show()
             }
-            "directories" -> {
+            KEY_ACTION_DIRECTORIES -> {
                 if (Medialibrary.getInstance().isWorking) {
                     Toast.makeText(
                         context,
@@ -943,12 +878,12 @@ class SettingsViewModel @Inject constructor(
                     (context as? Activity)?.setResult(RESULT_RESTART)
                 }
             }
-            "soundfont" -> {
+            KEY_ACTION_SOUNDFONT -> {
                 val filePickerIntent = Intent(context, FilePickerActivity::class.java)
                 filePickerIntent.putExtra(KEY_PICKER_TYPE, PickerType.SOUNDFONT.ordinal)
                 (context as? Activity)?.startActivityForResult(filePickerIntent, 10000)
             }
-            "default_sleep_timer" -> {
+            KEY_ACTION_SLEEP_TIMER -> {
                 (context as? FragmentActivity)?.let {
                     val dialog = SleepTimerDialog.newInstance(true)
                     dialog.onDismissListener = DialogInterface.OnDismissListener { 
@@ -961,10 +896,10 @@ class SettingsViewModel @Inject constructor(
                     dialog.show(it.supportFragmentManager, "time")
                 }
             }
-            "debug_logs" -> {
+            KEY_ACTION_DEBUG_LOGS -> {
                 context.startActivity(Intent(context, DebugLogActivity::class.java))
             }
-            "clear_history" -> {
+            KEY_ACTION_CLEAR_HISTORY -> {
                 (context as? FragmentActivity)?.let { activity ->
                     val dialog = ConfirmDeleteDialog.newInstance(
                         title = context.getString(R.string.clear_playback_history),
@@ -988,7 +923,7 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
-            "clear_media_db" -> {
+            KEY_ACTION_CLEAR_MEDIA_DB -> {
                 (context as? FragmentActivity)?.let { activity ->
                     val medialibrary = Medialibrary.getInstance()
                     if (medialibrary.isWorking) {
@@ -1025,7 +960,7 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
-            "dump_media_db" -> {
+            KEY_ACTION_DUMP_MEDIA_DB -> {
                 (context as? FragmentActivity)?.let { activity ->
                     if (Medialibrary.getInstance().isWorking) {
                         Toast.makeText(context, R.string.settings_ml_block_scan, Toast.LENGTH_LONG).show()
@@ -1043,7 +978,7 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
-            "dump_app_db" -> {
+            KEY_ACTION_DUMP_APP_DB -> {
                 (context as? FragmentActivity)?.let { activity ->
                     val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + ROOM_DATABASE)
                     viewModelScope.launch {
@@ -1058,7 +993,7 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
-            "clear_app_data" -> {
+            KEY_ACTION_CLEAR_APP_DATA -> {
                 (context as? FragmentActivity)?.let { activity ->
                     val dialog = ConfirmDeleteDialog.newInstance(
                         title = context.getString(R.string.clear_app_data),
@@ -1071,20 +1006,20 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
-            "quit_app" -> {
+            KEY_ACTION_QUIT_APP -> {
                 android.os.Process.killProcess(android.os.Process.myPid())
             }
-            "modify_pin_code" -> {
+            KEY_ACTION_MODIFY_PIN_CODE -> {
                 val intent = org.videolan.vlc.gui.PinCodeActivity.getIntent(context, org.videolan.vlc.gui.PinCodeReason.MODIFY)
                 (context as? Activity)?.startActivityForResult(intent, 0)
             }
-            "remote_access_status" -> {
+            KEY_ACTION_REMOTE_ACCESS_STATUS -> {
                 context.startActivity(Intent(context, StartActivity::class.java).apply { action = "vlc.remoteaccess.share" })
             }
-            "remote_access_info" -> {
+            KEY_ACTION_REMOTE_ACCESS_INFO -> {
                 context.startActivity(Intent(Intent.ACTION_VIEW).apply { setClassName(context, REMOTE_ACCESS_ONBOARDING) })
             }
-            "permissions" -> {
+            KEY_ACTION_PERMISSIONS -> {
                 (context as? FragmentActivity)?.let {
                     PermissionListDialog.newInstance().show(it.supportFragmentManager, "PermissionListDialog")
                 }
