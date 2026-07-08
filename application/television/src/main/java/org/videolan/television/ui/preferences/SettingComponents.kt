@@ -325,7 +325,7 @@ fun CategoryItem(
             .focusRequester(focusRequester)
             .onFocusChanged { 
                 hasFocus = it.hasFocus 
-                if (it.hasFocus) {
+                if (it.hasFocus && !isSelected) {
                     onSelected()
                 }
             }
