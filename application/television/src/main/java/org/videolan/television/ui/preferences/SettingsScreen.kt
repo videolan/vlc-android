@@ -270,10 +270,11 @@ fun SettingsDetail(
 
     // Handle scrolling to the target item when navigation happens
     LaunchedEffect(category?.title, pendingFocusKey) {
-        if (category != null) {
+        val currentCategory = category
+        if (currentCategory != null) {
             val target = pendingFocusKey
             if (target != null) {
-                val index = category!!.items.indexOfFirst { it.key == target }
+                val index = currentCategory.items.indexOfFirst { it.key == target }
                 if (index != -1) {
                     listState.scrollToItem(index)
                     
@@ -289,6 +290,8 @@ fun SettingsDetail(
             // Only reset to top if we are NOT in navigation mode and NOT focused
             if (pendingFocusKey == null && !detailPaneHasFocus) {
                 listState.scrollToItem(0)
+                // Reset the memory for this category since we are resetting its scroll to the top
+                lastFocusedItemPerCategory.remove(currentCategory.title)
             }
         }
     }
@@ -305,14 +308,15 @@ fun SettingsDetail(
             }
             .focusable()
     ) {
-        if (category != null) {
-            val categoryId = category!!.title
-            val firstFocusableKey = remember(category) { 
-                category!!.items.firstOrNull { it !is SettingItem.Header }?.key 
+        val currentCategory = category
+        if (currentCategory != null) {
+            val categoryId = currentCategory.title
+            val firstFocusableKey = remember(currentCategory) { 
+                currentCategory.items.firstOrNull { it !is SettingItem.Header }?.key 
             }
 
             Text(
-                text = stringResource(id = category!!.title),
+                text = stringResource(id = currentCategory.title),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
@@ -320,7 +324,7 @@ fun SettingsDetail(
                 modifier = Modifier.padding(top = dimensionResource(id = org.videolan.resources.R.dimen.tv_overscan_vertical))
             )
             Spacer(modifier = Modifier.height(24.dp))
-            if (category!!.title == R.string.search) {
+            if (currentCategory.title == R.string.search) {
                 val searchFocusRequester = remember { FocusRequester() }
                 SearchPane(
                     query = searchQuery,
@@ -341,7 +345,7 @@ fun SettingsDetail(
                 }
             } else {
                 LazyColumn(state = listState) {
-                    items(category!!.items, key = { it.key }) { item ->
+                    items(currentCategory.items, key = { it.key }) { item ->
                         val isEnabled = provider.isEnabled(item)
                         val isHeader = item is SettingItem.Header
                         val itemFocusRequester = remember { FocusRequester() }
@@ -469,7 +473,7 @@ fun SettingsDetail(
 
                         // When the detail pane receives focus (e.g. via DPAD RIGHT from sidebar),
                         // redirect it to the last focused item in this category.
-                        LaunchedEffect(detailPaneHasFocus, category, pendingFocusKey) {
+                        LaunchedEffect(detailPaneHasFocus, category?.title, pendingFocusKey) {
                             if (detailPaneHasFocus && !isHeader && isEnabled) {
                                 val targetKey = pendingFocusKey
                                 val lastKey = lastFocusedItemPerCategory[categoryId]
