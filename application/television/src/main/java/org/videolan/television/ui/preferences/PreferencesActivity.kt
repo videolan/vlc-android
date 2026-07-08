@@ -102,9 +102,9 @@ class PreferencesActivity : BaseTvActivity() {
                         try {
                             PreferenceParser.restoreSettings(this@PreferencesActivity, mrl.toUri())
                             VLCInstance.restart()
-                            org.videolan.vlc.gui.helpers.UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
+                            UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
                         } catch (e: Exception) {
-                            org.videolan.vlc.gui.helpers.UiTools.snacker(this@PreferencesActivity, getString(R.string.invalid_settings_file))
+                            UiTools.snacker(this@PreferencesActivity, getString(R.string.invalid_settings_file))
                         }
                     }
                 }
@@ -114,7 +114,7 @@ class PreferencesActivity : BaseTvActivity() {
                     lifecycleScope.launch {
                         MediaUtils.useAsSoundFont(this@PreferencesActivity, mrl.toUri())
                         VLCInstance.restart()
-                        org.videolan.vlc.gui.helpers.UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
+                        UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
                     }
                 }
             }

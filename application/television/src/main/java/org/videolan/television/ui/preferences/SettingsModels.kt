@@ -27,6 +27,8 @@ package org.videolan.television.ui.preferences
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
+const val RESTART_CODE = 10001
+
 /**
  * Represents the way a slider value is displayed to the user.
  */
