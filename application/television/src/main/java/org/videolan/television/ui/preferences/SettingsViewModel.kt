@@ -460,7 +460,7 @@ class SettingsViewModel @Inject constructor(
             KEY_SAFE_MODE -> {
                 settings.edit { putBoolean(key, value) }
                 _settingsValues[key] = value
-                Settings.safeMode = value && context.isPinCodeSet()
+                Settings.safeMode = value && getApplication<Application>().isPinCodeSet()
             }
             KEY_MEDIA_SEEN -> {
                 settings.edit { putBoolean(key, value) }
@@ -810,10 +810,10 @@ class SettingsViewModel @Inject constructor(
             putExtra(COLOR_PICKER_TITLE, context.getString(item.title))
         }
         val requestCode = when (item.key) {
-            KEY_SUBTITLES_COLOR -> 1
-            KEY_SUBTITLES_SHADOW_COLOR -> 3
-            KEY_SUBTITLES_OUTLINE_COLOR -> 4
-            KEY_SUBTITLES_BACKGROUND_COLOR -> 2
+            KEY_SUBTITLES_COLOR -> REQUEST_CODE_COLOR_SUBTITLES
+            KEY_SUBTITLES_SHADOW_COLOR -> REQUEST_CODE_COLOR_SHADOW
+            KEY_SUBTITLES_OUTLINE_COLOR -> REQUEST_CODE_COLOR_OUTLINE
+            KEY_SUBTITLES_BACKGROUND_COLOR -> REQUEST_CODE_COLOR_BACKGROUND
             else -> 0
         }
         (context as? Activity)?.startActivityForResult(intent, requestCode)
