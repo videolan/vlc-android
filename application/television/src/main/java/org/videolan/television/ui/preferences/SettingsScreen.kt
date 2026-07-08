@@ -118,7 +118,6 @@ private fun SettingsScreenContent() {
     LaunchedEffect(pendingFocusKey) {
         if (pendingFocusKey != null) {
             detailFocusRequester.requestFocus()
-            provider.onDetailFocused(context)
         }
     }
 
@@ -275,6 +274,13 @@ fun SettingsDetail(
                 onFocusChanged(detailPaneHasFocus)
             }
     ) {
+        val context = LocalContext.current
+        LaunchedEffect(detailPaneHasFocus) {
+            if (detailPaneHasFocus) {
+                provider.onDetailFocused(context)
+            }
+        }
+
         val currentCategory = category
         if (currentCategory != null) {
             val categoryId = currentCategory.title
@@ -386,7 +392,6 @@ fun SettingsDetail(
                                 OptionsSettingItem(
                                     item = item,
                                     currentValue = currentValue,
-                                    summary = provider.getSummary(item),
                                     onClick = { showDialog = true },
                                     enabled = isEnabled,
                                     modifier = itemModifier
@@ -397,6 +402,25 @@ fun SettingsDetail(
                                         currentValue = currentValue,
                                         onDismiss = { showDialog = false },
                                         onValueSelected = { provider.updateStringSetting(context, item, it) }
+                                    )
+                                }
+                            }
+                            is SettingItem.MultiOptions -> {
+                                var showDialog by remember { mutableStateOf(false) }
+                                val currentValues = provider.getStringSetValue(item)
+                                MultiOptionsSettingItem(
+                                    item = item,
+                                    currentValues = currentValues,
+                                    onClick = { showDialog = true },
+                                    enabled = isEnabled,
+                                    modifier = itemModifier
+                                )
+                                if (showDialog) {
+                                    MultiSelectionDialog(
+                                        item = item,
+                                        currentValues = currentValues,
+                                        onDismiss = { showDialog = false },
+                                        onValuesSelected = { provider.updateStringSetSetting(item, it) }
                                     )
                                 }
                             }
