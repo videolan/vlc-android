@@ -28,10 +28,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
+import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -44,6 +41,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.videolan.tools.LocaleUtils
+import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
 import org.videolan.vlc.gui.preferences.search.PreferenceItem
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import java.util.Locale
@@ -61,7 +59,9 @@ class SettingsViewModelTest {
     private val application: Application = mockk(relaxed = true)
     private val localizedContext: Context = mockk(relaxed = true)
     private val settings: SharedPreferences = mockk(relaxed = true)
+    private val editor: SharedPreferences.Editor = mockk(relaxed = true)
     private val resources: Resources = mockk(relaxed = true)
+    private val actionHandler: SettingsActionHandler = mockk(relaxed = true)
 
     private lateinit var viewModel: SettingsViewModel
 
@@ -76,6 +76,7 @@ class SettingsViewModelTest {
         mockkObject(SettingsFactory)
         mockkObject(PreferenceParser)
         mockkObject(LocaleUtils)
+        mockkObject(PreferenceVisibilityManager)
         
         every { application.resources } returns resources
         every { application.applicationContext } returns application
@@ -89,6 +90,11 @@ class SettingsViewModelTest {
         every { localizedContext.resources } returns resources
         every { localizedContext.getString(any()) } returns "mock_string"
         
+        every { settings.edit() } returns editor
+        every { editor.putBoolean(any(), any()) } returns editor
+        every { editor.putInt(any(), any()) } returns editor
+        every { editor.putString(any(), any()) } returns editor
+        
         // Provide a predictable set of categories for testing
         every { SettingsFactory.createSettings(any()) } returns listOf(
             SettingCategory(org.videolan.vlc.R.string.general, listOf(
@@ -101,8 +107,11 @@ class SettingsViewModelTest {
 
         // Mock PreferenceParser to return an empty list by default
         every { PreferenceParser.parsePreferences(any()) } returns arrayListOf<PreferenceItem>()
+        
+        // Mock visibility manager to show everything by default
+        every { PreferenceVisibilityManager.isPreferenceVisible(any(), any(), any()) } returns true
 
-        viewModel = SettingsViewModel(application, localizedContext, settings)
+        viewModel = SettingsViewModel(application, localizedContext, settings, actionHandler)
     }
 
     /**
@@ -172,5 +181,93 @@ class SettingsViewModelTest {
         
         val selected = viewModel.selectedCategory.value
         assertEquals(org.videolan.vlc.R.string.audio_prefs_category, selected?.title)
+    }
+
+    /**
+     * Verifies that updateBooleanSetting persists the value and triggers reactivity.
+     */
+    @Test
+    fun whenBooleanSettingIsUpdated_itIsPersistedAndReactive() = runTest {
+        val item = SettingItem.Toggle("test_key", 0)
+        
+        viewModel.updateBooleanSetting(application, item, true)
+        
+        // Verify SharedPreferences
+        verify { editor.putBoolean("test_key", true) }
+        verify { editor.apply() }
+        
+        // Verify Reactivity
+        assertTrue(viewModel.getBooleanValue(item))
+    }
+
+    /**
+     * Verifies that updateIntSetting persists the value and triggers reactivity.
+     */
+    @Test
+    fun whenIntSettingIsUpdated_itIsPersistedAndReactive() = runTest {
+        val item = SettingItem.Slider("test_key", 0)
+        
+        viewModel.updateIntSetting(item, 123)
+        
+        // Verify SharedPreferences
+        verify { editor.putInt("test_key", 123) }
+        verify { editor.apply() }
+        
+        // Verify Reactivity
+        assertEquals(123, viewModel.getIntValue(item))
+    }
+
+    /**
+     * Verifies that updateStringSetting persists the value and triggers reactivity.
+     */
+    @Test
+    fun whenStringSettingIsUpdated_itIsPersistedAndReactive() = runTest {
+        val item = SettingItem.Options("test_key", 0)
+        
+        viewModel.updateStringSetting(application, item, "test_value")
+        
+        // Verify SharedPreferences
+        verify { editor.putString("test_key", "test_value") }
+        verify { editor.apply() }
+        
+        // Verify Reactivity
+        assertEquals("test_value", viewModel.getStringValue(item))
+    }
+
+    /**
+     * Verifies that refreshCategories correctly filters out invisible preferences.
+     */
+    @Test
+    fun whenPreferencesAreInvisible_theyAreFilteredOut() = runTest {
+        val visibleItem = SettingItem.Toggle("visible", 0)
+        val invisibleItem = SettingItem.Toggle("invisible", 0)
+        
+        every { PreferenceVisibilityManager.isPreferenceVisible("visible", any(), any()) } returns true
+        every { PreferenceVisibilityManager.isPreferenceVisible("invisible", any(), any()) } returns false
+        
+        viewModel.setCategories(listOf(
+            SettingCategory(org.videolan.vlc.R.string.general, listOf(visibleItem, invisibleItem), 0)
+        ))
+        
+        val categories = viewModel.categories.value
+        assertEquals(1, categories.size)
+        assertEquals(1, categories[0].items.size)
+        assertEquals("visible", categories[0].items[0].key)
+    }
+
+    /**
+     * Verifies that categories with no visible items are filtered out entirely.
+     */
+    @Test
+    fun whenCategoryHasNoVisibleItems_itIsFilteredOut() = runTest {
+        val invisibleItem = SettingItem.Toggle("invisible", 0)
+        every { PreferenceVisibilityManager.isPreferenceVisible("invisible", any(), any()) } returns false
+        
+        viewModel.setCategories(listOf(
+            SettingCategory(org.videolan.vlc.R.string.general, listOf(invisibleItem), 0)
+        ))
+        
+        val categories = viewModel.categories.value
+        assertTrue(categories.isEmpty())
     }
 }
