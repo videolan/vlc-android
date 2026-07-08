@@ -25,6 +25,7 @@
 package org.videolan.television.ui.preferences
 
 import android.content.Context
+import android.graphics.Color
 import org.videolan.tools.*
 import org.videolan.vlc.R
 
@@ -80,7 +81,7 @@ object SettingsFactory {
                 summary = R.string.directories_summary
             ),
             SettingItem.Toggle(
-                key = "auto_rescan",
+                key = KEY_MEDIALIBRARY_AUTO_RESCAN,
                 title = R.string.auto_rescan,
                 summary = R.string.auto_rescan_summary,
                 defaultValue = true
@@ -319,7 +320,7 @@ object SettingsFactory {
             SettingItem.Color(
                 key = KEY_SUBTITLES_COLOR,
                 title = R.string.subtitles_color_title,
-                defaultColor = android.graphics.Color.WHITE
+                defaultColor = Color.WHITE
             ),
             SettingItem.Slider(
                 key = KEY_SUBTITLES_COLOR_OPACITY,
@@ -336,7 +337,7 @@ object SettingsFactory {
             SettingItem.Color(
                 key = KEY_SUBTITLES_BACKGROUND_COLOR,
                 title = R.string.subtitles_background_color_title,
-                defaultColor = android.graphics.Color.BLACK,
+                defaultColor = Color.BLACK,
                 dependencyKey = KEY_SUBTITLES_BACKGROUND
             ),
             SettingItem.Slider(
@@ -355,7 +356,7 @@ object SettingsFactory {
             SettingItem.Color(
                 key = KEY_SUBTITLES_SHADOW_COLOR,
                 title = R.string.subtitles_color,
-                defaultColor = android.graphics.Color.BLACK,
+                defaultColor = Color.BLACK,
                 dependencyKey = KEY_SUBTITLES_SHADOW
             ),
             SettingItem.Slider(
@@ -382,7 +383,7 @@ object SettingsFactory {
             SettingItem.Color(
                 key = KEY_SUBTITLES_OUTLINE_COLOR,
                 title = R.string.subtitles_color,
-                defaultColor = android.graphics.Color.BLACK,
+                defaultColor = Color.BLACK,
                 dependencyKey = KEY_SUBTITLES_OUTLINE
             ),
             SettingItem.Slider(
