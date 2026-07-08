@@ -74,7 +74,6 @@ interface SettingsProvider {
     fun selectCategory(category: SettingCategory)
     fun setSearchQuery(query: String)
     fun init(extraEndPoint: Any?)
-    fun clearTargetSetting()
     fun onDetailFocused(context: Context)
     fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean)
     fun updateIntSetting(item: SettingItem.Slider, value: Int)
@@ -117,7 +116,6 @@ class MockSettingsProvider(
     override fun selectCategory(category: SettingCategory) { _selectedCategory.value = category }
     override fun setSearchQuery(query: String) {}
     override fun init(extraEndPoint: Any?) {}
-    override fun clearTargetSetting() {}
     override fun onDetailFocused(context: Context) {}
     override fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {}
     override fun updateIntSetting(item: SettingItem.Slider, value: Int) {}
