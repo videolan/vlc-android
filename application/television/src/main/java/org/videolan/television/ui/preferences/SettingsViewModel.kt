@@ -133,6 +133,12 @@ class SettingsViewModel @Inject constructor(
     override val pendingFocusKey: StateFlow<String?> = _pendingFocusKey.asStateFlow()
 
     /**
+     * Map of preference keys to their default boolean values.
+     * Used to resolve dependencies when the value is not yet in SharedPreferences.
+     */
+    private val defaultBooleanValues = mutableMapOf<String, Boolean>()
+
+    /**
      * Cache for all searchable settings items.
      */
     private var allPreferenceItems: List<PreferenceItem> = emptyList()
@@ -335,6 +341,17 @@ class SettingsViewModel @Inject constructor(
      */
     fun setCategories(categories: List<SettingCategory>) {
         _allCategories.value = categories
+        
+        // Build the default values map for boolean dependencies
+        defaultBooleanValues.clear()
+        categories.forEach { category ->
+            category.items.forEach { item ->
+                if (item is SettingItem.Toggle) {
+                    defaultBooleanValues[item.getEffectiveKey()] = item.defaultValue
+                }
+            }
+        }
+
         refreshCategories()
     }
 
@@ -678,7 +695,8 @@ class SettingsViewModel @Inject constructor(
      * @return The current boolean value.
      */
     fun getBooleanValue(key: String): Boolean {
-        return (_settingsValues[key] as? Boolean) ?: settings.getBoolean(key, false)
+        val defaultValue = defaultBooleanValues[key] ?: false
+        return (_settingsValues[key] as? Boolean) ?: settings.getBoolean(key, defaultValue)
     }
 
     /**
