@@ -115,18 +115,18 @@ private fun SettingsScreenContent() {
     val context = LocalContext.current
     val pendingFocusKey by provider.pendingFocusKey.collectAsState()
 
-    val sidebarFocusRequester = remember { FocusRequester() }
     val detailFocusRequester = remember { FocusRequester() }
+    val selectedCategoryFocusRequester = remember { FocusRequester() }
     var isDetailFocused by remember { mutableStateOf(false) }
 
     // Request initial focus on the sidebar
     LaunchedEffect(Unit) {
-        sidebarFocusRequester.requestFocus()
+        selectedCategoryFocusRequester.requestFocus()
     }
 
     // Intercept Back button when focus is in the detail pane
     BackHandler(enabled = isDetailFocused) {
-        sidebarFocusRequester.requestFocus()
+        selectedCategoryFocusRequester.requestFocus()
     }
     
     // Focus Trap: Forcefully keep focus in the detail pane during navigation
@@ -145,7 +145,7 @@ private fun SettingsScreenContent() {
         // Sidebar (Left Pane)
         SettingsSidebar(
             onCategoryAction = { detailFocusRequester.requestFocus() },
-            focusRequester = sidebarFocusRequester,
+            selectedCategoryFocusRequester = selectedCategoryFocusRequester,
             detailFocusRequester = detailFocusRequester,
             modifier = Modifier
                 .width(320.dp)
@@ -160,6 +160,7 @@ private fun SettingsScreenContent() {
         SettingsDetail(
             onFocusChanged = { isDetailFocused = it },
             focusRequester = detailFocusRequester,
+            sidebarRecallFocusRequester = selectedCategoryFocusRequester,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
@@ -177,7 +178,7 @@ private fun SettingsScreenContent() {
 fun SettingsSidebar(
     onCategoryAction: () -> Unit = {},
     modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = remember { FocusRequester() },
+    selectedCategoryFocusRequester: FocusRequester = remember { FocusRequester() },
     detailFocusRequester: FocusRequester? = null
 ) {
     val provider = LocalSettingsProvider.current
@@ -200,13 +201,10 @@ fun SettingsSidebar(
 
     Column(
         modifier = modifier
-            .focusRequester(focusRequester)
             .onFocusChanged { state ->
                 sidebarPaneHasFocus = state.hasFocus
-                // If sidebar gains focus during a navigation event, 
-                // bounce it back to the detail pane.
-                if (state.hasFocus && pendingFocusKey != null) {
-                    onCategoryAction()
+                if (state.hasFocus) {
+                    selectedCategoryFocusRequester.requestFocus()
                 }
             }
     ) {
@@ -233,7 +231,7 @@ fun SettingsSidebar(
                         }
                     },
                     onAction = onCategoryAction,
-                    focusRequester = itemFocusRequester,
+                    focusRequester = if (isSelected) selectedCategoryFocusRequester else itemFocusRequester,
                     modifier = Modifier.focusProperties { 
                         detailFocusRequester?.let { right = it }
                     }
@@ -243,7 +241,7 @@ fun SettingsSidebar(
                 // redirect that focus to the currently selected item.
                 LaunchedEffect(sidebarPaneHasFocus, isSelected) {
                     if (sidebarPaneHasFocus && isSelected) {
-                        itemFocusRequester.requestFocus()
+                        selectedCategoryFocusRequester.requestFocus()
                     }
                 }
             }
@@ -255,7 +253,8 @@ fun SettingsSidebar(
 fun SettingsDetail(
     modifier: Modifier = Modifier,
     onFocusChanged: (Boolean) -> Unit = {},
-    focusRequester: FocusRequester
+    focusRequester: FocusRequester,
+    sidebarRecallFocusRequester: FocusRequester? = null
 ) {
     val provider = LocalSettingsProvider.current
     val category by provider.selectedCategory.collectAsState()
@@ -297,6 +296,9 @@ fun SettingsDetail(
     Column(
         modifier = modifier
             .focusRequester(focusRequester)
+            .focusProperties {
+                sidebarRecallFocusRequester?.let { left = it }
+            }
             .onFocusChanged { state ->
                 detailPaneHasFocus = state.hasFocus
                 onFocusChanged(detailPaneHasFocus)
@@ -325,7 +327,10 @@ fun SettingsDetail(
                     results = searchResults,
                     onQueryChanged = { provider.setSearchQuery(it) },
                     onResultClick = { provider.init(it) },
-                    focusRequester = searchFocusRequester
+                    focusRequester = searchFocusRequester,
+                    modifier = Modifier.focusProperties { 
+                        sidebarRecallFocusRequester?.let { left = it }
+                    }
                 )
 
                 // Redirect focus to search input when detail pane gains focus
@@ -343,7 +348,7 @@ fun SettingsDetail(
                         
                         var itemHasFocus by remember { mutableStateOf(false) }
 
-                        // Stability effect: Only consume the navigation key once focus is STABLE
+                        // Only consume the navigation key once focused
                         LaunchedEffect(itemHasFocus, pendingFocusKey) {
                             if (itemHasFocus && item.key == pendingFocusKey) {
                                 provider.consumeFocusKey()
@@ -356,6 +361,9 @@ fun SettingsDetail(
                                 if (state.hasFocus) {
                                     lastFocusedItemPerCategory[categoryId] = item.key
                                 }
+                            }
+                            .focusProperties { 
+                                sidebarRecallFocusRequester?.let { left = it }
                             }
                         ) {
 
