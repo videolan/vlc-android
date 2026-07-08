@@ -72,8 +72,6 @@ import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.util.LocaleUtil
 import javax.inject.Inject
 
-const val RESTART_CODE = 10001
-
 /**
  * ViewModel for managing TV settings state and logic.
  *
@@ -201,10 +199,6 @@ class SettingsViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    override fun clearTargetSetting() {
-        // Obsolete but kept for interface compatibility for now
     }
 
     override fun consumeFocusKey() {
