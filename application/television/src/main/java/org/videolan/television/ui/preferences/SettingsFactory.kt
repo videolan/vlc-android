@@ -75,7 +75,7 @@ object SettingsFactory {
         items = listOf(
             SettingItem.Header(R.string.medialibrary),
             SettingItem.Action(
-                key = "directories",
+                key = KEY_ACTION_DIRECTORIES,
                 title = R.string.medialibrary_directories,
                 summary = R.string.directories_summary
             ),
@@ -112,7 +112,7 @@ object SettingsFactory {
             ),
             SettingItem.Header(R.string.permissions),
             SettingItem.Action(
-                key = "permissions",
+                key = KEY_ACTION_PERMISSIONS,
                 title = R.string.permissions,
                 summary = R.string.permissions_summary
             ),
@@ -257,13 +257,13 @@ object SettingsFactory {
             ),
             SettingItem.Header(R.string.advanced_prefs_category),
             SettingItem.Toggle(
-                key = "audio_ducking",
+                key = KEY_ACTION_AUDIO_DUCKING,
                 title = R.string.audio_ducking_title,
                 summary = R.string.audio_ducking_summary,
                 defaultValue = true
             ),
             SettingItem.Action(
-                key = "soundfont",
+                key = KEY_ACTION_SOUNDFONT,
                 title = R.string.soundfont,
                 summary = R.string.soundfont_summary
             )
@@ -278,7 +278,7 @@ object SettingsFactory {
         icon = R.drawable.ic_pref_subtitles,
         items = listOf(
             SettingItem.Options(
-                key = "subtitles_presets",
+                key = KEY_ACTION_SUBTITLES_PRESETS,
                 title = R.string.subtitles_presets_title,
                 entries = context.resources.getStringArray(R.array.subtitles_presets_entries).toList(),
                 entryValues = context.resources.getStringArray(R.array.subtitles_presets_values).toList(),
@@ -439,7 +439,7 @@ object SettingsFactory {
                 defaultValue = true
             ),
             SettingItem.Action(
-                key = "default_sleep_timer",
+                key = KEY_ACTION_SLEEP_TIMER,
                 title = R.string.sleep_title,
                 summary = R.string.default_sleep_timer_summary
             ),
@@ -510,7 +510,7 @@ object SettingsFactory {
         icon = R.drawable.ic_pref_parental_control,
         items = listOf(
             SettingItem.Action(
-                key = "modify_pin_code",
+                key = KEY_ACTION_MODIFY_PIN_CODE,
                 title = R.string.pin_code_reason_modify
             ),
             SettingItem.Toggle(
@@ -542,12 +542,12 @@ object SettingsFactory {
                 defaultValue = false
             ),
             SettingItem.Action(
-                key = "remote_access_status",
+                key = KEY_ACTION_REMOTE_ACCESS_STATUS,
                 title = R.string.remote_access_status,
                 dependencyKey = KEY_ENABLE_REMOTE_ACCESS
             ),
             SettingItem.Action(
-                key = "remote_access_info",
+                key = KEY_ACTION_REMOTE_ACCESS_INFO,
                 title = R.string.remote_access_info
             ),
             SettingItem.Header(R.string.remote_access_content),
@@ -600,7 +600,7 @@ object SettingsFactory {
         icon = R.drawable.ic_pref_advanced_settings,
         items = listOf(
             SettingItem.Action(
-                key = "optional_features",
+                key = KEY_ACTION_OPTIONAL_FEATURES,
                 title = R.string.optional_features,
                 summary = R.string.optional_features_summary
             ),
@@ -624,42 +624,42 @@ object SettingsFactory {
                 defaultValue = ""
             ),
             SettingItem.Action(
-                key = "quit_app",
+                key = KEY_ACTION_QUIT_APP,
                 title = R.string.quit
             ),
             SettingItem.Header(R.string.prefs_app_data),
             SettingItem.Action(
-                key = "dump_media_db",
+                key = KEY_ACTION_DUMP_MEDIA_DB,
                 title = R.string.dump_media_db,
                 summary = R.string.dump_media_db_summary
             ),
             SettingItem.Action(
-                key = "dump_app_db",
+                key = KEY_ACTION_DUMP_APP_DB,
                 title = R.string.dump_app_db,
                 summary = R.string.dump_media_db_summary
             ),
             SettingItem.Action(
-                key = "clear_media_db",
+                key = KEY_ACTION_CLEAR_MEDIA_DB,
                 title = R.string.clear_media_db,
                 summary = R.string.clear_media_db_message
             ),
             SettingItem.Action(
-                key = "clear_app_data",
+                key = KEY_ACTION_CLEAR_APP_DATA,
                 title = R.string.clear_app_data,
                 summary = R.string.clear_app_data_summary
             ),
             SettingItem.Action(
-                key = "clear_history",
+                key = KEY_ACTION_CLEAR_HISTORY,
                 title = R.string.clear_playback_history,
                 summary = R.string.clear_history_message
             ),
             SettingItem.Action(
-                key = "export_settings",
+                key = KEY_ACTION_EXPORT_SETTINGS,
                 title = R.string.export_settings,
                 summary = R.string.export_settings_summary
             ),
             SettingItem.Action(
-                key = "restore_settings",
+                key = KEY_ACTION_RESTORE_SETTINGS,
                 title = R.string.restore_settings,
                 summary = R.string.restore_settings_summary
             ),
@@ -726,11 +726,11 @@ object SettingsFactory {
                 defaultValue = true
             ),
             SettingItem.Action(
-                key = "debug_logs",
+                key = KEY_ACTION_DEBUG_LOGS,
                 title = R.string.debug_logs
             ),
             SettingItem.Action(
-                key = "nightly_install",
+                key = KEY_ACTION_NIGHTLY_INSTALL,
                 title = R.string.install_nightly
             ),
             SettingItem.Toggle(
