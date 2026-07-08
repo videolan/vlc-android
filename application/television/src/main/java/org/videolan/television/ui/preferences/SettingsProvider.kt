@@ -66,6 +66,7 @@ interface SettingsProvider {
     fun getBooleanValue(item: SettingItem.Toggle): Boolean
     fun getIntValue(item: SettingItem.Slider): Int
     fun getStringValue(item: SettingItem): String?
+    fun getStringSetValue(item: SettingItem.MultiOptions): Set<String>
     fun getColorValue(item: SettingItem.Color): Int
     fun getSummary(item: SettingItem): String?
     fun isEnabled(item: SettingItem): Boolean
@@ -78,6 +79,7 @@ interface SettingsProvider {
     fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean)
     fun updateIntSetting(item: SettingItem.Slider, value: Int)
     fun updateStringSetting(context: Context, item: SettingItem, value: String)
+    fun updateStringSetSetting(item: SettingItem.MultiOptions, value: Set<String>)
     fun updateColorSetting(item: SettingItem.Color, value: Int)
     fun updateColorSetting(key: String, value: Int)
     fun executeAction(context: Context, item: SettingItem.Action)
@@ -109,6 +111,7 @@ class MockSettingsProvider(
     override fun getBooleanValue(item: SettingItem.Toggle) = item.defaultValue
     override fun getIntValue(item: SettingItem.Slider) = item.defaultValue
     override fun getStringValue(item: SettingItem) = (item as? SettingItem.Options)?.defaultValue ?: (item as? SettingItem.Input)?.defaultValue
+    override fun getStringSetValue(item: SettingItem.MultiOptions) = item.defaultValues
     override fun getColorValue(item: SettingItem.Color) = item.defaultColor
     override fun getSummary(item: SettingItem) = "Mock Summary"
     override fun isEnabled(item: SettingItem) = true
@@ -120,6 +123,7 @@ class MockSettingsProvider(
     override fun updateBooleanSetting(context: Context, item: SettingItem.Toggle, value: Boolean) {}
     override fun updateIntSetting(item: SettingItem.Slider, value: Int) {}
     override fun updateStringSetting(context: Context, item: SettingItem, value: String) {}
+    override fun updateStringSetSetting(item: SettingItem.MultiOptions, value: Set<String>) {}
     override fun updateColorSetting(item: SettingItem.Color, value: Int) {}
     override fun updateColorSetting(key: String, value: Int) {}
     override fun executeAction(context: Context, item: SettingItem.Action) {}

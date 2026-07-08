@@ -56,6 +56,8 @@ import org.videolan.tools.LocaleUtils.getLocales
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.PinCodeActivity
+import org.videolan.vlc.gui.PinCodeReason
 import org.videolan.vlc.gui.dialogs.FeatureTouchOnlyWarningDialog
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager
@@ -352,15 +354,23 @@ class SettingsViewModel @Inject constructor(
     override fun onDetailFocused(context: Context) {
         val category = _selectedCategory.value ?: return
         
-        // Show remote access onboarding if needed
-        if (category.title == R.string.remote_access) {
-            if (!settings.getBoolean(REMOTE_ACCESS_ONBOARDING, false)) {
-                settings.edit { putBoolean(REMOTE_ACCESS_ONBOARDING, true) }
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    setClassName(context, REMOTE_ACCESS_ONBOARDING)
-                    if (context !is Activity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        when (category.title) {
+            R.string.remote_access -> {
+                if (!settings.getBoolean(REMOTE_ACCESS_ONBOARDING, false)) {
+                    settings.edit { putBoolean(REMOTE_ACCESS_ONBOARDING, true) }
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        setClassName(context, REMOTE_ACCESS_ONBOARDING)
+                        if (context !is Activity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(intent)
                 }
-                context.startActivity(intent)
+            }
+            R.string.parental_control -> {
+                if (!context.isPinCodeSet()) {
+                    val intent = PinCodeActivity.getIntent(context, PinCodeReason.FIRST_CREATION)
+                    if (context !is Activity) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                }
             }
         }
     }
@@ -492,6 +502,19 @@ class SettingsViewModel @Inject constructor(
             }
         }
 
+        refreshCategories()
+    }
+
+    /**
+     * Updates a set of string settings in [SharedPreferences].
+     *
+     * @param item The multi-options setting item.
+     * @param value The new set of string values.
+     */
+    override fun updateStringSetSetting(item: SettingItem.MultiOptions, value: Set<String>) {
+        val key = item.getEffectiveKey()
+        settings.edit { putStringSet(key, value) }
+        _settingsValues[key] = value
         refreshCategories()
     }
 
@@ -682,6 +705,18 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
+     * Retrieves the current set of string values for a multi-options item.
+     *
+     * @param item The multi-options setting item.
+     * @return The current set of string values.
+     */
+    override fun getStringSetValue(item: SettingItem.MultiOptions): Set<String> {
+        val key = item.getEffectiveKey()
+        @Suppress("UNCHECKED_CAST")
+        return (_settingsValues[key] as? Set<String>) ?: settings.getStringSet(key, item.defaultValues) ?: emptySet()
+    }
+
+    /**
      * Retrieves the current boolean value for a specific toggle item.
      *
      * @param item The toggle setting item.
@@ -761,15 +796,23 @@ class SettingsViewModel @Inject constructor(
                     localizedContext.getString(R.string.default_sleep_timer_summary, Tools.millisToString(interval), wait.toString(), reset.toString())
                 }
             }
-            else -> if (item is SettingItem.Slider) {
-                val value = getIntValue(item)
-                if (item.valueDisplay == SliderValueDisplay.PERCENT) {
-                    "${(value * 100 / item.max)}%"
-                } else {
-                    value.toString()
+            else -> when (item) {
+                is SettingItem.Slider -> {
+                    val value = getIntValue(item)
+                    if (item.valueDisplay == SliderValueDisplay.PERCENT) {
+                        "${(value * 100 / item.max)}%"
+                    } else {
+                        value.toString()
+                    }
                 }
-            } else {
-                item.summary?.let { localizedContext.getString(it) }
+                is SettingItem.MultiOptions -> {
+                    val values = getStringSetValue(item)
+                    val selectedEntries = item.entryValues.mapIndexedNotNull { index, value ->
+                        if (values.contains(value)) item.entries[index] else null
+                    }
+                    if (selectedEntries.isEmpty()) "-" else selectedEntries.joinToString(", ")
+                }
+                else -> item.summary?.let { localizedContext.getString(it) }
             }
         }
     }

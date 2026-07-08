@@ -49,7 +49,7 @@ enum class SliderValueDisplay {
  * Represents the data type of a setting value in storage.
  */
 enum class SettingType {
-    STRING, INT, BOOLEAN, LONG, COLOR
+    STRING, INT, BOOLEAN, LONG, COLOR, SET_STRING
 }
 
 /**
@@ -171,6 +171,33 @@ sealed class SettingItem(
         val entryValues: List<String> = emptyList(),
         val defaultValue: String? = null
     ) : SettingItem(key, title, summary, icon, type, storageKey, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
+
+    /**
+     * A setting with multiple selectable options, similar to [androidx.preference.MultiSelectListPreference].
+     *
+     * @param key The unique identifier for this setting.
+     * @param title The string resource ID for the setting title.
+     * @param summary The optional string resource ID for the setting summary.
+     * @param icon The optional drawable resource ID for the setting icon.
+     * @param storageKey The actual key used in SharedPreferences if it differs from [key].
+     * @param dependencyKey The key of the preference this item depends on.
+     * @param disableIfDependencyIsSet Whether to disable if dependency is true.
+     * @property entries The list of human-readable option titles.
+     * @property entryValues The list of machine-readable option values.
+     * @property defaultValues The default set of machine-readable values.
+     */
+    class MultiOptions(
+        key: String,
+        @StringRes title: Int,
+        @StringRes summary: Int? = null,
+        @DrawableRes icon: Int? = null,
+        storageKey: String? = null,
+        dependencyKey: String? = null,
+        disableIfDependencyIsSet: Boolean = false,
+        val entries: List<String> = emptyList(),
+        val entryValues: List<String> = emptyList(),
+        val defaultValues: Set<String> = emptySet()
+    ) : SettingItem(key, title, summary, icon, SettingType.SET_STRING, storageKey, dependencyKey = dependencyKey, disableIfDependencyIsSet = disableIfDependencyIsSet)
 
     /**
      * A text input setting, similar to [androidx.preference.EditTextPreference].
