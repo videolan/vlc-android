@@ -135,7 +135,6 @@ import org.videolan.tools.SLEEP_TIMER_DEFAULT_WAIT
 import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.TV_FOLDERS_FIRST
-import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -334,9 +333,10 @@ class SettingsViewModel @Inject constructor(
         )
 
         return categories.map { category ->
-            category.copy(items = category.items.map { item ->
-                when {
-                    item is SettingItem.Options && item.key == KEY_AUDIO_PREFERRED_LANGUAGE -> {
+            category.copy(
+                items = category.items.map { item ->
+                    when {
+                        item is SettingItem.Options && item.key == KEY_AUDIO_PREFERRED_LANGUAGE -> {
                         SettingItem.Options(
                             key = item.key,
                             title = item.title,
@@ -412,7 +412,7 @@ class SettingsViewModel @Inject constructor(
         }.filter { category ->
             // Category is visible only if it has at least one actual setting (non-header)
             // Or if it is the Search category (which has no items in the list)
-            category.title == R.string.search || category.items.any { it !is SettingItem.Header }
+            (category.title == R.string.search) || category.items.any { it !is SettingItem.Header }
         }
         
         _categories.value = filtered
@@ -805,7 +805,7 @@ class SettingsViewModel @Inject constructor(
     override fun getStringValue(item: SettingItem): String? {
         val key = item.getEffectiveKey()
         val reactiveValue = _settingsValues[key]
-        if (reactiveValue != null) return reactiveValue.toString()
+        reactiveValue?.let { return it.toString() }
 
         val defaultValue = when (item) {
             is SettingItem.Options -> item.defaultValue
@@ -841,7 +841,7 @@ class SettingsViewModel @Inject constructor(
     override fun getSummary(item: SettingItem): String? {
         return when (item.key) {
             KEY_AUDIO_DIGITAL_OUTPUT -> {
-                val pt = if (item is SettingItem.Toggle) getBooleanValue(item) else false
+                val pt = if (item is SettingItem.Toggle) getBooleanValue(item) else getBooleanValue(KEY_AUDIO_DIGITAL_OUTPUT)
                 localizedContext.getString(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
             }
             KEY_AUDIO_PREFERRED_LANGUAGE -> {
@@ -855,7 +855,7 @@ class SettingsViewModel @Inject constructor(
                 else localizedContext.getString(R.string.track_preference, value)
             }
             "default_sleep_timer" -> {
-                val interval = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
+                val interval = (_settingsValues[SLEEP_TIMER_DEFAULT_INTERVAL] as? Long) ?: settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
                 if (interval == -1L) localizedContext.getString(R.string.disabled)
                 else {
                     val wait = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
@@ -951,7 +951,13 @@ class SettingsViewModel @Inject constructor(
             "default_sleep_timer" -> {
                 (context as? FragmentActivity)?.let {
                     val dialog = SleepTimerDialog.newInstance(true)
-                    dialog.onDismissListener = DialogInterface.OnDismissListener { refreshCategories() }
+                    dialog.onDismissListener = DialogInterface.OnDismissListener { 
+                        // Trigger reactive refresh of sleep timer keys
+                        _settingsValues[SLEEP_TIMER_DEFAULT_INTERVAL] = settings.getLong(SLEEP_TIMER_DEFAULT_INTERVAL, -1L)
+                        _settingsValues[SLEEP_TIMER_DEFAULT_WAIT] = settings.getBoolean(SLEEP_TIMER_DEFAULT_WAIT, false)
+                        _settingsValues[SLEEP_TIMER_DEFAULT_RESET_INTERACTION] = settings.getBoolean(SLEEP_TIMER_DEFAULT_RESET_INTERACTION, false)
+                        refreshCategories() 
+                    }
                     dialog.show(it.supportFragmentManager, "time")
                 }
             }
