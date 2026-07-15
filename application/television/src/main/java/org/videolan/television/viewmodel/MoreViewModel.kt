@@ -28,6 +28,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,12 +46,14 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.R
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.util.Permissions
+import javax.inject.Inject
 import kotlin.collections.forEach
 import kotlin.collections.isNullOrEmpty
 
 private const val TAG = "VLC/MoreViewModel"
 
-class MoreViewModel(app: Application) : TvMediaViewModel(app) {
+@HiltViewModel
+class MoreViewModel @Inject constructor(app: Application) : TvMediaViewModel(app) {
 
 
     val history: MutableLiveData<List<MediaLibraryItem>> = MutableLiveData()

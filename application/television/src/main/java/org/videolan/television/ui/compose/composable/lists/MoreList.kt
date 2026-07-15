@@ -49,6 +49,7 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -90,7 +91,7 @@ import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 
 @Composable
-fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = viewModel(), mainViewmodel: MainActivityViewModel = viewModel()) {
+fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = hiltViewModel(), mainViewmodel: MainActivityViewModel = hiltViewModel()) {
     val coroutineScope = rememberCoroutineScope()
     val firstItemFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
