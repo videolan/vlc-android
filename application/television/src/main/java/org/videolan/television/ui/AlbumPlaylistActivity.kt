@@ -31,12 +31,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import dagger.hilt.android.AndroidEntryPoint
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.compose.composable.screens.AlbumPlaylistScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 
 
+@AndroidEntryPoint
 class AlbumPlaylistActivity : DefaultTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

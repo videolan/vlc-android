@@ -33,6 +33,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -71,6 +72,7 @@ import org.videolan.vlc.util.isSchemeStreaming
 
 private const val TAG = "VLC/DefaultTvActivity"
 
+@AndroidEntryPoint
 open class DefaultTvActivity : AppCompatActivity(), IDialogManager {
     private val horizontalThrottler = EventThrottler(75L)
     private val verticalThrottler = EventThrottler(100L)
