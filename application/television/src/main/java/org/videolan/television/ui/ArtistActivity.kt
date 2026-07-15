@@ -31,11 +31,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import dagger.hilt.android.AndroidEntryPoint
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.compose.composable.screens.ArtistScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 
+@AndroidEntryPoint
 class ArtistActivity : DefaultTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
