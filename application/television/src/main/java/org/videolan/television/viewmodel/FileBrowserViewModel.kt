@@ -27,13 +27,16 @@ package org.videolan.television.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
+import javax.inject.Inject
 
-class FileBrowserViewModel(app: Application) : AndroidViewModel(app) {
+@HiltViewModel
+class FileBrowserViewModel @Inject constructor(app: Application) : AndroidViewModel(app) {
     private val _currentPathEntry: MutableStateFlow<MediaLibraryItem?> = MutableStateFlow(null)
     val currentPathEntry: StateFlow<MediaLibraryItem?> = _currentPathEntry.asStateFlow()
 
