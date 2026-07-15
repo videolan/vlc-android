@@ -42,10 +42,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.utils.VlcPreview
@@ -57,9 +58,9 @@ import org.videolan.vlc.util.ContextOption
 import org.videolan.vlc.util.MediaListEntry
 
 @Composable
-fun ItemOptions(item: MediaLibraryItem, position: Int, entry: MediaListEntry, onDismiss: () -> Unit, mainActivityViewModel: MainActivityViewModel = viewModel()) {
+fun ItemOptions(item: MediaLibraryItem, position: Int, entry: MediaListEntry, onDismiss: () -> Unit, mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val activity = LocalActivity.current
-    val items = mainActivityViewModel.getFlags(activity!!, entry, item) ?: return
+    val items = mainActivityViewModel?.getFlags(activity!!, entry, item) ?: return
     ItemOptions(
         title = item.title,
         items = items,
