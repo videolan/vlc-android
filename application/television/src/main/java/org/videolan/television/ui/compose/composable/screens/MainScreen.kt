@@ -59,13 +59,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -122,10 +125,35 @@ import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.KEY_MAIN_TAB
 import org.videolan.tools.KEY_VIDEO_TAB
 import org.videolan.tools.Settings
+import org.videolan.vlc.util.FileUtils
 
 @Composable
 fun MainScreen(viewModel: MainActivityViewModel = viewModel()) {
     val snackbarContent by viewModel.snackBarFlow.collectAsState()
+    val newStorageDetected by viewModel.newStorageDetected.collectAsState()
+
+    if (newStorageDetected != null) {
+        val uuid = FileUtils.getFileNameFromPath(newStorageDetected)
+        val deviceName = FileUtils.getStorageTag(uuid) ?: uuid
+        val message = String.format(stringResource(org.videolan.vlc.R.string.ml_external_storage_msg), deviceName)
+
+        AlertDialog(
+                onDismissRequest = { viewModel.declineStorage() },
+                title = { Text(stringResource(org.videolan.vlc.R.string.ml_external_storage_title)) },
+                text = { Text(message) },
+                confirmButton = {
+                    TextButton(onClick = { viewModel.acceptStorage(newStorageDetected!!) }) {
+                        Text(stringResource(R.string.yes))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { viewModel.declineStorage() }) {
+                        Text(stringResource(R.string.no))
+                    }
+                }
+        )
+    }
+
     MainScreenContent(
         tabs = viewModel.tabs,
         videoTabs = viewModel.videoTabs,
