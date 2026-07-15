@@ -43,7 +43,11 @@ import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
+import android.content.Intent
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.ACTION_DISCOVER_DEVICE
+import org.videolan.resources.EXTRA_PATH
+import org.videolan.resources.util.launchForeground
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.BrowserItemCtxFlags
 import org.videolan.tools.retrieveParent
@@ -131,6 +135,9 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         _showTabs.emit(show)
     }
 
+    private val _newStorageDetected = MutableStateFlow<String?>(null)
+    val newStorageDetected = _newStorageDetected.asStateFlow()
+
     private val ctxClickListeners = mutableMapOf<MediaListEntry, (MediaLibraryItem, Int, CtxMenuItem) -> Unit>()
 
     fun addCtxClickListener(mediaListEntry: MediaListEntry, listener: (MediaLibraryItem, Int, CtxMenuItem) -> Unit) {
@@ -166,10 +173,19 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    private var storageJob: Job = viewModelScope.launch {
+        MediaParsingService.newStorages.asFlow().collect { devices ->
+            if (devices.isNullOrEmpty()) return@collect
+            _newStorageDetected.value = devices.first()
+            MediaParsingService.newStorages.value = null
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         progressJob.cancel()
         workingJob.cancel()
+        storageJob.cancel()
     }
 
     fun getTabInfo(key: String): TabInfo? {
@@ -205,6 +221,18 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun showSnackbar(content: SnackbarContent?) = viewModelScope.launch {
         _snackBarFlow.emit(content)
+    }
+
+    fun acceptStorage(path: String) {
+        val context = getApplication<Application>()
+        val intent = Intent(ACTION_DISCOVER_DEVICE, null, context, MediaParsingService::class.java)
+                .putExtra(EXTRA_PATH, path)
+        context.launchForeground(intent)
+        _newStorageDetected.value = null
+    }
+
+    fun declineStorage() {
+        _newStorageDetected.value = null
     }
 
     fun onCtxClick(entry: MediaListEntry, item: MediaLibraryItem, position: Int, it: CtxMenuItem) {
