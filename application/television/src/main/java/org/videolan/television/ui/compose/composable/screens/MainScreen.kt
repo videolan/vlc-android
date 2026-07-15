@@ -60,6 +60,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -96,6 +97,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.videolan.television.R
 import org.videolan.television.ui.MainTvActivity
@@ -119,7 +121,10 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.television.viewmodel.MediaInfoUiState
+import org.videolan.television.viewmodel.MediaInfoViewModel
 import org.videolan.television.viewmodel.SnackbarContent
+import org.videolan.vlc.R as vlcR
 import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.KEY_MAIN_TAB
 import org.videolan.tools.KEY_VIDEO_TAB
@@ -277,11 +282,22 @@ fun Tabs(
 
     val backStack = rememberNavBackStack(initialDestination)
     val currentDestination = backStack.lastOrNull() as? MainDestination
+    val isMediaInfo = currentDestination is MainDestination.MediaInfo
     val hasSubtabs = currentDestination is MainDestination.Audio || currentDestination is MainDestination.Video
+
+    LaunchedEffect(viewModel) {
+        viewModel?.navigationFlow?.collectLatest { destination ->
+            backStack.add(destination)
+        }
+    }
+
+    BackHandler(enabled = isMediaInfo) {
+        backStack.remove(backStack.last())
+    }
 
     val duration = 300
     val animatedPadding by animateDpAsState(
-        if (visible) {
+        if (visible && !isMediaInfo) {
             28.dp
         } else {
             0.dp
@@ -290,7 +306,7 @@ fun Tabs(
         label = "padding"
     )
 
-    BackHandler(enabled = !visible) {
+    BackHandler(enabled = !visible && !isMediaInfo) {
         visible = true
     }
 
@@ -299,156 +315,158 @@ fun Tabs(
             .fillMaxHeight()
             .padding(
                 top = animatedPadding,
-                start = 56.dp,
-                end = 56.dp
+                start = if (isMediaInfo) 0.dp else 56.dp,
+                end = if (isMediaInfo) 0.dp else 56.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AnimatedContent(
-            targetState = visible,
-            transitionSpec = {
-                if (!targetState) {
-                    slideInVertically(tween(duration)) { height -> height } + fadeIn(tween(duration)) togetherWith
-                            slideOutVertically(tween(duration)) { height -> -height } + fadeOut(tween(duration))
-                } else {
-                    slideInVertically(tween(duration)) { height -> -height } + fadeIn(tween(duration)) togetherWith
-                            slideOutVertically(tween(duration)) { height -> 0 } + fadeOut(tween(duration))
-                }.using(
-                    SizeTransform(clip = false)
-                )
-            }, label = "tabs collapsing animation"
-        ) { tabsVisible ->
-            if (tabsVisible) {
-                val forceFocus = (this.transition.isRunning || firstLaunch) && visible && (!hasSubtabs || firstLaunch)
-                firstLaunch = false
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.focusGroup()
-                    ) {
-                        LabeledIconButton(stringResource(R.string.old_ui), vectorImage = Icons.Default.Palette) {
-                            activity?.startActivity(Intent(activity.applicationContext, MainTvActivity::class.java))
-                            activity?.finish()
-                        }
-                        LabeledIconButton(stringResource(R.string.search), vectorImage = Icons.Default.Search) {
-                            activity?.startActivity(Intent(context, SearchActivity::class.java))
-                        }
-                        Spacer(modifier = Modifier.weight(1f))
-                        Box(modifier = Modifier) {
-                            VLCTabRow(
-                                selectedTabIndex = tabs.indexOfFirst { it.first == (backStack.lastOrNull() as? MainDestination)?.titleRes },
-                                onSelected = { index ->
-                                    val destination = when (index) {
-                                        0 -> {
-                                            val videoTabIndex = settings?.getInt(KEY_VIDEO_TAB, 0) ?: 0
-                                            MainDestination.Video(VideoDestination.entries.getOrElse(videoTabIndex) { VideoDestination.Videos })
-                                        }
+        if (!isMediaInfo) {
+            AnimatedContent(
+                targetState = visible,
+                transitionSpec = {
+                    if (!targetState) {
+                        slideInVertically(tween(duration)) { height -> height } + fadeIn(tween(duration)) togetherWith
+                                slideOutVertically(tween(duration)) { height -> -height } + fadeOut(tween(duration))
+                    } else {
+                        slideInVertically(tween(duration)) { height -> -height } + fadeIn(tween(duration)) togetherWith
+                                slideOutVertically(tween(duration)) { height -> 0 } + fadeOut(tween(duration))
+                    }.using(
+                        SizeTransform(clip = false)
+                    )
+                }, label = "tabs collapsing animation"
+            ) { tabsVisible ->
+                if (tabsVisible) {
+                    val forceFocus = (this.transition.isRunning || firstLaunch) && visible && (!hasSubtabs || firstLaunch)
+                    firstLaunch = false
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.focusGroup()
+                        ) {
+                            LabeledIconButton(stringResource(R.string.old_ui), vectorImage = Icons.Default.Palette) {
+                                activity?.startActivity(Intent(activity.applicationContext, MainTvActivity::class.java))
+                                activity?.finish()
+                            }
+                            LabeledIconButton(stringResource(R.string.search), vectorImage = Icons.Default.Search) {
+                                activity?.startActivity(Intent(context, SearchActivity::class.java))
+                            }
+                            Spacer(modifier = Modifier.weight(1f))
+                            Box(modifier = Modifier) {
+                                VLCTabRow(
+                                    selectedTabIndex = tabs.indexOfFirst { it.first == (backStack.lastOrNull() as? MainDestination)?.titleRes },
+                                    onSelected = { index ->
+                                        val destination = when (index) {
+                                            0 -> {
+                                                val videoTabIndex = settings?.getInt(KEY_VIDEO_TAB, 0) ?: 0
+                                                MainDestination.Video(VideoDestination.entries.getOrElse(videoTabIndex) { VideoDestination.Videos })
+                                            }
 
-                                        1 -> {
-                                            val audioTabIndex = settings?.getInt(KEY_AUDIO_TAB, 0) ?: 0
-                                            MainDestination.Audio(AudioDestination.entries.getOrElse(audioTabIndex) { AudioDestination.Artists })
-                                        }
+                                            1 -> {
+                                                val audioTabIndex = settings?.getInt(KEY_AUDIO_TAB, 0) ?: 0
+                                                MainDestination.Audio(AudioDestination.entries.getOrElse(audioTabIndex) { AudioDestination.Artists })
+                                            }
 
-                                        2 -> MainDestination.Browse
-                                        3 -> MainDestination.Playlists
-                                        else -> MainDestination.More
-                                    }
-                                    backStack.clear()
-                                    backStack.add(destination)
-                                    settings?.edit { putInt(KEY_MAIN_TAB, index) }
-                                },
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(50))
-                                    .background(WhiteTransparent10)
-                                    .padding(4.dp),
-                                forceFocus = forceFocus,
-                                indicator = { hasFocus ->
-                                    Box(
-                                        Modifier
-                                            .fillMaxSize()
-                                            .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
-                                    )
-                                },
-                                tabNumber = tabs.size,
-                                key = "main",
-                                mainActivityViewModel = viewModel,
-                                getTab = { index, focused ->
-                                    val tab = tabs[index]
-                                    val animatedColor by animateColorAsState(
-                                        targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.6F),
-                                        label = "color"
-                                    )
-                                    if (tab.first == R.string.search) {
-                                        Icon(
-                                            painter = painterResource(tab.second),
-                                            tint = animatedColor,
-                                            contentDescription = stringResource(id = R.string.reset),
-                                            modifier = Modifier
-                                                .width(24.dp)
-                                                .height(24.dp)
+                                            2 -> MainDestination.Browse
+                                            3 -> MainDestination.Playlists
+                                            else -> MainDestination.More
+                                        }
+                                        backStack.clear()
+                                        backStack.add(destination)
+                                        settings?.edit { putInt(KEY_MAIN_TAB, index) }
+                                    },
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(50))
+                                        .background(WhiteTransparent10)
+                                        .padding(4.dp),
+                                    forceFocus = forceFocus,
+                                    indicator = { hasFocus ->
+                                        Box(
+                                            Modifier
+                                                .fillMaxSize()
+                                                .background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))
                                         )
-                                    } else {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            modifier = Modifier
-                                                .height(24.dp)
-                                        ) {
+                                    },
+                                    tabNumber = tabs.size,
+                                    key = "main",
+                                    mainActivityViewModel = viewModel,
+                                    getTab = { index, focused ->
+                                        val tab = tabs[index]
+                                        val animatedColor by animateColorAsState(
+                                            targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.6F),
+                                            label = "color"
+                                        )
+                                        if (tab.first == R.string.search) {
                                             Icon(
                                                 painter = painterResource(tab.second),
                                                 tint = animatedColor,
                                                 contentDescription = stringResource(id = R.string.reset),
                                                 modifier = Modifier
-                                                    .padding(start = 8.dp)
                                                     .width(24.dp)
                                                     .height(24.dp)
                                             )
-                                            Text(
-                                                text = stringResource(tab.first),
-                                                style = MaterialTheme.typography.labelLarge,
-                                                color = animatedColor,
+                                        } else {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
                                                 modifier = Modifier
-                                                    .padding(horizontal = 8.dp)
-                                                    .align(Alignment.CenterVertically)
-                                            )
+                                                    .height(24.dp)
+                                            ) {
+                                                Icon(
+                                                    painter = painterResource(tab.second),
+                                                    tint = animatedColor,
+                                                    contentDescription = stringResource(id = R.string.reset),
+                                                    modifier = Modifier
+                                                        .padding(start = 8.dp)
+                                                        .width(24.dp)
+                                                        .height(24.dp)
+                                                )
+                                                Text(
+                                                    text = stringResource(tab.first),
+                                                    style = MaterialTheme.typography.labelLarge,
+                                                    color = animatedColor,
+                                                    modifier = Modifier
+                                                        .padding(horizontal = 8.dp)
+                                                        .align(Alignment.CenterVertically)
+                                                )
+                                            }
                                         }
                                     }
-                                }
-                            )
+                                )
 
+                            }
+                            Spacer(modifier = Modifier.weight(1f))
+                            Spacer(modifier = Modifier.width(48.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.icon),
+                                contentDescription = stringResource(id = R.string.app_name),
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                                    .size(48.dp)
+                            )
                         }
-                        Spacer(modifier = Modifier.weight(1f))
-                        Spacer(modifier = Modifier.width(48.dp))
-                        Image(
-                            painter = painterResource(id = R.drawable.icon),
-                            contentDescription = stringResource(id = R.string.app_name),
+                        SubTabs(backStack, videoTabs, audioTabs, forceFocus = (visibleChangedToTrue && !firstLaunch) && hasSubtabs, viewModel = viewModel)
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged { if (it.isFocused) visible = true }
+                            .focusable(true)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_collapse_arrow),
+                            contentDescription = stringResource(id = R.string.reset),
                             modifier = Modifier
-                                .padding(end = 16.dp)
-                                .size(48.dp)
+                                .width(24.dp)
+                                .height(24.dp)
+                                .align(Alignment.Center)
+                                .rotate(180f)
+                                .alpha(0.5f)
                         )
                     }
-                    SubTabs(backStack, videoTabs, audioTabs, forceFocus = (visibleChangedToTrue && !firstLaunch) && hasSubtabs, viewModel = viewModel)
-                }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .onFocusChanged { if (it.isFocused) visible = true }
-                        .focusable(true)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_collapse_arrow),
-                        contentDescription = stringResource(id = R.string.reset),
-                        modifier = Modifier
-                            .width(24.dp)
-                            .height(24.dp)
-                            .align(Alignment.Center)
-                            .rotate(180f)
-                            .alpha(0.5f)
-                    )
                 }
             }
         }
-        VLCContentPanel(backStack) {
+        VLCContentPanel(backStack, isMediaInfo = isMediaInfo) {
             visible = it
         }
     }
@@ -591,7 +609,7 @@ private fun SubTabs(
 }
 
 @Composable
-private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier = Modifier, onVisibleChange: (Boolean) -> Unit) {
+private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier = Modifier, isMediaInfo: Boolean = false, onVisibleChange: (Boolean) -> Unit) {
     if (LocalInspectionMode.current) {
         Box(
             modifier = modifier
@@ -607,7 +625,7 @@ private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier 
     NavDisplay(
         backStack = backStack,
         modifier = modifier
-            .padding(top = 8.dp)
+            .padding(top = if (isMediaInfo) 0.dp else 8.dp)
             .fillMaxSize()
     ) { destination ->
         NavEntry(destination) { destinationKey ->
@@ -627,6 +645,21 @@ private fun TabPanels(destination: MainDestination, onFocusExit: () -> Unit, onF
         is MainDestination.Audio -> AudioListScreen(subDestination = destination.subDestination, onFocusExit = onFocusExit, onFocusEnter = onFocusEnter)
         MainDestination.Browse -> BrowseList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         MainDestination.Playlists -> PlaylistsList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
+        is MainDestination.MediaInfo -> {
+            val viewModel: MediaInfoViewModel = hiltViewModel()
+            LaunchedEffect(destination.id, destination.type) {
+                viewModel.setup(destination.id, destination.type)
+            }
+            val uiState by viewModel.uiState.collectAsState()
+            when (val state = uiState) {
+                MediaInfoUiState.Loading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                MediaInfoUiState.Error -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(stringResource(org.videolan.vlc.R.string.unknown_error)) }
+                is MediaInfoUiState.Success -> {
+                    MediaInfoScreen(item = state.item, fileSize = state.fileSize, tracks = state.tracks)
+                }
+            }
+        }
+
         else -> MoreScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
     }
 }
