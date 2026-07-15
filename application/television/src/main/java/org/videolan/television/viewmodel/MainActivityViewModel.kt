@@ -33,8 +33,11 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -50,6 +53,7 @@ import org.videolan.resources.ACTION_DISCOVER_DEVICE
 import org.videolan.resources.EXTRA_PATH
 import org.videolan.resources.util.launchForeground
 import org.videolan.television.R
+import org.videolan.television.ui.compose.MainDestination
 import org.videolan.television.ui.compose.composable.components.BrowserItemCtxFlags
 import org.videolan.tools.retrieveParent
 import org.videolan.vlc.MediaParsingService
@@ -133,6 +137,13 @@ class MainActivityViewModel @Inject constructor(app: Application) : AndroidViewM
 
     private val _showTabs: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val showTabs: StateFlow<Boolean> = _showTabs.asStateFlow()
+
+    private val _navigationFlow = MutableSharedFlow<MainDestination>(extraBufferCapacity = 1)
+    val navigationFlow: SharedFlow<MainDestination> = _navigationFlow.asSharedFlow()
+
+    fun navigateTo(destination: MainDestination) = viewModelScope.launch {
+        _navigationFlow.emit(destination)
+    }
 
     fun setShowTabs(show: Boolean) = viewModelScope.launch {
         _showTabs.emit(show)
