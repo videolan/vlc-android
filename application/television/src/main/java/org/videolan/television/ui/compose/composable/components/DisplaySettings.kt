@@ -66,12 +66,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.ui.compose.utils.VlcPreview
@@ -90,14 +91,14 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: Boolean = false) {
+fun DisplaySettings(viewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), inGrouping: Boolean = false) {
     val context = LocalContext.current
 
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
     )
-    val current by viewModel.currentMediaListEntry.collectAsState()
+    val current by viewModel?.currentMediaListEntry?.collectAsState() ?: remember { mutableStateOf(null) }
 
     if (current != null) {
         ModalBottomSheet(
@@ -108,7 +109,7 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
                 coroutineScope.launch {
                     sheetState.hide()
                 }
-                viewModel.hideDisplaySettings()
+                viewModel?.hideDisplaySettings()
             },
             dragHandle = null
         ) {
@@ -117,32 +118,32 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
                 inGrouping = inGrouping,
                 onInCardChange = { inCard ->
                     Settings.getInstance(context).putSingle(current!!.inCardsKey, inCard)
-                    viewModel.changeDisplaySettings(current!!)
+                    viewModel?.changeDisplaySettings(current!!)
                 },
                 onShowAllArtistsChange = { showAllArtists ->
                     Settings.getInstance(context).putSingle(KEY_ARTISTS_SHOW_ALL, showAllArtists)
-                    viewModel.changeDisplaySettings(current!!)
+                    viewModel?.changeDisplaySettings(current!!)
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onShowAllArtistsChanged(current!!, showAllArtists)
                     }
                 },
                 onOnlyFavsChange = { onlyFavs ->
                     Settings.getInstance(context).putSingle(current!!.onlyFavsKey, onlyFavs)
-                    viewModel.changeDisplaySettings(current!!)
+                    viewModel?.changeDisplaySettings(current!!)
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onOnlyFavsChanged(current!!, onlyFavs)
                     }
                 },
                 onOnlyMultimediaChange = { onlyMultimedia ->
                     Settings.getInstance(context).putSingle(BROWSER_SHOW_ONLY_MULTIMEDIA, onlyMultimedia)
-                    viewModel.changeDisplaySettings(current!!)
+                    viewModel?.changeDisplaySettings(current!!)
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onOnlyMultimediaChanged(current!!, onlyMultimedia)
                     }
                 },
                 onShowHiddenFilesChange = { showHiddenFiles ->
                     Settings.getInstance(context).putSingle(BROWSER_SHOW_HIDDEN_FILES, showHiddenFiles)
-                    viewModel.changeDisplaySettings(current!!)
+                    viewModel?.changeDisplaySettings(current!!)
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onShowHiddenFilesChanged(current!!, showHiddenFiles)
                     }
@@ -152,9 +153,9 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
                         DisplaySettingsEventManager.onGroupingChanged(newEntry)
                     }
                     Settings.getInstance(context).putSingle(KEY_GROUP_VIDEOS, videoGroupingType.settingsKey)
-                    viewModel.changeDisplaySettings(newEntry)
+                    viewModel?.changeDisplaySettings(newEntry)
                     //hide the display settings as different grouping have different sorts / providers
-                    viewModel.changeCurrentMediaListEntry(null)
+                    viewModel?.changeCurrentMediaListEntry(null)
                 },
                 onSortChange = { sort, desc ->
                     current!!.currentSortDesc = desc
@@ -162,7 +163,7 @@ fun DisplaySettings(viewModel: MainActivityViewModel = viewModel(), inGrouping: 
                     coroutineScope.launch {
                         DisplaySettingsEventManager.onSortChanged(current!!, sort, desc)
                     }
-                    viewModel.changeCurrentMediaListEntry(current)
+                    viewModel?.changeCurrentMediaListEntry(current)
                 }
             )
         }

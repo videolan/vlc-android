@@ -54,6 +54,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
@@ -125,8 +126,8 @@ import kotlin.math.min
 
 @Composable
 fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivityViewModel? = null, fileBrowserViewModel: FileBrowserViewModel? = null) {
-    val mainVM = mainActivityViewModel ?: hiltViewModel()
-    val fileVM = fileBrowserViewModel ?: hiltViewModel()
+    val mainVM = mainActivityViewModel ?: if (LocalInspectionMode.current) viewModel() else hiltViewModel()
+    val fileVM = fileBrowserViewModel ?: if (LocalInspectionMode.current) viewModel() else hiltViewModel()
 
     val context = LocalContext.current
     val root = fileVM.currentPathEntry.collectAsState()

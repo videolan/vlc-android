@@ -66,7 +66,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -92,7 +91,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
@@ -129,9 +127,9 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.util.FileUtils
 
 @Composable
-fun MainScreen(viewModel: MainActivityViewModel = hiltViewModel()) {
-    val snackbarContent by viewModel.snackBarFlow.collectAsState()
-    val newStorageDetected by viewModel.newStorageDetected.collectAsState()
+fun MainScreen(viewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
+    val snackbarContent by viewModel?.snackBarFlow?.collectAsState() ?: remember { mutableStateOf(null) }
+    val newStorageDetected by viewModel?.newStorageDetected?.collectAsState() ?: remember { mutableStateOf(null) }
 
     if (newStorageDetected != null) {
         val uuid = FileUtils.getFileNameFromPath(newStorageDetected)
@@ -139,16 +137,16 @@ fun MainScreen(viewModel: MainActivityViewModel = hiltViewModel()) {
         val message = String.format(stringResource(org.videolan.vlc.R.string.ml_external_storage_msg), deviceName)
 
         AlertDialog(
-                onDismissRequest = { viewModel.declineStorage() },
+                onDismissRequest = { viewModel?.declineStorage() },
                 title = { Text(stringResource(org.videolan.vlc.R.string.ml_external_storage_title)) },
                 text = { Text(message) },
                 confirmButton = {
-                    TextButton(onClick = { viewModel.acceptStorage(newStorageDetected!!) }) {
+                    TextButton(onClick = { viewModel?.acceptStorage(newStorageDetected!!) }) {
                         Text(stringResource(R.string.yes))
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = { viewModel.declineStorage() }) {
+                    TextButton(onClick = { viewModel?.declineStorage() }) {
                         Text(stringResource(R.string.no))
                     }
                 }
@@ -156,11 +154,11 @@ fun MainScreen(viewModel: MainActivityViewModel = hiltViewModel()) {
     }
 
     MainScreenContent(
-        tabs = viewModel.tabs,
-        videoTabs = viewModel.videoTabs,
-        audioTabs = viewModel.audioTabs,
+        tabs = viewModel?.tabs ?: emptyList(),
+        videoTabs = viewModel?.videoTabs ?: emptyList(),
+        audioTabs = viewModel?.audioTabs ?: emptyList(),
         snackbarContent = snackbarContent,
-        onSnackbarDismissed = { viewModel.showSnackbar(null) },
+        onSnackbarDismissed = { viewModel?.showSnackbar(null) },
         viewModel = viewModel
     )
 }
@@ -227,12 +225,12 @@ fun MainContent(
 }
 
 @Composable
-fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel = viewModel()) {
+fun Tabs(modifier: Modifier = Modifier, viewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     Tabs(
         modifier = modifier,
-        tabs = viewModel.tabs,
-        videoTabs = viewModel.videoTabs,
-        audioTabs = viewModel.audioTabs,
+        tabs = viewModel?.tabs ?: emptyList(),
+        videoTabs = viewModel?.videoTabs ?: emptyList(),
+        audioTabs = viewModel?.audioTabs ?: emptyList(),
         viewModel = viewModel
     )
 }

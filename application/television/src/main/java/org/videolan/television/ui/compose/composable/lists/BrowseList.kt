@@ -40,8 +40,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -78,7 +80,7 @@ import java.security.SecureRandom
 import kotlin.math.min
 
 @Composable
-fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityViewModel: MainActivityViewModel = viewModel()) {
+fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val context = LocalContext.current
     val activity = LocalActivity.current
     val coroutineScope = rememberCoroutineScope()
@@ -119,16 +121,16 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
         if (BuildConfig.DEBUG) Log.d("NetworkDebug", "Network found: ${it.title} ${(it as MediaWrapper).uri}")
     }
 
-    mainActivityViewModel.addCtxClickListener(MediaListEntry.BROWSER) { item, position, ctxMenuItem ->
+    mainActivityViewModel?.addCtxClickListener(MediaListEntry.BROWSER) { item, position, ctxMenuItem ->
         val showSnackbar: (String) -> Unit = {
-            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+            mainActivityViewModel?.showSnackbar(SnackbarContent(it))
         }
         when(ctxMenuItem.id) {
             CTX_PLAY -> MediaUtils.openMedia(activity, (item as MediaWrapper))
             CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity!!, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
             CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-            CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+            CTX_INFORMATION -> mainActivityViewModel?.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
             CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
             else -> {}
@@ -155,7 +157,7 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
             TvUtil.openMedia(activity as FragmentActivity, item)
         }
         val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
-            mainActivityViewModel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+            mainActivityViewModel?.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
         }
 
         val favoritesModelDescriptionUpdates = favoritesModel.provider.descriptionUpdate.observeAsState()
