@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.COLOR_PICKER_SELECTED_COLOR
-import org.videolan.television.ui.browser.BaseTvActivity
+import org.videolan.television.ui.DefaultTvActivity
 import org.videolan.television.ui.compose.theme.VlcTVSettingsTheme
 import org.videolan.tools.*
 import org.videolan.vlc.R
@@ -48,7 +48,7 @@ import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.media.MediaUtils
 
 @AndroidEntryPoint
-class PreferencesActivity : BaseTvActivity() {
+class PreferencesActivity : DefaultTvActivity() {
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,8 +113,6 @@ class PreferencesActivity : BaseTvActivity() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
-    override fun refresh() {}
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
