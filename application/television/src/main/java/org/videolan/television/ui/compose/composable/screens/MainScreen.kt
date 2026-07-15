@@ -91,6 +91,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
@@ -128,7 +129,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.util.FileUtils
 
 @Composable
-fun MainScreen(viewModel: MainActivityViewModel = viewModel()) {
+fun MainScreen(viewModel: MainActivityViewModel = hiltViewModel()) {
     val snackbarContent by viewModel.snackBarFlow.collectAsState()
     val newStorageDetected by viewModel.newStorageDetected.collectAsState()
 

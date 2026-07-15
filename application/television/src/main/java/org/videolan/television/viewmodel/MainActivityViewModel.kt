@@ -31,6 +31,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -90,8 +91,10 @@ import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoGroupFlags
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.isSchemeHttpOrHttps
+import javax.inject.Inject
 
-class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(app: Application) : AndroidViewModel(app) {
 
     val tabs = listOf(
 //        Pair(R.string.search, R.drawable.ic_search),
