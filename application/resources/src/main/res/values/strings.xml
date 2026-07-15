@@ -239,11 +239,11 @@
     <string name="remote_keyboard_navigation">Keyboard navigation</string>
 
     <string name="server_add_title">Add a new server to favorites</string>
-    <string name="server_domain_hint">Server address (domain name or IP)</string>
-    <string name="server_share_hint">Network share name (or IP address)</string>
+    <string name="server_domain_hint">Server address (host name or IP address)</string>
+    <string name="server_share_hint">Server address (host name or IP address)</string>
     <string name="server_folder_hint">Folder path (optional)</string>
     <string name="server_username_hint">Username</string>
-    <string name="server_servername_hint">Server name, for convenience</string>
+    <string name="server_servername_hint">Display name (optional)</string>
     <string name="server_port">Port: </string>
     <string name="login">Login</string>
     <string name="password">Password</string>
@@ -256,15 +256,15 @@
     <string name="favorite_removed">Removed from favorites</string>
 
     <string name="streams">Streams</string>
-    <string name="open_mrl_dialog_msg">Enter network address: e.g. http://, mms:// or rtsp://</string>
+    <string name="open_mrl_dialog_msg">Enter a network address, such as http://, mms://, or rtsp://</string>
     <string name="empty" translatable="false"></string>
     <string name="time_0" translatable="false">0:00</string>
     <string name="load_1_period" translatable="false">.</string>
     <string name="load_2_period" translatable="false">..</string>
     <string name="load_3_period" translatable="false">...</string>
 
-    <string name="invalid_location">The location %1$s cannot be played.</string>
-    <string name="missing_location">This media is from a unavailable storage and cannot be played.</string>
+    <string name="invalid_location">The media at %1$s cannot be played.</string>
+    <string name="missing_location">This media is on an unavailable storage device and cannot be played.</string>
 
     <string name="search">Search</string>
 
