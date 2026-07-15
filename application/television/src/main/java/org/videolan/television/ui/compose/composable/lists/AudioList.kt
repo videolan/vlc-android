@@ -32,11 +32,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +45,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
@@ -56,9 +52,11 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -146,9 +144,9 @@ fun AudioListScreen(subDestination: AudioDestination, onFocusExit: () -> Unit, o
 }
 
 @Composable
-fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, onFocusEnter: () -> Unit = {}, mainActivityViewModel: MainActivityViewModel = viewModel()) {
-    val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
-    val invalidateEntry by mainActivityViewModel.invalidateMediaListEntry.collectAsState()
+fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, onFocusEnter: () -> Unit = {}, mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
+    val displaySettingsChange by mainActivityViewModel?.currentDisplaySettingsChange?.collectAsState() ?: remember { mutableStateOf(null) }
+    val invalidateEntry by mainActivityViewModel?.invalidateMediaListEntry?.collectAsState() ?: remember { mutableStateOf(null) }
     val coroutineScope = rememberCoroutineScope()
     InvalidationComposable(displaySettingsChange) { invalidate ->
         val context = LocalContext.current
@@ -190,7 +188,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
         //invalidate if needed
         if (invalidateEntry == entry) {
             provider.pagingSource.invalidate()
-            mainActivityViewModel.invalidationDone()
+            mainActivityViewModel?.invalidationDone()
             invalidate()
         }
 
@@ -211,24 +209,24 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
             when (item) {
                 is Artist -> TvUtil.openAudioCategory(activity, item)
                 is Album -> TvUtil.openAudioCategory(activity, item)
-                is Genre -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                is Genre -> mainActivityViewModel?.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
                 is Playlist -> TvUtil.openAudioCategory(activity, item)
                 else -> {
                     when (DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(settings)) {
                         DefaultPlaybackAction.PLAY -> TvUtil.openMedia(activity as FragmentActivity, item)
                         DefaultPlaybackAction.PLAY_ALL -> MediaUtils.playAll(activity, provider as MedialibraryProvider<MediaWrapper>, position, false)
                         DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, listOf(*item.tracks), showSnackbar = {
-                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                            mainActivityViewModel?.showSnackbar(SnackbarContent(it))
                         })
                         DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, listOf(*item.tracks).toTypedArray(), showSnackbar = {
-                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                            mainActivityViewModel?.showSnackbar(SnackbarContent(it))
                         })
                     }
 
                 }
             }
         }
-        mainActivityViewModel.addCtxClickListener(entry) { item, position, ctxMenuItem ->
+        mainActivityViewModel?.addCtxClickListener(entry) { item, position, ctxMenuItem ->
             val showSnackbar: (String) -> Unit = {
                 mainActivityViewModel.showSnackbar(SnackbarContent(it))
             }
@@ -295,7 +293,9 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         CTX_DELETE -> {
                             ConfirmDeleteDialog.newInstance(arrayListOf(item)).show((activity as FragmentActivity).supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
                         }
-                        else -> { mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))}
+                        else -> {
+                            mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        }
                     }
                 }
                 else -> {
@@ -313,7 +313,9 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         }
                         CTX_SHARE -> coroutineScope.launch { (activity as AppCompatActivity).share((item as MediaWrapper)) }
                         CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParent((item as MediaWrapper))
-                        else -> {}
+                        else -> {
+                            mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        }
                     }
                 }
             }
@@ -383,7 +385,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                             )
                         }
                     }
-                val showTabs by mainActivityViewModel.showTabs.collectAsState()
+                val showTabs by mainActivityViewModel?.showTabs?.collectAsState() ?: remember { mutableStateOf(false) }
                 MediaListSidePanel(
                     content = MediaListSidePanelContent(
                         show = !showTabs,
@@ -407,7 +409,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                                 MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_AUDIO)
                         }
                         MediaListSidePanelListenerKey.DISPLAY_SETTINGS -> {
-                            mainActivityViewModel.openDisplaySettings(second as MediaListEntry)
+                            mainActivityViewModel?.openDisplaySettings(second as MediaListEntry)
                         }
                         else -> throw IllegalStateException("Invalid event")
                     }

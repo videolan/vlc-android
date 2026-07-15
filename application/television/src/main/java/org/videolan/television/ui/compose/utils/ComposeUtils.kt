@@ -35,7 +35,6 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -47,6 +46,7 @@ import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
@@ -150,6 +150,9 @@ fun Modifier.fadingMarquee(
 @Composable
 fun VlcPreview(content: @Composable (Context) -> Unit) {
     val context = LocalContext.current
+    if (LocalInspectionMode.current) {
+        org.videolan.medialibrary.MLContextTools.getInstance().setContext(context)
+    }
     val themedContext = remember(context) { ContextThemeWrapper(context, org.videolan.television.R.style.Theme_VLC) }
     CompositionLocalProvider(LocalContext provides themedContext) {
         VlcTVTheme {

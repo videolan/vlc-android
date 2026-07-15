@@ -40,6 +40,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -47,10 +48,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -91,24 +92,24 @@ import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.Permissions
 
 @Composable
-fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel = hiltViewModel(), mainViewmodel: MainActivityViewModel = hiltViewModel()) {
+fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), mainViewmodel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val coroutineScope = rememberCoroutineScope()
     val firstItemFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            viewModel.updateHistory()
-            viewModel.updateStreams()
+            viewModel?.updateHistory()
+            viewModel?.updateStreams()
         }
     }
     val activity = LocalActivity.current
 
 
 
-    val history by viewModel.history.observeAsState()
-    val streams by viewModel.streamsFlow.collectAsState()
-    val historyLoading by viewModel.historyLoading.observeAsState()
-    val streamsLoading by viewModel.streamsLoading.observeAsState()
-    val invalidateEntry by mainViewmodel.invalidateMediaListEntry.collectAsState()
+    val history by viewModel?.history?.observeAsState() ?: remember { mutableStateOf(null) }
+    val streams by viewModel?.streamsFlow?.collectAsState() ?: remember { mutableStateOf(null) }
+    val historyLoading by viewModel?.historyLoading?.observeAsState() ?: remember { mutableStateOf(false) }
+    val streamsLoading by viewModel?.streamsLoading?.observeAsState() ?: remember { mutableStateOf(false) }
+    val invalidateEntry by mainViewmodel?.invalidateMediaListEntry?.collectAsState() ?: remember { mutableStateOf(null) }
     Column(
         modifier = Modifier
             .focusProperties {
@@ -152,12 +153,12 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
             TvUtil.openMedia(activity as FragmentActivity, item)
         }
         val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
-            mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+            mainViewmodel?.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
         }
         val showSnackbar: (String) -> Unit = {
-            mainViewmodel.showSnackbar(SnackbarContent(it))
+            mainViewmodel?.showSnackbar(SnackbarContent(it))
         }
-        mainViewmodel.addCtxClickListener(MediaListEntry.HISTORY) { item, position, ctxMenuItem ->
+        mainViewmodel?.addCtxClickListener(MediaListEntry.HISTORY) { item, _, ctxMenuItem ->
             when (ctxMenuItem.id) {
                 CTX_PLAY -> MediaUtils.openMedia(activity, (item as MediaWrapper))
                 CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
@@ -168,7 +169,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 else -> {showSnackbar(activity!!.resources.getString(R.string.not_implemented))}
             }
         }
-        mainViewmodel.addCtxClickListener(MediaListEntry.STREAMS) { item, position, ctxMenuItem ->
+        mainViewmodel?.addCtxClickListener(MediaListEntry.STREAMS) { item, _, ctxMenuItem ->
             when (ctxMenuItem.id) {
                 CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
                 CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
@@ -179,12 +180,12 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 }
 
                 CTX_DELETE -> {
-                    viewModel.deletingMedia = item as MediaWrapper
-                    UiTools.snackerWithCancel(activity!!, activity.getString(org.videolan.vlc.R.string.stream_deleted), action = { viewModel.delete() }) {
-                        viewModel.deletingMedia = null
-                        coroutineScope.launch { viewModel.updateStreams() }
+                    viewModel?.deletingMedia = item as MediaWrapper
+                    UiTools.snackerWithCancel(activity!!, activity.getString(org.videolan.vlc.R.string.stream_deleted), action = { viewModel?.delete() }) {
+                        viewModel?.deletingMedia = null
+                        coroutineScope.launch { viewModel?.updateStreams() }
                     }
-                    coroutineScope.launch { viewModel.updateStreams() }
+                    coroutineScope.launch { viewModel?.updateStreams() }
                 }
 
                 else -> {
@@ -197,17 +198,17 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
 
         if (!history.isNullOrEmpty())
             ContentLine(history, MediaListEntry.HISTORY, historyLoading, R.string.history, onItemClick = { onClick(history!![it], it) }, onItemLongClick = { onLongClick(history!![it], it) }) {
-                mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                mainViewmodel?.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
             }
         InvalidationComposable(streams) { invalidate ->
             //invalidate if needed
             if (invalidateEntry == MediaListEntry.STREAMS) {
-                viewModel.invalidate{
+                viewModel?.invalidate{
                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Stream found: invalidate")
                     invalidate()
                 }
 
-                mainViewmodel.invalidationDone()
+                mainViewmodel?.invalidationDone()
             }
             if (!streams.isNullOrEmpty()) streams!!.forEach {
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Stream found: ${it.title}")

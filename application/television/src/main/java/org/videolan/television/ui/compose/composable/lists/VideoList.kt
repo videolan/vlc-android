@@ -31,8 +31,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -45,16 +43,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -131,12 +130,12 @@ fun VideoListScreen(subDestination: VideoDestination, onFocusExit: () -> Unit, o
 
 
 @Composable
-fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: VideoGroup? = null, onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityViewModel: MainActivityViewModel = viewModel()) {
+fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: VideoGroup? = null, onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val activity = LocalActivity.current
     val settings = Settings.getInstance(activity!!)
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
-    val displaySettingsChange by mainActivityViewModel.currentDisplaySettingsChange.collectAsState()
+    val displaySettingsChange by mainActivityViewModel?.currentDisplaySettingsChange?.collectAsState() ?: remember { mutableStateOf(null) }
     val castAsAudio = PlaybackService.renderer.value != null && settings.getBoolean(KEY_CASTING_AUDIO_ONLY, false)
     val coroutineScope = rememberCoroutineScope()
     InvalidationComposable(displaySettingsChange) { invalidate ->
@@ -168,7 +167,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
         entry.currentSortDesc = viewModel.provider.desc
         entry.isGroup = group != null
 
-        mainActivityViewModel.addCtxClickListener(entry) { item, position, ctxMenuItem ->
+        mainActivityViewModel?.addCtxClickListener(entry) { item, position, ctxMenuItem ->
             if (BuildConfig.DEBUG) Log.d("CtxClickListener", "Ctx clicked: ${ctxMenuItem.id} for $item in list $entry")
             when (ctxMenuItem.id) {
                 CTX_PLAY -> viewModel.playVideo(activity as FragmentActivity?, item as MediaWrapper, position, forceAudio = castAsAudio)
@@ -221,10 +220,10 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                     when(DefaultPlaybackActionMediaType.VIDEO.getCurrentPlaybackAction(settings)) {
                         DefaultPlaybackAction.PLAY -> viewModel.playVideo(activity, video, position, forceAudio = castAsAudio)
                         DefaultPlaybackAction.ADD_TO_QUEUE -> MediaUtils.appendMedia(activity, video, showSnackbar = {
-                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                            mainActivityViewModel?.showSnackbar(SnackbarContent(it))
                         })
                         DefaultPlaybackAction.INSERT_NEXT -> MediaUtils.insertNext(activity, video, showSnackbar = {
-                            mainActivityViewModel.showSnackbar(SnackbarContent(it))
+                            mainActivityViewModel?.showSnackbar(SnackbarContent(it))
                         })
                         else  -> viewModel.playVideo(activity, video, position, forceAll = true, forceAudio = castAsAudio)
                     }
@@ -271,7 +270,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                             VideoItemList(video,  position, entry, modifier = modifier, onClick = { onClick(video, position) })
                         }
                     }
-                val showTabs by mainActivityViewModel.showTabs.collectAsState()
+                val showTabs by mainActivityViewModel?.showTabs?.collectAsState() ?: remember { mutableStateOf(false) }
                 MediaListSidePanel(
                     content = MediaListSidePanelContent(
                         show = !showTabs,
@@ -292,7 +291,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                             MediaUtils.loadlastPlaylist(context, PLAYLIST_TYPE_VIDEO)
                         }
                         MediaListSidePanelListenerKey.DISPLAY_SETTINGS -> {
-                            mainActivityViewModel.openDisplaySettings(second as MediaListEntry)
+                            mainActivityViewModel?.openDisplaySettings(second as MediaListEntry)
                         }
                         else -> throw IllegalStateException("Invalid event")
                     }

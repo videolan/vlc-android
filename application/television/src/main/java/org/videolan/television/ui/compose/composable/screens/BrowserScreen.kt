@@ -59,11 +59,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -89,16 +91,16 @@ import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
 @Composable
-fun BrowserScreen(viewModel: MainActivityViewModel = viewModel()) {
+fun BrowserScreen(viewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val scope = rememberCoroutineScope()
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val snackbarContent by viewModel.snackBarFlow.collectAsState()
+    val snackbarContent by viewModel?.snackBarFlow?.collectAsState() ?: remember { mutableStateOf(null) }
     LaunchedEffect(snackbarContent) {
         snackbarContent?.let { snackbarContent ->
             scope.launch {
                 snackbarHostState.showSnackbar(snackbarContent.message, duration = snackbarContent.duration)
-                viewModel.showSnackbar(null)
+                viewModel?.showSnackbar(null)
             }
         }
     }
@@ -109,16 +111,16 @@ fun BrowserScreen(viewModel: MainActivityViewModel = viewModel()) {
     ) { contentPadding ->
         Box {
             BrowserScreenContent(Modifier.padding(contentPadding), mainActivityViewModel = viewModel)
-            DisplaySettings()
+            DisplaySettings(viewModel = viewModel)
         }
     }
 
 }
 
 @Composable
-fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel = viewModel(), mainActivityViewModel: MainActivityViewModel = viewModel()) {
-    val currentItem by viewModel.currentPathEntry.collectAsState()
-    val segments = viewModel.prepareSegments()
+fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
+    val currentItem by viewModel?.currentPathEntry?.collectAsState() ?: remember { mutableStateOf(null) }
+    val segments = viewModel?.prepareSegments() ?: emptyList()
     val activity = LocalActivity.current as? BrowserActivity
     BrowserScreenContent(
         modifier = modifier,
@@ -127,7 +129,7 @@ fun BrowserScreenContent(modifier: Modifier, viewModel: FileBrowserViewModel = v
         onClose = { activity?.finish() },
         onSegmentClick = { segment ->
             if (BuildConfig.DEBUG) Log.d("BrowserScreen", "Segment is $segment")
-            viewModel.setCurrentPathEntry(MediaWrapperImpl(segment.toUri()).apply { type = MediaWrapper.TYPE_DIR })
+            viewModel?.setCurrentPathEntry(MediaWrapperImpl(segment.toUri()).apply { type = MediaWrapper.TYPE_DIR })
         },
         retrieveSafePath = { key ->
             activity?.let {
@@ -266,8 +268,8 @@ private fun BrowserScreenPreview() {
                     isFavorite = false,
                     entry = MediaListEntry.BROWSER,
                     descriptionUpdates = null,
-                    fileBrowserViewModel = viewModel(),
-                    mainActivityViewModel = viewModel(),
+                    fileBrowserViewModel = null,
+                    mainActivityViewModel = null,
                     currentPath = "/",
                     onItemRendered = {},
                     onClick = { _, _, _ -> },

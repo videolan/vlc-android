@@ -25,7 +25,6 @@
 package org.videolan.television.ui.compose.composable.screens
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
@@ -88,7 +87,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -124,7 +122,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.MutableLiveData
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
@@ -152,7 +150,6 @@ import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.BlackTransparent90
 import org.videolan.television.ui.compose.theme.Grey900Transparent
 import org.videolan.television.ui.compose.theme.Transparent
-import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
@@ -191,7 +188,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun TVAudioPlayer(
-    viewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel(),
+    viewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(),
     playlistModel: PlaylistModel = viewModel(),
     bookmarkModel: BookmarkModel = viewModel()
 ) {
@@ -590,7 +587,7 @@ fun ChapterSwitcher(viewModel: PlaylistModel = viewModel()) {
 }
 
 @Composable
-fun AudioPlayQueue(viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel()) {
+fun AudioPlayQueue(viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val queue = viewModel.dataset.observeAsState()
     val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
     val listState = rememberLazyListState()
@@ -636,7 +633,7 @@ fun AudioPlayQueue(viewModel: PlaylistModel = viewModel(), mainViewModel: MainAc
 }
 
 @Composable
-fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel(), focusRequester: FocusRequester? = null, onMove: (Int, Int) -> Unit = { _, _ -> }) {
+fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), focusRequester: FocusRequester? = null, onMove: (Int, Int) -> Unit = { _, _ -> }) {
     var isFocused by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val mapBitmap: MutableState<Pair<MediaLibraryItem, Bitmap?>?> = remember { mutableStateOf(null) }
@@ -812,7 +809,7 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
 }
 
 @Composable
-private fun AudioPlayerQueueItemDropdown(expanded: Boolean, item: MediaWrapper, index: Int, onDismiss: () -> Unit, viewModel: PlaylistModel = viewModel(), mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel()) {
+private fun AudioPlayerQueueItemDropdown(expanded: Boolean, item: MediaWrapper, index: Int, onDismiss: () -> Unit, viewModel: PlaylistModel = viewModel(), mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val activity = LocalActivity.current
     val coroutineScope = rememberCoroutineScope()
     if (expanded) DropdownMenu(
@@ -883,7 +880,7 @@ private fun AudioPlayerQueueItemDropdown(expanded: Boolean, item: MediaWrapper, 
 }
 
 @Composable
-fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel()) {
+fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val playerState = viewModel.playerState.observeAsState()
     val repeatType = PlaylistManager.repeating.collectAsState()
     val shuffling = PlaylistManager.shuffling.collectAsState()
@@ -989,7 +986,7 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
 }
 
 @Composable
-fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else viewModel()) {
+fun AudioAdvancedOptions(viewModel: PlaylistModel = viewModel(), mainViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     var expanded by remember { mutableStateOf(false) }
     val activity = LocalActivity.current
     val context = LocalContext.current

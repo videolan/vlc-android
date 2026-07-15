@@ -40,13 +40,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.VideoGroup
@@ -58,15 +60,15 @@ import org.videolan.television.ui.compose.composable.lists.VideoList
 import org.videolan.television.viewmodel.MainActivityViewModel
 
 @Composable
-fun VideoGroupScreen(folder: Folder? = null, group : VideoGroup? = null, viewModel: MainActivityViewModel = viewModel()) {
+fun VideoGroupScreen(folder: Folder? = null, group : VideoGroup? = null, viewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
-        val snackbarContent by viewModel.snackBarFlow.collectAsState()
+        val snackbarContent by viewModel?.snackBarFlow?.collectAsState() ?: remember { mutableStateOf(null) }
         LaunchedEffect(snackbarContent) {
             snackbarContent?.let { snackbarContent ->
                 scope.launch {
                     snackbarHostState.showSnackbar(snackbarContent.message, duration = snackbarContent.duration)
-                    viewModel.showSnackbar(null)
+                    viewModel?.showSnackbar(null)
                 }
             }
         }
@@ -77,7 +79,7 @@ fun VideoGroupScreen(folder: Folder? = null, group : VideoGroup? = null, viewMod
         ) { contentPadding ->
             Box {
                 VideoGroupScreenContent(Modifier.padding(contentPadding), folder, group)
-                DisplaySettings(inGrouping = true)
+                DisplaySettings(viewModel = viewModel, inGrouping = true)
             }
         }
 }

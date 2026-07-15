@@ -39,23 +39,23 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.television.R
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.vlc.ScanProgress
 
 @Composable
-fun MlProgress(modifier: Modifier, mainActivityViewModel: MainActivityViewModel = viewModel()) {
-    val mlProgress = mainActivityViewModel.progress.observeAsState()
+fun MlProgress(modifier: Modifier, mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
+    val mlProgress = mainActivityViewModel?.progress?.observeAsState()
     MlProgressContent(
         modifier = modifier,
-        progress = mlProgress.value,
-        isWorking = Medialibrary.getInstance().isWorking
+        progress = mlProgress?.value,
+        isWorking = if (LocalInspectionMode.current) false else Medialibrary.getInstance().isWorking
     )
 }
 
