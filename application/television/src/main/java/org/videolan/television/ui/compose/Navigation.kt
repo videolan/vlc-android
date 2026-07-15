@@ -36,6 +36,7 @@ sealed class MainDestination(@StringRes val titleRes: Int) : NavKey {
     @Serializable data object Browse : MainDestination(R.string.browse)
     @Serializable data object Playlists : MainDestination(R.string.playlists)
     @Serializable data object More : MainDestination(R.string.more)
+    @Serializable data class MediaInfo(val id: Long, val type: Int) : MainDestination(R.string.not_implemented)
 }
 
 @Serializable
