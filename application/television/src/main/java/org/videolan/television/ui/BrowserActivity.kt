@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import dagger.hilt.android.AndroidEntryPoint
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -49,6 +50,7 @@ import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
 
+@AndroidEntryPoint
 class BrowserActivity : DefaultTvActivity(), PathAdapterListener, IPathOperationDelegate by PathOperationDelegate() {
     lateinit var otgDevice:String
     lateinit var browserTitle:String

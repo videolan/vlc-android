@@ -22,16 +22,12 @@ package org.videolan.television.ui.audioplayer
 
 import android.annotation.TargetApi
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.media.session.PlaybackStateCompat
-import android.text.format.DateFormat
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
@@ -39,20 +35,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.media.Bookmark
@@ -62,25 +54,15 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.parcelable
 import org.videolan.resources.util.parcelableList
 import org.videolan.television.R
-import org.videolan.television.databinding.TvAudioPlayerBinding
 import org.videolan.television.ui.DefaultTvActivity
-import org.videolan.television.ui.browser.BaseTvActivity
-import org.videolan.television.ui.compose.composable.screens.MainScreen
 import org.videolan.television.ui.compose.composable.screens.TVAudioPlayer
 import org.videolan.television.ui.compose.theme.VlcTVTheme
-import org.videolan.tools.KEY_PLAYBACK_SPEED_AUDIO_GLOBAL
 import org.videolan.tools.Settings
-import org.videolan.tools.formatRateString
-import org.videolan.tools.setGone
-import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.dialogs.CONFIRM_BOOKMARK_RENAME_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.EqualizerFragmentDialog
-import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
-import org.videolan.vlc.gui.dialogs.SleepTimerDialog
-import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BookmarkListDelegate
 import org.videolan.vlc.gui.helpers.KeycodeListener
 import org.videolan.vlc.gui.helpers.MediaComparators
@@ -93,13 +75,13 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
-import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.BookmarkModel
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
 import kotlin.math.absoluteValue
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+@AndroidEntryPoint
 class AudioPlayerActivity : DefaultTvActivity(),KeycodeListener, PlaybackService.Callback, PlayerOptionsDelegateCallback  {
 
 //    private lateinit var binding: TvAudioPlayerBinding

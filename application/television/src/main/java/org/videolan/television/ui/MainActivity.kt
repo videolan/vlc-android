@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.television.ui.compose.composable.screens.MainScreen
@@ -50,6 +51,7 @@ import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.AutoUpdate
 
 
+@AndroidEntryPoint
 class MainActivity : DefaultTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

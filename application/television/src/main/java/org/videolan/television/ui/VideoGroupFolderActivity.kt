@@ -32,10 +32,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -44,13 +41,7 @@ import org.videolan.resources.KEY_GROUP
 import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.compose.composable.screens.VideoGroupScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
-import org.videolan.tools.KEY_SHOW_UPDATE
-import org.videolan.tools.Settings
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.gui.dialogs.UPDATE_DATE
-import org.videolan.vlc.gui.dialogs.UPDATE_URL
-import org.videolan.vlc.gui.dialogs.UpdateDialog
-import org.videolan.vlc.util.AutoUpdate
 
 
 class VideoGroupFolderActivity : DefaultTvActivity() {
