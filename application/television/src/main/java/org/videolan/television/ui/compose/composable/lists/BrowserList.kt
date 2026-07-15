@@ -58,6 +58,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -124,8 +125,8 @@ import kotlin.math.min
 
 @Composable
 fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivityViewModel? = null, fileBrowserViewModel: FileBrowserViewModel? = null) {
-    val mainVM = mainActivityViewModel ?: viewModel()
-    val fileVM = fileBrowserViewModel ?: viewModel()
+    val mainVM = mainActivityViewModel ?: hiltViewModel()
+    val fileVM = fileBrowserViewModel ?: hiltViewModel()
 
     val context = LocalContext.current
     val root = fileVM.currentPathEntry.collectAsState()
