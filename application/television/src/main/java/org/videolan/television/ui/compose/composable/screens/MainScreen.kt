@@ -655,7 +655,15 @@ private fun TabPanels(destination: MainDestination, onFocusExit: () -> Unit, onF
                 MediaInfoUiState.Loading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
                 MediaInfoUiState.Error -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(stringResource(org.videolan.vlc.R.string.unknown_error)) }
                 is MediaInfoUiState.Success -> {
-                    MediaInfoScreen(item = state.item, fileSize = state.fileSize, tracks = state.tracks)
+                    val activity = LocalActivity.current
+                    MediaInfoScreen(
+                        item = state.item,
+                        fileSize = state.fileSize,
+                        tracks = state.tracks,
+                        onPlay = {
+                            org.videolan.vlc.media.MediaUtils.playTracks(activity!!, state.item, 0)
+                        }
+                    )
                 }
             }
         }

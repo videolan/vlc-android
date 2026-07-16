@@ -78,6 +78,7 @@ import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.television.R
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.AudioDestination
+import org.videolan.television.ui.compose.MainDestination
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
@@ -237,7 +238,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
                         CTX_APPEND -> MediaUtils.appendMedia(activity, item.tracks, showSnackbar)
                         CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-                        CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        CTX_INFORMATION -> mainActivityViewModel.navigateTo(MainDestination.MediaInfo(item.id, item.itemType))
                         CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                         CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
                         else -> {}
@@ -249,7 +250,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
                         CTX_APPEND -> MediaUtils.appendMedia(activity, item.tracks, showSnackbar)
                         CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-                        CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        CTX_INFORMATION -> mainActivityViewModel.navigateTo(MainDestination.MediaInfo(item.id, item.itemType))
                         CTX_GO_TO_ARTIST -> coroutineScope.launch(Dispatchers.IO) { TvUtil.openAudioCategory(activity, item.retrieveAlbumArtist()) }
                         CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                         CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
@@ -264,7 +265,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         CTX_PLAY -> MediaUtils.playTracks(activity, item, 0)
                         CTX_APPEND -> MediaUtils.appendMedia(activity, item.tracks, showSnackbar)
                         CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-                        CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        CTX_INFORMATION -> mainActivityViewModel.navigateTo(MainDestination.MediaInfo(item.id, item.itemType))
                         CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                         CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
                         else -> {}
@@ -284,7 +285,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                                 }.toList(), 0)
                             }
                         }
-                        CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        CTX_INFORMATION -> mainActivityViewModel.navigateTo(MainDestination.MediaInfo(item.id, item.itemType))
                         CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                         CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
                         CTX_RENAME -> {
@@ -303,7 +304,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         CTX_PLAY_ALL -> MediaUtils.playAll(activity, provider as MedialibraryProvider<MediaWrapper>, position, false)
                         CTX_APPEND -> MediaUtils.appendMedia(activity, item.tracks, showSnackbar)
                         CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-                        CTX_INFORMATION -> mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                        CTX_INFORMATION -> mainActivityViewModel.navigateTo(MainDestination.MediaInfo(item.id, item.itemType))
                         CTX_GO_TO_ALBUM -> coroutineScope.launch(Dispatchers.IO) { TvUtil.openAudioCategory(activity, (item as MediaWrapper).album) }
                         CTX_GO_TO_ARTIST -> coroutineScope.launch(Dispatchers.IO) { TvUtil.openAudioCategory(activity, (item as MediaWrapper).album.retrieveAlbumArtist()) }
                         CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
