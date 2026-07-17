@@ -25,6 +25,7 @@
 package org.videolan.television.viewmodel
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,6 +43,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.VLCInstance
+import org.videolan.vlc.util.ThumbnailsProvider
 import java.io.File
 import javax.inject.Inject
 
@@ -94,7 +96,11 @@ class MediaInfoViewModel @Inject constructor(
                     tracks.addAll(parseTracks(item))
                 }
 
-                _uiState.value = MediaInfoUiState.Success(item, tracks, fileSize)
+                val cover = withContext(Dispatchers.IO) {
+                    ThumbnailsProvider.obtainBitmap(item, 512)
+                }
+
+                _uiState.value = MediaInfoUiState.Success(item, tracks, fileSize, cover)
             } catch (e: Exception) {
                 _uiState.value = MediaInfoUiState.Error
             }
@@ -142,7 +148,8 @@ sealed class MediaInfoUiState {
     data class Success(
         val item: MediaLibraryItem,
         val tracks: List<TrackData>,
-        val fileSize: Long
+        val fileSize: Long,
+        val cover: Bitmap?
     ) : MediaInfoUiState()
     object Error : MediaInfoUiState()
 }
