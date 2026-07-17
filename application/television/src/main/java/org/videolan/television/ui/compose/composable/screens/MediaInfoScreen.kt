@@ -369,12 +369,20 @@ private fun MediaInfoDetails(
 
     LazyColumn(
         modifier = modifier.fillMaxHeight(),
-        contentPadding = PaddingValues(vertical = 8.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         // General Section
         item {
-            Column {
+            var focused by remember { mutableStateOf(false) }
+            Column(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(12.dp))
+                    .onFocusChanged { focused = it.isFocused }
+                    .background(if (focused) WhiteTransparent10 else Transparent)
+                    .focusable()
+                    .padding(12.dp)
+            ) {
                 SectionHeader(stringResource(R.string.general))
                 if (totalLength > 0) {
                     InfoLine(stringResource(R.string.length), Tools.millisToString(totalLength))
@@ -459,7 +467,15 @@ private fun TrackInfoSection(track: TrackData) {
         list
     }
 
-    Column {
+    var focused by remember { mutableStateOf(false) }
+    Column(
+        modifier = Modifier
+            .clip(RoundedCornerShape(12.dp))
+            .onFocusChanged { focused = it.isFocused }
+            .background(if (focused) WhiteTransparent10 else Transparent)
+            .focusable()
+            .padding(12.dp)
+    ) {
         SectionHeader(title)
         info.forEach { (label, value) ->
             InfoLine(label, value)
