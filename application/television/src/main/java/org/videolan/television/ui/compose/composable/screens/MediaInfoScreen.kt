@@ -25,12 +25,13 @@
 package org.videolan.television.ui.compose.composable.screens
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -42,14 +43,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -81,6 +80,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.Album
@@ -94,13 +94,17 @@ import org.videolan.medialibrary.media.GenreImpl
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.medialibrary.media.PlaylistImpl
+import org.videolan.resources.AndroidDevices
 import org.videolan.television.R
 import org.videolan.television.ui.compose.theme.BackgroundColorDark
+import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
+import org.videolan.television.ui.compose.theme.WhiteTransparent20
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.TrackData
+import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import org.videolan.vlc.R as vlcR
 
 @Composable
@@ -212,21 +216,24 @@ private fun MediaInfoHeader(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Path / Breadcrumbs / Description
-            val description = when (item) {
-                is MediaWrapper -> item.location ?: ""
-                is Artist -> item.shortBio ?: ""
-                else -> ""
-            }
+            // Breadcrumbs / Description
+            if (item is MediaWrapper) {
+                Breadcrumbs(uri = item.uri)
+            } else {
+                val description = when (item) {
+                    is Artist -> item.shortBio ?: ""
+                    else -> ""
+                }
 
-            if (description.isNotEmpty()) {
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = WhiteTransparent70,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (description.isNotEmpty()) {
+                    Text(
+                        text = description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = WhiteTransparent70,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
 
@@ -241,6 +248,75 @@ private fun MediaInfoHeader(
                 .focusRequester(playButtonFocusRequester)
         ) {
             onPlay()
+        }
+    }
+}
+
+@Composable
+private fun Breadcrumbs(modifier: Modifier = Modifier, uri: Uri?) {
+    if (uri == null) return
+    val delegate = remember { PathOperationDelegate() }
+    val internalMemoryLabel = stringResource(id = vlcR.string.internal_memory)
+
+    val segments = remember(uri, internalMemoryLabel) {
+        // Initialize storages mapping like PathAdapter does
+        PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, delegate.makePathSafe(internalMemoryLabel))
+
+        val path = Uri.decode(uri.path) ?: ""
+        val substitutedPath = delegate.replaceStoragePath(path)
+
+        val pathParts = substitutedPath.split('/').filter { it.isNotEmpty() }
+        val list = mutableListOf<String>()
+
+        for (index in pathParts.indices) {
+            val currentPathUri = Uri.Builder().scheme(uri.scheme).encodedAuthority(uri.authority)
+            for (i in 0..index) delegate.appendPathToUri(pathParts[i], currentPathUri)
+            list.add(currentPathUri.toString())
+        }
+        list
+    }
+
+    LazyRow(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        itemsIndexed(segments) { index, segmentUriString ->
+            val segmentUri = segmentUriString.toUri()
+            val path = segmentUri.path
+            val text = when {
+                path != null && PathOperationDelegate.storages.containsKey(path) -> delegate.retrieveSafePath(PathOperationDelegate.storages.get(path)!!)
+                else -> segmentUri.lastPathSegment
+            }
+
+            var itemFocused by remember { mutableStateOf(false) }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .onFocusChanged { itemFocused = it.isFocused }
+                    .focusable()
+            ) {
+                Text(
+                    text = text ?: "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = WhiteTransparent70,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(if (itemFocused) WhiteTransparent20 else Transparent)
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+
+                if (index < segments.size - 1) {
+                    Icon(
+                        painter = painterResource(id = vlcR.drawable.ic_divider),
+                        contentDescription = null,
+                        tint = WhiteTransparent70,
+                        modifier = Modifier
+                            .size(18.dp)
+                            .padding(horizontal = 4.dp)
+                    )
+                }
+            }
         }
     }
 }
