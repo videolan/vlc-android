@@ -66,8 +66,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
-import org.videolan.television.R
-import org.videolan.television.ui.compose.MainDestination
+import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.compose.VideoDestination
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
@@ -180,7 +179,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                     mainActivityViewModel.showSnackbar(SnackbarContent(it))
                 }
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs((activity as FragmentActivity), (item as MediaWrapper))
-                CTX_INFORMATION -> mainActivityViewModel.navigateTo(MainDestination.MediaInfo(item.id, item.itemType))
+                CTX_INFORMATION -> MediaInfoActivity.start(activity, item.id, item.itemType)
                 CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(arrayOf(item as MediaWrapper), SavePlaylistDialog.KEY_NEW_TRACKS)
                 CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD }
                 CTX_DELETE -> { ConfirmDeleteDialog.newInstance(arrayListOf(item)).show((activity as FragmentActivity).supportFragmentManager, ConfirmDeleteDialog::class.simpleName) }

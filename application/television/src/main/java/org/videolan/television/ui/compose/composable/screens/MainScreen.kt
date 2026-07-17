@@ -121,8 +121,6 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.television.viewmodel.MediaInfoUiState
-import org.videolan.television.viewmodel.MediaInfoViewModel
 import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.vlc.R as vlcR
 import org.videolan.tools.KEY_AUDIO_TAB
@@ -282,7 +280,6 @@ fun Tabs(
 
     val backStack = rememberNavBackStack(initialDestination)
     val currentDestination = backStack.lastOrNull() as? MainDestination
-    val isMediaInfo = currentDestination is MainDestination.MediaInfo
     val hasSubtabs = currentDestination is MainDestination.Audio || currentDestination is MainDestination.Video
 
     LaunchedEffect(viewModel) {
@@ -291,13 +288,9 @@ fun Tabs(
         }
     }
 
-    BackHandler(enabled = isMediaInfo) {
-        backStack.remove(backStack.last())
-    }
-
     val duration = 300
     val animatedPadding by animateDpAsState(
-        if (visible && !isMediaInfo) {
+        if (visible) {
             28.dp
         } else {
             0.dp
@@ -306,7 +299,7 @@ fun Tabs(
         label = "padding"
     )
 
-    BackHandler(enabled = !visible && !isMediaInfo) {
+    BackHandler(enabled = !visible) {
         visible = true
     }
 
@@ -315,13 +308,12 @@ fun Tabs(
             .fillMaxHeight()
             .padding(
                 top = animatedPadding,
-                start = if (isMediaInfo) 0.dp else 56.dp,
-                end = if (isMediaInfo) 0.dp else 56.dp
+                start = 56.dp,
+                end = 56.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (!isMediaInfo) {
-            AnimatedContent(
+        AnimatedContent(
                 targetState = visible,
                 transitionSpec = {
                     if (!targetState) {
@@ -465,8 +457,7 @@ fun Tabs(
                     }
                 }
             }
-        }
-        VLCContentPanel(backStack, isMediaInfo = isMediaInfo) {
+        VLCContentPanel(backStack) {
             visible = it
         }
     }
@@ -609,7 +600,7 @@ private fun SubTabs(
 }
 
 @Composable
-private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier = Modifier, isMediaInfo: Boolean = false, onVisibleChange: (Boolean) -> Unit) {
+private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier = Modifier, onVisibleChange: (Boolean) -> Unit) {
     if (LocalInspectionMode.current) {
         Box(
             modifier = modifier
@@ -625,7 +616,7 @@ private fun VLCContentPanel(backStack: NavBackStack<NavKey>, modifier: Modifier 
     NavDisplay(
         backStack = backStack,
         modifier = modifier
-            .padding(top = if (isMediaInfo) 0.dp else 8.dp)
+            .padding(top = 8.dp)
             .fillMaxSize()
     ) { destination ->
         NavEntry(destination) { destinationKey ->
@@ -645,29 +636,6 @@ private fun TabPanels(destination: MainDestination, onFocusExit: () -> Unit, onF
         is MainDestination.Audio -> AudioListScreen(subDestination = destination.subDestination, onFocusExit = onFocusExit, onFocusEnter = onFocusEnter)
         MainDestination.Browse -> BrowseList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
         MainDestination.Playlists -> PlaylistsList(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
-        is MainDestination.MediaInfo -> {
-            val viewModel: MediaInfoViewModel = hiltViewModel()
-            LaunchedEffect(destination.id, destination.type) {
-                viewModel.setup(destination.id, destination.type)
-            }
-            val uiState by viewModel.uiState.collectAsState()
-            when (val state = uiState) {
-                MediaInfoUiState.Loading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-                MediaInfoUiState.Error -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(stringResource(org.videolan.vlc.R.string.unknown_error)) }
-                is MediaInfoUiState.Success -> {
-                    val activity = LocalActivity.current
-                    MediaInfoScreen(
-                        item = state.item,
-                        fileSize = state.fileSize,
-                        tracks = state.tracks,
-                        onPlay = {
-                            org.videolan.vlc.media.MediaUtils.playTracks(activity!!, state.item, 0)
-                        }
-                    )
-                }
-            }
-        }
-
         else -> MoreScreen(onFocusExit = { onFocusExit() }, onFocusEnter = { onFocusEnter() })
     }
 }
