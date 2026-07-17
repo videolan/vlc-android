@@ -54,8 +54,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.television.R
+import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.TvUtil
-import org.videolan.television.ui.compose.MainDestination
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.viewmodel.MainActivityViewModel
@@ -131,7 +131,7 @@ fun BrowseList(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, mainActivityVi
             CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity!!, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
             CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-            CTX_INFORMATION -> mainActivityViewModel.navigateTo(MainDestination.MediaInfo(item.id, item.itemType))
+            CTX_INFORMATION -> MediaInfoActivity.start(activity!!, item.id, item.itemType)
             CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_FAV_ADD, CTX_FAV_REMOVE -> coroutineScope.launch { withContext(Dispatchers.IO) { item.isFavorite = ctxMenuItem.id == CTX_FAV_ADD } }
             else -> {}
