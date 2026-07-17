@@ -61,6 +61,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,6 +69,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -108,6 +111,12 @@ fun MediaInfoScreen(
     tracks: List<TrackData> = emptyList(),
     onPlay: () -> Unit = {}
 ) {
+    val playButtonFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        playButtonFocusRequester.requestFocus()
+    }
+
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -118,7 +127,8 @@ fun MediaInfoScreen(
             modifier = Modifier.weight(0.4f),
             item = item,
             cover = cover,
-            onPlay = onPlay
+            onPlay = onPlay,
+            playButtonFocusRequester = playButtonFocusRequester
         )
 
         Spacer(modifier = Modifier.width(48.dp))
@@ -138,7 +148,8 @@ private fun MediaInfoHeader(
     modifier: Modifier = Modifier,
     item: MediaLibraryItem,
     cover: Bitmap? = null,
-    onPlay: () -> Unit
+    onPlay: () -> Unit,
+    playButtonFocusRequester: FocusRequester
 ) {
     val isVideo = item is MediaWrapper && item.type == MediaWrapper.TYPE_VIDEO
     val iconRes = when (item.itemType) {
@@ -225,7 +236,9 @@ private fun MediaInfoHeader(
         MediaInfoButton(
             icon = R.drawable.ic_play,
             text = R.string.play,
-            modifier = Modifier.widthIn(min = 200.dp)
+            modifier = Modifier
+                .widthIn(min = 200.dp)
+                .focusRequester(playButtonFocusRequester)
         ) {
             onPlay()
         }
