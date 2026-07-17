@@ -101,6 +101,7 @@ private fun MediaInfoRoot(itemId: Long, itemType: Int) {
             val activity = LocalActivity.current
             MediaInfoScreen(
                 item = state.item,
+                cover = state.cover,
                 fileSize = state.fileSize,
                 tracks = state.tracks,
                 onPlay = {
