@@ -164,7 +164,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 CTX_INFORMATION -> MediaInfoActivity.start(activity!!, item.id, item.itemType)
                 CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                 CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParent((item as MediaWrapper))
-                else -> {showSnackbar(activity!!.resources.getString(R.string.not_implemented))}
+                else -> {}
             }
         }
         mainViewmodel?.addCtxClickListener(MediaListEntry.STREAMS) { item, _, ctxMenuItem ->
@@ -186,9 +186,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                     coroutineScope.launch { viewModel?.updateStreams() }
                 }
 
-                else -> {
-                    showSnackbar(activity!!.resources.getString(R.string.not_implemented))
-                }
+                else -> {}
             }
         }
 

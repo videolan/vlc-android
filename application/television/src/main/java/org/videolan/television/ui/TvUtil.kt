@@ -280,24 +280,14 @@ object TvUtil {
 
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
         when (mediaLibraryItem.itemType) {
-            MediaLibraryItem.TYPE_ALBUM, MediaLibraryItem.TYPE_PLAYLIST -> {
-                val intent = Intent(context, AlbumPlaylistActivity::class.java)
+            MediaLibraryItem.TYPE_ALBUM, MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ARTIST, MediaLibraryItem.TYPE_GENRE -> {
+                val intent = Intent(context, AudioCategoryActivity::class.java)
                 intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
                 context.startActivity(intent)
             }
             MediaLibraryItem.TYPE_MEDIA -> {
                 val list = ArrayList<MediaWrapper>().apply { add(mediaLibraryItem as MediaWrapper) }
                 playAudioList(context, list, 0)
-            }
-            MediaLibraryItem.TYPE_ARTIST -> {
-                val intent = Intent(context, ArtistActivity::class.java)
-                intent.putExtra(EXTRA_ITEM, mediaLibraryItem)
-                intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
-                context.startActivity(intent)
-            }
-            MediaLibraryItem.TYPE_GENRE -> {
-                Toast.makeText(context, context.getString(R.string.not_implemented), Toast.LENGTH_SHORT).show()
             }
             else -> {
                 val intent = Intent(context, BrowserActivity::class.java)

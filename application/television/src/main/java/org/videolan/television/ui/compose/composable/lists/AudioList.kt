@@ -210,7 +210,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
             when (item) {
                 is Artist -> TvUtil.openAudioCategory(activity, item)
                 is Album -> TvUtil.openAudioCategory(activity, item)
-                is Genre -> mainActivityViewModel?.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                is Genre -> TvUtil.openAudioCategory(activity, item)
                 is Playlist -> TvUtil.openAudioCategory(activity, item)
                 else -> {
                     when (DefaultPlaybackActionMediaType.TRACK.getCurrentPlaybackAction(settings)) {
@@ -263,6 +263,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                 is Genre -> {
                     when(ctxMenuItem.id) {
                         CTX_PLAY -> MediaUtils.playTracks(activity, item, 0)
+                        CTX_PLAY_SHUFFLE -> MediaUtils.playTracks(activity, item, SecureRandom().nextInt(min(item.tracksCount, MEDIALIBRARY_PAGE_SIZE)), true)
                         CTX_APPEND -> MediaUtils.appendMedia(activity, item.tracks, showSnackbar)
                         CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
                         CTX_INFORMATION -> MediaInfoActivity.start(activity!!, item.id, item.itemType)
@@ -294,9 +295,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         CTX_DELETE -> {
                             ConfirmDeleteDialog.newInstance(arrayListOf(item)).show((activity as FragmentActivity).supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
                         }
-                        else -> {
-                            mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
-                        }
+                        else -> {}
                     }
                 }
                 else -> {
@@ -314,9 +313,7 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
                         }
                         CTX_SHARE -> coroutineScope.launch { (activity as AppCompatActivity).share((item as MediaWrapper)) }
                         CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParent((item as MediaWrapper))
-                        else -> {
-                            mainActivityViewModel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
-                        }
+                        else -> {}
                     }
                 }
             }
