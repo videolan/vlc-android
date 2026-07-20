@@ -390,65 +390,65 @@ fun Route.setupRouting(appContext: Context, scope: CoroutineScope) {
 
     }
 
-    post ("/logs") {
-        val formParameters = try {
-            call.receiveParameters()
-        } catch (e: Exception) {
-            null
-        }
-        val logs = buildString {
-            formParameters?.forEach { s, strings ->
-                if (s.contains("[time]"))
-                    append(format.get()?.format(strings[0].toLong()))
-                else if (s.contains("[level]")) {
-                    append(" - ")
-                    append(strings[0])
-                } else {
-                    strings.forEach {
+    authenticate("user_session", optional = RemoteAccessServer.byPassAuth) {
+        post("/logs") {
+            val formParameters = try {
+                call.receiveParameters()
+            } catch (e: Exception) {
+                null
+            }
+            val logs = buildString {
+                formParameters?.forEach { s, strings ->
+                    if (s.contains("[time]"))
+                        append(format.get()?.format(strings[0].toLong()))
+                    else if (s.contains("[level]")) {
                         append(" - ")
-                        append(it)
-                        append("*")
+                        append(strings[0])
+                    } else {
+                        strings.forEach {
+                            append(" - ")
+                            append(it)
+                            append("*")
+                        }
                     }
                 }
             }
-        }
 
-        //save
-        val timestamp = android.text.format.DateFormat.format("yyyyMMdd_kkmmss", System.currentTimeMillis())
-        val filename = File("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/vlc_logcat_remote_access_${timestamp}.log")
-        var saved = true
-        var fos: FileOutputStream? = null
-        var output: OutputStreamWriter? = null
-        var bw: BufferedWriter? = null
+            //save
+            val timestamp = android.text.format.DateFormat.format("yyyyMMdd_kkmmss", System.currentTimeMillis())
+            val filename = File("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/vlc_logcat_remote_access_${timestamp}.log")
+            var saved = true
+            var fos: FileOutputStream? = null
+            var output: OutputStreamWriter? = null
+            var bw: BufferedWriter? = null
 
-        try {
-            fos = FileOutputStream(filename)
-            output = OutputStreamWriter(fos)
-            bw = BufferedWriter(output)
-            synchronized(this) {
-                bw.write(FeedbackUtil.generateUsefulInfo(appContext))
-                for (line in logs.split(("*"))) {
-                    bw.write(line)
-                    bw.newLine()
+            try {
+                fos = FileOutputStream(filename)
+                output = OutputStreamWriter(fos)
+                bw = BufferedWriter(output)
+                synchronized(this) {
+                    bw.write(FeedbackUtil.generateUsefulInfo(appContext))
+                    for (line in logs.split(("*"))) {
+                        bw.write(line)
+                        bw.newLine()
+                    }
                 }
+            } catch (e: FileNotFoundException) {
+
+                saved = false
+            } catch (ioe: IOException) {
+                saved = false
+            } finally {
+                saved = saved and CloseableUtils.close(bw)
+                saved = saved and CloseableUtils.close(output)
+                saved = saved and CloseableUtils.close(fos)
             }
-        } catch (e: FileNotFoundException) {
 
-            saved = false
-        } catch (ioe: IOException) {
-            saved = false
-        } finally {
-            saved = saved and CloseableUtils.close(bw)
-            saved = saved and CloseableUtils.close(output)
-            saved = saved and CloseableUtils.close(fos)
+            if (!saved)
+                call.respond(HttpStatusCode.InternalServerError)
+            else
+                call.respondText("")
         }
-
-        if (!saved)
-            call.respond(HttpStatusCode.InternalServerError)
-        else
-            call.respondText("")
-    }
-    authenticate("user_session", optional = RemoteAccessServer.byPassAuth) {
         //Provide a Websocket auth ticket as auth is validated
         get("/wsticket") {
             val ticket = RemoteAccessWebSockets.createTicket()
