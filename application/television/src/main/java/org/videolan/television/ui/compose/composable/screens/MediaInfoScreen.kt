@@ -167,45 +167,38 @@ private fun MediaInfoHeader(
 
     Column(
         modifier = modifier.fillMaxHeight(),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
+        Spacer(modifier = Modifier.weight(1f))
+        // Artwork
+        Surface(
             modifier = Modifier
-                .weight(1f),
-            horizontalAlignment = Alignment.Start
+                .fillMaxWidth()
+                .heightIn(max = if (isVideo) 400.dp else 480.dp)
+                .aspectRatio(if (isVideo) 16f / 9f else 1f)
+                .clip(RoundedCornerShape(16.dp)),
+            color = MaterialTheme.colorScheme.surfaceVariant
         ) {
-            // Artwork
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(max = if (isVideo) 400.dp else 480.dp)
-                    .aspectRatio(if (isVideo) 16f / 9f else 1f)
-                    .clip(RoundedCornerShape(16.dp)),
-                color = MaterialTheme.colorScheme.surfaceVariant
-            ) {
-                if (cover != null) {
-                    Image(
-                        bitmap = cover.asImageBitmap(),
+            if (cover != null) {
+                Image(
+                    bitmap = cover.asImageBitmap(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        painter = painterResource(id = iconRes),
                         contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.size(80.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                } else {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = painterResource(id = iconRes),
-                            contentDescription = null,
-                            modifier = Modifier.size(80.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(32.dp))
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
         // Primary Action
         MediaInfoButton(
