@@ -64,7 +64,7 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.MediaListEntry
 
 @Composable
-fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLoading: Boolean?, text: Int, browserRoot: Boolean = false, onItemClick: (Int) -> Unit, onItemLongClick: (Int) -> Unit, titleFocusable: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit = {}) {
+fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLoading: Boolean?, text: Int, browserRoot: Boolean = false, onItemClick: (Int) -> Unit, titleFocusable: Boolean = true, spannableDescription: Boolean = false, onClick: () -> Unit = {}) {
     var focused by remember { mutableStateOf(false) }
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -139,7 +139,6 @@ private fun ContentLinePreview() {
             historyLoading = false,
             text = R.string.albums,
             onItemClick = {},
-            onItemLongClick = {}
         )
     }
 }
@@ -154,7 +153,6 @@ private fun ContentLineLoadingPreview() {
             historyLoading = true,
             text = R.string.albums,
             onItemClick = {},
-            onItemLongClick = {}
         )
     }
 }
@@ -169,7 +167,6 @@ private fun ContentLineEmptyPreview() {
             historyLoading = false,
             text = R.string.albums,
             onItemClick = {},
-            onItemLongClick = {}
         )
     }
 }

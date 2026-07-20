@@ -153,9 +153,6 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
         val onClick:(MediaLibraryItem, Int) -> Unit = { item, position ->
             TvUtil.openMedia(activity as FragmentActivity, item)
         }
-        val onLongClick: (MediaLibraryItem, Int) -> Unit = { item, position ->
-            mainViewmodel?.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-        }
         val showSnackbar: (String) -> Unit = {
             mainViewmodel?.showSnackbar(SnackbarContent(it))
         }
@@ -198,9 +195,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
 
 
         if (!history.isNullOrEmpty())
-            ContentLine(history, MediaListEntry.HISTORY, historyLoading, R.string.history, onItemClick = { onClick(history!![it], it) }, onItemLongClick = { onLongClick(history!![it], it) }) {
-                mainViewmodel?.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
-            }
+            ContentLine(history, MediaListEntry.HISTORY, historyLoading, R.string.history, onItemClick = { onClick(history!![it], it) })
         InvalidationComposable(streams) { invalidate ->
             //invalidate if needed
             if (invalidateEntry == MediaListEntry.STREAMS) {
@@ -214,7 +209,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
             if (!streams.isNullOrEmpty()) streams!!.forEach {
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Stream found: ${it.title}")
             }
-            ContentLine(streams, MediaListEntry.STREAMS, streamsLoading, R.string.streams, onItemClick = { onClick(streams!![it], it) }, onItemLongClick = { onLongClick(streams!![it], it) }) {
+            ContentLine(streams, MediaListEntry.STREAMS, streamsLoading, R.string.streams, onItemClick = { onClick(streams!![it], it) }) {
                 val intent = Intent(activity, TVActivity::class.java)
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                 activity?.startActivity(intent)
