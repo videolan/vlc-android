@@ -73,6 +73,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -170,8 +171,7 @@ private fun MediaInfoHeader(
     ) {
         Column(
             modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState()),
+                .weight(1f),
             horizontalAlignment = Alignment.Start
         ) {
             // Artwork
@@ -203,38 +203,6 @@ private fun MediaInfoHeader(
             }
 
             Spacer(modifier = Modifier.height(32.dp))
-
-            // Title
-            Text(
-                text = item.title ?: "",
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Breadcrumbs / Description
-            if (item is MediaWrapper) {
-                Breadcrumbs(uri = item.uri)
-            } else {
-                val description = when (item) {
-                    is Artist -> item.shortBio ?: ""
-                    else -> ""
-                }
-
-                if (description.isNotEmpty()) {
-                    Text(
-                        text = description,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = WhiteTransparent70,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
         }
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -258,9 +226,12 @@ private fun Breadcrumbs(modifier: Modifier = Modifier, uri: Uri?) {
     val delegate = remember { PathOperationDelegate() }
     val internalMemoryLabel = stringResource(id = vlcR.string.internal_memory)
 
+    val isPreview = LocalInspectionMode.current
     val segments = remember(uri, internalMemoryLabel) {
         // Initialize storages mapping like PathAdapter does
-        PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, delegate.makePathSafe(internalMemoryLabel))
+        if (!isPreview) {
+            PathOperationDelegate.storages.put(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, delegate.makePathSafe(internalMemoryLabel))
+        }
 
         val path = Uri.decode(uri.path) ?: ""
         val substitutedPath = delegate.replaceStoragePath(path)
@@ -372,6 +343,41 @@ private fun MediaInfoDetails(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
+        item {
+            Column(modifier = Modifier.padding(bottom = 8.dp)) {
+                // Title
+                Text(
+                    text = item.title ?: "",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Breadcrumbs / Description
+                if (item is MediaWrapper) {
+                    Breadcrumbs(uri = item.uri)
+                } else {
+                    val description = when (item) {
+                        is Artist -> item.shortBio ?: ""
+                        else -> ""
+                    }
+
+                    if (description.isNotEmpty()) {
+                        Text(
+                            text = description,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = WhiteTransparent70,
+                            maxLines = 10,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+        }
         // General Section
         item {
             var focused by remember { mutableStateOf(false) }
