@@ -628,7 +628,8 @@ class RemoteAccessServer(private val context: Context) : PlaybackService.Callbac
                     allowMethod(HttpMethod.Get)
                     allowHeader(HttpHeaders.AccessControlAllowOrigin)
                     allowHeader(HttpHeaders.ContentType)
-                    anyHost()
+                    if (BuildConfig.VLC_REMOTE_ACCESS_DEBUG)
+                        anyHost()
                 }
                 install(PartialContent)
                 install(AutoHeadResponse)
