@@ -136,6 +136,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.medialibrary.stubs.StubPlaylist
 import org.videolan.resources.VLCOptions
+import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.ItemOptionsLine
@@ -158,7 +159,6 @@ import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.util.showParent
 import org.videolan.television.viewmodel.MainActivityViewModel
-import org.videolan.television.viewmodel.SnackbarContent
 import org.videolan.tools.KEY_AOUT
 import org.videolan.tools.Settings
 import org.videolan.tools.formatRateString
@@ -803,13 +803,13 @@ fun AudioPlayerQueueItem(queue: MutableList<MediaWrapper>, index: Int, viewModel
 
             AudioPlayerQueueItemDropdown(expanded, item, index, onDismiss = {
                 expanded = false
-            }, viewModel, mainViewModel)
+            }, viewModel)
         }
     }
 }
 
 @Composable
-private fun AudioPlayerQueueItemDropdown(expanded: Boolean, item: MediaWrapper, index: Int, onDismiss: () -> Unit, viewModel: PlaylistModel = viewModel(), mainActivityViewModel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
+private fun AudioPlayerQueueItemDropdown(expanded: Boolean, item: MediaWrapper, index: Int, onDismiss: () -> Unit, viewModel: PlaylistModel = viewModel()) {
     val activity = LocalActivity.current
     val coroutineScope = rememberCoroutineScope()
     if (expanded) DropdownMenu(
@@ -830,7 +830,7 @@ private fun AudioPlayerQueueItemDropdown(expanded: Boolean, item: MediaWrapper, 
         )
 
         ItemOptionsLine(stringResource(R.string.info), R.drawable.ic_information) {
-            mainActivityViewModel?.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+            MediaInfoActivity.start(activity!!, item.id, item.itemType)
             onDismiss()
         }
         ItemOptionsLine(stringResource(R.string.go_to_album), R.drawable.ic_album) {
