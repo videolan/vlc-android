@@ -1,8 +1,8 @@
 /*
  * ************************************************************************
- *  MainActivity.kt
+ *  AudioCategoryActivity.kt
  * *************************************************************************
- * Copyright © 2025 VLC authors and VideoLAN
+ * Copyright © 2026 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,12 +34,11 @@ import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
-import org.videolan.television.ui.compose.composable.screens.AlbumPlaylistScreen
+import org.videolan.television.ui.compose.composable.screens.AudioCategoryScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 
-
 @AndroidEntryPoint
-class AlbumPlaylistActivity : DefaultTvActivity() {
+class AudioCategoryActivity : DefaultTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +46,14 @@ class AlbumPlaylistActivity : DefaultTvActivity() {
         WindowCompat.getInsetsController(window, window.decorView).apply {
             isAppearanceLightStatusBars = false
         }
-        val album = intent?.parcelable<MediaLibraryItem>(EXTRA_ITEM)!!
+        val item = intent?.parcelable<MediaLibraryItem>(EXTRA_ITEM)!!
         setContent {
             VlcTVTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    AlbumPlaylistScreen(album)
+                    AudioCategoryScreen(item)
                 }
             }
         }
     }
-
 }

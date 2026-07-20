@@ -270,7 +270,7 @@ fun BrowserList(modifier: Modifier = Modifier, mainActivityViewModel: MainActivi
                         browserModel.refresh()
                     }
                 }
-                else -> mainVM.showSnackbar(SnackbarContent(activity.resources.getString(R.string.not_implemented)))
+                else -> {}
 
             }
         }
