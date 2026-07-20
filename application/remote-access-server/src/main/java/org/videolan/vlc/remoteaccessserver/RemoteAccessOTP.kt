@@ -37,6 +37,7 @@ import java.security.SecureRandom
 object RemoteAccessOTP {
 
     private val codes = ArrayList<OTPCode>()
+    private val secureRandom = SecureRandom()
 
     /**
      * generate an [OTPCode] and store it in memory for later use
@@ -50,7 +51,7 @@ object RemoteAccessOTP {
         return otpCode
     }
 
-    fun generateCode(): String = (SecureRandom().nextInt(899999) + 100000).toString()
+    fun generateCode(): String = (secureRandom.nextInt(900000) + 100000).toString()
 
     /**
      * Verify if the code is valid by using the challenge
