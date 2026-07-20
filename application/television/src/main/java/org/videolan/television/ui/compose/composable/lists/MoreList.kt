@@ -61,6 +61,7 @@ import org.videolan.resources.HEADER_STREAM
 import org.videolan.television.R
 import org.videolan.television.ui.AboutActivity
 import org.videolan.television.ui.MainTvActivity
+import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.compose.composable.components.ContentLine
@@ -163,7 +164,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 CTX_PLAY -> MediaUtils.openMedia(activity, (item as MediaWrapper))
                 CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-                CTX_INFORMATION -> mainViewmodel.showSnackbar(SnackbarContent(activity!!.resources.getString(R.string.not_implemented)))
+                CTX_INFORMATION -> MediaInfoActivity.start(activity!!, item.id, item.itemType)
                 CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                 CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParent((item as MediaWrapper))
                 else -> {showSnackbar(activity!!.resources.getString(R.string.not_implemented))}
