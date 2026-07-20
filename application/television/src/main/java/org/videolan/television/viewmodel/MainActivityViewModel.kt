@@ -28,11 +28,8 @@ import android.app.Activity
 import android.app.Application
 import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -40,65 +37,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.Album
-import org.videolan.medialibrary.interfaces.media.Artist
-import org.videolan.medialibrary.interfaces.media.Folder
-import org.videolan.medialibrary.interfaces.media.Genre
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.VideoGroup
-import android.content.Intent
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.ACTION_DISCOVER_DEVICE
-import org.videolan.resources.EXTRA_PATH
-import org.videolan.resources.util.launchForeground
 import org.videolan.television.R
 import org.videolan.television.ui.compose.MainDestination
-import org.videolan.television.ui.compose.composable.components.BrowserItemCtxFlags
-import org.videolan.tools.retrieveParent
-import org.videolan.vlc.MediaParsingService
-import org.videolan.vlc.ScanProgress
-import org.videolan.vlc.gui.dialogs.ContextSheet
 import org.videolan.vlc.gui.dialogs.CtxMenuItem
-import org.videolan.vlc.gui.helpers.MedialibraryUtils
-import org.videolan.vlc.providers.NetworkProvider
-import org.videolan.vlc.util.ContextOption
-import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_AND_SUB_PLAYLIST
-import org.videolan.vlc.util.ContextOption.CTX_ADD_FOLDER_PLAYLIST
-import org.videolan.vlc.util.ContextOption.CTX_ADD_GROUP
-import org.videolan.vlc.util.ContextOption.CTX_ADD_SCANNED
-import org.videolan.vlc.util.ContextOption.CTX_ADD_SHORTCUT
-import org.videolan.vlc.util.ContextOption.CTX_ADD_TO_PLAYLIST
-import org.videolan.vlc.util.ContextOption.CTX_APPEND
-import org.videolan.vlc.util.ContextOption.CTX_COPY
-import org.videolan.vlc.util.ContextOption.CTX_DELETE
-import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
-import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
-import org.videolan.vlc.util.ContextOption.CTX_GO_TO_ALBUM_ARTIST
-import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
-import org.videolan.vlc.util.ContextOption.CTX_GROUP_SIMILAR
-import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_PLAYED
-import org.videolan.vlc.util.ContextOption.CTX_MARK_AS_UNPLAYED
-import org.videolan.vlc.util.ContextOption.CTX_PLAY
-import org.videolan.vlc.util.ContextOption.CTX_PLAY_AS_AUDIO
-import org.videolan.vlc.util.ContextOption.CTX_PLAY_FROM_START
-import org.videolan.vlc.util.ContextOption.CTX_PLAY_SHUFFLE
-import org.videolan.vlc.util.ContextOption.CTX_REMOVE_GROUP
-import org.videolan.vlc.util.ContextOption.CTX_RENAME
-import org.videolan.vlc.util.ContextOption.Companion.createCtxAudioFlags
-import org.videolan.vlc.util.ContextOption.Companion.createCtxFolderFlags
-import org.videolan.vlc.util.ContextOption.Companion.createCtxHistoryFlags
-import org.videolan.vlc.util.ContextOption.Companion.createCtxPlaylistAlbumFlags
-import org.videolan.vlc.util.ContextOption.Companion.createCtxTrackFlags
-import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoFlags
-import org.videolan.vlc.util.ContextOption.Companion.createCtxVideoGroupFlags
-import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.MediaListEntry
-import org.videolan.vlc.util.isSchemeHttpOrHttps
 import javax.inject.Inject
 
+/**
+ * Main ViewModel for the Television module activity.
+ * It orchestrates UI state, navigation, and background services by delegating
+ * specialized tasks to [ContextMenuDelegate] and [MedialibraryDelegate].
+ */
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(app: Application) : AndroidViewModel(app) {
+class MainActivityViewModel @Inject constructor(
+    app: Application,
+    private val contextMenuDelegate: ContextMenuDelegate,
+    private val medialibraryDelegate: MedialibraryDelegate
+) : AndroidViewModel(app) {
 
     val tabs = listOf(
 //        Pair(R.string.search, R.drawable.ic_search),
@@ -141,23 +97,41 @@ class MainActivityViewModel @Inject constructor(app: Application) : AndroidViewM
     private val _navigationFlow = MutableSharedFlow<MainDestination>(extraBufferCapacity = 1)
     val navigationFlow: SharedFlow<MainDestination> = _navigationFlow.asSharedFlow()
 
+    /**
+     * Navigates to a new top-level destination.
+     *
+     * @param destination The [MainDestination] to navigate to.
+     */
     fun navigateTo(destination: MainDestination) = viewModelScope.launch {
         _navigationFlow.emit(destination)
     }
 
+    /**
+     * Updates the visibility state of the navigation tabs.
+     *
+     * @param show True to show the tabs, false to hide them.
+     */
     fun setShowTabs(show: Boolean) = viewModelScope.launch {
         _showTabs.emit(show)
     }
 
-    private val _newStorageDetected = MutableStateFlow<String?>(null)
-    val newStorageDetected = _newStorageDetected.asStateFlow()
+    /**
+     * Exposes the flow of newly detected storage devices from the medialibrary delegate.
+     */
+    val newStorageDetected = medialibraryDelegate.newStorageDetected
 
-    private val ctxClickListeners = mutableMapOf<MediaListEntry, (MediaLibraryItem, Int, CtxMenuItem) -> Unit>()
-
+    /**
+     * Registers a context menu click listener by delegating to [contextMenuDelegate].
+     */
     fun addCtxClickListener(mediaListEntry: MediaListEntry, listener: (MediaLibraryItem, Int, CtxMenuItem) -> Unit) {
-        ctxClickListeners[mediaListEntry] = listener
+        contextMenuDelegate.addCtxClickListener(mediaListEntry, listener)
     }
 
+    /**
+     * Updates the current media list entry to trigger display settings UI.
+     *
+     * @param entry The [MediaListEntry] to focus on, or null to close the settings.
+     */
     fun changeCurrentMediaListEntry(entry: MediaListEntry?) = viewModelScope.launch {
         _currentMediaListEntry.emit(entry)
     }
@@ -165,47 +139,38 @@ class MainActivityViewModel @Inject constructor(app: Application) : AndroidViewM
     private val tabsInfo = mutableMapOf<String, TabInfo>()
 
 
+    /**
+     * Toggles the editing state of the audio player queue.
+     */
     val editAudioQueue = MutableStateFlow(false)
     fun toggleEditAudioQueue() {
         editAudioQueue.value = !editAudioQueue.value
     }
 
-    val progress = MutableLiveData<ScanProgress?>(null)
-    private var progressJob: Job = viewModelScope.launch {
-        MediaParsingService.progress.asFlow().collect {
-            if (Medialibrary.getState().value == false) {
-                progress.value = null
-                return@collect
-            }
-            progress.value = it
-        }
-    }
+    /**
+     * Exposes the medialibrary parsing progress.
+     */
+    val progress = medialibraryDelegate.progress
 
-    private var workingJob: Job = viewModelScope.launch {
-        Medialibrary.getState().asFlow().collect {
-            if (!it) progress.value = null
-        }
-    }
-
-    private var storageJob: Job = viewModelScope.launch {
-        MediaParsingService.newStorages.asFlow().collect { devices ->
-            if (devices.isNullOrEmpty()) return@collect
-            _newStorageDetected.value = devices.first()
-            MediaParsingService.newStorages.value = null
-        }
+    init {
+        medialibraryDelegate.setup(viewModelScope)
     }
 
     override fun onCleared() {
         super.onCleared()
-        progressJob.cancel()
-        workingJob.cancel()
-        storageJob.cancel()
+        medialibraryDelegate.onCleared()
     }
 
+    /**
+     * Retrieves the stored tab layout information for a specific key.
+     */
     fun getTabInfo(key: String): TabInfo? {
         return tabsInfo[key]
     }
 
+    /**
+     * Stores tab layout information (position and size) for smooth animations.
+     */
     fun setTabInfo(key: String, info: TabInfo) {
         tabsInfo[key] = info
     }
@@ -229,143 +194,81 @@ class MainActivityViewModel @Inject constructor(app: Application) : AndroidViewM
         _currentDisplaySettingsChange.emit(DisplaySettingsChange(current, newIndex))
     }
 
+    /**
+     * Closes the current display settings dialog.
+     */
     fun hideDisplaySettings() = viewModelScope.launch {
         _currentMediaListEntry.emit(null)
     }
 
+    /**
+     * Triggers a snackbar message in the UI.
+     *
+     * @param content The [SnackbarContent] containing the message and duration.
+     */
     fun showSnackbar(content: SnackbarContent?) = viewModelScope.launch {
         _snackBarFlow.emit(content)
     }
 
+    /**
+     * Delegates storage acceptance to [medialibraryDelegate].
+     */
     fun acceptStorage(path: String) {
-        val context = getApplication<Application>()
-        val intent = Intent(ACTION_DISCOVER_DEVICE, null, context, MediaParsingService::class.java)
-                .putExtra(EXTRA_PATH, path)
-        context.launchForeground(intent)
-        _newStorageDetected.value = null
+        medialibraryDelegate.acceptStorage(path)
     }
 
+    /**
+     * Delegates storage decline to [medialibraryDelegate].
+     */
     fun declineStorage() {
-        _newStorageDetected.value = null
+        medialibraryDelegate.declineStorage()
     }
 
+    /**
+     * Handles context menu item clicks by delegating to [contextMenuDelegate].
+     */
     fun onCtxClick(entry: MediaListEntry, item: MediaLibraryItem, position: Int, it: CtxMenuItem) {
-        ctxClickListeners[entry]?.invoke(item, position, it)
+        contextMenuDelegate.onCtxClick(entry, item, position, it)
     }
 
+    /**
+     * Gets context menu flags for an item by delegating to [contextMenuDelegate].
+     */
     fun getFlags(activity: Activity, entry: MediaListEntry, item: MediaLibraryItem): List<CtxMenuItem>? {
-        val flags: FlagSet<ContextOption> = if (entry == MediaListEntry.HISTORY) {
-            createCtxHistoryFlags()
-        } else when (item.itemType) {
-            MediaLibraryItem.TYPE_MEDIA -> {
-                when (item) {
-                    is MediaWrapper if item.type == MediaWrapper.TYPE_DIR -> {
-                        FlagSet(ContextOption::class.java).apply {
-                            if (item.hasFlag(BrowserItemCtxFlags.isFolderEmpty)) add(CTX_PLAY)
-                            val isFileBrowser = entry.providerClass != NetworkProvider::class.java && item.uri.scheme == "file"
-                            if (!entry.isRoot && isFileBrowser) add(ContextOption.CTX_BAN_FOLDER)
-                            if (isFileBrowser && !entry.isRoot && !MedialibraryUtils.isScanned(item.uri.toString())) {
-                                add(CTX_ADD_SCANNED)
-                            }
-                            if (isFileBrowser) {
-                                add(CTX_APPEND)
-                                if (item.hasFlag(BrowserItemCtxFlags.hasMedias)) add(CTX_ADD_FOLDER_PLAYLIST)
-                                if (item.hasFlag(BrowserItemCtxFlags.hasSubfolders)) add(CTX_ADD_FOLDER_AND_SUB_PLAYLIST)
-                            }
-                        }
-                    }
-
-                    is Folder -> {
-                        createCtxFolderFlags().apply {
-                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                        }
-                    }
-
-                    is VideoGroup -> {
-                        if (item.presentCount == 0) {
-                            showSnackbar(SnackbarContent(activity.resources.getString(R.string.missing_media_snack)))
-                            return null
-                        } else {
-                            createCtxVideoGroupFlags().apply {
-                                if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                            }
-                        }
-                    }
-
-                    is MediaWrapper if item.type == MediaWrapper.TYPE_VIDEO -> {
-                        createCtxVideoFlags().apply {
-                            if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                            if (item.seen > 0) add(CTX_MARK_AS_UNPLAYED) else add(CTX_MARK_AS_PLAYED)
-                            if (item.time != 0L) add(CTX_PLAY_FROM_START)
-                            if (entry == MediaListEntry.VIDEO_GROUPS || entry.isGroup) {
-                                if (entry.isGroup) add(CTX_REMOVE_GROUP) else addAll(CTX_ADD_GROUP, CTX_GROUP_SIMILAR)
-                            }
-                            //go to folder
-                            if (item.uri.retrieveParent() != null) add(CTX_GO_TO_FOLDER)
-                            // no sharing on TV
-                            remove(ContextOption.CTX_SHARE)
-                            if (entry == MediaListEntry.BROWSER) remove(CTX_GO_TO_FOLDER)
-                        }
-                    }
-
-                    is MediaWrapper if isSchemeHttpOrHttps(item.uri.scheme) -> {
-                        FlagSet(ContextOption::class.java).apply {
-                            addAll(CTX_ADD_SHORTCUT, CTX_ADD_TO_PLAYLIST, CTX_APPEND, CTX_COPY, CTX_DELETE, CTX_RENAME)
-                        }
-                    }
-
-                    else -> createCtxTrackFlags().apply {
-                        if ((item as? MediaWrapper)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                        if ((item as? MediaWrapper)?.artistId != (item as? MediaWrapper)?.albumArtistId) add(CTX_GO_TO_ALBUM_ARTIST)
-                    }
-                }
-            }
-
-            MediaLibraryItem.TYPE_ARTIST -> {
-                createCtxAudioFlags().apply {
-                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
-                    if ((item as? Artist)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                }
-            }
-
-            MediaLibraryItem.TYPE_ALBUM -> {
-                createCtxPlaylistAlbumFlags().apply {
-                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
-                    if ((item as? Album)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                }
-            }
-
-            MediaLibraryItem.TYPE_GENRE -> {
-                createCtxAudioFlags().apply {
-                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
-                    if ((item as? Genre)?.isFavorite == true) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                }
-            }
-
-            MediaLibraryItem.TYPE_PLAYLIST -> {
-                createCtxPlaylistAlbumFlags().apply {
-                    add(CTX_PLAY_AS_AUDIO)
-                    if (item.tracksCount > 2) add(CTX_PLAY_SHUFFLE)
-                    if (item.isFavorite) add(CTX_FAV_REMOVE) else add(CTX_FAV_ADD)
-                }
-            }
-
-            else -> FlagSet(ContextOption::class.java)
+        return contextMenuDelegate.getFlags(activity, entry, item) { message ->
+            showSnackbar(SnackbarContent(message))
         }
-        return if (flags.isNotEmpty()) ContextSheet.populateMenuItems(activity, flags) else null
     }
 
+    /**
+     * Signals the UI to invalidate/refresh a specific media list.
+     */
     fun invalidateList(entry: MediaListEntry) = viewModelScope.launch {
         _invalidateMediaListEntry.emit(entry)
     }
 
+    /**
+     * Resets the invalidation state once the refresh is complete.
+     */
     fun invalidationDone() = viewModelScope.launch {
         _invalidateMediaListEntry.emit(null)
     }
 }
 
+/**
+ * Data class representing a change in display settings for a specific list entry.
+ */
 data class DisplaySettingsChange(val entry: MediaListEntry, val value: Int)
 
+/**
+ * Data class for snackbar notifications.
+ */
 data class SnackbarContent(val message:String, val duration:SnackbarDuration = SnackbarDuration.Short)
 
+/**
+ * Data class storing the layout information of a tab for focus and animation purposes.
+ * @property x The horizontal position in pixels.
+ * @property width The width in pixels.
+ * @property height The height in pixels.
+ */
 data class TabInfo(val x: Int, val width: Int, val height: Int)
