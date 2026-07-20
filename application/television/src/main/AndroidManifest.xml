@@ -33,12 +33,7 @@
                 android:theme="@style/Theme.VLC.TV"
                 tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".ui.AlbumPlaylistActivity"
-                android:label="@string/app_name"
-                android:theme="@style/Theme.VLC"
-                tools:ignore="LockedOrientationActivity" />
-        <activity
-                android:name=".ui.ArtistActivity"
+                android:name=".ui.AudioCategoryActivity"
                 android:label="@string/app_name"
                 android:theme="@style/Theme.VLC"
                 tools:ignore="LockedOrientationActivity" />
