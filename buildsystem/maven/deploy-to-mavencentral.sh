@@ -113,7 +113,7 @@ else
   mvn gpg:sign-and-deploy-file \
     --settings settings.xml \
     -DpomFile=$BASE_DIR/libvlc-all-$LIBVLC_VERSION.pom \
-    -Dfile=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-release.aar \
+    -Dfile=$BASE_DIR/libvlc-all-$LIBVLC_VERSION.aar \
     -Dsources=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-sources.jar \
     -Djavadoc=$BASE_DIR/libvlc-all-$LIBVLC_VERSION-javadoc.jar \
     -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
@@ -134,7 +134,7 @@ else
   mvn gpg:sign-and-deploy-file \
     --settings settings.xml \
     -DpomFile=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION.pom \
-    -Dfile=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-release.aar \
+    -Dfile=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION.aar \
     -Dsources=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-sources.jar \
     -Djavadoc=$BASE_DIR/medialibrary-all-$MEDIALIB_VERSION-javadoc.jar \
     -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
@@ -155,7 +155,7 @@ else
   mvn gpg:sign-and-deploy-file \
     --settings settings.xml \
     -DpomFile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION.pom \
-    -Dfile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-release.aar \
+    -Dfile=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION.aar \
     -Dsources=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-sources.jar \
     -Djavadoc=$BASE_DIR/remote-access-$REMOTE_ACCESS_VERSION-javadoc.jar \
     -Durl="https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/" \
