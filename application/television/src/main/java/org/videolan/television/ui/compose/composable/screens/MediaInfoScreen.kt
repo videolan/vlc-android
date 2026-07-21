@@ -26,6 +26,7 @@ package org.videolan.television.ui.compose.composable.screens
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.text.format.Formatter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -73,6 +74,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -387,7 +389,7 @@ private fun MediaInfoDetails(
                     InfoLine(stringResource(R.string.length), Tools.millisToString(totalLength))
                 }
                 if (item is MediaWrapper && fileSize > 0) {
-                    InfoLine(stringResource(R.string.file_size), android.text.format.Formatter.formatShortFileSize(null, fileSize))
+                    InfoLine(stringResource(R.string.file_size), Formatter.formatShortFileSize(LocalContext.current, fileSize))
                 }
                 if (item is Artist) {
                     InfoLine(stringResource(R.string.albums), item.albumsCount.toString())
