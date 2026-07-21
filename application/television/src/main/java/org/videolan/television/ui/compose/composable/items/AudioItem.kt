@@ -70,6 +70,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.shadow.Shadow
@@ -107,8 +108,10 @@ import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent25
+import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
@@ -231,6 +234,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     Image(
                         painter = painterResource(id = getTvIconRes(item)),
                         contentDescription = "Map snapshot",
+                        colorFilter = ColorFilter.tint(WhiteTransparent70),
                         modifier = Modifier
                             .padding(24.dp)
                             .fillMaxSize()
