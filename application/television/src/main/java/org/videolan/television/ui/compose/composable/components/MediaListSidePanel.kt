@@ -109,7 +109,7 @@ fun MediaListSidePanel(modifier: Modifier = Modifier, content: MediaListSidePane
     
     // Background Color Animation
     val backgroundColor by animateColorAsState(
-        targetValue = if (hasFocus) MaterialTheme.colorScheme.surfaceVariant else Color.Transparent,
+        targetValue = if (hasFocus) MaterialTheme.colorScheme.surfaceDim else Color.Transparent,
         label = "backgroundColor"
     )
 
