@@ -103,7 +103,7 @@ import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.ItemOptions
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
-import org.videolan.television.ui.compose.composable.lists.vlcBorder
+import org.videolan.television.ui.compose.composable.components.MiniVisualizer
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.BlackTransparent70
 import org.videolan.television.ui.compose.theme.Transparent
@@ -113,6 +113,8 @@ import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
+import org.videolan.television.ui.compose.utils.vlcBorder
+import org.videolan.television.ui.compose.utils.vlcShadow
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.MediaListEntry
@@ -180,15 +182,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                 .onFocusChanged {
                     focused = it.isFocused
                 }
-                .dropShadow(
-                    shape = shape,
-                    shadow = Shadow(
-                        radius = 8.dp,
-                        spread = 0.dp,
-                        color = if (focused) MaterialTheme.colorScheme.primary else Transparent,
-                        offset = DpOffset(x = 0.dp, 0.dp)
-                    )
-                )
+                .vlcShadow(focused, shape)
                 .combinedClickable(
                     onClick = onClick,
                     onLongClick = {

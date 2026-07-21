@@ -26,16 +26,19 @@ package org.videolan.television.ui.compose.utils
 
 import android.content.Context
 import android.view.ContextThemeWrapper
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -43,8 +46,10 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
@@ -53,8 +58,10 @@ import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.vlc.R
 import org.videolan.vlc.util.fileReplacementMarker
@@ -160,3 +167,18 @@ fun VlcPreview(content: @Composable (Context) -> Unit) {
         }
     }
 }
+
+@Composable
+fun vlcBorder(focus: Boolean) = if (focus) BorderStroke(3.dp, MaterialTheme.colorScheme.onSurface) else BorderStroke(0.dp, Transparent)
+
+@Composable
+fun Modifier.vlcShadow(focused: Boolean, shape: Shape) = this.dropShadow(
+    shape = shape,
+    shadow = Shadow(
+        radius = if (focused) 16.dp else 0.dp,
+        spread = 0.dp,
+        color = if (focused) MaterialTheme.colorScheme.primary.copy(alpha = 0.8f) else Transparent,
+        offset = DpOffset(x = 0.dp, 0.dp)
+    )
+)
+
