@@ -43,6 +43,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.VLCInstance
+import org.videolan.vlc.getAllTracks
 import org.videolan.vlc.util.ThumbnailsProvider
 import java.io.File
 import javax.inject.Inject
@@ -117,10 +118,9 @@ class MediaInfoViewModel @Inject constructor(
         val libVlc = VLCInstance.getInstance(context)
         val media = mediaFactory.getFromUri(libVlc, mediaWrapper.uri)
         media.parse()
-        val trackCount = media.trackCount
+        val tracks = media.getAllTracks()
         val trackDataList = mutableListOf<TrackData>()
-        for (i in 0 until trackCount) {
-            val track = media.getTrack(i)
+        for (track in tracks) {
             trackDataList.add(
                 TrackData(
                     type = track.type,
