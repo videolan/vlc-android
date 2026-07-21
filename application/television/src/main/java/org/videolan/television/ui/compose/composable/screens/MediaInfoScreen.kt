@@ -106,6 +106,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent20
 import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.TrackData
+import org.videolan.vlc.util.LocaleUtil
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import org.videolan.vlc.R
 
@@ -459,7 +460,9 @@ private fun TrackInfoSection(track: TrackData) {
         val list = mutableListOf<Pair<String, String>>()
         list.add(codecLabel to track.codec)
         if (track.bitrate > 0) list.add(bitrateLabel to "${track.bitrate / 1000} kb/s")
-        if (!track.language.isNullOrEmpty()) list.add(languageLabel to track.language!!)
+        if (!track.language.isNullOrEmpty() && !track.language.equals("und", ignoreCase = true)) {
+            list.add(languageLabel to LocaleUtil.getLocaleName(track.language!!))
+        }
         if (track.type == IMedia.Track.Type.Video) {
             list.add(resolutionLabel to "${track.width}x${track.height}")
             if (track.frameRateDen > 0) {
