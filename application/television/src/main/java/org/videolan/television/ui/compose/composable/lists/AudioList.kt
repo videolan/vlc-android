@@ -417,9 +417,6 @@ fun MediaList(entry: MediaListEntry, index: Int, onFocusExit: () -> Unit = {}, o
     }
 }
 
-@Composable
-fun vlcBorder(focus: Boolean) = if (focus) BorderStroke(3.dp, MaterialTheme.colorScheme.onSurface) else BorderStroke(0.dp, Transparent)
-
 fun AudioBrowserViewModel.getProvider(entry: MediaListEntry): MedialibraryProvider<out MediaLibraryItem> {
     return when (entry) {
         MediaListEntry.ARTISTS -> artistsProvider

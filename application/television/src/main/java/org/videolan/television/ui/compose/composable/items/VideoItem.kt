@@ -94,6 +94,8 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.conditional
+import org.videolan.television.ui.compose.utils.vlcBorder
+import org.videolan.television.ui.compose.utils.vlcShadow
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass
@@ -116,15 +118,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                 .onFocusChanged {
                     focused = it.isFocused
                 }
-                .dropShadow(
-                    shape = MaterialTheme.shapes.medium,
-                    shadow = Shadow(
-                        radius = 8.dp,
-                        spread = 0.dp,
-                        color = if (focused) MaterialTheme.colorScheme.primary else Transparent,
-                        offset = DpOffset(x = 0.dp, 0.dp)
-                    )
-                )
+                .vlcShadow(focused, MaterialTheme.shapes.medium)
                 .combinedClickable(
                     onClick = {
                         onClick()
