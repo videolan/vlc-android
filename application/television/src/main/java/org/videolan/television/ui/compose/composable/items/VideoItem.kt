@@ -57,6 +57,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.PointerEventType
@@ -84,6 +85,7 @@ import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
+import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.television.ui.compose.utils.vlcBorder
@@ -159,6 +161,7 @@ fun VideoItem(video: MediaLibraryItem, entry: MediaListEntry, position: Int, mod
                     Image(
                         painter = painterResource(id = R.drawable.ic_video),
                         contentDescription = "Map snapshot",
+                        colorFilter = ColorFilter.tint(WhiteTransparent70),
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(16f / 9)

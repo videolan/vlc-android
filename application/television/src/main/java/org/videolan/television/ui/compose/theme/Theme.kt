@@ -31,9 +31,9 @@ import androidx.compose.runtime.Composable
 private val DarkColorScheme = darkColorScheme(
     primary = Orange500,
     secondary = Orange800,
-    background = BackgroundColor,
-    surface = BackgroundColor,
-    surfaceVariant = BackgroundColorMedium,
+    background = BackgroundColorMedium,
+    surface = BackgroundColorMedium,
+    surfaceVariant = BackgroundColor,
     onSurface = White,
     onPrimary = White,
     surfaceDim = BackgroundColorDark
