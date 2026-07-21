@@ -98,7 +98,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.medialibrary.media.PlaylistImpl
 import org.videolan.resources.AndroidDevices
-import org.videolan.television.R
 import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
@@ -108,7 +107,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent70
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.TrackData
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
-import org.videolan.vlc.R as vlcR
+import org.videolan.vlc.R
 
 @Composable
 fun MediaInfoScreen(
@@ -219,7 +218,7 @@ private fun MediaInfoHeader(
 private fun Breadcrumbs(modifier: Modifier = Modifier, uri: Uri?) {
     if (uri == null) return
     val delegate = remember { PathOperationDelegate() }
-    val internalMemoryLabel = stringResource(id = vlcR.string.internal_memory)
+    val internalMemoryLabel = stringResource(id = R.string.internal_memory)
 
     val isPreview = LocalInspectionMode.current
     val segments = remember(uri, internalMemoryLabel) {
@@ -274,7 +273,7 @@ private fun Breadcrumbs(modifier: Modifier = Modifier, uri: Uri?) {
 
                 if (index < segments.size - 1) {
                     Icon(
-                        painter = painterResource(id = vlcR.drawable.ic_divider),
+                        painter = painterResource(id = R.drawable.ic_divider),
                         contentDescription = null,
                         tint = WhiteTransparent70,
                         modifier = Modifier
@@ -441,26 +440,32 @@ private fun InfoLine(label: String, value: String) {
 @Composable
 private fun TrackInfoSection(track: TrackData) {
     val title = when (track.type) {
-        IMedia.Track.Type.Audio -> stringResource(vlcR.string.track_audio)
-        IMedia.Track.Type.Video -> stringResource(vlcR.string.track_video)
-        IMedia.Track.Type.Text -> stringResource(vlcR.string.track_text)
-        else -> stringResource(vlcR.string.track_unknown)
+        IMedia.Track.Type.Audio -> stringResource(R.string.track_audio)
+        IMedia.Track.Type.Video -> stringResource(R.string.track_video)
+        IMedia.Track.Type.Text -> stringResource(R.string.track_text)
+        else -> stringResource(R.string.track_unknown)
     }
 
-    val codecLabel = stringResource(vlcR.string.codec)
-    val bitrateLabel = stringResource(vlcR.string.bitrate)
-    val languageLabel = stringResource(vlcR.string.language)
-    val resolutionLabel = stringResource(vlcR.string.resolution)
-    val channelsLabel = stringResource(vlcR.string.channels)
-    val rateLabel = stringResource(vlcR.string.track_samplerate)
+    val codecLabel = stringResource(R.string.codec)
+    val bitrateLabel = stringResource(R.string.bitrate)
+    val languageLabel = stringResource(R.string.language)
+    val resolutionLabel = stringResource(R.string.resolution)
+    val framerateLabel = stringResource(R.string.framerate)
+    val channelsLabel = stringResource(R.string.channels)
+    val rateLabel = stringResource(R.string.track_samplerate)
+    val framerateValueTemplate = stringResource(R.string.framerate_value)
 
-    val info = remember(track, codecLabel, bitrateLabel, languageLabel, resolutionLabel, channelsLabel, rateLabel) {
+    val info = remember(track, codecLabel, bitrateLabel, languageLabel, resolutionLabel, framerateLabel, channelsLabel, rateLabel, framerateValueTemplate) {
         val list = mutableListOf<Pair<String, String>>()
         list.add(codecLabel to track.codec)
         if (track.bitrate > 0) list.add(bitrateLabel to "${track.bitrate / 1000} kb/s")
         if (!track.language.isNullOrEmpty()) list.add(languageLabel to track.language!!)
         if (track.type == IMedia.Track.Type.Video) {
             list.add(resolutionLabel to "${track.width}x${track.height}")
+            if (track.frameRateDen > 0) {
+                val frameRate = track.frameRateNum / track.frameRateDen.toDouble()
+                list.add(framerateLabel to framerateValueTemplate.format(frameRate))
+            }
         } else if (track.type == IMedia.Track.Type.Audio) {
             list.add(channelsLabel to track.channels.toString())
             list.add(rateLabel to "${track.rate} Hz")
