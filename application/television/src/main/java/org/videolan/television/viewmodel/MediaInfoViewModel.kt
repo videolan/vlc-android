@@ -130,6 +130,8 @@ class MediaInfoViewModel @Inject constructor(
                     description = track.description,
                     width = (track as? IMedia.VideoTrack)?.width ?: 0,
                     height = (track as? IMedia.VideoTrack)?.height ?: 0,
+                    frameRateNum = (track as? IMedia.VideoTrack)?.frameRateNum ?: 0,
+                    frameRateDen = (track as? IMedia.VideoTrack)?.frameRateDen ?: 0,
                     channels = (track as? IMedia.AudioTrack)?.channels ?: 0,
                     rate = (track as? IMedia.AudioTrack)?.rate ?: 0
                 )
@@ -165,6 +167,8 @@ data class TrackData(
     val description: String?,
     val width: Int = 0,
     val height: Int = 0,
+    val frameRateNum: Int = 0,
+    val frameRateDen: Int = 0,
     val channels: Int = 0,
     val rate: Int = 0
 )
