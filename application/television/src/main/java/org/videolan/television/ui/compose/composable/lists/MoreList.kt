@@ -57,10 +57,10 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.BROWSER_TYPE
 import org.videolan.resources.HEADER_STREAM
 import org.videolan.television.R
 import org.videolan.television.ui.AboutActivity
-import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.browser.TVActivity
@@ -209,7 +209,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
             }
             ContentLine(streams, MediaListEntry.STREAMS, streamsLoading, R.string.streams, onItemClick = { onClick(streams!![it], it) }) {
                 val intent = Intent(activity, TVActivity::class.java)
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+                intent.putExtra(BROWSER_TYPE, HEADER_STREAM)
                 activity?.startActivity(intent)
             }
         }

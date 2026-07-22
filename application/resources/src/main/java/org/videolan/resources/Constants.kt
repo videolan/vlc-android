@@ -45,6 +45,7 @@ const val ID_PREFERENCES = "preferences"
 const val ACTIVITY_RESULT_PREFERENCES = 1
 const val ACTIVITY_RESULT_OPEN = 2
 const val ACTIVITY_RESULT_SECONDARY = 3
+const val BROWSER_TYPE = "browser_type"
 
 // PlaybackService
 @JvmField

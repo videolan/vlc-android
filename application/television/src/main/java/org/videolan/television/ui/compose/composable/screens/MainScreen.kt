@@ -100,7 +100,6 @@ import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.videolan.television.R
-import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.SearchActivity
 import org.videolan.television.ui.compose.AudioDestination
 import org.videolan.television.ui.compose.MainDestination
@@ -336,10 +335,6 @@ fun Tabs(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.focusGroup()
                         ) {
-                            LabeledIconButton(stringResource(R.string.old_ui), vectorImage = Icons.Default.Palette) {
-                                activity?.startActivity(Intent(activity.applicationContext, MainTvActivity::class.java))
-                                activity?.finish()
-                            }
                             LabeledIconButton(stringResource(R.string.search), vectorImage = Icons.Default.Search) {
                                 activity?.startActivity(Intent(context, SearchActivity::class.java))
                             }

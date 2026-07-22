@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.BROWSER_TYPE
 import org.videolan.resources.CATEGORY
 import org.videolan.resources.CATEGORY_ALBUMS
 import org.videolan.resources.CATEGORY_ARTISTS
@@ -52,7 +53,6 @@ import org.videolan.resources.KEY_URI
 import org.videolan.resources.util.parcelable
 import org.videolan.television.R
 import org.videolan.television.databinding.TvVerticalGridBinding
-import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.browser.interfaces.BrowserActivityInterface
 import org.videolan.television.ui.browser.interfaces.DetailsFragment
 import org.videolan.vlc.BuildConfig
@@ -71,7 +71,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
         binding = TvVerticalGridBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         if (savedInstanceState == null) {
-            val type = intent.getLongExtra(MainTvActivity.BROWSER_TYPE, -1)
+            val type = intent.getLongExtra(BROWSER_TYPE, -1)
             if (type == HEADER_VIDEO) {
                 fragment = MediaBrowserTvFragment.newInstance(CATEGORY_VIDEOS, null)
             } else if (type == HEADER_CATEGORIES) {
