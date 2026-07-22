@@ -20,8 +20,12 @@
  */
 package org.videolan.television.ui
 
+import android.app.SearchManager
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -36,18 +40,52 @@ class SearchActivity : DefaultTvActivity() {
 
     private val viewModel: SearchViewModel by viewModels()
 
+    private val voiceSearchLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val spokenText: String? =
+                result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)
+            spokenText?.let { viewModel.setQuery(it) }
+        }
+    }
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        handleIntent(intent)
         setContent {
             VlcTVTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     SearchScreen(
                         viewModel = viewModel,
-                        onVoiceSearchClick = {}
+                        onVoiceSearchClick = { startVoiceSearch() }
                     )
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        if (Intent.ACTION_SEARCH == intent.action || "com.google.android.gms.actions.SEARCH_ACTION" == intent.action) {
+            intent.getStringExtra(SearchManager.QUERY)?.let { query ->
+                viewModel.setQuery(query)
+            }
+        }
+    }
+
+    private fun startVoiceSearch() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        }
+        voiceSearchLauncher.launch(intent)
+    }
+
+    override fun onSearchRequested(): Boolean {
+        startVoiceSearch()
+        return true
     }
 
     companion object {
