@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -163,7 +164,13 @@ fun VlcPreview(content: @Composable (Context) -> Unit) {
     val themedContext = remember(context) { ContextThemeWrapper(context, org.videolan.television.R.style.Theme_VLC) }
     CompositionLocalProvider(LocalContext provides themedContext) {
         VlcTVTheme {
-            content(context)
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            ) {
+                content(context)
+            }
         }
     }
 }

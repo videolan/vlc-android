@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +34,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -42,7 +44,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -53,10 +54,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
@@ -65,6 +66,7 @@ import org.videolan.medialibrary.stubs.StubArtist
 import org.videolan.medialibrary.stubs.StubGenre
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.television.R
+import org.videolan.television.ui.TvUtil
 import org.videolan.television.ui.compose.composable.components.VlcEmptyViewLoader
 import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.composable.items.VideoItem
@@ -97,57 +99,53 @@ fun SearchScreen(
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    VlcTVTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            shape = RectangleShape,
-            color = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = VlcTVTheme.dimens.overscanVertical)
+    ) {
+        // Search Input Row
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = VlcTVTheme.dimens.overscanHorizontal)
         ) {
-            Column(
+            OutlinedTextField(
+                value = query,
+                onValueChange = onQueryChange,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = VlcTVTheme.dimens.overscanVertical)
-            ) {
-                // Search Input Row
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = VlcTVTheme.dimens.overscanHorizontal)
+                    .weight(1f)
+                    .focusRequester(focusRequester),
+                label = { Text(stringResource(id = R.string.search)) },
+                singleLine = true,
+                trailingIcon = {
+                    IconButton(onClick = onVoiceSearchClick) {
+                        Icon(imageVector = Icons.Default.Mic, contentDescription = null)
+                    }
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        val loadingState = when {
+            query.length < 3 -> EmptyLoadingState.NONE
+            searchResult == null -> EmptyLoadingState.LOADING
+            searchResult.isEmpty -> EmptyLoadingState.EMPTY_SEARCH
+            else -> EmptyLoadingState.NONE
+        }
+
+        VlcEmptyViewLoader(
+            state = loadingState,
+            modifier = Modifier.weight(1f).fillMaxWidth()
+        ) {
+            searchResult?.let { results ->
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = VlcTVTheme.dimens.overscanVertical, top = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
-                    OutlinedTextField(
-                        value = query,
-                        onValueChange = onQueryChange,
-                        modifier = Modifier
-                            .weight(1f)
-                            .focusRequester(focusRequester),
-                        label = { Text(stringResource(id = R.string.search)) },
-                        singleLine = true,
-                        trailingIcon = {
-                            IconButton(onClick = onVoiceSearchClick) {
-                                Icon(imageVector = Icons.Default.Mic, contentDescription = null)
-                            }
-                        }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                val loadingState = when {
-                    query.length < 3 -> EmptyLoadingState.NONE
-                    searchResult == null -> EmptyLoadingState.LOADING
-                    searchResult.isEmpty -> EmptyLoadingState.EMPTY_SEARCH
-                    else -> EmptyLoadingState.NONE
-                }
-
-                VlcEmptyViewLoader(state = loadingState) {
-                    searchResult?.let { results ->
-                        LazyColumn(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentPadding = PaddingValues(bottom = VlcTVTheme.dimens.overscanVertical),
-                            verticalArrangement = Arrangement.spacedBy(24.dp)
-                        ) {
                             results.videos?.let { videos ->
                                 if (videos.isNotEmpty()) {
                                     item {
@@ -207,8 +205,6 @@ fun SearchScreen(
                     }
                 }
             }
-        }
-    }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -221,10 +217,11 @@ private fun SearchCategory(
     items: List<MediaLibraryItem>,
     entry: MediaListEntry
 ) {
+    val activity = LocalActivity.current as? FragmentActivity
     Column {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(start = VlcTVTheme.dimens.overscanHorizontal, bottom = 8.dp)
         )
         LazyRow(
@@ -241,14 +238,22 @@ private fun SearchCategory(
                         video = item,
                         entry = entry,
                         position = index,
-                        onClick = { /* TODO */ }
+                        modifier = Modifier.width(200.dp),
+                        onClick = {
+                            TvUtil.openMedia(activity!!, item)
+                            activity.finish()
+                        }
                     )
 
                     else -> AudioItem(
                         audios = items,
                         entry = entry,
                         index = index,
-                        onClick = { /* TODO */ }
+                        modifier = Modifier.width(150.dp),
+                        onClick = {
+                            TvUtil.openMedia(activity!!, item)
+                            activity.finish()
+                        }
                     )
                 }
             }
