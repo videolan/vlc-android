@@ -24,13 +24,29 @@
 
 package org.videolan.television.ui
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
-import org.videolan.television.R
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import org.videolan.resources.TV_MAIN_ACTIVITY
+import org.videolan.television.ui.compose.composable.screens.OnboardingScreen
+import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.tools.KEY_TV_ONBOARDING_DONE
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 
-class OnboardingActivity : FragmentActivity() {
+class OnboardingActivity : ComponentActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.onboarding)
+        setContent {
+            VlcTVTheme {
+                OnboardingScreen(onFinish = {
+                    Settings.getInstance(this).putSingle(KEY_TV_ONBOARDING_DONE, true)
+                    finish()
+                    val intent = Intent(Intent.ACTION_VIEW).setClassName(this, TV_MAIN_ACTIVITY)
+                    startActivity(intent)
+                })
+            }
+        }
     }
 }
