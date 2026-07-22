@@ -24,6 +24,7 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
@@ -36,9 +37,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.launch
 import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.VlcTVTheme
@@ -47,6 +52,7 @@ import org.videolan.vlc.R as vlcR
 
 @Composable
 fun OnboardingScreen(onFinish: () -> Unit) {
+    val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { 3 })
 
     Box(
@@ -59,10 +65,46 @@ fun OnboardingScreen(onFinish: () -> Unit) {
             modifier = Modifier.fillMaxSize(),
             userScrollEnabled = false
         ) { page ->
-            // Pages will be implemented in subsequent steps
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Page $page", color = White)
+            when (page) {
+                0 -> WelcomePage(onNext = { scope.launch { pagerState.animateScrollToPage(1) } })
+                else -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(text = "Page $page", color = White)
+                    }
+                }
             }
+        }
+    }
+}
+
+@Composable
+private fun WelcomePage(onNext: () -> Unit) {
+    OnboardingPage(
+        buttonText = vlcR.string.next,
+        onButtonClick = onNext
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = vlcR.drawable.ic_launcher_foreground),
+                contentDescription = null,
+                modifier = Modifier.size(200.dp)
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(id = vlcR.string.welcome_title),
+                style = MaterialTheme.typography.headlineLarge,
+                color = Color.White
+            )
+            Text(
+                text = stringResource(id = vlcR.string.welcome_subtitle),
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.White.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 48.dp)
+            )
         }
     }
 }
@@ -131,6 +173,14 @@ fun OnboardingPage(
 private fun OnboardingScreenPreview() {
     VlcPreview {
         OnboardingScreen(onFinish = {})
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun WelcomePagePreview() {
+    VlcPreview {
+        WelcomePage(onNext = {})
     }
 }
 
