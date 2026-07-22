@@ -144,7 +144,25 @@ private fun VlcEmptyViewLoader(
                     }
                 }
 
-                EmptyLoadingState.EMPTY_SEARCH -> TODO("Not implemented as the lists are not searchable yet")
+                EmptyLoadingState.EMPTY_SEARCH -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 64.dp),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Image(painterResource(R.drawable.ic_empty), contentDescription = null, modifier = Modifier.size(96.dp))
+                            Text(
+                                modifier = Modifier.padding(top = 16.dp),
+                                text = stringResource(R.string.no_result),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
                 EmptyLoadingState.MISSING_PERMISSION -> {
                     Box(
                         modifier = Modifier
