@@ -167,7 +167,7 @@ fun OnboardingScreen(onFinish: () -> Unit) {
                         }
                     }
                 )
-                2 -> AllSetPage(permissionGranted, onFinish)
+                2 -> AllSetPage(pagerState.currentPage == 2, permissionGranted, onFinish)
             }
         }
     }
@@ -409,10 +409,19 @@ private fun NoPermissionView(onBackToSelection: () -> Unit, onNext: () -> Unit) 
 }
 
 @Composable
-private fun AllSetPage(permissionGranted: Boolean, onFinish: () -> Unit) {
+private fun AllSetPage(isVisible: Boolean, permissionGranted: Boolean, onFinish: () -> Unit) {
+    val startVlcFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(isVisible) {
+        if (isVisible) {
+            startVlcFocusRequester.requestFocus()
+        }
+    }
+
     OnboardingPage(
         buttonText = vlcR.string.start_vlc,
-        onButtonClick = onFinish
+        onButtonClick = onFinish,
+        buttonModifier = Modifier.focusRequester(startVlcFocusRequester)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -474,6 +483,7 @@ fun OnboardingPage(
     modifier: Modifier = Modifier,
     buttonText: Int? = null,
     onButtonClick: (() -> Unit)? = null,
+    buttonModifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
@@ -493,7 +503,7 @@ fun OnboardingPage(
             OnboardingButton(
                 text = buttonText,
                 onClick = onButtonClick,
-                modifier = Modifier.align(Alignment.BottomCenter)
+                modifier = buttonModifier.align(Alignment.BottomCenter)
             )
         }
     }
@@ -519,7 +529,7 @@ private fun WelcomePagePreview() {
 @Composable
 private fun AllSetPagePreview() {
     VlcPreview {
-        AllSetPage(permissionGranted = true, onFinish = {})
+        AllSetPage(isVisible = true, permissionGranted = true, onFinish = {})
     }
 }
 
