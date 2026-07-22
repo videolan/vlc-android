@@ -53,6 +53,7 @@ import org.videolan.moviepedia.repository.MediaPersonRepository
 import org.videolan.moviepedia.viewmodel.MediaMetadataFull
 import org.videolan.moviepedia.viewmodel.MediaMetadataModel
 import org.videolan.resources.ACTION_REMOTE_STOP
+import org.videolan.resources.BROWSER_TYPE
 import org.videolan.resources.FAVORITE_TITLE
 import org.videolan.resources.HEADER_DIRECTORIES
 import org.videolan.resources.HEADER_NETWORK
@@ -361,7 +362,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 ID_NAVIGATE_PARENT -> {
                     viewModel.media.uri.retrieveParent()?.let { item ->
                         val intent = Intent(activity, VerticalGridActivity::class.java)
-                        intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                        intent.putExtra(BROWSER_TYPE, if ("file" == item.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                         intent.putExtra(FAVORITE_TITLE, item.lastPathSegment)
                         intent.data = item
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -26,13 +26,6 @@
                 android:label="@string/app_name"
                 android:theme="@style/Theme.VLC" />
         <activity
-                android:name=".ui.MainTvActivity"
-                android:label="@string/app_name"
-                android:launchMode="singleTask"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"
-                tools:ignore="LockedOrientationActivity" />
-        <activity
                 android:name=".ui.AudioCategoryActivity"
                 android:label="@string/app_name"
                 android:theme="@style/Theme.VLC"
@@ -62,12 +55,6 @@
                 tools:ignore="LockedOrientationActivity" />
         <activity
                 android:name=".ui.browser.VerticalGridActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"
-                tools:ignore="LockedOrientationActivity" />
-        <activity
-                android:name=".ui.details.MediaListActivity"
                 android:exported="true"
                 android:screenOrientation="landscape"
                 android:theme="@style/Theme.VLC.TV"
