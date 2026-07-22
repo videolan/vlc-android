@@ -24,6 +24,14 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -52,13 +60,18 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import kotlinx.coroutines.launch
+import org.videolan.resources.SCHEME_PACKAGE
+import org.videolan.resources.util.canReadStorage
 import org.videolan.television.ui.compose.theme.BackgroundColorDark
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.VlcTVTheme
@@ -72,10 +85,40 @@ enum class PermissionLevel {
 
 @Composable
 fun OnboardingScreen(onFinish: () -> Unit) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { 3 })
 
+    var permissionGranted by remember { mutableStateOf(canReadStorage(context)) }
     var selectedLevel by remember { mutableStateOf(PermissionLevel.ALL) }
+    var hasDeniedPermission by remember { mutableStateOf(false) }
+    var waitingForPermission by remember { mutableStateOf(false) }
+
+    // Re-check permission status when returning to the app
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        permissionGranted = canReadStorage(context)
+        if (pagerState.currentPage == 1) {
+            if (permissionGranted) {
+                scope.launch { pagerState.animateScrollToPage(2) }
+            } else if (waitingForPermission) {
+                hasDeniedPermission = true
+            }
+        }
+        waitingForPermission = false
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { _ ->
+        // Logic handled in ON_RESUME
+    }
+
+    LaunchedEffect(pagerState.currentPage) {
+        permissionGranted = canReadStorage(context)
+        if (pagerState.currentPage == 1 && permissionGranted) {
+            pagerState.animateScrollToPage(2)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -89,13 +132,39 @@ fun OnboardingScreen(onFinish: () -> Unit) {
         ) { page ->
             when (page) {
                 0 -> WelcomePage(onNext = { scope.launch { pagerState.animateScrollToPage(1) } })
-                1 -> PermissionSelectionView(
+                1 -> PermissionsPage(
                     isVisible = pagerState.currentPage == 1,
+                    permissionGranted = permissionGranted,
+                    hasDeniedPermission = hasDeniedPermission,
                     selectedLevel = selectedLevel,
                     onLevelFocused = { selectedLevel = it },
+                    onResetDenial = { hasDeniedPermission = false },
+                    onNext = { scope.launch { pagerState.animateScrollToPage(2) } },
                     onRequestPermission = {
-                        // Logic will be added in Step 4
-                        scope.launch { pagerState.animateScrollToPage(2) }
+                        when (selectedLevel) {
+                            PermissionLevel.NONE -> {
+                                hasDeniedPermission = true
+                            }
+                            PermissionLevel.MEDIA -> {
+                                waitingForPermission = true
+                                val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    arrayOf(Manifest.permission.READ_MEDIA_AUDIO, Manifest.permission.READ_MEDIA_VIDEO)
+                                } else {
+                                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                                }
+                                launcher.launch(permissions)
+                            }
+                            PermissionLevel.ALL -> {
+                                waitingForPermission = true
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    val uri = Uri.fromParts(SCHEME_PACKAGE, context.packageName, null)
+                                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
+                                    context.startActivity(intent)
+                                } else {
+                                    launcher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
+                                }
+                            }
+                        }
                     }
                 )
                 else -> {
@@ -137,6 +206,24 @@ private fun WelcomePage(onNext: () -> Unit) {
                 modifier = Modifier.padding(horizontal = 48.dp)
             )
         }
+    }
+}
+
+@Composable
+private fun PermissionsPage(
+    isVisible: Boolean,
+    permissionGranted: Boolean,
+    hasDeniedPermission: Boolean,
+    selectedLevel: PermissionLevel,
+    onLevelFocused: (PermissionLevel) -> Unit,
+    onResetDenial: () -> Unit,
+    onNext: () -> Unit,
+    onRequestPermission: () -> Unit
+) {
+    if (hasDeniedPermission && !permissionGranted) {
+        NoPermissionView(onResetDenial, onNext)
+    } else {
+        PermissionSelectionView(isVisible, selectedLevel, onLevelFocused, onRequestPermission)
     }
 }
 
@@ -273,6 +360,58 @@ private fun PermissionOption(
     }
 }
 
+@Composable
+private fun NoPermissionView(onBackToSelection: () -> Unit, onNext: () -> Unit) {
+    val askAgainFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        askAgainFocusRequester.requestFocus()
+    }
+
+    OnboardingPage(
+        buttonText = vlcR.string.next,
+        onButtonClick = onNext
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = vlcR.drawable.ic_onboarding_no_permission),
+                contentDescription = null,
+                modifier = Modifier.size(120.dp)
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(id = vlcR.string.permission_not_granted),
+                style = MaterialTheme.typography.headlineLarge,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OnboardingButton(
+                text = vlcR.string.permission_ask_again,
+                onClick = onBackToSelection,
+                modifier = Modifier.focusRequester(askAgainFocusRequester)
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(id = vlcR.string.permission_expanation_no_allow),
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.White.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 48.dp)
+            )
+            Text(
+                text = stringResource(id = vlcR.string.permission_expanation_allow),
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.White.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 48.dp)
+            )
+        }
+    }
+}
+
 /**
  * Local button component for onboarding to avoid modifying the common VLCButton
  * and to satisfy the "no icon" requirement.
@@ -350,14 +489,9 @@ private fun WelcomePagePreview() {
 
 @Preview(device = "id:tv_1080p")
 @Composable
-private fun PermissionSelectionViewPreview() {
+private fun NoPermissionViewPreview() {
     VlcPreview {
-        PermissionSelectionView(
-            isVisible = true,
-            selectedLevel = PermissionLevel.ALL,
-            onLevelFocused = {},
-            onRequestPermission = {}
-        )
+        NoPermissionView(onBackToSelection = {}, onNext = {})
     }
 }
 
