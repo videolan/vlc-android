@@ -117,7 +117,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     }
 
     private fun updateEmtyView(empty: Boolean) {
-        (activity as? SearchActivity)?.updateEmptyView(empty)
+        // (activity as? SearchActivity)?.updateEmptyView(empty)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -149,7 +149,7 @@ class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.S
     }
 
     private fun updateEmptyView(empty: Boolean) {
-        (activity as? SearchActivity)?.updateEmptyView(empty)
+        (activity as? MediaScrapingTvActivity)?.updateEmptyView(empty)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
