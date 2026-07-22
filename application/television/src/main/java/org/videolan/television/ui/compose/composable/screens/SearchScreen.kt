@@ -33,14 +33,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -124,12 +123,13 @@ fun SearchScreen(
                             .weight(1f)
                             .focusRequester(focusRequester),
                         label = { Text(stringResource(id = R.string.search)) },
-                        singleLine = true
+                        singleLine = true,
+                        trailingIcon = {
+                            IconButton(onClick = onVoiceSearchClick) {
+                                Icon(imageVector = Icons.Default.Mic, contentDescription = null)
+                            }
+                        }
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(onClick = onVoiceSearchClick) {
-                        Icon(imageVector = Icons.Default.Mic, contentDescription = null)
-                    }
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
