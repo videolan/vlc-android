@@ -1,7 +1,7 @@
 /*****************************************************************************
- * SearchActivity.java
+ * SearchActivity.kt
  *
- * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
+ * Copyright © 2014-2025 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,36 +20,34 @@
  */
 package org.videolan.television.ui
 
-import android.annotation.TargetApi
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import org.videolan.television.R
-import org.videolan.television.ui.browser.BaseTvActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import dagger.hilt.android.AndroidEntryPoint
+import org.videolan.television.ui.compose.composable.screens.SearchScreen
+import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.viewmodel.SearchViewModel
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class SearchActivity : BaseTvActivity() {
+@AndroidEntryPoint
+class SearchActivity : DefaultTvActivity() {
 
-    private lateinit var fragment: SearchFragment
-    private var emptyView: TextView? = null
+    private val viewModel: SearchViewModel by viewModels()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.tv_search)
-        fragment = supportFragmentManager.findFragmentById(R.id.search_fragment) as SearchFragment
-        emptyView = findViewById(R.id.empty)
-    }
-
-    override fun refresh() { }
-
-    fun updateEmptyView(empty: Boolean) {
-        emptyView!!.visibility = if (empty) View.VISIBLE else View.GONE
-    }
-
-    override fun onSearchRequested(): Boolean {
-        fragment.startRecognition()
-        return true
+        setContent {
+            VlcTVTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    SearchScreen(
+                        viewModel = viewModel,
+                        onVoiceSearchClick = {}
+                    )
+                }
+            }
+        }
     }
 
     companion object {
