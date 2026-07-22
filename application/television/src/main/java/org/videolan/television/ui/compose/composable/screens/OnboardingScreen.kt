@@ -167,11 +167,7 @@ fun OnboardingScreen(onFinish: () -> Unit) {
                         }
                     }
                 )
-                else -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(text = "Page $page", color = White)
-                    }
-                }
+                2 -> AllSetPage(permissionGranted, onFinish)
             }
         }
     }
@@ -412,6 +408,38 @@ private fun NoPermissionView(onBackToSelection: () -> Unit, onNext: () -> Unit) 
     }
 }
 
+@Composable
+private fun AllSetPage(permissionGranted: Boolean, onFinish: () -> Unit) {
+    OnboardingPage(
+        buttonText = vlcR.string.start_vlc,
+        onButtonClick = onFinish
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(id = vlcR.string.onboarding_all_set),
+                style = MaterialTheme.typography.headlineLarge,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            val description = if (permissionGranted) {
+                stringResource(id = vlcR.string.onboarding_permission_given)
+            } else {
+                "${stringResource(id = vlcR.string.permission_expanation_no_allow)}\n${stringResource(id = vlcR.string.permission_expanation_allow)}"
+            }
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.White.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 48.dp)
+            )
+        }
+    }
+}
+
 /**
  * Local button component for onboarding to avoid modifying the common VLCButton
  * and to satisfy the "no icon" requirement.
@@ -489,9 +517,9 @@ private fun WelcomePagePreview() {
 
 @Preview(device = "id:tv_1080p")
 @Composable
-private fun NoPermissionViewPreview() {
+private fun AllSetPagePreview() {
     VlcPreview {
-        NoPermissionView(onBackToSelection = {}, onNext = {})
+        AllSetPage(permissionGranted = true, onFinish = {})
     }
 }
 
