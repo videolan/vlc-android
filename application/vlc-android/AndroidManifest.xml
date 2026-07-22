@@ -13,10 +13,9 @@
     <uses-permission android:name="android.permission.VIBRATE"/> <!-- used for setting ringtone -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/> <!-- STORAGE -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Internet -->
-    <uses-permission android:name="android.permission.INTERNET"/> <!-- Launch recommendations service once device is booted -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> <!-- Audio search on TV -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- USe foreground services -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> <!-- Launch recommendations service once device is booted -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> <!-- normal -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
@@ -49,9 +48,6 @@
         android:required="false"/>
     <uses-feature
         android:name="android.hardware.touchscreen"
-        android:required="false"/>
-    <uses-feature
-        android:name="android.hardware.microphone"
         android:required="false"/>
     <uses-feature
         android:name="android.hardware.bluetooth"
