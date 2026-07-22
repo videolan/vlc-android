@@ -69,6 +69,7 @@ import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.television.ui.MediaInfoActivity
 import org.videolan.television.ui.compose.VideoDestination
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanel
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelContent
 import org.videolan.television.ui.compose.composable.components.MediaListSidePanelListenerKey
@@ -248,8 +249,8 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                             listState = gridState,
                             columns = GridCells.Fixed(3),
                             verticalArrangement = Arrangement.spacedBy(40.dp),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, start = 56.dp, end = 56.dp),
+                            horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),
+                            contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
                             loaderAspectRatio = 16f / 9,
                             modifier = Modifier
                                 .fillMaxSize()
@@ -262,7 +263,7 @@ fun VideoList(modifier: Modifier = Modifier, folder: Folder? = null, group: Vide
                             items = videos,
                             listState = listState,
                             verticalArrangement = Arrangement.spacedBy(8.dp),
-                            contentPadding = PaddingValues(top = 16.dp, start = 56.dp, end = 56.dp),
+                            contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
                             modifier = Modifier
                                 .fillMaxSize()
                                 .focusRequester(gridFocusRequester)

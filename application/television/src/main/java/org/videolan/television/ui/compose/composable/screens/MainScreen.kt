@@ -116,6 +116,7 @@ import org.videolan.television.ui.compose.composable.lists.BrowseList
 import org.videolan.television.ui.compose.composable.lists.MoreScreen
 import org.videolan.television.ui.compose.composable.lists.PlaylistsList
 import org.videolan.television.ui.compose.composable.lists.VideoListScreen
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
@@ -291,7 +292,7 @@ fun Tabs(
     val duration = 300
     val animatedPadding by animateDpAsState(
         if (visible) {
-            28.dp
+            VlcTVTheme.dimens.overscanVertical
         } else {
             0.dp
         },
@@ -308,8 +309,8 @@ fun Tabs(
             .fillMaxHeight()
             .padding(
                 top = animatedPadding,
-                start = 56.dp,
-                end = 56.dp
+                start = VlcTVTheme.dimens.overscanHorizontal,
+                end = VlcTVTheme.dimens.overscanHorizontal
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

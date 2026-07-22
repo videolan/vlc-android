@@ -99,6 +99,7 @@ import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.medialibrary.media.PlaylistImpl
 import org.videolan.resources.AndroidDevices
 import org.videolan.television.ui.compose.theme.BackgroundColorDark
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.White
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
@@ -127,7 +128,7 @@ fun MediaInfoScreen(
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .padding(56.dp)
+            .padding(VlcTVTheme.dimens.overscanHorizontal)
     ) {
         // Left Panel: Context & Header
         MediaInfoHeader(
