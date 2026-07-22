@@ -175,7 +175,7 @@ fun vlcBorder(focus: Boolean) = if (focus) BorderStroke(3.dp, MaterialTheme.colo
 fun Modifier.vlcShadow(focused: Boolean, shape: Shape) = this.dropShadow(
     shape = shape,
     shadow = Shadow(
-        radius = if (focused) 16.dp else 0.dp,
+        radius = if (focused) VlcTVTheme.dimens.itemFocusGlowRadius else 0.dp,
         spread = 0.dp,
         color = if (focused) MaterialTheme.colorScheme.primary.copy(alpha = 0.8f) else Transparent,
         offset = DpOffset(x = 0.dp, 0.dp)
