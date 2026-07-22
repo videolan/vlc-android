@@ -58,10 +58,11 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.Permissions
 
 @Composable
-fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Unit) {
+fun VlcEmptyViewLoader(state: EmptyLoadingState?, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     val context = LocalContext.current
     VlcEmptyViewLoader(
         state = state,
+        modifier = modifier,
         onScanClick = {
             val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
             intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
@@ -93,12 +94,13 @@ fun VlcEmptyViewLoader(state: EmptyLoadingState?, content: @Composable () -> Uni
 @Composable
 private fun VlcEmptyViewLoader(
     state: EmptyLoadingState?,
+    modifier: Modifier = Modifier,
     onScanClick: () -> Unit,
     onPermissionClick: (EmptyLoadingState) -> Unit,
     content: @Composable () -> Unit
 ) {
     state?.let {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = modifier) {
             // Keep content in the tree to maintain focus during loading or empty states.
             // We only exclude EMPTY_FAVORITES and NONE because they render content() directly in their branches.
             if (state != EmptyLoadingState.NONE) {
