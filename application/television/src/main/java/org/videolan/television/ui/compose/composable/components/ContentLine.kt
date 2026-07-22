@@ -49,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,6 +58,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.ui.compose.composable.items.AudioItem
 import org.videolan.television.ui.compose.theme.Transparent
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.theme.WhiteTransparent10
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.vlc.R
@@ -89,7 +91,7 @@ fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLo
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .weight(1F)
-                .padding(horizontal = if (titleFocusable) 16.dp else 0.dp)
+                .padding(start = VlcTVTheme.dimens.itemFocusGlowRadius, end = if (titleFocusable) VlcTVTheme.dimens.itemFocusGlowRadius else 0.dp)
         )
         if (titleFocusable)
             Icon(
@@ -104,9 +106,11 @@ fun ContentLine(items: List<MediaLibraryItem>?, entry: MediaListEntry, historyLo
     }
     VlcEmptyViewLoader(if (historyLoading == true) EmptyLoadingState.LOADING else if (items.isNullOrEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE) {
         LazyRow(
-            contentPadding = PaddingValues(top = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.focusGroup()
+            contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, start = VlcTVTheme.dimens.itemFocusGlowRadius, end = VlcTVTheme.dimens.itemFocusGlowRadius),
+            horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius),
+            modifier = Modifier
+                .graphicsLayer(clip = false)
+                .focusGroup()
         ) {
             items(items?.size ?: 0) { index ->
                 AudioItem(

@@ -25,8 +25,11 @@
 package org.videolan.television.ui.compose.theme
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 
 private val DarkColorScheme = darkColorScheme(
     primary = Orange500,
@@ -58,24 +61,39 @@ private val SettingsColorScheme = darkColorScheme(
     inverseSurface = White
 )
 
+object VlcTVTheme {
+    val dimens: VlcDimens
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalVlcDimens.current
+}
+
 @Composable
 fun VlcTVTheme(
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(
-        colorScheme = DarkColorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalVlcDimens provides VlcDimens()
+    ) {
+        MaterialTheme(
+            colorScheme = DarkColorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
 
 @Composable
 fun VlcTVSettingsTheme(
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(
-        colorScheme = SettingsColorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalVlcDimens provides VlcDimens()
+    ) {
+        MaterialTheme(
+            colorScheme = SettingsColorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
