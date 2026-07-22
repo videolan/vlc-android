@@ -410,12 +410,15 @@ internal fun BrowserListContent(
             val gridFocusRequester = remember { FocusRequester() }
             if (currentInCard) {
                 LazyVerticalGrid(
-                    GridCells.Fixed(6), Modifier
+                    GridCells.Fixed(6),
+                    Modifier
                         .fillMaxSize()
                         .graphicsLayer(clip = false)
-                        .focusRequester(gridFocusRequester), 
-                    gridState, PaddingValues(top = 16.dp, bottom = 96.dp, start = 56.dp, end = 56.dp), verticalArrangement = Arrangement.spacedBy(40.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        .focusRequester(gridFocusRequester),
+                    gridState,
+                    PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
+                    verticalArrangement = Arrangement.spacedBy(40.dp),
+                    horizontalArrangement = Arrangement.spacedBy(VlcTVTheme.dimens.itemFocusGlowRadius)
                 ) {
                     items(count = items.size, key = { index -> (items[index] as? MediaWrapper)?.uri?.toString() ?: items[index].id.toString() }) { index ->
                         items[index].let { item ->
@@ -452,7 +455,7 @@ internal fun BrowserListContent(
                         .fillMaxSize()
                         .graphicsLayer(clip = false)
                         .focusRequester(gridFocusRequester),
-                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = 56.dp, end = 56.dp),
+                    contentPadding = PaddingValues(top = 24.dp, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal),
                     verticalArrangement = Arrangement.spacedBy(0.dp),
                     state = listState
                 ) {

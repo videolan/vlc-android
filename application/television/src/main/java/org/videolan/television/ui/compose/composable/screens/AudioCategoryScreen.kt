@@ -372,7 +372,7 @@ fun AudioCategoryScreenContent(
 
         Row(modifier = Modifier.fillMaxSize()) {
             AudioPlayer(requestFocus = false)
-            Column(modifier = Modifier.weight(1f).padding(top = 32.dp).padding(horizontal = 56.dp)) {
+            Column(modifier = Modifier.weight(1f).padding(top = 32.dp).padding(horizontal = VlcTVTheme.dimens.overscanHorizontal)) {
                 // Header
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     AudioCategoryHeaderArt(item, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
@@ -525,7 +525,7 @@ private fun CategoryAlbums(albums: LazyPagingItems<Album>, onAlbumClick: (Album)
         columns = androidx.compose.foundation.lazy.grid.GridCells.Adaptive(150.dp),
         modifier = Modifier.fillMaxSize(),
         state = gridState,
-        contentPadding = PaddingValues(start = 56.dp, end = 56.dp, top = 16.dp, bottom = 96.dp),
+        contentPadding = PaddingValues(start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal, top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp),
     ) {
@@ -566,7 +566,7 @@ private fun CategorySongs(
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxWidth().onGloballyPositioned { onListHeightChanged(it.size.height) }.focusGroup().focusRequester(listFocusRequester).focusProperties { up = playFocusRequester },
-        contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp, start = 56.dp, end = 56.dp)
+        contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal)
     ) {
         itemsIndexed(songs, key = { _, track -> track.tag ?: track.hashCode().toString() }) { index, song ->
             val tag = song.tag ?: song.hashCode().toString()
