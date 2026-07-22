@@ -131,7 +131,12 @@ fun OnboardingScreen(onFinish: () -> Unit) {
             userScrollEnabled = false
         ) { page ->
             when (page) {
-                0 -> WelcomePage(onNext = { scope.launch { pagerState.animateScrollToPage(1) } })
+                0 -> WelcomePage(onNext = {
+                    scope.launch {
+                        val targetPage = if (permissionGranted) 2 else 1
+                        pagerState.animateScrollToPage(targetPage)
+                    }
+                })
                 1 -> PermissionsPage(
                     isVisible = pagerState.currentPage == 1,
                     permissionGranted = permissionGranted,
