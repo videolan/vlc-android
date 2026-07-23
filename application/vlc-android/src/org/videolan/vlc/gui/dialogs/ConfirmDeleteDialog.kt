@@ -90,7 +90,7 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
     }
 
     /**
-     * Set the listener. Should be only used from leanback as it has no setFragmentResultListener
+     * Set the listener.
      *
      * @param listener
      */

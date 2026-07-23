@@ -195,7 +195,7 @@
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7" />
     <style name="Theme.VLC.Black.BottomSheet">
-        <item name="dialogButtonStyle">@style/Widget.Leanback.DetailsActionButtonStyle</item>
+        <item name="dialogButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     </style>
     <style name="Theme.VLC.Material.TV" parent="Theme.VLC.Black" >
         <item name="android:background">@color/tv_card_content_darker</item>
@@ -344,15 +344,12 @@
         <item name="background_actionbar">@color/onboarding_grey</item>
     </style>
 
-    <style name="Theme.VLC.TV" parent="Theme.Leanback">
+    <style name="Theme.VLC.TV" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange600</item>
         <item name="font_default">@color/white</item>
         <item name="font_audio_light">@color/grey600</item>
-        <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
-        <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
-        <item name="imageCardViewStyle">@style/VLCardView</item>
         <item name="audio_player_background_tint">@color/grey900transparent</item>
         <item name="header_background">@drawable/gradient_background_tv</item>
         <item name="audio_browser_separator">@color/orange500</item>
@@ -361,8 +358,8 @@
         <item name="list_title">@color/grey50</item>
         <item name="ariane_text_size">18sp</item>
         <item name="font_light">@color/grey50transparent_ea</item>
-        <item name="empty_button">@style/Widget.Leanback.DetailsActionButtonStyle</item>
-        <item name="list_subtitle">@color/lb_basic_card_content_text_color</item>
+        <item name="empty_button">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="list_subtitle">@color/grey600</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme.Player</item>
         <item name="disabled_overlay_color">@color/black_transparent_50</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
@@ -380,84 +377,12 @@
     </style>
     
     
-    <style name="Theme.VLC.TV.Onboarding" parent="Theme.Leanback.Onboarding">
-        <item name="onboardingPageIndicatorStyle">@style/VLC.OnboardingPageIndicatorStyle</item>
-    </style>
-
-    <style name="VLC.OnboardingPageIndicatorStyle" parent="Widget.Leanback.OnboardingPageIndicatorStyle">
-        <item name="dotBgColor">@color/orange500</item>
-        <item name="arrowBgColor">@color/orange500</item>
+    <style name="Theme.VLC.TV.Onboarding" parent="Theme.VLC.Onboarding">
     </style>
 
     <style name="Theme.VLC.TV.Audio">
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorAccent">@color/orange800</item>
-    </style>
-
-    <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
-        <item name="cardType">infoUnderWithExtra</item>
-        <item name="infoVisibility">always</item>
-
-    </style>
-
-    <style name="VLCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:scrollHorizontally">true</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">marquee</item>
-    </style>
-
-    <style name="VLCardViewInfoStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:background">@color/tv_card_content_dark</item>
-    </style>
-
-    <style name="VLCGenericCardView" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/VLCardView</item>
-        <item name="imageCardViewTitleStyle">@style/VLCImageCardViewTitleStyle</item>
-        <item name="imageCardViewContentStyle">@style/VLCImageCardViewContentStyle</item>
-    </style>
-
-
-    <style name="VLCImageCardViewContentStyle" parent="Widget.Leanback.ImageCardView.ContentStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:minHeight">32sp</item>
-    </style>
-
-    <style name="VLCImageCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:textAlignment">center</item>
-    </style>
-
-    <style name="VLCImageCardViewTitleOnly" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/VLCImageCardViewTitleOnlyStyle</item>
-        <item name="imageCardViewTitleStyle">@style/VLCImageCardViewTitleOnlyTextStyle</item>
-    </style>
-
-    <style name="VLCImageCardViewNoTitle" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/VLCImageCardViewNoTitle</item>
-    </style>
-
-    <style name="VLCImageCardViewTitleOnlyTextStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="android:gravity">center</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:height">38sp</item>
-    </style>
-
-    <style name="VLCImageCardViewTitleOnlyStyle" parent="Widget.Leanback.ImageCardViewStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="lbImageCardViewType">Title</item>
-    </style>
-
-    <style name="VLCImageCardViewContentStyleTextAppearance" parent="TextAppearance.Leanback.ImageCardView.Content">
-        <item name="android:gravity">center_horizontal</item>
-
-    </style>
-
-    <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
-        <item name="colorAccent">@color/orange500</item>
-        <item name="android:colorAccent">@color/orange500</item>
-        <item name="colorControlNormal">@color/grey300</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
     </style>
 
     <style name="Theme.VLC.List" parent="android:style/Widget.AbsListView">

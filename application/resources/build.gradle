@@ -80,8 +80,6 @@ dependencies {
     api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
 
     api "androidx.preference:preference-ktx:$androidxPreferencesVersion"
-    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
-    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
 
     // Retrofit
     api "com.squareup.okhttp3:okhttp:4.9.3"
