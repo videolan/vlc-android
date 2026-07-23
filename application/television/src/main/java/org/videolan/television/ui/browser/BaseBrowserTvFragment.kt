@@ -300,7 +300,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
 
     override fun onLongClick(v: View, position: Int, item: T): Boolean {
         if (item is MediaWrapper) {
-            TvUtil.showMediaDetail(requireActivity(), item)
+//            TvUtil.showMediaDetail(requireActivity(), item)
         }
         return true
     }

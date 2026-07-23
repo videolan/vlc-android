@@ -97,7 +97,6 @@ import org.videolan.medialibrary.stubs.StubArtist
 import org.videolan.medialibrary.stubs.StubGenre
 import org.videolan.resources.CATEGORY_SONGS
 import org.videolan.television.R
-import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.ItemOptions
 import org.videolan.television.ui.compose.composable.components.MiniVisualizer
@@ -114,6 +113,7 @@ import org.videolan.television.ui.compose.utils.getDescriptionAnnotated
 import org.videolan.television.ui.compose.utils.inlineContentMap
 import org.videolan.television.ui.compose.utils.vlcBorder
 import org.videolan.television.ui.compose.utils.vlcShadow
+import org.videolan.television.util.FAVORITE_FLAG
 import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.MediaListEntry

@@ -36,6 +36,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.compose.composable.screens.AudioCategoryScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.util.EXTRA_ITEM
 
 @AndroidEntryPoint
 class AudioCategoryActivity : DefaultTvActivity() {

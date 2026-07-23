@@ -43,6 +43,7 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.resources.util.parcelable
 import org.videolan.television.ui.compose.composable.screens.BrowserScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.util.EXTRA_ITEM
 import org.videolan.television.viewmodel.FileBrowserViewModel
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.PathAdapterListener

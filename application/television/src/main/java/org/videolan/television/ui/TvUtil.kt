@@ -61,6 +61,7 @@ import org.videolan.resources.UPDATE_TIME
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
+import org.videolan.television.util.EXTRA_ITEM
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.PLAYLIST_MODE_VIDEO
 import org.videolan.tools.Settings
@@ -263,14 +264,6 @@ object TvUtil {
             }
             is MediaLibraryItem -> openAudioCategory(activity, item)
         }
-    }
-
-    fun showMediaDetail(activity: Context, mediaWrapper: MediaWrapper, fromHistory:Boolean = false) {
-        val intent = Intent(activity, DetailsActivity::class.java)
-        intent.putExtra("media", mediaWrapper)
-        intent.putExtra("item", MediaItemDetails(mediaWrapper.title, mediaWrapper.artistName, mediaWrapper.albumName, mediaWrapper.location, mediaWrapper.artworkURL))
-        if (fromHistory) intent.putExtra(EXTRA_FROM_HISTORY, fromHistory)
-        activity.startActivity(intent)
     }
 
     private fun playAudioList(activity: Activity, list: List<MediaWrapper>, position: Int) {

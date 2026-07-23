@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  KExtensions.kt
+ *  Constants.kt
  * *************************************************************************
  * Copyright © 2026 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -24,27 +24,6 @@
 
 package org.videolan.television.util
 
-import android.content.Intent
-import android.provider.MediaStore.Video.VideoColumns.CATEGORY
-import androidx.fragment.app.FragmentActivity
-import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.BROWSER_TYPE
-import org.videolan.resources.CATEGORY_ALBUMS
-import org.videolan.resources.HEADER_CATEGORIES
-import org.videolan.television.ui.BrowserActivity
-import org.videolan.tools.Settings
-import org.videolan.tools.retrieveParent
-
-fun FragmentActivity.showParent(media: MediaWrapper) {
-    val parent = MLServiceLocator.getAbstractMediaWrapper(media.uri.retrieveParent()).apply {
-        type = MediaWrapper.TYPE_DIR
-    }
-    if (Settings.showTvUi) {
-        val intent = Intent(this, BrowserActivity::class.java)
-        intent.putExtra(EXTRA_ITEM, parent)
-        intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
-        intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES)
-        startActivity(intent)
-    }
-}
+const val EXTRA_ITEM = "item"
+const val EXTRA_MEDIA = "media"
+const val FAVORITE_FLAG = 1000
