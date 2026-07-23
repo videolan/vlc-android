@@ -27,8 +27,6 @@ package org.videolan.television.ui.preferences
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
-const val RESTART_CODE = 10001
-
 // Request Codes
 const val REQUEST_CODE_COLOR_SUBTITLES = 1
 const val REQUEST_CODE_COLOR_BACKGROUND = 2

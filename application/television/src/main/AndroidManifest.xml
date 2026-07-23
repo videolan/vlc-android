@@ -37,11 +37,6 @@
                 android:theme="@style/Theme.VLC.TV.Onboarding"
                 tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".ui.dialogs.ConfirmationTvActivity"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"
-                tools:ignore="LockedOrientationActivity" />
-        <activity
                 android:name=".ui.browser.TVActivity"
                 android:exported="true"
                 android:screenOrientation="landscape"

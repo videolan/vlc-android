@@ -94,7 +94,7 @@ class PreferencesActivity : DefaultTvActivity() {
                         try {
                             PreferenceParser.restoreSettings(this@PreferencesActivity, mrl.toUri())
                             VLCInstance.restart()
-                            UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
+                            UiTools.restartDialog(this@PreferencesActivity) { setRestartAppFinal() }
                         } catch (e: Exception) {
                             UiTools.snacker(this@PreferencesActivity, getString(R.string.invalid_settings_file))
                         }
@@ -106,7 +106,7 @@ class PreferencesActivity : DefaultTvActivity() {
                     lifecycleScope.launch {
                         MediaUtils.useAsSoundFont(this@PreferencesActivity, mrl.toUri())
                         VLCInstance.restart()
-                        UiTools.restartDialog(this@PreferencesActivity, true, RESTART_CODE, null)
+                        UiTools.restartDialog(this@PreferencesActivity) { setRestartAppFinal() }
                     }
                 }
             }
@@ -127,7 +127,7 @@ class PreferencesActivity : DefaultTvActivity() {
     }
 
     fun setRestartApp() {
-        UiTools.restartDialog(this, fromLeanback = true, leanbackResultCode = REQUEST_CODE_RESTART_APP, leanbackCaller = this)
+        UiTools.restartDialog(this) { setRestartAppFinal() }
     }
 
     fun setRestartAppFinal() {
