@@ -21,7 +21,6 @@
 package org.videolan.resources
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -68,12 +67,6 @@ object VLCInstance : SingletonHolder<ILibVLC, Context>({ init(it.applicationCont
     }
 
     fun testCompatibleCPU(context: Context): Boolean {
-        return if (!VLCUtil.hasCompatibleCPU(context)) {
-            if (context is Activity) {
-                val i = Intent(Intent.ACTION_VIEW).setClassName(context.applicationContext, COMPATERROR_ACTIVITY)
-                context.startActivity(i)
-            }
-            false
-        } else true
+        return VLCUtil.hasCompatibleCPU(context)
     }
 }
