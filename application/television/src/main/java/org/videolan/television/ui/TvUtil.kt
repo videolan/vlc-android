@@ -1,122 +1,30 @@
-/*****************************************************************************
- * TvUtil.java
- *
- * Copyright © 2014-2017 VLC authors, VideoLAN and VideoLabs
- * Author: Geoffrey Métais
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- */
 package org.videolan.television.ui
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore.Video.VideoColumns.CATEGORY
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.leanback.app.BackgroundManager
-import androidx.leanback.widget.DiffCallback
-import androidx.leanback.widget.ListRow
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.resources.BROWSER_TYPE
 import org.videolan.resources.CATEGORY_ALBUMS
 import org.videolan.resources.HEADER_ADD_STREAM
 import org.videolan.resources.HEADER_CATEGORIES
-import org.videolan.resources.HEADER_DIRECTORIES
-import org.videolan.resources.HEADER_NETWORK
 import org.videolan.resources.HEADER_SERVER
 import org.videolan.resources.HEADER_STREAM
-import org.videolan.resources.UPDATE_DESCRIPTION
-import org.videolan.resources.UPDATE_SEEN
-import org.videolan.resources.UPDATE_THUMB
-import org.videolan.resources.UPDATE_TIME
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.util.EXTRA_ITEM
-import org.videolan.tools.HttpImageLoader
-import org.videolan.tools.PLAYLIST_MODE_VIDEO
-import org.videolan.tools.Settings
-import org.videolan.tools.getposition
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
-import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.gui.helpers.BitmapUtil
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.ThumbnailsProvider
-import org.videolan.vlc.util.getScreenHeight
-import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.viewmodels.browser.BrowserModel
 
 object TvUtil {
 
     private const val TAG = "VLC/TvUtil"
-
-    var diffCallback: DiffCallback<MediaLibraryItem> = object : DiffCallback<MediaLibraryItem>() {
-        override fun areItemsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            return oldItem.equals(newItem) && oldItem.title == newItem.title
-        }
-
-        @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return oldItem.description == newItem.description && oldItem.id == newItem.id
-            val oldMedia = oldItem as? MediaWrapper
-                    ?: return true
-            val newMedia = newItem as? MediaWrapper
-                    ?: return true
-            return oldMedia === newMedia || (oldMedia.time == newMedia.time
-                    && oldMedia.artworkMrl == newMedia.artworkMrl
-                    && oldMedia.seen == newMedia.seen)
-        }
-
-        override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any {
-            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return UPDATE_DESCRIPTION
-            val oldMedia = oldItem as MediaWrapper
-            val newMedia = newItem as MediaWrapper
-            if (oldMedia.time != newMedia.time) return UPDATE_TIME
-            return if (oldMedia.artworkMrl != newMedia.artworkMrl) UPDATE_THUMB
-            else UPDATE_SEEN
-        }
-    }
-
-    var metadataDiffCallback = object : DiffCallback<MediaMetadataWithImages>() {
-        override fun areItemsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId
-
-        override fun areContentsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId && oldItem.metadata.title == newItem.metadata.title && oldItem.metadata.currentPoster == newItem.metadata.currentPoster
-    }
-
-    val listDiffCallback: DiffCallback<ListRow> = object : DiffCallback<ListRow>() {
-        override fun areItemsTheSame(oldItem: ListRow, newItem: ListRow) = oldItem.contentDescription == newItem.contentDescription
-        override fun areContentsTheSame(oldItem: ListRow, newItem: ListRow) = true
-    }
 
     fun getOverscanHorizontal(context: Context) = context.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
     fun getOverscanVertical(context: Context) = context.resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
@@ -199,57 +107,4 @@ object TvUtil {
             }
         }
     }
-}
-
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, item: Any?) {
-    clearBackground(activity, bm)
-    if (bm === null || item === null)  return
-    val screenRatio: Float = activity.getScreenWidth().toFloat() / activity.getScreenHeight()
-    if (item is MediaLibraryItem) launch {
-        val artworkMrl = item.artworkMrl
-        if (!artworkMrl.isNullOrEmpty()) {
-            val blurred = withContext(Dispatchers.IO) {
-                var cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
-                        ?: return@withContext null
-                cover = BitmapUtil.centerCrop(cover, cover.width, (cover.width / screenRatio).toInt())
-                UiTools.blurBitmap(cover, 10f)
-            }
-            if (!isActive) return@launch
-            blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
-        } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
-            val blurred = withContext(Dispatchers.IO) {
-                var cover: Bitmap? = ThumbnailsProvider.getPlaylistOrGenreImage("playlist:${item.id}_512", item.tracks.toList(), 512)
-                        ?: return@withContext null
-                cover = cover?.let { BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
-                UiTools.blurBitmap(cover, 10f)
-            }
-            if (!isActive) return@launch
-            blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
-        } else if (item is MediaWrapper && item.type == MediaWrapper.TYPE_ALL) {
-           val blurred = withContext(Dispatchers.IO) {
-                var cover: Bitmap? = AudioUtil.fetchCoverBitmap(item.uri.toString(), 512)
-                        ?: return@withContext null
-                cover = cover?.let { BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
-                UiTools.blurBitmap(cover, 10f)
-            }
-            if (!isActive) return@launch
-            blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
-        }
-    } else if (item is MediaMetadataWithImages) launch {
-        val blurred = withContext(Dispatchers.IO) {
-            var cover: Bitmap? = HttpImageLoader.downloadBitmap(item.metadata.currentPoster)
-            cover?.let { cover = BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
-            UiTools.blurBitmap(cover, 10f)
-        }
-        if (!isActive) return@launch
-        blurred?.let { bm.drawable = BitmapDrawable(activity.resources, it) }
-
-    }
-}
-
-fun clearBackground(context: Context, bm: BackgroundManager?) {
-    if (bm === null) return
-    bm.color = ContextCompat.getColor(context, R.color.tv_bg)
-    bm.drawable = null
 }
