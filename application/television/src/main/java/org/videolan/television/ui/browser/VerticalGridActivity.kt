@@ -43,10 +43,8 @@ import org.videolan.resources.CATEGORY_VIDEOS
 import org.videolan.resources.FAVORITE_TITLE
 import org.videolan.resources.HEADER_CATEGORIES
 import org.videolan.resources.HEADER_DIRECTORIES
-import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_NETWORK
 import org.videolan.resources.HEADER_PLAYLISTS
-import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.ITEM
 import org.videolan.resources.KEY_URI
@@ -91,9 +89,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 if (item != null && intent.hasExtra(FAVORITE_TITLE)) item.title = intent.getStringExtra(FAVORITE_TITLE)
 
                 fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item, item === null)
-            } else if (type == HEADER_MOVIES || type == HEADER_TV_SHOW) {
-                fragment = MediaScrapingBrowserTvFragment.newInstance(type)
-            } else if (type == HEADER_DIRECTORIES) {
+            }  else if (type == HEADER_DIRECTORIES) {
                 fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) }, true)
             } else if (type == HEADER_PLAYLISTS) {
                 fragment = MediaBrowserTvFragment.newInstance(CATEGORY_PLAYLISTS, null)
