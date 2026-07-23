@@ -25,7 +25,6 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
-import androidx.leanback.widget.ImageCardView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
@@ -166,20 +165,6 @@ fun placeHolderImageView(v: View, item: MediaLibraryItem?) {
     }
 }
 
-@BindingAdapter("icvTitle")
-fun imageCardViewTitle(v: View, title: String?) {
-    if (v is ImageCardView) {
-        v.titleText = title
-    }
-}
-
-@BindingAdapter("icvContent")
-fun imageCardViewContent(v: View, content: String?) {
-    if (v is ImageCardView) {
-        v.contentText = content
-    }
-}
-
 @BindingAdapter(value = ["imageUri", "tv" ], requireAll = false)
 fun downloadIcon(v: View, imageUri: Uri?, tv: Boolean = true) {
     if (isSchemeHttpOrHttps(imageUri?.scheme)) {
@@ -226,7 +211,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         v.width > 0 -> v.width
         defaultImageWidth > 0 -> defaultImageWidth
         else -> {
-            defaultImageWidth = v.context.resources.getDimensionPixelSize(if (v is ImageCardView) R.dimen.tv_grid_card_thumb_width else R.dimen.audio_browser_item_size)
+            defaultImageWidth = v.context.resources.getDimensionPixelSize(R.dimen.audio_browser_item_size)
             defaultImageWidth
         }
     }
@@ -281,10 +266,6 @@ fun updateImageViewTv(@DrawableRes res: Int, target: View) {
             target.setImageResource(res)
             target.visibility = View.VISIBLE
         }
-        is ImageCardView -> {
-            target.mainImageView?.scaleType = ImageView.ScaleType.CENTER_CROP
-            target.mainImageView?.setImageResource(res)
-        }
     }
 }
 
@@ -305,10 +286,6 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, update
         is TextView -> {
             ViewCompat.setBackground(target, BitmapDrawable(target.context.resources, bitmap))
             target.text = null
-        }
-        is ImageCardView -> {
-            target.mainImageView?.scaleType = ImageView.ScaleType.CENTER_CROP
-            target.mainImage = BitmapDrawable(target.resources, bitmap)
         }
     }
 }
