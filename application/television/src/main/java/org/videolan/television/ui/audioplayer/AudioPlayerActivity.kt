@@ -361,17 +361,6 @@ class AudioPlayerActivity : DefaultTvActivity(),KeycodeListener, PlaybackService
         return true
     }
 
-    fun onClick(v: View) {
-        when (v.id) {
-            R.id.button_play -> togglePlayPause()
-            R.id.button_next -> next()
-            R.id.button_previous -> previous()
-            R.id.button_repeat -> switchRepeatMode()
-            R.id.button_shuffle -> setShuffleMode(!shuffling)
-            R.id.button_more -> showAdvancedOptions(v)
-        }
-    }
-
     private fun showAdvancedOptions(@Suppress("UNUSED_PARAMETER") v: View?) {
         if (optionsDelegate == null) {
             val service = model.service ?: return
