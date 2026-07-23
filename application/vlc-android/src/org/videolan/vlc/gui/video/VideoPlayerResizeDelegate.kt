@@ -33,7 +33,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.edit
 import androidx.core.widget.NestedScrollView
-import androidx.leanback.widget.BrowseFrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.delay
@@ -51,6 +50,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
 import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
+import org.videolan.vlc.gui.view.TvFocusFrameLayout
 import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
@@ -78,10 +78,12 @@ class VideoPlayerResizeDelegate(private val player: VideoPlayerActivity) {
         }
         player.findViewById<FrameLayout>(R.id.resize_background)?.let {
             resizeMainView = it
-            val browseFrameLayout = resizeMainView.findViewById<BrowseFrameLayout>(R.id.resize_background)
-            browseFrameLayout.onFocusSearchListener = BrowseFrameLayout.OnFocusSearchListener { focused, _ ->
-                if (sizeList.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
-                else null // someone else will find the next focus
+            val browseFrameLayout = resizeMainView.findViewById<TvFocusFrameLayout>(R.id.resize_background)
+            browseFrameLayout.onFocusSearchListener = object : TvFocusFrameLayout.OnFocusSearchListener {
+                override fun onFocusSearch(focused: View, direction: Int): View? {
+                    return if (sizeList.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
+                    else null // someone else will find the next focus
+                }
             }
             notchCheckbox = resizeMainView.findViewById(R.id.notch)
             val notchTitle = resizeMainView.findViewById<View>(R.id.notch_title)
