@@ -79,7 +79,6 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
-import org.videolan.television.ui.FAVORITE_FLAG
 import org.videolan.television.ui.compose.composable.components.ItemOptions
 import org.videolan.television.ui.compose.theme.BlackTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent05
@@ -90,6 +89,7 @@ import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.conditional
 import org.videolan.television.ui.compose.utils.vlcBorder
 import org.videolan.television.ui.compose.utils.vlcShadow
+import org.videolan.television.util.FAVORITE_FLAG
 import org.videolan.vlc.util.MediaListEntry
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.generateResolutionClass

@@ -33,7 +33,6 @@ import org.videolan.resources.BROWSER_TYPE
 import org.videolan.resources.CATEGORY_ALBUMS
 import org.videolan.resources.HEADER_CATEGORIES
 import org.videolan.television.ui.BrowserActivity
-import org.videolan.television.ui.EXTRA_ITEM
 import org.videolan.tools.Settings
 import org.videolan.tools.retrieveParent
 
