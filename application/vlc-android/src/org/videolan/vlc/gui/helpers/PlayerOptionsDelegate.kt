@@ -14,8 +14,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import androidx.leanback.widget.BrowseFrameLayout
-import androidx.leanback.widget.BrowseFrameLayout.OnFocusSearchListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +44,7 @@ import org.videolan.vlc.gui.dialogs.VideoControlsSettingsDialog
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.hf.PinCodeDelegate
 import org.videolan.vlc.gui.helpers.hf.checkPIN
+import org.videolan.vlc.gui.view.TvFocusFrameLayout
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.util.TextUtils
@@ -152,10 +151,12 @@ class PlayerOptionsDelegate(val activity: FragmentActivity, val service: Playbac
         activity.findViewById<ViewStubCompat>(R.id.player_options_stub)?.let {
             rootView = it.inflate() as FrameLayout
             recyclerview = rootView.findViewById(R.id.options_list)
-            val browseFrameLayout =  rootView.findViewById<BrowseFrameLayout>(R.id.options_background)
-            browseFrameLayout.onFocusSearchListener = OnFocusSearchListener { focused, _ ->
-                if (recyclerview.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
-                else null // someone else will find the next focus
+            val browseFrameLayout =  rootView.findViewById<TvFocusFrameLayout>(R.id.options_background)
+            browseFrameLayout.onFocusSearchListener = object : TvFocusFrameLayout.OnFocusSearchListener {
+                override fun onFocusSearch(focused: View, direction: Int): View? {
+                    return if (recyclerview.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
+                    else null // someone else will find the next focus
+                }
             }
             if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             recyclerview.adapter = OptionsAdapter()

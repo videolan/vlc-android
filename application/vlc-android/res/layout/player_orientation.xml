@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.leanback.widget.BrowseFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.videolan.vlc.gui.view.TvFocusFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/orientation_background"
         android:layout_width="match_parent"
@@ -73,4 +73,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-</androidx.leanback.widget.BrowseFrameLayout>
+</org.videolan.vlc.gui.view.TvFocusFrameLayout>

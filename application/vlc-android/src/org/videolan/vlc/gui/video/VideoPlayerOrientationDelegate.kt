@@ -34,7 +34,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.edit
 import androidx.core.widget.NestedScrollView
-import androidx.leanback.widget.BrowseFrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.tools.SHOW_ORIENTATION_BUTTON
@@ -45,6 +44,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoScaleItemBinding
 import org.videolan.vlc.gui.helpers.MARQUEE_ACTION
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
+import org.videolan.vlc.gui.view.TvFocusFrameLayout
 import org.videolan.vlc.util.LifecycleAwareScheduler
 
 class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
@@ -71,10 +71,12 @@ class VideoPlayerOrientationDelegate(private val player: VideoPlayerActivity) {
         }
         player.findViewById<FrameLayout>(R.id.orientation_background)?.let {
             orientationMainView = it
-            val browseFrameLayout = orientationMainView.findViewById<BrowseFrameLayout>(R.id.orientation_background)
-            browseFrameLayout.onFocusSearchListener = BrowseFrameLayout.OnFocusSearchListener { focused, _ ->
-                if (orientationList.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
-                else null // someone else will find the next focus
+            val browseFrameLayout = orientationMainView.findViewById<TvFocusFrameLayout>(R.id.orientation_background)
+            browseFrameLayout.onFocusSearchListener = object : TvFocusFrameLayout.OnFocusSearchListener {
+                override fun onFocusSearch(focused: View, direction: Int): View? {
+                    return if (orientationList.hasFocus()) focused // keep focus on recyclerview! DO NOT return recyclerview, but focused, which is a child of the recyclerview
+                    else null // someone else will find the next focus
+                }
             }
             orientationList = orientationMainView.findViewById(R.id.orientation_list)
             scrollView = orientationMainView.findViewById(R.id.orientation_scrollview)
