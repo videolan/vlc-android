@@ -102,7 +102,7 @@
                             android:text="@{playlist.title}"
                             android:contentDescription="@{TalkbackUtil.INSTANCE.getAlbumTitle(context, playlist.title)}"
                             android:textColor="?attr/font_default"
-                            android:textSize="@dimen/lb_browse_header_text_size"
+                            android:textSize="24sp"
                             tools:text="Title"
                             vlc:layout_constraintEnd_toEndOf="parent"
                             vlc:layout_constraintStart_toEndOf="@id/playlist_cover"

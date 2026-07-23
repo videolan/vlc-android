@@ -196,8 +196,6 @@ dependencies {
 
 
     //TV
-    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
-    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxTvProvider"
 
     // Kotlin
