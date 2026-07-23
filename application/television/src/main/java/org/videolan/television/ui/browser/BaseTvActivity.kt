@@ -38,7 +38,6 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.startMedialibrary
 import org.videolan.television.ui.SearchActivity
-import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
@@ -149,21 +148,21 @@ abstract class BaseTvActivity : FragmentActivity(), IDialogManager {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_CODE_NO_CONNECTION -> {
-                if (resultCode == ConfirmationTvActivity.ACTION_ID_NEGATIVE) finish() else {
-
-                    try {
-                        val name = ComponentName("com.android.tv.settings",
-                                "com.android.tv.settings.connectivity.NetworkActivity")
-                        val i = Intent(Intent.ACTION_MAIN)
-                        i.addCategory(Intent.CATEGORY_LAUNCHER)
-                        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                        i.component = name
-                        startActivity(i)
-                    } catch (e: Exception) {
-                        startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
-                    }
-                }
+//                if (resultCode == ConfirmationTvActivity.ACTION_ID_NEGATIVE) finish() else {
+//
+//                    try {
+//                        val name = ComponentName("com.android.tv.settings",
+//                                "com.android.tv.settings.connectivity.NetworkActivity")
+//                        val i = Intent(Intent.ACTION_MAIN)
+//                        i.addCategory(Intent.CATEGORY_LAUNCHER)
+//                        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+//                                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+//                        i.component = name
+//                        startActivity(i)
+//                    } catch (e: Exception) {
+//                        startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
+//                    }
+//                }
             }
             REQUEST_CODE_RESTART_APP -> {
                 android.os.Process.killProcess(android.os.Process.myPid())

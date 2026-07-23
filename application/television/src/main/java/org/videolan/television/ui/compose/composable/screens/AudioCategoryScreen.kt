@@ -137,8 +137,8 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent90
 import org.videolan.television.ui.compose.utils.fadingMarquee
-import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -188,13 +188,6 @@ fun AudioCategoryScreen(
     val moveDownFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val listState = rememberLazyListState()
     var listHeight by remember { mutableIntStateOf(0) }
-
-    val deleteLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == ConfirmationTvActivity.ACTION_ID_POSITIVE) {
-            MediaUtils.deletePlaylist(item as Playlist)
-            activity?.finish()
-        }
-    }
 
     // Tracks synchronization for Playlists (to support stable IDs and animations)
     tracksPaged.value?.let { pagedList ->
@@ -275,11 +268,9 @@ fun AudioCategoryScreen(
         onPlay = { MediaUtils.playTracks(context, item, 0, shuffle = false) },
         onDelete = {
             if (item is Playlist) {
-                val intent = Intent(context, ConfirmationTvActivity::class.java).apply {
-                    putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TITLE, activity?.getString(ResourcesR.string.validation_delete_playlist))
-                    putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TEXT, activity?.getString(ResourcesR.string.validation_delete_playlist_text))
-                }
-                deleteLauncher.launch(intent)
+                ConfirmDeleteDialog.newInstance(arrayListOf(item)).apply {
+                    setListener { (activity as FragmentActivity).finish() }
+                }.show((activity as FragmentActivity).supportFragmentManager, ConfirmDeleteDialog::class.simpleName)
             }
         },
         onInsertNext = { MediaUtils.insertNext(context, item.tracks) },
