@@ -37,8 +37,6 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.DUMMY_NEW_GROUP
-import org.videolan.resources.HEADER_MOVIES
-import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.Settings
@@ -114,14 +112,6 @@ fun getMediaIconDrawable(context: Context?, type: Int, big: Boolean = false): Bi
         MediaWrapper.TYPE_AUDIO -> if (big) UiTools.getDefaultAudioDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
         MediaWrapper.TYPE_VIDEO -> if (big) UiTools.getDefaultVideoDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
         MediaWrapper.TYPE_DIR -> if (big) UiTools.getDefaultFolderDrawableBig(it) else UiTools.getDefaultFolderDrawable(it)
-        else -> null
-    }
-}
-
-fun getMoviepediaIconDrawable(context: Context?, type: Long, big: Boolean = false): BitmapDrawable? = context?.let {
-    when (type) {
-        HEADER_MOVIES -> if (big) UiTools.getDefaultMovieDrawableBig(it) else UiTools.getDefaultMovieDrawable(it)
-        HEADER_TV_SHOW -> if (big) UiTools.getDefaultTvshowDrawableBig(it) else UiTools.getDefaultTvshowDrawable(it)
         else -> null
     }
 }

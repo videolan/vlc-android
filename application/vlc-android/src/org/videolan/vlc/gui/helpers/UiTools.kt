@@ -118,13 +118,11 @@ import org.videolan.resources.CATEGORY_SONGS
 import org.videolan.resources.EXTRA_PATH
 import org.videolan.resources.HEADER_ADD_STREAM
 import org.videolan.resources.HEADER_DIRECTORIES
-import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_NETWORK
 import org.videolan.resources.HEADER_PERMISSION
 import org.videolan.resources.HEADER_PLAYLISTS
 import org.videolan.resources.HEADER_SERVER
 import org.videolan.resources.HEADER_STREAM
-import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.ID_ABOUT_TV
 import org.videolan.resources.ID_REMOTE_ACCESS
@@ -1145,8 +1143,6 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
             HEADER_SERVER -> R.drawable.ic_network_add_big
             HEADER_STREAM -> R.drawable.ic_stream_big
             HEADER_PLAYLISTS -> R.drawable.ic_playlist_big
-            HEADER_MOVIES, CATEGORY_NOW_PLAYING_PIP -> R.drawable.ic_browser_movie_big
-            HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
             HEADER_ADD_STREAM -> R.drawable.ic_stream_add
             ID_SETTINGS -> R.drawable.ic_settings_big
             ID_ABOUT_TV -> R.drawable.ic_default_cone

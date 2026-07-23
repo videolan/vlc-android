@@ -92,7 +92,6 @@ private const val ID_BROWSE = 6
 private const val ID_DL_SUBS = 7
 private const val ID_PLAY_FROM_START = 8
 private const val ID_PLAYLIST = 9
-private const val ID_GET_INFO = 10
 private const val ID_FAVORITE = 11
 private const val ID_REMOVE_FROM_HISTORY = 12
 private const val ID_NAVIGATE_PARENT = 13
@@ -424,7 +423,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     VideoPlayerActivity.start(requireActivity(), viewModel.media.uri, true)
                     activity.finish()
                 }
-                ID_GET_INFO -> startActivity(Intent(requireActivity(), MediaScrapingTvActivity::class.java).apply { putExtra(MediaScrapingTvActivity.MEDIA, viewModel.media) })
                 ID_NEXT_EPISODE -> mediaMetadataModel.nextEpisode.value?.media?.let {
                     TvUtil.showMediaDetail(requireActivity(), it)
                     requireActivity().finish()
@@ -490,7 +488,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     actionsAdapter.set(ID_DL_SUBS, Action(ID_DL_SUBS.toLong(), res.getString(R.string.download_subtitles)))
                 actionsAdapter.set(ID_PLAYLIST, Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
                 //todo reenable entry point when ready
-                if (BuildConfig.DEBUG) actionsAdapter.set(ID_GET_INFO, Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
                 if (viewModel.media.uri.scheme.isSchemeFile()) actionsAdapter.set(ID_DELETE, Action(ID_DELETE.toLong(), res.getString(R.string.delete)))
                 if (viewModel.media.isFavorite) actionsAdapter.set(ID_FAVORITE, actionDelete) else actionsAdapter.set(ID_FAVORITE, actionAdd)
             } else if (viewModel.media.type == MediaWrapper.TYPE_ALL) {
