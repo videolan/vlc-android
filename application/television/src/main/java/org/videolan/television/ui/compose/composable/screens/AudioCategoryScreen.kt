@@ -70,10 +70,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.zIndex
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -553,6 +555,7 @@ private fun CategorySongs(
 ) {
     val context = LocalContext.current
     val activity = LocalActivity.current
+    var focusedIndex by remember { mutableIntStateOf(-1) }
 
     LazyColumn(
         state = listState,
@@ -571,7 +574,7 @@ private fun CategorySongs(
             val isNewAlbum = (parentItem is Artist || parentItem is Genre) && currentAlbumName != previousAlbumName
             val isLastOfAlbum = (parentItem is Artist || parentItem is Genre) && currentAlbumName != nextAlbumName
 
-            Column {
+            Column(modifier = Modifier.zIndex(if (focusedIndex == index) 1f else 0f).onFocusChanged { if (it.hasFocus) focusedIndex = index }) {
                 if (isNewAlbum) {
                     Text(text = currentAlbumName, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(start = 48.dp, top = 24.dp, bottom = 8.dp))
                 }
