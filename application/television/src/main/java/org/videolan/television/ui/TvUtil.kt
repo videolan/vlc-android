@@ -9,14 +9,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.BROWSER_TYPE
-import org.videolan.resources.CATEGORY_ALBUMS
-import org.videolan.resources.HEADER_ADD_STREAM
-import org.videolan.resources.HEADER_CATEGORIES
-import org.videolan.resources.HEADER_SERVER
-import org.videolan.resources.HEADER_STREAM
-import org.videolan.television.ui.audioplayer.AudioPlayerActivity
-import org.videolan.television.ui.browser.TVActivity
+import org.videolan.resources.*
+import org.videolan.television.util.EXTRA_ITEM
 import org.videolan.television.util.EXTRA_ITEM
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
@@ -69,7 +63,7 @@ object TvUtil {
             }
             is DummyItem -> when (item.id) {
                 HEADER_STREAM, HEADER_ADD_STREAM -> {
-                    val intent = Intent(activity, TVActivity::class.java)
+                    val intent = Intent(activity, StreamActivity::class.java)
                     intent.putExtra(BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }

@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.television.ui.components
+package org.videolan.television.ui.compose.composable.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
