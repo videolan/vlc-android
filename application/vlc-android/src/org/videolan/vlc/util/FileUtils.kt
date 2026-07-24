@@ -615,6 +615,27 @@ object FileUtils {
         }
         return size
     }
+
+    /**
+     * Get the number of files in a folder (recursively).
+     *
+     * @param file the folder to scan
+     * @return the number of files
+     */
+    fun getFileCount(file: File): Int {
+        var count = 0
+        if (file.isDirectory) {
+            val files = file.listFiles()
+            if (files != null) {
+                for (f in files) {
+                    count += getFileCount(f)
+                }
+            }
+        } else {
+            count = 1
+        }
+        return count
+    }
 }
 
 fun String?.getParentFolder(): String? {

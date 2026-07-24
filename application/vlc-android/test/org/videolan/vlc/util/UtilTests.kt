@@ -23,6 +23,7 @@ class ExtensionsTests {
         file2.writeText("1234567890") // 10 bytes
         
         Assert.assertEquals(15L, FileUtils.getFolderSize(tempDir))
+        Assert.assertEquals(2, FileUtils.getFileCount(tempDir))
         
         file1.delete()
         file2.delete()
