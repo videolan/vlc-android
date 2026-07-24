@@ -235,8 +235,8 @@ fun AudioCategoryScreen(
         bitmap?.let {
             blurredCover = UiTools.blurBitmap(it, 15f)
             Palette.from(it).generate().let { palette ->
-                darkMutedColor = palette.darkMutedSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f)
-                    ?: palette.darkVibrantSwatch?.rgb?.let { rgb -> Color(rgb) }?.copy(alpha = 0.8f)
+                darkMutedColor = palette.darkMutedSwatch?.rgb?.let { rgb -> Color(rgb) }
+                    ?: palette.darkVibrantSwatch?.rgb?.let { rgb -> Color(rgb) }
             }
         }
     }
