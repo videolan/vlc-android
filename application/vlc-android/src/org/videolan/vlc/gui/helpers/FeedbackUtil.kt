@@ -28,6 +28,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.text.format.Formatter
 import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
@@ -127,6 +128,20 @@ object FeedbackUtil {
         append("Android version: ${Build.VERSION.SDK_INT}\r\n")
         append("System name: ${Build.DISPLAY}\r\n")
         append("Device Model: ${Build.MANUFACTURER} - ${Build.MODEL}\r\n")
+        context.getExternalFilesDir(null)?.let {
+            val medialibFolder = File(it.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME)
+            if (medialibFolder.exists()) {
+                append("Medialibrary external folder size: ${Formatter.formatFileSize(context, FileUtils.getFolderSize(medialibFolder))}\r\n")
+            }
+            val thumbsFolder = File(medialibFolder, "thumbnails")
+            if (thumbsFolder.exists()) {
+                append("Thumbnails size: ${Formatter.formatFileSize(context, FileUtils.getFolderSize(thumbsFolder))}\r\n")
+            }
+        }
+        val dbFile = File(context.getDir("db", Context.MODE_PRIVATE).absolutePath + Medialibrary.VLC_MEDIA_DB_NAME)
+        if (dbFile.exists()) {
+            append("Medialibrary database size: ${Formatter.formatFileSize(context, dbFile.length())}\r\n")
+        }
         append("____________________________\r\n")
         append("Permissions\r\n")
         append("____________________________\r\n")

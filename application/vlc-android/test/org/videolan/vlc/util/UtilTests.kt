@@ -4,10 +4,31 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.io.File
 import java.util.Comparator
 
 @RunWith(JUnit4::class)
 class ExtensionsTests {
+
+    @Test
+    fun getFolderSize() {
+        val tempDir = File.createTempFile("test", "dir")
+        tempDir.delete()
+        tempDir.mkdir()
+        val file1 = File(tempDir, "file1")
+        file1.writeText("12345") // 5 bytes
+        val subDir = File(tempDir, "subdir")
+        subDir.mkdir()
+        val file2 = File(subDir, "file2")
+        file2.writeText("1234567890") // 10 bytes
+        
+        Assert.assertEquals(15L, FileUtils.getFolderSize(tempDir))
+        
+        file1.delete()
+        file2.delete()
+        subDir.delete()
+        tempDir.delete()
+    }
 
     @Test
     fun getResolutionClass() {
