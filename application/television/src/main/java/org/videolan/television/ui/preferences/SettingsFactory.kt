@@ -283,7 +283,7 @@ object SettingsFactory {
                 title = R.string.subtitles_presets_title,
                 entries = context.resources.getStringArray(R.array.subtitles_presets_entries).toList(),
                 entryValues = context.resources.getStringArray(R.array.subtitles_presets_values).toList(),
-                defaultValue = "-1"
+                defaultValue = "0"
             ),
             SettingItem.Toggle(
                 key = KEY_SUBTITLES_AUTOLOAD,
