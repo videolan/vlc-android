@@ -1,32 +1,40 @@
 package org.videolan.television.ui.browser
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import dagger.hilt.android.AndroidEntryPoint
 import org.videolan.resources.BROWSER_TYPE
 import org.videolan.resources.HEADER_STREAM
-import org.videolan.television.R
-import org.videolan.vlc.gui.network.MRLPanelFragment
+import org.videolan.television.ui.DefaultTvActivity
+import org.videolan.television.ui.compose.composable.screens.StreamScreen
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 
-class TVActivity : BaseTvActivity() {
-
-    private lateinit var fragment: Fragment
+@AndroidEntryPoint
+class TVActivity : DefaultTvActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.tv_vertical_grid)
-        if (savedInstanceState == null) {
-            val type = intent.getLongExtra(BROWSER_TYPE, -1)
-            if (type == HEADER_STREAM) {
-                fragment = MRLPanelFragment()
-            } else {
-                finish()
-                return
+        val type = intent.getLongExtra(BROWSER_TYPE, -1)
+        if (type != HEADER_STREAM) {
+            finish()
+            return
+        }
+
+        enableEdgeToEdge()
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+        }
+        setContent {
+            VlcTVTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    StreamScreen()
+                }
             }
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.tv_fragment_placeholder, fragment)
-                    .commit()
         }
     }
-
-    override fun refresh() { }
 }
