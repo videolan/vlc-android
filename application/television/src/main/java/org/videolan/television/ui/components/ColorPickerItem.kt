@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 
 @Composable
 fun ColorPickerItem(
@@ -108,21 +109,25 @@ fun ColorPickerItem(
 @Preview
 @Composable
 private fun ColorPickerItemPreview() {
-    ColorPickerItem(
-        color = android.graphics.Color.RED,
-        isSelected = true,
-        onClick = {},
-        modifier = Modifier.size(48.dp)
-    )
+    VlcTVTheme {
+        ColorPickerItem(
+            color = android.graphics.Color.RED,
+            isSelected = true,
+            onClick = {},
+            modifier = Modifier.size(48.dp)
+        )
+    }
 }
 
 @Preview
 @Composable
 private fun ColorPickerItemNotSelectedPreview() {
-    ColorPickerItem(
-        color = android.graphics.Color.BLUE,
-        isSelected = false,
-        onClick = {},
-        modifier = Modifier.size(48.dp)
-    )
+    VlcTVTheme {
+        ColorPickerItem(
+            color = android.graphics.Color.BLUE,
+            isSelected = false,
+            onClick = {},
+            modifier = Modifier.size(48.dp)
+        )
+    }
 }

@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.videolan.television.R
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.viewmodel.ColorPickerViewModel
 
 @Composable
@@ -173,16 +174,18 @@ fun ColorPickerContent(
 @Preview(widthDp = 1280, heightDp = 720)
 @Composable
 private fun ColorPickerScreenPreview() {
-    ColorPickerContent(
-        title = "Subtitle color",
-        colors = List(100) { android.graphics.Color.HSVToColor(floatArrayOf(3.6f * it, 1f, 1f)) },
-        selectedHueIndex = 5,
-        selectedVariantIndex = 10,
-        initialColor = android.graphics.Color.RED,
-        onHueSelected = {},
-        onVariantSelected = {},
-        getVariantColor = { c, i -> c },
-        onOk = {},
-        onCancel = {}
-    )
+    VlcTVTheme {
+        ColorPickerContent(
+            title = "Subtitle color",
+            colors = List(100) { android.graphics.Color.HSVToColor(floatArrayOf(3.6f * it, 1f, 1f)) },
+            selectedHueIndex = 5,
+            selectedVariantIndex = 10,
+            initialColor = android.graphics.Color.RED,
+            onHueSelected = {},
+            onVariantSelected = {},
+            getVariantColor = { c, i -> c },
+            onOk = {},
+            onCancel = {}
+        )
+    }
 }
