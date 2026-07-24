@@ -25,12 +25,12 @@
 package org.videolan.television.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -68,40 +68,21 @@ fun ColorPickerItem(
                 indication = null,
                 onClick = onClick
             )
-            .padding(4.dp),
+            .padding(4.dp)
+            .border(1.dp, if (isFocused) Color.White else Color(0xFF9E9E9E), CircleShape)
+            .background(Color(color), CircleShape),
         contentAlignment = Alignment.Center
     ) {
-        // Outer circle (border)
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(CircleShape)
-                .background(if (isFocused) Color.White else Color(0xFF9E9E9E))
-        )
-        // Inner color circle
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(1.dp)
-                .clip(CircleShape)
-                .background(Color(color))
-        )
-
         if (isSelected) {
-            Box(
+            Icon(
+                painter = painterResource(id = org.videolan.vlc.R.drawable.ic_check),
+                contentDescription = null,
+                tint = Color.White,
                 modifier = Modifier
                     .size(24.dp)
-                    .clip(CircleShape)
-                    .background(Color.Black.copy(alpha = 0.5f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = org.videolan.vlc.R.drawable.ic_check),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.padding(2.dp)
-                )
-            }
+                    .background(Color.Black.copy(alpha = 0.5f), CircleShape)
+                    .padding(2.dp)
+            )
         }
     }
 }
