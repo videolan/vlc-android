@@ -96,6 +96,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.stubs.StubArtist
 import org.videolan.medialibrary.stubs.StubGenre
 import org.videolan.resources.CATEGORY_SONGS
+import org.videolan.resources.HEADER_ADD_STREAM
 import org.videolan.television.R
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.ItemOptions
@@ -230,7 +231,7 @@ fun AudioItemCard(item: MediaLibraryItem, position: Int, entry: MediaListEntry, 
                     Image(
                         painter = painterResource(id = getTvIconRes(item)),
                         contentDescription = "Map snapshot",
-                        colorFilter = ColorFilter.tint(WhiteTransparent70),
+                        colorFilter = ColorFilter.tint(if (item.itemType == MediaLibraryItem.TYPE_DUMMY && item.id == HEADER_ADD_STREAM) MaterialTheme.colorScheme.primary else WhiteTransparent70),
                         modifier = Modifier
                             .padding(24.dp)
                             .fillMaxSize()

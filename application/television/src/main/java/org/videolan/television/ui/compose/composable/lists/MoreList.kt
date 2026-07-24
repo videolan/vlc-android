@@ -48,7 +48,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -56,6 +58,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.resources.BROWSER_TYPE
 import org.videolan.resources.HEADER_STREAM
@@ -67,6 +70,8 @@ import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.VLCButton
+import org.videolan.television.ui.compose.theme.VlcTVTheme
+import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.television.util.showParent
 import org.videolan.television.viewmodel.MainActivityViewModel
@@ -95,28 +100,103 @@ import org.videolan.vlc.util.Permissions
 @Composable
 fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: MoreViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(), mainViewmodel: MainActivityViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()) {
     val coroutineScope = rememberCoroutineScope()
-    val firstItemFocusRequester = remember { FocusRequester() }
+    val activity = LocalActivity.current
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             viewModel?.updateHistory()
             viewModel?.updateStreams()
         }
     }
-    val activity = LocalActivity.current
-
-
 
     val history by viewModel?.history?.observeAsState() ?: remember { mutableStateOf(null) }
     val streams by viewModel?.streamsFlow?.collectAsState() ?: remember { mutableStateOf(null) }
     val historyLoading by viewModel?.historyLoading?.observeAsState() ?: remember { mutableStateOf(false) }
     val streamsLoading by viewModel?.streamsLoading?.observeAsState() ?: remember { mutableStateOf(false) }
     val invalidateEntry by mainViewmodel?.invalidateMediaListEntry?.collectAsState() ?: remember { mutableStateOf(null) }
+
+    val showSnackbar: (String) -> Unit = {
+        mainViewmodel?.showSnackbar(SnackbarContent(it))
+    }
+
+    mainViewmodel?.addCtxClickListener(MediaListEntry.HISTORY) { item, _, ctxMenuItem ->
+        when (ctxMenuItem.id) {
+            CTX_PLAY -> MediaUtils.openMedia(activity, (item as MediaWrapper))
+            CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
+            CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
+            CTX_INFORMATION -> MediaInfoActivity.start(activity!!, item.id, item.itemType)
+            CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParent((item as MediaWrapper))
+            else -> {}
+        }
+    }
+    mainViewmodel?.addCtxClickListener(MediaListEntry.STREAMS) { item, _, ctxMenuItem ->
+        when (ctxMenuItem.id) {
+            CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
+            CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            CTX_RENAME -> RenameDialog.newInstance(item).show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
+            CTX_COPY -> {
+                activity!!.copy(item.title, (item as MediaWrapper).location)
+                mainViewmodel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.url_copied_to_clipboard)))
+            }
+
+            CTX_DELETE -> {
+                viewModel?.deletingMedia = item as MediaWrapper
+                UiTools.snackerWithCancel(activity!!, activity.getString(org.videolan.vlc.R.string.stream_deleted), action = { viewModel?.delete() }) {
+                    viewModel?.deletingMedia = null
+                    coroutineScope.launch { viewModel?.updateStreams() }
+                }
+                coroutineScope.launch { viewModel?.updateStreams() }
+            }
+
+            else -> {}
+        }
+    }
+
+    MoreScreenContent(
+        history = history,
+        streams = streams,
+        historyLoading = historyLoading ?: false,
+        streamsLoading = streamsLoading ?: false,
+        invalidateEntry = invalidateEntry,
+        onFocusExit = onFocusExit,
+        onRefreshDone = { mainViewmodel?.invalidationDone() },
+        onInvalidate = { callback -> viewModel?.invalidate(callback) },
+        onItemClick = { item, _ -> TvUtil.openMedia(activity as FragmentActivity, item) },
+        onSettingsClick = { activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES) },
+        onRefreshClick = { activity?.reloadLibrary() },
+        onAboutClick = { activity?.startActivity(Intent(activity, AboutActivity::class.java)) },
+        onStreamsTitleClick = {
+            val intent = Intent(activity, TVActivity::class.java)
+            intent.putExtra(BROWSER_TYPE, HEADER_STREAM)
+            activity?.startActivity(intent)
+        }
+    )
+}
+
+@Composable
+fun MoreScreenContent(
+    history: List<MediaLibraryItem>?,
+    streams: List<MediaLibraryItem>?,
+    historyLoading: Boolean,
+    streamsLoading: Boolean,
+    invalidateEntry: MediaListEntry?,
+    onFocusExit: () -> Unit,
+    onRefreshDone: () -> Unit,
+    onInvalidate: (() -> Unit) -> Unit,
+    onItemClick: (MediaLibraryItem, Int) -> Unit,
+    onSettingsClick: () -> Unit,
+    onRefreshClick: () -> Unit,
+    onAboutClick: () -> Unit,
+    onStreamsTitleClick: () -> Unit
+) {
+    val firstItemFocusRequester = remember { FocusRequester() }
+    val isPreview = LocalInspectionMode.current
+    val canReadStorage = if (isPreview) true else Permissions.canReadStorage(LocalContext.current)
+
     Column(
         modifier = Modifier
             .focusProperties {
-                onExit = {
-                    onFocusExit()
-                }
+                onExit = { onFocusExit() }
             }
             .verticalScroll(rememberScrollState())
             .padding(bottom = 96.dp)
@@ -128,90 +208,116 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
                 .focusProperties {
-                    onEnter = {
-                        firstItemFocusRequester.requestFocus()
-                    }
+                    onEnter = { firstItemFocusRequester.requestFocus() }
                 }
                 .focusGroup()
         ) {
             VLCButton(R.drawable.ic_settings, R.string.preferences, modifier = Modifier.focusRequester(firstItemFocusRequester)) {
-                activity?.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+                onSettingsClick()
             }
-            if (Permissions.canReadStorage(activity!!))
+            if (canReadStorage)
                 VLCButton(R.drawable.ic_medialibrary_scan, R.string.refresh) {
-                    if (!Medialibrary.getInstance().isWorking) {
-                        activity.reloadLibrary()
+                    if (isPreview || !Medialibrary.getInstance().isWorking) {
+                        onRefreshClick()
                     }
                 }
             VLCButton(R.drawable.ic_more_about, R.string.about) {
-                activity.startActivity(Intent(activity, AboutActivity::class.java))
-            }
-
-        }
-
-                val activity = LocalActivity.current
-        val onClick:(MediaLibraryItem, Int) -> Unit = { item, position ->
-            TvUtil.openMedia(activity as FragmentActivity, item)
-        }
-        val showSnackbar: (String) -> Unit = {
-            mainViewmodel?.showSnackbar(SnackbarContent(it))
-        }
-        mainViewmodel?.addCtxClickListener(MediaListEntry.HISTORY) { item, _, ctxMenuItem ->
-            when (ctxMenuItem.id) {
-                CTX_PLAY -> MediaUtils.openMedia(activity, (item as MediaWrapper))
-                CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
-                CTX_PLAY_NEXT -> MediaUtils.insertNext(activity, item.tracks, showSnackbar)
-                CTX_INFORMATION -> MediaInfoActivity.start(activity!!, item.id, item.itemType)
-                CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-                CTX_GO_TO_FOLDER -> (activity as FragmentActivity).showParent((item as MediaWrapper))
-                else -> {}
+                onAboutClick()
             }
         }
-        mainViewmodel?.addCtxClickListener(MediaListEntry.STREAMS) { item, _, ctxMenuItem ->
-            when (ctxMenuItem.id) {
-                CTX_APPEND -> MediaUtils.appendMedia(activity!!, item.tracks, showSnackbar)
-                CTX_ADD_TO_PLAYLIST -> (activity as FragmentActivity).addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-                CTX_RENAME -> RenameDialog.newInstance(item).show((activity as FragmentActivity).supportFragmentManager, RenameDialog::class.simpleName)
-                CTX_COPY -> {
-                    activity!!.copy(item.title, (item as MediaWrapper).location)
-                    mainViewmodel.showSnackbar(SnackbarContent(activity.resources.getString(R.string.url_copied_to_clipboard)))
-                }
-
-                CTX_DELETE -> {
-                    viewModel?.deletingMedia = item as MediaWrapper
-                    UiTools.snackerWithCancel(activity!!, activity.getString(org.videolan.vlc.R.string.stream_deleted), action = { viewModel?.delete() }) {
-                        viewModel?.deletingMedia = null
-                        coroutineScope.launch { viewModel?.updateStreams() }
-                    }
-                    coroutineScope.launch { viewModel?.updateStreams() }
-                }
-
-                else -> {}
-            }
-        }
-
-
 
         if (!history.isNullOrEmpty())
-            ContentLine(history, MediaListEntry.HISTORY, historyLoading, R.string.history, onItemClick = { onClick(history!![it], it) })
+            ContentLine(history, MediaListEntry.HISTORY, historyLoading, R.string.history, onItemClick = { onItemClick(history[it], it) })
+
         InvalidationComposable(streams) { invalidate ->
-            //invalidate if needed
             if (invalidateEntry == MediaListEntry.STREAMS) {
-                viewModel?.invalidate{
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Stream found: invalidate")
+                onInvalidate {
+                    if (BuildConfig.DEBUG) Log.d("MoreScreenContent", "Stream found: invalidate")
                     invalidate()
                 }
-
-                mainViewmodel?.invalidationDone()
+                onRefreshDone()
             }
-            if (!streams.isNullOrEmpty()) streams!!.forEach {
-                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Stream found: ${it.title}")
-            }
-            ContentLine(streams, MediaListEntry.STREAMS, streamsLoading, R.string.streams, onItemClick = { onClick(streams!![it], it) }) {
-                val intent = Intent(activity, TVActivity::class.java)
-                intent.putExtra(BROWSER_TYPE, HEADER_STREAM)
-                activity?.startActivity(intent)
-            }
+            ContentLine(
+                items = streams,
+                entry = MediaListEntry.STREAMS,
+                historyLoading = streamsLoading,
+                text = R.string.streams,
+                onItemClick = { index -> streams?.get(index)?.let { onItemClick(it, index) } },
+                onClick = onStreamsTitleClick
+            )
         }
     }
 }
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun MoreScreenPreview() {
+    val history = (1..5).map { i ->
+        StubMediaWrapper(i.toLong(), "file://history$i.mp4", 0, 0f, 1000, MediaWrapper.TYPE_VIDEO, "History $i", "history$i.mp4", 0, 0, "", "", 0, "", "", 0, 0, "", 0, 0, 0, 0, 0, 0, false, false, 0, true, 0)
+    }
+    val streams = (1..5).map { i ->
+        StubMediaWrapper(i.toLong() + 10, "http://stream$i.com", 0, 0f, 0, MediaWrapper.TYPE_STREAM, "Stream $i", "stream$i", 0, 0, "", "", 0, "", "", 0, 0, "", 0, 0, 0, 0, 0, 0, false, false, 0, true, 0)
+    }
+    VlcPreview {
+        MoreScreenContent(
+            history = history,
+            streams = streams,
+            historyLoading = false,
+            streamsLoading = false,
+            invalidateEntry = null,
+            onFocusExit = {},
+            onRefreshDone = {},
+            onInvalidate = {},
+            onItemClick = { _, _ -> },
+            onSettingsClick = {},
+            onRefreshClick = {},
+            onAboutClick = {},
+            onStreamsTitleClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun MoreScreenLoadingPreview() {
+    VlcPreview {
+        MoreScreenContent(
+            history = null,
+            streams = null,
+            historyLoading = true,
+            streamsLoading = true,
+            invalidateEntry = null,
+            onFocusExit = {},
+            onRefreshDone = {},
+            onInvalidate = {},
+            onItemClick = { _, _ -> },
+            onSettingsClick = {},
+            onRefreshClick = {},
+            onAboutClick = {},
+            onStreamsTitleClick = {}
+        )
+    }
+}
+
+@Preview(device = "id:tv_1080p")
+@Composable
+private fun MoreScreenEmptyPreview() {
+    VlcPreview {
+        MoreScreenContent(
+            history = emptyList(),
+            streams = emptyList(),
+            historyLoading = false,
+            streamsLoading = false,
+            invalidateEntry = null,
+            onFocusExit = {},
+            onRefreshDone = {},
+            onInvalidate = {},
+            onItemClick = { _, _ -> },
+            onSettingsClick = {},
+            onRefreshClick = {},
+            onAboutClick = {},
+            onStreamsTitleClick = {}
+        )
+    }
+}
+
