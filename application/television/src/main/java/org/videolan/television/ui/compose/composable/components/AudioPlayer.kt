@@ -86,7 +86,7 @@ import org.videolan.liveplotgraph.BuildConfig
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.television.R
-import org.videolan.television.ui.audioplayer.AudioPlayerActivity
+import org.videolan.television.ui.AudioPlayerActivity
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.helpers.AudioUtil

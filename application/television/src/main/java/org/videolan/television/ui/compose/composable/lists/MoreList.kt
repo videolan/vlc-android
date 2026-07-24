@@ -65,8 +65,8 @@ import org.videolan.resources.HEADER_STREAM
 import org.videolan.television.R
 import org.videolan.television.ui.AboutActivity
 import org.videolan.television.ui.MediaInfoActivity
+import org.videolan.television.ui.StreamActivity
 import org.videolan.television.ui.TvUtil
-import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.compose.composable.components.ContentLine
 import org.videolan.television.ui.compose.composable.components.InvalidationComposable
 import org.videolan.television.ui.compose.composable.components.VLCButton
@@ -166,7 +166,7 @@ fun MoreScreen(onFocusExit: () -> Unit, onFocusEnter: () -> Unit, viewModel: Mor
         onRefreshClick = { activity?.reloadLibrary() },
         onAboutClick = { activity?.startActivity(Intent(activity, AboutActivity::class.java)) },
         onStreamsTitleClick = {
-            val intent = Intent(activity, TVActivity::class.java)
+            val intent = Intent(activity, StreamActivity::class.java)
             intent.putExtra(BROWSER_TYPE, HEADER_STREAM)
             activity?.startActivity(intent)
         }

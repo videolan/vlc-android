@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.television.ui.components
+package org.videolan.television.ui.compose.composable.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.videolan.television.R
+import org.videolan.television.ui.compose.composable.components.ColorPickerItem
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.viewmodel.ColorPickerViewModel
 

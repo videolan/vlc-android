@@ -37,7 +37,7 @@
                 android:theme="@style/Theme.VLC.TV.Onboarding"
                 tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".ui.browser.TVActivity"
+                android:name=".ui.StreamActivity"
                 android:exported="true"
                 android:screenOrientation="landscape"
                 android:theme="@style/Theme.VLC.Black"
@@ -49,7 +49,7 @@
                 android:theme="@style/Theme.VLC.Black"
                 tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".ui.audioplayer.AudioPlayerActivity"
+                android:name=".ui.AudioPlayerActivity"
                 android:allowTaskReparenting="true"
                 android:exported="true"
                 android:launchMode="singleTask"

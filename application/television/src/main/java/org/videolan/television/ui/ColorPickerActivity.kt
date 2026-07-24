@@ -33,7 +33,7 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.television.R
-import org.videolan.television.ui.components.ColorPickerScreen
+import org.videolan.television.ui.compose.composable.screens.ColorPickerScreen
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.viewmodel.ColorPickerViewModel
 
