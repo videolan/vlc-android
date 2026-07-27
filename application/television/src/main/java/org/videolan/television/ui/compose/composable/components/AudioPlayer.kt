@@ -335,20 +335,10 @@ fun AudioPlayer(
                         .focusRequester(focusRequester = playPauseFocusRequester)
                         .padding(vertical = 4.dp),
                     customImage = { tint ->
-                        Box(contentAlignment = Alignment.Center) {
-                            if (playerState?.playing == true)
-                                Icon(
-                                    painterResource(R.drawable.ic_pause_player),
-                                    tint = tint,
-                                    contentDescription = stringResource(R.string.pause),
-                                )
-                            else
-                                Icon(
-                                    painterResource(R.drawable.ic_play_player),
-                                    tint = tint,
-                                    contentDescription = stringResource(R.string.play),
-                                )
-                        }
+                        PlayPause(
+                            atEnd = playerState?.playing == true,
+                            tint = tint
+                        )
                     }) {
                     onTogglePlayPause()
                 }

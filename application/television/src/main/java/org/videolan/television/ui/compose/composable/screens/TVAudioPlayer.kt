@@ -927,10 +927,10 @@ fun AudioPlayerControls(progressCoordinates: (Float) -> Unit, viewModel: Playlis
 
         LabeledIconButton(
             stringResource(R.string.air_action_play_pause),
-            customImage = {
+            customImage = { tint ->
                 PlayPause(
                     atEnd = playerState.value?.playing == true,
-                    click = { viewModel.togglePlayPause() },
+                    tint = tint
                 )
             },
             tint = White,
