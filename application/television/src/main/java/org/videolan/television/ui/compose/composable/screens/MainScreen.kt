@@ -57,7 +57,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
@@ -215,15 +214,18 @@ fun MainContent(
     audioTabs: List<Int>,
     viewModel: MainActivityViewModel? = null
 ) {
-    Row(modifier) {
-        if (viewModel != null) AudioPlayer()
+    Box(modifier) {
+        val isPinned = false // Future feature
+        val pinOffset by animateDpAsState(if (isPinned) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
+
         Tabs(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.fillMaxSize().padding(start = pinOffset),
             tabs = tabs,
             videoTabs = videoTabs,
             audioTabs = audioTabs,
             viewModel = viewModel
         )
+        if (viewModel != null) AudioPlayer()
     }
 }
 

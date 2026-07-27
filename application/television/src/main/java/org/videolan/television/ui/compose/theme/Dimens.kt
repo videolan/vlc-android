@@ -33,7 +33,8 @@ import androidx.compose.ui.unit.dp
 data class VlcDimens(
     val itemFocusGlowRadius: Dp = 16.dp,
     val overscanHorizontal: Dp = 56.dp,
-    val overscanVertical: Dp = 28.dp
+    val overscanVertical: Dp = 28.dp,
+    val miniPlayerWidth: Dp = 212.dp
 )
 
 val LocalVlcDimens = staticCompositionLocalOf { VlcDimens() }

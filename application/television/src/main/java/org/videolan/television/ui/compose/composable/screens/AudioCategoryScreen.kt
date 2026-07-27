@@ -28,9 +28,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -410,13 +411,15 @@ fun AudioCategoryScreenContent(
 
         var focusedIndex by remember { mutableIntStateOf(-1) }
 
-        Row(modifier = Modifier.fillMaxSize()) {
-            AudioPlayer(requestFocus = false)
+        Box(modifier = Modifier.fillMaxSize()) {
+            val isPinned = false // Future feature
+            val pinOffset by animateDpAsState(if (isPinned) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
+
             androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
                 columns = androidx.compose.foundation.lazy.grid.GridCells.Adaptive(150.dp),
-                modifier = Modifier.weight(1f).onGloballyPositioned { onListHeightChanged(it.size.height) }.graphicsLayer(clip = false),
+                modifier = Modifier.fillMaxSize().onGloballyPositioned { onListHeightChanged(it.size.height) }.graphicsLayer(clip = false),
                 state = gridState,
-                contentPadding = PaddingValues(start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal, top = 32.dp + VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp),
+                contentPadding = PaddingValues(start = VlcTVTheme.dimens.overscanHorizontal + pinOffset, end = VlcTVTheme.dimens.overscanHorizontal, top = 32.dp + VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
@@ -490,6 +493,7 @@ fun AudioCategoryScreenContent(
                     else -> {}
                 }
             }
+            AudioPlayer(requestFocus = false)
         }
     }
 }
