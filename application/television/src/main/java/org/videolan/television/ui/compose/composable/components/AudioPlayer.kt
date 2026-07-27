@@ -28,6 +28,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
@@ -116,8 +117,13 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 private const val TAG = "VLC/AudioPlayer"
 
 @Composable
-fun AudioPlayer(modifier: Modifier = Modifier, playlistModel: PlaylistModel = viewModel(), requestFocus: Boolean = true) {
-    val activity = androidx.activity.compose.LocalActivity.current
+fun AudioPlayer(
+    modifier: Modifier = Modifier,
+    playlistModel: PlaylistModel = viewModel(),
+    requestFocus: Boolean = true,
+    focusRequester: FocusRequester = remember { FocusRequester() }
+) {
+    val activity = LocalActivity.current
     val visible = PlaylistManager.showAudioPlayer.observeAsState()
     val progress = playlistModel.progress.observeAsState()
     val playerState = playlistModel.playerState.observeAsState()
@@ -138,7 +144,8 @@ fun AudioPlayer(modifier: Modifier = Modifier, playlistModel: PlaylistModel = vi
         onPrevious = { playlistModel.previous() },
         onNext = { playlistModel.next() },
         onTogglePlayPause = { playlistModel.togglePlayPause() },
-        requestFocus = requestFocus
+        requestFocus = requestFocus,
+        focusRequester = focusRequester
     )
 }
 
@@ -160,7 +167,8 @@ fun AudioPlayer(
     onNext: () -> Unit,
     onTogglePlayPause: () -> Unit,
     requestFocus: Boolean = true,
-    forceExpanded: Boolean = false
+    forceExpanded: Boolean = false,
+    focusRequester: FocusRequester = remember { FocusRequester() }
 ) {
     var sliderPosition by remember { mutableFloatStateOf(0f) }
     sliderPosition = ((progress?.time ?: 0).toFloat() / (progress?.length ?: 1)).coerceIn(0F, 1F)
@@ -177,6 +185,7 @@ fun AudioPlayer(
             targetState = isFocused,
             modifier = Modifier
                 .fillMaxHeight()
+                .focusRequester(focusRequester)
                 .onFocusChanged { isFocused = it.hasFocus },
             contentAlignment = Alignment.CenterStart,
             transitionSpec = {
