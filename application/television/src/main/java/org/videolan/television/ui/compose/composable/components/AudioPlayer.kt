@@ -41,6 +41,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -85,6 +86,7 @@ import kotlinx.coroutines.launch
 import org.videolan.liveplotgraph.BuildConfig
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.AudioPlayerActivity
 import org.videolan.television.ui.compose.utils.VlcPreview
@@ -155,9 +157,9 @@ fun AudioPlayer(
 
         Column(
             modifier = Modifier
-                .padding(top = 32.dp, bottom = 32.dp)
+                .padding(vertical = 32.dp)
                 .fillMaxHeight()
-                .width(180.dp)
+                .width(212.dp)
                 .dropShadow(
                     shape = RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp),
                     shadow = Shadow(
@@ -172,6 +174,7 @@ fun AudioPlayer(
                     shape = RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp)
 
                 )
+                .padding(horizontal = 16.dp)
                 .focusProperties {
                     onEnter = {
                         playPauseFocusRequester.requestFocus()
@@ -181,7 +184,7 @@ fun AudioPlayer(
             horizontalAlignment = Alignment.End
         ) {
 
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
                 LabeledIconButton(
                     label = stringResource(R.string.stop),
                     vectorImage = Icons.Outlined.Close,
@@ -210,7 +213,6 @@ fun AudioPlayer(
                     contentDescription = "Map snapshot",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
                         .fillMaxWidth()
                         .aspectRatio(1F)
                 )
@@ -220,7 +222,6 @@ fun AudioPlayer(
                     painter = painterResource(id = defaultIconId),
                     contentDescription = "Map snapshot",
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
                         .fillMaxWidth()
                         .aspectRatio(1F)
                 )
@@ -238,7 +239,6 @@ fun AudioPlayer(
             Text(
                 serviceTitle ?: "",
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium,
@@ -247,7 +247,6 @@ fun AudioPlayer(
             Text(
                 serviceArtist ?: "",
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelMedium,
@@ -257,7 +256,6 @@ fun AudioPlayer(
             Spacer(modifier = Modifier.weight(1F))
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.weight(1F))
@@ -289,7 +287,6 @@ fun AudioPlayer(
             }
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .fillMaxWidth()
             ) {
 
@@ -307,14 +304,13 @@ fun AudioPlayer(
             }
             LinearProgressIndicator(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
                 progress = { sliderPosition },
                 drawStopIndicator = {}
             )
             Row(
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                    .padding(bottom = 8.dp)
                     .fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.weight(1F))
@@ -365,21 +361,31 @@ fun AudioPlayer(
 @Preview(device = "id:tv_1080p")
 @Composable
 private fun AudioPlayerPreview() {
+    val media = StubMediaWrapper(
+        1L, "file:///track.mp3", 0L, 0f, 300000L,
+        MediaWrapper.TYPE_AUDIO,
+        "Title", "track.mp3", 1L, 1L, "Artist", "Genre",
+        1L, "Album", "Artist", 0, 0, "", 0, 0, 1, 1,
+        0L, 0L, false, false, 2024, true, 0L
+    )
     VlcPreview {
-        AudioPlayer(
-            visible = true,
-            progress = PlaybackProgress(time = 10000, length = 30000),
-            playerState = PlayerState(playing = true, title = "Title", artist = "Artist"),
-            currentMedia = null,
-            serviceCoverArt = null,
-            serviceTitle = "Title",
-            serviceArtist = "Artist",
-            onStop = {},
-            onOpenFull = {},
-            onJump = {},
-            onPrevious = {},
-            onNext = {},
-            onTogglePlayPause = {}
-        )
+        Row(Modifier.fillMaxSize()) {
+            AudioPlayer(
+                visible = true,
+                progress = PlaybackProgress(time = 10000, length = 30000),
+                playerState = PlayerState(playing = true, title = "Title", artist = "Artist"),
+                currentMedia = media,
+                serviceCoverArt = null,
+                serviceTitle = "Title",
+                serviceArtist = "Artist",
+                onStop = {},
+                onOpenFull = {},
+                onJump = {},
+                onPrevious = {},
+                onNext = {},
+                onTogglePlayPause = {}
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
     }
 }
