@@ -24,11 +24,10 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
@@ -49,6 +48,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -76,6 +79,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -188,7 +192,7 @@ fun AudioCategoryScreen(
     val removeFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val moveUpFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
     val moveDownFocusRequesters = remember { mutableMapOf<String, FocusRequester>() }
-    val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
     var listHeight by remember { mutableIntStateOf(0) }
 
     // Tracks synchronization for Playlists (to support stable IDs and animations)
@@ -257,7 +261,7 @@ fun AudioCategoryScreen(
         removeFocusRequesters = removeFocusRequesters,
         moveUpFocusRequesters = moveUpFocusRequesters,
         moveDownFocusRequesters = moveDownFocusRequesters,
-        listState = listState,
+        gridState = gridState,
         onListHeightChanged = { listHeight = it },
         onAlbumClick = { album -> TvUtil.openAudioCategory(context as FragmentActivity, album) },
         onSongClick = { index ->
@@ -285,7 +289,7 @@ fun AudioCategoryScreen(
                 trackList.add(index - 1, moved)
             }
             if (index - 1 == 0) moveDownFocusRequesters[tag]?.requestFocus() else moveUpFocusRequesters[tag]?.requestFocus()
-            scope.launch { listState.requestScrollToItem(index - 1, -(listHeight / 2 - with(density) { 36.dp.toPx() }.toInt())) }
+            scope.launch { gridState.requestScrollToItem(index - 1, -(listHeight / 2 - with(density) { 36.dp.toPx() }.toInt())) }
             scope.launch(Dispatchers.IO) {
                 (item as Playlist).move(index, index - 1)
                 viewModel.refresh()
@@ -298,7 +302,7 @@ fun AudioCategoryScreen(
                 trackList.add(index + 1, moved)
             }
             if (index + 1 == trackList.size - 1) moveUpFocusRequesters[tag]?.requestFocus() else moveDownFocusRequesters[tag]?.requestFocus()
-            scope.launch { listState.requestScrollToItem(index + 1, -(listHeight / 2 - with(density) { 36.dp.toPx() }.toInt())) }
+            scope.launch { gridState.requestScrollToItem(index + 1, -(listHeight / 2 - with(density) { 36.dp.toPx() }.toInt())) }
             scope.launch(Dispatchers.IO) {
                 (item as Playlist).move(index, index + 1)
                 viewModel.refresh()
@@ -334,7 +338,7 @@ fun AudioCategoryScreenContent(
     removeFocusRequesters: Map<String, FocusRequester>,
     moveUpFocusRequesters: Map<String, FocusRequester>,
     moveDownFocusRequesters: Map<String, FocusRequester>,
-    listState: androidx.compose.foundation.lazy.LazyListState,
+    gridState: LazyGridState,
     onListHeightChanged: (Int) -> Unit,
     onAlbumClick: (Album) -> Unit,
     onSongClick: (Int) -> Unit,
@@ -349,6 +353,17 @@ fun AudioCategoryScreenContent(
 ) {
     val tabsFocusRequester = remember { FocusRequester() }
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var actionsFocused by remember { mutableStateOf(false) }
+
+    BackHandler(enabled = !actionsFocused) {
+        scope.launch {
+            if (gridState.firstVisibleItemIndex > 0) {
+                gridState.scrollToItem(0)
+            }
+            playFocusRequester.requestFocus()
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize().background(BackgroundColorDark)) {
         blurredCover?.let {
@@ -363,96 +378,216 @@ fun AudioCategoryScreenContent(
             Box(modifier = Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(BackgroundColorDark.copy(alpha = 0.8f), Transparent, BackgroundColorDark.copy(alpha = 0.9f)))))
         }
 
+        val header = @Composable {
+            AudioCategoryHeader(
+                item = item,
+                coverBitmap = coverBitmap,
+                darkMutedColor = darkMutedColor,
+                playFocusRequester = playFocusRequester,
+                listFocusRequester = listFocusRequester,
+                tabsFocusRequester = tabsFocusRequester,
+                onPlay = onPlay,
+                onDelete = onDelete,
+                onInsertNext = onInsertNext,
+                onAppend = onAppend,
+                onAddToPlaylist = onAddToPlaylist,
+                onActionsFocusChanged = { actionsFocused = it }
+            )
+        }
+
+        val tabs = @Composable {
+            if (item is Artist || item is Genre) {
+                val destinations = listOf(CategoryDestination.Albums, CategoryDestination.Songs)
+                AudioCategoryTabs(
+                    destinations = destinations,
+                    backStack = backStack,
+                    tabsFocusRequester = tabsFocusRequester,
+                    darkMutedColor = darkMutedColor,
+                    mainActivityViewModel = mainActivityViewModel
+                )
+            }
+        }
+
+        var focusedIndex by remember { mutableIntStateOf(-1) }
+
         Row(modifier = Modifier.fillMaxSize()) {
             AudioPlayer(requestFocus = false)
-            Column(modifier = Modifier.weight(1f).padding(top = 32.dp).padding(horizontal = VlcTVTheme.dimens.overscanHorizontal)) {
-                // Header
-                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    AudioCategoryHeaderArt(item, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
-                        val textShadow = Shadow(color = Color.Black.copy(alpha = 0.5f), offset = Offset(2f, 2f), blurRadius = 4f)
-                        Text(text = item.title ?: "", style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold, shadow = textShadow), color = White, maxLines = 1, modifier = Modifier.fadingMarquee())
-                        
-                        val subtitle = when (item) {
-                            is Album -> item.albumArtist ?: stringResource(R.string.unknown_artist)
-                            is Playlist -> stringResource(R.string.track_number, item.tracksCount)
-                            is Artist -> {
-                                val list = arrayListOf<String>()
-                                if (item.albumsCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.albums_quantity, item.albumsCount, item.albumsCount))
-                                if (item.tracksCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.track_quantity, item.tracksCount, item.tracksCount))
-                                TextUtils.separatedString(list.toTypedArray())
-                            }
-                            is Genre -> {
-                                val list = arrayListOf<String>()
-                                if (item.albumsCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.albums_quantity, item.albumsCount, item.albumsCount))
-                                if (item.tracksCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.track_quantity, item.tracksCount, item.tracksCount))
-                                TextUtils.separatedString(list.toTypedArray())
-                            }
-                            else -> ""
+            androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
+                columns = androidx.compose.foundation.lazy.grid.GridCells.Adaptive(150.dp),
+                modifier = Modifier.weight(1f).onGloballyPositioned { onListHeightChanged(it.size.height) }.graphicsLayer(clip = false),
+                state = gridState,
+                contentPadding = PaddingValues(start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal, top = 32.dp + VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Column {
+                        header()
+                        if (item is Artist || item is Genre) {
+                            Spacer(modifier = Modifier.height(24.dp))
+                            tabs()
+                            Spacer(modifier = Modifier.height(16.dp))
+                        } else {
+                            Spacer(modifier = Modifier.height(24.dp))
                         }
-                        if (subtitle.isNotEmpty()) {
-                            Text(text = subtitle, style = MaterialTheme.typography.headlineSmall.copy(shadow = textShadow), color = WhiteTransparent90, maxLines = 1, modifier = Modifier.fadingMarquee())
-                        }
-                        
-                        val duration = when (item) {
-                            is Album -> item.duration
-                            is Playlist -> item.tracks.sumOf { it.length }
-                            else -> 0L
-                        }
-                        if (duration > 0) {
-                            Text(text = Tools.millisToString(duration), style = MaterialTheme.typography.titleMedium.copy(shadow = textShadow), color = WhiteTransparent90)
-                        }
-                    }
-                    Spacer(modifier = Modifier.width(24.dp))
-                    // Actions
-                    Row(
-                        modifier = Modifier.clip(RoundedCornerShape(50)).background(darkMutedColor ?: WhiteTransparent10).padding(4.dp).focusGroup().focusProperties { down = if (item is Artist || item is Genre) tabsFocusRequester else listFocusRequester },
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        LabeledIconButton(label = stringResource(R.string.play), painterResource = painterResource(R.drawable.ic_play_tv), modifier = Modifier.focusRequester(playFocusRequester), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onPlay)
-                        if (item is Playlist) LabeledIconButton(label = stringResource(R.string.delete), painterResource = painterResource(R.drawable.ic_tv_list_delete), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onDelete)
-                        LabeledIconButton(label = stringResource(R.string.insert_next), painterResource = painterResource(R.drawable.ic_tv_list_append), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onInsertNext)
-                        LabeledIconButton(label = stringResource(R.string.append), painterResource = painterResource(R.drawable.ic_tv_list_playnext), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onAppend)
-                        LabeledIconButton(label = stringResource(R.string.add_to_playlist), painterResource = painterResource(R.drawable.ic_addtoplaylist), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onAddToPlaylist)
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                when (backStack.lastOrNull()) {
+                    CategoryDestination.Albums -> {
+                        items(count = albums.itemCount) { i ->
+                            val album = albums[i]
+                            if (album != null) {
+                                AudioItemCard(item = album, position = i, entry = MediaListEntry.ALBUMS, topStartContent = {
+                                    val year = album.getYear()
+                                    if (year != "0" && year != "-" && year.isNotEmpty()) {
+                                        Text(text = year, modifier = Modifier.padding(8.dp).background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp)).padding(horizontal = 4.dp, vertical = 2.dp), color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.labelSmall)
+                                    }
+                                }) { onAlbumClick(album) }
+                            }
+                        }
+                    }
+                    CategoryDestination.Songs -> {
+                        itemsIndexed(trackList, key = { _, track: MediaWrapper -> track.tag ?: track.hashCode().toString() }, span = { _, _ -> GridItemSpan(maxLineSpan) }) { index, song ->
+                            val tag = song.tag ?: song.hashCode().toString()
+                            val removeFocusRequester = removeFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (removeFocusRequesters as MutableMap)[tag] = it } }
+                            val moveUpFocusRequester = moveUpFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (moveUpFocusRequesters as MutableMap)[tag] = it } }
+                            val moveDownFocusRequester = moveDownFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (moveDownFocusRequesters as MutableMap)[tag] = it } }
 
-                // Content
-                if (item is Artist || item is Genre) {
-                    val tabs = listOf(CategoryDestination.Albums, CategoryDestination.Songs)
-                    VLCTabRow(
-                        selectedTabIndex = tabs.indexOf(backStack.lastOrNull()),
-                        onSelected = { index -> backStack.clear(); backStack.add(tabs[index]) },
-                        modifier = Modifier.focusRequester(tabsFocusRequester),
-                        tabNumber = tabs.size,
-                        indicator = { hasFocus -> Box(Modifier.fillMaxSize().background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))) },
-                        key = "category_tabs",
-                        containerColor = darkMutedColor ?: WhiteTransparent10,
-                        mainActivityViewModel = mainActivityViewModel,
-                        getTab = { index, focused ->
-                            val tab = tabs[index]
-                            val animatedColor by animateColorAsState(targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.6F), label = "color")
-                            Text(text = stringResource(tab.titleRes).uppercase(), style = MaterialTheme.typography.labelLarge, color = animatedColor, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    NavDisplay(backStack = backStack, modifier = Modifier.weight(1f)) { destination ->
-                        NavEntry(destination) { destinationKey ->
-                            CategoryContent(destinationKey as CategoryDestination, albums, trackList, item, darkMutedColor, onAlbumClick, onSongClick, onMoveUp, onMoveDown, onRemove, listState, onListHeightChanged, listFocusRequester, playFocusRequester, removeFocusRequesters, moveUpFocusRequesters, moveDownFocusRequesters)
+                            val currentAlbumName = song.album?.title ?: stringResource(org.videolan.vlc.R.string.unknown_album)
+                            val previousAlbumName = if (index > 0) trackList[index - 1].album?.title ?: stringResource(org.videolan.vlc.R.string.unknown_album) else null
+                            val nextAlbumName = if (index < (trackList.size - 1)) trackList[index + 1].album?.title ?: stringResource(org.videolan.vlc.R.string.unknown_album) else null
+                            val isNewAlbum = (item is Artist || item is Genre) && currentAlbumName != previousAlbumName
+                            val isLastOfAlbum = (item is Artist || item is Genre) && currentAlbumName != nextAlbumName
+
+                            Column(modifier = Modifier.zIndex(if (focusedIndex == index) 1f else 0f).onFocusChanged { if (it.hasFocus) focusedIndex = index }) {
+                                if (isNewAlbum) {
+                                    Text(text = currentAlbumName, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(start = 48.dp, top = 24.dp, bottom = 8.dp))
+                                }
+                                AudioItemList(
+                                    item = song,
+                                    position = index,
+                                    entry = MediaListEntry.TRACKS,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    isFirst = if (item is Artist || item is Genre) isNewAlbum else index == 0,
+                                    isLast = if (item is Artist || item is Genre) isLastOfAlbum else index == trackList.size - 1,
+                                    containerColor = darkMutedColor ?: MaterialTheme.colorScheme.surface,
+                                    actionContent = {
+                                        if (item is Playlist) {
+                                            if (index > 0) LabeledIconButton(label = stringResource(R.string.move_up), painterResource = painterResource(R.drawable.ic_playlist_moveup), modifier = Modifier.focusRequester(moveUpFocusRequester), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { onMoveUp(index, song) }
+                                            else Spacer(modifier = Modifier.width(48.dp).height(72.dp))
+                                            if (index < trackList.size - 1) LabeledIconButton(label = stringResource(R.string.move_down), painterResource = painterResource(R.drawable.ic_playlist_movedown), modifier = Modifier.focusRequester(moveDownFocusRequester), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { onMoveDown(index, song) }
+                                            else Spacer(modifier = Modifier.width(48.dp).height(72.dp))
+                                            LabeledIconButton(label = stringResource(R.string.remove), painterResource = painterResource(R.drawable.ic_remove_from_playlist), modifier = Modifier.focusRequester(removeFocusRequester), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { onRemove(index, song) }
+                                        }
+                                        LabeledIconButton(label = stringResource(R.string.insert_next), painterResource = painterResource(R.drawable.ic_tv_list_append), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { MediaUtils.insertNext(context, song) }
+                                        LabeledIconButton(label = stringResource(R.string.append), painterResource = painterResource(R.drawable.ic_tv_list_playnext), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { MediaUtils.appendMedia(context, song) }
+                                        LabeledIconButton(label = stringResource(R.string.add_to_playlist), painterResource = painterResource(R.drawable.ic_addtoplaylist), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { (context as FragmentActivity).addToPlaylist(arrayOf(song), SavePlaylistDialog.KEY_NEW_TRACKS) }
+                                    }
+                                ) { onSongClick(index) }
+                            }
                         }
                     }
-                } else {
-                    Box(modifier = Modifier.weight(1f)) {
-                        CategorySongs(trackList, item, darkMutedColor, onSongClick, onMoveUp, onMoveDown, onRemove, listState, onListHeightChanged, listFocusRequester, playFocusRequester, removeFocusRequesters, moveUpFocusRequesters, moveDownFocusRequesters)
-                    }
+                    else -> {}
                 }
             }
         }
     }
+}
+
+@Composable
+private fun AudioCategoryHeader(
+    item: MediaLibraryItem,
+    coverBitmap: Bitmap?,
+    darkMutedColor: Color?,
+    playFocusRequester: FocusRequester,
+    listFocusRequester: FocusRequester,
+    tabsFocusRequester: FocusRequester,
+    onPlay: () -> Unit,
+    onDelete: () -> Unit,
+    onInsertNext: () -> Unit,
+    onAppend: () -> Unit,
+    onAddToPlaylist: () -> Unit,
+    onActionsFocusChanged: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AudioCategoryHeaderArt(item, modifier = Modifier.size(160.dp), bitmap = coverBitmap)
+        Spacer(modifier = Modifier.width(8.dp))
+        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
+            val textShadow = Shadow(color = Color.Black.copy(alpha = 0.5f), offset = Offset(2f, 2f), blurRadius = 4f)
+            Text(text = item.title ?: "", style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold, shadow = textShadow), color = White, maxLines = 1, modifier = Modifier.fadingMarquee())
+
+            val subtitle = when (item) {
+                is Album -> item.albumArtist ?: stringResource(R.string.unknown_artist)
+                is Playlist -> stringResource(R.string.track_number, item.tracksCount)
+                is Artist -> {
+                    val list = arrayListOf<String>()
+                    if (item.albumsCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.albums_quantity, item.albumsCount, item.albumsCount))
+                    if (item.tracksCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.track_quantity, item.tracksCount, item.tracksCount))
+                    TextUtils.separatedString(list.toTypedArray())
+                }
+                is Genre -> {
+                    val list = arrayListOf<String>()
+                    if (item.albumsCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.albums_quantity, item.albumsCount, item.albumsCount))
+                    if (item.tracksCount > 0) list.add(pluralStringResource(org.videolan.vlc.R.plurals.track_quantity, item.tracksCount, item.tracksCount))
+                    TextUtils.separatedString(list.toTypedArray())
+                }
+                else -> ""
+            }
+            if (subtitle.isNotEmpty()) {
+                Text(text = subtitle, style = MaterialTheme.typography.headlineSmall.copy(shadow = textShadow), color = WhiteTransparent90, maxLines = 1, modifier = Modifier.fadingMarquee())
+            }
+
+            val duration = when (item) {
+                is Album -> item.duration
+                is Playlist -> item.tracks.sumOf { it.length }
+                else -> 0L
+            }
+            if (duration > 0) {
+                Text(text = Tools.millisToString(duration), style = MaterialTheme.typography.titleMedium.copy(shadow = textShadow), color = WhiteTransparent90)
+            }
+        }
+        Spacer(modifier = Modifier.width(24.dp))
+        // Actions
+        Row(
+            modifier = Modifier.clip(RoundedCornerShape(50)).background(darkMutedColor ?: WhiteTransparent10).padding(4.dp).onFocusChanged { onActionsFocusChanged(it.hasFocus) }.focusGroup().focusProperties { down = if (item is Artist || item is Genre) tabsFocusRequester else listFocusRequester },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            LabeledIconButton(label = stringResource(R.string.play), painterResource = painterResource(R.drawable.ic_play_tv), modifier = Modifier.focusRequester(playFocusRequester), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onPlay)
+            if (item is Playlist) LabeledIconButton(label = stringResource(R.string.delete), painterResource = painterResource(R.drawable.ic_tv_list_delete), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onDelete)
+            LabeledIconButton(label = stringResource(R.string.insert_next), painterResource = painterResource(R.drawable.ic_tv_list_append), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onInsertNext)
+            LabeledIconButton(label = stringResource(R.string.append), painterResource = painterResource(R.drawable.ic_tv_list_playnext), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onAppend)
+            LabeledIconButton(label = stringResource(R.string.add_to_playlist), painterResource = painterResource(R.drawable.ic_addtoplaylist), focusedBackgroundColor = WhiteTransparent25, tint = White, onClick = onAddToPlaylist)
+        }
+    }
+}
+
+@Composable
+private fun AudioCategoryTabs(
+    destinations: List<CategoryDestination>,
+    backStack: NavBackStack<NavKey>,
+    tabsFocusRequester: FocusRequester,
+    darkMutedColor: Color?,
+    mainActivityViewModel: MainActivityViewModel?
+) {
+    VLCTabRow(
+        selectedTabIndex = destinations.indexOf(backStack.lastOrNull()),
+        onSelected = { index -> backStack.clear(); backStack.add(destinations[index]) },
+        modifier = Modifier.focusRequester(tabsFocusRequester),
+        tabNumber = destinations.size,
+        indicator = { hasFocus -> Box(Modifier.fillMaxSize().background(if (hasFocus) White else WhiteTransparent50, RoundedCornerShape(50))) },
+        key = "category_tabs",
+        containerColor = darkMutedColor ?: WhiteTransparent10,
+        mainActivityViewModel = mainActivityViewModel,
+        getTab = { index, focused ->
+            val tab = destinations[index]
+            val animatedColor by animateColorAsState(targetValue = if (focused) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface.copy(0.6F), label = "color")
+            Text(text = stringResource(tab.titleRes).uppercase(), style = MaterialTheme.typography.labelLarge, color = animatedColor, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+        }
+    )
 }
 
 @Composable
@@ -485,124 +620,6 @@ fun AudioCategoryHeaderArt(item: MediaLibraryItem, modifier: Modifier = Modifier
     }
 }
 
-@Composable
-private fun CategoryContent(
-    destination: CategoryDestination,
-    albums: LazyPagingItems<Album>,
-    songs: List<MediaWrapper>,
-    parentItem: MediaLibraryItem,
-    contentColor: Color? = null,
-    onAlbumClick: (Album) -> Unit,
-    onSongClick: (Int) -> Unit,
-    onMoveUp: (Int, MediaWrapper) -> Unit,
-    onMoveDown: (Int, MediaWrapper) -> Unit,
-    onRemove: (Int, MediaWrapper) -> Unit,
-    listState: androidx.compose.foundation.lazy.LazyListState,
-    onListHeightChanged: (Int) -> Unit,
-    listFocusRequester: FocusRequester,
-    playFocusRequester: FocusRequester,
-    removeFocusRequesters: Map<String, FocusRequester>,
-    moveUpFocusRequesters: Map<String, FocusRequester>,
-    moveDownFocusRequesters: Map<String, FocusRequester>
-) {
-    when (destination) {
-        CategoryDestination.Albums -> CategoryAlbums(albums, onAlbumClick)
-        CategoryDestination.Songs -> CategorySongs(songs, parentItem, contentColor, onSongClick, onMoveUp, onMoveDown, onRemove, listState, onListHeightChanged, listFocusRequester, playFocusRequester, removeFocusRequesters, moveUpFocusRequesters, moveDownFocusRequesters)
-    }
-}
-
-@Composable
-private fun CategoryAlbums(albums: LazyPagingItems<Album>, onAlbumClick: (Album) -> Unit) {
-    val gridState = rememberLazyGridState()
-    androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
-        columns = androidx.compose.foundation.lazy.grid.GridCells.Adaptive(150.dp),
-        modifier = Modifier.fillMaxSize(),
-        state = gridState,
-        contentPadding = PaddingValues(start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal, top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-    ) {
-        items(count = albums.itemCount) { i ->
-            val album = albums[i]
-            if (album != null) {
-                AudioItemCard(item = album, position = i, entry = MediaListEntry.ALBUMS, topStartContent = {
-                    val year = album.getYear()
-                    if (year != "0" && year != "-" && year.isNotEmpty()) {
-                        Text(text = year, modifier = Modifier.padding(8.dp).background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp)).padding(horizontal = 4.dp, vertical = 2.dp), color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.labelSmall)
-                    }
-                }) { onAlbumClick(album) }
-            }
-        }
-    }
-}
-
-@Composable
-private fun CategorySongs(
-    songs: List<MediaWrapper>,
-    parentItem: MediaLibraryItem,
-    contentColor: Color? = null,
-    onSongClick: (Int) -> Unit,
-    onMoveUp: (Int, MediaWrapper) -> Unit,
-    onMoveDown: (Int, MediaWrapper) -> Unit,
-    onRemove: (Int, MediaWrapper) -> Unit,
-    listState: androidx.compose.foundation.lazy.LazyListState,
-    onListHeightChanged: (Int) -> Unit,
-    listFocusRequester: FocusRequester,
-    playFocusRequester: FocusRequester,
-    removeFocusRequesters: Map<String, FocusRequester>,
-    moveUpFocusRequesters: Map<String, FocusRequester>,
-    moveDownFocusRequesters: Map<String, FocusRequester>
-) {
-    val context = LocalContext.current
-    val activity = LocalActivity.current
-    var focusedIndex by remember { mutableIntStateOf(-1) }
-
-    LazyColumn(
-        state = listState,
-        modifier = Modifier.fillMaxWidth().onGloballyPositioned { onListHeightChanged(it.size.height) }.focusGroup().focusRequester(listFocusRequester).focusProperties { up = playFocusRequester },
-        contentPadding = PaddingValues(top = VlcTVTheme.dimens.itemFocusGlowRadius, bottom = 96.dp, start = VlcTVTheme.dimens.overscanHorizontal, end = VlcTVTheme.dimens.overscanHorizontal)
-    ) {
-        itemsIndexed(songs, key = { _, track -> track.tag ?: track.hashCode().toString() }) { index, song ->
-            val tag = song.tag ?: song.hashCode().toString()
-            val removeFocusRequester = removeFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (removeFocusRequesters as MutableMap)[tag] = it } }
-            val moveUpFocusRequester = moveUpFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (moveUpFocusRequesters as MutableMap)[tag] = it } }
-            val moveDownFocusRequester = moveDownFocusRequesters[tag] ?: remember(tag) { FocusRequester().also { (moveDownFocusRequesters as MutableMap)[tag] = it } }
-
-            val currentAlbumName = song.album?.title ?: stringResource(org.videolan.vlc.R.string.unknown_album)
-            val previousAlbumName = if (index > 0) songs[index - 1].album?.title ?: stringResource(org.videolan.vlc.R.string.unknown_album) else null
-            val nextAlbumName = if (index < (songs.size - 1)) songs[index + 1].album?.title ?: stringResource(org.videolan.vlc.R.string.unknown_album) else null
-            val isNewAlbum = (parentItem is Artist || parentItem is Genre) && currentAlbumName != previousAlbumName
-            val isLastOfAlbum = (parentItem is Artist || parentItem is Genre) && currentAlbumName != nextAlbumName
-
-            Column(modifier = Modifier.zIndex(if (focusedIndex == index) 1f else 0f).onFocusChanged { if (it.hasFocus) focusedIndex = index }) {
-                if (isNewAlbum) {
-                    Text(text = currentAlbumName, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(start = 48.dp, top = 24.dp, bottom = 8.dp))
-                }
-                AudioItemList(
-                    item = song,
-                    position = index,
-                    entry = MediaListEntry.TRACKS,
-                    modifier = Modifier.animateItem().fillMaxWidth(),
-                    isFirst = if (parentItem is Artist || parentItem is Genre) isNewAlbum else index == 0,
-                    isLast = if (parentItem is Artist || parentItem is Genre) isLastOfAlbum else index == songs.size - 1,
-                    containerColor = contentColor ?: MaterialTheme.colorScheme.surface,
-                    actionContent = {
-                        if (parentItem is Playlist) {
-                            if (index > 0) LabeledIconButton(label = stringResource(R.string.move_up), painterResource = painterResource(R.drawable.ic_playlist_moveup), modifier = Modifier.focusRequester(moveUpFocusRequester), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { onMoveUp(index, song) }
-                            else Spacer(modifier = Modifier.width(48.dp).height(72.dp))
-                            if (index < songs.size - 1) LabeledIconButton(label = stringResource(R.string.move_down), painterResource = painterResource(R.drawable.ic_playlist_movedown), modifier = Modifier.focusRequester(moveDownFocusRequester), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { onMoveDown(index, song) }
-                            else Spacer(modifier = Modifier.width(48.dp).height(72.dp))
-                            LabeledIconButton(label = stringResource(R.string.remove), painterResource = painterResource(R.drawable.ic_remove_from_playlist), modifier = Modifier.focusRequester(removeFocusRequester), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { onRemove(index, song) }
-                        }
-                        LabeledIconButton(label = stringResource(R.string.insert_next), painterResource = painterResource(R.drawable.ic_tv_list_append), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { MediaUtils.insertNext(context, song) }
-                        LabeledIconButton(label = stringResource(R.string.append), painterResource = painterResource(R.drawable.ic_tv_list_playnext), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { MediaUtils.appendMedia(context, song) }
-                        LabeledIconButton(label = stringResource(R.string.add_to_playlist), painterResource = painterResource(R.drawable.ic_addtoplaylist), tint = White, focusedBackgroundColor = WhiteTransparent25, focusHeight = 72.dp) { (activity as FragmentActivity).addToPlaylist(arrayOf(song), SavePlaylistDialog.KEY_NEW_TRACKS) }
-                    }
-                ) { onSongClick(index) }
-            }
-        }
-    }
-}
 
 @Preview(device = "id:tv_1080p")
 @Composable
@@ -626,7 +643,7 @@ private fun ArtistCategoryPreview() {
             removeFocusRequesters = remember { mutableMapOf() },
             moveUpFocusRequesters = remember { mutableMapOf() },
             moveDownFocusRequesters = remember { mutableMapOf() },
-            listState = rememberLazyListState(),
+            gridState = rememberLazyGridState(),
             onListHeightChanged = {},
             onAlbumClick = {},
             onSongClick = {},
@@ -663,7 +680,7 @@ private fun AlbumCategoryPreview() {
             removeFocusRequesters = remember { mutableMapOf() },
             moveUpFocusRequesters = remember { mutableMapOf() },
             moveDownFocusRequesters = remember { mutableMapOf() },
-            listState = rememberLazyListState(),
+            gridState = rememberLazyGridState(),
             onListHeightChanged = {},
             onAlbumClick = {},
             onSongClick = {},
@@ -701,7 +718,7 @@ private fun GenreCategoryPreview() {
             removeFocusRequesters = remember { mutableMapOf() },
             moveUpFocusRequesters = remember { mutableMapOf() },
             moveDownFocusRequesters = remember { mutableMapOf() },
-            listState = rememberLazyListState(),
+            gridState = rememberLazyGridState(),
             onListHeightChanged = {},
             onAlbumClick = {},
             onSongClick = {},
@@ -738,7 +755,7 @@ private fun PlaylistCategoryPreview() {
             removeFocusRequesters = remember { mutableMapOf() },
             moveUpFocusRequesters = remember { mutableMapOf() },
             moveDownFocusRequesters = remember { mutableMapOf() },
-            listState = rememberLazyListState(),
+            gridState = rememberLazyGridState(),
             onListHeightChanged = {},
             onAlbumClick = {},
             onSongClick = {},
