@@ -24,9 +24,11 @@
 
 package org.videolan.television.ui.compose.composable.screens
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -57,6 +59,7 @@ import org.videolan.television.ui.compose.composable.components.AudioPlayer
 import org.videolan.television.ui.compose.composable.components.DisplaySettings
 import org.videolan.television.ui.compose.composable.components.LabeledIconButton
 import org.videolan.television.ui.compose.composable.lists.VideoList
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.viewmodel.MainActivityViewModel
 
 @Composable
@@ -100,23 +103,29 @@ fun VideoGroupScreenContent(modifier: Modifier, folder: Folder? = null, group : 
             }
             Text(text = if (folder != null) stringResource(R.string.talkback_folder, folder.title) else stringResource(R.string.talkback_video_group, group!!.title))
         }
-        Row(modifier) {
+        Box(modifier) {
+            val isPinned = false // Future feature
+            val pinOffset by animateDpAsState(if (isPinned) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
+
+            Box(modifier = Modifier.fillMaxSize().padding(start = pinOffset)) {
+                if (folder != null)
+                    VideoList(Modifier
+                        .fillMaxSize()
+                        .padding(
+                            top = 16.dp,
+                            start = 24.dp,
+                            end = 24.dp
+                        ), folder = folder, onFocusExit = {}, onFocusEnter = {})
+                else
+                    VideoList(Modifier
+                        .fillMaxSize()
+                        .padding(
+                            top = 16.dp,
+                            start = 24.dp,
+                            end = 24.dp
+                        ), group = group, onFocusExit = {}, onFocusEnter = {})
+            }
             AudioPlayer(requestFocus = false)
-            if (folder != null)
-                VideoList(modifier
-                    .padding(
-                        top = 16.dp,
-                        start = 24.dp,
-                        end = 24.dp
-                    ), folder= folder, onFocusExit = {}, onFocusEnter = {})
-            else
-                VideoList(modifier
-                    .padding(
-                        top = 16.dp,
-                        start = 24.dp,
-                        end = 24.dp
-                    ), group = group, onFocusExit = {}, onFocusEnter = {})
-            Tabs(modifier = Modifier.weight(1f))
         }
     }
 }

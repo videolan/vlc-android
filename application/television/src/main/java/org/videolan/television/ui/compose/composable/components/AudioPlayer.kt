@@ -207,6 +207,7 @@ fun AudioPlayer(
                 )
             } else {
                 AudioPlayerBadge(
+                    modifier = Modifier.padding(start = VlcTVTheme.dimens.overscanHorizontal),
                     currentMedia = currentMedia,
                     serviceCoverArt = serviceCoverArt,
                     playerState = playerState,
@@ -243,11 +244,11 @@ private fun AudioPlayerExpanded(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-        Column(
-            modifier = Modifier
-                .padding(vertical = 32.dp)
-                .fillMaxHeight()
-                .width(212.dp)
+    Column(
+        modifier = Modifier
+            .padding(vertical = 32.dp)
+            .fillMaxHeight()
+            .width(VlcTVTheme.dimens.miniPlayerWidth)
                 .dropShadow(
                     shape = RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp),
                     shadow = Shadow(
