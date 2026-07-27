@@ -28,10 +28,16 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
-import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,7 +52,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,6 +80,7 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -110,14 +116,15 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 private const val TAG = "VLC/AudioPlayer"
 
 @Composable
-fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolean = true) {
-    val activity = LocalActivity.current
+fun AudioPlayer(modifier: Modifier = Modifier, playlistModel: PlaylistModel = viewModel(), requestFocus: Boolean = true) {
+    val activity = androidx.activity.compose.LocalActivity.current
     val visible = PlaylistManager.showAudioPlayer.observeAsState()
     val progress = playlistModel.progress.observeAsState()
     val playerState = playlistModel.playerState.observeAsState()
     val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
 
     AudioPlayer(
+        modifier = modifier,
         visible = visible.value == true,
         progress = progress.value,
         playerState = playerState.value,
@@ -138,6 +145,7 @@ fun AudioPlayer(playlistModel: PlaylistModel = viewModel(), requestFocus: Boolea
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioPlayer(
+    modifier: Modifier = Modifier,
     visible: Boolean,
     progress: PlaybackProgress?,
     playerState: PlayerState?,
@@ -151,18 +159,89 @@ fun AudioPlayer(
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     onTogglePlayPause: () -> Unit,
-    requestFocus: Boolean = true
+    requestFocus: Boolean = true,
+    forceExpanded: Boolean = false
 ) {
-    val coroutineScope = rememberCoroutineScope()
     var sliderPosition by remember { mutableFloatStateOf(0f) }
     sliderPosition = ((progress?.time ?: 0).toFloat() / (progress?.length ?: 1)).coerceIn(0F, 1F)
     val playPauseFocusRequester = remember { FocusRequester() }
+    var isFocused by remember { mutableStateOf(forceExpanded) }
 
     AnimatedVisibility(
         visible,
+        modifier = modifier.fillMaxHeight(),
         enter = expandHorizontally(expandFrom = Alignment.Start),
         exit = shrinkHorizontally(shrinkTowards = Alignment.Start)
     ) {
+        AnimatedContent(
+            targetState = isFocused,
+            modifier = Modifier
+                .fillMaxHeight()
+                .onFocusChanged { isFocused = it.hasFocus },
+            contentAlignment = Alignment.CenterStart,
+            transitionSpec = {
+                if (targetState) {
+                    fadeIn() + slideInHorizontally { -it } togetherWith fadeOut() + slideOutHorizontally { -it }
+                } else {
+                    fadeIn() + slideInHorizontally { -it } togetherWith fadeOut() + slideOutHorizontally { -it }
+                }.using(SizeTransform(clip = false))
+            },
+            label = "player_expansion"
+        ) { focused ->
+            if (focused) {
+                AudioPlayerExpanded(
+                    progress = progress,
+                    sliderPosition = sliderPosition,
+                    playerState = playerState,
+                    currentMedia = currentMedia,
+                    serviceCoverArt = serviceCoverArt,
+                    serviceTitle = serviceTitle,
+                    serviceArtist = serviceArtist,
+                    onStop = onStop,
+                    onOpenFull = onOpenFull,
+                    onJump = onJump,
+                    onPrevious = onPrevious,
+                    onNext = onNext,
+                    onTogglePlayPause = onTogglePlayPause,
+                    playPauseFocusRequester = playPauseFocusRequester
+                )
+            } else {
+                AudioPlayerBadge(
+                    currentMedia = currentMedia,
+                    serviceCoverArt = serviceCoverArt,
+                    playerState = playerState,
+                    sliderPosition = sliderPosition
+                )
+            }
+        }
+    }
+
+    var initialLaunch by remember { mutableStateOf(true) }
+    LaunchedEffect(visible, isFocused) {
+        if (visible && isFocused && (requestFocus || !initialLaunch)) playPauseFocusRequester.requestFocus()
+        initialLaunch = false
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AudioPlayerExpanded(
+    progress: PlaybackProgress?,
+    sliderPosition: Float,
+    playerState: PlayerState?,
+    currentMedia: MediaWrapper?,
+    serviceCoverArt: String?,
+    serviceTitle: String?,
+    serviceArtist: String?,
+    onStop: () -> Unit,
+    onOpenFull: () -> Unit,
+    onJump: (forward: Boolean) -> Unit,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit,
+    onTogglePlayPause: () -> Unit,
+    playPauseFocusRequester: FocusRequester
+) {
+    val coroutineScope = rememberCoroutineScope()
 
         Column(
             modifier = Modifier
@@ -357,14 +436,7 @@ fun AudioPlayer(
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
-
         }
-    }
-    var initialLaunch by remember { mutableStateOf(true) }
-    LaunchedEffect(visible) {
-        if (visible && (requestFocus || !initialLaunch)) playPauseFocusRequester.requestFocus()
-        initialLaunch = false
-    }
 }
 
 @Composable
@@ -496,7 +568,8 @@ private fun AudioPlayerPreview() {
                 onJump = {},
                 onPrevious = {},
                 onNext = {},
-                onTogglePlayPause = {}
+                onTogglePlayPause = {},
+                forceExpanded = true
             )
             Spacer(modifier = Modifier.weight(1f))
         }
