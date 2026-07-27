@@ -32,6 +32,7 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
@@ -44,7 +45,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
@@ -53,6 +57,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -70,8 +75,11 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -89,6 +97,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.AudioPlayerActivity
+import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.tools.Settings
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -355,6 +364,110 @@ fun AudioPlayer(
     LaunchedEffect(visible) {
         if (visible && (requestFocus || !initialLaunch)) playPauseFocusRequester.requestFocus()
         initialLaunch = false
+    }
+}
+
+@Composable
+private fun AudioPlayerBadge(
+    modifier: Modifier = Modifier,
+    currentMedia: MediaWrapper?,
+    serviceCoverArt: String?,
+    playerState: PlayerState?,
+    sliderPosition: Float
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val mapBitmap: MutableState<Pair<String?, Bitmap?>> = remember { mutableStateOf(Pair(null, null)) }
+    if (mapBitmap.value.first != currentMedia?.artworkMrl) {
+        mapBitmap.value = Pair(currentMedia?.artworkMrl, null)
+    }
+
+    LaunchedEffect(key1 = currentMedia?.artworkMrl) {
+        coroutineScope.launch {
+            serviceCoverArt?.let {
+                mapBitmap.value = Pair(it, AudioUtil.readCoverBitmap(Uri.decode(it), 320))
+            }
+        }
+    }
+
+    Surface(
+        modifier = modifier
+            .requiredSize(56.dp),
+        shape = CircleShape,
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        tonalElevation = 4.dp,
+        onClick = {} // Makes it focusable
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            // Background Image
+            mapBitmap.value.second?.let {
+                Image(
+                    bitmap = it.asImageBitmap(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } ?: run {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_song_big),
+                    contentDescription = null,
+                    modifier = Modifier.padding(12.dp).fillMaxSize(),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
+                )
+            }
+
+            // Mini Visualizer on top
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = 0.5f)))),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                MiniVisualizer(
+                    color = Color.White,
+                    isPlaying = playerState?.playing == true
+                )
+            }
+
+            // Circular progress
+            val primaryColor = MaterialTheme.colorScheme.primary
+            Canvas(modifier = Modifier.fillMaxSize().padding(1.5.dp)) {
+                // Background circle (track)
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.2f),
+                    style = Stroke(width = 3.dp.toPx())
+                )
+                // Progress arc
+                drawArc(
+                    color = primaryColor,
+                    startAngle = -90f,
+                    sweepAngle = 360f * sliderPosition,
+                    useCenter = false,
+                    style = Stroke(width = 3.dp.toPx())
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun AudioPlayerBadgePreview() {
+    val media = StubMediaWrapper(
+        1L, "file:///track.mp3", 0L, 0f, 300000L,
+        MediaWrapper.TYPE_AUDIO,
+        "Title", "track.mp3", 1L, 1L, "Artist", "Genre",
+        1L, "Album", "Artist", 0, 0, "", 0, 0, 1, 1,
+        0L, 0L, false, false, 2024, true, 0L
+    )
+    VlcPreview {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            AudioPlayerBadge(
+                currentMedia = media,
+                serviceCoverArt = null,
+                playerState = PlayerState(playing = true, title = "Title", artist = "Artist"),
+                sliderPosition = 0.5f
+            )
+        }
     }
 }
 
