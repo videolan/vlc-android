@@ -30,12 +30,11 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -68,6 +67,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
@@ -116,6 +116,13 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 
 private const val TAG = "VLC/AudioPlayer"
 
+private enum class PlayerDisplayState {
+    Hidden,
+    Badge,
+    Expanded,
+    Pinned
+}
+
 @Composable
 fun AudioPlayer(
     modifier: Modifier = Modifier,
@@ -128,10 +135,12 @@ fun AudioPlayer(
     val progress = playlistModel.progress.observeAsState()
     val playerState = playlistModel.playerState.observeAsState()
     val currentMedia = PlaylistManager.currentPlayedMedia.observeAsState()
+    val isPinned = Settings.audioPlayerPinned.observeAsState(false)
 
     AudioPlayer(
         modifier = modifier,
         visible = visible.value == true,
+        isPinned = isPinned.value,
         progress = progress.value,
         playerState = playerState.value,
         currentMedia = currentMedia.value,
@@ -149,11 +158,11 @@ fun AudioPlayer(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioPlayer(
     modifier: Modifier = Modifier,
     visible: Boolean,
+    isPinned: Boolean = false,
     progress: PlaybackProgress?,
     playerState: PlayerState?,
     currentMedia: MediaWrapper?,
@@ -175,60 +184,84 @@ fun AudioPlayer(
     val playPauseFocusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(forceExpanded) }
 
-    AnimatedVisibility(
-        visible,
-        modifier = modifier.fillMaxHeight(),
-        enter = expandHorizontally(expandFrom = Alignment.Start),
-        exit = shrinkHorizontally(shrinkTowards = Alignment.Start)
+    val displayState by remember(visible, isFocused, isPinned) {
+        derivedStateOf {
+            when {
+                !visible -> PlayerDisplayState.Hidden
+                isPinned -> PlayerDisplayState.Pinned
+                isFocused -> PlayerDisplayState.Expanded
+                else -> PlayerDisplayState.Badge
+            }
+        }
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .onFocusChanged { isFocused = it.hasFocus }
+            .focusRequester(focusRequester),
+        contentAlignment = Alignment.CenterStart
     ) {
         AnimatedContent(
-            targetState = isFocused,
-            modifier = Modifier
-                .fillMaxHeight()
-                .focusRequester(focusRequester)
-                .onFocusChanged { isFocused = it.hasFocus },
-            contentAlignment = Alignment.CenterStart,
+            targetState = displayState,
             transitionSpec = {
-                if (targetState) {
-                    fadeIn() + slideInHorizontally { -it } togetherWith fadeOut() + slideOutHorizontally { -it }
-                } else {
-                    fadeIn() + slideInHorizontally { -it } togetherWith fadeOut() + slideOutHorizontally { -it }
+                when {
+                    // Hidden <-> Badge: Pop in/out
+                    (targetState == PlayerDisplayState.Badge && initialState == PlayerDisplayState.Hidden) ||
+                            (targetState == PlayerDisplayState.Hidden && initialState == PlayerDisplayState.Badge) -> {
+                        fadeIn() + expandIn(expandFrom = Alignment.Center) togetherWith fadeOut() + shrinkOut(shrinkTowards = Alignment.Center)
+                    }
+                    // Any other transition (Expanded <-> Badge, Hidden <-> Expanded): Slide
+                    else -> {
+                        fadeIn() + slideInHorizontally { -it } togetherWith fadeOut() + slideOutHorizontally { -it }
+                    }
                 }.using(SizeTransform(clip = false))
             },
-            label = "player_expansion"
-        ) { focused ->
-            if (focused) {
-                AudioPlayerExpanded(
-                    progress = progress,
-                    sliderPosition = sliderPosition,
-                    playerState = playerState,
-                    currentMedia = currentMedia,
-                    serviceCoverArt = serviceCoverArt,
-                    serviceTitle = serviceTitle,
-                    serviceArtist = serviceArtist,
-                    onStop = onStop,
-                    onOpenFull = onOpenFull,
-                    onJump = onJump,
-                    onPrevious = onPrevious,
-                    onNext = onNext,
-                    onTogglePlayPause = onTogglePlayPause,
-                    playPauseFocusRequester = playPauseFocusRequester
-                )
-            } else {
-                AudioPlayerBadge(
-                    modifier = Modifier.padding(start = VlcTVTheme.dimens.overscanHorizontal),
-                    currentMedia = currentMedia,
-                    serviceCoverArt = serviceCoverArt,
-                    playerState = playerState,
-                    sliderPosition = sliderPosition
-                )
+            label = "player_expansion_state",
+            contentAlignment = Alignment.CenterStart
+        ) { state ->
+            when (state) {
+                PlayerDisplayState.Expanded, PlayerDisplayState.Pinned -> {
+                    AudioPlayerExpanded(
+                        progress = progress,
+                        sliderPosition = sliderPosition,
+                        playerState = playerState,
+                        currentMedia = currentMedia,
+                        serviceCoverArt = serviceCoverArt,
+                        serviceTitle = serviceTitle,
+                        serviceArtist = serviceArtist,
+                        onStop = onStop,
+                        onOpenFull = onOpenFull,
+                        onJump = onJump,
+                        onPrevious = onPrevious,
+                        onNext = onNext,
+                        onTogglePlayPause = onTogglePlayPause,
+                        playPauseFocusRequester = playPauseFocusRequester
+                    )
+                }
+
+                PlayerDisplayState.Badge -> {
+                    AudioPlayerBadge(
+                        modifier = Modifier.padding(start = VlcTVTheme.dimens.overscanHorizontal),
+                        currentMedia = currentMedia,
+                        serviceCoverArt = serviceCoverArt,
+                        playerState = playerState,
+                        sliderPosition = sliderPosition
+                    )
+                }
+
+                PlayerDisplayState.Hidden -> {
+                    Spacer(modifier = Modifier.width(0.dp))
+                }
             }
         }
     }
 
     var initialLaunch by remember { mutableStateOf(true) }
-    LaunchedEffect(visible, isFocused) {
-        if (visible && isFocused && (requestFocus || !initialLaunch)) playPauseFocusRequester.requestFocus()
+    LaunchedEffect(displayState) {
+        if ((displayState == PlayerDisplayState.Expanded || displayState == PlayerDisplayState.Pinned) && (requestFocus || !initialLaunch)) {
+            playPauseFocusRequester.requestFocus()
+        }
         initialLaunch = false
     }
 }
