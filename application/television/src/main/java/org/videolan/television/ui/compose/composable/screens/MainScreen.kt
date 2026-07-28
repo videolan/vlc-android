@@ -59,7 +59,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -72,6 +71,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -121,11 +121,11 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.television.viewmodel.SnackbarContent
-import org.videolan.vlc.R as vlcR
 import org.videolan.tools.KEY_AUDIO_TAB
 import org.videolan.tools.KEY_MAIN_TAB
 import org.videolan.tools.KEY_VIDEO_TAB
 import org.videolan.tools.Settings
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.FileUtils
 
 @Composable
@@ -215,8 +215,9 @@ fun MainContent(
     viewModel: MainActivityViewModel? = null
 ) {
     Box(modifier) {
-        val isPinned = false // Future feature
-        val pinOffset by animateDpAsState(if (isPinned) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
+        val isPinned by Settings.audioPlayerPinned.observeAsState(false)
+        val showAudioPlayer by PlaylistManager.showAudioPlayer.observeAsState(false)
+        val pinOffset by animateDpAsState(if (isPinned && showAudioPlayer) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
 
         Tabs(
             modifier = Modifier.fillMaxSize().padding(start = pinOffset),

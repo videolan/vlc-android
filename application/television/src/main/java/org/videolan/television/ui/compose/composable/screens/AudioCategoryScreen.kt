@@ -145,6 +145,8 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent50
 import org.videolan.television.ui.compose.theme.WhiteTransparent90
 import org.videolan.television.ui.compose.utils.fadingMarquee
 import org.videolan.television.viewmodel.MainActivityViewModel
+import org.videolan.tools.Settings
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -412,8 +414,9 @@ fun AudioCategoryScreenContent(
         var focusedIndex by remember { mutableIntStateOf(-1) }
 
         Box(modifier = Modifier.fillMaxSize()) {
-            val isPinned = false // Future feature
-            val pinOffset by animateDpAsState(if (isPinned) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
+            val isPinned by Settings.audioPlayerPinned.observeAsState(false)
+            val showAudioPlayer by PlaylistManager.showAudioPlayer.observeAsState(false)
+            val pinOffset by animateDpAsState(if (isPinned && showAudioPlayer) VlcTVTheme.dimens.miniPlayerWidth else 0.dp, label = "pinOffset")
 
             androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
                 columns = androidx.compose.foundation.lazy.grid.GridCells.Adaptive(150.dp),
