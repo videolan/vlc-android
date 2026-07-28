@@ -56,8 +56,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.OpenInFull
+import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -106,7 +108,9 @@ import org.videolan.television.R
 import org.videolan.television.ui.AudioPlayerActivity
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.utils.VlcPreview
+import org.videolan.tools.KEY_AUDIO_PLAYER_PINNED
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
@@ -153,6 +157,10 @@ fun AudioPlayer(
         onPrevious = { playlistModel.previous() },
         onNext = { playlistModel.next() },
         onTogglePlayPause = { playlistModel.togglePlayPause() },
+        onPinToggled = { pinned ->
+            Settings.audioPlayerPinned.postValue(pinned)
+            Settings.getInstance(activity!!).putSingle(KEY_AUDIO_PLAYER_PINNED, pinned)
+        },
         requestFocus = requestFocus,
         focusRequester = focusRequester
     )
@@ -175,6 +183,7 @@ fun AudioPlayer(
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     onTogglePlayPause: () -> Unit,
+    onPinToggled: (Boolean) -> Unit,
     requestFocus: Boolean = true,
     forceExpanded: Boolean = false,
     focusRequester: FocusRequester = remember { FocusRequester() }
@@ -236,6 +245,8 @@ fun AudioPlayer(
                         onPrevious = onPrevious,
                         onNext = onNext,
                         onTogglePlayPause = onTogglePlayPause,
+                        isPinned = isPinned,
+                        onPinToggled = onPinToggled,
                         playPauseFocusRequester = playPauseFocusRequester
                     )
                 }
@@ -282,6 +293,8 @@ private fun AudioPlayerExpanded(
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     onTogglePlayPause: () -> Unit,
+    isPinned: Boolean,
+    onPinToggled: (Boolean) -> Unit,
     playPauseFocusRequester: FocusRequester
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -323,6 +336,12 @@ private fun AudioPlayerExpanded(
                     onStop()
                 }
                 Spacer(modifier = Modifier.weight(1F))
+                LabeledIconButton(
+                    label = if (isPinned) "Unpin" else "Pin",
+                    vectorImage = if (isPinned) Icons.Filled.PushPin else Icons.Outlined.PushPin,
+                ) {
+                    onPinToggled(!isPinned)
+                }
                 LabeledIconButton(
                     label = stringResource(R.string.open_audio_player),
                     vectorImage = Icons.Outlined.OpenInFull,
@@ -612,6 +631,7 @@ private fun AudioPlayerPreview() {
                 onPrevious = {},
                 onNext = {},
                 onTogglePlayPause = {},
+                onPinToggled = {},
                 forceExpanded = true
             )
             Spacer(modifier = Modifier.weight(1f))
