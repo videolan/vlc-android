@@ -36,6 +36,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var safeMode = false
     var remoteAccessEnabled = MutableLiveData(false)
     var fastplaySpeed = 2f
+    var audioPlayerPinned = MutableLiveData(false)
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
         private set
@@ -62,6 +63,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
         remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
+        audioPlayerPinned.postValue(prefs.getBoolean(KEY_AUDIO_PLAYER_PINNED, false))
         return prefs
     }
 
@@ -173,6 +175,7 @@ const val KEY_MAIN_TAB = "main_tab"
 const val KEY_AUDIO_TAB = "audio_tab"
 const val KEY_VIDEO_TAB = "video_tab"
 const val KEY_SIDE_PANEL_DISCOVERED = "side_panel_discovered"
+const val KEY_AUDIO_PLAYER_PINNED = "audio_player_pinned"
 
 
 // AudioPlayer
