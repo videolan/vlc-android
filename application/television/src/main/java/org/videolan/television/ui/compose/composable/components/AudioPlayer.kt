@@ -74,6 +74,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
@@ -351,6 +352,7 @@ private fun AudioPlayerExpanded(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1F)
+                        .clip(RoundedCornerShape(12.dp))
                 )
             } else {
                 Image(
@@ -359,6 +361,7 @@ private fun AudioPlayerExpanded(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1F)
+                        .clip(RoundedCornerShape(12.dp))
                 )
             }
 
