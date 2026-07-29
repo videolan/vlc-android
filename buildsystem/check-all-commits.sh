@@ -43,9 +43,9 @@ fi
 # Build commands.
 # BASE_BUILD_CMD is used for standard builds and retries after a 'clean'.
 # BUILD_CMD includes performance optimizations for iterative checks.
-BASE_BUILD_CMD="$ROOT_DIR/gradlew :application:app:assembleDebug"
-OPTIMIZED_ARGS="--offline --build-cache --configuration-cache --parallel"
-BUILD_CMD="$BASE_BUILD_CMD $OPTIMIZED_ARGS"
+BASE_BUILD_CMD=("$ROOT_DIR/gradlew" ":application:app:assembleDebug")
+OPTIMIZED_ARGS=("--offline" "--build-cache" "--configuration-cache" "--parallel")
+BUILD_CMD=("${BASE_BUILD_CMD[@]}" "${OPTIMIZED_ARGS[@]}")
 
 # Persistence directory and files.
 PERSISTENCE_DIR="$ROOT_DIR/buildsystem/.check-commits"
@@ -176,7 +176,7 @@ usage() {
     echo "                Stops ONLY if a build fails. Recommended for long branches."
     echo "                If a rebase is already in progress, it will resume it."
     echo ""
-    echo "  verify [--no-increment] : Runs the build check: $BUILD_CMD"
+    echo "  verify [--no-increment] : Runs the build check: ${BUILD_CMD[*]}"
     echo "                            Returns 0 on success, 1 on failure."
     exit 1
 }
@@ -435,13 +435,13 @@ case $MODE in
 
         # run_build: Executes a build command and monitors its progress in real-time.
         run_build() {
-            local cmd="$1"
+            local -n _cmd=$1
             local log_file="$2"
             local label="$3"
             local start_time=$(date +%s)
 
             # Start gradle in the background with a rich console to get the progress updates.
-            $cmd --console rich > "$log_file" 2>&1 &
+            "${_cmd[@]}" --console rich > "$log_file" 2>&1 &
             CURRENT_GRADLE_PID=$!
 
             # Monitor loop: polls the log file for percentage updates.
@@ -478,7 +478,7 @@ case $MODE in
 
         # Step 1: Initial optimized build attempt.
         START=$(date +%s)
-        run_build "$BUILD_CMD" "$BUILD_LOG" "Building"
+        run_build BUILD_CMD "$BUILD_LOG" "Building"
         EXIT_CODE=$?
         END=$(date +%s)
         DURATION=$((END - START))
@@ -511,10 +511,10 @@ case $MODE in
             printf "\033[%dF" "$UI_HEIGHT"
 
             echo "Cleaning..." >> "$BUILD_LOG"
-            "$ROOT_DIR/gradlew" clean --console rich >> "$BUILD_LOG" 2>&1
+            "${BASE_BUILD_CMD[0]}" clean --console rich >> "$BUILD_LOG" 2>&1
 
             START_CLEAN=$(date +%s)
-            run_build "$BASE_BUILD_CMD" "$BUILD_LOG" "Cleaning & Rebuilding"
+            run_build BASE_BUILD_CMD "$BUILD_LOG" "Cleaning & Rebuilding"
             EXIT_CODE=$?
             END_CLEAN=$(date +%s)
             DURATION_CLEAN=$((END_CLEAN - START_CLEAN))
