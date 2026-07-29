@@ -88,6 +88,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
@@ -496,10 +497,18 @@ fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewM
             Image(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = viewModel.currentMediaWrapper?.title ?: "",
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(12.dp))
             )
         } else {
-            Image(painterResource(R.drawable.ic_song_big), contentDescription = "")
+            Image(
+                painterResource(R.drawable.ic_song_big),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            )
         }
         Spacer(modifier = Modifier.height(16.dp))
 
