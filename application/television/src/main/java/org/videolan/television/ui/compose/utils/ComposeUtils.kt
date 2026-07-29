@@ -25,6 +25,8 @@
 package org.videolan.television.ui.compose.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.view.ContextThemeWrapper
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -37,7 +39,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.drawWithContent
@@ -65,6 +71,7 @@ import androidx.compose.ui.unit.sp
 import org.videolan.television.ui.compose.theme.Transparent
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.util.fileReplacementMarker
 import org.videolan.vlc.util.folderReplacementMarker
 
@@ -188,4 +195,16 @@ fun Modifier.vlcShadow(focused: Boolean, shape: Shape) = this.dropShadow(
         offset = DpOffset(x = 0.dp, 0.dp)
     )
 )
+
+@Composable
+fun rememberAudioCoverBitmap(coverUrl: String?, size: Int): Bitmap? {
+    var bitmap by remember(coverUrl) { mutableStateOf<Bitmap?>(null) }
+    LaunchedEffect(coverUrl) {
+        if (coverUrl != null) {
+            bitmap = AudioUtil.readCoverBitmap(Uri.decode(coverUrl), size)
+        }
+    }
+    return bitmap
+}
+
 
