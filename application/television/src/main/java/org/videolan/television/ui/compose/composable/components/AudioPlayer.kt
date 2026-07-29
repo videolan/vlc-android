@@ -253,7 +253,7 @@ fun AudioPlayer(
 
                 PlayerDisplayState.Badge -> {
                     AudioPlayerBadge(
-                        modifier = Modifier.padding(start = VlcTVTheme.dimens.overscanHorizontal),
+                        modifier = Modifier.padding(start = 32.dp),
                         currentMedia = currentMedia,
                         serviceCoverArt = serviceCoverArt,
                         playerState = playerState,
