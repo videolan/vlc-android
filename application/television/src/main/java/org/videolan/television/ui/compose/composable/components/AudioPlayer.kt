@@ -25,9 +25,6 @@
 package org.videolan.television.ui.compose.composable.components
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -68,14 +65,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -99,8 +94,6 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
-import org.videolan.liveplotgraph.BuildConfig
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.stubs.StubMediaWrapper
@@ -108,17 +101,15 @@ import org.videolan.television.R
 import org.videolan.television.ui.AudioPlayerActivity
 import org.videolan.television.ui.compose.theme.VlcTVTheme
 import org.videolan.television.ui.compose.utils.VlcPreview
+import org.videolan.television.ui.compose.utils.rememberAudioCoverBitmap
 import org.videolan.tools.KEY_AUDIO_PLAYER_PINNED
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
-
-private const val TAG = "VLC/AudioPlayer"
 
 private enum class PlayerDisplayState {
     Hidden,
@@ -297,8 +288,6 @@ private fun AudioPlayerExpanded(
     onPinToggled: (Boolean) -> Unit,
     playPauseFocusRequester: FocusRequester
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
     Column(
         modifier = Modifier
             .padding(vertical = 32.dp)
@@ -352,14 +341,11 @@ private fun AudioPlayerExpanded(
 
             Spacer(modifier = Modifier.weight(1F))
 
-            val mapBitmap: MutableState<Pair<String?, Bitmap?>> = remember { mutableStateOf(Pair(null, null)) }
-            if (mapBitmap.value.first != currentMedia?.artworkMrl) {
-                mapBitmap.value = Pair(currentMedia?.artworkMrl, null)
-            }
-            if (mapBitmap.value.second != null) {
+            val bitmap = rememberAudioCoverBitmap(serviceCoverArt ?: currentMedia?.artworkMrl, 512)
 
+            if (bitmap != null) {
                 Image(
-                    bitmap = mapBitmap.value.second!!.asImageBitmap(),
+                    bitmap = bitmap.asImageBitmap(),
                     contentDescription = "Map snapshot",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -367,23 +353,13 @@ private fun AudioPlayerExpanded(
                         .aspectRatio(1F)
                 )
             } else {
-                val defaultIconId = R.drawable.ic_song_big
                 Image(
-                    painter = painterResource(id = defaultIconId),
+                    painter = painterResource(id = R.drawable.ic_song_big),
                     contentDescription = "Map snapshot",
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1F)
                 )
-                if (BuildConfig.DEBUG) Log.d(TAG, "LaunchedEffect with key ${currentMedia?.artworkMrl}")
-                LaunchedEffect(key1 = currentMedia?.artworkMrl) {
-
-                    coroutineScope.launch {
-                        serviceCoverArt?.let {
-                            mapBitmap.value = Pair(it, AudioUtil.readCoverBitmap(Uri.decode(it), 512))
-                        }
-                    }
-                }
             }
 
             Text(
@@ -509,19 +485,7 @@ private fun AudioPlayerBadge(
     playerState: PlayerState?,
     sliderPosition: Float
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val mapBitmap: MutableState<Pair<String?, Bitmap?>> = remember { mutableStateOf(Pair(null, null)) }
-    if (mapBitmap.value.first != currentMedia?.artworkMrl) {
-        mapBitmap.value = Pair(currentMedia?.artworkMrl, null)
-    }
-
-    LaunchedEffect(key1 = currentMedia?.artworkMrl) {
-        coroutineScope.launch {
-            serviceCoverArt?.let {
-                mapBitmap.value = Pair(it, AudioUtil.readCoverBitmap(Uri.decode(it), 320))
-            }
-        }
-    }
+    val bitmap = rememberAudioCoverBitmap(serviceCoverArt ?: currentMedia?.artworkMrl, 320)
 
     Surface(
         modifier = modifier
@@ -533,7 +497,7 @@ private fun AudioPlayerBadge(
     ) {
         Box(contentAlignment = Alignment.Center) {
             // Background Image
-            mapBitmap.value.second?.let {
+            bitmap?.let {
                 Image(
                     bitmap = it.asImageBitmap(),
                     contentDescription = null,
