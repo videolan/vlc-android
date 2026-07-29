@@ -82,44 +82,19 @@ UI_HEIGHT=24
 # --- State Management ---
 
 # load_progress: Reads rebase statistics from the disk.
-# Handles three generations of file formats for seamless upgrades.
 load_progress() {
     if [ -f "$PROGRESS_FILE" ]; then
-        local line=$(cat "$PROGRESS_FILE")
-        local count=$(echo "$line" | wc -w)
-
-        if [ "$count" -eq 5 ]; then
-            # Legacy format (pre-refactor)
-            read -r CURRENT TOTAL TOTAL_SUCCESS_DURATION LONGEST SHORTEST < "$PROGRESS_FILE"
-            SUCCESS_COUNT=$((CURRENT > 0 ? CURRENT - 1 : 0))
-            BASE_REF="N/A"
-        elif [ "$count" -eq 6 ]; then
-            # Intermediate format
-            read -r CURRENT TOTAL SUCCESS_COUNT TOTAL_SUCCESS_DURATION LONGEST SHORTEST < "$PROGRESS_FILE"
-            BASE_REF="N/A"
-        else
-            # Modern format with full context
-            read -r CURRENT TOTAL SUCCESS_COUNT TOTAL_SUCCESS_DURATION LONGEST SHORTEST BASE_REF _ < "$PROGRESS_FILE"
-        fi
-
-        # Apply robust defaults if any field is missing or invalid.
-        CURRENT=${CURRENT:-0}
-        TOTAL=${TOTAL:-0}
-        SUCCESS_COUNT=${SUCCESS_COUNT:-0}
-        TOTAL_SUCCESS_DURATION=${TOTAL_SUCCESS_DURATION:-0}
-        LONGEST=${LONGEST:-0}
-        SHORTEST=${SHORTEST:-999999}
-        BASE_REF=${BASE_REF:-"N/A"}
-    else
-        # Initialize fresh state
-        CURRENT=0
-        TOTAL=0
-        SUCCESS_COUNT=0
-        TOTAL_SUCCESS_DURATION=0
-        LONGEST=0
-        SHORTEST=999999
-        BASE_REF="N/A"
+        read -r CURRENT TOTAL SUCCESS_COUNT TOTAL_SUCCESS_DURATION LONGEST SHORTEST BASE_REF _ < "$PROGRESS_FILE"
     fi
+
+    # Apply robust defaults if any field is missing or invalid.
+    CURRENT=${CURRENT:-0}
+    TOTAL=${TOTAL:-0}
+    SUCCESS_COUNT=${SUCCESS_COUNT:-0}
+    TOTAL_SUCCESS_DURATION=${TOTAL_SUCCESS_DURATION:-0}
+    LONGEST=${LONGEST:-0}
+    SHORTEST=${SHORTEST:-999999}
+    BASE_REF=${BASE_REF:-"N/A"}
 }
 
 # save_progress: Writes current stats to disk so they survive across 'git rebase' iterations.
