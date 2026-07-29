@@ -54,6 +54,7 @@ mkdir -p "$PERSISTENCE_DIR"
 PROGRESS_FILE="$PERSISTENCE_DIR/progress"   # Stores stats between rebase iterations.
 UI_TABLE_FLAG="$PERSISTENCE_DIR/ui_present"  # Acts as a semaphore to avoid re-drawing headers.
 BUILD_LOG="$PERSISTENCE_DIR/build.log"       # Captured output of the current Gradle build.
+RUNNER_COPY="$PERSISTENCE_DIR/runner.sh"     # Self-copy to ensure availability during rebase.
 
 # Git Rebase Todo file.
 # We link the actual git rebase file into our persistence folder for consistency.
@@ -337,11 +338,16 @@ case $MODE in
         GIT_SEQUENCE_EDITOR="perl -i -pe 's/^pick/edit/g'" git rebase -i "$BASE"
         ;;
     auto)
+        # Self-copy to persistence directory to ensure the script remains available
+        # even if the rebase checkouts a commit where this script doesn't exist.
+        cp "$0" "$RUNNER_COPY"
+        chmod +x "$RUNNER_COPY"
+
         # Check if a rebase is already in progress to allow resumption.
         if [ -d "$(git rev-parse --git-path rebase-merge)" ] || [ -d "$(git rev-parse --git-path rebase-apply)" ]; then
             echo "Resuming existing rebase..."
             # verify --no-increment checks current state without counting it as a new commit checked.
-            if "$0" verify --no-increment; then
+            if "$RUNNER_COPY" verify --no-increment; then
                 echo ""
                 echo "Build successful. Do you want to apply changes to the branch and restart verification from here?"
                 read -p "Press [y] to checkpoint and restart, any other key to just continue: " -n 1 -r
@@ -358,7 +364,7 @@ case $MODE in
                     git rebase --continue
 
                     echo "Fix applied. Restarting verification loop..."
-                    "$0" auto "$CORRECTED_COMMIT"
+                    "$RUNNER_COPY" auto "$CORRECTED_COMMIT"
                 else
                     git rebase --continue
                 fi
@@ -378,8 +384,8 @@ case $MODE in
             save_progress
             echo "The rebase will stop automatically if a build fails. ($TOTAL commits to check)"
             # Use git rebase -x (exec) to automatically run the 'verify' mode on every commit.
-            SCRIPT_PATH=$(realpath "$0")
-            git rebase -q "$BASE" -x "REBASE_VERIFY=true \"$SCRIPT_PATH\" verify"
+            # We use the copy in PERSISTENCE_DIR to ensure it stays available during the rebase.
+            git rebase -q "$BASE" -x "REBASE_VERIFY=true \"$RUNNER_COPY\" verify"
         fi
 
         # Cleanup persistence files if the rebase is finally complete.
