@@ -25,7 +25,6 @@
 package org.videolan.television.ui.compose.composable.screens
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
 import android.util.Log
@@ -157,6 +156,7 @@ import org.videolan.television.ui.compose.theme.WhiteTransparent25
 import org.videolan.television.ui.compose.theme.WhiteTransparent90
 import org.videolan.television.ui.compose.utils.VlcPreview
 import org.videolan.television.ui.compose.utils.fadingMarquee
+import org.videolan.television.ui.compose.utils.rememberAudioCoverBitmap
 import org.videolan.television.util.showParent
 import org.videolan.television.viewmodel.MainActivityViewModel
 import org.videolan.tools.KEY_AOUT
@@ -171,7 +171,6 @@ import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.SelectChapterDialog
 import org.videolan.vlc.gui.dialogs.SleepTimerDialog
-import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.getTvIconRes
@@ -474,22 +473,32 @@ fun AudioPlayerChip(text: String, icon: Int, onClick: () -> Unit) {
 @Composable
 fun AudioCover(coverListener:(Bitmap?) -> Unit, viewModel: PlaylistModel = viewModel()) {
     val playerState = viewModel.playerState.observeAsState()
+    val artworkUrl = viewModel.currentMediaWrapper?.artworkURL
+    val bitmap = rememberAudioCoverBitmap(artworkUrl, 300)
+
+    LaunchedEffect(bitmap) {
+        if (bitmap != null) {
+            val blurred = withContext(Dispatchers.IO) {
+                UiTools.blurBitmap(bitmap, 15F)
+            }
+            coverListener(blurred)
+        } else if (artworkUrl == null) {
+            coverListener(null)
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AudioUtil.readCoverBitmap(Uri.decode(viewModel.currentMediaWrapper?.artworkURL), 300)?.let { bitmap ->
+        if (bitmap != null) {
             Image(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = viewModel.currentMediaWrapper?.title ?: "",
                 modifier = Modifier.size(200.dp)
             )
-            LaunchedEffect(viewModel.currentMediaWrapper?.artworkURL) {
-                val bitmap = UiTools.blurBitmap(bitmap,  15F)
-                coverListener(bitmap)
-            }
-        } ?: run {
+        } else {
             Image(painterResource(R.drawable.ic_song_big), contentDescription = "")
         }
         Spacer(modifier = Modifier.height(16.dp))
